@@ -387,6 +387,154 @@ or transparency of the 1 bits.  May be NULL.</td><tr>
 </table>
 </blockquote>
 <hr>
+<a name="//apple_ref/c/tag/TQ3MeshContourData"></a>
+<h3><a name="TQ3MeshContourData">TQ3MeshContourData</a></h3>
+<blockquote><pre>
+typedef struct TQ3MeshContourData {
+    TQ3Uns32                                    numVertices;
+    TQ3Uns32                                    *vertexIndices;
+} TQ3MeshContourData;
+</pre>
+</blockquote>
+<p>Data describing a contour within a mesh face.
+<br><br>
+Note that a <code>TQ3MeshContourData</code> is an external data structure
+for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+In contrast, a <code>TQ3MeshContour</code> is a pointer to an opaque internal
+data structure, which is most likely not a <code>TQ3MeshContourData</code>.
+<br><br>
+<em>This structure is not available in QD3D.</em>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numVertices</tt></td><td>Number of vertices.  Must be at least 3.</td><tr>
+<tr valign=top><td><tt>vertexIndices</tt></td><td>Indices of the vertices of the contour.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3MeshCornerData"></a>
+<h3><a name="TQ3MeshCornerData">TQ3MeshCornerData</a></h3>
+<blockquote><pre>
+typedef struct TQ3MeshCornerData {
+    TQ3Uns32                                    numFaces;
+    TQ3Uns32                  			        *faceIndices;
+    TQ3AttributeSet                             cornerAttributeSet;
+} TQ3MeshCornerData;
+</pre>
+</blockquote>
+<p>Data describing a corner for a mesh vertex.
+<br><br>
+Note that a <code>TQ3MeshCornerData</code> is an external data structure
+for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+<br><br>
+<em>This structure is not available in QD3D.</em>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numFaces</tt></td><td>Number of faces.  Must be at least 1.</td><tr>
+<tr valign=top><td><tt>faceIndices</tt></td><td>Indices of the faces.</td><tr>
+<tr valign=top><td><tt>cornerAttributeSet</tt></td><td>Set of attributes for the corner.  <em>Should not be NULL.</em></td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3MeshData"></a>
+<h3><a name="TQ3MeshData">TQ3MeshData</a></h3>
+<blockquote><pre>
+typedef struct TQ3MeshData {
+    TQ3Uns32									numVertices;
+    TQ3MeshVertexData							*vertices;
+    TQ3Uns32									numEdges;
+    TQ3MeshEdgeData								*edges;
+    TQ3Uns32									numFaces;
+    TQ3MeshFaceData								*faces;
+    TQ3AttributeSet								meshAttributeSet;
+} TQ3MeshData;
+</pre>
+</blockquote>
+<p>Data describing a mesh.
+<br><br>
+Note that a <code>TQ3MeshData</code> is an external data structure
+for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+<br><br>
+<em>This structure is not available in QD3D.</em>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numVertices</tt></td><td>Number of vertices in the following array.</td><tr>
+<tr valign=top><td><tt>vertices</tt></td><td>Pointer to array of vertices of the mesh.</td><tr>
+<tr valign=top><td><tt>numEdges</tt></td><td>Number of edges in the following array.  May be 0
+if you do not want to specify any edges.</td><tr>
+<tr valign=top><td><tt>edges</tt></td><td>Pointer to an array of edges.  May be NULL if you
+also specify 0 for <code>numEdges</code>.</td><tr>
+<tr valign=top><td><tt>numFaces</tt></td><td>Number of faces in the mesh.</td><tr>
+<tr valign=top><td><tt>faces</tt></td><td>Pointer to an array of faces.</td><tr>
+<tr valign=top><td><tt>meshAttributeSet</tt></td><td>Set of attributes for the mesh.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3MeshEdgeData"></a>
+<h3><a name="TQ3MeshEdgeData">TQ3MeshEdgeData</a></h3>
+<blockquote><pre>
+typedef struct TQ3MeshEdgeData {
+    TQ3Uns32                                    vertexIndices[2];
+    TQ3AttributeSet                             edgeAttributeSet;
+} TQ3MeshEdgeData;
+</pre>
+</blockquote>
+<p>Data describing an edge within a mesh.
+Used within the <code>TQ3MeshData</code> structure.
+<br><br>
+Note that a <code>TQ3MeshEdgeData</code> is an external data structure
+for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+In contrast, a <code>TQ3MeshEdge</code> is a pointer to an opaque internal
+data structure, which is most likely not a <code>TQ3MeshEdgeData</code>.
+<br><br>
+<em>This structure is not available in QD3D.</em>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>vertexIndices</tt></td><td>Indices of the two vertices that are ends of the edge.</td><tr>
+<tr valign=top><td><tt>edgeAttributeSet</tt></td><td>Set of attributes for the edge.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3MeshFaceData"></a>
+<h3><a name="TQ3MeshFaceData">TQ3MeshFaceData</a></h3>
+<blockquote><pre>
+typedef struct TQ3MeshFaceData {
+    TQ3Uns32                                    numContours;
+    TQ3MeshContourData                          *contours;
+    TQ3AttributeSet                             faceAttributeSet;
+} TQ3MeshFaceData;
+</pre>
+</blockquote>
+<p>Data describing a face within a mesh.
+<br><br>
+Note that a <code>TQ3MeshFaceData</code> is an external data structure
+for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+In contrast, a <code>TQ3MeshFace</code> is a pointer to an opaque internal
+data structure, which is most likely not a <code>TQ3MeshFaceData</code>.
+<br><br>
+<em>This structure is not available in QD3D.</em>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>numContours</tt></td><td>Number of contours.  Must be at least 1.</td><tr>
+<tr valign=top><td><tt>contours</tt></td><td>Contours of the face.</td><tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Set of attributes for the face.  May be NULL.</td><tr>
+</table>
+</blockquote>
+<hr>
 <a name="//apple_ref/c/tag/TQ3MeshIterator"></a>
 <h3><a name="TQ3MeshIterator">TQ3MeshIterator</a></h3>
 <blockquote><pre>
@@ -404,6 +552,39 @@ typedef struct TQ3MeshIterator {
 Mesh.  You should consider it opaque, because the meanings of the
 fields are not documented.
  </p>
+<hr>
+<a name="//apple_ref/c/tag/TQ3MeshVertexData"></a>
+<h3><a name="TQ3MeshVertexData">TQ3MeshVertexData</a></h3>
+<blockquote><pre>
+typedef struct TQ3MeshVertexData {
+    TQ3Point3D                                  point;
+    TQ3Uns32                                    numCorners;
+    TQ3MeshCornerData                           *corners;
+    TQ3AttributeSet                             attributeSet;
+} TQ3MeshVertexData;
+</pre>
+</blockquote>
+<p>Data describing a vertex within a mesh.
+<br><br>
+Note that a <code>TQ3MeshVertexData</code> is an external data structure
+for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
+In contrast, a <code>TQ3MeshVertex</code> is a pointer to an opaque internal
+data structure, which is most likely not a <code>TQ3MeshVertexData</code>.
+<br><br>
+<em>This structure is not available in QD3D.</em>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>point</tt></td><td>Location of the vertex.</td><tr>
+<tr valign=top><td><tt>numCorners</tt></td><td>Number of corners in the following array.  May be 0
+if you do not want to specify any corners.</td><tr>
+<tr valign=top><td><tt>corners</tt></td><td>Pointer to an array of corners.  May be NULL if you
+also specify 0 for <code>numCorners</code>.</td><tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Attribute set for the vertex.</td><tr>
+</table>
+</blockquote>
 <hr>
 <a name="//apple_ref/c/tag/TQ3NURBCurveData"></a>
 <h3><a name="TQ3NURBCurveData">TQ3NURBCurveData</a></h3>
@@ -971,5 +1152,5 @@ typedef struct TQ3TriangleData {
 </table>
 </blockquote>
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
 </body></html>

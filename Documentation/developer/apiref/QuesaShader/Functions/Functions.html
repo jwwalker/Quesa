@@ -390,7 +390,7 @@ Available in inline form as Q3FastColorRGB_Set.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>The color to set.</td></tr>
 <tr valign=top><td><tt>r</tt></td><td>The red component for the color.</td></tr>
 <tr valign=top><td><tt>g</tt></td><td>The green component for the color.</td></tr>
 <tr valign=top><td><tt>b</tt></td><td>The blue component for the color.</td></tr>
@@ -439,25 +439,24 @@ Q3CompressedPixmapTexture_CompressImage (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Create a compressed pixmap from a PixMapHandle.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function is only available on platforms that support QuickTime.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>compressedPixmap</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>sourcePixMap</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>codecType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>codecComponent</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>codedDepth</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>codecQuality</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>compressedPixmap</tt></td><td>Receives the compressed pixmap.</td></tr>
+<tr valign=top><td><tt>sourcePixMap</tt></td><td>The uncompressed PixMapHandle.</td></tr>
+<tr valign=top><td><tt>codecType</tt></td><td>The QuickTime codec to use for compression.</td></tr>
+<tr valign=top><td><tt>codecComponent</tt></td><td>The QuickTime component to use for compression.</td></tr>
+<tr valign=top><td><tt>codedDepth</tt></td><td>The depth the codec should compress to.</td></tr>
+<tr valign=top><td><tt>codecQuality</tt></td><td>The quality the codec should compress to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CompressedPixmapTexture_GetCompressedPixmap"></a>
@@ -469,21 +468,20 @@ Q3CompressedPixmapTexture_GetCompressedPixmap (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the compressed pixmap from a compressed pixmap texture.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function is only available on platforms that support QuickTime.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>compressedPixmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
+<tr valign=top><td><tt>compressedPixmap</tt></td><td>Receives the compressed pixmap of the texture.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CompressedPixmapTexture_New"></a>
@@ -494,20 +492,19 @@ Q3CompressedPixmapTexture_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Create a compressed pixmap texture.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function is only available on platforms that support QuickTime.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>compressedPixmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>compressedPixmap</tt></td><td>The compressed pixmap for the texture.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new compressed pixmap texture.
  
 <hr>
 <a name="//apple_ref/c/func/Q3CompressedPixmapTexture_SetCompressedPixmap"></a>
@@ -519,21 +516,20 @@ Q3CompressedPixmapTexture_SetCompressedPixmap (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the compressed pixmap for a compressed pixmap texture.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function is only available on platforms that support QuickTime.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>compressedPixmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture to update.</td></tr>
+<tr valign=top><td><tt>compressedPixmap</tt></td><td>The new compressed pixmap for the texture.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3IlluminationShader_GetType"></a>
@@ -544,20 +540,17 @@ Q3IlluminationShader_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type of an illumination shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the illumination shader.
  
 <hr>
 <a name="//apple_ref/c/func/Q3LambertIllumination_New"></a>
@@ -568,13 +561,10 @@ Q3LambertIllumination_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a Lambert illumination shader.
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new illumination shader.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MipmapTexture_GetMipmap"></a>
@@ -586,21 +576,18 @@ Q3MipmapTexture_GetMipmap (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the mipmap from a mipmap texture.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>mipmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
+<tr valign=top><td><tt>mipmap</tt></td><td>Receives the mipmap of the texture.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MipmapTexture_New"></a>
@@ -611,20 +598,17 @@ Q3MipmapTexture_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a mipmap texture.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mipmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>mipmap</tt></td><td>The mipmap to be used by the texture.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new mipmap texture.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MipmapTexture_SetMipmap"></a>
@@ -636,21 +620,18 @@ Q3MipmapTexture_SetMipmap (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the mipmap for a mipmap texture.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>mipmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture to update.</td></tr>
+<tr valign=top><td><tt>mipmap</tt></td><td>The new mipmap for the texture.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3NULLIllumination_New"></a>
@@ -661,13 +642,10 @@ Q3NULLIllumination_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a NULL illumination shader.
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new illumination shader.
  
 <hr>
 <a name="//apple_ref/c/func/Q3PhongIllumination_New"></a>
@@ -678,13 +656,10 @@ Q3PhongIllumination_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a Phong illumination shader.
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new illumination shader.
  
 <hr>
 <a name="//apple_ref/c/func/Q3PixmapTexture_GetPixmap"></a>
@@ -696,21 +671,18 @@ Q3PixmapTexture_GetPixmap (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the pixmap from a pixmap texture.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pixmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
+<tr valign=top><td><tt>pixmap</tt></td><td>Receives the pixmap of the texture.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3PixmapTexture_New"></a>
@@ -721,20 +693,17 @@ Q3PixmapTexture_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a pixmap texture.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pixmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>pixmap</tt></td><td>The pixmap to be used by the texture.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new pixmap texture.
  
 <hr>
 <a name="//apple_ref/c/func/Q3PixmapTexture_SetPixmap"></a>
@@ -746,21 +715,18 @@ Q3PixmapTexture_SetPixmap (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the pixmap for a pixmap texture.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pixmap</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture to update.</td></tr>
+<tr valign=top><td><tt>pixmap</tt></td><td>The new pixmap for the texture.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shader_GetType"></a>
@@ -771,20 +737,17 @@ Q3Shader_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type of a shader object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the shader.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shader_GetUBoundary"></a>
@@ -796,21 +759,18 @@ Q3Shader_GetUBoundary (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the U boundary behaviour of a shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>uBoundary</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
+<tr valign=top><td><tt>uBoundary</tt></td><td>Receives the U boundary behaviour of the shader.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shader_GetUVTransform"></a>
@@ -822,21 +782,18 @@ Q3Shader_GetUVTransform (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the UV transform for a shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>uvTransform</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
+<tr valign=top><td><tt>uvTransform</tt></td><td>Receives the UV transform of the shader.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shader_GetVBoundary"></a>
@@ -848,21 +805,18 @@ Q3Shader_GetVBoundary (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the V boundary behaviour of a shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vBoundary</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
+<tr valign=top><td><tt>vBoundary</tt></td><td>Receives the V boundary behaviour of the shader.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shader_SetUBoundary"></a>
@@ -874,21 +828,18 @@ Q3Shader_SetUBoundary (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the U boundary behaviour for a shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>uBoundary</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to update.</td></tr>
+<tr valign=top><td><tt>uBoundary</tt></td><td>The U boundary behaviour for the shader.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shader_SetUVTransform"></a>
@@ -900,21 +851,18 @@ Q3Shader_SetUVTransform (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the UV transform for a shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>uvTransform</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to update.</td></tr>
+<tr valign=top><td><tt>uvTransform</tt></td><td>The new UV transform for the shader.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shader_SetVBoundary"></a>
@@ -926,21 +874,18 @@ Q3Shader_SetVBoundary (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the V boundary behaviour for a shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>vBoundary</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to update.</td></tr>
+<tr valign=top><td><tt>vBoundary</tt></td><td>The V boundary behaviour for the shader.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Shader_Submit"></a>
@@ -952,21 +897,18 @@ Q3Shader_Submit (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a shader to a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to submit.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to submit the shader to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3SurfaceShader_GetType"></a>
@@ -977,20 +919,17 @@ Q3SurfaceShader_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type of a surface shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the surface shader.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TextureShader_GetTexture"></a>
@@ -1002,21 +941,21 @@ Q3TextureShader_GetTexture (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the texture from a texture shader.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the returned shader is incremented, and the
+caller must release their reference when done.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>Receives the texture from the texture shader.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TextureShader_New"></a>
@@ -1027,20 +966,17 @@ Q3TextureShader_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a texture shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture object for the shader.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new texture shader.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TextureShader_SetTexture"></a>
@@ -1052,21 +988,18 @@ Q3TextureShader_SetTexture (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the texture for a texture shader.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>shader</tt></td><td>The shader to update.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture for the shader.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Texture_GetHeight"></a>
@@ -1078,21 +1011,18 @@ Q3Texture_GetHeight (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the height of a texture object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>Receives the height of the texture object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Texture_GetType"></a>
@@ -1103,20 +1033,17 @@ Q3Texture_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the type of a texture object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The type of the texture object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Texture_GetWidth"></a>
@@ -1128,22 +1055,19 @@ Q3Texture_GetWidth (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the width of a texture object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
+<tr valign=top><td><tt>width</tt></td><td>Receives the width of the texture object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
 </body></html>

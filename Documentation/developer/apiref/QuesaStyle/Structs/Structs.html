@@ -1,0 +1,100 @@
+<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
+<a name="//apple_ref/c/tag/TQ3AntiAliasStyleData"></a>
+<h3><a name="TQ3AntiAliasStyleData">TQ3AntiAliasStyleData</a></h3>
+<blockquote><pre>
+typedef struct TQ3AntiAliasStyleData {
+    TQ3Switch                                   state;
+    TQ3AntiAliasMode                            mode;
+    float                                       quality;
+} TQ3AntiAliasStyleData;
+</pre>
+</blockquote>
+<p>Anti-alias style data.
+<br><br>
+Anti-aliasing may be toggled on and off using the state switch. To
+guarantee that no anti-aliasing is performed, the state must be set
+to kQ3Off.
+<br><br>
+The type of anti-aliasing performed is controlled by the mode switch.
+<br><br>
+The quality of anti-aliasing performed is controlled by the quality
+field, which can range from 0.0 (minimum) to 1.0 (maximum). Values
+outside this range are undefined.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>state</tt></td><td>Is anti-aliasing active?</td><tr>
+<tr valign=top><td><tt>mode</tt></td><td>The anti-aliasing mode.</td><tr>
+<tr valign=top><td><tt>quality</tt></td><td>The anti-aliasing quality.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3FogStyleData"></a>
+<h3><a name="TQ3FogStyleData">TQ3FogStyleData</a></h3>
+<blockquote><pre>
+typedef struct TQ3FogStyleData {
+    TQ3Switch                                   state;
+    TQ3FogMode                                  mode;
+    float                                       fogStart;
+    float                                       fogEnd;
+    float                                       density;
+    TQ3ColorARGB                                color;
+} TQ3FogStyleData;
+</pre>
+</blockquote>
+<p>Fog style data.
+<br><br>
+Fog may be toggled on and off using the state switch. To guarantee that
+no fogging is performed, the state must be set to kQ3Off.
+<br><br>
+The type of fogging performed is controlled by the mode switch.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>state</tt></td><td>Is fog active?</td><tr>
+<tr valign=top><td><tt>mode</tt></td><td>The fog mode.</td><tr>
+<tr valign=top><td><tt>fogStart</tt></td><td>The start point for fog.</td><tr>
+<tr valign=top><td><tt>fogEnd</tt></td><td>The end point for fog.</td><tr>
+<tr valign=top><td><tt>density</tt></td><td>The maximum density for fog.</td><tr>
+<tr valign=top><td><tt>color</tt></td><td>The fog color.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tag/TQ3SubdivisionStyleData"></a>
+<h3><a name="TQ3SubdivisionStyleData">TQ3SubdivisionStyleData</a></h3>
+<blockquote><pre>
+typedef struct TQ3SubdivisionStyleData {
+    TQ3SubdivisionMethod                        method;
+    float                                       c1;
+    float                                       c2;
+} TQ3SubdivisionStyleData;
+</pre>
+</blockquote>
+<p>Subdivision style data.
+<br><br>
+The c1 parameter is used as the "size" for all subdivision methods. Its
+meaning and units depends on the subdivision method.
+<br><br>
+The c2 parameter is used as an additional parameter for surfaces by the
+kQ3SubdivisionMethodConstant method, to allow control over subdivision
+in both horizontal and vertical dimensions.
+<br><br>
+</p>
+<h4>Fields</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>method</tt></td><td>The subdivision method.</td><tr>
+<tr valign=top><td><tt>c1</tt></td><td>The first parameter for the subdivision method.</td><tr>
+<tr valign=top><td><tt>c2</tt></td><td>The second parameter for the subdivision method.</td><tr>
+</table>
+</blockquote>
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
+</body></html>

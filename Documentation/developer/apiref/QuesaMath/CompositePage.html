@@ -27,6 +27,31 @@ Available in inline form as Q3BFastoundingBox_Copy.
 <b>Result:</b> Convenience copy of result parameter.
  
 <hr>
+<a name="//apple_ref/c/func/Q3BoundingBox_Reset"></a>
+<h3><a name="Q3BoundingBox_Reset">Q3BoundingBox_Reset</a></h3>
+<blockquote><pre><tt>TQ3BoundingBox * 
+Q3BoundingBox_Reset (
+    TQ3BoundingBox                *bBox
+);
+</tt><br>
+</pre></blockquote>
+<p>Reset (set to empty) a bounding box.
+<br><br>
+Available in inline form as Q3FastBoundingBox_Reset.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bBox</tt></td><td>Address of bounding box to reset.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Convenience copy of bBox parameter.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3BoundingBox_Set"></a>
 <h3><a name="Q3BoundingBox_Set">Q3BoundingBox_Set</a></h3>
 <blockquote><pre><tt>TQ3BoundingBox * 
@@ -50,7 +75,7 @@ Available in inline form as Q3FastBoundingBox_Set.
 <tr valign=top><td><tt>bBox</tt></td><td>Address of bounding box to set.</td></tr>
 <tr valign=top><td><tt>min</tt></td><td>Address of point indicating minimum X, Y, and Z.</td></tr>
 <tr valign=top><td><tt>max</tt></td><td>Address of point indicating maximum X, Y, and Z.</td></tr>
-<tr valign=top><td><tt>isEmpty</tt></td><td>True of the bounding box is empty, false otherwise.</td></tr>
+<tr valign=top><td><tt>isEmpty</tt></td><td>True if the bounding box is empty, false otherwise.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Convenience copy of bBox parameter.
@@ -210,6 +235,31 @@ Available in inline form as Q3FastBoundingSphere_Copy.
 <b>Result:</b> Convenience copy of result parameter.
  
 <hr>
+<a name="//apple_ref/c/func/Q3BoundingSphere_Reset"></a>
+<h3><a name="Q3BoundingSphere_Reset">Q3BoundingSphere_Reset</a></h3>
+<blockquote><pre><tt>TQ3BoundingSphere * 
+Q3BoundingSphere_Reset (
+    TQ3BoundingSphere             *bSphere
+);
+</tt><br>
+</pre></blockquote>
+<p>Reset (set to empty) a bounding sphere.
+<br><br>
+Available in inline form as Q3FastBoundingSphere_Reset.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>bSphere</tt></td><td>Address of bounding sphere to reset.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Convenience copy of bSphere parameter.
+ 
+<hr>
 <a name="//apple_ref/c/func/Q3BoundingSphere_Set"></a>
 <h3><a name="Q3BoundingSphere_Set">Q3BoundingSphere_Set</a></h3>
 <blockquote><pre><tt>TQ3BoundingSphere * 
@@ -233,7 +283,7 @@ Available in inline form as Q3FastBoundingSphere_Set.
 <tr valign=top><td><tt>bSphere</tt></td><td>Address of bounding sphere to set.</td></tr>
 <tr valign=top><td><tt>origin</tt></td><td>Address of point indicating sphere origin.</td></tr>
 <tr valign=top><td><tt>radius</tt></td><td>Sphere radius.</td></tr>
-<tr valign=top><td><tt>isEmpty</tt></td><td>True of the bounding sphere is empty, false otherwise.</td></tr>
+<tr valign=top><td><tt>isEmpty</tt></td><td>True if the bounding sphere is empty, false otherwise.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Convenience copy of bSphere parameter.
@@ -257,7 +307,7 @@ Q3BoundingSphere_SetFromPoints3D (
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>bSphere</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>bSphere</tt></td><td>The bounding sphere to update.</td></tr>
 <tr valign=top><td><tt>points3D</tt></td><td>Array of 3D points.</td></tr>
 <tr valign=top><td><tt>numPoints</tt></td><td>How many points are in the array.</td></tr>
 <tr valign=top><td><tt>structSize</tt></td><td>Size of each array element, typically sizeof(TQ3Point3D).</td></tr>
@@ -1279,9 +1329,6 @@ Q3Param2D_Transform (
 </pre></blockquote>
 <p>Transform a 2D parametric point by a 3x3 matrix.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
@@ -1566,7 +1613,7 @@ Q3Point2D_To2DTransformArray (
     const TQ3Point2D              *inPoints2D,
     const TQ3Matrix3x3            *matrix3x3,
     TQ3Point2D                    *outPoints2D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -1623,6 +1670,42 @@ Available in inline form as Q3FastPoint2D_To3D.
 </table>
 </blockquote>
 <b>Result:</b> Convenience copy of result parameter.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Point2D_To3DTransformArray"></a>
+<h3><a name="Q3Point2D_To3DTransformArray">Q3Point2D_To3DTransformArray</a></h3>
+<blockquote><pre><tt>TQ3Status  
+Q3Point2D_To3DTransformArray (
+    const TQ3Point2D              *inPoints2D,
+    const TQ3Matrix3x3            *matrix3x3,
+    TQ3RationalPoint3D            *outRationalPoints3D,
+    TQ3Uns32                      numPoints,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outStructSize
+);
+</tt><br>
+</pre></blockquote>
+<p>Transform an array of 2D points by a 3x3 matrix into 3D rational points.
+<br><br>
+When you have many vectors to transform, this is a more efficient
+alternative to calling Q3Point2D_To3D and Q3RationalPoint3D_Transform repeatedly.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>inPoints2D</tt></td><td>Array of 2D points to transform.</td></tr>
+<tr valign=top><td><tt>matrix3x3</tt></td><td>Transformation matrix.</td></tr>
+<tr valign=top><td><tt>outRationalPoints3D</tt></td><td>Array of points to receive output.</td></tr>
+<tr valign=top><td><tt>numPoints</tt></td><td>How many points are in each array.</td></tr>
+<tr valign=top><td><tt>inStructSize</tt></td><td>Size of one element of the input array, typically sizeof(TQ3Point2D).</td></tr>
+<tr valign=top><td><tt>outStructSize</tt></td><td>Size of one element of the output array, typically sizeof(TQ3RationalPoint3D).</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> kQ3Success or some error code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Point2D_ToPolar"></a>
@@ -1948,7 +2031,7 @@ Q3Point3D_To3DTransformArray (
     const TQ3Point3D              *inPoints3D,
     const TQ3Matrix4x4            *matrix4x4,
     TQ3Point3D                    *outPoints3D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -1958,8 +2041,6 @@ Q3Point3D_To3DTransformArray (
 <br><br>
 When you have many points to transform, this is a more efficient
 alternative to calling Q3Point3D_Transform repeatedly.
-<br><br>
-<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2009,13 +2090,16 @@ Q3Point3D_To4DTransformArray (
     const TQ3Point3D              *inPoints3D,
     const TQ3Matrix4x4            *matrix4x4,
     TQ3RationalPoint4D            *outRationalPoints4D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
 </tt><br>
 </pre></blockquote>
 <p>Transform an array of 3D points by a 4x4 matrix into 4D rational points.
+<br><br>
+When you have many vectors to transform, this is a more efficient
+alternative to calling Q3Point3D_To4D and Q3RationalPoint4D_Transform repeatedly.
 <br><br>
 </p>
 <h4>Parameters</h4>
@@ -2899,7 +2983,7 @@ Q3RationalPoint3D_To3DTransformArray (
     const TQ3RationalPoint3D      *inRationalPoints3D,
     const TQ3Matrix3x3            *matrix3x3,
     TQ3RationalPoint3D            *outRationalPoints3D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -2965,7 +3049,7 @@ Q3RationalPoint3D_Transform (
 );
 </tt><br>
 </pre></blockquote>
-<p>Transform 3D rational point by 3x3 matrix.
+<p>Transform a 3D rational point by 3x3 matrix.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -3174,7 +3258,7 @@ Q3RationalPoint4D_To4DTransformArray (
     const TQ3RationalPoint4D      *inRationalPoints4D,
     const TQ3Matrix4x4            *matrix4x4,
     TQ3RationalPoint4D            *outRationalPoints4D,
-    TQ3Int32                      numPoints,
+    TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -3731,7 +3815,7 @@ Q3Vector2D_To2DTransformArray (
     const TQ3Vector2D             *inVectors2D,
     const TQ3Matrix3x3            *matrix3x3,
     TQ3Vector2D                   *outVectors2D,
-    TQ3Int32                      numVectors,
+    TQ3Uns32                      numVectors,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -3832,7 +3916,7 @@ Q3Vector2D_Transform (
 Note that the translation and perspective components of the
 matrix is ignored (as if it were really a 2x2 matrix).
 <br><br>
-Contrast with E3Point2D_Transform, which does the full 3x3
+Contrast with Q3Point2D_Transform, which does the full 3x3
 transformation.
 <br><br>
 </p>
@@ -3932,11 +4016,14 @@ Available in inline form as Q3FastVector3D_Dot.
 <h3><a name="Q3Vector3D_DotArray">Q3Vector3D_DotArray</a></h3>
 <blockquote><pre><tt>TQ3Status  
 Q3Vector3D_DotArray(
-    TQ3Uns32                    numVectors,
-    const TQ3Vector3D           *firstVectors,
-    const TQ3Vector3D           *secondVectors,
-    float                       *dotProducts,
-    TQ3Boolean                  *dotLessThanZero
+    const TQ3Vector3D             *inFirstVectors3D,
+    const TQ3Vector3D             *inSecondVectors3D,
+    float                         *outDotProducts,
+    TQ3Boolean                    *outDotLessThanZeros,
+    TQ3Uns32                      numVectors,
+    TQ3Uns32                      inStructSize,
+    TQ3Uns32                      outDotProductStructSize,
+    TQ3Uns32                      outDotLessThanZeroStructSize
 );
 </tt><br>
 </pre></blockquote>
@@ -3956,14 +4043,17 @@ one parameter may be set to NULL if that information is not required.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>numVectors</tt></td><td>The number of vectors to process.</td></tr>
-<tr valign=top><td><tt>firstVectors</tt></td><td>The first set of vectors.</td></tr>
-<tr valign=top><td><tt>secondVectors</tt></td><td>The second set of vectors.</td></tr>
-<tr valign=top><td><tt>dotProducts</tt></td><td>Receives the dot products.</td></tr>
-<tr valign=top><td><tt>dotLessThanZero</tt></td><td>Receives the "< 0.0" status of the dot products.</td></tr>
+<tr valign=top><td><tt>inFirstVectors3D</tt></td><td>First array of 3D vectors to dot.</td></tr>
+<tr valign=top><td><tt>inSecondVectors3D</tt></td><td>Second array of 3D vectors to dot.</td></tr>
+<tr valign=top><td><tt>outDotProducts</tt></td><td>Array of scalars to receive the dot products.</td></tr>
+<tr valign=top><td><tt>outDotLessThanZeros</tt></td><td>Array of booleans to receive the "< 0.0" status of the dot products.</td></tr>
+<tr valign=top><td><tt>numVectors</tt></td><td>How many elements are in each array.</td></tr>
+<tr valign=top><td><tt>inStructSize</tt></td><td>Size of one element of input arrays, typically sizeof(TQ3Vector3D).</td></tr>
+<tr valign=top><td><tt>outDotProductStructSize</tt></td><td>Size of one element of the outDotProducts array, typically sizeof(float).</td></tr>
+<tr valign=top><td><tt>outDotLessThanZeroStructSize</tt></td><td>Size of one element of the outDotLessThanZeros array, typically sizeof(TQ3Boolean).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
+<b>Result:</b> kQ3Success or some error code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Vector3D_Length"></a>
@@ -4193,7 +4283,7 @@ Q3Vector3D_To3DTransformArray (
     const TQ3Vector3D             *inVectors3D,
     const TQ3Matrix4x4            *matrix4x4,
     TQ3Vector3D                   *outVectors3D,
-    TQ3Int32                      numVectors,
+    TQ3Uns32                      numVectors,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
@@ -4264,7 +4354,7 @@ Q3Vector3D_Transform (
 Note that the translation and perspective components of the
 matrix is ignored (as if it were really a 3x3 matrix).
 <br><br>
-Contrast with E3Point3D_Transform, which does the full 4x4
+Contrast with Q3Point3D_Transform, which does the full 4x4
 transformation.
 <br><br>
 </p>
@@ -4307,5 +4397,5 @@ Note that for correct results, the quaternion should be normalized.
 <b>Result:</b> Convenience copy of result parameter.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
 </body></html>

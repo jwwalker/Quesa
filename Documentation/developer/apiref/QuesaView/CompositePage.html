@@ -10,13 +10,10 @@ Q3Pop_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a pop state operator.
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new pop state operator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Pop_Submit"></a>
@@ -27,20 +24,17 @@ Q3Pop_Submit (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a pop state operator to a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to submit the state operator to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Push_New"></a>
@@ -51,13 +45,10 @@ Q3Push_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a push state operator.
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new push state operator.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Push_Submit"></a>
@@ -68,20 +59,17 @@ Q3Push_Submit (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a push state operator to a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to submit the state operator to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3StateOperator_Submit"></a>
@@ -93,21 +81,18 @@ Q3StateOperator_Submit (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Submit a state operator to a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>stateOperator</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>stateOperator</tt></td><td>The state operator to submit.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to submit the state operator to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_AddLight"></a>
@@ -162,21 +147,21 @@ Q3View_AllowAllGroupCulling (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the group culling state of a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If group culling is active, a view will skip groups whose bounding
+boxes are not visible.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>allowCulling</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>allowCulling</tt></td><td>The new group culling state for the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_Cancel"></a>
@@ -187,20 +172,17 @@ Q3View_Cancel (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Cancel a submit loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view being submitted to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_EndBoundingBox"></a>
@@ -208,25 +190,23 @@ the typical usage of this function and any special requirements.
 <blockquote><pre><tt>TQ3ViewStatus  
 Q3View_EndBoundingBox (
     TQ3ViewObject                 view,
-    TQ3BoundingBox                *result
+    TQ3BoundingBox                *theBounds
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>End a bounding loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view being bounded to.</td></tr>
+<tr valign=top><td><tt>theBounds</tt></td><td>The result of the bounding loop.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the bounding loop.
+Note that the result is a TQ3ViewStatus, not a TQ3Status.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_EndBoundingSphere"></a>
@@ -234,25 +214,23 @@ the typical usage of this function and any special requirements.
 <blockquote><pre><tt>TQ3ViewStatus  
 Q3View_EndBoundingSphere (
     TQ3ViewObject                 view,
-    TQ3BoundingSphere             *result
+    TQ3BoundingSphere             *theBounds
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>End a bounding loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view being bounded to.</td></tr>
+<tr valign=top><td><tt>theBounds</tt></td><td>The result of the bounding loop.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the bounding loop.
+Note that the result is a TQ3ViewStatus, not a TQ3Status.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_EndPicking"></a>
@@ -263,20 +241,18 @@ Q3View_EndPicking (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>End a picking loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view being picked to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the picking loop.
+Note that the result is a TQ3ViewStatus, not a TQ3Status.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_EndRendering"></a>
@@ -287,20 +263,18 @@ Q3View_EndRendering (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>End a rendering loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view being rendered to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the rendering loop.
+Note that the result is a TQ3ViewStatus, not a TQ3Status.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_Flush"></a>
@@ -311,20 +285,20 @@ Q3View_Flush (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Flush the output from within a rendering loop.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+May only be called between a Q3View_StartRendering/Q3View_EndRendering sequence.
+May or may not update the draw context - behaviour is renderer-dependent.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to flush.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetAntiAliasStyleState"></a>
@@ -336,21 +310,18 @@ Q3View_GetAntiAliasStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current anti-alias style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>antiAliasData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>antiAliasData</tt></td><td>Receives the current anti-alias style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetAttributeSetState"></a>
@@ -362,21 +333,18 @@ Q3View_GetAttributeSetState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current attribute state set from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the current attribute state set.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetAttributeState"></a>
@@ -389,22 +357,19 @@ Q3View_GetAttributeState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current state of an attribute from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>attributeType</tt></td><td>The attribute type to query.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the current value for the specified attribute.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetBackfacingStyleState"></a>
@@ -416,21 +381,18 @@ Q3View_GetBackfacingStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current backfacing style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>backfacingStyle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>backfacingStyle</tt></td><td>Receives the current backfacing style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetCamera"></a>
@@ -442,21 +404,20 @@ Q3View_GetCamera (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the camera from a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the camera is incremented.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>Receives the camera associated with the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetDefaultAttributeSet"></a>
@@ -468,21 +429,20 @@ Q3View_GetDefaultAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the default attribute set from a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the attribute set is incremented.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>Receives the default attribute set.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetDrawContext"></a>
@@ -494,21 +454,20 @@ Q3View_GetDrawContext (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the draw context from a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the draw context is incremented.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>drawContext</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>drawContext</tt></td><td>Receives the draw context associated with the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetFillStyleState"></a>
@@ -520,21 +479,18 @@ Q3View_GetFillStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current fill style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>fillStyle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>fillStyle</tt></td><td>Receives the current fill style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetFogStyleState"></a>
@@ -546,7 +502,7 @@ Q3View_GetFogStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>Get the fog style associated with a view.
+<p>Get the current fog style associated with a view.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -556,7 +512,7 @@ Q3View_GetFogStyleState (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theView</tt></td><td>The view to query.</td></tr>
-<tr valign=top><td><tt>fogData</tt></td><td>Receives the current fog style for the viwe.</td></tr>
+<tr valign=top><td><tt>fogData</tt></td><td>Receives the current fog style state.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Success or failure of the operation.
@@ -571,21 +527,18 @@ Q3View_GetFrustumToWindowMatrixState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the frustum-to-window matrix state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>Receives the frustum-to-window matrix.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetHighlightStyleState"></a>
@@ -597,21 +550,18 @@ Q3View_GetHighlightStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current highlight style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>highlightStyle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>highlightStyle</tt></td><td>Receives the current highlight style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetInterpolationStyleState"></a>
@@ -623,21 +573,18 @@ Q3View_GetInterpolationStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current interpolation style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>interpolationType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>interpolationType</tt></td><td>Receives the current interpolation style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetLightGroup"></a>
@@ -649,21 +596,20 @@ Q3View_GetLightGroup (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the light group from a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the light group is incremented.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>lightGroup</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>lightGroup</tt></td><td>Receives the light group associated with the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetLocalToWorldMatrixState"></a>
@@ -675,21 +621,18 @@ Q3View_GetLocalToWorldMatrixState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the local-to-world matrix state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>Receives the local-to-world matrix.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetOrientationStyleState"></a>
@@ -701,21 +644,18 @@ Q3View_GetOrientationStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current orientation style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>fontFacingDirectionStyle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>fontFacingDirectionStyle</tt></td><td>Receives the current orientation style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetPickIDStyleState"></a>
@@ -727,21 +667,18 @@ Q3View_GetPickIDStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current pick ID style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pickIDStyle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>pickIDStyle</tt></td><td>Receives the current pick ID style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetPickPartsStyleState"></a>
@@ -753,21 +690,18 @@ Q3View_GetPickPartsStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current pick parts style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pickPartsStyle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>pickPartsStyle</tt></td><td>Receives the current pick parts style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetReceiveShadowsStyleState"></a>
@@ -779,21 +713,18 @@ Q3View_GetReceiveShadowsStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current receive shadows style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>receives</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>receives</tt></td><td>Receives the current receive shadows style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetRenderer"></a>
@@ -805,21 +736,20 @@ Q3View_GetRenderer (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the renderer from a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the renderer is incremented.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>renderer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>renderer</tt></td><td>Receives the renderer associated with the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetSubdivisionStyleState"></a>
@@ -831,21 +761,18 @@ Q3View_GetSubdivisionStyleState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the current subdivision style state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>subdivisionStyle</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>subdivisionStyle</tt></td><td>Receives the current subdivision style state.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_GetWorldToFrustumMatrixState"></a>
@@ -857,21 +784,18 @@ Q3View_GetWorldToFrustumMatrixState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Get the local-to-frustum matrix state from a view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to query.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>Receives the local-to-frustum matrix.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_IsBoundingBoxVisible"></a>
@@ -883,21 +807,21 @@ Q3View_IsBoundingBoxVisible (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Test a bounding box for visibility.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The bounding box is compared against the view frustum of the camera
+currently associated with the view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>bbox</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to check the bounding box against.</td></tr>
+<tr valign=top><td><tt>bbox</tt></td><td>The bounding box to test.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True or false as the bounding box is visible.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_New"></a>
@@ -908,13 +832,10 @@ Q3View_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Create a new view.
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new view object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_NewWithDefaults"></a>
@@ -966,21 +887,20 @@ Q3View_SetCamera (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the camera for a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the camera will be incremented by the view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>camera</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>camera</tt></td><td>The camera to assign to the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_SetDefaultAttributeSet"></a>
@@ -992,21 +912,20 @@ Q3View_SetDefaultAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the default attribute set for a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the attribute set will be incremented by the view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set to assign to the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_SetDrawContext"></a>
@@ -1018,21 +937,20 @@ Q3View_SetDrawContext (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the draw context for a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the draw context will be incremented by the view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>drawContext</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to assign to the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_SetEndFrameMethod"></a>
@@ -1045,22 +963,19 @@ Q3View_SetEndFrameMethod (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Set the end frame method for view submit operations.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>endFrame</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>endFrameData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>endFrame</tt></td><td>The view end frame callback.</td></tr>
+<tr valign=top><td><tt>endFrameData</tt></td><td>Application-specific data for the callback.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_SetIdleMethod"></a>
@@ -1073,22 +988,22 @@ Q3View_SetIdleMethod (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the idle method for view submit operations.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+An idle method can be used to return control to the application
+periodically during a submit loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>idleMethod</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>idleData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>idleMethod</tt></td><td>The view idle callback.</td></tr>
+<tr valign=top><td><tt>idleData</tt></td><td>Application-specific data for the callback.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_SetIdleProgressMethod"></a>
@@ -1101,22 +1016,25 @@ Q3View_SetIdleProgressMethod (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the idle progress method for view submit operations.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+An idle method can be used to return control to the application
+periodically during a submit loop.
+<br><br>
+The idle progress method allows renderers to pass progress information
+to the application, to update the user interface during a render.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>idleMethod</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>idleData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>idleMethod</tt></td><td>The view idle callback.</td></tr>
+<tr valign=top><td><tt>idleData</tt></td><td>Application-specific data for the callback.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_SetLightGroup"></a>
@@ -1128,21 +1046,20 @@ Q3View_SetLightGroup (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the light group for a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the light group will be incremented by the view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>lightGroup</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>lightGroup</tt></td><td>The light group to assign to the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_SetRenderer"></a>
@@ -1154,21 +1071,20 @@ Q3View_SetRenderer (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the renderer for a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the renderer will be incremented by the view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>renderer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>renderer</tt></td><td>The renderer to assign to the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_SetRendererByType"></a>
@@ -1180,21 +1096,22 @@ Q3View_SetRendererByType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the renderer for a view.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The renderer is specified by class type, e.g., kQ3RendererTypeInteractive
+for the interactive renderer or kQ3RendererTypeWireFrame for the wire-frame
+renderer.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to update.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The type of the renderer to assign to the view.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_StartBoundingBox"></a>
@@ -1206,21 +1123,18 @@ Q3View_StartBoundingBox (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Start a bounding loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>computeBounds</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to start bounding with.</td></tr>
+<tr valign=top><td><tt>computeBounds</tt></td><td>The accuracy of the calculated bounds.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_StartBoundingSphere"></a>
@@ -1232,21 +1146,18 @@ Q3View_StartBoundingSphere (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Start a bounding loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>computeBounds</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to start bounding with.</td></tr>
+<tr valign=top><td><tt>computeBounds</tt></td><td>The accuracy of the calculated bounds.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_StartPicking"></a>
@@ -1258,21 +1169,18 @@ Q3View_StartPicking (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Start a picking loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pick</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to start picking with.</td></tr>
+<tr valign=top><td><tt>pick</tt></td><td>The pick object for the pick loop.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_StartRendering"></a>
@@ -1283,20 +1191,17 @@ Q3View_StartRendering (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Start a rendering loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to start rendering with.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_Sync"></a>
@@ -1307,20 +1212,20 @@ Q3View_Sync (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Flush the previous rendering loop to the draw context.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Blocks until the previous rendering loop has updated the draw context. May only
+be called after a call to Q3View_EndRendering.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to sync.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3View_TransformLocalToWindow"></a>
@@ -1410,5 +1315,70 @@ May only be called within a view submitting loop.
 <b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 11/17/2002 </a></font></p>
+<h2>Typedefs</h2>
+<a name="//apple_ref/c/tdef/TQ3ViewEndFrameMethod"></a>
+<h3><a name="TQ3ViewEndFrameMethod">TQ3ViewEndFrameMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3ViewEndFrameMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *endFrameData);</tt><br>
+</blockquote>
+<p>Application callback for Q3View_SetEndFrameMethod.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being submitted to.</td><tr>
+<tr valign=top><td><tt>endFrameData</tt></td><td>The application-specific data passed to Q3View_SetEndFrameMethod.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3ViewIdleMethod"></a>
+<h3><a name="TQ3ViewIdleMethod">TQ3ViewIdleMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3ViewIdleMethod)</b>(
+                            TQ3ViewObject       theView,
+                            const void          *idlerData);</tt><br>
+</blockquote>
+<p>Application callback for Q3View_SetIdleMethod.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being submitted to.</td><tr>
+<tr valign=top><td><tt>idlerData</tt></td><td>The application-specific data passed to Q3View_SetIdleMethod.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3ViewIdleProgressMethod"></a>
+<h3><a name="TQ3ViewIdleProgressMethod">TQ3ViewIdleProgressMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3ViewIdleProgressMethod)</b>(
+                            TQ3ViewObject       theView,
+                            const void          *idlerData,
+                            TQ3Uns32            progressCurrent,
+                            TQ3Uns32            progressCompleted);</tt><br>
+</blockquote>
+<p>Application callback for Q3View_SetIdleProgressMethod.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being submitted to.</td><tr>
+<tr valign=top><td><tt>idlerData</tt></td><td>The application-specific data passed to Q3View_SetIdleProgressMethod.</td><tr>
+<tr valign=top><td><tt>progressCurrent</tt></td><td>The number of work units completed.</td><tr>
+<tr valign=top><td><tt>progressCompleted</tt></td><td>The total number of work units which will be completed.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
 </body></html>

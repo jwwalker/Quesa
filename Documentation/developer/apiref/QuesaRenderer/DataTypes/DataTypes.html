@@ -1,0 +1,793 @@
+<html><head><title>Defined Types</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Defined Types</h1></font><hr><br>
+<a name="//apple_ref/c/tdef/TQ3MacOSDialogEventHandler"></a>
+<h3><a name="TQ3MacOSDialogEventHandler">TQ3MacOSDialogEventHandler</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Boolean, <b>TQ3MacOSDialogEventHandler)</b>(
+                            const EventRecord   *theEvent);</tt><br>
+</blockquote>
+<p>Mac OS application event callback.
+<br><br>
+Modal renderer configure dialogs invoke this callback with events
+which are not handled by the dialog. If the application handles
+the event it should return kQ3True, or kQ3False to have the dialog
+pass the event to the system unhandled.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theEvent</tt></td><td>The event to process.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Did the application handle the event.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3RaveDestroyCallback"></a>
+<h3><a name="TQ3RaveDestroyCallback">TQ3RaveDestroyCallback</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3RaveDestroyCallback)</b>(
+                            TQ3RendererObject   theRenderer);</tt><br>
+</blockquote>
+<p>RAVE destroy callback.
+<br><br>
+Not supported in Quesa.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theRenderer</tt></td><td>The renderer being destroyed.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XDrawRegionRendererPrivateDeleteMethod"></a>
+<h3><a name="TQ3XDrawRegionRendererPrivateDeleteMethod">TQ3XDrawRegionRendererPrivateDeleteMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3XDrawRegionRendererPrivateDeleteMethod)</b>(
+                            void                *rendererPrivate);</tt><br>
+</blockquote>
+<p>Draw region private delete callback.
+<br><br>
+Not supported in Quesa.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>The private data to delete.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererCancelMethod"></a>
+<h3><a name="TQ3XRendererCancelMethod">TQ3XRendererCancelMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3XRendererCancelMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate);</tt><br>
+</blockquote>
+<p>Cancel the current rendering frame.
+<br><br>
+This method is invoked if a frame is cancelled within a rendering loop,
+and allows renderers to clean up as the current render is terminated.
+<br><br>
+This method is required.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+</table>
+</blockquote>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererEndFrameMethod"></a>
+<h3><a name="TQ3XRendererEndFrameMethod">TQ3XRendererEndFrameMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererEndFrameMethod)</b>(
+                            TQ3ViewObject           theView,
+                            void                    *rendererPrivate,
+                            TQ3DrawContextObject    theDrawContext);</tt><br>
+</blockquote>
+<p>Invoked by Q3View_Sync via Q3View_EndRendering to end the current frame.
+<br><br>
+This method is optional and should only be implemented by asynchronous renderers.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>theDrawContext</tt></td><td>The draw context associated with the view.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererEndPassMethod"></a>
+<h3><a name="TQ3XRendererEndPassMethod">TQ3XRendererEndPassMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3ViewStatus, <b>TQ3XRendererEndPassMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate);</tt><br>
+</blockquote>
+<p>Invoked by Q3View_EndRendering to end the current pass.
+<br><br>
+The renderer should return kQ3ViewStatusRetraverse if the view should
+loop and submit another pass for the current frame, or kQ3ViewStatusDone
+if the scene has been rendered successfully.
+<br><br>
+If rendering was cancelled, this method will not be called and the view
+will return kQ3ViewStatusCancelled to the application.
+<br><br>
+This method is required.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The result for the view submit loop.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererFlushFrameMethod"></a>
+<h3><a name="TQ3XRendererFlushFrameMethod">TQ3XRendererFlushFrameMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererFlushFrameMethod)</b>(
+                            TQ3ViewObject           theView,
+                            void                    *rendererPrivate,
+                            TQ3DrawContextObject    theDrawContext);</tt><br>
+</blockquote>
+<p>Invoked by Q3View_Flush to flush rendering.
+<br><br>
+The renderer should flush the rendering of objects which have been submitted
+so far, and produce an image from the currently accumulated drawing state.
+<br><br>
+This method is optional and should only be implemented by asynchronous renderers.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>theDrawContext</tt></td><td>The draw context associated with the view.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererGetConfigurationDataMethod"></a>
+<h3><a name="TQ3XRendererGetConfigurationDataMethod">TQ3XRendererGetConfigurationDataMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererGetConfigurationDataMethod)</b>(
+                            TQ3RendererObject   theRenderer,
+                            unsigned char       *dataBuffer,
+                            TQ3Uns32            bufferSize,
+                            TQ3Uns32            *actualDataSize,
+                            void                *rendererPrivate);</tt><br>
+</blockquote>
+<p>Get the renderer configuration data.
+<br><br>
+If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+which could receive the renderer data.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theRenderer</tt></td><td>The renderer object.</td><tr>
+<tr valign=top><td><tt>dataBuffer</tt></td><td>Buffer to receive the renderer configuration data.</td><tr>
+<tr valign=top><td><tt>bufferSize</tt></td><td>The number of bytes pointed to by dataBuffer.</td><tr>
+<tr valign=top><td><tt>actualDataSize</tt></td><td>Receives the number of bytes written to dataBuffer.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererGetNickNameStringMethod"></a>
+<h3><a name="TQ3XRendererGetNickNameStringMethod">TQ3XRendererGetNickNameStringMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererGetNickNameStringMethod)</b>(
+                            unsigned char       *dataBuffer,
+                            TQ3Uns32            bufferSize,
+                            TQ3Uns32            *actualDataSize);</tt><br>
+</blockquote>
+<p>Get the renderer "nick name".
+<br><br>
+The "nick name" is the user-visible name for the renderer, and should be
+suitable for display in a menu or window (e.g., it may need to be localised
+for the current language).
+<br><br>
+If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+which could receive the entire renderer nick name.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>dataBuffer</tt></td><td>Buffer to receive the renderer nick name.</td><tr>
+<tr valign=top><td><tt>bufferSize</tt></td><td>The number of bytes pointed to by dataBuffer.</td><tr>
+<tr valign=top><td><tt>actualDataSize</tt></td><td>Receives the number of bytes written to dataBuffer.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererIsBoundingBoxVisibleMethod"></a>
+<h3><a name="TQ3XRendererIsBoundingBoxVisibleMethod">TQ3XRendererIsBoundingBoxVisibleMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Boolean, <b>TQ3XRendererIsBoundingBoxVisibleMethod)</b>(
+                            TQ3ViewObject           theView,
+                            void                    *rendererPrivate,
+                            const TQ3BoundingBox    *theBounds);</tt><br>
+</blockquote>
+<p>Test a local-coordinate bounding box for visibility.
+<br><br>
+Renderers should return a TQ3Boolean indicating if the bounding box
+would be partially or wholly contained within the viewing frustum
+for this frame.
+<br><br>
+This may simply require testing against the viewing frustum volume,
+or more complex tests may be required if objects outside the frustum
+are able to contribute to the scene (e.g., via reflections).
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>theBounds</tt></td><td>The bounding box to test.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The visibility of the bounding box.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererModalConfigureMethod"></a>
+<h3><a name="TQ3XRendererModalConfigureMethod">TQ3XRendererModalConfigureMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererModalConfigureMethod)</b>(
+                            TQ3RendererObject   theRenderer,
+                            TQ3DialogAnchor     dialogAnchor,
+                            TQ3Boolean          *wasCancelled,
+                            void                *rendererPrivate);</tt><br>
+</blockquote>
+<p>Display a modal configure dialog for the renderer.
+<br><br>
+If the renderer provides a user interface for adjusting its preferences,
+a modal configure dialog can be displayed by this method.
+<br><br>
+The dialog should contain OK and Cancel buttons, and return the selected
+button through the wasCancelled parameter.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theRenderer</tt></td><td>The renderer whose configure dialog is to be displayed.</td><tr>
+<tr valign=top><td><tt>dialogAnchor</tt></td><td>Platform-specific dialog data.</td><tr>
+<tr valign=top><td><tt>wasCancelled</tt></td><td>Receives the OK/Cancel state of the dialog.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererPopMethod"></a>
+<h3><a name="TQ3XRendererPopMethod">TQ3XRendererPopMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererPopMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate);</tt><br>
+</blockquote>
+<p>Pop the current renderer state.
+<br><br>
+Renderers which implement the RendererPush/RendererPop methods must
+maintain their own view state stack while rendering. If a renderer
+does not supply these methods, Quesa will automatically send the
+required state changes to implement a push/pop operation.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererPushMethod"></a>
+<h3><a name="TQ3XRendererPushMethod">TQ3XRendererPushMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererPushMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate);</tt><br>
+</blockquote>
+<p>Push the current renderer state.
+<br><br>
+Renderers which implement the RendererPush/RendererPop methods must
+maintain their own view state stack while rendering. If a renderer
+does not supply these methods, Quesa will automatically send the
+required state changes to implement a push/pop operation.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererSetConfigurationDataMethod"></a>
+<h3><a name="TQ3XRendererSetConfigurationDataMethod">TQ3XRendererSetConfigurationDataMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererSetConfigurationDataMethod)</b>(
+                            TQ3RendererObject   theRenderer,
+                            unsigned char       *dataBuffer,
+                            TQ3Uns32            bufferSize,
+                            void                *rendererPrivate);</tt><br>
+</blockquote>
+<p>Set the renderer configuration data.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theRenderer</tt></td><td>The renderer object.</td><tr>
+<tr valign=top><td><tt>dataBuffer</tt></td><td>Buffer containing the renderer configuration data.</td><tr>
+<tr valign=top><td><tt>bufferSize</tt></td><td>The number of bytes pointed to by dataBuffer.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererStartFrameMethod"></a>
+<h3><a name="TQ3XRendererStartFrameMethod">TQ3XRendererStartFrameMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererStartFrameMethod)</b>(
+                            TQ3ViewObject           theView,
+                            void                    *rendererPrivate,
+                            TQ3DrawContextObject    theDrawContext);</tt><br>
+</blockquote>
+<p>Invoked by Q3View_StartRendering to start a new frame.
+<br><br>
+The renderer should prepare to render another frame. This may require
+the initialisation of per-frame state, and the clearing of the draw
+context (depending on the draw context's clear method).
+<br><br>
+This method is required.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>theDrawContext</tt></td><td>The draw context associated with the view.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererStartPassMethod"></a>
+<h3><a name="TQ3XRendererStartPassMethod">TQ3XRendererStartPassMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererStartPassMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate,
+                            TQ3CameraObject     theCamera,
+                            TQ3GroupObject      theLights);</tt><br>
+</blockquote>
+<p>Invoked by Q3View_StartRendering to start a new pass.
+<br><br>
+The renderer should prepare to render another pass of the current frame.
+This may require the initialisation of per-pass state, and setting up
+the renderer's camera and light representations for rendering.
+<br><br>
+This method is required.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>theCamera</tt></td><td>The camera associated with the view.</td><tr>
+<tr valign=top><td><tt>theLights</tt></td><td>The light group associated with the view.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererSubmitCameraMetaHandlerMethod"></a>
+<h3><a name="TQ3XRendererSubmitCameraMetaHandlerMethod">TQ3XRendererSubmitCameraMetaHandlerMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, <b>TQ3XRendererSubmitCameraMetaHandlerMethod)</b>(
+                            TQ3ObjectType       cameraType);</tt><br>
+</blockquote>
+<p>Return the submit method for a camera type.
+<br><br>
+Renderers should return a TQ3XRendererSubmitCameraMethod to be invoked when
+a camera of the supplied type is used for rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cameraType</tt></td><td>The camera type whose submit method is requested.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The submit method for cameras of type cameraType.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererSubmitCameraMethod"></a>
+<h3><a name="TQ3XRendererSubmitCameraMethod">TQ3XRendererSubmitCameraMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererSubmitCameraMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate,
+                            TQ3CameraObject     theCamera,
+                            const void          *publicData);</tt><br>
+</blockquote>
+<p>Submits a camera object for rendering.
+<br><br>
+Note that the camera used for rendering is also passed to the
+StartPass method.
+<br><br>
+This method is required.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>theCamera</tt></td><td>The camera object being submitted, or NULL.</td><tr>
+<tr valign=top><td><tt>publicData</tt></td><td>The public data for the camera being submitted.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererSubmitGeometryMetaHandlerMethod"></a>
+<h3><a name="TQ3XRendererSubmitGeometryMetaHandlerMethod">TQ3XRendererSubmitGeometryMetaHandlerMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, <b>TQ3XRendererSubmitGeometryMetaHandlerMethod)</b>(
+                            TQ3ObjectType       geometryType);</tt><br>
+</blockquote>
+<p>Return the submit method for a geometry type.
+<br><br>
+Renderers should return a TQ3XRendererSubmitGeometryMetaHandlerMethod to
+be invoked when a geometry of the supplied type is submitted for rendering.
+If a particular geometry type is not supported, return NULL.
+<br><br>
+Geometries which do not have their own submit method will be decomposed to
+more primitive geometry types, which will then be submitted as one of the
+following types (which all renderers must support):
+<br><br>
+kQ3GeometryTypeTriangle
+kQ3GeometryTypeLine
+kQ3GeometryTypePoint
+kQ3GeometryTypeMarker
+kQ3GeometryTypePixmapMarker
+<br><br>
+This method is required.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>geometryType</tt></td><td>The geometry type whose submit method is requested.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The submit method for geometries of type geometryType.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererSubmitGeometryMethod"></a>
+<h3><a name="TQ3XRendererSubmitGeometryMethod">TQ3XRendererSubmitGeometryMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererSubmitGeometryMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate,
+                            TQ3GeometryObject   theGeometry,
+                            const void          *publicData);</tt><br>
+</blockquote>
+<p>Submits a geometry object for rendering.
+<br><br>
+If a geometry object is submitted in retained mode, theGeometry will be
+a valid geometry object and publicData will point to the public data
+structure describing that object.
+<br><br>
+If a geometry is submitted in immediate mode, theGeometry will be NULL
+and publicData will point to the data structure submitted for rendering.
+<br><br>
+Renderers should therefore try and render from the data contained in the
+publicData structure, however a reference to the geometry object may be
+useful (and can be retained if necessary, provided it is later released)
+in some circumstances.
+<br><br>
+This method is required.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>theGeometry</tt></td><td>The geometry object being submitted, or NULL.</td><tr>
+<tr valign=top><td><tt>publicData</tt></td><td>The public data for the geometry being submitted.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererSubmitLightMetaHandlerMethod"></a>
+<h3><a name="TQ3XRendererSubmitLightMetaHandlerMethod">TQ3XRendererSubmitLightMetaHandlerMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, <b>TQ3XRendererSubmitLightMetaHandlerMethod)</b>(
+                            TQ3ObjectType       lightType);</tt><br>
+</blockquote>
+<p>Return the submit method for a light type.
+<br><br>
+Renderers should return a TQ3XRendererSubmitLightMethod to be invoked when
+a light of the supplied type is used for rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>cameraType</tt></td><td>The camera type whose submit method is requested.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The submit method for cameras of type cameraType.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererSubmitLightMethod"></a>
+<h3><a name="TQ3XRendererSubmitLightMethod">TQ3XRendererSubmitLightMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererSubmitLightMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate,
+                            TQ3LightObject      theLight,
+                            const void          *publicData);</tt><br>
+</blockquote>
+<p>Submits a light object for rendering.
+<br><br>
+Note that the light group used for rendering is also passed to the
+StartPass method.
+<br><br>
+This method is required.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>theLight</tt></td><td>The light object being submitted, or NULL.</td><tr>
+<tr valign=top><td><tt>publicData</tt></td><td>The public data for the light being submitted.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererUpdateAttributeMetaHandlerMethod"></a>
+<h3><a name="TQ3XRendererUpdateAttributeMetaHandlerMethod">TQ3XRendererUpdateAttributeMetaHandlerMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, <b>TQ3XRendererUpdateAttributeMetaHandlerMethod)</b>(
+                            TQ3AttributeType    attributeType);</tt><br>
+</blockquote>
+<p>Return the update method for an attribute type.
+<br><br>
+Renderers should return a TQ3XRendererUpdateAttributeMethod to be invoked when
+the state of the supplied attribute type is changed while rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>attributeType</tt></td><td>The attribute type whose update method is requested.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The update method for attributes of type attributeType.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererUpdateAttributeMethod"></a>
+<h3><a name="TQ3XRendererUpdateAttributeMethod">TQ3XRendererUpdateAttributeMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererUpdateAttributeMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate,
+                            const void          *publicData);</tt><br>
+</blockquote>
+<p>Update the the state of an attribute while rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>publicData</tt></td><td>The public data for the attribute being submitted.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererUpdateMatrixMetaHandlerMethod"></a>
+<h3><a name="TQ3XRendererUpdateMatrixMetaHandlerMethod">TQ3XRendererUpdateMatrixMetaHandlerMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, <b>TQ3XRendererUpdateMatrixMetaHandlerMethod)</b>(
+                            TQ3ObjectType       matrixType);</tt><br>
+</blockquote>
+<p>Return the update method for a matrix type.
+<br><br>
+Renderers should return a TQ3XRendererUpdateMatrixMethod to be invoked when
+the state of the supplied matrix type is changed while rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>matrixType</tt></td><td>The matrix type whose update method is requested.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The update method for matrices of type matrixType.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererUpdateMatrixMethod"></a>
+<h3><a name="TQ3XRendererUpdateMatrixMethod">TQ3XRendererUpdateMatrixMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererUpdateMatrixMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate,
+                            const TQ3Matrix4x4  *theMatrix);</tt><br>
+</blockquote>
+<p>Update the the state of a matrix while rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>publicData</tt></td><td>The public data for the matrix being submitted.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererUpdateShaderMetaHandlerMethod"></a>
+<h3><a name="TQ3XRendererUpdateShaderMetaHandlerMethod">TQ3XRendererUpdateShaderMetaHandlerMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, <b>TQ3XRendererUpdateShaderMetaHandlerMethod)</b>(
+                            TQ3ObjectType       shaderType);</tt><br>
+</blockquote>
+<p>Return the update method for a shader type.
+<br><br>
+Renderers should return a TQ3XRendererUpdateShaderMethod to be invoked when
+the state of the supplied shader type is changed while rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>shaderType</tt></td><td>The shader type whose update method is requested.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The update method for shaders of type shaderType.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererUpdateShaderMethod"></a>
+<h3><a name="TQ3XRendererUpdateShaderMethod">TQ3XRendererUpdateShaderMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererUpdateShaderMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate,
+                            TQ3Object           *theShader);</tt><br>
+</blockquote>
+<p>Update the the state of a shader while rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>publicData</tt></td><td>The public data for the shader being submitted.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererUpdateStyleMetaHandlerMethod"></a>
+<h3><a name="TQ3XRendererUpdateStyleMetaHandlerMethod">TQ3XRendererUpdateStyleMetaHandlerMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, <b>TQ3XRendererUpdateStyleMetaHandlerMethod)</b>(
+                            TQ3ObjectType       styleType);</tt><br>
+</blockquote>
+<p>Return the update method for a style type.
+<br><br>
+Renderers should return a TQ3XRendererUpdateStyleMethod to be invoked when
+the state of the supplied style type is changed while rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>styleType</tt></td><td>The style type whose update method is requested.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> The update method for styles of type styleType.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3XRendererUpdateStyleMethod"></a>
+<h3><a name="TQ3XRendererUpdateStyleMethod">TQ3XRendererUpdateStyleMethod</a></h3>
+<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XRendererUpdateStyleMethod)</b>(
+                            TQ3ViewObject       theView,
+                            void                *rendererPrivate,
+                            const void          *publicData);</tt><br>
+</blockquote>
+<p>Update the the state of a style while rendering.
+<br><br>
+This method is optional.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>theView</tt></td><td>The view being rendered to.</td><tr>
+<tr valign=top><td><tt>rendererPrivate</tt></td><td>Renderer-specific instance data.</td><tr>
+<tr valign=top><td><tt>publicData</tt></td><td>The public data for the style being submitted.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the callback.
+ 
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 1/12/2003 </a></font></p>
+</body></html>
