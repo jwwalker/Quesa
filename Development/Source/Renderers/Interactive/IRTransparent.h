@@ -61,10 +61,6 @@ TQ3Status			IRTransBuffer_Initialize(
 void				IRTransBuffer_Terminate(
 								TQ3InteractiveData				*instanceData);
 
-void				IRTransBuffer_StartPass(
-								TQ3InteractiveData				*instanceData,
-								TQ3CameraObject					theCamera);
-
 void				IRTransBuffer_Draw(
 								TQ3ViewObject					theView,
 								TQ3InteractiveData				*instanceData);
