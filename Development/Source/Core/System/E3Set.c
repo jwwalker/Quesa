@@ -1459,7 +1459,12 @@ E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject 
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 
-
+	// Q3Set_Add requires that the data pointer not be NULL, even if the
+	// data size is zero.
+	if (dataSize == 0)
+	{
+		elementData = &elementData;
+	}
 	
 	qd3dStatus = Q3Set_Add( destSet, theType, elementData );
 	return(qd3dStatus);
