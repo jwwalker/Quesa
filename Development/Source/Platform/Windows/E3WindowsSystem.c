@@ -195,7 +195,7 @@ E3WindowsSystem_LoadPlugins(void)
 
 
 	// Register Quesa plug-ins
-	if(GetCurrentDirectory(thePath, MAX_PATH * sizeof(thePath[0])) > 0)
+	if(GetCurrentDirectory(MAX_PATH * sizeof(thePath[0]), thePath) > 0)
 		e3windowsystem_loadplugins(thePath, TEXT("xq3"));
 
 	if(GetSystemDirectory(thePath, MAX_PATH * sizeof(thePath[0])) > 0)
