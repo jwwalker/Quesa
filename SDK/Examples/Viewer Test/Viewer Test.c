@@ -37,8 +37,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Qut.h"
-#include "QutTexture.h"
-
+#include <QuesaViewer.h>
 
 
 
@@ -141,7 +140,7 @@ static void
 appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 {
 #pragma unused(theView)
-
+#pragma unused(menuItem)
 }
 
 
@@ -156,8 +155,7 @@ appMouseDown(TQ3ViewObject theView, TQ3Point2D mousePoint)
 	gMouseLoc = mousePoint;
 	if (gViewer != NULL)
 		{
-		Q3ViewerDraw(gViewer);
-		Q3ViewerMouseDown(gViewer, mousePoint.x, mousePoint.y);
+		Q3Viewer_EventMouseDown(gViewer, mousePoint.x, mousePoint.y);
 		}
 }
 
@@ -173,7 +171,7 @@ appMouseTrack(TQ3ViewObject theView, TQ3Point2D mouseDiff)
 	gMouseLoc.y += mouseDiff.y;
 	if (gViewer != NULL)
 		{
-		Q3ViewerContinueTracking(gViewer, gMouseLoc.x, gMouseLoc.y);
+		Q3Viewer_EventMouseTrack(gViewer, gMouseLoc.x, gMouseLoc.y);
 		}
 	
 }
@@ -188,8 +186,7 @@ appMouseUp(TQ3ViewObject theView, TQ3Point2D mousePoint)
 
 	if (gViewer != NULL)
 		{
-		Q3ViewerDraw(gViewer);
-		Q3ViewerMouseUp(gViewer, mousePoint.x, mousePoint.y);
+		Q3Viewer_EventMouseUp(gViewer, mousePoint.x, mousePoint.y);
 		}
 	
 }
@@ -203,7 +200,7 @@ appRedraw(TQ3ViewObject theView)
 #pragma unused(theView)
 
 	if (gViewer != NULL)
-		Q3ViewerDraw(gViewer);
+		Q3Viewer_Draw(gViewer);
 }
 
 //=============================================================================
@@ -216,7 +213,7 @@ appIdle(TQ3ViewObject theView)
 	Point mouse;
 	GetMouse(&mouse);
 	if (gViewer != NULL)
-		Q3ViewerAdjustCursor(gViewer, &mouse);
+		Q3Viewer_AdjustCursor(gViewer, mouse.h, mouse.v);
 }
 
 
@@ -226,8 +223,9 @@ appIdle(TQ3ViewObject theView)
 static void
 appRender(TQ3ViewObject theView)
 {
+#pragma unused(theView)
 	if (gViewer != NULL)
-		Q3ViewerDraw(gViewer);
+		Q3Viewer_Draw(gViewer);
 }
 
 
@@ -239,11 +237,8 @@ appRender(TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 void
 App_Initialise(void)
-{	TQ3Status		qd3dStatus;
-	FSSpec			theFSSpec;
-	Rect r = {0,0,300,300};
-	TQ3GroupObject	group;
-
+{	TQ3GroupObject	group;
+	TQ3Area			area;
 
 	// Initialise Qut
 	Qut_SetMouseDownFunc(appMouseDown);
@@ -259,11 +254,13 @@ App_Initialise(void)
 	Q3Group_AddObject(group, createGeomTriangle());
 
 	// Create the viewer
-	gViewer = Q3ViewerNew( GetWindowPort((WindowRef)Qut_GetWindow()), &r, kQ3ViewerDefault );
+	area.min.x = area.min.y = 0.0f;
+	area.max.x = area.max.y = 300.0f;
+	gViewer = Q3Viewer_New( (WindowRef)Qut_GetWindow(), &area, kQ3ViewerFlagDefault );
 	if (gViewer != NULL)
 		{
-		Q3ViewerUseGroup(gViewer, group);
-		Q3ViewerDraw(gViewer);
+		Q3Viewer_UseGroup(gViewer, group);
+		Q3Viewer_Draw(gViewer);
 		}
 }
 
@@ -280,5 +277,5 @@ App_Terminate(void)
 	// Clean up
 
 	if (gViewer != NULL) 
-		Q3ViewerDispose(gViewer);
+		Q3Object_Dispose(gViewer);
 }
