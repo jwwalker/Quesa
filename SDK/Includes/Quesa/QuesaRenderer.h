@@ -218,14 +218,14 @@ enum {
  *      Texture filter type.
  *
  *  @constant kQATextureFilter_Fast    Select nearest pixel.
- *  @constant kQATextureFilter_Mid     Perform some filtering.
+ *  @constant kQATextureFilter_Mid     Perform basic filtering.
  *  @constant kQATextureFilter_Best    Perform high quality filtering.
  */
 typedef unsigned long TQ3TextureFilter;
 enum {
-    kQATextureFilter_Fast                       = 0,                // Pick nearest pixel
-    kQATextureFilter_Mid                        = 1,                // Perform some filtering
-    kQATextureFilter_Best                       = 2                 // Perform high quality filtering
+    kQATextureFilter_Fast                       = 0,
+    kQATextureFilter_Mid                        = 1,
+    kQATextureFilter_Best                       = 2
 };
 
 
