@@ -5,7 +5,7 @@
         Header file for E3Style.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -68,6 +68,7 @@ extern "C" {
 TQ3Status			E3Style_RegisterClass(void);
 TQ3Status			E3Style_UnregisterClass(void);
 
+TQ3Boolean			E3Style_IsOfMyClass ( TQ3Object object ) ;
 TQ3ObjectType		E3Style_GetType(TQ3StyleObject theStyle);
 TQ3Status			E3Style_Submit(TQ3StyleObject theStyle, TQ3ViewObject theView);
 

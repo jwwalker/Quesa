@@ -91,9 +91,29 @@ public :
 
 	// There is no extra data for this class
 
+	static TQ3Boolean		IsOfMyClass ( TQ3Object object ) ;
+
 	E3TransformInfo*		GetClass ( void ) { return (E3TransformInfo*) OpaqueTQ3Object::GetClass () ; }
 
+	TQ3ObjectType			GetType ( void ) ;
 	TQ3Matrix4x4*			GetMatrix ( TQ3Matrix4x4* theMatrix ) ;
+	TQ3Status				Submit ( TQ3ViewObject theView ) ;
+	} ;
+	
+
+
+class E3MatrixTransform : public E3Transform 
+	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeMatrix, E3MatrixTransform, E3Transform )
+
+	TQ3Matrix4x4			matrix ;
+	
+public :
+	
+	static TQ3Boolean		IsOfMyClass ( TQ3Object object ) ;
+
+	TQ3Status				Set ( const TQ3Matrix4x4* theMatrix ) ;
+	TQ3Status				Get ( TQ3Matrix4x4* theMatrix ) ;
 	} ;
 	
 
@@ -104,14 +124,8 @@ public :
 TQ3Status			E3Transform_RegisterClass(void);
 TQ3Status			E3Transform_UnregisterClass(void);
 
-TQ3ObjectType		E3Transform_GetType(TQ3TransformObject theTransform);
-//TQ3Matrix4x4 *		E3Transform_GetMatrix(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix);
-TQ3Status			E3Transform_Submit(TQ3TransformObject theTransform, TQ3ViewObject theView);
-
 TQ3TransformObject	E3MatrixTransform_New(const TQ3Matrix4x4 *theMatrix);
 TQ3Status			E3MatrixTransform_Submit(const TQ3Matrix4x4 *theMatrix, TQ3ViewObject theView);
-TQ3Status			E3MatrixTransform_Set(TQ3TransformObject theTransform, const TQ3Matrix4x4 *theMatrix);
-TQ3Status			E3MatrixTransform_Get(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix);
 
 TQ3TransformObject	E3RotateTransform_New(const TQ3RotateTransformData *data);
 TQ3Status			E3RotateTransform_Submit(const TQ3RotateTransformData *data, TQ3ViewObject theView);

@@ -110,8 +110,11 @@ Q3_CLASS_ENUMS ( kQ3SharedTypeStorage, E3Storage, E3Shared )
 	
 public :
 
+	static TQ3Boolean				IsOfMyClass ( TQ3Object object ) ;
+	
 	E3StorageInfo*					GetClass ( void ) { return (E3StorageInfo*) OpaqueTQ3Object::GetClass () ; }
 	
+	TQ3ObjectType					GetType ( void ) ;
 	TQ3Status						GetSize ( TQ3Uns32* size ) ;
 	TQ3Status						GetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char* data, TQ3Uns32* sizeRead ) ;
 	TQ3Status						SetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char* data, TQ3Uns32* sizeWritten ) ;
@@ -165,10 +168,6 @@ public :
 TQ3Status			E3Storage_RegisterClass(void);
 TQ3Status			E3Storage_UnregisterClass(void);
 
-TQ3ObjectType		E3Storage_GetType(TQ3StorageObject storage);
-//TQ3Status			E3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size);
-//TQ3Status			E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead);
-//TQ3Status			E3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten);
 TQ3ObjectType		E3MemoryStorage_GetType(TQ3StorageObject storage);
 TQ3StorageObject	E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize);
 TQ3StorageObject	E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize);

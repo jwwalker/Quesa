@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,6 +45,11 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Camera.h"
+#include "E3DrawContext.h"
+#include "E3Group.h"
+#include "E3Pick.h"
+#include "E3Renderer.h"
 #include "E3View.h"
 
 
@@ -224,7 +229,7 @@ Q3View_SetRenderer(TQ3ViewObject view, TQ3RendererObject renderer)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((renderer == NULL) || Q3Object_IsType(renderer, (kQ3SharedTypeRenderer)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((renderer == NULL) || E3Renderer_IsOfMyClass ( renderer ), kQ3Failure);
 
 
 
@@ -586,7 +591,7 @@ Q3View_StartPicking(TQ3ViewObject view, TQ3PickObject pick)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pick, (kQ3ObjectTypePick)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Pick_IsOfMyClass ( pick ), kQ3Failure);
 
 
 
@@ -696,7 +701,7 @@ Q3View_SetCamera(TQ3ViewObject view, TQ3CameraObject camera)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(camera, (kQ3ShapeTypeCamera)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure);
 
 
 
@@ -736,7 +741,7 @@ Q3View_SetLightGroup(TQ3ViewObject view, TQ3GroupObject lightGroup)
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	
 	if (lightGroup != NULL)
-		Q3_REQUIRE_OR_RESULT(Q3Object_IsType(lightGroup, kQ3ShapeTypeGroup), kQ3Failure);
+		Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass (lightGroup ), kQ3Failure);
 
 
 
@@ -1318,7 +1323,7 @@ Q3View_SetDrawContext(TQ3ViewObject view, TQ3DrawContextObject drawContext)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, (kQ3SharedTypeDrawContext)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure);
 
 
 
