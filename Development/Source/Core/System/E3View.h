@@ -105,36 +105,38 @@ TQ3ViewState			E3View_GetViewState(TQ3ViewObject theView);
 TQ3BoundingMethod		E3View_GetBoundingMethod(TQ3ViewObject theView);
 void					E3View_GetRayThroughPickPoint(TQ3ViewObject theView, TQ3Ray3D *theRay);
 void					E3View_UpdateBounds(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 pointStride, const TQ3Point3D *thePoints);
+TQ3Status				E3View_PickStack_PushGroup(TQ3ViewObject theView, TQ3GroupObject theGroup);
+TQ3HitPath				*E3View_PickStack_CurrentPath(TQ3ViewObject theView);
+void					E3View_PickStack_UpdatePosition(TQ3ViewObject theView, TQ3GroupPosition thePosition);
+void					E3View_PickStack_PopGroup(TQ3ViewObject theView);
 
-void					E3View_State_InitGroupMatrix(TQ3ViewObject theView);
-TQ3Status				E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *theMatrix);
-
+void							E3View_State_InitGroupMatrix(TQ3ViewObject theView);
+TQ3Status						E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *theMatrix);
 const TQ3Matrix4x4				*E3View_State_GetLocalToWorld(TQ3ViewObject theView);
 const TQ3SubdivisionStyleData	*E3View_State_GetStyleSubdivision(TQ3ViewObject theView);
-
-void					E3View_State_SetShaderSurface(TQ3ViewObject theView, const TQ3SurfaceShaderObject theData);
-void					E3View_State_SetShaderIllumination(TQ3ViewObject theView, const TQ3IlluminationShaderObject theData);
-void					E3View_State_SetStyleSubdivision(TQ3ViewObject theView, const TQ3SubdivisionStyleData *theData);
-void					E3View_State_SetStylePickID(TQ3ViewObject theView, TQ3Uns32 pickID);
-void					E3View_State_SetStylePickParts(TQ3ViewObject theView, TQ3PickParts pickParts);
-void					E3View_State_SetStyleReceiveShadows(TQ3ViewObject theView, TQ3Boolean receiveShadows);
-void					E3View_State_SetStyleFill(TQ3ViewObject theView, TQ3FillStyle fillStyle);
-void					E3View_State_SetStyleBackfacing(TQ3ViewObject theView, TQ3BackfacingStyle backfacingStyle);
-void					E3View_State_SetStyleInterpolation(TQ3ViewObject theView, TQ3InterpolationStyle interpolationStyle);
-void					E3View_State_SetStyleOrientation(TQ3ViewObject theView, TQ3OrientationStyle frontFacingDirection);
-void					E3View_State_SetStyleAntiAlias(TQ3ViewObject theView, const TQ3AntiAliasStyleData *theData);
-void					E3View_State_SetStyleFog(TQ3ViewObject theView, const TQ3FogStyleData *theData);
-void					E3View_State_SetAttributeSurfaceUV(TQ3ViewObject theView, const TQ3Param2D *theData);
-void					E3View_State_SetAttributeShadingUV(TQ3ViewObject theView, const TQ3Param2D *theData);
-void					E3View_State_SetAttributeNormal(TQ3ViewObject theView, const TQ3Vector3D *theData);
-void					E3View_State_SetAttributeAmbientCoefficient(TQ3ViewObject theView, const float *theData);
-void					E3View_State_SetAttributeDiffuseColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
-void					E3View_State_SetAttributeSpecularColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
-void					E3View_State_SetAttributeSpecularControl(TQ3ViewObject theView, const float *theData);
-void					E3View_State_SetAttributeTransparencyColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
-void					E3View_State_SetAttributeSurfaceTangent(TQ3ViewObject theView, const TQ3Tangent2D *theData);
-void					E3View_State_SetAttributeHighlightState(TQ3ViewObject theView, const TQ3Switch *theData);
-void					E3View_State_SetAttributeSurfaceShader(TQ3ViewObject theView, const TQ3SurfaceShaderObject *theData);
+void							E3View_State_SetShaderSurface(TQ3ViewObject theView, const TQ3SurfaceShaderObject theData);
+void							E3View_State_SetShaderIllumination(TQ3ViewObject theView, const TQ3IlluminationShaderObject theData);
+void							E3View_State_SetStyleSubdivision(TQ3ViewObject theView, const TQ3SubdivisionStyleData *theData);
+void							E3View_State_SetStylePickID(TQ3ViewObject theView, TQ3Uns32 pickID);
+void							E3View_State_SetStylePickParts(TQ3ViewObject theView, TQ3PickParts pickParts);
+void							E3View_State_SetStyleReceiveShadows(TQ3ViewObject theView, TQ3Boolean receiveShadows);
+void							E3View_State_SetStyleFill(TQ3ViewObject theView, TQ3FillStyle fillStyle);
+void							E3View_State_SetStyleBackfacing(TQ3ViewObject theView, TQ3BackfacingStyle backfacingStyle);
+void							E3View_State_SetStyleInterpolation(TQ3ViewObject theView, TQ3InterpolationStyle interpolationStyle);
+void							E3View_State_SetStyleOrientation(TQ3ViewObject theView, TQ3OrientationStyle frontFacingDirection);
+void							E3View_State_SetStyleAntiAlias(TQ3ViewObject theView, const TQ3AntiAliasStyleData *theData);
+void							E3View_State_SetStyleFog(TQ3ViewObject theView, const TQ3FogStyleData *theData);
+void							E3View_State_SetAttributeSurfaceUV(TQ3ViewObject theView, const TQ3Param2D *theData);
+void							E3View_State_SetAttributeShadingUV(TQ3ViewObject theView, const TQ3Param2D *theData);
+void							E3View_State_SetAttributeNormal(TQ3ViewObject theView, const TQ3Vector3D *theData);
+void							E3View_State_SetAttributeAmbientCoefficient(TQ3ViewObject theView, const float *theData);
+void							E3View_State_SetAttributeDiffuseColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
+void							E3View_State_SetAttributeSpecularColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
+void							E3View_State_SetAttributeSpecularControl(TQ3ViewObject theView, const float *theData);
+void							E3View_State_SetAttributeTransparencyColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
+void							E3View_State_SetAttributeSurfaceTangent(TQ3ViewObject theView, const TQ3Tangent2D *theData);
+void							E3View_State_SetAttributeHighlightState(TQ3ViewObject theView, const TQ3Switch *theData);
+void							E3View_State_SetAttributeSurfaceShader(TQ3ViewObject theView, const TQ3SurfaceShaderObject *theData);
 
 TQ3ViewObject			E3View_New(void);
 TQ3Status				E3View_Cancel(TQ3ViewObject theView);
@@ -151,6 +153,8 @@ TQ3Status				E3View_StartBoundingSphere(TQ3ViewObject theView, TQ3ComputeBounds 
 TQ3ViewStatus			E3View_EndBoundingSphere(TQ3ViewObject theView, TQ3BoundingSphere *result);
 TQ3Status				E3View_StartPicking(TQ3ViewObject theView, TQ3PickObject pick);
 TQ3ViewStatus			E3View_EndPicking(TQ3ViewObject theView);
+TQ3Status				E3View_StartWriting(TQ3ViewObject view, TQ3FileObject theFile);
+TQ3ViewStatus			E3View_EndWriting(TQ3ViewObject view);
 TQ3Status				E3View_GetCamera(TQ3ViewObject theView, TQ3CameraObject *theCamera);
 TQ3Status				E3View_SetCamera(TQ3ViewObject theView, TQ3CameraObject theCamera);
 TQ3Status				E3View_SetLightGroup(TQ3ViewObject theView, TQ3GroupObject lightGroup);
@@ -191,8 +195,6 @@ TQ3StateOperatorObject	E3Pop_New(void);
 TQ3Status				E3StateOperator_Submit(TQ3StateOperatorObject stateOperator, TQ3ViewObject theView);
 
 
-TQ3Status				E3View_StartWriting(TQ3ViewObject view, TQ3FileObject theFile);
-TQ3ViewStatus			E3View_EndWriting(TQ3ViewObject view);
 
 
 

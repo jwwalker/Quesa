@@ -149,6 +149,7 @@ typedef struct {
 	
 	// Pick state
 	TQ3PickObject				thePick;
+	TQ3HitPath					pickPath;
 	TQ3Ray3D					rayThroughPick;
 
 
@@ -1108,7 +1109,7 @@ e3view_pick_begin(TQ3ViewObject theView, TQ3PickObject thePick)
 
 	// Save a reference to the pick object
 	Q3_ASSERT(instanceData->thePick == NULL);
-	instanceData->thePick = Q3Shared_GetReference(thePick);
+	instanceData->thePick = thePick;
 
 
 
@@ -1177,8 +1178,13 @@ e3view_pick_end(TQ3ViewObject theView)
 
 
 
-	// Release our reference to the pick object
-	E3Object_DisposeAndForget(instanceData->thePick);
+	// Forget our reference to the pick object (don't dispose of it, as picks aren't shared)
+	instanceData->thePick = NULL;
+
+
+
+	// Empty the pick path
+	Q3HitPath_EmptyData(&instanceData->pickPath);
 }
 
 
@@ -1292,10 +1298,10 @@ e3view_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3push_render : Push render method.
+//      e3push_submit : Push submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3push_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3push_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status		qd3dStatus;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -1327,7 +1333,7 @@ e3push_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3push_render;
+			theMethod = (TQ3XFunctionPointer) e3push_submit;
 			break;
 		}
 	
@@ -1339,10 +1345,10 @@ e3push_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3pop_render : Pop render method.
+//      e3pop_submit : Pop submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3pop_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3pop_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -1380,7 +1386,7 @@ e3pop_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3pop_render;
+			theMethod = (TQ3XFunctionPointer) e3pop_submit;
 			break;
 		}
 	
@@ -1864,6 +1870,156 @@ E3View_UpdateBounds(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 pointStr
 			Q3_ASSERT(!"Unknown bounding method");
 			break;
 		}
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_PickStack_PushGroup : Push a group onto the pick path.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_PickStack_PushGroup(TQ3ViewObject theView, TQ3GroupObject theGroup)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3HitPath		*pickPath     = &instanceData->pickPath;
+	TQ3Status		qd3dStatus;
+	TQ3Uns32		theSize;
+
+
+
+	// Validate our state
+	Q3_ASSERT(instanceData->viewMode == kQ3ViewModePicking);
+
+
+
+	// If we don't have a root group yet, this is a top-level group.
+	// So save this group as the root group in the pick path.
+	if (pickPath->rootGroup == NULL)
+		{
+		// Validate our state - the path should be empty
+		Q3_ASSERT(pickPath->rootGroup == NULL);
+		Q3_ASSERT(pickPath->depth     == 0);
+		
+		
+		// Save the group as the current root
+		pickPath->rootGroup = Q3Shared_GetReference(theGroup);
+		}
+
+
+
+	// Allocate another slot in the positions array for any objects within this group.
+	// As each object is submitted the group will call us back to save the current
+	// position, so that any objects that are intersected by the current pick will
+	// be able to retrieve their submit path.
+	//
+	// Validate our state - we should have a root
+	Q3_ASSERT(pickPath->rootGroup != NULL);
+
+
+
+	// Expand the positions array
+	theSize    = sizeof(TQ3GroupPosition) * (pickPath->depth + 1);
+	qd3dStatus = Q3Memory_Reallocate(&pickPath->positions, theSize);
+	if (qd3dStatus == kQ3Success)
+		pickPath->depth++;
+
+
+
+	// Save a NULL position to initialise the slot
+	pickPath->positions[pickPath->depth - 1] = NULL;
+	
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_PickStack_CurrentPath : Return the current pick path.
+//-----------------------------------------------------------------------------
+TQ3HitPath *
+E3View_PickStack_CurrentPath(TQ3ViewObject theView)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+
+
+
+	// Validate our state
+	Q3_ASSERT(instanceData->viewMode == kQ3ViewModePicking);
+
+
+
+	// Return the current pick path
+	return(&instanceData->pickPath);
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_PickStack_UpdatePosition : Update the pick path position.
+//-----------------------------------------------------------------------------
+void
+E3View_PickStack_UpdatePosition(TQ3ViewObject theView, TQ3GroupPosition thePosition)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3HitPath		*pickPath     = &instanceData->pickPath;
+
+
+
+	// Validate our state
+	Q3_ASSERT(instanceData->viewMode == kQ3ViewModePicking);
+
+
+
+	// Make sure that there's at least one slot defined
+	Q3_ASSERT(pickPath->depth     != 0);
+	Q3_ASSERT(pickPath->positions != NULL);
+
+
+
+	// Save the position in the last slot in the positions array. We
+	// can override any previous value, since
+	pickPath->positions[pickPath->depth - 1] = thePosition;
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_PickStack_PopGroup : Pop a group off the pick path.
+//-----------------------------------------------------------------------------
+void
+E3View_PickStack_PopGroup(TQ3ViewObject theView)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3HitPath		*pickPath     = &instanceData->pickPath;
+
+
+
+	// Validate our state
+	Q3_ASSERT(instanceData->viewMode == kQ3ViewModePicking);
+
+
+
+	// Make sure that there's at least one slot defined
+	Q3_ASSERT(pickPath->depth     != 0);
+	Q3_ASSERT(pickPath->positions != NULL);
+
+
+
+	// Shrink the positions array. Note that we just decrement the count
+	// rather than shrinking the array, since future groups would cause
+	// the array to be resized - which realloc will skip if the array
+	// has already been extended.
+	pickPath->depth--;
+
+
+
+	// If this was the last group, remove the root object
+	if (pickPath->depth == 0)
+		E3Object_DisposeAndForget(pickPath->rootGroup);
 }
 
 
