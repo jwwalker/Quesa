@@ -33,10 +33,12 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
+#include <ctype.h>
+
 #include "E3Prefix.h"
 #include "E3Set.h"
+#include "E3GeometryTriMesh.h"
 #include "E3Utils.h"
-#include <ctype.h>
 
 
 
@@ -751,4 +753,50 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 		}
 	
 	return(kQ3True);
+}
+
+
+
+
+
+//=============================================================================
+//      E3TriMesh_BuildOrientationGroup : Build a TriMesh in a group.
+//-----------------------------------------------------------------------------
+//		Note :	Given a TriMesh object, we add triangle normals in a particular
+//				orientation style and then wrap the TriMesh in a group which
+//				contains an equivalent orientation style object.
+//
+//				This is used for cached geometries whose representation is of
+//				a TriMesh with a fixed orientation - they must be wrapped in a
+//				group to ensure that they are rendered with the same
+//				orientation style that their normals were created under.
+//-----------------------------------------------------------------------------
+TQ3GroupObject
+E3TriMesh_BuildOrientationGroup(TQ3GeometryObject theTriMesh, TQ3OrientationStyle theOrientation)
+{	TQ3GroupObject	theGroup;
+	TQ3StyleObject	theStyle;
+
+
+
+	// If the TriMesh couldn't be created, neither can the group
+	if (theTriMesh == NULL)
+		return(NULL);
+
+
+
+	// Create the group
+	theGroup = Q3DisplayGroup_New();
+	if (theGroup != NULL)
+		{
+		// Add the orientation style
+		theStyle = Q3OrientationStyle_New(theOrientation);
+		Q3Group_AddObjectAndDispose(theGroup, &theStyle);
+
+
+		// Build the normals and add the TriMesh
+		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
+		Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
+		}		
+
+	return(theGroup);
 }
