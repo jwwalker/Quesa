@@ -26,7 +26,7 @@ use File::Path;
 #------------------------------------------------------------------------
 # Constants
 my $kCodeWarriorIDE                             = "CodeWarrior IDE 4.2.6";
-my $kPathToPCBuild                              = "/Volumes/10.0.0.54/Develop/quesa/";
+my $kPathToPCBuild                              = "/Volumes/10.0.0.6/Dair/quesa/";
 
 my $kTemplateMacReadMe = <<'MAC_README_TEMPLATE';
 <!--=========================================================================-->
