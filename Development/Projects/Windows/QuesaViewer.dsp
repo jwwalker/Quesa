@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESAVIEWER_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "../../Source/Core/Support" /I "../../Source/Core/Viewer" /I "../../Source/Platform/Windows" /I "../../Source/Platform/Windows/Quesa Viewer" /I "../../../SDK/Includes/Quesa" /D "QUESA_OS_WIN32" /D "Q3_DEBUG" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "WIN32_EXPORTING" /YX"E3Prefix.h" /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "../../Source/Core/Support" /I "../../Source/Core/Viewer" /I "../../Source/Platform/Windows" /I "../../Source/Platform/Windows/Quesa Viewer" /I "../../../SDK/Includes/Quesa" /D "QUESA_OS_WIN32" /D "Q3_DEBUG" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "Q3_EXPORT_SYMBOLS" /YX"E3Prefix.h" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x410 /d "_DEBUG"
