@@ -186,14 +186,77 @@ typedef TQ3Object                               TQ3FileFormatObject;
 
 
 // Method types - 3DMF write
+/*!
+ *	@typedef	TQ3XObjectTraverseMethod
+ *	@abstract	Traversal method (<code>kQ3XMethodTypeObjectTraverse</code>) for a
+ *				custom element or attribute.
+ *	@discussion
+ *		Writing of 3DMF data is done in two phases:  traversal, which figures out which
+ *		objects are to be written and how much space each will use, and the actual
+ *		writing.  Two phases are necessary because the start of a container includes
+ *		the total length of the container, but this cannot be known without asking
+ *		each member of the container.
+ *
+ *		Typically, this method will call <code>Q3XView_SubmitWriteData</code> to
+ *		specify the immediate object data, and then call <code>Q3Object_Submit</code>
+ *		for each child object.
+ *
+ *	@param		object		The object to traverse.
+ *	@param		data		The object's instance data.  In the case of a custom element,
+ *							this is the internal form of the element data.
+ *	@param		view		A view object.
+ *	result		Success or failure of the operation.
+*/
 typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseMethod)       (TQ3Object object, void *data, TQ3ViewObject view);
+
+/*!
+ *	@typedef	TQ3XObjectTraverseDataMethod
+ *	@discussion
+ *		This is the custom object method of type <code>kQ3XMethodTypeObjectTraverseData</code>.
+ *		The QuickDraw 3D documention mentions this method, but does not explain how it
+ *		differs from <code>TQ3XObjectTraverseMethod</code>.  Quesa does not use it.
+ */
 typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseDataMethod)   (TQ3Object object, void *data, TQ3ViewObject view);
-typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectWriteMethod)          (const void *object, TQ3FileObject theFile);
+
+/*!
+ *	@typedef	TQ3XObjectWriteMethod
+ *	@abstract	Object method of type <code>kQ3XMethodTypeObjectWrite</code> for a
+ *				custom element or attribute.
+ *	@discussion
+ *		Writing of 3DMF data is done in two phases:  traversal, which figures out which
+ *		objects are to be written and how much space each will use, and the actual
+ *		writing.  Two phases are necessary because the start of a container includes
+ *		the total length of the container, but this cannot be known without asking
+ *		each member of the container.
+ *
+ *		This method will write the object's instance data using functions such as
+ *		<code>Q3Float32_Write</code>.  An class with no instance data other than
+ *		child objects does not need to provide this method.
+ *
+ *	@param		data		Instance data to write.  This will be the data passed to
+ *							<code>Q3XView_SubmitWriteData</code> by the traversal method.
+ *	@param		theFile		A file object.
+ *	@result		Success or failure of the operation.
+ */
+typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectWriteMethod)          (const void *data, TQ3FileObject theFile);
 typedef CALLBACK_API_C(void,                    TQ3XDataDeleteMethod)           (void *data);
 
 
 // Method types - 3DMF read
 typedef CALLBACK_API_C(TQ3Object,               TQ3XObjectReadMethod)           (TQ3FileObject theFile);
+
+/*!
+ *	@typedef	TQ3XObjectReadDataMethod
+ *	@abstract	Object method of type <code>kQ3XMethodTypeObjectReadData</code> for a
+ *				custom element or attribute.
+ *	@discussion
+ *		The method normally reads the element's data using functions such as
+ *		<code>Q3Float32_Read</code> and <code>Q3File_ReadObject</code> (for child objects),
+ *		then adds the element data to its parent set.
+ *	@param		parentObject		Set object to receive the new element or attribute.
+ *	@param		theFile				A file object.	
+ *	@result		Success or failure of the operation.
+ */
 typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectReadDataMethod)       (TQ3Object parentObject, TQ3FileObject theFile);
 typedef CALLBACK_API_C(TQ3Status,               TQ3XObjectAttachMethod)         (TQ3Object childObject, TQ3Object parentObject);
 
