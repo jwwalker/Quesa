@@ -987,7 +987,7 @@ gldrawcontext_win_swapbuffers(void *glContext)
 			}
 			
 		src = (TQ3Uns32*)theContext->pBits;
-		dst = theContext->pixmap.image;
+		dst = (TQ3Uns32*)theContext->pixmap.image;
 
 #if QUESA_USES_NORMAL_DIBs
 		pixmapSize = rowDWORDS * theContext->pixmap.height;
