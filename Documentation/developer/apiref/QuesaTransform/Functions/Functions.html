@@ -15,10 +15,10 @@ Q3MatrixTransform_Get (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>The matrix transform object.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>(output) The matrix of the transform.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>Receives the matrix of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MatrixTransform_New"></a>
@@ -60,7 +60,7 @@ Q3MatrixTransform_Set (
 <tr valign=top><td><tt>matrix</tt></td><td>The new matrix.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3MatrixTransform_Submit"></a>
@@ -83,7 +83,7 @@ Should only be used within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_Get"></a>
@@ -102,10 +102,10 @@ Q3QuaternionTransform_Get (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A quaternion transform object.</td></tr>
-<tr valign=top><td><tt>quaternion</tt></td><td>(output) Quaternion data specifying the transform.</td></tr>
+<tr valign=top><td><tt>quaternion</tt></td><td>Receives the quaternion data specifying the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_New"></a>
@@ -147,7 +147,7 @@ Q3QuaternionTransform_Set (
 <tr valign=top><td><tt>quaternion</tt></td><td>Quaternion data specifying the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3QuaternionTransform_Submit"></a>
@@ -170,7 +170,7 @@ within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ResetTransform_New"></a>
@@ -208,7 +208,7 @@ within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetAngle"></a>
@@ -227,10 +227,10 @@ Q3RotateAboutAxisTransform_GetAngle (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>(output) The angle of rotation, in radians.</td></tr>
+<tr valign=top><td><tt>radians</tt></td><td>Receives the angle of rotation, in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetData"></a>
@@ -249,10 +249,10 @@ Q3RotateAboutAxisTransform_GetData (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>(output) Structure receiving the state of the transform.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetOrientation"></a>
@@ -271,10 +271,10 @@ Q3RotateAboutAxisTransform_GetOrientation (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>(output) The axis direction vector.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>Receives the axis direction vector.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetOrigin"></a>
@@ -293,10 +293,10 @@ Q3RotateAboutAxisTransform_GetOrigin (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>origin</tt></td><td>(output) A point on the desired axis of rotation.</td></tr>
+<tr valign=top><td><tt>origin</tt></td><td>Receives a point on the desired axis of rotation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_New"></a>
@@ -339,7 +339,7 @@ Q3RotateAboutAxisTransform_SetAngle (
 <tr valign=top><td><tt>radians</tt></td><td>New angle of rotation, in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetData"></a>
@@ -361,7 +361,7 @@ Q3RotateAboutAxisTransform_SetData (
 <tr valign=top><td><tt>data</tt></td><td>Structure specifying the new state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetOrientation"></a>
@@ -384,7 +384,7 @@ You must provide a normalized vector.
 <tr valign=top><td><tt>axis</tt></td><td>New axis direction vector (normalized).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetOrigin"></a>
@@ -406,7 +406,7 @@ Q3RotateAboutAxisTransform_SetOrigin (
 <tr valign=top><td><tt>origin</tt></td><td>A point on the desired axis of rotation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_Submit"></a>
@@ -429,7 +429,7 @@ Should only be called within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAboutPoint"></a>
@@ -448,10 +448,10 @@ Q3RotateAboutPointTransform_GetAboutPoint (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>about</tt></td><td>(output) A point on the axis of rotation.</td></tr>
+<tr valign=top><td><tt>about</tt></td><td>Receives a point on the axis of rotation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAngle"></a>
@@ -470,10 +470,10 @@ Q3RotateAboutPointTransform_GetAngle (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>(output) The angle in radians.</td></tr>
+<tr valign=top><td><tt>radians</tt></td><td>Receives the angle in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAxis"></a>
@@ -492,10 +492,10 @@ Q3RotateAboutPointTransform_GetAxis (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>(output) Enumerated value specifying the axis.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>Receives the enumerated value specifying the axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetData"></a>
@@ -514,10 +514,10 @@ Q3RotateAboutPointTransform_GetData (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>(output) Structure to receive the state of the transform.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_New"></a>
@@ -560,7 +560,7 @@ Q3RotateAboutPointTransform_SetAboutPoint (
 <tr valign=top><td><tt>about</tt></td><td>A point on the desired axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAngle"></a>
@@ -582,7 +582,7 @@ Q3RotateAboutPointTransform_SetAngle (
 <tr valign=top><td><tt>radians</tt></td><td>The new angle in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAxis"></a>
@@ -604,7 +604,7 @@ Q3RotateAboutPointTransform_SetAxis (
 <tr valign=top><td><tt>axis</tt></td><td>The new axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetData"></a>
@@ -626,7 +626,7 @@ Q3RotateAboutPointTransform_SetData (
 <tr valign=top><td><tt>data</tt></td><td>Structure containing the new state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateAboutPointTransform_Submit"></a>
@@ -649,7 +649,7 @@ Should only be used within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_GetAngle"></a>
@@ -668,10 +668,10 @@ Q3RotateTransform_GetAngle (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>(output) The angle in radians.</td></tr>
+<tr valign=top><td><tt>radians</tt></td><td>Receives the angle in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_GetAxis"></a>
@@ -690,10 +690,10 @@ Q3RotateTransform_GetAxis (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>renderable</tt></td><td>The rotate transform object.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>(output) An enumerated value specifying the axis.</td></tr>
+<tr valign=top><td><tt>axis</tt></td><td>Receives the enumerated value specifying the axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_GetData"></a>
@@ -712,10 +712,10 @@ Q3RotateTransform_GetData (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>(output) Receives data specifying the state of the transform.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data specifying the state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_New"></a>
@@ -757,7 +757,7 @@ Q3RotateTransform_SetAngle (
 <tr valign=top><td><tt>radians</tt></td><td>New angle of rotation in radians.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_SetAxis"></a>
@@ -779,7 +779,7 @@ Q3RotateTransform_SetAxis (
 <tr valign=top><td><tt>axis</tt></td><td>New axis of rotation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_SetData"></a>
@@ -801,7 +801,7 @@ Q3RotateTransform_SetData (
 <tr valign=top><td><tt>data</tt></td><td>Data specifying the new state of the transform.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3RotateTransform_Submit"></a>
@@ -824,7 +824,7 @@ Should only be used within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_Get"></a>
@@ -843,10 +843,10 @@ Q3ScaleTransform_Get (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A scale transform object.</td></tr>
-<tr valign=top><td><tt>scale</tt></td><td>(output) Vector containing the 3 scale factors.</td></tr>
+<tr valign=top><td><tt>scale</tt></td><td>Receives the vector containing the 3 scale factors.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_New"></a>
@@ -890,7 +890,7 @@ Q3ScaleTransform_Set (
 <tr valign=top><td><tt>scale</tt></td><td>Vector containing the 3 scale factors.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ScaleTransform_Submit"></a>
@@ -913,7 +913,7 @@ within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Transform_GetMatrix"></a>
@@ -932,7 +932,7 @@ Q3Transform_GetMatrix (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A transform object.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>(output) The matrix of the transform.</td></tr>
+<tr valign=top><td><tt>matrix</tt></td><td>Receives the matrix of the transform.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Address of the resulting matrix, for convenience.
@@ -981,7 +981,7 @@ Q3Transform_Submit (
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_Get"></a>
@@ -1000,10 +1000,10 @@ Q3TranslateTransform_Get (
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>transform</tt></td><td>A translate transform object.</td></tr>
-<tr valign=top><td><tt>translate</tt></td><td>(output) Vector by which the transform translates.</td></tr>
+<tr valign=top><td><tt>translate</tt></td><td>Receives the vector by which the transform translates.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_New"></a>
@@ -1045,7 +1045,7 @@ Q3TranslateTransform_Set (
 <tr valign=top><td><tt>translate</tt></td><td>New vector by which to translate.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3TranslateTransform_Submit"></a>
@@ -1068,8 +1068,8 @@ called within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 6/1/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 6/2/2002 </a></font></p>
 </body></html>
