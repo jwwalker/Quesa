@@ -36,7 +36,6 @@
 //-----------------------------------------------------------------------------
 #include "E3StackCrawl.h"
 #include "QuesaMemory.h"
-#include <cstring>
 
 
 
