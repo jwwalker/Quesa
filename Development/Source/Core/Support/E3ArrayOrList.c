@@ -54,6 +54,23 @@
 
 
 //=============================================================================
+//      Internal test code
+//-----------------------------------------------------------------------------
+#if 1
+typedef struct TE3Foo { int foo; } TE3Foo;
+E3ARRAY_DECLARE(TE3Foo, e3foo);
+E3ARRAY_DEFINE(TE3Foo, e3foo, static);
+E3LIST_DECLARE(TE3Foo, e3foo);
+E3LIST_DEFINE(TE3Foo, e3foo, static);
+E3ARRAY_OR_LIST_DECLARE(TE3Foo, e3foo);
+E3ARRAY_OR_LIST_DEFINE(TE3Foo, e3foo, static);
+#endif
+
+
+
+
+
+//=============================================================================
 //      Protected (internal) functions
 //-----------------------------------------------------------------------------
 //      E3Sequence_Type : Return type -- array or list -- of sequence.
@@ -167,7 +184,7 @@ E3Sequence_SetLength(
 
 
 //=============================================================================
-//      E3Sequence_AddLength : Add length to senquence.
+//      E3Sequence_AddLength : Add length to sequence.
 //-----------------------------------------------------------------------------
 void
 E3Sequence_AddLength(
@@ -209,16 +226,23 @@ E3Sequence_AddLength(
 //=============================================================================
 //      E3Array_End : Return pointer to item AFTER last item in array.
 //-----------------------------------------------------------------------------
-char*
+//		Note : If the array is empty, return NULL.
+//-----------------------------------------------------------------------------
+TE3SequenceItem*
 E3Array_End(
 	TE3Array* arrayPtr,
 	TQ3Uns32 itemSize)
 {
+	TE3SequenceItem* endItemPtr;
+	
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
 	Q3_ASSERT(itemSize > 0);
 
-	return(arrayPtr->private_itemsPtr + itemSize*E3Array_Length(arrayPtr));
+	endItemPtr = arrayPtr->private_itemsPtr;
+	((char*) endItemPtr) += itemSize*E3Array_Length(arrayPtr);
+	
+	return(endItemPtr);
 }
 
 
@@ -230,7 +254,7 @@ E3Array_End(
 //-----------------------------------------------------------------------------
 //		Note : If no first item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3Array_FirstItem(
 	TE3Array* arrayPtr)
 {
@@ -241,8 +265,9 @@ E3Array_FirstItem(
 		goto failure;
 
 	return(E3Array_Begin(arrayPtr));
-
+	
 failure:
+
 	return(NULL);
 }
 
@@ -255,12 +280,14 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note : If no next item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3Array_NextItem(
 	TE3Array* arrayPtr,
 	TQ3Uns32 itemSize,
-	char* itemPtr)
+	TE3SequenceItem* itemPtr)
 {
+	TE3SequenceItem* nextItemPtr;
+	
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
 	Q3_ASSERT(itemSize > 0);
@@ -268,14 +295,16 @@ E3Array_NextItem(
 	if (itemPtr == NULL)
 		goto failure;
 
-	itemPtr += itemSize;
+	nextItemPtr = itemPtr;
+	((char*) nextItemPtr) += itemSize;
 
-	if (itemPtr == E3Array_End(arrayPtr, itemSize))
+	if (nextItemPtr == E3Array_End(arrayPtr, itemSize))
 		goto failure;
 
-	return(itemPtr);
-
+	return(nextItemPtr);
+	
 failure:
+
 	return(NULL);
 }
 
@@ -288,11 +317,13 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note : If no last item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3Array_LastItem(
 	TE3Array* arrayPtr,
 	TQ3Uns32 itemSize)
 {
+	TE3SequenceItem* lastItemPtr;
+	
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
 	Q3_ASSERT(itemSize > 0);
@@ -300,9 +331,13 @@ E3Array_LastItem(
 	if (E3Array_Length(arrayPtr) == 0)
 		goto failure;
 
-	return(E3Array_End(arrayPtr, itemSize) - itemSize);
-
+	lastItemPtr = E3Array_End(arrayPtr, itemSize);
+	((char*) lastItemPtr) -= itemSize;
+	
+	return(lastItemPtr);
+	
 failure:
+
 	return(NULL);
 }
 
@@ -315,12 +350,14 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note : If no previous item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3Array_PreviousItem(
 	TE3Array* arrayPtr,
 	TQ3Uns32 itemSize,
-	char* itemPtr)
+	TE3SequenceItem* itemPtr)
 {
+	TE3SequenceItem* previousItemPtr;
+	
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
 	Q3_ASSERT(itemSize > 0);
@@ -331,11 +368,13 @@ E3Array_PreviousItem(
 	if (itemPtr == E3Array_Begin(arrayPtr))
 		goto failure;
 
-	itemPtr -= itemSize;
+	previousItemPtr = itemPtr;
+	((char*) previousItemPtr) -= itemSize;
 
-	return(itemPtr);
-
+	return(previousItemPtr);
+	
 failure:
+
 	return(NULL);
 }
 
@@ -353,7 +392,7 @@ E3Array_Create(
 	TE3Array* arrayPtr,
 	TQ3Uns32 itemSize,
 	TQ3Uns32 length,
-	const char* thoseItemsPtr)
+	const TE3SequenceItem* thoseItemsPtr)
 {
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
@@ -378,11 +417,13 @@ E3Array_Create(
 		arrayPtr->private_itemsPtr = NULL;
 
 	return(kQ3Success);
-
-failure_2:
-	E3Sequence_Destroy(E3_UP_CAST(TE3Sequence*, arrayPtr));
 	
+	// Dead code to reverse Q3Memory_Allocate
+failure_2:
+
+	E3Sequence_Destroy(E3_UP_CAST(TE3Sequence*, arrayPtr));
 failure_1:
+
 	return(kQ3Failure);
 }
 
@@ -397,7 +438,7 @@ void
 E3Array_Destroy(
 	TE3Array* arrayPtr,
 	TQ3Uns32 itemSize,
-	void (*destroyItemFunc)(char*))
+	void (*destroyItemFunc)(TE3SequenceItem*))
 {
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
@@ -406,7 +447,7 @@ E3Array_Destroy(
 	// Destroy all items in array (in reverse order)
 	if (destroyItemFunc)
 	{
-		char* itemPtr;
+		TE3SequenceItem* itemPtr;
 
 		for (itemPtr = E3Array_LastItem(arrayPtr, itemSize);
 			itemPtr != NULL;
@@ -438,10 +479,10 @@ TQ3Status
 E3Array_DoForEach(
 	TE3Array* arrayPtr,
 	TQ3Uns32 itemSize,
-	TQ3Status (*itemParameterFunc)(char*, void*),
+	TQ3Status (*itemParameterFunc)(TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
-	char* itemPtr;
+	TE3SequenceItem* itemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
@@ -459,8 +500,9 @@ E3Array_DoForEach(
 	}
 
 	return(kQ3Success);
-
+	
 failure:
+
 	return(kQ3Failure);
 }
 
@@ -475,10 +517,10 @@ TQ3Boolean
 E3Array_AndForEach(
 	TE3Array* arrayPtr,
 	TQ3Uns32 itemSize,
-	TQ3Boolean (*itemParameterFunc)(char*, void*),
+	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
-	char* itemPtr;
+	TE3SequenceItem* itemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
@@ -508,10 +550,10 @@ TQ3Boolean
 E3Array_OrForEach(
 	TE3Array* arrayPtr,
 	TQ3Uns32 itemSize,
-	TQ3Boolean (*itemParameterFunc)(char*, void*),
+	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
-	char* itemPtr;
+	TE3SequenceItem* itemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayPtr);
@@ -538,16 +580,21 @@ E3Array_OrForEach(
 //      E3ListNode_Item : Return item for node.
 //-----------------------------------------------------------------------------
 #pragma mark -
-char*
+TE3SequenceItem*
 E3ListNode_Item(
 	TE3ListNode* nodePtr,
 	TQ3Uns32 itemOffset)
 {
+	TE3SequenceItem* itemPtr;
+	
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(nodePtr);
 	Q3_ASSERT(itemOffset >= sizeof(TE3ListNode));
 
-	return(((char*) nodePtr) + itemOffset);
+	itemPtr = (TE3SequenceItem*) nodePtr;
+	((char*) itemPtr) += itemOffset;
+	
+	return(itemPtr);
 }
 
 
@@ -590,7 +637,7 @@ E3ListNode_Item(
 //-----------------------------------------------------------------------------
 //		Note : If no first item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3List_FirstItem(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset)
@@ -607,8 +654,9 @@ E3List_FirstItem(
 	nodePtr = E3List_EndNode(listPtr)->private_nextNodePtr;
 
 	return(E3ListNode_Item(nodePtr, itemOffset));
-
+	
 failure:
+
 	return(NULL);
 }
 
@@ -621,11 +669,11 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note : If no next item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3List_NextItem(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset,
-	char* itemPtr)
+	TE3SequenceItem* itemPtr)
 {
 	TE3ListNode* nodePtr;
 
@@ -642,8 +690,9 @@ E3List_NextItem(
 		goto failure;
 
 	return(E3ListNode_Item(nodePtr, itemOffset));
-
+	
 failure:
+
 	return(NULL);
 }
 
@@ -656,7 +705,7 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note : If no last item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3List_LastItem(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset)
@@ -673,8 +722,9 @@ E3List_LastItem(
 	nodePtr = E3List_EndNode(listPtr)->private_prevNodePtr;
 
 	return(E3ListNode_Item(nodePtr, itemOffset));
-
+	
 failure:
+
 	return(NULL);
 }
 
@@ -687,11 +737,11 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note : If no previous item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3List_PreviousItem(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset,
-	char* itemPtr)
+	TE3SequenceItem* itemPtr)
 {
 	TE3ListNode* nodePtr;
 
@@ -708,8 +758,9 @@ E3List_PreviousItem(
 		goto failure;
 
 	return(E3ListNode_Item(nodePtr, itemOffset));
-
+	
 failure:
+
 	return(NULL);
 }
 
@@ -728,7 +779,7 @@ E3List_Create(
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
 	TQ3Uns32 length,
-	const char* thoseItemsPtr)
+	const TE3SequenceItem* thoseItemsPtr)
 {
 	TE3ListNode* endNodePtr;
 	TQ3Uns32 i;
@@ -752,25 +803,27 @@ E3List_Create(
 
 	for (i = 0; i < length; ++i)
 	{
-		char* itemPtr;
+		TE3SequenceItem* itemPtr;
 
 		// Push back new node (and initialize new item)
 		if ((itemPtr = E3List_PushBackItem(listPtr, itemOffset, itemSize, thoseItemsPtr)) == NULL)
 			goto failure_3;
 
 		if (thoseItemsPtr)
-			thoseItemsPtr += itemSize;
+			((char*) thoseItemsPtr) += itemSize;
 	}
 
 	return(kQ3Success);
-
-failure_3:
-	E3List_Destroy(listPtr, itemOffset, NULL);
-
-failure_2:
-	E3Sequence_Destroy(E3_UP_CAST(TE3Sequence*, listPtr));
 	
+	// Dead code to reverse E3List_PushBackItem
+failure_3:
+
+	E3List_Destroy(listPtr, itemOffset, NULL);
+failure_2:
+
+	E3Sequence_Destroy(E3_UP_CAST(TE3Sequence*, listPtr));
 failure_1:
+
 	return(kQ3Failure);
 }
 
@@ -785,7 +838,7 @@ void
 E3List_Destroy(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset,
-	void (*destroyItemFunc)(char*))
+	void (*destroyItemFunc)(TE3SequenceItem*))
 {
 	TE3ListNode* endNodePtr;
 	TE3ListNode* nodePtr;
@@ -831,7 +884,7 @@ void
 E3List_Clear(
 	TE3List* listPtr,
  	TQ3Uns32 itemOffset,
-	void (*destroyItemFunc)(char*))
+	void (*destroyItemFunc)(TE3SequenceItem*))
 {
 	TE3ListNode* endNodePtr;
 	TE3ListNode* nodePtr;
@@ -881,10 +934,10 @@ TQ3Status
 E3List_DoForEach(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset,
-	TQ3Status (*itemParameterFunc)(char*, void*),
+	TQ3Status (*itemParameterFunc)(TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
-	char* itemPtr;
+	TE3SequenceItem* itemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(listPtr);
@@ -902,8 +955,9 @@ E3List_DoForEach(
 	}
 
 	return(kQ3Success);
-
+	
 failure:
+
 	return(kQ3Failure);
 }
 
@@ -918,10 +972,10 @@ TQ3Boolean
 E3List_AndForEach(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset,
-	TQ3Boolean (*itemParameterFunc)(char*, void*),
+	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
-	char* itemPtr;
+	TE3SequenceItem* itemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(listPtr);
@@ -951,10 +1005,10 @@ TQ3Boolean
 E3List_OrForEach(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset,
-	TQ3Boolean (*itemParameterFunc)(char*, void*),
+	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
-	char* itemPtr;
+	TE3SequenceItem* itemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(listPtr);
@@ -982,17 +1036,17 @@ E3List_OrForEach(
 //-----------------------------------------------------------------------------
 //		Note : If unable to insert (out of memory), return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3List_InsertBeforeNodeItem(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
 	TE3ListNode* nextNodePtr,
-	const char* thatItemPtr)
+	const TE3SequenceItem* thatItemPtr)
 {
 	TE3ListNode* currNodePtr;
 	TE3ListNode* prevNodePtr;
-	char* itemPtr;
+	TE3SequenceItem* itemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(listPtr);
@@ -1021,8 +1075,9 @@ E3List_InsertBeforeNodeItem(
 		memcpy(itemPtr, thatItemPtr, itemSize);
 
 	return(itemPtr);
-
+	
 failure:
+
 	return(NULL);
 }
 
@@ -1059,7 +1114,7 @@ void
 E3List_EraseNode(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset,
-	void (*destroyItemFunc)(char*),
+	void (*destroyItemFunc)(TE3SequenceItem*),
 	TE3ListNode* nodePtr)
 {
 	TE3ListNode* prevNodePtr;
@@ -1100,7 +1155,7 @@ TQ3Status
 E3List_PopBack(
 	TE3List* listPtr,
 	TQ3Uns32 itemOffset,
-	void (*destroyItemFunc)(char*))
+	void (*destroyItemFunc)(TE3SequenceItem*))
 {
 	TE3ListNode* nodePtr;
 
@@ -1116,8 +1171,9 @@ E3List_PopBack(
 	E3List_EraseNode(listPtr, itemOffset, destroyItemFunc, nodePtr);
 
 	return(kQ3Success);
-
+	
 failure:
+
 	return(kQ3Failure);
 }
 
@@ -1280,7 +1336,7 @@ E3List_SpliceBeforeNodeListNode(
 //-----------------------------------------------------------------------------
 //		Note : If no first item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3ArrayOrList_FirstItem(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset)
@@ -1300,12 +1356,12 @@ E3ArrayOrList_FirstItem(
 //-----------------------------------------------------------------------------
 //		Note : If no next item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3ArrayOrList_NextItem(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	char* itemPtr)
+	TE3SequenceItem* itemPtr)
 {
 	if (E3ArrayOrList_IsArray(arrayOrListPtr))
 		return(E3Array_NextItem(E3_UP_CAST(TE3Array*, arrayOrListPtr), itemSize, itemPtr));
@@ -1322,7 +1378,7 @@ E3ArrayOrList_NextItem(
 //-----------------------------------------------------------------------------
 //		Note : If no last item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3ArrayOrList_LastItem(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
@@ -1344,12 +1400,12 @@ E3ArrayOrList_LastItem(
 //-----------------------------------------------------------------------------
 //		Note : If no previous item, return NULL.
 //-----------------------------------------------------------------------------
-char*
+TE3SequenceItem*
 E3ArrayOrList_PreviousItem(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	char* itemPtr)
+	TE3SequenceItem* itemPtr)
 {
 	if (E3ArrayOrList_IsArray(arrayOrListPtr))
 		return(E3Array_PreviousItem(E3_UP_CAST(TE3Array*, arrayOrListPtr), itemSize, itemPtr));
@@ -1369,7 +1425,7 @@ E3ArrayOrList_Destroy(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	void (*destroyItemFunc)(char*))
+	void (*destroyItemFunc)(TE3SequenceItem*))
 {
 	if (E3ArrayOrList_IsArray(arrayOrListPtr))
 		E3Array_Destroy(
@@ -1398,7 +1454,7 @@ E3ArrayOrList_DoForEach(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	TQ3Status (*itemParameterFunc)(char*, void*),
+	TQ3Status (*itemParameterFunc)(TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
 	if (E3ArrayOrList_IsArray(arrayOrListPtr))
@@ -1427,7 +1483,7 @@ E3ArrayOrList_AndForEach(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	TQ3Boolean (*itemParameterFunc)(char*, void*),
+	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
 	if (E3ArrayOrList_IsArray(arrayOrListPtr))
@@ -1456,7 +1512,7 @@ E3ArrayOrList_OrForEach(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	TQ3Boolean (*itemParameterFunc)(char*, void*),
+	TQ3Boolean (*itemParameterFunc)(const TE3SequenceItem*, void*),
 	void* parameterPtr)
 {
 	if (E3ArrayOrList_IsArray(arrayOrListPtr))
@@ -1487,12 +1543,12 @@ E3ArrayOrList_UseArray(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	void (*relocateItemFunc)(char*))
+	void (*relocateItemFunc)(TE3SequenceItem*))
 {
 	TQ3Uns32 length;
 	TE3Array array;
-	char* listItemPtr;
-	char* arrayItemPtr;
+	TE3SequenceItem* listItemPtr;
+	TE3SequenceItem* arrayItemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayOrListPtr);
@@ -1514,7 +1570,7 @@ E3ArrayOrList_UseArray(
 			arrayItemPtr = E3Array_Begin(&array);
 		listItemPtr != NULL;
 		listItemPtr = E3List_NextItem(E3_UP_CAST(TE3List*, arrayOrListPtr), itemOffset, listItemPtr),
-			arrayItemPtr += itemSize)
+			((char*) arrayItemPtr) += itemSize)
 	{
 		// Move current item
 		memcpy(arrayItemPtr, listItemPtr, itemSize);
@@ -1529,11 +1585,13 @@ E3ArrayOrList_UseArray(
 
 	// Use array structure
 	arrayOrListPtr->private_array = array;
-
+	
 success:
-	return(kQ3Success);
 
+	return(kQ3Success);
+	
 failure:
+
 	return(kQ3Failure);
 }
 
@@ -1551,12 +1609,12 @@ E3ArrayOrList_UseList(
 	TE3ArrayOrList* arrayOrListPtr,
 	TQ3Uns32 itemOffset,
 	TQ3Uns32 itemSize,
-	void (*relocateItemFunc)(char*))
+	void (*relocateItemFunc)(TE3SequenceItem*))
 {
 	TQ3Uns32 length;
 	TE3Array array;
-	char* listItemPtr;
-	char* arrayItemPtr;
+	TE3SequenceItem* listItemPtr;
+	TE3SequenceItem* arrayItemPtr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(arrayOrListPtr);
@@ -1581,7 +1639,7 @@ E3ArrayOrList_UseList(
 			arrayItemPtr = E3Array_Begin(&array);
 		listItemPtr != NULL;
 		listItemPtr = E3List_NextItem(E3_UP_CAST(TE3List*, arrayOrListPtr), itemOffset, listItemPtr),
-			arrayItemPtr += itemSize)
+			((char*) arrayItemPtr) += itemSize)
 	{
 		// Move current item
 		memcpy(listItemPtr, arrayItemPtr, itemSize);
@@ -1593,14 +1651,13 @@ E3ArrayOrList_UseList(
 
 	// Destroy array structure
 	E3Array_Destroy(&array, itemSize, NULL);
-
+	
 success:
-	return(kQ3Success);
 
+	return(kQ3Success);
+	
 failure:
+
 	arrayOrListPtr->private_array = array;
 	return(kQ3Failure);
 }
-
-
-

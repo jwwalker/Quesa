@@ -78,11 +78,11 @@ TQ3Status			E3Mesh_GetComponentNumEdges(TQ3GeometryObject theMesh, TQ3MeshCompon
 TQ3Status			E3Mesh_GetComponentBoundingBox(TQ3GeometryObject theMesh, TQ3MeshComponent component, TQ3BoundingBox *boundingBox);
 TQ3Status			E3Mesh_GetComponentOrientable(TQ3GeometryObject theMesh, TQ3MeshComponent component, TQ3Boolean *orientable);
 TQ3Status			E3Mesh_GetVertexCoordinates(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, TQ3Point3D *coordinates);
+TQ3Status			E3Mesh_SetVertexCoordinates(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, const TQ3Point3D *coordinates);
 TQ3Status			E3Mesh_GetVertexIndex(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, TQ3Uns32 *index);
 TQ3Status			E3Mesh_GetVertexOnBoundary(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, TQ3Boolean *onBoundary);
 TQ3Status			E3Mesh_GetVertexComponent(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, TQ3MeshComponent *component);
 TQ3Status			E3Mesh_GetVertexAttributeSet(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, TQ3AttributeSet *attributeSet);
-TQ3Status			E3Mesh_SetVertexCoordinates(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, const TQ3Point3D *coordinates);
 TQ3Status			E3Mesh_SetVertexAttributeSet(TQ3GeometryObject theMesh, TQ3MeshVertex vertex, TQ3AttributeSet attributeSet);
 TQ3Status			E3Mesh_GetFaceNumVertices(TQ3GeometryObject theMesh, TQ3MeshFace face, TQ3Uns32 *numVertices);
 TQ3Status			E3Mesh_GetFacePlaneEquation(TQ3GeometryObject theMesh, TQ3MeshFace face, TQ3PlaneEquation *planeEquation);
