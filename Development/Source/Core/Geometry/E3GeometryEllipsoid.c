@@ -213,11 +213,29 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 			
 			case kQ3SubdivisionMethodWorldSpace:
 				// keep the length of any side less than or equal to c1;
-				// so divide the diameter by c1
-				upts = (TQ3Uns32) ((kQ32Pi * Q3Vector3D_Length(&geomData->majorRadius))
-						/ subdivisionData.c1);
-				vpts = (TQ3Uns32) ((kQ32Pi * Q3Vector3D_Length(&geomData->orientation))
-						/ subdivisionData.c1);
+				// so divide the circumference by c1
+				{
+					TQ3Matrix4x4	localToWorld;
+					float			majLen, minLen, orientLen, bigLen;
+					
+					// Find the lengths of the vectors, in world space.
+					Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
+					Q3Vector3D_Transform( &geomData->majorRadius, &localToWorld, &vec );
+					majLen = Q3Vector3D_Length( &vec );
+					Q3Vector3D_Transform( &geomData->minorRadius, &localToWorld, &vec );
+					minLen = Q3Vector3D_Length( &vec );
+					Q3Vector3D_Transform( &geomData->orientation, &localToWorld, &vec );
+					orientLen = Q3Vector3D_Length( &vec );
+					
+					// The u direction depends only on the major and minor axes
+					bigLen = E3Num_Max( majLen, minLen );
+					upts = (TQ3Uns32) ((kQ32Pi * bigLen) / subdivisionData.c1);
+					
+					// In the v direction, the orientation acts as one of the radii.
+					// Here we use pi rather than 2pi, since v goes half way around.
+					bigLen = E3Num_Max( bigLen, orientLen );
+					vpts = (TQ3Uns32) ((kQ3Pi * bigLen) / subdivisionData.c1);
+				}
 				break;
 
 			case kQ3SubdivisionMethodScreenSpace:

@@ -190,7 +190,6 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 	TQ3GeometryObject			theTriMesh;
 	TQ3Uns32 u,v;
 	float uang=0.0f, duang, vang, dvang;
-	float majorLen, minorLen;		// length of major and minor axis
 	TQ3Point3D *points;
 	TQ3Vector3D *normals;
 	float uDiff, vDiff;
@@ -221,18 +220,28 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 				break;
 			
 			case kQ3SubdivisionMethodWorldSpace:
-				// keep the length of any side less than or equal to c1;
-				// so divide the diameter by c1
-				majorLen = Q3Vector3D_Length(&geomData->majorRadius);
-				minorLen = Q3Vector3D_Length(&geomData->minorRadius);
-				upts = (TQ3Uns32) (kQ32Pi * ( E3Num_Max(majorLen, minorLen) +
-					Q3Vector3D_Length(&geomData->orientation) * geomData->ratio )
-					/ subdivisionData.c1);
-				// similarly for vpts and c1, but this time use the diameter
-				// around a single section of the torus
-				vpts = (TQ3Uns32) (kQ32Pi * Q3Vector3D_Length(&geomData->orientation) 
-					* E3Num_Max(geomData->ratio, 1.0f)
-					/ subdivisionData.c1);
+				{
+					TQ3Matrix4x4	localToWorld;
+					float majorLen, minorLen, orientLen;
+					
+					// Find the lengths of the vectors, in world space.
+					Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
+					Q3Vector3D_Transform( &geomData->majorRadius, &localToWorld, &vec );
+					majorLen = Q3Vector3D_Length( &vec );
+					Q3Vector3D_Transform( &geomData->minorRadius, &localToWorld, &vec );
+					minorLen = Q3Vector3D_Length( &vec );
+					Q3Vector3D_Transform( &geomData->orientation, &localToWorld, &vec );
+					orientLen = Q3Vector3D_Length( &vec );
+
+					// keep the length of any side less than or equal to c1;
+					// so divide the circumference by c1
+					upts = (TQ3Uns32) (kQ32Pi * ( E3Num_Max(majorLen, minorLen) +
+						orientLen * geomData->ratio ) / subdivisionData.c1);
+					// similarly for vpts and c1, but this time use the circumference
+					// around a single section of the torus
+					vpts = (TQ3Uns32) (kQ32Pi * orientLen * E3Num_Max(geomData->ratio, 1.0f)
+						/ subdivisionData.c1);
+				}
 				break;
 
 			case kQ3SubdivisionMethodScreenSpace:
