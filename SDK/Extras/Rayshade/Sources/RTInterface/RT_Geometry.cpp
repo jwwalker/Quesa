@@ -110,13 +110,16 @@ TQ3Status RT_SubmitTriangle(
 				TQ3Point3D			inVertices[3],
 				TQ3Vector3D			inNormals[3],
 				TQ3Param2D			inParams[3])
+
 {
 	Vector	theVertices[3];
 	Vector	theNormals[3];
 	Vec2d	theParams[3];
 	Geom	*theTriangle = NULL;
 	TQ3Status result;
-
+//&&
+	CTexture *saveCurrentTexture;
+//&&
 	if ((inTriangleType == kRTTriangleType_Phong) && (inNormals == NULL))
 		return kQ3Failure;
 	
@@ -192,8 +195,16 @@ TQ3Status RT_SubmitTriangle(
 		                   	NULL,NULL,NULL,
 		                   	&theParams[0],&theParams[1],&theParams[2],0);					
 	}
-	
+//&&
+	saveCurrentTexture=	inDrawContext->currentTexture;
+	if (inParams == NULL)
+		inDrawContext->currentTexture=NULL;
+
+//&&
 	result = rt_SubmitGeometry(inDrawContext,theTriangle);
+//&&
+	inDrawContext->currentTexture=	saveCurrentTexture;
+//&&
 	
 	return result;
 }
