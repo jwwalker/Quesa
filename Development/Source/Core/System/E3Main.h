@@ -92,6 +92,7 @@ TQ3Boolean			E3Shape_ContainsElement(TQ3ShapeObject theShape, TQ3ElementType the
 TQ3Status			E3Shape_GetNextElementType(TQ3ShapeObject theShape, TQ3ElementType *theType);
 TQ3Status			E3Shape_EmptyElements(TQ3ShapeObject theShape);
 TQ3Status			E3Shape_ClearElement(TQ3ShapeObject theShape, TQ3ElementType theType);
+TQ3Status			E3Shape_SubmitElements( TQ3ShapeObject inShape, TQ3ViewObject inView );
 
 TQ3Status			E3Bitmap_Empty(TQ3Bitmap *theBitmap);
 TQ3Uns32			E3Bitmap_GetImageSize(TQ3Uns32 theWidth, TQ3Uns32 theHeight);
