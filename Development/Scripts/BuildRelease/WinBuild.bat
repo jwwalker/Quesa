@@ -1,2 +1,2 @@
 "C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Bin\msdev.exe" "..\..\Projects\Windows\Quesa.dsw" /make "Quesa - Win32 Release" /rebuild
-"C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Bin\msdev.exe" "..\..\..\SDK\Examples\Geom Test\Geom Test.dsw" /make "Geom Test - Win32 Release" /rebuild
+"C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Bin\msdev.exe" "..\..\..\SDK\Examples\Geom Test\Geom Test.dsp" /make "Geom Test - Win32 Release" /rebuild
