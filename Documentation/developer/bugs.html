@@ -66,10 +66,42 @@ For 'Possible' bugs, please consult the relevant Quesa source code: this
 will typically have additional information on the nature of the problem.
 </p>
 
-<!-- Next bug ID, 49 -->
+<!-- Next bug ID, 61 -->
 <table border=1 width=90% align=center>
 <tr><th>Severity</th><th>ID</th><th>Description</th>
 </tr>
+
+<tr><td>High</td><td>00057</td><td>
+Add picking support.
+</td></tr>
+
+<tr><td>High</td><td>00058</td><td>
+Finish Mesh implementation.
+</td></tr>
+
+<tr><td>Medium</td><td>00049</td><td>
+Implement kQ3XMethodTypeCameraFrustumMatrix method for view plane cameras.
+</td></tr>
+
+<tr><td>Medium</td><td>00050</td><td>
+IR doesn't support specular colour/control at the vertex level.
+</td></tr>
+
+<tr><td>Medium</td><td>00051</td><td>
+IR doesn't support ambient coefficient.
+</td></tr>
+
+<tr><td>Medium</td><td>00052</td><td>
+IR doesn't support alpha in textures.
+</td></tr>
+
+<tr><td>Medium</td><td>00053</td><td>
+Make use of kQ3XMethodTypeRendererIsBoundingBoxVisible method for culling and support in IR.
+</td></tr>
+
+<tr><td>Medium</td><td>00056</td><td>
+Memory leak when rendering with textures.
+</td></tr>
 
 <tr><td>Medium</td><td>00005</td><td>
 Storage objects can not be duplicated, and will be rejected by Q3Object_Duplicate.
@@ -173,6 +205,21 @@ Pixmap/bitmap markers are culled by OpenGL if they are partially off-screen, sho
 
 <tr><td>Minor</td><td>00047</td><td>
 Wireframe renderer doesn't support pixmap/bitmap markers.
+</td></tr>
+<tr><td>Minor</td><td>00054</td><td>
+Qut, Carbon apps unable to show FPS on screen in Mac OS X (don't draw FPS over GL area).
+</td></tr>
+
+<tr><td>Minor</td><td>00055</td><td>
+Add error testing with glError in debug builds.
+</td></tr>
+
+<tr><td>Minor</td><td>00060</td><td>
+Identify better specular control->GL_SHININESS mapping, create a test app to compare values across range.
+</td></tr>
+
+<tr><td>Possible</td><td>00059</td><td>
+Add simple error/warning handlers that print to stderr/DebugStr in debug builds.
 </td></tr>
 
 <tr><td>Possible</td><td>00003</td><td>
@@ -391,6 +438,10 @@ for this documentation.
 	<li> Clarification: In the introduction to the section on "Managing Matrices" (p. 1208), the document notes: "Any of the source or destination matrices may be the same matrix. The source matrices are unchanged, unless one of them is also specified as the destination matrix." Although this statement is correct, it should be reiterated for each function with more than one matrix parameter: Q3Matrix3x3_Copy, Q3Matrix4x4_Copy, Q3Matrix3x3_Transpose, Q3Matrix4x4_Transpose, Q3Matrix3x3_Invert, Q3Matrix4x4_Invert, Q3Matrix3x3_Adjoint, Q3Matrix3x3_Multiply and Q3Matrix4x4_Multiply. 
 	<li> Misprint: In the description of Q3Quaternion_SetMatrix, the matrix parameter is described as a "4-by-by" matrix. 
 </ul>
+
+<p>
+These items can be noted when HeaderDoc comments are added to QuesaMath.h.
+</p>
 
 
 
