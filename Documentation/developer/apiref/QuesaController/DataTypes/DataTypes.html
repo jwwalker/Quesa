@@ -1,0 +1,83 @@
+<html><head><title>Defined Types</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Defined Types</h1></font><hr><br>
+<a name="//apple_ref/c/tdef/TQ3ChannelGetMethod"></a>
+<h3><a name="TQ3ChannelGetMethod">TQ3ChannelGetMethod</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3ChannelGetMethod)</b>(
+                            TQ3ControllerRef    controllerRef,
+                            TQ3Uns32            channel,
+                            void                *data,
+                            TQ3Uns32            *dataSize);</tt><br>
+</blockquote>
+<p>Channel get method callback.
+<br><br>
+At most kQ3ControllerSetChannelMaxDataSize bytes of data can be returned.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller the callback is invoked for.</td><tr>
+<tr valign=top><td><tt>channel</tt></td><td>An index into the list of channels, from 0.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>Receives the data for the channel.</td><tr>
+<tr valign=top><td><tt>dataSize</tt></td><td>Will be set to the number of bytes pointed to by data,
+and should receive the number of bytes written to data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3ChannelSetMethod"></a>
+<h3><a name="TQ3ChannelSetMethod">TQ3ChannelSetMethod</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3ChannelSetMethod)</b>(
+                            TQ3ControllerRef    controllerRef,
+                            TQ3Uns32            channel,
+                            const void          *data,
+                            TQ3Uns32            dataSize);</tt><br>
+</blockquote>
+<p>Channel set method callback.
+<br><br>
+At most kQ3ControllerSetChannelMaxDataSize bytes of data will be supplied.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller the callback is invoked for.</td><tr>
+<tr valign=top><td><tt>channel</tt></td><td>An index into the list of channels, from 0.</td><tr>
+<tr valign=top><td><tt>data</tt></td><td>The new data for the channel.</td><tr>
+<tr valign=top><td><tt>dataSize</tt></td><td>The number of bytes pointed to by data.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<a name="//apple_ref/c/tdef/TQ3CursorTrackerNotifyFunc"></a>
+<h3><a name="TQ3CursorTrackerNotifyFunc">TQ3CursorTrackerNotifyFunc</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(void, <b>TQ3CursorTrackerNotifyFunc)</b>(void);</tt><br>
+</blockquote>
+<p>Cursor tracker notification callback.
+ </p>
+<hr>
+<a name="//apple_ref/c/tdef/TQ3TrackerNotifyFunc"></a>
+<h3><a name="TQ3TrackerNotifyFunc">TQ3TrackerNotifyFunc</a></h3>
+<blockquote><tt>typedef CALLBACK_API_C(TQ3Status, <b>TQ3TrackerNotifyFunc)</b>(
+                            TQ3TrackerObject    trackerObject,
+                            TQ3ControllerRef    controllerRef);</tt><br>
+</blockquote>
+<p>Tracker notification callback.
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>trackerObject</tt></td><td>The tracker the callback is invoked for.</td><tr>
+<tr valign=top><td><tt>controllerRef</tt></td><td>The controller associated with the tracker.</td><tr>
+</table>
+</blockquote>
+<b>Result:</b> Success or failure of the operation.
+ 
+<hr>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+</body></html>
