@@ -77,37 +77,25 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 #if Q3_DEBUG
 	// Generate an assertion error if a test fails
 	#define Q3_ASSERT(_theTest)													\
-				do																\
-					{															\
-					if (!(_theTest))											\
-						E3Assert(__FILE__, __LINE__, #_theTest);				\
-					}															\
-				while (0)
+				((_theTest) ?													\
+					((void) 0) :												\
+					E3Assert(__FILE__, __LINE__, #_theTest)						\
+				)
 
 
 	// Generates an assertion error for a bad pointer
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
-				do																\
-					{															\
-					Q3_ASSERT(Q3_VALID_PTR(_thePtr));							\
-					}															\
-				while (0)
+				Q3_ASSERT(Q3_VALID_PTR(_thePtr))
 
 #else
 	// Do nothing
 	#define Q3_ASSERT(_theTest)													\
-				do																\
-					{															\
-					}															\
-				while (0)
+				((void) 0)
 
 
 	// Do nothing
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
-				do																\
-					{															\
-					}															\
-				while (0)
+				((void) 0)
 #endif
 
 
