@@ -48,6 +48,7 @@
 //-----------------------------------------------------------------------------
 E3Globals gE3Globals = {
 	kQ3False,				// systemInitialised;
+	kQ3False,				// systemDoBottleneck;
 	0,						// systemRefCount;
 	0,						// classTree;
 	0,						// classTreeRoot;
@@ -58,7 +59,6 @@ E3Globals gE3Globals = {
 	kQ3False,				// errMgrClearWarning;
 	kQ3False,				// errMgrClearNotice;
 	kQ3False,				// errMgrClearPlatform;
-	kQ3False,				// errMgrNeedsClearing;
 	kQ3False,				// errMgrIsFatalError;
 	kQ3ErrorNone,			// errMgrOldestError;
 	kQ3WarningNone,			// errMgrOldestWarning;
