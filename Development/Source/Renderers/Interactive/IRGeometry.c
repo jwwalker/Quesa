@@ -1305,7 +1305,7 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 	for (n = 0; n < 3; n++)
 		theUVs[n] = ir_geom_attribute_get_uv(instanceData, geomData->vertices[n].attributeSet);
 
-	canTexture = (TQ3Boolean) (theUVs[0] != NULL || theUVs[1] != NULL || theUVs[2] != NULL);
+	canTexture = (TQ3Boolean) (theUVs[0] != NULL && theUVs[1] != NULL && theUVs[2] != NULL);
 
 
 
