@@ -5,7 +5,7 @@
         Sample file to create an Importer Plug-In for Quesa.
         
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -193,7 +193,6 @@ static FILE *sLogFile = NULL;
 #else
 #define REPORT(a)
 #endif
-
 
 
 
@@ -572,7 +571,7 @@ parse3DSChunk (TQ3FileObject theFile, TQ3Uns32 endPos, TparamData *paramData)
 				for (n = 0; (n < numVerts) && continueParsing; n++) {
 					TQ3Point3D vertex;
 					continueParsing = (TQ3Boolean)(Q3Point3D_Read (&vertex, theFile) == kQ3Success);
-					pointList[n].x = -vertex.x;
+					pointList[n].x = vertex.x;
 					pointList[n].y = vertex.z;
 					pointList[n].z = -vertex.y;
 					REPORT ((sLogFile, "  (%g, %g, %g)\n", vertex.x, vertex.y, vertex.z));
