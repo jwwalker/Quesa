@@ -40,6 +40,15 @@
 
 
 
+static TQ3Status
+e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data		*fileFormatPrivate,
+					TQ3Object		theObject,
+					TQ3ObjectType		objectType,
+					const void			*objectData,
+					TQ3Boolean*			wroteReference );
+
+
 
 //=============================================================================
 //      e3ffw_3DMF_filter_in_toc : Adds the object to the TOC if needed and
@@ -358,6 +367,7 @@ E3FFW_3DMF_Group(TQ3ViewObject       theView,
 	TQ3GroupPosition					position;
 	TQ3Object							subObject;
 	TQ3DisplayGroupState				groupState;
+	TQ3Boolean							wroteReference;
 	
 	if(Q3Group_GetType (theGroup) == kQ3GroupTypeDisplay){
 		Q3DisplayGroup_GetState (theGroup, &groupState);
@@ -366,23 +376,28 @@ E3FFW_3DMF_Group(TQ3ViewObject       theView,
 		}
 		
  	// submit the group start tag
-	qd3dStatus = E3FFW_3DMF_TraverseObject (theView,
+	qd3dStatus = e3ffw_3DMF_TraverseObject_CheckRef (theView,
 		(TE3FFormatW3DMF_Data*)fileFormatPrivate, theGroup,
-		Q3Object_GetLeafType (theGroup), theGroup->instanceData);
+		Q3Object_GetLeafType (theGroup), theGroup->instanceData, &wroteReference);
+
+	// If we actually wrote a reference instead of a group start tag, then we don't
+	// want to write contents and group end.
+	if (wroteReference == kQ3True)
+		{
+		 return qd3dStatus;
+		}
 	
  	// submit the group contents
 	for(Q3Group_GetFirstPosition (theGroup, &position);
-		(position != NULL);
-		Q3Group_GetNextPosition (theGroup, &position)){
+		(position != NULL) && (qd3dStatus == kQ3Success);
+		Q3Group_GetNextPosition (theGroup, &position))
+		{
 		qd3dStatus = Q3Group_GetPositionObject (theGroup, position, &subObject);
 		if(qd3dStatus != kQ3Success)
 			break;
 		qd3dStatus = Q3Object_Submit (subObject, theView);
 		
 		Q3Object_Dispose (subObject);
-		
-		if(qd3dStatus != kQ3Success)
-			break;
 		}
 		
  	// submit the group end tag
@@ -575,6 +590,28 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 					TQ3Object		theObject,
 					TQ3ObjectType		objectType,
 					const void			*objectData)
+{
+	TQ3Boolean	wroteRef;
+	return e3ffw_3DMF_TraverseObject_CheckRef( theView, fileFormatPrivate, theObject,
+		 objectType, objectData, &wroteRef );
+}							
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_TraverseObject_CheckRef: Do the traverse.
+//-----------------------------------------------------------------------------
+//      This is identical to E3FFW_3DMF_TraverseObject, except that it informs
+//		the caller whether it wrote a reference object.
+//		E3FFW_3DMF_Group needs to know.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
+					TE3FFormatW3DMF_Data		*fileFormatPrivate,
+					TQ3Object		theObject,
+					TQ3ObjectType		objectType,
+					const void			*objectData,
+					TQ3Boolean*			wroteReference )
 							
 {	TQ3Status		qd3dStatus = kQ3Success;
 	TQ3Object		submittedObject;
@@ -652,6 +689,8 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 		}
 exit:
 
+	*wroteReference = (fileFormatPrivate->lastObjectType == kQ3ShapeTypeReference)? kQ3True : kQ3False;
+	
 	fileFormatPrivate->lastObjectType = old_lastObjectType;
 	fileFormatPrivate->lastObject = old_lastObject;
 	fileFormatPrivate->lastTocIndex = old_lastTocIndex;
