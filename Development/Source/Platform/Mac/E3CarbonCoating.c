@@ -37,20 +37,16 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 
-//=============================================================================
-//      Constants
-//-----------------------------------------------------------------------------
 
-//=============================================================================
-//      Internal functions
-//-----------------------------------------------------------------------------
+
+
 
 //=============================================================================
 //      Public functions -- for all targets
 //-----------------------------------------------------------------------------
-//	GetWindowContentRect
+//	GetWindowContentRect : Get the content rect of a window.
 //-----------------------------------------------------------------------------
-void	GetWindowContentRect(CWindowPtr window, Rect *globalBounds)
+void GetWindowContentRect(CWindowPtr window, Rect *globalBounds)
 {
 	#if TARGET_API_MAC_CARBON
 		GetWindowBounds( window, kWindowContentRgn, globalBounds );
@@ -59,10 +55,14 @@ void	GetWindowContentRect(CWindowPtr window, Rect *globalBounds)
 	#endif
 }
 
+
+
+
+
+//=============================================================================
+//	GetWindowPortRect : Get the port rect of a window.
 //-----------------------------------------------------------------------------
-//	GetWindowPortRect
-//-----------------------------------------------------------------------------
-void	GetWindowPortRect(CWindowPtr window, Rect *outRect)
+void GetWindowPortRect(CWindowPtr window, Rect *outRect)
 {
 	#if TARGET_API_MAC_CARBON
 		GetPortBounds( GetWindowPort(window), outRect );
@@ -71,10 +71,14 @@ void	GetWindowPortRect(CWindowPtr window, Rect *outRect)
 	#endif
 }
 
+
+
+
+
+//=============================================================================
+//	GetWindowContentRgn : Get the content region of a window.
 //-----------------------------------------------------------------------------
-//	GetWindowContentRgn
-//-----------------------------------------------------------------------------
-void	GetWindowContentRegion(CWindowPtr window, RgnHandle contentRgn)
+void GetWindowContentRegion(CWindowPtr window, RgnHandle contentRgn)
 {
 	#if TARGET_API_MAC_CARBON
 		GetWindowRegion( window, kWindowContentRgn, contentRgn );
@@ -83,20 +87,29 @@ void	GetWindowContentRegion(CWindowPtr window, RgnHandle contentRgn)
 	#endif
 }
 
-#if !TARGET_API_MAC_CARBON
+
+
+
+
 //=============================================================================
 //      Public functions -- for pre-Carbon targets
 //-----------------------------------------------------------------------------
-//	GetPortBounds
+//	GetPortBounds : Get the bounds for a port.
 //-----------------------------------------------------------------------------
-Rect* GetPortBounds(CGrafPtr port, Rect* outRect)
+#if !TARGET_API_MAC_CARBON
+
+Rect *GetPortBounds(CGrafPtr port, Rect* outRect)
 {
 	if (outRect) *outRect = port->portRect;
 	return &port->portRect;
 }
 
-//-----------------------------------------------------------------------------
-//	GetPortVisibleRegion
+
+
+
+
+//=============================================================================
+//	GetPortVisibleRegion : Get the visible region for a port.
 //-----------------------------------------------------------------------------
 RgnHandle GetPortVisibleRegion(CGrafPtr port, RgnHandle visRgn)
 {
@@ -104,13 +117,32 @@ RgnHandle GetPortVisibleRegion(CGrafPtr port, RgnHandle visRgn)
 	return visRgn;
 }
 
+
+
+
+
+//=============================================================================
+//	GetRegionBounds : Get the bounds of a region.
 //-----------------------------------------------------------------------------
-//	GetPortBounds
-//-----------------------------------------------------------------------------
-Rect *	GetRegionBounds(RgnHandle region, Rect *bounds)
+Rect *GetRegionBounds(RgnHandle region, Rect *bounds)
 {
 	if (bounds) *bounds = (*region)->rgnBBox;
 	return &(*region)->rgnBBox;
 }
 
-#endif     // end of: non-Carbon functions
+
+
+
+
+//=============================================================================
+//	IsRegionRectangular : Is a region rectangular?
+//-----------------------------------------------------------------------------
+Boolean IsRegionRectangular(RgnHandle region)
+{
+	return((*region)->rgnSize == 10);
+}
+
+#endif // !TARGET_API_MAC_CARBON
+
+
+

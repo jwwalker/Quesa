@@ -37,24 +37,52 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
+// Include files go here
+
+
+
 
 
 //=============================================================================
-//      Functions used in both Carbon and pre-Carbon targets
+//		C++ preamble
 //-----------------------------------------------------------------------------
-void	GetWindowContentRect(CWindowPtr window, Rect *globalBounds);
-void	GetWindowContentRegion(CWindowPtr window, RgnHandle contentRgn);
-void	GetWindowPortRect(CWindowPtr window, Rect* outRect);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
+
+
+
+
+//=============================================================================
+//      Function prototypes
+//-----------------------------------------------------------------------------
+//  Functions used in both Carbon and Classic targets
+void		GetWindowContentRect(CWindowPtr window, Rect *globalBounds);
+void		GetWindowContentRegion(CWindowPtr window, RgnHandle contentRgn);
+void		GetWindowPortRect(CWindowPtr window, Rect* outRect);
+
+
+//  Functions used only in Classic targets (i.e., are already found in Carbon)
 #if !TARGET_API_MAC_CARBON
-//=============================================================================
-//      Functions used only in pre-Carbon targets
-//		(because they're defined by the Carbon headers already)
-//-----------------------------------------------------------------------------
-Rect*	GetPortBounds(CGrafPtr port, Rect* outRect);
-RgnHandle GetPortVisibleRegion(CGrafPtr port, RgnHandle visRgn);
-Rect *	GetRegionBounds(RgnHandle region, Rect *bounds);
 
-#endif     // end of: non-Carbon functions
+Rect		*GetPortBounds(CGrafPtr port, Rect* outRect);
+RgnHandle	GetPortVisibleRegion(CGrafPtr port, RgnHandle visRgn);
+Rect		*GetRegionBounds(RgnHandle region, Rect *bounds);
+Boolean		IsRegionRectangular(RgnHandle region);
+
+#endif // !TARGET_API_MAC_CARBON
+
+
+
+
+
+//=============================================================================
+//		C++ postamble
+//-----------------------------------------------------------------------------
+#ifdef __cplusplus
+}
+#endif
 
 #endif
+
