@@ -51,6 +51,11 @@ typedef struct {
 	void					*mWindow;
 	TQ3Area					mArea;
 	TQ3Uns32				mFlags;
+	TQ3Uns32				mCurrentMode;		// current mode button (e.g. kQ3ViewerFlagButtonOrbit)
+	TQ3Uns32				mTrackingMode;		// kNotTracking, etc.
+	TQ3Uns32				mTrackingData;		// which button we're tracking, etc.
+	TQ3Boolean				mTrackingValid;		// false when user cancels by dragging out of bounds
+	TQ3Int32				mTrackH, mTrackV;	// last h/v mouse position during track
 } TQ3ViewerData;
 
 typedef struct {
@@ -60,88 +65,58 @@ typedef struct {
 } te3ViewerParams;
 
 
-
 //=============================================================================
-//      e3viewer_new : Viewer class new method.
+//      Internal constants
 //-----------------------------------------------------------------------------
-static TQ3Status
-e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) privateData;
-	te3ViewerParams			*params = (te3ViewerParams*) paramData;
-#pragma unused(theObject)
 
-
-
-	// Initialise our instance data
-	instanceData->mView  = Q3View_New();
-	instanceData->mGroup = Q3OrderedDisplayGroup_New();
-	instanceData->mWindow = params->mWindow;
-	instanceData->mArea = *params->mArea;
-
-	if (kQ3ViewerFlagDefault & params->mFlags)
-		instanceData->mFlags = kQ3ViewerFlagButtonCamera
-							 | kQ3ViewerFlagButtonTruck
-							 | kQ3ViewerFlagButtonOrbit
-							 | kQ3ViewerFlagButtonDolly
-							 | kQ3ViewerFlagButtonReset
-							 | kQ3ViewerFlagButtonOptions
-							 | kQ3ViewerFlagDragMode
-							 | kQ3ViewerFlagDrawFrame
-							 | kQ3ViewerFlagDrawGrowBox
-							 | kQ3ViewerFlagShowControlStrip;
-		
-	instanceData->mFlags |= params->mFlags;
-	
-	return(kQ3Success);
-}
-
-
+// mouse tracking modes
+enum {
+	kNotTracking				= 0,
+	kTrackButtonDown			= 1,
+	kTrackContentGrab			= 2,
+	kTrackFrameGrab				= 3
+};
 
 
 
 //=============================================================================
-//      e3viewer_delete : Viewer class delete method.
+//      e3Rect_ContainsPoint : Determine whether the given 2D coordinates
+//			are within an Area.
 //-----------------------------------------------------------------------------
-static void
-e3viewer_delete(TQ3Object theObject, void *privateData)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) privateData;
-#pragma unused(theObject)
-
-
-
-	// Dispose of our instance data
-	E3Object_DisposeAndForget(instanceData->mView);
-	E3Object_DisposeAndForget(instanceData->mGroup);
+static TQ3Boolean e3Rect_ContainsPoint(const TQ3Area *theRect, TQ3Int32 hPos, TQ3Int32 vPos)
+{
+	return (hPos >= theRect->min.x && hPos < theRect->max.x 
+		 && vPos >= theRect->min.y && vPos < theRect->max.y);
 }
-
-
-
 
 
 //=============================================================================
-//      e3viewer_metahandler : Viewer class metahandler.
+//      e3viewer_buttonAtPoint : Return the button that contains a given
+//			pixel coordinate, or 0 if no button does.
 //-----------------------------------------------------------------------------
-static TQ3XFunctionPointer
-e3viewer_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+static TQ3Uns32 e3viewer_buttonAtPoint(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
+{
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Uns32			i, button;
+	TQ3Status			status;
+	TQ3Area				rect;
 
+	// Was the click in a button?	
+	for (i=0; i<9; i++)
+		{
+		button = (kQ3ViewerFlagButtonCamera << i);
+		status = E3Viewer_GetButtonRect(theViewer, button, &rect);
+		if (kQ3Success == status)
+			{
+			if (e3Rect_ContainsPoint(&rect, hPos, vPos))
+				return button;
+			}
+				
+		button <<= 1;
+	}
 
-
-	// Return our methods
-	switch (methodType) {
-		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) e3viewer_new;
-			break;
-
-		case kQ3XMethodTypeObjectDelete:
-			theMethod = (TQ3XFunctionPointer) e3viewer_delete;
-			break;
-		}
-	
-	return(theMethod);
+	return 0;
 }
-
-#pragma mark -
 
 //=============================================================================
 //      e3viewer_buttonHeight : Return height of control strip buttons.
@@ -296,6 +271,222 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 	FrameRect(&r);
 	
 	ForeColor(blackColor);
+}
+
+//=============================================================================
+//      e3viewer_pressButton : Activate the indicated button.
+//-----------------------------------------------------------------------------
+static void e3viewer_pressButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+
+	switch (theButton)
+	{
+		case kQ3ViewerFlagButtonTruck:
+		case kQ3ViewerFlagButtonOrbit:
+		case kQ3ViewerFlagButtonZoom:
+		case kQ3ViewerFlagButtonDolly:
+			// select the indicated mode
+			E3Viewer_SetCurrentButton(theViewer, theButton);
+			break;
+		default:
+			// unselect the button by redrawing them all
+			E3Viewer_DrawControlStrip(theViewer);
+	}
+}
+
+//=============================================================================
+//      e3viewer_applyZoom : Respond a mouse movement while using the
+//			zoom tool.  Do this by moving the camera towards or away
+//			from the origin.
+//-----------------------------------------------------------------------------
+static void e3viewer_applyZoom(TQ3ViewerObject theViewer,
+			TQ3Int32 oldY, TQ3Int32 newY)
+{
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3CameraPlacement	placement;
+	TQ3CameraObject		camera = NULL;
+	float				zoom;
+		
+	if (oldY == newY) return;
+
+	Q3View_GetCamera(instanceData->mView, &camera);
+	Q3Camera_GetPlacement(camera, &placement);
+
+	// Adjust the distance from the origin by this formula:
+	// For every 500 pixels up, double the distance from the origin.
+	// For every 500 pixels down, halve the distance (but don't go any
+	//	closer than a certain minimum).
+	if (newY > oldY)
+		zoom = 1.0f / (1.0f + (newY-oldY)*0.004f);
+	else
+		zoom = 1.0f + (oldY-newY)*0.004f;
+
+	placement.cameraLocation.z *= zoom;
+	if (placement.cameraLocation.z < 1.0f)
+		placement.cameraLocation.z = 1.0f;
+	
+	Q3Camera_SetPlacement(camera, &placement);	
+	Q3Object_Dispose(camera);
+	E3Viewer_DrawContent(theViewer);
+}
+
+//=============================================================================
+//      e3viewer_setupView: Prepare draw context, renderer, etc.
+//			for a newly created view.
+//-----------------------------------------------------------------------------
+static void e3viewer_setupView(TQ3ViewerData *instanceData)
+{
+	TQ3MacDrawContextData			contextData = {(TQ3DrawContextClearImageMethod)0};
+	TQ3DrawContextObject			drawContext;
+	TQ3RendererObject				renderer;
+	TQ3ViewAngleAspectCameraData	camData = {0};
+	TQ3CameraObject					camera;
+	
+	// Set up the draw context, renderer, etc.
+
+	// common draw context stuff
+	contextData.drawContextData.clearImageMethod = kQ3ClearMethodWithColor;
+	contextData.drawContextData.clearImageColor.a = 0.0f;
+	contextData.drawContextData.clearImageColor.r = 1.0f;
+	contextData.drawContextData.clearImageColor.g = 1.0f;
+	contextData.drawContextData.clearImageColor.b = 1.0f;
+	e3viewer_contentArea(instanceData, &contextData.drawContextData.pane);
+	contextData.drawContextData.paneState = kQ3True;         // true: use given bounds; false: use whole window
+	contextData.drawContextData.maskState = kQ3False;
+	contextData.drawContextData.doubleBufferState = kQ3True;	// should be false on OS X?!?
+
+	// Mac-specific draw context stuff
+	contextData.window = (CWindowPtr)instanceData->mWindow;
+	drawContext = Q3MacDrawContext_New(&contextData);
+
+	// renderer
+	renderer = Q3Renderer_NewFromType( kQ3RendererTypeInteractive );
+
+	// camera
+	camData.cameraData.placement.cameraLocation.x = 0.0f;
+	camData.cameraData.placement.cameraLocation.y = 1.0f;
+	camData.cameraData.placement.cameraLocation.z = 10.0f;
+	camData.cameraData.placement.upVector.y = 1.0f;
+	camData.cameraData.range.hither = 1.0f;
+	camData.cameraData.range.yon = 10000.0f;
+	camData.cameraData.viewPort.origin.x = -1.0f;
+	camData.cameraData.viewPort.origin.y = 1.0f;
+	camData.cameraData.viewPort.width = 2.0f;
+	camData.cameraData.viewPort.height = 2.0f;	
+	camData.fov = 40.0f * 0.0174532925f;		// (convert degrees to radians)
+	camData.aspectRatioXToY = (instanceData->mArea.max.x - instanceData->mArea.min.x)
+							/ (instanceData->mArea.max.y - instanceData->mArea.min.y);
+	
+	camera = Q3ViewAngleAspectCamera_New(&camData);
+	
+	
+	// hook it all together
+	Q3View_SetDrawContext(instanceData->mView, drawContext);
+	Q3View_SetCamera(instanceData->mView, camera);
+	Q3View_SetRenderer(instanceData->mView, renderer);
+
+	// clean up
+	Q3Object_Dispose(drawContext);
+	Q3Object_Dispose(camera);
+	Q3Object_Dispose(renderer);
+	
+}
+
+
+#pragma mark -
+//=============================================================================
+//      e3viewer_new : Viewer class new method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
+{	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) privateData;
+	te3ViewerParams			*params = (te3ViewerParams*) paramData;
+#pragma unused(theObject)
+
+
+
+	// Initialise our instance data
+	instanceData->mView  = Q3View_New();
+	instanceData->mGroup = Q3OrderedDisplayGroup_New();
+	instanceData->mWindow = params->mWindow;
+	instanceData->mArea = *params->mArea;
+
+	if (kQ3ViewerFlagDefault & params->mFlags)
+		instanceData->mFlags = kQ3ViewerFlagButtonCamera
+							 | kQ3ViewerFlagButtonTruck
+							 | kQ3ViewerFlagButtonOrbit
+							 | kQ3ViewerFlagButtonDolly
+							 | kQ3ViewerFlagButtonReset
+							 | kQ3ViewerFlagButtonOptions
+							 | kQ3ViewerFlagDragMode
+							 | kQ3ViewerFlagDrawDragBorder
+							 | kQ3ViewerFlagDrawFrame
+							 | kQ3ViewerFlagDrawGrowBox
+							 | kQ3ViewerFlagShowControlStrip;
+		
+	instanceData->mFlags |= params->mFlags;
+	
+	if (instanceData->mFlags & kQ3ViewerFlagButtonOrbit)
+		instanceData->mCurrentMode = kQ3ViewerFlagButtonOrbit;
+	else if (instanceData->mFlags & kQ3ViewerFlagButtonTruck)
+		instanceData->mCurrentMode = kQ3ViewerFlagButtonTruck;
+	else if (instanceData->mFlags & kQ3ViewerFlagButtonDolly)
+		instanceData->mCurrentMode = kQ3ViewerFlagButtonDolly;
+	else if (instanceData->mFlags & kQ3ViewerFlagButtonZoom)
+		instanceData->mCurrentMode = kQ3ViewerFlagButtonZoom;
+	else instanceData->mCurrentMode = 0;
+	
+	instanceData->mTrackingMode = kNotTracking;
+	
+	e3viewer_setupView(instanceData);	
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3viewer_delete : Viewer class delete method.
+//-----------------------------------------------------------------------------
+static void
+e3viewer_delete(TQ3Object theObject, void *privateData)
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) privateData;
+#pragma unused(theObject)
+
+
+
+	// Dispose of our instance data
+	E3Object_DisposeAndForget(instanceData->mView);
+	E3Object_DisposeAndForget(instanceData->mGroup);
+}
+
+
+
+
+
+//=============================================================================
+//      e3viewer_metahandler : Viewer class metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3viewer_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) e3viewer_new;
+			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3viewer_delete;
+			break;
+		}
+	
+	return(theMethod);
 }
 
 //=============================================================================
@@ -555,11 +746,14 @@ E3Viewer_Draw(TQ3ViewerObject theViewer)
 	// Draw the content, the frame, and the control strip.
 	status = E3Viewer_DrawContent(theViewer);
 
-	rect = instanceData->mArea;
-	rect.max.y -= e3viewer_buttonHeight(instanceData);
-	rect.max.y -= e3viewer_buttonTopMargin(instanceData);
-	rect.max.y -= e3viewer_buttonBottomMargin(instanceData);
-	e3viewer_drawDragFrame(instanceData, &rect);
+	if (instanceData->mFlags & kQ3ViewerFlagDrawDragBorder)
+		{
+		rect = instanceData->mArea;
+		rect.max.y -= e3viewer_buttonHeight(instanceData);
+		rect.max.y -= e3viewer_buttonTopMargin(instanceData);
+		rect.max.y -= e3viewer_buttonBottomMargin(instanceData);
+		e3viewer_drawDragFrame(instanceData, &rect);
+		}
 
 	if (kQ3Success == status)
 		status = E3Viewer_DrawControlStrip(theViewer);
@@ -581,21 +775,23 @@ TQ3Status
 E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 {
 	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
-	TQ3Area				rect;
-
+	TQ3Uns32			i;
+	TQ3ViewObject		view = instanceData->mView;
+	TQ3Status			status;
+	
+	status = Q3View_StartRendering(view);
+	if (kQ3Success != status)
+		return status;
 		
-	// For now, let's just do a Mac-specific hack to demonstrate
-	// that we can draw something.
-	CGrafPtr port = (CGrafPtr)instanceData->mWindow;
-	SetPort(port);
-
-	e3viewer_contentArea(instanceData, &rect);
-	MoveTo(rect.min.x, rect.min.y);
-	LineTo(rect.max.x, rect.max.y);
-	MoveTo(rect.max.x, rect.min.y);
-	LineTo(rect.min.x, rect.max.y);
-
-
+	for (i=0; i<100; i++)				// try submitting up to 100 times
+		{
+			// submit geometry
+			Q3Object_Submit(instanceData->mGroup, view);
+			
+			// finish the job (retraversing if needed)
+			if (Q3View_EndRendering(view) != kQ3ViewStatusRetraverse) break;
+		}
+	
 	return(kQ3Success);
 }
 
@@ -615,6 +811,7 @@ E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 	TQ3Uns32			i, button;
 	TQ3Status			status;
 	TQ3Area				rect;
+	TQ3Boolean			buttonDown;
 	
 	rect = instanceData->mArea;
 	rect.min.y = rect.max.y - e3viewer_buttonHeight(instanceData);
@@ -628,7 +825,11 @@ E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 		status = E3Viewer_GetButtonRect(theViewer, button, &rect);
 		if (kQ3Success == status)
 			{
-			e3viewer_drawButton(instanceData, button, &rect, false);
+			buttonDown = (button == instanceData->mCurrentMode
+					|| (kTrackButtonDown == instanceData->mTrackingMode
+					    && kQ3True == instanceData->mTrackingValid
+						&& button == instanceData->mTrackingData) ? kQ3True : kQ3False);			
+			e3viewer_drawButton(instanceData, button, &rect, buttonDown);
 			}
 				
 		button <<= 1;
@@ -728,17 +929,14 @@ E3Viewer_GetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 theButton, TQ3Area *t
 
 
 //=============================================================================
-//      E3Viewer_GetCurrentButton : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_GetCurrentButton : Gets the currently selected mode button.
 //-----------------------------------------------------------------------------
 TQ3Uns32
 E3Viewer_GetCurrentButton(TQ3ViewerObject theViewer)
 {
-
-
-	// To be implemented...
-	return(NULL);
+	TQ3ViewerData	*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	
+	return instanceData->mCurrentMode;
 }
 
 
@@ -746,17 +944,21 @@ E3Viewer_GetCurrentButton(TQ3ViewerObject theViewer)
 
 
 //=============================================================================
-//      E3Viewer_SetCurrentButton : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_SetCurrentButton : Sets the currently selected mode button.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_SetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 {
-
-
-	// To be implemented...
-	return(kQ3Failure);
+	TQ3ViewerData	*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	
+	if (instanceData->mFlags & theButton)
+		{
+		instanceData->mCurrentMode = theButton;
+		E3Viewer_DrawControlStrip(theViewer);
+		return kQ3Success;
+		}
+		
+	return kQ3Failure;
 }
 
 
@@ -1254,16 +1456,38 @@ E3Viewer_SetCameraByView(TQ3ViewerObject theViewer, TQ3ViewerCameraView viewType
 
 
 //=============================================================================
-//      E3Viewer_EventMouseDown : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_EventMouseDown : Handle a mouse down.
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3Viewer_EventMouseDown(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 {
-
-
-	// To be implemented...
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Uns32			button;
+	TQ3Area				rect;
+		
+	// Was the click in a button?
+	button = e3viewer_buttonAtPoint(theViewer, hPos, vPos);
+	if (button)
+		{
+		instanceData->mTrackingMode = kTrackButtonDown;
+		instanceData->mTrackingData = button;
+		instanceData->mTrackingValid = kQ3True;
+		E3Viewer_DrawControlStrip(theViewer);
+		return kQ3True;
+		}
+	
+	// Was it in the content region?
+	e3viewer_contentArea(instanceData, &rect);
+	if (e3Rect_ContainsPoint(&rect, hPos, vPos))
+		{
+		instanceData->mTrackingMode = kTrackContentGrab;
+		instanceData->mTrackH = hPos;
+		instanceData->mTrackV = vPos;
+		instanceData->mTrackingValid = kQ3True;
+		return kQ3True;
+		}
+		
+		
 	return(kQ3False);
 }
 
@@ -1272,16 +1496,49 @@ E3Viewer_EventMouseDown(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 
 
 //=============================================================================
-//      E3Viewer_EventMouseTrack : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_EventMouseTrack : Handle a mouse movement after a mouse down.
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3Viewer_EventMouseTrack(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Area				rect;
+	
+	if (kTrackButtonDown == instanceData->mTrackingMode)
+		{
+		// Is the mouse in the tracked button?
+		E3Viewer_GetButtonRect(theViewer, instanceData->mTrackingData, &rect);
+		if (e3Rect_ContainsPoint(&rect, hPos, vPos))
+			{
+			// Yes, it is -- so track is valid; redraw if it wasn't already valid.
+			if (kQ3False == instanceData->mTrackingValid)
+				{
+				instanceData->mTrackingValid = kQ3True;
+				E3Viewer_DrawControlStrip(theViewer);
+				}
+			}
+		else
+			{
+			// No, user has dragged out of bounds; redraw if it was previously valid.
+			if (kQ3True == instanceData->mTrackingValid)
+				{
+				instanceData->mTrackingValid = kQ3False;
+				E3Viewer_DrawControlStrip(theViewer);
+				}
+			}
+		
+		return kQ3True;
+		}
+				
+	if (kTrackContentGrab == instanceData->mTrackingMode)
+		{
+		e3viewer_applyZoom(theViewer, instanceData->mTrackV, vPos);
+		instanceData->mTrackH = hPos;
+		instanceData->mTrackV = vPos;
+		return kQ3True;
+		}
+	
 
-
-	// To be implemented...
 	return(kQ3False);
 }
 
@@ -1297,9 +1554,25 @@ E3Viewer_EventMouseTrack(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos
 TQ3Boolean
 E3Viewer_EventMouseUp(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 
-
-	// To be implemented...
+	if (kTrackButtonDown == instanceData->mTrackingMode)
+		{
+		instanceData->mTrackingMode = kNotTracking;
+		if (instanceData->mTrackingValid)
+			{
+			// Activate the button that was pressed.
+			e3viewer_pressButton(theViewer, instanceData->mTrackingData);
+			}
+		return kQ3True;
+		}
+	
+	if (kTrackContentGrab == instanceData->mTrackingMode)
+		{
+		instanceData->mTrackingMode = kNotTracking;
+		return kQ3True;
+		}
+		
 	return(kQ3False);
 }
 
