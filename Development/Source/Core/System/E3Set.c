@@ -1160,76 +1160,83 @@ E3Set_RegisterClass(void)
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+												kQ3ElementTypeAttribute,
+												kQ3ClassNameElement,
+												e3element_metahandler,
+												0);
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSurfaceUV,
 												kQ3ClassNameAttributeSurfaceUV,
 												e3attribute_surfaceuv_metahandler,
 												sizeof(TQ3Param2D));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeShadingUV,
 												kQ3ClassNameAttributeShadingUV,
 												e3attribute_shadinguv_metahandler,
 												sizeof(TQ3Param2D));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeNormal,
 												kQ3ClassNameAttributeNormal,
 												e3attribute_normal_metahandler,
 												sizeof(TQ3Vector3D));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeAmbientCoefficient,
 												kQ3ClassNameAttributeAmbientCoefficient,
 												e3attribute_ambientcoefficient_metahandler,
 												sizeof(float));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeDiffuseColor,
 												kQ3ClassNameAttributeDiffuseColor,
 												e3attribute_diffusecolor_metahandler,
 												sizeof(TQ3ColorRGB));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSpecularColor,
 												kQ3ClassNameAttributeSpecularColor,
 												e3attribute_specularcolor_metahandler,
 												sizeof(TQ3ColorRGB));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSpecularControl,
 												kQ3ClassNameAttributeSpecularControl,
 												e3attribute_specularcontrol_metahandler,
 												sizeof(float));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeTransparencyColor,
 												kQ3ClassNameAttributeTransparencyColor,
 												e3attribute_transparencycolor_metahandler,
 												sizeof(TQ3ColorRGB));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSurfaceTangent,
 												kQ3ClassNameAttributeSurfaceTangent,
 												e3attribute_surfacetangent_metahandler,
 												sizeof(TQ3Tangent2D));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeHighlightState,
 												kQ3ClassNameAttributeHighlightState,
 												e3attribute_highlightstate_metahandler,
 												sizeof(TQ3Switch));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 												kQ3ObjectTypeAttributeSurfaceShader,
 												kQ3ClassNameAttributeSurfaceShader,
 												e3attribute_surfaceshader_metahandler,
@@ -2371,7 +2378,7 @@ E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeElement,
+	qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
 											*attributeType,
 											creatorName,
 											metaHandler,
