@@ -102,7 +102,13 @@ TQ3Status			E3FFW_3DMF_32_Write(const void *object,  TQ3FileObject theFile);
 TQ3Status			E3FFW_3DMF_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
 TQ3Status			E3FFW_3DMF_Write(const void *object,  TQ3FileObject theFile);
 
+TQ3Status			E3FFW_3DMF_type_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
+TQ3Status			E3FFW_3DMF_type_Write(const void *object,  TQ3FileObject theFile);
+
 TQ3Status			E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
+
+TQ3Status			E3FFW_3DMF_CString_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
+TQ3Status			E3FFW_3DMF_CString_Write(const void *object,  TQ3FileObject theFile);
 
 //=============================================================================
 //		C++ postamble
