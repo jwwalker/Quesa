@@ -1,15 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
 <!--=========================================================================-->
 <!-- Page Header                                                             -->
 <!--=========================================================================-->
 <html>
 <head>
 	<title>Quesa - Building Quesa</title>
+	<link rel="stylesheet" type="text/css" href="../site-styles.css">
 </head>
 <body bgcolor=white text=black background="../images/logo_gray.gif">
 
-<p align=center>
-<a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
-</p>
+<div class="sflogo">
+<a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=45158&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
+</div>
+
+<div class="qlogo">
+<a href="../index.html">
+<img src="../images/logo_text.jpg" alt="Quesa" width="311" height="105" border="0"></a>
+</div>
 
 
 
@@ -18,37 +26,41 @@
 <!--=========================================================================-->
 <table border=0>
 <tr>
-<td valign=top width=90 bgcolor="#EEEEEE">
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
+<td class="navbar">
+	<table class="navtable" cellspacing="0">
+	
+	<tr><td class="navhead">Info</td></tr>
+	<tr><td class="navlinks">
 	<a href="../info/status.html">Status</a><br>
-	<a href="../info/screenshots.html">Screenshots</a><br>
+	<a href="../info/screenshots.html">Screenshots</a>
 	<a href="../info/download.html">Download</a><br>
 	<a href="../info/list.html">Mailing List</a><br>
 	<a href="../info/list_archive.html">List Archive</a><br>
-	<a href="http://www.quesa.org/quesa_forum.html">Quesa Forum</a><br>
+	</td></tr>
 
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
+	<tr><td class="navhead">Developer</td></tr>
+	<tr><td class="navlinks">
 	<a href="../developer/todo.html">Todo</a><br>
 	<a href="../developer/bugs.html">Bug List</a><br>
 	<a href="../developer/cvs.html">CVS Server</a><br>
-	<a href="../developer/apiref/MasterTOC.html">API Reference</a><br>
-
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
+	<a href="../developer/apiref/MasterTOC.html">API Reference</a>
+	</td></tr>
+	
+	<tr><td class="navhead">Reference</td></tr>
+	<tr><td class="navlinks">
 	<a href="../reference/docs.html">Documentation</a><br>
 	<a href="../reference/build.html">Building Quesa</a><br>
-	<a href="../reference/licence.html">License</a><br>
+	<a href="../reference/licence.html">License</a>
+	</td></tr>
 
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
+	<tr><td class="navhead">Other</td></tr>
+	<tr><td class="navlinks">
 	<a href="../other/contributors.html">Contributors</a><br>
 	<a href="../other/logo.html">Quesa Logo</a><br>
-	<a href="../other/links.html">Links</a><br>
+	<a href="../other/links.html">Links</a>
+	</td></tr>
+
+	</table>
 </td>
 <!--=========================================================================-->
 <td width=10>&nbsp;</td>
@@ -63,9 +75,9 @@ development environments. Supported environments are:
 </p>
 
 <ul>
-	<li>Metrowerks CodeWarrior Pro 7 or later
-	<li>Microsoft Visual C++ 5.0 or later
-	<li>gcc (Linux/Be)
+	<li>Metrowerks CodeWarrior Pro 7 or later</li>
+	<li>Microsoft Visual C++ 5.0 or later</li>
+	<li>gcc (Linux/Be)</li>
 </ul>
 
 
@@ -74,14 +86,14 @@ development environments. Supported environments are:
 <p>
 Mac OS developers will normally be using CodeWarrior as their development environment.
 Unfortunately CodeWarrior Pro 7 does not include the OpenGL SDK from Apple, and
-so this must be installed separately.
+so this must be installed separately.</p>
 
 <p>
 The OpenGL 1.0 SDK from Apple can be found
 <a href="ftp://ftp.apple.com/developer/Development_Kits/OpenGL_1.0_SDK.sit.hqx">here</a>.
 Place the OpenGL headers and stub libraries within the appropriate location
 for your development environment.
-<p>
+</p>
 
 
 <h5>CodeWarrior Projects</h5>
@@ -100,7 +112,7 @@ add "<tt>::Qut</tt>" and "<tt>:::Includes</tt>".
 <p>
 Note that the current CodeWarrior projects include Mac targets only.  However, it is also 
 possible to build the Windows version of Quesa with CodeWarrior.  Be sure to turn on the 
-"Enums Always Int" option in the C/C++ Language settings.
+"Enums Always Int" option in the C/C++ Language settings.</p>
 
 
 <h4>Building Quesa on other platforms</h4>
@@ -134,11 +146,11 @@ Typically, only five platform specific files are required for a new platform 'Fo
 </p>
 
 <ul>
-	<li>E3FooDebug.c - debugging support
-	<li>E3FooDrawContext.c - platform specific draw context objects
-	<li>E3FooPrefix.h - platform specific build constants
-	<li>E3FooStorage - platform specific storage objects
-	<li>E3FooSystem.c - system level support (e.g., scanning for plug-ins)
+	<li>E3FooDebug.c - debugging support</li>
+	<li>E3FooDrawContext.c - platform specific draw context objects</li>
+	<li>E3FooPrefix.h - platform specific build constants</li>
+	<li>E3FooStorage - platform specific storage objects</li>
+	<li>E3FooSystem.c - system level support (e.g., scanning for plug-ins)</li>
 </ul>
 
 <p>
@@ -160,7 +172,7 @@ find useful when adding code to Quesa:
 		does have to be added should be added through the global data structure in
 		E3Globals.h.
 		<br>
-		<br>
+		<br></li>
 
 	<li>QuesaMemory.h defines the Quesa memory manager - all memory management
 		within Quesa must go through these routines, rather than accessing
@@ -170,13 +182,13 @@ find useful when adding code to Quesa:
 		This gives us an extra level of indirection to add debug code, and allows
 		us to adjust our behaviour on platforms with badly performing C libraries.
 		<br>
-		<br>
+		<br></li>
 
 	<li>E3Version.h defines the version for the build. This is reported back by
 		the version API calls, and can also be used for platform specific purposes
 		(e.g., the Mac build uses this to create a 'vers' resource).
 		<br>
-		<br>
+		<br></li>
 
 	<li>The initial source tree for Quesa was generated automatically by a Perl
 		script from the QD3D header files.
@@ -187,7 +199,7 @@ find useful when adding code to Quesa:
 		please make sure you conform to the current framework when adding new
 		source files (e.g., naming conventions, function headers, etc).
 		<br>
-		<br>
+		<br></li>
 
 	<li>Always turn on all of the warnings your compiler allows, and make sure
 		that new code does not produce warnings when compiled.
@@ -196,7 +208,7 @@ find useful when adding code to Quesa:
 		This is particularly important when writing cross platform code, since compiler
 		warnings often indicate portability problems.
 		<br>
-		<br>
+		<br></li>
 
 	<li>Since Quesa is written in ANSI C, be careful not introduce any C++isms inadvertently.
 		Examples would be inlined functions, references, 'and'/'or' keywords, declarations
@@ -211,19 +223,19 @@ find useful when adding code to Quesa:
 		However, the majority of the code within the platform specific directories should
 		be written in ANSI C if possible.
 		<br>
-		<br>
+		<br></li>
 
 	<li>Floating point constants should have an 'f' suffix (e.g., "1.0f" rather than
 		"1.0"). This is because floating point constants are actually doubles under ANSI
 		C, so not providing an explicit type can produce lots of warnings under some
 		compilers.
 		<br>
-		<br>
+		<br></li>
 
 	<li>Platform specific types, functions, or #includes should only be used within the
 		appropriate source area for that platform.
 		<br>
-		<br>
+		<br></li>
 
 	<li>Quesa functions which call other Quesa functions must always go back out through
 		the Q3xxxx entry points.
@@ -236,7 +248,7 @@ find useful when adding code to Quesa:
 		The only exception to this rule is the E3Math.c routines. For speed, these are
 		allowed to call each other directly without going through the public API.
 		<br>
-		<br>
+		<br></li>
 
 	<li>Do not, if possible, put structures in header files. Define an opaque type, and
 		provide accessors to get/set fields within the structure.
@@ -250,7 +262,7 @@ find useful when adding code to Quesa:
 		There are only two exceptions to this at present within Quesa, both of which
 		are required for architectural reasons (and which will be removed in the future).
 		<br>
-		<br>
+		<br></li>
 	
 	<li>If an object can be inherited, it must look up its instance data by hand - it can
 		not assume that the object it is passed is of the type that it needs.
@@ -269,22 +281,22 @@ find useful when adding code to Quesa:
 		e.g., a triangle object can use a simple cast to obtain the triangle data since
 		triangle objects can not be inherited.
 		<br>
-		<br>
+		<br></li>
 
 	<li>Public functions must have prototypes declared in the appropriate header file
 		for their module, while private functions must be declared as 'static'.
 		<br>
-		<br>
+		<br></li>
 
 	<li>Public functions should be named 'E3Module_Function', while private functions
 		should be named 'e3module_function'.
 		<br>
-		<br>
+		<br></li>
 
 	<li>Use QD3D types rather than C types, since this allows you to specify the
 	    bit range and signed/unsigned-ness of the type (e.g., TQ3Int16 rather
 	    than signed short). This will help us in the future when we look at 64-bit
-	    architectures.
+	    architectures.</li>
 </ul>
 
 </td>
@@ -301,15 +313,10 @@ find useful when adding code to Quesa:
 <br>
 <br>
 <hr width="90%">
-<table border=0 align=center>
-<tr>
-<td colspan=2 align=center>
-<font size="-1">
-Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
-</font>
-</td>
-</tr>
-</table>
+
+<div class="footer">
+Quesa Web Site hosted by <a href="http://sourceforge.net">SourceForge</a>
+</div>
 
 </body>
 </html>

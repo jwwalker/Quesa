@@ -6,14 +6,15 @@
 <html>
 <head>
 	<title>Quesa - Download</title>
+	<link rel="stylesheet" type="text/css" href="../site-styles.css">
 </head>
 <body bgcolor="white" text="black" background="../images/logo_gray.gif">
 
-<div style="position:absolute; top:30px; left:10px">
+<div class="sflogo">
 <a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=45158&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
 </div>
 
-<div style="text-align:center">
+<div class="qlogo">
 <a href="../index.html">
 <img src="../images/logo_text.jpg" alt="Quesa" width="311" height="105" border="0"></a>
 </div>
@@ -25,37 +26,41 @@
 <!--=========================================================================-->
 <table border="0">
 <tr>
-<td valign="top" width="90" bgcolor="#EEEEEE">
-	<table border="0" bgcolor="#404090" width="100%">
-	<tr><td><font color="white" size="+1">Info</font></td></tr></table><br>
+<td class="navbar">
+	<table class="navtable" cellspacing="0">
+	
+	<tr><td class="navhead">Info</td></tr>
+	<tr><td class="navlinks">
 	<a href="../info/status.html">Status</a><br>
-	<a href="../info/screenshots.html">Screenshots</a><br>
+	<a href="../info/screenshots.html">Screenshots</a>
 	<a href="../info/download.html">Download</a><br>
 	<a href="../info/list.html">Mailing List</a><br>
 	<a href="../info/list_archive.html">List Archive</a><br>
-	<a href="http://www.quesa.org/quesa_forum.html">Quesa Forum</a><br>
+	</td></tr>
 
-	<br>
-	<table border="0" bgcolor="#404090" width="100%">
-	<tr><td><font color="white" size="+1">Developer</font></td></tr></table><br>
+	<tr><td class="navhead">Developer</td></tr>
+	<tr><td class="navlinks">
 	<a href="../developer/todo.html">Todo</a><br>
 	<a href="../developer/bugs.html">Bug List</a><br>
 	<a href="../developer/cvs.html">CVS Server</a><br>
-	<a href="../developer/apiref/MasterTOC.html">API Reference</a><br>
-
-	<br>
-	<table border="0" bgcolor="#404090" width="100%">
-	<tr><td><font color="white" size="+1">Reference</font></td></tr></table><br>
+	<a href="../developer/apiref/MasterTOC.html">API Reference</a>
+	</td></tr>
+	
+	<tr><td class="navhead">Reference</td></tr>
+	<tr><td class="navlinks">
 	<a href="../reference/docs.html">Documentation</a><br>
 	<a href="../reference/build.html">Building Quesa</a><br>
-	<a href="../reference/licence.html">License</a><br>
+	<a href="../reference/licence.html">License</a>
+	</td></tr>
 
-	<br>
-	<table border="0" bgcolor="#404090" width="100%">
-	<tr><td><font color="white" size="+1">Other</font></td></tr></table><br>
+	<tr><td class="navhead">Other</td></tr>
+	<tr><td class="navlinks">
 	<a href="../other/contributors.html">Contributors</a><br>
 	<a href="../other/logo.html">Quesa Logo</a><br>
-	<a href="../other/links.html">Links</a><br>
+	<a href="../other/links.html">Links</a>
+	</td></tr>
+
+	</table>
 </td>
 <!--=========================================================================-->
 <td width="10">&nbsp;</td>
@@ -200,15 +205,10 @@ Note that this directory may not exist on your Mac OS system, and may need to be
 <br>
 <br>
 <hr width="90%">
-<table border="0" align="center">
-<tr>
-<td colspan="2" align="center">
-<font size="-1">
+
+<div class="footer">
 Quesa Web Site hosted by <a href="http://sourceforge.net">SourceForge</a>
-</font>
-</td>
-</tr>
-</table>
+</div>
 
 </body>
 </html>
