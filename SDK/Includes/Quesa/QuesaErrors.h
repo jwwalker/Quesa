@@ -376,6 +376,9 @@ typedef enum {
  *  @constant kQ3WarningTypeNewerVersionAlreadyRegistered  Type newer version already registered.
  *  @constant kQ3WarningInvalidObjectInGroupMetafile       Invalid object in group metafile.
  *	@constant kQ3WarningQuaternionNotNormalized            Quaternion is not normalized. Not available in QD3D.
+ *	@constant kQ3WarningNormalCanNotBeFlipped              Normal can not be flipped as they would under QD3D. Not available in QD3D.
+ *	@constant kQ3WarningTriMeshTriangleNotNormalized       TriMesh triangle normal is not normalized. Not available in QD3D.
+ *	@constant kQ3WarningTriMeshVertexNotNormalized         TriMesh vertex normal is not normalized. Not available in QD3D.
  */
 typedef enum {
     kQ3WarningNone                              = 0,
@@ -422,7 +425,10 @@ typedef enum {
     kQ3WarningInvalidObjectInGroupMetafile      = -28261,
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-	kQ3WarningQuaternionNotNormalized			= -28260,
+	kQ3WarningQuaternionNotNormalized           = -28260,
+	kQ3WarningNormalCanNotBeFlipped             = -28259,
+	kQ3WarningTriMeshTriangleNotNormalized      = -28258,
+	kQ3WarningTriMeshVertexNotNormalized        = -28257,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3WarningLast,
@@ -448,11 +454,12 @@ typedef enum {
  *  @constant kQ3NoticeMeshEdgeIsNotBoundary               Mesh edge is not boundary.
  *  @constant kQ3NoticeDrawContextNotSetUsingInternalDefaults      Draw context not set using internal defaults.
  *  @constant kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults Invalid attenuation type using internal defaults.
- *  @constant kQ3NoticeBrightnessGreaterThanOne            Brightness greater than one.
+ *  @constant kQ3NoticeBrightnessGreaterThanOne            Brightness greater than 1.0.
  *  @constant kQ3NoticeScaleContainsZeroEntries            Scale contains zero entries.
  *  @constant kQ3NoticeSystemAlreadyInitialized            System already initialized.
  *  @constant kQ3NoticeViewSyncCalledAgain                 View sync called again.
  *  @constant kQ3NoticeFileCancelled                       File cancelled.
+ *  @constant kQ3NoticeBrightnessLessThanZero              Brightness less than 0.0. Not available in QD3D.
  */
 typedef enum {
     kQ3NoticeNone                               = 0,
@@ -473,6 +480,11 @@ typedef enum {
     kQ3NoticeSystemAlreadyInitialized           = -28087,
     kQ3NoticeViewSyncCalledAgain                = -28086,
     kQ3NoticeFileCancelled                      = -28085,
+
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+	kQ3NoticeBrightnessLessThanZero             = -28084,
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
     kQ3NoticeLast,
     kQ3NoticeSize32                             = 0xFFFFFFFF
 } TQ3Notice;
