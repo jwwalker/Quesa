@@ -50,7 +50,7 @@
 //
 //				If you are using the virtual metahandler parameter, you will
 //				probably need to update the class tree to support this: please
-//				contact dair@webthing.net about this.
+//				contact dair@refnum.com about this.
 //
 //				In addition, we do not use the methodsSize parameter: if you
 //				understand how this parameter is used, please let me know - the
