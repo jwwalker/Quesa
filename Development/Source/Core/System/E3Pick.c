@@ -147,6 +147,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	TQ3Vector3D				eyeVector;
 	TQ3PickData				pickData;
 	TQ3ObjectType			theType;
+	TQ3Ray3D				pickRay;
 
 
 
@@ -217,16 +218,24 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	// Save the distance to the viewer
 	if (E3Bit_Test(pickData.mask, kQ3PickDetailMaskDistance) && hitXYZ != NULL)
 		{
-		qd3dStatus = Q3View_GetCamera(theView, &theCamera);
-		if (qd3dStatus == kQ3Success)
+		if (Q3Pick_GetType( thePick ) == kQ3PickTypeWorldRay)
 			{
-			Q3Camera_GetPlacement(theCamera, &cameraPlacement);
-			Q3Point3D_Subtract(hitXYZ, &cameraPlacement.cameraLocation, &eyeVector);
-			Q3Object_Dispose(theCamera);
-
-			theHit->hitDistance = Q3Vector3D_Length(&eyeVector);
-			theHit->validMask  |= kQ3PickDetailMaskDistance;
+			Q3WorldRayPick_GetRay( thePick, &pickRay );
+			Q3Point3D_Subtract(hitXYZ, &pickRay.origin, &eyeVector);
 			}
+		else
+			{
+			qd3dStatus = Q3View_GetCamera(theView, &theCamera);
+			if (qd3dStatus == kQ3Success)
+				{
+				Q3Camera_GetPlacement(theCamera, &cameraPlacement);
+				Q3Point3D_Subtract(hitXYZ, &cameraPlacement.cameraLocation, &eyeVector);
+				Q3Object_Dispose(theCamera);
+
+				}
+			}
+		theHit->hitDistance = Q3Vector3D_Length(&eyeVector);
+		theHit->validMask  |= kQ3PickDetailMaskDistance;
 		}
 
 
@@ -1287,7 +1296,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 
 
 	// Allocate another hit record (groan :-)
-	theHit = Q3Memory_AllocateClear(sizeof(TQ3PickHit));
+	theHit = (TQ3PickHit*)Q3Memory_AllocateClear(sizeof(TQ3PickHit));
 	if (theHit == NULL)
 		return(kQ3Failure);
 
