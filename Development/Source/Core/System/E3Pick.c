@@ -1915,7 +1915,7 @@ E3HitPath_EmptyData(TQ3HitPath *hitPath)
 
 
 	// Dispose of the hit path data
-	E3Object_DisposeAndForget(hitPath->rootGroup);
+	Q3Object_CleanDispose(&hitPath->rootGroup);
 	Q3Memory_Free(&hitPath->positions);
 
 

@@ -136,7 +136,7 @@ e3texture_pixmap_delete(TQ3Object theObject, void *privateData)
 	
 	
 	//delete the storage for the pixmap
-	E3Object_DisposeAndForget( instanceData->image ) ;
+	Q3Object_CleanDispose(&instanceData->image ) ;
 }
 
 
@@ -300,7 +300,7 @@ e3texture_mipmap_delete(TQ3Object theObject, void *privateData)
 
 	
 	//delete the storage for the mipmap
-	E3Object_DisposeAndForget( instanceData->image ) ;
+	Q3Object_CleanDispose(&instanceData->image ) ;
 }
 
 
@@ -450,12 +450,12 @@ e3texture_compressed_delete(TQ3Object theObject, void *privateData)
 
 
 	//delete the storage for the compressed image
-	E3Object_DisposeAndForget( instanceData->compressedImage ) ;
+	Q3Object_CleanDispose(&instanceData->compressedImage ) ;
 
 
 
 	//delete the storge for the imageDesc
-	E3Object_DisposeAndForget( instanceData->imageDesc ) ;
+	Q3Object_CleanDispose(&instanceData->imageDesc ) ;
 }
 
 

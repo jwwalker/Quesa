@@ -845,7 +845,7 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 
 	// Clean up
 cleanup:
-	E3Object_DisposeAndForget(geomAttributes);
+	Q3Object_CleanDispose(&geomAttributes);
 	
 	return(kQ3Success);
 }
@@ -913,7 +913,7 @@ IRGeometry_Line(TQ3ViewObject			theView,
 
 	// Clean up
 cleanup:
-	E3Object_DisposeAndForget(geomAttributes);
+	Q3Object_CleanDispose(&geomAttributes);
 	
 	return(kQ3Success);
 }
@@ -976,7 +976,7 @@ IRGeometry_Point(TQ3ViewObject				theView,
 
 	// Clean up
 cleanup:
-	E3Object_DisposeAndForget(geomAttributes);
+	Q3Object_CleanDispose(&geomAttributes);
 	
 	return(kQ3Success);
 }
@@ -1100,7 +1100,7 @@ cleanup:
 
 
 	// Release our memory
-	E3Object_DisposeAndForget(geomAttributes);
+	Q3Object_CleanDispose(&geomAttributes);
 	Q3Memory_Free(&flipBuffer);
 
 	return(kQ3Success);
@@ -1232,7 +1232,7 @@ cleanup:
 
 
 	// Release our memory
-	E3Object_DisposeAndForget(geomAttributes);
+	Q3Object_CleanDispose(&geomAttributes);
 	Q3Memory_Free(&newBasePtr);
 
 	return(kQ3Success);
@@ -1311,7 +1311,7 @@ IRGeometry_PolyLine(TQ3ViewObject			theView,
 
 	// Clean up
 cleanup:
-	E3Object_DisposeAndForget(geomAttributes);
+	Q3Object_CleanDispose(&geomAttributes);
 	
 	return(kQ3Success);
 }
