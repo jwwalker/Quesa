@@ -73,7 +73,6 @@
 //-----------------------------------------------------------------------------
 //      Q3Memory_Allocate : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#pragma mark -
 void *
 Q3Memory_Allocate(TQ3Uns32 theSize)
 {
@@ -287,6 +286,48 @@ Q3Memory_Clear(void *thePtr, TQ3Uns32 theSize)
 
 	// Call our implementation
 	E3Memory_Clear(thePtr, theSize);
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Memory_Copy : Quesa API entry point.
+//-----------------------------------------------------------------------------
+void
+Q3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE(Q3_VALID_PTR(srcPtr));
+	Q3_REQUIRE(Q3_VALID_PTR(dstPtr));
+	Q3_REQUIRE(theSize != 0);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on srcPtr
+		return;
+
+	if (0) // Further checks on dstPtr
+		return;
+
+	if (0) // Further checks on theSize
+		return;
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	E3Memory_Copy(srcPtr, dstPtr, theSize);
 }
 
 

@@ -40,6 +40,9 @@ extern "C" {
 #endif
 
 
+
+
+
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
@@ -60,6 +63,8 @@ typedef struct TQ3ObjectData
 
 
 
+
+
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
@@ -69,6 +74,7 @@ void		E3Memory_Free(void **thePtr);
 TQ3Status	E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize);
 void		E3Memory_Initialize(void *thePtr, TQ3Uns32 theSize, TQ3Uns8 theValue);
 void		E3Memory_Clear(void *thePtr, TQ3Uns32 theSize);
+void		E3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize);
 
 #if Q3_DEBUG
 TQ3Status	E3Memory_StartRecording();
@@ -79,6 +85,9 @@ TQ3Uns32	E3Memory_CountRecords();
 TQ3Object	E3Memory_NextRecordedObject( TQ3Object inObject );
 TQ3Status	E3Memory_DumpRecording( const char* fileName, const char* memo );
 #endif
+
+
+
 
 
 //=============================================================================
