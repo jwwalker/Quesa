@@ -953,6 +953,10 @@ e3fformat_3dmf_bin_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeFFormatFloat32Read:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_32;
 			break;
+			
+		case kQ3XMethodTypeFFormatFloat32ReadArray:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinaryArray_32;
+			break;
 
 		case kQ3XMethodTypeFFormatFloat64Read:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_64;
@@ -962,12 +966,24 @@ e3fformat_3dmf_bin_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_8;
 			break;
 
+		case kQ3XMethodTypeFFormatInt8ReadArray:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinaryArray_8;
+			break;
+
 		case kQ3XMethodTypeFFormatInt16Read:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_16;
 			break;
 
+		case kQ3XMethodTypeFFormatInt16ReadArray:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinaryArray_16;
+			break;
+
 		case kQ3XMethodTypeFFormatInt32Read:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_32;
+			break;
+
+		case kQ3XMethodTypeFFormatInt32ReadArray:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinaryArray_32;
 			break;
 
 		case kQ3XMethodTypeFFormatInt64Read:
@@ -1040,6 +1056,10 @@ e3fformat_3dmf_binswap_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeFFormatFloat32Read:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinSwap_32;
 			break;
+		
+		case kQ3XMethodTypeFFormatFloat32ReadArray:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinSwapArray_32;
+			break;
 
 		case kQ3XMethodTypeFFormatFloat64Read:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinSwap_64;
@@ -1049,12 +1069,24 @@ e3fformat_3dmf_binswap_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_8;
 			break;
 
+		case kQ3XMethodTypeFFormatInt8ReadArray:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinaryArray_8;
+			break;
+
 		case kQ3XMethodTypeFFormatInt16Read:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinSwap_16;
 			break;
 
+		case kQ3XMethodTypeFFormatInt16ReadArray:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinSwapArray_16;
+			break;
+
 		case kQ3XMethodTypeFFormatInt32Read:
 			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinSwap_32;
+			break;
+
+		case kQ3XMethodTypeFFormatInt32ReadArray:
+			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinSwapArray_32;
 			break;
 
 		case kQ3XMethodTypeFFormatInt64Read:
