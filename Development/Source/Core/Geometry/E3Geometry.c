@@ -410,6 +410,26 @@ static TQ3Status
 e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Boolean		geomSupported;
 	TQ3Status		qd3dStatus;
+	const void		*publicData;
+	TQ3XGeomGetPublicDataMethod		getPublicData;
+
+
+	// Get the public data for the geometry object
+	//
+	// The pointer submitted to file formats must be of the public data structure for
+	// a geometry, however this may not correspond directly to their instance data.
+	//
+	// We can use the geometry's GetPublicData method to retrieve the data for the
+	// renderer. For immediate mode submits, or objects without this method, we can
+	// use the supplied data directly.
+	publicData = objectData;
+
+	if (theObject != NULL)
+		{
+		getPublicData = (TQ3XGeomGetPublicDataMethod) E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodTypeGeomGetPublicData);
+		if (getPublicData != NULL)
+			publicData = getPublicData(theObject);
+		}
 
 
 
@@ -418,7 +438,7 @@ e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theO
 													objectType,
 													&geomSupported,
 													theObject,
-													objectData);
+													publicData);
 
 
 
