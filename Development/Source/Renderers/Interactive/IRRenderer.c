@@ -58,7 +58,6 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 						TQ3DrawContextObject	theDrawContext)
 {	TQ3XDrawContextValidation		drawContextFlags;
 	TQ3Status						qd3dStatus;
-	TQ3Uns32						n;
 #pragma unused(theView)
 
 
@@ -102,19 +101,9 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 				return(kQ3Failure);
 
 
-			// Recreate any OpenGL texture objects from the texture cache. We need
-			// to do this after rebuilding the GL context, since otherwise OpenGL
-			// will not recognise them as texture objects.
-			//
-			// To double-check, we assert both that the textures no longer exist
-			// after rebuilding the context, and that they then do exist after
-			// they've been rebound.
-			for (n = 0; n < instanceData->textureCount; n++)
-				{
-				Q3_ASSERT(!glIsTexture((GLuint) instanceData->textureCache[n]));
-				glBindTexture(GL_TEXTURE_2D, (GLuint) instanceData->textureCache[n]);
-				Q3_ASSERT(glIsTexture((GLuint) instanceData->textureCache[n]));
-				}
+			// Reload the OpenGL texture objects from the texture cache,
+			// as they will be lost when the context is rebuilt.
+			IRRenderer_State_ReloadTextureCache(instanceData);
 			}
 
 

@@ -84,6 +84,16 @@ typedef struct TQ3CachedPrim {
 } TQ3CachedPrim;
 
 
+// Cached texture data
+typedef struct TQ3CachedTexture {
+	TQ3TextureObject		theTexture;
+	TQ3Matrix3x3			theTransform;
+	GLuint					qualityFilter;
+	TQ3ShaderUVBoundary		boundaryU;
+	TQ3ShaderUVBoundary		boundaryV;
+} TQ3CachedTexture;
+
+
 // Interactive renderer data
 typedef struct TQ3InteractiveData {
 	// GL state
@@ -97,8 +107,8 @@ typedef struct TQ3InteractiveData {
 
 
 	// Texture state
-	TQ3Uns32				textureCount;
-	TQ3TextureObject		*textureCache;
+	TQ3Uns32				cachedTextureCount;
+	TQ3CachedTexture		*cachedTextures;
 
 
 	// Cached state

@@ -62,6 +62,9 @@ void				IRRenderer_State_Initialise(
 void				IRRenderer_State_Terminate(
 								TQ3InteractiveData		*instanceData);
 
+void				IRRenderer_State_ReloadTextureCache(
+								TQ3InteractiveData		*instanceData);
+
 void				IRRenderer_State_FlushTextureCache(
 								TQ3InteractiveData		*instanceData,
 								TQ3Boolean				forceFlush);
