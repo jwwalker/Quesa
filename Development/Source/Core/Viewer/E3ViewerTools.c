@@ -44,10 +44,19 @@
 #include "E3ViewerTools.h"
 
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
-	#include <Menus.h>
-	#include <Icons.h>
-	#include <Fonts.h>
-	#include "ICAPI.h"
+	#if TARGET_API_MAC_CARBON
+		// I'd rather just include CarbonHeaders.h, which are usually precompiled,
+		// but that seems to cause an "Illegal use of precompiled header" error --
+		// probably because the QD3D headers are built right into them, but the
+		// Quesa headers (above) #define stuff that would exclude those.  So, for
+		// now, I just include <CarbonHeaders.c>, which is slow but works.  -JJS
+		#include <CarbonHeaders.c>
+	#else
+		#include <Menus.h>
+		#include <Icons.h>
+		#include <Fonts.h>
+		#include "ICAPI.h"
+	#endif
 #endif
 
 
@@ -69,6 +78,9 @@
 	#endif
 	#ifndef TQ3EventRecord
 		#define TQ3EventRecord	EventRecord
+	#endif
+	#if TARGET_API_MAC_CARBON
+		typedef OSStatus ICError;
 	#endif
 #else
 	#ifndef TQ3Rect
@@ -232,7 +244,11 @@ OSPopupMenuSelect (TQ3Rect* r, TQ3Int32 id)
 		LocalToGlobal (&pt);
 		InsertMenu (menu, -1);
 		result = PopUpMenuSelect (menu, pt.v, pt.h, 0);
-		DeleteMenu ((**menu).menuID);
+		#if TARGET_API_MAC_CARBON
+			DeleteMenu (GetMenuID(menu));
+		#else
+			DeleteMenu ((**menu).menuID);
+		#endif
 		DisposeMenu (menu);
 		return result;
 		}
@@ -1057,9 +1073,9 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 								++j;
 								}
 							name [0] = j;
-							InsertMenuItem (theRendererMenu, name, CountMItems (theRendererMenu));
+							InsertMenuItem (theRendererMenu, name, CountMenuItems (theRendererMenu));
 							if (rendererClassType == theType)
-								SetItemMark (theRendererMenu, CountMItems (theRendererMenu), checkMark);
+								SetItemMark (theRendererMenu, CountMenuItems (theRendererMenu), checkMark);
 							rendererTypes [rendererCount] = theType;
 							++rendererCount;
 							}
@@ -1070,9 +1086,9 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 			
 			if (hasConfigure)
 				{
-				InsertMenuItem (theRendererMenu, "\p-", CountMItems (theRendererMenu));
+				InsertMenuItem (theRendererMenu, "\p-", CountMenuItems (theRendererMenu));
 				GetIndString (name, kGeneralStrings, kConfigureStrID);
-				InsertMenuItem (theRendererMenu, name, CountMItems (theRendererMenu));
+				InsertMenuItem (theRendererMenu, name, CountMenuItems (theRendererMenu));
 				}
 			}
 		if (theLightsMenu)
@@ -1128,7 +1144,7 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 			TQ3Int16 menu = menuResult >> 16;
 			if (menu == kRendererMenuID)
 				{
-				if (hasConfigure && (menuItem == CountMItems (theRendererMenu))) // last menu item
+				if (hasConfigure && (menuItem == CountMenuItems (theRendererMenu))) // last menu item
 					{
 					TQ3DialogAnchor dialogAnchor = {NULL};
 					TQ3Boolean canceled;
@@ -1201,12 +1217,20 @@ static TQ3Status OptionsClickTool (TQ3ViewerObject theViewer, TQ3SharedObject)
 			}
 		if (theRendererMenu)
 			{
-			DeleteMenu ((**theRendererMenu).menuID);
+			#if TARGET_API_MAC_CARBON
+				DeleteMenu (GetMenuID(theRendererMenu));
+			#else
+				DeleteMenu ((**theRendererMenu).menuID);
+			#endif
 			DisposeMenu (theRendererMenu);
 			}
 		if (theLightsMenu)
 			{
-			DeleteMenu ((**theLightsMenu).menuID);
+			#if TARGET_API_MAC_CARBON
+				DeleteMenu (GetMenuID(theLightsMenu));
+			#else
+				DeleteMenu ((**theLightsMenu).menuID);
+			#endif
 			DisposeMenu (theLightsMenu);
 			}
 		if (theRenderer)
@@ -1269,7 +1293,11 @@ static TQ3Status AboutClickTool (TQ3ViewerObject, TQ3SharedObject)
 		ICError err = ICStart (&inst, '????');
 		if (!err)
 			{
-			err = ICFindConfigFile (inst, 0, nil);
+			#if !TARGET_API_MAC_CARBON
+				// Not sure what replaces the following, in Carbon;
+				// maybe it's not needed at all.
+				err = ICFindConfigFile (inst, 0, nil);
+			#endif
 			if (!err)
 				{
 				TQ3Int32 selStart, selEnd;

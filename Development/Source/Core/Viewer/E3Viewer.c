@@ -34,12 +34,12 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
+
 #include "E3Viewer.h"
 #include "E3ViewerTools.h"
-
-
-
-
+#if QUESA_OS_MACINTOSH
+	#include "E3CarbonCoating.h"
+#endif
 
 //=============================================================================
 //      Internal constants
@@ -1162,6 +1162,12 @@ e3pointinrect (TQ3Point2D* pt, TQ3Rect* r)
 static void
 e3balloonhelp (TQ3ViewerData* theViewer, Point pt)
 	{
+#if TARGET_API_MAC_CARBON
+	// Balloon Help has been replaced with MacHelp in Carbon.
+	// But it's different enough to be a real pain in the tuckus.
+	// Let's defer it for now, and come back to it later.
+	#pragma unused(theViewer, pt)
+#else
 	if ((UInt32)(HMGetBalloons) != kUnresolvedCFragSymbolAddress)
 		{
 		if (HMGetBalloons()) // Balloon help is on
@@ -1239,6 +1245,7 @@ e3balloonhelp (TQ3ViewerData* theViewer, Point pt)
 				}
 			}
 		}
+#endif
 	}
 
 
@@ -1356,7 +1363,7 @@ e3trackinghandler (DragTrackingMessage message, WindowPtr theWindow, void *handl
 			Point mouse;
 			GrafPtr oldPort;
 			GetPort (&oldPort);
-			SetPort (theWindow);
+			SetPortWindowPort(theWindow);
 			GetMouse (&mouse);
 			if (PtInRect (mouse, &theViewer->drawRect))
 				{
@@ -1532,7 +1539,11 @@ e3dodrag (TQ3ViewerData* theViewer, TQ3EventRecord* theEvent)
 			theViewer->theDrag = theDrag; // used in e3callallplugins
 			
 			// add a send data handler
-			sendProcUPP = NewDragSendDataProc (e3sendproc);
+			#if TARGET_API_MAC_CARBON
+				sendProcUPP = NewDragSendDataUPP (e3sendproc);
+			#else
+				sendProcUPP = NewDragSendDataProc (e3sendproc);
+			#endif
 			if (sendProcUPP)
 				SetDragSendProc (theDrag, sendProcUPP, theViewer);
 			
@@ -1564,7 +1575,13 @@ e3dodrag (TQ3ViewerData* theViewer, TQ3EventRecord* theEvent)
 			if (theRegion)
 				DisposeRgn (theRegion);
 			if (sendProcUPP)
-				DisposeRoutineDescriptor (sendProcUPP);
+				{
+				#if TARGET_API_MAC_CARBON
+					DisposeDragSendDataUPP (sendProcUPP);
+				#else
+					DisposeRoutineDescriptor (sendProcUPP);
+				#endif
+				}
 			UseResFile (oldResFile);
 			}
 		}
@@ -1732,19 +1749,33 @@ Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 			}
 
 		if (viewerData->flags & kQ3ViewerDraggingInOff)
-			viewerData->receiveHandler = viewerData->trackingHandler = NULL;
+			{
+			viewerData->receiveHandler = NULL;
+			viewerData->trackingHandler = NULL;
+			}
 		else
 		if (port && (viewerData->flags & kQ3ViewerDragMode))
 			{
-			viewerData->receiveHandler = NewDragReceiveHandlerProc (e3receivehandler);
+			#if TARGET_API_MAC_CARBON
+				viewerData->receiveHandler = NewDragReceiveHandlerUPP (e3receivehandler);
+			#else
+				viewerData->receiveHandler = NewDragReceiveHandlerProc (e3receivehandler);
+			#endif
 			if (viewerData->receiveHandler)
-				InstallReceiveHandler (viewerData->receiveHandler, (GrafPtr)(port), viewerData);
-			viewerData->trackingHandler = NewDragTrackingHandlerProc (e3trackinghandler);
+				InstallReceiveHandler (viewerData->receiveHandler, (WindowRef)(port), viewerData);
+			#if TARGET_API_MAC_CARBON
+				viewerData->trackingHandler = NewDragTrackingHandlerUPP (e3trackinghandler);
+			#else
+				viewerData->trackingHandler = NewDragTrackingHandlerProc (e3trackinghandler);
+			#endif
 			if (viewerData->trackingHandler)
-				InstallTrackingHandler (viewerData->trackingHandler, (GrafPtr)(port), viewerData);
+				InstallTrackingHandler (viewerData->trackingHandler, (WindowRef)(port), viewerData);
 			}
 		else
-			viewerData->receiveHandler = viewerData->trackingHandler = NULL;
+			{
+			viewerData->receiveHandler = NULL;
+			viewerData->trackingHandler = NULL;
+			}
 	#endif
 		viewerData->theWindow = port;
 		viewerData->theRect = *rect;
@@ -1806,7 +1837,9 @@ Q3ViewerNew(TQ3Window port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 				#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 					TQ3MacDrawContextData drawContextData;
 					e3setdefaultdrawcontext (&viewerData->drawRect, &drawContextData.drawContextData);
-					drawContextData.window = drawContextData.grafPort = port; // be warned: port may be NULL
+					#warning Nasty dangerous Window/GrafPtr typecasting here!
+					drawContextData.window = (CWindowPtr)port; // be warned: port may be NULL
+					drawContextData.grafPort = (TQ3Window)port; // NOTE: shouldn't TQ3Window be a WindowRef?
 					drawContextData.library = kQ3Mac2DLibraryNone;
 					drawContextData.viewPort = NULL; // do not support GX
 					theContext = Q3MacDrawContext_New (&drawContextData);
@@ -1912,14 +1945,22 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 	viewerData->validViewer = kQ3InvalidViewer;
 	if (viewerData->receiveHandler)
 		{
-		RemoveReceiveHandler (viewerData->receiveHandler, (GrafPtr)(viewerData->theWindow));
-		DisposeRoutineDescriptor (viewerData->receiveHandler);
+		RemoveReceiveHandler (viewerData->receiveHandler, (WindowRef)(viewerData->theWindow));
+		#if TARGET_API_MAC_CARBON
+			DisposeDragReceiveHandlerUPP (viewerData->receiveHandler);
+		#else
+			DisposeRoutineDescriptor (viewerData->receiveHandler);
+		#endif
 		viewerData->receiveHandler = NULL;
 		}
 	if (viewerData->trackingHandler)
 		{
-		RemoveTrackingHandler (viewerData->trackingHandler, (GrafPtr)(viewerData->theWindow));
-		DisposeRoutineDescriptor (viewerData->trackingHandler);
+		RemoveTrackingHandler (viewerData->trackingHandler, (WindowRef)(viewerData->theWindow));
+		#if TARGET_API_MAC_CARBON
+			DisposeDragTrackingHandlerUPP (viewerData->trackingHandler);
+		#else
+			DisposeRoutineDescriptor (viewerData->trackingHandler);
+		#endif
 		viewerData->trackingHandler = NULL;
 		}
 	if (viewerData->theView)
@@ -2177,6 +2218,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 	OSErr err = noErr;
 #endif
 	TQ3ViewerData* viewerData = (TQ3ViewerData*)theViewer;
+return kQ3Success;
 	CheckViewerFailure (theViewer);
 	if (!viewerData->theWindow)
 		return kQ3BadResult;
@@ -2227,7 +2269,7 @@ Q3ViewerDrawContent(TQ3ViewerObject theViewer)
 					{
 					Rect r = {0, 0, 0, 0}; // get correct rectangle
 					SInt16 procID = scrollBarProc; // change to slider control if running Mac OS 8 or later
-					viewerData->statusBar = NewControl ((GrafPtr)(viewerData->theWindow), &r, "\p", true, 0, 0, 100, procID, 0);
+					viewerData->statusBar = NewControl ((WindowRef)(viewerData->theWindow), &r, "\p", true, 0, 0, 100, procID, 0);
 					}
 			#endif
 				}
@@ -2654,14 +2696,22 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 			{
 			if (viewer->receiveHandler) // was on before
 				{
-				RemoveReceiveHandler (viewer->receiveHandler, (GrafPtr)(viewer->theWindow));
-				DisposeRoutineDescriptor (viewer->receiveHandler);
+				RemoveReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow));
+				#if TARGET_API_MAC_CARBON
+					DisposeDragReceiveHandlerUPP (viewer->receiveHandler);
+				#else
+					DisposeRoutineDescriptor (viewer->receiveHandler);
+				#endif
 				viewer->receiveHandler = NULL;
 				}
 			if (viewer->trackingHandler) // was on before
 				{
-				RemoveTrackingHandler (viewer->trackingHandler, (GrafPtr)(viewer->theWindow));
-				DisposeRoutineDescriptor (viewer->trackingHandler);
+				RemoveTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow));
+				#if TARGET_API_MAC_CARBON
+					DisposeDragTrackingHandlerUPP (viewer->trackingHandler);
+				#else
+					DisposeRoutineDescriptor (viewer->trackingHandler);
+				#endif
 				viewer->trackingHandler = NULL;
 				}
 			}
@@ -2669,15 +2719,23 @@ Q3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 			{
 			if (viewer->receiveHandler == NULL) // was not on before
 				{
-				viewer->receiveHandler = NewDragReceiveHandlerProc (e3receivehandler);
+				#if TARGET_API_MAC_CARBON
+					viewer->receiveHandler = NewDragReceiveHandlerUPP (e3receivehandler);
+				#else
+					viewer->receiveHandler = NewDragReceiveHandlerProc (e3receivehandler);
+				#endif
 				if (viewer->receiveHandler)
-					InstallReceiveHandler (viewer->receiveHandler, (GrafPtr)(viewer->theWindow), theViewer);
+					InstallReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow), theViewer);
 				}
 			if (viewer->trackingHandler == NULL) // was not on before
 				{
-				viewer->trackingHandler = NewDragTrackingHandlerProc (e3trackinghandler);
+				#if TARGET_API_MAC_CARBON
+					viewer->trackingHandler = NewDragTrackingHandlerUPP (e3trackinghandler);
+				#else
+					viewer->trackingHandler = NewDragTrackingHandlerProc (e3trackinghandler);
+				#endif
 				if (viewer->trackingHandler)
-					InstallTrackingHandler (viewer->trackingHandler, (GrafPtr)(viewer->theWindow), theViewer);
+					InstallTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow), theViewer);
 				}
 			}
 		}
@@ -3043,8 +3101,10 @@ Q3ViewerCopy(TQ3ViewerObject theViewer)
 		OSErr err;
 		h = TempNewHandle (0, &err);
 		}
-	if (!h) // try system mem
-		h = NewHandleSys (0);
+	#if !TARGET_API_MAC_CARBON
+		if (!h) // try system mem
+			h = NewHandleSys (0);
+	#endif
 	if (!h)
 		return memFullErr;
 
@@ -3125,8 +3185,10 @@ Q3ViewerPaste(TQ3ViewerObject theViewer)
 			OSErr err;
 			h = TempNewHandle (size, &err);
 			}
-		if (!h) // try system mem
-			h = NewHandleSys (size);
+		#if !TARGET_API_MAC_CARBON
+			if (!h) // try system mem
+				h = NewHandleSys (size);
+		#endif
 		if (!h)
 			return memFullErr;
 		size = GetScrap (h, '3DMF', &offset); // read the scrap into the handle
@@ -3984,8 +4046,8 @@ Q3ViewerGetPict(TQ3ViewerObject theViewer)
 						// now make a Picture from the GWorld
 						RgnHandle oldClip;
 						OpenCPicParams pictureHeader;
-						GrafPtr thePort = (GrafPtr)(viewer->theWindow);
-						SetPort (thePort);
+						CGrafPtr thePort = GetWindowPort(viewer->theWindow);
+						SetPortWindowPort(viewer->theWindow);
 						oldClip = NewRgn ();
 						if (oldClip)
 							GetClip (oldClip); // for some reason I need to get and reset the clip region
@@ -3997,7 +4059,11 @@ Q3ViewerGetPict(TQ3ViewerObject theViewer)
 						if (thePicture)
 							{
 							ClipRect (&r); // this cliprect should go into the picture but it seems to effect the ports cliprect
-							CopyBits ((BitMapPtr)(*thePixMap), &thePort->portBits, &r, &r, srcCopy, NULL);
+							#if TARGET_API_MAC_CARBON
+								CopyBits ((BitMapPtr)(*thePixMap), GetPortBitMapForCopyBits(thePort), &r, &r, srcCopy, NULL);
+							#else
+								CopyBits ((BitMapPtr)(*thePixMap), &((GrafPtr)thePort)->portBits, &r, &r, srcCopy, NULL);
+							#endif
 							ClosePicture ();
 							}
 						if (oldClip)
@@ -4047,14 +4113,22 @@ Q3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port)
 					// need to unset up a drag handler for viewer->theWindow
 					if (viewer->receiveHandler)
 						{
-						RemoveReceiveHandler (viewer->receiveHandler, (GrafPtr)(viewer->theWindow));
-						DisposeRoutineDescriptor (viewer->receiveHandler);
+						RemoveReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow));
+						#if TARGET_API_MAC_CARBON
+							DisposeDragReceiveHandlerUPP (viewer->receiveHandler);
+						#else
+							DisposeRoutineDescriptor (viewer->receiveHandler);
+						#endif
 						viewer->receiveHandler = NULL;
 						}
 					if (viewer->trackingHandler)
 						{
-						RemoveTrackingHandler (viewer->trackingHandler, (GrafPtr)(viewer->theWindow));
-						DisposeRoutineDescriptor (viewer->trackingHandler);
+						RemoveTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow));
+						#if TARGET_API_MAC_CARBON
+							DisposeDragTrackingHandlerUPP (viewer->trackingHandler);
+						#else
+							DisposeRoutineDescriptor (viewer->trackingHandler);
+						#endif
 						viewer->trackingHandler = NULL;
 						}
 					}
@@ -4064,12 +4138,12 @@ Q3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port)
 				if ((viewer->flags & kQ3ViewerDragMode) && ((viewer->flags & kQ3ViewerDraggingInOff) == 0))
 					{
 					OSErr err;
-					viewer->receiveHandler = NewDragReceiveHandlerProc (e3receivehandler);
+					viewer->receiveHandler = NewDragReceiveHandlerUPP (e3receivehandler);
 					if (viewer->receiveHandler)
-						err = InstallReceiveHandler (viewer->receiveHandler, (GrafPtr)(viewer->theWindow), theViewer);
-					viewer->trackingHandler = NewDragTrackingHandlerProc (e3trackinghandler);
+						err = InstallReceiveHandler (viewer->receiveHandler, (WindowRef)(viewer->theWindow), theViewer);
+					viewer->trackingHandler = NewDragTrackingHandlerUPP (e3trackinghandler);
 					if (viewer->trackingHandler)
-						err = InstallTrackingHandler (viewer->trackingHandler, (GrafPtr)(viewer->theWindow), theViewer);
+						err = InstallTrackingHandler (viewer->trackingHandler, (WindowRef)(viewer->theWindow), theViewer);
 					}
 				return noErr;
 				}

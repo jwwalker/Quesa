@@ -62,21 +62,30 @@
 
 // Mac OS
 #if QUESA_OS_MACINTOSH
-	#include <Balloons.h>
-	#include <CodeFragments.h>
-	#include <ConditionalMacros.h>
-	#include <ColorPicker.h>
-	#include <Dialogs.h>
-	#include <Drag.h>
-	#include <Events.h>
-	#include <QuickDraw.h>
-	#include <Resources.h>
-	#include <Scrap.h>
-	#include <Sound.h>
-	#include <TextUtils.h>
+	#if TARGET_API_MAC_CARBON
+		// I'd rather just include CarbonHeaders.h, which are usually precompiled,
+		// but that seems to cause an "Illegal use of precompiled header" error --
+		// probably because the QD3D headers are built right into them, but the
+		// Quesa headers (above) #define stuff that would exclude those.  So, for
+		// now, I just include <CarbonHeaders.c>, which is slow but works.  -JJS
+		#include <CarbonHeaders.c>
+	#else
+		#include <Balloons.h>
+		#include <CodeFragments.h>
+		#include <ConditionalMacros.h>
+		#include <ColorPicker.h>
+		#include <Dialogs.h>
+		#include <Drag.h>
+		#include <Events.h>
+		#include <QuickDraw.h>
+		#include <Resources.h>
+		#include <Scrap.h>
+		#include <Sound.h>
+		#include <TextUtils.h>
 
-	#if defined(UNIVERSAL_INTERFACES_VERSION) && (UNIVERSAL_INTERFACES_VERSION > 0x0320)
-		#include <ControlDefinitions.h>
+		#if defined(UNIVERSAL_INTERFACES_VERSION) && (UNIVERSAL_INTERFACES_VERSION > 0x0320)
+			#include <ControlDefinitions.h>
+		#endif
 	#endif
 #endif
 
