@@ -110,11 +110,6 @@
 
 // Windows
 #elif QUESA_OS_WIN32
-	// Must be first system #include
-	#ifndef _WINDOWS_
-		#include <Windows.h>
-	#endif
-
 
 	// Little endian, default to not using QuickTime 
 	#define QUESA_HOST_IS_BIG_ENDIAN 			0
@@ -182,9 +177,22 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-#include "QD3DIO.h"
 
+#if QUESA_OS_MACINTOSH
 
+	#ifndef __MACTYPES__
+		#include <MacTypes.h>
+	#endif
+
+#elif QUESA_OS_WIN32
+
+	#ifndef _WINDOWS_
+		#include <Windows.h>
+	#endif
+	
+#endif
+
+#include <stdio.h>
 
 
 
@@ -211,8 +219,56 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Types go here
 
+// Basic types
+
+typedef	unsigned char		TQ3Uns8;
+typedef	signed char			TQ3Int8;
+typedef	unsigned short		TQ3Uns16;
+typedef	signed short		TQ3Int16;
+typedef	unsigned long		TQ3Uns32;
+typedef	signed long			TQ3Int32;
+typedef float				TQ3Float32;
+typedef double				TQ3Float64;
+typedef TQ3Uns32			TQ3Size;
+
+#if QUESA_HOST_IS_BIG_ENDIAN
+
+	typedef struct {
+		TQ3Uns32				hi;
+		TQ3Uns32				lo;
+	} TQ3Uns64;
+	
+	typedef struct {
+		TQ3Int32				hi;
+		TQ3Uns32				lo;
+	} TQ3Int64;
+
+#else
+
+	typedef struct {
+		TQ3Uns32				lo;
+		TQ3Uns32				hi;
+	} TQ3Uns64;
+	
+	typedef struct {
+		TQ3Uns32				lo;
+		TQ3Int32				hi;
+	} TQ3Int64;
+
+#endif
+
+
+// close the extern clause to include "QD3D.h"
+#ifdef __cplusplus 
+}
+#endif
+
+#include "QD3D.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 
@@ -643,6 +699,7 @@ Q3Bitmap_GetImageSize (
 #ifdef __cplusplus
 }
 #endif
+
 
 #endif
 
