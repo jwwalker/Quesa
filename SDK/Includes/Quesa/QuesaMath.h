@@ -1259,15 +1259,13 @@ Q3Vector3D_Subtract (
  *  @function
  *      Q3Point2D_Vector2D_Add
  *  @discussion
- *      One-line description of this function.
+ *      Add a 2D vector to a point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
  *
- *  @param point2D          Description of the parameter.
- *  @param vector2D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point2D          Address of a point.
+ *  @param vector2D         Address of a vector to add.
+ *  @param result           Address of point to set (may be the same as point2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_Vector2D_Add (
@@ -1282,15 +1280,12 @@ Q3Point2D_Vector2D_Add (
  *  @function
  *      Q3Param2D_Vector2D_Add
  *  @discussion
- *      One-line description of this function.
+ *      Add a 2D vector to a parametric (UV) point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param param2D          Description of the parameter.
- *  @param vector2D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param param2D          Address of a 2D parametric point.
+ *  @param vector2D         Address of a vector to add.
+ *  @param result           Address of point to set (may be the same as param2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_Vector2D_Add (
@@ -1305,15 +1300,12 @@ Q3Param2D_Vector2D_Add (
  *  @function
  *      Q3Point3D_Vector3D_Add
  *  @discussion
- *      One-line description of this function.
+ *      Add a 3D vector to a point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param vector3D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          Address of a point.
+ *  @param vector3D         Address of a vector to add.
+ *  @param result           Address of point to set (may be the same as point3D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_Vector3D_Add (
@@ -1328,15 +1320,12 @@ Q3Point3D_Vector3D_Add (
  *  @function
  *      Q3Point2D_Vector2D_Subtract
  *  @discussion
- *      One-line description of this function.
+ *      Subtract a 2D vector from a point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point2D          Description of the parameter.
- *  @param vector2D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point2D          Address of a point.
+ *  @param vector2D         Address of a vector to subtract.
+ *  @param result           Address of point to set (may be the same as point2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_Vector2D_Subtract (
@@ -1351,15 +1340,12 @@ Q3Point2D_Vector2D_Subtract (
  *  @function
  *      Q3Param2D_Vector2D_Subtract
  *  @discussion
- *      One-line description of this function.
+ *      Subtract a 2D vector from a parametric (UV) point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param param2D          Description of the parameter.
- *  @param vector2D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param param2D          Address of a 2D parametric point.
+ *  @param vector2D         Address of a vector to subtract.
+ *  @param result           Address of point to set (may be the same as param2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_Vector2D_Subtract (
@@ -1374,15 +1360,12 @@ Q3Param2D_Vector2D_Subtract (
  *  @function
  *      Q3Point3D_Vector3D_Subtract
  *  @discussion
- *      One-line description of this function.
+ *      Subtract 3D vector from point.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param vector3D         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          Address of a point.
+ *  @param vector3D         Address of a vector to subtract.
+ *  @param result           Address of point to set (may be the same as point3D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_Vector3D_Subtract (
@@ -1402,15 +1385,12 @@ Q3Point3D_Vector3D_Subtract (
  *  @function
  *      Q3Point2D_Subtract
  *  @discussion
- *      One-line description of this function.
+ *      Subtract the 2D point p2 from p1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of a point.
+ *  @param p2               Address of point to subtract.
+ *  @param result           Address of a vector to set with (p1-p2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Point2D_Subtract (
@@ -1425,15 +1405,12 @@ Q3Point2D_Subtract (
  *  @function
  *      Q3Param2D_Subtract
  *  @discussion
- *      One-line description of this function.
+ *      Subtract 2D parametric point p2 from p1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of a point.
+ *  @param p2               Address of point to subtract.
+ *  @param result           Address of a vector to set with (p1-p2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Param2D_Subtract (
@@ -1448,15 +1425,12 @@ Q3Param2D_Subtract (
  *  @function
  *      Q3Point3D_Subtract
  *  @discussion
- *      One-line description of this function.
+ *      Subtract 3D point p2 from p1.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of a point.
+ *  @param p2               Address of a point to subtract.
+ *  @param result           Address of point to set (may be the same as p1 and/or p2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Point3D_Subtract (
@@ -1476,17 +1450,25 @@ Q3Point3D_Subtract (
  *  @function
  *      Q3Point2D_RRatio
  *  @discussion
- *      One-line description of this function.
+ *      Return the point at ratio r2/(r1+r2) along the line segment from p1 to p2.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Put another way, this function gives you the weighted average of points
+ *		p1 and p2, with the weights given by r1 and r2.  (Note that r1+r2 must
+ *		be nonzero.)
  *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @param r1               Description of the parameter.
- *  @param r2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *      NOTE: The QD3D docs claim that the ratio used is r1/(r1+r2), but
+ *		it was found by direct experimentation that the QD3D library (1.6)
+ *		in fact uses r2/(r1+r2) instead.  This is as it should be, if r1 is
+ *		the weight of p1, and r2 is the weight of p2.
+ *
+ *		As usual, we do as QD3D does, not as the docs say.
+ *
+ *  @param p1               Address of one end of a line segment.
+ *  @param p2               Address of the other end of a line segment.
+ *  @param r1               Weight given to point p1.
+ *  @param r2               Weight given to point p2.
+ *  @param result           Address of point to set (may be the same as p1 and/or p2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_RRatio (
@@ -1503,17 +1485,19 @@ Q3Point2D_RRatio (
  *  @function
  *      Q3Param2D_RRatio
  *  @discussion
- *      One-line description of this function.
+ *      Return the point at ratio r2/(r1+r2) along the line segment is
+ *		parameter (UV) space from p1 to p2.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Put another way, this function gives you the weighted average of points
+ *		p1 and p2, with the weights given by r1 and r2.  (Note that r1+r2 must
+ *		be nonzero.)
  *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @param r1               Description of the parameter.
- *  @param r2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param p1               Address of one end of a line segment.
+ *  @param p2               Address of the other end of a line segment.
+ *  @param r1               Weight given to point p1.
+ *  @param r2               Weight given to point p2.
+ *  @param result           Address of point to set (may be the same as p1 and/or p2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_RRatio (
@@ -1530,17 +1514,25 @@ Q3Param2D_RRatio (
  *  @function
  *      Q3Point3D_RRatio
  *  @discussion
- *      One-line description of this function.
+ *      Return the point at ratio r2/(r1+r2) along the line segment from p1 to p2.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Put another way, this function gives you the weighted average of points
+ *		p1 and p2, with the weights given by r1 and r2.  (Note that r1+r2 must
+ *		be nonzero.)
  *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @param r1               Description of the parameter.
- *  @param r2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *      NOTE: The QD3D docs claim that the ratio used is r1/(r1+r2), but
+ *		it was found by direct experimentation that the QD3D library (1.6)
+ *		in fact uses r2/(r1+r2) instead.  This is as it should be, if r1 is
+ *		the weight of p1, and r2 is the weight of p2.
+ *
+ *		As usual, we do as QD3D does, not as the docs say.
+ *
+ *  @param p1               Address of one end of a line segment.
+ *  @param p2               Address of the other end of a line segment.
+ *  @param r1               Weight given to point p1.
+ *  @param r2               Weight given to point p2.
+ *  @param result           Address of point to set (may be the same as p1 and/or p2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_RRatio (
@@ -1557,14 +1549,25 @@ Q3Point3D_RRatio (
  *  @function
  *      Q3RationalPoint4D_RRatio
  *  @discussion
- *      This operation makes no sense mathematically.
+ *      Return the point at ratio r2/(r1+r2) along the line segment from p1 to p2.
  *
- *  @param p1               Description of the parameter.
- *  @param p2               Description of the parameter.
- *  @param r1               Description of the parameter.
- *  @param r2               Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *		Put another way, this function gives you the weighted average of points
+ *		p1 and p2, with the weights given by r1 and r2.  (Note that r1+r2 must
+ *		be nonzero.)
+ *
+ *      NOTE: The QD3D docs claim that the ratio used is r1/(r1+r2), but
+ *		it was found by direct experimentation that the QD3D library (1.6)
+ *		in fact uses r2/(r1+r2) instead.  This is as it should be, if r1 is
+ *		the weight of p1, and r2 is the weight of p2.
+ *
+ *		As usual, we do as QD3D does, not as the docs say.
+ *
+ *  @param p1               Address of one end of a line segment.
+ *  @param p2               Address of the other end of a line segment.
+ *  @param r1               Weight given to point p1.
+ *  @param r2               Weight given to point p2.
+ *  @param result           Address of point to set (may be the same as p1 and/or p2).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3RationalPoint4D_RRatio (
@@ -1586,16 +1589,20 @@ Q3RationalPoint4D_RRatio (
  *  @function
  *      Q3Point2D_AffineComb
  *  @discussion
- *      One-line description of this function.
+ *      Return weighted combination of several 2D points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Provide an array of points and a parallel array of weights, and
+ *		this function will compute the weighted combination.  Note that
+ *		the weights are NOT required to sum to 1, but the sum must be
+ *		nonzero.
  *
- *  @param points2D         Description of the parameter.
- *  @param weights          Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *		If you have only two points, use Q3Point2D_RRatio instead.
+ *
+ *  @param points2D         Array of 2D points.
+ *  @param weights          Array of weights.
+ *  @param numPoints        How many elements there are in each array.
+ *  @param result           Address of point to set with the weighted combination.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_AffineComb (
@@ -1611,16 +1618,20 @@ Q3Point2D_AffineComb (
  *  @function
  *      Q3Param2D_AffineComb
  *  @discussion
- *      One-line description of this function.
+ *      Return weighted combination of several 2D parameter points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Provide an array of points and a parallel array of weights, and
+ *		this function will compute the weighted combination.  Note that
+ *		the weights are NOT required to sum to 1, but the sum must be
+ *		nonzero.
  *
- *  @param params2D         Description of the parameter.
- *  @param weights          Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *		If you have only two points, use Q3Param2D_RRatio instead.
+ *
+ *  @param params2D         Array of 2D parameter points.
+ *  @param weights          Array of weights.
+ *  @param numPoints        How many elements there are in each array.
+ *  @param result           Address of point to set with the weighted combination.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_AffineComb (
@@ -1636,13 +1647,16 @@ Q3Param2D_AffineComb (
  *  @function
  *      Q3RationalPoint3D_AffineComb
  *  @discussion
- *      This operation makes no sense mathematically.
+ *		Compute the weighted combination of several 3D rational points.
  *
- *  @param rationalPoints3D Description of the parameter.
- *  @param weights          Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *      This operation makes no sense mathematically, but is included
+ *		for compatibility with QD3D.
+ *
+ *  @param rationalPoints3D Array of 3D rational points.
+ *  @param weights          Array of weights.
+ *  @param numPoints        How many elements there are in each array.
+ *  @param result           Address of point to set with the weighted combination.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3RationalPoint3D_AffineComb (
@@ -1658,16 +1672,20 @@ Q3RationalPoint3D_AffineComb (
  *  @function
  *      Q3Point3D_AffineComb
  *  @discussion
- *      One-line description of this function.
+ *      Return weighted combination of several 3D points.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Provide an array of points and a parallel array of weights, and
+ *		this function will compute the weighted combination.  Note that
+ *		the weights are NOT required to sum to 1, but the sum must be
+ *		nonzero.
  *
- *  @param points3D         Description of the parameter.
- *  @param weights          Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *		If you have only two points, use Q3Point3D_RRatio instead.
+ *
+ *  @param points3D         Array of 3D points.
+ *  @param weights          Array of weights.
+ *  @param numPoints        How many elements there are in each array.
+ *  @param result           Address of point to set with the weighted combination.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_AffineComb (
@@ -1683,13 +1701,16 @@ Q3Point3D_AffineComb (
  *  @function
  *      Q3RationalPoint4D_AffineComb
  *  @discussion
- *      This operation makes no sense mathematically.
+ *		Compute the weighted combination of several 4D rational points.
  *
- *  @param rationalPoints4D Description of the parameter.
- *  @param weights          Description of the parameter.
- *  @param numPoints        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *      This operation makes no sense mathematically, but is included
+ *		for compatibility with QD3D.
+ *
+ *  @param rationalPoints4D Array of 4D rational points.
+ *  @param weights          Array of weights.
+ *  @param numPoints        How many elements there are in each array.
+ *  @param result           Address of point to set with the weighted combination.
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3RationalPoint4D_AffineComb (
@@ -1710,15 +1731,18 @@ Q3RationalPoint4D_AffineComb (
  *  @function
  *      Q3Vector2D_Transform
  *  @discussion
- *      One-line description of this function.
+ *      Transform a 2D vector by a 3x3 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note that the translation and perspective components of the
+ *		matrix is ignored (as if it were really a 2x2 matrix).
  *
- *  @param vector2D         Description of the parameter.
- *  @param matrix3x3        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *		Contrast with E3Point2D_Transform, which does the full 3x3
+ *		transformation.
+ *
+ *  @param vector2D         Address of a vector to transform.
+ *  @param matrix3x3        Address of a 3x3 transformation matrix.
+ *  @param result           Address of vector to set (may be the same as vector2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector2D * )
 Q3Vector2D_Transform (
@@ -1733,15 +1757,18 @@ Q3Vector2D_Transform (
  *  @function
  *      Q3Vector3D_Transform
  *  @discussion
- *      One-line description of this function.
+ *      Transform a 3D vector by a 4x4 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Note that the translation and perspective components of the
+ *		matrix is ignored (as if it were really a 3x3 matrix).
  *
- *  @param vector3D         Description of the parameter.
- *  @param matrix4x4        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *		Contrast with E3Point3D_Transform, which does the full 4x4
+ *		transformation.
+ *
+ *  @param vector3D         Address of a vector to transform.
+ *  @param matrix4x4        Address of a 4x4 transformation matrix.
+ *  @param result           Address of vector to set (may be the same as vector3D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Vector3D * )
 Q3Vector3D_Transform (
@@ -1756,15 +1783,12 @@ Q3Vector3D_Transform (
  *  @function
  *      Q3Point2D_Transform
  *  @discussion
- *      One-line description of this function.
+ *      Transform a 2D point by a 3x3 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point2D          Description of the parameter.
- *  @param matrix3x3        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point2D          Address of a point to transform.
+ *  @param matrix3x3        Address of a 3x3 transformation matrix.
+ *  @param result           Address of point to set (may be the same as point2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point2D * )
 Q3Point2D_Transform (
@@ -1779,15 +1803,15 @@ Q3Point2D_Transform (
  *  @function
  *      Q3Param2D_Transform
  *  @discussion
- *      One-line description of this function.
+ *      Transform a 2D parametric point by a 3x3 matrix.
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param param2D          Description of the parameter.
- *  @param matrix3x3        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point2D          Address of a point to transform.
+ *  @param matrix3x3        Address of a 3x3 transformation matrix.
+ *  @param result           Address of point to set (may be the same as point2D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Param2D * )
 Q3Param2D_Transform (
@@ -1802,12 +1826,14 @@ Q3Param2D_Transform (
  *  @function
  *      Q3RationalPoint3D_Transform
  *  @discussion
+ *		Transform 3D rational point by 3x3 matrix.
+ *
  *      Not supported by QD3D.
  *
- *  @param rationalPoint3D  Description of the parameter.
- *  @param matri3x3         Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rationalPoint3D  Address of a point to transform.
+ *  @param matrix3x3        Address of a 3x3 transformation matrix.
+ *  @param result           Address of point to set (may be the same as rationalPoint3D).
+ *  @result                 Convenience copy of result parameter.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -1826,15 +1852,12 @@ Q3RationalPoint3D_Transform (
  *  @function
  *      Q3Point3D_Transform
  *  @discussion
- *      One-line description of this function.
+ *      Transform a 3D point by a 4x4 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point3D          Description of the parameter.
- *  @param matrix4x4        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param point3D          Address of a point to transform.
+ *  @param matrix4x4        Address of a 4x4 transformation matrix.
+ *  @param result           Address of point to set (may be the same as point3D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3Point3D * )
 Q3Point3D_Transform (
@@ -1849,15 +1872,12 @@ Q3Point3D_Transform (
  *  @function
  *      Q3RationalPoint4D_Transform
  *  @discussion
- *      One-line description of this function.
+ *      Transform a 4D rational point by a 4x4 matrix.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param rationalPoint4D  Description of the parameter.
- *  @param matrix4x4        Description of the parameter.
- *  @param result           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param rationalPoint4D  Address of a point to transform.
+ *  @param matrix4x4        Address of a 4x4 transformation matrix.
+ *  @param result           Address of point to set (may be the same as rationalPoint4D).
+ *  @result                 Convenience copy of result parameter.
  */
 EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3RationalPoint4D_Transform (
