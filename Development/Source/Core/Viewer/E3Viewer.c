@@ -34,6 +34,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Version.h"
 #include "E3Viewer.h"
 
 
@@ -179,8 +180,8 @@ E3Viewer_GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 
 
 	// Return the version
-	*majorRevision = kQ3MajorRevision;
-	*minorRevision = kQ3MinorRevision;
+	*majorRevision = kQ3MajorVersion;
+	*minorRevision = kQ3MinorVersion;
 
 	return(kQ3Success);
 }
@@ -284,14 +285,14 @@ E3Viewer_UseData(TQ3ViewerObject theViewer, const void *theData, TQ3Uns32 dataSi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_UseGroup(TQ3ViewerObject theViewer, TQ3GroupObject theGroup)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theView->instanceData;
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 
 
 
 	// Set our group, replacing any existing group
 	E3Shared_Replace(&instanceData->theGroup, theGroup);
 	
-	return(kQ3Succes);
+	return(kQ3Success);
 }
 
 
@@ -303,7 +304,7 @@ E3Viewer_UseGroup(TQ3ViewerObject theViewer, TQ3GroupObject theGroup)
 //-----------------------------------------------------------------------------
 TQ3GroupObject
 E3Viewer_GetGroup(TQ3ViewerObject theViewer)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theView->instanceData;
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 	TQ3GroupObject		theGroup;
 
 
@@ -505,7 +506,7 @@ E3Viewer_SetBackgroundColor(TQ3ViewerObject theViewer, const TQ3ColorARGB *theCo
 //-----------------------------------------------------------------------------
 TQ3ViewObject
 E3Viewer_GetView(TQ3ViewerObject theViewer)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theView->instanceData;
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
 	TQ3ViewObject		theView;
 	
 
@@ -1219,40 +1220,6 @@ E3Viewer_SetCallbackDraw(TQ3ViewerObject theViewer, TQ3ViewerDrawCallbackMethod 
 }
 
 
-
-
-
-//=============================================================================
-//      E3Viewer_GetCallbackResize : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
-//-----------------------------------------------------------------------------
-TQ3ViewerWindowResizeCallbackMethod
-E3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
-{
-
-
-	// To be implemented...
-	return(NULL);
-}
-
-
-
-
-
-//=============================================================================
-//      E3Viewer_SetCallbackResize : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3Viewer_SetCallbackResize(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallbackMethod theCallback, const void *userData)
-{
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
 
 
 
