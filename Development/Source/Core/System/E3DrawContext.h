@@ -269,7 +269,7 @@ TQ3Status				E3Win32DCDrawContext_RegisterClass(void);
 TQ3Status				E3Win32DCDrawContext_UnregisterClass(void);
 
 TQ3DrawContextObject	E3Win32DCDrawContext_New(const TQ3Win32DCDrawContextData *drawContextData);
-TQ3DrawContextObject	E3Win32DDDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
+TQ3DrawContextObject	E3Win32DCDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
 TQ3Status				E3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC);
 TQ3Status				E3Win32DCDrawContext_GetDC(TQ3DrawContextObject drawContext, HDC *curHDC);
 
