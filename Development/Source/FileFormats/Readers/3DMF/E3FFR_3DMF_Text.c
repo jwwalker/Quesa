@@ -280,6 +280,10 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 										
 										{kQ3ObjectTypeDisplayGroupState,"NONE",0},
 										{kQ3ObjectTypeDisplayGroupState,"ISINLINE",1},
+										// The 3DMF specification says that the inline flag is
+										// represented by the text "IsInline", but QD3D
+										// actually writes "Inline".
+										{kQ3ObjectTypeDisplayGroupState,"INLINE",1},
 										{kQ3ObjectTypeDisplayGroupState,"DONOTDRAW",2},
 										{kQ3ObjectTypeDisplayGroupState,"NOBOUNDINGBOX",4},
 										{kQ3ObjectTypeDisplayGroupState,"NOBOUNDINGSPHERE",8},
