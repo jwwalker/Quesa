@@ -970,6 +970,8 @@ IRRenderer_State_FlushTextureCache(TQ3InteractiveData *instanceData, TQ3Boolean 
 		n = 0;
 		while (n < instanceData->cachedTextureCount)
 			{
+			Q3_ASSERT(glIsTexture((GLuint) instanceData->cachedTextures[n].theTexture));
+			
 			// If we hold the last reference to this texture, release it
 			if (instanceData->cachedTextures[n].theTexture != NULL &&
 				!Q3Shared_IsReferenced(instanceData->cachedTextures[n].theTexture))
@@ -1701,8 +1703,8 @@ IRRenderer_Texture_ConvertSize(TQ3Uns32			srcWidth,
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstWidth),             NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstHeight),            NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dstRowBytes),          NULL);
-	Q3_REQUIRE_OR_RESULT(!ir_state_is_power_of_2(srcWidth),  NULL);
-	Q3_REQUIRE_OR_RESULT(!ir_state_is_power_of_2(srcHeight), NULL);
+	Q3_REQUIRE_OR_RESULT(!ir_state_is_power_of_2(srcWidth) ||
+						!ir_state_is_power_of_2(srcHeight),  NULL);
 
 
 
@@ -1948,7 +1950,7 @@ IRRenderer_Update_Style_Interpolation(TQ3ViewObject				theView,
 		default:
 			break;
 		}	
-
+	
 	return(kQ3Success);
 }
 
