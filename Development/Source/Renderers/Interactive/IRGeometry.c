@@ -621,7 +621,7 @@ IRGeometry_Validate_Triangles(TQ3InteractiveData		*instanceData,
 void
 IRGeometry_Validate_Vertices(TQ3InteractiveData		*instanceData,
 								TQ3Uns32			numVertices,
-								UInt32				vertexStride,
+								TQ3Uns32			vertexStride,
 								const TQ3Vector3D	*theNormals)
 {
 #if !Q3_DEBUG
