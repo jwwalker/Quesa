@@ -460,7 +460,7 @@ E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3HashTable_Iterate(E3HashTablePtr theTable, TQ3HashTableIterator theIterator, void *userData)
-{	TQ3Status				qd3dStatus;
+{	TQ3Status				qd3dStatus = kQ3Success;
 	E3HashTableItemPtr		theItem;
 	E3HashTableNodePtr		theNode;
 	TQ3Uns32				n, m;
