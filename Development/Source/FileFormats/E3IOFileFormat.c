@@ -248,13 +248,27 @@ E3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64* data)
 //      E3FileFormat_GenericReadBinary_String : Reads a zero terminated padded
 //												string from stream.
 //-----------------------------------------------------------------------------
+//		Note: If the data parameter is NULL, this still finds the length of the
+//		string, but leaves the file offset at the beginning of the string.
+//		This makes it possible to read an unlimited-size string in a two-pass
+//		manner: First find the length, then allocate a large-enough buffer,
+//		then read the data.
+//
+//		On input, the value of *ioLength should be the number of bytes allocated
+//		to receive data.  On output, *ioLength is the length of the string
+//		(excluding the terminating NUL), even if not all of the string was able
+//		to fit in the buffer.
+//-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data, TQ3Uns32 *length)
+E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data,
+	TQ3Uns32 *ioLength)
 {
 	TQ3Uns32 					sizeRead = 0;
 	TQ3Status 					result = kQ3Failure;
 	TQ3FFormatBaseData			*instanceData = (TQ3FFormatBaseData *) format->instanceData;
 	TQ3XStorageReadDataMethod	dataRead;
+	TQ3Uns32					startOffset;
+	TQ3Uns32					bufferSize = *ioLength;
 	
 	char* 						dataPtr = data;
 	char 						lastChar;
@@ -262,24 +276,51 @@ E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data, TQ
 	dataRead = (TQ3XStorageReadDataMethod)
 					E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageReadData);
 
-	length = 0;
-	if( dataRead != NULL)
+	*ioLength = 0;
 	
-		do{
-		result = dataRead(instanceData->storage,
-							instanceData->currentStoragePosition,
-							1, (unsigned char *)&lastChar, &sizeRead);
-							
-		instanceData->currentStoragePosition++;
-		length++;
-		*dataPtr = lastChar;
-		dataPtr++;
+	if ( dataRead != NULL)
+	{
+		startOffset = instanceData->currentStoragePosition;
 		
+		// Read bytes one at a time, until we fail to read or read a zero byte.
+		do{
+			result = dataRead( instanceData->storage,
+								instanceData->currentStoragePosition,
+								1, (unsigned char *)&lastChar, &sizeRead );
+								
+			instanceData->currentStoragePosition++;
+			*ioLength += 1;
+			
+			if (data != NULL)
+			{
+				if (*ioLength < bufferSize)
+				{
+					*dataPtr = lastChar;
+					dataPtr++;
+				}
+				else if (*ioLength == bufferSize)
+				{
+					*dataPtr = '\0';
+				}
+			}
 		} 
 		while ((lastChar != 0) && (result == kQ3Success));
 		
-		length--;// don't count trailing zero
-
+		if (data == NULL)
+		{
+			// back to the beginning of the string
+			instanceData->currentStoragePosition = startOffset;
+		}
+		else
+		{
+			// skip pad bytes
+			instanceData->currentStoragePosition = startOffset +
+				Q3Size_Pad( instanceData->currentStoragePosition - startOffset );
+		}
+		
+		if (lastChar == 0)
+			*ioLength -= 1;// don't count trailing zero
+	}
 
 	return result;							 
 }
