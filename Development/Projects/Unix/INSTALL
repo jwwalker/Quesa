@@ -1,0 +1,37 @@
+Welcome to Quesa for Unix
+
+this is the source distribution for the Quesa Unix library project.
+You can install it in the used manner
+
+-Set your current working directory to the directory containing this document
+
+		[machine:~] me% cd Quesa-1.6dxx
+
+-And prepare the build system for your machine
+
+		[machine:Quesa-1.6dxx] me% ./configure
+
+     Running `configure' takes awhile.  While running, it prints some
+     messages telling which features it is checking for.
+
+
+-Once the build system is oriented we can build the library
+
+		[machine:Quesa-1.6dxx] me% make
+
+-And finally let access the library from other programs (as root)
+
+		[machine:Quesa-1.6dxx] me% sudo make install
+
+this will install the quesa library (libquesa.a), in /usr/local/lib, and 
+the Quesa header files in /usr/local/includes/Quesa
+
+- You can remove the program binaries and object files from the
+     source code directory by typing `make clean'.  To also remove the
+     files that `configure' created (so you can compile the package for
+     a different kind of computer), type `make distclean'.  There is
+     also a `make maintainer-clean' target, but that is intended mainly
+     for the package's developers.  If you use it, you may have to get
+     all sorts of other programs in order to regenerate files that came
+     with the distribution.
+

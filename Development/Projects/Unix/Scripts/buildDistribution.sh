@@ -23,28 +23,52 @@
 #			search gtk-config and add its parent directory to your PATH environment variable
 #
 #
+#   due the file distribution of quesa, not quite standard, make dist-check always fails
+#
+#
 
 
-
+# make sure we're on the correct directory
 pushd ../../Unix || exit
 
+# create the build system for libquesa
+######################################
 aclocal
 automake --add-missing
 automake
 autoconf
 ./configure
+
+# build libquesa distribution
+######################################
 make dist
 
 
+
+# create the build system for the examples
+######################################
 
 pushd Examples || exit
 
-aclocal
+# make sure we can find gtk-config
+PATH=${PATH}:/usr/local/bin
+
+export PATH
+
+# make sure we can find gtk.m4
+aclocal -I /usr/local/share/aclocal
 automake --add-missing
 automake
 autoconf
 ./configure
+
+# build examples distribution
+######################################
 make dist
 
 popd
 popd
+
+# at this point you'll find the tar.gz packages in ../Unix and ../Unix/Examples
+######################################
+

@@ -1,0 +1,63 @@
+Welcome to Quesa for Unix
+
+this is a raw source distribution for the whole Quesa project
+
+The GNU build system requires that the unix specific stuff were on the 
+top directory of the project, but since this is a multi-platform package, 
+we should rearrange files a bit, before be able to build the Unix port. 
+(unix specific ports are available that doesn't need this rearrange 
+	see <http://www.quesa.org/info/download.html>)
+
+to build the Quesa library for your system follow this steps
+
+- set your current directory to ./Development/Projects/Unix/Scripts
+
+		[machine:~/Quesa] me% cd Development/Projects/Unix/Scripts
+
+- exec the prepareUnixTree.sh script to rearrange files
+
+		[machine:Projects/Unix/Scripts] me% sh prepareUnixTree.sh
+
+Really this script just creates a number of links to lowered level directories 
+in order to put all the sources below the Development/Projects/Unix directory, 
+at this point the home directory for Quesa will be Development/Projects/Unix,
+
+now we can create the unix build system, the Quesa library and examples
+
+		[machine:Projects/Unix/Scripts] me% sh buildUnix.sh
+
+in order the buildUnix.sh script to work, you ought to have installed in your system 
+version 1.6 or later of the GNU build system (automake, autoconf, ecc)
+
+buildUnix.sh will create the GNU build system for both the library and the samples, 
+and builds the library.
+
+Before you be able to use the Quesa library (libquesa.a), you have to install it (as root)
+
+		[machine:Projects/Unix/Scripts] me% cd ..
+		[machine:Projects/Unix] me% sudo make install
+
+this will install the quesa library (libquesa.a), in /usr/local/lib, and 
+the Quesa header files in /usr/local/includes/Quesa
+
+once the library is installed, it will be found by the other programs that uses it, 
+and we can build the examples
+
+		[machine:Projects/Unix] me% cd Examples
+		[machine:Projects/Unix/Examples] me% ./configure
+
+once finished, you're ready to launch some examples
+		[machine:Projects/Unix/Examples] me% ./geomtest
+		[machine:Projects/Unix/Examples] me% ./lighttest
+		...
+
+if everything has gone right you can taste the power of Quesa!!
+
+
+ps:
+For your convenience you can make a link to the unix Quesa home directory
+(Development/Projects/Unix) from your home
+
+		[machine:Projects/Unix/Scripts] me% cd
+		[machine:~] me% ln Quesa/Development/Projects/Unix quesaunix
+

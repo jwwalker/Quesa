@@ -22,7 +22,7 @@ pushd Source
 
 ln -sf ../../../Source/Core
 ln -sf ../../../Source/FileFormats
-ln -sf ../../../Source/PlatForm/Unix
+ln -sf ../../../Source/Platform/Unix
 ln -sf ../../../Source/Renderers
 
 popd
@@ -32,6 +32,12 @@ pushd Examples
 
 ln -sf ../acinclude.m4
 ln -sf ../ltmain.sh
+ln -sf ../AUTHORS
+ln -sf ../ChangeLog
+ln -sf ../COPYING
+ln -sf ../NEWS
+ln -sf ../README
+ln -sf ../INSTALL.examples INSTALL
 ln -sf ../configure.in.examples configure.in
 ln -sf ../Makefile.am.examples Makefile.am
 
