@@ -126,6 +126,14 @@ typedef enum {
  *      The common light state includes the on/off state, brightness, and color.
  *      Brightness and color values should be between 0.0 and 1.0 inclusive.
  *
+ *      Some renderers may support over-saturated lights (where the brightness
+ *      value is greater than 1.0), or even negative brightness (where the value
+ *      is less than 0.0).
+ *
+ *      The effect of such brightness values is renderer-specific, and may result
+ *      in kQ3NoticeBrightnessGreaterThanOne or kQ3NoticeBrightnessLessThanZero
+ *      warnings.
+ *
  *  @field isOn             Controls if the light is active or not.
  *  @field brightness       The brightness of the light.
  *  @field color            The colour of the light.
