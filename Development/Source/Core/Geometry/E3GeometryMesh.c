@@ -97,14 +97,6 @@ E3_PTR_ARRAY_DEFINE(TE3MeshVertexPtr, e3meshVertexPtr, static, kE3MeshVertexPtr)
 
 
 
-// TE3MeshFacePtr
-typedef TE3MeshFaceData* TE3MeshFacePtr;
-
-E3_PTR_ARRAY_OR_LIST_DECLARE(TE3MeshFacePtr, e3meshFacePtr, static);
-E3_PTR_ARRAY_OR_LIST_DEFINE(TE3MeshFacePtr, e3meshFacePtr, static, kE3MeshFacePtr);
-
-
-
 // TE3MeshPartData
 struct TE3MeshPartData {
 	union
@@ -113,6 +105,35 @@ struct TE3MeshPartData {
 		TE3MeshPartData**					partHdl;
 	}								partPtrOrHdl;
 };
+
+
+// TE3MeshContourData
+struct TE3MeshContourData {
+	TE3MeshPartData					part;					// base class
+	TE3MeshFaceData*				containerFacePtr;
+	TE3MeshVertexPtrArray			vertexPtrArray;
+};
+
+E3_ARRAY_OR_LIST_DECLARE(TE3MeshContourData, e3meshContour, static);
+E3_ARRAY_OR_LIST_DEFINE(TE3MeshContourData, e3meshContour, static, kE3MeshContour);
+
+
+
+// TE3MeshFaceData
+struct TE3MeshFaceData {
+	TE3MeshPartData					part;					// base class
+	TE3MeshContourDataArrayOrList	contourArrayOrList;
+	TQ3AttributeSet					attributeSet;
+};
+
+E3_ARRAY_OR_LIST_DECLARE(TE3MeshFaceData, e3meshFace, static);
+E3_ARRAY_OR_LIST_DEFINE(TE3MeshFaceData, e3meshFace, static, kE3MeshFace);
+
+// TE3MeshFacePtr
+typedef TE3MeshFaceData* TE3MeshFacePtr;
+
+E3_PTR_ARRAY_OR_LIST_DECLARE(TE3MeshFacePtr, e3meshFacePtr, static);
+E3_PTR_ARRAY_OR_LIST_DEFINE(TE3MeshFacePtr, e3meshFacePtr, static, kE3MeshFacePtr);
 
 
 
@@ -141,27 +162,6 @@ E3_ARRAY_OR_LIST_DEFINE(TE3MeshVertexData, e3meshVertex, static, kE3MeshVertex);
 
 
 
-// TE3MeshContourData
-struct TE3MeshContourData {
-	TE3MeshPartData					part;					// base class
-	TE3MeshFaceData*				containerFacePtr;
-	TE3MeshVertexPtrArray			vertexPtrArray;
-};
-
-E3_ARRAY_OR_LIST_DECLARE(TE3MeshContourData, e3meshContour, static);
-E3_ARRAY_OR_LIST_DEFINE(TE3MeshContourData, e3meshContour, static, kE3MeshContour);
-
-
-
-// TE3MeshFaceData
-struct TE3MeshFaceData {
-	TE3MeshPartData					part;					// base class
-	TE3MeshContourDataArrayOrList	contourArrayOrList;
-	TQ3AttributeSet					attributeSet;
-};
-
-E3_ARRAY_OR_LIST_DECLARE(TE3MeshFaceData, e3meshFace, static);
-E3_ARRAY_OR_LIST_DEFINE(TE3MeshFaceData, e3meshFace, static, kE3MeshFace);
 
 
 
@@ -2210,7 +2210,7 @@ e3meshContour_GetExtData(
 	if (numVertices == 0)
 		vertexIndices = NULL;
 	else if ((vertexIndices = Q3Memory_Allocate(numVertices * sizeof(TQ3Uns32))) == NULL)
-		goto failure_2;
+		goto failure_1;
 	contourExtDataPtr->numVertices = numVertices;
 	contourExtDataPtr->vertexIndices = vertexIndices;
 
@@ -2222,7 +2222,6 @@ e3meshContour_GetExtData(
 	return(kQ3Success);
 
 	// Dead code to reverse Q3Memory_Allocate
-failure_2:
 
 failure_1:
 
@@ -2457,7 +2456,7 @@ e3meshFace_CreateFromExtData(
 
 	return(kQ3Success);
 
-failure_5:
+//failure_5:
 	while (iSave > 0)
 		e3meshContour_Destroy(&contours[--iSave]);
 
