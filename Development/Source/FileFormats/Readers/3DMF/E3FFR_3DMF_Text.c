@@ -65,6 +65,10 @@
 			while (0)
 
 
+//=============================================================================
+//      Globals
+//-----------------------------------------------------------------------------
+static char 	ContainerLabel[] = "Container";
 
 
 
@@ -747,7 +751,6 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 	char 					objectType[64];
 	TQ3Uns32 				charsRead;
 	TQ3Uns32 				level;
-	static char 	Container[] = "Container";
 	static char 	BeginGroup[] = "BeginGroup";
 
 	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
@@ -760,7 +763,7 @@ e3fformat_3dmf_text_readobject(TQ3FileObject theFile)
 
 	status = e3fformat_3dmf_text_readobjecttype (format, objectType, 64, &charsRead);
 	if(status == kQ3Success){
-		if(strcmp(Container,objectType) == 0) // Container
+		if(strcmp(ContainerLabel,objectType) == 0) // Container
 			{
 				oldContainer = instanceData->containerLevel;
 				instanceData->containerLevel = instanceData->nestingLevel;
@@ -860,7 +863,6 @@ e3read_3dmf_text_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
 	char 						objectType[64];
 	TQ3Uns32 					charsRead;
 	TQ3Uns32 					level;
-	static char 	Container[] = "Container";
 	
 
 	TQ3XObjectReadDataMethod 	readDataMethod;
@@ -880,7 +882,7 @@ e3read_3dmf_text_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
 	if(status == kQ3Success){
 		
 		// find the proper class
-		if(strcmp(Container,objectType) == 0) // Container
+		if(strcmp(ContainerLabel,objectType) == 0) // Container
 			{
 				oldContainer = fformatData->containerLevel;
 				fformatData->containerLevel = fformatData->nestingLevel;
@@ -967,10 +969,14 @@ e3fformat_3dmf_text_get_nexttype(TQ3FileObject theFile)
 
 	status = e3fformat_3dmf_text_readobjecttype(format, objectType, 64, &charsRead);
 	if(status == kQ3Success){
-		theClass = E3ClassTree_GetClassByName(objectType);
-		result = E3ClassTree_GetType (theClass);
-		}
+		while(strcmp(ContainerLabel,objectType) == 0) // Container
+			status = e3fformat_3dmf_text_readobjecttype(format, objectType, 64, &charsRead);
 	
+		if(status == kQ3Success){
+			theClass = E3ClassTree_GetClassByName(objectType);
+			result = E3ClassTree_GetType (theClass);
+			}
+		}
 	instanceData->MFData.baseData.currentStoragePosition = oldPosition;// reset the file mark
 
 	return result;
