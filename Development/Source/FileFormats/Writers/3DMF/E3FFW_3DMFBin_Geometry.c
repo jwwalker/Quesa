@@ -1764,7 +1764,7 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 		}
 	
 	// Faces attribute set
-	if (status == kQ3Success)
+	if ( (status == kQ3Success) && (meshData->numFaces > 0) )
 		{
 		
 		subobject = E3FFormat_3DMF_FaceAttributeSetList_New (meshData->numFaces);
