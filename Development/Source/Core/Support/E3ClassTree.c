@@ -539,6 +539,20 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 
 	if ( qd3dStatus != kQ3Failure && parentClass != NULL )
 		qd3dStatus = E3ClassInfo::Attach ( theClass, parentClass ) ;
+		
+		
+	// Fill out the ownAndParentTypes array
+	TQ3Int32 ourClassDepth = 0 ;
+	E3ClassInfoPtr aClass ;
+	for ( aClass = parentClass ; aClass ; aClass = aClass->theParent )
+		++ourClassDepth ;
+
+	for ( aClass = theClass ; aClass ; aClass = aClass->theParent )
+		{
+		if ( ourClassDepth < kQ3MaxBuiltInClassHierarchyDepth ) ;
+			theClass->ownAndParentTypes [ ourClassDepth ] = aClass->classType ;
+		--ourClassDepth ;
+		}
 
 
 
