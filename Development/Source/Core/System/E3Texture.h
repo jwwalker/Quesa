@@ -109,6 +109,7 @@ TQ3Status				E3Texture_RegisterClass(void);
 TQ3Status				E3Texture_UnregisterClass(void);
 
 TQ3ObjectType			E3Texture_GetType(	TQ3TextureObject texture);
+TQ3Boolean				E3Texture_IsOfMyClass ( TQ3Object object );
 //TQ3Status				E3Texture_GetWidth(	TQ3TextureObject texture, TQ3Uns32 *width);
 //TQ3Status				E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height);
 
