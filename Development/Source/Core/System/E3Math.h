@@ -289,6 +289,7 @@ TQ3Quaternion *			E3Quaternion_Multiply(const TQ3Quaternion *q1, const TQ3Quater
 TQ3Quaternion *			E3Quaternion_MatchReflection(const TQ3Quaternion *q1, const TQ3Quaternion *q2, TQ3Quaternion *result);
 TQ3Quaternion *			E3Quaternion_InterpolateFast(const TQ3Quaternion *q1, const TQ3Quaternion *q2, float t, TQ3Quaternion *result);
 TQ3Quaternion *			E3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2, float t, TQ3Quaternion *result);
+TQ3Vector3D *			E3Quaternion_GetAxisAndAngle(const TQ3Quaternion *q, TQ3Vector3D *outAxis, float *outAngle);
 TQ3Vector3D *			E3Vector3D_TransformQuaternion(const TQ3Vector3D *vector3D, const TQ3Quaternion *quaternion, TQ3Vector3D *result);
 TQ3Point3D *			E3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *quaternion, TQ3Point3D *result);
 
