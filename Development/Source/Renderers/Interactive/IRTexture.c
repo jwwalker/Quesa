@@ -1137,7 +1137,6 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 	TQ3Uns32			redBits, greenBits, blueBits, alphaBits;
 	TQ3Uns32			x, y, n, srcDepth;
 	TQ3Int32			dstRowStep;
-	TQ3Boolean			needToSwap;
 
 
 
@@ -1176,33 +1175,11 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 		dstRowStep = -dstRowStep;
 		}
 
-	// Determine whether we need to do any endian-swapping.  Note that
-	// the endianness of the platform only matters for 16-bit pixels;
-	// 24- and 32-bit pixels are stored as collections of bytes in the
-	// order specified by srcByteOrder, and the platform doesn't matter.
-	// 16-bit pixels are stored as short integers, in the native format
-	// of the platform.  So:
-	//		For 32- or 24-bit pixels, check srcByteOrder (ignoring the platform).
-	//		For 16-bit pixels, check the platform (ignoring srcByteOrder).
-	switch (srcPixelType) {
-		case kQ3PixelTypeARGB32:
-		case kQ3PixelTypeRGB32:
-		case kQ3PixelTypeRGB24:
-			needToSwap = (srcByteOrder == kQ3EndianBig ? kQ3True : kQ3False);
-			break;
-		case kQ3PixelTypeARGB16:
-		case kQ3PixelTypeRGB16:
-		case kQ3PixelTypeRGB16_565:
-			needToSwap = (kNativeEndian == kQ3EndianBig ? kQ3True : kQ3False);
-			break;
-		
-		case kQ3PixelTypeUnknown:
-		default:
-			Q3_ASSERT(!"Unknown srcPixelType");
-			break;
-		}
+	// We will fetch one byte at a time from the image, so the native endian-ness
+	// doesn't matter, only the endian-ness of the image as specified by srcByteOrder.
 	
-	if (needToSwap)
+	
+	if (srcByteOrder == kQ3EndianBig)
 		{
 		// Pixel conversion with no endian-swapping
 		switch(srcPixelType) {
@@ -1283,7 +1260,7 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-					    n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+					    n = (((TQ3Uns16)srcPixel[0]) << 8) | srcPixel[1];
 						alphaBits = (n >> 15) & 0x0001;
 						redBits   = (n >> 10) & 0x001F;
 						greenBits = (n >>  5) & 0x001F;
@@ -1312,7 +1289,7 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+					    n = (((TQ3Uns16)srcPixel[0]) << 8) | srcPixel[1];
 						redBits   = (n >> 10) & 0x001F;
 						greenBits = (n >>  5) & 0x001F;
 						blueBits  = (n >>  0) & 0x001F;
@@ -1340,7 +1317,7 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+					    n = (((TQ3Uns16)srcPixel[0]) << 8) | srcPixel[1];
 						redBits   = (n >> 11) & 0x001F;
 						greenBits = (n >>  5) & 0x003F;
 						blueBits  = (n >>  0) & 0x001F;
@@ -1449,7 +1426,7 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+					    n = (((TQ3Uns16)srcPixel[0]) << 8) | srcPixel[1];
 						n         = E3EndianSwap16(n);
 						alphaBits = (n >> 15) & 0x0001;
 						redBits   = (n >> 10) & 0x001F;
@@ -1479,7 +1456,7 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+					    n = (((TQ3Uns16)srcPixel[0]) << 8) | srcPixel[1];
 						n         = E3EndianSwap16(n);
 						redBits   = (n >> 10) & 0x001F;
 						greenBits = (n >>  5) & 0x001F;
@@ -1508,7 +1485,7 @@ IRRenderer_Texture_ConvertDepthAndFlip(TQ3Uns32			theWidth,
 
 					for (x = 0; x < theWidth; x++)
 						{
-						n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+					    n = (((TQ3Uns16)srcPixel[0]) << 8) | srcPixel[1];
 						n         = E3EndianSwap16(n);
 						redBits   = (n >> 11) & 0x001F;
 						greenBits = (n >>  5) & 0x003F;
