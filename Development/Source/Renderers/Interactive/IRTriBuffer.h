@@ -55,9 +55,8 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-void				IRTriBuffer_StartPass(
-								TQ3InteractiveData				*instanceData,
-								TQ3CameraObject					theCamera);
+TQ3Status			IRTriBuffer_Initialize(
+								TQ3InteractiveData				*instanceData);
 
 void				IRTriBuffer_Terminate(
 								TQ3InteractiveData				*instanceData);
@@ -69,9 +68,7 @@ void				IRTriBuffer_Draw(
 TQ3Status			IRTriBuffer_AddTriangle(
 								TQ3ViewObject					theView,
 								TQ3InteractiveData				*instanceData,
-								const TQ3FVertex3D				*vertex0,
-								const TQ3FVertex3D				*vertex1,
-								const TQ3FVertex3D				*vertex2);
+								const TQ3FVertex3D				*theVertices);
 
 
 
