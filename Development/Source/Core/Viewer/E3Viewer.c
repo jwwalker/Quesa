@@ -1442,8 +1442,8 @@ e3viewer_delete(TQ3Object theObject, void *privateData)
 
 
 	// Dispose of our instance data
-	E3Object_DisposeAndForget(instanceData->mView);
-	E3Object_DisposeAndForget(instanceData->mGroup);
+	Q3Object_CleanDispose(&instanceData->mView);
+	Q3Object_CleanDispose(&instanceData->mGroup);
 
 	// Mark viewer as invalid
 	instanceData->mValidViewer = kQ3InvalidViewer;
@@ -3076,6 +3076,40 @@ E3Viewer_SetCallbackResize(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyC
 }
 
 
+
+
+
+//=============================================================================
+//      E3Viewer_GetCallbackResizeNotify : One-line description of the method.
+//-----------------------------------------------------------------------------
+//		Note : More detailed comments can be placed here if required.
+//-----------------------------------------------------------------------------
+TQ3ViewerPaneResizeNotifyCallbackMethod
+E3Viewer_GetCallbackResizeNotify(TQ3ViewerObject theViewer)
+{
+
+
+	// To be implemented...
+	return(NULL);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Viewer_SetCallbackResizeNotify : One-line description of the method.
+//-----------------------------------------------------------------------------
+//		Note : More detailed comments can be placed here if required.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Viewer_SetCallbackResizeNotify(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod theCallback, const void *userData)
+{
+
+
+	// To be implemented...
+	return(kQ3Failure);
+}
 
 
 
