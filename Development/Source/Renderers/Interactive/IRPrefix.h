@@ -101,6 +101,9 @@ typedef struct TQ3TransparentPrim {
 	TQ3OrientationStyle		orientationStyle;
 	TQ3FillStyle			fillStyle;
 	TQ3BackfacingStyle		backfacingStyle;
+	TQ3ColorRGB				specularColor;
+	float					specularControl;
+	TQ3ObjectType			illumination;
 } TQ3TransparentPrim;
 
 
