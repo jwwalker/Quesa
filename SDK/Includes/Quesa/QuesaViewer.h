@@ -85,6 +85,7 @@ enum {
 
 	// QD3D constants - deprecated
 #if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+	,
     kQ3ViewerEmpty                              = kQ3ViewerStateEmpty,
     kQ3ViewerHasModel                           = kQ3ViewerStateHasModel,
     kQ3ViewerHasUndo                            = kQ3ViewerStateHasUndo
@@ -143,7 +144,7 @@ typedef enum {
  *  @constant kQ3ViewerFlagPaneGrowBox         Displays a grow box within the viewer.
  */
 enum {
-    kQ3ViewerFlagDefault                        = (1 << 0)
+    kQ3ViewerFlagDefault                        = (1 << 0),
     kQ3ViewerFlagButtonCamera                   = (1 << 1),
     kQ3ViewerFlagButtonTruck                    = (1 << 2),
     kQ3ViewerFlagButtonOrbit                    = (1 << 3),
@@ -164,7 +165,7 @@ enum {
     kQ3ViewerFlagShowBadge                      = (1 << 21),
     kQ3ViewerFlagShowControlStrip               = (1 << 22),
     kQ3ViewerFlagOutputTextMode                 = (1 << 23),
-    kQ3ViewerFlagPaneGrowBox                    = (1 << 24),
+    kQ3ViewerFlagPaneGrowBox                    = (1 << 24)
     // 25 to 31, reserved for future expansion
 };
 
@@ -1560,7 +1561,7 @@ Q3Viewer_GetPhongShading (
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status )
-Q3Viewer_GetPhongShading (
+Q3Viewer_SetPhongShading (
     TQ3ViewerObject                theViewer,
     TQ3Boolean                     phongShading
 );
@@ -1601,7 +1602,7 @@ Q3Viewer_GetImage (
  */
 EXTERN_API_C ( TQ3ViewerDrawCallbackMethod )
 Q3Viewer_GetCallbackDraw (
-    TQ3ViewerObject                theViewer,
+    TQ3ViewerObject                theViewer
 );
 
 
@@ -1641,7 +1642,7 @@ Q3Viewer_SetCallbackDraw (
  */
 EXTERN_API_C ( TQ3ViewerWindowResizeCallbackMethod )
 Q3Viewer_GetCallbackResize (
-    TQ3ViewerObject                theViewer,
+    TQ3ViewerObject                theViewer
 );
 
 
@@ -1685,7 +1686,7 @@ Q3Viewer_SetCallbackResize (
  */
 EXTERN_API_C ( TQ3ViewerPaneResizeNotifyCallbackMethod )
 Q3Viewer_GetCallbackResize (
-    TQ3ViewerObject                theViewer,
+    TQ3ViewerObject                theViewer
 );
 
 
