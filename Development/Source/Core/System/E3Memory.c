@@ -50,9 +50,11 @@
 #if Q3_DEBUG
 	#define Q3_MEMORY_DEBUG								1
 	#define Q3_MEMORY_HEADER							sizeof(TQ3Uns32)
+	#define Q3_MEMORY_TRAILER							1
 #else
 	#define Q3_MEMORY_DEBUG								0
 	#define Q3_MEMORY_HEADER							0
+	#define Q3_MEMORY_TRAILER							0
 #endif
 
 
@@ -76,7 +78,7 @@ E3Memory_Allocate(TQ3Uns32 theSize)
 
 
 	// Allocate the memory and a header to hold the size
-	thePtr = malloc(theSize + Q3_MEMORY_HEADER);
+	thePtr = malloc(theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER);
 	if (thePtr == NULL)
 		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
 
@@ -92,7 +94,7 @@ E3Memory_Allocate(TQ3Uns32 theSize)
 
 
 		// Fill the block with rubbish
-		E3Memory_Initialize(thePtr, theSize, kMemoryUninitialised);
+		E3Memory_Initialize(thePtr, theSize + Q3_MEMORY_TRAILER, kMemoryUninitialised);
 		}
 #endif
 
@@ -113,7 +115,7 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 
 
 	// Allocate the memory and a header to hold the size
-	thePtr = calloc(1, theSize + Q3_MEMORY_HEADER);
+	thePtr = calloc(1, theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER);
 	if (thePtr == NULL)
 		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
 
@@ -126,6 +128,11 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 		// Save the size
 		*((TQ3Uns32 *) thePtr) = theSize;
 		thePtr                 = (void *) (((TQ3Uns8 *) thePtr) + Q3_MEMORY_HEADER);
+		
+		
+		// Fill the trailer with rubbish
+		E3Memory_Initialize(((TQ3Uns8 *) thePtr) + theSize, Q3_MEMORY_TRAILER,
+			kMemoryUninitialised);
 		}
 #endif
 
@@ -161,10 +168,16 @@ E3Memory_Free(void **thePtr)
 		// Back up the pointer and fetch the size
 		realPtr = (void *) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
 		theSize = *((TQ3Uns32 *) realPtr);
+		
+		
+		// Check that the trailer is undamaged
+		Q3_ASSERT( *(((TQ3Uns8 *) realPtr) + Q3_MEMORY_HEADER + theSize) ==
+			kMemoryUninitialised );
 
 
 		// Fill the block with rubbish
-		E3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER, kMemoryUninitialised);
+		E3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER,
+			kMemoryFreed);
 #endif
 
 
@@ -216,7 +229,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 		if (newSize == 0)
 			{
 			Q3_ASSERT(theSize != 0);
-			E3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER, kMemoryUninitialised);
+			E3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER, kMemoryFreed);
 			}
 #endif
 		}
@@ -225,7 +238,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 	// If we're going to allocate or resize, increase the pad size to cover any header
 	if (newSize != 0)
-		padSize = Q3_MEMORY_HEADER;
+		padSize = Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER;
 
 
 
@@ -253,7 +266,11 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 		// If we just allocated the block, fill it with rubbish
 		if (realPtr == NULL && newSize != 0)
-			E3Memory_Initialize(newPtr, newSize, kMemoryUninitialised);
+			E3Memory_Initialize(newPtr, newSize + Q3_MEMORY_TRAILER, kMemoryUninitialised);
+		
+		// If we resized the block, reset the trailer.
+		if ( (realPtr != NULL) && (newSize != 0) )
+			E3Memory_Initialize(((TQ3Uns8 *) newPtr) + newSize, Q3_MEMORY_TRAILER, kMemoryUninitialised);
 #endif
 
 
@@ -263,6 +280,38 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 	return(qd3dStatus);
 }
+
+
+
+
+
+//=============================================================================
+//      E3Memory_IsValidBlock : Check header/trailer of a block of memory.
+//-----------------------------------------------------------------------------
+//		This is not to be confused with the platform-dependent routine
+//		E3IsValidPtr, which may receive a pointer allocated by any means.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+TQ3Boolean	E3Memory_IsValidBlock( void *thePtr )
+{
+#if Q3_MEMORY_DEBUG
+	TQ3Uns32		theSize;
+
+	// Back up the pointer and fetch the size
+	thePtr = (void *) (((TQ3Uns8 *) thePtr) - Q3_MEMORY_HEADER);
+	theSize = *((TQ3Uns32 *) thePtr);
+	
+	
+	// Check that the trailer is undamaged
+	if ( *(((TQ3Uns8 *) thePtr) + Q3_MEMORY_HEADER + theSize) == kMemoryUninitialised )
+		return kQ3True;
+	else
+		return kQ3False;
+#else
+	return kQ3True;
+#endif	
+}
+#endif
 
 
 
