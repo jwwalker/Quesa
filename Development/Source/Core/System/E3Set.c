@@ -267,7 +267,7 @@ e3set_iterate_elements(TQ3SetData *instanceData, TQ3SetIterator theIterator, voi
 
 	// Make sure we have a table
 	if (instanceData->theTable == NULL)
-		return(kQ3Failure);
+		return(kQ3Success); // it's OK to have an empty set, just do nothing
 
 
 
