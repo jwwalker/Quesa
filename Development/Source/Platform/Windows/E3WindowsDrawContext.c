@@ -53,6 +53,56 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      e3drawcontext_win32dc_get_dimensions_from_DC : Win32DC DC dimensions.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_win32dc_get_dimensions_from_DC( HDC theDC, TQ3Area *thePane)
+{
+	// Return the dimensions associated with our HDC.
+	HWND win = WindowFromDC( theDC );
+	if (win) {
+		// GetClientRect just gives you the width and height.  We'll assume
+		// that the coordinates needed are local (HWND) coordinates, such
+		// that the top-left corner is 0,0.
+		RECT r;
+		GetClientRect( win, &r );
+		thePane->min.x = (float) 0;
+		thePane->min.y = (float) 0;
+		thePane->max.x = (float) r.right;
+		thePane->max.y = (float) r.bottom;
+		}
+	else {
+		// If for some reason we can't get the HWND, then we'll have to fall back on returning
+		// the dimensions of the screen.  This may not be right, but it's probably better
+		// than nothing.
+		thePane->min.x = 0.0f;
+		thePane->min.y = 0.0f;
+		thePane->max.x = (float) GetDeviceCaps(theDC, HORZRES);
+		thePane->max.y = (float) GetDeviceCaps(theDC, VERTRES);
+		}
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
+//      e3drawcontext_win32dc_get_dimensions : Win32DC draw context dimensions.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_win32dc_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+
+
+
+	e3drawcontext_win32dc_get_dimensions_from_DC( instanceData->data.win32Data.theData.hdc, thePane );
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
 //      e3drawcontext_win32dc_new : Win32DC draw context new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -65,6 +115,8 @@ e3drawcontext_win32dc_new(TQ3Object theObject, void *privateData, const void *pa
 
 	// Initialise our instance data
 	instanceData->data.win32Data.theData = *win32Data;
+	e3drawcontext_win32dc_get_dimensions_from_DC( instanceData->data.win32Data.theData.hdc,
+		&instanceData->data.win32Data.windowRect );
 
 	E3DrawContext_InitaliseData(&instanceData->data.win32Data.theData.drawContextData);
 
@@ -109,9 +161,21 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 
 
 
-	// If we have a draw region, and nothing has changed, we're done
+	// If we have a draw region, and nothing has changed, all we need to do is check whether the window
+	// has been resized.
 	if (instanceData->numDrawRegions != 0 && instanceData->theState == kQ3XDrawContextValidationClearFlags)
+		{
+		TQ3Area		newArea;
+		e3drawcontext_win32dc_get_dimensions_from_DC( instanceData->data.win32Data.theData.hdc,
+			&newArea );
+		if ( (newArea.max.x != instanceData->data.win32Data.windowRect.max.x) ||
+			(newArea.max.y != instanceData->data.win32Data.windowRect.max.y) )
+			{
+			instanceData->data.win32Data.windowRect = newArea;
+			instanceData->theState = kQ3XDrawContextValidationWindowSize;
+			}
 		return(kQ3Success);
+		}
 
 
 
@@ -187,44 +251,6 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 	instanceData->theState = kQ3XDrawContextValidationAll;
 
 	return(kQ3Success);		
-}
-
-
-
-
-
-//=============================================================================
-//      e3drawcontext_win32dc_get_dimensions : Win32DC draw context dimensions.
-//-----------------------------------------------------------------------------
-static void
-e3drawcontext_win32dc_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
-
-
-
-	// Return the dimensions associated with our HDC.
-	HWND win = WindowFromDC( instanceData->data.win32Data.theData.hdc );
-	if (win) {
-		// GetClientRect just gives you the width and height.  We'll assume
-		// that the coordinates needed are local (HWND) coordinates, such
-		// that the top-left corner is 0,0.
-		RECT r;
-		GetClientRect( win, &r );
-		thePane->min.x = (float) 0;
-		thePane->min.y = (float) 0;
-		thePane->max.x = (float) r.right;
-		thePane->max.y = (float) r.bottom;
-		}
-	else {
-		// If for some reason we can't get the HWND, then we'll have to fall back on returning
-		// the dimensions of the screen.  This may not be right, but it's probably better
-		// than nothing.
-		thePane->min.x = 0.0f;
-		thePane->min.y = 0.0f;
-		thePane->max.x = (float) GetDeviceCaps(instanceData->data.win32Data.theData.hdc, HORZRES);
-		thePane->max.y = (float) GetDeviceCaps(instanceData->data.win32Data.theData.hdc, VERTRES);
-		}
-
 }
 
 
