@@ -34,18 +34,14 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-
 #include "E3Viewer.h"
 #include "E3ViewerTools.h"
-#if QUESA_OS_MACINTOSH
-	#include <Appearance.h>
-	#if !TARGET_API_MAC_CARBON
-		#include <math.h>
-	#endif
-#endif
-#if QUESA_OS_WIN32
-	#include <math.h>
-#endif
+
+#include <math.h>
+
+
+
+
 
 //=============================================================================
 //      Internal constants
@@ -194,7 +190,6 @@ const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 //=============================================================================
 //      Internal #defines
 //-----------------------------------------------------------------------------
-
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	#define TQ3Rect Rect
 	#define ConstTQ3Rect Rect
@@ -297,6 +292,82 @@ static TQ3ViewerData* gDragViewer = NULL;
 	static TQ3Int16 gResFileRefNum = 0;
 	static TQ3Uns32 gResFileCount = 0;
 #endif
+
+
+
+
+
+//=============================================================================
+//      Carbon implementation of classic scrap API
+//-----------------------------------------------------------------------------
+#if QUESA_OS_MACINTOSH && TARGET_API_MAC_CARBON
+
+//=============================================================================
+//		ZeroScrap : Empty the clipboard.
+//-----------------------------------------------------------------------------
+static void ZeroScrap(void)
+{
+
+
+	// Clear the current scrap
+	ClearCurrentScrap();
+}
+
+
+
+
+
+//=============================================================================
+//		GetScrap : Get data from the clipboard.
+//-----------------------------------------------------------------------------
+static SInt32 GetScrap(Handle destHandle, ResType theType, SInt32 *scrapOffset)
+{
+	ScrapRef scrap;
+	ScrapFlavorFlags flags;
+	Size byteCount;
+
+	GetCurrentScrap(&scrap);
+
+	// Check to see if the scrap type exists.
+	GetScrapFlavorFlags(scrap, theType, &flags);
+	
+	// Get the size.
+	GetScrapFlavorSize(scrap, theType, &byteCount);
+
+	// If have a valid handle, get data.
+	if (destHandle && byteCount > 0) {
+		SetHandleSize(destHandle, byteCount);
+		if (MemError()) {
+			SysBeep(3); // couldn't resize handle; TO-DO: report error to user.
+		}
+		HLock(destHandle);
+		GetScrapFlavorData(scrap, theType, &byteCount, *destHandle);
+		HUnlock(destHandle);
+	}
+	
+	// Don't know how to get scrap offset, so:
+	if (scrapOffset) *scrapOffset = 0;
+	
+	// Return data size.
+	return byteCount;
+}
+
+
+
+
+
+//=============================================================================
+//		PutScrap : Put data on the clipboard.
+//-----------------------------------------------------------------------------
+static OSStatus PutScrap(SInt32 length, ResType theType, const void *srcPtr)
+{
+	ScrapRef scrap;
+	ScrapFlavorFlags flavorFlags = kScrapFlavorMaskNone;			// Global scrap with no special handling
+	GetCurrentScrap(&scrap);										// initialize scrap
+	return PutScrapFlavor(scrap, theType, flavorFlags, length, srcPtr);	// copy the text to the clipboard
+}
+
+#endif // QUESA_OS_MACINTOSH && TARGET_API_MAC_CARBON
 
 
 

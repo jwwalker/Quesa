@@ -43,26 +43,7 @@
 #include "E3Viewer.h"
 #include "E3ViewerTools.h"
 
-#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
-	#if TARGET_API_MAC_CARBON
-		// I'd rather just include CarbonHeaders.h, which are usually precompiled,
-		// but that seems to cause an "Illegal use of precompiled header" error --
-		// probably because the QD3D headers are built right into them, but the
-		// Quesa headers (above) #define stuff that would exclude those.  So, for
-		// now, I just include <CarbonHeaders.c>, which is slow but works.  -JJS
-		#include <CarbonHeaders.c>
-	#else
-		#include <Menus.h>
-		#include <Icons.h>
-		#include <Fonts.h>
-		#include "ICAPI.h"
-		#include <math.h>
-	#endif
-#endif
-
-#if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
-	#include <math.h>
-#endif
+#include <math.h>
 
 // ANSI C does not allow anonymous function parameters.
 // However the Metrowerks compiler uses these to identify
@@ -99,9 +80,6 @@
 	#endif
 	#ifndef TQ3EventRecord
 		#define TQ3EventRecord	EventRecord
-	#endif
-	#if TARGET_API_MAC_CARBON
-		typedef OSStatus ICError;
 	#endif
 #else
 	#ifndef TQ3Rect
@@ -1359,14 +1337,15 @@ static TQ3Status AboutClickTool (TQ3ViewerObject _unused1, TQ3SharedObject _unus
 	if (Alert (kAboutAlertID, NULL) == kURLItem)
 		{
 		ICInstance inst = nil;
-		ICError err = ICStart (&inst, '????');
+		OSStatus err = ICStart (&inst, '????');
 		if (!err)
 			{
+			// If we're not on Carbon, find the config file
 			#if !TARGET_API_MAC_CARBON
-				// Not sure what replaces the following, in Carbon;
-				// maybe it's not needed at all.
 				err = ICFindConfigFile (inst, 0, nil);
 			#endif
+
+			// Launch the URL
 			if (!err)
 				{
 				TQ3Int32 selStart, selEnd;

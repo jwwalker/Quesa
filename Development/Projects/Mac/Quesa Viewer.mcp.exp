@@ -56,5 +56,5 @@ Q3ViewerUseFile
 Q3ViewerUseGroup
 Q3ViewerWriteData
 Q3ViewerWriteFile
-__initialize
-__terminate
+__ViewerInitialize
+__ViewerTerminate
