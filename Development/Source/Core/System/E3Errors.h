@@ -63,7 +63,7 @@ TQ3Boolean			E3Error_IsFatalError(TQ3Error theError);
 TQ3Error			E3Error_Get(TQ3Error *firstError);
 TQ3Warning			E3Warning_Get(TQ3Warning *firstWarning);
 TQ3Notice			E3Notice_Get(TQ3Notice *firstNotice);
-TQ3Uns32			E3Error_PlatformGet(TQ3Uns32 *firstErr);
+TQ3Uns32			E3Error_PlatformGet(TQ3Uns32 *firstPlatform);
 void				E3Error_PlatformPost(TQ3Uns32 theErr);
 const char			*E3Error_ToString(TQ3Language theLanguage,   TQ3Error theError);
 const char			*E3Warning_ToString(TQ3Language theLanguage, TQ3Warning theWarning);
