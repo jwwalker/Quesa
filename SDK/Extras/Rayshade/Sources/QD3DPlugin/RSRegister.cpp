@@ -109,10 +109,14 @@ TQ3Status RS_Exit(
 
 #if defined(WIN32)
 #include <Windows.h>
+
+extern "C"
+{
+
 /*
  * Shared library entry function
  */
-BOOL __stdcall DllMain( HANDLE hModule, 
+BOOL __stdcall DllMain( HINSTANCE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
 					 );
@@ -121,6 +125,8 @@ BOOL __stdcall DllMain( HANDLE hModule,
  */
 __declspec(dllexport) TQ3Status RS_Exit (
 	void);
+
+}
 #endif
 
 
@@ -928,7 +934,9 @@ void RS_Initialize()
 #endif	/* WINDOW_SYSTEM_MACINTOSH */
 
 #if defined(WIN32)
-BOOL __stdcall DllMain( HANDLE hModule, 
+
+
+BOOL __stdcall DllMain( HINSTANCE inst, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
 					 )
@@ -936,13 +944,15 @@ BOOL __stdcall DllMain( HANDLE hModule,
 	TQ3XSharedLibraryInfo	sharedLibraryInfo;
 	
 	sharedLibraryInfo.registerFunction 	= RS_Register;
-	sharedLibraryInfo.sharedLibrary 	= (unsigned long)hModule;
+	sharedLibraryInfo.sharedLibrary 	= (unsigned long)inst;
 												
 	Q3XSharedLibrary_Register(&sharedLibraryInfo);
 	
-	gRS_SharedLibrary = (unsigned long)hModule;
+	gRS_SharedLibrary = (unsigned long)inst;
 	
 	return (TRUE);
 }
- 
+
+
+
 #endif
