@@ -131,6 +131,22 @@ IRGeometry_Terminate(TQ3InteractiveData *instanceData)
 
 
 //=============================================================================
+//      IRGeometry_StartPass : Start a pass.
+//-----------------------------------------------------------------------------
+void
+IRGeometry_StartPass(TQ3InteractiveData *instanceData, TQ3CameraObject theCamera)
+{
+
+
+	// Record the type of camera we have
+	instanceData->cameraIsOrtho = (Q3Camera_GetType(theCamera) == kQ3CameraTypeOrthographic);
+}
+
+
+
+
+
+//=============================================================================
 //      IRGeometry_Attribute_Handler : Combine view and geometry attributes.
 //-----------------------------------------------------------------------------
 //		Note :	Called by every geometry before they submit themselves in order

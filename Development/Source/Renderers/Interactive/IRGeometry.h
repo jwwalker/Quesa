@@ -68,6 +68,10 @@ TQ3Status			IRGeometry_Initialize(
 void				IRGeometry_Terminate(
 								TQ3InteractiveData		*instanceData);
 
+void				IRGeometry_StartPass(
+								TQ3InteractiveData		*instanceData,
+								TQ3CameraObject			theCamera);
+
 TQ3Boolean			IRGeometry_Attribute_Handler(
 								TQ3ViewObject			theView,
 								TQ3AttributeSet			geomAttributes,
