@@ -1822,6 +1822,9 @@ E3FFormat_3DMF_DisplayGroupState_Get(TQ3Object theObject)
 	if((state & 0x10) == 0x10) // dont pick
 		resultState &= ~kQ3DisplayGroupStateMaskIsPicked;
 	
+	if((state & 0x20) == 0x20) // dont bound
+		resultState |= kQ3DisplayGroupStateMaskIsNotForBounding;
+
 	
 	return resultState;
 }
