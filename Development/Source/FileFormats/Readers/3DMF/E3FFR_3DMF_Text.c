@@ -1014,6 +1014,8 @@ e3fformat_3dmf_text_get_nexttype(TQ3FileObject theFile)
 	TQ3ObjectType 				result = kQ3ObjectTypeInvalid;
 	char 						objectType[64];
 	TQ3Uns32 					oldPosition;
+	TQ3Uns32 					oldNesting;
+	TQ3Uns32 					oldContainer;
 	TQ3Uns32 					charsRead;
 	TQ3Status 					status;
 	E3ClassInfoPtr 				theClass;
@@ -1022,6 +1024,8 @@ e3fformat_3dmf_text_get_nexttype(TQ3FileObject theFile)
 	TE3FFormat3DMF_Text_Data			*instanceData = (TE3FFormat3DMF_Text_Data *) format->instanceData;
 
 	oldPosition	= instanceData->MFData.baseData.currentStoragePosition;
+	oldNesting	= instanceData->nestingLevel;
+	oldContainer = instanceData->containerLevel;
 
 	status = e3fformat_3dmf_text_readobjecttype(format, objectType, 64, &charsRead);
 	if(status == kQ3Success){
@@ -1035,6 +1039,8 @@ e3fformat_3dmf_text_get_nexttype(TQ3FileObject theFile)
 			}
 		}
 	instanceData->MFData.baseData.currentStoragePosition = oldPosition;// reset the file mark
+	instanceData->nestingLevel = oldNesting;							// and other fields
+	instanceData->containerLevel = oldContainer;
 
 	return result;
 }
