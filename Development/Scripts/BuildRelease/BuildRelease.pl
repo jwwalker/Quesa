@@ -461,6 +461,7 @@ sub removeBinaryFiles
 	print "    removing binaries\n";
 	my @theFiles = ();
 
+	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Project Builder:build:");
 	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Quesa Custom Elements Data:");
 	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Quesa Data:");
 	push(@theFiles, $releaseDir . ":Development:Projects:Mac:Quesa Gestalt Data:");
