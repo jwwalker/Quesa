@@ -238,3 +238,34 @@ gldrawcontext_cocoa_setcurrent(void *glContext)
 		[(id)theContext->glContext makeCurrentContext];
 }
 
+
+
+
+
+//=============================================================================
+//		gldrawcontext_cocoa_updateclip : Update OpenGL context clipping.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+gldrawcontext_cocoa_updateclip(void *glContext)
+{
+
+
+	// Not required
+	return(kQ3False);
+}
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_cocoa_updatepos : Update OpenGL context position.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+gldrawcontext_cocoa_updatepos(void *glContext)
+{
+
+
+	// Not required
+	return(kQ3False);
+}
