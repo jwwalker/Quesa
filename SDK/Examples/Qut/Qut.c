@@ -55,10 +55,10 @@
 //=============================================================================
 //      Globals
 //-----------------------------------------------------------------------------
-TQ3ViewObject                   gView              = NULL;
-void                            *gWindow           = NULL;
-float                           gFPS               = 0.0f;
-TQ3Boolean                      gWindowCanResize   = kQ3True;
+TQ3ViewObject                   gView            = NULL;
+void                            *gWindow         = NULL;
+float                           gFPS             = 0.0f;
+TQ3Boolean                      gWindowCanResize = kQ3True;
 TQ3ObjectType                   gRenderers[kRendererMaxNum];
 
 qutFuncAppMenuSelect            gAppMenuSelect     = NULL;
@@ -71,9 +71,10 @@ qutFuncAppMouseUp	            gFuncAppMouseUp    = NULL;
 qutFuncAppIdle	         	    gFuncAppIdle       = NULL;
 qutFuncAppRedraw	            gFuncAppRedraw     = NULL;
 
-static TQ3Uns32                 gFrameCount        = 0;
-static clock_t					gStartTime         = 0;
+static TQ3Uns32                 gFrameCount = 0;
+static clock_t					gStartTime  = 0;
 
+static TQ3ShaderObject			gShaderIllumination = NULL;
 static TQ3FillStyle             gStyleFill;
 static TQ3BackfacingStyle       gStyleBackfacing;
 static TQ3InterpolationStyle    gStyleInterpolation;
@@ -257,10 +258,10 @@ qut_create_lights(TQ3ViewObject theView)
 
 
 //=============================================================================
-//      qut_create_styles : Grab the default style state from the view.
+//      qut_create_defaults : Create the default state for the view.
 //-----------------------------------------------------------------------------
 static void
-qut_create_styles(TQ3ViewObject theView)
+qut_create_defaults(TQ3ViewObject theView)
 {
 
 
@@ -273,6 +274,7 @@ qut_create_styles(TQ3ViewObject theView)
 
 
 	// And set up our own defaults
+	gShaderIllumination          = Q3PhongIllumination_New();
 	gStyleInterpolation          = kQ3InterpolationStyleVertex;
 	gStyleDataAntiAlias.state    = kQ3Off;
 	gStyleDataFog.state          = kQ3Off;
@@ -318,7 +320,7 @@ Qut_CreateView(qutFuncAppConfigureView appConfigureView)
             qd3dStatus = Q3View_SetRendererByType(gView, kQ3RendererTypeInteractive);
 
             qut_create_lights(gView);
-            qut_create_styles(gView);
+            qut_create_defaults(gView);
 
             if (appConfigureView != NULL)
                 appConfigureView(gView, theDrawContext, theCamera);
@@ -423,17 +425,21 @@ void Qut_CalcBoundingSphere(TQ3ViewObject theView, TQ3Object theObject, TQ3Bound
 
 
 //=============================================================================
-//      Qut_SubmitDefaultStyles : Submit the default styles to a view.
+//      Qut_SubmitDefaultState : Submit the default state to a view.
 //-----------------------------------------------------------------------------
 void
-Qut_SubmitDefaultStyles(TQ3ViewObject theView)
+Qut_SubmitDefaultState(TQ3ViewObject theView)
 {
 
 
-    // Submit the styles. Note that a view contains a default set of styles
-    // and so a real application would only submit the styles that it had
-    // changed. However our style menu could change any of them, we just
-    // submit them all.
+	// Submit the state
+	//
+	// Note that a view contains a default set of styles and so a real application
+	// would only submit the styles that it had changed. However our style menu
+	// could change any of them, we just submit them all.
+	if (gShaderIllumination != NULL)
+		Q3Shader_Submit(gShaderIllumination,          theView);
+    
     Q3FillStyle_Submit(gStyleFill,                    theView);
     Q3BackfacingStyle_Submit(gStyleBackfacing,        theView);
     Q3InterpolationStyle_Submit(gStyleInterpolation,  theView);
@@ -633,9 +639,41 @@ Qut_ReadModel(TQ3StorageObject  storageObj)
 //=============================================================================
 //      Private functions.
 //-----------------------------------------------------------------------------
-//      Qut_RenderFrame : Render another frame.
+//      Qut_Initialise : Initialise Qut.
 //-----------------------------------------------------------------------------
 #pragma mark -
+void
+Qut_Initialise(void)
+{
+}
+
+
+
+
+
+//=============================================================================
+//      Qut_Terminate : Terminate Qut.
+//-----------------------------------------------------------------------------
+void
+Qut_Terminate(void)
+{
+
+
+	// Clean up
+	if (gView != NULL)
+		Q3Object_Dispose(gView);
+
+	if (gShaderIllumination != NULL)
+		Q3Object_Dispose(gShaderIllumination);
+}
+
+
+
+
+
+//=============================================================================
+//      Qut_RenderFrame : Render another frame.
+//-----------------------------------------------------------------------------
 void
 Qut_RenderFrame(void)
 {   clock_t		elapsedTime;
@@ -667,7 +705,7 @@ Qut_RenderFrame(void)
         {
         do
             {
-            Qut_SubmitDefaultStyles(gView);
+            Qut_SubmitDefaultState(gView);
             gFuncAppRender(gView);
             }
         while (Q3View_EndRendering(gView) == kQ3ViewStatusRetraverse);
@@ -714,6 +752,20 @@ Qut_InvokeStyleCommand(TQ3Int32 theCmd)
 
 	// Handle the command
 	switch (theCmd) {
+		case kStyleCmdShaderNull:
+		case kStyleCmdShaderLambert:
+		case kStyleCmdShaderPhong:
+			if (gShaderIllumination != NULL)
+				Q3Object_Dispose(gShaderIllumination);
+			
+			if (theCmd == kStyleCmdShaderNull)
+				gShaderIllumination = Q3NULLIllumination_New();
+			else if (theCmd == kStyleCmdShaderLambert)
+				gShaderIllumination = Q3LambertIllumination_New();
+			else
+				gShaderIllumination = Q3PhongIllumination_New();
+			break;
+
 		case kStyleCmdFillFilled:
 			gStyleFill = kQ3FillStyleFilled;
 			break;
