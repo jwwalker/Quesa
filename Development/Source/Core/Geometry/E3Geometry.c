@@ -75,6 +75,14 @@
 
 
 //=============================================================================
+//      Internal constants
+//-----------------------------------------------------------------------------
+#define		kWorldSpaceTolerance	1.0e-5f
+
+
+
+
+//=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
 // Geometry data
@@ -83,6 +91,7 @@ typedef struct TQ3GeometryData {
 	TQ3SubdivisionStyleData		subdivisionStyle;
 	TQ3Uns32					cachedEditIndex;
 	TQ3Object					cachedObject;
+	float						cachedDeterminant;
 } TQ3GeometryData;
 
 
@@ -170,6 +179,7 @@ e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	toInstanceData->cameraEditIndex  = 0;
 	toInstanceData->cachedEditIndex  = 0;
 	toInstanceData->cachedObject     = NULL;
+	toInstanceData->cachedDeterminant  = 0.0f;
 	
 	return kQ3Success;
 }
@@ -449,6 +459,8 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 {	TQ3GeometryData		*instanceData;
 	TQ3Uns32			editIndex;
 	E3ClassInfoPtr		theClass;
+	TQ3Matrix4x4		localToWorld;
+	float				theDet, detRatio;
 
 
 
@@ -499,6 +511,20 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 				{
 				instanceData->cameraEditIndex = editIndex;
 				return(kQ3False);
+				}
+			}
+			
+		// If the subdivision style is not constant, check to see if the local to world
+		// transformation has changed its scale factor.
+		if (instanceData->subdivisionStyle.method != kQ3SubdivisionMethodConstant)
+			{
+			Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
+			theDet = Q3Matrix4x4_Determinant( &localToWorld );
+			detRatio = instanceData->cachedDeterminant / theDet;
+			if (E3Float_Abs( 1.0f - detRatio ) > kWorldSpaceTolerance)
+				{
+				instanceData->cachedDeterminant = theDet;
+				return kQ3False;
 				}
 			}
 		}
