@@ -144,7 +144,7 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_NURBPatch;
 			break;
 
-/*
+
 		case kQ3GeometryTypeMarker:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Marker;
 			break;
@@ -152,7 +152,7 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 		case kQ3GeometryTypePixmapMarker:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_PixmapMarker;
 			break;
-*/
+
 
 /* 
 	by now let's convert everything to triangles
