@@ -700,6 +700,24 @@ E3Texture_GetType(TQ3TextureObject texture)
 
 
 
+//=============================================================================
+//      E3Texture_IsOfMyClass : Check if object pointer is valid and of type texture
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3SharedTypeTexture )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Texture_IsOfMyClass ( TQ3Object object )
+	{
+	return ( (object != NULL) &&  object->IsObjectValid() &&
+		Q3_OBJECT_IS_CLASS( object, E3Texture ) )?
+		kQ3True : kQ3False;
+	}
+
+
+
+
 
 //=============================================================================
 //      E3Texture_GetWidth : Get the width of the texture in pixels.
