@@ -438,5 +438,6 @@ E3MacSystem_UnloadPlugins(void)
 			CloseConnection(&currentSlot->CFM_ID);
 			Q3Memory_Free(&currentSlot);
 		}
-
+		
+	e3macsystem_cfmSlotHead = NULL;
 }
