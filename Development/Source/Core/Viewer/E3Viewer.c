@@ -1771,7 +1771,7 @@ E3Viewer_RegisterClass(void)
 											kQ3ObjectTypeViewer,
 											kQ3ClassNameViewer,
 											e3viewer_metahandler,
-											~sizeof(E3Viewer));
+											sizeof(E3Viewer));
 
 	return(qd3dStatus);
 }

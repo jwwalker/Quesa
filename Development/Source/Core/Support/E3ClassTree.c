@@ -449,7 +449,7 @@ E3ClassTree::RegisterExternalClass (
 								TQ3ObjectType		classType,
 								const char			*className,
 								TQ3XMetaHandler		classMetaHandler,
-								TQ3Int32			leafInstanceSize )
+								TQ3Uns32			leafInstanceSize )
 	{
 	E3ClassInfoPtr parentClass = E3ClassTree::GetClass ( parentClassType ) ;
 	if ( parentClass == NULL )
@@ -468,9 +468,8 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 								TQ3ObjectType		classType,
 								const char			*className,
 								TQ3XMetaHandler		classMetaHandler,
-								TQ3Int32			instanceSizeAndRedundantFlag )
+								TQ3Uns32			instanceSize )
 	{
-	TQ3Uns32 instanceSize = instanceSizeAndRedundantFlag >= 0 ? instanceSizeAndRedundantFlag : ~instanceSizeAndRedundantFlag ;
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
 	TQ3Status qd3dStatus = kQ3Success ;
 

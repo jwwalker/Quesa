@@ -293,14 +293,14 @@ E3Renderer_RegisterClass(void)
 											kQ3SharedTypeRenderer,
 											kQ3ClassNameRenderer,
 											NULL,
-											~sizeof(E3Renderer));
+											sizeof(E3Renderer));
 
 	if ( qd3dStatus != kQ3Failure )
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3ElementTypeAttribute,
 												kQ3AttributeTypeConstructiveSolidGeometryID,
 												kQ3ClassNameAttributeCSGID,
 												NULL,
-												~sizeof(E3CSGAttribute));
+												sizeof(E3CSGAttribute));
 
 	return qd3dStatus ;
 	}

@@ -279,14 +279,14 @@ E3DrawContext_RegisterClass(void)
 											kQ3SharedTypeDrawContext,
 											kQ3ClassNameDrawContext,
 											NULL,
-											~sizeof(E3DrawContext));
+											sizeof(E3DrawContext));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
 												kQ3DrawContextTypePixmap,
 												kQ3ClassNameDrawContextPixmap,
 												e3drawcontext_pixmap_metahandler,
-												~sizeof(E3PixmapDrawContext));
+												sizeof(E3PixmapDrawContext));
 
 #if QUESA_OS_MACINTOSH
 	if (qd3dStatus == kQ3Success)

@@ -945,21 +945,21 @@ E3MacStorage_RegisterClass(void)
 											kQ3StorageTypeMacintosh,
 											kQ3ClassNameStorageMacintosh,
 											e3storage_mac_metahandler,
-											~sizeof(E3MacintoshStorage));
+											sizeof(E3MacintoshStorage));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3StorageTypeMacintosh,
 											kQ3MacintoshStorageTypeFSSpec,
 											kQ3ClassNameStorageFSSpec,
 											e3storage_mac_fsspec_metahandler,
-											~sizeof(E3FSSpecStorage));
+											sizeof(E3FSSpecStorage));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3StorageTypeMemory,
 											kQ3MemoryStorageTypeHandle,
 											kQ3ClassNameStorageHandle,
 											e3storage_mac_handle_metahandler,
-											~sizeof(E3HandleStorage));
+											sizeof(E3HandleStorage));
 
 	return(qd3dStatus);
 }

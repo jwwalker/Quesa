@@ -139,12 +139,12 @@ public :
 											TQ3ObjectType		classType,
 											const char			*className,
 											TQ3XMetaHandler		classMetaHandler,
-											TQ3Int32			instanceSize ) ;
+											TQ3Uns32			instanceSize ) ;
 	static TQ3Status		RegisterExternalClass (	TQ3ObjectType		parentClassType,
 											TQ3ObjectType		classType,
 											const char			*className,
 											TQ3XMetaHandler		classMetaHandler,
-											TQ3Int32			instanceSize ) ;
+											TQ3Uns32			instanceSize ) ;
 	static TQ3Status		UnregisterClass ( TQ3ObjectType classType, TQ3Boolean isRequired ) ;
 
 

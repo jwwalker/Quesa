@@ -589,7 +589,7 @@ E3Texture_RegisterClass(void)
 												kQ3SharedTypeTexture,
 												kQ3ClassNameTexture,
 												NULL,
-												~sizeof(E3Texture));
+												sizeof(E3Texture));
 
 
 	// register pixmap texture
@@ -598,7 +598,7 @@ E3Texture_RegisterClass(void)
 												kQ3TextureTypePixmap,
 												kQ3ClassNameTexturePixmap,
 												e3texture_pixmap_metahandler,
-												~sizeof(E3PixmapTexture));
+												sizeof(E3PixmapTexture));
 
 
 	// register mipmap texture
@@ -607,7 +607,7 @@ E3Texture_RegisterClass(void)
 												kQ3TextureTypeMipmap,
 												kQ3ClassNameTextureMipmap,
 												e3texture_mipmap_metahandler,
-												~sizeof(E3MipmapTexture));
+												sizeof(E3MipmapTexture));
 
 
 	// register compressed texture
@@ -616,7 +616,7 @@ E3Texture_RegisterClass(void)
 												kQ3TextureTypeCompressedPixmap,
 												kQ3ClassNameTextureCompressed,
 												e3texture_compressed_metahandler,
-												~sizeof(E3CompressedPixmapTexture));
+												sizeof(E3CompressedPixmapTexture));
 
 	return(qd3dStatus) ;
 }

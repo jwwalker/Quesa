@@ -152,7 +152,7 @@ E3XDrawContext_RegisterClass(void)
 											kQ3DrawContextTypeX11,
 											kQ3ClassNameDrawContextX11,
 											e3drawcontext_x_metahandler,
-											~sizeof(E3XDrawContext));
+											sizeof(E3XDrawContext));
 
 	return(qd3dStatus);
 }

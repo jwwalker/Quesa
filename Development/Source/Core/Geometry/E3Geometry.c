@@ -702,7 +702,7 @@ E3Geometry_RegisterClass(void)
 											kQ3ShapeTypeGeometry,
 											kQ3ClassNameGeometry,
 											e3geometry_metahandler,
-											~sizeof(E3Geometry));
+											sizeof(E3Geometry));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3GeometryBox_RegisterClass();

@@ -1207,14 +1207,14 @@ E3FFormat_3DMF_Bin_Reader_RegisterClass(void)
 											kQ3FFormatReaderType3DMFBin,
 											kQ3ClassNameFileFormatR_3DMF_Bin,
 											e3fformat_3dmf_bin_metahandler,
-											~sizeof(E3Binary3DMF));
+											sizeof(E3Binary3DMF));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree::RegisterClass(kQ3FileFormatTypeReader,
 											kQ3FFormatReaderType3DMFBinSwapped,
 											kQ3ClassNameFileFormatR_3DMF_BinSwap,
 											e3fformat_3dmf_binswap_metahandler,
-											~sizeof(E3SwappedBinary3DMF));
+											sizeof(E3SwappedBinary3DMF));
 
 	return(qd3dStatus);
 }
