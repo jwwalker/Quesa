@@ -38,7 +38,6 @@
 #include "E3Viewer.h"
 #include "E3ViewerTools.h"
 #if QUESA_OS_MACINTOSH
-	#include "E3CarbonCoating.h"
 	#include <Appearance.h>
 	#if !TARGET_API_MAC_CARBON
 		#include <math.h>
