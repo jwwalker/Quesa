@@ -60,6 +60,28 @@
 #include <QD3DViewer.h>
 #include <QD3DWinViewer.h>
 
+#include "Quesa.h"
+#include "QuesaCamera.h"
+#include "QuesaController.h"
+#include "QuesaCustomElements.h"
+#include "QuesaDrawContext.h"
+#include "QuesaErrors.h"
+#include "QuesaExtension.h"
+#include "QuesaGeometry.h"
+#include "QuesaGroup.h"
+#include "QuesaIO.h"
+#include "QuesaLight.h"
+#include "QuesaMath.h"
+#include "QuesaPick.h"
+#include "QuesaRenderer.h"
+#include "QuesaSet.h"
+#include "QuesaShader.h"
+#include "QuesaStorage.h"
+#include "QuesaString.h"
+#include "QuesaStyle.h"
+#include "QuesaTransform.h"
+#include "QuesaView.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
