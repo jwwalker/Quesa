@@ -47,6 +47,7 @@
 #include "E3String.h"
 #include "E3Transform.h"
 #include "E3Main.h"
+#include "E3Memory.h"
 #include "E3Storage.h"
 #include "E3Pick.h"
 #include "E3IO.h"
@@ -54,6 +55,7 @@
 #include "E3Texture.h"
 #include "E3CustomElements.h"
 #include "E3IOFileFormat.h"
+#include "E3StackCrawl.h"
 
 #if QUESA_OS_MACINTOSH
 // Viewer supported only on Carbon/Classic now
@@ -67,6 +69,8 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+
+
 // Shared object data
 typedef struct TQ3SharedData {
 	TQ3Uns32		refCount;
@@ -329,10 +333,108 @@ e3shape_metahandler(TQ3XMethodType methodType)
 
 
 
+#pragma mark -
+//=============================================================================
+//      e3root_new : Root object new method.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+static TQ3Status
+e3root_new( TQ3Object theObject, void *privateData, void *paramData )
+{
+#pragma unused( paramData )
+	TQ3ObjectData	*instanceData = (TQ3ObjectData *) privateData;
+	E3GlobalsPtr	theGlobals = E3Globals_Get();
+	static TQ3Boolean	sIsMakingListHead = kQ3False;
+	
+	if (sIsMakingListHead == kQ3True)
+	{
+		instanceData->next = theObject;
+		instanceData->prev = theObject;
+		instanceData->stackCrawl = NULL;
+	}
+	else
+	{
+		// initialize instance data
+		if (theGlobals->isLeakChecking == kQ3True)
+		{
+			// make sure the list has a header
+			if (theGlobals->listHead == NULL)
+			{
+				sIsMakingListHead = kQ3True;	// prevent infinite recursion
+				theGlobals->listHead = E3ClassTree_CreateInstance( kQ3ObjectTypeRoot,
+					kQ3False, NULL );
+				sIsMakingListHead = kQ3False;
+				Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, kQ3Failure );
+			}
+			
+			// insert the new node between the list header and last normal node
+			instanceData->next = theGlobals->listHead;
+			instanceData->prev = PREVLINK( theGlobals->listHead );
+			NEXTLINK( PREVLINK( theGlobals->listHead ) ) = theObject;
+			PREVLINK( theGlobals->listHead ) = theObject;
+			
+			// Record a stack crawl if possible
+			instanceData->stackCrawl = E3StackCrawl_New();
+		}
+		else
+		{
+			instanceData->next = NULL;
+			instanceData->prev = NULL;
+			instanceData->stackCrawl = NULL;
+		}
+	}
+	
+	return kQ3Success;
+}
+#endif
+
+
+//=============================================================================
+//      e3root_duplicate : Root object duplicate method.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+static TQ3Status
+e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
+						 TQ3Object toObject, void *toPrivateData)
+{
+#pragma unused( fromObject, fromPrivateData )
+	return e3root_new( toObject, toPrivateData, NULL );
+}
+#endif
+
+
+
+//=============================================================================
+//      e3root_delete : Root delete method.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+static void
+e3root_delete( TQ3Object theObject, void *privateData )
+{
+	TQ3ObjectData	*instanceData = (TQ3ObjectData *) privateData;
+
+	Q3_ASSERT( privateData == theObject->instanceData );
+
+	if ( instanceData->prev != NULL )
+	{
+		NEXTLINK( instanceData->prev ) = instanceData->next;
+		PREVLINK( instanceData->next ) = instanceData->prev;
+	}
+
+	instanceData->prev = NULL;
+	instanceData->next = NULL;
+	
+	E3StackCrawl_Dispose( instanceData->stackCrawl );
+}
+#endif
+
+
+
+
+
 //=============================================================================
 //      e3root_dispose : Root object dispose method.
 //-----------------------------------------------------------------------------
-#pragma mark -
 static void
 e3root_dispose(TQ3Object theObject)
 {
@@ -364,6 +466,20 @@ e3root_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectDispose:
 			theMethod = (TQ3XFunctionPointer) e3root_dispose;
 			break;
+		
+	#if Q3_DEBUG
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) e3root_new;
+			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3root_delete;
+			break;
+
+		case kQ3XMethodTypeObjectDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3root_duplicate;
+			break;
+	#endif
 		}
 	
 	return(theMethod);
@@ -388,7 +504,12 @@ e3main_registercoreclasses(void)
 											kQ3ObjectTypeRoot,
 											kQ3ClassNameRoot,
 											e3root_metahandler,
-											0);
+										#if Q3_DEBUG
+											sizeof(TQ3ObjectData)
+										#else
+											0
+										#endif
+											);
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
@@ -440,7 +561,6 @@ TQ3Status
 E3Initialize(void)
 {	E3GlobalsPtr	theGlobals = E3Globals_Get();
 	TQ3Status		qd3dStatus = kQ3Success;
-
 
 
 	// If we've not initialised Quesa yet, do so now
@@ -570,6 +690,14 @@ E3Exit(void)
 #if QUESA_DUMP_STATS_ON_EXIT
 		E3ClassTree_Dump();
 #endif
+
+	#if QUESA_ALLOW_QD3D_EXTENSIONS && Q3_DEBUG
+		if ( Q3Memory_IsRecording() && (Q3Memory_CountRecords() > 0) )
+		{
+			E3ErrorManager_PostError( kQ3ErrorMemoryLeak, kQ3False );
+			Q3Memory_DumpRecording( "Quesa-leaks.txt", "Q3Exit" );
+		}
+	#endif
 
 
 		// Unload our plug-ins
@@ -1165,6 +1293,30 @@ E3Shared_IsReferenced(TQ3SharedObject sharedObject)
 
 	// Return as the reference count is greater than 1
 	return((TQ3Boolean) (instanceData->refCount > 1));
+}
+
+
+
+
+
+//=============================================================================
+//      E3Shared_GetReferenceCount : Return the reference count.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+E3Shared_GetReferenceCount( TQ3SharedObject sharedObject )
+{
+	TQ3SharedData		*instanceData;
+
+
+	// Find the instance data
+	instanceData = (TQ3SharedData *) E3ClassTree_FindInstanceData(sharedObject, kQ3ObjectTypeShared);
+	if (instanceData == NULL)
+		return(0);
+
+
+
+	// Return the reference count
+	return instanceData->refCount;
 }
 
 
