@@ -25,7 +25,6 @@ CFG=Quesa - Win32 Debug
 # PROP AllowPerConfigDependencies 0
 # PROP Scc_ProjName ""
 # PROP Scc_LocalPath "Desktop"
-# PROP WCE_FormatVersion ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -44,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32_EXPORTING" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESA_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers/3dmf" /I "../../Source/FileFormats/Writers/3dmf" /I "../../../SDK/Includes/Apple" /I "../../../SDK/Includes/Quesa" /D "QUESA_OS_WIN32" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "WIN32_EXPORTING" /YX"E3Prefix.h" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers/3dmf" /I "../../Source/FileFormats/Writers/3dmf" /I "../../../SDK/Includes/Quesa" /D "QUESA_OS_WIN32" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "WIN32_EXPORTING" /YX"E3Prefix.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -56,9 +55,6 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
 # ADD LINK32 opengl32.lib glu32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"../../../SDK/Libraries/Windows/Release/Quesa.dll" /implib:"../../../SDK/Libraries/Windows/Stub/Quesa.lib"
 # SUBTRACT LINK32 /pdb:none
-# Begin Special Build Tool
-SOURCE="$(InputPath)"
-# End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Quesa - Win32 Debug"
 
@@ -86,9 +82,6 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 # ADD LINK32 opengl32.lib glu32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"../../../SDK/Libraries/Windows/Debug/Quesa.dll" /implib:"../../../SDK/Libraries/Windows/Stub/Quesa.lib" /pdbtype:sept
 # SUBTRACT LINK32 /pdb:none
-# Begin Special Build Tool
-SOURCE="$(InputPath)"
-# End Special Build Tool
 
 !ENDIF 
 
@@ -444,10 +437,6 @@ SOURCE=..\..\Source\Platform\Windows\E3WindowsStorage.c
 # Begin Source File
 
 SOURCE=..\..\Source\Platform\Windows\E3WindowsSystem.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\Source\Platform\Windows\E3WinViewer.c
 # End Source File
 # End Group
 # End Group

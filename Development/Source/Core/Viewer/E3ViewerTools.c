@@ -44,6 +44,7 @@
 #include "E3ViewerTools.h"
 
 #include <math.h>
+#include <string.h>
 
 // ANSI C does not allow anonymous function parameters.
 // However the Metrowerks compiler uses these to identify
@@ -775,8 +776,8 @@ DoOrbitToolMove(TQ3ViewerObject theViewer, TQ3Point2D *delta)
 	// Orbit the camera horizontally
 	if (longAngle != 0.0f)
 		{
-		cosAngle = cos(longAngle);
-		sinAngle = sin(longAngle);
+		cosAngle = (float) cos(longAngle);
+		sinAngle = (float) sin(longAngle);
 		cosTheta = Q3Vector3D_Dot(&viewDir, &camPos.upVector);
 		sinTheta = Q3Vector3D_Dot(&viewDir, &viewFront);
 
@@ -797,8 +798,8 @@ DoOrbitToolMove(TQ3ViewerObject theViewer, TQ3Point2D *delta)
 	// Orbit the camera vertically
 	if (latAngle != 0.0f)
 		{
-		cosAngle = cos(latAngle);
-		sinAngle = sin(latAngle);
+		cosAngle = (float) cos(latAngle);
+		sinAngle = (float) sin(latAngle);
 		Q3Vector3D_Cross(&viewDir, &viewLeft, &camPos.upVector);
 
 		viewDir.x = (viewDir.x * cosAngle) + (camPos.upVector.x * sinAngle);
@@ -919,7 +920,7 @@ static TQ3Status DoZoomToolMove (TQ3ViewerObject theViewer, float delta)
 						{
 						const float kQ3MinAngle = 0.01f;
 						const float kQ3MaxAngle = 3.0f;
-						FOV += delta * 0.001;
+						FOV += delta * 0.001f;
 						if (FOV < kQ3MinAngle)
 							FOV = kQ3MinAngle;
 						else
@@ -1332,7 +1333,7 @@ TQ3XFunctionPointer OptionsToolMetaHandler (TQ3XMethodType methodType)
 
 static TQ3Status AboutClickTool (TQ3ViewerObject _unused1, TQ3SharedObject _unused2)
 	{
-	Str255 url = "\phttp://www.quesa.org/";
+	char url[] = "http://www.quesa.org/";
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	if (Alert (kAboutAlertID, NULL) == kURLItem)
 		{
@@ -1350,7 +1351,7 @@ static TQ3Status AboutClickTool (TQ3ViewerObject _unused1, TQ3SharedObject _unus
 				{
 				TQ3Int32 selStart, selEnd;
 				selStart = selEnd = 0;
-				err = ICLaunchURL (inst, "\p", (char*)&url[1], url[0], &selStart, &selEnd);
+				err = ICLaunchURL (inst, "\p", url, strlen(url), &selStart, &selEnd);
 				}
 			ICStop (inst);
 			}
@@ -1361,8 +1362,7 @@ static TQ3Status AboutClickTool (TQ3ViewerObject _unused1, TQ3SharedObject _unus
 		}
 #endif
 #if WINVER
-	url [url [0] + 1] = 0; // cos its a C string
-	if (ShellExecute (NULL, "open", "IEXPLORE", (char*)(&url [ 1 ]), "", SW_SHOWNORMAL) <= (HINSTANCE)(32))
+	if (ShellExecute (NULL, "open", "IEXPLORE", url, "", SW_SHOWNORMAL) <= (HINSTANCE)(32))
 		{
 		// failed
 		}

@@ -42,7 +42,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "QuesaViewer.h"
-#include "E3Viewer.h"
+#include "../../Core/Viewer/E3Viewer.h"
 #include "E3WinViewer.h"
 
 

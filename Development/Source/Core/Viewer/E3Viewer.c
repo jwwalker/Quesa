@@ -107,7 +107,7 @@ const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 #if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 	#define kAppHeapThreshold                   (50 * 1024)
 	
-	static void* E3Memory_Allocate (TQ3Uns32 theSize)
+	static void* Q3Memory_Allocate (TQ3Uns32 theSize)
 		{
 		TQ3Uns32    totalMem, memAvail, requiredSize;
 	    Handle      theHnd, *hndPtr;
@@ -158,7 +158,7 @@ const TQ3Uns32 kQ3ViewerInternalDefault 	=		kQ3ViewerActive				|
 		}
 
 
-	static void E3Memory_Free (void** thePtr)
+	static void Q3Memory_Free_(void** thePtr)
 		{   
 		Handle      theHnd, *hndPtr;
 
@@ -1312,7 +1312,7 @@ e3drawtool (TQ3ViewerData* viewerData, TQ3Uns32 buttonMask, TQ3Uns32 buttonNumbe
 		TQ3Status status = kQ3Failure;
 		TQ3XMetaHandler metaHandler = viewerData->metaHandlers [buttonNumber];
 		TQ3Area area;
-	#if (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH) || (defined(QUESA_OS_WIN32) && QUESA_OS_WIN32)
+	#if (defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH)
 		TQ3Int16 oldResFile = CurResFile ();
 		TQ3Rect r;
 		TQ3Rect iconRect;
@@ -1335,7 +1335,8 @@ e3drawtool (TQ3ViewerData* viewerData, TQ3Uns32 buttonMask, TQ3Uns32 buttonNumbe
 		DrawThemeButton(&iconRect, kThemeMediumBevelButton, &buttonInfo, nil, nil, nil, 0);
 
 	#else
-		status = Q3ViewerGetButtonRect (viewerData, e3_viewer_button_to_external((TQ3ViewerObject) viewerData, buttonNumber), &area);
+		// to do
+		// status = Q3ViewerGetButtonRect (viewerData, e3_viewer_button_to_external((TQ3ViewerObject) viewerData, buttonNumber), &area);
 	#endif
 				
 		if (metaHandler)
@@ -1894,7 +1895,7 @@ Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 		return NULL;
 	if (e3_viewer_Initialize() == kQ3Failure)
 		return NULL;
-	viewerData = (TQ3ViewerData*)E3Memory_Allocate (sizeof (TQ3ViewerData));
+	viewerData = (TQ3ViewerData*)Q3Memory_Allocate (sizeof (TQ3ViewerData));
 	if (viewerData)
 		{
 		status = kQ3Failure;
@@ -2190,7 +2191,7 @@ Q3ViewerDispose(TQ3ViewerObject theViewer)
 		viewerData->phongObject = NULL;
 		}
 	e3callallplugins (viewerData, kQ3XMethodType_ViewerPluginDeleteViewer);
-	E3Memory_Free (&((void *) viewerData));
+	Q3Memory_Free (&((void *) viewerData));
 	e3_viewer_Terminate();
 	// do not recode this as kQ3GoodResult is noErr on MacOS
 	if (Q3Exit () == kQ3Success)

@@ -48,6 +48,7 @@
 #include "QuesaIO.h"
 #include "QuesaLight.h"
 #include "QuesaMath.h"
+#include "QuesaMemory.h"
 #include "QuesaPick.h"
 #include "QuesaRenderer.h"
 #include "QuesaSet.h"

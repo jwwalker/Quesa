@@ -668,7 +668,7 @@ Qut_SelectMetafileToSaveTo(void)
     openFile.lpstrFile         = thePath;
     openFile.nMaxFile          = sizeof(thePath) - 1;
     openFile.lpstrTitle        = "Save a Model";
-    openFile.Flags             = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT
+    openFile.Flags             = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT |
                                  OFN_LONGNAMES     | OFN_HIDEREADONLY;
 
 	selectedFile = GetSaveFileName(&openFile);
