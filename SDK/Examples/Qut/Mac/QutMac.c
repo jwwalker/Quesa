@@ -795,6 +795,152 @@ qut_handle_nav_event(NavEventCallbackMessage    callBackSelector,
 
 
 //=============================================================================
+//		qut_filter_file_type_test : Test file type for Nav filter.
+//-----------------------------------------------------------------------------
+static Boolean
+qut_filter_file_type_test( NavFileOrFolderInfo* info )
+{
+	Boolean	passedTest = false;
+	OSType				fileTypes[] = { '3DMF', '3DS ' };
+	int		kNumTypes = sizeof(fileTypes) / sizeof(fileTypes[0]);
+	int		i;
+	
+	for (i = 0; i < kNumTypes; ++i)
+	{
+		if (info->fileAndFolder.fileInfo.finderInfo.fdType == fileTypes[i])
+		{
+			passedTest = true;
+			break;
+		}
+	}
+	return passedTest;
+}
+
+
+
+
+
+//=============================================================================
+//		qut_name_has_extension : Test file name for extension in Nav filter.
+//-----------------------------------------------------------------------------
+static Boolean
+qut_name_has_extension( HFSUniStr255* name, const char* exten )
+{
+	Boolean	hasExt = true;
+	// I am going to assume that file name extensions consist of ASCII characters, hence
+	// I need not worry about character encoding.
+	const int	extLen = strlen( exten );
+	
+	if (name->length > extLen)
+	{
+		UniChar*	nameChars = name->unicode + name->length - extLen;
+		int		i;
+		
+		for (i = 0; i < extLen; ++i)
+		{
+			if (nameChars[i] != exten[i])
+			{
+				hasExt = false;
+				break;
+			}
+		}
+	}
+	else
+	{
+		hasExt = false;
+	}
+	
+	return hasExt;
+}
+
+
+
+
+
+//=============================================================================
+//		qut_filter_file_name_test : Test file name for extensions in Nav filter.
+//-----------------------------------------------------------------------------
+static Boolean
+qut_filter_file_name_test( AEDesc *theItem )
+{
+	Boolean	passedTest = false;
+	FSRef	fileRef;
+	OSErr	err;
+	const char*	fileExts[] = {
+		".3dmf",
+		".3dm",
+		".3ds"
+	};
+	const int kNumExts = sizeof(fileExts) / sizeof(fileExts[0]);
+	
+	if (theItem->descriptorType == typeFSRef)
+	{
+		err = AEGetDescData( theItem, &fileRef, sizeof(fileRef) );
+		
+	}
+	else if (theItem->descriptorType == typeFSS)
+	{
+		AEDesc	someDesc = {
+			typeNull, 0
+		};
+		err = AECoerceDesc( theItem, typeFSRef, &someDesc );
+		if (err == noErr)
+		{
+			err = AEGetDescData( &someDesc, &fileRef, sizeof(fileRef) );
+			AEDisposeDesc( &someDesc );
+		}
+	}
+	
+	if (err == noErr)
+	{
+		HFSUniStr255	name255;
+		int		i;
+		err = FSGetCatalogInfo( &fileRef, 0, NULL, &name255, NULL, NULL );
+		
+		for (i = 0; i < kNumExts; ++i)
+		{
+			if (qut_name_has_extension( &name255, fileExts[i] ))
+			{
+				passedTest = true;
+				break;
+			}
+		}
+	}
+	return passedTest;
+}
+
+
+
+
+
+//=============================================================================
+//		qut_nav_object_filter : Nav file filter.
+//-----------------------------------------------------------------------------
+static pascal Boolean
+qut_nav_object_filter(AEDesc *theItem, void *info, void *callBackUD, NavFilterModes filterMode)
+{
+#pragma unused( callBackUD )
+	Boolean	displayItem = true;
+	
+	if (filterMode == kNavFilteringBrowserList)
+	{
+		NavFileOrFolderInfo*	itemInfo = (NavFileOrFolderInfo*) info;
+		if (! itemInfo->isFolder)
+		{
+			// Display the file if either the file type or the name extension
+			// indicates that it is the kind we want.
+			displayItem = qut_filter_file_type_test( itemInfo ) || qut_filter_file_name_test( theItem );
+		}
+	}
+	
+	return displayItem;
+}
+
+
+
+
+
+//=============================================================================
 //		qut_build_renderer_menu : Build the renderer menu.
 //-----------------------------------------------------------------------------
 static void
@@ -1256,9 +1402,9 @@ QutMac_SelectMetafileToOpen(FSSpec* theFSSpec)
 		note we have to found a global mechanism to choose the supported file formats
 	*/
 	NavEventUPP         navEventFilterUPP;
+	NavObjectFilterUPP	navObFilterUPP;
  	NavDialogOptions    dialogOptions;
     AEKeyword           theAEKeyword;
-    NavTypeListHandle   typeListHnd;
     AEDesc              theAEDesc;
 	NavReplyRecord      navReply;
 #if !TARGET_API_MAC_CARBON
@@ -1275,32 +1421,24 @@ QutMac_SelectMetafileToOpen(FSSpec* theFSSpec)
 		NavLoad();
 		NavGetDefaultDialogOptions(&dialogOptions);
 		
-		dialogOptions.dialogOptionFlags -= kNavAllowMultipleFiles;
-		dialogOptions.dialogOptionFlags += kNavNoTypePopup;
+		dialogOptions.dialogOptionFlags &= ~kNavAllowMultipleFiles;
+		dialogOptions.dialogOptionFlags |= kNavNoTypePopup;
 		memcpy(&dialogOptions.message, thePrompt, thePrompt[0]+1);
 		navEventFilterUPP = NewNavEventUPP(qut_handle_nav_event);
-
-		typeListHnd = (NavTypeListHandle) NewHandle(sizeof(NavTypeList) + numTypes * sizeof(OSType));
-        if (typeListHnd != NULL)
-            {
-            HLock((Handle) typeListHnd);
-
-            (*typeListHnd)->componentSignature = '????';
-            (*typeListHnd)->osTypeCount        = numTypes;
-            memcpy((*typeListHnd)->osType, &fileTypes, numTypes * sizeof(OSType));
-            }
+		navObFilterUPP = NewNavObjectFilterUPP( qut_nav_object_filter );
  
 
 
 		// Prompt for the file
 		theErr = NavGetFile(NULL, &navReply, &dialogOptions, navEventFilterUPP,
-							NULL, NULL, typeListHnd, NULL);
+							NULL, navObFilterUPP, NULL, NULL);
 
 
 
 		// Clean up
 		NavUnload();
 		DisposeNavEventUPP(navEventFilterUPP);
+		DisposeNavObjectFilterUPP( navObFilterUPP );
 
 		if (!navReply.validRecord)
 			return(FALSE);
