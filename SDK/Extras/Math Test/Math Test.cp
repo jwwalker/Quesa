@@ -39,8 +39,8 @@
 
 #include <iomanip.h>
 #include <iostream.h>
-
-
+#include <math.h>
+#include <stdlib.h>
 
 
 
@@ -553,19 +553,19 @@ Display_Error(ostream& os)
 }
 
 static void
-ErrorMethod(TQ3Error firstError, TQ3Error lastError, unsigned long reference)
+ErrorMethod(TQ3Error firstError, TQ3Error lastError, long reference)
 {
 	cout << ">>> " << Q3Error_Name(lastError) << endl;
 }
 
 static void
-WarningMethod(TQ3Warning firstWarning, TQ3Warning lastWarning, unsigned long reference)
+WarningMethod(TQ3Warning firstWarning, TQ3Warning lastWarning, long reference)
 {
 	cout << ">>> " << Q3Warning_Name(lastWarning) << endl;
 }
 
 static void
-NoticeMethod(TQ3Notice firstNotice, TQ3Notice lastNotice, unsigned long reference)
+NoticeMethod(TQ3Notice firstNotice, TQ3Notice lastNotice, long reference)
 {
 	cout << ">>> " << Q3Notice_Name(lastNotice) << endl;
 }
@@ -5293,6 +5293,25 @@ Test_Q3Quaternion_InterpolateLinear()
 */
 }
 
+static void
+Test_Q3Quaternion_GetAxisAndAngle()
+{
+	Begin("Q3Quaternion_GetAxisAndAngle");
+
+	TQ3Quaternion quaternion;
+	TQ3Vector3D axis = {-1, 0, 0};
+	float angle = kQ3Pi * 0.25f;
+
+	Test(*Q3Quaternion_SetRotateAboutAxis(&quaternion, &axis, angle));
+	
+	Clear(axis);
+	angle = 0.0f;
+	
+	Q3Quaternion_GetAxisAndAngle(&quaternion, &axis, &angle);
+	Output(axis);
+	Output(angle);
+}
+
 //	TQ3Vector3D* Q3Vector3D_TransformQuaternion(const TQ3Vector3D* vector3D, const TQ3Quaternion* quaternion, TQ3Vector3D* result);
 static void
 Test_Q3Vector3D_TransformQuaternion()
@@ -6132,6 +6151,7 @@ int main(void)
 	Test_Q3Quaternion_MatchReflection();
 	Test_Q3Quaternion_InterpolateFast();
 	Test_Q3Quaternion_InterpolateLinear();
+	Test_Q3Quaternion_GetAxisAndAngle();
 	Test_Q3Vector3D_TransformQuaternion();
 	Test_Q3Point3D_TransformQuaternion();
 
