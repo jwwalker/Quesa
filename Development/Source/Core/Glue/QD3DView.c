@@ -112,10 +112,10 @@ Q3View_NewWithDefaults(TQ3ObjectType drawContextType, void *drawContextTarget)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on drawContextType
-		return(kQ3Failure);
+		return(NULL);
 
 	if (0) // Further checks on drawContextTarget
-		return(kQ3Failure);
+		return(NULL);
 #endif
 
 
