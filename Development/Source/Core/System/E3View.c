@@ -1692,9 +1692,9 @@ E3View_CallIdleMethod(TQ3ViewObject theView, TQ3Uns32 current, TQ3Uns32 complete
 		qd3dStatus = instanceData->idleMethod(theView, instanceData->idleData);
 
 
-	// Otherwise, fail
+	// Otherwise, do nothing
 	else
-		qd3dStatus = kQ3Failure;
+		qd3dStatus = kQ3Success;
 
 	return(qd3dStatus);
 }
