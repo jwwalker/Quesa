@@ -884,3 +884,42 @@ E3Geometry_Submit(TQ3GeometryObject theGeom, TQ3ViewObject theView)
 	return(qd3dStatus);
 }
 
+
+
+
+
+//=============================================================================
+//      E3Geometry_GetDecomposed : Get the decomposed form of the geometry.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject view )
+{
+	TQ3Object			decomposed = NULL;
+	void				*leafInstanceData;
+	TQ3XGeomCacheUpdateMethod		cacheUpdate;
+	TQ3ObjectType		objectType;
+	
+	
+	// Verify that we are in a submitting loop
+	Q3_REQUIRE_OR_RESULT( E3View_GetViewState( view ) == kQ3ViewStateSubmitting, NULL );
+
+
+	// Find the method we need
+	cacheUpdate  = (TQ3XGeomCacheUpdateMethod)  E3ClassTree_GetMethod(theGeom->theClass, kQ3XMethodTypeGeomCacheUpdate);
+
+	if (cacheUpdate == NULL)
+		return (NULL);
+
+
+	// Find our instance data
+	objectType = Q3Object_GetLeafType( theGeom );
+	leafInstanceData = E3ClassTree_FindInstanceData(theGeom, objectType);
+	Q3_ASSERT_VALID_PTR(leafInstanceData);
+	
+	
+	// Build the decomposed object
+	cacheUpdate( view, objectType, theGeom, leafInstanceData, &decomposed );
+
+	
+	return decomposed;
+}
