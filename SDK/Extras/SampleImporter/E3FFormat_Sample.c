@@ -354,7 +354,6 @@ e3fformat_sample_metahandler(TQ3XMethodType methodType)
 //=============================================================================
 //      e3fformat_sample_runtime_registerclass : Register the class.
 //-----------------------------------------------------------------------------
-#pragma mark -
 static void
 e3fformat_sample_runtime_registerclass(void)
 {
@@ -398,7 +397,6 @@ e3fformat_sample_runtime_unregisterclass(void)
 //-----------------------------------------------------------------------------
 //      E3FFormat_Sample_Reader_RegisterClass : Register the class.
 //-----------------------------------------------------------------------------
-#pragma mark -
 #if ((defined QUESA_REGISTER_BUILTIN_PLUGINS) && (QUESA_REGISTER_BUILTIN_PLUGINS == 0)) 
 
 TQ3Status
@@ -480,4 +478,32 @@ SampleImporterExit(void)
 }
 #endif
 
+//=============================================================================
+//      DllMain : DLL entry point for Windows.
+//-----------------------------------------------------------------------------
+#if OS_WIN32
+BOOL APIENTRY
+DllMain( HANDLE hModule, 
+                       DWORD  ul_reason_for_call, 
+                       LPVOID lpReserved
+					 )
+{
+    switch (ul_reason_for_call)
+	{
+		case DLL_PROCESS_ATTACH:
+			e3fformat_sample_runtime_registerclass();
+			
+			if(gMyRegisteredClass == NULL)
+			{
+				return FALSE;
+			}
+			break;
+		case DLL_PROCESS_DETACH:
+			e3fformat_sample_runtime_unregisterclass();
+			break;
+    }
+    return TRUE;
+}
+
+#endif
 
