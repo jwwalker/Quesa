@@ -158,16 +158,18 @@ e3geometry_delete(TQ3Object theObject, void *privateData)
 //      e3geometry_duplicate : Geometry duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geometry_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
-					TQ3Object toObject,   void  * toPrivateData)
-{
-	TQ3GeometryData*	fromInstanceData = (TQ3GeometryData*)fromPrivateData;
-	TQ3GeometryData*	toInstanceData = (TQ3GeometryData*)toPrivateData;
-	
+e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
+					 TQ3Object toObject,   void       *toPrivateData)
+{	const TQ3GeometryData	*fromInstanceData = (const TQ3GeometryData *) fromPrivateData;
+	TQ3GeometryData			*toInstanceData   = (      TQ3GeometryData *) toPrivateData;
+
+
+
+	// Duplicate the geometry
 	toInstanceData->subdivisionStyle = fromInstanceData->subdivisionStyle;
-	toInstanceData->cameraEditIndex = 0;
-	toInstanceData->cachedEditIndex = 0;
-	toInstanceData->cachedObject = NULL;
+	toInstanceData->cameraEditIndex  = 0;
+	toInstanceData->cachedEditIndex  = 0;
+	toInstanceData->cachedObject     = NULL;
 	
 	return kQ3Success;
 }

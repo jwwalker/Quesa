@@ -10,18 +10,21 @@
 # Flags
 WARN = -Wall -Wpointer-arith -Wcast-qual -Waggregate-return            \
        -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
-       -Wredundant-decls -Wno-multichar -Wno-conversion
+       -Wredundant-decls -Wno-multichar -Wno-conversion                \
+       -Wno-unknown-pragmas -Wno-unused
 
 INCLUDE = -I "../../Includes/Apple"   \
           -I "../../Includes/Quesa"   \
           -I "../Qut"                 \
           -I "../Qut/Unix"            \
+          -I "/usr/include/gtk-1.2/"  \
+          -I "/usr/include/glib-1.2/" \
           -I "/usr/lib/glib/include/" \
 
 CFLAGS = $(WARN) $(INCLUDE) -c -DQUESA_OS_UNIX=1
 
 LDFLAGS = -L../../Libraries/Unix/Debug/ \
-          -L/usr/X11/lib                \
+          -L/usr/X11R6/lib              \
           -L/usr/local/lib              \
           -lquesa -lc -lm -lX11 -lGL -lGLU -lglib -lgtk -lgdk
 

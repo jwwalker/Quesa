@@ -979,7 +979,7 @@ FUNC##Array_OrForEach(														\
 	TQ3Boolean (*itemParameterFunc)(const TYPE*, void*),					\
 	void* parameterPtr);													\
 																			\
-void E3Array_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##ArrayDeclare_SwallowSemicolon(void)
 
 
 
@@ -1182,7 +1182,7 @@ FUNC##Array_OrForEach(														\
 		parameterPtr));														\
 }																			\
 																			\
-void E3Array_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##ArrayDefine_SwallowSemicolon(void)
 
 
 
@@ -1232,7 +1232,7 @@ FUNC##Array_HasPtr(															\
 	const TYPE##Array* arrayPtr,											\
 	TYPE ptr);																\
 																			\
-void E3PtrArray_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrArrayExtendDeclare_SwallowSemicolon(void)
 
 
 
@@ -1260,7 +1260,7 @@ FUNC##Array_HasPtr(															\
 		E3_UP_CAST(void*, ptr)));											\
 }																			\
 																			\
-void E3PtrArray_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrArrayExtendDefine_SwallowSemicolon(void)
 
 
 
@@ -1270,7 +1270,7 @@ E3_ARRAY_DECLARE(TYPE, FUNC, PREFIX);										\
 																			\
 E3_PTR_ARRAY_DECLARE_EXTEND(TYPE, FUNC, PREFIX);							\
 																			\
-void E3PtrArray_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrArrayDeclare_SwallowSemicolon(void)
 
 
 
@@ -1280,7 +1280,7 @@ E3_ARRAY_DEFINE(TYPE, FUNC, PREFIX);										\
 																			\
 E3_PTR_ARRAY_DEFINE_EXTEND(TYPE, FUNC, PREFIX);								\
 																			\
-void E3PtrArray_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrArrayDefine_SwallowSemicolon(void)
 
 
 
@@ -1564,7 +1564,7 @@ FUNC##List_SpliceBackListItem(												\
 	TYPE##List* thatListPtr,												\
 	TYPE* thatItemPtr);														\
 																			\
-void E3List_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##ListDeclare_SwallowSemicolon(void)
 
 
 
@@ -1844,7 +1844,7 @@ FUNC##List_SpliceBackListItem(												\
 		E3_LISTITEM_NODE(TYPE, thatItemPtr));								\
 }																			\
 																			\
-void E3List_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##ListDefine_SwallowSemicolon(void)
 
 
 
@@ -1928,7 +1928,7 @@ FUNC##List_ErasePtr(														\
 	TYPE##List* listPtr,													\
 	TYPE ptr);																\
 																			\
-void E3PtrList_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrListExtendDeclare_SwallowSemicolon(void)
 
 
 
@@ -1991,7 +1991,7 @@ FUNC##List_ErasePtr(														\
 		E3_UP_CAST(void*, ptr)));											\
 }																			\
 																			\
-void E3PtrList_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrListExtendDefine_SwallowSemicolon(void)
 
 
 
@@ -2001,7 +2001,7 @@ E3_LIST_DECLARE(TYPE, FUNC, PREFIX);										\
 																			\
 E3_PTR_LIST_DECLARE_EXTEND(TYPE, FUNC, PREFIX);								\
 																			\
-void E3PtrList_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrListDeclare_SwallowSemicolon(void)
 
 
 
@@ -2011,7 +2011,7 @@ E3_LIST_DEFINE(TYPE, FUNC, PREFIX);											\
 																			\
 E3_PTR_LIST_DEFINE_EXTEND(TYPE, FUNC, PREFIX);								\
 																			\
-void E3PtrList_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrListDefine_SwallowSemicolon(void)
 
 
 
@@ -2250,7 +2250,7 @@ FUNC##ArrayOrList_UseList(													\
 	void (*relinkParameterFunc)(void*),										\
 	void* parameterPtr);													\
 																			\
-void E3ArrayOrList_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##ArrayOrListDeclare_SwallowSemicolon(void)
 
 
 
@@ -2494,7 +2494,7 @@ FUNC##ArrayOrList_UseList(													\
 		parameterPtr));														\
 }																			\
 																			\
-void E3ArrayOrList_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##ArrayOrListDefine_SwallowSemicolon(void)
 
 
 
@@ -2551,7 +2551,7 @@ FUNC##ArrayOrList_HasPtr(													\
 	const TYPE##ArrayOrList* arrayOrListPtr,								\
 	TYPE ptr);																\
 																			\
-void E3PtrArrayOrList_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrArrayOrListExtendDeclare_SwallowSemicolon(void)
 
 
 
@@ -2583,7 +2583,7 @@ FUNC##ArrayOrList_HasPtr(													\
 		E3_UP_CAST(void*, ptr)));											\
 }																			\
 																			\
-void E3PtrArray_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrArrayOrListExtendDefine_SwallowSemicolon(void)
 
 
 
@@ -2593,7 +2593,7 @@ E3_ARRAY_OR_LIST_DECLARE(TYPE, FUNC, PREFIX);								\
 																			\
 E3_PTR_ARRAY_OR_LIST_DECLARE_EXTEND(TYPE, FUNC, PREFIX);					\
 																			\
-void E3PtrArrayOrList_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrArrayOrListDeclare_SwallowSemicolon(void)
 
 
 
@@ -2603,7 +2603,7 @@ E3_ARRAY_OR_LIST_DEFINE(TYPE, FUNC, PREFIX);								\
 																			\
 E3_PTR_ARRAY_OR_LIST_DEFINE_EXTEND(TYPE, FUNC, PREFIX);						\
 																			\
-void E3PtrArray_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PtrArrayOrListDefine_SwallowSemicolon(void)
 
 
 

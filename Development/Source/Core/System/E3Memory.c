@@ -354,14 +354,14 @@ E3Memory_Clear(void *thePtr, TQ3Uns32 theSize)
 //-----------------------------------------------------------------------------
 void
 E3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
-{	TQ3Uns8		*srcStart, *srcEnd;
-	TQ3Uns8		*dstStart, *dstEnd;
+{	const TQ3Uns8	*srcStart, *srcEnd;
+	TQ3Uns8			*dstStart, *dstEnd;
 
 
 
 	// Handle overlapping copies with memmove
-	srcStart = (TQ3Uns8 *) srcPtr;
-	srcEnd   = (TQ3Uns8 *) srcPtr + theSize;
+	srcStart = (const TQ3Uns8 *) srcPtr;
+	srcEnd   = (const TQ3Uns8 *) srcPtr + theSize;
 
 	dstStart = (TQ3Uns8 *) dstPtr;
 	dstEnd   = (TQ3Uns8 *) dstPtr + theSize;
@@ -376,61 +376,61 @@ E3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
 		{
 		switch (theSize) {
 			case 1:
-				((TQ3Uns8  *) dstPtr)[0] = ((TQ3Uns8  *) srcPtr)[0];
+				((TQ3Uns8  *) dstPtr)[0] = ((const TQ3Uns8  *) srcPtr)[0];
 				break;
 
 			case 2:
-				((TQ3Uns16 *) dstPtr)[0] = ((TQ3Uns16 *) srcPtr)[0];
+				((TQ3Uns16 *) dstPtr)[0] = ((const TQ3Uns16 *) srcPtr)[0];
 				break;
 	
 			case 3:
-				((TQ3Uns16 *) dstPtr)[0] = ((TQ3Uns16 *) srcPtr)[0];
-				((TQ3Uns8  *) dstPtr)[2] = ((TQ3Uns8  *) srcPtr)[2];
+				((TQ3Uns16 *) dstPtr)[0] = ((const TQ3Uns16 *) srcPtr)[0];
+				((TQ3Uns8  *) dstPtr)[2] = ((const TQ3Uns8  *) srcPtr)[2];
 				break;
 
 			case 4:
-				((TQ3Uns32 *) dstPtr)[0] = ((TQ3Uns32 *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
 				break;
 	
 			case 5:
-				((TQ3Uns32 *) dstPtr)[0] = ((TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns8  *) dstPtr)[4] = ((TQ3Uns8  *) srcPtr)[4];
+				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
+				((TQ3Uns8  *) dstPtr)[4] = ((const TQ3Uns8  *) srcPtr)[4];
 				break;
 
 			case 6:
-				((TQ3Uns32 *) dstPtr)[0] = ((TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns16 *) dstPtr)[2] = ((TQ3Uns16 *) srcPtr)[2];
+				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
+				((TQ3Uns16 *) dstPtr)[2] = ((const TQ3Uns16 *) srcPtr)[2];
 				break;
 
 			case 7:
-				((TQ3Uns32 *) dstPtr)[0] = ((TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns16 *) dstPtr)[2] = ((TQ3Uns16 *) srcPtr)[2];
-				((TQ3Uns8  *) dstPtr)[6] = ((TQ3Uns8  *) srcPtr)[6];
+				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
+				((TQ3Uns16 *) dstPtr)[2] = ((const TQ3Uns16 *) srcPtr)[2];
+				((TQ3Uns8  *) dstPtr)[6] = ((const TQ3Uns8  *) srcPtr)[6];
 				break;
 
 			case 8:
-				((double   *) dstPtr)[0] = ((double   *) srcPtr)[0];
+				((double   *) dstPtr)[0] = ((const double   *) srcPtr)[0];
 				break;
 	
 			case 9:
-				((double   *) dstPtr)[0] = ((double   *) srcPtr)[0];
-				((TQ3Uns8  *) dstPtr)[8] = ((TQ3Uns8  *) srcPtr)[8];
+				((double   *) dstPtr)[0] = ((const double   *) srcPtr)[0];
+				((TQ3Uns8  *) dstPtr)[8] = ((const TQ3Uns8  *) srcPtr)[8];
 				break;
 	
 			case 10:
-				((double   *) dstPtr)[0] = ((double   *) srcPtr)[0];
-				((TQ3Uns16 *) dstPtr)[4] = ((TQ3Uns16 *) srcPtr)[4];
+				((double   *) dstPtr)[0] = ((const double   *) srcPtr)[0];
+				((TQ3Uns16 *) dstPtr)[4] = ((const TQ3Uns16 *) srcPtr)[4];
 				break;
 	
 			case 11:
-				((double   *) dstPtr)[ 0] = ((double   *) srcPtr)[ 0];
-				((TQ3Uns16 *) dstPtr)[ 4] = ((TQ3Uns16 *) srcPtr)[ 4];
-				((TQ3Uns8  *) dstPtr)[10] = ((TQ3Uns8  *) srcPtr)[10];
+				((double   *) dstPtr)[ 0] = ((const double   *) srcPtr)[ 0];
+				((TQ3Uns16 *) dstPtr)[ 4] = ((const TQ3Uns16 *) srcPtr)[ 4];
+				((TQ3Uns8  *) dstPtr)[10] = ((const TQ3Uns8  *) srcPtr)[10];
 				break;
 	
 			case 12:
-				((double   *) dstPtr)[0] = ((double   *) srcPtr)[0];
-				((TQ3Uns32 *) dstPtr)[2] = ((TQ3Uns32 *) srcPtr)[2];
+				((double   *) dstPtr)[0] = ((const double   *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[2] = ((const TQ3Uns32 *) srcPtr)[2];
 				break;
 	
 			default:

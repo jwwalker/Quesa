@@ -49,8 +49,8 @@
 //      e3geom_polygon_gather_vertex_attribute : Gather vertex attributes.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet
-e3geom_polygon_gather_vertex_attribute(void *userData, TQ3Uns32 setIndex)
-{	TQ3PolygonData			*geomData = (TQ3PolygonData *) userData;
+e3geom_polygon_gather_vertex_attribute(const void *userData, TQ3Uns32 setIndex)
+{	const TQ3PolygonData	*geomData = (const TQ3PolygonData *) userData;
 
 
 
@@ -221,23 +221,23 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	// Set up the vertex attributes
 	n = 0;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeSurfaceUV))
 		n++;
 	else
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeShadingUV))
 		n++;
 	
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeNormal))
 		n++;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeAmbientCoefficient))
 		n++;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeDiffuseColor))
 		{
 		// Set up some edge colours as well, just reusing the vertex colours
@@ -249,27 +249,27 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		n++;
 		}
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeSpecularColor))
 		n++;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeSpecularControl))
 		n++;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeTransparencyColor))
 		n++;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeSurfaceTangent))
 		n++;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeHighlightState))
 		n++;
 
-	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, (void *) geomData,
+	if (E3TriMeshAttribute_GatherArray(geomData->numVertices, e3geom_polygon_gather_vertex_attribute, geomData,
 											&vertexAttributes[n], kQ3AttributeTypeSurfaceShader))
 		n++;
 

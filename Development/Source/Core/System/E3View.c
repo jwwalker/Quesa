@@ -273,7 +273,7 @@ e3view_stack_update_attribute(TQ3ViewObject				theView,
 		if (Q3AttributeSet_Contains(topItem->attributeSet, attributeType))
 			qd3dStatus = Q3AttributeSet_Clear(topItem->attributeSet, attributeType);
 		
-		if (*((TQ3ShaderObject *) paramData) != NULL)
+		if (*((const TQ3ShaderObject *) paramData) != NULL)
 			qd3dStatus = Q3AttributeSet_Add(topItem->attributeSet, attributeType, paramData);
 		}
 	else

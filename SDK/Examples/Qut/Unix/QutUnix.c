@@ -111,7 +111,7 @@ static GdkVisual
 //		qut_handle_menu_about : Display the about box.
 //-----------------------------------------------------------------------------
 static void
-qut_handle_menu_about(GtkWidget *theWidget, gpointer theData)
+qut_handle_menu_about(gpointer callback_data, guint callback_action, GtkWidget *widget)
 {	GtkWidget	*theDialog, *theLabel, *buttonOK;
 
 
@@ -149,13 +149,13 @@ qut_handle_menu_about(GtkWidget *theWidget, gpointer theData)
 //		qut_handle_menu_renderer : Handle the renderer menu.
 //-----------------------------------------------------------------------------
 static void
-qut_handle_menu_renderer(GtkWidget *theWidget, gpointer theData)
+qut_handle_menu_renderer(gpointer callback_data, guint callback_action, GtkWidget *widget)
 {	TQ3Uns32		menuItem;
 
 
 
 	// Select the renderer
-	menuItem = (TQ3Uns32) theData;
+	menuItem = (TQ3Uns32) callback_action;
 
 	Q3View_SetRendererByType(gView, gRenderers[menuItem]);
 }
@@ -168,15 +168,15 @@ qut_handle_menu_renderer(GtkWidget *theWidget, gpointer theData)
 //		qut_handle_menu_style : Handle the style menu.
 //-----------------------------------------------------------------------------
 static void
-qut_handle_menu_style(GtkWidget *theWidget, gpointer theData)
+qut_handle_menu_style(gpointer callback_data, guint callback_action, GtkWidget *widget)
 {	TQ3Uns32		menuItem;
 
 
 
 	// Select the style command
-	menuItem = (TQ3Uns32) theData;
+	menuItem = (TQ3Uns32) callback_action;
 
-	Qut_InvokeStyleCommand(menuItem + 1);
+	Qut_InvokeStyleCommand(menuItem);
 }
 
 
@@ -187,13 +187,13 @@ qut_handle_menu_style(GtkWidget *theWidget, gpointer theData)
 //		qut_handle_menu_special : Handle the special menu.
 //-----------------------------------------------------------------------------
 static void
-qut_handle_menu_special(GtkWidget *theWidget, gpointer theData)
+qut_handle_menu_special(gpointer callback_data, guint callback_action, GtkWidget *widget)
 {	TQ3Uns32		menuItem;
 
 
 
 	// If the app has a callback, call it
-	menuItem = (TQ3Uns32) theData;
+	menuItem = (TQ3Uns32) callback_action;
 
 	if (gAppMenuSelect != NULL)
 		gAppMenuSelect(gView, menuItem);
@@ -381,12 +381,18 @@ qut_build_style_menu(void)
 											{ "/Style/Subdivision Style Screen Space (10)", NULL, qut_handle_menu_style, 0, NULL           },
 											{ "/Style/Subdivision Style Screen Space (30)", NULL, qut_handle_menu_style, 0, NULL           } };
 	GtkItemFactory			*itemFactory;
-	gint					numItems;
+	gint					n, numItems;
+
+
+
+	// Set up the menu items
+	numItems = sizeof(menuItems) / sizeof(GtkItemFactoryEntry);
+	for (n = 0; n < numItems; n++)
+		menuItems[n].callback_action = n;
 
 
 
 	// Create the menu
-	numItems    = sizeof(menuItems) / sizeof(GtkItemFactoryEntry);
 	itemFactory = gtk_item_factory_from_widget(gMenuBar);
 	if (itemFactory != NULL)
 		gtk_item_factory_create_items(itemFactory, numItems, menuItems, NULL);

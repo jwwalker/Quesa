@@ -678,7 +678,7 @@ E3Triangle_InterpolateHit(const TQ3TriangleData		*theTriangle,
 TQ3Boolean
 E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 								E3GetSetForGatherProc		userCallback,
-								void						*userData,
+								const void					*userData,
 								TQ3TriMeshAttributeData		*theAttribute,
 								TQ3AttributeType			attributeType)
 {	TQ3Uns32			n, numPresent, attributeSize;

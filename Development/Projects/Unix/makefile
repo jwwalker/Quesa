@@ -26,9 +26,10 @@ PLATFORM = /Platform/Unix
 
 
 # Flags
-WARN = -Wall -Wpointer-arith -Wcast-qual -Waggregate-return            \
+WARN = -Wall -Wpointer-arith -Wno-cast-qual -Waggregate-return         \
        -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
-       -Wredundant-decls -Wno-multichar -Wno-conversion
+       -Wredundant-decls -Wno-multichar -Wno-conversion                \
+       -Wno-unknown-pragmas -Wno-unused
 
 INCLUDE = -I ${SDK}"/Includes/Apple"                \
           -I ${SDK}"/Includes/Quesa"                \

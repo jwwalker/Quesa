@@ -183,7 +183,7 @@ E3XDrawContext_SetDisplay(TQ3DrawContextObject drawContext, const Display *displ
 
 	// Set the field and reset our flag. We don't compare the current
 	// state, and assume that setting a new display may cause a rebuild.
-	instanceData->data.x11Data.theData.display = display;
+	instanceData->data.x11Data.theData.display = (Display *) display;
 	instanceData->theState                    |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
 
@@ -267,7 +267,7 @@ E3XDrawContext_SetVisual(TQ3DrawContextObject drawContext, const Visual *visual)
 
 	// Set the field and reset our flag. We don't compare the current
 	// state, and assume that setting a new visual may cause a rebuild.
-	instanceData->data.x11Data.theData.visual = visual;
+	instanceData->data.x11Data.theData.visual = (Visual *) visual;
 	instanceData->theState                   |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
 
@@ -349,7 +349,7 @@ E3XDrawContext_SetColormapData(TQ3DrawContextObject drawContext, const TQ3XColor
 
 	// Set the field and reset our flag. We don't compare the current
 	// state, and assume that setting a new colormap may cause a rebuild.
-	instanceData->data.x11Data.theData.colorMapData = colormapData;
+	instanceData->data.x11Data.theData.colorMapData = (TQ3XColormapData *) colormapData;
 	instanceData->theState                         |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
 

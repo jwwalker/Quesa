@@ -36,8 +36,10 @@
 #include "Qut.h"
 #include <QuesaMemory.h>
 
+#include <time.h>
 
-#include <ctime>
+
+
 
 
 //=============================================================================

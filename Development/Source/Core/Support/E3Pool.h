@@ -275,7 +275,7 @@ FUNC##PoolItem_Tag(															\
 	const TYPE* itemPtr,													\
 	TQ3Boolean (*isTagItemFunc)(const TYPE*));								\
 																			\
-void E3Pool_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PoolDeclare_SwallowSemicolon(void)
 
 
 
@@ -349,7 +349,7 @@ FUNC##PoolItem_Tag(															\
 		E3_UP_CAST(TQ3Boolean (*)(const TE3PoolItem*), isTagItemFunc))));	\
 }																			\
 																			\
-void E3Pool_SwallowSemicolon()
+void TYPE##FUNC##PREFIX##PoolDefine_SwallowSemicolon(void)
 
 
 

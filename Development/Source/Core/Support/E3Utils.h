@@ -46,7 +46,7 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-typedef TQ3AttributeSet (*E3GetSetForGatherProc)(void *userData, TQ3Uns32 setIndex);
+typedef TQ3AttributeSet (*E3GetSetForGatherProc)(const void *userData, TQ3Uns32 setIndex);
 
 
 
@@ -187,7 +187,7 @@ void		E3Triangle_InterpolateHit(const TQ3TriangleData		*triangleData,
 
 TQ3Boolean	E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 											E3GetSetForGatherProc		userCallback,
-											void						*userData,
+											const void					*userData,
 											TQ3TriMeshAttributeData		*theAttribute,
 											TQ3AttributeType			attributeType);
 
