@@ -1144,10 +1144,10 @@ Qut_CreateWindow(const char		*windowTitle,
 
 
 //=============================================================================
-//		Qut_SelectMetafileToOpen : Select a metafile for opening.
+//		QutMac_SelectMetafileToOpen : Select a metafile for opening.
 //-----------------------------------------------------------------------------
-TQ3StorageObject
-Qut_SelectMetafileToOpen(void)
+Boolean
+QutMac_SelectMetafileToOpen(FSSpec* theFSSpec)
 {	Str255				thePrompt = "\pSelect a model:";
 	OSType				fileTypes[] = { '3DMF', 'TEXT', '3DS ', 'BINA' };
 	UInt32				numTypes  = sizeof(fileTypes) / sizeof(OSType);
@@ -1159,8 +1159,6 @@ Qut_SelectMetafileToOpen(void)
  	NavDialogOptions    dialogOptions;
     AEKeyword           theAEKeyword;
     NavTypeListHandle   typeListHnd;
-	TQ3StorageObject	theStorage;
-	FSSpec				theFSSpec;
     AEDesc              theAEDesc;
 	NavReplyRecord      navReply;
 #if !TARGET_API_MAC_CARBON
@@ -1205,13 +1203,13 @@ Qut_SelectMetafileToOpen(void)
 		DisposeNavEventUPP(navEventFilterUPP);
 
 		if (!navReply.validRecord)
-			return(NULL);
+			return(FALSE);
 
 
 
 		// Extract the file
 		AEGetNthDesc(&navReply.selection, 1, typeFSS, &theAEKeyword, &theAEDesc);
-		AEGetDescData(&theAEDesc, &theFSSpec, sizeof(FSSpec));
+		AEGetDescData(&theAEDesc, theFSSpec, sizeof(FSSpec));
 		}
 
 
@@ -1220,11 +1218,11 @@ Qut_SelectMetafileToOpen(void)
 	else
 		{
 #if TARGET_API_MAC_CARBON
-		return(NULL);
+		return(FALSE);
 #else
 		StandardGetFile(NULL, numTypes, fileTypes, &sfReply);
 		if (!sfReply.sfGood)
-			return(NULL);
+			return(FALSE);
 		
 		theFSSpec = sfReply.sfFile;
 #endif
@@ -1232,8 +1230,29 @@ Qut_SelectMetafileToOpen(void)
 
 
 
-	// Create a storage object for the file
-	theStorage = Q3FSSpecStorage_New(&theFSSpec);
+	return(TRUE);
+}
+
+
+
+
+
+//=============================================================================
+//		Qut_SelectMetafileToOpen : Select a metafile for opening.
+//-----------------------------------------------------------------------------
+TQ3StorageObject
+Qut_SelectMetafileToOpen(void)
+{	FSSpec				theFSSpec;
+	TQ3StorageObject	theStorage = NULL;
+
+
+
+	// If we have Navigation services, use it
+	if (QutMac_SelectMetafileToOpen(&theFSSpec))
+		{
+		// Create a storage object for the file
+		theStorage = Q3FSSpecStorage_New(&theFSSpec);
+		}
 	return(theStorage);
 }
 
@@ -1242,10 +1261,10 @@ Qut_SelectMetafileToOpen(void)
 
 
 //=============================================================================
-//		Qut_SelectMetafileToSaveTo : Select a metafile to save to.
+//		QutMac_SelectMetafileToSaveTo : Select a metafile to save to.
 //-----------------------------------------------------------------------------
-TQ3StorageObject
-Qut_SelectMetafileToSaveTo(void)
+Boolean
+QutMac_SelectMetafileToSaveTo(FSSpec* theFSSpec)
 {	Str255				thePrompt = "\pSave a model:";
 	OSType			fileType =  '3DMF';
 	OSType			creator =  'ttxt';// what will be the creator for the viewer?
@@ -1257,8 +1276,6 @@ Qut_SelectMetafileToSaveTo(void)
 	NavEventUPP         navEventFilterUPP;
  	NavDialogOptions    dialogOptions;
     AEKeyword           theAEKeyword;
-	TQ3StorageObject	theStorage;
-	FSSpec				theFSSpec;
     AEDesc              theAEDesc;
 	NavReplyRecord      navReply;
 #if !TARGET_API_MAC_CARBON
@@ -1295,13 +1312,13 @@ Qut_SelectMetafileToSaveTo(void)
 		DisposeNavEventUPP(navEventFilterUPP);
 
 		if (!navReply.validRecord)
-			return(NULL);
+			return(FALSE);
 
 
 
 		// Extract the file
 		AEGetNthDesc(&navReply.selection, 1, typeFSS, &theAEKeyword, &theAEDesc);
-		AEGetDescData(&theAEDesc, &theFSSpec, sizeof(FSSpec));
+		AEGetDescData(&theAEDesc, theFSSpec, sizeof(FSSpec));
 		}
 
 
@@ -1310,25 +1327,43 @@ Qut_SelectMetafileToSaveTo(void)
 	else
 		{
 #if TARGET_API_MAC_CARBON
-		return(NULL);
+		return(FALSE);
 #else
 		StandardPutFile(thePrompt, NULL, &sfReply);
 
 		if (!sfReply.sfGood)
-			return(NULL);
+			return(FALSE);
 		
-		theFSSpec = sfReply.sfFile;
+		*theFSSpec = sfReply.sfFile;
 #endif
 		}
 
 		// Blind delete
-		FSpDelete(&theFSSpec);
+	FSpDelete(theFSSpec);
 
-		theErr = FSpCreate(&theFSSpec,creator, fileType, smSystemScript);
+	theErr = FSpCreate(theFSSpec,creator, fileType, smSystemScript);
+
+	return(theErr == noErr);
+}
 
 
-	// Create a storage object for the file
-	theStorage = Q3FSSpecStorage_New(&theFSSpec);
+
+//=============================================================================
+//		Qut_SelectMetafileToSaveTo : Select a metafile to save to.
+//-----------------------------------------------------------------------------
+TQ3StorageObject
+Qut_SelectMetafileToSaveTo(void)
+{	FSSpec				theFSSpec;
+	TQ3StorageObject	theStorage = NULL;
+
+
+
+	// If we have Navigation services, use it
+	if (QutMac_SelectMetafileToSaveTo(&theFSSpec))
+		{
+		// Create a storage object for the file
+		theStorage = Q3FSSpecStorage_New(&theFSSpec);
+		}
 	return(theStorage);
 }
 

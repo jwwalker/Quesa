@@ -80,6 +80,7 @@ typedef struct TQ3ViewerData {
 	TQ3AntiAliasStyleData	mStyleAntiAlias;	// anti-aliasing style
 	TQ3BackfacingStyle		mStyleBackfacing;	// backfacing style
 	TQ3ShaderObject			mShader;			// current shader; either sPhongShader or sLamberShader
+	TQ3StorageObject		mDataStorage;		// flatten rappresentation of current data for E3Viewer_WriteData
 } TQ3ViewerData;
 
 #pragma mark struct TQ3ViewerParams
@@ -662,6 +663,53 @@ static TQ3Status e3viewer_readFile(TQ3ViewerObject theViewer, TQ3StorageObject s
 	// Update bounding radius, etc.
 	e3viewer_groupChanged(theViewer);
 	
+	return status;
+}
+
+
+//=============================================================================
+//	e3viewer_Write : Read data from a storage object.
+//-----------------------------------------------------------------------------
+static TQ3Status e3viewer_Write(TQ3ViewerObject theViewer, TQ3StorageObject storage)
+{
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3ViewObject		view = instanceData->mView;
+	TQ3Status 			status = kQ3Failure;
+	TQ3ViewStatus		viewStatus;
+	TQ3FileObject		file;
+
+
+	// Save the model into the selected file
+	if (storage != NULL){
+
+
+		file = Q3File_New();
+
+		if(file){
+			status = Q3File_SetStorage(file, storage);
+
+			if(status == kQ3Success){
+				viewStatus = kQ3ViewStatusRetraverse;
+				status = Q3File_OpenWrite(file, kQ3FileModeNormal);
+
+				if(status == kQ3Success){
+					status = Q3View_StartWriting(view,file);
+		
+					while (viewStatus == kQ3ViewStatusRetraverse && status == kQ3Success){
+						// submit geometry
+						status = Q3Object_Submit(instanceData->mGroup, view);
+
+						viewStatus = Q3View_EndWriting(view);
+						}
+
+					}
+	
+				Q3File_Close(file);
+			}
+			Q3Object_Dispose(file);
+		}
+	}
+			
 	return status;
 }
 
@@ -1348,6 +1396,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		Q3Object_Dispose(renderer);
 		Q3Object_Dispose(lights);
 	#endif // QUESA_OS_MACINTOSH
+	Q3Object_CleanDispose(&instanceData->mDataStorage);
 }
 
 //=============================================================================
@@ -1404,6 +1453,7 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
 		}
 	
 	Q3Object_Dispose(group);
+	Q3Object_CleanDispose(&instanceData->mDataStorage);
 }
 
 #pragma mark -
@@ -1469,6 +1519,7 @@ e3viewer_delete(TQ3Object theObject, void *privateData)
 	// Dispose of our instance data
 	Q3Object_CleanDispose(&instanceData->mView);
 	Q3Object_CleanDispose(&instanceData->mGroup);
+	Q3Object_CleanDispose(&instanceData->mDataStorage);
 
 	// Mark viewer as invalid
 	instanceData->mValidViewer = kQ3InvalidViewer;
@@ -1659,10 +1710,30 @@ E3Viewer_Dispose(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_UseFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 {
+TQ3StorageObject storage = NULL;
+if (fileRef == 0)
+	return kQ3Failure;
 
+#if QUESA_OS_MACINTOSH
+// fileRef is a fsRefNum to an open file
+	storage = Q3MacintoshStorage_New((TQ3Int16)fileRef);
+#elif QUESA_OS_WIN32
+	storage = Q3Win32Storage_New((HANDLE)fileRef);
+#else
+#warning platform not supported
+#endif
 
-	// To be implemented...
-	return(kQ3Failure);
+	if(storage != NULL) 
+		{
+		TQ3Status status = e3viewer_readFile(theViewer, storage);
+		Q3Object_Dispose (storage);
+		if (status == kQ3Success)
+			{
+			e3viewer_reset(theViewer);
+			return kQ3Success;
+			}
+		}
+	return kQ3Failure;
 }
 
 
@@ -1677,15 +1748,15 @@ E3Viewer_UseFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 TQ3Status
 E3Viewer_UseData(TQ3ViewerObject theViewer, const void *data, TQ3Uns32 dataSize)
 {
-	TQ3StorageObject store;
-	if (data == NULL)
+	TQ3StorageObject storage;
+	if (data == NULL || dataSize == 0)
 		return kQ3Failure;
 
-	store = Q3MemoryStorage_New ((unsigned char*)data, dataSize);
-	if (store)
+	storage = Q3MemoryStorage_New ((unsigned char*)data, dataSize);
+	if (storage)
 		{
-		TQ3Status status = e3viewer_readFile(theViewer, store);
-		Q3Object_Dispose (store);
+		TQ3Status status = e3viewer_readFile(theViewer, storage);
+		Q3Object_Dispose (storage);
 		if (status == kQ3Success)
 			{
 			e3viewer_reset(theViewer);
@@ -1742,17 +1813,31 @@ E3Viewer_GetGroup(TQ3ViewerObject theViewer)
 
 
 //=============================================================================
-//      E3Viewer_WriteFile : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3Viewer_WriteFile : Write the 3D model data contained by the Viewer out to a file.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_WriteFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 {
+	TQ3StorageObject	storage = NULL;
+	TQ3Status			status = kQ3Failure;
 
+	if (fileRef == 0)
+		return status;
 
-	// To be implemented...
-	return(kQ3Failure);
+#if QUESA_OS_MACINTOSH
+// fileRef is a fsRefNum to an open file
+	storage = Q3MacintoshStorage_New((TQ3Int16)fileRef);
+#elif QUESA_OS_WIN32
+	storage = Q3Win32Storage_New((HANDLE)fileRef);
+#else
+#warning platform not supported
+#endif
+	if(storage != NULL) {
+		status = e3viewer_Write(theViewer, storage);
+		Q3Object_Dispose (storage);
+		}
+	
+	return(status);
 }
 
 
@@ -1767,10 +1852,23 @@ E3Viewer_WriteFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 TQ3Status
 E3Viewer_WriteData(TQ3ViewerObject theViewer, void **theData, TQ3Uns32 *dataSize)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3StorageObject 	storage = NULL;
+	TQ3Status 			status = kQ3Failure;
+
+	if (theData == NULL || dataSize == NULL)
+		return status;
 
 
-	// To be implemented...
-	return(kQ3Failure);
+	storage = Q3MemoryStorage_New (0, 0);
+	if(storage != NULL) {
+		Q3Object_CleanDispose(&instanceData->mDataStorage);
+		status = e3viewer_Write(theViewer, storage);
+		E3Shared_Replace(&instanceData->mDataStorage, storage);
+		Q3Object_Dispose (storage);
+		}
+	
+	return(status);
 }
 
 

@@ -46,15 +46,10 @@
 //      Internal constants
 //-----------------------------------------------------------------------------
 // Menu item constants
-#define kMenuItemShaderNULL									1
-#define kMenuItemShaderLambert								2
-#define kMenuItemShaderPhong								3
-#define kMenuItemDivider1									4
-
-#define kMenuItemPixmapTexture								5
-#define kMenuItemMipmapTexture								6
-#define kMenuItemCompressedTexture							7
-#define kMenuItemTextureNone								8
+enum {
+	kMenuItemReadModel = 1,
+	kMenuItemSaveModel
+	};
 
 
 
@@ -151,16 +146,71 @@ readModel(void)
 
 
 //=============================================================================
+//      saveModel : write the currently displayed model to a file
+//-----------------------------------------------------------------------------
+static void
+saveModel()
+{
+TQ3Uns32 fileRef = 0;
+
+#if QUESA_OS_MACINTOSH
+	short				refNum;
+	FSSpec				theFSSpec;
+	OSErr				anErr = noErr;
+
+	if (! QutMac_SelectMetafileToSaveTo(&theFSSpec))
+		return;
+		
+	anErr = FSpOpenDF(&theFSSpec, fsCurPerm, &refNum);
+	
+	
+	if (anErr == noErr)
+	{
+		fileRef = refNum;
+	}
+#elif QUESA_OS_WIN32
+#else
+	#warning platform not supported
+#endif
+
+	if (fileRef != 0)
+	{
+		Q3ViewerWriteFile(gViewer, fileRef);
+	}
+
+
+#if QUESA_OS_MACINTOSH
+	if (anErr == noErr)
+	{
+		anErr = FSClose(refNum);
+	}
+#elif QUESA_OS_WIN32
+#endif
+
+
+}
+
+
+
+
+//=============================================================================
 //      appMenuSelect : Handle menu selections.
 //-----------------------------------------------------------------------------
 static void
 appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 {
 #pragma unused(theView)
-#pragma unused(menuItem)
 
+TQ3GroupObject newModel = NULL;
+
+	switch (menuItem) {
+
+	case kMenuItemSaveModel:
+		saveModel();
+		break;
+	case kMenuItemReadModel:
 	// The only menu command we handle here is Open.
-	TQ3GroupObject newModel = readModel();
+	newModel = readModel();
 	if (gViewer != NULL && newModel != NULL)
 		{
 		Q3Viewer_UseGroup(gViewer, newModel);
@@ -168,6 +218,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		}
 	
 	Q3Object_Dispose(newModel);
+	}
 }
 
 
@@ -275,8 +326,11 @@ App_Initialise(void)
 	Qut_SetRedrawFunc(appRedraw);
 	Qut_CreateWindow("Viewer Test", 300, 300, kQ3True);
 	Qut_CreateView(NULL);
+	
 	Qut_CreateMenu(appMenuSelect);
-	Qut_CreateMenuItem(1, "Open Model...");
+	
+	Qut_CreateMenuItem(kMenuItemLast, "Open Model...");
+	Qut_CreateMenuItem(kMenuItemLast, "Save Model...");
 
 	// Create the geometry
 	group = Q3DisplayGroup_New();
