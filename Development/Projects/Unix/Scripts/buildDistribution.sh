@@ -33,7 +33,12 @@ pushd ../../Unix || exit
 
 # create the build system for libquesa
 ######################################
-aclocal
+ACLOCALADDPATHS=
+if test -d /usr/local/share/aclocal; then
+ ACLOCALADDPATHS="${ACLOCALADDPATHS} -I /usr/local/share/aclocal"
+fi
+
+aclocal --force ${ACLOCALADDPATHS}
 automake --add-missing
 automake
 autoconf
@@ -55,8 +60,7 @@ PATH=${PATH}:/usr/local/bin
 
 export PATH
 
-# make sure we can find gtk.m4
-aclocal -I /usr/local/share/aclocal
+aclocal --force ${ACLOCALADDPATHS}
 automake --add-missing
 automake
 autoconf
@@ -71,4 +75,3 @@ popd
 
 # at this point you'll find the tar.gz packages in ../Unix and ../Unix/Examples
 ######################################
-

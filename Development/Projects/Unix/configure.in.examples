@@ -14,6 +14,23 @@ AC_C_BIGENDIAN_QUESA
 dnl Checks for X.
 
 AM_PATH_GTK
+if test $no_gtk != no; then
+	AC_MSG_ERROR([Fatal - can't find GTK libs - Stopping here.])
+fi
+
+AC_HAVE_OPENGL_QUESA
+
+if test $have_GL != yes; then
+	AC_MSG_ERROR([Fatal - can't find OpenGL Libraries - Stopping here.])
+else
+if test $have_GLU != yes; then
+	AC_MSG_ERROR([Fatal - can't find GLU Libraries - Stopping here.])
+else
+	LDFLAGS="${GL_LIBS} $LDFLAGS"
+	CPPFLAGS="${GL_CFLAGS} $CPPFLAGS"
+fi
+
+fi
 
 
 
