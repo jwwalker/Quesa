@@ -637,6 +637,10 @@ e3group_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 			break;
 		}
 		e3group_addobject( toObject, dupObject );
+		
+		// Now the group owns a reference to the dup, so we can dispose one
+		Q3Object_Dispose( dupObject );
+		Q3_ASSERT( Q3Shared_GetReferenceCount( dupObject ) == 1 );
 	}
 	
 	// If the operation failed, we need to clean up.
@@ -1988,6 +1992,9 @@ e3group_display_ordered_duplicate(	TQ3Object fromObject, const void *fromPrivate
 				break;
 			}
 			e3group_display_ordered_addobject( toObject, dupObject );
+		
+			// Now the group owns a reference to the dup, so we can dispose one
+			Q3Object_Dispose( dupObject );
 		}
 		
 		if (status == kQ3Failure)
