@@ -58,7 +58,7 @@ extern "C" {
 void				IRGeometry_TriMesh_Terminate(
 								TQ3InteractiveData		*instanceData);
 
-TQ3Status			IRGeometry_TriMesh(
+TQ3Status			IRGeometry_Submit_TriMesh(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
 								TQ3GeometryObject		theGeom,

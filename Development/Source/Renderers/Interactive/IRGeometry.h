@@ -71,21 +71,10 @@ TQ3Boolean			IRGeometry_Attribute_Handler(
 							 	TQ3InteractiveData *instanceData,
 							 	TQ3XAttributeMask needAttributesMask);
 							 	
-TQ3ColorRGB			*IRGeometry_Attribute_GetDiffuse(
+void				IRGeometry_Vertex_GetState(
 								TQ3InteractiveData		*instanceData,
-								TQ3AttributeSet			theAttributes);
-
-TQ3ColorRGB			*IRGeometry_Attribute_GetTransparent(
-								TQ3InteractiveData		*instanceData,
-								TQ3AttributeSet			theAttributes);
-
-TQ3Vector3D			*IRGeometry_Attribute_GetNormal(
-								TQ3InteractiveData		*instanceData,
-								TQ3AttributeSet			theAttributes);
-
-TQ3Param2D			*IRGeometry_Attribute_GetUV(
-								TQ3InteractiveData		*instanceData,
-								TQ3AttributeSet			theAttributes);
+								TQ3Vertex3D				*srcVertex,
+								TQ3FVertex3D			*dstVertex);
 
 TQ3Status			IRGeometry_Triangle_CalcFlags(
 								TQ3InteractiveData		*instanceData,
@@ -99,37 +88,37 @@ TQ3Boolean			IRGeometry_Triangle_IsVisible(
 								TQ3InteractiveData		*instanceData,
 								const TQ3Vector3D		*triNormal);
 
-TQ3Status			IRGeometry_Triangle(
+TQ3Status			IRGeometry_Submit_Triangle(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3TriangleData			*geomData);
 
-TQ3Status			IRGeometry_Line(
+TQ3Status			IRGeometry_Submit_Line(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3LineData				*geomData);
 
-TQ3Status			IRGeometry_Point(
+TQ3Status			IRGeometry_Submit_Point(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3PointData			*geomData);
 
-TQ3Status			IRGeometry_Marker(
+TQ3Status			IRGeometry_Submit_Marker(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3MarkerData			*geomData);
 
-TQ3Status			IRGeometry_PixmapMarker(
+TQ3Status			IRGeometry_Submit_PixmapMarker(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
 								TQ3GeometryObject		theGeom,
 								TQ3PixmapMarkerData		*geomData);
 
-TQ3Status			IRGeometry_PolyLine(
+TQ3Status			IRGeometry_Submit_PolyLine(
 								TQ3ViewObject			theView,
 								TQ3InteractiveData		*instanceData,
 								TQ3GeometryObject		theGeom,

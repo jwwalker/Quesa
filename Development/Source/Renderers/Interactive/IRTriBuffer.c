@@ -49,16 +49,15 @@
 #pragma mark -
 TQ3Status
 IRTriBuffer_Initialize(TQ3InteractiveData *instanceData)
-{	TQ3Status		qd3dStatus = kQ3Success;
-
+{
 
 
 	// Initialise our state
 	instanceData->triBufferSlab = Q3SlabMemory_New(sizeof(TQ3FVertex3D), 0, NULL);
 	if (instanceData->triBufferSlab == NULL)
-		qd3dStatus = kQ3Failure;
+		return(kQ3Failure);
 	
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 

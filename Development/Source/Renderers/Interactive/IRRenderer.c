@@ -215,7 +215,7 @@ IRRenderer_StartPass(TQ3ViewObject			theView,
 	// Prepare for another pass
 	IRRenderer_State_StartPass(instanceData,  theView);
 	IRRenderer_Lights_StartPass(instanceData, theCamera, theLights);
-	IRGeometry_Transparent_StartPass(instanceData, theCamera);
+	IRTransBuffer_StartPass(instanceData, theCamera);
 
 	return(kQ3Success);
 }
@@ -241,7 +241,7 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 	// Finish off any remaining drawing
 	IRTriBuffer_Draw(theView, instanceData);
-	IRGeometry_Transparent_Draw(theView, instanceData);
+	IRTransBuffer_Draw(theView, instanceData);
 
 
 

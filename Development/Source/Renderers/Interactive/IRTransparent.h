@@ -55,46 +55,34 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-void				IRGeometry_Transparent_StartPass(
+TQ3Status			IRTransBuffer_Initialize(
+								TQ3InteractiveData				*instanceData);
+
+void				IRTransBuffer_Terminate(
+								TQ3InteractiveData				*instanceData);
+
+void				IRTransBuffer_StartPass(
 								TQ3InteractiveData				*instanceData,
 								TQ3CameraObject					theCamera);
 
-void				IRGeometry_Transparent_Terminate(
-								TQ3InteractiveData				*instanceData);
-
-void				IRGeometry_Transparent_Draw(
+void				IRTransBuffer_Draw(
 								TQ3ViewObject					theView,
 								TQ3InteractiveData				*instanceData);
 
-TQ3Status			IRGeometry_Transparent_Add(
+TQ3Status			IRTransBuffer_AddTriangle(
 								TQ3ViewObject					theView,
 								TQ3InteractiveData				*instanceData,
-								TQ3PrimType						theType,
-								TQ3PrimFlags					theFlags,
-								TQ3Uns32						numVerts,
-								const TQ3Point3D				**thePoints,
-								const TQ3Vector3D				**theNormals,
-								const TQ3Param2D				**theUVs,
-								const TQ3ColorRGB				**colourDiffuse,
-								const TQ3ColorRGB				**colourTransparent);
+								const TQ3FVertex3D				*theVertices);
 
-TQ3Status			IRGeometry_Transparent_AddTriangle(
+TQ3Status			IRTransBuffer_AddLine(
 								TQ3ViewObject					theView,
 								TQ3InteractiveData				*instanceData,
-								const TQ3FVertex3D				*vertex0,
-								const TQ3FVertex3D				*vertex1,
-								const TQ3FVertex3D				*vertex2);
+								const TQ3FVertex3D				*theVertices);
 
-TQ3Status			IRGeometry_Transparent_AddLine(
+TQ3Status			IRTransBuffer_AddPoint(
 								TQ3ViewObject					theView,
 								TQ3InteractiveData				*instanceData,
-								const TQ3FVertex3D				*vertex0,
-								const TQ3FVertex3D				*vertex1);
-
-TQ3Status			IRGeometry_Transparent_AddPoint(
-								TQ3ViewObject					theView,
-								TQ3InteractiveData				*instanceData,
-								const TQ3FVertex3D				*vertex0);
+								const TQ3FVertex3D				*theVertex);
 
 
 

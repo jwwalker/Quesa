@@ -49,273 +49,6 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      ir_geom_prim_render : Render an uncached primitive.
-//-----------------------------------------------------------------------------
-//		Note :	Rather than load up a TQ3CachedPrim, we work directly with the
-//				data passed to ir_geom_submit_prim.
-//
-//				We can assume that we're being called via a Quesa submit method
-//				and so texture state/etc have already been set up for us. This
-//				includes the default glColor state (white) if a texture is
-//				active, and so we can also treat colours as optional.
-//-----------------------------------------------------------------------------
-static void
-ir_geom_prim_render(TQ3ViewObject			theView,
-							TQ3InteractiveData		*instanceData,
-							TQ3PrimType				theType,
-							TQ3PrimFlags			theFlags,
-							const TQ3Point3D		**thePoints,
-							const TQ3Vector3D		**theNormals,
-							const TQ3Param2D		**theUVs,
-							const TQ3ColorRGB		**colourDiffuse)
-{	TQ3FVertex3D	theVertices[3];
-	TQ3Uns32		n, numVerts;
-	TQ3Status		qd3dStatus;
-
-
-
-	// Push triangles into the triangle buffer
-	if (theType == kQ3PrimTriangle)
-		{
-		for (n = 0; n < 3; n++)
-			{
-			theVertices[n].theFlags = kQ3FVertexFlagNone;
-			theVertices[n].thePoint = *thePoints[n];
-
-			if (theFlags & kQ3PrimHaveNormal)
-				{
-				theVertices[n].theFlags |= kQ3FVertexHaveNormal;
-				theVertices[n].theNormal = *theNormals[n];
-				}
-
-			if (theFlags & kQ3PrimHaveUV)
-				{
-				theVertices[n].theFlags |= kQ3FVertexHaveUV;
-				theVertices[n].theUV     = *theUVs[n];
-				}
-
-			if (colourDiffuse[n] != NULL)
-				{
-				theVertices[n].theFlags     |= kQ3FVertexHaveDiffuse;
-				theVertices[n].colourDiffuse = *colourDiffuse[n];
-				}
-			}
-
-		qd3dStatus = IRTriBuffer_AddTriangle(theView, instanceData, theVertices);
-		}
-	
-	
-	
-	// Or draw lines and points
-	else
-		{
-		// Begin the primitive
-		if (theType == kQ3PrimLine)
-			{
-			glBegin(GL_LINES);
-			numVerts = 2;
-			}
-
-		else if (theType == kQ3PrimPoint)
-			{
-			glBegin(GL_POINTS);
-			numVerts = 1;
-			}
-
-		else
-            Q3_ASSERT(!"Should never happen");
-
-
-
-		// Draw the primitive
-		for (n = 0; n < numVerts; n++)
-			{
-			if (theFlags & kQ3PrimHaveNormal)
-				glNormal3fv((const GLfloat *) theNormals[n]);
-
-			if (theFlags & kQ3PrimHaveUV)
-				glTexCoord2fv((const GLfloat *) theUVs[n]);
-
-			if (colourDiffuse[n] != NULL)
-				glColor3fv((const GLfloat *) colourDiffuse[n]);
-
-			glVertex3fv((const GLfloat *) thePoints[n]);
-			}
-
-
-
-		// End the primitive
-		glEnd();
-		}
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_prim_submit : Submit a single primitive.
-//-----------------------------------------------------------------------------
-//		Note :	If the primitive is transparent, we add it to the cache to
-//				render later. If it's opaque, we render it now.
-//
-//				If knowIsTransparent is set, we've already checked for
-//				transparency and know that this primitive is transparent.
-//
-//				If triNormal is supplied, we use this as the triangle normal
-//				for triangle primitives (to save us having to calculate it).
-//-----------------------------------------------------------------------------
-static void
-ir_geom_prim_submit(TQ3ViewObject			theView,
-							TQ3InteractiveData		*instanceData,
-							TQ3PrimType				theType,
-							TQ3Boolean				knowIsTransparent,
-							const TQ3Vector3D		*triNormal,
-							const TQ3Point3D		**thePoints,
-							const TQ3Vector3D		**theNormals,
-							const TQ3Param2D		**theUVs,
-							const TQ3ColorRGB		**colourDiffuse,
-							const TQ3ColorRGB		**colourTransparent)
-{	TQ3Boolean			isTransparent, haveNormal, haveUV;
-	TQ3Uns32			n, numVerts;
-	TQ3Status			qd3dStatus;
-	TQ3Vector3D			tmpNormal;
-	TQ3PrimFlags		theFlags;
-	
-
-
-	// Select the primitive type
-	switch (theType) {
-		case kQ3PrimTriangle:
-			numVerts   = 3;
-			haveNormal = (TQ3Boolean) (theNormals[0] != NULL && theNormals[1] != NULL && theNormals[2] != NULL);
-			haveUV     = (TQ3Boolean) (theUVs[0]     != NULL && theUVs[1]     != NULL && theUVs[2]     != NULL);
-			break;
-
-		case kQ3PrimLine:
-			numVerts   = 2;
-			haveNormal = (TQ3Boolean) (theNormals[0] != NULL && theNormals[1] != NULL);
-			haveUV     = (TQ3Boolean) (theUVs[0]     != NULL && theUVs[1]     != NULL);
-			break;
-
-		case kQ3PrimPoint:
-			numVerts   = 1;
-			haveNormal = (TQ3Boolean) (theNormals[0] != NULL);
-			haveUV     = (TQ3Boolean) (theUVs[0]     != NULL);
-			break;
-
-		default:
-			Q3_ASSERT(!"Unknown primitive type");
-			return;
-			break;
-		}
-
-
-
-	// Handle triangle setup - we may need to assign the vertex normals if they've
-	// not been supplied, and we can also do a check here to see if the triangle
-	// will be culled.
-	//
-	// If it is then we stop processing it at this point, rather than let it be
-	// inserted into the transparency cache and culled later by OpenGL.
-	if (theType == kQ3PrimTriangle)
-		{
-		// If we don't have a triangle normal, calculate one from the vertices
-		if (triNormal == NULL)
-			{
-			Q3Point3D_CrossProductTri(thePoints[0], thePoints[1], thePoints[2], &tmpNormal);
-			Q3Vector3D_Normalize(&tmpNormal, &tmpNormal);
-			triNormal = &tmpNormal;
-			}
-
-
-
-		// Check to see if we can cull this triangle
-		if (!IRGeometry_Triangle_IsVisible(instanceData, triNormal))
-			return;
-
-
-
-		// If we don't have any vertex normals, set them up
-		if (!haveNormal)
-			{
-			if (theNormals[0] == NULL)
-				theNormals[0] = triNormal;
-
-			if (theNormals[1] == NULL)
-				theNormals[1] = triNormal;
-
-			if (theNormals[2] == NULL)
-				theNormals[2] = triNormal;
-
-			haveNormal = kQ3True;
-			}
-		}
-
-
-
-	// If we don't know for sure, check to see if the primitive is transparent
-	isTransparent = knowIsTransparent;
-	if (!knowIsTransparent)
-		{
-		for (n = 0; n < numVerts && !isTransparent; n++)
-			isTransparent = (TQ3Boolean) (colourTransparent[n]->r != 1.0f ||
-										  colourTransparent[n]->g != 1.0f ||
-										  colourTransparent[n]->b != 1.0f);
-		}
-
-
-
-	// If we have UVs, but no texture is active, turn them off. This saves us
-	// having to copy them into the cache then submitting them for no reason.
-	if (haveUV && !instanceData->stateTextureActive)
-		haveUV = kQ3False;
-
-
-
-	// Set up our flags
-	theFlags = kQ3PrimFlagNone;
-	
-	if (haveNormal)
-		theFlags |= kQ3PrimHaveNormal;
-	
-	if (haveUV)
-		theFlags |= kQ3PrimHaveUV;
-
-
-
-	// If the primitive is transparent, add it to the cache. If we fail, we
-	// fall back to rendering it as opaque.
-	if (isTransparent)
-		{
-		qd3dStatus = IRGeometry_Transparent_Add(theView, instanceData,
-												theType, theFlags, numVerts,
-												thePoints,
-												theNormals,
-												theUVs,
-												colourDiffuse,
-												colourTransparent);
-		if (qd3dStatus != kQ3Success)
-			isTransparent = kQ3False;		
-		}
-
-
-
-	// If the primitive is opaque, render it immediately
-	if (!isTransparent)
-		ir_geom_prim_render(theView,  instanceData,
-									theType, theFlags,
-									thePoints,
-									theNormals,
-									theUVs,
-									colourDiffuse);
-}
-
-
-
-
-
-//=============================================================================
 //      ir_geom_adjust_state : Adjust our state for a geometry.
 //-----------------------------------------------------------------------------
 static void
@@ -352,115 +85,6 @@ ir_geom_adjust_state(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttrib
 	Q3_ASSERT(instanceData->stateGeomDiffuseColour      != NULL);
 	Q3_ASSERT(instanceData->stateGeomSpecularColour     != NULL);
 	Q3_ASSERT(instanceData->stateGeomTransparencyColour != NULL);
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_polyline_is_transparent : Check for transparent polylines.
-//-----------------------------------------------------------------------------
-//		Note :	We check the geometry state before the individual vertices.
-//
-//				This could produce an inconsistency, whereby a geometry state
-//				indicating transparency could be overridden by the vertices
-//				specifying a transparency of 100% opaque-ness.
-//
-//				For that case, the object isn't really transparent at all. We
-//				will actually render it as opaque, as we should, however this
-//				routine will think it's transparent - and so the object will be
-//				added to the cache and sorted (which takes more time).
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-ir_geom_polyline_is_transparent(TQ3InteractiveData		*instanceData,
-								const TQ3PolyLineData	*geomData)
-{	TQ3Boolean				isTransparent;
-	TQ3ColorRGB				*theColour;
-	TQ3XAttributeMask		theMask;
-	TQ3Uns32				n;
-
-
-
-	// Check the current geometry state
-	theColour     = instanceData->stateGeomTransparencyColour;
-	isTransparent = (TQ3Boolean) (theColour->r != 1.0f ||
-								  theColour->g != 1.0f ||
-								  theColour->b != 1.0f);
-	
-	if (isTransparent)
-		return(kQ3True);
-
-
-
-	// Check the individual vertices for a transparency colour
-	for (n = 0; n < geomData->numVertices && !isTransparent; n++)
-		{
-		// Check the mask first, for a faster test
-		theMask = Q3XAttributeSet_GetMask(geomData->vertices[n].attributeSet);
-		if (theMask & kQ3XAttributeMaskTransparencyColor)
-			{
-			// Grab the colour
-			theColour = (TQ3ColorRGB *) Q3XAttributeSet_GetPointer(geomData->vertices[n].attributeSet,
-																   kQ3AttributeTypeTransparencyColor);
-
-
-			// Double-check that the colour isn't really opaque
-			isTransparent = (TQ3Boolean) (theColour[n].r != 1.0f ||
-										  theColour[n].g != 1.0f ||
-										  theColour[n].b != 1.0f);
-			}
-		}
-
-	return(isTransparent);
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_polyline_submit_transparent : Submit a transparent polyline.
-//-----------------------------------------------------------------------------
-//		Note :	We submit the polyline as individual line segments, since each
-//				segment needs to considered a separate primitive for sorting.
-//-----------------------------------------------------------------------------
-static void
-ir_geom_polyline_submit_transparent(TQ3ViewObject				theView,
-									TQ3InteractiveData			*instanceData,
-									const TQ3PolyLineData		*geomData)
-{	const TQ3ColorRGB		*colourDiffuse[2], *colourTransparent[2];
-	const TQ3Vector3D		*theNormals[2];
-	const TQ3Point3D		*thePoints[2];
-	TQ3Uns32				n, m;
-
-
-
-	// Break the polyline down into individual lines
-	for (n = 0; n < (geomData->numVertices-1); n++)
-		{
-		// Collect the values we need
-		for (m = 0; m < 2; m++)
-			{
-			// Grab the attribute values
-			thePoints[m]		 = &geomData->vertices[n + m].point;
-			theNormals[m]        = IRGeometry_Attribute_GetNormal(     instanceData, geomData->vertices[n + m].attributeSet);
-			colourDiffuse[m]     = IRGeometry_Attribute_GetDiffuse(	   instanceData, geomData->vertices[n + m].attributeSet);
-			colourTransparent[m] = IRGeometry_Attribute_GetTransparent(instanceData, geomData->vertices[n + m].attributeSet);
-			}
-
-
-
-		// Submit the line
-		ir_geom_prim_submit(theView, instanceData,
-									kQ3PrimLine, kQ3True,
-									NULL,
-									thePoints,
-									theNormals,
-									NULL,
-									colourDiffuse,
-									colourTransparent);
-		}
 }
 
 
@@ -587,102 +211,86 @@ IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 
 
 //=============================================================================
-//      IRGeometry_Attribute_GetDiffuse : Get the diffuse colour.
+//      IRGeometry_Vertex_GetState : Get the state for a vertex.
 //-----------------------------------------------------------------------------
-TQ3ColorRGB *
-IRGeometry_Attribute_GetDiffuse(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttributes)
-{	TQ3ColorRGB		*theColour = NULL;
+void
+IRGeometry_Vertex_GetState(TQ3InteractiveData	*instanceData,
+							TQ3Vertex3D			*srcVertex,
+							TQ3FVertex3D		*dstVertex)
+{	TQ3ColorRGB			*colourDiffuse, *colourTransparency;
+	TQ3Vector3D			*theNormal;
+	TQ3XAttributeMask	theMask;
+	TQ3Param2D			*theUV;
 
 
 
-	// Get the diffuse colour from the attribute set
-	if (theAttributes != NULL)
-		theColour = (TQ3ColorRGB *) Q3XAttributeSet_GetPointer(theAttributes, kQ3AttributeTypeDiffuseColor);
-	
-	
-	
-	// Fall back to the geometry colour or get it for highlight
-	if (theColour == NULL || instanceData->stateGeomHilightState == kQ3On)
-		theColour = instanceData->stateGeomDiffuseColour;
+	// Get the attribute points
+	theNormal          = NULL;
+	theUV              = NULL;
+	colourDiffuse      = NULL;
+	colourTransparency = NULL;
 
-	return(theColour);
-}
-
-
-
-
-
-//=============================================================================
-//      IRGeometry_Attribute_GetTransparent : Get the transparent colour.
-//-----------------------------------------------------------------------------
-//		Note : Never returns NULL.
-//-----------------------------------------------------------------------------
-TQ3ColorRGB *
-IRGeometry_Attribute_GetTransparent(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttributes)
-{	TQ3ColorRGB		*theColour = NULL;
-
-
-
-	// Get the transparency colour from the attribute set
-	if (theAttributes != NULL)
-		theColour = (TQ3ColorRGB *) Q3XAttributeSet_GetPointer(theAttributes, kQ3AttributeTypeTransparencyColor);
-	
-	
-	
-	// Fall back to the geometry colour
-	if (theColour == NULL)
-		theColour = instanceData->stateGeomTransparencyColour;
-	
-	return(theColour);
-}
-
-
-
-
-
-//=============================================================================
-//      IRGeometry_Attribute_GetNormal : Get the normal.
-//-----------------------------------------------------------------------------
-//		Note : May return NULL.
-//-----------------------------------------------------------------------------
-TQ3Vector3D *
-IRGeometry_Attribute_GetNormal(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttributes)
-{	TQ3Vector3D		*theNormal = NULL;
-
-
-
-	// Get the normal from the attribute set
-	if (theAttributes != NULL)
-		theNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(theAttributes, kQ3AttributeTypeNormal);
-	
-	return(theNormal);
-}
-
-
-
-
-
-//=============================================================================
-//      IRGeometry_Attribute_GetUV : Get the UV.
-//-----------------------------------------------------------------------------
-//		Note : May return NULL.
-//-----------------------------------------------------------------------------
-TQ3Param2D *
-IRGeometry_Attribute_GetUV(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttributes)
-{	TQ3Param2D		*theUV = NULL;
-
-
-
-	// Get the UV from the attribute set
-	if (theAttributes != NULL && instanceData->stateTextureActive)
+	if (srcVertex->attributeSet != NULL)
 		{
-		theUV = (TQ3Param2D *) Q3XAttributeSet_GetPointer(theAttributes, kQ3AttributeTypeSurfaceUV);
+		theMask = Q3XAttributeSet_GetMask(srcVertex->attributeSet);
+	
+		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskNormal))
+			theNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeNormal);
+	
+		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskSurfaceUV))
+			theUV     = (TQ3Param2D  *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeSurfaceUV);
+	
+		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskShadingUV) && theUV == NULL)
+			theUV     = (TQ3Param2D  *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeShadingUV);
+	
+		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskDiffuseColor))
+			colourDiffuse      = (TQ3ColorRGB *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeDiffuseColor);
 
-		if (theUV == NULL)
-			theUV = (TQ3Param2D *) Q3XAttributeSet_GetPointer(theAttributes, kQ3AttributeTypeShadingUV);
+		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskTransparencyColor))
+			colourTransparency = (TQ3ColorRGB *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeTransparencyColor);
 		}
 
-	return(theUV);
+
+
+	// Fall back to the geometry for colours
+	if (colourDiffuse == NULL || instanceData->stateGeomHilightState == kQ3On)
+		colourDiffuse = instanceData->stateGeomDiffuseColour;
+
+	if (colourTransparency == NULL &&
+		(instanceData->stateGeomTransparencyColour->r != 1.0f ||
+		 instanceData->stateGeomTransparencyColour->g != 1.0f ||
+		 instanceData->stateGeomTransparencyColour->b != 1.0f))
+		colourTransparency = instanceData->stateGeomTransparencyColour;
+
+
+
+	// Set up the vertex
+	dstVertex->theFlags = kQ3FVertexFlagNone;
+	dstVertex->thePoint = srcVertex->point;
+
+	if (theNormal != NULL)
+		{
+		dstVertex->theFlags |= kQ3FVertexHaveNormal;
+		dstVertex->theNormal = *theNormal;
+		}
+
+	if (theUV != NULL)
+		{
+		dstVertex->theFlags |= kQ3FVertexHaveUV;
+		dstVertex->theUV     = *theUV;
+		}
+
+	if (colourDiffuse != NULL)
+		{
+		dstVertex->theFlags     |= kQ3FVertexHaveDiffuse;
+		dstVertex->colourDiffuse = *colourDiffuse;
+		}
+
+	if (colourTransparency != NULL)
+		{
+		dstVertex->theFlags          |= kQ3FVertexHaveTransparency;
+		dstVertex->colourTransparency = *colourTransparency;
+		}
 }
 
 
@@ -871,19 +479,19 @@ IRGeometry_Triangle_IsVisible(TQ3InteractiveData		*instanceData,
 
 
 //=============================================================================
-//      IRGeometry_Triangle : Triangle handler.
+//      IRGeometry_Submit_Triangle : Triangle handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_Triangle(TQ3ViewObject			theView,
-					TQ3InteractiveData		*instanceData,
-					TQ3GeometryObject		theGeom,
-					TQ3TriangleData			*geomData)
-{	const TQ3ColorRGB		*colourDiffuse[3], *colourTransparent[3];
-	TQ3Boolean				hadAttributeTexture, canTexture;
-	const TQ3Vector3D		*theNormals[3], *triNormal;
-	const TQ3Point3D		*thePoints[3];
-	const TQ3Param2D		*theUVs[3];
-	TQ3Uns32				n;
+IRGeometry_Submit_Triangle(TQ3ViewObject			theView,
+							TQ3InteractiveData		*instanceData,
+							TQ3GeometryObject		theGeom,
+							TQ3TriangleData			*geomData)
+{	TQ3Vector3D			*triNormal, tmpNormal;
+	TQ3Boolean			hadAttributeTexture;
+	TQ3FVertex3D		theVertices[3];
+	TQ3FVertexFlags		vertexFlags;
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			n;
 #pragma unused(theGeom)
 
 
@@ -899,41 +507,52 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 
 
 
-	// Collect the UVs to see if we can texture or not
-	for (n = 0; n < 3; n++)
-		theUVs[n] = IRGeometry_Attribute_GetUV(instanceData, geomData->vertices[n].attributeSet);
+	// Get the triangle normal
+	//
+	// If not normal is supplied, we need to calculate it from the vertices.
+	triNormal = NULL;
+	if (geomData->triangleAttributeSet != NULL)
+		triNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(geomData->triangleAttributeSet, kQ3AttributeTypeNormal);
 
-	canTexture = (TQ3Boolean) (theUVs[0] != NULL && theUVs[1] != NULL && theUVs[2] != NULL);
+	if (triNormal == NULL)
+		{
+		Q3Point3D_CrossProductTri(&geomData->vertices[0].point,
+								  &geomData->vertices[1].point,
+								  &geomData->vertices[2].point,
+								  &tmpNormal);
+		Q3Vector3D_Normalize(&tmpNormal, &tmpNormal);
+		triNormal = &tmpNormal;
+		}
 
 
 
-	// Collect the values we need
-	triNormal = IRGeometry_Attribute_GetNormal(instanceData, geomData->triangleAttributeSet);
+	// Check to see if we can cull this triangle
+	if (!IRGeometry_Triangle_IsVisible(instanceData, triNormal))
+		return(kQ3Success);
+
+
+
+	// Get the vertices
+	vertexFlags = kQ3FVertexFlagNone;
+
 	for (n = 0; n < 3; n++)
 		{
-		thePoints[n]         = &geomData->vertices[n].point;
-		colourDiffuse[n]     = IRGeometry_Attribute_GetDiffuse(    instanceData, geomData->vertices[n].attributeSet);
-		colourTransparent[n] = IRGeometry_Attribute_GetTransparent(instanceData, geomData->vertices[n].attributeSet);
-		theNormals[n]        = IRGeometry_Attribute_GetNormal(     instanceData, geomData->vertices[n].attributeSet);
+		IRGeometry_Vertex_GetState(instanceData, &geomData->vertices[n], &theVertices[n]);
+		vertexFlags |= theVertices[n].theFlags;
 		}
 
 
 
 	// Submit the triangle
-	ir_geom_prim_submit(theView, instanceData, kQ3PrimTriangle,
-								instanceData->stateTextureIsTransparent,
-								triNormal,
-								thePoints,
-								theNormals,
-								theUVs,
-								colourDiffuse,
-								colourTransparent);
+	if (instanceData->stateTextureIsTransparent || E3Bit_IsSet(vertexFlags, kQ3FVertexHaveTransparency))
+		qd3dStatus = IRTransBuffer_AddTriangle(theView, instanceData, theVertices);
+	else
+		qd3dStatus = IRTriBuffer_AddTriangle(theView, instanceData, theVertices);
 
 
 
 	// Update the texture mapping state
-	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, canTexture);
-
+	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, E3Bit_IsSet(vertexFlags, kQ3FVertexHaveUV));
 	
 	return(kQ3Success);
 }
@@ -943,18 +562,17 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      IRGeometry_Line : Line handler.
+//      IRGeometry_Submit_Line : Line handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_Line(TQ3ViewObject			theView,
-				TQ3InteractiveData		*instanceData,
-				TQ3GeometryObject		theGeom,
-				TQ3LineData				*geomData)
-{	const TQ3ColorRGB		*colourDiffuse[2], *colourTransparent[2];
-	const TQ3Vector3D		*theNormals[2];
-	const TQ3Point3D		*thePoints[2];
-	const TQ3Param2D		*theUVs[2];
-	TQ3Uns32				n;
+IRGeometry_Submit_Line(TQ3ViewObject			theView,
+						TQ3InteractiveData		*instanceData,
+						TQ3GeometryObject		theGeom,
+						TQ3LineData				*geomData)
+{	TQ3FVertex3D		theVertices[3];
+	TQ3FVertexFlags		vertexFlags;
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			n;
 #pragma unused(theGeom)
 
 
@@ -969,31 +587,37 @@ IRGeometry_Line(TQ3ViewObject			theView,
 
 
 
-	// Collect the values we need
+	// Get the vertices
+	vertexFlags = kQ3FVertexFlagNone;
+
 	for (n = 0; n < 2; n++)
 		{
-		// Grab the attribute values
-		thePoints[n]         = &geomData->vertices[n].point;
-		colourDiffuse[n]     = IRGeometry_Attribute_GetDiffuse(	   instanceData, geomData->vertices[n].attributeSet);
-		colourTransparent[n] = IRGeometry_Attribute_GetTransparent(instanceData, geomData->vertices[n].attributeSet);
-		theNormals[n]        = IRGeometry_Attribute_GetNormal(     instanceData, geomData->vertices[n].attributeSet);
-		theUVs[n]            = NULL;
+		IRGeometry_Vertex_GetState(instanceData, &geomData->vertices[n], &theVertices[n]);
+		vertexFlags |= theVertices[n].theFlags;
 		}
 
 
 
 	// Submit the line
-	ir_geom_prim_submit(theView, instanceData,
-								kQ3PrimLine, kQ3False,
-								NULL,
-								thePoints,
-								theNormals,
-								theUVs,
-								colourDiffuse,
-								colourTransparent);
+	if (E3Bit_IsSet(vertexFlags, kQ3FVertexHaveTransparency))
+		qd3dStatus = IRTransBuffer_AddLine(theView, instanceData, theVertices);
+	else
+		{
+		glBegin(GL_LINES);
+		
+		for (n = 0; n < 2; n++)
+			{
+			if (E3Bit_IsSet(theVertices[n].theFlags, kQ3FVertexHaveNormal))
+				glNormal3fv((const GLfloat *) &theVertices[n].theNormal);
+				
+			if (E3Bit_IsSet(theVertices[n].theFlags, kQ3FVertexHaveDiffuse))
+				glColor3fv((const GLfloat *) &theVertices[n].colourDiffuse);
 
-
-
+			glVertex3fv((const GLfloat *) &theVertices[n].thePoint);
+			}
+			
+		glEnd();
+		}
 	
 	return(kQ3Success);
 }
@@ -1003,17 +627,16 @@ IRGeometry_Line(TQ3ViewObject			theView,
 
 
 //=============================================================================
-//      IRGeometry_Point : Point handler.
+//      IRGeometry_Submit_Point : Point handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_Point(TQ3ViewObject				theView,
-					TQ3InteractiveData		*instanceData,
-					TQ3GeometryObject		theGeom,
-					TQ3PointData			*geomData)
-{	const TQ3ColorRGB		*colourDiffuse[1], *colourTransparent[1];
-	const TQ3Vector3D		*theNormals[1];
-	const TQ3Point3D		*thePoints[1];
-	const TQ3Param2D		*theUVs[1];
+IRGeometry_Submit_Point(TQ3ViewObject				theView,
+							TQ3InteractiveData		*instanceData,
+							TQ3GeometryObject		theGeom,
+							TQ3PointData			*geomData)
+{	TQ3Status			qd3dStatus;
+	TQ3Vertex3D			srcVertex;
+	TQ3FVertex3D		theVertex;
 #pragma unused(theGeom)
 
 
@@ -1029,26 +652,31 @@ IRGeometry_Point(TQ3ViewObject				theView,
 
 
 
-	// Collect the values we need
-	thePoints[0]         = &geomData->point;
-	colourDiffuse[0]     = instanceData->stateGeomDiffuseColour;
-	colourTransparent[0] = instanceData->stateGeomTransparencyColour;
-	theNormals[0]        = IRGeometry_Attribute_GetNormal(instanceData, geomData->pointAttributeSet);
-	theUVs[0]            = NULL;
+	// Get the vertex
+	srcVertex.point        = geomData->point;
+	srcVertex.attributeSet = geomData->pointAttributeSet;
+
+	IRGeometry_Vertex_GetState(instanceData, &srcVertex, &theVertex);
 
 
 
 	// Submit the point
-	ir_geom_prim_submit(theView, instanceData,
-								kQ3PrimPoint, kQ3False,
-								NULL,
-								thePoints,
-								theNormals,
-								theUVs,
-								colourDiffuse,
-								colourTransparent);
+	if (E3Bit_IsSet(theVertex.theFlags, kQ3FVertexHaveTransparency))
+		qd3dStatus = IRTransBuffer_AddPoint(theView, instanceData, &theVertex);
+	else
+		{
+		glBegin(GL_POINTS);
+		
+		if (E3Bit_IsSet(theVertex.theFlags, kQ3FVertexHaveNormal))
+			glNormal3fv((const GLfloat *) &theVertex.theNormal);
+				
+		if (E3Bit_IsSet(theVertex.theFlags, kQ3FVertexHaveDiffuse))
+			glColor3fv((const GLfloat *) &theVertex.colourDiffuse);
 
+		glVertex3fv((const GLfloat *) &theVertex.thePoint);
 
+		glEnd();
+		}
 	
 	return(kQ3Success);
 }
@@ -1058,13 +686,13 @@ IRGeometry_Point(TQ3ViewObject				theView,
 
 
 //=============================================================================
-//      IRGeometry_Marker : Marker handler.
+//      IRGeometry_Submit_Marker : Marker handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_Marker(TQ3ViewObject			theView,
-					TQ3InteractiveData	*instanceData,
-					TQ3GeometryObject	theGeom,
-					TQ3MarkerData		*geomData)
+IRGeometry_Submit_Marker(TQ3ViewObject			theView,
+							TQ3InteractiveData	*instanceData,
+							TQ3GeometryObject	theGeom,
+							TQ3MarkerData		*geomData)
 {	GLubyte				*flipBuffer, *srcRow, *dstRow;
 	TQ3Uns32			testRowBytes1, testRowBytes2;
 	TQ3Uns32			testRowBytes4, testRowBytes8;
@@ -1179,13 +807,13 @@ cleanup:
 
 
 //=============================================================================
-//      IRGeometry_PixmapMarker : Pixmap Marker handler.
+//      IRGeometry_Submit_PixmapMarker : Pixmap Marker handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_PixmapMarker(TQ3ViewObject			theView,
-						TQ3InteractiveData		*instanceData,
-						TQ3GeometryObject		theGeom,
-						TQ3PixmapMarkerData		*geomData)
+IRGeometry_Submit_PixmapMarker(TQ3ViewObject			theView,
+								TQ3InteractiveData		*instanceData,
+								TQ3GeometryObject		theGeom,
+								TQ3PixmapMarkerData		*geomData)
 {	TQ3Uns8				*origBasePtr, *newBasePtr;
 	GLboolean			glValid, glLighting;
 	GLint				glPixelType;
@@ -1305,17 +933,17 @@ cleanup:
 
 
 //=============================================================================
-//      IRGeometry_PolyLine : Polyline handler.
+//      IRGeometry_Submit_PolyLine : Polyline handler.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRGeometry_PolyLine(TQ3ViewObject			theView,
-					TQ3InteractiveData		*instanceData,
-					TQ3GeometryObject		theGeom,
-					TQ3PolyLineData			*geomData)
-{	TQ3ColorRGB			*theColour;
-	TQ3Vector3D			*theNormal;
-	TQ3Point3D			*thePoint;
-	TQ3Uns32			n;
+IRGeometry_Submit_PolyLine(TQ3ViewObject			theView,
+							TQ3InteractiveData		*instanceData,
+							TQ3GeometryObject		theGeom,
+							TQ3PolyLineData			*geomData)
+{	TQ3FVertex3D		theVertices[3];
+	TQ3FVertexFlags		vertexFlags;
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			n, m;
 #pragma unused(theGeom)
 
 
@@ -1324,48 +952,51 @@ IRGeometry_PolyLine(TQ3ViewObject			theView,
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
+
 	// Update our state for this object and the texture mapping
 	IRGeometry_Attribute_Handler(theView, geomData->polyLineAttributeSet,
 											instanceData, kQ3XAttributeMaskGeometry);
 
 
 
-
-	// If the polyline is transparent, submit it as such
-	if (ir_geom_polyline_is_transparent(instanceData, geomData))
-		ir_geom_polyline_submit_transparent(theView, instanceData, geomData);
-
-
-
-	// Otherwise, draw it normally
-	else
+	// Submit the polyline
+	//
+	// We draw the line as a series of line segments, 2 vertices at a time. This allows us
+	// to defer any transparent line segments for sorting, while drawing opaque sections.
+	glBegin(GL_LINES);
+	
+	for (n = 0; n < (geomData->numVertices-1); n++)
 		{
-		// Draw the geometry
-		glBegin(GL_LINE_STRIP);
+		// Get the vertices
+		vertexFlags = kQ3FVertexFlagNone;
 
-		for (n = 0; n < geomData->numVertices; n++)
+		for (m = 0; m < 2; m++)
 			{
-			// Get the values we need
-			thePoint  = &geomData->vertices[n].point;
-			theColour = IRGeometry_Attribute_GetDiffuse(instanceData, geomData->vertices[n].attributeSet);
-			theNormal = IRGeometry_Attribute_GetNormal( instanceData, geomData->vertices[n].attributeSet);
-
-
-
-			// Submit them
-			if (theNormal != NULL)
-				glNormal3fv((const GLfloat *) theNormal);
-	
-			if (theColour != NULL)
-				glColor3fv((const GLfloat *) theColour);
-
-			glVertex3fv((const GLfloat *) thePoint);
+			IRGeometry_Vertex_GetState(instanceData, &geomData->vertices[n + m], &theVertices[m]);
+			vertexFlags |= theVertices[m].theFlags;
 			}
-	
-		glEnd();
+
+
+
+		// Submit the line
+		if (E3Bit_IsSet(vertexFlags, kQ3FVertexHaveTransparency))
+			qd3dStatus = IRTransBuffer_AddLine(theView, instanceData, theVertices);
+		else
+			{
+			for (m = 0; m < 2; m++)
+				{
+				if (E3Bit_IsSet(theVertices[m].theFlags, kQ3FVertexHaveNormal))
+					glNormal3fv((const GLfloat *) &theVertices[m].theNormal);
+
+				if (E3Bit_IsSet(theVertices[m].theFlags, kQ3FVertexHaveDiffuse))
+					glColor3fv((const GLfloat *) &theVertices[m].colourDiffuse);
+
+				glVertex3fv((const GLfloat *) &theVertices[m].thePoint);
+				}
+			}
 		}
-
-
 	
+	glEnd();
+
 	return(kQ3Success);
 }
