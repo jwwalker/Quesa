@@ -63,6 +63,7 @@ static TypeMapEntry sTypeMap[] = {
 	{ kQ3StyleTypeInterpolation, "\pQ3StyleTypeInterpolation"},
 	{ kQ3StyleTypeFill, "\pQ3StyleTypeFill"},
 	{ kQ3StyleTypePickID, "\pQ3StyleTypePickID"},
+	{ kQ3StyleTypeCastShadows, "\pQ3StyleTypeCastShadows"},
 	{ kQ3StyleTypeReceiveShadows, "\pQ3StyleTypeReceiveShadows"},
 	{ kQ3StyleTypeHighlight, "\pQ3StyleTypeHighlight"},
 	{ kQ3StyleTypeSubdivision, "\pQ3StyleTypeSubdivision"},

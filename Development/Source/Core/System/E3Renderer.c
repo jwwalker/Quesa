@@ -136,6 +136,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 														kQ3StyleTypeInterpolation,
 														kQ3StyleTypeFill,
 														kQ3StyleTypePickID,
+														kQ3StyleTypeCastShadows,
 														kQ3StyleTypeReceiveShadows,
 														kQ3StyleTypeHighlight,
 														kQ3StyleTypeSubdivision,

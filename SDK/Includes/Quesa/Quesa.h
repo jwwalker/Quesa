@@ -564,6 +564,9 @@ enum {
                 kQ3StyleTypeInterpolation       = Q3_OBJECT_TYPE('i', 'n', 't', 'p'),
                 kQ3StyleTypeFill                = Q3_OBJECT_TYPE('f', 'i', 's', 't'),
                 kQ3StyleTypePickID              = Q3_OBJECT_TYPE('p', 'k', 'i', 'd'),
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+                kQ3StyleTypeCastShadows         = Q3_OBJECT_TYPE('c', 'a', 's', 'h'),
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
                 kQ3StyleTypeReceiveShadows      = Q3_OBJECT_TYPE('r', 'c', 's', 'h'),
                 kQ3StyleTypeHighlight           = Q3_OBJECT_TYPE('h', 'i', 'g', 'h'),
                 kQ3StyleTypeSubdivision         = Q3_OBJECT_TYPE('s', 'b', 'd', 'v'),

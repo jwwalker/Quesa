@@ -123,6 +123,7 @@ void							E3View_State_SetShaderIllumination(TQ3ViewObject theView, const TQ3Il
 void							E3View_State_SetStyleSubdivision(TQ3ViewObject theView, const TQ3SubdivisionStyleData *theData);
 void							E3View_State_SetStylePickID(TQ3ViewObject theView, TQ3Uns32 pickID);
 void							E3View_State_SetStylePickParts(TQ3ViewObject theView, TQ3PickParts pickParts);
+void							E3View_State_SetStyleCastShadows(TQ3ViewObject theView, TQ3Boolean castShadows);
 void							E3View_State_SetStyleReceiveShadows(TQ3ViewObject theView, TQ3Boolean receiveShadows);
 void							E3View_State_SetStyleFill(TQ3ViewObject theView, TQ3FillStyle fillStyle);
 void							E3View_State_SetStyleBackfacing(TQ3ViewObject theView, TQ3BackfacingStyle backfacingStyle);
@@ -185,7 +186,8 @@ TQ3Status				E3View_GetFillStyleState(TQ3ViewObject theView, TQ3FillStyle *fillS
 TQ3Status				E3View_GetHighlightStyleState(TQ3ViewObject theView, TQ3AttributeSet *highlightStyle);
 TQ3Status				E3View_GetSubdivisionStyleState(TQ3ViewObject theView, TQ3SubdivisionStyleData *subdivisionStyle);
 TQ3Status				E3View_GetOrientationStyleState(TQ3ViewObject theView, TQ3OrientationStyle *frontFacingDirectionStyle);
-TQ3Status				E3View_GetReceiveShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *receives);
+TQ3Status				E3View_GetCastShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *castShadows);
+TQ3Status				E3View_GetReceiveShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *receiveShadows);
 TQ3Status				E3View_GetPickIDStyleState(TQ3ViewObject theView, TQ3Uns32 *pickIDStyle);
 TQ3Status				E3View_GetPickPartsStyleState(TQ3ViewObject theView, TQ3PickParts *pickPartsStyle);
 TQ3Status				E3View_GetAntiAliasStyleState(TQ3ViewObject theView, TQ3AntiAliasStyleData *antiAliasData);

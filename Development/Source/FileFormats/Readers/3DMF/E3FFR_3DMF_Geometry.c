@@ -1110,6 +1110,37 @@ E3Read_3DMF_Style_PickParts(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      E3Read_3DMF_Style_CastShadows : Cast Shadows read method.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Style_CastShadows(TQ3FileObject theFile)
+{
+	TQ3StyleObject theStyle = NULL;
+	TQ3Boolean styleData;
+	TQ3Int32 temp;
+
+	// Initialise the style data
+	styleData = kQ3False;
+
+	// read the style data
+	
+	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
+		return(NULL);
+		
+	styleData = (TQ3Boolean)temp;
+	
+	// Create the style
+	theStyle =  Q3CastShadowsStyle_New (styleData);
+		
+			
+	return(theStyle);
+}
+
+
+
+
+
+//=============================================================================
 //      E3Read_3DMF_Style_ReceiveShadows : Receive Shadows read method.
 //-----------------------------------------------------------------------------
 TQ3Object
