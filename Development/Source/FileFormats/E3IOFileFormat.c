@@ -193,7 +193,7 @@ E3FileFormat_NewFromType(TQ3ObjectType fformatObjectType)
 TQ3Status
 E3FileFormat_GenericReadBinary_8(TQ3FileFormatObject format, TQ3Int8* data)
 {
-	return Q3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, 1);
+	return E3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, 1);
 }
 
 
@@ -206,7 +206,7 @@ E3FileFormat_GenericReadBinary_8(TQ3FileFormatObject format, TQ3Int8* data)
 TQ3Status
 E3FileFormat_GenericReadBinary_16(TQ3FileFormatObject format, TQ3Int16* data)
 {
-	return Q3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, 2);
+	return E3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, 2);
 }
 
 
@@ -219,7 +219,7 @@ E3FileFormat_GenericReadBinary_16(TQ3FileFormatObject format, TQ3Int16* data)
 TQ3Status
 E3FileFormat_GenericReadBinary_32(TQ3FileFormatObject format, TQ3Int32* data)
 {
-	return Q3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, 4);
+	return E3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, 4);
 }
 
 
@@ -271,7 +271,7 @@ E3FileFormat_GenericReadBinaryArray_32(TQ3FileFormatObject format, TQ3Uns32 numN
 TQ3Status
 E3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64* data)
 {
-	return Q3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, 8);
+	return E3FileFormat_GenericReadBinary_Raw (format, (unsigned char*)data, 8);
 }
 
 
@@ -419,7 +419,7 @@ TQ3Status
 E3FileFormat_GenericReadBinSwap_16(TQ3FileFormatObject format, TQ3Int16* data)
 {
 	TQ3Status result;
-	result = Q3FileFormat_GenericReadBinary_16 (format, data);
+	result = E3FileFormat_GenericReadBinary_16 (format, data);
 	if(result == kQ3Success)
 		*data = E3EndianSwap16(*data);
 	
@@ -438,7 +438,7 @@ TQ3Status
 E3FileFormat_GenericReadBinSwap_32(TQ3FileFormatObject format, TQ3Int32* data)
 {
 	TQ3Status result;
-	result = Q3FileFormat_GenericReadBinary_32 (format, data);
+	result = E3FileFormat_GenericReadBinary_32 (format, data);
 	if(result == kQ3Success)
 		*data = E3EndianSwap32(*data);
 	
@@ -505,7 +505,7 @@ TQ3Status
 E3FileFormat_GenericReadBinSwap_64(TQ3FileFormatObject format, TQ3Int64* data)
 {
 	TQ3Status result;
-	result = Q3FileFormat_GenericReadBinary_64 (format, data);
+	result = E3FileFormat_GenericReadBinary_64 (format, data);
 	if(result == kQ3Success){
 		TQ3Int64 temp;
 		temp.lo = E3EndianSwap32(data->hi);
@@ -637,7 +637,7 @@ E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format,char* buf
 TQ3Status
 E3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, const TQ3Int8 *data)
 {
-	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 1);
+	return E3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 1);
 }
 
 
@@ -650,7 +650,7 @@ E3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, const TQ3Int8 *dat
 TQ3Status
 E3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, const TQ3Int16 *data)
 {
-	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 2);
+	return E3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 2);
 }
 
 
@@ -663,7 +663,7 @@ E3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, const TQ3Int16 *d
 TQ3Status
 E3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, const TQ3Int32* data)
 {
-	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 4);
+	return E3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 4);
 }
 
 
@@ -676,7 +676,7 @@ E3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, const TQ3Int32* d
 TQ3Status
 E3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, const TQ3Int64 *data)
 {
-	return Q3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 8);
+	return E3FileFormat_GenericWriteBinary_Raw (format, (const unsigned char*)data, 8);
 }
 
 
@@ -698,7 +698,7 @@ E3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char* d
 	paddedLength = Q3Size_Pad( theLength );
 	
 	
-	result = Q3FileFormat_GenericWriteBinary_Raw( format, (const unsigned char *)data,
+	result = E3FileFormat_GenericWriteBinary_Raw( format, (const unsigned char *)data,
 		theLength );
 	
 	
@@ -707,7 +707,7 @@ E3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char* d
 		// There are at most 3 pad bytes added, since Q3Size_Pad aligns to
 		// longword sizes.
 		TQ3Uns32	pad = 0;
-		result = Q3FileFormat_GenericWriteBinary_Raw( format, (const unsigned char *)&pad,
+		result = E3FileFormat_GenericWriteBinary_Raw( format, (const unsigned char *)&pad,
 			paddedLength - theLength );
 	}
 	
@@ -756,7 +756,7 @@ E3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, const TQ3Int16 *
 {
 	TQ3Status result;
 	TQ3Int16 swappedData = E3EndianSwap16(*data);
-	result = Q3FileFormat_GenericWriteBinary_16 (format, &swappedData);
+	result = E3FileFormat_GenericWriteBinary_16 (format, &swappedData);
 	
 	return result;
 }
@@ -774,7 +774,7 @@ E3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, const TQ3Int32 *
 {
 	TQ3Status result;
 	TQ3Int32 swappedData = E3EndianSwap32(*data);
-	result = Q3FileFormat_GenericWriteBinary_32 (format, &swappedData);
+	result = E3FileFormat_GenericWriteBinary_32 (format, &swappedData);
 	
 	return result;
 }
@@ -795,7 +795,7 @@ E3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, const TQ3Int64 *
 	temp.lo = E3EndianSwap32(data->hi);
 	temp.hi = E3EndianSwap32(data->lo);
 	
-	result = Q3FileFormat_GenericWriteBinary_64 (format, &temp);
+	result = E3FileFormat_GenericWriteBinary_64 (format, &temp);
 	
 	return result;
 }
@@ -976,7 +976,7 @@ E3FileFormat_SetConfigurationData(TQ3FileFormatObject theFormat, unsigned char *
 
 
 //=============================================================================
-//      E3FileFormat_Method_StartFile : Call the start frame method.
+//      E3FileFormat_Method_StartFile : Call the start file method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
@@ -1010,7 +1010,7 @@ E3FileFormat_Method_StartFile(TQ3ViewObject theView)
 
 
 //=============================================================================
-//      E3FileFormat_Method_EndFile : Call the start frame method.
+//      E3FileFormat_Method_EndFile : Call the end file method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
