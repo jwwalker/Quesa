@@ -318,6 +318,12 @@ e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
 	// Check we're not out of range
 	if (n > pickInstanceData->numHits)
 		return(NULL);
+	
+	if (pickInstanceData->data.common.numHitsToReturn != kQ3ReturnAllHits)
+		{
+		if (n > pickInstanceData->data.common.numHitsToReturn)
+			return(NULL);
+		}
 
 
 
@@ -348,6 +354,12 @@ e3pick_windowpoint_new(TQ3Object theObject, void *privateData, const void *param
 	// Initialise our instance data
 	instanceData->data.windowPointData = *pickData;
 
+
+
+	// QD3D will turn on the distance flag if sorting is requested
+	if (instanceData->data.windowPointData.data.sort != kQ3PickSortNone)
+		instanceData->data.windowPointData.data.mask |= kQ3PickDetailMaskDistance;
+	
 	return(kQ3Success);
 }
 
@@ -478,6 +490,12 @@ e3pick_worldray_new(TQ3Object theObject, void *privateData, const void *paramDat
 	// Initialise our instance data
 	instanceData->data.worldRayData = *pickData;
 
+
+
+	// QD3D will turn on the distance flag if sorting is requested
+	if (instanceData->data.windowPointData.data.sort != kQ3PickSortNone)
+		instanceData->data.windowPointData.data.mask |= kQ3PickDetailMaskDistance;
+	
 	return(kQ3Success);
 }
 
@@ -1062,8 +1080,15 @@ E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
 
 
 
-	// Get the field
+	// Get the field, clamping it if a limit was supplied
 	*numHits = instanceData->numHits;
+	
+	if (instanceData->data.common.numHitsToReturn != kQ3ReturnAllHits)
+		{
+		if (*numHits > instanceData->data.common.numHitsToReturn)
+			*numHits = instanceData->data.common.numHitsToReturn;
+		}
+	
 	return(kQ3Success);
 }
 
