@@ -35,18 +35,25 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-// Sigh - there's always one...
-//
-// Windows needs to have <Windows.h> as the very first #include, or things
-// won't compile. We also turn off the unknown #pragma warning for VC++.
-#if _MSC_VER
-	#include <Windows.h>
-	#pragma warning(disable:4068)
+
+
+
+#include "Quesa.h"
+
+
+
+// Quesa (private, platform specific for platforms without makefiles)
+#if QUESA_OS_MACINTOSH
+	#include "E3MacPrefix.h"
+#elif QUESA_OS_WIN32
+	#include "E3WindowsPrefix.h"
+#elif QUESA_OS_UNIX
+	#include "E3UnixPrefix.h"
+#elif QUESA_OS_BE
+	#include "E3BePrefix.h"
 #endif
 
-
 // Quesa (public)
-#include "Quesa.h"
 #include "QuesaCamera.h"
 #include "QuesaController.h"
 #include "QuesaCustomElements.h"
@@ -68,11 +75,6 @@
 #include "QuesaTransform.h"
 #include "QuesaView.h"
 
-
-// Quesa (private, platform specific for platforms without makefiles)
-#if OS_MACINTOSH
-	#include "E3MacPrefix.h"
-#endif
 
 
 // Quesa (private, platform independent)
@@ -109,21 +111,8 @@
 
 // Should we overwrite the QD3D renderers?
 #ifndef QUESA_REPLACE_QD3D_RENDERERS
-	#define QUESA_REPLACE_QD3D_RENDERERS						0
+	#define QUESA_REPLACE_QD3D_RENDERERS						1
 #endif
-
-
-// Do we have QuickTime?
-#ifndef QUESA_SUPPORT_QUICKTIME
-	#define QUESA_SUPPORT_QUICKTIME								1
-#endif
-
-
-// Do we put numbers the Right Way round?
-#ifndef QUESA_HOST_IS_BIG_ENDIAN
-	#define QUESA_HOST_IS_BIG_ENDIAN							1
-#endif
-
 
 
 
