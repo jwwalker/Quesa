@@ -38,6 +38,7 @@
 
 
 
+
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
@@ -61,11 +62,13 @@
 #define kMenuItemGeometryPolyLine							18
 #define kMenuItemGeometryPolygon							19
 #define kMenuItemGeometryPolyhedron							20
-#define kMenuItemQuesaLogo									21
-#define kMenuItemGeometryTorus								22
-#define kMenuItemGeometryTriangle							23
-#define kMenuItemGeometryTriGrid							24
-#define kMenuItemGeometryTriMesh							25
+#define kMenuItemGeometryTorus								21
+#define kMenuItemGeometryTriangle							22
+#define kMenuItemGeometryTriGrid							23
+#define kMenuItemGeometryTriMesh							24
+#define kMenuItemDivider2									25
+#define kMenuItemMultiBox									26
+#define kMenuItemQuesaLogo									27
 
 #define kTriGridRows										5
 #define kTriGridCols										10
@@ -81,15 +84,16 @@ const TQ3ColorARGB kColorARGBPickMiss = {1.0f, 0.0f, 0.0f, 1.0f};
 //=============================================================================
 //      Internal globals
 //-----------------------------------------------------------------------------
-TQ3Object			gSceneGeometry      = NULL;
-TQ3ShaderObject		gSceneIllumination  = NULL;
-TQ3Object			gSceneBounds        = NULL;
-TQ3ShaderObject		gSceneTexture       = NULL;
-TQ3Boolean			gShowTexture        = kQ3False;
+TQ3Object			gSceneGeometry     = NULL;
+TQ3ShaderObject		gSceneIllumination = NULL;
+TQ3Object			gSceneBounds       = NULL;
+TQ3ShaderObject		gSceneTexture      = NULL;
+TQ3Boolean			gShowTexture       = kQ3False;
+TQ3Uns32			gFlashStep         = 0;
 TQ3Matrix4x4		gMatrixCurrent;
 TQ3Matrix4x4		gMatrixRotation;
-TQ3Uns32			gFlashStep			= 0;		// counts down while flash fades
 TQ3ColorARGB		gBackgroundColor;
+
 
 
 
@@ -815,6 +819,87 @@ createGeomMesh(void)
 	Q3Object_Dispose(theAttributes);
 
 	return(theMesh);
+}
+
+
+
+
+
+//=============================================================================
+//      createGeomMultiBox : Create the multi-box geometry.
+//-----------------------------------------------------------------------------
+static TQ3GeometryObject
+createGeomMultiBox(void)
+{	TQ3ColorRGB				faceColour[6] = { {1.0f, 0.0f, 0.0f},
+											  {0.0f, 1.0f, 0.0f},
+											  {0.0f, 0.0f, 1.0f},
+											  {1.0f, 1.0f, 0.0f},
+											  {1.0f, 0.0f, 1.0f},
+											  {0.0f, 1.0f, 1.0f} };
+	TQ3AttributeSet			faceAttributes[6];
+	TQ3Uns32				n, i, j;
+	TQ3DisplayGroupObject	theGroup;
+	TQ3BoxData				boxData;
+	TQ3GeometryObject		theBox;
+
+
+
+	// Create the group to hold the boxes
+	theGroup = Q3DisplayGroup_New();
+	if (theGroup == NULL)
+		return(NULL);
+
+
+
+	// Set up the data
+	Q3Vector3D_Set(&boxData.orientation, 0.0f,  0.1f,  0.0f);
+	Q3Vector3D_Set(&boxData.majorAxis,   0.0f,  0.0f,  0.1f);
+	Q3Vector3D_Set(&boxData.minorAxis,   0.1f,  0.0f,  0.0f);
+	boxData.boxAttributeSet  = NULL;
+	boxData.faceAttributeSet = faceAttributes;
+
+	for (n = 0; n < 6; n++)
+		{
+		faceAttributes[n] = Q3AttributeSet_New();
+		if (faceAttributes[n] != NULL)
+			Q3AttributeSet_Add(faceAttributes[n], kQ3AttributeTypeDiffuseColor, &faceColour[n]);
+		}
+
+
+
+	// Create the boxes
+	for (i = 0; i < 10; ++i)
+		{
+		boxData.origin.x = -0.95f + i * 0.2f;
+		
+		for (j = 0; j < 10; ++j)
+			{
+			boxData.origin.y = -0.95f + j * 0.2f;
+			
+			for (n = 0; n < 10; ++n)
+				{
+				boxData.origin.z = -0.95f + n * 0.2f;
+
+				theBox = Q3Box_New(&boxData);
+				if (theBox != NULL)
+					{
+					Q3Group_AddObject(theGroup, theBox);
+					Q3Object_Dispose(theBox);
+					}
+				}
+			}
+		}
+
+
+
+	// Clean up
+	for (n = 0; n < 6; n++)
+		{
+		if (faceAttributes[n] != NULL)
+			Q3Object_Dispose(faceAttributes[n]);
+		}
+
+	return(theGroup);
 }
 
 
@@ -1619,12 +1704,13 @@ createGeomTriMesh(void)
 
 
 
+
 //=============================================================================
-//      testPick : Return kQ3True if the given point hits the geometry in
-//				   gSceneGeometry, kQ3False otherwise.  (Tests Picking.)
+//      doPicktest : Return kQ3True if the given point hits the geometry in
+//				     gSceneGeometry, kQ3False otherwise.
 //-----------------------------------------------------------------------------
 static TQ3Boolean
-testPick(TQ3ViewObject theView, TQ3Point2D mousePoint)
+doPicktest(TQ3ViewObject theView, TQ3Point2D mousePoint)
 {
 	TQ3WindowPointPickData	myPickData;
 	TQ3PickObject 			myPick;
@@ -1695,7 +1781,7 @@ static void
 appMouseDown(TQ3ViewObject theView, TQ3Point2D mousePoint)
 {
 	gFlashStep = 5;
-	gBackgroundColor = testPick(theView, mousePoint) ? kColorARGBPickHit : kColorARGBPickMiss;
+	gBackgroundColor = doPicktest(theView, mousePoint) ? kColorARGBPickHit : kColorARGBPickMiss;
 	gBackgroundColor.r *= 2.0f;
 	gBackgroundColor.g *= 2.0f;
 	gBackgroundColor.b *= 2.0f;
@@ -1801,10 +1887,6 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			theGeom = createGeomPolyhedron();
 			break;
 		
-		case kMenuItemQuesaLogo:
-			theGeom = createGeomQuesa();
-			break;
-
 		case kMenuItemGeometryTriangle:
 			theGeom = createGeomTriangle();
 			break;
@@ -1819,6 +1901,15 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 
 		case kMenuItemGeometryTriMesh:
 			theGeom = createGeomTriMesh();
+			break;
+
+
+		case kMenuItemMultiBox:
+			theGeom = createGeomMultiBox();
+			break;
+
+		case kMenuItemQuesaLogo:
+			theGeom = createGeomQuesa();
 			break;
 
 		default:
@@ -1963,11 +2054,13 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "PolyLine");
 	Qut_CreateMenuItem(kMenuItemLast, "Polygon");
 	Qut_CreateMenuItem(kMenuItemLast, "Polyhedron");
-	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
 	Qut_CreateMenuItem(kMenuItemLast, "Torus");
 	Qut_CreateMenuItem(kMenuItemLast, "Triangle");
 	Qut_CreateMenuItem(kMenuItemLast, "TriGrid");
 	Qut_CreateMenuItem(kMenuItemLast, "TriMesh");
+	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
+	Qut_CreateMenuItem(kMenuItemLast, "MultiBox");
+	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
 }
 
 
