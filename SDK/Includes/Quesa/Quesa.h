@@ -583,6 +583,10 @@ enum {
                 kQ3TransformTypeRotateAboutAxis = Q3_OBJECT_TYPE('r', 't', 'a', 'a'),
                 kQ3TransformTypeQuaternion      = Q3_OBJECT_TYPE('q', 't', 'r', 'n'),
                 kQ3TransformTypeReset           = Q3_OBJECT_TYPE('r', 's', 'e', 't'),
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+                kQ3TransformTypeCamera           = Q3_OBJECT_TYPE('c', 'a', 'm', 't'),
+                kQ3TransformTypeCameraRasterize  = Q3_OBJECT_TYPE('r', 'a', 's', 't'),
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
             kQ3ShapeTypeLight                   = Q3_OBJECT_TYPE('l', 'g', 'h', 't'),
                 kQ3LightTypeAmbient             = Q3_OBJECT_TYPE('a', 'm', 'b', 'n'),
                 kQ3LightTypeDirectional         = Q3_OBJECT_TYPE('d', 'r', 'c', 't'),
