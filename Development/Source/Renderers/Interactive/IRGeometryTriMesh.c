@@ -1456,7 +1456,7 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 	
 	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, vertexArray.vertexUVs != NULL);
 
-	E3Object_DisposeAndForget(geomAttributes);
+	Q3Object_CleanDispose(&geomAttributes);
 
 	return(kQ3Success);
 }

@@ -1134,7 +1134,7 @@ e3attribute_surfaceshader_delete(TQ3Object theObject, void *privateData)
 
 
 	// Dispose of our instance data
-	E3Object_DisposeAndForget(*instanceData);
+	Q3Object_CleanDispose(instanceData);
 }
 
 

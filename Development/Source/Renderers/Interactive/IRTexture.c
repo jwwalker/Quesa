@@ -120,8 +120,8 @@ ir_texture_pixel_type(TQ3TextureObject theTexture)
 
 
 	// Clean up
-	E3Object_DisposeAndForget(thePixmap.image);
-	E3Object_DisposeAndForget(theMipmap.image);
+	Q3Object_CleanDispose(&thePixmap.image);
+	Q3Object_CleanDispose(&theMipmap.image);
 
 	return(pixelType);
 }
@@ -178,7 +178,7 @@ ir_texture_convert_pixmap(TQ3TextureObject theTexture)
 
 
 	// Clean up and return
-	E3Object_DisposeAndForget(thePixmap.image);
+	Q3Object_CleanDispose(&thePixmap.image);
 	Q3Memory_Free(&basePtr);
 	
 	return(kQ3Success);
@@ -284,7 +284,7 @@ ir_texture_convert_mipmap(TQ3TextureObject theTexture)
 
 
 	// Clean up and return
-	E3Object_DisposeAndForget(theMipmap.image);
+	Q3Object_CleanDispose(&theMipmap.image);
 	Q3Memory_Free(&basePtr);
 	
 	return(kQ3Success);
@@ -373,7 +373,7 @@ ir_texture_get_storage_edit(TQ3TextureObject theTexture)
 			if (qd3dStatus == kQ3Success)
 				{
 				editIndex = Q3Shared_GetEditIndex(thePixmap.image);
-				E3Object_DisposeAndForget(thePixmap.image);
+				Q3Object_CleanDispose(&thePixmap.image);
 				}
 			break;
 	
@@ -382,7 +382,7 @@ ir_texture_get_storage_edit(TQ3TextureObject theTexture)
 			if (qd3dStatus == kQ3Success)
 				{
 				editIndex = Q3Shared_GetEditIndex(theMipmap.image);
-				E3Object_DisposeAndForget(theMipmap.image);
+				Q3Object_CleanDispose(&theMipmap.image);
 				}
 			break;
 
@@ -587,7 +587,7 @@ ir_texture_cache_remove(TQ3InteractiveData	*instanceData,
 			// Release the texture
 			Q3_ASSERT(glIsTexture((GLuint) instanceData->cachedTextures[n].theTexture));
 			glDeleteTextures(1, (GLuint *) &instanceData->cachedTextures[n].theTexture);
-			E3Object_DisposeAndForget(instanceData->cachedTextures[n].theTexture);
+			Q3Object_CleanDispose(&instanceData->cachedTextures[n].theTexture);
 
 
 			// Shuffle the remaining slots down by 1 (using memmove
