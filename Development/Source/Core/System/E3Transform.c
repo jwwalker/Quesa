@@ -1062,13 +1062,13 @@ E3Transform_GetMatrix(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix)
 
 	// Get the matrix method for the transform
 	matrixMethod = (TQ3XTransformMatrixMethod)
-					E3ClassTree_GetMethod(theTransform->theClass, kQ3XMethodTypeTransformMatrix);
+					E3ClassTree_GetMethodByObject(theTransform, kQ3XMethodTypeTransformMatrix);
 
 
 
 	// Call the method, or revert to the identity matrix on error
 	if (matrixMethod != NULL)
-		matrixMethod(theTransform->instanceData, theMatrix);
+		matrixMethod(E3ClassTree_FindInstanceData(theTransform, kQ3ObjectTypeLeaf), theMatrix);
 	else
 		Q3Matrix4x4_SetIdentity(theMatrix);
 	
@@ -1141,7 +1141,7 @@ E3MatrixTransform_Submit(const TQ3Matrix4x4 *theMatrix, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MatrixTransform_Set(TQ3TransformObject theTransform, const TQ3Matrix4x4 *theMatrix)
-{	TQ3Matrix4x4	*instanceData = (TQ3Matrix4x4 *) theTransform->instanceData;
+{	TQ3Matrix4x4	*instanceData = (TQ3Matrix4x4 *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeMatrix);
 
 
 
@@ -1161,7 +1161,7 @@ E3MatrixTransform_Set(TQ3TransformObject theTransform, const TQ3Matrix4x4 *theMa
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MatrixTransform_Get(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix)
-{	TQ3Matrix4x4	*instanceData = (TQ3Matrix4x4 *) theTransform->instanceData;
+{	TQ3Matrix4x4	*instanceData = (TQ3Matrix4x4 *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeMatrix);
 
 
 
@@ -1218,7 +1218,7 @@ E3RotateTransform_Submit(const TQ3RotateTransformData *data, TQ3ViewObject theVi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_SetData(TQ3TransformObject theTransform, const TQ3RotateTransformData *data)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) theTransform->instanceData;
+{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
 
 
 
@@ -1238,7 +1238,7 @@ E3RotateTransform_SetData(TQ3TransformObject theTransform, const TQ3RotateTransf
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_GetData(TQ3TransformObject theTransform, TQ3RotateTransformData *data)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) theTransform->instanceData;
+{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
 
 
 
@@ -1257,7 +1257,7 @@ E3RotateTransform_GetData(TQ3TransformObject theTransform, TQ3RotateTransformDat
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_SetAxis(TQ3TransformObject theTransform, TQ3Axis axis)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) theTransform->instanceData;
+{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
 
 
 
@@ -1277,7 +1277,7 @@ E3RotateTransform_SetAxis(TQ3TransformObject theTransform, TQ3Axis axis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_GetAxis(TQ3TransformObject theTransform, TQ3Axis *axis)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) theTransform->instanceData;
+{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
 
 
 
@@ -1296,7 +1296,7 @@ E3RotateTransform_GetAxis(TQ3TransformObject theTransform, TQ3Axis *axis)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_SetAngle(TQ3TransformObject theTransform, float radians)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) theTransform->instanceData;
+{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
 
 
 
@@ -1316,7 +1316,7 @@ E3RotateTransform_SetAngle(TQ3TransformObject theTransform, float radians)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateTransform_GetAngle(TQ3TransformObject theTransform, float *radians)
-{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) theTransform->instanceData;
+{	TQ3RotateTransformData	*instanceData = (TQ3RotateTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotate);
 
 
 
@@ -1373,7 +1373,7 @@ E3RotateAboutPointTransform_Submit(const TQ3RotateAboutPointTransformData *data,
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_SetData(TQ3TransformObject theTransform, const TQ3RotateAboutPointTransformData *data)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
 
 
 
@@ -1393,7 +1393,7 @@ E3RotateAboutPointTransform_SetData(TQ3TransformObject theTransform, const TQ3Ro
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_GetData(TQ3TransformObject theTransform, TQ3RotateAboutPointTransformData *data)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
 
 
 
@@ -1412,7 +1412,7 @@ E3RotateAboutPointTransform_GetData(TQ3TransformObject theTransform, TQ3RotateAb
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_SetAxis(TQ3TransformObject theTransform, TQ3Axis axis)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
 
 
 
@@ -1432,7 +1432,7 @@ E3RotateAboutPointTransform_SetAxis(TQ3TransformObject theTransform, TQ3Axis axi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_GetAxis(TQ3TransformObject theTransform, TQ3Axis *axis)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
 
 
 
@@ -1451,7 +1451,7 @@ E3RotateAboutPointTransform_GetAxis(TQ3TransformObject theTransform, TQ3Axis *ax
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_SetAngle(TQ3TransformObject theTransform, float radians)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
 
 
 
@@ -1471,7 +1471,7 @@ E3RotateAboutPointTransform_SetAngle(TQ3TransformObject theTransform, float radi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_GetAngle(TQ3TransformObject theTransform, float *radians)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
 
 
 
@@ -1490,7 +1490,7 @@ E3RotateAboutPointTransform_GetAngle(TQ3TransformObject theTransform, float *rad
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_SetAboutPoint(TQ3TransformObject theTransform, const TQ3Point3D *about)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
 
 
 
@@ -1510,7 +1510,7 @@ E3RotateAboutPointTransform_SetAboutPoint(TQ3TransformObject theTransform, const
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutPointTransform_GetAboutPoint(TQ3TransformObject theTransform, TQ3Point3D *about)
-{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutPointTransformData	*instanceData = (TQ3RotateAboutPointTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutPoint);
 
 
 
@@ -1567,7 +1567,7 @@ E3RotateAboutAxisTransform_Submit(const TQ3RotateAboutAxisTransformData *data, T
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_SetData(TQ3TransformObject theTransform, const TQ3RotateAboutAxisTransformData *data)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
 
 
 
@@ -1587,7 +1587,7 @@ E3RotateAboutAxisTransform_SetData(TQ3TransformObject theTransform, const TQ3Rot
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_GetData(TQ3TransformObject theTransform, TQ3RotateAboutAxisTransformData *data)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
 
 
 
@@ -1606,7 +1606,7 @@ E3RotateAboutAxisTransform_GetData(TQ3TransformObject theTransform, TQ3RotateAbo
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_SetOrientation(TQ3TransformObject theTransform, const TQ3Vector3D *axis)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
 
 
 
@@ -1626,7 +1626,7 @@ E3RotateAboutAxisTransform_SetOrientation(TQ3TransformObject theTransform, const
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_GetOrientation(TQ3TransformObject theTransform, TQ3Vector3D *axis)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
 
 
 
@@ -1645,7 +1645,7 @@ E3RotateAboutAxisTransform_GetOrientation(TQ3TransformObject theTransform, TQ3Ve
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_SetAngle(TQ3TransformObject theTransform, float radians)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
 
 
 
@@ -1665,7 +1665,7 @@ E3RotateAboutAxisTransform_SetAngle(TQ3TransformObject theTransform, float radia
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_GetAngle(TQ3TransformObject theTransform, float *radians)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
 
 
 
@@ -1684,7 +1684,7 @@ E3RotateAboutAxisTransform_GetAngle(TQ3TransformObject theTransform, float *radi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_SetOrigin(TQ3TransformObject theTransform, const TQ3Point3D *origin)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
 
 
 
@@ -1704,7 +1704,7 @@ E3RotateAboutAxisTransform_SetOrigin(TQ3TransformObject theTransform, const TQ3P
 //-----------------------------------------------------------------------------
 TQ3Status
 E3RotateAboutAxisTransform_GetOrigin(TQ3TransformObject theTransform, TQ3Point3D *origin)
-{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) theTransform->instanceData;
+{	TQ3RotateAboutAxisTransformData	*instanceData = (TQ3RotateAboutAxisTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeRotateAboutAxis);
 
 
 
@@ -1761,7 +1761,7 @@ E3ScaleTransform_Submit(const TQ3Vector3D *scale, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ScaleTransform_Set(TQ3TransformObject theTransform, const TQ3Vector3D *scale)
-{	TQ3Vector3D	*instanceData = (TQ3Vector3D *) theTransform->instanceData;
+{	TQ3Vector3D	*instanceData = (TQ3Vector3D *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeScale);
 
 
 
@@ -1781,7 +1781,7 @@ E3ScaleTransform_Set(TQ3TransformObject theTransform, const TQ3Vector3D *scale)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ScaleTransform_Get(TQ3TransformObject theTransform, TQ3Vector3D *scale)
-{	TQ3Vector3D	*instanceData = (TQ3Vector3D *) theTransform->instanceData;
+{	TQ3Vector3D	*instanceData = (TQ3Vector3D *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeScale);
 
 
 
@@ -1838,7 +1838,7 @@ E3TranslateTransform_Submit(const TQ3Vector3D *translate, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TranslateTransform_Set(TQ3TransformObject theTransform, const TQ3Vector3D *translate)
-{	TQ3Vector3D	*instanceData = (TQ3Vector3D *) theTransform->instanceData;
+{	TQ3Vector3D	*instanceData = (TQ3Vector3D *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeTranslate);
 
 
 
@@ -1858,7 +1858,7 @@ E3TranslateTransform_Set(TQ3TransformObject theTransform, const TQ3Vector3D *tra
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TranslateTransform_Get(TQ3TransformObject theTransform, TQ3Vector3D *translate)
-{	TQ3Vector3D		*instanceData = (TQ3Vector3D *) theTransform->instanceData;
+{	TQ3Vector3D		*instanceData = (TQ3Vector3D *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeTranslate);
 
 
 
@@ -1915,7 +1915,7 @@ E3QuaternionTransform_Submit(const TQ3Quaternion *quaternion, TQ3ViewObject theV
 //-----------------------------------------------------------------------------
 TQ3Status
 E3QuaternionTransform_Set(TQ3TransformObject theTransform, const TQ3Quaternion *quaternion)
-{	TQ3Quaternion	*instanceData = (TQ3Quaternion *) theTransform->instanceData;
+{	TQ3Quaternion	*instanceData = (TQ3Quaternion *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeQuaternion);
 
 
 
@@ -1935,7 +1935,7 @@ E3QuaternionTransform_Set(TQ3TransformObject theTransform, const TQ3Quaternion *
 //-----------------------------------------------------------------------------
 TQ3Status
 E3QuaternionTransform_Get(TQ3TransformObject theTransform, TQ3Quaternion *quaternion)
-{	TQ3Quaternion	*instanceData = (TQ3Quaternion *) theTransform->instanceData;
+{	TQ3Quaternion	*instanceData = (TQ3Quaternion *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeQuaternion);
 
 
 
@@ -2030,7 +2030,7 @@ E3CameraTransform_Submit(const TQ3CameraTransformData *theData, TQ3ViewObject th
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CameraTransform_Set(TQ3TransformObject theTransform, const TQ3CameraTransformData *theData)
-{	TQ3CameraTransformData	*instanceData = (TQ3CameraTransformData *) theTransform->instanceData;
+{	TQ3CameraTransformData	*instanceData = (TQ3CameraTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeCamera);
 
 
 
@@ -2050,7 +2050,7 @@ E3CameraTransform_Set(TQ3TransformObject theTransform, const TQ3CameraTransformD
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CameraTransform_Get(TQ3TransformObject theTransform, TQ3CameraTransformData *theData)
-{	TQ3CameraTransformData	*instanceData = (TQ3CameraTransformData *) theTransform->instanceData;
+{	TQ3CameraTransformData	*instanceData = (TQ3CameraTransformData *) E3ClassTree_FindInstanceData(theTransform, kQ3TransformTypeCamera);
 
 
 

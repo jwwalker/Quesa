@@ -977,7 +977,7 @@ E3TextureShader_New(TQ3TextureObject texture)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TextureShader_GetTexture(TQ3ShaderObject shader, TQ3TextureObject *texture)
-{	TQ3TextureObject			*instanceData = (TQ3TextureObject *) shader->instanceData;
+{	TQ3TextureObject			*instanceData = (TQ3TextureObject *) E3ClassTree_FindInstanceData(shader, kQ3SurfaceShaderTypeTexture);
 
 
 
@@ -996,7 +996,7 @@ E3TextureShader_GetTexture(TQ3ShaderObject shader, TQ3TextureObject *texture)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TextureShader_SetTexture(TQ3ShaderObject shader, TQ3TextureObject texture)
-{	TQ3TextureObject			*instanceData = (TQ3TextureObject *) shader->instanceData;
+{	TQ3TextureObject			*instanceData = (TQ3TextureObject *) E3ClassTree_FindInstanceData(shader, kQ3SurfaceShaderTypeTexture);
 
 
 
