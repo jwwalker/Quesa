@@ -3938,7 +3938,7 @@ E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox,
 
 //=============================================================================
 //      E3BoundingBox_SetFromRationalPoints4D :	Set bounding box to just enclose
-//												set of 4D ratioinal points.
+//												set of 4D rational points.
 //-----------------------------------------------------------------------------
 TQ3BoundingBox *
 E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox,
