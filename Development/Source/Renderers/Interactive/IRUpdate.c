@@ -821,6 +821,8 @@ IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 	switch (instanceData->stateViewIllumination) {
 		case kQ3IlluminationTypeNULL:
 			glDisable(GL_LIGHTING);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  specularColour);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, specularControl);
 			break;
 		
 		case kQ3IlluminationTypeLambert:
