@@ -109,6 +109,8 @@ Our lower priority items are:
 	<li>QuesaGeometry.h, document and make public plug-in geometry API.
 	<li>QuesaIO.h, more file importers (e.g., DXF or VRML).
 	<li>QuesaIO.h, move 3DMF importer/exporter into a plug-in as per renderers.
+	<li>QuesaIO.h, add Q3File_Submit that reads a file and submits it to a view (and Q3File_ReadAsGroup that reads a file into a group).
+	<li>QuesaIO.h, add method to return the HFS file types/extensions/MIME types supported for importer/exporter plug-ins.
 	<li>QuesaLight.h, allow lights to be placed in non-light groups.
 	<li>QuesaLight.h, an 'eye' light type.
 	<li>QuesaMath.h, #define to enable inline versions of simple routines.
@@ -120,6 +122,7 @@ Our lower priority items are:
 	<li>QuesaStyle.h, allows use of c2 in world and screen space subdivision styles.
 	<li>QuesaStyle.h, be able to set fill style independently for backfacing and frontfacing polygons.
 	<li>QuesaView.h, add Q3View_GetAllowAllGroupCulling to access group culling state.
+	<li>QuesaView.h, add Q3View_NewFromType to create a default view given a platform specific window.
 	<li>Qut, should apps limit their frame rate to 60fps when not in Show FPS mode?
 	<li>Viewer, put platform specific code in separate source files.
 	<li>Viewer, split tools up into distinct source files?
