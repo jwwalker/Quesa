@@ -115,24 +115,24 @@ e3clip_calc_opcode(const TQ3Area *theRect, float x, float y)
 //-----------------------------------------------------------------------------
 void
 E3Shared_Acquire(TQ3SharedObject *newRef, TQ3SharedObject theObject)
-{
+	{
 
 
 	// Validate our parameters
-	Q3_REQUIRE(Q3_VALID_PTR(newRef));
-	*newRef = NULL;
-	if (theObject != NULL)
-		Q3_REQUIRE(Q3Object_IsType(theObject, kQ3ObjectTypeShared));
+	Q3_REQUIRE ( Q3_VALID_PTR ( newRef ) ) ;
+	*newRef = NULL ;
+	if ( theObject != NULL )
+		{
+		Q3_REQUIRE ( theObject->IsObjectValid () ) ;
+		Q3_REQUIRE ( Q3_OBJECT_IS_CLASS ( theObject, E3Shared ) ) ;
 
 
 
 	// Acquire a new reference
-	if (theObject != NULL)
-		{
-		*newRef = Q3Shared_GetReference(theObject);
-		Q3_ASSERT_VALID_PTR(*newRef);
+		*newRef = ( (E3Shared*) theObject )->GetReference () ;
+		Q3_ASSERT_VALID_PTR ( *newRef ) ;
 		}
-}
+	}
 
 
 
