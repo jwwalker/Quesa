@@ -3571,18 +3571,18 @@ e3mesh_GetExtData(
 	else if ((meshExtDataPtr->vertices = Q3Memory_Allocate(meshExtDataPtr->numVertices * sizeof(TQ3MeshVertexData))) == NULL)
 		goto failure_2;
 
+	// Use array of faces (*** MAY RELOCATE FACES ***)
+	if (e3mesh_UseFaceArray(E3_CONST_CAST(TE3MeshData*, meshPtr)) == kQ3Failure)
+		goto failure_3;
+
 	// Get vertices
 	for (iSave = 0, vertices = e3meshVertexArray_FirstItemConst(&meshPtr->vertexArrayOrList.array);
 		iSave < meshExtDataPtr->numVertices;
 		++iSave, ++vertices)
 	{
 		if (e3meshVertex_GetExtData(vertices, &meshExtDataPtr->vertices[iSave], &meshPtr->faceArrayOrList.array) == kQ3Failure)
-			goto failure_3;
+			goto failure_4;
 	}
-
-	// Use array of faces (*** MAY RELOCATE FACES ***)
-	if (e3mesh_UseFaceArray(E3_CONST_CAST(TE3MeshData*, meshPtr)) == kQ3Failure)
-		goto failure_4;
 
 	// Allocate array of uninitialized faces
 	meshExtDataPtr->numFaces = e3mesh_NumFaces(meshPtr);
