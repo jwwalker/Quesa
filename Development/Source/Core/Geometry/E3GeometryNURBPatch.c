@@ -518,7 +518,7 @@ e3geom_nurbpatch_interesting_knots( float * inKnots, TQ3Uns32 numPoints, TQ3Uns3
 static TQ3Uns32
 e3geom_nurbpatch_recursive_quad_world_subdivide( TQ3Uns32 depth, float subdiv, float fu, float lu, float fv, float lv,
 												  const TQ3Point3D* Pfufv, const TQ3Point3D* Plufv, const TQ3Point3D* Pfulv, const TQ3Point3D* Plulv,
-								  				  const TQ3NURBPatchData *geomData,
+								  				  const TQ3NURBPatchData *geomData, const TQ3Matrix4x4* localToWorld,
 								  				  float* uBasisValues, float* vBasisValues )
 {
 	float hu, hv ;
@@ -544,36 +544,41 @@ e3geom_nurbpatch_recursive_quad_world_subdivide( TQ3Uns32 depth, float subdiv, f
 											   geomData,
 											   &Phufv,
 											   uBasisValues, vBasisValues );
+		Q3Point3D_Transform( &Phufv, localToWorld, &Phufv ) ;
 		
 		e3geom_nurbpatch_evaluate_uv_no_deriv( fu,
 											   hv,
 											   geomData,
 											   &Pfuhv,
 											   uBasisValues, vBasisValues );
+		Q3Point3D_Transform( &Pfuhv, localToWorld, &Pfuhv ) ;
 		
 		e3geom_nurbpatch_evaluate_uv_no_deriv( hu,
 											   hv,
 											   geomData,
 											   &Phuhv,
 											   uBasisValues, vBasisValues );
+		Q3Point3D_Transform( &Phuhv, localToWorld, &Phuhv ) ;
 		
 		e3geom_nurbpatch_evaluate_uv_no_deriv( lu,
 											   hv,
 											   geomData,
 											   &Pluhv,
 											   uBasisValues, vBasisValues );
+		Q3Point3D_Transform( &Pluhv, localToWorld, &Pluhv ) ;
 
 		e3geom_nurbpatch_evaluate_uv_no_deriv( hu,
 											   lv,
 											   geomData,
 											   &Phulv,
 											   uBasisValues, vBasisValues );
+		Q3Point3D_Transform( &Phulv, localToWorld, &Phulv ) ;
 		
 		// Top-left square
 		recurseDepth = e3geom_nurbpatch_recursive_quad_world_subdivide( depth,
 														subdiv, fu, hu, fv, hv,
 														Pfufv, &Phufv, &Pfuhv, &Phuhv,
-														geomData,
+														geomData, localToWorld,
 														uBasisValues, vBasisValues ) ;
 		maxRecurseDepth = maxRecurseDepth > recurseDepth ? maxRecurseDepth : recurseDepth ;
 		
@@ -581,7 +586,7 @@ e3geom_nurbpatch_recursive_quad_world_subdivide( TQ3Uns32 depth, float subdiv, f
 		recurseDepth = e3geom_nurbpatch_recursive_quad_world_subdivide( depth,
 														 subdiv, hu, lu, fv, hv,
 														 &Phufv, Plufv, &Phuhv, &Pluhv,
-														 geomData,
+														 geomData, localToWorld,
 														 uBasisValues, vBasisValues ) ;
 		maxRecurseDepth = maxRecurseDepth > recurseDepth ? maxRecurseDepth : recurseDepth ;
 
@@ -589,7 +594,7 @@ e3geom_nurbpatch_recursive_quad_world_subdivide( TQ3Uns32 depth, float subdiv, f
 		recurseDepth = e3geom_nurbpatch_recursive_quad_world_subdivide( depth,
 														 subdiv, fu, hu, hv, lv,
 														 &Pfuhv, &Phuhv, Pfulv, &Phulv,
-														 geomData,
+														 geomData, localToWorld,
 														 uBasisValues, vBasisValues ) ;
 		maxRecurseDepth = maxRecurseDepth > recurseDepth ? maxRecurseDepth : recurseDepth ;
 
@@ -597,7 +602,7 @@ e3geom_nurbpatch_recursive_quad_world_subdivide( TQ3Uns32 depth, float subdiv, f
 		recurseDepth = e3geom_nurbpatch_recursive_quad_world_subdivide( depth,
 														 subdiv, hu, lu, hv, lv,
 														 &Phuhv, &Pluhv, &Phulv, Plulv,
-														 geomData,
+														 geomData, localToWorld,
 														 uBasisValues, vBasisValues ) ;
 		maxRecurseDepth = maxRecurseDepth > recurseDepth ? maxRecurseDepth : recurseDepth ;
 	}
@@ -627,7 +632,7 @@ e3geom_nurbpatch_recursive_quad_world_subdivide( TQ3Uns32 depth, float subdiv, f
 static TQ3Uns32
 e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, float fu, float lu, float fv, float lv,
 												  const TQ3Point2D* Pfufv2, const TQ3Point2D* Plufv2, const TQ3Point2D* Pfulv2, const TQ3Point2D* Plulv2,
-								  				  const TQ3NURBPatchData *geomData, const TQ3Matrix4x4* worldToWindow,
+								  				  const TQ3NURBPatchData *geomData, const TQ3Matrix4x4* localToWindow,
 								  				  float* uBasisValues, float* vBasisValues )
 {
 	float hu, hv ;
@@ -654,7 +659,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 											   geomData,
 											   &Phufv,
 											   uBasisValues, vBasisValues );
-		Q3Point3D_Transform( &Phufv, worldToWindow, &transformPoint ) ;
+		Q3Point3D_Transform( &Phufv, localToWindow, &transformPoint ) ;
 		Phufv2.x = transformPoint.x ;
 		Phufv2.y = transformPoint.y ;
 		
@@ -663,7 +668,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 											   geomData,
 											   &Pfuhv,
 											   uBasisValues, vBasisValues );
-		Q3Point3D_Transform( &Pfuhv, worldToWindow, &transformPoint ) ;
+		Q3Point3D_Transform( &Pfuhv, localToWindow, &transformPoint ) ;
 		Pfuhv2.x = transformPoint.x ;
 		Pfuhv2.y = transformPoint.y ;
 		
@@ -672,7 +677,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 											   geomData,
 											   &Phuhv,
 											   uBasisValues, vBasisValues );
-		Q3Point3D_Transform( &Phuhv, worldToWindow, &transformPoint ) ;
+		Q3Point3D_Transform( &Phuhv, localToWindow, &transformPoint ) ;
 		Phuhv2.x = transformPoint.x ;
 		Phuhv2.y = transformPoint.y ;
 		
@@ -681,7 +686,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 											   geomData,
 											   &Pluhv,
 											   uBasisValues, vBasisValues );
-		Q3Point3D_Transform( &Pluhv, worldToWindow, &transformPoint ) ;
+		Q3Point3D_Transform( &Pluhv, localToWindow, &transformPoint ) ;
 		Pluhv2.x = transformPoint.x ;
 		Pluhv2.y = transformPoint.y ;
 
@@ -690,7 +695,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 											   geomData,
 											   &Phulv,
 											   uBasisValues, vBasisValues );
-		Q3Point3D_Transform( &Phulv, worldToWindow, &transformPoint ) ;
+		Q3Point3D_Transform( &Phulv, localToWindow, &transformPoint ) ;
 		Phulv2.x = transformPoint.x ;
 		Phulv2.y = transformPoint.y ;
 		
@@ -698,7 +703,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 		recurseDepth = e3geom_nurbpatch_recursive_quad_screen_subdivide( depth,
 														subdiv, fu, hu, fv, hv,
 														Pfufv2, &Phufv2, &Pfuhv2, &Phuhv2,
-														geomData, worldToWindow,
+														geomData, localToWindow,
 														uBasisValues, vBasisValues ) ;
 		maxRecurseDepth = maxRecurseDepth > recurseDepth ? maxRecurseDepth : recurseDepth ;
 		
@@ -706,7 +711,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 		recurseDepth = e3geom_nurbpatch_recursive_quad_screen_subdivide( depth,
 														 subdiv, hu, lu, fv, hv,
 														 &Phufv2, Plufv2, &Phuhv2, &Pluhv2,
-														 geomData, worldToWindow,
+														 geomData, localToWindow,
 														 uBasisValues, vBasisValues ) ;
 		maxRecurseDepth = maxRecurseDepth > recurseDepth ? maxRecurseDepth : recurseDepth ;
 
@@ -714,7 +719,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 		recurseDepth = e3geom_nurbpatch_recursive_quad_screen_subdivide( depth,
 														 subdiv, fu, hu, hv, lv,
 														 &Pfuhv2, &Phuhv2, Pfulv2, &Phulv2,
-														 geomData, worldToWindow,
+														 geomData, localToWindow,
 														 uBasisValues, vBasisValues ) ;
 		maxRecurseDepth = maxRecurseDepth > recurseDepth ? maxRecurseDepth : recurseDepth ;
 
@@ -722,7 +727,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 		recurseDepth = e3geom_nurbpatch_recursive_quad_screen_subdivide( depth,
 														 subdiv, hu, lu, hv, lv,
 														 &Phuhv2, &Pluhv2, &Phulv2, Plulv2,
-														 geomData, worldToWindow,
+														 geomData, localToWindow,
 														 uBasisValues, vBasisValues ) ;
 		maxRecurseDepth = maxRecurseDepth > recurseDepth ? maxRecurseDepth : recurseDepth ;
 	}
@@ -766,7 +771,7 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 									 TQ3Param2D** theUVs, TQ3Vector3D** theNormals,
 									 TQ3TriMeshTriangleData** theTriangles, TQ3Uns32* numTriangles,
 									 float subdiv,
-									 const TQ3NURBPatchData *geomData, TQ3ViewObject theView,
+									 const TQ3NURBPatchData *geomData, TQ3ViewObject theView, TQ3Boolean isScreenSpaceSubdivision,
 									 float* uBasisValues, float* vBasisValues, float* uBasisDerivValues, float* vBasisDerivValues )
 {	float			*interestingU, *interestingV ;
 	TQ3Uns32		nu, nv,
@@ -774,8 +779,8 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 					numIntU, numIntV ;
 	TQ3Point3D		u0v0, u1v0, u0v1, u1v1 ;
 	TQ3Point2D		u0v02, u1v02, u0v12, u1v12 ;
-	// To cache the world -> screen matrix
-	TQ3Matrix4x4	worldToFrustum, frustumToWindow, worldToWindow ;
+	// To cache the local -> world and local -> screen matrices
+	TQ3Matrix4x4	localToWorld, worldToFrustum, frustumToWindow, localToWindow ;
 	
 #if Q3_DEBUG
 	Q3_ASSERT( thePoints != NULL && numPoints != NULL && theUVs != NULL && theNormals != NULL
@@ -801,15 +806,19 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 	}
 	numIntV = e3geom_nurbpatch_interesting_knots( geomData->vKnots, geomData->numRows, geomData->vOrder, interestingV );
 	
+	// we need the localToWorld matrix for both world and screen subdivisions
+	Q3View_GetLocalToWorldMatrixState(theView, &localToWorld);
 	// if we are doing a screen subdivision,
 	// truncate subdiv into an integer and cache the worldToWindow matrix
-	if( theView ) {
+	if( isScreenSpaceSubdivision ) {
 		// truncate subdiv
 		subdiv = (float) floor( subdiv ) ;
-		// cache the worldToWindow matrix for theView
+		// cache the localToWindow matrix for theView
 		Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
 		Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
-		Q3Matrix4x4_Multiply(&worldToFrustum, &frustumToWindow, &worldToWindow);
+		
+		Q3Matrix4x4_Multiply(&localToWorld, &worldToFrustum, &localToWindow);
+		Q3Matrix4x4_Multiply(&localToWindow, &frustumToWindow, &localToWindow);
 	}
 	
 	
@@ -843,23 +852,35 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 												   &u1v1,
 												   uBasisValues, vBasisValues );
 			
-			if( theView == NULL )
+			if( kQ3False == isScreenSpaceSubdivision ) {
+				Q3Point3D_Transform(&u0v0, &localToWorld, &u0v0) ;
+				Q3Point3D_Transform(&u1v0, &localToWorld, &u1v0) ;
+				Q3Point3D_Transform(&u0v1, &localToWorld, &u0v1) ;
+				Q3Point3D_Transform(&u1v1, &localToWorld, &u1v1) ;
 				somedepth = e3geom_nurbpatch_recursive_quad_world_subdivide( 0, subdiv,
 																 interestingU[ nu ], interestingU[ nu +1 ],
 																 interestingV[ nv ], interestingV[ nv +1 ],
 																 &u0v0, &u1v0, &u0v1, &u1v1,
-																 geomData,
+																 geomData, &localToWorld,
 																 uBasisValues, vBasisValues ) ;
-			else {
-				Q3View_TransformWorldToWindow( theView, &u0v0, &u0v02 ) ;
-				Q3View_TransformWorldToWindow( theView, &u1v0, &u1v02 ) ;
-				Q3View_TransformWorldToWindow( theView, &u0v1, &u0v12 ) ;
-				Q3View_TransformWorldToWindow( theView, &u1v1, &u1v12 ) ;
+			} else {
+				Q3Point3D_Transform(&u0v0, &localToWorld, &u0v0) ;
+				u0v02.x = u0v0.x ;
+				u0v02.y = u0v0.y ;
+				Q3Point3D_Transform(&u1v0, &localToWorld, &u1v0) ;
+				u1v02.x = u1v0.x ;
+				u1v02.y = u1v0.y ;
+				Q3Point3D_Transform(&u0v1, &localToWorld, &u0v1) ;
+				u0v12.x = u0v1.x ;
+				u0v12.y = u0v1.y ;
+				Q3Point3D_Transform(&u1v1, &localToWorld, &u1v1) ;
+				u1v12.x = u1v1.x ;
+				u1v12.y = u1v1.y ;
 				somedepth = e3geom_nurbpatch_recursive_quad_screen_subdivide( 0, subdiv,
 																  interestingU[ nu ], interestingU[ nu +1 ],
 																  interestingV[ nv ], interestingV[ nv +1 ],
 																  &u0v02, &u1v02, &u0v12, &u1v12,
-																  geomData, &worldToWindow,
+																  geomData, &localToWindow,
 																  uBasisValues, vBasisValues ) ;
 			}
 			
@@ -1122,11 +1143,11 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 		subdivU = subdivisionData.c1;
 		subdivV = subdivisionData.c2;
 		switch (subdivisionData.method) {
-			case kQ3SubdivisionMethodScreenSpace: // Not implemented
+			case kQ3SubdivisionMethodScreenSpace:
 				e3geom_nurbpatch_worldscreen_subdiv( &points, &numpoints, &uvs, &normals,
 												  	 &triangles, &numtriangles,
 												  	 subdivU,
-												  	 geomData, theView,
+												  	 geomData, theView, kQ3True,
 												  	 uBasisValues, vBasisValues, uBasisDerivValues, vBasisDerivValues ) ;
 
 				if( points == NULL )
@@ -1138,7 +1159,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				e3geom_nurbpatch_worldscreen_subdiv( &points, &numpoints, &uvs, &normals,
 												  	 &triangles, &numtriangles,
 												  	 subdivU,
-												  	 geomData, NULL,
+												  	 geomData, theView, kQ3False,
 												  	 uBasisValues, vBasisValues, uBasisDerivValues, vBasisDerivValues ) ;
 
 				if( points == NULL )

@@ -399,13 +399,13 @@ e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints
 //-----------------------------------------------------------------------------
 #define REALLOC_VERTS 5
 static void
-e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, float subdivU, const TQ3NURBCurveData *geomData )
+e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, float subdivU, const TQ3NURBCurveData *geomData, TQ3ViewObject theView )
 {	float		*interestingU, a, b, last, lengthDiff, step ;
-	TQ3Point3D	Ua, Ub ;
+	TQ3Point3D	Ua, Ub, WorldUa, WorldUb ;
 	TQ3Uns32	numInt, numVerts = 0, maxVerts, n ;
 	TQ3Boolean	attained, increasing ;
-
-
+	// To cache the local -> world matrix
+	TQ3Matrix4x4	localToWorld ;
 
 	*theVertices = NULL ;
 	*numPoints = 0 ;
@@ -416,6 +416,9 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 	
 	// square subdivU to save a bunch of sqrt's later
 	subdivU *= subdivU ;
+	
+	// cache the localToWorld matrix for theView
+	Q3View_GetLocalToWorldMatrixState(theView, &localToWorld);
 	
 	// Find the interesting knots (ie skip the repeated knots)
 	interestingU = (float *) Q3Memory_Allocate((geomData->numPoints - geomData->order + 2) * sizeof(float));
@@ -444,6 +447,8 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 											 &Ua ) ;
 	Ub = Ua ;
 	
+	Q3Point3D_Transform( &Ua, &localToWorld, &WorldUa ) ;
+	WorldUb = WorldUa ;
 	
 	for( n = 0 ; n < numInt -1 ; n++ ) {
 		a = interestingU[ n ] ;
@@ -467,6 +472,7 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 			}
 			
 			(*theVertices)[ numVerts++ ].point = Ua = Ub ;
+			WorldUa = WorldUb ;
 
 			increasing = kQ3True ;		
 			b = a + step ;
@@ -485,7 +491,8 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 														 &Ub );
 				
 				// This distance calculation is the difference between world and screen subdivision
-				lengthDiff = Q3Point3D_DistanceSquared( &Ua, &Ub ) - subdivU ;
+				Q3Point3D_Transform( &Ub, &localToWorld, &WorldUb ) ;
+				lengthDiff = Q3Point3D_DistanceSquared( &WorldUa, &WorldUb ) - subdivU ;
 				
 				
 				if( b == a ) {
@@ -551,8 +558,8 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 	TQ3Point2D		ScreenUa, ScreenUb ;
 	TQ3Uns32		numInt, numVerts = 0, maxVerts, n ;
 	TQ3Boolean		attained, increasing ;
-	// To cache the world -> screen matrix
-	TQ3Matrix4x4	worldToFrustum, frustumToWindow, worldToWindow ;
+	// To cache the local -> screen matrix
+	TQ3Matrix4x4	localToWorld, worldToFrustum, frustumToWindow, localToWindow ;
 	
 	*theVertices = NULL ;
 	*numPoints = 0 ;
@@ -566,10 +573,14 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 	// square subdivU to save a bunch of sqrt's later
 	subdivU *= subdivU ;
 	
-	// cache the worldToWindow matrix for theView
+	
+	// cache the localToWindow matrix for theView
+	Q3View_GetLocalToWorldMatrixState(theView, &localToWorld);
 	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
 	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
-	Q3Matrix4x4_Multiply(&worldToFrustum, &frustumToWindow, &worldToWindow);
+	
+	Q3Matrix4x4_Multiply(&localToWorld, &worldToFrustum, &localToWindow);
+	Q3Matrix4x4_Multiply(&localToWindow, &frustumToWindow, &localToWindow);
 	
 	
 	// Find the interesting knots (ie skip the repeated knots)
@@ -599,7 +610,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 											 &Ua ) ;
 	Ub = Ua ;
 	
-	Q3Point3D_Transform( &Ua, &worldToWindow, &transformPoint ) ;
+	Q3Point3D_Transform( &Ua, &localToWindow, &transformPoint ) ;
 	ScreenUa.x = transformPoint.x ;
 	ScreenUa.y = transformPoint.y ;
 	
@@ -646,9 +657,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 														 &Ub );
 				
 				// This distance calculation is the difference between world and screen subdivision
-				// NOTE: TransformWorldToWindow does a matrix multiply internally.
-				// NOTE: I could get a speedup by chaching the resultant matrix.
-				Q3Point3D_Transform( &Ub, &worldToWindow, &transformPoint ) ;
+				Q3Point3D_Transform( &Ub, &localToWindow, &transformPoint ) ;
 				ScreenUb.x = transformPoint.x ;
 				ScreenUb.y = transformPoint.y ;
 				lengthDiff = Q3Point2D_DistanceSquared( &ScreenUa, &ScreenUb ) - subdivU ;
@@ -731,7 +740,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				break ;
 			
 			case kQ3SubdivisionMethodWorldSpace:
-				e3geom_nurbcurve_world_subdiv( &theVertices, &numPoints, subdivU, geomData ) ;
+				e3geom_nurbcurve_world_subdiv( &theVertices, &numPoints, subdivU, geomData, theView ) ;
 				if( theVertices == NULL )
 					return(NULL);
 				break ;
