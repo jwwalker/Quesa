@@ -80,16 +80,22 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 
-#include <Memory.h>
-#include <MacTypes.h>
-#include <Gestalt.h>
+#if QUESA_UH_IN_FRAMEWORKS
+    #include <Carbon/Carbon.h>
+#else
+	#include <Memory.h>
+	#include <MacTypes.h>
+	#include <Gestalt.h>
+#endif
 
 #include <pool_alloc.h>
 
 #ifdef Q3_DEBUG_WITH_MMAP
-	#include <CFBundle.h>
-	#include <CFURL.h>
-	#include <Folders.h>
+	#if !QUESA_UH_IN_FRAMEWORKS
+		#include <CFBundle.h>
+		#include <CFURL.h>
+		#include <Folders.h>
+	#endif
 #endif
 
 
