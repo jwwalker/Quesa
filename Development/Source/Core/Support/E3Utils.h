@@ -79,26 +79,6 @@ typedef TQ3AttributeSet (*E3GetSetForGatherProc)(const void *userData, TQ3Uns32 
 					}															\
 				while (0)
 
-#define E3Object_DisposeAndForget(_qd3dObject)									\
-				do																\
-					{															\
-					if ((_qd3dObject) != NULL)									\
-						Q3Object_Dispose((_qd3dObject));						\
-																				\
-					(_qd3dObject) = NULL;										\
-					}															\
-				while (0)
-
-#define E3Group_AddObjectAndDispose(_qd3dGroup, _qd3dObject)					\
-				do																\
-					{															\
-					if ((_qd3dObject) != NULL)									\
-						Q3Group_AddObject((_qd3dGroup), (_qd3dObject));			\
-																				\
-					E3Object_DisposeAndForget((_qd3dObject));					\
-					}															\
-				while (0)
-
 #define E3Integer_Swap(_a, _b)													\
 				do																\
 					{															\
