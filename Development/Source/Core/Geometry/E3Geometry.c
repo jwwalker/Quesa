@@ -324,6 +324,31 @@ e3geometry_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theOb
 
 
 
+//=============================================================================
+//      e3geometry_bounds : Geometry bounding method.
+//-----------------------------------------------------------------------------
+//		Note :	Unless an object provides its own bounding method, the base
+//				class picking method will be used instead.
+//
+//				Since the most primitive objects (markers, pixmap markers,
+//				points, lines, and triangles) all provide a bounding method the
+//				base class can handle bounds requests by recursing into the
+//				cached representation for the geometry.
+//
+//				This requires that every object be expressible in terms of the
+//				most primitive geometries (which should always be the case).
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geometry_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{	TQ3Status		qd3dStatus;
+
+	qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
+
+
+	return(qd3dStatus);
+}
+
+
 
 
 //=============================================================================
@@ -551,6 +576,10 @@ e3geometry_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3geometry_pick;
 			break;
 
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3geometry_bounds;
+			break;
+		
 		case kQ3XMethodTypeObjectSubmitWrite:
 			theMethod = (TQ3XFunctionPointer) e3geometry_write;
 			break;
