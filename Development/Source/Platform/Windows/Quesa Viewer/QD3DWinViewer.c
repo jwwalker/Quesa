@@ -5,6 +5,12 @@
         Entry point for Quesa API calls. Performs parameter checking and
         then forwards each API call to the equivalent E3xxxxx routine.
 
+		In many cases the Q3Winxxx - which implements the general
+		behaviour - is called directly. If there is some need to
+		call a Windows API function it is preferable to call
+		the E3Winxxx routine, which is exclusively Windows,
+		than to decorate E3Viewer.c with #ifdefs.
+
     COPYRIGHT:
         Quesa Copyright © 1999-2001, Quesa Developers.
         
@@ -36,7 +42,8 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "QuesaViewer.h"
-
+#include "E3Viewer.h"
+#include "E3WinViewer.h"
 
 
 
@@ -176,7 +183,7 @@ Q3WinViewerNew(HWND window, const RECT *rect, TQ3Uns32 flags)
 
 
 	// Call our implementation
-	return(Q3ViewerNew(window, rect, flags));
+	return(E3WinViewerNew(window, rect, flags));
 }
 
 
@@ -337,6 +344,9 @@ Q3WinViewerWriteData(TQ3ViewerObject viewer, void *data, TQ3Uns32 dataSize, TQ3U
 
 
 	// Release build checks
+	// The following requirements are not quite true:
+	// The original implementation allows zeros as a shortcut for
+	// finding the final data size.
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(actualDataSize), kQ3Failure);
 
@@ -614,7 +624,7 @@ Q3WinViewerGetBitmap(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerGetBitmap(viewer));
+	return(E3WinViewerGetBitmap(viewer));
 }
 
 
@@ -676,7 +686,7 @@ Q3WinViewerGetCurrentButton(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -992,7 +1002,7 @@ Q3WinViewerGetFlags(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -1040,7 +1050,7 @@ Q3WinViewerSetBounds(TQ3ViewerObject viewer, RECT *bounds)
 
 
 	// Call our implementation
-	return(Q3ViewerSetBounds(viewer, bounds));
+	return(E3WinViewerSetBounds(viewer, bounds));
 }
 
 
@@ -1198,7 +1208,7 @@ Q3WinViewerGetMinimumDimension(TQ3ViewerObject viewer, TQ3Uns32 *width, TQ3Uns32
 
 
 	// Call our implementation
-	return(Q3ViewerGetMinimumDimension(viewer, width, height));
+	return (Q3ViewerGetMinimumDimension(viewer, width, height));
 }
 
 
@@ -1234,9 +1244,7 @@ Q3WinViewerSetWindow(TQ3ViewerObject viewer, HWND window)
 
 
 	// Call our implementation
-	// To be implemented...
-	return(kQ3Failure);
-//	return(Q3ViewerSetWindow(viewer, window));
+	return(E3WinViewerSetWindow(viewer, window));
 }
 
 
@@ -1269,9 +1277,7 @@ Q3WinViewerGetWindow(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	// To be implemented...
-	return(NULL);
-//	return(Q3ViewerGetWindow(viewer));
+	return(E3WinViewerGetWindow(viewer));
 }
 
 
@@ -1435,7 +1441,7 @@ Q3WinViewerGetState(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -1479,7 +1485,7 @@ Q3WinViewerClear(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerClear(viewer));
+	return(E3WinViewerClear(viewer));
 }
 
 
@@ -1545,7 +1551,7 @@ Q3WinViewerCopy(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerCopy(viewer));
+	return(E3WinViewerCopy(viewer));
 }
 
 
@@ -1578,7 +1584,7 @@ Q3WinViewerPaste(TQ3ViewerObject viewer)
 
 
 	// Call our implementation
-	return(Q3ViewerPaste(viewer));
+	return(E3WinViewerPaste(viewer));
 }
 
 
