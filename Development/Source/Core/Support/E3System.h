@@ -95,7 +95,7 @@ void		E3System_ClearBottleneck(void);
 // Mac specific
 #if QUESA_OS_MACINTOSH
 TQ3Status	E3MacSystem_Initialise(void);
-void		E3MacSystem_Terminate();
+void		E3MacSystem_Terminate(void);
 void		E3MacSystem_LoadPlugins(void);
 void		E3MacSystem_UnloadPlugins(void);
 #endif
