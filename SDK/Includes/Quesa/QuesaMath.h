@@ -3403,6 +3403,120 @@ Q3BoundingSphere_UnionRationalPoint4D (
 
 
 //=============================================================================
+//      Intersection functions
+//-----------------------------------------------------------------------------
+/*!
+ *  @function
+ *      Q3Ray3D_IntersectSphere
+ *  @discussion
+ *      Test a ray for intersection against a sphere, and return the point
+ *		of intersection if found.
+ *
+ *      The direction vector of the ray must be normalised.
+ *
+ *      Not supported by QD3D.
+ *
+ *  @param theRay           The ray to test.
+ *  @param theSphere        The sphere to test against.
+ *  @param hitPoint         Receives the intersection point, if found.
+ *  @result                 Indicates if the ray intersects the sphere.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Boolean  )
+Q3Ray3D_IntersectSphere (
+    const TQ3Ray3D                *theRay,
+    const TQ3Sphere               *theSphere,
+    TQ3Point3D                    *hitPoint
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3Ray3D_IntersectBoundingBox
+ *  @discussion
+ *      Test a ray for intersection against a bounding box. If an
+ *      intersection occurs, the point of intersection is returned.
+ *
+ *      The direction vector of the ray must be normalised.
+ *
+ *      Not supported by QD3D.
+ *
+ *  @param theRay           The ray to test.
+ *  @param theBounds        The bounding box to test against.
+ *  @param hitPoint         Receives the intersection point, if found.
+ *  @result                 Indicates if the ray intersects the bounding box.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Boolean  )
+Q3Ray3D_IntersectBoundingBox (
+    const TQ3Ray3D                *theRay,
+    const TQ3BoundingBox          *theBounds,
+    TQ3Point3D                    *hitPoint
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3Ray3D_IntersectTriangle
+ *  @discussion
+ *      Test a ray for intersection against a triangle formed by three
+ *      points. If an intersection occurs, returns the barycentric
+ *      coordinates of the point of intersection and the distance along
+ *      the ray.
+ *
+ *      Triangles may optionally be subject to backface culling, in
+ *      which case a hit on the reverse side of the triangle will fail
+ *      to result in an intersection.
+ *
+ *      Barycentric coordinates can be used to interpolate the triangle
+ *      vertices to obtain the exact point of intersection, like so:
+ *
+ *        t = (1.0f - hitPoint.u - hitPoint.v);
+ *        x = (point1.x * t) + (point2.x * hitPoint.u) + (point3.x * hitPoint.v);
+ *        y = (point1.y * t) + (point2.y * hitPoint.u) + (point3.y * hitPoint.v);
+ *        z = (point1.z * t) + (point2.z * hitPoint.u) + (point3.z * hitPoint.v);
+ *
+ *      Similar calculations can be made for vertex normals, UVs, or any
+ *      other vertex attribute. The w component of hitPoint is set to the
+ *      distance along the ray at which the intersection occurs.
+ *
+ *      Not supported by QD3D.
+ *
+ *  @param theRay           The ray to test.
+ *  @param point1           The first triangle vertex.
+ *  @param point2           The second triangle vertex.
+ *  @param point3           The third triangle vertex.
+ *  @param cullBackfacing   Controls if back-facing triangles should be skipped.
+ *  @param hitPoint         Receives the barycentric coordinates of the intersection, and the distance along the ray.
+ *  @result                 Indicates if the ray intersects the triangle.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Boolean  )
+Q3Ray3D_IntersectTriangle (
+    const TQ3Ray3D                *theRay,
+    const TQ3Point3D              *point1,
+    const TQ3Point3D              *point2,
+    const TQ3Point3D              *point3,
+    TQ3Boolean                    cullBackfacing,
+    TQ3Param3D                    *hitPoint
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+
+
+//=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus

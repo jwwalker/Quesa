@@ -2072,7 +2072,7 @@ E3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D	*inRationalPoints3
 
 
 //=============================================================================
-//      E3Point3D_To3DTransformArray :	Transform array of 3D points by 4x4 matrix.
+//      E3Point3D_To3DTransformArray :	Transform array of 3D points.
 //-----------------------------------------------------------------------------
 //		Note : 'outPoints3D' may be the same as 'inPoints3D'.
 //-----------------------------------------------------------------------------
@@ -2083,17 +2083,19 @@ E3Point3D_To3DTransformArray(const TQ3Point3D		*inPoints3D,
 							 TQ3Uns32				numPoints,
 							 TQ3Uns32				inStructSize,
 							 TQ3Uns32				outStructSize)
-{
-	const char* in = (const char*) inPoints3D;
-	char* out = (char*) outPoints3D;
-	TQ3Uns32 i;
-	
+{	const char	*in  = (const char*) inPoints3D;
+	char		*out = (char *) outPoints3D;
+	TQ3Uns32	i;
+
+
+
+	// Transform the points - will be in-lined in release builds
 	for (i = 0; i < numPoints; ++i)
-	{
-		E3Point3D_Transform((const TQ3Point3D*) in, matrix4x4, (TQ3Point3D*) out);
-		in += inStructSize;
+		{
+		E3Point3D_Transform((const TQ3Point3D *) in, matrix4x4, (TQ3Point3D *) out);
+		in  += inStructSize;
 		out += outStructSize;
-	}
+		}
 
 	return(kQ3Success);
 }
@@ -4360,4 +4362,297 @@ E3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere,
 
 	return(E3BoundingSphere_UnionPoint3D(bSphere, &point3D, result));
 }
+
+
+
+
+
+//=============================================================================
+//      E3Ray3D_IntersectSphere : Perform a ray/sphere intersection test.
+//-----------------------------------------------------------------------------
+//		Note :	We assume that the ray direction vector has been normalised.
+//				The algorithm is from 'Real Time Rendering', section 10.3.2. 
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3Boolean
+E3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3Point3D *hitPoint)
+{	TQ3Vector3D			sphereToRay, intersectVector;
+	float				d, q, t, l2, r2, m2;
+
+
+
+	// Prepare to intersect
+	//
+	// First calculate the vector from the sphere to the ray origin, its
+	// length squared, the projection of this vector onto the ray direction,
+	// and the squared radius of the sphere.
+	E3Point3D_Subtract(&theSphere->origin, &theRay->origin, &sphereToRay);
+	l2 = E3Vector3D_LengthSquared(&sphereToRay);
+	d  = E3Vector3D_Dot(&sphereToRay, &theRay->direction);
+	r2 = theSphere->radius * theSphere->radius;
+
+
+
+	// If the sphere is behind the ray origin, they don't intersect
+	if (d < 0.0f && l2 > r2)
+		return(kQ3False);
+
+
+
+	// Calculate the squared distance from the sphere center to the projection.
+	// If it's greater than the radius then they don't intersect.
+	m2 = (l2 - (d * d));
+	if (m2 > r2)
+		return(kQ3False);
+
+
+
+	// Calculate the distance along the ray to the intersection point
+	q = sqrt(r2 - m2);
+	if (l2 > r2)
+		t = d - q;
+	else
+		t = d + q;
+
+
+
+	// Calculate the intersection point
+	E3Vector3D_Scale(&theRay->direction, t, &intersectVector);
+	E3Point3D_Vector3D_Add(&theRay->origin, &intersectVector, hitPoint);
+
+	return(kQ3True);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Ray3D_IntersectBoundingBox : Perform a ray/box intersection test.
+//-----------------------------------------------------------------------------
+//		Note :	We assume that the ray direction vector has been normalised.
+//				The algorithm is Andrew Woo's "Fast Ray-Box Intersection"
+//				from "Graphics Gems".
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBounds, TQ3Point3D *hitPoint)
+{	float			candidatePlane[3], maxT[3], coord[3];
+	float			minB[3], maxB[3], origin[3], dir[3];
+	TQ3Uns32		i, whichPlane, right, left, middle;
+	TQ3Int8			quadrant[3];
+	TQ3Boolean		isInside;
+
+
+
+	// Initialise ourselves
+	minB[0]   = theBounds->min.x;
+	minB[1]   = theBounds->min.y;
+	minB[2]   = theBounds->min.z;
+
+	maxB[0]   = theBounds->max.x;
+	maxB[1]   = theBounds->max.y;
+	maxB[2]   = theBounds->max.z;
+
+	origin[0] = theRay->origin.x;
+	origin[1] = theRay->origin.y;
+	origin[2] = theRay->origin.z;
+
+	dir[0]    = theRay->direction.x;
+	dir[1]    = theRay->direction.y;
+	dir[2]    = theRay->direction.z;
+
+	isInside  = kQ3True;
+	right     = 0;
+	left      = 1;
+	middle    = 2;
+
+
+
+	// Find candidate planes
+	for (i = 0; i < 3; i++)
+		{
+		if (origin[i] < minB[i])
+			{
+			quadrant[i]       = left;
+			candidatePlane[i] = minB[i];
+			isInside          = kQ3False;
+			}
+		else if (origin[i] > maxB[i])
+			{
+			quadrant[i]       = right;
+			candidatePlane[i] = maxB[i];
+			isInside          = kQ3False;
+			}
+		else
+			quadrant[i] = middle;
+		}
+
+
+
+	// Check for the ray origin being inside the bounding box
+	if (isInside)
+		{
+		*hitPoint = theRay->origin;
+		return(kQ3True);
+		}
+
+
+
+	// Calculate T distances to candidate planes
+	for (i = 0; i < 3; i++)
+		{
+		if (quadrant[i] != middle && dir[i] != 0.0)
+			maxT[i] = (candidatePlane[i] - origin[i]) / dir[i];
+		else
+			maxT[i] = -1.0;
+		}
+
+
+
+	// Get largest of the maxT's for final choice of intersection
+	whichPlane = 0;
+	for (i = 1; i < 3; i++)
+		{
+		if (maxT[whichPlane] < maxT[i])
+			whichPlane = i;
+		}
+
+
+
+	// Check final candidate actually inside box
+	if (maxT[whichPlane] < 0.0)
+		return(kQ3False);
+	
+	for (i = 0; i < 3; i++)
+		{
+		if (whichPlane != i)
+			{
+			coord[i] = origin[i] + maxT[whichPlane] * dir[i];
+			if (coord[i] < minB[i] || coord[i] > maxB[i])
+				return(kQ3False);
+			}
+		else
+			coord[i] = candidatePlane[i];
+		}
+	
+	hitPoint->x = coord[0];
+	hitPoint->y = coord[1];
+	hitPoint->z = coord[2];
+	
+	return(kQ3True);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Ray3D_IntersectTriangle : Perform a ray/triangle intersection test.
+//-----------------------------------------------------------------------------
+//		Note :	Uses the Moller-Trumbore algorithm to test for intersection,
+//				and if found returns the barycentric coordinates of the
+//				intersection point. The third component of hitPoint, w, is
+//				used to store the distance along the ray to the plane in
+//				which the triangle lies.
+//
+//				Details at:
+//				<http://www.acm.org/jgt/papers/MollerTrumbore97/>.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
+							const TQ3Point3D	*point1,
+							const TQ3Point3D	*point2,
+							const TQ3Point3D	*point3,
+							TQ3Boolean			cullBackfacing,
+							TQ3Param3D			*hitPoint)
+{	TQ3Vector3D		edge1, edge2, tvec, pvec, qvec;
+	double			det, invDet;
+
+
+
+	// Calculate the two edges which share vertex 1
+	E3Point3D_Subtract(point2, point1, &edge1);
+	E3Point3D_Subtract(point3, point1, &edge2);
+
+
+
+	// Begin calculating the determinant - also used to calculate u. If the
+	// determinant is near zero, the ray lies in the plane of the triangle.
+	E3Vector3D_Cross(&theRay->direction, &edge2, &pvec);
+	det = E3Vector3D_Dot(&edge1, &pvec);
+
+
+
+	// Handle triangles with back-face culling
+	if (cullBackfacing)
+		{
+		// Test for ray coinciding with triangle plane
+		if (det < kQ3RealZero)
+			return(kQ3False);
+
+
+		// Calculate the distance between vertex 1 and the ray origin
+		E3Point3D_Subtract(&theRay->origin, point1, &tvec);
+
+
+		// Calculate u, and test for a miss
+		hitPoint->u = E3Vector3D_Dot(&tvec, &pvec);
+		if (hitPoint->u < 0.0f || hitPoint->u > det)
+			return(kQ3False);
+
+
+		// Calculate v, and test for a miss		
+		E3Vector3D_Cross(&tvec, &edge1, &qvec);
+		hitPoint->v = E3Vector3D_Dot(&theRay->direction, &qvec);
+		if (hitPoint->v < 0.0f || (hitPoint->u + hitPoint->v) > det)
+			return(kQ3False);
+
+
+		// Calculate w, and scale the parameters
+		hitPoint->w  = E3Vector3D_Dot(&edge2, &qvec);
+		invDet = 1.0 / det;
+
+		hitPoint->w *= invDet;
+		hitPoint->u *= invDet;
+		hitPoint->v *= invDet;
+		}
+
+
+	// Handle triangles with no culling
+	else
+		{
+		// Test for ray coinciding with triangle plane
+		if (det > -kQ3RealZero && det < kQ3RealZero)
+			return(kQ3False);
+		
+		invDet = 1.0 / det;
+
+
+		// Calculate the distance between vertex 1 and the ray origin
+		E3Point3D_Subtract(&theRay->origin, point1, &tvec);
+
+
+		// Calculate u, and test for a miss
+		hitPoint->u = E3Vector3D_Dot(&tvec, &pvec) * invDet;
+		if (hitPoint->u < 0.0f || hitPoint->u > 1.0f)
+			return(kQ3False);
+
+
+		// Calculate v, and test for a miss		
+		E3Vector3D_Cross(&tvec, &edge1, &qvec);
+		hitPoint->v = E3Vector3D_Dot(&theRay->direction, &qvec) * invDet;
+		if (hitPoint->v < 0.0f || (hitPoint->u + hitPoint->v) > 1.0f)
+			return(kQ3False);
+		
+		
+		// Calculate w
+		hitPoint->w = E3Vector3D_Dot(&edge2, &qvec) * invDet;
+		}
+
+
+
+	// The ray intersects the triangle	
+	return(kQ3True);
+}
+
 

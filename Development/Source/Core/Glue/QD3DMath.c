@@ -6052,3 +6052,138 @@ Q3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere, const TQ
 	// Call our implementation
 	return(E3BoundingSphere_UnionRationalPoint4D(bSphere, rationalPoint4D, result));
 }
+
+
+
+
+
+//=============================================================================
+//      Q3Ray3D_IntersectSphere : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+Q3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3Point3D *hitPoint)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRay), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theSphere), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(hitPoint), kQ3False);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theRay
+		return(NULL);
+
+	if (0) // Further checks on theSphere
+		return(NULL);
+
+	if (0) // Further checks on hitPoint
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Ray3D_IntersectSphere(theRay, theSphere, hitPoint));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Ray3D_IntersectBoundingBox : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+Q3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBounds, TQ3Point3D *hitPoint)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRay), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theBounds), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(hitPoint), kQ3False);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theRay
+		return(NULL);
+
+	if (0) // Further checks on theBounds
+		return(NULL);
+
+	if (0) // Further checks on hitPoint
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Ray3D_IntersectBoundingBox(theRay, theBounds, hitPoint));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Ray3D_IntersectTriangle : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+Q3Ray3D_IntersectTriangle(const TQ3Ray3D *theRay, const TQ3Point3D *point1, const TQ3Point3D *point2, const TQ3Point3D *point3, TQ3Boolean cullBackfacing, TQ3Param3D *hitPoint)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRay), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point1), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3), kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(hitPoint), kQ3False);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theRay
+		return(NULL);
+
+	if (0) // Further checks on point1
+		return(NULL);
+
+	if (0) // Further checks on point2
+		return(NULL);
+
+	if (0) // Further checks on point3
+		return(NULL);
+
+	if (0) // Further checks on hitPoint
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Ray3D_IntersectTriangle(theRay, point1, point2, point3, cullBackfacing, hitPoint));
+}
+
