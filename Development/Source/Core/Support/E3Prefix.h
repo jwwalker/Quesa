@@ -45,12 +45,7 @@
 #endif
 
 
-// QD3D -- but allow "non-Carbon" calls!
-#ifndef CALL_NOT_IN_CARBON
-	#define CALL_NOT_IN_CARBON 1
-	#define We_Defined_CNIC 1
-#endif
-
+// QD3D
 #include <QD3D.h>
 #include <QD3DAcceleration.h>
 #include <QD3DCamera.h>
@@ -75,10 +70,6 @@
 #include <QD3DView.h>
 #include <QD3DViewer.h>
 #include <QD3DWinViewer.h>
-
-#if We_Defined_CNIC
-	#undef CALL_NOT_IN_CARBON
-#endif
 
 
 // Quesa (public)
