@@ -72,23 +72,38 @@ WFRenderer_StartFrame(TQ3ViewObject				theView,
 
 
 
-		// Handle some common cases 
-		if (drawContextFlags == kQ3XDrawContextValidationClearFunction)
-			GLDrawContext_SetClearFlags(theDrawContext, &instanceData->glClearFlags);
-
-		else if (drawContextFlags == kQ3XDrawContextValidationBackgroundShader)
-			GLDrawContext_SetBackgroundColour(theDrawContext);
-
-		else if (drawContextFlags == (kQ3XDrawContextValidationClearFunction |
-									  kQ3XDrawContextValidationBackgroundShader))
+		// Handle some common cases
+		if (drawContextFlags != kQ3XDrawContextValidationAll)
 			{
-			GLDrawContext_SetClearFlags(theDrawContext, &instanceData->glClearFlags);
-			GLDrawContext_SetBackgroundColour(theDrawContext);
+			if (drawContextFlags & kQ3XDrawContextValidationClearFunction)
+				{
+				GLDrawContext_SetClearFlags(theDrawContext, &instanceData->glClearFlags);
+				drawContextFlags &= ~kQ3XDrawContextValidationClearFunction;
+				}
+
+			if (drawContextFlags & kQ3XDrawContextValidationBackgroundShader)
+				{
+				GLDrawContext_SetBackgroundColour(theDrawContext);
+				drawContextFlags &= ~kQ3XDrawContextValidationBackgroundShader;
+				}
+
+			if (drawContextFlags & kQ3XDrawContextValidationWindowClip)
+				{
+				if (GLDrawContext_UpdateWindowClip(instanceData->glContext))
+					drawContextFlags &= ~kQ3XDrawContextValidationWindowClip;
+				}
+
+			if (drawContextFlags & kQ3XDrawContextValidationWindowPosition)
+				{
+				if (GLDrawContext_UpdateWindowPosition(instanceData->glContext))
+					drawContextFlags &= ~kQ3XDrawContextValidationWindowPosition;
+				}
 			}
 
 
-		// Anything else, just force a rebuild
-		else
+
+		// Handle more complex cases by doing a rebuild
+		if (drawContextFlags != kQ3XDrawContextValidationClearFlags)
 			{
 			// Dispose of the old GL context
 			if (instanceData->glContext != NULL)
