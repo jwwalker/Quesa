@@ -192,6 +192,9 @@ enum {
     // Read
     kQ3XMethodTypeObjectReadData                = Q3_METHOD_TYPE('r', 'd', 'd', 't'),
     kQ3XMethodTypeObjectRead                    = Q3_METHOD_TYPE('r', 'e', 'a', 'd'),
+ #if QUESA_ALLOW_QD3D_EXTENSIONS
+    kQ3XMethodTypeObjectReadDefault             = Q3_METHOD_TYPE('r', 'd', 'd', 'f'),
+ #endif
     kQ3XMethodTypeObjectAttach                  = Q3_METHOD_TYPE('a', 't', 't', 'c')
 };
 
@@ -304,6 +307,21 @@ typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XObjectReadMethod)        
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectReadDataMethod)       (TQ3Object parentObject, TQ3FileObject theFile);
 
+
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+/*!
+ *  @typedef
+ *      TQ3XObjectReadDefaultMethod
+ *  @discussion
+ *      Read method for default geometries (geometries represented with no data in 3DMF files).
+ *
+ *      <em>This method is not available in QD3D.</em>
+ *
+ *	@param		theFile				A file object.	
+ *	@result                 The new default object.
+ */
+typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XObjectReadDefaultMethod)    (TQ3FileObject theFile);
+#endif
 
 /*!
  *  @typedef
