@@ -1874,16 +1874,16 @@ E3XView_EndFrame(TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 void *
 E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType)
-{	TQ3Status		qd3dStatus;
-	TQ3Uns32		dataSize;
-	void			*theData;
+{	TQ3ElementObject	theElement;
+	TQ3Uns32			dataSize;
+	void				*theData;
 
 
 
 	// Get the size and pointer for the data for the attribute
 	attributeType = E3Attribute_AttributeToClassType(attributeType);
-	qd3dStatus    = E3Set_AccessElementData(attributeSet, attributeType, &dataSize, &theData);
-	if (qd3dStatus != kQ3Success)
+	theElement    = E3Set_AccessElementData(attributeSet, attributeType, &dataSize, &theData);
+	if (theElement == NULL)
 		return(NULL);
 
 
