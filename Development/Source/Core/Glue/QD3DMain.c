@@ -454,6 +454,41 @@ Q3Object_Dispose(TQ3Object object)
 
 
 //=============================================================================
+//      Q3Object_CleanDispose : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Object_CleanDispose(TQ3Object *object)
+{
+
+
+	// Release build checks
+	if (object != NULL && *object != NULL)
+		Q3_REQUIRE_OR_RESULT((*object)->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on object
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Object_CleanDispose(object));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3Object_Duplicate : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Object
