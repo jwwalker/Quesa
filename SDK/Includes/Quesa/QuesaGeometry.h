@@ -7426,6 +7426,68 @@ Q3TriMesh_EmptyData (
 
 
 
+/*!
+ *  @function
+ *      Q3TriMesh_LockData
+ *  @discussion
+ *      Lock a Trimesh for direct access.
+ *
+ *      Returns a pointer to the internal TQ3TriMeshData for a TriMesh,
+ *      allowing direct access without the need to copy TriMesh data out
+ *      of and back in to Quesa.
+ *
+ *      The readOnly flag should be used to indicate if the application
+ *      needs to make changes to the TriMesh data, or if the pointer
+ *      should be considered const.
+ *
+ *      When the application no longer needs access to the TriMesh data,
+ *      it must unlock the TriMesh with Q3TriMesh_UnlockData. Changes to
+ *      the TriMesh data may not be relayed to renderers until the TriMesh
+ *      has been unlocked.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param triMesh          The TriMesh to lock.
+ *  @param readOnly         Indicates if the returned data is read-only.
+ *  @param triMeshData      Receives a pointer to the TQ3TriMeshData for
+ *                          the TriMesh.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3TriMesh_LockData (
+    TQ3GeometryObject             triMesh,
+    TQ3Boolean                    readOnly,
+    TQ3TriMeshData                **triMeshData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3TriMesh_UnlockData
+ *  @discussion
+ *      Unlocks a TriMesh previously locked with Q3TriMesh_LockData.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param triMesh          The TriMesh to unlock.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Status  )
+Q3TriMesh_UnlockData (
+    TQ3GeometryObject             triMesh
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
 
 
 //=============================================================================
