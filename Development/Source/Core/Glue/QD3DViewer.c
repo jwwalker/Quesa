@@ -2269,6 +2269,40 @@ Q3Viewer_SetCallbackDraw(TQ3ViewerObject theViewer, TQ3ViewerDrawCallbackMethod 
 
 
 
+//=============================================================================
+//      Q3Viewer_GetCallbackResize : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ViewerWindowResizeCallbackMethod
+Q3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theViewer
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Viewer_GetCallbackResize(theViewer));
+}
+
+
+
+
 
 //=============================================================================
 //      Q3Viewer_SetCallbackResize : Quesa API entry point.
@@ -2313,10 +2347,10 @@ Q3Viewer_SetCallbackResize(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallb
 
 
 //=============================================================================
-//      Q3Viewer_GetCallbackResize : Quesa API entry point.
+//      Q3Viewer_GetCallbackResizeNotify : Quesa API entry point.
 //-----------------------------------------------------------------------------
-TQ3ViewerWindowResizeCallbackMethod
-Q3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
+TQ3ViewerPaneResizeNotifyCallbackMethod
+Q3Viewer_GetCallbackResizeNotify(TQ3ViewerObject theViewer)
 {
 
 
@@ -2340,10 +2374,50 @@ Q3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
 
 
 	// Call our implementation
-	return(E3Viewer_GetCallbackResize(theViewer));
+	return(E3Viewer_GetCallbackResizeNotify(theViewer));
 }
 
 
+
+
+
+//=============================================================================
+//      Q3Viewer_SetCallbackResizeNotify : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Viewer_SetCallbackResizeNotify(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod theCallback, const void *userData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(userData), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theViewer
+		return(kQ3Failure);
+
+	if (0) // Further checks on theCallback
+		return(kQ3Failure);
+
+	if (0) // Further checks on userData
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Viewer_SetCallbackResizeNotify(theViewer, theCallback, userData));
+}
 
 
 
