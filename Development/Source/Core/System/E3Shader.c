@@ -146,14 +146,14 @@ e3shader_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3shader_illumination_render : 	Illumination render method.
+//      e3shader_illumination_submit : Illumination submit method.
 //-----------------------------------------------------------------------------
 //		Note :	Shaders are never submitted in immediate mode form, and so we
 //				pass the shader object rather than the objectData to the view.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3shader_illumination_render(	TQ3ViewObject theView, TQ3ObjectType objectType, 
+e3shader_illumination_submit(	TQ3ViewObject theView, TQ3ObjectType objectType, 
 					TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
@@ -183,7 +183,9 @@ e3shader_illumination_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3shader_illumination_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3shader_illumination_submit;
 			break;
 		}
 	
@@ -195,14 +197,14 @@ e3shader_illumination_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3shader_surface_render : Surface shader render method.
+//      e3shader_surface_submit : Surface shader submit method.
 //-----------------------------------------------------------------------------
 //		Note :	Shaders are never submitted in immediate mode form, and so we
 //				pass the shader object rather than the objectData to the view.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3shader_surface_render(TQ3ViewObject theView, TQ3ObjectType objectType, 
+e3shader_surface_submit(TQ3ViewObject theView, TQ3ObjectType objectType, 
 					    TQ3Object theObject,   const void *objectData)
 {
 #pragma unused(objectType)
@@ -232,7 +234,9 @@ e3shader_surface_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3shader_surface_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3shader_surface_submit;
 			break;
 		}
 	

@@ -61,10 +61,10 @@ e3transform_matrix_matrix(void *transformData, TQ3Matrix4x4 *theMatrix)
 
 
 //=============================================================================
-//      e3transform_matrix_render : Matrix render method.
+//      e3transform_matrix_submit : Matrix submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3transform_matrix_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3transform_matrix_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3Matrix4x4		*instanceData = (const TQ3Matrix4x4 *) objectData;
 	TQ3Status				qd3dStatus;
 
@@ -98,7 +98,7 @@ e3transform_matrix_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3transform_matrix_render;
+			theMethod = (TQ3XFunctionPointer) e3transform_matrix_submit;
 			break;
 		}
 	
@@ -143,10 +143,10 @@ e3transform_rotate_matrix(const void *transformData, TQ3Matrix4x4 *theMatrix)
 
 
 //=============================================================================
-//      e3transform_rotate_render : Rotate render method.
+//      e3transform_rotate_submit : Rotate submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3transform_rotate_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3transform_rotate_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
 	TQ3Matrix4x4		theMatrix;
 #pragma unused(objectType)
@@ -184,7 +184,7 @@ e3transform_rotate_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3transform_rotate_render;
+			theMethod = (TQ3XFunctionPointer) e3transform_rotate_submit;
 			break;
 		}
 	
@@ -269,10 +269,10 @@ e3transform_rotateaboutpoint_matrix(const void *transformData, TQ3Matrix4x4 *the
 
 
 //=============================================================================
-//      e3transform_rotateaboutpoint_render : Rotate about point render method.
+//      e3transform_rotateaboutpoint_submit : Rotate about point submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3transform_rotateaboutpoint_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3transform_rotateaboutpoint_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
 	TQ3Matrix4x4		theMatrix;
 #pragma unused(objectType)
@@ -310,7 +310,7 @@ e3transform_rotateaboutpoint_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3transform_rotateaboutpoint_render;
+			theMethod = (TQ3XFunctionPointer) e3transform_rotateaboutpoint_submit;
 			break;
 		}
 	
@@ -344,10 +344,10 @@ e3transform_rotateaboutaxis_matrix(const void *transformData, TQ3Matrix4x4 *theM
 
 
 //=============================================================================
-//      e3transform_rotateaboutaxis_render : Rotate about axis render method.
+//      e3transform_rotateaboutaxis_submit : Rotate about axis submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3transform_rotateaboutaxis_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3transform_rotateaboutaxis_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
 	TQ3Matrix4x4		theMatrix;
 #pragma unused(objectType)
@@ -385,7 +385,7 @@ e3transform_rotateaboutaxis_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3transform_rotateaboutaxis_render;
+			theMethod = (TQ3XFunctionPointer) e3transform_rotateaboutaxis_submit;
 			break;
 		}
 	
@@ -414,10 +414,10 @@ e3transform_scale_matrix(const void *transformData, TQ3Matrix4x4 *theMatrix)
 
 
 //=============================================================================
-//      e3transform_scale_render : Scale render method.
+//      e3transform_scale_submit : Scale submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3transform_scale_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3transform_scale_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
 	TQ3Matrix4x4		theMatrix;
 #pragma unused(objectType)
@@ -455,7 +455,7 @@ e3transform_scale_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3transform_scale_render;
+			theMethod = (TQ3XFunctionPointer) e3transform_scale_submit;
 			break;
 		}
 	
@@ -484,10 +484,10 @@ e3transform_translate_matrix(const void *transformData, TQ3Matrix4x4 *theMatrix)
 
 
 //=============================================================================
-//      e3transform_translate_render : Translate render method.
+//      e3transform_translate_submit : Translate submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3transform_translate_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3transform_translate_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
 	TQ3Matrix4x4		theMatrix;
 #pragma unused(objectType)
@@ -525,7 +525,7 @@ e3transform_translate_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3transform_translate_render;
+			theMethod = (TQ3XFunctionPointer) e3transform_translate_submit;
 			break;
 		}
 	
@@ -554,10 +554,10 @@ e3transform_quaternion_matrix(const void *transformData, TQ3Matrix4x4 *theMatrix
 
 
 //=============================================================================
-//      e3transform_quaternion_render : Quaternion render method.
+//      e3transform_quaternion_submit : Quaternion submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3transform_quaternion_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3transform_quaternion_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
 	TQ3Matrix4x4		theMatrix;
 #pragma unused(objectType)
@@ -595,7 +595,7 @@ e3transform_quaternion_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3transform_quaternion_render;
+			theMethod = (TQ3XFunctionPointer) e3transform_quaternion_submit;
 			break;
 		}
 	
@@ -625,13 +625,13 @@ e3transform_reset_matrix(const void *transformData, TQ3Matrix4x4 *theMatrix)
 
 
 //=============================================================================
-//      e3transform_reset_render : Reset render method.
+//      e3transform_reset_submit : Reset submit method.
 //-----------------------------------------------------------------------------
 //		Note :	The reset transform is not cumulative - it resets the local to
 //				world matrix of the view to the identity matrix.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3transform_reset_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3transform_reset_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
 	TQ3Matrix4x4		theMatrix;
 #pragma unused(objectType)
@@ -669,7 +669,7 @@ e3transform_reset_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitRender:
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
-			theMethod = (TQ3XFunctionPointer) e3transform_reset_render;
+			theMethod = (TQ3XFunctionPointer) e3transform_reset_submit;
 			break;
 		}
 	

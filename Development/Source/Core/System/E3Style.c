@@ -44,10 +44,10 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3style_subdivision_render : Subdivision render method.
+//      e3style_subdivision_submit : Subdivision submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3style_subdivision_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_subdivision_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3SubdivisionStyleData		*instanceData = (const TQ3SubdivisionStyleData *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -76,7 +76,9 @@ e3style_subdivision_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_subdivision_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_subdivision_submit;
 			break;
 		}
 	
@@ -88,11 +90,11 @@ e3style_subdivision_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_pickid_render : Pick ID render method.
+//      e3style_pickid_submit : Pick ID submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_pickid_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_pickid_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3Uns32			*instanceData = (const TQ3Uns32 *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -121,7 +123,9 @@ e3style_pickid_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_pickid_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_pickid_submit;
 			break;
 		}
 	
@@ -133,11 +137,11 @@ e3style_pickid_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_pickparts_render : Pick Parts render method.
+//      e3style_pickparts_submit : Pick Parts submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_pickparts_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_pickparts_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3PickParts			*instanceData = (const TQ3PickParts *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -166,7 +170,9 @@ e3style_pickparts_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_pickparts_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_pickparts_submit;
 			break;
 		}
 	
@@ -178,11 +184,11 @@ e3style_pickparts_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_receiveshadows_render : Receive Shadows render method.
+//      e3style_receiveshadows_submit : Receive Shadows submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_receiveshadows_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_receiveshadows_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3Boolean			*instanceData = (const TQ3Boolean *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -211,7 +217,9 @@ e3style_receiveshadows_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_receiveshadows_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_receiveshadows_submit;
 			break;
 		}
 	
@@ -223,11 +231,11 @@ e3style_receiveshadows_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_fill_render : Fill render method.
+//      e3style_fill_submit : Fill submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_fill_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_fill_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3FillStyle			*instanceData = (const TQ3FillStyle *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -256,7 +264,9 @@ e3style_fill_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_fill_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_fill_submit;
 			break;
 		}
 	
@@ -268,11 +278,11 @@ e3style_fill_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_backfacing_render : Backfacing render method.
+//      e3style_backfacing_submit : Backfacing submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_backfacing_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_backfacing_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3BackfacingStyle		*instanceData = (const TQ3BackfacingStyle *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -301,7 +311,9 @@ e3style_backfacing_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_backfacing_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_backfacing_submit;
 			break;
 		}
 	
@@ -313,11 +325,11 @@ e3style_backfacing_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_interpolation_render : Interpolation render method.
+//      e3style_interpolation_submit : Interpolation submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_interpolation_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_interpolation_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3InterpolationStyle		*instanceData = (const TQ3InterpolationStyle *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -346,7 +358,9 @@ e3style_interpolation_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_interpolation_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_interpolation_submit;
 			break;
 		}
 	
@@ -358,11 +372,11 @@ e3style_interpolation_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_hilight_render : Hilight render method.
+//      e3style_hilight_submit : Hilight submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_hilight_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_hilight_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3AttributeSet		*instanceData = (const TQ3AttributeSet *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -392,7 +406,9 @@ e3style_hilight_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_hilight_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_hilight_submit;
 			break;
 		}
 	
@@ -404,11 +420,11 @@ e3style_hilight_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_orientation_render : Orientation render method.
+//      e3style_orientation_submit : Orientation submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_orientation_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_orientation_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3OrientationStyle			*instanceData = (const TQ3OrientationStyle *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -437,7 +453,9 @@ e3style_orientation_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_orientation_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_orientation_submit;
 			break;
 		}
 	
@@ -449,11 +467,11 @@ e3style_orientation_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_antialias_render : Anti-alias render method.
+//      e3style_antialias_submit : Anti-alias submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_antialias_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_antialias_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3AntiAliasStyleData			*instanceData = (const TQ3AntiAliasStyleData *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -482,7 +500,9 @@ e3style_antialias_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_antialias_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_antialias_submit;
 			break;
 		}
 	
@@ -494,11 +514,11 @@ e3style_antialias_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3style_fog_render : Fog render method.
+//      e3style_fog_submit : Fog submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3style_fog_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3style_fog_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3FogStyleData			*instanceData = (const TQ3FogStyleData *) objectData;
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -527,7 +547,9 @@ e3style_fog_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3style_fog_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_fog_submit;
 			break;
 		}
 	

@@ -209,14 +209,14 @@ e3set_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attributeset_render : Attribute set class render method.
+//      e3attributeset_submit : Attribute set class submit method.
 //-----------------------------------------------------------------------------
 //		Note :	See the comments in E3AttributeSet_Submit for an explanation
 //				as to why we don't perform the actual submit here.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attributeset_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attributeset_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status		qd3dStatus;
 #pragma unused(objectType)
 #pragma unused(objectData)
@@ -244,10 +244,10 @@ e3attributeset_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
-		case kQ3XMethodTypeObjectSubmitBounds:
-		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attributeset_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attributeset_submit;
 			break;
 		}
 	
@@ -259,11 +259,11 @@ e3attributeset_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_surfaceuv_render : Surface UV render method.
+//      e3attribute_surfaceuv_submit : Surface UV submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_surfaceuv_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_surfaceuv_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -292,7 +292,9 @@ e3attribute_surfaceuv_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_surfaceuv_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_surfaceuv_submit;
 			break;
 		}
 	
@@ -304,11 +306,11 @@ e3attribute_surfaceuv_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_shadinguv_render : Shading UV render method.
+//      e3attribute_shadinguv_submit : Shading UV submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_shadinguv_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_shadinguv_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -337,7 +339,9 @@ e3attribute_shadinguv_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_shadinguv_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_shadinguv_submit;
 			break;
 		}
 	
@@ -349,11 +353,11 @@ e3attribute_shadinguv_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_normal_render : Normal render method.
+//      e3attribute_normal_submit : Normal submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_normal_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_normal_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -382,7 +386,9 @@ e3attribute_normal_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_normal_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_normal_submit;
 			break;
 		}
 	
@@ -394,11 +400,11 @@ e3attribute_normal_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_ambientcoefficient_render : Ambient coeff render method.
+//      e3attribute_ambientcoefficient_submit : Ambient coeff submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_ambientcoefficient_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_ambientcoefficient_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -427,7 +433,9 @@ e3attribute_ambientcoefficient_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_ambientcoefficient_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_ambientcoefficient_submit;
 			break;
 		}
 	
@@ -439,11 +447,11 @@ e3attribute_ambientcoefficient_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_diffusecolor_render : Diffuse colour render method.
+//      e3attribute_diffusecolor_submit : Diffuse colour submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_diffusecolor_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_diffusecolor_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -472,7 +480,9 @@ e3attribute_diffusecolor_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_diffusecolor_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_diffusecolor_submit;
 			break;
 		}
 	
@@ -484,11 +494,11 @@ e3attribute_diffusecolor_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_specularcolor_render : Specular colour render method.
+//      e3attribute_specularcolor_submit : Specular colour submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_specularcolor_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_specularcolor_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -517,7 +527,9 @@ e3attribute_specularcolor_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_specularcolor_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_specularcolor_submit;
 			break;
 		}
 	
@@ -529,11 +541,11 @@ e3attribute_specularcolor_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_specularcontrol_render : Specular control render method.
+//      e3attribute_specularcontrol_submit : Specular control submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_specularcontrol_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_specularcontrol_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -562,7 +574,9 @@ e3attribute_specularcontrol_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_specularcontrol_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_specularcontrol_submit;
 			break;
 		}
 	
@@ -574,11 +588,11 @@ e3attribute_specularcontrol_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_transparencycolor_render : Transparency  render method.
+//      e3attribute_transparencycolor_submit : Transparency submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_transparencycolor_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_transparencycolor_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -607,7 +621,9 @@ e3attribute_transparencycolor_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_transparencycolor_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_transparencycolor_submit;
 			break;
 		}
 	
@@ -619,11 +635,11 @@ e3attribute_transparencycolor_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_surfacetangent_render : Surface tangent render method.
+//      e3attribute_surfacetangent_submit : Surface tangent submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_surfacetangent_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_surfacetangent_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -652,7 +668,9 @@ e3attribute_surfacetangent_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_surfacetangent_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_surfacetangent_submit;
 			break;
 		}
 	
@@ -664,11 +682,11 @@ e3attribute_surfacetangent_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
-//      e3attribute_highlightstate_render : Highlight state render method.
+//      e3attribute_highlightstate_submit : Highlight state submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static TQ3Status
-e3attribute_highlightstate_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_highlightstate_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -697,7 +715,9 @@ e3attribute_highlightstate_metahandler(TQ3XMethodType methodType)
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_highlightstate_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_highlightstate_submit;
 			break;
 		}
 	
@@ -786,10 +806,10 @@ e3attribute_surfaceshader_duplicate(TQ3Object fromObject, const void *fromPrivat
 
 
 //=============================================================================
-//      e3attribute_surfaceshader_render : Surface shader render method.
+//      e3attribute_surfaceshader_submit : Surface shader submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3attribute_surfaceshader_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3attribute_surfaceshader_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -882,7 +902,9 @@ e3attribute_surfaceshader_metahandler(TQ3XMethodType methodType)
 			break;
 
 		case kQ3XMethodTypeObjectSubmitRender:
-			theMethod = (TQ3XFunctionPointer) e3attribute_surfaceshader_render;
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_surfaceshader_submit;
 			break;
 
 		case kQ3XMethodTypeElementCopyReplace:
