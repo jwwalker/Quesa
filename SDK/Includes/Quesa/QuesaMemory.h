@@ -472,9 +472,9 @@ Q3Memory_DumpRecording(
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @itemSize               The size of each item within the slab.
- *  @numitems               The initial number of items in the slab.
- *  @itemData               The data to initialise the new items, or NULL.
+ *  @param	itemSize               The size of each item within the slab.
+ *  @param	numitems               The initial number of items in the slab.
+ *  @param	itemData               The data to initialise the new items, or NULL.
  *  @result                 The new slab object.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -504,8 +504,8 @@ Q3SlabMemory_New(
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @theSlab                The slab to query.
- *  @itemIndex              The index of the item within the slab.
+ *  @param	theSlab                The slab to query.
+ *  @param	itemIndex              The index of the item within the slab.
  *  @result                 A pointer to the specified item within the slab.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -544,9 +544,9 @@ Q3SlabMemory_GetData(
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @theSlab                The slab to update.
- *  @numItems               The number of items to append.
- *  @itemData               The data to initialise the new items, or NULL.
+ *  @param	theSlab                The slab to update.
+ *  @param	numItems               The number of items to append.
+ *  @param	itemData               The data to initialise the new items, or NULL.
  *  @result                 A pointer to the first newly-added item within the slab.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -570,7 +570,7 @@ Q3SlabMemory_AppendData(
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @theSlab                The slab to query.
+ *  @param	theSlab                The slab to query.
  *  @result                 The number of items within the slab.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -599,8 +599,8 @@ Q3SlabMemory_GetCount(
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @theSlab                The slab to update.
- *  @numItems               The number of items required in the slab.
+ *  @param	theSlab                The slab to update.
+ *  @param	numItems               The number of items required in the slab.
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
