@@ -148,6 +148,55 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 
 
 
+//=============================================================================
+//      e3read_3dmf_gather_mesh_vertex_attribute : Gather vertex attributes.
+//-----------------------------------------------------------------------------
+static TQ3AttributeSet
+e3read_3dmf_gather_mesh_vertex_attribute( void *userData, TQ3Uns32 setIndex )
+{
+	TQ3AttributeSet*	attSets = (TQ3AttributeSet*) userData;
+	
+	return attSets[ setIndex ];
+}
+
+
+
+//=============================================================================
+//      e3read_3dmf_merge_element_set : Gather custom elements for a shape.
+//-----------------------------------------------------------------------------
+static void
+e3read_3dmf_merge_element_set( TQ3SetObject* ioElements, TQ3SetObject ioNewChild )
+{
+	if (*ioElements == NULL)
+		*ioElements = ioNewChild;
+	else
+	{
+		// Copy each element from ioNewChild to *ioElements
+		TQ3ElementType	theType = kQ3ElementTypeNone;
+		while ( (kQ3Success == Q3Set_GetNextElementType( ioNewChild, &theType )) &&
+				(theType != kQ3ElementTypeNone) )
+		{
+			Q3Set_CopyElement( ioNewChild, theType, *ioElements );
+		}
+		Q3Object_Dispose(ioNewChild);
+	}
+}
+
+
+//=============================================================================
+//      e3read_3dmf_apply_element_set : Apply custom elements to a shape.
+//-----------------------------------------------------------------------------
+static void
+e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject ioElements )
+{
+	if (ioElements != NULL)
+	{
+		if (ioShape != NULL)
+			Q3Shape_SetSet( ioShape, ioElements );
+		Q3Object_Dispose( ioElements );
+	}
+}
+
 
 //=============================================================================
 //      Public functions
@@ -1767,6 +1816,7 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3EllipsoidData		geomData;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -1810,6 +1860,9 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.ellipsoidAttributeSet = childObject;
+			
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 
 			else{
 				Q3Object_Dispose(childObject);
@@ -1822,6 +1875,9 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3Ellipsoid_New(&geomData);
 
+	
+	// Apply any elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 	// Clean up
@@ -2093,8 +2149,189 @@ TQ3Object
 E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 {
 #define _READ_MESH_AS_POLYS
-// hack until meshes will be implemeted
-#ifdef _READ_MESH_AS_POLYS
+//#define _READ_MESH_AS_TRIMESH
+#define	_FLIP_MESH_ORIENTATION	1
+
+// hack until meshes will be implemented
+#ifdef _READ_MESH_AS_TRIMESH
+
+	// I will assume that there are no contours, and will ignore any
+	// attributes attached to faces, edges, or corners.
+	// I assume that there are no custom attributes on vertices.
+	// I will also assume that each face has just 3 or 4 points.
+	#define _READ_MESH_AS_TRIMESH_MAX_FACEPOINTS	4
+	
+	TQ3Object			childObject = NULL;
+	
+	TQ3Uns32 			numVertices = 0;
+	TQ3Uns32 			numFaces;
+	TQ3Uns32 			numContours;
+	TQ3Int32 			numFaceVertexIndices; // the sign is a flag
+	TQ3TriMeshData		trimeshData;
+	TQ3TriMeshTriangleData*	triangles = NULL;
+	TQ3Point3D*			points = NULL;
+	TQ3TriMeshAttributeData vertexAttributes[ kQ3AttributeTypeNumTypes ];
+	TQ3Object			theTriMesh = NULL;
+	TQ3Uns32			i, j, triIndex;
+	TQ3Uns32			facePoints[ _READ_MESH_AS_TRIMESH_MAX_FACEPOINTS ];
+	TQ3AttributeSet*	attSets = NULL;
+	TQ3Uns32			numAtts = 0;
+
+	Q3Memory_Clear( &trimeshData, sizeof(trimeshData) );
+	Q3Memory_Clear( &vertexAttributes, sizeof(vertexAttributes) );
+
+	// Read in the numVertices
+	if(Q3Uns32_Read(&numVertices, theFile)!= kQ3Success)
+		return NULL;
+	
+	if(numVertices < 3)
+		return NULL;
+	
+	// allocate the vertex array
+	points = (TQ3Point3D *) Q3Memory_Allocate(sizeof(TQ3Point3D) * numVertices);
+	if (points == NULL)
+		goto cleanUp;
+	
+	// read the vertices
+	for (i = 0; i < numVertices; i++)
+	{
+		if (Q3Point3D_Read(&points[i], theFile) != kQ3Success)
+			goto cleanUp;
+	}
+	
+	// read the number of faces
+	if (Q3Uns32_Read(&numFaces, theFile) != kQ3Success)
+		goto cleanUp;
+	
+	// read the number of contours
+	if (Q3Uns32_Read(&numContours, theFile) != kQ3Success)
+		goto cleanUp;
+	
+	// I'm not prepared to deal with contours
+	if (numContours > 0)
+		goto cleanUp;
+	
+	// Allocate storage for triangles.  I can't be sure exactly how many triangles
+	// there will be, so allocate the max.
+	triangles = (TQ3TriMeshTriangleData*) Q3Memory_Allocate( numFaces *
+		sizeof(TQ3TriMeshTriangleData) * (_READ_MESH_AS_TRIMESH_MAX_FACEPOINTS - 2) );
+	if (triangles == NULL)
+		goto cleanUp;
+	
+	// Read the faces
+	triIndex = 0;
+	
+	for (i = 0; i< numFaces; ++i)
+	{
+		//how many vertices?
+		if (Q3Int32_Read(&numFaceVertexIndices, theFile) != kQ3Success)
+			goto cleanUp;
+		
+		if (numFaceVertexIndices <= 0)	// in theory this can't happen
+			goto cleanUp;
+			
+		if (numFaceVertexIndices > _READ_MESH_AS_TRIMESH_MAX_FACEPOINTS)
+			goto cleanUp;
+		
+		// read the Indices
+		for (j = 0; j < numFaceVertexIndices; ++j)
+		{
+			if (Q3Uns32_Read(&facePoints[j], theFile)!= kQ3Success)
+				goto cleanUp;
+		}
+		
+		// Add triangles to the list
+		for (j = 0; j < numFaceVertexIndices - 2; ++j)
+		{
+			triangles[ triIndex ].pointIndices[0] = facePoints[0];
+		#if _FLIP_MESH_ORIENTATION
+			triangles[ triIndex ].pointIndices[1] = facePoints[j+2];
+			triangles[ triIndex ].pointIndices[2] = facePoints[j+1];
+		#else
+			triangles[ triIndex ].pointIndices[1] = facePoints[j+1];
+			triangles[ triIndex ].pointIndices[2] = facePoints[j+2];
+		#endif
+			triIndex += 1;
+		}
+	}
+	
+	// Read in the attributes
+	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	{
+		childObject = Q3File_ReadObject(theFile);
+		if (childObject != NULL)
+		{
+			if (Q3Object_IsType( childObject, kQ3ObjectTypeAttributeSetListVertex ))
+			{
+				if (attSets != NULL)
+					goto cleanUp;	// we already saw vertex attributes!?
+				
+				// allocate an array of vertex attribute sets
+				attSets = (TQ3AttributeSet*) Q3Memory_AllocateClear( numVertices *
+					sizeof(TQ3AttributeSet) );
+				
+				// read the vertex attribute sets
+				for (i = 0; i < numVertices; ++i)
+				{
+					attSets[i] = E3FFormat_3DMF_AttributeSetList_Get( childObject, i );
+				}
+				
+				// Set up attributes the way TriMesh wants them
+				for (i = 1; i < kQ3AttributeTypeNumTypes; ++i)
+				{
+					if (E3TriMeshAttribute_GatherArray( numVertices,
+						e3read_3dmf_gather_mesh_vertex_attribute, attSets,
+						&vertexAttributes[ numAtts ], (TQ3AttributeType)i ))
+					{
+						numAtts += 1;
+					}
+				}
+			}
+			else if (Q3Object_IsType( childObject, kQ3SetTypeAttribute ))
+			{
+				trimeshData.triMeshAttributeSet =
+					Q3Shared_GetReference( childObject );
+			}
+			
+			E3Object_DisposeAndForget(childObject);
+		}
+	}
+	
+	// set up the TQ3TriMeshData structure
+	trimeshData.numTriangles = triIndex;
+	trimeshData.triangles = triangles;
+	trimeshData.numPoints = numVertices;
+	trimeshData.points = points;
+	trimeshData.numVertexAttributeTypes = numAtts;
+	trimeshData.vertexAttributeTypes = vertexAttributes;
+	Q3BoundingBox_SetFromPoints3D( &trimeshData.bBox, points, numVertices,
+		sizeof(TQ3Point3D) );
+	
+	theTriMesh = Q3TriMesh_New( &trimeshData );
+	
+cleanUp:	
+	Q3Memory_Free(&points);
+	Q3Memory_Free(&triangles);
+	for (i = 0; i < kQ3AttributeTypeNumTypes; ++i)
+	{
+		Q3Memory_Free( &vertexAttributes[i].data );
+		Q3Memory_Free( &vertexAttributes[i].attributeUseArray );
+	}
+	E3Object_DisposeAndForget(childObject);
+	if (attSets != NULL)
+	{
+		for (i = 0; i < numVertices; ++i)
+		{
+			E3Object_DisposeAndForget( attSets[i] );
+		}	
+		
+		Q3Memory_Free(&attSets);
+	}
+	E3Object_DisposeAndForget(trimeshData.triMeshAttributeSet);
+
+	return theTriMesh;
+	
+#elif defined(_READ_MESH_AS_POLYS)
 
 #define _READ_MESH_AS_POLYS_MAX_CONTOURS 6
 	TQ3Object			childObject;
@@ -3082,7 +3319,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	TQ3Uns16				temp16;
 	TQ3Uns8					temp8;
 	TQ3Uns32				i;
-
+	TQ3Object				elementSet = NULL;
 
 
 	// Initialise the geometry data
@@ -3257,6 +3494,8 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 				{
 				geomData.triMeshAttributeSet = childObject;
 				}
+			else if ( Q3Object_IsType (childObject, kQ3SharedTypeSet) )
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 			else
 				Q3Object_Dispose(childObject);
 			}
@@ -3266,6 +3505,11 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 
 	// Create the geometry
 	theObject = Q3TriMesh_New(&geomData);
+
+
+	
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 
