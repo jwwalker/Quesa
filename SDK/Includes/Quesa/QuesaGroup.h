@@ -85,6 +85,8 @@ extern "C" {
  *  @constant kQ3DisplayGroupStateMaskUseBoundingSphere    The bounding sphere is used for culling when rendering.
  *  @constant kQ3DisplayGroupStateMaskIsPicked             The group will be eligible for returning during picking.
  *  @constant kQ3DisplayGroupStateMaskIsWritten            The group will be submitted during writing.
+ *	@constant kQ3DisplayGroupStateMaskIsNotForBounding	   The group will not be submitted during bounding.
+ *														   (Not in QD3D.)
  */
 typedef enum {
     kQ3DisplayGroupStateNone                    = 0,
@@ -94,6 +96,12 @@ typedef enum {
     kQ3DisplayGroupStateMaskUseBoundingSphere   = (1 << 3),
     kQ3DisplayGroupStateMaskIsPicked            = (1 << 4),
     kQ3DisplayGroupStateMaskIsWritten           = (1 << 5)
+    
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+    ,
+    kQ3DisplayGroupStateMaskIsNotForBounding	= (1 << 6)
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
 } TQ3DisplayGroupStateMasks;
 
 
