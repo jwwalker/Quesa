@@ -171,6 +171,79 @@ ir_geom_transparent_sort(const void *item1, const void *item2)
 
 
 
+//=============================================================================
+//      ir_geom_transparent_needs_specular : Test whether there may be specular highlights.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+ir_geom_transparent_needs_specular( const TQ3TransparentPrim *thePrim )
+{
+	return (TQ3Boolean)(
+				(thePrim->numVerts == 3) &&
+				(thePrim->illumination == kQ3IlluminationTypePhong) &&
+				(thePrim->fillStyle == kQ3FillStyleFilled)
+				);
+}
+
+
+
+//=============================================================================
+//      ir_geom_transparent_specular_render : Render a cached primitive for specular highlights.
+//-----------------------------------------------------------------------------
+static void
+ir_geom_transparent_specular_render(const TQ3TransparentPrim *thePrim)
+{	const TQ3FVertex3D		*theVertex;
+	TQ3FVertexFlags			vertFlags;
+	TQ3Uns32				n;
+
+
+
+	// Validate our parameters
+	Q3_ASSERT(thePrim->numVerts == 3);
+
+	
+	// Set up the fill style
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+
+	// Set up the orientation style for triangles
+	//
+	// Could possibly pre-process all triangles when they're added
+	// to be in CCW order to reduce these state changes?
+	if (thePrim->orientationStyle == kQ3OrientationStyleClockwise)
+		glFrontFace(GL_CW);
+	else
+		glFrontFace(GL_CCW);
+
+
+
+	// Begin the primitive
+	glBegin(GL_TRIANGLES);
+
+
+
+	// Draw the primitive
+	theVertex = thePrim->theVertices;
+	vertFlags = theVertex->theFlags;
+
+	for (n = 0; n < 3; ++n)
+		{
+		if (E3Bit_IsSet(vertFlags, kQ3FVertexHaveNormal))
+			glNormal3fv((const GLfloat *) &theVertex->theNormal);
+	
+
+		glVertex3fv((const GLfloat *) &theVertex->thePoint);
+		theVertex++;
+		}
+
+
+
+	// Finish the primitive
+	glEnd();
+
+}
+
+
 
 
 //=============================================================================
@@ -380,7 +453,44 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	thePrim->fillStyle			  = instanceData->stateFill;
 	thePrim->backfacingStyle	  = instanceData->stateBackfacing;
 	
+	thePrim->specularColor = *instanceData->stateGeomSpecularColour;
+	thePrim->specularControl = instanceData->stateGeomSpecularControl;
+	thePrim->illumination = instanceData->stateViewIllumination;
+	
 	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      ir_geom_transparent_update_specular : Update specularity for a transparent primitive.
+//-----------------------------------------------------------------------------
+static void ir_geom_transparent_update_specular( const TQ3TransparentPrim* inPrim,
+	GLfloat* ioSpecularColor, float* ioSpecularControl )
+{
+	if ( (inPrim->specularColor.r != ioSpecularColor[0]) ||
+		(inPrim->specularColor.g != ioSpecularColor[1]) ||
+		(inPrim->specularColor.b != ioSpecularColor[2]) )
+	{
+		ioSpecularColor[0] = inPrim->specularColor.r;
+		ioSpecularColor[1] = inPrim->specularColor.g;
+		ioSpecularColor[2] = inPrim->specularColor.b;
+		
+		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, ioSpecularColor );
+	}
+	
+	if (inPrim->specularControl != *ioSpecularControl)
+	{
+		float		specularControl;
+		GLfloat		shininess;
+		
+		specularControl = *ioSpecularControl = inPrim->specularControl;
+
+		shininess = IRRenderer_SpecularControl_to_GLshininess( specularControl );
+		glMaterialfv( GL_FRONT_AND_BACK, GL_SHININESS, &shininess );
+	}
 }
 
 
@@ -443,6 +553,13 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	TQ3Uns32					n, numPrims;
 	TQ3TransparentPrim			*thePrims;
 	TQ3TransparentPrim			**ptrs;
+	GLfloat						specularColor[4] = {
+									-1.0f, -1.0f, -1.0f, 1.0f
+								};
+	float						specularControl = -1.0f;
+	const GLfloat				kBlackColor[4] = {
+									0.0f, 0.0f, 0.0f, 1.0f
+								};
 
 
 
@@ -481,6 +598,9 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 	    glEnable(GL_BLEND);
 		glDepthMask(GL_FALSE);
+		
+		// The first pass will not include specularity, so we set the specular color black.
+		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, kBlackColor );
 
 
 
@@ -494,18 +614,33 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 				glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 			else
 			    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
+			
 			// Render the primitive
 			ir_geom_transparent_render(ptrs[n]);
 			}
+
+
 		
+		// Second pass to add specular highlights
+		glBlendFunc( GL_ONE, GL_ONE );
+		glDisable( GL_COLOR_MATERIAL );
+		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
 		
+		for (n = 0; n < numPrims; ++n)
+			{
+			if ( ir_geom_transparent_needs_specular( ptrs[n] ) )
+				{
+				ir_geom_transparent_update_specular( ptrs[n], specularColor, &specularControl );
+				
+				ir_geom_transparent_specular_render( ptrs[n] );
+				}
+			}
+
 		
 		// Reset the OpenGL state
+		glEnable(GL_COLOR_MATERIAL);
 		glDepthMask(GL_TRUE);
 	    glDisable(GL_BLEND);
-	    
 	    
 	    
 	    // Empty the cache
