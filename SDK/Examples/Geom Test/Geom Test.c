@@ -1567,7 +1567,7 @@ createGeomTriMesh(void)
 										   {0.0f, 1.0f, 0.0f},
 										   {0.0f, 0.0f, 1.0f},
 										   {1.0f, 1.0f, 0.0f}};
-	TQ3TriMeshTriangleData		triangles[2] = {{1, 0, 3}, {3, 2, 1}};
+	TQ3TriMeshTriangleData		triangles[2] = {{{1, 0, 3}}, {{3, 2, 1}}};
 	TQ3Param2D					vertUVs[4];
 	TQ3TriMeshData				triMeshData;
 	TQ3GeometryObject			theTriMesh;
