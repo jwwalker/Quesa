@@ -2924,14 +2924,19 @@ e3geom_mesh_bounds(
 	const void *objectData)
 {
 #pragma unused(objectType)
-#pragma unused(theObject)
-	const TE3MeshData*			instanceData = (const TE3MeshData*) objectData;
+	TE3MeshData* meshPtr = (TE3MeshData*) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeMesh);
 
-
+	// Use array of vertices in mesh (*** MAY RELOCATE VERTICES ***)
+	if (e3mesh_UseVertexArray(E3_CONST_CAST(TE3MeshData*, meshPtr)) == kQ3Failure)
+		goto failure;
 
 	// Update the bounds
+	E3View_UpdateBounds(theView, e3mesh_NumVertices(meshPtr), sizeof(TE3MeshVertexData), &e3meshVertexArray_FirstItemConst(&meshPtr->vertexArrayOrList.array)->point);
 
 	return(kQ3Success);
+
+failure:
+	return(kQ3Failure);
 }
 
 

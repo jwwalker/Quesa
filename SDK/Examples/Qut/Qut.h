@@ -192,6 +192,7 @@ void	App_Terminate(void);
 // Qut - Platform independent
 void			Qut_CreateView(qutFuncAppConfigureView appConfigureView);
 void			Qut_CalcBounds(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingBox *theBounds);
+void			Qut_CalcBoundingSphere(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingSphere *theBoundingSphere);
 void			Qut_SubmitDefaultStyles(TQ3ViewObject theView);
 void   		   *Qut_GetWindow(void);
 void			Qut_SetRenderPreFunc(qutFuncAppRenderPre   appRenderPre);

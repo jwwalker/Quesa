@@ -340,7 +340,7 @@ Qut_CreateView(qutFuncAppConfigureView appConfigureView)
 
 
 //=============================================================================
-//      Qut_CalcBounds : Calculate the bounds of an object.
+//      Qut_CalcBounds : Calculate the bounding box of an object.
 //-----------------------------------------------------------------------------
 void Qut_CalcBounds(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingBox *theBounds)
 {   float           sizeX, sizeY, sizeZ;
@@ -348,12 +348,12 @@ void Qut_CalcBounds(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingBox *
 
 
 
-    // Reset theBounds
-    memset(theBounds, 0x00, sizeof(TQ3BoundingBox));
+    // Reset bounding box
+	memset(theBounds, 0x00, sizeof(TQ3BoundingBox));
     
 
 
-    // Submit the object to the view to calculate the bounds
+    // Submit the object to the view to calculate the bounding box
     qd3dStatus = Q3View_StartBoundingBox(theView, kQ3ComputeBoundsExact);
     if (qd3dStatus == kQ3Success)
         {
@@ -381,6 +381,41 @@ void Qut_CalcBounds(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingBox *
         theBounds->min.y -= 0.0001f;
         theBounds->min.z -= 0.0001f;
         }
+}
+
+
+
+
+
+//=============================================================================
+//      Qut_CalcBoundingSphere : Calculate the bounding sphere of an object.
+//-----------------------------------------------------------------------------
+void Qut_CalcBoundingSphere(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingSphere *theBoundingSphere)
+{    TQ3Status       qd3dStatus;
+
+
+
+    // Reset bounding sphere
+	memset(theBoundingSphere, 0x00, sizeof(TQ3BoundingSphere));
+    
+
+
+    // Submit the object to the view to calculate the bounding sphere
+    qd3dStatus = Q3View_StartBoundingSphere(theView, kQ3ComputeBoundsExact);
+    if (qd3dStatus == kQ3Success)
+        {
+        do
+            {
+            Q3Object_Submit(theObject, theView);
+            }
+        while (Q3View_EndBoundingSphere(theView, theBoundingSphere) == kQ3ViewStatusRetraverse);
+        }
+
+
+
+    // If we have an empty bounding sphere, bump it up slightly
+    if (theBoundingSphere->radius <= kQ3RealZero)
+        theBoundingSphere->radius = 0.0001f;
 }
 
 

@@ -48,6 +48,7 @@
 enum {
 	kMenuItemToggleLocalBoundingBox = 1,
 	kMenuItemToggleWorldBoundingBox,
+	kMenuItemToggleLocalBoundingSphere,
 	kMenuItemShowTexture,
 	kMenuItemSaveModel,
 	kMenuItemDivider1,
@@ -95,14 +96,15 @@ const TQ3ColorARGB kColorARGBPickMiss = {1.0f, 0.0f, 0.0f, 1.0f};
 //=============================================================================
 //      Internal globals
 //-----------------------------------------------------------------------------
-TQ3Object			gSceneGeometry     = NULL;
-TQ3ShaderObject		gSceneIllumination = NULL;
-TQ3Object			gSceneBounds       = NULL;
-TQ3ShaderObject		gSceneTexture      = NULL;
-TQ3Boolean			gShowTexture       = kQ3False;
-TQ3Boolean			gShowWorldBounds   = kQ3False;
-TQ3Object			gWorldBounds       = NULL;
-TQ3Uns32			gFlashStep         = 0;
+TQ3Object			gSceneGeometry       = NULL;
+TQ3ShaderObject		gSceneIllumination   = NULL;
+TQ3Object			gSceneBounds         = NULL;
+TQ3Object			gSceneBoundingSphere = NULL;
+TQ3ShaderObject		gSceneTexture        = NULL;
+TQ3Boolean			gShowTexture         = kQ3False;
+TQ3Boolean			gShowWorldBounds     = kQ3False;
+TQ3Object			gWorldBounds         = NULL;
+TQ3Uns32			gFlashStep           = 0;
 TQ3Matrix4x4		gMatrixCurrent;
 TQ3ColorARGB		gBackgroundColor;
 
@@ -362,6 +364,102 @@ createLocalBounds(TQ3GeometryObject theGeom)
 	// Clean up
 	if (boxData.boxAttributeSet != NULL)
 		Q3Object_Dispose(boxData.boxAttributeSet);
+
+	return(theGroup);
+}									
+
+
+
+
+
+//=============================================================================
+//      createLocalBoundingSphere : Create the local-coordinate  bounding sphere.
+//-----------------------------------------------------------------------------
+static TQ3GroupObject
+createLocalBoundingSphere(TQ3GeometryObject theGeom)
+{	TQ3ColorRGB			ellipsoidColour = { 0.5f, 0.5f, 0.0f };
+	TQ3BoundingSphere	theBoundingSphere;
+	TQ3ShaderObject		theShader;
+	TQ3StyleObject		theStyle;
+	TQ3GroupObject		theGroup;
+	TQ3EllipsoidData	ellipsoidData;
+	TQ3ViewObject		theView;
+	TQ3GeometryObject	theEllipsoid;
+
+
+
+	// Create the group
+	theGroup = Q3OrderedDisplayGroup_New();
+	if (theGroup == NULL)
+		return(NULL);
+
+
+
+	// Add the shader/fill style
+	theShader = Q3NULLIllumination_New();
+	if (theShader != NULL)
+		{
+		Q3Group_AddObject(theGroup, theShader);
+		Q3Object_Dispose(theShader);
+		}
+
+	theStyle = Q3FillStyle_New(kQ3FillStyleEdges);
+	if (theStyle != NULL)
+		{
+		Q3Group_AddObject(theGroup, theStyle);
+		Q3Object_Dispose(theStyle);
+		}
+
+	theStyle = Q3BackfacingStyle_New(kQ3BackfacingStyleBoth);
+	if (theStyle != NULL)
+		{
+		Q3Group_AddObject(theGroup, theStyle);
+		Q3Object_Dispose(theStyle);
+		}
+
+
+
+	// Calculate the bounding sphere
+	theView = Q3View_New();
+	if (theView == NULL)
+		return(NULL);
+
+	Qut_CalcBoundingSphere(theView, theGeom, &theBoundingSphere);
+	Q3Object_Dispose(theView);
+
+
+
+	// Add the sphere (ellipsoid) geometry
+	ellipsoidData.origin = theBoundingSphere.origin;
+	Q3Vector3D_Set(&ellipsoidData.orientation, 0.0f, theBoundingSphere.radius, 0.0f);
+	Q3Vector3D_Set(&ellipsoidData.majorRadius, 0.0f, 0.0f, theBoundingSphere.radius);
+	Q3Vector3D_Set(&ellipsoidData.minorRadius, theBoundingSphere.radius, 0.0f, 0.0f);
+
+	ellipsoidData.uMin = 0.0f;
+	ellipsoidData.uMax = 1.0f;
+	ellipsoidData.vMin = 0.0f;
+	ellipsoidData.vMax = 1.0f;
+	ellipsoidData.caps = kQ3EndCapNone;
+
+	ellipsoidData.interiorAttributeSet = NULL;
+	ellipsoidData.ellipsoidAttributeSet = Q3AttributeSet_New();
+	if (ellipsoidData.ellipsoidAttributeSet != NULL)
+		Q3AttributeSet_Add(ellipsoidData.ellipsoidAttributeSet, kQ3AttributeTypeDiffuseColor, &ellipsoidColour);
+
+	theEllipsoid = Q3Ellipsoid_New(&ellipsoidData);
+	if (theEllipsoid != NULL)
+		{
+		Q3Group_AddObject(theGroup, theEllipsoid);
+		Q3Object_Dispose(theEllipsoid);
+		}
+
+
+
+	// Clean up
+	if (ellipsoidData.interiorAttributeSet != NULL)
+		Q3Object_Dispose(ellipsoidData.ellipsoidAttributeSet);
+	if (ellipsoidData.ellipsoidAttributeSet != NULL)
+		Q3Object_Dispose(ellipsoidData.ellipsoidAttributeSet);
 
 	return(theGroup);
 }									
@@ -2089,6 +2187,17 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemToggleWorldBoundingBox:
 			gShowWorldBounds = !gShowWorldBounds;
 			break;
+			
+		case kMenuItemToggleLocalBoundingSphere:
+			// Create or dispose of the bounding sphere geometry
+			if (gSceneBoundingSphere == NULL)
+				gSceneBoundingSphere = createLocalBoundingSphere(gSceneGeometry);
+			else
+				{
+				Q3Object_Dispose(gSceneBoundingSphere);
+				gSceneBoundingSphere = NULL;
+				}
+			break;
 		
 		case kMenuItemShowTexture:
 			gShowTexture = (TQ3Boolean) !gShowTexture;
@@ -2215,6 +2324,12 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			Q3Object_Dispose(gSceneBounds);
 			gSceneBounds = createLocalBounds(gSceneGeometry);
 			}
+
+		if (gSceneBoundingSphere != NULL)
+			{
+			Q3Object_Dispose(gSceneBoundingSphere);
+			gSceneBoundingSphere = createLocalBoundingSphere(gSceneGeometry);
+			}
 			
 		Q3Matrix4x4_SetIdentity(&gMatrixCurrent);
 		}
@@ -2299,6 +2414,15 @@ appRender(TQ3ViewObject theView)
 		Q3Pop_Submit(theView);
 		}
 
+	if (gSceneBoundingSphere != NULL)
+		{
+		Q3Push_Submit(theView);
+		Q3BackfacingStyle_Submit(kQ3BackfacingStyleBoth, theView);
+		Q3FillStyle_Submit(kQ3FillStyleEdges,            theView);
+		Q3Object_Submit(gSceneBoundingSphere, theView);
+		Q3Pop_Submit(theView);
+		}
+
 
 
 	// Update the rotation matrix, in a such a way that the rate of rotation
@@ -2378,6 +2502,7 @@ App_Initialise(void)
 			
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Local Bounding Box");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle World Bounding Box");
+	Qut_CreateMenuItem(kMenuItemLast, "Toggle Local Bounding Sphere");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Texture");
 	Qut_CreateMenuItem(kMenuItemLast, "Save Model...");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
@@ -2425,6 +2550,9 @@ App_Terminate(void)
 	// Clean up
 	if (gSceneBounds != NULL)
 		Q3Object_Dispose(gSceneBounds);
+	
+	if (gSceneBoundingSphere != NULL)
+		Q3Object_Dispose(gSceneBoundingSphere);
 	
 	if (gWorldBounds != NULL)
 		Q3Object_Dispose(gWorldBounds);

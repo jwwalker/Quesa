@@ -113,8 +113,10 @@
 #undef Q3Quaternion_Dot
 #undef Q3Quaternion_Normalize
 #undef Q3Quaternion_Invert
+#undef Q3BoundingBox_Reset
 #undef Q3BoundingBox_Set
 #undef Q3BoundingBox_Copy
+#undef Q3BoundingSphere_Reset
 #undef Q3BoundingSphere_Set
 #undef Q3BoundingSphere_Copy
 
@@ -5694,9 +5696,43 @@ Q3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *qu
 
 
 //=============================================================================
-//      Q3BoundingBox_Set : Quesa API entry point.
+//      Q3BoundingBox_Reset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3BoundingBox *
+Q3BoundingBox_Reset(TQ3BoundingBox *bBox)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bBox
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingBox_Reset(bBox));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingBox_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
 TQ3BoundingBox *
 Q3BoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D *max, TQ3Boolean isEmpty)
 {
@@ -5992,9 +6028,43 @@ Q3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox, const TQ3Rational
 
 
 //=============================================================================
-//      Q3BoundingSphere_Set : Quesa API entry point.
+//      Q3BoundingSphere_Reset : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3BoundingSphere *
+Q3BoundingSphere_Reset(TQ3BoundingSphere *bSphere)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on bSphere
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3BoundingSphere_Reset(bSphere));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3BoundingSphere_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
 TQ3BoundingSphere *
 Q3BoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float radius, TQ3Boolean isEmpty)
 {
