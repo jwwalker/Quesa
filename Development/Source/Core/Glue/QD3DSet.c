@@ -139,6 +139,8 @@ Q3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 	Q3_REQUIRE_OR_RESULT(theSet->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSet, kQ3SharedTypeSet), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3ClassTree_IsType( E3ClassTree_GetClassByType( theType ),
+		kQ3ObjectTypeElement ), kQ3Failure );
 
 
 
@@ -462,11 +464,16 @@ Q3AttributeSet_New(void)
 TQ3Status
 Q3AttributeSet_Add(TQ3AttributeSet attributeSet, TQ3AttributeType theType, const void *data)
 {
+	TQ3ObjectType	classType;
+	E3ClassInfoPtr	theClass;
 
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-
+	classType = E3Attribute_AttributeToClassType( theType );
+	theClass = E3ClassTree_GetClassByType( classType );
+	Q3_REQUIRE_OR_RESULT( E3ClassTree_IsType( theClass, kQ3ElementTypeAttribute ),
+		kQ3Failure );
 
 
 	// Debug build checks
