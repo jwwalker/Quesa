@@ -4,7 +4,7 @@
 <html>
 <head>
 	<title>Using Quesa - Loading and Saving</title>
-	<link rel=stylesheet href="css/style.css" type="text/css">
+	<link rel=stylesheet href="../css/style.css" type="text/css">
 </head>
 <body>
 
@@ -19,6 +19,7 @@
 <ol>
 	<li><a href="../../apiref/QuesaIO/index.html">QuesaIO.h</a></li>
 	<li><a href="../../apiref/QuesaStorage/index.html">QuesaStorage.h</a></li>
+	<li><a href="../../apiref/QuesaView/index.html">QuesaView.h</a></li>
 </ol>
 
 <p>
@@ -56,6 +57,51 @@ The C++ sample code below illustrates reading the contents of a memory buffer in
 		}
 	}
 </pre><hr>
+
+Saving a model or other scene to a file or buffer is similar: you start by creating a File object associated with some Storage.  The Storage object represents the disk file or memory buffer in which the data should be saved.  But to actually write the data, you use a submit loop on a view object.  This is just like what you would use to <a href="../10_rendering/index.html">render</a> the scene, except that you precede the loop with a call to 
+<a href="../../apiref/QuesaIO/Functions/Functions.html#Q3View_StartWriting">
+Q3View_StartWriting</a>, and end the loop with <a href="../../apiref/QuesaIO/Functions/Functions.html#Q3View_EndWriting">
+Q3View_EndWriting</a>.
+
+<p>The following example shows C code for writing an object (which would typically represent a model or a scene) to an arbitrary storage object.  Note that while the submit loop in this example submits just the one object, additional objects could be submitted as well, just as when rendering.
+
+<hr><h4>Example: Saving a scene to a storage object</h4>
+<pre>
+TQ3Status SaveToStorage( TQ3Object object, TQ3ViewObject view, TQ3StorageObject storage )
+{
+	TQ3Status       status;
+	TQ3ViewStatus   viewStatus;
+	TQ3FileObject   file;
+
+	// check parameters
+	if (NULL == object || NULL == storage) return kQ3Failure;
+
+	// create a file object, and attach it to the given storage
+	file = Q3File_New();
+	if (NULL == file) return kQ3Failure;
+	status = Q3File_SetStorage(file, storage);
+
+	if (kQ3Success == status) {
+		// open the file for writing
+		status = Q3File_OpenWrite(file, kQ3FileModeNormal);
+
+		// start writing, then use a submit loop to write data
+		if (kQ3Success == status) {
+			status = Q3View_StartWriting(view, file);
+			viewStatus = kQ3ViewStatusRetraverse;
+			while (kQ3Success == status && kQ3ViewStatusRetraverse == viewStatus) {
+				Q3Object_Submit(object, view);
+				viewStatus = Q3View_EndWriting(view);
+			}
+		}
+	
+		Q3File_Close(file);
+	}
+	Q3Object_Dispose(file);
+
+	return status;
+}
+</pre></hr>
 
 
 <!--=========================================================================-->
