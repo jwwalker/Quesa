@@ -7,7 +7,7 @@
 <head>
 	<title>Quesa - Bug List</title>
 </head>
-<body bgcolor=white text=black background="../images/logo_gray.gif">
+<body bgcolor="white" text="black" background="../images/logo_gray.gif">
 
 <div style="position:absolute; top:30px; left:10px">
 <a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=45158&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
@@ -15,17 +15,17 @@
 
 <div style="text-align:center">
 <a href="../index.html">
-<img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
+<img src="../images/logo_text.jpg" alt="Quesa" width="311" height="105" border="0"></a>
 </div>
 
 <!--=========================================================================-->
 <!-- Page Content                                                            -->
 <!--=========================================================================-->
-<table border=0>
+<table border="0">
 <tr>
-<td valign=top width=90 bgcolor="#EEEEEE">
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
+<td valign="top" width="90" bgcolor="#EEEEEE">
+	<table border="0" bgcolor="#404090" width="100%">
+	<tr><td><font color="white" size="+1">Info</font></td></tr></table><br>
 	<a href="../info/status.html">Status</a><br>
 	<a href="../info/screenshots.html">Screenshots</a><br>
 	<a href="../info/download.html">Download</a><br>
@@ -34,31 +34,31 @@
 	<a href="http://www.quesa.org/quesa_forum.html">Quesa Forum</a><br>
 
 	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
+	<table border="0" bgcolor="#404090" width="100%">
+	<tr><td><font color="white" size="+1">Developer</font></td></tr></table><br>
 	<a href="../developer/todo.html">Todo</a><br>
 	<a href="../developer/bugs.html">Bug List</a><br>
 	<a href="../developer/cvs.html">CVS Server</a><br>
 	<a href="../developer/apiref/MasterTOC.html">API Reference</a><br>
 
 	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
+	<table border="0" bgcolor="#404090" width="100%">
+	<tr><td><font color="white" size="+1">Reference</font></td></tr></table><br>
 	<a href="../reference/docs.html">Documentation</a><br>
 	<a href="../reference/build.html">Building Quesa</a><br>
 	<a href="../reference/licence.html">License</a><br>
 	<a href="../reference/carbon.html">Carbon Dating</a><br>
 
 	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
+	<table border="0" bgcolor="#404090" width="100%">
+	<tr><td><font color="white" size="+1">Other</font></td></tr></table><br>
 	<a href="../other/contributors.html">Contributors</a><br>
 	<a href="../other/logo.html">Quesa Logo</a><br>
 	<a href="../other/links.html">Links</a><br>
 </td>
 <!--=========================================================================-->
-<td width=10>&nbsp;</td>
-<td valign=top>
+<td width="10">&nbsp;</td>
+<td valign="top">
 
 
 <h3>Quesa Bugs</h3>
@@ -79,7 +79,7 @@ current SourceForge system, which is now the definitive list.
 </p>
 
 <!-- Next bug ID, 61 -->
-<table border=1 width=90% align=center>
+<table border="1" width="90%" align="center">
 <tr><th>Severity</th><th>ID</th><th>Description</th>
 </tr>
 
@@ -197,7 +197,7 @@ Add error testing with glError in debug builds.
 </td></tr>
 
 <tr><td>Minor</td><td>00060</td><td>
-Identify better specular control->GL_SHININESS mapping, create a test app to compare values across range.
+Identify better specular control-&gt;GL_SHININESS mapping, create a test app to compare values across range.
 </td></tr>
 
 <tr><td>Possible</td><td>00059</td><td>
@@ -397,28 +397,28 @@ for this documentation.
 </p>
 
 <ul>
-	<li> Omission: Although undocumented, on entry to Q3Point2D_RRatio, Q3Param2D_RRatio, Q3Point3D_RRatio or Q3RationalPoint4D_RRatio, the result parameter can be the same as either p1 or p2 (or both). 
-	<li> Omission: Although undocumented, on entry to Q3Point2D_Vector2D_Add, Q3Param2D_Vector2D_Add, Q3Point3D_Vector3D_Add, Q3Point2D_Vector2D_Subtract, Q3Param2D_Vector2D_Subtract or Q3Point3D_Vector3D_Subtract, the result parameter can be the same as the input point parameter. 
-	<li> Omission: Although undocumented, on entry to Q3Vector3D_Cross, the result parameter can be the same as either v1 or v2 (or both). 
-	<li> Omission: Although undocumented, on entry to Q3Point3D_To3DTransformArray, the outPoints3D parameter can be the same as the inPoints3D parameter. 
-	<li> Omission: Although undocumented, on entry to Q3RationalPoint4D_To4DTransformArray, the outPoints4D parameter can be the same as the inPoints4D parameter. 
-	<li> Omission: Although undocumented, on entry to Q3Vector2D_Negate or Q3Vector3D_Negate, the result parameter can be the same as the input vector parameter. 
-	<li> Inconsistency: In Q3Point3D_To3DTransformArray and Q3Point3D_To4DTransformArray, rename inVertex to inPoints3D to match names in "QD3DMath.h". 
-	<li> Inconsistency: In Q3RationalPoint4D_To4DTransformArray, rename inVertex to inPoints4D to match names in "QD3DMath.h". 
-	<li> Inconsistency: In Q3Point3D_To3DTransformArray, rename outVertex to outPoints3D to match names in "QD3DMath.h". 
-	<li> Inconsistency: In Q3Point3D_To4DTransformArray and Q3RationalPoint4D_To4DTransformArray, rename outVertex to outPoints4D to match names in "QD3DMath.h". 
-	<li> Inconsistency: In Q3Point3D_To3DTransformArray, Q3Point3D_To4DTransformArray and Q3RationalPoint4D_To4DTransformArray, rename numVertices to numPoints to match names in "QD3DMath.h". 
-	<li> Inconsistency: In Q3Point2D_AffineComb, Q3Param2D_AffineComb, Q3Point3D_AffineComb, Q3RationalPoint3D_AffineComb and Q3RationalPoint3D_AffineComb, rename nPoints to numPoints to match names in "QD3DMath.h". 
-	<li> Inconsistency: In Q3BoundingBox_UnionPoint3D and Q3BoundingSphere_UnionPoint3D, rename pt3D to point3D to match names in "QD3DMath.h". 
-	<li> Inconsistency: In Q3BoundingBox_UnionRationalPoint4D and Q3BoundingSphere_UnionRationalPoint4D, rename pt4D to point4D to match names in "QD3DMath.h". 
-	<li> Inconsistency: In Q3BoundingBox_SetFromPoints3D and Q3BoundingSphere_SetFromPoints3D, rename pts to points3D to match names in "QD3DMath.h". 
-	<li> Inconsistency: Q3BoundingBox_SetFromRationalPoints4D and Q3BoundingSphere_SetFromRationalPoints4D, rename pts to points4D to match names in "QD3DMath.h". 
-	<li> Inconsistency: In Q3BoundingBox_SetFromPoints3D, Q3BoundingBox_SetFromRationalPoints4D, Q3BoundingSphere_SetFromPoints3D and Q3BoundingSphere_SetFromRationalPoints4D, rename nPts to numPoints to match names in "QD3DMath.h". 
-	<li> Inaccuracy: The document warns that "the sum of the weights must be 1.0" for the functions Q3Point2D_AffineComb, Q3Param2D_AffineComb, Q3Point3D_AffineComb, Q3RationalPoint3D_AffineComb and Q3RationalPoint3D_AffineComb. In fact, the functions normalize each weight by dividing by the sum of the weights. 
-	<li> Inaccuracy: The document warns that "QuickDraw 3D mathematical utilities do not automatically normalize vectors. They expect vectors to be normalized by the calling code" (p. 1162). In fact, most mathematical functions do not care if vectors are normalized. The only mathematical functions that do expect vectors to be normalized are Q3Matrix4x4_SetRotateAboutAxis, Q3Matrix4x4_SetRotateVectorToVector, Q3Quaternion_SetRotateAboutAxis and Q3Quaternion_SetRotateVectorToVector. 
-	<li> Inaccuracy: The document states that the functions Q3Point2D_RRatio, Q3Param2D_RRatio, Q3Point3D_RRatio and Q3RationalPoint4D_RRatio return the point "that lies on the line segment between the points p1 and p2 and that is at a distance from the first point determined by the ratio r1/(r1+r2)." In fact, r1 and r2 are weights and these functions return the point that is at a distance from the first point determined by the ratio r2/(r1+r2). 
-	<li> Clarification: In the introduction to the section on "Managing Matrices" (p. 1208), the document notes: "Any of the source or destination matrices may be the same matrix. The source matrices are unchanged, unless one of them is also specified as the destination matrix." Although this statement is correct, it should be reiterated for each function with more than one matrix parameter: Q3Matrix3x3_Copy, Q3Matrix4x4_Copy, Q3Matrix3x3_Transpose, Q3Matrix4x4_Transpose, Q3Matrix3x3_Invert, Q3Matrix4x4_Invert, Q3Matrix3x3_Adjoint, Q3Matrix3x3_Multiply and Q3Matrix4x4_Multiply. 
-	<li> Misprint: In the description of Q3Quaternion_SetMatrix, the matrix parameter is described as a "4-by-by" matrix. 
+	<li> Omission: Although undocumented, on entry to Q3Point2D_RRatio, Q3Param2D_RRatio, Q3Point3D_RRatio or Q3RationalPoint4D_RRatio, the result parameter can be the same as either p1 or p2 (or both).</li>
+	<li> Omission: Although undocumented, on entry to Q3Point2D_Vector2D_Add, Q3Param2D_Vector2D_Add, Q3Point3D_Vector3D_Add, Q3Point2D_Vector2D_Subtract, Q3Param2D_Vector2D_Subtract or Q3Point3D_Vector3D_Subtract, the result parameter can be the same as the input point parameter.</li>
+	<li> Omission: Although undocumented, on entry to Q3Vector3D_Cross, the result parameter can be the same as either v1 or v2 (or both).</li>
+	<li> Omission: Although undocumented, on entry to Q3Point3D_To3DTransformArray, the outPoints3D parameter can be the same as the inPoints3D parameter.</li>
+	<li> Omission: Although undocumented, on entry to Q3RationalPoint4D_To4DTransformArray, the outPoints4D parameter can be the same as the inPoints4D parameter.</li>
+	<li> Omission: Although undocumented, on entry to Q3Vector2D_Negate or Q3Vector3D_Negate, the result parameter can be the same as the input vector parameter.</li>
+	<li> Inconsistency: In Q3Point3D_To3DTransformArray and Q3Point3D_To4DTransformArray, rename inVertex to inPoints3D to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: In Q3RationalPoint4D_To4DTransformArray, rename inVertex to inPoints4D to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: In Q3Point3D_To3DTransformArray, rename outVertex to outPoints3D to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: In Q3Point3D_To4DTransformArray and Q3RationalPoint4D_To4DTransformArray, rename outVertex to outPoints4D to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: In Q3Point3D_To3DTransformArray, Q3Point3D_To4DTransformArray and Q3RationalPoint4D_To4DTransformArray, rename numVertices to numPoints to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: In Q3Point2D_AffineComb, Q3Param2D_AffineComb, Q3Point3D_AffineComb, Q3RationalPoint3D_AffineComb and Q3RationalPoint3D_AffineComb, rename nPoints to numPoints to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: In Q3BoundingBox_UnionPoint3D and Q3BoundingSphere_UnionPoint3D, rename pt3D to point3D to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: In Q3BoundingBox_UnionRationalPoint4D and Q3BoundingSphere_UnionRationalPoint4D, rename pt4D to point4D to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: In Q3BoundingBox_SetFromPoints3D and Q3BoundingSphere_SetFromPoints3D, rename pts to points3D to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: Q3BoundingBox_SetFromRationalPoints4D and Q3BoundingSphere_SetFromRationalPoints4D, rename pts to points4D to match names in "QD3DMath.h".</li>
+	<li> Inconsistency: In Q3BoundingBox_SetFromPoints3D, Q3BoundingBox_SetFromRationalPoints4D, Q3BoundingSphere_SetFromPoints3D and Q3BoundingSphere_SetFromRationalPoints4D, rename nPts to numPoints to match names in "QD3DMath.h".</li>
+	<li> Inaccuracy: The document warns that "the sum of the weights must be 1.0" for the functions Q3Point2D_AffineComb, Q3Param2D_AffineComb, Q3Point3D_AffineComb, Q3RationalPoint3D_AffineComb and Q3RationalPoint3D_AffineComb. In fact, the functions normalize each weight by dividing by the sum of the weights.</li>
+	<li> Inaccuracy: The document warns that "QuickDraw 3D mathematical utilities do not automatically normalize vectors. They expect vectors to be normalized by the calling code" (p. 1162). In fact, most mathematical functions do not care if vectors are normalized. The only mathematical functions that do expect vectors to be normalized are Q3Matrix4x4_SetRotateAboutAxis, Q3Matrix4x4_SetRotateVectorToVector, Q3Quaternion_SetRotateAboutAxis and Q3Quaternion_SetRotateVectorToVector.</li>
+	<li> Inaccuracy: The document states that the functions Q3Point2D_RRatio, Q3Param2D_RRatio, Q3Point3D_RRatio and Q3RationalPoint4D_RRatio return the point "that lies on the line segment between the points p1 and p2 and that is at a distance from the first point determined by the ratio r1/(r1+r2)." In fact, r1 and r2 are weights and these functions return the point that is at a distance from the first point determined by the ratio r2/(r1+r2).</li>
+	<li> Clarification: In the introduction to the section on "Managing Matrices" (p. 1208), the document notes: "Any of the source or destination matrices may be the same matrix. The source matrices are unchanged, unless one of them is also specified as the destination matrix." Although this statement is correct, it should be reiterated for each function with more than one matrix parameter: Q3Matrix3x3_Copy, Q3Matrix4x4_Copy, Q3Matrix3x3_Transpose, Q3Matrix4x4_Transpose, Q3Matrix3x3_Invert, Q3Matrix4x4_Invert, Q3Matrix3x3_Adjoint, Q3Matrix3x3_Multiply and Q3Matrix4x4_Multiply.</li>
+	<li> Misprint: In the description of Q3Quaternion_SetMatrix, the matrix parameter is described as a "4-by-by" matrix.</li>
 </ul>
 
 <p>
@@ -441,9 +441,9 @@ These items can be noted when HeaderDoc comments are added to QuesaMath.h.
 <br>
 <br>
 <hr width="90%">
-<table border=0 align=center>
+<table border="0" align="center">
 <tr>
-<td colspan=2 align=center>
+<td colspan="2" align="center">
 <font size="-1">
 Quesa Web Site hosted by <a href="http://sourceforge.net">SourceForge</a>
 </font>
