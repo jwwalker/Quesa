@@ -1511,12 +1511,94 @@ e3ffw_3DMF_box_write( const TQ3BoxData *data,
 //=============================================================================
 //      e3ffw_3DMF_generalpolygon_traverse : General Polygon traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_generalpolygon_traverse( TQ3Object object,
+					 TQ3GeneralPolygonData *data,
+					 TQ3ViewObject view )
+{
+	TQ3Status			status;
+	TQ3Uns32 			i, j, totalVertices = 0;
+	TQ3Object 			attributeList = NULL;
+	TQ3XObjectClass		theClass;
+
+	for(j = 0; j < data->numContours; j++)
+		{
+		totalVertices += data->contours[j].numVertices;
+		}
+	
+	status = Q3XView_SubmitWriteData( view, 4 + (4 * data->numContours) + (12 * totalVertices), (void*)data, NULL );
+	
+	if (status == kQ3Success && data->shapeHint != kQ3GeneralPolygonShapeHintComplex)
+		{
+		theClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeGeneralPolygonHint );
+		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+
+		status = Q3XView_SubmitSubObjectData (view, theClass, 4, &data->shapeHint, NULL);
+		}
+	
+	if (status == kQ3Success)
+		{
+		
+		attributeList = E3FFormat_3DMF_VertexAttributeSetList_New (totalVertices);
+		
+		totalVertices = 0;
+		
+		if(attributeList){
+		
+			for(j = 0; j < data->numContours; j++)
+				for(i = 0; i< data->contours[j].numVertices; i++){
+					if(data->contours[j].vertices[i].attributeSet != NULL){
+						status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, totalVertices, data->contours[j].vertices[i].attributeSet);
+						}
+					totalVertices++;
+				}
+				
+			if(status == kQ3Success)
+				status = Q3Object_Submit (attributeList, view);
+			Q3Object_Dispose(attributeList);
+			}
+		else
+			{
+			status = kQ3Failure;
+			}
+		
+		}
+	
+	
+	// Overall attribute set
+	if ( (status == kQ3Success) && (data->generalPolygonAttributeSet != NULL) )
+		status = Q3Object_Submit( data->generalPolygonAttributeSet, view );
+
+
+	return status;
+}
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_generalpolygon_write : General Polygon write method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_generalpolygon_write( const TQ3GeneralPolygonData *data,
+				TQ3FileObject theFile )
+{
+	TQ3Uns32 			i, j;
+	TQ3Status			writeStatus = kQ3Failure;
+	
+	writeStatus = Q3Uns32_Write(data->numContours, theFile );
+
+	for(j = 0; j < data->numContours && (writeStatus == kQ3Success); j++)
+		{
+		// Read in the numVertices
+		writeStatus = Q3Uns32_Write(data->contours[j].numVertices, theFile);
+			
+		for(i = 0; i< data->contours[j].numVertices && (writeStatus == kQ3Success); i++){
+			writeStatus = Q3Point3D_Write(&data->contours[j].vertices[i].point, theFile);
+			}
+		}
+		
+	return writeStatus;
+}
 
 
 
@@ -2790,6 +2872,9 @@ E3FFW_3DMF_RegisterGeom(void)
 
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_ellipsoid_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeEllipsoid,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_ellipsoid_write);
+
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeGeneralPolygon,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_generalpolygon_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeGeneralPolygon,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_generalpolygon_write);
 
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_cone_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeCone,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_cone_write);

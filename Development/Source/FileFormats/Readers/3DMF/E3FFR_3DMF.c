@@ -580,6 +580,11 @@ e3fformat_3dmf_generalpolygonhint_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_generalpolygonhint_read;
 			break;
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_32_Write;
+			break;
+
+	// traverse are implemented via Q3XView_SubmitSubObjectData
 		}
 	
 	return(theMethod);
