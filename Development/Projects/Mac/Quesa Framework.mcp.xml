@@ -98,6 +98,16 @@
                         <SETTING><NAME>FrameworkPath</NAME><VALUE>false</VALUE></SETTING>
                         <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
                     </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>../../../SDK/Libraries/Mac/Mach-O/Debug</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>Project</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>FrameworkPath</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
                 </SETTING>
                 <SETTING><NAME>SystemSearchPaths</NAME>
                     <SETTING>
@@ -678,7 +688,7 @@
 
                 <!-- Settings for "Remote Debug" panel -->
                 <SETTING><NAME>Enabled</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>ConnectionName</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>ConnectionName</NAME><VALUE>Mark's old Mac</VALUE></SETTING>
                 <SETTING><NAME>DownloadPath</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>RemoteAppPath</NAME><VALUE></VALUE></SETTING>
@@ -2658,21 +2668,6 @@
                     <PACKAGEACTIONID>1</PACKAGEACTIONID>
                     <ROOT_SETPACKAGEBIT>false</ROOT_SETPACKAGEBIT>
                     <PACKAGECONTAINER>
-                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
-                            <NAME>Quesa</NAME>
-                            <PACKAGEACTIONID>2</PACKAGEACTIONID>
-                            <SYMLINK_SOURCE_ID>7</SYMLINK_SOURCE_ID>
-                        </PACKAGEACTION>
-                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
-                            <NAME>Headers</NAME>
-                            <PACKAGEACTIONID>12</PACKAGEACTIONID>
-                            <SYMLINK_SOURCE_ID>11</SYMLINK_SOURCE_ID>
-                        </PACKAGEACTION>
-                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
-                            <NAME>Resources</NAME>
-                            <PACKAGEACTIONID>3</PACKAGEACTIONID>
-                            <SYMLINK_SOURCE_ID>8</SYMLINK_SOURCE_ID>
-                        </PACKAGEACTION>
                         <PACKAGEACTION PACKAGEACTIONTYPE = "Directory">
                             <NAME>Versions</NAME>
                             <PACKAGEACTIONID>4</PACKAGEACTIONID>
@@ -2724,6 +2719,25 @@
                                 </PACKAGEACTION>
                             </PACKAGECONTAINER>
                         </PACKAGEACTION>
+                        <PACKAGEACTION PACKAGEACTIONTYPE = "Comment">
+                            <NAME>these symlinks must come after the Versions folder</NAME>
+                            <PACKAGEACTIONID>14</PACKAGEACTIONID>
+                        </PACKAGEACTION>
+                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
+                            <NAME>Quesa</NAME>
+                            <PACKAGEACTIONID>2</PACKAGEACTIONID>
+                            <SYMLINK_SOURCE_ID>7</SYMLINK_SOURCE_ID>
+                        </PACKAGEACTION>
+                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
+                            <NAME>Headers</NAME>
+                            <PACKAGEACTIONID>12</PACKAGEACTIONID>
+                            <SYMLINK_SOURCE_ID>11</SYMLINK_SOURCE_ID>
+                        </PACKAGEACTION>
+                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
+                            <NAME>Resources</NAME>
+                            <PACKAGEACTIONID>3</PACKAGEACTIONID>
+                            <SYMLINK_SOURCE_ID>8</SYMLINK_SOURCE_ID>
+                        </PACKAGEACTION>
                     </PACKAGECONTAINER>
                 </PACKAGEACTION>
             </PACKAGEACTIONSLIST>
@@ -2764,6 +2778,16 @@
                     <SETTING>
                         <SETTING><NAME>SearchPath</NAME>
                             <SETTING><NAME>Path</NAME><VALUE>../../../SDK/Includes</VALUE></SETTING>
+                            <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
+                            <SETTING><NAME>PathRoot</NAME><VALUE>Project</VALUE></SETTING>
+                        </SETTING>
+                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
+                        <SETTING><NAME>FrameworkPath</NAME><VALUE>false</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                    </SETTING>
+                    <SETTING>
+                        <SETTING><NAME>SearchPath</NAME>
+                            <SETTING><NAME>Path</NAME><VALUE>../../../SDK/Libraries/Mac/Mach-O/Release</VALUE></SETTING>
                             <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
                             <SETTING><NAME>PathRoot</NAME><VALUE>Project</VALUE></SETTING>
                         </SETTING>
@@ -3351,7 +3375,7 @@
 
                 <!-- Settings for "Remote Debug" panel -->
                 <SETTING><NAME>Enabled</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>ConnectionName</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>ConnectionName</NAME><VALUE>Mark's old Mac</VALUE></SETTING>
                 <SETTING><NAME>DownloadPath</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>RemoteAppPath</NAME><VALUE></VALUE></SETTING>
@@ -5319,21 +5343,6 @@
                     <PACKAGEACTIONID>1</PACKAGEACTIONID>
                     <ROOT_SETPACKAGEBIT>false</ROOT_SETPACKAGEBIT>
                     <PACKAGECONTAINER>
-                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
-                            <NAME>Quesa</NAME>
-                            <PACKAGEACTIONID>2</PACKAGEACTIONID>
-                            <SYMLINK_SOURCE_ID>7</SYMLINK_SOURCE_ID>
-                        </PACKAGEACTION>
-                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
-                            <NAME>Headers</NAME>
-                            <PACKAGEACTIONID>12</PACKAGEACTIONID>
-                            <SYMLINK_SOURCE_ID>11</SYMLINK_SOURCE_ID>
-                        </PACKAGEACTION>
-                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
-                            <NAME>Resources</NAME>
-                            <PACKAGEACTIONID>3</PACKAGEACTIONID>
-                            <SYMLINK_SOURCE_ID>8</SYMLINK_SOURCE_ID>
-                        </PACKAGEACTION>
                         <PACKAGEACTION PACKAGEACTIONTYPE = "Directory">
                             <NAME>Versions</NAME>
                             <PACKAGEACTIONID>4</PACKAGEACTIONID>
@@ -5384,6 +5393,25 @@
                                     </PACKAGECONTAINER>
                                 </PACKAGEACTION>
                             </PACKAGECONTAINER>
+                        </PACKAGEACTION>
+                        <PACKAGEACTION PACKAGEACTIONTYPE = "Comment">
+                            <NAME>these symlinks must come after the Versions folder</NAME>
+                            <PACKAGEACTIONID>14</PACKAGEACTIONID>
+                        </PACKAGEACTION>
+                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
+                            <NAME>Quesa</NAME>
+                            <PACKAGEACTIONID>2</PACKAGEACTIONID>
+                            <SYMLINK_SOURCE_ID>7</SYMLINK_SOURCE_ID>
+                        </PACKAGEACTION>
+                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
+                            <NAME>Headers</NAME>
+                            <PACKAGEACTIONID>12</PACKAGEACTIONID>
+                            <SYMLINK_SOURCE_ID>11</SYMLINK_SOURCE_ID>
+                        </PACKAGEACTION>
+                        <PACKAGEACTION PACKAGEACTIONTYPE = "Symlink">
+                            <NAME>Resources</NAME>
+                            <PACKAGEACTIONID>3</PACKAGEACTIONID>
+                            <SYMLINK_SOURCE_ID>8</SYMLINK_SOURCE_ID>
                         </PACKAGEACTION>
                     </PACKAGECONTAINER>
                 </PACKAGEACTION>
