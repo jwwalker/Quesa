@@ -2639,12 +2639,12 @@ E3View_StartRendering(TQ3ViewObject theView)
 
 
 
-	// Make sure we have a non-empty draw context
+	// Make sure we have a valid draw context pane - reject empty or negative bounds
 	Q3DrawContext_GetData(instanceData->theDrawContext, &drawContextData);
 	if (drawContextData.paneState)
 		{
-		if (drawContextData.pane.min.x == drawContextData.pane.max.x &&
-			drawContextData.pane.min.y == drawContextData.pane.max.y)
+		if (drawContextData.pane.min.x >= drawContextData.pane.max.x ||
+			drawContextData.pane.min.y >= drawContextData.pane.max.y)
 			{
 			E3ErrorManager_PostError(kQ3ErrorBadDrawContext, kQ3False);
 			return(kQ3Failure);
