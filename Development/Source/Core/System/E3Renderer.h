@@ -5,7 +5,7 @@
         Header file for E3Renderer.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -67,6 +67,8 @@ extern "C" {
 //-----------------------------------------------------------------------------
 TQ3Status			E3Renderer_RegisterClass(void);
 TQ3Status			E3Renderer_UnregisterClass(void);
+
+TQ3Boolean			E3Renderer_IsOfMyClass ( TQ3Object object ) ;
 
 TQ3Status			E3Renderer_Method_StartFrame(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext);
 TQ3Status			E3Renderer_Method_StartPass(TQ3ViewObject theView, TQ3CameraObject theCamera, TQ3GroupObject theLights);
