@@ -191,20 +191,20 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 
 
-	// Assume we don't need to pad
-	padSize = Q3_MEMORY_HEADER;
-
-
-
-	// Fetch the pointer, and adjust it if needs be
+	// Initialise ourselves
+	padSize = 0;
 	realPtr = *thePtr;
+
+
+
+	// If we have a pointer, we're either going to resize or free it
 	if (realPtr != NULL)
 		{
 		// Check it looks OK
 		Q3_ASSERT_VALID_PTR(realPtr);
 
 
-		// If memory debugging is active, adjus for the header
+		// If memory debugging is active, adjust for the header
 #if Q3_MEMORY_DEBUG
 		// Rewind past the header and fetch the size
 		realPtr = (void *) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
@@ -214,13 +214,17 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 		// If we're going to free the block, fill it with rubbish first
 		if (newSize == 0)
 			{
-			padSize = 0;
 			Q3_ASSERT(theSize != 0);
 			E3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER, kMemoryUninitialised);
 			}
-
 #endif
 		}
+
+
+
+	// If we're going to allocate or resize, increase the pad size to cover any header
+	if (newSize != 0)
+		padSize = Q3_MEMORY_HEADER;
 
 
 
@@ -236,14 +240,19 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 	// Update the pointer and return
 	if (qd3dStatus == kQ3Success)
 		{
-		// If memory debugging is active, save the size
+		// If memory debugging is active, update the contents
 #if Q3_MEMORY_DEBUG
-		// If we didn't just free the block, save the size and increment the pointer past it
+		// If we didn't just free the block, save the size
 		if (newPtr != NULL)
 			{
 			*((TQ3Uns32 *) newPtr) = newSize;
 			newPtr                 = (void *) (((TQ3Uns8 *) newPtr) + sizeof(TQ3Uns32));
 			}
+
+
+		// If we just allocated the block, fill it with rubbish
+		if (realPtr == NULL && newSize != 0)
+			E3Memory_Initialize(newPtr, newSize, kMemoryUninitialised);
 #endif
 
 
