@@ -238,8 +238,8 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 		}
 
 		// sanity checking -- important in case the user screws up the subdivisionData
-		if (upts < 4) upts = 4;
-		if (vpts < 4) vpts = 4;
+		if (upts < 3) upts = 3;
+		if (vpts < 3) vpts = 3;
 	}
 
 	// In order to have proper uv parameterization we need an extra set of vertices
