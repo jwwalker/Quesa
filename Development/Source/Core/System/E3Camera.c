@@ -98,9 +98,10 @@ e3camera_orthographic_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *th
 //      e3camera_orthographic_new : Orthographic camera new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3camera_orthographic_new(TQ3Object /*theObject*/, void *privateData, const void *paramData)
+e3camera_orthographic_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3OrthographicCameraData			*instanceData = (TQ3OrthographicCameraData *)       privateData;
 	const TQ3OrthographicCameraData		*cameraData   = (const TQ3OrthographicCameraData *) paramData;
+#pragma unused(theObject)
 
 
 
