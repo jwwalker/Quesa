@@ -335,7 +335,7 @@ typedef TQ3Int32                                TQ3ObjectType;
  */
 enum {
     kQ3StringMaximumLength                      = 1024,
-    kQ3ArrayIndexNULL                           = ~0
+    kQ3ArrayIndexNULL                           = 0xFFFFFFFFUL
 };
 
 
