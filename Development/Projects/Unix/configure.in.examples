@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(quesa,1.6d17,quesa_list@designcommunity.com)
+AC_INIT(quesaExamples,1.6d17,quesa_list@designcommunity.com)
 
-AC_CONFIG_SRCDIR(Source/Core/Glue/QD3DCamera.c)
+AC_CONFIG_SRCDIR(Qut/Qut.c)
 AM_INIT_AUTOMAKE([foreign no-dependencies])
 AM_MAINTAINER_MODE
 
@@ -12,10 +12,8 @@ AC_PROG_LIBTOOL
 AC_C_BIGENDIAN_QUESA
 
 dnl Checks for X.
-AC_PATH_X
-LDFLAGS="-L${x_libraries} $LDFLAGS"
-CPPFLAGS="-I${x_includes} $CPPFLAGS"
 
+AM_PATH_GTK
 
 
 

@@ -1,0 +1,46 @@
+# Directories
+
+QUT= Qut
+GEOMTEST= GeomTest
+
+quesaexamples_commoncflags= -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES) $(GTK_CFLAGS)
+quesaexamples_commonldadd= -L. -lquesaqut -lquesa -lc -lGL -lGLU $(GTK_LIBS)
+
+
+bin_PROGRAMS= geomtest importtest
+
+noinst_LIBRARIES= libquesaqut.a
+
+QUESAINCLUDES= -I/usr/local/include/quesa \
+			-I$(srcdir)/Qut
+
+WARN= -Wall -Wpointer-arith -Wno-cast-qual -Waggregate-return         \
+       -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
+       -Wredundant-decls -Wno-multichar -Wno-conversion                \
+       -Wno-unknown-pragmas -Wno-unused
+					 
+libquesaqut_a_SOURCES= ${QUT}/Qut.c               \
+             ${QUT}/Qut.h              		 \
+             ${QUT}/QutInternal.h        	 \
+             ${QUT}/Unix/QutUnix.c
+             
+libquesaqut_a_CFLAGS= $(quesaexamples_commoncflags)
+
+          
+
+geomtest_SOURCES=GeomTest.c  
+geomtest_DEPENDENCIES=libquesaqut.a 
+             
+
+
+geomtest_CFLAGS= $(quesaexamples_commoncflags)
+geomtest_LDADD= $(quesaexamples_commonldadd)
+
+
+importtest_SOURCES=ImportTest.c
+importtest_DEPENDENCIES=libquesaqut.a 
+
+
+importtest_CFLAGS= -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES) $(GTK_CFLAGS)
+importtest_LDADD= $(quesaexamples_commonldadd)
+
