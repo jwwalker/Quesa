@@ -113,7 +113,7 @@ Rect *GetPortBounds(CGrafPtr port, Rect* outRect)
 //-----------------------------------------------------------------------------
 RgnHandle GetPortVisibleRegion(CGrafPtr port, RgnHandle visRgn)
 {
-	visRgn = port->visRgn;
+	CopyRgn(port->visRgn, visRgn);
 	return visRgn;
 }
 
