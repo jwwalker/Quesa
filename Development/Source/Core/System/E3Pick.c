@@ -342,6 +342,27 @@ e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
 
 
 //=============================================================================
+//      e3pick_set_sort_mask : Set the sort mask as per QD3D.
+//-----------------------------------------------------------------------------
+//		Note :	QD3D will sort hits if any sort method is supplied, even if
+//				the distance bit is not set for the pick. We handle this by
+//				turning on that bit whenever a new sort method is set.
+//-----------------------------------------------------------------------------
+static void
+e3pick_set_sort_mask(TQ3PickData *pickData)
+{
+
+
+	// Turn on the distance flag if any kind of sorting is requested
+	if (pickData->sort != kQ3PickSortNone)
+		pickData->mask |= kQ3PickDetailMaskDistance;
+}
+
+
+
+
+
+//=============================================================================
 //      e3pick_windowpoint_new : Window point pick new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -354,11 +375,7 @@ e3pick_windowpoint_new(TQ3Object theObject, void *privateData, const void *param
 	// Initialise our instance data
 	instanceData->data.windowPointData = *pickData;
 
-
-
-	// QD3D will turn on the distance flag if sorting is requested
-	if (instanceData->data.windowPointData.data.sort != kQ3PickSortNone)
-		instanceData->data.windowPointData.data.mask |= kQ3PickDetailMaskDistance;
+	e3pick_set_sort_mask(&instanceData->data.windowPointData.data);
 	
 	return(kQ3Success);
 }
@@ -490,11 +507,7 @@ e3pick_worldray_new(TQ3Object theObject, void *privateData, const void *paramDat
 	// Initialise our instance data
 	instanceData->data.worldRayData = *pickData;
 
-
-
-	// QD3D will turn on the distance flag if sorting is requested
-	if (instanceData->data.windowPointData.data.sort != kQ3PickSortNone)
-		instanceData->data.windowPointData.data.mask |= kQ3PickDetailMaskDistance;
+	e3pick_set_sort_mask(&instanceData->data.windowPointData.data);
 	
 	return(kQ3Success);
 }
@@ -950,6 +963,9 @@ E3Pick_SetData(TQ3PickObject thePick, const TQ3PickData *data)
 
 	// Set the field
 	instanceData->data.common = *data;
+
+	e3pick_set_sort_mask(&instanceData->data.common);
+
 	return(kQ3Success);
 }
 
@@ -1469,6 +1485,9 @@ E3WindowPointPick_SetData(TQ3PickObject thePick, const TQ3WindowPointPickData *d
 
 	// Set the field
 	instanceData->data.windowPointData = *data;
+
+	e3pick_set_sort_mask(&instanceData->data.windowPointData.data);
+
 	return(kQ3Success);
 }
 
@@ -1651,6 +1670,9 @@ E3WorldRayPick_SetData(TQ3PickObject thePick, const TQ3WorldRayPickData *data)
 
 	// Set the field
 	instanceData->data.worldRayData = *data;
+
+	e3pick_set_sort_mask(&instanceData->data.worldRayData.data);
+
 	return(kQ3Success);
 }
 
