@@ -425,7 +425,7 @@ e3main_registercoreclasses(void)
 												kQ3SharedTypeShape,
 												kQ3ClassNameShape,
 												NULL,
-												~sizeof(TQ3ShapeData));
+												~sizeof(E3ShapeData));
 
 	return qd3dStatus ;
 	}

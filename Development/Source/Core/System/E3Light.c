@@ -62,7 +62,7 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 
-class E3Light : public TQ3ShapeData // This is not a leaf class, but only classes in this,
+class E3Light : public E3ShapeData // This is not a leaf class, but only classes in this,
 								// file inherit from it, so it can be declared here in
 								// the .c file rather than in the .h file, hence all
 								// the fields can be public as nobody should be
