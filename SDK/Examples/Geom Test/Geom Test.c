@@ -90,7 +90,7 @@ TQ3ShaderObject		gSceneTexture       = NULL;
 TQ3Boolean			gShowTexture        = kQ3False;
 TQ3Matrix4x4		gMatrixCurrent;
 TQ3Matrix4x4		gMatrixRotation;
-UInt32				gFlashStep			= 0;		// counts down while flash fades
+TQ3Uns32			gFlashStep			= 0;		// counts down while flash fades
 TQ3ColorARGB		gBackgroundColor;
 
 
@@ -1625,7 +1625,7 @@ testPick(TQ3ViewObject theView, TQ3Point2D mousePoint)
 	TQ3PickObject 			myPick;
 	TQ3Boolean				hitGood = kQ3False;
 	unsigned long			numHits = 0;
-	UInt32 i;
+	TQ3Uns32 i;
 	
 	// Prepare a window-point pick object.
 	myPickData.data.sort = kQ3PickSortNearToFar;	// give me the closest object
