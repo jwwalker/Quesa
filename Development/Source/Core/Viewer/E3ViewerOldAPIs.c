@@ -329,8 +329,8 @@ OSErr
 E3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, Rect *rect)
 {
 	TQ3Area area;
-	TQ3Status status = e3viewer_q3status_oserr( Q3Viewer_GetButtonRect(theViewer, 
-				e3viewer_oldButtonToNew(button), &area) );
+	TQ3Status status = Q3Viewer_GetButtonRect(theViewer, 
+				e3viewer_oldButtonToNew(button), &area);
 	if (kQ3Success == status)
 		e3viewer_area_rect(&area, rect);
 	return e3viewer_q3status_oserr(status);
