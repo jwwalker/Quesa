@@ -127,7 +127,7 @@
 //      Platform specific pre-amble
 //-----------------------------------------------------------------------------
 // Mac specific
-#if QUESA_OS_MACINTOSH
+#if (QUESA_OS_MACINTOSH || QUESA_OS_COCOA)
     // Build constants
     #define QUESA_HOST_IS_BIG_ENDIAN            1
     #define QUESA_SUPPORT_QUICKTIME             1
@@ -201,16 +201,6 @@
 #endif // QUESA_OS_BE
 
 
-// Cocoa specific
-#if QUESA_OS_COCOA
-    // Build constants
-    #ifndef QUESA_HOST_IS_BIG_ENDIAN
-        #define QUESA_HOST_IS_BIG_ENDIAN        1
-    #endif
-    #define QUESA_SUPPORT_QUICKTIME             1
-#endif // QUESA_OS_COCOA
-
-
 
 
 
@@ -218,7 +208,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #if QUESA_SUPPORT_QUICKTIME
-    #if QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS
+	#if ((QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS) || (QUESA_OS_COCOA))
         #include <QuickTime/Movies.h>
     #else
         #include <Movies.h>
