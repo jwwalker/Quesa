@@ -64,22 +64,23 @@ enum TQ3ViewStackState {
 	kQ3ViewStateStyleHighlight				= 1 <<  6,		// Highlight style changed
 	kQ3ViewStateStyleSubdivision			= 1 <<  7,		// Subdivision style changed
 	kQ3ViewStateStyleOrientation			= 1 <<  8,		// Orientation style changed
-	kQ3ViewStateStyleReceiveShadows			= 1 <<  9,		// ReceiveShadows style changed
-	kQ3ViewStateStylePickID					= 1 << 10,		// Pick ID style changed
-	kQ3ViewStateStylePickParts				= 1 << 11,		// Pick Parts style changed
-	kQ3ViewStateStyleAntiAlias				= 1 << 12,		// Anti-alias style changed
-	kQ3ViewStateStyleFog					= 1 << 13,		// Fog style changed
-	kQ3ViewStateAttributeSurfaceUV			= 1 << 14,		// Surface UV attribute changed
-	kQ3ViewStateAttributeShadingUV			= 1 << 15,		// Shading UV attribute changed
-	kQ3ViewStateAttributeNormal				= 1 << 16,		// Normal attribute changed
-	kQ3ViewStateAttributeAmbientCoefficient	= 1 << 17,		// Ambient coefficient attribute changed
-	kQ3ViewStateAttributeDiffuseColour		= 1 << 18,		// Diffuse colour attribute changed
-	kQ3ViewStateAttributeSpecularColour		= 1 << 19,		// Specular colour attribute changed
-	kQ3ViewStateAttributeSpecularControl	= 1 << 20,		// Specular control attribute changed
-	kQ3ViewStateAttributeTransparencyColour = 1 << 21,		// Transparency colour attribute changed
-	kQ3ViewStateAttributeSurfaceTangent		= 1 << 22,		// Surface tangent attribute changed
-	kQ3ViewStateAttributeHighlightState		= 1 << 23,		// Highlight switch attribute changed
-	kQ3ViewStateAttributeSurfaceShader		= 1 << 24,		// Surface shader attribute changed
+	kQ3ViewStateStyleCastShadows			= 1 <<  9,		// Cast Shadows style changed
+	kQ3ViewStateStyleReceiveShadows			= 1 << 10,		// Receive Shadows style changed
+	kQ3ViewStateStylePickID					= 1 << 11,		// Pick ID style changed
+	kQ3ViewStateStylePickParts				= 1 << 12,		// Pick Parts style changed
+	kQ3ViewStateStyleAntiAlias				= 1 << 13,		// Anti-alias style changed
+	kQ3ViewStateStyleFog					= 1 << 14,		// Fog style changed
+	kQ3ViewStateAttributeSurfaceUV			= 1 << 15,		// Surface UV attribute changed
+	kQ3ViewStateAttributeShadingUV			= 1 << 16,		// Shading UV attribute changed
+	kQ3ViewStateAttributeNormal				= 1 << 17,		// Normal attribute changed
+	kQ3ViewStateAttributeAmbientCoefficient	= 1 << 18,		// Ambient coefficient attribute changed
+	kQ3ViewStateAttributeDiffuseColour		= 1 << 19,		// Diffuse colour attribute changed
+	kQ3ViewStateAttributeSpecularColour		= 1 << 20,		// Specular colour attribute changed
+	kQ3ViewStateAttributeSpecularControl	= 1 << 21,		// Specular control attribute changed
+	kQ3ViewStateAttributeTransparencyColour = 1 << 22,		// Transparency colour attribute changed
+	kQ3ViewStateAttributeSurfaceTangent		= 1 << 23,		// Surface tangent attribute changed
+	kQ3ViewStateAttributeHighlightState		= 1 << 24,		// Highlight switch attribute changed
+	kQ3ViewStateAttributeSurfaceShader		= 1 << 25,		// Surface shader attribute changed
 	kQ3ViewStateNone						= 0,			// Nothing changed
 	kQ3ViewStateAll							= 0xFFFFFFFF	// Everything changed
 };
@@ -110,6 +111,7 @@ typedef struct TQ3ViewStackItem {
 	TQ3AttributeSet				styleHighlight;
 	TQ3SubdivisionStyleData		styleSubdivision;
 	TQ3OrientationStyle			styleOrientation;
+	TQ3Boolean					styleCastShadows;
 	TQ3Boolean					styleReceiveShadows;
 	TQ3Uns32					stylePickID;
 	TQ3PickParts				stylePickParts;
@@ -215,6 +217,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	theItem->styleSubdivision.c1     = kQ3ViewDefaultSubdivisionC1;
 	theItem->styleSubdivision.c2     = kQ3ViewDefaultSubdivisionC2;
 	theItem->styleOrientation        = kQ3OrientationStyleCounterClockwise;
+	theItem->styleCastShadows        = kQ3True;
 	theItem->styleReceiveShadows     = kQ3True;
 	theItem->stylePickID             = 0;
 	theItem->stylePickParts          = kQ3PickPartsObject;
@@ -362,6 +365,9 @@ e3view_stack_update(TQ3ViewObject theView, TQ3ViewStackState stateChange)
 
 		if ((stateChange & kQ3ViewStateStyleOrientation) && qd3dStatus == kQ3Success)
 			qd3dStatus = E3Renderer_Method_UpdateStyle(theView, kQ3StyleTypeOrientation, &theItem->styleOrientation);
+
+		if ((stateChange & kQ3ViewStateStyleCastShadows) && qd3dStatus == kQ3Success)
+			qd3dStatus = E3Renderer_Method_UpdateStyle(theView, kQ3StyleTypeCastShadows, &theItem->styleCastShadows);
 
 		if ((stateChange & kQ3ViewStateStyleReceiveShadows) && qd3dStatus == kQ3Success)
 			qd3dStatus = E3Renderer_Method_UpdateStyle(theView, kQ3StyleTypeReceiveShadows, &theItem->styleReceiveShadows);
@@ -2489,6 +2495,34 @@ E3View_State_SetStylePickParts(TQ3ViewObject theView, TQ3PickParts pickParts)
 
 
 //=============================================================================
+//      E3View_State_SetStyleCastShadows : Set the cast shadows state.
+//-----------------------------------------------------------------------------
+void
+E3View_State_SetStyleCastShadows(TQ3ViewObject theView, TQ3Boolean castShadows)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3Status		qd3dStatus;
+
+
+
+	// Validate our state
+	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
+
+
+
+	// Set the value
+	instanceData->stackState->styleCastShadows = castShadows;
+
+
+
+	// Update the renderer
+	qd3dStatus = e3view_stack_update(theView, kQ3ViewStateStyleCastShadows);
+}
+
+
+
+
+
+//=============================================================================
 //      E3View_State_SetStyleReceiveShadows : Set the receive shadows state.
 //-----------------------------------------------------------------------------
 void
@@ -4232,10 +4266,10 @@ E3View_GetFrustumToWindowMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMat
 	// Return the frustum to window matrix
 	Q3Matrix4x4_SetIdentity(theMatrix);
 
-	theMatrix->value[0][0] = (thePane.max.x - thePane.min.x) * 0.5f;
+	theMatrix->value[0][0] =  (thePane.max.x - thePane.min.x) * 0.5f;
 	theMatrix->value[1][1] = -(thePane.max.y - thePane.min.y) * 0.5f;
-	theMatrix->value[3][0] = (thePane.max.x + thePane.min.x) * 0.5f;
-	theMatrix->value[3][1] = (thePane.max.y + thePane.min.y) * 0.5f;
+	theMatrix->value[3][0] =  (thePane.max.x + thePane.min.x) * 0.5f;
+	theMatrix->value[3][1] =  (thePane.max.y + thePane.min.y) * 0.5f;
 
 	return(kQ3Success);
 }
@@ -4439,12 +4473,12 @@ E3View_GetOrientationStyleState(TQ3ViewObject theView, TQ3OrientationStyle *fron
 
 
 //=============================================================================
-//      E3View_GetReceiveShadowsStyleState : Get the current state.
+//      E3View_GetCastShadowsStyleState : Get the current state.
 //-----------------------------------------------------------------------------
 //		Note : Can only be called within a submitting loop.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3View_GetReceiveShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *receives)
+E3View_GetCastShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *castShadows)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
 
 
@@ -4461,7 +4495,39 @@ E3View_GetReceiveShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *receives)
 
 
 	// Get the value
-	*receives = instanceData->stackState->styleReceiveShadows;
+	*castShadows = instanceData->stackState->styleCastShadows;
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_GetReceiveShadowsStyleState : Get the current state.
+//-----------------------------------------------------------------------------
+//		Note : Can only be called within a submitting loop.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_GetReceiveShadowsStyleState(TQ3ViewObject theView, TQ3Boolean *receiveShadows)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+
+
+
+	// Make sure we're in the correct state
+	if (instanceData->viewState != kQ3ViewStateSubmitting)
+		return(kQ3Failure);
+
+
+
+	// Validate our state
+	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
+
+
+
+	// Get the value
+	*receiveShadows = instanceData->stackState->styleReceiveShadows;
 
 	return(kQ3Success);
 }

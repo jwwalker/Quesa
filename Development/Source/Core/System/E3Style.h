@@ -76,10 +76,15 @@ TQ3Status			E3PickPartsStyle_Submit(TQ3PickParts parts, TQ3ViewObject theView);
 TQ3Status			E3PickPartsStyle_Get(TQ3StyleObject pickPartsObject, TQ3PickParts *parts);
 TQ3Status			E3PickPartsStyle_Set(TQ3StyleObject pickPartsObject, TQ3PickParts parts);
 
-TQ3StyleObject		E3ReceiveShadowsStyle_New(TQ3Boolean receives);
-TQ3Status			E3ReceiveShadowsStyle_Submit(TQ3Boolean receives, TQ3ViewObject theView);
-TQ3Status			E3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receives);
-TQ3Status			E3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receives);
+TQ3StyleObject		E3CastShadowsStyle_New(TQ3Boolean castShadows);
+TQ3Status			E3CastShadowsStyle_Submit(TQ3Boolean castShadows, TQ3ViewObject theView);
+TQ3Status			E3CastShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *castShadows);
+TQ3Status			E3CastShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean castShadows);
+
+TQ3StyleObject		E3ReceiveShadowsStyle_New(TQ3Boolean receiveShadows);
+TQ3Status			E3ReceiveShadowsStyle_Submit(TQ3Boolean receiveShadows, TQ3ViewObject theView);
+TQ3Status			E3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receiveShadows);
+TQ3Status			E3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receiveShadows);
 
 TQ3StyleObject		E3FillStyle_New(TQ3FillStyle fillStyle);
 TQ3Status			E3FillStyle_Submit(TQ3FillStyle fillStyle, TQ3ViewObject theView);

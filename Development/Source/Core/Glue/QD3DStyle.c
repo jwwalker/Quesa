@@ -73,7 +73,6 @@
 //-----------------------------------------------------------------------------
 //      Q3Style_GetType : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3ObjectType
 Q3Style_GetType(TQ3StyleObject style)
 {
@@ -142,7 +141,7 @@ Q3Style_Submit(TQ3StyleObject style, TQ3ViewObject view)
 
 
 
-#pragma mark -
+
 //=============================================================================
 //      Q3SubdivisionStyle_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -289,7 +288,7 @@ Q3SubdivisionStyle_GetData(TQ3StyleObject subdiv, TQ3SubdivisionStyleData *data)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3PickIDStyle_New : Quesa API entry point.
@@ -433,7 +432,7 @@ Q3PickIDStyle_Set(TQ3StyleObject pickIDObject, TQ3Uns32 id)
 }
 
 
-#pragma mark -
+
 
 
 //=============================================================================
@@ -579,13 +578,13 @@ Q3PickPartsStyle_Set(TQ3StyleObject pickPartsObject, TQ3PickParts parts)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
-//      Q3ReceiveShadowsStyle_New : Quesa API entry point.
+//      Q3CastShadowsStyle_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3StyleObject
-Q3ReceiveShadowsStyle_New(TQ3Boolean receives)
+Q3CastShadowsStyle_New(TQ3Boolean castShadows)
 {
 
 
@@ -595,7 +594,7 @@ Q3ReceiveShadowsStyle_New(TQ3Boolean receives)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on receives
+	if (0) // Further checks on castShadows
 		return(NULL);
 #endif
 
@@ -607,7 +606,7 @@ Q3ReceiveShadowsStyle_New(TQ3Boolean receives)
 
 
 	// Call our implementation
-	return(E3ReceiveShadowsStyle_New(receives));
+	return(E3CastShadowsStyle_New(castShadows));
 }
 
 
@@ -615,10 +614,10 @@ Q3ReceiveShadowsStyle_New(TQ3Boolean receives)
 
 
 //=============================================================================
-//      Q3ReceiveShadowsStyle_Submit : Quesa API entry point.
+//      Q3CastShadowsStyle_Submit : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3ReceiveShadowsStyle_Submit(TQ3Boolean receives, TQ3ViewObject view)
+Q3CastShadowsStyle_Submit(TQ3Boolean castShadows, TQ3ViewObject view)
 {
 
 
@@ -629,7 +628,7 @@ Q3ReceiveShadowsStyle_Submit(TQ3Boolean receives, TQ3ViewObject view)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on receives
+	if (0) // Further checks on castShadows
 		return(kQ3Failure);
 
 	if (0) // Further checks on view
@@ -644,7 +643,152 @@ Q3ReceiveShadowsStyle_Submit(TQ3Boolean receives, TQ3ViewObject view)
 
 
 	// Call our implementation
-	return(E3ReceiveShadowsStyle_Submit(receives, view));
+	return(E3CastShadowsStyle_Submit(castShadows, view));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3CastShadowsStyle_Get : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3CastShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *castShadows)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(castShadows), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on styleObject
+		return(kQ3Failure);
+
+	if (0) // Further checks on castShadows
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3CastShadowsStyle_Get(styleObject, castShadows));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3CastShadowsStyle_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3CastShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean castShadows)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on styleObject
+		return(kQ3Failure);
+
+	if (0) // Further checks on castShadows
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3CastShadowsStyle_Set(styleObject, castShadows));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3ReceiveShadowsStyle_New : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3StyleObject
+Q3ReceiveShadowsStyle_New(TQ3Boolean receiveShadows)
+{
+
+
+	// Release build checks
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on receiveShadows
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3ReceiveShadowsStyle_New(receiveShadows));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3ReceiveShadowsStyle_Submit : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3ReceiveShadowsStyle_Submit(TQ3Boolean receiveShadows, TQ3ViewObject view)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on receiveShadows
+		return(kQ3Failure);
+
+	if (0) // Further checks on view
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3ReceiveShadowsStyle_Submit(receiveShadows, view));
 }
 
 
@@ -655,13 +799,13 @@ Q3ReceiveShadowsStyle_Submit(TQ3Boolean receives, TQ3ViewObject view)
 //      Q3ReceiveShadowsStyle_Get : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receives)
+Q3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receiveShadows)
 {
 
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(receives), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(receiveShadows), kQ3Failure);
 
 
 
@@ -670,7 +814,7 @@ Q3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receives)
 	if (0) // Further checks on styleObject
 		return(kQ3Failure);
 
-	if (0) // Further checks on receives
+	if (0) // Further checks on receiveShadows
 		return(kQ3Failure);
 #endif
 
@@ -682,7 +826,7 @@ Q3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receives)
 
 
 	// Call our implementation
-	return(E3ReceiveShadowsStyle_Get(styleObject, receives));
+	return(E3ReceiveShadowsStyle_Get(styleObject, receiveShadows));
 }
 
 
@@ -693,7 +837,7 @@ Q3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receives)
 //      Q3ReceiveShadowsStyle_Set : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receives)
+Q3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receiveShadows)
 {
 
 
@@ -707,7 +851,7 @@ Q3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receives)
 	if (0) // Further checks on styleObject
 		return(kQ3Failure);
 
-	if (0) // Further checks on receives
+	if (0) // Further checks on receiveShadows
 		return(kQ3Failure);
 #endif
 
@@ -719,12 +863,12 @@ Q3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receives)
 
 
 	// Call our implementation
-	return(E3ReceiveShadowsStyle_Set(styleObject, receives));
+	return(E3ReceiveShadowsStyle_Set(styleObject, receiveShadows));
 }
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3FillStyle_New : Quesa API entry point.
@@ -869,7 +1013,7 @@ Q3FillStyle_Set(TQ3StyleObject styleObject, TQ3FillStyle fillStyle)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3BackfacingStyle_New : Quesa API entry point.
@@ -1014,7 +1158,7 @@ Q3BackfacingStyle_Set(TQ3StyleObject backfacingObject, TQ3BackfacingStyle backfa
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3InterpolationStyle_New : Quesa API entry point.
@@ -1159,7 +1303,7 @@ Q3InterpolationStyle_Set(TQ3StyleObject interpolationObject, TQ3InterpolationSty
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3HighlightStyle_New : Quesa API entry point.
@@ -1305,7 +1449,7 @@ Q3HighlightStyle_Set(TQ3StyleObject highlight, TQ3AttributeSet highlightAttribut
 
 
 
-#pragma mark -
+
 //=============================================================================
 //      Q3OrientationStyle_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
@@ -1449,7 +1593,7 @@ Q3OrientationStyle_Set(TQ3StyleObject frontFacingDirectionObject, TQ3Orientation
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3AntiAliasStyle_New : Quesa API entry point.
@@ -1597,7 +1741,7 @@ Q3AntiAliasStyle_SetData(TQ3StyleObject styleObject, const TQ3AntiAliasStyleData
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3FogStyle_New : Quesa API entry point.

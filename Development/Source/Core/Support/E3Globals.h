@@ -192,6 +192,7 @@ extern "C" {
 #define kQ3ClassNameStyleOrientation				"OrientationStyle"
 #define kQ3ClassNameStylePickID						"PickIDStyle"
 #define kQ3ClassNameStylePickParts					"PickPartsStyle"
+#define kQ3ClassNameStyleCastShadows				"CastShadowsStyle"
 #define kQ3ClassNameStyleReceiveShadows				"ReceiveShadowsStyle"
 #define kQ3ClassNameStyleSubdivision				"SubdivisionStyle"
 #define kQ3ClassNameSurfaceTexture					"TextureShader"

@@ -1717,16 +1717,16 @@ Q3View_GetOrientationStyleState(TQ3ViewObject view, TQ3OrientationStyle *fontFac
 
 
 //=============================================================================
-//      Q3View_GetReceiveShadowsStyleState : Quesa API entry point.
+//      Q3View_GetCastShadowsStyleState : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3View_GetReceiveShadowsStyleState(TQ3ViewObject view, TQ3Boolean *receives)
+Q3View_GetCastShadowsStyleState(TQ3ViewObject view, TQ3Boolean *castShadows)
 {
 
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(receives), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(castShadows), kQ3Failure);
 
 
 
@@ -1735,7 +1735,7 @@ Q3View_GetReceiveShadowsStyleState(TQ3ViewObject view, TQ3Boolean *receives)
 	if (0) // Further checks on view
 		return(kQ3Failure);
 
-	if (0) // Further checks on receives
+	if (0) // Further checks on castShadows
 		return(kQ3Failure);
 #endif
 
@@ -1747,7 +1747,45 @@ Q3View_GetReceiveShadowsStyleState(TQ3ViewObject view, TQ3Boolean *receives)
 
 
 	// Call our implementation
-	return(E3View_GetReceiveShadowsStyleState(view, receives));
+	return(E3View_GetCastShadowsStyleState(view, castShadows));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3View_GetReceiveShadowsStyleState : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3View_GetReceiveShadowsStyleState(TQ3ViewObject view, TQ3Boolean *receiveShadows)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(receiveShadows), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on view
+		return(kQ3Failure);
+
+	if (0) // Further checks on receiveShadows
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3View_GetReceiveShadowsStyleState(view, receiveShadows));
 }
 
 

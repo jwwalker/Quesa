@@ -86,6 +86,7 @@ TQ3Object		E3Read_3DMF_Shader_NULL(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_Subdivision(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_PickID(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_PickParts(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Style_CastShadows(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_ReceiveShadows(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_Fill(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_Backfacing(TQ3FileObject theFile);

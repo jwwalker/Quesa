@@ -1098,18 +1098,42 @@ Q3View_GetOrientationStyleState (
 
 /*!
  *  @function
+ *      Q3View_GetCastShadowsStyleState
+ *  @discussion
+ *      Get the current cast shadows style state from a view.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param view             The view to query.
+ *  @param castShadows      Receives the current cast shadows style state.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS    
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3View_GetCastShadowsStyleState (
+    TQ3ViewObject                 view,
+    TQ3Boolean                    *castShadows
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
  *      Q3View_GetReceiveShadowsStyleState
  *  @discussion
  *      Get the current receive shadows style state from a view.
  *
  *  @param view             The view to query.
- *  @param receives         Receives the current receive shadows style state.
+ *  @param receiveShadows   Receives the current receive shadows style state.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetReceiveShadowsStyleState (
     TQ3ViewObject                 view,
-    TQ3Boolean                    *receives
+    TQ3Boolean                    *receiveShadows
 );
 
 

@@ -577,16 +577,110 @@ Q3PickPartsStyle_Set (
 
 /*!
  *  @function
+ *      Q3CastShadowsStyle_New
+ *  @discussion
+ *      Create a cast shadows style.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param castShadows      The cast shadows style data.
+ *  @result                 The new cast shadows style.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS    
+
+Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3CastShadowsStyle_New (
+    TQ3Boolean                    castsShadows
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3CastShadowsStyle_Submit
+ *  @discussion
+ *      Submit a cast shadows style to a view.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param castShadows      The cast shadows style data.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS    
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3CastShadowsStyle_Submit (
+    TQ3Boolean                    castShadows,
+    TQ3ViewObject                 view
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3CastShadowsStyle_Get
+ *  @discussion
+ *      Get the data from a cast shadows style.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param styleObject      The style to query.
+ *  @param castShadows      Receives the data from the style.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS    
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3CastShadowsStyle_Get (
+    TQ3StyleObject                styleObject,
+    TQ3Boolean                    *castShadows
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3CastShadowsStyle_Set
+ *  @discussion
+ *      Set the data for a cast shadows style.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param styleObject      The style to update.
+ *  @param castShadows      The new data for the style.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS    
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3CastShadowsStyle_Set (
+    TQ3StyleObject                styleObject,
+    TQ3Boolean                    castShadows
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
  *      Q3ReceiveShadowsStyle_New
  *  @discussion
  *      Create a receive shadows style.
  *
- *  @param receives         The receive shadows style data.
+ *  @param receiveShadows   The receive shadows style data.
  *  @result                 The new receive shadows style.
  */
 Q3_EXTERN_API_C ( TQ3StyleObject  )
 Q3ReceiveShadowsStyle_New (
-    TQ3Boolean                    receives
+    TQ3Boolean                    receiveShadows
 );
 
 
@@ -597,13 +691,13 @@ Q3ReceiveShadowsStyle_New (
  *  @discussion
  *      Submit a receive shadows style to a view.
  *
- *  @param receives         The receive shadows style data.
+ *  @param receiveShadows   The receive shadows style data.
  *  @param view             The view to submit the style to.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Submit (
-    TQ3Boolean                    receives,
+    TQ3Boolean                    receiveShadows,
     TQ3ViewObject                 view
 );
 
@@ -616,13 +710,13 @@ Q3ReceiveShadowsStyle_Submit (
  *      Get the data from a receive shadows style.
  *
  *  @param styleObject      The style to query.
- *  @param receives         Receives the data from the style.
+ *  @param receiveShadows   Receives the data from the style.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Get (
     TQ3StyleObject                styleObject,
-    TQ3Boolean                    *receives
+    TQ3Boolean                    *receiveShadows
 );
 
 
@@ -634,13 +728,13 @@ Q3ReceiveShadowsStyle_Get (
  *      Set the data for a receive shadows style.
  *
  *  @param styleObject      The style to update.
- *  @param receives         The new data for the style.
+ *  @param receiveShadows   The new data for the style.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Set (
     TQ3StyleObject                styleObject,
-    TQ3Boolean                    receives
+    TQ3Boolean                    receiveShadows
 );
 
 

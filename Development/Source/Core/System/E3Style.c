@@ -202,6 +202,53 @@ e3style_pickparts_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3style_castshadows_submit : Cast Shadows submit method.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static TQ3Status
+e3style_castshadows_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{	const TQ3Boolean			*instanceData = (const TQ3Boolean *) objectData;
+#pragma unused(objectType)
+#pragma unused(theObject)
+
+
+
+	// Submit the style
+	E3View_State_SetStyleCastShadows(theView, *instanceData);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3style_castshadows_metahandler : Cast Shadows metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3style_castshadows_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectSubmitRender:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_castshadows_submit;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
 //      e3style_receiveshadows_submit : Receive Shadows submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
@@ -619,6 +666,13 @@ E3Style_RegisterClass(void)
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
+												kQ3StyleTypeCastShadows,
+												kQ3ClassNameStyleCastShadows,
+												e3style_castshadows_metahandler,
+												sizeof(TQ3Boolean));
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeStyle,
 												kQ3StyleTypeReceiveShadows,
 												kQ3ClassNameStyleReceiveShadows,
 												e3style_receiveshadows_metahandler,
@@ -697,6 +751,7 @@ E3Style_UnregisterClass(void)
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeInterpolation,			 kQ3True);
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeBackfacing,      		 kQ3True);
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeFill,    				 kQ3True);
+	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeCastShadows,	  		 kQ3True);
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypeReceiveShadows,  		 kQ3True);
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypePickParts, 			 kQ3True);
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StyleTypePickID,    			 kQ3True);
@@ -966,17 +1021,95 @@ E3PickPartsStyle_Set(TQ3StyleObject pickPartsObject, TQ3PickParts parts)
 
 
 //=============================================================================
-//      E3ReceiveShadowsStyle_New : Create a new receive shadows style.
+//      E3CastShadowsStyle_New : Create a new cast shadows style.
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3StyleObject
-E3ReceiveShadowsStyle_New(TQ3Boolean receives)
+E3CastShadowsStyle_New(TQ3Boolean castShadows)
 {	TQ3StyleObject	theObject;
 
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeReceiveShadows, kQ3False, &receives);
+	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeCastShadows, kQ3False, &castShadows);
+
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      E3CastShadowsStyle_Submit : Submit the style.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3CastShadowsStyle_Submit(TQ3Boolean castShadows, TQ3ViewObject theView)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Submit the object to the view
+	qd3dStatus = E3View_SubmitImmediate(theView, kQ3StyleTypeCastShadows, &castShadows);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3CastShadowsStyle_Get : Get the data for the style.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3CastShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *castShadows)
+{	TQ3Boolean* instanceData = (TQ3Boolean*)styleObject->instanceData;
+
+
+
+	// Get the data
+	*castShadows = *instanceData;
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3CastShadowsStyle_Set : Set the data for the style.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3CastShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean castShadows)
+{	TQ3Boolean* instanceData = (TQ3Boolean*)styleObject->instanceData;
+
+
+
+	// Set the data
+	*instanceData = castShadows;
+	Q3Shared_Edited(styleObject);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ReceiveShadowsStyle_New : Create a new receive shadows style.
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3StyleObject
+E3ReceiveShadowsStyle_New(TQ3Boolean receiveShadows)
+{	TQ3StyleObject	theObject;
+
+
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3StyleTypeReceiveShadows, kQ3False, &receiveShadows);
 	return(theObject);
 }
 
@@ -988,13 +1121,13 @@ E3ReceiveShadowsStyle_New(TQ3Boolean receives)
 //      E3ReceiveShadowsStyle_Submit : Submit the style.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ReceiveShadowsStyle_Submit(TQ3Boolean receives, TQ3ViewObject theView)
+E3ReceiveShadowsStyle_Submit(TQ3Boolean receiveShadows, TQ3ViewObject theView)
 {	TQ3Status		qd3dStatus;
 
 
 
 	// Submit the object to the view
-	qd3dStatus = E3View_SubmitImmediate(theView, kQ3StyleTypeReceiveShadows, &receives);
+	qd3dStatus = E3View_SubmitImmediate(theView, kQ3StyleTypeReceiveShadows, &receiveShadows);
 
 	return(qd3dStatus);
 }
@@ -1007,12 +1140,13 @@ E3ReceiveShadowsStyle_Submit(TQ3Boolean receives, TQ3ViewObject theView)
 //      E3ReceiveShadowsStyle_Get : Get the data for the style.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receives)
-{	TQ3Boolean* instanceData = (TQ3Boolean*)styleObject->instanceData ;
-	
-	
-	
-	*receives = *instanceData;
+E3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receiveShadows)
+{	TQ3Boolean* instanceData = (TQ3Boolean*)styleObject->instanceData;
+
+
+
+	// Get the data
+	*receiveShadows = *instanceData;
 	return(kQ3Success);
 }
 
@@ -1024,12 +1158,13 @@ E3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receives)
 //      E3ReceiveShadowsStyle_Set : Set the data for the style.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receives)
-{	TQ3Boolean* instanceData = (TQ3Boolean*)styleObject->instanceData ;
-	
-	
-	
-	*instanceData = receives ;
+E3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receiveShadows)
+{	TQ3Boolean* instanceData = (TQ3Boolean*)styleObject->instanceData;
+
+
+
+	// Set the data
+	*instanceData = receiveShadows;
 	Q3Shared_Edited(styleObject);
 
 	return(kQ3Success);

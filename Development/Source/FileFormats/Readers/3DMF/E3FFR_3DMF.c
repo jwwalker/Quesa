@@ -2015,6 +2015,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree_AddMethodByType(kQ3StyleTypeSubdivision,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Subdivision);
 	E3ClassTree_AddMethodByType(kQ3StyleTypePickID,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_PickID);
 	E3ClassTree_AddMethodByType(kQ3StyleTypePickParts,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_PickParts);
+	E3ClassTree_AddMethodByType(kQ3StyleTypeCastShadows,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_CastShadows);
 	E3ClassTree_AddMethodByType(kQ3StyleTypeReceiveShadows,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_ReceiveShadows);
 	E3ClassTree_AddMethodByType(kQ3StyleTypeFill,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Fill);
 	E3ClassTree_AddMethodByType(kQ3StyleTypeBackfacing,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Backfacing);
@@ -2223,6 +2224,7 @@ E3FFormat_3DMF_Reader_UnregisterClass(void)
 	E3ClassTree_RemoveMethodByType(kQ3StyleTypeSubdivision,    kQ3XMethodTypeObjectRead);
 	E3ClassTree_RemoveMethodByType(kQ3StyleTypePickID,         kQ3XMethodTypeObjectRead);
 	E3ClassTree_RemoveMethodByType(kQ3StyleTypePickParts,      kQ3XMethodTypeObjectRead);
+	E3ClassTree_RemoveMethodByType(kQ3StyleTypeCastShadows,    kQ3XMethodTypeObjectRead);
 	E3ClassTree_RemoveMethodByType(kQ3StyleTypeReceiveShadows, kQ3XMethodTypeObjectRead);
 	E3ClassTree_RemoveMethodByType(kQ3StyleTypeFill,           kQ3XMethodTypeObjectRead);
 	E3ClassTree_RemoveMethodByType(kQ3StyleTypeBackfacing,     kQ3XMethodTypeObjectRead);
