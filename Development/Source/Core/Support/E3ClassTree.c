@@ -1080,37 +1080,33 @@ E3ClassTree_FindInstanceData(TQ3Object theObject, TQ3ObjectType classType)
 //-----------------------------------------------------------------------------
 TQ3ObjectType
 E3ClassTree_GetObjectType(TQ3Object theObject, TQ3ObjectType baseType)
-{	E3ClassInfoPtr		theClass, baseClass, theParent;
-
+{	E3ClassInfoPtr	theClass;
+	TQ3ObjectType		theType;
 
 
 	// Verify our parameters
 	e3class_verify(theObject);
 
 
-
-	// Find the class of the object, and the base class
-	baseClass  = E3ClassTree_GetClassByType(baseType);
-	theClass   = theObject->theClass;
-	theParent  = theClass->theParent;
-	if (theParent == NULL)
-		return(kQ3ObjectTypeInvalid);
-
-
+	// Find the class of the object
+	theClass = theObject->theClass;
 
 	// Walk up to the level immediately below the base class
-	while (theClass->theParent != baseClass)
+	while ( (theClass != NULL) && (theClass->theParent != NULL) &&
+			(theClass->theParent->classType != baseType) )
 		{
-		theClass = theClass->theParent;
 		Q3_ASSERT_VALID_PTR(theClass);
+		theClass = theClass->theParent;
 		}
 
-	Q3_ASSERT_VALID_PTR(theClass);
-
-
+	if ( (theClass == NULL) || (theClass->theParent == NULL) )
+		theType = kQ3ObjectTypeInvalid;
+	else
+		theType = theClass->classType;
 
 	// Return the appropriate type
-	return(theClass->classType);
+	return theType;
+
 }
 
 
