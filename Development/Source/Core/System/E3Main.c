@@ -522,6 +522,11 @@ E3Initialize(void)
 		if (qd3dStatus == kQ3Success)
 			theGlobals->systemInitialised = kQ3True;
 		}
+	
+	
+	// Or post a notice
+	else
+		E3ErrorManager_PostNotice(kQ3NoticeSystemAlreadyInitialized);
 
 
 
