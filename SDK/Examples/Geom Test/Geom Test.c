@@ -65,6 +65,7 @@
 #define kMenuItemGeometryTriangle							21
 #define kMenuItemGeometryTriGrid							22
 #define kMenuItemGeometryTriMesh							23
+#define kMenuItemGeometryNURBCurve							24
 
 #define kTriGridRows										5
 #define kTriGridCols										10
@@ -981,7 +982,51 @@ createGeomPolyhedron(void)
 }
 
 
+//=============================================================================
+//      createGeomPolyLine : Create a NURBCurve object.
+//-----------------------------------------------------------------------------
+static TQ3GeometryObject
+createGeomNURBCurve(void)
+{
+	TQ3GeometryObject		 curveObject;
+	TQ3NURBCurveData		 curveData;
+	const TQ3RationalPoint4D controlPoints[4] = {
+													{ -140, 0, 0, 1  },
+													{ -101.9986, 116.1863, 0, 1 },
+													{ -46.78129, 130.7575, 0, 1  },
+													{ -20, 0, 0, 1  },
+													{ 47.35859, 76.22787, 0, 1},
+													{ 61.63103, 10.05559, 0, 1 ,
+											 
+												};
+	
+	const float knots[8] = { 0, 0, 0, 0, 1, 1, 1, 1 };
+	
+	const TQ3ColorRGB color = {0.0f,1.0f,1.0f};
+		
+	// Initialize the data structure.
+	curveData.order = 4;
+	curveData.numPoints = 8;
+	curveData.controlPoints = controlPoints;
+	curveData.knots = knots;
+	curveData.curveAttributeSet = Q3AttributeSet_New();
 
+	if (curveData.curveAttributeSet != NULL)
+	{
+			Q3AttributeSet_Add(curveData.curveAttributeSet,
+								kQ3AttributeTypeDiffuseColor,
+								&color);
+	}
+	
+	curveObject = Q3NURBCurve_New(&curveData);	
+	
+	{
+		if (curveData.curveAttributeSet != NULL)
+			Q3Object_Dispose(curveData.curveAttributeSet);
+	}
+
+	return curveObject;
+}
 
 
 //=============================================================================
@@ -1527,7 +1572,9 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemGeometryTriMesh:
 			theGeom = createGeomTriMesh();
 			break;
-
+		case kMenuItemGeometryNURBCurve:
+			theGeom = createGeomNURBCurve();
+			break;
 		default:
 			break;
 		}
@@ -1666,6 +1713,7 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "Triangle");
 	Qut_CreateMenuItem(kMenuItemLast, "TriGrid");
 	Qut_CreateMenuItem(kMenuItemLast, "TriMesh");
+	Qut_CreateMenuItem(kMenuItemLast, "NurbCurve");
 }
 
 
