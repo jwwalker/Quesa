@@ -573,7 +573,9 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 				
 				if((state & kQ3DisplayGroupStateMaskIsPicked) != kQ3DisplayGroupStateMaskIsPicked)
 					*writeState |= 0x10; // dont pick
-				
+			
+				if((state & kQ3DisplayGroupStateMaskIsNotForBounding) == kQ3DisplayGroupStateMaskIsNotForBounding)
+					*writeState |= 0x20; // dont bound
 					
 				displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (kQ3ObjectTypeDisplayGroupState);
 				
