@@ -811,6 +811,8 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 
 		// Update the regions and the state flag
 		e3drawcontext_mac_updateregions(theDrawContext, kQ3XDrawContextValidationAll);
+		instanceData->data.macData.paneState  = instanceData->data.macData.theData.drawContextData.paneState;
+		instanceData->data.macData.thePane    = instanceData->data.macData.theData.drawContextData.pane;
 		instanceData->theState = kQ3XDrawContextValidationAll;
 		}
 
