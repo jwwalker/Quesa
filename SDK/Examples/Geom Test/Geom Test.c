@@ -99,7 +99,6 @@ const TQ3ColorARGB kColorARGBPickMiss = {1.0f, 0.0f, 0.0f, 1.0f};
 //      Internal globals
 //-----------------------------------------------------------------------------
 TQ3Object			gSceneGeometry       = NULL;
-TQ3ShaderObject		gSceneIllumination   = NULL;
 TQ3Object			gSceneBounds         = NULL;
 TQ3Object			gSceneBoundingSphere = NULL;
 TQ3ShaderObject		gSceneTexture        = NULL;
@@ -202,10 +201,10 @@ createWorldBounds( TQ3ViewObject inView )
 	{
 		do
 		{
-			// Submit the default styles so that we are using the same subdivision
+			// Submit the default state so that we are using the same subdivision
 			// style as for rendering.  This keeps our cached trimesh from being
 			// rebuilt unnecessarily.
-			Qut_SubmitDefaultStyles( inView );
+			Qut_SubmitDefaultState( inView );
 			Q3MatrixTransform_Submit(&gMatrixCurrent, inView);
 			Q3Object_Submit(gSceneGeometry, inView);
 			
@@ -2038,7 +2037,7 @@ doPicktest(TQ3ViewObject theView, TQ3Point2D mousePoint)
 		{
 		do
 			{
-			Qut_SubmitDefaultStyles(theView);
+			Qut_SubmitDefaultState(theView);
 			appRender(theView);
 			}
 		while (Q3View_EndPicking(theView) == kQ3ViewStatusRetraverse);
@@ -2099,7 +2098,7 @@ doSaveModel(TQ3ViewObject theView)
 					while (viewStatus == kQ3ViewStatusRetraverse && submitStatus == kQ3Success){
 	
 						// Submit the scene
-						Q3Shader_Submit(gSceneIllumination, theView);
+						Qut_SubmitDefaultState(theView);
 						if (gShowTexture && gSceneTexture != NULL)
 							Q3Shader_Submit(gSceneTexture, theView);
 							
@@ -2476,8 +2475,6 @@ appRender(TQ3ViewObject theView)
 
 
 	// Submit the scene
-	Q3Shader_Submit(gSceneIllumination, theView);
-		
 	if (gWorldBounds != NULL)
 		Q3Object_Submit(gWorldBounds, theView);
 
@@ -2666,8 +2663,7 @@ App_Initialise(void)
 
 
 	// Create the initial scene
-	gSceneGeometry     = createGeomQuesa();
-	gSceneIllumination = Q3PhongIllumination_New();
+	gSceneGeometry = createGeomQuesa();
 
 
 
@@ -2757,9 +2753,6 @@ App_Terminate(void)
 	if (gSceneGeometry != NULL)
 		Q3Object_Dispose(gSceneGeometry);
 	
-	if (gSceneIllumination != NULL)	
-		Q3Object_Dispose(gSceneIllumination);
-
 	if (gSceneTexture != NULL)
 		Q3Object_Dispose( gSceneTexture );
 }
