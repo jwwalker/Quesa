@@ -420,6 +420,18 @@ SOURCE=..\..\Source\Core\System\E3Transform.c
 SOURCE=..\..\Source\Core\System\E3View.c
 # End Source File
 # End Group
+# Begin Group "Viewer"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\..\Source\Core\Viewer\E3Viewer.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\Core\Viewer\E3ViewerTools.c
+# End Source File
+# End Group
 # End Group
 # Begin Group "Platform"
 
@@ -443,9 +455,35 @@ SOURCE=..\..\Source\Platform\Windows\E3WindowsStorage.c
 
 SOURCE=..\..\Source\Platform\Windows\E3WindowsSystem.c
 # End Source File
+# End Group
+# Begin Group "WinViewer"
+
+# PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=..\..\Source\Platform\Windows\E3WinViewer.c
+
+!IF  "$(CFG)" == "Quesa - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "Quesa - Win32 Debug"
+
+# ADD CPP /I "../../Source/Core/Viewer"
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\Source\Platform\Windows\Quesa Viewer\QD3DWinViewer.c"
+
+!IF  "$(CFG)" == "Quesa - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "Quesa - Win32 Debug"
+
+# ADD CPP /I "../../Source/Core/Viewer"
+
+!ENDIF 
+
 # End Source File
 # End Group
 # End Group
