@@ -277,6 +277,13 @@ find useful when adding code to Quesa:
 
 	<li>Public functions should be named 'E3Module_Function', while private functions
 		should be named 'e3module_function'.
+		<br>
+		<br>
+
+	<li>Use QD3D types rather than C types, since this allows you to specify the
+	    bit range and signed/unsigned-ness of the type (e.g., TQ3Int16 rather
+	    than signed short). This will help us in the future when we look at 64-bit
+	    architectures.
 </ul>
 
 </td>
