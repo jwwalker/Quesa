@@ -470,12 +470,6 @@ Q3MemoryStorage_New
 Q3MemoryStorage_NewBuffer
 Q3MemoryStorage_Set
 Q3MemoryStorage_SetBuffer
-Q3Memory_Allocate
-Q3Memory_AllocateClear
-Q3Memory_Clear
-Q3Memory_Free_
-Q3Memory_Initialize
-Q3Memory_Reallocate_
 Q3MeshEdgePart_GetEdge
 Q3MeshFacePart_GetFace
 Q3MeshPart_GetComponent
@@ -683,6 +677,7 @@ Q3Point2D_Vector2D_Subtract
 Q3Point2D_Write
 Q3Point3D_AffineComb
 Q3Point3D_CrossProductTri
+Q3Triangle_CrossProductArray
 Q3Point3D_Distance
 Q3Point3D_DistanceSquared
 Q3Point3D_RRatio
@@ -750,6 +745,8 @@ Q3Polyhedron_SetVertexAttributeSet
 Q3Polyhedron_SetVertexPosition
 Q3Polyhedron_Submit
 Q3Pop_New
+Q3Math_SquareRoot
+Q3Math_InvSquareRoot
 Q3Pop_Submit
 Q3Push_New
 Q3Push_Submit
@@ -1031,6 +1028,7 @@ Q3Vector2D_Write
 Q3Vector3D_Add
 Q3Vector3D_Cross
 Q3Vector3D_Dot
+Q3Vector3D_DotArray
 Q3Vector3D_Length
 Q3Vector3D_LengthSquared
 Q3Vector3D_Negate
@@ -1313,6 +1311,13 @@ Q3Viewer_WriteData
 Q3Viewer_WriteFile
 Q3Set_CopyElement
 Q3Shared_GetReferenceCount
+Q3Memory_Allocate
+Q3Memory_AllocateClear
+Q3Memory_Clear
+Q3Memory_Free_
+Q3Memory_Initialize
+Q3Memory_Reallocate_
+Q3Memory_Copy
 Q3Memory_StartRecording
 Q3Memory_StopRecording
 Q3Memory_IsRecording
