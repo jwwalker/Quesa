@@ -613,10 +613,15 @@ TQ3Status
 IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 									TQ3InteractiveData			*instanceData,
 									TQ3AntiAliasStyleData		*styleData)
-{	const TQ3Uns32		ATI_FSAA_SAMPLES = 510;
+{
+#pragma unused(theView)
+	#if QUESA_OS_MACINTOSH
+	
+	const TQ3Uns32		ATI_FSAA_SAMPLES = 510;
 	char				theBuffer[512];
 	TQ3Int32			fsaaLevel;
-#pragma unused(theView)
+	
+	#endif
 
 
 
