@@ -4408,7 +4408,7 @@ E3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3P
 
 
 	// Calculate the distance along the ray to the intersection point
-	q = sqrt(r2 - m2);
+	q = (float) sqrt(r2 - m2);
 	if (l2 > r2)
 		t = d - q;
 	else
@@ -4473,18 +4473,18 @@ E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 		{
 		if (origin[i] < minB[i])
 			{
-			quadrant[i]       = left;
+			quadrant[i]       = (TQ3Int8) left;
 			candidatePlane[i] = minB[i];
 			isInside          = kQ3False;
 			}
 		else if (origin[i] > maxB[i])
 			{
-			quadrant[i]       = right;
+			quadrant[i]       = (TQ3Int8) right;
 			candidatePlane[i] = maxB[i];
 			isInside          = kQ3False;
 			}
 		else
-			quadrant[i] = middle;
+			quadrant[i] = (TQ3Int8) middle;
 		}
 
 
@@ -4501,10 +4501,10 @@ E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 	// Calculate T distances to candidate planes
 	for (i = 0; i < 3; i++)
 		{
-		if (quadrant[i] != middle && dir[i] != 0.0)
+		if (quadrant[i] != (TQ3Int8) middle && dir[i] != 0.0f)
 			maxT[i] = (candidatePlane[i] - origin[i]) / dir[i];
 		else
-			maxT[i] = -1.0;
+			maxT[i] = -1.0f;
 		}
 
 
@@ -4520,7 +4520,7 @@ E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 
 
 	// Check final candidate actually inside box
-	if (maxT[whichPlane] < 0.0)
+	if (maxT[whichPlane] < 0.0f)
 		return(kQ3False);
 	
 	for (i = 0; i < 3; i++)
@@ -4566,7 +4566,7 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 							TQ3Boolean			cullBackfacing,
 							TQ3Param3D			*hitPoint)
 {	TQ3Vector3D		edge1, edge2, tvec, pvec, qvec;
-	double			det, invDet;
+	float			det, invDet;
 
 
 
@@ -4610,7 +4610,7 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 
 		// Calculate w, and scale the parameters
 		hitPoint->w  = E3Vector3D_Dot(&edge2, &qvec);
-		invDet = 1.0 / det;
+		invDet = 1.0f / det;
 
 		hitPoint->w *= invDet;
 		hitPoint->u *= invDet;
@@ -4625,7 +4625,7 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 		if (det > -kQ3RealZero && det < kQ3RealZero)
 			return(kQ3False);
 		
-		invDet = 1.0 / det;
+		invDet = 1.0f / det;
 
 
 		// Calculate the distance between vertex 1 and the ray origin

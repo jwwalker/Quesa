@@ -1326,7 +1326,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 					theHit->nextHit = currentHit;
 
 					// We're done
-					savedHit = true;
+					savedHit = kQ3True;
 					}
 
 

@@ -184,8 +184,8 @@ e3drawcontext_pixmap_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area
 	// Return our dimensions
 	thePane->min.x = 0.0f;
 	thePane->min.y = 0.0f;
-	thePane->max.x = instanceData->data.pixmapData.pixmap.width;
-	thePane->max.y = instanceData->data.pixmapData.pixmap.height;
+	thePane->max.x = (float) instanceData->data.pixmapData.pixmap.width;
+	thePane->max.y = (float) instanceData->data.pixmapData.pixmap.height;
 }
 
 

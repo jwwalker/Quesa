@@ -62,8 +62,8 @@ e3geom_marker_pixel_is_set(const TQ3MarkerData *instanceData, TQ3Int32 x, TQ3Int
 
 
 	// Check to see if the pixel is in range
-	if (x < 0 || x >= instanceData->bitmap.width ||
-		y < 0 || y >= instanceData->bitmap.height)
+	if (x < 0 || x >= (TQ3Int32) instanceData->bitmap.width ||
+		y < 0 || y >= (TQ3Int32) instanceData->bitmap.height)
 		return(kQ3False);
 
 
