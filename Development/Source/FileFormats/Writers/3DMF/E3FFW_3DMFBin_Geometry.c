@@ -1956,8 +1956,8 @@ e3ffw_3DMF_cone_traverse( TQ3Object object,
 	
 	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
 	
-	// Optional bottom caps flag
-	if ( (status == kQ3Success) && ((data->caps & kQ3EndCapMaskBottom) != 0) )
+	// Optional caps flag
+	if ( (status == kQ3Success) && (data->caps != kQ3EndCapNone) )
 	{
 		capData = (TQ3Uns32*)Q3Memory_Allocate( sizeof(TQ3Uns32) );
 		Q3_REQUIRE_OR_RESULT( capData != NULL, kQ3Failure );
@@ -1982,6 +1982,14 @@ e3ffw_3DMF_cone_traverse( TQ3Object object,
 	{
 		status = E3FileFormat_Method_SubmitObject( view, NULL,
 			kQ3AttributeSetTypeBottomCap, data->bottomAttributeSet );
+	}
+	
+	// optional interior cap attribute set
+	if ( (status == kQ3Success) && (data->interiorAttributeSet != NULL) &&
+		((data->caps & kQ3EndCapMaskInterior) != 0) )
+	{
+		status = E3FileFormat_Method_SubmitObject( view, NULL,
+			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 	
 	// Overall attribute set
@@ -2047,8 +2055,8 @@ e3ffw_3DMF_cylinder_traverse( TQ3Object object,
 	
 	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
 	
-	// Optional bottom caps flag
-	if ( (status == kQ3Success) && ((data->caps & kQ3EndCapMaskBottom) != 0) )
+	// Optional caps flag
+	if ( (status == kQ3Success) && (data->caps != kQ3EndCapNone) )
 	{
 		capData = (TQ3Uns32*)Q3Memory_Allocate( sizeof(TQ3Uns32) );
 		Q3_REQUIRE_OR_RESULT( capData != NULL, kQ3Failure );
