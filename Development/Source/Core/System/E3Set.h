@@ -68,6 +68,7 @@ TQ3Status			E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType);
 TQ3Status			E3Set_Empty(TQ3SetObject theSet);
 TQ3Status			E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType);
 TQ3Status			E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject destSet );
+TQ3Status			E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView );
 
 TQ3AttributeType	E3Attribute_ClassToAttributeType(TQ3ObjectType theType);
 TQ3ObjectType		E3Attribute_AttributeToClassType(TQ3AttributeType theType);
@@ -85,6 +86,7 @@ TQ3Status			E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child
 
 TQ3XObjectClass		E3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32 sizeOfElement, TQ3XMetaHandler metaHandler);
 TQ3Status			E3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElement);
+TQ3Status			E3XElement_EmptyData( TQ3ElementType elementType, void* data );
 TQ3XObjectClass		E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorName, TQ3Uns32 sizeOfElement, TQ3XMetaHandler metaHandler);
 
 
