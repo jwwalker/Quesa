@@ -93,9 +93,39 @@ typedef struct WinGLContext {
 //=============================================================================
 //		Internal functions
 //-----------------------------------------------------------------------------
+
+#if QUESA_OS_MACINTOSH
+//-----------------------------------------------------------------------------
+//		gldrawcontext_mac_getport : Get the port from a Mac draw context.
+//-----------------------------------------------------------------------------
+static CGrafPtr
+gldrawcontext_mac_getport( TQ3DrawContextObject theDrawContext )
+{
+	TQ3Status				qd3dStatus;
+	WindowRef				theWindow;
+	CGrafPtr				thePort = NULL;
+
+	// If a window has been supplied we use its port, and if not we try the port field.
+	//
+	// A NULL WindowRef with a valid port was not accepted by QD3D, however we allow
+	// this to support rendering to a Mac OS X QD port which was obtained from a
+	// non-WindowRef context (e.g., from an NSWindow or a CoreGraphics context).
+	qd3dStatus = Q3MacDrawContext_GetWindow( theDrawContext, (CWindowPtr *) &theWindow );
+	if (qd3dStatus == kQ3Success && theWindow != NULL)
+		thePort = GetWindowPort(theWindow);
+	else
+		Q3MacDrawContext_GetGrafPort(theDrawContext, &thePort);
+	
+	return thePort;
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
 //		gldrawcontext_mac_new : Create an OpenGL context for a draw context.
 //-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
 static void *
 gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 {	GLint					glAttributes[kMaxGLAttributes];
@@ -106,7 +136,6 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 	TQ3Status				qd3dStatus;
 	AGLContext				glContext;
 	GLint					glRect[4];
-	WindowRef				theWindow;
 	TQ3Pixmap				thePixmap;
 	CGrafPtr				thePort;
 	Rect					theRect;
@@ -121,21 +150,9 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
     	// Mac Window
     	case kQ3DrawContextTypeMacintosh:
     		// Get the port
-    		//
-    		// If a window has been supplied we use its port, and if not we try the port field.
-    		//
-    		// A NULL WindowRef with a valid port was not accepted by QD3D, however we allow
-    		// this to support rendering to a Mac OS X QD port which was obtained from a
-    		// non-WindowRef context (e.g., from an NSWindow or a CoreGraphics context).
-			qd3dStatus = Q3MacDrawContext_GetWindow(theDrawContext, (CWindowPtr *) &theWindow);
-			if (qd3dStatus == kQ3Success && theWindow != NULL)
-				thePort = GetWindowPort(theWindow);
-			else
-				{
-				qd3dStatus = Q3MacDrawContext_GetGrafPort(theDrawContext, &thePort);
-				if (qd3dStatus != kQ3Success || thePort == NULL)
+    		thePort = gldrawcontext_mac_getport( theDrawContext );
+    		if (thePort == NULL)
 					return(NULL);
-				}
 
 
 			// Grab its dimensions
@@ -376,6 +393,70 @@ gldrawcontext_mac_updatepos(void *glContext)
 
 	// Update the context
 	return((TQ3Boolean) aglUpdateContext((AGLContext) glContext));
+}
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_mac_updatesize : Update OpenGL context size.
+//-----------------------------------------------------------------------------
+static TQ3Status
+gldrawcontext_mac_updatesize(
+								TQ3DrawContextObject	theDrawContext,
+								void					*glContext )
+{
+	TQ3Status	didUpdate = kQ3Failure;
+	TQ3ObjectType			drawContextType;
+	TQ3DrawContextData		drawContextData;
+	GLint					paneWidth, paneHeight;
+	
+	drawContextType = Q3DrawContext_GetType(theDrawContext);
+	
+	if (drawContextType == kQ3DrawContextTypeMacintosh)
+	{
+		CGrafPtr	thePort = gldrawcontext_mac_getport( theDrawContext );
+		
+		if ( (kQ3Success == Q3DrawContext_GetData(theDrawContext, &drawContextData)) &&
+			(thePort != NULL) )
+		{
+			Rect					portBounds;
+			
+			GetPortBounds(thePort, &portBounds);
+			
+			if (drawContextData.paneState)
+			{
+				GLint					glRect[4];
+				
+				paneWidth = (GLint)(drawContextData.pane.max.x - drawContextData.pane.min.x);
+				paneHeight = (GLint)(drawContextData.pane.max.y - drawContextData.pane.min.y);
+				glRect[0] = (GLint) drawContextData.pane.min.x;
+				glRect[1] = (GLint)(portBounds.bottom - drawContextData.pane.max.y);
+				glRect[2] = paneWidth;
+				glRect[3] = paneHeight;
+
+				aglSetInteger( glContext, AGL_BUFFER_RECT, glRect );
+				aglEnable( glContext,     AGL_BUFFER_RECT );
+			}
+			else
+			{
+				paneWidth = portBounds.right - portBounds.left;
+				paneHeight = portBounds.bottom - portBounds.top;
+				aglDisable( glContext, AGL_BUFFER_RECT );
+			}
+			
+			glViewport( 0, 0, paneWidth, paneHeight );
+			
+			
+			if (aglUpdateContext( glContext ))
+			{
+				didUpdate = kQ3Success;
+			}
+		}
+	}
+	
+	return didUpdate;
 }
 #endif // QUESA_OS_MACINTOSH
 
@@ -716,7 +797,16 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
 		goto fail;
 
     if (!SetPixelFormat(theContext->theDC, pixelFormat, &pixelFormatDesc))
+	{
+		TQ3Int32	error = GetLastError();
+	#if Q3_DEBUG
+		char		theString[kQ3StringMaximumLength];
+		sprintf( theString, "SetPixelFormat error %d in gldrawcontext_win_new.", error );
+		E3Assert( __FILE__, __LINE__, theString );
+	#endif
+		Q3Error_PlatformPost(error);
     	goto fail;
+	}
 
     DescribePixelFormat(theContext->theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
 
@@ -940,6 +1030,65 @@ gldrawcontext_win_updatepos(void *glContext)
 
 	// Not required
 	return(kQ3False);
+}
+
+
+
+
+
+//=============================================================================
+//		gldrawcontext_win_updatesize : Update OpenGL context size.
+//-----------------------------------------------------------------------------
+static TQ3Status
+gldrawcontext_win_updatesize(
+								TQ3DrawContextObject	theDrawContext,
+								void					*glContext )
+{
+	TQ3Status	didUpdate = kQ3Failure;
+	TQ3ObjectType			drawContextType;
+	WinGLContext			*theContext = (WinGLContext*)glContext;
+	HWND					theWindow;
+	RECT					windowRect;
+	TQ3Int32				windowHeight;
+	TQ3DrawContextData		drawContextData;
+	
+	drawContextType = Q3DrawContext_GetType(theDrawContext);
+	
+	if (drawContextType == kQ3DrawContextTypeWin32DC)
+	{
+		theWindow = WindowFromDC( theContext->theDC );
+		if (theWindow != NULL)
+		{
+			GetClientRect( theWindow, &windowRect );
+			windowHeight = windowRect.bottom - windowRect.top;
+			
+			wglMakeCurrent(theContext->theDC, theContext->glContext);
+			
+			if (kQ3Success == Q3DrawContext_GetData(theDrawContext, &drawContextData))
+			{
+				if (drawContextData.paneState)
+				{
+					glViewport((TQ3Uns32)  drawContextData.pane.min.x,
+							   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
+							   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
+							   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+					glEnable( GL_SCISSOR_TEST );
+					glScissor((TQ3Uns32)  drawContextData.pane.min.x,
+							   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
+							   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
+							   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+				}
+				else
+				{
+					glViewport( 0, 0, windowRect.right - windowRect.left,
+						windowHeight );
+					glDisable( GL_SCISSOR_TEST );
+				}
+				didUpdate = kQ3Success;
+			}
+		}
+	}
+	return didUpdate;
 }
 #endif // QUESA_OS_WIN32
 
@@ -1446,4 +1595,31 @@ GLDrawContext_GetMinLineWidth(void *glContext)
 	glGetFloatv(GL_LINE_WIDTH_RANGE, lineWidth);
 
 	return(lineWidth[0]);
+}
+
+
+
+
+
+//=============================================================================
+//		GLDrawContext_UpdateSize : Update the context size.
+//-----------------------------------------------------------------------------
+TQ3Status			GLDrawContext_UpdateSize(
+								TQ3DrawContextObject	theDrawContext,
+								void					*glContext )
+{
+	TQ3Status	didUpdate = kQ3Failure;
+	
+	// Validate our parameters
+	Q3_REQUIRE(Q3_VALID_PTR(theDrawContext));
+	Q3_REQUIRE(Q3_VALID_PTR(glContext));
+	
+	
+#if QUESA_OS_MACINTOSH
+	didUpdate = gldrawcontext_mac_updatesize( theDrawContext, glContext );
+#elif QUESA_OS_WIN32
+	didUpdate = gldrawcontext_win_updatesize( theDrawContext, glContext );
+#endif
+	
+	return didUpdate;
 }
