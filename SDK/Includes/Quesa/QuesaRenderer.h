@@ -68,19 +68,42 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+/*!
+ *	@enum
+ *		kQ3ElementTypeDepthBits
+ *	@discussion
+ *		Element type of the depth bits element, which may be used to inform a
+ *		renderer of a preferred bit depth for a depth buffer.  Renderers that
+ *		are not based on OpenGL will probably ignore this preference.
+ *				
+ *      <em>This element is not available in QD3D.</em>
+ *
+ *		Typical usage:
+ *				
+ *		<blockquote><pre><code>
+ *			TQ3Uns32	depthBits = 32;
+ *			Q3Object_AddElement( theRenderer, kQ3ElementTypeDepthBits, &depthBits );
+ *		</code></pre></blockquote>
+ */
+enum
+{
+	kQ3ElementTypeDepthBits					=	Q3_OBJECT_TYPE(0xF0, 'd', 'b', 'i')
+};
+#endif
+
+
 /*!
  *  @enum
- *      TQ3AttributeTypeCSGID
+ *      kQ3AttributeTypeConstructiveSolidGeometryID
  *  @discussion
  *      CSG attribute.
  *
  *      The data for the attribute is a single TQ3CSGObjectID.
- *
- *  @constant kQ3AttributeTypeConstructiveSolidGeometryID    CSG attribute ID.
  */
-typedef enum {
+enum {
     kQ3AttributeTypeConstructiveSolidGeometryID = Q3_METHOD_TYPE('c', 's', 'g', 'i')
-} TQ3AttributeTypeCSGID;
+};
 
 
 /*!
