@@ -267,7 +267,7 @@ IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
 	const TQ3Vector3D		*theNormal;
 	TQ3XAttributeMask		theMask;
 	const TQ3Param2D		*theUV;
-
+	const TQ3ColorRGB		white = {1.0f, 1.0f, 1.0f};
 
 
 	// Get the attribute points
@@ -302,14 +302,22 @@ IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
 	if (theNormal == NULL && defaultNormal != NULL)
 		theNormal = defaultNormal;
 
-	if (colourDiffuse == NULL || instanceData->stateGeomHilightState == kQ3On)
-		colourDiffuse = instanceData->stateGeomDiffuseColour;
+	if (instanceData->stateTextureActive && instanceData->stateViewIllumination != kQ3IlluminationTypeNULL)
+		{
+		colourDiffuse = &white;
+		colourTransparency = &white;	
+		}
+	else
+		{
+		if (colourDiffuse == NULL || instanceData->stateGeomHilightState == kQ3On)
+			colourDiffuse = instanceData->stateGeomDiffuseColour;
 
-	if (colourTransparency == NULL &&
-		(instanceData->stateGeomTransparencyColour->r != 1.0f ||
-		 instanceData->stateGeomTransparencyColour->g != 1.0f ||
-		 instanceData->stateGeomTransparencyColour->b != 1.0f))
-		colourTransparency = instanceData->stateGeomTransparencyColour;
+		if (colourTransparency == NULL &&
+			(instanceData->stateGeomTransparencyColour->r != 1.0f ||
+			 instanceData->stateGeomTransparencyColour->g != 1.0f ||
+			 instanceData->stateGeomTransparencyColour->b != 1.0f))
+			colourTransparency = instanceData->stateGeomTransparencyColour;
+		}
 
 
 

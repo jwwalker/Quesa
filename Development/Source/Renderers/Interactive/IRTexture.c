@@ -468,7 +468,7 @@ ir_texture_get_storage_edit(TQ3TextureObject theTexture)
 //-----------------------------------------------------------------------------
 static void
 ir_texture_set_state(TQ3InteractiveData *instanceData, TQ3CachedTexture *cachedTexture)
-{	GLint		glEnvMode, glBoundsU, glBoundsV;
+{	GLint		glBoundsU, glBoundsV;
 	GLfloat		glMatrix[16];
 
 
@@ -481,13 +481,8 @@ ir_texture_set_state(TQ3InteractiveData *instanceData, TQ3CachedTexture *cachedT
 
 
 
-	// Set up the texture mode
-	if (instanceData->stateViewIllumination == kQ3IlluminationTypeNULL)
-		glEnvMode = GL_REPLACE;		// ignore geometry color and lighting
-	else
-		glEnvMode = GL_MODULATE;
-	
-	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   glEnvMode);
+	// Set up the texture mode	
+	glTexEnvi(      GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,   GL_MODULATE);
 	glTexParameteri(GL_TEXTURE_2D,  GL_TEXTURE_MAG_FILTER, cachedTexture->qualityFilter.magFilter);
 
 	if (cachedTexture->useMipmapping)
