@@ -385,14 +385,20 @@ IRRenderer_Register(void)
 
 
 
-	// Determine how to register the renderer
-#if QUESA_REPLACE_QD3D_RENDERERS
-	theType   = kQ3RendererTypeInteractive;
-	className = kQ3ClassNameRendererInteractive;
-#else
-	theType   = kQ3ObjectTypeQuesaInteractive;
-	className = kRendererClassName;
-#endif
+	// Check to see if the Interactive Renderer is present.
+	//
+	// If it is then we register ourselves under the Quesa interactive type,
+	// but if QD3D's renderer isn't here then we use its type.
+	if (Q3ObjectHierarchy_IsTypeRegistered(kQ3RendererTypeInteractive))
+		{
+		theType   = kQ3ObjectTypeQuesaInteractive;
+		className = kRendererClassName;
+		}
+	else
+		{
+		theType   = kQ3RendererTypeInteractive;
+		className = kQ3ClassNameRendererInteractive;
+		}
 
 
 
