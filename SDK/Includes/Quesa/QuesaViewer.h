@@ -5,7 +5,9 @@
         QuesaViewer.h
 
     DESCRIPTION:
-        Quesa public header.
+        Quesa public header.  This file declares the public interface to the
+        Quesa Viewer, an extra component of Quesa which allows the user to
+        easily display 3D models for the user's inspection and manipulation.
 
     COPYRIGHT:
         Quesa Copyright © 1999-2001, Quesa Developers.
@@ -96,7 +98,7 @@ typedef enum {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
 
-// Viewer flags (Q3ViewerNew)
+// Viewer flags (Q3ViewerNew, Q3ViewerGetFlags, etc.)
 enum {
     kQ3ViewerShowBadge                          = (1 << 0),
     kQ3ViewerActive                             = (1 << 1),
@@ -259,14 +261,19 @@ typedef struct {
  *  @function
  *      Q3ViewerGetVersion
  *  @discussion
- *      One-line description of this function.
+ *      Returns the major and minor version number of the Quesa viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      For example, if the revision is 1.6a23 (= 1.6.0a23), returns 1
+ *      as the major revision level and 6 as the minor revision level:
+ *      The final 0 in the minor revision level is omitted.
+ *      If the revision is 1.61a23 (= 1.6.1a23), returns 1 as the major
+ *      revision level and 61 as the minor revision level.
  *
- *  @param majorRevision    Description of the parameter.
- *  @param minorRevision    Description of the parameter.
- *  @result                 Description of the function result.
+ *		See also the Q3ViewerGetReleaseVersion function.
+ *
+ *  @param majorRevision    Address of integer to receive major version number.
+ *  @param minorRevision    Address of integer to receive major version number.
+ *  @result                 Status code (0 for no error).
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetVersion (
@@ -279,13 +286,23 @@ Q3ViewerGetVersion (
  *  @function
  *      Q3ViewerGetReleaseVersion
  *  @discussion
- *      One-line description of this function.
+ *      Returns the version number of the Quesa viewer, in <code>'vers'</code>
+ *		format.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The four bytes contain 1) the major revision level, 2) the minor revision,
+ *      3) the development stage, and 4) the prerelease revision level, respectively.
+ *      The three revision levels are each represented in binary coded decimal.
+ *      The development stage can be development (0x20), alpha (0x40), beta (0x60)
+ *      or release (0x80).
  *
- *  @param releaseRevision  Description of the parameter.
- *  @result                 Description of the function result.
+ *      For example, if the revision is 1.61a23 (= 1.6.1a23), returns 0x01614023.
+ *      For more information, see the description of the <code>'vers'</code> resource
+ *      in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
+ *
+ *		See also the Q3ViewerGetVersion function.
+ *
+ *  @param releaseRevision  Address of integer to receive version data.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetReleaseVersion (
@@ -297,16 +314,14 @@ Q3ViewerGetReleaseVersion (
  *  @function
  *      Q3ViewerNew
  *  @discussion
- *      One-line description of this function.
+ *      Creates a new Viewer.  Note that despite the type nomenclature
+ *		(TQ3ViewerObject), this is <i>not</i> a Quesa object, and can't be used
+ *		with Q3Object functions such as <code>Q3Object_Dispose</code>.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param Q3ViewerNew(     Description of the parameter.
- *  @param port             Description of the parameter.
- *  @param rect             Description of the parameter.
- *  @param flags            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param port             MacOS port to which the Viewer should be attached.
+ *  @param rect             Address of a bounding rectangle, in port coordinates.
+ *  @param flags            Any combination of Viewer flags (consider using kQ3ViewerDefault).
+ *  @result                 Newly created Viewer, or <code>NULL</code> if Viewer could not be created.
  */
 EXTERN_API_C ( TQ3ViewerObject )
 Q3ViewerNew(
@@ -320,13 +335,13 @@ Q3ViewerNew(
  *  @function
  *      Q3ViewerDispose
  *  @discussion
- *      One-line description of this function.
+ *      Disposes of a Viewer object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Call this when you're done with the Viewer to ensure that Quesa
+ *		has a chance to properly clean up after it.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer created with Q3ViewerNew.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerDispose (
@@ -338,14 +353,13 @@ Q3ViewerDispose (
  *  @function
  *      Q3ViewerUseFile
  *  @discussion
- *      One-line description of this function.
+ *      Load data from a 3D model file into the Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		See also: <code>Q3ViewerUseData</code>, <code>Q3ViewerUseGroup</code>.
  *
- *  @param theViewer        Description of the parameter.
- *  @param refNum           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param refNum           MacOS file reference number (e.g., obtained from FSOpen).
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerUseFile (
@@ -358,15 +372,18 @@ Q3ViewerUseFile (
  *  @function
  *      Q3ViewerUseData
  *  @discussion
- *      One-line description of this function.
+ *      Loads 3D model data in memory into the Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The given data buffer is copied by the Viewer; the caller
+ *		is responsible for disposing of it and may do so immediately
+ *		after this call.
  *
- *  @param theViewer        Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param size             Description of the parameter.
- *  @result                 Description of the function result.
+ *		See also: <code>Q3ViewerUseFile</code>, <code>Q3ViewerUseGroup</code>.
+ *
+ *  @param theViewer        Viewer object.
+ *  @param data             Pointer to a buffer containing model data.
+ *  @param size             Length of the data buffer (in bytes).
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerUseData (
@@ -380,14 +397,11 @@ Q3ViewerUseData (
  *  @function
  *      Q3ViewerWriteFile
  *  @discussion
- *      One-line description of this function.
+ *      Write the 3D model data contained by the Viewer out to a file.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theViewer        Description of the parameter.
- *  @param refNum           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param refNum           MacOS file reference number (e.g., obtained from FSOpen).
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerWriteFile (
@@ -400,14 +414,17 @@ Q3ViewerWriteFile (
  *  @function
  *      Q3ViewerWriteData
  *  @discussion
- *      One-line description of this function.
+ *      Copies the 3D model data contained by the Viewer into a MacOS Handle.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The <code>data</code> handle must already exist and be of a size
+ *		large enough to hold the model data.  Unfortunately, you have no
+ *		good way to know how large it needs to be, except by trial and
+ *		error (or by remembering from when the data was loaded in the 
+ *		first place).
  *
- *  @param theViewer        Description of the parameter.
- *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param data             Handle to stuff with viewer data.
+ *  @result                 Number of bytes actually written, or 0 to indicate failure.
  */
 EXTERN_API_C ( unsigned long )
 Q3ViewerWriteData (
@@ -420,13 +437,15 @@ Q3ViewerWriteData (
  *  @function
  *      Q3ViewerDraw
  *  @discussion
- *      One-line description of this function.
+ *      Forces the given Viewer to redraw itself.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		You only need to call this function if the Viewer's flags or other
+ *		visible features have changed.  For example, to move or resize the
+ *		Viewer, you would call <code>Q3ViewerSetBounds</code> followed by 
+ *		<code>Q3ViewerDraw</code>.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerDraw (
@@ -438,13 +457,15 @@ Q3ViewerDraw (
  *  @function
  *      Q3ViewerDrawContent
  *  @discussion
- *      One-line description of this function.
+ *      Redraws the content area (i.e. the 3D view) of the given Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		You should call this function if you directly modify the 3D model
+ *		associated with the Viewer.  In such a case, it's better to call
+ *		this function than <code>Q3ViewerDraw</code>, which also redraws
+ *		other user interface elements (such as control buttons).
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerDrawContent (
@@ -456,13 +477,13 @@ Q3ViewerDrawContent (
  *  @function
  *      Q3ViewerDrawControlStrip
  *  @discussion
- *      One-line description of this function.
+ *      Redraws the user interface controls of the given Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Call this function when you want to redraw the controls, without
+ *		re-rendering the 3D view.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerDrawControlStrip (
@@ -474,14 +495,22 @@ Q3ViewerDrawControlStrip (
  *  @function
  *      Q3ViewerEvent
  *  @discussion
- *      One-line description of this function.
+ *      Handles a MacOS event.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function gives the specified Viewer an opportunity to handle
+ *		user interactiev via a classic (or Carbon) MacOS EventRecord.
+ *		If the event was a Viewer-related event and successfully handled
+ *		by the Viewer, this function returns true.  Otherwise, it returns
+ *		false, and you should proceed to handle the event yourself.
  *
- *  @param theViewer        Description of the parameter.
- *  @param evt              Description of the parameter.
- *  @result                 Description of the function result.
+ *		Note that this function implements a "closed-loop" event handling
+ *		model; it should not be used in conjunction with the "open-loop"
+ *		event functions (<code>Q3ViewerMouseDown</code>, <code>Q3ViewerMouseUp</code>, 
+ *		<code>Q3ViewerContinueTracking</code>, and <code>Q3ViewerHandleKeyEvent</code>).
+ *
+ *  @param theViewer        Viewer object.
+ *  @param evt              Address of event record to process.
+ *  @result                 True if event was handled, false if not handled.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerEvent (
@@ -494,13 +523,14 @@ Q3ViewerEvent (
  *  @function
  *      Q3ViewerGetPict
  *  @discussion
- *      One-line description of this function.
+ *      Gets a 2D image of the Viewer's rendering in '<code>PICT</code>' format.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This function builds a MacOS Picture containing the current
+ *		rendering in the given Viewer.  The caller is responsible for
+ *		releasing the picture memory via <code>DisposeHandle</code>.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 Handle to newly created picture.
  */
 EXTERN_API_C ( PicHandle )
 Q3ViewerGetPict (
@@ -512,15 +542,22 @@ Q3ViewerGetPict (
  *  @function
  *      Q3ViewerGetButtonRect
  *  @discussion
- *      One-line description of this function.
+ *      Gets the rectangle that encloses a Viewer control button.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Specify the button of interest with one of the following constants:
  *
- *  @param theViewer        Description of the parameter.
- *  @param button           Description of the parameter.
- *  @param rect             Description of the parameter.
- *  @result                 Description of the function result.
+ *			<code>kQ3ViewerButtonCamera
+ *			kQ3ViewerButtonTruck
+ *			kQ3ViewerButtonOrbit
+ *			kQ3ViewerButtonZoom
+ *			kQ3ViewerButtonDolly
+ *			kQ3ViewerButtonReset
+ *			kQ3ViewerButtonOptions</code>
+ *
+ *  @param theViewer        Viewer object.
+ *  @param button           Which button to get (e.g., kQ3ViewerButtonCamera).
+ *  @param rect             Address of a rectangle to stuff with button bounds.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetButtonRect (
@@ -534,13 +571,21 @@ Q3ViewerGetButtonRect (
  *  @function
  *      Q3ViewerGetCurrentButton
  *  @discussion
- *      One-line description of this function.
+ *      Gets the currently selected mode button of the given Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		A Viewer object always has a "mode" which determines how mouse
+ *		drags in the content area are interpreted.  Modes are selected
+ *		by clicking on one of the mode buttons; this function tells
+ *		you which one is currently active.  The result will be one of
+ *		the following:
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *			<code>kQ3ViewerButtonTruck
+ *			kQ3ViewerButtonOrbit
+ *			kQ3ViewerButtonZoom
+ *			kQ3ViewerButtonDolly</code>
+ *
+ *  @param theViewer        Viewer object.
+ *  @result                 Active mode button.
  */
 EXTERN_API_C ( unsigned long )
 Q3ViewerGetCurrentButton (
@@ -552,14 +597,22 @@ Q3ViewerGetCurrentButton (
  *  @function
  *      Q3ViewerSetCurrentButton
  *  @discussion
- *      One-line description of this function.
+ *      Sets the currently selected mode button of the given Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		A Viewer object always has a "mode" which determines how mouse
+ *		drags in the content area are interpreted.  Modes are selected
+ *		by clicking on one of the mode buttons; this function has
+ *		exactly the same effect as a click on the specified button.
+ *		The <code>button</code> parameter should be one of the following:
  *
- *  @param theViewer        Description of the parameter.
- *  @param button           Description of the parameter.
- *  @result                 Description of the function result.
+ *			<code>kQ3ViewerButtonTruck
+ *			kQ3ViewerButtonOrbit
+ *			kQ3ViewerButtonZoom
+ *			kQ3ViewerButtonDolly</code>
+ *
+ *  @param theViewer        Viewer object.
+ *  @param button           Constant indicating a mode button.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetCurrentButton (
@@ -572,14 +625,13 @@ Q3ViewerSetCurrentButton (
  *  @function
  *      Q3ViewerUseGroup
  *  @discussion
- *      One-line description of this function.
+ *      Loads a model data in a TQ3Group into the specified Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		See also: <code>Q3ViewerUseFile</code>, <code>Q3ViewerUseData</code>.
  *
- *  @param theViewer        Description of the parameter.
- *  @param group            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param group            Model data to load.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerUseGroup (
@@ -592,13 +644,14 @@ Q3ViewerUseGroup (
  *  @function
  *      Q3ViewerGetGroup
  *  @discussion
- *      One-line description of this function.
+ *      Returns a reference to the 3D model data being used by the Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The reference count of the TQ3GroupObject returned is incremented
+ *		by this call.  Therefore, you should call Q3Object_Dispose on this
+ *		value when you're with it.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 Group containing 3D model data.
  */
 EXTERN_API_C ( TQ3GroupObject )
 Q3ViewerGetGroup (
@@ -610,14 +663,11 @@ Q3ViewerGetGroup (
  *  @function
  *      Q3ViewerSetBackgroundColor
  *  @discussion
- *      One-line description of this function.
+ *      Sets the background color of the 3D view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theViewer        Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param color            Color to use as background for the 3D rendering.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetBackgroundColor (
@@ -630,14 +680,11 @@ Q3ViewerSetBackgroundColor (
  *  @function
  *      Q3ViewerGetBackgroundColor
  *  @discussion
- *      One-line description of this function.
+ *      Returns the background color of the 3D view.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theViewer        Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param color            Pointer to TQ3ColorARGB to receive background color.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetBackgroundColor (
@@ -650,13 +697,10 @@ Q3ViewerGetBackgroundColor (
  *  @function
  *      Q3ViewerGetView
  *  @discussion
- *      One-line description of this function.
+ *      Returns the view object associated with the given Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 View object associated with this Viewer.
  */
 EXTERN_API_C ( TQ3ViewObject )
 Q3ViewerGetView (
@@ -668,13 +712,15 @@ Q3ViewerGetView (
  *  @function
  *      Q3ViewerRestoreView
  *  @discussion
- *      One-line description of this function.
+ *      Resets the viewer camera according to the settings in the associated
+ *		view hints object.  If there are no view hints, resets the camera
+ *		to a standard default state.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This has the same effect as clicking the reset button in the
+ *		viewer controls.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerRestoreView (
@@ -686,14 +732,52 @@ Q3ViewerRestoreView (
  *  @function
  *      Q3ViewerSetFlags
  *  @discussion
- *      One-line description of this function.
+ *      Sets the Viewer feature flags.  Flags are as follows:
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		kQ3ViewerShowBadge: If set, a badge is displayed when the controller
+ *			strip is not visible.
+ *		kQ3ViewerActive: Indicates that the viewer is active (rather than
+ *			deactivated).
+ *		kQ3ViewerControllerVisible: If set, the controller strip is visible.
+ *		kQ3ViewerDrawFrame: If set, a one-pixel frame is drawn within the
+ *			viewer pane.
+ *		kQ3ViewerDraggingOff: If set, drag and drop is turned off (both
+ *			dragging in and dragging out).
+ *		kQ3ViewerButtonCamera: If set, the camera viewpoint control is
+ *			displayed in the controller strip.
+ *		kQ3ViewerButtonTruck: If set, the distance mode button is displayed
+ *			in the controller strip.
+ *		kQ3ViewerButtonOrbit: If set, the rotate mode button is displayed
+ *			in the controller strip.
+ *		kQ3ViewerButtonZoom: If set, the zoom mode button is displayed
+ *			in the controller strip.
+ *		kQ3ViewerButtonDolly: If set, the move (translate) mode button is
+ *			displayed in the controller strip.
+ *		kQ3ViewerButtonReset: If set, the reset button is displayed in the
+ *			controller strip.
+ *		kQ3ViewerOutputTextMode: If set, the <code>Q3ViewerWriteFile</code>
+ *			function writes 3DMF data in text mode rather than binary.
+ *			(<i>Note: not currently supported!</i>)
+ *		kQ3ViewerDragMode: If set, the viewer is in drag and drop mode, causing
+ *			it to respond only to drag and drop interaction.
+ *		kQ3ViewerDrawGrowBox: If set, a grow (resize) box is drawn in the
+ *			lower-right corner of the viewer pane.
+ *		kQ3ViewerDrawDragBorder: If set, a drag border is drawn around the border
+ *			of the rendering pane.  The user can then initiate a drag by grabbing
+ *			this border with the mouse.
+ *		kQ3ViewerDraggingInOff: If set, dragging into the viewer pane is disabled.
+ *		kQ3ViewerDraggingOutOff: If set, dragging out of the viewer pane is disabled.
+ *		kQ3ViewerButtonOptions: If set, the options button is displayed in the
+ *			controller strip.
+ *		kQ3ViewerPaneGrowBox: ?
+ *		kQ3ViewerDefault: Represents the default Viewer configuration.
  *
- *  @param theViewer        Description of the parameter.
- *  @param flags            Description of the parameter.
- *  @result                 Description of the function result.
+ *		Changes to the Viewer's flags will not be visible until the Viewer
+ *		is redrawn (e.g., by calling <code>Q3ViewerDraw</code>).
+ *
+ *  @param theViewer        Viewer object.
+ *  @param flags            Desired combination of feature flags.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetFlags (
@@ -706,13 +790,12 @@ Q3ViewerSetFlags (
  *  @function
  *      Q3ViewerGetFlags
  *  @discussion
- *      One-line description of this function.
+ *		Gets the Viewer feature flags currently in effect.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		See <code>Q3ViewerSetFlags</code> for a listing of the possible flags.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 Current feature flags.
  */
 EXTERN_API_C ( unsigned long )
 Q3ViewerGetFlags (
@@ -724,14 +807,15 @@ Q3ViewerGetFlags (
  *  @function
  *      Q3ViewerSetBounds
  *  @discussion
- *      One-line description of this function.
+ *      Sets the bounding rectangle for the Viewer pane.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Call this function to change where the Viewer draws itself within
+ *		its window.  The bounds are in window coordinates, with (0,0)
+ *		being the top-left corner of the window.
  *
- *  @param theViewer        Description of the parameter.
- *  @param bounds           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param bounds           Address of a Rect containing new desired bounds
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetBounds (
@@ -744,14 +828,15 @@ Q3ViewerSetBounds (
  *  @function
  *      Q3ViewerGetBounds
  *  @discussion
- *      One-line description of this function.
+ *      Gets the current bounding rectangle of the Viewer pane.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The bounding rectangle determines where the Viewer draws itself
+ *		within its window.  The bounds are in window coordinates, with (0,0)
+ *		being the top-left corner of the window.
  *
- *  @param theViewer        Description of the parameter.
- *  @param bounds           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param bounds           Address of Rect to receive Viewer bounds.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetBounds (
@@ -764,15 +849,15 @@ Q3ViewerGetBounds (
  *  @function
  *      Q3ViewerSetDimension
  *  @discussion
- *      One-line description of this function.
+ *      Sets the dimensions of model space in a Viewer's view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		This might be useful if you were then going to write a 3DMF file
+ *		of the Viewer data; presumably it could store this hint in that file.
  *
- *  @param theViewer        Description of the parameter.
- *  @param width            Description of the parameter.
- *  @param height           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param width            Desired width of the viewer pane.
+ *  @param height           Desired height of the viewer pane.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetDimension (
@@ -786,15 +871,15 @@ Q3ViewerSetDimension (
  *  @function
  *      Q3ViewerGetDimension
  *  @discussion
- *      One-line description of this function.
+ *      Get the dimensions of model space in a Viewer's view hints object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		If the specified Viewer has no view hints, then this function just
+ *		returns the actual width and height of the viewer pane.
  *
- *  @param theViewer        Description of the parameter.
- *  @param width            Description of the parameter.
- *  @param height           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param width            Address of an integer to receive the hinted width.
+ *  @param height           Address of an integer to receive the hinted height.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetDimension (
@@ -808,15 +893,17 @@ Q3ViewerGetDimension (
  *  @function
  *      Q3ViewerGetMinimumDimension
  *  @discussion
- *      One-line description of this function.
+ *      Gets the minimum allowable size of the viewer pane.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The returned size will take into account the currently displayed
+ *		buttons in the controller strip.  If you allow the viewer pane
+ *		(or its window) to be resized, you should not allow it to be
+ *		resized smaller than the values returned by this function.
  *
- *  @param theViewer        Description of the parameter.
- *  @param width            Description of the parameter.
- *  @param height           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param width            Address of an integer to receive the minimum viewer width.
+ *  @param height           Address of an integer to receive the minimum viewer height.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetMinimumDimension (
@@ -830,14 +917,19 @@ Q3ViewerGetMinimumDimension (
  *  @function
  *      Q3ViewerSetPort
  *  @discussion
- *      One-line description of this function.
+ *      Set the graphics port into which the Viewer should draw.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The given port may be either associated with a window, or it may
+ *		be an offscreen graphics world.  Note that under classic MacOS,
+ *		a Window and its port are basically the same thing, but this is
+ *		not true under Carbon.  Take care to pass in an actual CGrafPtr,
+ *		not a WindowRef (use GetWindowPort to get a window's port).
+ *		You may also pass in NULL to indicate that no port should be
+ *		associated with this Viewer object.
  *
- *  @param theViewer        Description of the parameter.
- *  @param port             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param port             Color graphics port to be used by this Viewer.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetPort (
@@ -850,13 +942,14 @@ Q3ViewerSetPort (
  *  @function
  *      Q3ViewerGetPort
  *  @discussion
- *      One-line description of this function.
+ *      Gets the graphics port into which the specified Viewer draws.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The returned port may be associated with a window or an offscreen
+ *		graphics world; or it may be NULL, indicating that the Viewer is
+ *		not associated with any port.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 Associated color graphics port.
  */
 EXTERN_API_C ( CGrafPtr )
 Q3ViewerGetPort (
@@ -868,14 +961,16 @@ Q3ViewerGetPort (
  *  @function
  *      Q3ViewerAdjustCursor
  *  @discussion
- *      One-line description of this function.
+ *      Adjusts the mouse cursor if it's over the specified Viewer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Call this function when the mouse moves, if it might be over
+ *		the specified Viewer (or even if it's not).  That gives the
+ *		Viewer the opportunity to change the cursor as appropriate
+ *		for the Viewer mode and cursor location.
  *
- *  @param theViewer        Description of the parameter.
- *  @param pt               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @param pt               Location of the cursor, in local (window) coordinates.
+ *  @result                 True if the cursor was changed, false otherwise.
  */
 EXTERN_API_C ( Boolean )
 Q3ViewerAdjustCursor (
@@ -888,13 +983,13 @@ Q3ViewerAdjustCursor (
  *  @function
  *      Q3ViewerCursorChanged
  *  @discussion
- *      One-line description of this function.
+ *      Notifies the Viewer that you have changed the cursor.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		If you change the cursor (using SetCursor or similar), notify
+ *		all active Viewers by calling this function.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerCursorChanged (
@@ -911,7 +1006,7 @@ Q3ViewerCursorChanged (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @result                 Description of the function result.
  */
 EXTERN_API_C ( unsigned long )
@@ -929,8 +1024,8 @@ Q3ViewerGetState (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerClear (
@@ -947,8 +1042,8 @@ Q3ViewerClear (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerCut (
@@ -965,8 +1060,8 @@ Q3ViewerCut (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerCopy (
@@ -983,8 +1078,8 @@ Q3ViewerCopy (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerPaste (
@@ -1001,7 +1096,7 @@ Q3ViewerPaste (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param x                Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -1022,7 +1117,7 @@ Q3ViewerMouseDown (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param x                Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -1043,7 +1138,7 @@ Q3ViewerContinueTracking (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param x                Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -1064,7 +1159,7 @@ Q3ViewerMouseUp (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param evt              Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -1084,10 +1179,10 @@ Q3ViewerHandleKeyEvent (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param callbackMethod   Description of the parameter.
  *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetDrawingCallbackMethod (
@@ -1106,10 +1201,10 @@ Q3ViewerSetDrawingCallbackMethod (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param windowResizeCallbackMethod Description of the parameter.
  *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetWindowResizeCallback (
@@ -1128,10 +1223,10 @@ Q3ViewerSetWindowResizeCallback (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param paneResizeNotifyCallbackMethod Description of the parameter.
  *  @param data             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetPaneResizeNotifyCallback (
@@ -1150,8 +1245,8 @@ Q3ViewerSetPaneResizeNotifyCallback (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theViewer        Viewer object.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerUndo (
@@ -1168,7 +1263,7 @@ Q3ViewerUndo (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param str              Description of the parameter.
  *  @param cnt              Description of the parameter.
  *  @result                 Description of the function result.
@@ -1190,9 +1285,9 @@ Q3ViewerGetUndoString (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param cnt              Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetCameraCount (
@@ -1210,9 +1305,9 @@ Q3ViewerGetCameraCount (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param cameraNo         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetCameraByNumber (
@@ -1230,9 +1325,9 @@ Q3ViewerSetCameraByNumber (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param viewType         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetCameraByView (
@@ -1250,9 +1345,9 @@ Q3ViewerSetCameraByView (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param rendererType     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetRendererType (
@@ -1270,9 +1365,9 @@ Q3ViewerSetRendererType (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param rendererType     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetRendererType (
@@ -1290,9 +1385,9 @@ Q3ViewerGetRendererType (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param brightness       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerChangeBrightness (
@@ -1310,9 +1405,9 @@ Q3ViewerChangeBrightness (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param remove           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetRemoveBackfaces (
@@ -1330,9 +1425,9 @@ Q3ViewerSetRemoveBackfaces (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param remove           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetRemoveBackfaces (
@@ -1350,9 +1445,9 @@ Q3ViewerGetRemoveBackfaces (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param phong            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerSetPhongShading (
@@ -1370,9 +1465,9 @@ Q3ViewerSetPhongShading (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
- *  @param theViewer        Description of the parameter.
+ *  @param theViewer        Viewer object.
  *  @param phong            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 MacOS error/result code.
  */
 EXTERN_API_C ( OSErr )
 Q3ViewerGetPhongShading (
