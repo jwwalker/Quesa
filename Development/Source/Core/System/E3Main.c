@@ -1800,3 +1800,80 @@ E3Bitmap_GetImageSize(TQ3Uns32 theWidth, TQ3Uns32 theHeight)
 }
 
 
+
+
+
+//=============================================================================
+//      E3Bitmap_GetBit : Get a bit from a bitmap.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Bitmap_GetBit(const TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y)
+{	TQ3Uns8			*bytePtr, theByte, bitShift;
+	TQ3Boolean		theState;
+
+
+
+	// Locate the byte we need
+	bytePtr  = theBitmap->image + (y * theBitmap->rowBytes);
+	bytePtr += (x / 8);
+	theByte  = *bytePtr;
+
+
+
+	// Locate the bit we need
+	bitShift = x % 8;
+	if (theBitmap->bitOrder == kQ3EndianBig)
+		theState = ((theByte >> (7 - bitShift)) & 0x01) != 0 ? kQ3True : kQ3False;
+	else
+		theState = ((theByte >>  (   bitShift)) & 0x01) != 0 ? kQ3True : kQ3False;
+
+	return(theState);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Bitmap_SetBit : Set a bit within a bitmap.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Bitmap_SetBit(TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y, TQ3Boolean theState)
+{	TQ3Uns8		*bytePtr, theByte, bitShift, byteMask;
+
+
+
+	// Locate the byte we need
+	bytePtr  = theBitmap->image + (y * theBitmap->rowBytes);
+	bytePtr += (x / 8);
+
+
+
+	// Prepare the mask
+	bitShift = x % 8;
+
+	if (theBitmap->bitOrder == kQ3EndianBig)
+		byteMask = (1 << (7 - bitShift));
+	else
+		byteMask = (1 << (    bitShift));
+
+
+
+	// Update the byte
+	theByte = *bytePtr;
+	
+	if (theState)
+		theByte |=  byteMask;
+	else
+		theByte &= ~byteMask;
+	
+	*bytePtr = theByte;
+
+	return(kQ3Success);
+}
+
+
+
+
+
+

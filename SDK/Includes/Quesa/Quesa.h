@@ -1154,7 +1154,7 @@ typedef struct TQ3StoragePixmap {
  *      Fundamental Bitmap type.
  *
  *  @field image            Pointer to (height*rowBytes) sized block of memory containing the image data.
- *                          Note that each row of image data starts on a new byte.
+ *                          Each row of image data starts on a new byte.
  *  @field width            Width of the image.
  *  @field height           Height of the image.
  *  @field rowBytes         Distance in bytes from begining of one row of image data to the next.
@@ -2297,6 +2297,60 @@ Q3Bitmap_GetImageSize (
     TQ3Uns32                      width,
     TQ3Uns32                      height
 );
+
+
+
+/*!
+ *  @function
+ *      Q3Bitmap_GetBit
+ *  @discussion
+ *      Get the status of a bit within a bitmap.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *      
+ *  @param theBitMap        The bitmap to query.
+ *  @param x                The x coordinate of the pixel to query.
+ *  @param y                The y coordinate of the pixel to query.
+ *  @result                 The status of the bit.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Boolean  )
+Q3Bitmap_GetBit (
+    const TQ3Bitmap               *theBitmap,
+    TQ3Uns32                      x,
+    TQ3Uns32                      y
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3Bitmap_SetBit
+ *  @discussion
+ *      Set the status of a bit within a bitmap.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *      
+ *  @param theBitMap        The bitmap to update.
+ *  @param x                The x coordinate of the pixel to update.
+ *  @param y                The y coordinate of the pixel to update.
+ *  @param theState         The new state for the pixel.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Bitmap_SetBit (
+    TQ3Bitmap                     *theBitmap,
+    TQ3Uns32                      x,
+    TQ3Uns32                      y,
+    TQ3Boolean                    theState
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
