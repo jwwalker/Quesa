@@ -5016,6 +5016,118 @@ Q3Mesh_New(void)
 
 
 //=============================================================================
+//      Q3Mesh_SetData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Mesh_SetData(TQ3GeometryObject mesh, const TQ3MeshData *meshData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(mesh->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, kQ3ShapeTypeGeometry), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(meshData), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on mesh
+		return(kQ3Failure);
+
+	if (0) // Further checks on meshData
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Mesh_SetData(mesh, meshData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Mesh_GetData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Mesh_GetData(TQ3GeometryObject mesh, TQ3MeshData *meshData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(mesh->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(mesh, kQ3ShapeTypeGeometry), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(meshData), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on mesh
+		return(kQ3Failure);
+
+	if (0) // Further checks on meshData
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Mesh_GetData(mesh, meshData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Mesh_EmptyData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Mesh_EmptyData(TQ3MeshData *meshData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(meshData), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on meshData
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Mesh_EmptyData(meshData));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3Mesh_VertexNew : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3MeshVertex
