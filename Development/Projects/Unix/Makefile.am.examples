@@ -5,6 +5,7 @@ GEOMTEST= GeomTest
 prefix = /usr/local/Quesa
 
 modelsdir=$(prefix)/Models
+imagesdir=$(prefix)/Images
 
 quesaexamples_commoncflags= -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES) $(GTK_CFLAGS)
 quesaexamples_commonldadd= -L/usr/local/lib -L. -lquesaqut -lquesa -lc -lGL -lGLU $(GTK_LIBS)
@@ -25,6 +26,8 @@ WARN= -Wall -Wpointer-arith -Wno-cast-qual -Waggregate-return         \
 libquesaqut_a_SOURCES= ${QUT}/Qut.c               \
              ${QUT}/Qut.h              		 \
              ${QUT}/QutInternal.h        	 \
+             ${QUT}/QutTexture.c        	 \
+             ${QUT}/QutTexture.h        	 \
              ${QUT}/Unix/QutUnix.c
              
 libquesaqut_a_CFLAGS= $(quesaexamples_commoncflags)
@@ -76,5 +79,13 @@ models_DATA = $(srcdir)/Models/QuesaLogo.3dmf \
 			$(srcdir)/Models/F15.3dmf			\
 			$(srcdir)/Models/F18.3dmf
 
+images_DATA = $(srcdir)/Images/Quesa.tga \
+			$(srcdir)/Images/1.tga	\
+			$(srcdir)/Images/2.tga	\
+			$(srcdir)/Images/3.tga	\
+			$(srcdir)/Images/4.tga	\
+			$(srcdir)/Images/5.tga	\
+			$(srcdir)/Images/6.tga
 
-EXTRA_DIST= $(models_DATA)
+
+EXTRA_DIST= $(models_DATA) $(images_DATA)
