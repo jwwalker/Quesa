@@ -103,8 +103,6 @@ TQ3Status			E3FFW_3DMF_Write(const void *object,  TQ3FileObject theFile);
 TQ3Status			E3FFW_3DMF_TOC_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
 TQ3Status			E3FFW_3DMF_TOC_Write(const void *object,  TQ3FileObject theFile);
 
-TQ3Status			E3FFW_3DMF_Reference_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
-
 TQ3Status			E3FFW_3DMF_type_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view);
 TQ3Status			E3FFW_3DMF_type_Write(const void *object,  TQ3FileObject theFile);
 

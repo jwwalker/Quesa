@@ -2132,7 +2132,7 @@ E3FFW_3DMF_Register(void)
 												NULL,
 												sizeof(TQ3Uns32));
 
-	E3ClassTree_AddMethodByType(kQ3ShapeTypeReference,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Reference_Traverse);
+	E3ClassTree_AddMethodByType(kQ3ShapeTypeReference,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_32_Traverse);
 	E3ClassTree_AddMethodByType(kQ3ShapeTypeReference,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
 	
 	
