@@ -63,7 +63,6 @@ extern "C" {
 //      Macros
 //-----------------------------------------------------------------------------
 
-// N.B although we don't actually use _class yet we might one day
 #define Q3_CLASS_ENUMS(_type, _class, _parentClass) 			\
 public :														\
 	enum														\
@@ -79,14 +78,11 @@ private :
 #define Q3_OBJECT_IS_CLASS(_object, _class) ((_object)->IsClass ( _class::eClassType, _class::eClassDepth ))
 
 
-#define Q3_REGISTER_CLASS(_parentType, _infoClass, _Name, _metaHandler, _instanceClass )	\
-	E3ClassTree::RegisterClass	( new ( std::nothrow ) _infoClass							\
-										(													\
-										_metaHandler, 										\
-										E3ClassTree::GetClass ( _parentType )				\
-										),													\
+#define Q3_REGISTER_CLASS(_Name, _metaHandler, _instanceClass )								\
+	E3ClassTree::RegisterClass	( _instanceClass::eParentType,								\
 								_instanceClass::eClassType,									\
 								_Name,														\
+								_metaHandler,												\
 								sizeof ( _instanceClass )									\
 								)
 	

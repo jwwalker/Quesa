@@ -164,20 +164,16 @@ public :
 
 
 	// Register and unregister a class
-	static TQ3Status		RegisterClass (	E3ClassInfo*		newClass,
-											TQ3ObjectType		classType,
-											const char			*className,
-											TQ3Uns32			instanceSize ) ; // New style
 	static TQ3Status		RegisterClass (	TQ3ObjectType		parentClassType,
 											TQ3ObjectType		classType,
 											const char			*className,
 											TQ3XMetaHandler		classMetaHandler,
-											TQ3Int32			instanceSize ) ; // Old style
+											TQ3Uns32			totalInstanceSize ) ;
 	static TQ3Status		RegisterExternalClass (	TQ3ObjectType		parentClassType,
-											TQ3ObjectType		classType,
-											const char			*className,
-											TQ3XMetaHandler		classMetaHandler,
-											TQ3Uns32			instanceSize ) ;
+													TQ3ObjectType		classType,
+													const char			*className,
+													TQ3XMetaHandler		classMetaHandler,
+													TQ3Uns32			deltaInstanceSize ) ;
 	static TQ3Status		UnregisterClass ( TQ3ObjectType classType, TQ3Boolean isRequired ) ;
 
 
