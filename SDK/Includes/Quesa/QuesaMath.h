@@ -332,7 +332,7 @@ Q3Vector2D_To3D (
  *  @discussion
  *		Convert 2D vector to 3D rational point, setting w to 0.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param vector2D         Address of 2D vector to convert.
  *  @param result           Address of 3D rational point to set.
@@ -380,7 +380,7 @@ Q3Vector3D_To2D (
  *  @discussion
  *		Convert 3D rational point to 2D vector, discarding w.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param rationalPoint3D  Address of 3D rational point to convert.
  *  @param result           Address of 2D vector to set.
@@ -404,7 +404,7 @@ Q3RationalPoint3D_ToVector2D (
  *  @discussion
  *		Convert 3D vector to 4D rational point, setting w to 0.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param vector3D         Address of 3D vector to convert.
  *  @param result           Address of 4D rational point to set.
@@ -428,7 +428,7 @@ Q3Vector3D_ToRationalPoint4D (
  *  @discussion
  *		Convert 4D rational point to 3D vector, discarding w.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param rationalPoint4D  Address of 4D rational point to convert.
  *  @param result           Address of 3D vector to set.
@@ -678,7 +678,7 @@ Q3Vector2D_Cross (
  *		Return the length of the cross product of a triangle specified by
  *		three 2D points, that is, of the vectors p2-p1 and p3-p2.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param p1               Address of one point in the triangle.
  *  @param p2               Address of a second point in the triangle.
@@ -775,7 +775,7 @@ Q3Vector2D_Length (
  *		finding the squared length is much faster, since it avoids a costly
  *		square root computation.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param vector2D         Address of vector to get length of.
  *  @result                 Squared length of the given vector.
@@ -819,7 +819,7 @@ Q3Vector3D_Length (
  *		finding the squared length is much faster, since it avoids a costly
  *		square root computation.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param vector3D         Address of vector to get length of.
  *  @result                 Squared length of the given vector.
@@ -1830,7 +1830,7 @@ Q3Param2D_Transform (
  *  @discussion
  *		Transform 3D rational point by 3x3 matrix.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param rationalPoint3D  Address of a point to transform.
  *  @param matrix3x3        Address of a 3x3 transformation matrix.
@@ -1899,7 +1899,7 @@ Q3RationalPoint4D_Transform (
  *		When you have many vectors to transform, this is a more efficient
  *		alternative to calling Q3Vector2D_Transform repeatedly.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param inVectors2D      Array of 2D vectors to transform.
  *  @param matrix3x3        Transformation matrix.
@@ -1934,7 +1934,7 @@ Q3Vector2D_To2DTransformArray (
  *		When you have many vectors to transform, this is a more efficient
  *		alternative to calling Q3Vector3D_Transform repeatedly.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param inVectors3D      Array of 3D vectors to transform.
  *  @param matrix4x4        Transformation matrix.
@@ -1969,7 +1969,7 @@ Q3Vector3D_To3DTransformArray (
  *		When you have many points to transform, this is a more efficient
  *		alternative to calling Q3Point2D_Transform repeatedly.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param inPoints2D       Array of 2D points to transform.
  *  @param matrix3x3        Transformation matrix.
@@ -2004,7 +2004,7 @@ Q3Point2D_To2DTransformArray (
  *		When you have many points to transform, this is a more efficient
  *		alternative to calling Q3RationalPoint3D_Transform repeatedly.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param inRationalPoints3D Array of 3D rational points to transform.
  *  @param matrix3x3        Transformation matrix.
@@ -2039,7 +2039,7 @@ Q3RationalPoint3D_To3DTransformArray (
  *		When you have many points to transform, this is a more efficient
  *		alternative to calling Q3Point3D_Transform repeatedly.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param inPoints3D       Array of 3D points to transform.
  *  @param matrix4x4        Transformation matrix.
@@ -2243,7 +2243,7 @@ Q3Matrix4x4_SetScale (
  *  @discussion
  *		Set a 3x3 matrix to rotate about the origin.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param matrix3x3        Address of matrix to set.
  *  @param angle            Angle to rotate (in radians).
@@ -3416,7 +3416,7 @@ Q3BoundingSphere_UnionRationalPoint4D (
  *
  *      The direction vector of the ray must be normalised.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theRay           The ray to test.
  *  @param theSphere        The sphere to test against.
@@ -3445,7 +3445,7 @@ Q3Ray3D_IntersectSphere (
  *
  *      The direction vector of the ray must be normalised.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theRay           The ray to test.
  *  @param theBounds        The bounding box to test against.
@@ -3490,7 +3490,7 @@ Q3Ray3D_IntersectBoundingBox (
  *      other vertex attribute. The w component of hitPoint is set to the
  *      distance along the ray at which the intersection occurs.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theRay           The ray to test.
  *  @param point1           The first triangle vertex.

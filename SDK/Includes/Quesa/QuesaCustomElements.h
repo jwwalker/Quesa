@@ -67,13 +67,21 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Custom element names
+// Custom element names (as defined by QD3D)
 #define CEcNameElementName                      "Apple Computer, Inc.:NameElement"
 #define CEcUrlElementName                       "Apple Computer, Inc.:URLElement"
 #define CEcWireElementName                      "Apple Computer, Inc.:WireElement"
 
 
-// URL options
+/*!
+ *  @enum
+ *      TCEUrlOptions
+ *  @discussion
+ *      URL options.
+ *
+ *  @constant kCEUrlOptionNone          No options set.
+ *  @constant kCEUrlOptionUseMap        Map option set (meaning unknown).
+ */
 typedef enum {
     kCEUrlOptionNone                            = 0,
     kCEUrlOptionUseMap                          = 1
@@ -86,7 +94,16 @@ typedef enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// URL type
+/*!
+ *  @struct
+ *      TCEUrlData
+ *  @discussion
+ *      Describes the data for a URL.
+ 
+ *  @field url              C string containing the full (scheme + path) URL.
+ *  @field description      Human readable description of the URL.
+ *  @field options          Options for the URL.
+ */
 typedef struct TCEUrlData {
     char                                        *url;
     char                                        *description;
@@ -102,16 +119,16 @@ typedef struct TCEUrlData {
 //-----------------------------------------------------------------------------
 /*!
  *  @function
- *      TQ3Status  
+ *      CENameElement_SetData  
  *  @discussion
- *      One-line description of this function.
+ *      Set the name element for an object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The name parameter should point to a C string, and will be copied
+ *      by CENameElement_SetData.
  *
- *  @param object           Description of the parameter.
- *  @param name             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param object           The object to assign the name to.
+ *  @param name             The C string to associate with the object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 CENameElement_SetData (
@@ -123,16 +140,17 @@ CENameElement_SetData (
 
 /*!
  *  @function
- *      TQ3Status  
+ *      CENameElement_GetData  
  *  @discussion
- *      One-line description of this function.
+ *      Get the name element for an object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The name parameter will receive a C string, or NULL if no name has
+ *      been associated with the object. If a non-NULL pointer is returned,
+ *      it must be disposed of with CENameElement_EmptyData.
  *
- *  @param object           Description of the parameter.
- *  @param name             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param object           The object to query.
+ *  @param name             Receives the name associated with the object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 CENameElement_GetData (
@@ -144,15 +162,12 @@ CENameElement_GetData (
 
 /*!
  *  @function
- *      TQ3Status  
+ *      CENameElement_EmptyData  
  *  @discussion
- *      One-line description of this function.
+ *      Release the data returned by CENameElement_GetData.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param name             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param name             A pointer previously returned by CENameElement_GetData.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 CENameElement_EmptyData (
@@ -163,16 +178,15 @@ CENameElement_EmptyData (
 
 /*!
  *  @function
- *      TQ3Status  
+ *      CEUrlElement_SetData  
  *  @discussion
- *      One-line description of this function.
+ *      Set the URL element for an object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The URL element data will be copied by CEUrlElement_SetData.
  *
- *  @param object           Description of the parameter.
- *  @param urlData          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param object           The object to assign the URL element to.
+ *  @param urlData          The URL data to associate with the object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 CEUrlElement_SetData (
@@ -184,16 +198,17 @@ CEUrlElement_SetData (
 
 /*!
  *  @function
- *      TQ3Status  
+ *      CEUrlElement_GetData  
  *  @discussion
- *      One-line description of this function.
+ *      Get the URL element for an object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The urlData parameter will receive a pointer to the URL data, or NULL
+ *      if no URL element has been associated with the object. If a non-NULL
+ *      pointer is returned, it must be disposed of with CEUrlElement_EmptyData.
  *
  *  @param object           Description of the parameter.
  *  @param urlData          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 CEUrlElement_GetData (
@@ -205,15 +220,12 @@ CEUrlElement_GetData (
 
 /*!
  *  @function
- *      TQ3Status  
+ *      CEUrlElement_EmptyData  
  *  @discussion
- *      One-line description of this function.
+ *      Release the data returned by CEUrlElement_GetData.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param urlData          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param urlData          A pointer previously returned by CEUrlElement_GetData.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 CEUrlElement_EmptyData (
@@ -226,16 +238,13 @@ CEUrlElement_EmptyData (
 
 /*!
  *  @function
- *      TQ3Status  
+ *      CEWireElement_SetData  
  *  @discussion
- *      One-line description of this function.
+ *      Set the QuickTime wired element for an object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param object           Description of the parameter.
- *  @param wireData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param object           The object to assign the element to.
+ *  @param wireData         The QuickTime wired element to associate with the object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 CEWireElement_SetData (
@@ -247,16 +256,17 @@ CEWireElement_SetData (
 
 /*!
  *  @function
- *      TQ3Status  
+ *      CEWireElement_GetData  
  *  @discussion
- *      One-line description of this function.
+ *      Get the QuickTime wired element for an object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The wireData parameter will receive a QTAtomContainer, or NULL if no
+ *      wired element has been associated with the object. If a non-NULL pointer
+ *      is returned, it must be disposed of with CEWireElement_EmptyData.
  *
- *  @param object           Description of the parameter.
- *  @param wireData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param object           The object to query.
+ *  @param wireData         Receives the QuickTime wired element associated with the object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 CEWireElement_GetData (
@@ -268,15 +278,12 @@ CEWireElement_GetData (
 
 /*!
  *  @function
- *      TQ3Status  
+ *      CEWireElement_EmptyData  
  *  @discussion
- *      One-line description of this function.
+ *      Release the data returned by CEWireElement_GetData.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param wireData         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param wireData         A pointer previously returned by CEWireElement_GetData.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 CEWireElement_EmptyData (

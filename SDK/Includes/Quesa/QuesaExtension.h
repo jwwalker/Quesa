@@ -131,7 +131,20 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3XSharedLibraryRegister)(
                             void);
 
 
-// Shared library info
+/*!
+ *  @typedef
+ *      TQ3XSharedLibraryInfo
+ *  @discussion
+ *      Parameter data for Q3XSharedLibrary_Register.
+ *
+ *      The sharedLibrary field is often used to hold a platform-specific
+ *      shared library reference. It has no meaning for Quesa, and is used
+ *      as an identifier to match up calls to Q3XSharedLibrary_Unregister
+ *      with the appropriate call to Q3XSharedLibrary_Register.
+ *
+ *  @param registerFunction    Shared library registration method.
+ *  @param sharedLibrary       Platform-specific shared library reference.
+ */
 typedef struct TQ3XSharedLibraryInfo {
     TQ3XSharedLibraryRegister       registerFunction;
     TQ3Uns32                        sharedLibrary;
@@ -165,19 +178,31 @@ typedef struct TQ3XSharedLibraryInfo {
  *  @function
  *      Q3XObjectHierarchy_RegisterClass
  *  @discussion
- *      One-line description of this function.
+ *      Register a new object class in the class tree.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Quesa does not support the virtualMetaHandler or methodsSize parameters,
+ *      and these should be set to NULL and 0 respectively.
  *
- *  @param parentType       Description of the parameter.
- *  @param objectType       Description of the parameter.
- *  @param objectName       Description of the parameter.
- *  @param metaHandler      Description of the parameter.
- *  @param virtualMetaHandler Description of the parameter.
- *  @param methodsSize      Description of the parameter.
- *  @param instanceSize     Description of the parameter.
- *  @result                 Description of the function result.
+ *      Virtual methods are inherited from the parent class metahandler in the
+ *      Quesa class tree, and the QD3D docs are unclear on the purpose of
+ *      methodsSize.
+ *
+ *  @param parentType            The object type of the parent the new class should
+ *                               be derived from. To derive new classes from the
+ *                               root TQ3Object class, pass in kQ3ObjectTypeInvalid.
+ *  @param objectType            Receives the new object type for the new class.
+ *                               This value is used as the class identifier in binary
+ *                               3DMF files, and is returned by the _GetType and
+ *                               Q3Object_GetLeafType class. It may also be passed to
+ *                               Q3Object_IsType to identify objects of this class.
+ *  @param objectName            A C string which acts as a unique textual identifier
+ *                               for the new class. This value is used as the class
+ *                               identifier in text 3DMF files.
+ *  @param metaHandler           The metahandler for the class.
+ *  @param virtualMetaHandler    The virtual metahandler for the class (should be NULL).
+ *  @param methodsSize           The size of the private class data (shoudld be 0).
+ *  @param instanceSize          The size of the instance data for the class, if any.
+ *  @result                      The new class reference.
  */
 EXTERN_API_C ( TQ3XObjectClass  )
 Q3XObjectHierarchy_RegisterClass (
@@ -196,13 +221,13 @@ Q3XObjectHierarchy_RegisterClass (
  *  @function
  *      Q3XObjectHierarchy_UnregisterClass
  *  @discussion
- *      One-line description of this function.
+ *      Unregister a object class from the class tree.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Only classes registered by Q3XObjectHierarchy_RegisterClass should
+ *      be unregistered by this routine.
  *
- *  @param objectClass      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param objectClass      The class to unregister.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XObjectHierarchy_UnregisterClass (
@@ -215,14 +240,11 @@ Q3XObjectHierarchy_UnregisterClass (
  *  @function
  *      Q3XObjectClass_GetMethod
  *  @discussion
- *      One-line description of this function.
+ *      Get a method of a class.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param objectClass      Description of the parameter.
- *  @param methodType       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param objectClass      The class to query.
+ *  @param methodType       The method type to retrieve.
+ *  @result                 The function pointer for the method.
  */
 EXTERN_API_C ( TQ3XFunctionPointer  )
 Q3XObjectClass_GetMethod (
@@ -236,14 +258,11 @@ Q3XObjectClass_GetMethod (
  *  @function
  *      Q3XObjectHierarchy_NewObject
  *  @discussion
- *      One-line description of this function.
+ *      Instantiate a class.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param objectClass      Description of the parameter.
- *  @param parameters       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param objectClass      The class to instantiate.
+ *  @param parameters       The parameter data for the NewMethod method.
+ *  @result                 A new instance of the class.
  */
 EXTERN_API_C ( TQ3Object  )
 Q3XObjectHierarchy_NewObject (
@@ -257,13 +276,13 @@ Q3XObjectHierarchy_NewObject (
  *  @function
  *      Q3XObjectClass_GetLeafType
  *  @discussion
- *      One-line description of this function.
+ *      Get the leaf type of a class.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The leaf type is the type returned by Q3XObjectHierarchy_RegisterClass
+ *      when the class was registered.
  *
- *  @param objectClass      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param objectClass      The class to query.
+ *  @result                 The leaf type of the class.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3XObjectClass_GetLeafType (
@@ -276,14 +295,13 @@ Q3XObjectClass_GetLeafType (
  *  @function
  *      Q3XObjectHierarchy_GetClassVersion
  *  @discussion
- *      One-line description of this function.
+ *      Get the version of a class.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The class version is returned by the class ClassVersion method.
  *
- *  @param objectClassType  Description of the parameter.
- *  @param version          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param objectClassType  The class to query.
+ *  @param version          Receives the version of the class.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XObjectHierarchy_GetClassVersion (
@@ -297,14 +315,11 @@ Q3XObjectHierarchy_GetClassVersion (
  *  @function
  *      Q3XObjectClass_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a class.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param objectClass      Description of the parameter.
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param objectClass      The class to query.
+ *  @param theType          Receives the type of the class.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XObjectClass_GetType (
@@ -318,13 +333,10 @@ Q3XObjectClass_GetType (
  *  @function
  *      Q3XObjectHierarchy_FindClassByType
  *  @discussion
- *      One-line description of this function.
+ *      Locate a class within the class tree.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param theType          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theType          The class type.
+ *  @result                 The class registered under theType, or NULL.
  */
 EXTERN_API_C ( TQ3XObjectClass  )
 Q3XObjectHierarchy_FindClassByType (
@@ -337,14 +349,14 @@ Q3XObjectHierarchy_FindClassByType (
  *  @function
  *      Q3XObjectClass_GetPrivate
  *  @discussion
- *      One-line description of this function.
+ *      Get the private instance data of an object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      If no instance data space was reserved for the object, a NULL
+ *      pointer will be returned.
  *
- *  @param objectClass      Description of the parameter.
- *  @param targetObject     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param objectClass      The class of the object.
+ *  @param targetObject     The object to query.
+ *  @result                 A pointer to the private instance data.
  */
 EXTERN_API_C ( void * )
 Q3XObjectClass_GetPrivate (
@@ -358,13 +370,10 @@ Q3XObjectClass_GetPrivate (
  *  @function
  *      Q3XObject_GetClass
  *  @discussion
- *      One-line description of this function.
+ *      Get the class of an object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param object           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param object           The object to query.
+ *  @result                 The class of the object.
  */
 EXTERN_API_C ( TQ3XObjectClass  )
 Q3XObject_GetClass (
@@ -377,13 +386,15 @@ Q3XObject_GetClass (
  *  @function
  *      Q3XSharedLibrary_Register
  *  @discussion
- *      One-line description of this function.
+ *      Register a shared library with Quesa.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Can be called from within a shared library entry point to register
+ *      a callback with Quesa. The callback will be invoked by Q3Initialize
+ *      during initialisation, to allow it to register custom classes with
+ *      the Quesa class tree.
  *
- *  @param sharedLibraryInfo Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sharedLibraryInfo    The shared library registration state.
+ *  @result                     Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XSharedLibrary_Register (
@@ -396,13 +407,14 @@ Q3XSharedLibrary_Register (
  *  @function
  *      Q3XSharedLibrary_Unregister
  *  @discussion
- *      One-line description of this function.
+ *      Unregister a shared library with Quesa.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The sharedLibrary parameter should match the sharedLibrary field
+ *      within the TQ3XSharedLibraryInfo that was passed to
+ *      Q3XSharedLibrary_Register.
  *
- *  @param sharedLibrary    Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param sharedLibrary    The shared library reference.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XSharedLibrary_Unregister (
@@ -415,13 +427,12 @@ Q3XSharedLibrary_Unregister (
  *  @function
  *      Q3XError_Post
  *  @discussion
- *      One-line description of this function.
+ *      Post an error to the error manager.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Although intended only for use by extensions in QD3D, this call
+ *      is also available to general application clients in Quesa.
  *
- *  @param error            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param error            The error to post.
  */
 EXTERN_API_C ( void  )
 Q3XError_Post (
@@ -434,13 +445,12 @@ Q3XError_Post (
  *  @function
  *      Q3XWarning_Post
  *  @discussion
- *      One-line description of this function.
+ *      Post a warning to the error manager.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Although intended only for use by extensions in QD3D, this call
+ *      is also available to general application clients in Quesa.
  *
- *  @param warning          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param warning          The warning to post.
  */
 EXTERN_API_C ( void  )
 Q3XWarning_Post (
@@ -453,13 +463,12 @@ Q3XWarning_Post (
  *  @function
  *      Q3XNotice_Post
  *  @discussion
- *      One-line description of this function.
+ *      Post a notice to the error manager.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Although intended only for use by extensions in QD3D, this call
+ *      is also available to general application clients in Quesa.
  *
- *  @param notice           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param notice           The notice to post.
  */
 EXTERN_API_C ( void  )
 Q3XNotice_Post (
@@ -479,13 +488,15 @@ Q3XNotice_Post (
  *  @function
  *      Q3XMacintoshError_Post
  *  @discussion
- *      One-line description of this function.
+ *      Post a Mac OS-specific error to the error manager.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Although intended only for use by extensions in QD3D, this call
+ *      is also available to general application clients in Quesa.
  *
- *  @param macOSErr         Description of the parameter.
- *  @result                 Description of the function result.
+ *      Note that this call is equivalent to a call to Q3Error_PlatformPost,
+ *      which is the preferred method for posting platform-specific errors.
+ *
+ *  @param macOSErr         The Mac OS error to post.
  */
 EXTERN_API_C ( void  )
 Q3XMacintoshError_Post (

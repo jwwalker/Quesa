@@ -67,7 +67,25 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Group state (affect how a group is traversed)
+/*!
+ *  @enum
+ *      TQ3DisplayGroupStateMasks
+ *  @discussion
+ *      Group traversal state.
+ *
+ *      A group's traversal state is set with Q3DisplayGroup_SetState, and
+ *      controls how the group is processed when submitted for rendering,
+ *      picking, bounding, or writing.
+ *
+ *  @constant kQ3DisplayGroupStateNone                     No value.
+ *  @constant kQ3DisplayGroupStateMaskIsDrawn              The group will be submitted during rendering or picking.
+ *  @constant kQ3DisplayGroupStateMaskIsInline             The group will be submited without pushing/popping the
+ *                                                         view state stack around the group contents.
+ *  @constant kQ3DisplayGroupStateMaskUseBoundingBox       The bounding box is used for culling when rendering.
+ *  @constant kQ3DisplayGroupStateMaskUseBoundingSphere    The bounding sphere is used for culling when rendering.
+ *  @constant kQ3DisplayGroupStateMaskIsPicked             The group will be eligible for returning during picking.
+ *  @constant kQ3DisplayGroupStateMaskIsWritten            The group will be submitted during writing.
+ */
 typedef enum {
     kQ3DisplayGroupStateNone                    = 0,
     kQ3DisplayGroupStateMaskIsDrawn             = (1 << 0),
@@ -370,7 +388,7 @@ Q3Group_AddObjectAfter (
  *  @param group            Group to inspect.
  *  @param position         Position of desired object.
  *  @param object           Receives a reference to the indicated object.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPositionObject (
@@ -400,7 +418,7 @@ Q3Group_GetPositionObject (
  *  @param group            Group to replace an object in.
  *  @param position         Position of object to replace.
  *  @param object           Object to be stored.
- *  @result                 Resulting position of <code>object</code> in <code>group</code>.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_SetPositionObject (
@@ -447,7 +465,7 @@ Q3Group_RemovePosition (
  *
  *  @param group            Group of interest.
  *  @param position         Receives the position of the first object in <code>group</code>.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstPosition (
@@ -468,7 +486,7 @@ Q3Group_GetFirstPosition (
  *
  *  @param group            Group of interest.
  *  @param position         Receives the position of the last object in <code>group</code>.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetLastPosition (
@@ -490,7 +508,7 @@ Q3Group_GetLastPosition (
  *
  *  @param group            Group of interest.
  *  @param position         Address of position to advance.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetNextPosition (
@@ -513,7 +531,7 @@ Q3Group_GetNextPosition (
  *
  *  @param group            Group of interest.
  *  @param position         Address of position to step back.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPreviousPosition (
@@ -535,7 +553,7 @@ Q3Group_GetPreviousPosition (
  *
  *  @param group            Group to inspect.
  *  @param nObjects         Address of integer to receive the object count.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_CountObjects (
@@ -555,7 +573,7 @@ Q3Group_CountObjects (
  *		group.  (The group itself is not disposed of.)
  *
  *  @param group            Group to empty.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_EmptyObjects (
@@ -576,7 +594,7 @@ Q3Group_EmptyObjects (
  *  @param group            Group of interest.
  *  @param isType           Desired object type.
  *  @param position         Receives the position of the first object of that type.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstPositionOfType (
@@ -599,7 +617,7 @@ Q3Group_GetFirstPositionOfType (
  *  @param group            Group of interest.
  *  @param isType           Desired object type.
  *  @param position         Receives the position of the last object of that type.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetLastPositionOfType (
@@ -624,7 +642,7 @@ Q3Group_GetLastPositionOfType (
  *  @param group            Group of interest.
  *  @param isType           Desired object type.
  *  @param position         Address of position to advance.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetNextPositionOfType (
@@ -649,7 +667,7 @@ Q3Group_GetNextPositionOfType (
  *  @param group            Group of interest.
  *  @param isType           Desired object type.
  *  @param position         Address of position to step back.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPreviousPositionOfType (
@@ -673,7 +691,7 @@ Q3Group_GetPreviousPositionOfType (
  *  @param group            Group to inspect.
  *  @param isType           Object type.
  *  @param nObjects         Address of integer to receive the object count.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_CountObjectsOfType (
@@ -696,7 +714,7 @@ Q3Group_CountObjectsOfType (
  *
  *  @param group            Group to operate on.
  *  @param isType           Type of objects to dispose.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_EmptyObjectsOfType (
@@ -720,7 +738,7 @@ Q3Group_EmptyObjectsOfType (
  *  @param group            Group to inspect.
  *  @param object           Desired object.
  *  @param position         Receives first position of <code>object</code> in <code>group</code>.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstObjectPosition (
@@ -745,7 +763,7 @@ Q3Group_GetFirstObjectPosition (
  *  @param group            Group to inspect.
  *  @param object           Desired object.
  *  @param position         Receives last position of <code>object</code> in <code>group</code>.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetLastObjectPosition (
@@ -770,7 +788,7 @@ Q3Group_GetLastObjectPosition (
  *  @param group            Group to inspect.
  *  @param object           Desired object.
  *  @param position         Position to advance to the next occurrence of <code>object</code>.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetNextObjectPosition (
@@ -795,7 +813,7 @@ Q3Group_GetNextObjectPosition (
  *  @param group            Group to inspect.
  *  @param object           Desired object.
  *  @param position         Position to step back to the previous occurrence of <code>object</code>.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPreviousObjectPosition (
@@ -881,8 +899,8 @@ Q3DisplayGroup_New (
  *		<code>kQ3GroupTypeDisplay</code> for a generic display group.  
  *		<code>kQ3ObjectTypeInvalid</code> is returned if there is some error.
  *
- *  @param group            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param group            The group to query.
+ *  @result                 The type of the group.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3DisplayGroup_GetType (
@@ -919,7 +937,7 @@ Q3DisplayGroup_GetType (
  *
  *  @param group            Group to inspect.
  *  @param state            Receives the group's state flags.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_GetState (
@@ -957,7 +975,7 @@ Q3DisplayGroup_GetState (
  *
  *  @param group            Group on which to adjust state flags.
  *  @param state            Desired state flags.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_SetState (
@@ -984,7 +1002,7 @@ Q3DisplayGroup_SetState (
  *
  *  @param group            Display group to submit.
  *  @param view             View (which must be in a submitting loop).
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_Submit (
@@ -1007,7 +1025,7 @@ Q3DisplayGroup_Submit (
  *
  *  @param group            Group on which to set a bounding box.
  *  @param bBox             Bounding box to use (must be non-empty).
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_SetAndUseBoundingBox (
@@ -1028,7 +1046,7 @@ Q3DisplayGroup_SetAndUseBoundingBox (
  *
  *  @param group            Group to inspect.
  *  @param bBox             Address of bounding box to set with group's bounding box.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_GetBoundingBox (
@@ -1049,7 +1067,7 @@ Q3DisplayGroup_GetBoundingBox (
  *		flag.  If not, it does nothing (and returns <code>kQ3Success</code> anyway).
  *
  *  @param group            Group to remove the bounding box of.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_RemoveBoundingBox (
@@ -1081,7 +1099,7 @@ Q3DisplayGroup_RemoveBoundingBox (
  *  @param computeBounds    Either <code>kQ3ComputeBoundsExact</code> (precise) or
  *								<code>kQ3ComputeBoundsApproximate</code> (faster).
  *  @param view             View in which the group will ultimately be rendered.
- *  @result                 Error/result code.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_CalcAndUseBoundingBox (

@@ -67,7 +67,131 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Errors
+/*!
+ *  @enum
+ *      TQ3Error
+ *  @discussion
+ *      Quesa error constants.
+ *
+ *  @constant kQ3ErrorNone                                 No error.
+ *  @constant kQ3ErrorInternalError                        Internal error.
+ *  @constant kQ3ErrorNoRecovery                           No recovery.
+ *  @constant kQ3ErrorLastFatalError                       Last fatal error.
+ *  @constant kQ3ErrorNotInitialized                       Not initialized.
+ *  @constant kQ3ErrorAlreadyInitialized                   Already initialized.
+ *  @constant kQ3ErrorUnimplemented                        Unimplemented.
+ *  @constant kQ3ErrorRegistrationFailed                   Registration failed.
+ *  @constant kQ3ErrorUnixError                            Unix error.
+ *  @constant kQ3ErrorMacintoshError                       Macintosh error.
+ *  @constant kQ3ErrorX11Error                             X11 error.
+ *  @constant kQ3ErrorMemoryLeak                           Memory leak.
+ *  @constant kQ3ErrorOutOfMemory                          Out of memory.
+ *  @constant kQ3ErrorNULLParameter                        NULL parameter.
+ *  @constant kQ3ErrorParameterOutOfRange                  Parameter out of range.
+ *  @constant kQ3ErrorInvalidParameter                     Invalid parameter.
+ *  @constant kQ3ErrorInvalidData                          Invalid data.
+ *  @constant kQ3ErrorAcceleratorAlreadySet                Accelerator already set.
+ *  @constant kQ3ErrorVector3DNotUnitLength                Vector3D not unit length.
+ *  @constant kQ3ErrorVector3DZeroLength                   Vector3D zero length.
+ *  @constant kQ3ErrorInvalidObject                        Invalid object.
+ *  @constant kQ3ErrorInvalidObjectClass                   Invalid object class.
+ *  @constant kQ3ErrorInvalidObjectType                    Invalid object type.
+ *  @constant kQ3ErrorInvalidObjectName                    Invalid object name.
+ *  @constant kQ3ErrorObjectClassInUse                     Object class in use.
+ *  @constant kQ3ErrorAccessRestricted                     Access restricted.
+ *  @constant kQ3ErrorMetaHandlerRequired                  Meta handler required.
+ *  @constant kQ3ErrorNeedRequiredMethods                  Need required methods.
+ *  @constant kQ3ErrorNoSubClassType                       No sub class type.
+ *  @constant kQ3ErrorUnknownElementType                   Unknown element type.
+ *  @constant kQ3ErrorNotSupported                         Not supported.
+ *  @constant kQ3ErrorNoExtensionsFolder                   No extensions folder.
+ *  @constant kQ3ErrorExtensionError                       Extension error.
+ *  @constant kQ3ErrorPrivateExtensionError                Private extension error.
+ *  @constant kQ3ErrorDegenerateGeometry                   Degenerate geometry detected.
+ *  @constant kQ3ErrorGeometryInsufficientNumberOfPoints   Geometry has an insufficient number of points.
+ *  @constant kQ3ErrorNoStorageSetForFile                  No storage set for file.
+ *  @constant kQ3ErrorEndOfFile                            End of file.
+ *  @constant kQ3ErrorFileCancelled                        File cancelled.
+ *  @constant kQ3ErrorInvalidMetafile                      Invalid metafile.
+ *  @constant kQ3ErrorInvalidMetafilePrimitive             Invalid metafile primitive.
+ *  @constant kQ3ErrorInvalidMetafileLabel                 Invalid metafile label.
+ *  @constant kQ3ErrorInvalidMetafileObject                Invalid metafile object.
+ *  @constant kQ3ErrorInvalidMetafileSubObject             Invalid metafile sub object.
+ *  @constant kQ3ErrorInvalidSubObjectForObject            Invalid sub object for object.
+ *  @constant kQ3ErrorUnresolvableReference                Unresolvable reference.
+ *  @constant kQ3ErrorUnknownObject                        Unknown object.
+ *  @constant kQ3ErrorStorageInUse                         Storage in use.
+ *  @constant kQ3ErrorStorageAlreadyOpen                   Storage already open.
+ *  @constant kQ3ErrorStorageNotOpen                       Storage not open.
+ *  @constant kQ3ErrorStorageIsOpen                        Storage is open.
+ *  @constant kQ3ErrorFileAlreadyOpen                      File already open.
+ *  @constant kQ3ErrorFileNotOpen                          File not open.
+ *  @constant kQ3ErrorFileIsOpen                           File is open.
+ *  @constant kQ3ErrorBeginWriteAlreadyCalled              Begin write already called.
+ *  @constant kQ3ErrorBeginWriteNotCalled                  Begin write not called.
+ *  @constant kQ3ErrorEndWriteNotCalled                    End write not called.
+ *  @constant kQ3ErrorReadStateInactive                    Read state inactive.
+ *  @constant kQ3ErrorStateUnavailable                     State unavailable.
+ *  @constant kQ3ErrorWriteStateInactive                   Write state inactive.
+ *  @constant kQ3ErrorSizeNotLongAligned                   Size not long aligned.
+ *  @constant kQ3ErrorFileModeRestriction                  File mode restriction.
+ *  @constant kQ3ErrorInvalidHexString                     Invalid hex string.
+ *  @constant kQ3ErrorWroteMoreThanSize                    Wrote more than size.
+ *  @constant kQ3ErrorWroteLessThanSize                    Wrote less than size.
+ *  @constant kQ3ErrorReadLessThanSize                     Read less than size.
+ *  @constant kQ3ErrorReadMoreThanSize                     Read more than size.
+ *  @constant kQ3ErrorNoBeginGroup                         No begin group.
+ *  @constant kQ3ErrorSizeMismatch                         Size mismatch.
+ *  @constant kQ3ErrorStringExceedsMaximumLength           String exceeds maximum length.
+ *  @constant kQ3ErrorValueExceedsMaximumSize              Value exceeds maximum size.
+ *  @constant kQ3ErrorNonUniqueLabel                       Non unique label.
+ *  @constant kQ3ErrorEndOfContainer                       End of container.
+ *  @constant kQ3ErrorUnmatchedEndGroup                    Unmatched end group.
+ *  @constant kQ3ErrorFileVersionExists                    File version exists.
+ *  @constant kQ3ErrorViewNotStarted                       View not started.
+ *  @constant kQ3ErrorViewIsStarted                        View is started.
+ *  @constant kQ3ErrorRendererNotSet                       Renderer not set.
+ *  @constant kQ3ErrorRenderingIsActive                    Rendering is active.
+ *  @constant kQ3ErrorImmediateModeUnderflow               Immediate mode underflow.
+ *  @constant kQ3ErrorDisplayNotSet                        Display not set.
+ *  @constant kQ3ErrorCameraNotSet                         Camera not set.
+ *  @constant kQ3ErrorDrawContextNotSet                    Draw context not set.
+ *  @constant kQ3ErrorNonInvertibleMatrix                  Non invertible matrix.
+ *  @constant kQ3ErrorRenderingNotStarted                  Rendering not started.
+ *  @constant kQ3ErrorPickingNotStarted                    Picking not started.
+ *  @constant kQ3ErrorBoundsNotStarted                     Bounds not started.
+ *  @constant kQ3ErrorDataNotAvailable                     Data not available.
+ *  @constant kQ3ErrorNothingToPop                         Nothing to pop.
+ *  @constant kQ3ErrorUnknownStudioType                    Unknown studio type.
+ *  @constant kQ3ErrorAlreadyRendering                     Already rendering.
+ *  @constant kQ3ErrorStartGroupRange                      Start group range.
+ *  @constant kQ3ErrorUnsupportedGeometryType              Unsupported geometry type.
+ *  @constant kQ3ErrorInvalidGeometryType                  Invalid geometry type.
+ *  @constant kQ3ErrorUnsupportedFunctionality             Unsupported functionality.
+ *  @constant kQ3ErrorInvalidPositionForGroup              Invalid position for group.
+ *  @constant kQ3ErrorInvalidObjectForGroup                Invalid object for group.
+ *  @constant kQ3ErrorInvalidObjectForPosition             Invalid object for position.
+ *  @constant kQ3ErrorScaleOfZero                          Scale of zero.
+ *  @constant kQ3ErrorBadStringType                        Bad string type.
+ *  @constant kQ3ErrorAttributeNotContained                Attribute not contained.
+ *  @constant kQ3ErrorAttributeInvalidType                 Attribute invalid type.
+ *  @constant kQ3ErrorInvalidCameraValues                  Invalid camera values.
+ *  @constant kQ3ErrorBadDrawContextType                   Bad draw context type.
+ *  @constant kQ3ErrorBadDrawContextFlag                   Bad draw context flag.
+ *  @constant kQ3ErrorBadDrawContext                       Bad draw context.
+ *  @constant kQ3ErrorUnsupportedPixelDepth                Unsupported pixel depth.
+ *  @constant kQ3ErrorController                           Controller error.
+ *  @constant kQ3ErrorTracker                              Tracker error.
+ *  @constant kQ3ErrorWin32Error                           Windows error.
+ *  @constant kQ3ErrorTypeAlreadyExistsAndHasSubclasses    Type already exists and has subclasses.
+ *  @constant kQ3ErrorTypeAlreadyExistsAndOtherClassesDependOnIt   Type already exists and other classes depend on it.
+ *  @constant kQ3ErrorTypeAlreadyExistsAndHasObjectInstances       Type already exists and has object instances.
+ *  @constant kQ3ErrorPickingLoopFailed                    Picking loop failed.
+ *  @constant kQ3ErrorRenderingLoopFailed                  Rendering loop failed.
+ *  @constant kQ3ErrorWritingLoopFailed                    Writing loop failed.
+ *  @constant kQ3ErrorBoundingLoopFailed                   Bounding loop failed.
+ *  @constant kQ3ErrorPlatformError                        Platform-specific error (not available in QD3D).
+ */
 typedef enum {
     kQ3ErrorNone                                = 0,
     kQ3ErrorInternalError                       = -28500,
@@ -195,7 +319,54 @@ typedef enum {
 } TQ3Error;
 
 
-// Warnings
+/*!
+ *  @enum
+ *      TQ3Warning
+ *  @discussion
+ *      Quesa warning constants.
+ *
+ *  @constant kQ3WarningNone                               No warning.
+ *  @constant kQ3WarningInternalException                  Internal exception.
+ *  @constant kQ3WarningNoObjectSupportForDuplicateMethod  No object support for duplicate method.
+ *  @constant kQ3WarningNoObjectSupportForDrawMethod       No object support for draw method.
+ *  @constant kQ3WarningNoObjectSupportForWriteMethod      No object support for write method.
+ *  @constant kQ3WarningNoObjectSupportForReadMethod       No object support for read method.
+ *  @constant kQ3WarningUnknownElementType                 Unknown element type.
+ *  @constant kQ3WarningTypeAndMethodAlreadyDefined        Type and method already defined.
+ *  @constant kQ3WarningTypeIsOutOfRange                   Type is out of range.
+ *  @constant kQ3WarningTypeHasNotBeenRegistered           Type has not been registered.
+ *  @constant kQ3WarningVector3DNotUnitLength              Vector3D not unit length.
+ *  @constant kQ3WarningInvalidSubObjectForObject          Invalid sub object for object.
+ *  @constant kQ3WarningInvalidHexString                   Invalid hex string.
+ *  @constant kQ3WarningUnknownObject                      Unknown object.
+ *  @constant kQ3WarningInvalidMetafileObject              Invalid metafile object.
+ *  @constant kQ3WarningUnmatchedBeginGroup                Unmatched begin group.
+ *  @constant kQ3WarningUnmatchedEndGroup                  Unmatched end group.
+ *  @constant kQ3WarningInvalidTableOfContents             Invalid table of contents.
+ *  @constant kQ3WarningUnresolvableReference              Unresolvable reference.
+ *  @constant kQ3WarningNoAttachMethod                     No attach method.
+ *  @constant kQ3WarningInconsistentData                   Inconsistent data.
+ *  @constant kQ3WarningReadLessThanSize                   Read less than size.
+ *  @constant kQ3WarningFilePointerResolutionFailed        File pointer resolution failed.
+ *  @constant kQ3WarningFilePointerRedefined               File pointer redefined.
+ *  @constant kQ3WarningStringExceedsMaximumLength         String exceeds maximum length.
+ *  @constant kQ3WarningLowMemory                          Low memory.
+ *  @constant kQ3WarningPossibleMemoryLeak                 Possible memory leak.
+ *  @constant kQ3WarningViewTraversalInProgress            View traversal in progress.
+ *  @constant kQ3WarningNonInvertibleMatrix                Non invertible matrix.
+ *  @constant kQ3WarningQuaternionEntriesAreZero           Quaternion entries are zero.
+ *  @constant kQ3WarningFunctionalityNotSupported          Functionality not supported.
+ *  @constant kQ3WarningInvalidPaneDimensions              Invalid pane dimensions.
+ *  @constant kQ3WarningPickParamOutside                   Pick param outside.
+ *  @constant kQ3WarningScaleEntriesAllZero                Scale entries all zero.
+ *  @constant kQ3WarningScaleContainsNegativeEntries       Scale contains negative entries.
+ *  @constant kQ3WarningParameterOutOfRange                Parameter out of range.
+ *  @constant kQ3WarningExtensionNotLoading                Extension not loading.
+ *  @constant kQ3WarningTypeAlreadyRegistered              Type already registered.
+ *  @constant kQ3WarningTypeSameVersionAlreadyRegistered   Type same version already registered.
+ *  @constant kQ3WarningTypeNewerVersionAlreadyRegistered  Type newer version already registered.
+ *  @constant kQ3WarningInvalidObjectInGroupMetafile       Invalid object in group metafile.
+ */
 typedef enum {
     kQ3WarningNone                              = 0,
     kQ3WarningInternalException                 = -28300,
@@ -241,7 +412,30 @@ typedef enum {
 } TQ3Warning;
 
 
-// Notices
+/*!
+ *  @enum
+ *      TQ3Notice
+ *  @discussion
+ *      Quesa notice constants.
+ *
+ *  @constant kQ3NoticeNone                                No notice.
+ *  @constant kQ3NoticeDataAlreadyEmpty                    Data already empty.
+ *  @constant kQ3NoticeMethodNotSupported                  Method not supported.
+ *  @constant kQ3NoticeObjectAlreadySet                    Object already set.
+ *  @constant kQ3NoticeParameterOutOfRange                 Parameter out of range.
+ *  @constant kQ3NoticeFileAliasWasChanged                 File alias was changed.
+ *  @constant kQ3NoticeMeshVertexHasNoComponent            Mesh vertex has no component.
+ *  @constant kQ3NoticeMeshInvalidVertexFacePair           Mesh invalid vertex face pair.
+ *  @constant kQ3NoticeMeshEdgeVertexDoNotCorrespond       Mesh edge vertex do not correspond.
+ *  @constant kQ3NoticeMeshEdgeIsNotBoundary               Mesh edge is not boundary.
+ *  @constant kQ3NoticeDrawContextNotSetUsingInternalDefaults      Draw context not set using internal defaults.
+ *  @constant kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults Invalid attenuation type using internal defaults.
+ *  @constant kQ3NoticeBrightnessGreaterThanOne            Brightness greater than one.
+ *  @constant kQ3NoticeScaleContainsZeroEntries            Scale contains zero entries.
+ *  @constant kQ3NoticeSystemAlreadyInitialized            System already initialized.
+ *  @constant kQ3NoticeViewSyncCalledAgain                 View sync called again.
+ *  @constant kQ3NoticeFileCancelled                       File cancelled.
+ */
 typedef enum {
     kQ3NoticeNone                               = 0,
     kQ3NoticeDataAlreadyEmpty                   = -28100,
@@ -269,17 +463,51 @@ typedef enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Error Manager callbacks
+/*!
+ *  @typedef
+ *      TQ3ErrorMethod
+ *  @discussion
+ *      Error Manager error callback.
+ *
+ *  @param firstError       The first error which has occurred since the last
+ *                          time the handler was invoked.
+ *  @param lastError        The most recent error which has occurred.
+ *  @param userData         The reference parameter passed to Q3Error_Register.
+ */
 typedef CALLBACK_API_C(void,                TQ3ErrorMethod)(
                             TQ3Error            firstError,
                             TQ3Error            lastError,
                             TQ3Int32            userData);
-                            
+
+
+/*!
+ *  @typedef
+ *      TQ3WarningMethod
+ *  @discussion
+ *      Error Manager warning callback.
+ *
+ *  @param firstWarning     The first warning which has occurred since the last
+ *                          time the handler was invoked.
+ *  @param lastWarning      The most recent warning which has occurred.
+ *  @param userData         The reference parameter passed to Q3Warning_Register.
+ */
 typedef CALLBACK_API_C(void,                TQ3WarningMethod)(
                             TQ3Warning          firstWarning,
                             TQ3Warning          lastWarning,
                             TQ3Int32            userData);
-                            
+
+
+/*!
+ *  @typedef
+ *      TQ3NoticeMethod
+ *  @discussion
+ *      Error Manager notice callback.
+ *
+ *  @param firstNotice      The first notice which has occurred since the last
+ *                          time the handler was invoked.
+ *  @param lastNotice       The most recent notice which has occurred.
+ *  @param userData         The reference parameter passed to Q3Notice_Register.
+ */
 typedef CALLBACK_API_C(void,                TQ3NoticeMethod)(
                             TQ3Notice           firstNotice,
                             TQ3Notice           lastNotice,
@@ -449,7 +677,7 @@ Q3Notice_Get (
  *  @function
  *      Q3Error_PlatformGet  
  *  @discussion
- *      Not supported by QD3D.  Gets platform-specific error codes.
+ *      Gets platform-specific error codes.
  *		This is a generalization of Q3MacintoshError_Get, and may be used in place
  *		of Q3MacintoshError_Get on the Macintosh platform.
  *
@@ -459,6 +687,8 @@ Q3Notice_Get (
  *		platform-specific error codes.
  *		After this call, the next Quesa call that is not part of the Error Manager
  *		will clear the platform-specific error codes.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param firstErr         Pointer to variable to receive the oldest unreported
  *							platform-specific error code.  May be NULL if you
@@ -480,9 +710,11 @@ Q3Error_PlatformGet (
  *  @function
  *      Q3Error_PlatformPost
  *  @discussion
- *      Not supported by QD3D.  Posts a platform-specific error code.
+ *      Posts a platform-specific error code.
  *
  *		Normally this would be used only by Quesa plug-ins, not by application code.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theErr           A platform-specific error code.
  */
@@ -501,12 +733,14 @@ Q3Error_PlatformPost (
  *  @function
  *      Q3Error_ToString
  *  @discussion
- *      Not supported by QD3D.  Retrieve a string version of the error code.
+ *      Retrieve a string version of the error code.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theLanguage      Preferred language for the error string.
  *							Currently only English is supported.
  *  @param theError         Quesa error code.
- *  @result                 Text version of the error code, as a NUL-terminated string.
+ *  @result                 Text version of the error code, as a NULL-terminated string.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -524,12 +758,14 @@ Q3Error_ToString (
  *  @function
  *      Q3Warning_ToString
  *  @discussion
- *      Not supported by QD3D.  Retrieve a string version of the warning code.
+ *      Retrieve a string version of the warning code.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theLanguage      Preferred language for the warning string.
  *							Currently only English is supported.
  *  @param theWarning       Quesa warning code.
- *  @result                 Text version of the warning code, as a NUL-terminated string.
+ *  @result                 Text version of the warning code, as a NULL-terminated string.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -547,12 +783,14 @@ Q3Warning_ToString (
  *  @function
  *      Q3Notice_ToString
  *  @discussion
- *      Not supported by QD3D.  Retrieve a string version of the notice code.
+ *      Retrieve a string version of the notice code.
+ *
+ *      <em>This function is not available in QD3D.</em>
  *
  *  @param theLanguage      Preferred language for the notice string.
  *							Currently only English is supported.
  *  @param theWarning       Quesa notice code.
- *  @result                 Text version of the notice code, as a NUL-terminated string.
+ *  @result                 Text version of the notice code, as a NULL-terminated string.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 

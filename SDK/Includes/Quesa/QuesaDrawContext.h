@@ -96,14 +96,32 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Clear method
+/*!
+ *  @enum
+ *      TQ3DrawContextClearImageMethod
+ *  @discussion
+ *      Clear method.
+ *
+ *  @constant kQ3ClearMethodNone        Do not clear the draw context before rendering.
+ *  @constant kQ3ClearMethodWithColor   Clear the draw context to the clear colour before rendering.
+ */
 typedef enum {
     kQ3ClearMethodNone                          = 0,
     kQ3ClearMethodWithColor                     = 1
 } TQ3DrawContextClearImageMethod;
 
 
-// Mac draw context variants
+/*!
+ *  @enum
+ *      TQ3MacDrawContext2DLibrary
+ *  @discussion
+ *      Mac draw context variants. These are legacy constants from QD3D, and for Quesa
+ *      the library field should be set to kQ3Mac2DLibraryNone.
+ *
+ *  @constant kQ3Mac2DLibraryNone          Unspecified method should be used.
+ *  @constant kQ3Mac2DLibraryQuickDraw     Renderers should use QuickDraw in the final stage of rendering.
+ *  @constant kQ3Mac2DLibraryQuickDrawGX   Renderers should use QuickDraw GX in the final stage of rendering.
+ */
 typedef enum {
     kQ3Mac2DLibraryNone                         = 0,
     kQ3Mac2DLibraryQuickDraw                    = 1,
@@ -111,12 +129,30 @@ typedef enum {
 } TQ3MacDrawContext2DLibrary;
 
 
-// Windows draw context variants
+/*!
+ *  @enum
+ *      TQ3DirectDrawObjectSelector
+ *  @discussion
+ *      Windows DirectDraw interface selectors.
+ *
+ *  @constant kQ3DirectDrawObject          A DIRECTDRAW  interface has been supplied.
+ *  @constant kQ3DirectDrawObject2         A DIRECTDRAW2 interface has been supplied.
+ */
 typedef enum {
     kQ3DirectDrawObject                         = 1,
     kQ3DirectDrawObject2                        = 2
 } TQ3DirectDrawObjectSelector;
 
+
+/*!
+ *  @enum
+ *      TQ3DirectDrawObjectSelector
+ *  @discussion
+ *      Windows DirectDraw surface selectors.
+ *
+ *  @constant kQ3DirectDrawSurface         A DIRECTDRAWSURFACE  interface has been supplied.
+ *  @constant kQ3DirectDrawSurface2        A DIRECTDRAWSURFACE2 interface has been supplied.
+ */
 typedef enum {
     kQ3DirectDrawSurface                        = 1,
     kQ3DirectDrawSurface2                       = 2
@@ -129,7 +165,28 @@ typedef enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Draw context data
+/*!
+ *  @struct
+ *      TQ3DrawContextData
+ *  @discussion
+ *      Describes the common state for a draw context.
+ *
+ *      If paneState is false, the draw context has an implicit pane which fills
+ *      the entire window/destination surface. Under Quesa, querying a draw
+ *      context object with Q3DrawContext_GetPane will return this implicit pane
+ *      if not pane has been assigned (this feature is not available in QD3D).
+ *
+ *      The mask and maskState fields are currently ignored by Quesa's interactive
+ *      renderers.
+ *
+ *  @field clearImageMethod     How the draw context should be cleared on each frame.
+ *  @field clearImageColor      The clear colour to use if clearImageMethod is kQ3ClearMethodWithColor.
+ *  @field pane                 The area within the draw context which will be rendered to.
+ *  @field paneState            Indicates if the pane field is used.
+ *  @field mask                 The clipping mask to be applied for rendering.
+ *  @field maskState            indicates if the clipping mask is used.
+ *  @field doubleBufferState    Indicates if rendering will be double-buffered.
+ */
 typedef struct TQ3DrawContextData {
     TQ3DrawContextClearImageMethod              clearImageMethod;
     TQ3ColorARGB                                clearImageColor;
@@ -141,7 +198,15 @@ typedef struct TQ3DrawContextData {
 } TQ3DrawContextData;
 
 
-// Pixmap draw context data
+/*!
+ *  @struct
+ *      TQ3PixmapDrawContextData
+ *  @discussion
+ *      Describes the state for a pixmap draw context.
+ *
+ *  @field drawContextData  The common state for the draw context.
+ *  @field pixmap           The pixmap to render to.
+ */
 typedef struct TQ3PixmapDrawContextData {
     TQ3DrawContextData                          drawContextData;
     TQ3Pixmap                                   pixmap;
@@ -159,10 +224,25 @@ typedef struct TQ3PixmapDrawContextData {
 // QuickDraw GX type
 #if !defined(__GXTYPES__)
     typedef struct OpaquegxViewPort             *gxViewPort;
-#endif // __GXTYPES__
+#endif
 
 
-// Mac draw context data
+/*!
+ *  @struct
+ *      TQ3MacDrawContextData
+ *  @discussion
+ *      Describes the state for a Mac OS draw context.
+ *
+ *      The library, viewPort, and grafPort fields are not supported by Quesa.
+ *      Rendering to an off-screen GWorld can be achieved by rendering to a
+ *      suitably constructed Pixmap draw context.
+ *
+ *  @field drawContextData  The common state for the draw context.
+ *  @field window           The window to render to.
+ *  @field library          The library to use for rendering.
+ *  @field viewPort         The QuickDraw GX port to render to.
+ *  @field grafPort         The QuickDraw port to render to.
+ */
 typedef struct TQ3MacDrawContextData {
     TQ3DrawContextData                          drawContextData;
     CWindowPtr                                  window;
@@ -182,7 +262,15 @@ typedef struct TQ3MacDrawContextData {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_WIN32
 
-// Windows DC draw context data
+/*!
+ *  @struct
+ *      TQ3Win32DCDrawContextData
+ *  @discussion
+ *      Describes the state for a Windows HDC draw context.
+ *
+ *  @field drawContextData  The common state for the draw context.
+ *  @field hdc              The HDC to render to.
+ */
 typedef struct TQ3Win32DCDrawContextData {
     TQ3DrawContextData                          drawContextData;
     HDC                                         hdc;
@@ -192,7 +280,18 @@ typedef struct TQ3Win32DCDrawContextData {
 // Windows DD draw context data
 #if !defined(QD3D_NO_DIRECTDRAW)
 
-// DD interface
+/*!
+ *  @struct
+ *      TQ3DDSurfaceDescriptor
+ *  @discussion
+ *      Describes the type of DirectDraw objects to be used for rendering.
+ *
+ *  @field objectSelector          Indicates the type of interface which has been supplied.
+ *  @field lpDirectDraw            A DIRECTDRAW interface object.
+ *  @field lpDirectDraw2           A DIRECTDRAW2 interface object.
+ *  @field lpDirectDrawSurface     A DIRECTDRAWSURFACE interface object.
+ *  @field lpDirectDrawSurface2    A DIRECTDRAWSURFACE2 interface object.
+ */
 typedef struct TQ3DDSurfaceDescriptor {
     TQ3DirectDrawObjectSelector                 objectSelector;
 
@@ -207,14 +306,22 @@ typedef struct TQ3DDSurfaceDescriptor {
     };
 } TQ3DDSurfaceDescriptor;
 
-// DD draw context data
+
+/*!
+ *  @struct
+ *      TQ3DDSurfaceDrawContextData
+ *  @discussion
+ *      Describes the state for a Windows DirectDraw draw context.
+ *
+ *  @field drawContextData        The common state for the draw context.
+ *  @field ddSurfaceDescriptor    Describes the DirectDraw surface to render to.
+ */
 typedef struct TQ3DDSurfaceDrawContextData {
     TQ3DrawContextData                          drawContextData;
     TQ3DDSurfaceDescriptor                      ddSurfaceDescriptor;
 } TQ3DDSurfaceDrawContextData;
 
 #endif // QD3D_NO_DIRECTDRAW
-
 
 #endif // QUESA_OS_WIN32
 
@@ -231,7 +338,23 @@ typedef struct TQ3DDSurfaceDrawContextData {
 typedef struct OpaqueTQ3XBufferObject           *TQ3XBufferObject;
 
 
-// X11 color map 
+/*!
+ *  @struct
+ *      TQ3XColormapData
+ *  @discussion
+ *      The colormap entry for an X11 draw context.
+ *
+ *      Note - no QD3D documentation could be found for this type. The purpose
+ *      of the fields have been assumed.
+ *
+ *  @field baseEntry        The base entry.
+ *  @field maxRed           The maximum red value.
+ *  @field maxGreen         The maximum green value.
+ *  @field maxBlue          The maximum blue value.
+ *  @field multRed          The red multiplier value.
+ *  @field multGreen        The green multiplier value.
+ *  @field multBlue         The blue multiplier value.
+ */
 typedef struct TQ3XColormapData {
     TQ3Int32                                    baseEntry;
     TQ3Int32                                    maxRed;
@@ -243,7 +366,22 @@ typedef struct TQ3XColormapData {
 } TQ3XColormapData;
 
 
-// X11 draw context data
+/*!
+ *  @struct
+ *      TQ3XDrawContextData
+ *  @discussion
+ *      Describes the state for an X11 DirectDraw draw context.
+ *
+ *      Note - no QD3D documentation could be found for this type. The purpose
+ *      of the fields have been assumed.
+ *
+ *  @field drawContextData  The common state for the draw context.
+ *  @field display          The X11 Display.
+ *  @field drawable         The X11 Drawable.
+ *  @field visual           The X11 visual.
+ *  @field cmap             The X11 color map.
+ *  @field colorMapData     The X11 color map data.
+ */
 typedef struct TQ3XDrawContextData {
     TQ3DrawContextData                          contextData;
     Display                                     *display;
@@ -264,7 +402,15 @@ typedef struct TQ3XDrawContextData {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_BE
 
-// Be draw context data
+/*!
+ *  @struct
+ *      TQ3BeDrawContextData
+ *  @discussion
+ *      Describes the state for a Be draw context.
+ *
+ *  @field drawContextData  The common state for the draw context.
+ *  @field theView          The BView to render to.
+ */
 typedef struct TQ3BeDrawContextData {
     TQ3DrawContextData                          drawContextData;
     BView                                       *theView;
@@ -281,7 +427,15 @@ typedef struct TQ3BeDrawContextData {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_COCOA
 
-// Cocoa draw context data
+/*!
+ *  @struct
+ *      TQ3CocoaDrawContextData
+ *  @discussion
+ *      Describes the state for a Cocoa draw context.
+ *
+ *  @field drawContextData  The common state for the draw context.
+ *  @field nsView           The NSView to render to.
+ */
 typedef struct TQ3CocoaDrawContextData {
     TQ3DrawContextData                          drawContextData;
     void                                        *nsView;
@@ -300,13 +454,12 @@ typedef struct TQ3CocoaDrawContextData {
  *  @function
  *      Q3DrawContext_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns kQ3ObjectTypeInvalid if the draw context type is unknown.
  *
- *  @param drawContext      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @result                 The type of the draw context object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3DrawContext_GetType (
@@ -319,14 +472,11 @@ Q3DrawContext_GetType (
  *  @function
  *      Q3DrawContext_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Set the common state for a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param contextData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to update.
+ *  @param contextData      The new common state for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetData (
@@ -340,14 +490,11 @@ Q3DrawContext_SetData (
  *  @function
  *      Q3DrawContext_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get the common state of a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param contextData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to query.
+ *  @param contextData      Receives the common state for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetData (
@@ -361,14 +508,11 @@ Q3DrawContext_GetData (
  *  @function
  *      Q3DrawContext_SetClearImageColor
  *  @discussion
- *      One-line description of this function.
+ *      Set the clear image colour for a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to update.
+ *  @param color            The new clear image colour.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetClearImageColor (
@@ -382,14 +526,11 @@ Q3DrawContext_SetClearImageColor (
  *  @function
  *      Q3DrawContext_GetClearImageColor
  *  @discussion
- *      One-line description of this function.
+ *      Get the clear image colour of a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param color            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to query.
+ *  @param color            Receives the clear image colour.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetClearImageColor (
@@ -451,14 +592,11 @@ Q3DrawContext_GetPane (
  *  @function
  *      Q3DrawContext_SetPaneState
  *  @discussion
- *      One-line description of this function.
+ *      Set the pane state for a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param state            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to update.
+ *  @param state            True or false as the pane is active.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetPaneState (
@@ -472,14 +610,11 @@ Q3DrawContext_SetPaneState (
  *  @function
  *      Q3DrawContext_GetPaneState
  *  @discussion
- *      One-line description of this function.
+ *      Get the pane state of a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param state            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to query.
+ *  @param state            Receives true or false as the pane is active.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetPaneState (
@@ -493,14 +628,11 @@ Q3DrawContext_GetPaneState (
  *  @function
  *      Q3DrawContext_SetClearImageMethod
  *  @discussion
- *      One-line description of this function.
+ *      Set the clear image method for a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param method           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to update.
+ *  @param method           The new clear image method.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetClearImageMethod (
@@ -514,18 +646,15 @@ Q3DrawContext_SetClearImageMethod (
  *  @function
  *      Q3DrawContext_GetClearImageMethod
  *  @discussion
- *      One-line description of this function.
+ *      Get the clear image method of a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param method           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to query.
+ *  @param method           Receives the clear image method.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetClearImageMethod (
-    TQ3DrawContextObject          context,
+    TQ3DrawContextObject            context,
     TQ3DrawContextClearImageMethod *method
 );
 
@@ -535,14 +664,16 @@ Q3DrawContext_GetClearImageMethod (
  *  @function
  *      Q3DrawContext_SetMask
  *  @discussion
- *      One-line description of this function.
+ *      Set the mask for a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The mask field is a bitmap-level clipping mask, which clips the rendered
+ *      output as it is copied to the destination.
  *
- *  @param context          Description of the parameter.
- *  @param mask             Description of the parameter.
- *  @result                 Description of the function result.
+ *      This feature is not currently supported by Quesa's interactive renderers.
+ *
+ *  @param context          The draw context to update.
+ *  @param mask             The new mask for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetMask (
@@ -556,14 +687,11 @@ Q3DrawContext_SetMask (
  *  @function
  *      Q3DrawContext_GetMask
  *  @discussion
- *      One-line description of this function.
+ *      Get the mask of a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param mask             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to query.
+ *  @param mask             Receives the current draw context mask.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetMask (
@@ -577,14 +705,11 @@ Q3DrawContext_GetMask (
  *  @function
  *      Q3DrawContext_SetMaskState
  *  @discussion
- *      One-line description of this function.
+ *      Set the mask state for a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param state            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to update.
+ *  @param state            True or false as the mask is active.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetMaskState (
@@ -598,14 +723,11 @@ Q3DrawContext_SetMaskState (
  *  @function
  *      Q3DrawContext_GetMaskState
  *  @discussion
- *      One-line description of this function.
+ *      Get the mask state of a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param state            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to query.
+ *  @param state            Receives true or false as the mask is active.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetMaskState (
@@ -619,14 +741,15 @@ Q3DrawContext_GetMaskState (
  *  @function
  *      Q3DrawContext_SetDoubleBufferState
  *  @discussion
- *      One-line description of this function.
+ *      Set the double-buffer state of a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      A double-buffered draw context will draw to an off-screen buffer as
+ *      objects are submited, and update the destination window/surface once
+ *      at the end of the frame.
  *
- *  @param context          Description of the parameter.
- *  @param state            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to update.
+ *  @param state            True or false as the draw context is to be double-buffered.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetDoubleBufferState (
@@ -640,14 +763,11 @@ Q3DrawContext_SetDoubleBufferState (
  *  @function
  *      Q3DrawContext_GetDoubleBufferState
  *  @discussion
- *      One-line description of this function.
+ *      Get the double-buffer state of a draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param context          Description of the parameter.
- *  @param state            Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param context          The draw context to query.
+ *  @param state            Receives true or false as the draw context is double-buffered.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetDoubleBufferState (
@@ -661,13 +781,10 @@ Q3DrawContext_GetDoubleBufferState (
  *  @function
  *      Q3PixmapDrawContext_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new Pixmap draw context object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param contextData      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param contextData      The data for the pixmap draw context object.
+ *  @result                 The new draw context object.
  */
 EXTERN_API_C ( TQ3DrawContextObject  )
 Q3PixmapDrawContext_New (
@@ -680,14 +797,11 @@ Q3PixmapDrawContext_New (
  *  @function
  *      Q3PixmapDrawContext_SetPixmap
  *  @discussion
- *      One-line description of this function.
+ *      Set the pixmap for a pixmap draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param pixmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param pixmap           The new pixmap for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapDrawContext_SetPixmap (
@@ -701,14 +815,11 @@ Q3PixmapDrawContext_SetPixmap (
  *  @function
  *      Q3PixmapDrawContext_GetPixmap
  *  @discussion
- *      One-line description of this function.
+ *      Get the pixmap of a pixmap draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param pixmap           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param pixmap           Receives the pixmap of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3PixmapDrawContext_GetPixmap (
@@ -729,13 +840,10 @@ Q3PixmapDrawContext_GetPixmap (
  *  @function
  *      Q3MacDrawContext_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new Mac draw context object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContextData  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContextData  The data for the Mac draw context object.
+ *  @result                 The new draw context object.
  */
 EXTERN_API_C ( TQ3DrawContextObject  )
 Q3MacDrawContext_New (
@@ -748,14 +856,11 @@ Q3MacDrawContext_New (
  *  @function
  *      Q3MacDrawContext_SetWindow
  *  @discussion
- *      One-line description of this function.
+ *      Set the window for a Mac draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param window           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param window           The new window for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetWindow (
@@ -769,14 +874,11 @@ Q3MacDrawContext_SetWindow (
  *  @function
  *      Q3MacDrawContext_GetWindow
  *  @discussion
- *      One-line description of this function.
+ *      Get the window of a Mac draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param window           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param window           Receives the window of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetWindow (
@@ -790,14 +892,11 @@ Q3MacDrawContext_GetWindow (
  *  @function
  *      Q3MacDrawContext_SetGXViewPort
  *  @discussion
- *      One-line description of this function.
+ *      Set the QuickDraw GX port for a Mac draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param viewPort         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param viewPort         The new QuickDraw GX port for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetGXViewPort (
@@ -811,14 +910,11 @@ Q3MacDrawContext_SetGXViewPort (
  *  @function
  *      Q3MacDrawContext_GetGXViewPort
  *  @discussion
- *      One-line description of this function.
+ *      Get the QuickDraw GX port of a Mac draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param viewPort         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param viewPort         Receives the QuickDraw GX port of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetGXViewPort (
@@ -832,14 +928,11 @@ Q3MacDrawContext_GetGXViewPort (
  *  @function
  *      Q3MacDrawContext_SetGrafPort
  *  @discussion
- *      One-line description of this function.
+ *      Set the Mac OS GrafPort for a Mac draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param grafPort         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param grafPort         The new Mac OS GrafPort for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetGrafPort (
@@ -853,14 +946,11 @@ Q3MacDrawContext_SetGrafPort (
  *  @function
  *      Q3MacDrawContext_GetGrafPort
  *  @discussion
- *      One-line description of this function.
+ *      Get the Mac OS GrafPort of a Mac draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param grafPort         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param grafPort         Receives the Mac OS GrafPort of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetGrafPort (
@@ -874,14 +964,11 @@ Q3MacDrawContext_GetGrafPort (
  *  @function
  *      Q3MacDrawContext_Set2DLibrary
  *  @discussion
- *      One-line description of this function.
+ *      Set the 2D library for a Mac draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param library          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param library          The new 2D library for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_Set2DLibrary (
@@ -895,14 +982,11 @@ Q3MacDrawContext_Set2DLibrary (
  *  @function
  *      Q3MacDrawContext_Get2DLibrary
  *  @discussion
- *      One-line description of this function.
+ *      Get the 2D library of a Mac draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param library          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param library          Receives the 2D library of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_Get2DLibrary (
@@ -925,15 +1009,15 @@ Q3MacDrawContext_Get2DLibrary (
  *  @function
  *      Q3XBuffers_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new X11 buffer object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note - no QD3D documentation could be found for this routine. The
+ *      purpose of the function, and its parameters/result, have been assumed.
  *
- *  @param dpy              Description of the parameter.
- *  @param numBuffers       Description of the parameter.
- *  @param window           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param dpy              The X11 display.
+ *  @param numBuffers       The number of buffers to create.
+ *  @param window           The X11 window.
+ *  @result                 The new X11 buffer object.
  */
 EXTERN_API_C ( TQ3XBufferObject  )
 Q3XBuffers_New (
@@ -948,14 +1032,13 @@ Q3XBuffers_New (
  *  @function
  *      Q3XBuffers_Swap
  *  @discussion
- *      One-line description of this function.
+ *      Swap the front and back buffers of an X11 buffer object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note - no QD3D documentation could be found for this routine. The
+ *      purpose of the function, and its parameters/result, have been assumed.
  *
- *  @param dpy              Description of the parameter.
- *  @param buffers          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param dpy              The X11 display.
+ *  @param buffers          The X11 buffer object.
  */
 EXTERN_API_C ( void  )
 Q3XBuffers_Swap (
@@ -969,14 +1052,14 @@ Q3XBuffers_Swap (
  *  @function
  *      Q3X_GetVisualInfo
  *  @discussion
- *      One-line description of this function.
+ *      Get an X11 visual info.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Note - no QD3D documentation could be found for this routine. The
+ *      purpose of the function, and its parameters/result, have been assumed.
  *
- *  @param dpy              Description of the parameter.
- *  @param screen           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param dpy              The X11 display.
+ *  @param screen           The X11 screen.
+ *  @result                 The X11 visual info.
  */
 EXTERN_API_C ( XVisualInfo * )
 Q3X_GetVisualInfo (
@@ -990,13 +1073,10 @@ Q3X_GetVisualInfo (
  *  @function
  *      Q3XDrawContext_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new X11 draw context object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContextData  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContextData  The data for the X11 draw context object.
+ *  @result                 The new draw context object.
  */
 EXTERN_API_C ( TQ3DrawContextObject  )
 Q3XDrawContext_New (
@@ -1009,14 +1089,11 @@ Q3XDrawContext_New (
  *  @function
  *      Q3XDrawContext_SetDisplay
  *  @discussion
- *      One-line description of this function.
+ *      Set the Display for an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param display          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param display          The new Display for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetDisplay (
@@ -1030,14 +1107,11 @@ Q3XDrawContext_SetDisplay (
  *  @function
  *      Q3XDrawContext_GetDisplay
  *  @discussion
- *      One-line description of this function.
+ *      Get the Display of an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param display          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param display          Receives the Display of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetDisplay (
@@ -1051,14 +1125,11 @@ Q3XDrawContext_GetDisplay (
  *  @function
  *      Q3XDrawContext_SetDrawable
  *  @discussion
- *      One-line description of this function.
+ *      Set the Drawable for an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param drawable         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param drawable         The new Drawable for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetDrawable (
@@ -1072,14 +1143,11 @@ Q3XDrawContext_SetDrawable (
  *  @function
  *      Q3XDrawContext_GetDrawable
  *  @discussion
- *      One-line description of this function.
+ *      Get the Drawable of an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param drawable         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param drawable         Receives the Drawable of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetDrawable (
@@ -1093,14 +1161,11 @@ Q3XDrawContext_GetDrawable (
  *  @function
  *      Q3XDrawContext_SetVisual
  *  @discussion
- *      One-line description of this function.
+ *      Set the Visual of an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param visual           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param visual           The new Visual for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetVisual (
@@ -1114,14 +1179,11 @@ Q3XDrawContext_SetVisual (
  *  @function
  *      Q3XDrawContext_GetVisual
  *  @discussion
- *      One-line description of this function.
+ *      Get the Visual of an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param visual           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param visual           Receives the Visual of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetVisual (
@@ -1135,14 +1197,11 @@ Q3XDrawContext_GetVisual (
  *  @function
  *      Q3XDrawContext_SetColormap
  *  @discussion
- *      One-line description of this function.
+ *      Set the Colormap of an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param colormap         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param colormap         The new Colormap for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetColormap (
@@ -1156,14 +1215,11 @@ Q3XDrawContext_SetColormap (
  *  @function
  *      Q3XDrawContext_GetColormap
  *  @discussion
- *      One-line description of this function.
+ *      Get the Colormap of an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param colormap         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param colormap         Receives the Colormap of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetColormap (
@@ -1177,14 +1233,11 @@ Q3XDrawContext_GetColormap (
  *  @function
  *      Q3XDrawContext_SetColormapData
  *  @discussion
- *      One-line description of this function.
+ *      Set the Colormap data for an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param colormapData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param colormapData     The new Colormap data for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_SetColormapData (
@@ -1198,14 +1251,11 @@ Q3XDrawContext_SetColormapData (
  *  @function
  *      Q3XDrawContext_GetColormapData
  *  @discussion
- *      One-line description of this function.
+ *      Get the Colormap data of an X11 draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param colormapData     Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param colormapData     Receives the Colormap data of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetColormapData (
@@ -1228,13 +1278,10 @@ Q3XDrawContext_GetColormapData (
  *  @function
  *      Q3Win32DCDrawContext_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a new Win32 DC draw context object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContextData  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContextData  The data for the Win32 DC draw context object.
+ *  @result                 The new draw context object.
  */
 EXTERN_API_C ( TQ3DrawContextObject  )
 Q3Win32DCDrawContext_New (
@@ -1247,14 +1294,11 @@ Q3Win32DCDrawContext_New (
  *  @function
  *      Q3Win32DCDrawContext_SetDC
  *  @discussion
- *      One-line description of this function.
+ *      Set the DC for a Win32 DC draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param newHDC           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param newHDC           The new DC for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Win32DCDrawContext_SetDC (
@@ -1268,14 +1312,11 @@ Q3Win32DCDrawContext_SetDC (
  *  @function
  *      Q3Win32DCDrawContext_GetDC
  *  @discussion
- *      One-line description of this function.
+ *      Get the DC for a Win32 DC draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param curHDC           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param curHDC           Receives the DC of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Win32DCDrawContext_GetDC (
@@ -1289,10 +1330,7 @@ Q3Win32DCDrawContext_GetDC (
  *  @function
  *      Q3DDSurfaceDrawContext_New
  *  @discussion
- *      One-line description of this function.
- *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Create a new Win32 DD draw context object.
  *
  *  @param drawContextData  Description of the parameter.
  *  @result                 Description of the function result.
@@ -1308,14 +1346,11 @@ Q3DDSurfaceDrawContext_New (
  *  @function
  *      Q3DDSurfaceDrawContext_SetDirectDrawSurface
  *  @discussion
- *      One-line description of this function.
+ *      Set the DD surface for a Win32 DD draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param ddSurfaceDescriptor Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext            The draw context to update.
+ *  @param ddSurfaceDescriptor    The new DD surface for the draw context.
+ *  @result                       Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DDSurfaceDrawContext_SetDirectDrawSurface (
@@ -1329,14 +1364,11 @@ Q3DDSurfaceDrawContext_SetDirectDrawSurface (
  *  @function
  *      Q3DDSurfaceDrawContext_GetDirectDrawSurface
  *  @discussion
- *      One-line description of this function.
+ *      Get the DD surface of a Win32 DD draw context.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param drawContext      Description of the parameter.
- *  @param ddSurfaceDescriptor Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext            The draw context to query.
+ *  @param ddSurfaceDescriptor    Receives the DD surface of the draw context.
+ *  @result                       Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3DDSurfaceDrawContext_GetDirectDrawSurface (
@@ -1359,12 +1391,12 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
  *  @function
  *      Q3BeDrawContext_New  
  *  @discussion
- *      One-line description of this function.
+ *      Create a new Be draw context object.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
- *  @param drawContextData  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContextData  The data for the Be draw context object.
+ *  @result                 The new draw context object.
  */
 EXTERN_API_C ( TQ3DrawContextObject  )
 Q3BeDrawContext_New (
@@ -1377,13 +1409,13 @@ Q3BeDrawContext_New (
  *  @function
  *      Q3BeDrawContext_SetView  
  *  @discussion
- *      One-line description of this function.
+ *      Set the BView for a Be draw context.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
- *  @param drawContext      Description of the parameter.
- *  @param theView          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param theView          The new BView for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3BeDrawContext_SetView (
@@ -1397,13 +1429,13 @@ Q3BeDrawContext_SetView (
  *  @function
  *      Q3BeDrawContext_GetView  
  *  @discussion
- *      One-line description of this function.
+ *      Get the BView for a Be draw context.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
- *  @param drawContext      Description of the parameter.
- *  @param theView          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param theView          Receives the BView of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3BeDrawContext_GetView (
@@ -1426,12 +1458,12 @@ Q3BeDrawContext_GetView (
  *  @function
  *      Q3CocoaDrawContext_New  
  *  @discussion
- *      One-line description of this function.
+ *      Create a new Cocoa draw context object.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
- *  @param drawContextData  Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContextData  The data for the Cocoa draw context object.
+ *  @result                 The new draw context object.
  */
 EXTERN_API_C ( TQ3DrawContextObject  )
 Q3CocoaDrawContext_New (
@@ -1444,13 +1476,13 @@ Q3CocoaDrawContext_New (
  *  @function
  *      Q3CocoaDrawContext_SetNSView  
  *  @discussion
- *      One-line description of this function.
+ *      Set the NSView for a Cocoa draw context.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
- *  @param drawContext      Description of the parameter.
- *  @param nsView           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to update.
+ *  @param nsView           The new NSView for the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_SetNSView (
@@ -1464,13 +1496,13 @@ Q3CocoaDrawContext_SetNSView (
  *  @function
  *      Q3CocoaDrawContext_GetNSView  
  *  @discussion
- *      One-line description of this function.
+ *      Get the NSView of a Cocoa draw context.
  *
- *      Not supported by QD3D.
+ *      <em>This function is not available in QD3D.</em>
  *
- *  @param drawContext      Description of the parameter.
- *  @param nsView           Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param drawContext      The draw context to query.
+ *  @param nsView           Receives the NSView of the draw context.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_GetNSView (
