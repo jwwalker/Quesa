@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -110,6 +110,18 @@ typedef struct TQ3SlabData {
 
 
 
+class E3SlabMemory : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3SlabData				instanceData ;
+	} ;
+
+
+
 
 
 //=============================================================================
@@ -205,11 +217,11 @@ E3Memory_RegisterClass(void)
 
 
 	// Register the memory classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypeSlab,
 											kQ3ClassNameSlab,
 											e3slab_metahandler,
-											sizeof(TQ3SlabData));
+											~sizeof(E3SlabMemory));
 
 	return(qd3dStatus);
 }
@@ -228,7 +240,7 @@ E3Memory_UnregisterClass(void)
 
 
 	// Unregister the memory classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypeSlab, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeSlab, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -674,38 +686,35 @@ E3Memory_IsRecording(void)
 #if Q3_DEBUG
 TQ3Status
 E3Memory_ForgetRecording(void)
-{
+	{
 	TQ3Object		anObject, nextObject;
-	OpaqueTQ3Object*	leakRec;
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
 	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
 	
 	if (theGlobals->listHead)	// true if anything was ever recorded
-	{
+		{
 		anObject = NEXTLINK( theGlobals->listHead );
 		
 		while (anObject != theGlobals->listHead)
-		{
+			{
 			nextObject = NEXTLINK( anObject );
 			NEXTLINK( anObject ) = NULL;
 			PREVLINK( anObject ) = NULL;
 			
-			leakRec = (OpaqueTQ3Object*) E3ClassTree_FindInstanceData(anObject, kQ3ObjectTypeRoot);
-			
-			if ( leakRec->stackCrawl != NULL )
-			{
-				E3StackCrawl_Dispose( leakRec->stackCrawl );
-				leakRec->stackCrawl = NULL;
-			}
+			if ( anObject->stackCrawl != NULL )
+				{
+				E3StackCrawl_Dispose( anObject->stackCrawl );
+				anObject->stackCrawl = NULL;
+				}
 			
 			anObject = nextObject;
-		}
+			}
 		
 		NEXTLINK( theGlobals->listHead ) = theGlobals->listHead;
 		PREVLINK( theGlobals->listHead ) = theGlobals->listHead;
+		}
+	return kQ3Success ;
 	}
-	return kQ3Success;
-}
 #endif
 
 
@@ -718,27 +727,26 @@ E3Memory_ForgetRecording(void)
 #if Q3_DEBUG
 TQ3Uns32
 E3Memory_CountRecords(void)
-{
-	TQ3Uns32	numRecords = 0;
-	E3GlobalsPtr	theGlobals = E3Globals_Get();
-	TQ3Object		anObject;
-	
-	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, 0 );
-	
-	if (theGlobals->listHead != NULL)	// true if anything was ever recorded
 	{
-		anObject = NEXTLINK( theGlobals->listHead );
-		
-		while (anObject != theGlobals->listHead)
-		{
-			Q3_ASSERT( E3ClassTree_IsObjectValid(anObject) );
-			numRecords += 1;
-			anObject = NEXTLINK( anObject );
-		}
-	}
+	TQ3Uns32 numRecords = 0 ;
+	E3GlobalsPtr theGlobals = E3Globals_Get () ;
 	
-	return numRecords;
-}
+	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, 0 ) ;
+	
+	if ( theGlobals->listHead != NULL )	// true if anything was ever recorded
+		{
+		TQ3Object anObject = NEXTLINK( theGlobals->listHead ) ;
+		
+		while ( anObject != theGlobals->listHead )
+			{
+			Q3_ASSERT( anObject->IsObjectValid () ) ;
+			numRecords += 1 ;
+			anObject = NEXTLINK( anObject ) ;
+			}
+		}
+	
+	return numRecords; 
+	}
 #endif
 
 
@@ -751,38 +759,29 @@ E3Memory_CountRecords(void)
 #if Q3_DEBUG
 TQ3Object
 E3Memory_NextRecordedObject( TQ3Object inObject )
-{
-	TQ3Object	theNext = NULL;
-	OpaqueTQ3Object*	instanceData;
-	E3GlobalsPtr	theGlobals = E3Globals_Get();
-	
-	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, NULL );
-	Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, NULL );
-	
-	if (inObject == NULL)
 	{
-		// Return the first thing in the list, if any.
-		theNext = NEXTLINK( theGlobals->listHead );
-	}
-	else
-	{
-		instanceData = (OpaqueTQ3Object *) E3ClassTree_FindInstanceData( inObject, kQ3ObjectTypeRoot );
-		if (instanceData != NULL)
+	TQ3Object theNext = NULL ;
+	E3GlobalsPtr theGlobals = E3Globals_Get () ;
+	
+	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, NULL ) ;
+	Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, NULL ) ;
+	
+	if ( inObject == NULL )
 		{
-			theNext = instanceData->next;
+		// Return the first thing in the list, if any.
+		theNext = NEXTLINK( theGlobals->listHead ) ;
 		}
-	}
+	else
+		theNext = inObject->next ;
 
-	if (theNext == theGlobals->listHead)
-	{
-		theNext = NULL;
+	if ( theNext == theGlobals->listHead )
+		theNext = NULL ;
+	
+	if ( theNext != NULL )
+		theNext = theNext->GetLeafObject () ;
+	
+	return theNext ;
 	}
-	
-	if (theNext != NULL)
-		theNext = E3ClassTree_GetLeafObject(theNext);
-	
-	return theNext;
-}
 #endif
 
 
@@ -840,12 +839,12 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 		
 		while (anObject != theGlobals->listHead)
 		{
-			Q3_ASSERT( E3ClassTree_IsObjectValid(anObject) );
+			Q3_ASSERT( anObject->IsObjectValid () );
 			nextObject = NEXTLINK( anObject );
-			leakRec = (OpaqueTQ3Object*) E3ClassTree_FindInstanceData(anObject, kQ3ObjectTypeLeaf);
+			leakRec = (OpaqueTQ3Object*) anObject->FindLeafInstanceData () ;
 			
 			// anObject currently points to a root object, find the leaf
-			anObject = E3ClassTree_GetLeafObject(anObject);
+			anObject = anObject->GetLeafObject () ;
 			
 			// Find the class name and print it
 			theType = Q3Object_GetLeafType( anObject );
@@ -900,8 +899,8 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 //-----------------------------------------------------------------------------
 TQ3SlabObject
 E3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData)
-{	TQ3SlabParams	paramData;
-	TQ3Object		theObject;
+	{
+	TQ3SlabParams	paramData;
 
 
 
@@ -913,11 +912,8 @@ E3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3ObjectTypeSlab, kQ3False, &paramData);
-
-	return(theObject);
-}
-
+	return E3ClassTree::CreateInstance ( kQ3ObjectTypeSlab, kQ3False, &paramData ) ;
+	}
 
 
 
@@ -927,16 +923,11 @@ E3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData)
 //-----------------------------------------------------------------------------
 void *
 E3SlabMemory_GetData(TQ3SlabObject theSlab, TQ3Uns32 itemIndex)
-{	TQ3SlabData		*instanceData = (TQ3SlabData *) E3ClassTree_FindInstanceData(theSlab, kQ3ObjectTypeSlab);
-	TQ3Uns8			*theData;
-
-
-
+	{
 	// Get the data for the item
-	theData = ((TQ3Uns8 *) instanceData->theData) + (itemIndex * instanceData->itemSize);
-
-	return((void *) theData);
-}
+	return (void*) ( ( (TQ3Uns8*) ( (E3SlabMemory*) theSlab )->instanceData.theData )
+				+ ( itemIndex * ( (E3SlabMemory*) theSlab )->instanceData.itemSize ) ) ;
+	}
 
 
 
@@ -947,28 +938,22 @@ E3SlabMemory_GetData(TQ3SlabObject theSlab, TQ3Uns32 itemIndex)
 //-----------------------------------------------------------------------------
 void *
 E3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *itemData)
-{	TQ3SlabData		*instanceData = (TQ3SlabData *) E3ClassTree_FindInstanceData(theSlab, kQ3ObjectTypeSlab);
-	TQ3Status		qd3dStatus;
-	void			*theData;
-	TQ3Uns32		oldCount;
-
-
-
+	{
 	// Grow the slab
-	oldCount   = Q3SlabMemory_GetCount(theSlab);
-	qd3dStatus = Q3SlabMemory_SetCount(theSlab, oldCount + numItems);
-	if (qd3dStatus != kQ3Success)
-		return(NULL);
+	TQ3Uns32 oldCount = Q3SlabMemory_GetCount ( theSlab ) ;
+	TQ3Status qd3dStatus = Q3SlabMemory_SetCount ( theSlab, oldCount + numItems ) ;
+	if ( qd3dStatus == kQ3Failure )
+		return NULL ;
 
 
 
 	// Initialise the items
-	theData = Q3SlabMemory_GetData(theSlab, oldCount);
-	if (itemData != NULL)
-		Q3Memory_Copy(itemData, theData, numItems * instanceData->itemSize);
+	void* theData = Q3SlabMemory_GetData ( theSlab, oldCount ) ;
+	if ( itemData != NULL )
+		Q3Memory_Copy ( itemData, theData, numItems * ( (E3SlabMemory*) theSlab )->instanceData.itemSize ) ;
 
-	return(theData);
-}
+	return theData ;
+	}
 
 
 
@@ -979,13 +964,10 @@ E3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *it
 //-----------------------------------------------------------------------------
 TQ3Uns32
 E3SlabMemory_GetCount(TQ3SlabObject theSlab)
-{	TQ3SlabData		*instanceData = (TQ3SlabData *) E3ClassTree_FindInstanceData(theSlab, kQ3ObjectTypeSlab);
-
-
-
+	{
 	// Get our size
-	return(instanceData->numItems);
-}
+	return ( (E3SlabMemory*) theSlab )->instanceData.numItems ;
+	}
 
 
 
@@ -1021,43 +1003,39 @@ E3SlabMemory_GetCount(TQ3SlabObject theSlab)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
-{	TQ3SlabData		*instanceData = (TQ3SlabData *) E3ClassTree_FindInstanceData(theSlab, kQ3ObjectTypeSlab);
-	TQ3Uns32		theSize, expSize;
-	TQ3Status		qd3dStatus;
-
-
-
+	{
 	// Calculate the size we need
-	qd3dStatus = kQ3Success;
-	theSize    = instanceData->itemSize * numItems;
+	TQ3Status qd3dStatus = kQ3Success ;
+	TQ3Uns32 theSize = ( (E3SlabMemory*) theSlab )->instanceData.itemSize * numItems ;
 
 
 
 	// Grow the slab if required
-	if (theSize > instanceData->dataSize)
+	if ( theSize > ( (E3SlabMemory*) theSlab )->instanceData.dataSize )
 		{
 		// Determine how much we should grow
 		//
 		// To prevent the reallocating and copying from taking more and more time
 		// as the slab grows, we need to grow exponentially.
-		expSize = instanceData->dataSize + instanceData->dataSize/2;
-		expSize = E3Num_Max( expSize, kSlabSmallGrowSize );
-		theSize = E3Num_Max( theSize, expSize );
+		TQ3Uns32 expSize = ( (E3SlabMemory*) theSlab )->instanceData.dataSize
+						 + ( (E3SlabMemory*) theSlab )->instanceData.dataSize / 2 ;
+		expSize = E3Num_Max( expSize, kSlabSmallGrowSize ) ;
+		theSize = E3Num_Max( theSize, expSize ) ;
 
 
 
 		// Grow the slab
-		qd3dStatus = Q3Memory_Reallocate(&instanceData->theData, theSize);
-		if (qd3dStatus == kQ3Success)
-			instanceData->dataSize = theSize;
+		qd3dStatus = Q3Memory_Reallocate( & ( (E3SlabMemory*) theSlab )->instanceData.theData, theSize ) ;
+		if ( qd3dStatus != kQ3Failure )
+			( (E3SlabMemory*) theSlab )->instanceData.dataSize = theSize ;
 		}
 
 
 
 	// Update the slab
-	if (qd3dStatus == kQ3Success)
-		instanceData->numItems = numItems;
+	if ( qd3dStatus != kQ3Failure )
+		( (E3SlabMemory*) theSlab )->instanceData.numItems = numItems ;
 	
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
