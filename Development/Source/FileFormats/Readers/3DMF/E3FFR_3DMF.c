@@ -215,6 +215,20 @@ e3fformat_3dmf_facecapsset_read(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      e3fformat_3dmf_interiorcapsset_read : Creates and read a interior caps attribute set from a 3DMF.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static TQ3Object
+e3fformat_3dmf_interiorcapsset_read(TQ3FileObject theFile)
+{
+	return(e3fformat_3dmf_attribute_caps_read_core (theFile, kQ3AttributeSetTypeInteriorCap));
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_capsset_traverse : Traverse a top/bottom/face caps attribute set.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -1735,6 +1749,13 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											NULL,
 											sizeof(TQ3AttributeSet));
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+											kQ3AttributeSetTypeInteriorCap,
+											kQ3ClassNameInteriorCapAttributeSet,
+											NULL,
+											sizeof(TQ3AttributeSet));
+
 
 
 	if(qd3dStatus == kQ3Success)
@@ -1793,10 +1814,12 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_topcapsset_read);
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_bottomcapsset_read);
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_facecapsset_read);
+	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeInteriorCap,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)e3fformat_3dmf_interiorcapsset_read);
 	
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeFaceCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeBottomCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
 	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeTopCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
+	E3ClassTree_AddMethodByType(kQ3AttributeSetTypeInteriorCap,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3fformat_3dmf_capsset_traverse);
 	
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeSurfaceUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceUV);
 	E3ClassTree_AddMethodByType(kQ3ObjectTypeAttributeShadingUV,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_ShadingUV);

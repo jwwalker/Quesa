@@ -227,6 +227,7 @@ extern "C" {
 #define kQ3ClassNameTopCapAttributeSet				"TopCapAttributeSet"
 #define kQ3ClassNameBottomCapAttributeSet			"BottomCapAttributeSet"
 #define kQ3ClassNameFaceCapAttributeSet				"FaceCapAttributeSet"
+#define kQ3ClassNameInteriorCapAttributeSet			"InteriorCapAttributeSet"
 #define kQ3ClassNameShaderUVTransform				"ShaderUVTransform"
 #define kQ3ClassNameStoragePath						"Quesa:Storage:Path"
 #define kQ3ClassNameStorageBe						"Quesa:Storage:Be"
@@ -299,6 +300,7 @@ extern "C" {
 #define kQ3AttributeSetTypeTopCap					Q3_OBJECT_TYPE('t', 'c', 'a', 's')
 #define kQ3AttributeSetTypeBottomCap				Q3_OBJECT_TYPE('b', 'c', 'a', 's')
 #define kQ3AttributeSetTypeFaceCap					Q3_OBJECT_TYPE('f', 'c', 'a', 's')
+#define kQ3AttributeSetTypeInteriorCap				Q3_OBJECT_TYPE('i', 'c', 'a', 's')
 #define kQ3ObjectTypeShaderUVTransform				Q3_OBJECT_TYPE('s', 'd', 'u', 'v')
 #define kQ3ObjectTypeShaderTransform				Q3_OBJECT_TYPE('s', 'd', 'x', 'f')
 #define kQ3ObjectTypeGeometryCaps					Q3_OBJECT_TYPE('c', 'a', 'p', 's')

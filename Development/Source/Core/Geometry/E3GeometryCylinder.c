@@ -205,7 +205,7 @@ e3geom_cylinder_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 static TQ3Object
 e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3CylinderData *geomData)
 {	float				ang=0.0f, dang, cosAngle, sinAngle;
-	float				uMin, uMax, vMin, vMax, uDiff, vDiff;
+	float				uMin, uMax, vMin, vMax;
 	TQ3Param2D			*uvs;
 	TQ3GroupObject		theGroup;
 	TQ3TriMeshData				triMeshData;
@@ -218,11 +218,49 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	TQ3TriMeshTriangleData *triangles;
 	TQ3Vector3D v;
 	TQ3TriMeshAttributeData vertexAttributes[2];
-	TQ3Vector3D orientCrossMaj, orientCrossMin, majXMinor;
-	TQ3Boolean	isRightHanded;
+	TQ3Vector3D orientCrossMaj, orientCrossMin;
+	float						startAngle, endAngle, angleRange;
+	TQ3Boolean					isPartAngleRange;
+	TQ3SubdivisionStyleData subdivisionData;
+	TQ3Vector3D		workVec, sideVec;
+	TQ3Point3D		bottomCenter, topCenter;
+	float			dotCross;
+
+
+
+	// Get the UV limits and make sure they are valid
+	uMin  = E3Num_Max(E3Num_Min(geomData->uMin, 1.0f), 0.0f);
+	uMax  = E3Num_Max(E3Num_Min(geomData->uMax, 1.0f), 0.0f);
+	vMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
+	vMax  = E3Num_Max(E3Num_Min(geomData->vMax, 1.0f), 0.0f);
+	// It is possible for uMin to be greater than uMax, so that
+	// we can specify which way to wrap around the circle.
+	// But it doesn't make sense for vMin to be greater than vMax.
+	if (vMin > vMax)
+		E3Float_Swap( vMin, vMax );
+	
+	
+	
+	// Turn the u limits into an angle range in radians.
+	startAngle = uMin * kQ32Pi;
+	endAngle = uMax * kQ32Pi;
+	if (startAngle > endAngle)
+		startAngle -= kQ32Pi;
+	angleRange = endAngle - startAngle;
+	isPartAngleRange = E3Float_Abs( angleRange - kQ32Pi ) > kQ3RealZero?
+		kQ3True : kQ3False;
+
+
+
+	// Find the center of the top and the bottom.
+	Q3Vector3D_Scale( &geomData->orientation, vMin, &workVec );
+	Q3Point3D_Vector3D_Add( &geomData->origin, &workVec, &bottomCenter );
+	Q3Vector3D_Scale( &geomData->orientation, vMax - vMin, &sideVec );
+	Q3Point3D_Vector3D_Add( &bottomCenter, &sideVec, &topCenter );
+	
+
 
 	// Get the subdivision style, to figure out how many sides we should have.
-	TQ3SubdivisionStyleData subdivisionData;
 	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
 		switch (subdivisionData.method) {
 			case kQ3SubdivisionMethodConstant:
@@ -242,8 +280,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 				break;
 		}
 	}
-	if (sides < 3) sides = 3;			// sanity checking
-	else if (sides > 256) sides = 256;
+	sides = E3Num_Max(E3Num_Min(sides, 256), 3);	// sanity checking
 
 	numpoints = sides*2;
 
@@ -256,20 +293,17 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	numpoints += 2;
 
 
-	// Get the UV limits
-	uMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	uMax  = E3Num_Max(E3Num_Min(geomData->uMax, 1.0f), 0.0f);
-	vMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	vMax  = E3Num_Max(E3Num_Min(geomData->vMax, 1.0f), 0.0f);
-	uDiff = uMax - uMin;
-	vDiff = vMax - vMin;
-
-
 
 	// Create a group to hold the cached geometry
 	theGroup = Q3DisplayGroup_New();
 	if (theGroup == NULL)
-		return(NULL);
+	{
+		E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
+		return NULL;
+	}
+	
+	if (geomData->cylinderAttributeSet != NULL)
+		Q3Group_AddObject( theGroup, geomData->cylinderAttributeSet );
 
 
 
@@ -302,29 +336,33 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	// 		orientation x (-sin(t)majorRadius + cos(t)minorRadius) =
 	//		-sin(t)(orientation x majorRadius) + cos(t)(orientation x minorRadius) .
 	// If (majorRadius, minorRadius, orientation) forms a right-handed system, then
-	// this normal points inward.
-	Q3Vector3D_Cross( &geomData->orientation, &geomData->majorRadius, &orientCrossMaj );
+	// this normal points inward, so will need to be negated.
 	Q3Vector3D_Cross( &geomData->orientation, &geomData->minorRadius, &orientCrossMin );
-	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
+	Q3Vector3D_Cross( &geomData->orientation, &geomData->majorRadius, &orientCrossMaj );
 	
-	// Right or left handed?
-	if (Q3Vector3D_Dot( &majXMinor, &geomData->orientation ) > 0.0)
+	
+	
+	// Test whether the geometry is degenerate.
+	dotCross = Q3Vector3D_Dot( &geomData->minorRadius, &orientCrossMaj );
+	if (E3Float_Abs( dotCross ) < kQ3RealZero)
 	{
-		isRightHanded = kQ3True;
-	}
-	else
-	{
-		isRightHanded = kQ3False;
+		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+		return theGroup;
 	}
 
-	dang = kQ32Pi / sides;
-	for (i=0; i<sides; i++) {
+
+
+	// Compute points, normals, UVs, and triangles for each side
+	dang = angleRange / sides;
+	
+	for (i=0, ang = startAngle; i <= sides; ++i, ang += dang)
+	{
 		cosAngle = (float) cos(ang);
 		sinAngle = (float) sin(ang);
 
-		// bottom point is origin + cos(major) + sin(minor)
+		// bottom point is bottomCenter + cos(major) + sin(minor)
 		Q3Vector3D_Scale( &geomData->majorRadius, cosAngle, &v );
-		Q3Point3D_Vector3D_Add( &geomData->origin, &v, &points[i] );
+		Q3Point3D_Vector3D_Add( &bottomCenter, &v, &points[i] );
 		Q3Vector3D_Scale( &geomData->minorRadius, sinAngle, &v );
 		Q3Point3D_Vector3D_Add( &points[i], &v, &points[i] );
 
@@ -333,66 +371,36 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		Q3Vector3D_Scale( &orientCrossMin, cosAngle, &v );
 		Q3Vector3D_Add( &normals[i], &v, &normals[i] );
 		Q3Vector3D_Normalize( &normals[i], &normals[i] );
-		if (isRightHanded == kQ3True)
-		{
-			Q3Vector3D_Negate( &normals[i], &normals[i] );
-		}
+		Q3Vector3D_Negate( &normals[i], &normals[i] );
 
-		// corresponding top point is bottom point + orientation
-		Q3Point3D_Vector3D_Add( &points[i], &geomData->orientation, &points[i+sides] );
+		// corresponding top point is bottom point + sideVec
+		Q3Point3D_Vector3D_Add( &points[i], &sideVec, &points[i+sides+1] );
 
 		// and its normal is exactly the same as the bottom one
-		normals[i+sides] = normals[i];		
+		normals[i+sides+1] = normals[i];		
 
 		// uvs come from the surface parameterisation
-		uvs[i].u         = uMin + ((uDiff / (float) sides) * i);
-		uvs[i].v         = vMin;
+		uvs[i].u         = i / (float) sides;
+		uvs[i].v         = 0.0f;
 		uvs[i + sides].u = uvs[i].u;
-		uvs[i + sides].v = vMax;
+		uvs[i + sides].v = 1.0f;
 
-		// make the triangle with point up
-		triangles[i].pointIndices[0] = i+sides;
-		triangles[i].pointIndices[1] = i;
-		triangles[i].pointIndices[2] = (i+1)%sides;
-		
-		// make the triangle with point down
-		triangles[i+sides].pointIndices[0] = i+sides;
-		triangles[i+sides].pointIndices[1] = (i+1)%sides;
-		triangles[i+sides].pointIndices[2] = (i+1)%sides + sides;
-
-		ang += dang;
+		if (i<sides)
+		{
+			// make the triangle with point up
+			triangles[i].pointIndices[0] = i+sides+1;
+			triangles[i].pointIndices[1] = i;
+			triangles[i].pointIndices[2] = i+1;
+			
+			// make the triangle with point down
+			triangles[i+sides].pointIndices[0] = i+sides+1;
+			triangles[i+sides].pointIndices[1] = i+1;
+			triangles[i+sides].pointIndices[2] = i+sides+2;
+		}
 	}
 
 
 
-	// Fix up the extra two vertices we added for texture mapping: these have the
-	// same coordinate and normal as the first two vertices, but have the UVs of
-	// the last two vertices.
-	//
-	// We also need to adjust the final triangles to point to these new vertices.
-	i = numpoints - 2;
-	points [i] = points [0];
-	normals[i] = normals[0];
-	uvs    [i].u = uMax;
-	uvs    [i].v = vMin;
-	
-	points [i + 1] = points [sides];
-	normals[i + 1] = normals[sides];
-	uvs    [i + 1].u = uMax;
-	uvs    [i + 1].v = vMax;
-
-	triangles[ sides    - 1].pointIndices[2] = i;
-	triangles[(sides*2) - 1].pointIndices[1] = i;
-	triangles[(sides*2) - 1].pointIndices[2] = i + 1;
-
-
-
-	// set up the attributes (may be a combination of cylinder & face attributes)	
-	E3AttributeSet_Combine( geomData->cylinderAttributeSet, geomData->faceAttributeSet,
-					&triMeshData.triMeshAttributeSet );
-	
-	
-	
 	// set up remaining trimesh data
 	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
 	vertexAttributes[0].data              = normals;
@@ -414,6 +422,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	triMeshData.edgeAttributeTypes        = NULL;
 	triMeshData.numVertexAttributeTypes   = 2;
 	triMeshData.vertexAttributeTypes      = vertexAttributes;
+	triMeshData.triMeshAttributeSet = geomData->faceAttributeSet;
 
 	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox,
 									triMeshData.points,
@@ -427,119 +436,157 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	if (theTriMesh != NULL)
 		Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
 
-	Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
 
 
-
-	// Set this point to the center of the cylinder for the end caps kQ3EndCapMaskBottom
-	// will use it as is, while kQ3EndCapMaskTop will translate it along the orientation
-	// vector along with the other points
-	//
-	// Note this assumes that the bottom is processed before the top - please remember
-	// this if restructuring this routine.
-	points[sides] = geomData->origin;
-
-
-
-	// Now, add the cylinder bottom;
-	// This is like the sides, but all triangles go to a center point
-	if (geomData->caps & kQ3EndCapMaskBottom) {
-		uvs[sides].u  = uMin + (uDiff / 2.0f);
-		uvs[sides].v  = vMin + (vDiff / 2.0f);
-		Q3Vector3D_Negate(&geomData->orientation, &normals[sides]);
-		Q3Vector3D_Normalize(&normals[sides],     &normals[sides]);
-
-
-		// Adjust the triangle orientation so that they face downwards
-		ang = 0.0f;
-		for (i=0; i<sides; i++) {
-			// Figure out where we are
-			cosAngle = (float) cos(ang);
-			sinAngle = (float) sin(ang);
-			
-			// Set up the normal
-			normals[i] = normals[sides];
-
-			// Set up the UV
-			uvs[i].u = uMin + (uDiff * (1.0f - ((cosAngle + 1.0f) / 2.0f)));
-			uvs[i].v = vMin + (vDiff * (1.0f - ((sinAngle + 1.0f) / 2.0f)));
-
-			// Set up the triangle
-			triangles[i].pointIndices[0] = (i+1)%sides;
-			triangles[i].pointIndices[1] = i;
-			triangles[i].pointIndices[2] = sides;
-
-			ang += dang;
-		}
-
-		triMeshData.numTriangles = sides;
-		triMeshData.numPoints    = sides+1;
-
-		// set up the attributes (may be a combination of cylinder & bottom attributes)	
-		E3AttributeSet_Combine( geomData->cylinderAttributeSet, geomData->bottomAttributeSet,
-					&triMeshData.triMeshAttributeSet );
+	// Add the bottom end cap, if any, being careful about the orientation.
+	if (geomData->caps & kQ3EndCapMaskBottom)
+	{
+		TQ3DiskData			botDisk;
+		TQ3GeometryObject	botGeom;
 		
-		Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox,
-										triMeshData.points,
-										triMeshData.numPoints,
-										sizeof(TQ3Point3D));
-
-		theTriMesh = Q3TriMesh_New(&triMeshData);
-		if (theTriMesh != NULL)
-			Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
-
-		Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
+		botDisk.origin = bottomCenter;
+		botDisk.majorRadius = geomData->majorRadius;
+		Q3Vector3D_Negate( &geomData->minorRadius, &botDisk.minorRadius );
+		botDisk.uMin = 1.0f - geomData->uMax;
+		botDisk.uMax = 1.0f - geomData->uMin;
+		botDisk.vMin = 0.0f;
+		botDisk.vMax = 1.0f;
+		botDisk.diskAttributeSet = geomData->bottomAttributeSet;
+		
+		botGeom = Q3Disk_New( &botDisk );
+		if (botGeom != NULL)
+		{
+			Q3Group_AddObjectAndDispose(theGroup, &botGeom);
+		}
 	}
 
 
 
-	// Now, add the cylinder top;
-	// This is like the bottom, but all points offset by the orientation
-	if (geomData->caps & kQ3EndCapMaskTop) {
-		for (i=0; i<=sides; i++) {
-			Q3Point3D_Vector3D_Add( &points[i], &geomData->orientation, &points[i] );
-		}
-		Q3Vector3D_Negate(&normals[sides], &normals[sides]);
-
-
-		// Adjust the everything so that it faces upwards
-		ang = 0.0f;
-		for (i=0; i<sides; i++) {
-			// Figure out where we are
-			cosAngle = (float) cos(ang);
-			sinAngle = (float) sin(ang);
-
-			// Set up the normal
-			normals[i] = normals[sides];
-
-			// Set up the UV
-			uvs[i].u = uMin + (uDiff * (        (cosAngle + 1.0f) / 2.0f));
-			uvs[i].v = vMin + (vDiff * (1.0f - ((sinAngle + 1.0f) / 2.0f)));
-
-			// Set up the triangle
-			triangles[i].pointIndices[0] = sides;
-			triangles[i].pointIndices[1] = i;
-			triangles[i].pointIndices[2] = (i+1)%sides;
-			ang += dang;
-		}
-
-		triMeshData.numTriangles = sides;
-		triMeshData.numPoints    = sides+1;
-
-		// set up the attributes (may be a combination of cylinder & top attributes)	
-		E3AttributeSet_Combine( geomData->cylinderAttributeSet, geomData->topAttributeSet,
-					&triMeshData.triMeshAttributeSet );
+	// Add the top end cap, if any
+	if (geomData->caps & kQ3EndCapMaskTop)
+	{
+		TQ3DiskData			topDisk;
+		TQ3GeometryObject	topGeom;
 		
-		Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox,
-										triMeshData.points,
-										triMeshData.numPoints,
-										sizeof(TQ3Point3D));
+		topDisk.origin = topCenter;
+		topDisk.majorRadius = geomData->majorRadius;
+		topDisk.minorRadius = geomData->minorRadius;
+		topDisk.uMin = geomData->uMin;
+		topDisk.uMax = geomData->uMax;
+		topDisk.vMin = 0.0f;
+		topDisk.vMax = 1.0f;
+		topDisk.diskAttributeSet = geomData->topAttributeSet;
+		
+		topGeom = Q3Disk_New( &topDisk );
+		if (topGeom != NULL)
+		{
+			Q3Group_AddObjectAndDispose(theGroup, &topGeom);
+		}
+	}
+	
+	
+	
+	// Add interior cap if appropriate
+	if ( isPartAngleRange && ((geomData->caps & kQ3EndCapMaskInterior) != 0) )
+	{
+		// The interior looks like a folded rectangle.  In order to have a
+		// sharp edge along the fold, we must use two TriMeshes, each of
+		// which is a rectangle.
+		TQ3Point3D		interiorPts[4];
+		TQ3Vector3D		interiorPtNorms[4];
+		TQ3Param2D		interiorUVs[4];
+		TQ3TriMeshTriangleData	interiorTris[2] = {
+			{ { 0, 3, 1 } }, { { 0, 2, 3 } }
+		};
+		TQ3TriMeshAttributeData	interiorPtAtts[2] = {
+			{ kQ3AttributeTypeNormal, NULL, NULL },
+			{ kQ3AttributeTypeSurfaceUV, NULL, NULL }
+		};
+		TQ3TriMeshData	intTriMeshData;
+		TQ3GeometryObject	intGeom = NULL;
+		
+		// First half of interior, from ending edge of face to center line.
+		ang = endAngle;
+		cosAngle = (float) cos(ang);
+		sinAngle = (float) sin(ang);
 
-		theTriMesh = Q3TriMesh_New(&triMeshData);
-		if (theTriMesh != NULL)
-			Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
-
-		Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
+		// Define points
+		Q3Vector3D_Scale( &geomData->majorRadius, cosAngle, &v );
+		Q3Vector3D_Scale( &geomData->minorRadius, sinAngle, &workVec );
+		Q3Vector3D_Add( &v, &workVec, &v );
+		Q3Point3D_Vector3D_Add( &bottomCenter, &v, &interiorPts[0] );
+		Q3Point3D_Vector3D_Add( &interiorPts[0], &sideVec, &interiorPts[1] );
+		interiorPts[2] = bottomCenter;
+		Q3Point3D_Vector3D_Add( &interiorPts[2], &sideVec, &interiorPts[3] );
+		
+		// Define normal
+		Q3Vector3D_Cross( &sideVec, &v, &workVec );
+		Q3Vector3D_Normalize( &workVec, &workVec );
+		interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] =
+			interiorPtNorms[3] = workVec;
+		
+		// Define surface UVs
+		interiorUVs[0].u = 0.0f;
+		interiorUVs[0].v = 0.0f;
+		interiorUVs[1].u = 0.0f;
+		interiorUVs[1].v = 1.0f;
+		interiorUVs[2].u = 0.5f;
+		interiorUVs[2].v = 0.0f;
+		interiorUVs[3].u = 0.5f;
+		interiorUVs[3].v = 1.0f;
+		
+		// Set up TriMesh data
+		interiorPtAtts[0].data = interiorPtNorms;
+		interiorPtAtts[1].data = interiorUVs;
+		intTriMeshData.triMeshAttributeSet = geomData->interiorAttributeSet;
+		intTriMeshData.numTriangles = 2;
+		intTriMeshData.triangles = interiorTris;
+		intTriMeshData.numTriangleAttributeTypes = 0;
+		intTriMeshData.triangleAttributeTypes = NULL;
+		intTriMeshData.numEdges = 0;
+		intTriMeshData.edges = NULL;
+		intTriMeshData.numEdgeAttributeTypes = 0;
+		intTriMeshData.edgeAttributeTypes = NULL;
+		intTriMeshData.numPoints = 4;
+		intTriMeshData.points = interiorPts;
+		intTriMeshData.numVertexAttributeTypes = 2;
+		intTriMeshData.vertexAttributeTypes = interiorPtAtts;
+		Q3BoundingBox_SetFromPoints3D( &intTriMeshData.bBox,
+									intTriMeshData.points,
+									4,
+									sizeof(TQ3Point3D));
+		
+		// Make the first part of the interior
+		intGeom = Q3TriMesh_New( &intTriMeshData );
+		Q3Group_AddObjectAndDispose(theGroup, &intGeom);
+		
+		// Second part of interior, center to start edge
+		ang = startAngle;
+		cosAngle = (float) cos(ang);
+		sinAngle = (float) sin(ang);
+		interiorPts[0] = bottomCenter;
+		Q3Point3D_Vector3D_Add( &interiorPts[0], &sideVec, &interiorPts[1] );
+		Q3Vector3D_Scale( &geomData->majorRadius, cosAngle, &v );
+		Q3Vector3D_Scale( &geomData->minorRadius, sinAngle, &workVec );
+		Q3Vector3D_Add( &v, &workVec, &v );
+		Q3Point3D_Vector3D_Add( &bottomCenter, &v, &interiorPts[2] );
+		Q3Point3D_Vector3D_Add( &interiorPts[2], &sideVec, &interiorPts[3] );
+		
+		// Define normal
+		Q3Vector3D_Cross( &sideVec, &v, &workVec );
+		Q3Vector3D_Normalize( &workVec, &workVec );
+		interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] =
+			interiorPtNorms[3] = workVec;
+		
+		// update surface UVs
+		interiorUVs[0].u = 0.5f;
+		interiorUVs[1].u = 0.5f;
+		interiorUVs[2].u = 1.0f;
+		interiorUVs[3].u = 1.0f;
+		
+		// Make the second part of the interior
+		intGeom = Q3TriMesh_New( &intTriMeshData );
+		Q3Group_AddObjectAndDispose(theGroup, &intGeom);
 	}
 
 
@@ -1042,6 +1089,42 @@ E3Cylinder_GetFaceAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *f
 	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
 
 	E3Shared_Acquire(faceAttributeSet, instanceData->faceAttributeSet);
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Cylinder_SetInteriorAttributeSet : Set the attribute set used for
+//									 the interior of the cylinder.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Cylinder_SetInteriorAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet intAttributeSet)
+{
+	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
+
+	E3Shared_Replace(&instanceData->interiorAttributeSet, intAttributeSet);
+
+	Q3Shared_Edited(theCylinder);
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Cylinder_GetInteriorAttributeSet : Get the attribute set used for
+//									 the interior of the cylinder.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Cylinder_GetInteriorAttributeSet(TQ3GeometryObject theCylinder, TQ3AttributeSet *intAttributeSet)
+{
+	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
+
+	E3Shared_Acquire(intAttributeSet, instanceData->interiorAttributeSet);
 	return(kQ3Success);
 }
 

@@ -270,7 +270,8 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 
 										{kQ3ObjectTypeGeometryCaps,"NONE",0},
 										{kQ3ObjectTypeGeometryCaps,"TOP",1},
-										{kQ3ObjectTypeGeometryCaps,"BOTTOM",2} };
+										{kQ3ObjectTypeGeometryCaps,"BOTTOM",2},
+										{kQ3ObjectTypeGeometryCaps,"INTERIOR",4} };
 
 	TQ3Uns32                    i, charsRead, dictValues, saveStoragePos;
 	TQ3FFormatBaseData			*formatInstanceData;
@@ -574,8 +575,8 @@ e3fformat_3dmf_hexraw_to_raw(char* hexBuffer, TQ3Uns32 hexBufferLength,
 	
 	while((hexBuffIndex < hexBufferLength)){
 		*destinationPtr = (unsigned char)
-							((e3fformat_3dmf_hex_to_dec (hexBuffer[hexBuffIndex]) << 4)
-							+ e3fformat_3dmf_hex_to_dec (hexBuffer[hexBuffIndex+1]));
+							((e3fformat_3dmf_hex_to_dec ((unsigned char)hexBuffer[hexBuffIndex]) << 4)
+							+ e3fformat_3dmf_hex_to_dec ((unsigned char)hexBuffer[hexBuffIndex+1]));
 		hexBuffIndex += 2;
 		destinationPtr++;
 		(*offset)++;
@@ -724,7 +725,7 @@ e3fformat_3dmf_text_read_header(TQ3FileObject theFile)
 	result = (TQ3Boolean)(e3fformat_3dmf_text_read_int16 (format, &major) != kQ3Failure);
 	result = (TQ3Boolean)(e3fformat_3dmf_text_read_int16 (format, &minor) != kQ3Failure);
 	
-	instanceData->MFData.baseData.fileVersion = (major << 16) + minor;
+	instanceData->MFData.baseData.fileVersion = (TQ3FileVersion)((major << 16) + minor);
 	if(result == kQ3True)
 		result = (TQ3Boolean)(e3read_3dmf_text_readflag (&instanceData->MFData.fileMode, theFile, kQ3ObjectType3DMF) != kQ3Failure);
 	
@@ -1074,6 +1075,10 @@ e3fformat_3dmf_text_get_nexttype(TQ3FileObject theFile)
 static TQ3Status
 e3fformat_3dmf_text_close(TQ3FileFormatObject format, TQ3Boolean abort)
 {
+	TE3FFormat3DMF_Text_Data	*instanceData = (TE3FFormat3DMF_Text_Data *) format->instanceData;
+
+
+	E3Shared_Replace(&instanceData->MFData.baseData.storage, NULL);
 
 	return (kQ3Success);
 
