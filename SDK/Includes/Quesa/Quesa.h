@@ -478,8 +478,8 @@ typedef enum {
  */
 typedef enum {
     kQ3ElementTypeNone                          = 0,
-    kQ3ElementTypeUnknown                       = 1,
-    kQ3ElementTypeSet                           = 2,
+    kQ3ElementTypeUnknown                       = 32,
+    kQ3ElementTypeSet                           = 33,
     kQ3ElementTypeSize32                        = 0xFFFFFFFF
 } TQ3ElementTypes;
 
@@ -1722,6 +1722,174 @@ Q3Object_IsType (
 );
 
 
+/*!
+ *  @function
+ *      Q3Object_AddElement
+ *  @discussion
+ *      Add an element to an object.
+ *		Same as <code>Q3Shape_AddElement</code>, except that the object is not
+ *		required to be a shape or set.
+ *
+ *		If the object is Shared, this operation will increment the object's edit index.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param object           The object to update.
+ *  @param theType          The type of the element data.
+ *  @param data             The element data.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_AddElement (
+    TQ3Object                     object,
+    TQ3ElementType                theType,
+    const void                    *data
+);
+
+#endif
+
+
+
+/*!
+ *  @function
+ *      Q3Object_GetElement
+ *  @discussion
+ *      Get an element from an object.
+ *		Same as <code>Q3Shape_GetElement</code>, except that the object is not
+ *		required to be a shape or set.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param object           The object to query.
+ *  @param theType          The type of the element data.
+ *  @param data             Receives the element data.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_GetElement (
+    TQ3Object                     object,
+    TQ3ElementType                theType,
+    void                          *data
+);
+
+#endif
+
+
+
+/*!
+ *  @function
+ *      Q3Object_ContainsElement
+ *  @discussion
+ *      Check to see if an object contains an element of a given type.
+ *		Same as <code>Q3Shape_ContainsElement</code>, except that the object is not
+ *		required to be a shape or set.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param object           The object to query.
+ *  @param theType          The type of the element data to look for.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Boolean  )
+Q3Object_ContainsElement (
+    TQ3Object                object,
+    TQ3ElementType           theType
+);
+
+#endif
+
+
+
+/*!
+ *  @function
+ *      Q3Object_GetNextElementType
+ *  @discussion
+ *      Iterate through the element types in an object.
+ *		Same as <code>Q3Shape_GetNextElementType</code>, except that the object is not
+ *		required to be a shape or set.
+ *
+ *      Pass in kQ3ElementTypeNone to start iterating through the element
+ *      types in the object, and pass back the returned value to obtain
+ *      the next type. The type is set to kQ3ElementTypeNone if there are no more
+ *      elements in the shape.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param object           The object to query.
+ *  @param theType          Receives the next element type.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_GetNextElementType (
+    TQ3Object                object,
+    TQ3ElementType           *theType
+);
+
+#endif
+
+
+
+/*!
+ *  @function
+ *      Q3Object_EmptyElements
+ *  @discussion
+ *      Empty an object of any elements it contains.
+ *		Same as <code>Q3Shape_EmptyElements</code>, except that the object is not
+ *		required to be a shape or set.
+ *
+ *		If the object is Shared, this operation will increment the object's edit index.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param object           The object to update.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_EmptyElements (
+    TQ3Object                object
+);
+
+#endif
+
+
+
+/*!
+ *  @function
+ *      Q3Object_ClearElement
+ *  @discussion
+ *      Empty an object of a particular type of element.
+ *		Same as <code>Q3Shape_ClearElement</code>, except that the object is not
+ *		required to be a shape or set.
+ *
+ *		If the object is Shared, this operation will increment the object's edit index.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param object           The object to update.
+ *  @param theType          The element type to remove.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_ClearElement (
+    TQ3Object               object,
+    TQ3ElementType          theType
+);
+
+#endif
+
+
 
 /*!
  *  @function
@@ -1868,12 +2036,17 @@ Q3Shape_GetType (
  *  @function
  *      Q3Shape_GetSet
  *  @discussion
- *      Get the set currently associated with a shape.
+ *      Get the set element currently associated with a shape.
+ *		The function call <code>Q3Shape_GetSet( o, &s )</code> is equivalent to
+ *		<code>Q3Shape_GetElement( o, kQ3ElementTypeSet, &s )</code>.
  *
- *      Note that this is not the same as the attribute set of a geometry object.
+ *      Note that this is not the same as the attribute set of a geometry object,
+ *		nor is in the internal set which holds elements on an object.  That is,
+ *		after adding elements or attributes to an object, this function may still
+ *		return the NULL set.
  *
  *  @param shape            The object to query.
- *  @param theSet           Receives the set of the object.
+ *  @param theSet           Receives the set of the object, or NULL.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1888,7 +2061,9 @@ Q3Shape_GetSet (
  *  @function
  *      Q3Shape_SetSet
  *  @discussion
- *      Set the set currently associated with a shape.
+ *      Set the set element currently associated with a shape.
+ *		The function call <code>Q3Shape_SetSet( o, s )</code> is equivalent to
+ *		<code>Q3Shape_SetElement( o, kQ3ElementTypeSet, &s )</code>.
  *
  *      Note that this is not the same as the attribute set of a geometry object.
  *
