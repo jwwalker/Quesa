@@ -50,6 +50,8 @@
 	#include <Carbon/Carbon.h>
 #else
 	#include <Aliases.h>
+	#include <CFBundle.h>
+	#include <CFURL.h>
 	#include <CodeFragments.h>
 	#include <Folders.h>
 	#include <Processes.h>
@@ -225,6 +227,24 @@ e3mac_load_plugins(const FSSpec *fileInDirToScan)
 
 
 //=============================================================================
+//      e3mac_find_folder_spec : Find a standard directory.
+//-----------------------------------------------------------------------------
+//	We are using an FSSpec as a convenient holder for a vRefNum and dirID.
+//	The name field is irrelevant.
+static OSErr
+e3mac_find_folder_spec( short vRefNum, OSType folderType, FSSpec* outSpec )
+{
+	OSErr	theErr = FindFolder( vRefNum, folderType, kDontCreateFolder,
+						&outSpec->vRefNum, &outSpec->parID );
+	
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3MacCFM_Initialise : CFM initialise routine.
@@ -354,77 +374,147 @@ E3MacSystem_Terminate(void)
 //=============================================================================
 //      E3MacSystem_LoadPlugins : Scan for and load plug-ins.
 //-----------------------------------------------------------------------------
-//		Note :	Plug-ins are loaded by scanning the application directory,
-//				the Quesa library directory, and the Extensions folder.
+//		Note :	Plug-ins are loaded by scanning certain directories.
+//
+//				In every case, we scan the directory containing the Quesa library
+//				and the directory containing the host application.
+//
+//				On OS 9, we also scan the Extensions folder.
+//
+//				On OS X, we also scan the /Library/CFMSupport and ~/Library/CFMSupport
+//				directories, and the bundle Plugins folder if the host application
+//				is bundled.
 //
 //				Note that we deliberately pass e3mac_load_plugins an FSSpec to
 //				a file within the directory to scan. This is deliberate.
 //-----------------------------------------------------------------------------
 void
 E3MacSystem_LoadPlugins(void)
-{	FSSpec					appFSSpec, quesaFSSpec, extensionsFSSpec;
+{
+	FSSpec					fileSpec[6];
+	int						dirCount = 0;
 	ProcessInfoRec			processInfo;
-	Boolean					wasChanged;
+	Boolean					wasChanged, isOnOSX;
 	ProcessSerialNumber		thePSN = { kNoProcess, kCurrentProcess };
-	OSErr					theErr;
+	OSStatus				theErr;
+	FSRef					bundleFSRef;
+	long					sysVersion;
+	CFBundleRef				myBundle;
+	int						i, j;
+	FSCatalogInfo			catInfo;
 
 
 
 	// Initialise ourselves
-	memset(&appFSSpec,        0x00, sizeof(appFSSpec));
-	memset(&quesaFSSpec,      0x00, sizeof(quesaFSSpec));
-	memset(&extensionsFSSpec, 0x00, sizeof(extensionsFSSpec));
-
-
-
-	// Find the application file
-	processInfo.processInfoLength = sizeof(ProcessInfoRec);
-	processInfo.processName       = (StringPtr) &appFSSpec.name;
-	processInfo.processAppSpec    = &appFSSpec;
-	
-	theErr = GetProcessInformation(&thePSN, &processInfo);
+	isOnOSX = (Gestalt(gestaltSystemVersion, &sysVersion) == noErr) &&
+		(sysVersion >= 0x00001000);
 
 
 
 	// Find the Quesa shared library file
 	if (gQuesaLib != NULL)
-		theErr = ResolveAlias(NULL, gQuesaLib, &quesaFSSpec, &wasChanged);
-
-
-
-	// Find a file (any file) within the Extensions folder
-	theErr = FindFolder(kOnSystemDisk, kExtensionFolderType, true,
-						&extensionsFSSpec.vRefNum, &extensionsFSSpec.parID);
-	if (theErr == noErr)
 		{
-		extensionsFSSpec.name[0] = 1;
-		extensionsFSSpec.name[1] = 'Q';
+		theErr = ResolveAlias(NULL, gQuesaLib, &fileSpec[ dirCount ], &wasChanged);
+		if (theErr == noErr)
+			++dirCount;
+		}
+
+
+
+	// Find the application file
+	if (isOnOSX)
+		{
+		theErr = GetProcessBundleLocation( &thePSN, &bundleFSRef );
+		
+		if (theErr == noErr)
+			{
+			theErr = FSGetCatalogInfo( &bundleFSRef, 0, NULL, NULL, &fileSpec[ dirCount ], NULL );
+			}
+		}
+	else
+		{
+		processInfo.processInfoLength = sizeof(ProcessInfoRec);
+		processInfo.processName       = NULL;
+		processInfo.processAppSpec    = &fileSpec[ dirCount ];
+		
+		theErr = GetProcessInformation(&thePSN, &processInfo);
+		}
+	if (theErr == noErr)
+		++dirCount;
+
+
+
+	if (isOnOSX)
+		{
+		// ~/Library/CFMSupport
+		theErr = e3mac_find_folder_spec( kUserDomain, kSharedLibrariesFolderType,
+			&fileSpec[ dirCount ] );
+		if (theErr == noErr)
+			++dirCount;
+		
+		// /Library/CFMSupport
+		theErr = e3mac_find_folder_spec( kLocalDomain, kSharedLibrariesFolderType,
+			&fileSpec[ dirCount ] );
+		if (theErr == noErr)
+			++dirCount;
+		
+		// Plugins folder of bundle
+		myBundle = CFBundleGetMainBundle();
+		if (myBundle != NULL)
+			{
+			CFURLRef	pluginsURL = CFBundleCopyBuiltInPlugInsURL( myBundle );
+			if (pluginsURL != NULL)
+				{
+				FSRef	dirRef;
+				if (CFURLGetFSRef( pluginsURL, &dirRef ))
+					{
+					theErr = FSGetCatalogInfo( &dirRef, kFSCatInfoVolume | kFSCatInfoNodeID,
+						&catInfo, NULL, NULL, NULL );
+					if (theErr == noErr)
+						{
+						fileSpec[ dirCount ].vRefNum = catInfo.volume;
+						fileSpec[ dirCount ].parID = catInfo.nodeID;
+						++dirCount;
+						}
+					}
+				CFRelease( pluginsURL );
+				}
+			}
+		}
+	else
+		{	// OS 9 Extensions folder
+		theErr = e3mac_find_folder_spec( kOnSystemDisk, kExtensionFolderType,
+			&fileSpec[ dirCount ] );
+		if (theErr == noErr)
+			++dirCount;
 		}
 
 
 
 	// Reset any duplicate FSSpecs to avoid multiple re-scans. Note that
 	// we only care about the vRefNum and parID fields of the FSSpec.
-	if (memcmp(&appFSSpec, &quesaFSSpec, sizeof(short) + sizeof(long)) == 0)
-		memset(&quesaFSSpec, 0x00, sizeof(quesaFSSpec));
-
-	if (memcmp(&appFSSpec, &extensionsFSSpec, sizeof(short) + sizeof(long)) == 0)
-		memset(&extensionsFSSpec, 0x00, sizeof(extensionsFSSpec));
-
-	if (memcmp(&quesaFSSpec, &extensionsFSSpec, sizeof(short) + sizeof(long)) == 0)
-		memset(&extensionsFSSpec, 0x00, sizeof(extensionsFSSpec));
+	for (i = 0; i < dirCount; ++i)
+		{
+		for (j = i + 1; j < dirCount; ++j)
+			{
+			if ( (fileSpec[i].parID == fileSpec[j].parID) &&
+				(fileSpec[i].vRefNum == fileSpec[j].vRefNum) )
+				{
+				fileSpec[j].parID = 0;
+				}
+			}
+		}
 
 
 
 	// Scan for and load our plug-ins
-	if (appFSSpec.name[0] != 0x00)
-		e3mac_load_plugins(&appFSSpec);
-
-	if (quesaFSSpec.name[0] != 0x00)
-		e3mac_load_plugins(&quesaFSSpec);
-
-	if (extensionsFSSpec.name[0] != 0x00)
-		e3mac_load_plugins(&extensionsFSSpec);
+	for (i = 0; i < dirCount; ++i)
+		{
+		if (fileSpec[i].parID != 0)
+			{
+			e3mac_load_plugins( &fileSpec[i] );
+			}
+		}
 }
 
 
