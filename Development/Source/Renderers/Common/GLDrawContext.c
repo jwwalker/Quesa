@@ -333,7 +333,7 @@ gldrawcontext_mac_updateclip(void *glContext)
 
 
 	// Update the context
-	return((TQ3Boolean) aglUpdateContext(glContext));
+	return((TQ3Boolean) aglUpdateContext((AGLContext) glContext));
 }
 
 
@@ -349,7 +349,7 @@ gldrawcontext_mac_updatepos(void *glContext)
 
 
 	// Update the context
-	return((TQ3Boolean) aglUpdateContext(glContext));
+	return((TQ3Boolean) aglUpdateContext((AGLContext) glContext));
 }
 #endif // QUESA_OS_MACINTOSH
 
