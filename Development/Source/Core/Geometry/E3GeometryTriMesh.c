@@ -944,48 +944,52 @@ e3geom_trimesh_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3TriMeshData		*instanceData = (TQ3TriMeshData *) objectData;
+{	TQ3TriMeshData			*instanceData = (TQ3TriMeshData *) objectData;
+	TQ3Point3D				boundCorners[8];
+	TQ3BoundingMethod		boundingMethod;
 #pragma unused(objectType)
 #pragma unused(theObject)
-	TQ3BoundingMethod			boundingMethod;
+
 
 
 	// Recalculate our local-coordinate bounding box if it hasn't been initialised
 	if (instanceData->bBox.isEmpty == kQ3True)
 		Q3BoundingBox_SetFromPoints3D(&instanceData->bBox, instanceData->points, instanceData->numPoints, sizeof(TQ3Point3D));
 
+
+
+	// Calculate the exact bounds from our points
 	boundingMethod = E3View_GetBoundingMethod(theView);
 	if (boundingMethod == kQ3BoxBoundsExact || boundingMethod == kQ3SphereBoundsExact)
-	{
 		E3View_UpdateBounds(theView, instanceData->numPoints, sizeof(TQ3Point3D), instanceData->points);
-	}
-	else	// approximate bounds
-	{
-		TQ3Point3D	corners[8];
-		corners[0] = instanceData->bBox.min;
-		corners[7] = instanceData->bBox.max;
-		corners[1] = corners[2] = corners[3] = corners[0];
-		corners[1].x = corners[7].x;
-		corners[2].y = corners[7].y;
-		corners[3].z = corners[7].z;
-		corners[4] = corners[5] = corners[6] = corners[7];
-		corners[4].x = corners[0].x;
-		corners[5].y = corners[0].y;
-		corners[6].z = corners[0].z;
+
+
+	// And our approximate bounds from our bounding box
+	//
+	// In local coordinates, taking the bounding box of the min and max points does recreate
+	// the bounding box. However, even in "approximate" mode, E3View_UpdateBounds uses the
+	// exact method for a bounding box of a small numbers of points, hence the min and max
+	// points would be converted to world coordinates before taking a bounding box.
+	//
+	// This can give a bad result, even an empty bounding box. To prevent this, we take
+	// the bounds of our eight corners and not just the two min/max points.
+	else
+		{
+		boundCorners[0] = instanceData->bBox.min;
+		boundCorners[7] = instanceData->bBox.max;
+
+		boundCorners[1] = boundCorners[2] = boundCorners[3] = boundCorners[0];
+		boundCorners[1].x = boundCorners[7].x;
+		boundCorners[2].y = boundCorners[7].y;
+		boundCorners[3].z = boundCorners[7].z;
+
+		boundCorners[4] = boundCorners[5] = boundCorners[6] = boundCorners[7];
+		boundCorners[4].x = boundCorners[0].x;
+		boundCorners[5].y = boundCorners[0].y;
+		boundCorners[6].z = boundCorners[0].z;
 		
-		E3View_UpdateBounds(theView, 8, sizeof(TQ3Point3D), corners);
-		
-		// The previous code here was
-		//
-		//   E3View_UpdateBounds(theView, 2, sizeof(TQ3Point3D), &instanceData->bBox.min);
-		//
-		// In local coordinates, taking the bounding box of the min and max points does
-		// recreate the bounding box.  However, even in "approximate" mode, E3View_UpdateBounds
-		// uses the exact method for a bounding box of a small numbers of points, hence the min
-		// and max points would be converted to world coordinates before taking a bounding box.
-		// This can give a bad result, even an empty bounding box.
-		// The original code would probably be safe in the one case of an approximate bounding sphere.
-	}
+		E3View_UpdateBounds(theView, 8, sizeof(TQ3Point3D), boundCorners);
+		}
 	
 	return(kQ3Success);
 }
