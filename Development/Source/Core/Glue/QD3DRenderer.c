@@ -36,6 +36,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Renderer.h"
+#include "E3Set.h"
 
 
 
@@ -956,7 +957,7 @@ Q3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attrib
 
 
 	// Call the bottleneck
-	E3System_Bottleneck();
+//	E3System_Bottleneck();
 
 
 
@@ -978,7 +979,8 @@ Q3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
 
 	// Release build checks
 
-
+	if(attributeSet == NULL)
+		return kQ3XAttributeMaskNone;
 
 	// Debug build checks
 #if Q3_DEBUG
@@ -989,12 +991,12 @@ Q3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
 
 
 	// Call the bottleneck
-	E3System_Bottleneck();
+//	E3System_Bottleneck();
 
 
 
 	// Call our implementation
-	return(E3XAttributeSet_GetMask(attributeSet));
+	return(E3AttributeSet_AccessMask(attributeSet));
 }
 
 
