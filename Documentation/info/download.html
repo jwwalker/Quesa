@@ -58,13 +58,13 @@
 
 <h3>Download</h3>
 <p>
-The latest release of Quesa is 1.6d12, released on 2000.06.01. It can be downloaded as:
+The latest release of Quesa is 1.6d13, released on 2001.05.17. It can be downloaded as:
 </p>
 
 <ul>
 	<li>Macintosh Release
 		<ul>
-			<li><a href="http://www.quesa.org/info/files/quesa_1.6d12.sit">quesa_1.6d12.sit</a> (StuffIt archive)
+			<li><a href="http://www.quesa.org/info/files/quesa_1.6d13.sit">quesa_1.6d13.sit</a> (StuffIt archive)
 		</ul>
 	</li>
 	
@@ -72,7 +72,7 @@ The latest release of Quesa is 1.6d12, released on 2000.06.01. It can be downloa
 
 	<li>Unix Release
 		<ul>
-			<li><a href="http://www.quesa.org/info/files/quesa_1.6d12.tar.gz">quesa_1.6d12.tar.gz</a> (gzip'd tar file)
+			<li><a href="http://www.quesa.org/info/files/quesa_1.6d13.tar.gz">quesa_1.6d13.tar.gz</a> (gzip'd tar file)
 		</ul>
 	</li>
 	
@@ -80,13 +80,13 @@ The latest release of Quesa is 1.6d12, released on 2000.06.01. It can be downloa
 	
 	<li>Windows Release
 		<ul>
-			<li><a href="http://www.quesa.org/info/files/quesa_1.6d12.zip">quesa_1.6d12.zip</a> (Zip archive)
+			<li><a href="http://www.quesa.org/info/files/quesa_1.6d13.zip">quesa_1.6d13.zip</a> (Zip archive)
 		</ul>
 	</li>
 </ul>
 
 <p>
-However, the most up-to-date Quesa source code is always available through
+The most up-to-date Quesa source code is always available through
 our CVS server. See the <a href="../developer/cvs.html">CVS Server</a> page
 for more information. The following pre-configured CVS session files are available:
 </p>
@@ -133,26 +133,17 @@ The files which should be replaced are:
 </p>
 
 <pre>
-  QuickDraw 3D          replaced by Quesa
-  QuickDraw 3D Viewer   replaced by Quesa Viewer
-  QD3DCustomElements    replaced by Quesa Custom Elements
+  QuickDraw 3D          replaced by Quesa/Quesa Classic
+  QuickDraw 3D Viewer   replaced by Quesa Viewer/Quesa Classic Viewer
+  QD3DCustomElements    replaced by Quesa Elements
   N/A                   replaced by Quesa Gestalt
   QuickDraw 3D IR       replaced by N/A
   QuickDraw 3D RAVE     replaced by N/A
 </pre>
 
 <p>
-At present, two libraries are replaced and one library is added.
-</p>
-
-<p>
-From this point on, QD3D applications will automatically use Quesa.
-</p>
-
-<p>
-The "QuickDraw 3D" library must be removed because Quesa currently exports the same fragment
-name as this library. This is required for Apple's Interactive Renderer, which needs to find
-a fragment with the correct name or it will be unable to load.
+The "QuickDraw 3D" library must be removed for Apple's Interactive Renderer to
+bind to Quesa correctly.
 </p>
 
 </td>
