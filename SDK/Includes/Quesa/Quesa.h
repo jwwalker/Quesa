@@ -43,7 +43,7 @@
 //              magic.
 //-----------------------------------------------------------------------------
 // Mac OS
-#if ((defined(__MWERKS__) && macintosh) || (defined(MPW_CPLUS) || defined(MPW_C)))
+#if ((defined(__MWERKS__) && __dest_os == __mac_os) || defined(MPW_CPLUS) || defined(MPW_C))
     #ifndef QUESA_OS_MACINTOSH
         #define QUESA_OS_MACINTOSH              1
     #endif
@@ -51,7 +51,7 @@
 
 
 // Windows
-#if defined(_MSC_VER)
+#if (defined(_MSC_VER) || (defined(__MWERKS__) && __INTEL__))
     #ifndef QUESA_OS_WIN32
         #define QUESA_OS_WIN32                  1
     #endif
@@ -59,11 +59,12 @@
 
 
 // Be
-#if defined(__dest_os) && defined(__be_os) && (__dest_os == __be_os)
+#if ((defined(__be_os) && (__dest_os == __be_os)))
     #ifndef QUESA_OS_BE
         #define QUESA_OS_BE                     1
     #endif
 #endif
+
 
 
 
@@ -119,6 +120,14 @@
     #error Target OS not selected!
 #endif
 
+#if ( (QUESA_OS_MACINTOSH && (QUESA_OS_WIN32     || QUESA_OS_UNIX  || QUESA_OS_BE   || QUESA_OS_COCOA)) || \
+	  (QUESA_OS_WIN32     && (QUESA_OS_MACINTOSH || QUESA_OS_UNIX  || QUESA_OS_BE   || QUESA_OS_COCOA)) || \
+	  (QUESA_OS_UNIX      && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_BE   || QUESA_OS_COCOA)) || \
+	  (QUESA_OS_BE        && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_UNIX || QUESA_OS_COCOA)) || \
+	  (QUESA_OS_COCOA     && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_UNIX || QUESA_OS_BE))    )
+    #error More than one target OS has been selected!
+#endif
+
 
 
 
@@ -163,11 +172,13 @@
     #endif
 
 
-    // Includes
-    #include <Windows.h>
+    // Includes for VC++ (Win CW builds should use the Win32Headers prefix)
+    #if _MSC_VER
+	    #include <Windows.h>
+	#endif
 
 
-    // Disable unknown #pragma warning for VC++.
+    // Disable unknown #pragma warning for VC++
     #if _MSC_VER
         #pragma warning(disable:4068)
     #endif
