@@ -284,7 +284,7 @@ extern "C" {
 #define kQ3ObjectTypeGeneralPolygonHint				Q3_METHOD_TYPE('g', 'p', 'l', 'h')
 #define kQ3ObjectTypeDisplayGroupState				Q3_METHOD_TYPE('d', 'g', 's', 't')
 #define kQ3ObjectTypeShaderUVTransform				Q3_METHOD_TYPE('s', 'd', 'u', 'v')
-#define kQ3ObjectTypeShaderTransform					Q3_METHOD_TYPE('s', 'd', 'x', 'f')
+#define kQ3ObjectTypeShaderTransform				Q3_METHOD_TYPE('s', 'd', 'x', 'f')
 
 
 

@@ -161,6 +161,9 @@ e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 }
 
 
+
+
+
 //=============================================================================
 //      e3shared_write : Default write method.
 //-----------------------------------------------------------------------------
@@ -172,8 +175,6 @@ e3shared_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObj
 
 	// Submit the object
 	qd3dStatus = E3FileFormat_Method_SubmitObject (theView, theObject, objectType, objectData);
-
-
 
 	return(qd3dStatus);
 }

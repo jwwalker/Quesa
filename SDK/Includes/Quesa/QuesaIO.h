@@ -206,9 +206,9 @@ typedef CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)   
 typedef CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)(
                             TQ3ViewObject       theView,
                             void                *fileFormatPrivate,
-                            TQ3Object						theObject,
-														TQ3ObjectType				objectType,
-														const void					*objectData);
+                            TQ3Object			theObject,
+							TQ3ObjectType		objectType,
+							const void			*objectData);
 
 // Method types - used for Q3XXX_ReadMethods (not required when implementing a new format)
 typedef CALLBACK_API_C(TQ3Status,               TQ3XFFormatFloat32ReadMethod)   (TQ3FileFormatObject format, TQ3Float32* data);
