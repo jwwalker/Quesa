@@ -2811,7 +2811,7 @@ E3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4,
 //=============================================================================
 //      E3Matrix4x4_SetQuaternion : Set 4x4 matrix from quaternion.
 //-----------------------------------------------------------------------------
-//		Note :	See http://www.gamasutra.com/features/programming/19980703/quaternions_08.htm
+//		Note :	See http://www.gamasutra.com/features/19980703/quaternions_01.htm
 //				Since Quesa uses row vectors rather than the more conventional
 //				column vectors, we multiply in the opposite order: row*matrix rather
 //				matrix*column. Thus our matrices are the transpose of theirs.
@@ -3481,8 +3481,7 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 //
 //				Reference for this code:
 //
-//				http://www.gamasutra.com/features/programming/
-//											19980703/quaternions_07.htm
+//				http://www.gamasutra.com/features/19980703/quaternions_01.htm
 //-----------------------------------------------------------------------------
 TQ3Quaternion *
 E3Quaternion_SetMatrix(TQ3Quaternion *quaternion, const TQ3Matrix4x4 *matrix4x4)
@@ -3750,8 +3749,7 @@ E3Quaternion_InterpolateFast(const TQ3Quaternion *q1, const TQ3Quaternion *q2, f
 //				that of QD3D.
 //
 //				This code adapted from:
-//					http://www.gamasutra.com/features/programming/19980703/
-//									quaternions_09.htm
+//				http://www.gamasutra.com/features/19980703/quaternions_01.htm
 //
 //				Untested.
 //-----------------------------------------------------------------------------
@@ -3812,8 +3810,7 @@ E3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 //
 //				For correct results, |quaternion] == 1.
 //
-//				See: http://www.gamasutra.com/features/programming/19980703/
-//							quaternions_06.htm
+//				http://www.gamasutra.com/features/19980703/quaternions_01.htm
 //
 //				Here we do the multiplication by hand (in the conventional
 //				forward order), gaining efficiency by making use of the fact
