@@ -7889,7 +7889,8 @@ Q3NURBCurve_New(const TQ3NURBCurveData *curveData)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on curveData
+	// Further checks on curveData
+	if (curveData->order > kQ3NURBCurveMaxOrder)
 		return(NULL);
 #endif
 
@@ -7925,7 +7926,8 @@ Q3NURBCurve_Submit(const TQ3NURBCurveData *curveData, TQ3ViewObject view)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on curveData
+	// Further checks on curveData
+	if (curveData->order > kQ3NURBCurveMaxOrder)
 		return(kQ3Failure);
 
 	if (0) // Further checks on view
@@ -7967,7 +7969,8 @@ Q3NURBCurve_SetData(TQ3GeometryObject curve, const TQ3NURBCurveData *nurbCurveDa
 	if (0) // Further checks on curve
 		return(kQ3Failure);
 
-	if (0) // Further checks on nurbCurveData
+	// Further checks on nurbCurveData
+	if (nurbCurveData->order > kQ3NURBCurveMaxOrder)
 		return(kQ3Failure);
 #endif
 
@@ -8079,7 +8082,8 @@ Q3NURBCurve_SetControlPoint(TQ3GeometryObject curve, unsigned long pointIndex, c
 	if (0) // Further checks on curve
 		return(kQ3Failure);
 
-	if (0) // Further checks on pointIndex
+	// Further checks on pointIndex
+	if (pointIndex < 0 || pointIndex >= ((TQ3NURBCurveData *) curve->instanceData)->numPoints)
 		return(kQ3Failure);
 
 	if (0) // Further checks on point4D
@@ -8121,7 +8125,8 @@ Q3NURBCurve_GetControlPoint(TQ3GeometryObject curve, unsigned long pointIndex, T
 	if (0) // Further checks on curve
 		return(kQ3Failure);
 
-	if (0) // Further checks on pointIndex
+	// Further checks on pointIndex
+	if (pointIndex < 0 || pointIndex >= ((TQ3NURBCurveData *) curve->instanceData)->numPoints)
 		return(kQ3Failure);
 
 	if (0) // Further checks on point4D
@@ -8162,10 +8167,23 @@ Q3NURBCurve_SetKnot(TQ3GeometryObject curve, unsigned long knotIndex, float knot
 	if (0) // Further checks on curve
 		return(kQ3Failure);
 
-	if (0) // Further checks on knotIndex
+	// Further checks on knotIndex
+	if (knotIndex < 0
+		||
+		knotIndex > ((TQ3NURBCurveData *) curve->instanceData)->numPoints + 
+						((TQ3NURBCurveData *) curve->instanceData)->order - 1)
 		return(kQ3Failure);
 
-	if (0) // Further checks on knotValue
+	// Further checks on knotValue
+	if (knotIndex > 0
+		&&
+		knotValue < ((TQ3NURBCurveData *) curve->instanceData)->knots[knotIndex - 1])
+			return(kQ3Failure);
+	
+	if (knotIndex < ((TQ3NURBCurveData *) curve->instanceData)->numPoints + 
+						((TQ3NURBCurveData *) curve->instanceData)->order - 1
+		&&
+		knotValue > ((TQ3NURBCurveData *) curve->instanceData)->knots[knotIndex + 1])
 		return(kQ3Failure);
 #endif
 
@@ -8204,7 +8222,11 @@ Q3NURBCurve_GetKnot(TQ3GeometryObject curve, unsigned long knotIndex, float *kno
 	if (0) // Further checks on curve
 		return(kQ3Failure);
 
-	if (0) // Further checks on knotIndex
+	// Further checks on knotIndex
+	if (knotIndex < 0
+		||
+		knotIndex > ((TQ3NURBCurveData *) curve->instanceData)->numPoints + 
+						((TQ3NURBCurveData *) curve->instanceData)->order - 1)
 		return(kQ3Failure);
 
 	if (0) // Further checks on knotValue
@@ -8241,7 +8263,8 @@ Q3NURBPatch_New(const TQ3NURBPatchData *nurbPatchData)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on nurbPatchData
+	// Further checks on nurbPatchData
+	if (nurbPatchData->uOrder > kQ3NURBPatchMaxOrder || nurbPatchData->vOrder > kQ3NURBPatchMaxOrder)
 		return(NULL);
 #endif
 
@@ -8277,7 +8300,8 @@ Q3NURBPatch_Submit(const TQ3NURBPatchData *nurbPatchData, TQ3ViewObject view)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on nurbPatchData
+	// Further checks on nurbPatchData
+	if (nurbPatchData->uOrder > kQ3NURBPatchMaxOrder || nurbPatchData->vOrder > kQ3NURBPatchMaxOrder)
 		return(kQ3Failure);
 
 	if (0) // Further checks on view
@@ -8319,7 +8343,8 @@ Q3NURBPatch_SetData(TQ3GeometryObject nurbPatch, const TQ3NURBPatchData *nurbPat
 	if (0) // Further checks on nurbPatch
 		return(kQ3Failure);
 
-	if (0) // Further checks on nurbPatchData
+	// Further checks on nurbPatchData
+	if (nurbPatchData->uOrder > kQ3NURBPatchMaxOrder || nurbPatchData->vOrder > kQ3NURBPatchMaxOrder)
 		return(kQ3Failure);
 #endif
 
@@ -8397,10 +8422,12 @@ Q3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex,
 	if (0) // Further checks on nurbPatch
 		return(kQ3Failure);
 
-	if (0) // Further checks on rowIndex
+	// Further checks on rowIndex
+	if (rowIndex < 0 || rowIndex >= ((TQ3NURBPatchData *) nurbPatch->instanceData)->numRows)
 		return(kQ3Failure);
 
-	if (0) // Further checks on columnIndex
+	// Further checks on columnIndex
+	if (columnIndex < 0 || columnIndex >= ((TQ3NURBPatchData *) nurbPatch->instanceData)->numColumns) 
 		return(kQ3Failure);
 
 	if (0) // Further checks on point4D
@@ -8442,10 +8469,12 @@ Q3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, unsigned long rowIndex,
 	if (0) // Further checks on nurbPatch
 		return(kQ3Failure);
 
-	if (0) // Further checks on rowIndex
+	// Further checks on rowIndex
+	if (rowIndex < 0 || rowIndex >= ((TQ3NURBPatchData *) nurbPatch->instanceData)->numRows)
 		return(kQ3Failure);
 
-	if (0) // Further checks on columnIndex
+	// Further checks on columnIndex
+	if (columnIndex < 0 || columnIndex >= ((TQ3NURBPatchData *) nurbPatch->instanceData)->numColumns) 
 		return(kQ3Failure);
 
 	if (0) // Further checks on point4D
@@ -8486,10 +8515,23 @@ Q3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 	if (0) // Further checks on nurbPatch
 		return(kQ3Failure);
 
-	if (0) // Further checks on knotIndex
+	// Further checks on knotIndex
+	if (knotIndex < 0
+		||
+		knotIndex > ((TQ3NURBPatchData *) nurbPatch->instanceData)->numColumns + 
+						((TQ3NURBPatchData *) nurbPatch->instanceData)->uOrder - 1)
 		return(kQ3Failure);
 
-	if (0) // Further checks on knotValue
+	// Further checks on knotValue
+	if (knotIndex > 0
+		&&
+		knotValue < ((TQ3NURBPatchData *) nurbPatch->instanceData)->uKnots[knotIndex - 1])
+			return(kQ3Failure);
+	
+	if (knotIndex < ((TQ3NURBPatchData *) nurbPatch->instanceData)->numColumns + 
+						((TQ3NURBPatchData *) nurbPatch->instanceData)->uOrder - 1
+		&&
+		knotValue > ((TQ3NURBPatchData *) nurbPatch->instanceData)->uKnots[knotIndex + 1])
 		return(kQ3Failure);
 #endif
 
@@ -8527,10 +8569,23 @@ Q3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 	if (0) // Further checks on nurbPatch
 		return(kQ3Failure);
 
-	if (0) // Further checks on knotIndex
+	// Further checks on knotIndex
+	if (knotIndex < 0
+		||
+		knotIndex > ((TQ3NURBPatchData *) nurbPatch->instanceData)->numRows + 
+						((TQ3NURBPatchData *) nurbPatch->instanceData)->vOrder - 1)
 		return(kQ3Failure);
 
-	if (0) // Further checks on knotValue
+	// Further checks on knotValue
+	if (knotIndex > 0
+		&&
+		knotValue < ((TQ3NURBPatchData *) nurbPatch->instanceData)->vKnots[knotIndex - 1])
+			return(kQ3Failure);
+	
+	if (knotIndex < ((TQ3NURBPatchData *) nurbPatch->instanceData)->numRows + 
+						((TQ3NURBPatchData *) nurbPatch->instanceData)->vOrder - 1
+		&&
+		knotValue > ((TQ3NURBPatchData *) nurbPatch->instanceData)->vKnots[knotIndex + 1])
 		return(kQ3Failure);
 #endif
 
@@ -8569,7 +8624,11 @@ Q3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 	if (0) // Further checks on nurbPatch
 		return(kQ3Failure);
 
-	if (0) // Further checks on knotIndex
+	// Further checks on knotIndex
+	if (knotIndex < 0
+		||
+		knotIndex > ((TQ3NURBPatchData *) nurbPatch->instanceData)->numColumns + 
+						((TQ3NURBPatchData *) nurbPatch->instanceData)->uOrder - 1)
 		return(kQ3Failure);
 
 	if (0) // Further checks on knotValue
@@ -8611,7 +8670,11 @@ Q3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 	if (0) // Further checks on nurbPatch
 		return(kQ3Failure);
 
-	if (0) // Further checks on knotIndex
+	// Further checks on knotIndex
+	if (knotIndex < 0
+		||
+		knotIndex > ((TQ3NURBPatchData *) nurbPatch->instanceData)->numRows + 
+						((TQ3NURBPatchData *) nurbPatch->instanceData)->vOrder - 1)
 		return(kQ3Failure);
 
 	if (0) // Further checks on knotValue
