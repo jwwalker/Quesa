@@ -180,21 +180,25 @@ E3MacSystem_LoadPlugins(void)
 		theErr = PBGetCatInfoSync(&thePB);
 
 		if (theErr == noErr)
-			theErr = FSMakeFSSpec(extensionFolderVolRefNum,
-									extensionFolderDirID,
-									theFSSpec.name, &theFSSpec);
-
-		if (theErr == noErr)
-			theErr = ResolveAliasFile(&theFSSpec, kQ3True, &targetIsFolder, &wasAliased);
-
-
-		// If this isn't a directory, check the type
-		if (!targetIsFolder)
 			{
-			// If this is a plug-in, load it
-			if (thePB.hFileInfo.ioFlFndrInfo.fdType    == kQ3XExtensionMacFileType &&
-				thePB.hFileInfo.ioFlFndrInfo.fdCreator == kQ3XExtensionMacCreatorType)
-				e3mac_load_plugin(&theFSSpec);
+			if (FSMakeFSSpec(extensionFolderVolRefNum,
+									extensionFolderDirID,
+									theFSSpec.name, &theFSSpec) == noErr)
+				{
+				targetIsFolder = TRUE;
+		
+				ResolveAliasFile(&theFSSpec, kQ3True, &targetIsFolder, &wasAliased);
+
+
+				// If this isn't a directory, check the type
+				if (!targetIsFolder)
+					{
+					// If this is a plug-in, load it
+					if (thePB.hFileInfo.ioFlFndrInfo.fdType    == kQ3XExtensionMacFileType &&
+						thePB.hFileInfo.ioFlFndrInfo.fdCreator == kQ3XExtensionMacCreatorType)
+						e3mac_load_plugin(&theFSSpec);
+					}
+				}
 			}
 		
 		theIndex++;
