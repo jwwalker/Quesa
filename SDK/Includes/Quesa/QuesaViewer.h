@@ -160,7 +160,8 @@ enum {
     kQ3ViewerFlagDrawFrame                      = (1 << 14),
     kQ3ViewerFlagDrawGrowBox                    = (1 << 15),
     kQ3ViewerFlagDrawDragBorder                 = (1 << 16),
-    // 17 to 19, reserved for future expansion
+    // 17 to 18, reserved for future expansion
+    kQ3ViewerFlagVisible                        = (1 << 19),
     kQ3ViewerFlagActive                         = (1 << 20),
     kQ3ViewerFlagShowBadge                      = (1 << 21),
     kQ3ViewerFlagShowControlStrip               = (1 << 22),
