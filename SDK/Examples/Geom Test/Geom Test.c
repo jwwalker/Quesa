@@ -44,33 +44,33 @@
 //-----------------------------------------------------------------------------
 #define kMenuItemDisplayBoundingBox							1
 #define kMenuItemShowTexture								2
-#define kMenuItemDivider1									3
-#define kMenuItemGeometryBox								4
-#define kMenuItemGeometryCone								5
-#define kMenuItemGeometryCylinder							6
-#define kMenuItemGeometryDisk								7
-#define kMenuItemGeometryEllipse							8
-#define kMenuItemGeometryEllipsoid							9
-#define kMenuItemGeometryGeneralPolygon						10
-#define kMenuItemGeometryLine								11
-#define kMenuItemGeometryMarker								12
-#define kMenuItemGeometryMesh								13
-#define kMenuItemGeometryNURBCurve							14
-#define kMenuItemGeometryNURBPatch							15
-#define kMenuItemGeometryPixmapMarker						16
-#define kMenuItemGeometryPoint								17
-#define kMenuItemGeometryPolyLine							18
-#define kMenuItemGeometryPolygon							19
-#define kMenuItemGeometryPolyhedron							20
-#define kMenuItemGeometryTorus								21
-#define kMenuItemGeometryTriangle							22
-#define kMenuItemGeometryTriGrid							23
-#define kMenuItemGeometryTriMesh							24
-#define kMenuItemDivider2									25
-#define kMenuItemMultiBox									26
-#define kMenuItemQuesaLogo									27
-#define kMenuItemDivider3									28
-#define kMenuItemWrite										29
+#define kMenuItemSaveModel									3
+#define kMenuItemDivider1									4
+#define kMenuItemGeometryBox								5
+#define kMenuItemGeometryCone								6
+#define kMenuItemGeometryCylinder							7
+#define kMenuItemGeometryDisk								8
+#define kMenuItemGeometryEllipse							9
+#define kMenuItemGeometryEllipsoid							10
+#define kMenuItemGeometryGeneralPolygon						11
+#define kMenuItemGeometryLine								12
+#define kMenuItemGeometryMarker								13
+#define kMenuItemGeometryMesh								14
+#define kMenuItemGeometryNURBCurve							15
+#define kMenuItemGeometryNURBPatch							16
+#define kMenuItemGeometryPixmapMarker						17
+#define kMenuItemGeometryPoint								18
+#define kMenuItemGeometryPolyLine							19
+#define kMenuItemGeometryPolygon							20
+#define kMenuItemGeometryPolyhedron							21
+#define kMenuItemGeometryTorus								22
+#define kMenuItemGeometryTriangle							23
+#define kMenuItemGeometryTriGrid							24
+#define kMenuItemGeometryTriMesh							25
+#define kMenuItemDivider2									26
+#define kMenuItemMultiBox									27
+#define kMenuItemQuesaLogo									28
+#define kMenuItemDivider3									29
 
 #define kTriGridRows										5
 #define kTriGridCols										10
@@ -1751,20 +1751,27 @@ doPicktest(TQ3ViewObject theView, TQ3Point2D mousePoint)
 }
 
 
+
+
+
 //=============================================================================
-//      writeModel : write the currently displayed model to a file
+//      doSaveModel : write the currently displayed model to a file
 //-----------------------------------------------------------------------------
 static void
-writeModel(TQ3ViewObject theView)
-{
-	TQ3StorageObject storage;
-	TQ3ViewStatus viewStatus;
-	TQ3Status submitStatus;
+doSaveModel(TQ3ViewObject theView)
+{	TQ3Status			submitStatus;
+	TQ3ViewStatus		viewStatus;
+	TQ3StorageObject	storage;
+	TQ3FileObject		file;
 
-	TQ3FileObject file;
 
+
+	// Prompt the user for somewhere to save the file
 	storage = Qut_SelectSaveMetafile();
 
+
+
+	// Save the model into the selected file
 	if (storage != NULL){
 
 		file = Q3File_New();
@@ -1873,6 +1880,10 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			gShowTexture = (TQ3Boolean) !gShowTexture;
 			break;
 
+		case kMenuItemSaveModel:
+			doSaveModel(theView);
+			break;
+
 		case kMenuItemGeometryBox:
 			theGeom = createGeomBox();
 			break;
@@ -1963,10 +1974,6 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 
 		case kMenuItemQuesaLogo:
 			theGeom = createGeomQuesa();
-			break;
-
-		case kMenuItemWrite:
-			writeModel(theView);
 			break;
 
 		default:
@@ -2093,6 +2100,7 @@ App_Initialise(void)
 			
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Bounding Box");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Texture");
+	Qut_CreateMenuItem(kMenuItemLast, "Save Model...");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Box");
 	Qut_CreateMenuItem(kMenuItemLast, "Cone");
@@ -2118,9 +2126,6 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "MultiBox");
 	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
-	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
-	Qut_CreateMenuItem(kMenuItemLast, "Write");
-
 }
 
 

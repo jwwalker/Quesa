@@ -155,21 +155,29 @@ e3geometry_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
-//      e3geometry_decomposeAndSubmit : Geometry decomposition.
+//      e3geometry_decompose : Decompose a geometry to something simpler.
 //-----------------------------------------------------------------------------
-//	Decompose an object in simpler form if it is not 
-//  natively supported by the renderer - writer - picker
+//		Note :	Manages the cached representation of objects which are not
+//				natively supported by a renderer/writer/picker.
 //
+//				These objects are decomposed to a cached representation (e.g.,
+//				a sphere may be turned into a TriMesh), and this cached
+//				representation is then re-submitted.
+//
+//				If the cached form itself has to be decomposed, we will simply
+//				repeat the process until one of the required geometry types is
+//				reached.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geometry_decompose(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3GeometryData					*instanceData;
+{	TQ3Status						qd3dStatus  = kQ3Failure;
+	TQ3GeometryData					*instanceData;
 	TQ3XGeomCacheIsValidMethod		cacheIsValid;
 	TQ3XGeomCacheUpdateMethod		cacheUpdate;
-	TQ3Status						qd3dStatus  = kQ3Failure;
 	TQ3Object						tmpObject;
 	TQ3XGeomCacheNewMethod			cacheNew;
 	E3ClassInfoPtr					theClass;
+
 
 
 	// First thing to do, find the class for the object
@@ -212,7 +220,7 @@ e3geometry_decompose(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 
 	// Otherwise, create a temporary object and submit that instead.
 	//
-	// This is somewhat inefficient, so we may need to revist this:
+	// This is somewhat inefficient, so we may need to revisit this:
 	// a possible solution could be a system-wide object cache that
 	// could be used to cache immediate mode objects (with some control
 	// over how often the cache should be flushed).
@@ -249,8 +257,9 @@ e3geometry_decompose(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{TQ3Boolean						geomSupported;
-	TQ3Status						qd3dStatus;
+{	TQ3Boolean		geomSupported;
+	TQ3Status		qd3dStatus;
+
 
 
 	// Submit the geometry
@@ -259,12 +268,18 @@ e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 													&geomSupported,
 													theObject,
 													objectData);
-	if (geomSupported)
-		return(qd3dStatus);
-	else
-		return e3geometry_decompose (theView, objectType, theObject, objectData);
 
+
+
+	// If it's not supported, try and decompose it
+	if (!geomSupported)
+		qd3dStatus = e3geometry_decompose(theView, objectType, theObject, objectData);
+
+	return(qd3dStatus);
 }
+
+
+
 
 
 //=============================================================================
@@ -272,8 +287,9 @@ e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{TQ3Boolean						geomSupported;
-	TQ3Status						qd3dStatus;
+{	TQ3Boolean		geomSupported;
+	TQ3Status		qd3dStatus;
+
 
 
 	// Submit the geometry
@@ -282,11 +298,14 @@ e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theO
 													&geomSupported,
 													theObject,
 													objectData);
-	if (geomSupported)
-		return(qd3dStatus);
-	else
-		return e3geometry_decompose (theView, objectType, theObject, objectData);
 
+
+
+	// If it's not supported, try and decompose it
+	if (!geomSupported)
+		qd3dStatus = e3geometry_decompose(theView, objectType, theObject, objectData);
+
+	return(qd3dStatus);
 }
 
 

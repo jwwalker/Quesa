@@ -148,7 +148,8 @@ typedef struct {
 	
 	// Pick state
 	TQ3PickObject				pickCurrent;
-	
+
+
 	// Write state
 	TQ3FileObject				theFile;
 	
@@ -957,32 +958,36 @@ e3view_submit_end(TQ3ViewObject theView, TQ3ViewStatus submitStatus)
 
 
 
-	// Update the view state
+	// Handle re-traversal
 	if (viewStatus == kQ3ViewStatusRetraverse)
 		{
+		// Restart the submit
 		instanceData->viewState = kQ3ViewStateSubmitting;
 		instanceData->viewPass++;
 		qd3dStatus = e3view_submit_begin(theView, instanceData->viewMode);
-		
-		if (qd3dStatus == kQ3Success){
-			// Start Pass
+
+
+		// Invoke the start pass method		
+		if (qd3dStatus == kQ3Success)
+			{
 			instanceData->rendererFinishedFrame = kQ3False;
-			if(instanceData->viewMode == kQ3ViewModeDrawing){
-				qd3dStatus = E3Renderer_Method_StartPass(theView, instanceData->theCamera,
-				 instanceData->theLights);
-				}
-			else if (instanceData->viewMode == kQ3ViewModeWriting){
+
+			if (instanceData->viewMode == kQ3ViewModeDrawing)
+				qd3dStatus = E3Renderer_Method_StartPass(theView, instanceData->theCamera, instanceData->theLights);
+
+			else if (instanceData->viewMode == kQ3ViewModeWriting)
 				qd3dStatus = E3FileFormat_Method_StartPass(theView);
-				}
 			}
-	
+
+
 		// Submit the initial state
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = e3view_submit_initial_state(theView);
-			
-		// stop loop
+
+
+		// If something went wrong, stop
 		if (qd3dStatus != kQ3Success)
-			viewStatus = kQ3ViewStatusCancelled;
+			viewStatus = kQ3ViewStatusError;
 		}
 	else
 		{
@@ -1480,37 +1485,41 @@ E3View_AccessRenderer(TQ3ViewObject theView)
 
 
 //=============================================================================
-//      E3View_AccessFile : Access our renderer without ref-counting.
+//      E3View_AccessFile : Access the current file.
 //-----------------------------------------------------------------------------
-//		Note : Used internally by Quesa to access a view's file 
+//		Note : Used internally by Quesa to access a view's current file.
 //-----------------------------------------------------------------------------
 TQ3FileObject
 E3View_AccessFile(TQ3ViewObject theView)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
 
-	// Return the file
-	
-	return (instanceData->theFile);
 
+
+	// Return the file
+	return (instanceData->theFile);
 }
 
 
+
+
+
 //=============================================================================
-//      E3View_AccessFileFormat : Access our renderer without ref-counting.
+//      E3View_AccessFileFormat : Get the format of the current file.
 //-----------------------------------------------------------------------------
-//		Note : Used internally by Quesa to access a view's file and then the fileFormat.
+//		Note : Used internally by Quesa to access the current file's format.
 //-----------------------------------------------------------------------------
 TQ3FileFormatObject
 E3View_AccessFileFormat(TQ3ViewObject theView)
-{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+{	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3FileFormatObject		theFormat     = NULL;
+
+
 
 	// Return the file Format
-	
-	if(instanceData->theFile)
-		return Q3File_GetFileFormat(instanceData->theFile);
-	else
-		return NULL;
+	if (instanceData->theFile != NULL)
+		theFormat = Q3File_GetFileFormat(instanceData->theFile);
 
+	return(theFormat);
 }
 
 
@@ -3031,6 +3040,9 @@ E3View_EndPicking(TQ3ViewObject theView)
 }
 
 
+
+
+
 //=============================================================================
 //      E3View_StartWriting : Start a writing loop.
 //-----------------------------------------------------------------------------
@@ -3054,12 +3066,11 @@ E3View_StartWriting(TQ3ViewObject theView, TQ3FileObject theFile)
 
 
 
-
-	// If this is the first pass then update the draw context and start the frame
+	// If this is the first pass then prepare the file for writing
 	if (instanceData->viewPass == 1 && qd3dStatus == kQ3Success)
-		{
 		qd3dStatus = E3FileFormat_Method_StartFile(theView);
-		}
+
+
 
 	// Start the pass
 	if (qd3dStatus == kQ3Success)
@@ -3067,7 +3078,6 @@ E3View_StartWriting(TQ3ViewObject theView, TQ3FileObject theFile)
 		instanceData->rendererFinishedFrame = kQ3False;
 		qd3dStatus = E3FileFormat_Method_StartPass(theView);
 		}
-
 
 	return(qd3dStatus);
 }
@@ -3096,13 +3106,14 @@ E3View_EndWriting(TQ3ViewObject theView)
 	viewStatus = e3view_submit_end(theView, viewStatus);
 
 
-	if(viewStatus != kQ3ViewStatusRetraverse){
-	// clear the file reference
+
+	// If we don't need to retraverse, drop the file reference
+	if (viewStatus != kQ3ViewStatusRetraverse)
 		E3Shared_Replace(&instanceData->theFile, NULL);
-		}
 
 	return(viewStatus);
 }
+
 
 
 

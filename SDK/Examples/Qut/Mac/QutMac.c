@@ -1218,7 +1218,7 @@ Qut_SelectSaveMetafile(void)
 		dialogOptions.dialogOptionFlags -= kNavAllowMultipleFiles;
 		dialogOptions.dialogOptionFlags += kNavNoTypePopup;
 		memcpy(&dialogOptions.message, thePrompt, thePrompt[0]+1);
-		navEventFilterUPP = NewNavEventProc(qut_handle_nav_event);
+		navEventFilterUPP = NewNavEventUPP(qut_handle_nav_event);
 
  
 

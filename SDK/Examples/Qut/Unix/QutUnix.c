@@ -575,7 +575,6 @@ Qut_SelectMetafile(void)
 
 	// Prompt for the path to the file
 	printf("Path to model: ");
-//	scanf("%s", thePath);
 	gets(thePath);
 
 	if (thePath[0] == 0x00)
@@ -587,6 +586,9 @@ Qut_SelectMetafile(void)
 	theStorage = Q3PathStorage_New(thePath);
 	return(theStorage);
 }
+
+
+
 
 
 //=============================================================================

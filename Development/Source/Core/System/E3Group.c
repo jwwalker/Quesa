@@ -839,17 +839,22 @@ e3group_enditerate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object *
 //=============================================================================
 //      e3group_write : Group write method.
 //-----------------------------------------------------------------------------
-//		Note : Does not need to do anything at this time
-//-----------------------------------------------------------------------------
 static TQ3Status
 e3group_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object group, const void *objectData)
 {
 #pragma unused (objectType)
 #pragma unused (objectData)
 
-	 return E3FileFormat_Method_SubmitGroup (theView, group);
 
+
+	// Submit the group for writing
+	return(E3FileFormat_Method_SubmitGroup(theView, group));
 }
+
+
+
+
+
 //=============================================================================
 //      e3group_endread : Group end read method.
 //-----------------------------------------------------------------------------
@@ -860,7 +865,6 @@ e3group_endread(TQ3GroupObject group)
 {
 
 	return(kQ3Success);
-
 }
 
 
