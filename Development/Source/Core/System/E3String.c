@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,7 +45,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3String.h"
-
+#include "E3Main.h"
 
 
 
@@ -57,6 +57,31 @@ typedef char *TQ3StringPtr;
 
 
 
+
+
+class E3String : public TQ3SharedData // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3CString : public E3String  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3StringPtr						instanceData ;
+	} ;
+	
 
 
 //=============================================================================
@@ -187,18 +212,18 @@ E3String_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 											kQ3SharedTypeString,
 											kQ3ClassNameString,
 											NULL,
-											0);
+											~sizeof(E3String));
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeString,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeString,
 												kQ3StringTypeCString,
 												kQ3ClassNameStringTypeC,
 												e3string_c_metahandler,
-												sizeof(TQ3StringPtr));
+												~sizeof(E3CString));
 
 	return(qd3dStatus);
 }
@@ -217,8 +242,8 @@ E3String_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3StringTypeCString, kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SharedTypeString,  kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StringTypeCString, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeString,  kQ3True);
 	return(qd3dStatus);
 }
 
@@ -268,18 +293,15 @@ E3CString_New(const char *str)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
-{	TQ3StringPtr		*instanceData = (TQ3StringPtr *) E3ClassTree_FindInstanceData(stringObj, kQ3StringTypeCString);
-
-
-
+	{
 	// Return the length of the string
-	if (*instanceData == NULL)
-		*length = 0;
+	if ( ( (E3CString*) stringObj )->instanceData == NULL )
+		*length = 0 ;
 	else
-		*length = strlen(*instanceData);
+		*length = strlen ( ( (E3CString*) stringObj )->instanceData ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -290,25 +312,23 @@ E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CString_SetString(TQ3StringObject stringObj, const char *str)
-{	TQ3StringPtr		*instanceData = (TQ3StringPtr *) E3ClassTree_FindInstanceData(stringObj, kQ3StringTypeCString);
-	TQ3Status			qd3dStatus;
-
-
+	{
+	TQ3StringPtr* instanceData = & ( (E3CString*) stringObj )->instanceData ;
 
 	// Resize the string data
-	qd3dStatus = Q3Memory_Reallocate(instanceData, strlen(str) + 1);
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
+	TQ3Status qd3dStatus = Q3Memory_Reallocate( instanceData, strlen ( str ) + 1 ) ;
+	if ( qd3dStatus == kQ3Failure )
+		return qd3dStatus ;
 
 
 
 	// Copy the new string data in
-	strcpy(*instanceData, str);
+	strcpy ( *instanceData, str ) ;
 
-	Q3Shared_Edited(stringObj);
+	Q3Shared_Edited ( stringObj ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -323,28 +343,27 @@ E3CString_SetString(TQ3StringObject stringObj, const char *str)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CString_GetString(TQ3StringObject stringObj, char **str)
-{	TQ3StringPtr		*instanceData = (TQ3StringPtr *) E3ClassTree_FindInstanceData(stringObj, kQ3StringTypeCString);
-
-
+	{
+	TQ3StringPtr* instanceData = & ( (E3CString*) stringObj )->instanceData ;
 
 	// If the pointer isn't NULL, warn that they might be leaking memory
-	if (*str != NULL)
-		E3ErrorManager_PostWarning(kQ3WarningPossibleMemoryLeak);
+	if ( *str != NULL )
+		E3ErrorManager_PostWarning ( kQ3WarningPossibleMemoryLeak ) ;
 
 
 
 	// Allocate the data for the string
-	*str = (char *) Q3Memory_Allocate(strlen(*instanceData) + 1);
-	if (*str == NULL)
-		return(kQ3Failure);
+	*str = (char *) Q3Memory_Allocate ( strlen ( *instanceData ) + 1 ) ;
+	if ( *str == NULL )
+		return kQ3Failure ;
 	
 	
 	
 	// Copy the string
-	strcpy(*str, *instanceData);	
+	strcpy ( *str, *instanceData ) ;	
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
