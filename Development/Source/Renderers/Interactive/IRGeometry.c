@@ -1492,7 +1492,7 @@ IRGeometry_Marker(TQ3ViewObject			theView,
 
 	// Initialise ourselves
 	flipBuffer = NULL;
-	glLighting = false;
+	glLighting = GL_FALSE;
 
 
 
@@ -1616,7 +1616,7 @@ IRGeometry_PixmapMarker(TQ3ViewObject			theView,
 
 	// Initialise ourselves
 	newBasePtr = NULL;
-	glLighting = false;
+	glLighting = GL_FALSE;
 
 
 
