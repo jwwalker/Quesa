@@ -83,13 +83,13 @@ extern "C" {
  *  @function
  *      Q3Storage_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Returns the type of a storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns kQ3StorageTypeMemory, kQ3StorageTypeUnix, kQ3StorageTypeMacintosh,
+ *		or kQ3StorageTypeWin32, provided that the object is a storage object.
  *
- *  @param storage          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object to test.
+ *  @result                 The type of storage, or kQ3ObjectTypeInvalid.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Storage_GetType (
@@ -102,14 +102,15 @@ Q3Storage_GetType (
  *  @function
  *      Q3Storage_GetSize
  *  @discussion
- *      One-line description of this function.
+ *      Get the size of the data in a storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns the number of bytes of data stored in the object.
+ *      If the storage is a type associated with a file, the file
+ *		must be open.
  *
- *  @param storage          Description of the parameter.
- *  @param size             Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @param size             On output, receives the size.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Storage_GetSize (
@@ -123,17 +124,18 @@ Q3Storage_GetSize (
  *  @function
  *      Q3Storage_GetData
  *  @discussion
- *      One-line description of this function.
+ *      Get private data from a storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns some or all of the private data associated with a storage
+ *      object.  If the storage is associated with a file object, then
+ *		the file must be closed.
  *
- *  @param storage          Description of the parameter.
- *  @param offset           Description of the parameter.
- *  @param dataSize         Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param sizeRead         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @param offset           Starting offset of the data to be retrieved.
+ *  @param dataSize         Number of bytes of data to get.
+ *  @param data             Buffer to receive the data.
+ *  @param sizeRead         On output, number of bytes actually received.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Storage_GetData (
@@ -150,17 +152,18 @@ Q3Storage_GetData (
  *  @function
  *      Q3Storage_SetData
  *  @discussion
- *      One-line description of this function.
+ *      Write some data to a storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		Write some data to a storage object, possibly extending the storage
+ *		to accommodate the new data.
  *
- *  @param storage          Description of the parameter.
- *  @param offset           Description of the parameter.
- *  @param dataSize         Description of the parameter.
- *  @param data             Description of the parameter.
- *  @param sizeWritten      Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @param offset           The offset at which to begin writing new data.
+ *  @param dataSize         Number of bytes of data to be written.
+ *  @param data             Data to be written.
+ *  @param sizeWritten      On output, number of bytes actually written,
+ *							normally the same as dataSize.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Storage_SetData (
@@ -177,13 +180,13 @@ Q3Storage_SetData (
  *  @function
  *      Q3MemoryStorage_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get the type of a memory storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Returns the sub-type of a memory storage object,
+ *      currently either kQ3MemoryStorageTypeHandle or kQ3ObjectTypeInvalid.
  *
- *  @param storage          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @result                 The type of memory storage, or kQ3ObjectTypeInvalid.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3MemoryStorage_GetType (
@@ -196,14 +199,19 @@ Q3MemoryStorage_GetType (
  *  @function
  *      Q3MemoryStorage_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a memory storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Creates a memory storage object using memory that is maintained
+ *		internally by Quesa.  If you pass a buffer of data, that data will be
+ *		copied to the storage object's private memory
  *
- *  @param buffer           Description of the parameter.
- *  @param validSize        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param buffer           Pointer to a buffer in memory, or NULL.
+ *  @param validSize        Number of bytes of data in the buffer.
+ *							If you passed NULL for the buffer, this number serves
+ *							as the initial size and grow size of the internally
+ *							allocated buffer.  If you passed NULL for buffer and
+ *							0 for validSize, then Quesa uses a default grow size.
+ *  @result                 The new storage object.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3MemoryStorage_New (
@@ -217,15 +225,18 @@ Q3MemoryStorage_New (
  *  @function
  *      Q3MemoryStorage_Set
  *  @discussion
- *      One-line description of this function.
+ *      Sets the data of a memory storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Writes data to a storage object by copying data from a buffer.
+ *		Whether or not the storage object owned its own memory before
+ *		this call (i.e., whether it was created with Q3MemoryStorage_New
+ *		or Q3MemoryStorage_NewBuffer), it will own its own memory afterward.
  *
- *  @param storage          Description of the parameter.
- *  @param buffer           Description of the parameter.
- *  @param validSize        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @param buffer           Pointer to a buffer of data, or NULL.
+ *  @param validSize        Number of bytes to be copied from the buffer to the
+ *							storage, or initial memory size if buffer was NULL.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MemoryStorage_Set (
@@ -240,15 +251,17 @@ Q3MemoryStorage_Set (
  *  @function
  *      Q3MemoryStorage_NewBuffer
  *  @discussion
- *      One-line description of this function.
+ *      Create a memory storage object that uses a provided buffer.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Creates a memory storage object using a given buffer rather than by
+ *		allocating Quesa memory.
  *
- *  @param buffer           Description of the parameter.
- *  @param validSize        Description of the parameter.
- *  @param bufferSize       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param buffer           Pointer to a buffer of data, or NULL.
+ *  @param validSize        Number of bytes of valid data in the provided buffer,
+ *							or if buffer was NULL, the initial size and grow
+ *							size of an internally-allocated buffer.
+ *  @param bufferSize       Size in bytes of the buffer.
+ *  @result                 The new storage object.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3MemoryStorage_NewBuffer (
@@ -263,16 +276,18 @@ Q3MemoryStorage_NewBuffer (
  *  @function
  *      Q3MemoryStorage_SetBuffer
  *  @discussion
- *      One-line description of this function.
+ *      Sets the data of a memory storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Sets the data of a memory storage object to be stored in a
+ *		given buffer.
  *
- *  @param storage          Description of the parameter.
- *  @param buffer           Description of the parameter.
- *  @param validSize        Description of the parameter.
- *  @param bufferSize       Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @param buffer           Pointer to a buffer of data, or NULL.
+ *  @param validSize        Number of valid bytes in the buffer, or
+ *							if the buffer is NULL, the initial and grow size
+ *							of an internally allocated buffer.
+ *  @param bufferSize       Size in bytes of the buffer.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MemoryStorage_SetBuffer (
@@ -288,16 +303,21 @@ Q3MemoryStorage_SetBuffer (
  *  @function
  *      Q3MemoryStorage_GetBuffer
  *  @discussion
- *      One-line description of this function.
+ *      Get the data of a memory storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Gets a pointer to the data of a memory storage object without copying.
+ *      The pointer may become invalid if later storage operations cause the
+ *		buffer to be reallocated.
  *
- *  @param storage          Description of the parameter.
- *  @param buffer           Description of the parameter.
- *  @param validSize        Description of the parameter.
- *  @param bufferSize       Description of the parameter.
- *  @result                 Description of the function result.
+ *		Each of the output parameters may be NULL if you don't need that information.
+ *
+ *  @param storage          The storage object.
+ *  @param buffer           On output, receives a pointer to the actual data
+ *							of the storage.
+ *  @param validSize        On output, the number of valid metafile data bytes
+ *							in the storage object.
+ *  @param bufferSize       On output, the size of the buffer in bytes.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MemoryStorage_GetBuffer (
@@ -313,10 +333,16 @@ Q3MemoryStorage_GetBuffer (
  *  @function
  *      Q3PathStorage_New
  *  @discussion
- *      Not supported by QD3D.
+ *      Not supported by QD3D.  Creates a storage object of type kQ3StorageTypePath.
+ *		This type of storage is associated with a file specified by a path name,
+ *		and is intended to replace the poorly-named "Unix path" storage.
  *
- *  @param pathName         Description of the parameter.
- *  @result                 Description of the function result.
+ *		The exact format of permissible paths is platform-dependent.  For example,
+ *		in a Mac version of Quesa built with the Metrowerks Standard Library,
+ *		the path is colon-separated and assumed to be in the system encoding.
+ *
+ *  @param pathName         A NUL-terminated pathname, as might be passed to fopen.
+ *  @result                 The error status of the function.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -333,11 +359,11 @@ Q3PathStorage_New (
  *  @function
  *      Q3PathStorage_Set
  *  @discussion
- *      Not supported by QD3D.
+ *      Not supported by QD3D.  Changes the path associated with a path storage object.
  *
- *  @param theStorage       Description of the parameter.
- *  @param pathName         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param theStorage       A path storage object.
+ *  @param pathName         A NUL-terminated pathname.
+ *  @result                 The error status of the function.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -355,11 +381,14 @@ Q3PathStorage_Set (
  *  @function
  *      Q3PathStorage_Get
  *  @discussion
- *      Not supported by QD3D.
+ *      Not supported by QD3D.  Finds the path associated with a path storage object.
  *
- *  @param theStorage       Description of the parameter.
- *  @param pathName         Description of the parameter.
- *  @result                 Description of the function result.
+ *		The path returned by this function could be up to 1024 bytes long.
+ *		Be sure to allocate enough space for it.
+ *
+ *  @param theStorage       A path storage object.
+ *  @param pathName         On output, the path as a NUL-terminated string.
+ *  @result                 The error status of the function.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -384,14 +413,17 @@ Q3PathStorage_Get (
  *  @function
  *      Q3HandleStorage_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a Handle storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Create a storage object that stores data in a Macintosh memory Handle.
+ *		If you pass NULL for the Handle, Quesa internally allocates a
+ *		Handle of the given size, and disposes the Handle when the storage
+ *		object is disposed.
  *
- *  @param handle           Description of the parameter.
- *  @param validSize        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param handle           An existing Handle, or NULL.
+ *  @param validSize        The size of the valid date in the given Handle,
+ *							or the desired size if the Handle is NULL.
+ *  @result                 The new storage object, or NULL on failure.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3HandleStorage_New (
@@ -405,15 +437,17 @@ Q3HandleStorage_New (
  *  @function
  *      Q3HandleStorage_Set
  *  @discussion
- *      One-line description of this function.
+ *      Set information about a Handle storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Sets the buffer location and size of a Handle storage object.
+ *		If you pass NULL for the Handle, Quesa internally allocates a
+ *		Handle of the given size, and disposes the Handle when the storage
+ *		object is disposed.
  *
- *  @param storage          Description of the parameter.
- *  @param handle           Description of the parameter.
- *  @param validSize        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @param handle           A Mac Handle to be associated with the storage, or NULL.
+ *  @param validSize        Size in bytes of the specified buffer.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3HandleStorage_Set (
@@ -428,15 +462,13 @@ Q3HandleStorage_Set (
  *  @function
  *      Q3HandleStorage_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get information about a Handle storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
  *
- *  @param storage          Description of the parameter.
- *  @param handle           Description of the parameter.
- *  @param validSize        Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @param handle           On output, the Handle associated with the storage.
+ *  @param validSize        On output, the valid size in bytes of the storage.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3HandleStorage_Get (
@@ -451,13 +483,17 @@ Q3HandleStorage_Get (
  *  @function
  *      Q3MacintoshStorage_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a Macintosh storage object.
  *
- *      A more extensive description can be supplied here, covering
+ *      This creates a storage object whose data is stored in a file,
+ *		specified by a Mac file reference number for an open file.
  *      the typical usage of this function and any special requirements.
+ *		The specified file must remain open as long as you use the storage
+ *		object, and it is your responsibility to close the file later.
  *
- *  @param fsRefNum         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param fsRefNum         A file reference number for an open data fork of a
+ *							Mac file.
+ *  @result                 The new storage object.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3MacintoshStorage_New (
@@ -470,14 +506,14 @@ Q3MacintoshStorage_New (
  *  @function
  *      Q3MacintoshStorage_Set
  *  @discussion
- *      One-line description of this function.
+ *      Change the file reference number associated with a Mac storage.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This cannot be used when the storage is open.
  *
- *  @param storage          Description of the parameter.
- *  @param fsRefNum         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @param fsRefNum       	A file reference number for an open data fork of a
+ *							Mac file.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacintoshStorage_Set (
@@ -491,14 +527,13 @@ Q3MacintoshStorage_Set (
  *  @function
  *      Q3MacintoshStorage_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the file reference number associated with the storage.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
  *
- *  @param storage          Description of the parameter.
- *  @param fsRefNum         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @param fsRefNum         On output, the file reference number of the file
+ *							associated with the storage.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MacintoshStorage_Get (
@@ -512,13 +547,12 @@ Q3MacintoshStorage_Get (
  *  @function
  *      Q3MacintoshStorage_GetType
  *  @discussion
- *      One-line description of this function.
+ *      Get a derived type of a Mac storage object, currently either
+ *		kQ3MacintoshStorageTypeFSSpec or kQ3ObjectTypeInvalid.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
  *
- *  @param storage          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The storage object.
+ *  @result                 The object type.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3MacintoshStorage_GetType (
@@ -531,13 +565,13 @@ Q3MacintoshStorage_GetType (
  *  @function
  *      Q3FSSpecStorage_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a storage object associated with a Mac file specification.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Given a valid FSSpec structure, Quesa creates a storage object.
+ *      The file should exist, but should not be open.
  *
- *  @param fs               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param fs               A valid file system specification.
+ *  @result                 The new storage object.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3FSSpecStorage_New (
@@ -550,14 +584,13 @@ Q3FSSpecStorage_New (
  *  @function
  *      Q3FSSpecStorage_Set
  *  @discussion
- *      One-line description of this function.
+ *      Change the file specification for an FSSpec storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The storage must be closed at the time you call this.
  *
- *  @param storage          Description of the parameter.
- *  @param fs               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The FSSpec storage object to modify.
+ *  @param fs               The new file system specification.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FSSpecStorage_Set (
@@ -571,14 +604,11 @@ Q3FSSpecStorage_Set (
  *  @function
  *      Q3FSSpecStorage_Get
  *  @discussion
- *      One-line description of this function.
+ *      Find the FSSpec associated with an FSSpec storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param storage          Description of the parameter.
- *  @param fs               Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          The FSSpec storage object to examine.
+ *  @param fs               On output, a file system specification.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3FSSpecStorage_Get (
@@ -671,13 +701,12 @@ Q3Win32Storage_Get (
  *  @function
  *      Q3UnixPathStorage_New
  *  @discussion
- *      One-line description of this function.
+ *      Create a storage object associated with a file system path.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The Quesa extension Q3PathStorage_New may be used in place of this.
  *
- *  @param pathName         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param pathName        A NUL-terminated file system path.
+ *  @result                The new storage object.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3UnixPathStorage_New (
@@ -690,14 +719,11 @@ Q3UnixPathStorage_New (
  *  @function
  *      Q3UnixPathStorage_Set
  *  @discussion
- *      One-line description of this function.
+ *      Change the path associated with a Unix path storage object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param storage          Description of the parameter.
- *  @param pathName         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          A Unix path storage object.
+ *  @param pathName         A NUL-terminated file system path.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3UnixPathStorage_Set (
@@ -711,14 +737,14 @@ Q3UnixPathStorage_Set (
  *  @function
  *      Q3UnixPathStorage_Get
  *  @discussion
- *      One-line description of this function.
+ *      Get the path associated with a Unix path storage object
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *		The path returned by this function could be up to 1024 bytes long.
+ *		Be sure to allocate enough space for it.
  *
- *  @param storage          Description of the parameter.
- *  @param pathName         Description of the parameter.
- *  @result                 Description of the function result.
+ *  @param storage          A Unix path storage object.
+ *  @param pathName         On output, a NUL-terminated path.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3UnixPathStorage_Get (
@@ -743,7 +769,7 @@ Q3UnixPathStorage_Get (
  *      Not supported by QD3D.
  *
  *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 The new Be storage object.
  */
 EXTERN_API_C ( TQ3StorageObject  )
 Q3BeStorage_New (
@@ -778,7 +804,7 @@ Q3BeStorage_Set (
  *
  *  @param theStorage       Description of the parameter.
  *  @param theFile          Description of the parameter.
- *  @result                 Description of the function result.
+ *  @result                 The error status of the function.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3BeStorage_Get (
