@@ -41,6 +41,15 @@
 
 
 //=============================================================================
+//      Internal constants
+//-----------------------------------------------------------------------------
+#define kLightFudge										0.000001f
+
+
+
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      ir_light_calculate_diffuse : Calculate the diffuse colour of a light.
@@ -65,8 +74,6 @@ ir_light_calculate_diffuse(const TQ3LightData *lightData, GLfloat *lightColour)
 
 
 //=============================================================================
-//      Internal functions
-//-----------------------------------------------------------------------------
 //      ir_light_convert_ambient : Convert an ambient light.
 //-----------------------------------------------------------------------------
 //		Note :	Rather than use a new light object, we accumulate the ambient
@@ -109,7 +116,7 @@ ir_light_convert_ambient(TQ3InteractiveData *instanceData, TQ3LightObject theLig
 //-----------------------------------------------------------------------------
 static void
 ir_light_convert_directional(TQ3InteractiveData		*instanceData,
-								const TQ3Matrix4x4	*worldToFrustum,
+								const TQ3Matrix4x4	*worldToView,
 								TQ3LightObject		theLight)
 {	GLfloat						lightDirection[4];
 	GLfloat						lightColour[4];
@@ -122,7 +129,7 @@ ir_light_convert_directional(TQ3InteractiveData		*instanceData,
 	lightIndex = GL_LIGHT0 + instanceData->lightCount;
 	Q3DirectionalLight_GetData(theLight, &lightData);
 
-	Q3Vector3D_Transform(&lightData.direction, worldToFrustum, &lightData.direction);
+	Q3Vector3D_Transform(&lightData.direction, worldToView, &lightData.direction);
 
 
 
@@ -152,7 +159,7 @@ ir_light_convert_directional(TQ3InteractiveData		*instanceData,
 //-----------------------------------------------------------------------------
 static void
 ir_light_convert_point(TQ3InteractiveData	*instanceData,
-						const TQ3Matrix4x4	*worldToFrustum,
+						const TQ3Matrix4x4	*worldToView,
 						TQ3LightObject		theLight)
 {	GLfloat					attConstant, attLinear, attQuadratic;
 	GLfloat					lightPosition[4];
@@ -166,8 +173,8 @@ ir_light_convert_point(TQ3InteractiveData	*instanceData,
 	lightIndex = GL_LIGHT0 + instanceData->lightCount;
 	Q3PointLight_GetData(theLight, &lightData);
 
-	Q3Point3D_Transform(&lightData.location, worldToFrustum, &lightData.location);
-
+	Q3Point3D_Transform(&lightData.location, worldToView, &lightData.location);
+	
 
 
 	// Calculate the light values
@@ -226,7 +233,7 @@ ir_light_convert_point(TQ3InteractiveData	*instanceData,
 //-----------------------------------------------------------------------------
 static void
 ir_light_convert_spot(TQ3InteractiveData	*instanceData,
-					  const TQ3Matrix4x4	*worldToFrustum,
+					  const TQ3Matrix4x4	*worldToView,
 					  TQ3LightObject		theLight)
 {	GLfloat					attConstant, attLinear, attQuadratic;
 	GLfloat					lightDirection[3];
@@ -242,7 +249,7 @@ ir_light_convert_spot(TQ3InteractiveData	*instanceData,
 	lightIndex = GL_LIGHT0 + instanceData->lightCount;
 	Q3SpotLight_GetData(theLight, &lightData);
 
-	Q3Point3D_Transform(&lightData.location, worldToFrustum, &lightData.location);
+	Q3Point3D_Transform(&lightData.location, worldToView, &lightData.location);
 
 
 
@@ -278,7 +285,7 @@ ir_light_convert_spot(TQ3InteractiveData	*instanceData,
 			break;
 		}
 
-	lightOuter = Q3Math_DegreesToRadians(lightData.outerAngle) * 2.0f;
+	lightOuter = Q3Math_RadiansToDegrees(lightData.hotAngle);
 
 
 
@@ -344,7 +351,7 @@ IRRenderer_Lights_Initialise(TQ3InteractiveData		*instanceData,
 							 TQ3CameraObject		theCamera,
 							 TQ3GroupObject			theLights)
 {	TQ3Uns32				numLightsQD3D, numLightsGL;
-	TQ3Matrix4x4			worldToFrustum;
+	TQ3Matrix4x4			worldToView;
 	TQ3Status               qd3dStatus;
 	TQ3GroupPosition        lightPos;
     TQ3LightObject          theLight;
@@ -365,11 +372,11 @@ IRRenderer_Lights_Initialise(TQ3InteractiveData		*instanceData,
 
 
 
-	// Get the QD3D world->frustum transform, and reset the OpenGL model->view
+	// Get the QD3D world->view transform, and reset the OpenGL model->view
 	// transform to the identity. Since lights are translated before geometry,
 	// we need to transform their direction/positions ourselves in order to
 	// put them into the OpenGL camera's coordinate system.
-	Q3Camera_GetWorldToFrustum(theCamera, &worldToFrustum);
+	Q3Camera_GetWorldToView(theCamera, &worldToView);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
@@ -395,17 +402,17 @@ IRRenderer_Lights_Initialise(TQ3InteractiveData		*instanceData,
                     break;
                 
                 case kQ3LightTypeDirectional:
-                    ir_light_convert_directional(instanceData, &worldToFrustum, theLight);
+                    ir_light_convert_directional(instanceData, &worldToView, theLight);
 		            instanceData->lightCount++;
                     break;
 
                 case kQ3LightTypePoint:
-                    ir_light_convert_point(instanceData, &worldToFrustum, theLight);
+                    ir_light_convert_point(instanceData, &worldToView, theLight);
 		            instanceData->lightCount++;
                     break;
 
                 case kQ3LightTypeSpot:
-                    ir_light_convert_spot(instanceData, &worldToFrustum, theLight);
+                    ir_light_convert_spot(instanceData, &worldToView, theLight);
 		            instanceData->lightCount++;
                     break;
                 }
