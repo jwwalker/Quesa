@@ -166,12 +166,16 @@ E3MacSystem_LoadPlugins(void)
 	TQ3Uns32		theIndex;
 	OSErr			theErr;
 	CInfoPBRec		thePB;
+	Boolean targetIsFolder;
+	Boolean wasAliased;
+	long extensionFolderDirID;
+	short extensionFolderVolRefNum;
 
 
 
 	// Find	the extensions folder
 	theErr = FindFolder(kOnSystemDisk, kExtensionFolderType, true,
-						&theFSSpec.vRefNum, &theFSSpec.parID);
+						&extensionFolderVolRefNum, &extensionFolderDirID);
 	if (theErr != noErr)
 		return;
 
@@ -183,21 +187,25 @@ E3MacSystem_LoadPlugins(void)
 		{
 		// Get the next file
 		thePB.dirInfo.ioFDirIndex = theIndex;
-		thePB.dirInfo.ioVRefNum   = theFSSpec.vRefNum;
-		thePB.dirInfo.ioDrDirID   = theFSSpec.parID;
+		thePB.dirInfo.ioVRefNum   = extensionFolderVolRefNum;
+		thePB.dirInfo.ioDrDirID   = extensionFolderDirID;
 		thePB.dirInfo.ioNamePtr   = theFSSpec.name;
-
+		
 		theErr = PBGetCatInfoSync(&thePB);
 		if (theErr == noErr)
+			theErr = FSMakeFSSpec(extensionFolderVolRefNum,
+													 	extensionFolderDirID,
+													 	theFSSpec.name, &theFSSpec);
+		if (theErr == noErr)
+			theErr = ResolveAliasFile(&theFSSpec, kQ3True, &targetIsFolder, &wasAliased);
+		// If this isn't a directory, check the type
+		if (!targetIsFolder)
 			{
-			// If this isn't a directory, check the type
-			if (!(thePB.hFileInfo.ioFlAttrib & ioDirMask))
-				{
-				// If this is a plug-in, load it
-				if (thePB.hFileInfo.ioFlFndrInfo.fdType    == kQ3XExtensionMacFileType &&
-					thePB.hFileInfo.ioFlFndrInfo.fdCreator == kQ3XExtensionMacCreatorType)
-					e3mac_load_plugin(&theFSSpec);
-				}
+			// If this is a plug-in, load it
+			
+			if (thePB.hFileInfo.ioFlFndrInfo.fdType  == kQ3XExtensionMacFileType &&
+				thePB.hFileInfo.ioFlFndrInfo.fdCreator == kQ3XExtensionMacCreatorType)
+				e3mac_load_plugin(&theFSSpec);
 			}
 		
 		theIndex++;
