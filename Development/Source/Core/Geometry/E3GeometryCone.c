@@ -351,13 +351,15 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	//
 	// We also need to adjust the final triangle to point to these new vertices.
 	i = numpoints - 2;
-	points [i] = points [0];
-	normals[i] = normals[0];
-	uvs    [i] = uvs    [sides-1];
+	points [i]   = points [0];
+	normals[i]   = normals[0];
+	uvs    [i].u = uMax;
+	uvs    [i].v = vMin;
 
-	points [i + 1] = points [sides];
-	normals[i + 1] = normals[sides];
-	uvs    [i + 1] = uvs    [sides + sides - 1];
+	points [i + 1]   = points [sides];
+	normals[i + 1]   = normals[sides];
+	uvs    [i + 1].u = uMax;
+	uvs    [i + 1].v = vMax;
 
 	triangles[sides-1].pointIndices[0] = i + 1;
 	triangles[sides-1].pointIndices[2] = i;
