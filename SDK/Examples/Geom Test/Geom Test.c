@@ -192,6 +192,10 @@ createWorldBounds( TQ3ViewObject inView )
 	{
 		do
 		{
+			// Submit the default styles so that we are using the same subdivision
+			// style as for rendering.  This keeps our cached trimesh from being
+			// rebuilt unnecessarily.
+			Qut_SubmitDefaultStyles( inView );
 			Q3MatrixTransform_Submit(&gMatrixCurrent, inView);
 			Q3Object_Submit(gSceneGeometry, inView);
 			
