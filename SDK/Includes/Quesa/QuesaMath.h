@@ -350,11 +350,15 @@ Q3Vector2D_To3D (
  *  @param result           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3Vector2D_ToRationalPoint3D (
     const TQ3Vector2D             *vector2D,
     TQ3RationalPoint3D            *result
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -386,11 +390,15 @@ Q3Vector3D_To2D (
  *  @param result           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Vector2D * )
 Q3RationalPoint3D_ToVector2D (
     const TQ3RationalPoint3D      *rationalPoint3D,
     TQ3Vector2D                   *result
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -404,11 +412,15 @@ Q3RationalPoint3D_ToVector2D (
  *  @param result           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3RationalPoint4D * )
 Q3Vector3D_ToRationalPoint4D (
     const TQ3Vector3D             *vector3D,
     TQ3RationalPoint4D            *result
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -422,11 +434,15 @@ Q3Vector3D_ToRationalPoint4D (
  *  @param result           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Vector3D * )
 Q3RationalPoint4D_ToVector3D (
     const TQ3RationalPoint4D      *rationalPoint4D,
     TQ3Vector3D                   *result
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -689,12 +705,16 @@ Q3Vector2D_Cross (
  *  @param p3               Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( float )
 Q3Point2D_CrossProductTri (
     const TQ3Point2D              *p1,
     const TQ3Point2D              *p2,
     const TQ3Point2D              *p3
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -779,10 +799,14 @@ Q3Vector2D_Length (
  *  @param vector2D         Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( float  )
 Q3Vector2D_LengthSquared (
     const TQ3Vector2D             *vector2D
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -814,10 +838,14 @@ Q3Vector3D_Length (
  *  @param vector3D         Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( float  )
 Q3Vector3D_LengthSquared (
     const TQ3Vector3D             *vector3D
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -1825,12 +1853,16 @@ Q3Param2D_Transform (
  *  @param result           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3RationalPoint3D * )
 Q3RationalPoint3D_Transform (
     const TQ3RationalPoint3D      *rationalPoint3D,
     const TQ3Matrix3x3            *matri3x3,
     TQ3RationalPoint3D            *result
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -1894,6 +1926,8 @@ Q3RationalPoint4D_Transform (
  *  @param outStructSize    Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3Vector2D_To2DTransformArray (
     const TQ3Vector2D             *inVectors2D,
@@ -1903,6 +1937,8 @@ Q3Vector2D_To2DTransformArray (
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -1920,6 +1956,8 @@ Q3Vector2D_To2DTransformArray (
  *  @param outStructSize    Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_To3DTransformArray (
     const TQ3Vector3D             *inVectors3D,
@@ -1929,6 +1967,8 @@ Q3Vector3D_To3DTransformArray (
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -1946,6 +1986,8 @@ Q3Vector3D_To3DTransformArray (
  *  @param outStructSize    Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3Point2D_To2DTransformArray (
     const TQ3Point2D              *inPoints2D,
@@ -1955,6 +1997,8 @@ Q3Point2D_To2DTransformArray (
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -1972,6 +2016,8 @@ Q3Point2D_To2DTransformArray (
  *  @param outStructSize    Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint3D_To3DTransformArray (
     const TQ3RationalPoint3D      *inRationalPoints3D,
@@ -1981,6 +2027,8 @@ Q3RationalPoint3D_To3DTransformArray (
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2220,11 +2268,15 @@ Q3Matrix4x4_SetScale (
  *  @param angle            Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Matrix3x3 * )
 Q3Matrix3x3_SetRotate (
     TQ3Matrix3x3                  *matrix3x3,
     float                         angle
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 

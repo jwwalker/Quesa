@@ -319,10 +319,14 @@ Q3MemoryStorage_GetBuffer (
  *  @param pathName         Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3StorageObject  )
 Q3PathStorage_New (
     const char                    *pathName
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -336,11 +340,15 @@ Q3PathStorage_New (
  *  @param pathName         Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3PathStorage_Set (
     TQ3StorageObject              theStorage,
     const char                    *pathName
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -354,11 +362,15 @@ Q3PathStorage_Set (
  *  @param pathName         Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3PathStorage_Get (
     TQ3StorageObject              theStorage,
     char                          *pathName
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 

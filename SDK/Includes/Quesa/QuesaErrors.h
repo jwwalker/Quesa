@@ -432,10 +432,14 @@ Q3Notice_Get (
  *  @param firstErr         Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Uns32  )
 Q3Error_PlatformGet (
     TQ3Uns32                      *firstErr
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -448,10 +452,14 @@ Q3Error_PlatformGet (
  *  @param theErr           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( void  )
 Q3Error_PlatformPost (
     TQ3Uns32                      theErr
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -465,11 +473,15 @@ Q3Error_PlatformPost (
  *  @param theError         Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( const char * )
 Q3Error_ToString (
     TQ3Language                   theLanguage,
     TQ3Error                      theError
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -483,11 +495,15 @@ Q3Error_ToString (
  *  @param theWarning       Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( const char * )
 Q3Warning_ToString (
     TQ3Language                   theLanguage,
     TQ3Warning                    theWarning
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -501,11 +517,15 @@ Q3Warning_ToString (
  *  @param theError         Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( const char * )
 Q3Notice_ToString (
     TQ3Language                   theLanguage,
     TQ3Notice                     theError
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 

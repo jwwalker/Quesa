@@ -2441,10 +2441,14 @@ Q3ViewHints_GetClearImageColor (
  *  @param theFile          Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3FileFormatObject  )
 Q3File_GetFileFormat (
     TQ3FileObject                 theFile
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2457,10 +2461,14 @@ Q3File_GetFileFormat (
  *  @param fformatObjectType Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3FileFormatObject  )
 Q3FileFormat_NewFromType (
     TQ3ObjectType                 fformatObjectType
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2473,10 +2481,14 @@ Q3FileFormat_NewFromType (
  *  @param format           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3ObjectType  )
 Q3FileFormat_GetType (
     TQ3FileFormatObject           format
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2489,10 +2501,14 @@ Q3FileFormat_GetType (
  *  @param format           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Boolean  )
 Q3FileFormat_HasModalConfigure (
     TQ3FileFormatObject           format
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2507,12 +2523,16 @@ Q3FileFormat_HasModalConfigure (
  *  @param canceled         Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_ModalConfigure (
     TQ3FileFormatObject           format,
     TQ3DialogAnchor               dialogAnchor,
     TQ3Boolean                    *canceled
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2526,11 +2546,15 @@ Q3FileFormat_ModalConfigure (
  *  @param formatClassString Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormatClass_GetFormatNameString (
     TQ3ObjectType                 formatClassType,
     TQ3ObjectClassNameString      formatClassString
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2546,6 +2570,8 @@ Q3FileFormatClass_GetFormatNameString (
  *  @param actualDataSize   Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GetConfigurationData (
     TQ3FileFormatObject           format,
@@ -2553,6 +2579,8 @@ Q3FileFormat_GetConfigurationData (
     TQ3Uns32                      bufferSize,
     TQ3Uns32                      *actualDataSize
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2567,12 +2595,16 @@ Q3FileFormat_GetConfigurationData (
  *  @param bufferSize       Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_SetConfigurationData (
     TQ3RendererObject             format,
     unsigned char                 *dataBuffer,
     TQ3Uns32                      bufferSize
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2591,11 +2623,15 @@ Q3FileFormat_SetConfigurationData (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_8 (
     TQ3FileFormatObject           format,
     TQ3Int8                       *data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2609,11 +2645,15 @@ Q3FileFormat_GenericReadBinary_8 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_16 (
     TQ3FileFormatObject           format,
     TQ3Int16                      *data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2627,11 +2667,15 @@ Q3FileFormat_GenericReadBinary_16 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_32 (
     TQ3FileFormatObject           format,
     TQ3Int32                      *data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2645,11 +2689,15 @@ Q3FileFormat_GenericReadBinary_32 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_64 (
     TQ3FileFormatObject           format,
     TQ3Int64                      *data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2664,12 +2712,16 @@ Q3FileFormat_GenericReadBinary_64 (
  *  @param length           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_String (
     TQ3FileFormatObject           format,
     char                          *data,
     TQ3Uns32                      *length
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2684,12 +2736,16 @@ Q3FileFormat_GenericReadBinary_String (
  *  @param length           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_Raw (
     TQ3FileFormatObject           format,
     unsigned char                 *data,
     TQ3Uns32                      length
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2708,11 +2764,15 @@ Q3FileFormat_GenericReadBinary_Raw (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_16 (
     TQ3FileFormatObject           format,
     TQ3Int16                      *data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2726,11 +2786,15 @@ Q3FileFormat_GenericReadBinSwap_16 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_32 (
     TQ3FileFormatObject           format,
     TQ3Int32                      *data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2744,11 +2808,15 @@ Q3FileFormat_GenericReadBinSwap_32 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_64 (
     TQ3FileFormatObject           format,
     TQ3Int64                      *data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2766,10 +2834,14 @@ Q3FileFormat_GenericReadBinSwap_64 (
  *  @param format           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadText_SkipBlanks (
     TQ3FileFormatObject           format
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2789,6 +2861,8 @@ Q3FileFormat_GenericReadText_SkipBlanks (
  *  @param charsRead        Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadText_ReadUntilChars (
     TQ3FileFormatObject           format,
@@ -2800,6 +2874,8 @@ Q3FileFormat_GenericReadText_ReadUntilChars (
     TQ3Uns32                      maxLen,
     TQ3Uns32                      *charsRead
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2818,11 +2894,15 @@ Q3FileFormat_GenericReadText_ReadUntilChars (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_8 (
     TQ3FileFormatObject           format,
     TQ3Int8                       data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2836,11 +2916,15 @@ Q3FileFormat_GenericWriteBinary_8 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_16 (
     TQ3FileFormatObject           format,
     TQ3Int16                      data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2854,11 +2938,15 @@ Q3FileFormat_GenericWriteBinary_16 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_32 (
     TQ3FileFormatObject           format,
     TQ3Int32                      data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2872,11 +2960,15 @@ Q3FileFormat_GenericWriteBinary_32 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_64 (
     TQ3FileFormatObject           format,
     TQ3Int64                      data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2891,12 +2983,16 @@ Q3FileFormat_GenericWriteBinary_64 (
  *  @param length           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_String (
     TQ3FileFormatObject           format,
     const char                    *data,
     TQ3Uns32                      *length
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2911,12 +3007,16 @@ Q3FileFormat_GenericWriteBinary_String (
  *  @param length           Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_Raw (
     TQ3FileFormatObject           format,
     const unsigned char           *data,
     TQ3Uns32                      length
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2935,11 +3035,15 @@ Q3FileFormat_GenericWriteBinary_Raw (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_16 (
     TQ3FileFormatObject           format,
     TQ3Int16                      data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2953,11 +3057,15 @@ Q3FileFormat_GenericWriteBinSwap_16 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_32 (
     TQ3FileFormatObject           format,
     TQ3Int32                      data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
@@ -2971,11 +3079,15 @@ Q3FileFormat_GenericWriteBinSwap_32 (
  *  @param data             Description of the parameter.
  *  @result                 Description of the function result.
  */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
 EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_64 (
     TQ3FileFormatObject           format,
     TQ3Int64                      data
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 
