@@ -736,6 +736,7 @@ gldrawcontext_win_swapbuffers(void *glContext)
 	
 	Q3_ASSERT(theDC == theContext->theDC);
 	
+	glFlush();
 	SwapBuffers(theDC);
 	
 	// if OpenGL is drawing into our backBuffer copy it
