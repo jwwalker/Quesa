@@ -35,6 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "IRPrefix.h"
 #include "IRGeometry.h"
+#include "IRTexture.h"
 #include "IRTransparent.h"
 #include "IRUpdate.h"
 

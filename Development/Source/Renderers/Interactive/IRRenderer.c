@@ -37,6 +37,7 @@
 #include "IRRenderer.h"
 #include "IRGeometry.h"
 #include "IRUpdate.h"
+#include "IRTexture.h"
 #include "IRTransparent.h"
 #include "IRLights.h"
 
@@ -122,9 +123,9 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 				return(kQ3Failure);
 
 
-			// Reload the OpenGL texture objects from the texture cache,
-			// as they will be lost when the context is rebuilt.
-			IRRenderer_State_ReloadTextureCache(theView, instanceData);
+			// Rebuild the OpenGL texture objects, since they will
+			// have been lost when the context is rebuilt.
+			IRRenderer_Texture_Rebuild(theView, instanceData);
 			}
 
 
@@ -249,6 +250,7 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 	// Finish the pass
 	IRRenderer_State_EndPass(instanceData);
+	IRRenderer_Texture_EndPass(instanceData);
 	IRRenderer_Lights_EndPass(instanceData);
 
 	return(kQ3ViewStatusDone);
