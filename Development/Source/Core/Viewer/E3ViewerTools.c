@@ -56,11 +56,12 @@
 		#include <Icons.h>
 		#include <Fonts.h>
 		#include "ICAPI.h"
+		#include <math.h>
 	#endif
 #endif
 
 #if defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
-#include <math.h>
+	#include <math.h>
 #endif
 
 // ANSI C does not allow anonymous function parameters.

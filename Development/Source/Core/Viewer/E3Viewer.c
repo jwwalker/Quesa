@@ -39,6 +39,9 @@
 #include "E3ViewerTools.h"
 #if QUESA_OS_MACINTOSH
 	#include "E3CarbonCoating.h"
+	#if !TARGET_API_MAC_CARBON
+		#include <math.h>
+	#endif
 #endif
 #if QUESA_OS_WIN32
 	#include <math.h>
@@ -1851,14 +1854,14 @@ Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 				viewerData->receiveHandler = NewDragReceiveHandlerProc (e3receivehandler);
 			#endif
 			if (viewerData->receiveHandler)
-				InstallReceiveHandler (viewerData->receiveHandler, (WindowRef)(port), viewerData);
+				InstallReceiveHandler (viewerData->receiveHandler, e3_viewer_GetPortWindow(port), viewerData);
 			#if TARGET_API_MAC_CARBON
 				viewerData->trackingHandler = NewDragTrackingHandlerUPP (e3trackinghandler);
 			#else
 				viewerData->trackingHandler = NewDragTrackingHandlerProc (e3trackinghandler);
 			#endif
 			if (viewerData->trackingHandler)
-				InstallTrackingHandler (viewerData->trackingHandler, (WindowRef)(port), viewerData);
+				InstallTrackingHandler (viewerData->trackingHandler, e3_viewer_GetPortWindow(port), viewerData);
 			}
 		else
 			{
@@ -1926,7 +1929,7 @@ Q3ViewerNew(TQ3Port port, ConstTQ3Rect *rect, TQ3Uns32 flags)
 				#if defined(QUESA_OS_MACINTOSH) && QUESA_OS_MACINTOSH
 					TQ3MacDrawContextData drawContextData;
 					e3setdefaultdrawcontext (&viewerData->drawRect, &drawContextData.drawContextData);
-					drawContextData.window = e3_viewer_GetPortWindow(port);
+					drawContextData.window = (CWindowPtr)e3_viewer_GetPortWindow(port);
 					drawContextData.grafPort = port;
 					drawContextData.library = kQ3Mac2DLibraryNone;
 					drawContextData.viewPort = NULL; // do not support GX
@@ -4177,7 +4180,7 @@ Q3ViewerGetPict(TQ3ViewerObject theViewer)
 						// now make a Picture from the GWorld
 						RgnHandle oldClip;
 						OpenCPicParams pictureHeader;
-						CGrafPtr thePort = viewer->thePort;
+						GrafPtr thePort = (GrafPtr)viewer->thePort;
 						SetPort(thePort);
 						oldClip = NewRgn ();
 						if (oldClip)
@@ -4193,7 +4196,7 @@ Q3ViewerGetPict(TQ3ViewerObject theViewer)
 							#if TARGET_API_MAC_CARBON
 								CopyBits ((BitMapPtr)(*thePixMap), GetPortBitMapForCopyBits(thePort), &r, &r, srcCopy, NULL);
 							#else
-								CopyBits ((BitMapPtr)(*thePixMap), &((GrafPtr)thePort)->portBits, &r, &r, srcCopy, NULL);
+								CopyBits ((BitMapPtr)(*thePixMap), &(thePort)->portBits, &r, &r, srcCopy, NULL);
 							#endif
 							ClosePicture ();
 							}
@@ -4233,7 +4236,7 @@ Q3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port)
 		if ((Q3View_GetDrawContext (viewer->theView, &theContext) == kQ3Success) && theContext)
 			{
 			WindowRef window = e3_viewer_GetPortWindow(port);
-			TQ3Status err = Q3MacDrawContext_SetWindow (theContext, window);
+			TQ3Status err = Q3MacDrawContext_SetWindow (theContext, (CWindowPtr)window);
 			if (err == kQ3Success)
 				err = Q3MacDrawContext_SetGrafPort (theContext, port);
 			Q3Object_Dispose (theContext);
