@@ -45,7 +45,7 @@
 // Mac OS
 #if ((defined(__MWERKS__) && __dest_os == __mac_os) || defined(MPW_CPLUS) || defined(MPW_C))
     #ifndef QUESA_OS_MACINTOSH
-        #define QUESA_OS_MACINTOSH              1
+        #define QUESA_OS_MACINTOSH              		1
     #endif
 #endif
 
@@ -53,7 +53,7 @@
 // Windows
 #if (defined(_MSC_VER) || (defined(__MWERKS__) && __INTEL__))
     #ifndef QUESA_OS_WIN32
-        #define QUESA_OS_WIN32                  1
+        #define QUESA_OS_WIN32                  		1
     #endif
 #endif
 
@@ -61,7 +61,7 @@
 // Be
 #if ((defined(__be_os) && (__dest_os == __be_os)))
     #ifndef QUESA_OS_BE
-        #define QUESA_OS_BE                     1
+        #define QUESA_OS_BE                     		1
     #endif
 #endif
 
@@ -79,37 +79,37 @@
 //-----------------------------------------------------------------------------
 #ifdef QUESA_OS_MACINTOSH
     #undef  QUESA_OS_MACINTOSH
-    #define QUESA_OS_MACINTOSH                  1
+    #define QUESA_OS_MACINTOSH                  		1
 #else
-    #define QUESA_OS_MACINTOSH                  0
+    #define QUESA_OS_MACINTOSH                  		0
 #endif
 
 #ifdef QUESA_OS_WIN32
     #undef  QUESA_OS_WIN32
-    #define QUESA_OS_WIN32                      1
+    #define QUESA_OS_WIN32                      		1
 #else
-    #define QUESA_OS_WIN32                      0
+    #define QUESA_OS_WIN32                      		0
 #endif
 
 #ifdef QUESA_OS_UNIX
     #undef  QUESA_OS_UNIX
-    #define QUESA_OS_UNIX                       1
+    #define QUESA_OS_UNIX                       		1
 #else
-    #define QUESA_OS_UNIX                       0
+    #define QUESA_OS_UNIX                       		0
 #endif
 
 #ifdef QUESA_OS_BE
     #undef  QUESA_OS_BE
-    #define QUESA_OS_BE                         1
+    #define QUESA_OS_BE                         		1
 #else
-    #define QUESA_OS_BE                         0
+    #define QUESA_OS_BE                         		0
 #endif
 
 #ifdef QUESA_OS_COCOA
     #undef  QUESA_OS_COCOA
-    #define QUESA_OS_COCOA                      1
+    #define QUESA_OS_COCOA                      		1
 #else
-    #define QUESA_OS_COCOA                      0
+    #define QUESA_OS_COCOA                      		0
 #endif
 
 #if (!QUESA_OS_MACINTOSH && \
@@ -138,12 +138,12 @@
 // Mac specific
 #if (QUESA_OS_MACINTOSH || QUESA_OS_COCOA)
     // Build constants
-    #define QUESA_HOST_IS_BIG_ENDIAN            1
-    #define QUESA_SUPPORT_QUICKTIME             1
+    #define QUESA_SUPPORT_QUICKTIME						1
+
     #if defined(__GNUC__) && (defined(__APPLE_CPP__) || defined(__APPLE_CC__) || defined(__NEXT_CPP__))
-        #define QUESA_UH_IN_FRAMEWORKS          1
+        #define QUESA_UH_IN_FRAMEWORKS					1
     #else
-        #define QUESA_UH_IN_FRAMEWORKS          0
+        #define QUESA_UH_IN_FRAMEWORKS					0
     #endif
 
 
@@ -158,7 +158,7 @@
 
 
     // Ensure compiler settings match QD3D, to be binary compatible
-    #pragma options        align=power
+    #pragma options align=power
     #pragma enumsalwaysint on
 #endif // QUESA_OS_MACINTOSH
 
@@ -166,10 +166,7 @@
 // Windows specific
 #if QUESA_OS_WIN32
     // Build constants
-    #define QUESA_HOST_IS_BIG_ENDIAN            0
-    #ifndef QUESA_SUPPORT_QUICKTIME
-        #define QUESA_SUPPORT_QUICKTIME         0
-    #endif
+    #define QUESA_HOST_IS_BIG_ENDIAN					0
 
 
     // Includes for VC++ (Win CW builds should use the Win32Headers prefix)
@@ -192,24 +189,34 @@
 #endif // QUESA_OS_WIN32
 
 
-// Unix specific
-#if QUESA_OS_UNIX
-    // Build constants
-    #ifndef QUESA_HOST_IS_BIG_ENDIAN
-        #define QUESA_HOST_IS_BIG_ENDIAN        1
-    #endif
-    #define QUESA_SUPPORT_QUICKTIME             0
-#endif // QUESA_OS_UNIX
 
 
-// Be specific
-#if QUESA_OS_BE
-    // Build constants
-    #ifndef QUESA_HOST_IS_BIG_ENDIAN
-        #define QUESA_HOST_IS_BIG_ENDIAN        1
-    #endif
-    #define QUESA_SUPPORT_QUICKTIME             0
-#endif // QUESA_OS_BE
+
+//=============================================================================
+//      Platform independent pre-amble
+//-----------------------------------------------------------------------------
+// Default to big endian
+#ifndef QUESA_HOST_IS_BIG_ENDIAN
+	#define QUESA_HOST_IS_BIG_ENDIAN					1
+#endif
+
+
+// Default to not supporting QuickTime
+#ifndef QUESA_SUPPORT_QUICKTIME
+	#define QUESA_SUPPORT_QUICKTIME						0
+#endif
+
+
+// Default to allowing extensions to the QD3D API
+#ifndef QUESA_ALLOW_QD3D_EXTENSIONS
+	#define QUESA_ALLOW_QD3D_EXTENSIONS					1
+#endif
+	
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+	#if !((QUESA_OS_MACINTOSH && !TARGET_API_MAC_CARBON) || QUESA_OS_WIN32)
+	#pragma error "Extensions can only be turned off on Mac Classic or Win32 platforms"
+	#endif
+#endif
 
 
 
