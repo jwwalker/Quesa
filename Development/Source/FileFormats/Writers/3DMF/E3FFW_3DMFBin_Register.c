@@ -100,6 +100,10 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Cylinder;
 			break;
 
+		case kQ3GeometryTypeDisk:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Disk;
+			break;
+
 /*
 		case kQ3GeometryTypeMarker:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Marker;
@@ -142,10 +146,6 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 
 		case kQ3GeometryTypeTriGrid:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriGrid;
-			break;
-
-		case kQ3GeometryTypeDisk:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Disk;
 			break;
 
 		case kQ3GeometryTypeEllipse:

@@ -1524,13 +1524,58 @@ e3ffw_3DMF_cylinder_write( const TQ3CylinderData *data,
 //=============================================================================
 //      e3ffw_3DMF_disk_traverse : Disk traverse method.
 //-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_disk_traverse( TQ3Object object,
+					 TQ3DiskData *data,
+					 TQ3ViewObject view )
+{
+	TQ3Status	status;
+	
+	status = Q3XView_SubmitWriteData( view, 52, (void*)data, NULL );
+
+
+	// Overall attribute set
+	if ( (status == kQ3Success) && (data->diskAttributeSet != NULL) )
+		status = Q3Object_Submit( data->diskAttributeSet, view );
+
+
+	return status;
+}
 
 
 
 //=============================================================================
 //      e3ffw_3DMF_disk_write : Disk write method.
 //-----------------------------------------------------------------------------
-
+static TQ3Status
+e3ffw_3DMF_disk_write( const TQ3DiskData *data,
+				TQ3FileObject theFile )
+{
+	TQ3Status	writeStatus = kQ3Success;
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->majorRadius, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Vector3D_Write( &data->minorRadius, theFile );
+		
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Point3D_Write( &data->origin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->uMax, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMin, theFile );
+	
+	if (writeStatus == kQ3Success)
+		writeStatus = Q3Float32_Write( data->vMax, theFile );
+	
+	return writeStatus;
+}
 
 
 //=============================================================================
@@ -2379,6 +2424,9 @@ E3FFW_3DMF_RegisterGeom(void)
 	
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_cylinder_traverse);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeCylinder,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_cylinder_write);
+	
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeDisk,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_disk_traverse);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeDisk,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_disk_write);
 	
 	return kQ3Success;
 }
