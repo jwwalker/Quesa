@@ -139,6 +139,7 @@ typedef enum {
 	kQ3XDrawContextValidationForegroundShader	= (1 << 13),
 	kQ3XDrawContextValidationBackgroundShader	= (1 << 14),
 	kQ3XDrawContextValidationColorPalette		= (1 << 15),
+	kQ3XDrawContextValidationRAVETextureFilter	= (1 << 16),
 	kQ3XDrawContextValidationAll				= 0xFFFFFFFF
 } TQ3XDrawContextValidationMasks;
 
