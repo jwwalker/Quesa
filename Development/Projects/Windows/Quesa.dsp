@@ -58,7 +58,6 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy       ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll       c:\winnt\system32\ 
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Quesa - Win32 Debug"
@@ -89,7 +88,6 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy       ..\..\..\SDK\Libraries\Windows\Debug\Quesa.dll       c:\winnt\system32\ 
 # End Special Build Tool
 
 !ENDIF 
