@@ -55,8 +55,8 @@
 #include "E3CustomElements.h"
 #include "E3IOFileFormat.h"
 
-#if !QUESA_OS_COCOA
-// Viewer not supported on Cocoa yet
+#if QUESA_OS_MACINTOSH
+// Viewer supported only on Carbon/Classic now
 #include "E3Viewer.h"
 #endif
 
@@ -505,8 +505,8 @@ E3Initialize(void)
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3CustomElements_RegisterClass();
 
-		#if !QUESA_OS_COCOA
-		// Viewer not supported on Cocoa yet
+		#if QUESA_OS_MACINTOSH
+		// Viewer  supported only on Carbon/Classic
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3Viewer_RegisterClass();
 		#endif
@@ -572,7 +572,8 @@ E3Exit(void)
 
 
 		// Terminate Quesa - note the Viewer isn't supported on Cocoa yet
-		#if !QUESA_OS_COCOA
+		#if QUESA_OS_MACINTOSH
+		// Viewer  supported only on Carbon/Classic
 		qd3dStatus = E3Viewer_UnregisterClass();
 		#endif
 		qd3dStatus = E3CustomElements_UnregisterClass();
@@ -1461,7 +1462,7 @@ E3Shape_GetNextElementType(TQ3ShapeObject theShape, TQ3ElementType *theType)
 	// Use the shape's set
 	if (instanceData->theSet == NULL)
 		{
-		theType = kQ3ElementTypeNone;
+		*theType = kQ3ElementTypeNone;
 		qd3dStatus = kQ3Success;
 		}
 	else

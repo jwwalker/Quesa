@@ -611,15 +611,15 @@ Q3Viewer_GetCurrentButton(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, 0);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), 0);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -832,15 +832,15 @@ Q3Viewer_GetFlags(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, 0);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), 0);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -1329,15 +1329,15 @@ Q3Viewer_GetState(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, NULL);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(theViewer->quesaTag == kQ3ObjectTypeQuesa, 0);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), 0);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(0);
 #endif
 
 

@@ -784,7 +784,7 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 	// truncate subdiv into an integer and cache the worldToWindow matrix
 	if( theView ) {
 		// truncate subdiv
-		subdiv = trunc( subdiv ) ;
+		subdiv = floor( subdiv ) ;
 		// cache the worldToWindow matrix for theView
 		Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
 		Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);

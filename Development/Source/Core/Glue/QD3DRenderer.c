@@ -983,7 +983,7 @@ Q3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on attributeSet
-		return(NULL);
+		return(0);
 #endif
 
 

@@ -555,7 +555,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 		subdivU = 1.0f ;
 	
 	// truncate subdivU as per the spec
-	subdivU = trunc( subdivU ) ;
+	subdivU = floor( subdivU ) ;
 	// square subdivU to save a bunch of sqrt's later
 	subdivU *= subdivU ;
 	

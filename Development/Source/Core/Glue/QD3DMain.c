@@ -827,7 +827,7 @@ Q3Shared_GetEditIndex(TQ3SharedObject sharedObject)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on sharedObject
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -1285,10 +1285,10 @@ Q3Bitmap_GetImageSize(TQ3Uns32 width, TQ3Uns32 height)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on width
-		return(NULL);
+		return(0);
 
 	if (0) // Further checks on height
-		return(NULL);
+		return(0);
 #endif
 
 
