@@ -78,7 +78,7 @@ typedef struct CocoaGLContext {
 void		*gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext);
 void		gldrawcontext_cocoa_destroy(void *glContext);
 void		gldrawcontext_cocoa_swapbuffers(void *glContext);
-void		gldrawcontext_cocoa_setcurrent(void *glContext);
+void		gldrawcontext_cocoa_setcurrent(void *glContext, TQ3Boolean forceSet);
 TQ3Boolean	gldrawcontext_cocoa_updateclip(void *glContext);
 TQ3Boolean	gldrawcontext_cocoa_updatepos(void *glContext);
 
