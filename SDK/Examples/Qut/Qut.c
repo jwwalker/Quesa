@@ -284,31 +284,6 @@ qut_create_styles(TQ3ViewObject theView)
 
 
 //=============================================================================
-//      qut_submit_styles : Submit the styles to the view.
-//-----------------------------------------------------------------------------
-static void
-qut_submit_styles(TQ3ViewObject theView)
-{
-
-
-    // Submit the styles. Note that a view contains a default set of styles
-    // and so a real application would only submit the styles that it had
-    // changed. However our style menu could change any of them, we just
-    // submit them all.
-    Q3FillStyle_Submit(gStyleFill,                    theView);
-    Q3BackfacingStyle_Submit(gStyleBackfacing,        theView);
-    Q3InterpolationStyle_Submit(gStyleInterpolation,  theView);
-    Q3OrientationStyle_Submit(gStyleOrientation,      theView);
-    Q3AntiAliasStyle_Submit(&gStyleDataAntiAlias,     theView);
-    Q3FogStyle_Submit(&gStyleDataFog,                 theView);
-    Q3SubdivisionStyle_Submit(&gStyleDataSubdivision, theView);
-}
-
-
-
-
-
-//=============================================================================
 //      Public functions.
 //-----------------------------------------------------------------------------
 //      Qut_CreateView : Create the view.
@@ -404,6 +379,31 @@ void Qut_CalcBounds(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingBox *
         theBounds->min.y -= 0.0001f;
         theBounds->min.z -= 0.0001f;
         }
+}
+
+
+
+
+
+//=============================================================================
+//      Qut_SubmitDefaultStyles : Submit the default styles to a view.
+//-----------------------------------------------------------------------------
+void
+Qut_SubmitDefaultStyles(TQ3ViewObject theView)
+{
+
+
+    // Submit the styles. Note that a view contains a default set of styles
+    // and so a real application would only submit the styles that it had
+    // changed. However our style menu could change any of them, we just
+    // submit them all.
+    Q3FillStyle_Submit(gStyleFill,                    theView);
+    Q3BackfacingStyle_Submit(gStyleBackfacing,        theView);
+    Q3InterpolationStyle_Submit(gStyleInterpolation,  theView);
+    Q3OrientationStyle_Submit(gStyleOrientation,      theView);
+    Q3AntiAliasStyle_Submit(&gStyleDataAntiAlias,     theView);
+    Q3FogStyle_Submit(&gStyleDataFog,                 theView);
+    Q3SubdivisionStyle_Submit(&gStyleDataSubdivision, theView);
 }
 
 
@@ -628,7 +628,7 @@ Qut_RenderFrame(void)
         {
         do
             {
-            qut_submit_styles(gView);
+            Qut_SubmitDefaultStyles(gView);
             gFuncAppRender(gView);
             }
         while (Q3View_EndRendering(gView) == kQ3ViewStatusRetraverse);
