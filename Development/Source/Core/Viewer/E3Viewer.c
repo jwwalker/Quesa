@@ -41,6 +41,7 @@
 	#include <QuickDraw.h>
 	#include <Appearance.h>
 	#include <Resources.h>
+	#include <ColorPicker.h>
 
 	extern short gShlbResFile;		// not sure where this is supposed to go
 #endif
@@ -86,7 +87,29 @@ typedef struct TQ3ViewerParams {
 //-----------------------------------------------------------------------------
 #define kQ3ValidViewer		0xFEEDD0D0
 #define kQ3InvalidViewer	0xDEADD0D0
+
 #define kQ3ViewerDefaultZ	10.0f
+
+#define kCameraMenuID		8042L
+#define kOptionsMenuID		8043L
+#define kRenderersMenuID 	246L
+#define kBrightnessMenuID	247L
+
+// Camera menu commands; also used as parameters to 
+// e3viewer_applyCameraPreset
+#define kCameraHome			1
+#define kCameraFitToView	2
+#define kCameraFrontView	3
+#define kCameraBackView		4
+#define kCameraLeftView		5
+#define kCameraRightView	6
+#define kCameraTopView		7
+#define kCameraBottomView	8
+
+// Options menu commands
+#define kOptionsBackgroundColor	3
+#define kOptionsRemoveBackfaces	4
+#define kOptionsPhongShading	5
 
 const TQ3Uns32 kQ3ViewerInternalDefault 	
 	= kQ3ViewerFlagActive
@@ -108,7 +131,8 @@ enum {
 	kNotTracking				= 0,
 	kTrackButtonDown			= 1,
 	kTrackContentGrab			= 2,
-	kTrackFrameGrab				= 3
+	kTrackFrameGrab				= 3,
+	kTrackPopupMenu				= 4
 };
 
 #define kGuideCircleSides 32
@@ -488,14 +512,302 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 }
 
 //=============================================================================
+//      e3viewer_popupMenu : Pop up the indicated menu associated with the
+//			given rectangular area.  Return the user's choice, where 1 is
+//			the first item in the menu, and 0 means menu unavailable or user
+//			made no selection.
+//
+//			menuID is the menu to pop up; but the selection may be in some
+//			sub-menu, in which case *outMenuID will be set to that ID.
+//			You may pass nil for outMenuID if you don't care.
+//-----------------------------------------------------------------------------
+static TQ3Int32 e3viewer_popupMenu (TQ3Area* r, TQ3Int32 menuID, TQ3Int32 *outMenuID)
+{
+	TQ3Int32 result = 0;
+	#if QUESA_OS_MACINTOSH
+		MenuHandle menu;
+		short oldResFile = CurResFile();
+		if (gShlbResFile) UseResFile(gShlbResFile);
+		menu = GetMenu (menuID);
+		if (menu && r)
+			{
+			TQ3Int32 menuSelection;
+			Point pt;
+			pt.h = r->max.x;
+			pt.v = r->min.y + 1;
+			LocalToGlobal (&pt);
+			InsertMenu (menu, -1);
+			menuSelection = PopUpMenuSelect (menu, pt.v, pt.h, 0);
+			result = menuSelection & 0xFFFF;
+			if (outMenuID) *outMenuID = menuSelection >> 16;
+			#if TARGET_API_MAC_CARBON
+				DeleteMenu (GetMenuID(menu));
+			#else
+				DeleteMenu ((**menu).menuID);
+			#endif
+			DisposeMenu (menu);
+			}
+		else
+			{
+			// unable to locate the menu, or no rect given,
+			// so we can't do the menu select.
+			if (outMenuID) *outMenuID = 0;
+			}
+
+		UseResFile(oldResFile);
+	#endif // QUESA_OS_MACINTOSH	
+	return result;
+}
+
+//=============================================================================
+//      e3viewer_askBackgroundColor : Post a standard color picker to ask
+//			the user what we should use for the background color.
+//-----------------------------------------------------------------------------
+static TQ3Status e3viewer_askBackgroundColor(TQ3ColorARGB *inOutColor)
+{
+	TQ3Status status = kQ3Failure;
+
+	#if QUESA_OS_MACINTOSH
+		RGBColor rgb;
+		Point where = {0, 0}; // centers the dialog
+		rgb.red = inOutColor->r * 65535L;
+		rgb.green = inOutColor->g * 65535L;
+		rgb.blue = inOutColor->b * 65535L;
+		if (GetColor( where, "\pThis belongs in the resource fork!", &rgb, &rgb ))
+			{
+			inOutColor->r = (float)rgb.red / 65535.0f;
+			inOutColor->g = (float)rgb.green / 65535.0f;
+			inOutColor->b = (float)rgb.blue / 65535.0f;
+			status = kQ3Success;
+			}
+	#else
+		// Win32 implementation goes here
+	#endif // QUESA_OS_MACINTOSH
+	
+	return status;
+}
+
+//=============================================================================
+//      e3viewer_applyCameraPreset : Apply one of the preset camera
+//			positions, such as Home, Front View, etc.
+//-----------------------------------------------------------------------------
+static void e3viewer_applyCameraPreset(TQ3ViewerObject theViewer, TQ3Uns32 thePreset)
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3CameraPlacement	placement;
+	TQ3CameraObject		camera = NULL;
+
+	// reset the model translation to center
+	Q3Vector3D_Set(&instanceData->mTranslation, 0.0f, 0.0f, 0.0f);
+
+	// get the camera (which we usually need to move)
+	Q3View_GetCamera(instanceData->mView, &camera);
+	Q3Camera_GetPlacement(camera, &placement);
+	placement.cameraLocation.z = kQ3ViewerDefaultZ;
+
+	// now, do preset-specific stuff
+	switch (thePreset)
+		{
+		case kCameraHome:
+		case kCameraFrontView:
+			Q3Quaternion_SetIdentity(&instanceData->mOrientation);
+			break;
+			
+		case kCameraFitToView:
+			// ???
+			break;
+		
+		case kCameraLeftView:
+			{
+			TQ3Vector3D axis = {0.0f, 1.0f, 0.0f};
+			Q3Quaternion_SetRotateAboutAxis(&instanceData->mOrientation, &axis, kQ3PiOver2);
+			} break;
+			
+		case kCameraRightView:
+			{
+			TQ3Vector3D axis = {0.0f, 1.0f, 0.0f};
+			Q3Quaternion_SetRotateAboutAxis(&instanceData->mOrientation, &axis, -kQ3PiOver2);
+			} break;
+			
+		case kCameraBackView:
+			{
+			TQ3Vector3D axis = {0.0f, 1.0f, 0.0f};
+			Q3Quaternion_SetRotateAboutAxis(&instanceData->mOrientation, &axis, kQ3Pi);
+			} break;
+			
+		case kCameraTopView:
+			{
+			TQ3Vector3D axis = {1.0f, 0.0f, 0.0f};
+			Q3Quaternion_SetRotateAboutAxis(&instanceData->mOrientation, &axis, kQ3PiOver2);
+			} break;
+			
+		case kCameraBottomView:
+			{
+			TQ3Vector3D axis = {1.0f, 0.0f, 0.0f};
+			Q3Quaternion_SetRotateAboutAxis(&instanceData->mOrientation, &axis, -kQ3PiOver2);
+			} break;			
+		}
+
+	// update the camera placement
+	Q3Camera_SetPlacement(camera, &placement);	
+	Q3Object_Dispose(camera);
+
+	// redraw
+	E3Viewer_DrawContent(theViewer);
+}
+
+//=============================================================================
+//      e3viewer_doCameraButton : Handle a press of the Camera button
+//			by popping up a menu of camera options, then handling the
+//			user's selection.
+//-----------------------------------------------------------------------------
+static void e3viewer_doCameraButton(TQ3ViewerObject theViewer)
+{	TQ3Boolean 			doReset = kQ3False;
+	TQ3Int32 			selection;
+	TQ3Status			status;
+	TQ3Area				rect;
+	
+	// pop up the camera menu, set camera accordingly
+	status = E3Viewer_GetButtonRect(theViewer, kQ3ViewerFlagButtonCamera, &rect);
+	if (kQ3Success != status) return;
+	
+	selection = e3viewer_popupMenu(&rect, kCameraMenuID, 0L);
+	if (selection) e3viewer_applyCameraPreset(theViewer, selection);
+	// Note: the above assumes that the order of items in the Camera menu
+	// matches the order of constants defined as kCameraHome, etc.
+}
+
+//=============================================================================
+//      e3viewer_doOptionsButton : Handle a press of the Options button
+//			by popping up a menu of camera options, then handling the
+//			user's selection.
+//-----------------------------------------------------------------------------
+static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
+{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3ViewObject		view = instanceData->mView;
+	TQ3Int32			selection = 0;
+	TQ3Int32			selectedMenu = 0;
+	TQ3Status			status;
+	TQ3Area				rect;
+	TQ3Boolean			option;
+	
+	#if QUESA_OS_MACINTOSH
+	MenuHandle			optionsMenu;
+	MenuHandle			lightsMenu;
+	short				oldResFile = CurResFile();
+
+	if (!view) return;
+	if (gShlbResFile) UseResFile(gShlbResFile);
+
+	// prepare the main Options menu
+	optionsMenu = GetMenu(kOptionsMenuID);
+	if (!optionsMenu) return;
+	InsertMenu( optionsMenu, -1 );
+
+	// prepare the Brightness submenu
+	lightsMenu = GetMenu(kBrightnessMenuID);
+	if (lightsMenu)
+		{
+		float brightness;
+		InsertMenu( lightsMenu, -1 );
+		if (E3Viewer_GetBrightness(theViewer, &brightness) == kQ3Success)
+			{
+			TQ3Int32 item = brightness * 10.0f;
+			if (item <= 0) item = 1;
+			else if (item > 10) item = 10;
+			SetItemMark (lightsMenu, item, checkMark);
+			}
+		}
+	
+	// prepare the Remove Backfaces option
+	status = E3Viewer_GetRemoveBackfaces(theViewer, &option);
+	if (kQ3Success == status && kQ3True == option)
+		SetItemMark( optionsMenu, kOptionsBackgroundColor, checkMark );
+	
+	// prepare the Phong Shading option
+	status = E3Viewer_GetPhongShading(theViewer, &option);
+	if (kQ3Success == status && kQ3True == option)
+		SetItemMark( optionsMenu, kOptionsPhongShading, checkMark );
+	
+	// pop up the menu and get the user's selection
+	status = E3Viewer_GetButtonRect(theViewer, kQ3ViewerFlagButtonOptions, &rect);
+	if (kQ3Success == status)
+		selection = e3viewer_popupMenu(&rect, kOptionsMenuID, &selectedMenu);
+
+	// clean up
+	if (lightsMenu)
+		{
+		#if TARGET_API_MAC_CARBON
+			DeleteMenu (GetMenuID(lightsMenu));
+		#else
+			DeleteMenu ((**lightsMenu).menuID);
+		#endif
+		DisposeMenu (lightsMenu);
+		}
+
+	UseResFile(oldResFile);
+	#endif // QUESA_OS_MACINTOSH
+
+	// Now, we have selectedMenu and selection (the item).
+	// Take the appropriate action.
+	if (kBrightnessMenuID == selectedMenu)
+		E3Viewer_SetBrightness( theViewer, (float)selection * 0.1f );
+	
+	else
+		{
+		// Selected something in the main Options menu.
+		
+		if (kOptionsBackgroundColor == selection)
+			{
+			TQ3DrawContextObject theDrawContext = 0L;
+			TQ3ColorARGB color;
+			status = Q3View_GetDrawContext (view, &theDrawContext);
+			if (kQ3Success == status && theDrawContext)
+				status = Q3DrawContext_GetClearImageColor (theDrawContext, &color);
+			if (kQ3Success == status)
+				status = e3viewer_askBackgroundColor(&color);
+			if (kQ3Success == status)
+				Q3DrawContext_SetClearImageColor (theDrawContext, &color);
+			if (theDrawContext)
+				Q3Object_Dispose( theDrawContext );
+			}
+		
+		if (kOptionsRemoveBackfaces == selection)
+			{
+			status = E3Viewer_GetRemoveBackfaces(theViewer, &option);
+			option = (kQ3True == option ? kQ3False : kQ3True);
+			if (kQ3Success == status)
+				E3Viewer_SetRemoveBackfaces(theViewer, option);
+			}
+		
+		else if (kOptionsPhongShading == selection)
+			{
+			status = E3Viewer_GetPhongShading(theViewer, &option);
+			option = (kQ3True == option ? kQ3False : kQ3True);
+			if (kQ3Success == status)
+				E3Viewer_SetPhongShading(theViewer, option);
+			}
+	
+		E3Viewer_DrawContent(theViewer);
+	
+		}
+}
+
+//=============================================================================
 //      e3viewer_pressButton : Activate the indicated button.
 //-----------------------------------------------------------------------------
 static void e3viewer_pressButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
-	TQ3Boolean doReset = kQ3False;
+{	TQ3Boolean 			doReset = kQ3False;
 	
 	switch (theButton)
 	{
+		case kQ3ViewerFlagButtonCamera:
+			e3viewer_doCameraButton(theViewer);
+			break;
+
+		case kQ3ViewerFlagButtonOptions:
+			e3viewer_doOptionsButton(theViewer);
+			break;
+
 		case kQ3ViewerFlagButtonTruck:
 		case kQ3ViewerFlagButtonOrbit:
 		case kQ3ViewerFlagButtonZoom:
@@ -503,10 +815,12 @@ static void e3viewer_pressButton(TQ3ViewerObject theViewer, TQ3Uns32 theButton)
 			// select the indicated mode
 			E3Viewer_SetCurrentButton(theViewer, theButton);
 			break;
+
 		case kQ3ViewerFlagButtonReset:
 			e3viewer_reset(theViewer);
 			doReset = kQ3True;
 			break;
+
 		default:
 			doReset = kQ3True;
 	}
@@ -701,23 +1015,12 @@ static void e3viewer_applyRoll(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 
 //=============================================================================
 //      e3viewer_reset: Restore the viewer parameters to their defaults.
+//			This is the guts of the Home button.
 //-----------------------------------------------------------------------------
 static void e3viewer_reset(TQ3ViewerObject theViewer)
-{	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
-	TQ3CameraPlacement	placement;
-	TQ3CameraObject		camera = NULL;
-		
-	Q3Quaternion_SetIdentity(&instanceData->mOrientation);
-
-	Q3Vector3D_Set(&instanceData->mTranslation, 0.0f, 0.0f, 0.0f);
-
-	Q3View_GetCamera(instanceData->mView, &camera);
-	Q3Camera_GetPlacement(camera, &placement);
-	placement.cameraLocation.z = kQ3ViewerDefaultZ;
-	Q3Camera_SetPlacement(camera, &placement);	
-	Q3Object_Dispose(camera);
-
-	E3Viewer_DrawContent(theViewer);	
+{
+	// I think this should just be equivalent to:
+	e3viewer_applyCameraPreset(theViewer, kCameraHome);
 }
 
 //=============================================================================
@@ -1312,10 +1615,17 @@ E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 		status = E3Viewer_GetButtonRect(theViewer, button, &rect);
 		if (kQ3Success == status)
 			{
-			buttonDown = (button == instanceData->mCurrentMode
-					|| (kTrackButtonDown == instanceData->mTrackingMode
-					    && kQ3True == instanceData->mTrackingValid
-						&& button == instanceData->mTrackingData) ? kQ3True : kQ3False);			
+			buttonDown = kQ3False;
+			if (button == instanceData->mCurrentMode) buttonDown = kQ3True;
+			else if (button == instanceData->mTrackingData)
+				{
+				if (kTrackButtonDown == instanceData->mTrackingMode
+						&& kQ3True == instanceData->mTrackingValid)
+					buttonDown = kQ3True;
+				if (kTrackPopupMenu == instanceData->mTrackingMode)
+					buttonDown = kQ3True;
+				}
+
 			e3viewer_drawButton(instanceData, button, &rect, buttonDown);
 			}
 				
@@ -2004,9 +2314,23 @@ E3Viewer_EventMouseDown(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 	button = e3viewer_buttonAtPoint(theViewer, hPos, vPos);
 	if (button)
 		{
-		instanceData->mTrackingMode = kTrackButtonDown;
+		// There are two cases when a button is pressed.  If it's a button
+		// that pops up a menu, we should handle it immediately.  But if
+		// not, then we should track the mouse, and handle the press only
+		// if it ends up within the button bounds.			
 		instanceData->mTrackingData = button;
 		instanceData->mTrackingValid = kQ3True;
+		if (kQ3ViewerFlagButtonCamera == button || kQ3ViewerFlagButtonOptions == button)
+			{
+			instanceData->mTrackingMode = kTrackPopupMenu;			
+			E3Viewer_DrawControlStrip(theViewer);
+			e3viewer_pressButton(theViewer, button);
+			instanceData->mTrackingMode = kNotTracking;
+			}
+		else
+			{
+			instanceData->mTrackingMode = kTrackButtonDown;
+			}
 		E3Viewer_DrawControlStrip(theViewer);
 		return kQ3True;
 		}
@@ -2203,17 +2527,35 @@ E3Viewer_SetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType)
 
 
 //=============================================================================
-//      E3Viewer_GetBrightness : One-line description of the method.
+//      E3Viewer_GetBrightness : Get the brightness of the light shining
+//			on the viewer's scene.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : This actually just returns the brightness of the first light
+//			found.  If there are multiple lights, I don't know if we should
+//			return an average or some such, but for now we ignore them.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_GetBrightness(TQ3ViewerObject theViewer, float *theBrightness)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3ViewObject		view = instanceData->mView;
+	TQ3GroupObject		lights = 0;
+	TQ3GroupPosition	pos;
+	TQ3LightObject		object = 0;
+	TQ3Status			status;
+	
+	status = Q3View_GetLightGroup(view, &lights);
+	if (kQ3Success == status)
+		status = Q3Group_GetFirstPosition(lights, &pos);
+	if (kQ3Success == status)
+		status = Q3Group_GetPositionObject (lights, pos, &object);	
+	if (kQ3Success == status)
+		status = Q3Light_GetBrightness (object, theBrightness);
 
+	if (object) Q3Object_Dispose (object);
+	if (lights) Q3Object_Dispose (lights);
 
-	// To be implemented...
-	return(kQ3Failure);
+	return status;
 }
 
 
@@ -2221,17 +2563,35 @@ E3Viewer_GetBrightness(TQ3ViewerObject theViewer, float *theBrightness)
 
 
 //=============================================================================
-//      E3Viewer_SetBrightness : One-line description of the method.
+//      E3Viewer_SetBrightness : Set the brightness of the light on the
+//			viewer's scene.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : This actually just sets the brightness of the first light
+//			found.  If there are multiple lights, perhaps we should set
+//			them all or some such, but for now we ignore them.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_SetBrightness(TQ3ViewerObject theViewer, float theBrightness)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3ViewObject		view = instanceData->mView;
+	TQ3GroupObject		lights = 0;
+	TQ3GroupPosition	pos;
+	TQ3LightObject		object = 0;
+	TQ3Status			status;
+	
+	status = Q3View_GetLightGroup(view, &lights);
+	if (kQ3Success == status)
+		status = Q3Group_GetFirstPosition(lights, &pos);
+	if (kQ3Success == status)
+		status = Q3Group_GetPositionObject (lights, pos, &object);	
+	if (kQ3Success == status)
+		status = Q3Light_SetBrightness (object, theBrightness);
 
+	if (object) Q3Object_Dispose (object);
+	if (lights) Q3Object_Dispose (lights);
 
-	// To be implemented...
-	return(kQ3Failure);
+	return status;
 }
 
 
