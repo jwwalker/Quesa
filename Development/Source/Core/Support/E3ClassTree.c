@@ -918,6 +918,10 @@ E3ClassTree_DuplicateInstance(TQ3Object theObject)
 			Q3Memory_Free(&newObject);
 			return(NULL);
 			}
+		
+		#if Q3_DEBUG
+		newObject->parentObject->childObject = newObject;
+		#endif
 		}
 
 
