@@ -108,61 +108,6 @@ e3storage_win32_delete(TQ3Object storage, void *privateData)
 
 
 //=============================================================================
-//      e3storage_win32_open : Open the storage object.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_win32_open(TQ3StorageObject storage, TQ3Boolean forWriting)
-{
-
-
-	// Note - the docs say that QD3D is responsible for opening the
-	// file, but the Win32 API seems to work with files that are
-	// already open.
-	//
-	// The examples given in the docs of how to use Win32 storage
-	// objects pass in an open file (but describe it as closed), so
-	// for now we assume the docs are wrong.
-	//
-	// If this causes problems with your app, please let me know.
-	//
-	// -dair
-	return(kQ3Success);
-}
-
-
-
-
-
-//=============================================================================
-//      e3storage_win32_close : Close the storage object.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3storage_win32_close(TQ3StorageObject storage)
-{	TQ3Win32StorageData		*instanceData = (TQ3Win32StorageData *) storage->instanceData;
-
-
-
-	// Make sure the file is open
-	if (instanceData->theFile == NULL)
-		{
-		E3ErrorManager_PostError(kQ3ErrorFileNotOpen, kQ3False);
-		return(kQ3Failure);
-		}
-
-
-
-	// Close the file		
-	CloseHandle(instanceData->theFile);
-	instanceData->theFile = NULL;
-
-	return(kQ3Success);
-}
-
-
-
-
-
-//=============================================================================
 //      e3storage_win32_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -297,14 +242,6 @@ e3storage_win32_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) e3storage_win32_delete;
-			break;
-
-		case kQ3XMethodTypeStorageOpen:
-			theMethod = (TQ3XFunctionPointer) e3storage_win32_open;
-			break;
-
-		case kQ3XMethodTypeStorageClose:
-			theMethod = (TQ3XFunctionPointer) e3storage_win32_close;
 			break;
 
 		case kQ3XMethodTypeStorageGetSize:
