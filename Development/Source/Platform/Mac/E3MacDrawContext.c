@@ -38,6 +38,9 @@
 #include "E3Prefix.h"
 #include "E3DrawContext.h"
 
+#include <QuickDraw.h>
+#include <MacWindows.h>
+
 
 
 
@@ -104,7 +107,7 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 	TQ3MacDrawContext2DLibrary	theLibrary;
 	GDHandle					theDevice;
 	TQ3Boolean					isActive;
-	CWindowPtr					theWindow;
+	WindowRef					theWindow;
 	RgnHandle					visRgn;				// visible region of window
 
 
@@ -123,8 +126,8 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 	switch (theLibrary) {
 		case kQ3Mac2DLibraryNone:
 			// Get the window and the draw region's device
-			theWindow = instanceData->data.macData.theData.window;
-			theDevice = (GDHandle)   instanceData->drawRegions[theRegion].platformHandle;
+			theWindow = (WindowRef) instanceData->data.macData.theData.window;
+			theDevice = (GDHandle)  instanceData->drawRegions[theRegion].platformHandle;
 
 
 
@@ -135,11 +138,11 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 			if (visRgn == NULL)
 				return(kQ3False);
 
-			GetWindowContentRect( theWindow, &windowRect );
-			GetPortVisibleRegion( GetWindowPort(theWindow), visRgn );
-			GetPortBounds( GetWindowPort(theWindow), &portRect );
+			GetWindowBounds(theWindow, kWindowContentRgn, &windowRect);
+			GetPortVisibleRegion(GetWindowPort(theWindow), visRgn);
+			GetPortBounds(GetWindowPort(theWindow), &portRect);
 			contentRect = windowRect;
-			GetRegionBounds( visRgn, &visRect );
+			GetRegionBounds(visRgn, &visRect);
 
 			deviceRect = (*theDevice)->gdRect;
 
@@ -365,7 +368,7 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 	TQ3MacDrawContext2DLibrary	theLibrary;
 	Rect						windowRect, paneRect;
 	TQ3XDrawContextValidation	stateChanges;
-	CWindowPtr					theWindow;
+	WindowRef					theWindow;
 	RgnHandle					visRgn;				// visible region of window
 
 
@@ -401,8 +404,8 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 			//
 			// If a pane has been specified, we adjust the window rect
 			// accordingly (i.e., as if the window was the size of the pane).
-			theWindow  = (CWindowPtr) instanceData->data.macData.theData.window;
-			GetWindowContentRect( theWindow, &windowRect );
+			theWindow  = (WindowRef) instanceData->data.macData.theData.window;
+			GetWindowBounds(theWindow, kWindowContentRgn, &windowRect);
 
 			if (instanceData->data.common.paneState)
 				{
@@ -738,23 +741,17 @@ TQ3Status
 E3MacDrawContext_RegisterClass(void)
 {	E3GlobalsPtr			theGlobals = E3Globals_Get();
 	TQ3Status				qd3dStatus;
-#if !TARGET_API_MAC_CARBON
 	ProcessSerialNumber		thePSN;
-#endif
 
 
 
 	// Register our Display Manager notification callback
-#if TARGET_API_MAC_CARBON
-	theGlobals->dmNotifyUPP = NULL;
-#else
-	theGlobals->dmNotifyUPP = NewDMNotificationProc(e3drawcontext_mac_dm_notify);
+	theGlobals->dmNotifyUPP = NewDMNotificationUPP(e3drawcontext_mac_dm_notify);
 	if (theGlobals->dmNotifyUPP != NULL)
 		{
 		GetCurrentProcess(&thePSN);
 		DMRegisterNotifyProc(theGlobals->dmNotifyUPP, &thePSN);
 		}
-#endif
 
 
 
@@ -777,17 +774,13 @@ E3MacDrawContext_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_UnregisterClass(void)
-{
-#if !TARGET_API_MAC_CARBON
-	E3GlobalsPtr			theGlobals = E3Globals_Get();
-	ProcessSerialNumber		thePSN;
-#endif
+{	E3GlobalsPtr			theGlobals = E3Globals_Get();
 	TQ3Status				qd3dStatus;
+	ProcessSerialNumber		thePSN;
 
 
 
 	// Unregister our Display Manager notification callback
-#if !TARGET_API_MAC_CARBON
 	if (theGlobals->dmNotifyUPP != NULL)
 		{
 		GetCurrentProcess(&thePSN);
@@ -796,7 +789,6 @@ E3MacDrawContext_UnregisterClass(void)
 		DisposeDMNotificationUPP(theGlobals->dmNotifyUPP);
 		theGlobals->dmNotifyUPP = NULL;
 		}
-#endif
 
 
 
