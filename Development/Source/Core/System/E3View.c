@@ -603,12 +603,19 @@ e3view_stack_pop(TQ3ViewObject theView)
 
 	// Update the renderer, using the state of the previously top
 	// item as the mask indicating what's changed.
-	if (instanceData->viewStack != NULL)
-		{
-		theStateToSave = instanceData->viewStack->stackState;
-		qd3dStatus = e3view_stack_update(theView, theStateToUpdate);
-		instanceData->viewStack->stackState = theStateToSave;
-		}
+	
+	// In so doing, the mask of changes to view state after the last push
+	// will be ORed with the mask of changes before the push.
+	
+	// One might think that the mask could be kept the same as before the
+	// push, since we are undoing those state changes.  However, with the
+	// current design, it is not quite possible, because the renderer state
+	// keeps pointers into the top of the view stack.
+	// Suppose, for instance, you push twice, then set a diffuse color, then
+	// pop twice.  On the first (inner) pop, the renderer state points at the color
+	// in the TQ3ViewStackItem created by the first (outer) push.  The second
+	// pop deletes that storage, so it had better update the renderer.
+	qd3dStatus = e3view_stack_update(theView, theStateToUpdate);
 }
 
 
