@@ -669,7 +669,7 @@ E3Storage_RegisterClass(void)
 
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeStorage,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeStorage,
 												kQ3StorageTypePath,
 												kQ3ClassNameStoragePath,
 												e3storage_path_metahandler,
