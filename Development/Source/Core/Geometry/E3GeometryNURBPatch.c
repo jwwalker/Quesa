@@ -45,18 +45,134 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      e3geom_patch_copydata : Copy TQ3NURBPatchData from one to another.
+//-----------------------------------------------------------------------------
+//		Note :	If isDuplicate is true, we duplicate shared objects rather than
+//				obtaining new references to them.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boolean isDuplicate)
+{
+	TQ3Status		qd3dStatus = kQ3Success;
+	long			theSize, i, j, numKnots;
+
+	// copy uOrders, vOrder, numColumns, numRows, numTrimLoops 
+	dst->uOrder = src->uOrder;
+	dst->vOrder = src->vOrder;
+	dst->numColumns = src->numColumns;
+	dst->numRows = src->numRows;
+	dst->numTrimLoops = src->numTrimLoops;
+
+	// copy controlPoints, uKnots, vKnots
+	theSize = sizeof(TQ3RationalPoint4D) * src->numColumns * src->numRows;
+	dst->controlPoints = E3Memory_Allocate( theSize );
+	memcpy( dst->controlPoints, src->controlPoints, theSize );
+	
+	theSize = sizeof(float) * (src->uOrder+src->numColumns);
+	dst->uKnots = E3Memory_Allocate( theSize );
+	memcpy( dst->uKnots, src->uKnots, theSize );
+        
+	theSize = sizeof(float) * (src->vOrder+src->numRows);
+	dst->vKnots = E3Memory_Allocate( theSize );
+	memcpy( dst->vKnots, src->vKnots, theSize );
+    
+	// Copy all trim loops.
+	// This is complicated because we have several layers of nested arrays.
+	dst->numTrimLoops = src->numTrimLoops;
+	if (src->numTrimLoops)
+	{
+		// Copy TrimLoops, basic data.
+		theSize = sizeof(TQ3NURBPatchTrimLoopData) * src->numTrimLoops;
+		dst->trimLoops = E3Memory_Allocate( theSize );
+		memcpy( dst->trimLoops, src->trimLoops, theSize );
+
+		// Now iterate over trim loop curves, copy them.
+		for (i=0; i < src->numTrimLoops; i++) {
+
+			// For a particular trimLoop i, copy its array of curve data.
+			theSize = sizeof(TQ3NURBPatchTrimCurveData) * src->trimLoops[i].numTrimCurves;
+			if (theSize) {
+				dst->trimLoops[i].trimCurves = E3Memory_Allocate( theSize );
+				memcpy( dst->trimLoops[i].trimCurves, src->trimLoops[i].trimCurves, theSize );
+				
+				// Now, for a particular curve, copy its control points and knots.
+				for (j=0; j < src->trimLoops[i].numTrimCurves; j++) {
+					theSize = sizeof(TQ3RationalPoint3D) * src->trimLoops[i].trimCurves[j].numPoints;
+					if (theSize) {
+						dst->trimLoops[i].trimCurves[j].controlPoints = E3Memory_Allocate(theSize);
+						memcpy( dst->trimLoops[i].trimCurves[j].controlPoints, 
+								src->trimLoops[i].trimCurves[j].controlPoints, theSize );
+					}
+					numKnots = src->trimLoops[i].trimCurves[j].numPoints
+								  + src->trimLoops[i].trimCurves[j].order;
+					theSize = sizeof(float) * numKnots;
+					if (theSize) {
+						dst->trimLoops[i].trimCurves[j].knots = E3Memory_Allocate(theSize);
+						memcpy( dst->trimLoops[i].trimCurves[j].knots, 
+								src->trimLoops[i].trimCurves[j].knots, theSize );
+					}
+				}
+			}
+		}
+	} else dst->trimLoops = NULL;
+    
+        
+	// copy or shared-replace the attributes
+	if (isDuplicate)
+	{
+		if (src->patchAttributeSet != NULL)
+		{
+			dst->patchAttributeSet = Q3Object_Duplicate(src->patchAttributeSet);
+			if (dst->patchAttributeSet == NULL) qd3dStatus = kQ3Failure;
+		} else dst->patchAttributeSet = NULL;
+
+	}
+	else {
+		E3Shared_Replace(&dst->patchAttributeSet, src->patchAttributeSet);
+	}
+	
+	return qd3dStatus;
+}
+
+
+//=============================================================================
+//      e3geom_patch_disposedata : Dispose of a TQ3NURBPatch's data.
+//-----------------------------------------------------------------------------
+static void
+e3geom_patch_disposedata(TQ3NURBPatchData *theNURBPatch)
+{
+	long i, j;
+	
+	E3Memory_Free( &theNURBPatch->controlPoints );
+	E3Memory_Free( &theNURBPatch->uKnots );
+	E3Memory_Free( &theNURBPatch->vKnots );
+	E3Object_DisposeAndForget( theNURBPatch->patchAttributeSet );
+	for (i=0; i < theNURBPatch->numTrimLoops; i++) {
+		for (j=0; j < theNURBPatch->trimLoops[i].numTrimCurves; j++) {
+			E3Memory_Free( &theNURBPatch->trimLoops[i].trimCurves[j].controlPoints );
+			E3Memory_Free( &theNURBPatch->trimLoops[i].trimCurves[j].knots );
+		}
+		E3Memory_Free( &theNURBPatch->trimLoops[i].trimCurves );
+	}
+	E3Memory_Free( &theNURBPatch->trimLoops );	
+}
+
+
+//=============================================================================
 //      e3geom_nurbpatch_new : NURBPatch new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_nurbpatch_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3NURBPatchData		*instanceData  = (TQ3NURBPatchData *)       privateData;
 	const TQ3NURBPatchData	*nurbpatchData = (const TQ3NURBPatchData *) paramData;
+	TQ3Status			qd3dStatus;
 #pragma unused(theObject)
 
 
-
 	// Initialise our instance data
-	return(kQ3Success);
+	qd3dStatus = e3geom_patch_copydata(nurbpatchData, instanceData, kQ3False);
+
+	return(qd3dStatus);
 }
 
 
@@ -72,8 +188,8 @@ e3geom_nurbpatch_delete(TQ3Object theObject, void *privateData)
 #pragma unused(theObject)
 
 
-
 	// Dispose of our instance data
+	e3geom_patch_disposedata(instanceData);
 }
 
 
@@ -103,13 +219,13 @@ e3geom_nurbpatch_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 	// Initialise the instance data of the new object
-	qd3dStatus = kQ3Success;
+	qd3dStatus = e3geom_patch_copydata( fromInstanceData, toInstanceData, kQ3True );
 
 
 
 	// Handle failure
 	if (qd3dStatus != kQ3Success)
-		;
+		e3geom_patch_disposedata(toInstanceData);
 
 	return(qd3dStatus);
 }
@@ -199,7 +315,7 @@ e3geom_nurbpatch_get_attribute(TQ3GeometryObject theObject)
 
 
 	// Return the address of the geometry attribute set
-	return(NULL);
+	return(&instanceData->patchAttributeSet);
 }
 
 
@@ -340,18 +456,24 @@ E3NURBPatch_Submit(const TQ3NURBPatchData *nurbPatchData, TQ3ViewObject theView)
 
 
 //=============================================================================
-//      E3NURBPatch_SetData : One-line description of the method.
+//      E3NURBPatch_SetData : Set a NURBPatch's internal data from public data.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Quite untested.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3NURBPatch_SetData(TQ3GeometryObject nurbPatch, const TQ3NURBPatchData *nurbPatchData)
 {
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3Status		qd3dStatus;
 
+	// first, free the old data
+	e3geom_patch_disposedata(instanceData);
 
-	// To be implemented...
+	// then copy in the new data
+	qd3dStatus = e3geom_patch_copydata(nurbPatchData, instanceData, kQ3False);
 	Q3Shared_Edited(nurbPatch);
-	return(kQ3Failure);
+
+	return(qd3dStatus);
 }
 
 
@@ -359,17 +481,40 @@ E3NURBPatch_SetData(TQ3GeometryObject nurbPatch, const TQ3NURBPatchData *nurbPat
 
 
 //=============================================================================
-//      E3NURBPatch_GetData : One-line description of the method.
+//      E3NURBPatch_GetData : Get a NURBPatch's data.
 //-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//		Note : Quite untested.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3NURBPatch_GetData(TQ3GeometryObject nurbPatch, TQ3NURBPatchData *nurbPatchData)
 {
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3Status		qd3dStatus;
+
+	// Copy the data out of the NURBPatch
+	nurbPatchData->patchAttributeSet = NULL;
+	qd3dStatus = e3geom_patch_copydata(instanceData, nurbPatchData, kQ3False);
+
+	return(qd3dStatus);
+}
 
 
-	// To be implemented...
-	return(kQ3Failure);
+
+
+
+//=============================================================================
+//      E3NURBPatch_EmptyData : Dispose of a NURBPatch's data.
+//-----------------------------------------------------------------------------
+//		Note : Quite untested.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3NURBPatch_EmptyData(TQ3NURBPatchData *nurbPatchData)
+{
+
+	// Dispose of the data
+	e3geom_patch_disposedata(nurbPatchData);
+
+	return(kQ3Success);
 }
 
 
@@ -486,20 +631,6 @@ E3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, unsigned long knotIndex, float
 
 
 
-
-//=============================================================================
-//      E3NURBPatch_EmptyData : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3NURBPatch_EmptyData(TQ3NURBPatchData *nurbPatchData)
-{
-
-
-	// To be implemented...
-	return(kQ3Failure);
-}
 
 
 
