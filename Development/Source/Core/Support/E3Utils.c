@@ -763,7 +763,7 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 		{
 		// Grab the attribute data if it's present
 		theSet    = userCallback(userData, n);
-		isPresent = (theSet != NULL && Q3AttributeSet_Contains(theSet, attributeType));
+		isPresent = (TQ3Boolean) (theSet != NULL && Q3AttributeSet_Contains(theSet, attributeType));
 		if (isPresent)
 			{
 			dataPtr = ((TQ3Uns8 *) theAttribute->data) + (n * attributeSize);

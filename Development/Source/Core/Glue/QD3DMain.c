@@ -1771,13 +1771,13 @@ Q3Bitmap_GetBit(const TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theBitmap
-		return(0);
+		return(kQ3False);
 
 	if (0) // Further checks on x
-		return(0);
+		return(kQ3False);
 
 	if (0) // Further checks on y
-		return(0);
+		return(kQ3False);
 #endif
 
 
@@ -1804,25 +1804,25 @@ Q3Bitmap_SetBit(TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y, TQ3Boolean theStat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theBitmap), kQ3False);
-	Q3_REQUIRE_OR_RESULT(x < theBitmap->width,    kQ3False);
-	Q3_REQUIRE_OR_RESULT(y < theBitmap->height,   kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theBitmap), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(x < theBitmap->width,    kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(y < theBitmap->height,   kQ3Failure);
 	
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theBitmap
-		return(0);
+		return(kQ3Failure);
 
 	if (0) // Further checks on x
-		return(0);
+		return(kQ3Failure);
 
 	if (0) // Further checks on y
-		return(0);
+		return(kQ3Failure);
 
 	if (0) // Further checks on theState
-		return(0);
+		return(kQ3Failure);
 #endif
 
 

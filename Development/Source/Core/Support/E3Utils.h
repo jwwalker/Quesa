@@ -129,7 +129,7 @@ typedef TQ3AttributeSet (*E3GetSetForGatherProc)(const void *userData, TQ3Uns32 
 
 #define E3Bit_IsSet(_bf, _b)				((TQ3Boolean) (((_bf) & (_b)) == (_b)))
 
-#define E3Bit_IsNotSet(_bf, _b)				!E3Bit_IsSet(_bf, _b)
+#define E3Bit_IsNotSet(_bf, _b)				((TQ3Boolean) !E3Bit_IsSet(_bf, _b))
 
 #define E3EndianSwap16(_value)                                        	\
                         (((((TQ3Uns16) _value) << 8) & 0xFF00)       |	\

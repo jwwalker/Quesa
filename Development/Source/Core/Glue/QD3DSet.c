@@ -940,7 +940,7 @@ Q3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on attributeSet
-		return(0);
+		return(kQ3XAttributeMaskNone);
 #endif
 
 

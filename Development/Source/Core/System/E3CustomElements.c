@@ -78,7 +78,7 @@ typedef struct TCEPropertyPrivate {
 #define kQ3ClassNameCustomElementBeforePick		"Quesa:BeforePickCallback"
 #define kQ3ClassNameCustomElementAfterPick		"Quesa:AfterPickCallback"
 
-#define	kPropertyHashTableSize					10
+#define	kPropertyHashTableSize					16
 
 
 
@@ -980,7 +980,7 @@ E3Object_SetProperty( TQ3Object object, TQ3ObjectType propType,
 	
 	if (status == kQ3Success)
 	{
-		char*	itemContainer = Q3Memory_Allocate( dataSize + sizeof(TQ3Uns32) );
+		char*	itemContainer = (char*) Q3Memory_Allocate( dataSize + sizeof(TQ3Uns32) );
 		
 		if (itemContainer == NULL)
 		{

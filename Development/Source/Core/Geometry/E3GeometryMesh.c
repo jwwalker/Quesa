@@ -1120,7 +1120,7 @@ e3meshCorner_GetExtData(
 
 	// Allocate array of uninitialized face indices
 	numFaces = e3meshCorner_NumFaces(cornerPtr);
-	if ((faceIndices = Q3Memory_Allocate(numFaces * sizeof(TQ3Uns32))) == NULL)
+	if ((faceIndices = (TQ3Uns32*) Q3Memory_Allocate(numFaces * sizeof(TQ3Uns32))) == NULL)
 		goto failure_2;
 	cornerExtDataPtr->numFaces = numFaces;
 	cornerExtDataPtr->faceIndices = faceIndices;
@@ -1685,7 +1685,7 @@ e3meshVertex_GetExtData(
 	numCorners = e3meshVertex_NumCorners(vertexPtr);
 	if (numCorners == 0)
 		cornerExtDatas = NULL;
-	else if ((cornerExtDatas = Q3Memory_Allocate(numCorners * sizeof(TQ3MeshCornerData))) == NULL)
+	else if ((cornerExtDatas = (TQ3MeshCornerData*) Q3Memory_Allocate(numCorners * sizeof(TQ3MeshCornerData))) == NULL)
 		goto failure_2;
 	vertexExtDataPtr->numCorners = numCorners;
 	vertexExtDataPtr->corners = cornerExtDatas;
@@ -2217,7 +2217,7 @@ e3meshContour_GetExtData(
 	numVertices = e3meshContour_NumVertices(contourPtr);
 	if (numVertices == 0)
 		vertexIndices = NULL;
-	else if ((vertexIndices = Q3Memory_Allocate(numVertices * sizeof(TQ3Uns32))) == NULL)
+	else if ((vertexIndices = (TQ3Uns32*) Q3Memory_Allocate(numVertices * sizeof(TQ3Uns32))) == NULL)
 		goto failure_1;
 	contourExtDataPtr->numVertices = numVertices;
 	contourExtDataPtr->vertexIndices = vertexIndices;
@@ -2779,7 +2779,8 @@ e3meshFace_GetExtData(
 	if (faceExtDataPtr->numContours == 0)
 		faceExtDataPtr->contours = NULL;
 	else
-		if ((faceExtDataPtr->contours = Q3Memory_Allocate(faceExtDataPtr->numContours * sizeof(TQ3MeshContourData))) == NULL)
+		if ((faceExtDataPtr->contours = (TQ3MeshContourData*) Q3Memory_Allocate(
+			faceExtDataPtr->numContours * sizeof(TQ3MeshContourData))) == NULL)
 			goto failure_2;
 	
 	// Use list of contours in face (*** MAY RELOCATE CONTOURS ***)
@@ -3578,7 +3579,8 @@ e3mesh_GetExtData(
 	meshExtDataPtr->numVertices = e3mesh_NumVertices(meshPtr);
 	if (meshExtDataPtr->numVertices == 0)
 		meshExtDataPtr->vertices = NULL;
-	else if ((meshExtDataPtr->vertices = Q3Memory_Allocate(meshExtDataPtr->numVertices * sizeof(TQ3MeshVertexData))) == NULL)
+	else if ((meshExtDataPtr->vertices = (TQ3MeshVertexData*)
+		Q3Memory_Allocate(meshExtDataPtr->numVertices * sizeof(TQ3MeshVertexData))) == NULL)
 		goto failure_2;
 
 	// Use array of faces (*** MAY RELOCATE FACES ***)
@@ -3598,7 +3600,8 @@ e3mesh_GetExtData(
 	meshExtDataPtr->numFaces = e3mesh_NumFaces(meshPtr);
 	if (meshExtDataPtr->numFaces == 0)
 		meshExtDataPtr->faces = NULL;
-	else if ((meshExtDataPtr->faces = Q3Memory_Allocate(meshExtDataPtr->numFaces * sizeof(TQ3MeshFaceData))) == NULL)
+	else if ((meshExtDataPtr->faces = (TQ3MeshFaceData*) Q3Memory_Allocate(
+		meshExtDataPtr->numFaces * sizeof(TQ3MeshFaceData))) == NULL)
 		goto failure_5;
 
 	// Get faces
@@ -3849,7 +3852,7 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 	if(thePolysGroup == NULL)
 		return NULL;
 	
-	objectsToDelete = Q3Memory_Allocate(_MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW * sizeof(TQ3Object));
+	objectsToDelete = (TQ3Object*) Q3Memory_Allocate(_MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW * sizeof(TQ3Object));
 	if(objectsToDelete == NULL)
 		return thePolysGroup;
 		
@@ -3869,7 +3872,8 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 		numObjectsToDelete = 0;
 		
 		polyData.numContours = e3meshFace_NumContours(facePtr);
-		polyData.contours = Q3Memory_AllocateClear(polyData.numContours * sizeof(TQ3GeneralPolygonContourData));
+		polyData.contours = (TQ3GeneralPolygonContourData*) Q3Memory_AllocateClear(
+			polyData.numContours * sizeof(TQ3GeneralPolygonContourData));
 		if(polyData.contours == NULL)
 			goto cleanup;
 		
@@ -3880,7 +3884,7 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 			contourPtr = e3meshContourArrayOrList_NextItemConst(&facePtr->contourArrayOrList, contourPtr), ++i)
 			{
 			polyData.contours[i].numVertices = e3meshContour_NumVertices(contourPtr);
-			polyData.contours[i].vertices = Q3Memory_Allocate(polyData.contours[i].numVertices * sizeof(TQ3Vertex3D));
+			polyData.contours[i].vertices = (TQ3Vertex3D*) Q3Memory_Allocate(polyData.contours[i].numVertices * sizeof(TQ3Vertex3D));
 			if(polyData.contours == NULL)
 				goto cleanup;
 
@@ -4255,7 +4259,7 @@ e3geom_mesh_cache_new(TQ3ViewObject view, TQ3GeometryObject meshObject,const TE3
 
 		do
 			{
-			needToUsePolys = (meshFace->attributeSet != faceAttributes);
+			needToUsePolys = (TQ3Boolean) (meshFace->attributeSet != faceAttributes);
 			meshFace       = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, meshFace);
 			}		
 		while (meshFace != NULL && !needToUsePolys);
@@ -5099,7 +5103,7 @@ TE3MeshFaceExtRef
 E3Mesh_NextMeshFace(
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = iteratorPtr->var4.field1;
+	TE3MeshData* meshPtr = (TE3MeshData*) iteratorPtr->var4.field1;
 	TE3MeshFaceExtRef faceExtRef;
 	TE3MeshFaceData* facePtr;
 
@@ -5258,7 +5262,7 @@ TE3MeshVertexExtRef
 E3Mesh_NextMeshVertex(
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = iteratorPtr->var4.field1;
+	TE3MeshData* meshPtr = (TE3MeshData*) iteratorPtr->var4.field1;
 	TE3MeshVertexExtRef vertexExtRef;
 	TE3MeshVertexData* vertexPtr;
 
@@ -5759,7 +5763,7 @@ TE3MeshContourExtRef
 E3Mesh_NextFaceContour(
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = iteratorPtr->var4.field1;
+	TE3MeshData* meshPtr = (TE3MeshData*) iteratorPtr->var4.field1;
 	TE3MeshFaceExtRef faceExtRef;
 	TE3MeshFaceData* facePtr;
 	TE3MeshContourExtRef contourExtRef;
@@ -5958,7 +5962,7 @@ TE3MeshVertexExtRef
 E3Mesh_NextFaceVertex(
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = iteratorPtr->var4.field1;
+	TE3MeshData* meshPtr = (TE3MeshData*) iteratorPtr->var4.field1;
 	TE3MeshFaceExtRef faceExtRef;
 	TE3MeshFaceData* facePtr;
 	TE3MeshContourExtRef contourExtRef;
@@ -6243,7 +6247,7 @@ TE3MeshVertexExtRef
 E3Mesh_NextContourVertex(
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = iteratorPtr->var4.field1;
+	TE3MeshData* meshPtr = (TE3MeshData*) iteratorPtr->var4.field1;
 	TE3MeshContourExtRef contourExtRef;
 	TE3MeshContourData* contourPtr;
 	TE3MeshVertexData** vertexHdl;
@@ -6710,7 +6714,7 @@ TE3MeshFaceExtRef
 E3Mesh_NextVertexFace(
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = iteratorPtr->var4.field1;
+	TE3MeshData* meshPtr = (TE3MeshData*) iteratorPtr->var4.field1;
 	TE3MeshVertexExtRef vertexExtRef;
 	TE3MeshVertexData* vertexPtr;
 	TE3MeshFaceExtRef faceExtRef;

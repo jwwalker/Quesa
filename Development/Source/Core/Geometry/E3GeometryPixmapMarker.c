@@ -679,13 +679,15 @@ e3geom_pixmapmarker_cache_update(TQ3ViewObject		theView,
 
 	// Create a new object if required
 	if (*cachedGeom == NULL)
-		*cachedGeom = e3geom_pixmapmarker_cache_new(theView, theGeom, geomData);
+		*cachedGeom = e3geom_pixmapmarker_cache_new(theView, theGeom,
+			(const TQ3PixmapMarkerData*)geomData);
 
 
 
 	// Or update the position of an existing object
 	else
-		e3geom_pixmapmarker_update_position(theView, geomData, *cachedGeom);
+		e3geom_pixmapmarker_update_position(theView, (const TQ3PixmapMarkerData*)geomData,
+			*cachedGeom);
 }
 
 

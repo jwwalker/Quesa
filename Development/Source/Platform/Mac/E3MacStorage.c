@@ -1214,7 +1214,7 @@ E3FSSpecStorage_Set(TQ3StorageObject theStorage, const FSSpec *theFSSpec)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FSSpecStorage_Get(TQ3StorageObject theStorage, FSSpec *theFSSpec)
-{	FSSpec	*instanceData = E3ClassTree_FindInstanceData(theStorage, kQ3MacintoshStorageTypeFSSpec);
+{	FSSpec	*instanceData = (FSSpec*) E3ClassTree_FindInstanceData(theStorage, kQ3MacintoshStorageTypeFSSpec);
 
 
 

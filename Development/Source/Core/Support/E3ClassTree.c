@@ -73,7 +73,7 @@
 //      Internal constants
 //-----------------------------------------------------------------------------
 #define kClassHashTableSize							64
-#define kMethodHashTableSize						20
+#define kMethodHashTableSize						32
 
 
 
@@ -1188,7 +1188,7 @@ E3ClassTree_IsObjectValid(TQ3Object theObject)
 
 
 	// Check to see if the object is valid
-	isValid = (theObject->quesaTag == kQ3ObjectTypeQuesa);
+	isValid = (TQ3Boolean) (theObject->quesaTag == kQ3ObjectTypeQuesa);
 	
 	return(isValid);
 }

@@ -324,7 +324,7 @@ E3ViewerEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 					Q3ViewerContinueTracking( theViewer, localWhere.h, localWhere.v );
 				}
 				Q3Viewer_EventMouseUp( theViewer, localWhere.h, localWhere.v );
-				handled = true;
+				handled = kQ3True;
 			}
 			break;
 		case mouseUp:
@@ -481,7 +481,7 @@ E3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port)
 CGrafPtr	
 E3ViewerGetPort(TQ3ViewerObject theViewer)
 {
-	return Q3Viewer_GetWindow(theViewer);
+	return (CGrafPtr) Q3Viewer_GetWindow(theViewer);
 }
 
 

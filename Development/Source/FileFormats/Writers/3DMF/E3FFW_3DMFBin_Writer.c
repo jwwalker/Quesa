@@ -102,7 +102,7 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 		tocSize = sizeof(TE3FFormat3DMF_TOC) + 
 				(sizeof(TE3FFormat3DMF_TOCEntry) * (TOC_GROW_SIZE - 1));
 				
-		toc = fileFormatPrivate->toc = Q3Memory_AllocateClear(tocSize);
+		toc = fileFormatPrivate->toc = (TE3FFormat3DMF_TOC*) Q3Memory_AllocateClear(tocSize);
 		if(toc == NULL)
 			return (kQ3Failure);
 			
@@ -1185,7 +1185,7 @@ TQ3Status
 E3FFW_3DMF_CString_Write( const void *theString,  TQ3FileObject theFile )
 {
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-	return Q3String_WriteUnlimited( theString, theFile );
+	return Q3String_WriteUnlimited( (const char*) theString, theFile );
 #else
 	return Q3String_Write( theString, theFile );
 #endif

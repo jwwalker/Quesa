@@ -162,7 +162,7 @@ E3Pool_AllocateTagged(
 		TE3PoolItem* nextItemPtr;
 
 		// Allocate new block of items
-		if ((newBlockPtr = Q3Memory_Allocate(itemOffset + itemSize*blockLength)) == NULL)
+		if ((newBlockPtr = (TE3PoolBlock*) Q3Memory_Allocate(itemOffset + itemSize*blockLength)) == NULL)
 			goto failure;
 
 		// Link block into pool's list of blocks
