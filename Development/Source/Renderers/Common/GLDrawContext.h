@@ -87,6 +87,9 @@ void				GLDrawContext_SetClearFlags(
 void				GLDrawContext_SetBackgroundColour(
 								TQ3DrawContextObject	theDrawContext);
 
+void				GLDrawContext_SetDepthState(
+								TQ3DrawContextObject	theDrawContext);
+
 TQ3Boolean			GLDrawContext_UpdateWindowClip(
 								void					*glContext);
 
