@@ -359,7 +359,7 @@ e3class_dump_class(FILE *theFile, TQ3Uns32 indent, E3ClassInfoPtr theClass)
 					theClass->className,
 					theClass->numInstances == 0 ? "" : " *** MEMORY LEAK ***");
 
-	if (theClass->classType <= theGlobals->nextType)
+	if ( (theClass->classType < 0) && (theClass->classType >= theGlobals->nextType) )
 		fprintf(theFile, "%s-> classType    = 0x%lx\n", thePad, theClass->classType);
 	else
 		fprintf(theFile, "%s-> classType    = %c%c%c%c\n", thePad,
@@ -445,8 +445,8 @@ E3ClassTree_GetNextClassType(void)
 
 
 
-	// Increment the class type, and return the next available type
-	theGlobals->nextType++;
+	// Decrement the class type, and return the next available type
+	--theGlobals->nextType;
 	
 	return(theGlobals->nextType);
 }
