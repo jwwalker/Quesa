@@ -1,0 +1,12 @@
+
+#if __option(precompile)
+	#pragma precompile_target "QuesaClassicRelease_PCH"
+	
+	#include "Quesa Prefix Release.h"
+	#include "E3Prefix.h"
+
+#else
+
+	#include "QuesaClassicRelease_PCH"
+
+#endif

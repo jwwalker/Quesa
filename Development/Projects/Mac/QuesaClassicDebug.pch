@@ -1,0 +1,12 @@
+
+#if __option(precompile)
+	#pragma precompile_target "QuesaClassicDebug_PCH"
+	
+	#include "Quesa Prefix Debug.h"
+	#include "E3Prefix.h"
+
+#else
+
+	#include "QuesaClassicDebug_PCH"
+
+#endif

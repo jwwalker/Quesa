@@ -1,0 +1,12 @@
+
+#if __option(precompile)
+	#pragma precompile_target "QuesaCarbonDebug_PCH"
+	
+	#include "Quesa Prefix Carbon Debug.h"
+	#include "E3Prefix.h"
+
+#else
+
+	#include "QuesaCarbonDebug_PCH"
+
+#endif
