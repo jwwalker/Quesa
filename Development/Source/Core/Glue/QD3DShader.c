@@ -695,7 +695,6 @@ Q3Shader_GetType(TQ3ShaderObject shader)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3ObjectTypeInvalid);
 
 
@@ -730,10 +729,8 @@ Q3Shader_Submit(TQ3ShaderObject shader, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -770,8 +767,7 @@ Q3Shader_SetUVTransform(TQ3ShaderObject shader, const TQ3Matrix3x3 *uvTransform)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(uvTransform), kQ3Failure);
 
 
@@ -809,8 +805,7 @@ Q3Shader_GetUVTransform(TQ3ShaderObject shader, TQ3Matrix3x3 *uvTransform)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(uvTransform), kQ3Failure);
 
 
@@ -848,8 +843,7 @@ Q3Shader_SetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary uBoundary)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
 
 
 
@@ -886,8 +880,7 @@ Q3Shader_SetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary vBoundary)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
 
 
 
@@ -924,8 +917,7 @@ Q3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(uBoundary), kQ3Failure);
 
 
@@ -963,8 +955,7 @@ Q3Shader_GetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *vBoundary)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vBoundary), kQ3Failure);
 
 
@@ -1002,7 +993,6 @@ Q3IlluminationShader_GetType(TQ3ShaderObject shader)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3ObjectTypeInvalid);
 
 
@@ -1100,7 +1090,6 @@ Q3SurfaceShader_GetType(TQ3SurfaceShaderObject shader)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShaderTypeSurface), kQ3ObjectTypeInvalid);
 
 
@@ -1135,7 +1124,6 @@ Q3TextureShader_New(TQ3TextureObject texture)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), NULL);
 
 
@@ -1170,8 +1158,7 @@ Q3TextureShader_GetTexture(TQ3ShaderObject shader, TQ3TextureObject *texture)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(texture), kQ3Failure);
 
 
@@ -1209,10 +1196,8 @@ Q3TextureShader_SetTexture(TQ3ShaderObject shader, TQ3TextureObject texture)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, kQ3ShapeTypeShader), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, (kQ3SharedTypeTexture)), kQ3Failure);
 
 
 
@@ -1249,7 +1234,6 @@ Q3Texture_GetType(TQ3TextureObject texture)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3ObjectTypeInvalid);
 
 
@@ -1284,8 +1268,7 @@ Q3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, (kQ3SharedTypeTexture)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(width), kQ3Failure);
 
 
@@ -1323,8 +1306,7 @@ Q3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, (kQ3SharedTypeTexture)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(height), kQ3Failure);
 
 
@@ -1396,8 +1378,7 @@ Q3PixmapTexture_GetPixmap(TQ3TextureObject texture, TQ3StoragePixmap *pixmap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, (kQ3SharedTypeTexture)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmap), kQ3Failure);
 
 
@@ -1435,8 +1416,7 @@ Q3PixmapTexture_SetPixmap(TQ3TextureObject texture, const TQ3StoragePixmap *pixm
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, (kQ3SharedTypeTexture)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmap), kQ3Failure);
 
 
@@ -1508,8 +1488,7 @@ Q3MipmapTexture_GetMipmap(TQ3TextureObject texture, TQ3Mipmap *mipmap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, (kQ3SharedTypeTexture)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mipmap), kQ3Failure);
 
 
@@ -1547,8 +1526,7 @@ Q3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap *mipmap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, (kQ3SharedTypeTexture)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mipmap), kQ3Failure);
 
 
@@ -1622,8 +1600,7 @@ Q3CompressedPixmapTexture_GetCompressedPixmap(TQ3TextureObject texture, TQ3Compr
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, (kQ3SharedTypeTexture)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(compressedPixmap), kQ3Failure);
 
 
@@ -1661,8 +1638,7 @@ Q3CompressedPixmapTexture_SetCompressedPixmap(TQ3TextureObject texture, const TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(texture->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, kQ3SharedTypeTexture), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(texture, (kQ3SharedTypeTexture)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(compressedPixmap), kQ3Failure);
 
 

@@ -80,7 +80,6 @@ Q3Style_GetType(TQ3StyleObject style)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(style->quesaTag == kQ3ObjectTypeQuesa, kQ3ObjectTypeInvalid);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(style, kQ3ShapeTypeStyle), kQ3ObjectTypeInvalid);
 
 
@@ -115,10 +114,8 @@ Q3Style_Submit(TQ3StyleObject style, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(style->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(style, kQ3ShapeTypeStyle), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(style, (kQ3ShapeTypeStyle)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -190,8 +187,7 @@ Q3SubdivisionStyle_Submit(const TQ3SubdivisionStyleData *data, TQ3ViewObject vie
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -228,8 +224,7 @@ Q3SubdivisionStyle_SetData(TQ3StyleObject subdiv, const TQ3SubdivisionStyleData 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(subdiv->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(subdiv, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(subdiv, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -267,8 +262,7 @@ Q3SubdivisionStyle_GetData(TQ3StyleObject subdiv, TQ3SubdivisionStyleData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(subdiv->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(subdiv, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(subdiv, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -339,8 +333,7 @@ Q3PickIDStyle_Submit(TQ3Uns32 id, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -377,8 +370,7 @@ Q3PickIDStyle_Get(TQ3StyleObject pickIDObject, TQ3Uns32 *id)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pickIDObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pickIDObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pickIDObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(id), kQ3Failure);
 
 
@@ -416,8 +408,7 @@ Q3PickIDStyle_Set(TQ3StyleObject pickIDObject, TQ3Uns32 id)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pickIDObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pickIDObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pickIDObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 
 
 
@@ -487,8 +478,7 @@ Q3PickPartsStyle_Submit(TQ3PickParts parts, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -525,8 +515,7 @@ Q3PickPartsStyle_Get(TQ3StyleObject pickPartsObject, TQ3PickParts *parts)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pickPartsObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pickPartsObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pickPartsObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(parts), kQ3Failure);
 
 
@@ -564,8 +553,7 @@ Q3PickPartsStyle_Set(TQ3StyleObject pickPartsObject, TQ3PickParts parts)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(pickPartsObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pickPartsObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(pickPartsObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 
 
 
@@ -635,8 +623,7 @@ Q3ReceiveShadowsStyle_Submit(TQ3Boolean receives, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -673,8 +660,7 @@ Q3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receives)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(styleObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(receives), kQ3Failure);
 
 
@@ -712,8 +698,7 @@ Q3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receives)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(styleObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 
 
 
@@ -783,8 +768,7 @@ Q3FillStyle_Submit(TQ3FillStyle fillStyle, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -821,8 +805,7 @@ Q3FillStyle_Get(TQ3StyleObject styleObject, TQ3FillStyle *fillStyle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(styleObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fillStyle), kQ3Failure);
 
 
@@ -860,8 +843,7 @@ Q3FillStyle_Set(TQ3StyleObject styleObject, TQ3FillStyle fillStyle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(styleObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 
 
 
@@ -931,8 +913,7 @@ Q3BackfacingStyle_Submit(TQ3BackfacingStyle backfacingStyle, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -969,8 +950,7 @@ Q3BackfacingStyle_Get(TQ3StyleObject backfacingObject, TQ3BackfacingStyle *backf
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(backfacingObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(backfacingObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(backfacingObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(backfacingStyle), kQ3Failure);
 
 
@@ -1008,8 +988,7 @@ Q3BackfacingStyle_Set(TQ3StyleObject backfacingObject, TQ3BackfacingStyle backfa
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(backfacingObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(backfacingObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(backfacingObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 
 
 
@@ -1079,8 +1058,7 @@ Q3InterpolationStyle_Submit(TQ3InterpolationStyle interpolationStyle, TQ3ViewObj
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -1117,8 +1095,7 @@ Q3InterpolationStyle_Get(TQ3StyleObject interpolationObject, TQ3InterpolationSty
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(interpolationObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(interpolationObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(interpolationObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(interpolationStyle), kQ3Failure);
 
 
@@ -1156,8 +1133,7 @@ Q3InterpolationStyle_Set(TQ3StyleObject interpolationObject, TQ3InterpolationSty
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(interpolationObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(interpolationObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(interpolationObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 
 
 
@@ -1227,8 +1203,7 @@ Q3HighlightStyle_Submit(TQ3AttributeSet highlightAttribute, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -1265,8 +1240,7 @@ Q3HighlightStyle_Get(TQ3StyleObject highlight, TQ3AttributeSet *highlightAttribu
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(highlight->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(highlight, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(highlight, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(highlightAttribute), kQ3Failure);
 
 
@@ -1304,8 +1278,7 @@ Q3HighlightStyle_Set(TQ3StyleObject highlight, TQ3AttributeSet highlightAttribut
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(highlight->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(highlight, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(highlight, (kQ3ShapeTypeStyle)), kQ3Failure);
 
 
 
@@ -1375,8 +1348,7 @@ Q3OrientationStyle_Submit(TQ3OrientationStyle frontFacingDirection, TQ3ViewObjec
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -1413,8 +1385,7 @@ Q3OrientationStyle_Get(TQ3StyleObject frontFacingDirectionObject, TQ3Orientation
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(frontFacingDirectionObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(frontFacingDirectionObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(frontFacingDirectionObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(frontFacingDirection), kQ3Failure);
 
 
@@ -1452,8 +1423,7 @@ Q3OrientationStyle_Set(TQ3StyleObject frontFacingDirectionObject, TQ3Orientation
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(frontFacingDirectionObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(frontFacingDirectionObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(frontFacingDirectionObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 
 
 
@@ -1525,8 +1495,7 @@ Q3AntiAliasStyle_Submit(const TQ3AntiAliasStyleData *data, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -1563,8 +1532,7 @@ Q3AntiAliasStyle_GetData(TQ3StyleObject styleObject, TQ3AntiAliasStyleData *data
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(styleObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1602,8 +1570,7 @@ Q3AntiAliasStyle_SetData(TQ3StyleObject styleObject, const TQ3AntiAliasStyleData
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(styleObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1676,8 +1643,7 @@ Q3FogStyle_Submit(const TQ3FogStyleData *data, TQ3ViewObject view)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(view->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, kQ3ObjectTypeView), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(view, (kQ3ObjectTypeView)), kQ3Failure);
 
 
 
@@ -1714,8 +1680,7 @@ Q3FogStyle_GetData(TQ3StyleObject styleObject, TQ3FogStyleData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(styleObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -1753,8 +1718,7 @@ Q3FogStyle_SetData(TQ3StyleObject styleObject, const TQ3FogStyleData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(styleObject->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, kQ3ShapeTypeStyle), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(styleObject, (kQ3ShapeTypeStyle)), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 

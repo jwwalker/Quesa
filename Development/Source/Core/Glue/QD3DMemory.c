@@ -557,7 +557,6 @@ Q3SlabMemory_GetData(TQ3SlabObject theSlab, TQ3Uns32 itemIndex)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theSlab->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), NULL);
 	Q3_REQUIRE_OR_RESULT(itemIndex < Q3SlabMemory_GetCount(theSlab), NULL);
 	
@@ -596,7 +595,6 @@ Q3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *it
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theSlab->quesaTag == kQ3ObjectTypeQuesa, NULL);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), NULL);
 	
 
@@ -637,7 +635,6 @@ Q3SlabMemory_GetCount(TQ3SlabObject theSlab)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theSlab->quesaTag == kQ3ObjectTypeQuesa, 0);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), 0);
 
 
@@ -672,8 +669,7 @@ Q3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theSlab->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, (kQ3ObjectTypeSlab)), kQ3Failure);
 
 
 
