@@ -107,6 +107,13 @@ typedef struct TE3FFormat3DMF_AttributeSetList_Data {
 } TE3FFormat3DMF_AttributeSetList_Data;
 
 
+typedef struct TE3FFormat3DMF_AttributeArray_Data {
+	TQ3TriMeshAttributeData*		attributeData;
+	TQ3Uns32						whichArray;
+	TQ3Uns32						whichAttr;
+	TQ3Uns32						arraySize;
+	TQ3Uns32						attributeSize;
+} TE3FFormat3DMF_AttributeArray_Data;
 
 
 
