@@ -46,6 +46,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "QuesaIO.h"
+#include "E3Main.h"
 
 
 
@@ -60,6 +61,41 @@ extern "C" {
 
 
 
+
+
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+
+
+class E3FileFormat : public E3Shared
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3FileFormatReader : public E3FileFormat
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3FileFormatWriter : public E3FileFormat
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+
+
+	
 
 
 //=============================================================================
