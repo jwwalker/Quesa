@@ -148,6 +148,7 @@ Q3_CLASS_ENUMS ( kQ3SharedTypeSet, E3Set, E3Shared )
 
 public :
 
+	static TQ3Boolean		IsOfMyClass ( TQ3Object object ) ;
 
 	TQ3ElementObject		FindElement ( TQ3ElementType theType ) ;
 	TQ3ObjectType			GetType ( void ) ;

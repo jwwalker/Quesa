@@ -112,7 +112,7 @@ Q3Set_GetType(TQ3SetObject theSet)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSet, kQ3SharedTypeSet), kQ3ObjectTypeInvalid);
+	Q3_REQUIRE_OR_RESULT( E3Set::IsOfMyClass ( theSet ), kQ3ObjectTypeInvalid);
 
 
 
@@ -146,7 +146,7 @@ Q3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSet, (kQ3SharedTypeSet)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Set::IsOfMyClass ( theSet ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT( E3ClassTree::GetClass ( E3Attribute_AttributeToClassType ( theType ) )->IsType (
 		kQ3ObjectTypeElement ), kQ3Failure ) ;
@@ -189,7 +189,7 @@ Q3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSet, (kQ3SharedTypeSet)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Set::IsOfMyClass ( theSet ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
 
@@ -230,7 +230,7 @@ Q3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSet, kQ3SharedTypeSet), kQ3False);
+	Q3_REQUIRE_OR_RESULT( E3Set::IsOfMyClass ( theSet ), kQ3False);
 
 
 
@@ -267,7 +267,7 @@ Q3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSet, (kQ3SharedTypeSet)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Set::IsOfMyClass ( theSet ), kQ3Failure);
 
 
 
@@ -304,7 +304,7 @@ Q3Set_Empty(TQ3SetObject target)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(target, (kQ3SharedTypeSet)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Set::IsOfMyClass ( target ), kQ3Failure);
 
 
 
@@ -338,7 +338,7 @@ Q3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSet, (kQ3SharedTypeSet)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Set::IsOfMyClass ( theSet ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theType), kQ3Failure);
 
 
@@ -379,8 +379,8 @@ Q3Set_CopyElement(
 {
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sourceSet, (kQ3SharedTypeSet)), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(destSet, (kQ3SharedTypeSet)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Set::IsOfMyClass ( sourceSet ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Set::IsOfMyClass ( destSet ), kQ3Failure);
 
 
 
