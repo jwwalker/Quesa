@@ -388,31 +388,20 @@ e3group_setposition(TQ3GroupObject group, TQ3GroupPosition position, TQ3Object o
 //      e3group_removeposition : Group remove position method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3group_removeposition(TQ3GroupObject group, TQ3GroupPosition position)
-{	TQ3XGroupPosition					*finishedGroupPosition = (TQ3XGroupPosition*)position;
-	TQ3XGroupPositionDeleteMethod		positionDeleteMethod;
-	TQ3Object							result;
-
-
-
-	// Find our method
-	positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
-									group->GetMethod ( kQ3XMethodType_GroupPositionDelete);
-
-
-
+e3group_removeposition ( E3Group* group, TQ3XGroupPosition* finishedGroupPosition )
+	{
 	// disconnect the position from the group
-	finishedGroupPosition->next->prev = finishedGroupPosition->prev;
-	finishedGroupPosition->prev->next = finishedGroupPosition->next;
+	finishedGroupPosition->next->prev = finishedGroupPosition->prev ;
+	finishedGroupPosition->prev->next = finishedGroupPosition->next ;
 
-	result = finishedGroupPosition->object; // pass the reference back to the caller
-	finishedGroupPosition->object = NULL; // so does not get disposed
+	TQ3Object result = finishedGroupPosition->object ; // pass the reference back to the caller
+	finishedGroupPosition->object = NULL ; // so does not get disposed
 	
-	if (positionDeleteMethod != NULL)
-		positionDeleteMethod(finishedGroupPosition);
+	if ( ( (E3GroupInfo*) group->GetClass () )->positionDeleteMethod != NULL )
+		( (E3GroupInfo*) group->GetClass () )->positionDeleteMethod ( finishedGroupPosition ) ;
 
-	return(result);
-}
+	return result ;
+	}
 
 
 
@@ -640,11 +629,6 @@ e3group_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
 TQ3Status
 E3Group::emptyobjects ( TQ3ObjectType isType )
 	{
-	// Find our method
-	TQ3XGroupPositionDeleteMethod positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
-									GetMethod ( kQ3XMethodType_GroupPositionDelete ) ;
-
-
 	TQ3XGroupPosition* finish = &listHead ;
 	TQ3XGroupPosition* pos = listHead.next ;
 	while ( pos != finish )
@@ -657,8 +641,8 @@ E3Group::emptyobjects ( TQ3ObjectType isType )
 			next->prev = pos->prev ;
 			pos->prev->next = pos->next ;
 
-			if ( positionDeleteMethod != NULL )
-				positionDeleteMethod ( pos ) ;
+			if ( ( (E3GroupInfo*) GetClass () )->positionDeleteMethod != NULL )
+				( (E3GroupInfo*) GetClass () )->positionDeleteMethod ( pos ) ;
 			pos = next ;
 			}
 		else
@@ -1001,21 +985,10 @@ e3group_enditerate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object *
 //				separate routine is used for writing.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3XGroupStartIterateMethod		startIterateMethod;
-	TQ3XGroupEndIterateMethod		endIterateMethod;
-	TQ3GroupPosition				thePosition;
-	TQ3Status						qd3dStatus;
-	TQ3Object						subObject;
-	TQ3ViewMode						viewMode;
-
-
-
-	// Find our methods
-	startIterateMethod = (TQ3XGroupStartIterateMethod) theObject->GetMethod ( kQ3XMethodType_GroupStartIterate);
-	endIterateMethod   = (TQ3XGroupEndIterateMethod)   theObject->GetMethod ( kQ3XMethodType_GroupEndIterate);
-
-	if (startIterateMethod == NULL || endIterateMethod == NULL)
+e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, E3Group* theObject, const void *objectData)
+	{
+	E3GroupInfo* groupClass = (E3GroupInfo*) theObject->GetClass () ;
+	if ( groupClass->startIterateMethod == NULL || groupClass->endIterateMethod == NULL )
 		{
 		E3ErrorManager_PostError(kQ3ErrorNeedRequiredMethods, kQ3False);
 		return kQ3Failure ;
@@ -1024,46 +997,38 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 
 
 	// Grab the view mode. If we're picking, push the group onto the view stack
-	viewMode = E3View_GetViewMode(theView);
-	if (viewMode == kQ3ViewModePicking)
-		{
-		qd3dStatus = E3View_PickStack_PushGroup(theView, theObject);
-		if (qd3dStatus != kQ3Success)
-			return(qd3dStatus);
-		}
+	TQ3ViewMode viewMode = E3View_GetViewMode ( theView ) ;
+	if ( viewMode == kQ3ViewModePicking )
+		if ( E3View_PickStack_PushGroup ( theView, theObject ) == kQ3Failure )
+			return kQ3Failure ;
 
 
 
 	// Submit the contents of the group
-	qd3dStatus = startIterateMethod(theObject, &thePosition, &subObject, theView);
-	if (qd3dStatus == kQ3Success)
+	TQ3GroupPosition thePosition ;
+	TQ3Object subObject ;
+	TQ3Status qd3dStatus = groupClass->startIterateMethod ( theObject, &thePosition, &subObject, theView ) ;
+	if ( qd3dStatus != kQ3Failure )
 		{
-		do
+		while ( subObject != NULL ) // If that was the last object, stop
 			{
-			// If that was the last object, stop
-			if (subObject == NULL)
-				break;
-
-
-
 			// If we're picking, update the view
-			if (viewMode == kQ3ViewModePicking)
-				E3View_PickStack_SavePosition(theView, thePosition);
+			if ( viewMode == kQ3ViewModePicking )
+				E3View_PickStack_SavePosition ( theView, thePosition ) ;
 
 
 
 			// Submit the object, ignore errors
-			Q3Object_Submit(subObject, theView);
+			Q3Object_Submit ( subObject, theView ) ;
 
 
 
 			// Get the next object	
-			qd3dStatus = endIterateMethod(theObject, &thePosition, &subObject, theView);
-			if (qd3dStatus == kQ3Failure)
+			qd3dStatus = groupClass->endIterateMethod ( theObject, &thePosition, &subObject, theView ) ;
+			if ( qd3dStatus == kQ3Failure )
 				return kQ3Failure ;
 
 			}
-		while(1);
 		}
 
 
@@ -1072,8 +1037,8 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 	if (viewMode == kQ3ViewModePicking)
 		E3View_PickStack_PopGroup(theView);
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -1281,10 +1246,7 @@ e3group_display_new(TQ3Object theObject, void *privateData, const void *paramDat
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3Boolean					shouldSubmit, isInline;
-	TQ3Status					qd3dStatus;
-	TQ3DisplayGroupState		theState;
-	TQ3ViewMode					theMode;
+	{
 #pragma unused(objectType)
 #pragma unused(objectData)
 
@@ -1296,10 +1258,11 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 
 
 	// Find out if we need to submit ourselves
-	shouldSubmit = kQ3False;
-	theMode      = E3View_GetViewMode(theView);
-	qd3dStatus   = Q3DisplayGroup_GetState(theObject, &theState);
-	if (qd3dStatus == kQ3Success)
+	TQ3Boolean shouldSubmit = kQ3False ;
+	TQ3ViewMode theMode = E3View_GetViewMode ( theView ) ;
+	TQ3DisplayGroupState theState ;
+	TQ3Status qd3dStatus = Q3DisplayGroup_GetState ( theObject, &theState ) ;
+	if ( qd3dStatus != kQ3Failure )
 		{
 		switch (theMode) {
 			case kQ3ViewModeDrawing:
@@ -1328,32 +1291,30 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 
 
 	// If we need to submit the group, do so
-	if (shouldSubmit)
+	if ( shouldSubmit )
 		{
 		// If the group isn't inline, push the view state and reset the matrix
-		isInline = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsInline);
-		if (!isInline)
-			{
-			Q3Push_Submit(theView);
-			}
+		TQ3Boolean isInline = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsInline);
+		if ( ! isInline )
+			Q3Push_Submit ( theView ) ;
 
 
 
 		// Submit the group, using the generic group submit method
-		if (theMode == kQ3ViewModeWriting)
-			qd3dStatus = e3group_submit_write(theView, objectType, theObject, objectData);
+		if ( theMode == kQ3ViewModeWriting )
+			qd3dStatus = e3group_submit_write ( theView, objectType, theObject, objectData ) ;
 		else
-			qd3dStatus = e3group_submit_contents(theView, objectType, theObject, objectData);
+			qd3dStatus = e3group_submit_contents ( theView, objectType, (E3Group*) theObject, objectData ) ;
 
 
 
 		// If the group isn't inline, pop the view state
-		if (!isInline)
-			Q3Pop_Submit(theView);
+		if ( ! isInline )
+			Q3Pop_Submit ( theView ) ;
 		}
 	
-	return (qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -1984,25 +1945,24 @@ e3group_display_ordered_countobjectsoftype(TQ3GroupObject group, TQ3ObjectType i
 //			Ordered Display empty objects of type method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3group_display_ordered_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
-{
-	TQ3XGroupPositionDeleteMethod		positionDeleteMethod = (TQ3XGroupPositionDeleteMethod)
-			group->GetMethod ( kQ3XMethodType_GroupPositionDelete);
-	TQ3GroupPosition	pos;
-	
-	while ( (kQ3Success == e3group_display_ordered_getfirstpositionoftype( group, isType,
-		&pos )) && (pos != NULL) )
+e3group_display_ordered_emptyobjectsoftype ( E3Group* group, TQ3ObjectType isType )
 	{
+	TQ3GroupPosition	pos ;
+	
+	while ( ( kQ3Success == e3group_display_ordered_getfirstpositionoftype ( group, isType, &pos ) )
+	&& ( pos != NULL ) )
+		{
 		// disconnect the position from the group
-		TQ3XGroupPosition*	posx = (TQ3XGroupPosition*)pos;
-		posx->next->prev = posx->prev;
-		posx->prev->next = posx->next;
+		TQ3XGroupPosition*	posx = (TQ3XGroupPosition*)pos ;
+		posx->next->prev = posx->prev ;
+		posx->prev->next = posx->next ;
 
-		if (positionDeleteMethod != NULL)
-			positionDeleteMethod( pos );
+		if ( ( (E3GroupInfo*) group->GetClass () )->positionDeleteMethod != NULL )
+			( (E3GroupInfo*) group->GetClass () )->positionDeleteMethod ( pos ) ;
+		}
+		
+	return kQ3Success ;
 	}
-	return kQ3Success;
-}
 
 
 
@@ -2062,7 +2022,7 @@ e3group_display_ordered_duplicate(	TQ3Object fromObject, const void *fromPrivate
 	// If we failed, clean up.
 	if (status == kQ3Failure)
 	{
-		e3group_display_ordered_emptyobjectsoftype( toObject, kQ3ObjectTypeShared );
+		e3group_display_ordered_emptyobjectsoftype( (E3Group*) toObject, kQ3ObjectTypeShared );
 	}
 	
 	return status;

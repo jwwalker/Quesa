@@ -199,12 +199,12 @@ typedef struct TQ3DrawContextUnionData {
 
 class E3DrawContextInfo : public E3SharedInfo
 	{
-	TQ3XDrawContextUpdateMethod			updateMethod ;
-	TQ3XDrawContextGetDimensionsMethod	getDimensionsMethod ;
+	const TQ3XDrawContextUpdateMethod			updateMethod ;
+	const TQ3XDrawContextGetDimensionsMethod	getDimensionsMethod ;
 	
 public :
 
-									E3DrawContextInfo	(
+								E3DrawContextInfo	(
 													TQ3XMetaHandler	newClassMetaHandler,
 													E3ClassInfo*	newParent
 					 								) ; // constructor	
