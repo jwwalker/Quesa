@@ -1,18 +1,13 @@
+/*!
+	@header	CQ3ObjectRef.h
+		Wrapper class for Quesa objects.
+*/
 /*  NAME:
         CQ3ObjectRef.h
 
     DESCRIPTION:
         C++ wrapper class for a Quesa shared object.
     
-    DISCUSSION:
-    	The main purpose for using a C++ wrapper for a Quesa object is to
-    	prevent memory leaks.  The wrapper's destructor disposes the object.
-    	This class is designed to be usable in STL container classes.
-    	It is not like std::auto_ptr, in that the copy constructor adds a
-    	reference rather than transferring ownership.  One could base such
-    	a wrapper on boost::intrusive_pointer, but I chose not to require
-    	Boost.
-
     COPYRIGHT:
         Copyright (c) 2004, Quesa Developers. All rights reserved.
 
@@ -63,34 +58,98 @@
 //=============================================================================
 //      Class declarations
 //-----------------------------------------------------------------------------
+/*!
+	@class		CQ3ObjectRef
+	@abstract	Wrapper for Quesa objects.
+	@discussion	The main purpose for using a C++ wrapper for a Quesa object is to
+				prevent memory leaks.  The wrapper's destructor disposes the object.
+				This class is designed to be usable in STL container classes.
+				It is not like std::auto_ptr, in that the copy constructor adds a
+				reference rather than transferring ownership.  One could base such
+				a wrapper on boost::intrusive_pointer, but I chose not to require
+				Boost.
+				
+				Due to a HeaderDoc bug, it is not possible to automatically
+				document more than one constructor.  Besides the constructor from
+				a TQ3Object, there is a default constructor (which holds NULL)
+				and a copy constructor.
+				
+				This wrapper is not fully functional with objects that are not
+				reference-counted (such as views and picks) because the copy
+				constructor calls Q3Shared_GetReference.
+*/
 class CQ3ObjectRef
 {
 public:
 							// default constructor
+							/*
+								@function	CQ3ObjectRef
+								@abstract	Default constructor.
+							*/
 							CQ3ObjectRef()
 									: mObject( NULL ) {}
 
-							// copy constructor
+							/*
+								@function	CQ3ObjectRef
+								@abstract	Copy constructor.
+								@param		inOther		Another CQ3ObjectRef.
+							*/
 							CQ3ObjectRef( const CQ3ObjectRef& inOther );
 							
-							// constructor from a Quesa object
-							// Note: assumes it is given a new reference
+							/*!
+								@function	CQ3ObjectRef
+								@abstract	Constructor from a TQ3Object.
+								@discussion	It is assumed that you pass a new reference
+											to this constructor.
+								@param		inObject	A new reference to a Quesa object,
+														or NULL.
+							*/
 	explicit				CQ3ObjectRef( TQ3SharedObject inObject )
 									: mObject( inObject ) {}
 	
-							// destructor
+							/*!
+								@function	~CQ3ObjectRef
+								@abstract	Destructor.
+								@discussion	Disposes the object if it is not NULL.
+							*/
 							~CQ3ObjectRef();
 	
-							// assignment operator
+							/*!
+								@function	operator=
+								@abstract	Assignment operator.
+								@discussion	The previous object held by this wrapper
+											is disposed, and a new reference replaces
+											it.
+								@param		inOther		Another CQ3ObjectRef.
+							*/
 	CQ3ObjectRef&			operator=( const CQ3ObjectRef& inOther );
 	
+							/*!
+								@function	swap
+								@abstract	Swap contents with another CQ3ObjectRef.
+								@param		ioOther		Another CQ3ObjectRef.
+							*/
 	void					swap( CQ3ObjectRef& ioOther );
 	
+							/*!
+								@function	isvalid
+								@abstract	Test whether this object holds a Quesa object.
+								@result		True if it holds a non-NULL Quesa object.
+							*/
 	bool					isvalid() const { return mObject != NULL; }
 	
+							/*!
+								@function	get
+								@abstract	Get the value held by the wrapper.
+								@result		A TQ3Object, or NULL.
+							*/
 	TQ3SharedObject			get() const { return mObject; }
 	
 private:
+							/*!
+								@var		mObject
+								@abstract	The Quesa object held by the wrapper.
+							*/
 	TQ3SharedObject			mObject;
 };
 
