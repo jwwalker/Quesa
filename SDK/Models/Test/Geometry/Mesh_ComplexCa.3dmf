@@ -1,0 +1,65 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+#	NAME:
+#		Mesh_ComplexCa.3dmf
+#
+#	DESCRIPTION:
+#		Test model for the Mesh geometry.
+#
+#		This model tests the case of a complex Mesh
+#		with 4 nested contours oriented alternately.
+#
+#	COPYRIGHT:
+#		Quesa Copyright © 1999-2002, Quesa Developers.
+#	
+#		For the list of Quesa Developers, and contact details, see:
+#	
+#			Documentation/contributors.html
+#	
+#		For the current version of Quesa, see:
+#	
+#			<http://www.quesa.org/>
+#	
+#		This library is free software; you can redistribute it and/or
+#		modify it under the terms of the GNU Lesser General Public
+#		License as published by the Free Software Foundation; either
+#		version 2 of the License, or (at your option) any later version.
+#	
+#		This library is distributed in the hope that it will be useful,
+#		but WITHOUT ANY WARRANTY; without even the implied warranty of
+#		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#		Lesser General Public License for more details.
+#	
+#		You should have received a copy of the GNU Lesser General Public
+#		License along with this library; if not, write to the Free Software
+#		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+	Mesh (
+		16			# numVertices
+
+		-4 -4  0	# vertex 0
+		 4 -4  0	# vertex 1
+		 4  4  0	# vertex 2
+		-4  4  0	# vertex 3
+		-3  3  0	# vertex 4
+		 3  3  0	# vertex 5
+		 3 -3  0	# vertex 6
+		-3 -3  0	# vertex 7
+		-2 -2  0	# vertex 8
+		 2 -2  0	# vertex 9
+		 2  2  0	# vertex 10
+		-2  2  0	# vertex 11
+		-1  1  0	# vertex 12
+		 1  1  0	# vertex 13
+		 1 -1  0	# vertex 14
+		-1 -1  0	# vertex 15
+
+		1			# numFaces
+		3			# numContours
+
+		# faces
+		 4  0  1  2  3
+		-4  4  5  6  7
+		-4  8  9 10 11
+		-4 12 13 14 15
+	)

@@ -1,0 +1,120 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+#	NAME:
+#		Marker.3dmf
+#
+#	DESCRIPTION:
+#		Test model for the Marker geometry.
+#
+#	COPYRIGHT:
+#		Quesa Copyright © 1999-2002, Quesa Developers.
+#	
+#		For the list of Quesa Developers, and contact details, see:
+#	
+#			Documentation/contributors.html
+#	
+#		For the current version of Quesa, see:
+#	
+#			<http://www.quesa.org/>
+#	
+#		This library is free software; you can redistribute it and/or
+#		modify it under the terms of the GNU Lesser General Public
+#		License as published by the Free Software Foundation; either
+#		version 2 of the License, or (at your option) any later version.
+#	
+#		This library is distributed in the hope that it will be useful,
+#		but WITHOUT ANY WARRANTY; without even the implied warranty of
+#		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#		Lesser General Public License for more details.
+#	
+#		You should have received a copy of the GNU Lesser General Public
+#		License along with this library; if not, write to the Free Software
+#		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+	Marker (
+		0  0  0		# origin
+
+		0			# xOffset
+		0			# yOffset
+
+		1			# width
+		1			# height
+
+		1			# rowBytes
+		BigEndian	# bitOrder
+
+		# data
+		0x80
+	)
+
+	Marker (
+		0  0  0		# origin
+
+		-32			# xOffset
+		-32			# yOffset
+
+		32			# width
+		12			# height
+
+		4			# rowBytes
+		BigEndian	# bitOrder
+
+		# data
+		0x022002200220022001400140F880F880
+		0x01400080022000800222008000020000
+		0x00040000000000000000000000000000
+	)
+
+	Marker (
+		0  0  0		# origin
+
+		 32			# xOffset
+		-32			# yOffset
+
+		32			# width
+		12			# height
+
+		4			# rowBytes
+		BigEndian	# bitOrder
+
+		# data
+		0x022002202220022021400140F880F880
+		0x21400080222000800222008000020000
+		0x00040000000000000000000000000000
+	)
+
+	Marker (
+		0  0  0		# origin
+
+		-32			# xOffset
+		 32			# yOffset
+
+		32			# width
+		12			# height
+
+		4			# rowBytes
+		BigEndian	# bitOrder
+
+		# data
+		0x022002200220222001402140F880F880
+		0x01402080022020800222008000020000
+		0x00040000000000000000000000000000
+	)
+
+	Marker (
+		0  0  0		# origin
+
+		 32			# xOffset
+		 32			# yOffset
+
+		32			# width
+		12			# height
+
+		4			# rowBytes
+		BigEndian	# bitOrder
+
+		# data
+		0x022002202220222021402140F880F880
+		0x21402080222020800222008000020000
+		0x00040000000000000000000000000000
+	)
