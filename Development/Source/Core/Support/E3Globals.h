@@ -275,8 +275,8 @@ extern "C" {
 #define kQ3XMethodTypeTextureDimensions				Q3_METHOD_TYPE('Q', 't', 'd', 'm')
 #define kQ3XMethodTypeGeomGetAttribute				Q3_METHOD_TYPE('Q', 'g', 'g', 'a')
 #define kQ3XMethodTypeGeomUsesSubdivision			Q3_METHOD_TYPE('Q', 'g', 'u', 's')
+#define kQ3XMethodTypeGeomUsesOrientation			Q3_METHOD_TYPE('Q', 'g', 'u', 'o')
 #define kQ3XMethodTypeGeomCacheNew					Q3_METHOD_TYPE('Q', 'g', 'c', 'n')
-#define kQ3XMethodTypeGeomCacheDelete				Q3_METHOD_TYPE('Q', 'g', 'c', 'd')
 #define kQ3XMethodTypeGeomCacheIsValid				Q3_METHOD_TYPE('Q', 'g', 'c', 'v')
 #define kQ3XMethodTypeGeomCacheUpdate				Q3_METHOD_TYPE('Q', 'g', 'c', 'u')
 #define kQ3XMethodTypeStorageReadData				Q3_METHOD_TYPE('Q', 'r', 'e', 'a')
@@ -335,7 +335,6 @@ typedef Q3_CALLBACK_API_C(TQ3AttributeSet *,	TQ3XGeomGetAttributeMethod)(TQ3Geom
 typedef Q3_CALLBACK_API_C(TQ3Object,			TQ3XGeomCacheNewMethod)(TQ3ViewObject		theView,
 																	TQ3GeometryObject	theGeom,
 																	const void			*geomData);
-typedef Q3_CALLBACK_API_C(void,				TQ3XGeomCacheDeleteMethod)(TQ3Object cachedGeom);
 typedef Q3_CALLBACK_API_C(TQ3Boolean,			TQ3XGeomCacheIsValidMethod)(TQ3ViewObject		theView,
 																		TQ3ObjectType		objectType,
 																		TQ3GeometryObject	theGeom,
