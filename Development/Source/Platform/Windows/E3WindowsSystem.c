@@ -210,16 +210,6 @@ E3WindowsSystem_LoadPlugins(void)
 {	TCHAR systemDir[MAX_PATH];
 
 
-
-	// Register QD3D plug-ins	
-	if(GetSystemDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
-		e3windowsystem_loadplugins(systemDir, TEXT("q3x"));
-
-	if(GetWindowsDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
-		e3windowsystem_loadplugins(systemDir, TEXT("q3x"));
-
-
-
 	// Register Quesa plug-ins
 	if(GetSystemDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
 		e3windowsystem_loadplugins(systemDir, TEXT("xq3"));
