@@ -143,6 +143,7 @@ void							E3View_State_SetAttributeHighlightState(TQ3ViewObject theView, const 
 void							E3View_State_SetAttributeSurfaceShader(TQ3ViewObject theView, const TQ3SurfaceShaderObject *theData);
 
 TQ3ViewObject			E3View_New(void);
+TQ3ViewObject			E3View_NewWithDefaults(TQ3ObjectType drawContextType, void *drawContextTarget);
 TQ3Status				E3View_Cancel(TQ3ViewObject theView);
 TQ3Status				E3View_SetRendererByType(TQ3ViewObject theView, TQ3ObjectType theType);
 TQ3Status				E3View_SetRenderer(TQ3ViewObject theView, TQ3RendererObject theRenderer);
@@ -163,6 +164,7 @@ TQ3Status				E3View_GetCamera(TQ3ViewObject theView, TQ3CameraObject *theCamera)
 TQ3Status				E3View_SetCamera(TQ3ViewObject theView, TQ3CameraObject theCamera);
 TQ3Status				E3View_SetLightGroup(TQ3ViewObject theView, TQ3GroupObject lightGroup);
 TQ3Status				E3View_GetLightGroup(TQ3ViewObject theView, TQ3GroupObject *lightGroup);
+TQ3Status				E3View_AddLight(TQ3ViewObject theView, TQ3ObjectType lightType, void *lightData);
 TQ3Status				E3View_SetIdleMethod(TQ3ViewObject theView, TQ3ViewIdleMethod idleMethod, const void *idleData);
 TQ3Status				E3View_SetIdleProgressMethod(TQ3ViewObject theView, TQ3ViewIdleProgressMethod idleMethod, const void *idleData);
 TQ3Status				E3View_SetEndFrameMethod(TQ3ViewObject theView, TQ3ViewEndFrameMethod endFrame, void *endFrameData);
