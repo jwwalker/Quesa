@@ -876,7 +876,7 @@ e3fformat_3dmf_bin_get_nexttype(TQ3FileObject theFile)
 				else{ // We have to read the object to get the type
 					// position the file mark
 					instanceData->MFData.baseData.currentStoragePosition = instanceData->MFData.toc->tocEntries[i].objLocation.lo;
-					result = e3fformat_3dmf_bin_get_nexttype (format);
+					result = e3fformat_3dmf_bin_get_nexttype (theFile);
 					// cache the result
 					instanceData->MFData.toc->tocEntries[i].objType = result;
 					}
