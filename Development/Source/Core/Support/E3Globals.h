@@ -66,6 +66,7 @@ extern "C" {
 // class tree must be unique).
 //
 // The QD3D convention for third party class names is "Company:Type:Name".
+#define kQ3ClassNameAttribute						"Attribute"
 #define kQ3ClassNameAttributeAmbientCoefficient		"AmbientCoefficient"
 #define kQ3ClassNameAttributeDiffuseColor			"DiffuseColor"
 #define kQ3ClassNameAttributeHighlightState			"HilightState"
