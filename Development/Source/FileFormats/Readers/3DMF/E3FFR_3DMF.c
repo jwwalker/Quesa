@@ -48,7 +48,6 @@
 
 
 
-
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
@@ -1443,6 +1442,51 @@ e3fformat_3dmf_vertexattributesetlist_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3fformat_3dmf_normalarray_validate : validate an array of normal vectors,
+//											reporting any too weird to normalize
+//-----------------------------------------------------------------------------
+static void
+e3fformat_3dmf_normalarray_validate( TQ3Uns32 numVectors, TQ3Vector3D* normals )
+{
+	float		maxComponent;
+	float		minComponent;
+	TQ3Uns32	i;
+	TQ3Vector3D*	theVector;
+	TQ3Boolean	postedWarning = kQ3False;
+	
+	maxComponent = sqrtf( kQ3MaxFloat / 4.0f );
+	minComponent = sqrtf( kQ3MinFloat / 4.0f );
+	
+	for (i = 0; i < numVectors; ++i)
+	{
+		theVector = &normals[ i ];
+		
+		if (
+			(fabsf(theVector->x) > maxComponent) ||
+			(fabsf(theVector->y) > maxComponent) ||
+			(fabsf(theVector->z) > maxComponent) ||
+			(
+				(fabsf(theVector->x) < minComponent) &&
+				(fabsf(theVector->y) < minComponent) &&
+				(fabsf(theVector->z) < minComponent)
+			) 
+		)
+		{
+			if (postedWarning == kQ3False)
+			{
+				E3ErrorManager_PostWarning( kQ3WarningReadBadNormalVector );
+				postedWarning = kQ3True;
+			}
+			theVector->x = theVector->y = theVector->z = 1.0f;
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_attributearray_read : reads an attribute array and attach it to the data.
 //-----------------------------------------------------------------------------
 // Note: this is a different beast of read method, it doesnt read the data for its object
@@ -1536,7 +1580,10 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			if(theAttribute->data == NULL)
 				return NULL;
 			if (Q3Float32_ReadArray( numElems * 2, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				{
+				Q3Memory_Free( &theAttribute->data );
 				return NULL;
+				}
 			break;
 			
 		case kQ3AttributeTypeNormal:			// TQ3Vector3D
@@ -1544,7 +1591,11 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			if(theAttribute->data == NULL)
 				return NULL;
 			if (Q3Float32_ReadArray( numElems * 3, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				{
+				Q3Memory_Free( &theAttribute->data );
 				return NULL;
+				}
+			e3fformat_3dmf_normalarray_validate( numElems, (TQ3Vector3D*)theAttribute->data );
 			break;
 			
 		case kQ3AttributeTypeAmbientCoefficient:// float
@@ -1553,7 +1604,10 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			if(theAttribute->data == NULL)
 				return NULL;
 			if (Q3Float32_ReadArray( numElems, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				{
+				Q3Memory_Free( &theAttribute->data );
 				return NULL;
+				}
 			break;
 			
 		case kQ3AttributeTypeDiffuseColor:		// TQ3ColorRGB
@@ -1563,7 +1617,10 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			if(theAttribute->data == NULL)
 				return NULL;
 			if (Q3Float32_ReadArray( numElems * 3, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				{
+				Q3Memory_Free( &theAttribute->data );
 				return NULL;
+				}
 			break;
 			
 		case kQ3AttributeTypeSurfaceTangent:	//	TQ3Tangent2D
@@ -1571,7 +1628,10 @@ e3fformat_3dmf_attributearray_read(TQ3FileObject theFile)
 			if(theAttribute->data == NULL)
 				return NULL;
 			if (Q3Float32_ReadArray( numElems * 6, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
+				{
+				Q3Memory_Free( &theAttribute->data );
 				return NULL;
+				}
 			break;
 			
 		case kQ3AttributeTypeHighlightState:	//	TQ3Switch
