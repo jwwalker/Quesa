@@ -96,6 +96,8 @@ e3set_delete(TQ3Object theObject, void *privateData)
 		if (instanceData->theElements[n] != NULL)
 			Q3Object_Dispose(instanceData->theElements[n]);
 		}
+	
+	E3Memory_Free(&instanceData->theElements);
 }
 
 

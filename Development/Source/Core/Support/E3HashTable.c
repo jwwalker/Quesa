@@ -265,12 +265,16 @@ E3HashTable_Destroy(E3HashTablePtr theTable)
 		{
 		theNode = theTable->theTable[n];
 		if (theNode != NULL)
+			{
+			E3Memory_Free(&theNode->theItems);
 			E3Memory_Free(&theTable->theTable[n]);
+			}
 		}
 
 
 
 	// Dispose of the table itself
+	E3Memory_Free(&theTable->theTable);
 	E3Memory_Free(&theTable);
 }
 
