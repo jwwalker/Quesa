@@ -266,7 +266,7 @@ Q3Warning_Get(TQ3Warning *firstWarning)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on firstWarning
-		return(kQ3ErrorNone);
+		return(kQ3WarningNone);
 #endif
 
 
@@ -312,7 +312,7 @@ Q3Notice_Get(TQ3Notice *firstNotice)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on firstNotice
-		return(kQ3ErrorNone);
+		return(kQ3NoticeNone);
 #endif
 
 
