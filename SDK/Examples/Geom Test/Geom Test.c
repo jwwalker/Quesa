@@ -81,17 +81,21 @@ enum {
 	kMenuItemDivider2,
 	kMenuItemMultiBox,
 	kMenuItemQuesaLogo,
-	kMenuItemDepthTest,
-	kMenuItemDivider3	
+	kMenuItemDivider3,
+	kMenuItemTestDepth,
+	kMenuItemTestRasterize
 };
 
 #define kTriGridRows										5
 #define kTriGridCols										10
 #define kTriGridPoints										(kTriGridRows * kTriGridCols)
 
+#define	kNumDepthTriangles									8
+
 const TQ3ColorARGB kColourARGBBackground = {1.0f, 0.0f, 0.0f, 0.1f};
 const TQ3ColorARGB kColorARGBPickHit = {1.0f, 1.0f, 1.0f, 0.1f};
 const TQ3ColorARGB kColorARGBPickMiss = {1.0f, 0.0f, 0.0f, 1.0f};
+
 
 
 
@@ -1133,87 +1137,6 @@ createGeomMesh(void)
 
 
 //=============================================================================
-//      createGeomMultiBox : Create the multi-box geometry.
-//-----------------------------------------------------------------------------
-static TQ3GeometryObject
-createGeomMultiBox(void)
-{	TQ3ColorRGB				faceColour[6] = { {1.0f, 0.0f, 0.0f},
-											  {0.0f, 1.0f, 0.0f},
-											  {0.0f, 0.0f, 1.0f},
-											  {1.0f, 1.0f, 0.0f},
-											  {1.0f, 0.0f, 1.0f},
-											  {0.0f, 1.0f, 1.0f} };
-	TQ3AttributeSet			faceAttributes[6];
-	TQ3Uns32				n, i, j;
-	TQ3DisplayGroupObject	theGroup;
-	TQ3BoxData				boxData;
-	TQ3GeometryObject		theBox;
-
-
-
-	// Create the group to hold the boxes
-	theGroup = Q3DisplayGroup_New();
-	if (theGroup == NULL)
-		return(NULL);
-
-
-
-	// Set up the data
-	Q3Vector3D_Set(&boxData.orientation, 0.0f,  0.1f,  0.0f);
-	Q3Vector3D_Set(&boxData.majorAxis,   0.0f,  0.0f,  0.1f);
-	Q3Vector3D_Set(&boxData.minorAxis,   0.1f,  0.0f,  0.0f);
-	boxData.boxAttributeSet  = NULL;
-	boxData.faceAttributeSet = faceAttributes;
-
-	for (n = 0; n < 6; n++)
-		{
-		faceAttributes[n] = Q3AttributeSet_New();
-		if (faceAttributes[n] != NULL)
-			Q3AttributeSet_Add(faceAttributes[n], kQ3AttributeTypeDiffuseColor, &faceColour[n]);
-		}
-
-
-
-	// Create the boxes
-	for (i = 0; i < 10; ++i)
-		{
-		boxData.origin.x = -0.95f + i * 0.2f;
-		
-		for (j = 0; j < 10; ++j)
-			{
-			boxData.origin.y = -0.95f + j * 0.2f;
-			
-			for (n = 0; n < 10; ++n)
-				{
-				boxData.origin.z = -0.95f + n * 0.2f;
-
-				theBox = Q3Box_New(&boxData);
-				if (theBox != NULL)
-					{
-					Q3Group_AddObject(theGroup, theBox);
-					Q3Object_Dispose(theBox);
-					}
-				}
-			}
-		}
-
-
-
-	// Clean up
-	for (n = 0; n < 6; n++)
-		{
-		if (faceAttributes[n] != NULL)
-			Q3Object_Dispose(faceAttributes[n]);
-		}
-
-	return(theGroup);
-}
-
-
-
-
-
-//=============================================================================
 //      createGeomNURBCurve : Create a NURB curve object.
 //-----------------------------------------------------------------------------
 static TQ3GeometryObject
@@ -1662,262 +1585,6 @@ createGeomPolyLine(void)
 
 
 //=============================================================================
-//      createGeomQuesa : Create the Quesa logo geometry.
-//-----------------------------------------------------------------------------
-static TQ3GroupObject
-createGeomQuesa(void)
-{	TQ3GeometryObject		theTorus, theSphere, theCone;
-	TQ3TransformObject		theTransform;
-	TQ3GroupObject			theGroup;
-	TQ3RotateTransformData	transformData = { kQ3AxisZ, Q3Math_DegreesToRadians(45.0f) };
-	TQ3ColorRGB				colourTorus   = { 0.19f, 0.21f, 0.60f };
-	TQ3ColorRGB				colourSphere  = { 0.66f, 0.01f, 0.01f };
-	TQ3ColorRGB				colourCone    = { 0.14f, 0.42f, 0.18f };
-	TQ3TorusData			torusData = { { 0.0f, 0.3f, 0.0f },		// Origin
-										  { 0.0f, 0.0f, 0.3f },		// Orientation
-										  { 1.0f, 0.0f, 0.0f },		// Major radius
-										  { 0.0f, 1.0f, 0.0f },		// Minor radius
-										    1.0f,					// Ratio
-										    0.0f, 1.0f, 0.0f, 1.0f,
-										    kQ3EndCapNone, NULL, NULL };
-	TQ3EllipsoidData		sphereData = { { 0.0f, 0.3f, 0.0f },	// Origin
-										   { 0.0f, 0.0f, 0.3f },	// Orientation
-										   { 0.3f, 0.0f, 0.0f },	// Major radius
-										   { 0.0f, 0.3f, 0.0f },	// Minor radius
-										   0.0f, 1.0f, 0.0f, 1.0f,
-										   kQ3EndCapNone, NULL, NULL };
-	TQ3ConeData				coneData   = { { 0.0f, -1.4f,  0.0f },	// Origin
-										   { 0.0f,  1.5f,  0.0f },	// Orientation
-										   { 0.0f,  0.0f,  0.3f },	// Major radius
-										   { 0.3f,  0.0f,  0.0f },	// Minor radius
-										   0.0f, 1.0f, 0.0f, 1.0f,
-										   kQ3EndCapMaskBottom, NULL, NULL, NULL, NULL };
-
-
-
-	// Create the group
-	theGroup = Q3OrderedDisplayGroup_New();
-	if (theGroup == NULL)
-		return(NULL);
-
-
-
-	// Create the transform
-	theTransform = Q3RotateTransform_New(&transformData);
-	if (theTransform != NULL)
-		{
-		Q3Group_AddObject(theGroup, theTransform);
-		Q3Object_Dispose(theTransform);
-		}
-
-
-
-	// Create the Torus
-	torusData.torusAttributeSet = Q3AttributeSet_New();
-	if (torusData.torusAttributeSet != NULL)
-		Q3AttributeSet_Add(torusData.torusAttributeSet, kQ3AttributeTypeDiffuseColor, &colourTorus);
-
-	theTorus = Q3Torus_New(&torusData);
-	if (theTorus != NULL)
-		{
-		Q3Group_AddObject(theGroup, theTorus);
-		Q3Object_Dispose(theTorus);
-		}
-
-
-
-	// Create the Sphere
-	sphereData.ellipsoidAttributeSet = Q3AttributeSet_New();
-	if (sphereData.ellipsoidAttributeSet != NULL)
-		Q3AttributeSet_Add(sphereData.ellipsoidAttributeSet, kQ3AttributeTypeDiffuseColor, &colourSphere);
-
-	theSphere = Q3Ellipsoid_New(&sphereData);
-	if (theSphere != NULL)
-		{
-		Q3Group_AddObject(theGroup, theSphere);
-		Q3Object_Dispose(theSphere);
-		}
-
-
-
-	// Create the Cone
-	coneData.coneAttributeSet = Q3AttributeSet_New();
-	if (coneData.coneAttributeSet != NULL)
-		Q3AttributeSet_Add(coneData.coneAttributeSet, kQ3AttributeTypeDiffuseColor, &colourCone);
-
-	theCone = Q3Cone_New(&coneData);
-	if (theCone != NULL)
-		{
-		Q3Group_AddObject(theGroup, theCone);
-		Q3Object_Dispose(theCone);
-		}
-
-
-
-	// Clean up
-	if (torusData.torusAttributeSet != NULL)
-		Q3Object_Dispose(torusData.torusAttributeSet);
-
-	if (sphereData.ellipsoidAttributeSet != NULL)
-		Q3Object_Dispose(sphereData.ellipsoidAttributeSet);
-
-	if (coneData.coneAttributeSet != NULL)
-		Q3Object_Dispose(coneData.coneAttributeSet);
-
-	return(theGroup);
-}
-
-
-
-
-#define	kNumDepthTriangles  8
-
-//=============================================================================
-//      createDepthBufferTest : Create an object to test the OpenGL depth buffer.
-//-----------------------------------------------------------------------------
-static TQ3Object
-createDepthBufferTest()
-{
-	TQ3GroupObject			theGroup;
-	TQ3GeometryObject		depthTriMesh, backdropTriMesh;
-	TQ3Point3D				depthPts[ kNumDepthTriangles * 3 ];
-	TQ3TriMeshTriangleData	depthTris[ kNumDepthTriangles ];
-	TQ3Vector3D				depthVertNorms[ kNumDepthTriangles * 3 ];
-	TQ3TriMeshAttributeData	depthVertAtts = {
-		kQ3AttributeTypeNormal,
-		NULL, NULL
-	};
-	TQ3Point3D				backPts[ 4 ] = {
-		{-1.0f, -1.0f, 0.0f },
-		{ 1.0f, -1.0f, 0.0f },
-		{ 1.0f,  1.0f, 0.0f },
-		{-1.0f,  1.0f, 0.0f }
-	};
-	TQ3TriMeshTriangleData	backTris[ 2 ] = { 
-		{{ 0, 1, 2 }}, {{ 0, 2, 3 }}
-	};
-	TQ3Vector3D				backVertNorms[ 4 ] = {
-		{ 0.0f, 0.0f, 1.0f },
-		{ 0.0f, 0.0f, 1.0f },
-		{ 0.0f, 0.0f, 1.0f },
-		{ 0.0f, 0.0f, 1.0f }
-	};
-	TQ3TriMeshAttributeData	backVertAtts = {
-		kQ3AttributeTypeNormal,
-		NULL, NULL
-	};
-	TQ3TriMeshData			depthData = {
-		NULL,
-		kNumDepthTriangles, NULL,
-		0, NULL,
-		0, NULL,
-		0, NULL,
-		kNumDepthTriangles * 3, NULL,
-		1, NULL
-	};
-	TQ3TriMeshData			backData = {
-		NULL,
-		2, NULL,
-		0, NULL,
-		0, NULL,
-		0, NULL,
-		4, NULL,
-		1, NULL
-	};
-	TQ3Uns32	n;
-
-
-	
-	// Create the group
-	theGroup = Q3DisplayGroup_New();
-	if (theGroup == NULL)
-		return(NULL);
-
-
-
-	// Create the backdrop
-	backVertAtts.data = backVertNorms;
-	backData.triangles = backTris;
-	backData.points = backPts;
-	backData.vertexAttributeTypes = &backVertAtts;
-	Q3BoundingBox_SetFromPoints3D( &backData.bBox, backData.points, backData.numPoints,
-		sizeof(TQ3Point3D) );
-	backData.triMeshAttributeSet = Q3AttributeSet_New();
-	if (backData.triMeshAttributeSet != NULL)
-	{
-		TQ3ColorRGB	backdropColor = {
-			1.0f, 0.5f, 0.0f
-		};
-		Q3AttributeSet_Add( backData.triMeshAttributeSet, kQ3AttributeTypeDiffuseColor,
-							&backdropColor );
-	}
-	backdropTriMesh = Q3TriMesh_New( &backData );
-	if (backdropTriMesh != NULL)
-		Q3Group_AddObject( theGroup, backdropTriMesh );
-
-	
-	// Create depth points and triangles
-	for (n = 0; n < kNumDepthTriangles; ++n)
-	{
-		depthPts[ n * 3 ].x = -1.0 + (n * 2.0) / kNumDepthTriangles;
-		depthPts[ n * 3 ].y = -1.0f;
-		depthPts[ n * 3 ].z = 0.01f / (1L << n);
-		depthPts[ n * 3 + 1 ].x = -1.0 + ((n+1) * 2.0) / kNumDepthTriangles;
-		depthPts[ n * 3 + 1 ].y = -1.0f;
-		depthPts[ n * 3 + 1 ].z = 0.01f / (1L << n);
-		depthPts[ n * 3 + 2 ].x = -1.0 + ((n+1) * 2.0) / kNumDepthTriangles;
-		depthPts[ n * 3 + 2 ].y = 1.0f;
-		depthPts[ n * 3 + 2 ].z = 0.01f / (1L << n);
-		depthVertNorms[ n * 3 ] = backVertNorms[0];
-		depthVertNorms[ n * 3 + 1 ] = backVertNorms[0];
-		depthVertNorms[ n * 3 + 2 ] = backVertNorms[0];
-		depthTris[ n ].pointIndices[ 0 ] = n * 3;
-		depthTris[ n ].pointIndices[ 1 ] = n * 3 + 1;
-		depthTris[ n ].pointIndices[ 2 ] = n * 3 + 2;
-	}
-	
-	
-	// Create the depth test geometry
-	depthVertAtts.data = depthVertNorms;
-	depthData.triangles = depthTris;
-	depthData.points = depthPts;
-	depthData.vertexAttributeTypes = &depthVertAtts;
-	Q3BoundingBox_SetFromPoints3D( &depthData.bBox, depthData.points, depthData.numPoints,
-		sizeof(TQ3Point3D) );
-	depthData.triMeshAttributeSet = Q3AttributeSet_New();
-	if (depthData.triMeshAttributeSet != NULL)
-	{
-		TQ3ColorRGB	depthColor = {
-			0.0f, 0.5f, 1.0f
-		};
-		Q3AttributeSet_Add( depthData.triMeshAttributeSet, kQ3AttributeTypeDiffuseColor,
-							&depthColor );
-	}
-	depthTriMesh = Q3TriMesh_New( &depthData );
-	if (depthTriMesh != NULL)
-		Q3Group_AddObject( theGroup, depthTriMesh );
-	
-	
-	
-	// Clean up
-	if (backData.triMeshAttributeSet != NULL)
-		Q3Object_Dispose( backData.triMeshAttributeSet );
-	if (backdropTriMesh != NULL)
-		Q3Object_Dispose( backdropTriMesh );
-	if (depthData.triMeshAttributeSet != NULL)
-		Q3Object_Dispose( depthData.triMeshAttributeSet );
-	if (depthTriMesh != NULL)
-		Q3Object_Dispose( depthTriMesh );
-
-
-	return(theGroup);
-}
-
-
-
-
-
-//=============================================================================
 //      createGeomTorus : Create a Torus object.
 //-----------------------------------------------------------------------------
 static TQ3GeometryObject
@@ -2158,6 +1825,440 @@ createGeomTriMesh(void)
 	theTriMesh = Q3TriMesh_New(&triMeshData);
 
 	return(theTriMesh);
+}
+
+
+
+
+
+//=============================================================================
+//      createGeomMultiBox : Create the multi-box geometry.
+//-----------------------------------------------------------------------------
+static TQ3GeometryObject
+createGeomMultiBox(void)
+{	TQ3ColorRGB				faceColour[6] = { {1.0f, 0.0f, 0.0f},
+											  {0.0f, 1.0f, 0.0f},
+											  {0.0f, 0.0f, 1.0f},
+											  {1.0f, 1.0f, 0.0f},
+											  {1.0f, 0.0f, 1.0f},
+											  {0.0f, 1.0f, 1.0f} };
+	TQ3AttributeSet			faceAttributes[6];
+	TQ3Uns32				n, i, j;
+	TQ3DisplayGroupObject	theGroup;
+	TQ3BoxData				boxData;
+	TQ3GeometryObject		theBox;
+
+
+
+	// Create the group to hold the boxes
+	theGroup = Q3DisplayGroup_New();
+	if (theGroup == NULL)
+		return(NULL);
+
+
+
+	// Set up the data
+	Q3Vector3D_Set(&boxData.orientation, 0.0f,  0.1f,  0.0f);
+	Q3Vector3D_Set(&boxData.majorAxis,   0.0f,  0.0f,  0.1f);
+	Q3Vector3D_Set(&boxData.minorAxis,   0.1f,  0.0f,  0.0f);
+	boxData.boxAttributeSet  = NULL;
+	boxData.faceAttributeSet = faceAttributes;
+
+	for (n = 0; n < 6; n++)
+		{
+		faceAttributes[n] = Q3AttributeSet_New();
+		if (faceAttributes[n] != NULL)
+			Q3AttributeSet_Add(faceAttributes[n], kQ3AttributeTypeDiffuseColor, &faceColour[n]);
+		}
+
+
+
+	// Create the boxes
+	for (i = 0; i < 10; ++i)
+		{
+		boxData.origin.x = -0.95f + i * 0.2f;
+		
+		for (j = 0; j < 10; ++j)
+			{
+			boxData.origin.y = -0.95f + j * 0.2f;
+			
+			for (n = 0; n < 10; ++n)
+				{
+				boxData.origin.z = -0.95f + n * 0.2f;
+
+				theBox = Q3Box_New(&boxData);
+				if (theBox != NULL)
+					{
+					Q3Group_AddObject(theGroup, theBox);
+					Q3Object_Dispose(theBox);
+					}
+				}
+			}
+		}
+
+
+
+	// Clean up
+	for (n = 0; n < 6; n++)
+		{
+		if (faceAttributes[n] != NULL)
+			Q3Object_Dispose(faceAttributes[n]);
+		}
+
+	return(theGroup);
+}
+
+
+
+
+
+//=============================================================================
+//      createGeomQuesa : Create the Quesa logo geometry.
+//-----------------------------------------------------------------------------
+static TQ3GroupObject
+createGeomQuesa(void)
+{	TQ3GeometryObject		theTorus, theSphere, theCone;
+	TQ3TransformObject		theTransform;
+	TQ3GroupObject			theGroup;
+	TQ3RotateTransformData	transformData = { kQ3AxisZ, Q3Math_DegreesToRadians(45.0f) };
+	TQ3ColorRGB				colourTorus   = { 0.19f, 0.21f, 0.60f };
+	TQ3ColorRGB				colourSphere  = { 0.66f, 0.01f, 0.01f };
+	TQ3ColorRGB				colourCone    = { 0.14f, 0.42f, 0.18f };
+	TQ3TorusData			torusData = { { 0.0f, 0.3f, 0.0f },		// Origin
+										  { 0.0f, 0.0f, 0.3f },		// Orientation
+										  { 1.0f, 0.0f, 0.0f },		// Major radius
+										  { 0.0f, 1.0f, 0.0f },		// Minor radius
+										    1.0f,					// Ratio
+										    0.0f, 1.0f, 0.0f, 1.0f,
+										    kQ3EndCapNone, NULL, NULL };
+	TQ3EllipsoidData		sphereData = { { 0.0f, 0.3f, 0.0f },	// Origin
+										   { 0.0f, 0.0f, 0.3f },	// Orientation
+										   { 0.3f, 0.0f, 0.0f },	// Major radius
+										   { 0.0f, 0.3f, 0.0f },	// Minor radius
+										   0.0f, 1.0f, 0.0f, 1.0f,
+										   kQ3EndCapNone, NULL, NULL };
+	TQ3ConeData				coneData   = { { 0.0f, -1.4f,  0.0f },	// Origin
+										   { 0.0f,  1.5f,  0.0f },	// Orientation
+										   { 0.0f,  0.0f,  0.3f },	// Major radius
+										   { 0.3f,  0.0f,  0.0f },	// Minor radius
+										   0.0f, 1.0f, 0.0f, 1.0f,
+										   kQ3EndCapMaskBottom, NULL, NULL, NULL, NULL };
+
+
+
+	// Create the group
+	theGroup = Q3OrderedDisplayGroup_New();
+	if (theGroup == NULL)
+		return(NULL);
+
+
+
+	// Create the transform
+	theTransform = Q3RotateTransform_New(&transformData);
+	if (theTransform != NULL)
+		{
+		Q3Group_AddObject(theGroup, theTransform);
+		Q3Object_Dispose(theTransform);
+		}
+
+
+
+	// Create the Torus
+	torusData.torusAttributeSet = Q3AttributeSet_New();
+	if (torusData.torusAttributeSet != NULL)
+		Q3AttributeSet_Add(torusData.torusAttributeSet, kQ3AttributeTypeDiffuseColor, &colourTorus);
+
+	theTorus = Q3Torus_New(&torusData);
+	if (theTorus != NULL)
+		{
+		Q3Group_AddObject(theGroup, theTorus);
+		Q3Object_Dispose(theTorus);
+		}
+
+
+
+	// Create the Sphere
+	sphereData.ellipsoidAttributeSet = Q3AttributeSet_New();
+	if (sphereData.ellipsoidAttributeSet != NULL)
+		Q3AttributeSet_Add(sphereData.ellipsoidAttributeSet, kQ3AttributeTypeDiffuseColor, &colourSphere);
+
+	theSphere = Q3Ellipsoid_New(&sphereData);
+	if (theSphere != NULL)
+		{
+		Q3Group_AddObject(theGroup, theSphere);
+		Q3Object_Dispose(theSphere);
+		}
+
+
+
+	// Create the Cone
+	coneData.coneAttributeSet = Q3AttributeSet_New();
+	if (coneData.coneAttributeSet != NULL)
+		Q3AttributeSet_Add(coneData.coneAttributeSet, kQ3AttributeTypeDiffuseColor, &colourCone);
+
+	theCone = Q3Cone_New(&coneData);
+	if (theCone != NULL)
+		{
+		Q3Group_AddObject(theGroup, theCone);
+		Q3Object_Dispose(theCone);
+		}
+
+
+
+	// Clean up
+	if (torusData.torusAttributeSet != NULL)
+		Q3Object_Dispose(torusData.torusAttributeSet);
+
+	if (sphereData.ellipsoidAttributeSet != NULL)
+		Q3Object_Dispose(sphereData.ellipsoidAttributeSet);
+
+	if (coneData.coneAttributeSet != NULL)
+		Q3Object_Dispose(coneData.coneAttributeSet);
+
+	return(theGroup);
+}
+
+
+
+
+
+//=============================================================================
+//      createTestDepth : Create an object to test depth buffering.
+//-----------------------------------------------------------------------------
+static TQ3Object
+createTestDepth(void)
+{
+	TQ3GroupObject			theGroup;
+	TQ3GeometryObject		depthTriMesh, backdropTriMesh;
+	TQ3Point3D				depthPts[ kNumDepthTriangles * 3 ];
+	TQ3TriMeshTriangleData	depthTris[ kNumDepthTriangles ];
+	TQ3Vector3D				depthVertNorms[ kNumDepthTriangles * 3 ];
+	TQ3TriMeshAttributeData	depthVertAtts = {
+		kQ3AttributeTypeNormal,
+		NULL, NULL
+	};
+	TQ3Point3D				backPts[ 4 ] = {
+		{-1.0f, -1.0f, 0.0f },
+		{ 1.0f, -1.0f, 0.0f },
+		{ 1.0f,  1.0f, 0.0f },
+		{-1.0f,  1.0f, 0.0f }
+	};
+	TQ3TriMeshTriangleData	backTris[ 2 ] = { 
+		{{ 0, 1, 2 }}, {{ 0, 2, 3 }}
+	};
+	TQ3Vector3D				backVertNorms[ 4 ] = {
+		{ 0.0f, 0.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f }
+	};
+	TQ3TriMeshAttributeData	backVertAtts = {
+		kQ3AttributeTypeNormal,
+		NULL, NULL
+	};
+	TQ3TriMeshData			depthData = {
+		NULL,
+		kNumDepthTriangles, NULL,
+		0, NULL,
+		0, NULL,
+		0, NULL,
+		kNumDepthTriangles * 3, NULL,
+		1, NULL
+	};
+	TQ3TriMeshData			backData = {
+		NULL,
+		2, NULL,
+		0, NULL,
+		0, NULL,
+		0, NULL,
+		4, NULL,
+		1, NULL
+	};
+	TQ3Uns32	n;
+
+
+	
+	// Create the group
+	theGroup = Q3DisplayGroup_New();
+	if (theGroup == NULL)
+		return(NULL);
+
+
+
+	// Create the backdrop
+	backVertAtts.data = backVertNorms;
+	backData.triangles = backTris;
+	backData.points = backPts;
+	backData.vertexAttributeTypes = &backVertAtts;
+	Q3BoundingBox_SetFromPoints3D( &backData.bBox, backData.points, backData.numPoints,
+		sizeof(TQ3Point3D) );
+	backData.triMeshAttributeSet = Q3AttributeSet_New();
+	if (backData.triMeshAttributeSet != NULL)
+	{
+		TQ3ColorRGB	backdropColor = {
+			1.0f, 0.5f, 0.0f
+		};
+		Q3AttributeSet_Add( backData.triMeshAttributeSet, kQ3AttributeTypeDiffuseColor,
+							&backdropColor );
+	}
+	backdropTriMesh = Q3TriMesh_New( &backData );
+	if (backdropTriMesh != NULL)
+		Q3Group_AddObject( theGroup, backdropTriMesh );
+
+	
+	// Create depth points and triangles
+	for (n = 0; n < kNumDepthTriangles; ++n)
+	{
+		depthPts[ n * 3 ].x = -1.0 + (n * 2.0) / kNumDepthTriangles;
+		depthPts[ n * 3 ].y = -1.0f;
+		depthPts[ n * 3 ].z = 0.01f / (1L << n);
+		depthPts[ n * 3 + 1 ].x = -1.0 + ((n+1) * 2.0) / kNumDepthTriangles;
+		depthPts[ n * 3 + 1 ].y = -1.0f;
+		depthPts[ n * 3 + 1 ].z = 0.01f / (1L << n);
+		depthPts[ n * 3 + 2 ].x = -1.0 + ((n+1) * 2.0) / kNumDepthTriangles;
+		depthPts[ n * 3 + 2 ].y = 1.0f;
+		depthPts[ n * 3 + 2 ].z = 0.01f / (1L << n);
+		depthVertNorms[ n * 3 ] = backVertNorms[0];
+		depthVertNorms[ n * 3 + 1 ] = backVertNorms[0];
+		depthVertNorms[ n * 3 + 2 ] = backVertNorms[0];
+		depthTris[ n ].pointIndices[ 0 ] = n * 3;
+		depthTris[ n ].pointIndices[ 1 ] = n * 3 + 1;
+		depthTris[ n ].pointIndices[ 2 ] = n * 3 + 2;
+	}
+	
+	
+	// Create the depth test geometry
+	depthVertAtts.data = depthVertNorms;
+	depthData.triangles = depthTris;
+	depthData.points = depthPts;
+	depthData.vertexAttributeTypes = &depthVertAtts;
+	Q3BoundingBox_SetFromPoints3D( &depthData.bBox, depthData.points, depthData.numPoints,
+		sizeof(TQ3Point3D) );
+	depthData.triMeshAttributeSet = Q3AttributeSet_New();
+	if (depthData.triMeshAttributeSet != NULL)
+	{
+		TQ3ColorRGB	depthColor = {
+			0.0f, 0.5f, 1.0f
+		};
+		Q3AttributeSet_Add( depthData.triMeshAttributeSet, kQ3AttributeTypeDiffuseColor,
+							&depthColor );
+	}
+	depthTriMesh = Q3TriMesh_New( &depthData );
+	if (depthTriMesh != NULL)
+		Q3Group_AddObject( theGroup, depthTriMesh );
+	
+	
+	
+	// Clean up
+	if (backData.triMeshAttributeSet != NULL)
+		Q3Object_Dispose( backData.triMeshAttributeSet );
+	if (backdropTriMesh != NULL)
+		Q3Object_Dispose( backdropTriMesh );
+	if (depthData.triMeshAttributeSet != NULL)
+		Q3Object_Dispose( depthData.triMeshAttributeSet );
+	if (depthTriMesh != NULL)
+		Q3Object_Dispose( depthTriMesh );
+
+
+	return(theGroup);
+}
+
+
+
+
+
+//=============================================================================
+//      createTestRasterize : Create a rasterize transform test.
+//-----------------------------------------------------------------------------
+static TQ3Object
+createTestRasterize(void)
+{	TQ3Point3D				vertPoints[4] = { {  10.0f,  10.0f, 0.0f },
+											  { 290.0f,  10.0f, 0.0f },
+											  { 290.0f, 100.0f, 0.0f },
+											  {  10.0f, 100.0f, 0.0f } };
+	TQ3ColorRGB				polyColour[4] = { { 1.0f, 0.0f, 0.0f },
+											  { 0.0f, 1.0f, 0.0f },
+											  { 0.0f, 0.0f, 1.0f },
+											  { 1.0f, 0.0f, 1.0f } };
+	TQ3ColorRGB				transColour   = { 0.75f, 0.75f, 0.75f };
+	TQ3GroupObject			theGroup, rasterGroup;
+	TQ3Vertex3D				theVertices[4];
+	TQ3TransformObject		theTransform;
+	TQ3PolygonData			polygonData;
+	TQ3GeometryObject		thePolygon;
+	TQ3Param2D				vertUVs[4];
+	TQ3Uns32				n;
+
+
+
+	// Create our groups
+	theGroup    = Q3OrderedDisplayGroup_New();
+	rasterGroup = Q3OrderedDisplayGroup_New();
+	if (theGroup == NULL || rasterGroup == NULL)
+		return(NULL);
+
+
+
+	// Create the rasterize transform (Quesa only)
+#if TARGET_API_MAC_CARBON
+	theTransform = Q3RasterizeCameraTransform_New();
+	Q3Group_AddObjectAndDispose(rasterGroup, &theTransform);
+#endif
+
+
+
+	// Set up the polygon
+	//
+	// Since we are operating under a rasterize transform, our vertex
+	// coordinates are specified in pixels rather than local coordinates.
+	polygonData.numVertices         = 4;
+	polygonData.vertices            = theVertices;
+	polygonData.polygonAttributeSet = NULL;
+
+	createUVsFromPoints(polygonData.numVertices, vertPoints, vertUVs);
+
+	for (n = 0; n < 4; n++)
+		{
+		polygonData.vertices[n].point        = vertPoints[n];
+		polygonData.vertices[n].attributeSet = Q3AttributeSet_New();
+
+		if (polygonData.vertices[n].attributeSet != NULL)
+			{
+			Q3AttributeSet_Add(polygonData.vertices[n].attributeSet, kQ3AttributeTypeDiffuseColor,      &polyColour[n]);
+			Q3AttributeSet_Add(polygonData.vertices[n].attributeSet, kQ3AttributeTypeTransparencyColor, &transColour);
+			Q3AttributeSet_Add(polygonData.vertices[n].attributeSet, kQ3AttributeTypeSurfaceUV,         &vertUVs[n]);
+			}
+		}
+
+
+
+	// Create the geometry
+	thePolygon = Q3Polygon_New(&polygonData);
+	if (thePolygon != NULL)
+		{
+		Q3Group_AddObject(rasterGroup, thePolygon);
+		Q3Object_Dispose(thePolygon);
+		}
+
+
+
+	// Create the group
+	//
+	// We return a group containing a 3D object (to demonstrate that transforms
+	// are still in effect), and our "raster group" (to demonstrate a rasterised
+	// polygon within the same scene).
+	Q3Group_AddObject(theGroup, rasterGroup);
+	Q3Group_AddObject(theGroup, createGeomQuesa());
+
+
+	// Clean up
+	for (n = 0; n < 4; n++)
+		{
+		if (polygonData.vertices[n].attributeSet != NULL)
+			Q3Object_Dispose(polygonData.vertices[n].attributeSet);
+		}
+
+	return(theGroup);
 }
 
 
@@ -2589,8 +2690,12 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			theGeom = createGeomQuesa();
 			break;
 			
-		case kMenuItemDepthTest:
-			theGeom = createDepthBufferTest();
+		case kMenuItemTestDepth:
+			theGeom = createTestDepth();
+			break;
+			
+		case kMenuItemTestRasterize:
+			theGeom = createTestRasterize();
 			break;
 
 		default:
@@ -2935,7 +3040,9 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "MultiBox");
 	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
-	Qut_CreateMenuItem(kMenuItemLast, "Depth Buffer Test");
+	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
+	Qut_CreateMenuItem(kMenuItemLast, "Test Depth Buffer");
+	Qut_CreateMenuItem(kMenuItemLast, "Test Rasterize");
 }
 
 
