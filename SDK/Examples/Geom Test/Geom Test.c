@@ -2103,7 +2103,6 @@ doSaveModel(TQ3ViewObject theView)
 						if (gShowTexture && gSceneTexture != NULL)
 							Q3Shader_Submit(gSceneTexture, theView);
 							
-						Q3MatrixTransform_Submit(&gMatrixCurrent, theView);
 						Q3Object_Submit(gSceneGeometry, theView);
 
 						viewStatus = Q3View_EndWriting(theView);
@@ -2155,7 +2154,7 @@ doLoadModel(TQ3ViewObject theView)
 
 		scaleFactor = (xBounds > yBounds)     ? xBounds : yBounds;
 		scaleFactor = (zBounds > scaleFactor) ? zBounds : scaleFactor;
-		scaleFactor = 1.0f / (scaleFactor * 0.5f);
+		scaleFactor = 1.0f / (scaleFactor * 0.3f);
 
 		if (xBounds <= 0.0003f && yBounds <= 0.0003f && zBounds <= 0.0003f)
 				scaleFactor = 1.0f;
@@ -2171,13 +2170,13 @@ doLoadModel(TQ3ViewObject theView)
 	    normalizedModel = Q3DisplayGroup_New();
 	    if(normalizedModel != NULL)
 	    	{
-	    		tempObj = Q3TranslateTransform_New(&translateToOrigin);
+	    		tempObj = Q3ScaleTransform_New(&scale);
 	    		if(tempObj)
 	    			{
                     Q3Group_AddObject(normalizedModel, tempObj);
                		Q3Object_Dispose(tempObj);
 	    			}
-	    		tempObj = Q3ScaleTransform_New(&scale);
+	    		tempObj = Q3TranslateTransform_New(&translateToOrigin);
 	    		if(tempObj)
 	    			{
                     Q3Group_AddObject(normalizedModel, tempObj);
