@@ -2641,11 +2641,14 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 		}
 
 	// Allocate the faces Array
-	faces = (TQ3MeshFace *) Q3Memory_AllocateClear(sizeof(TQ3MeshFace) * numFaces);
-	if(faces == NULL)
+	if (numFaces > 0)
 		{
-		goto cleanUp;
-		readFailed = kQ3True;
+		faces = (TQ3MeshFace *) Q3Memory_AllocateClear(sizeof(TQ3MeshFace) * numFaces);
+		if (faces == NULL)
+			{
+			goto cleanUp;
+			readFailed = kQ3True;
+			}
 		}
 
 	// read the faces or contours
