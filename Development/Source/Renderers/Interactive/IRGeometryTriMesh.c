@@ -641,8 +641,7 @@ ir_geom_trimesh_build_vertex_normals(TQ3VertexArray *vertexArray)
 				if (!vertexArray->geomVertexNormalsFlag[n])
 					{
 					m = vertexArray->vertexParents[n];
-					if (E3Bit_IsSet(vertexArray->triFlags[m], kQ3TriFlagVisible))
-						vertexArray->vertexNormals[n] = vertexArray->triNormals[m];
+					vertexArray->vertexNormals[n] = vertexArray->triNormals[m];
 					}
 				}
 			}
@@ -656,8 +655,7 @@ ir_geom_trimesh_build_vertex_normals(TQ3VertexArray *vertexArray)
 		for (n = 0; n < vertexArray->geomData->numPoints; n++)
 			{
 			m = vertexArray->vertexParents[n];
-			if (E3Bit_IsSet(vertexArray->triFlags[m], kQ3TriFlagVisible))
-				vertexArray->vertexNormals[n] = vertexArray->triNormals[m];
+			vertexArray->vertexNormals[n] = vertexArray->triNormals[m];
 			}
 		}
 
