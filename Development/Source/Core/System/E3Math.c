@@ -284,7 +284,8 @@ e3matrix3_invert(TQ3Matrix3x3* a)
         }
         
         // If largest element is 0, the matrix is singular
-        if (big == 0.0f)
+        // (If there are "nan" values in the matrix, "big" may still be -1.0.)
+        if (big <= 0.0f)
         {
             E3ErrorManager_PostError(kQ3ErrorNonInvertibleMatrix, kQ3False);
             return;
@@ -505,7 +506,8 @@ e3matrix4_invert(TQ3Matrix4x4* a)
         }
         
         // If largest element is 0, the matrix is singular
-        if (big == 0.0f)
+        // (If there are "nan" values in the matrix, "big" may still be -1.0.)
+        if (big <= 0.0f)
         {
             E3ErrorManager_PostError(kQ3ErrorNonInvertibleMatrix, kQ3False);
             return;
@@ -743,7 +745,7 @@ e3matrix_invert(float **a, TQ3Int32 n, TQ3Int32 *ipiv, TQ3Int32 *indxr, TQ3Int32
 		}
 		
 		// If largest element is 0, the matrix is singular
-		if (big == 0.0f)
+		if (big <= 0.0f)
 		{
 			E3ErrorManager_PostError(kQ3ErrorNonInvertibleMatrix, kQ3False);
 			return;
