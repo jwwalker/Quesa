@@ -116,7 +116,7 @@ WFRenderer_StartFrame(TQ3ViewObject				theView,
 
 
 			// And try and build a new one
-			instanceData->glContext = GLDrawContext_New(theDrawContext, &instanceData->glClearFlags);
+			instanceData->glContext = GLDrawContext_New(theView, theDrawContext, &instanceData->glClearFlags);
 			if (instanceData->glContext == NULL)
 				return(kQ3Failure);
 			}
