@@ -55,27 +55,6 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-// Shader state data
-typedef struct TQ3ShaderData {
-	TQ3ShaderUVBoundary		uBoundary;
-	TQ3ShaderUVBoundary		vBoundary;
-	TQ3Matrix3x3			uvTransform;
-} TQ3ShaderData;
-
-
-
-
-
-class E3Shader : public E3ShapeData // This is not a leaf class, but only classes in this,
-								// file inherit from it, so it can be declared here in
-								// the .c file rather than in the .h file, hence all
-								// the fields can be public as nobody should be
-								// including this file.
-	{
-public :
-
-	TQ3ShaderData		shaderData ;
-	} ;
 	
 
 
@@ -835,11 +814,11 @@ E3Shader_Submit(TQ3ShaderObject shader, TQ3ViewObject view)
 //      E3Shader_SetUVTransform : Set the UV transform of a shader.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_SetUVTransform(TQ3ShaderObject theShader, const TQ3Matrix3x3 *uvTransform)
+E3Shader::SetUVTransform ( const TQ3Matrix3x3* uvTransform )
 	{
 	// Set the transform
-	Q3Matrix3x3_Copy ( uvTransform, & ( (E3Shader*) theShader )->shaderData.uvTransform ) ;
-	Q3Shared_Edited ( theShader ) ;
+	Q3Matrix3x3_Copy ( uvTransform, & shaderData.uvTransform ) ;
+	Edited () ;
 	
 	return kQ3Success ;
 	}
@@ -852,10 +831,10 @@ E3Shader_SetUVTransform(TQ3ShaderObject theShader, const TQ3Matrix3x3 *uvTransfo
 //      E3Shader_GetUVTransform : Get the UV transform of a shader.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_GetUVTransform(TQ3ShaderObject theShader, TQ3Matrix3x3 *uvTransform)
+E3Shader::GetUVTransform ( TQ3Matrix3x3* uvTransform )
 	{
 	// Get the transform
-	Q3Matrix3x3_Copy ( & ( (E3Shader*) theShader )->shaderData.uvTransform, uvTransform ) ;
+	Q3Matrix3x3_Copy ( & shaderData.uvTransform, uvTransform ) ;
 	
 	return kQ3Success ;
 	}
@@ -868,11 +847,11 @@ E3Shader_GetUVTransform(TQ3ShaderObject theShader, TQ3Matrix3x3 *uvTransform)
 //      E3Shader_SetUBoundary :	Set the U parameterization boundary type.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_SetUBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary uBoundary)
+E3Shader::SetUBoundary ( TQ3ShaderUVBoundary uBoundary )
 	{
 	// Set the boundary
-	( (E3Shader*) theShader )->shaderData.uBoundary = uBoundary ;
-	Q3Shared_Edited ( theShader ) ;
+	shaderData.uBoundary = uBoundary ;
+	Edited () ;
 	
 	return kQ3Success ;
 	}
@@ -885,11 +864,11 @@ E3Shader_SetUBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary uBoundary)
 //      E3Shader_SetVBoundary :	Set the V parameterization boundary type.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_SetVBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary vBoundary)
+E3Shader::SetVBoundary ( TQ3ShaderUVBoundary vBoundary )
 	{
 	// Set the boundary
-	( (E3Shader*) theShader )->shaderData.vBoundary	= vBoundary ;
-	Q3Shared_Edited ( theShader ) ;
+	shaderData.vBoundary = vBoundary ;
+	Edited () ;
 	
 	return kQ3Success ;
 	}
@@ -902,10 +881,10 @@ E3Shader_SetVBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary vBoundary)
 //      E3Shader_GetUBoundary :	Get the U parametrization boundary type.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_GetUBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary *uBoundary)
+E3Shader::GetUBoundary ( TQ3ShaderUVBoundary* uBoundary )
 	{
 	// Get the U boundary type	
-	*uBoundary	= ( (E3Shader*) theShader )->shaderData.uBoundary ;
+	*uBoundary	= shaderData.uBoundary ;
 	
 	return kQ3Success ;
 	}
@@ -918,10 +897,10 @@ E3Shader_GetUBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary *uBoundary)
 //      E3Shader_GetVBoundary :	Get the V parametrization boundary type.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Shader_GetVBoundary(TQ3ShaderObject theShader, TQ3ShaderUVBoundary *vBoundary)
+E3Shader::GetVBoundary ( TQ3ShaderUVBoundary* vBoundary )
 	{
 	// Get the V boundary type
-	*vBoundary	= ( (E3Shader*) theShader )->shaderData.vBoundary;
+	*vBoundary	= shaderData.vBoundary ;
 	
 	return kQ3Success ;
 	}

@@ -799,7 +799,7 @@ Q3Shader_SetUVTransform(TQ3ShaderObject shader, const TQ3Matrix3x3 *uvTransform)
 
 
 	// Call our implementation
-	return(E3Shader_SetUVTransform(shader, uvTransform));
+	return ( (E3Shader*) shader )->SetUVTransform ( uvTransform ) ;
 }
 
 
@@ -837,7 +837,7 @@ Q3Shader_GetUVTransform(TQ3ShaderObject shader, TQ3Matrix3x3 *uvTransform)
 
 
 	// Call our implementation
-	return(E3Shader_GetUVTransform(shader, uvTransform));
+	return ( (E3Shader*) shader )->GetUVTransform ( uvTransform ) ;
 }
 
 
@@ -874,7 +874,7 @@ Q3Shader_SetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary uBoundary)
 
 
 	// Call our implementation
-	return(E3Shader_SetUBoundary(shader, uBoundary));
+	return ( (E3Shader*) shader )->SetUBoundary ( uBoundary ) ;
 }
 
 
@@ -911,7 +911,7 @@ Q3Shader_SetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary vBoundary)
 
 
 	// Call our implementation
-	return(E3Shader_SetVBoundary(shader, vBoundary));
+	return ( (E3Shader*) shader )->SetVBoundary ( vBoundary ) ;
 }
 
 
@@ -927,7 +927,9 @@ Q3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(shader != NULL, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(shader->IsObjectValid (), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_OBJECT_IS_CLASS(shader, E3Shader), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(uBoundary), kQ3Failure);
 
 
@@ -949,7 +951,7 @@ Q3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary)
 
 
 	// Call our implementation
-	return(E3Shader_GetUBoundary(shader, uBoundary));
+	return ( (E3Shader*) shader )->GetUBoundary ( uBoundary ) ;
 }
 
 
@@ -965,7 +967,9 @@ Q3Shader_GetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *vBoundary)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(shader != NULL, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(shader->IsObjectValid (), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_OBJECT_IS_CLASS(shader, E3Shader), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vBoundary), kQ3Failure);
 
 
@@ -987,7 +991,7 @@ Q3Shader_GetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *vBoundary)
 
 
 	// Call our implementation
-	return(E3Shader_GetVBoundary(shader, vBoundary));
+	return ( (E3Shader*) shader )->GetVBoundary ( vBoundary ) ;
 }
 
 
@@ -1168,7 +1172,11 @@ Q3TextureShader_GetTexture(TQ3ShaderObject shader, TQ3TextureObject *texture)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shader, (kQ3ShapeTypeShader)), kQ3Failure);
+
+	Q3_REQUIRE_OR_RESULT(shader != NULL, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(shader->IsObjectValid (), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_OBJECT_IS_CLASS(shader, E3Shader), kQ3Failure);
+
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(texture), kQ3Failure);
 
 
