@@ -297,12 +297,13 @@ static TQ3Status
 e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
 {	const TQ3LineData			*instanceData = (const TQ3LineData *) objectData;
 	TQ3Vector2D					windowStartToPick, windowStartToEnd, windowHitToPick;
-	TQ3Status					qd3dStatus = kQ3Success;
+	TQ3Matrix4x4				worldToFrustum, frustumToWindow, worldToWindow;
 	TQ3Point2D					hitXY,  windowPoints[2];
 	TQ3Point3D					hitXYZ, worldPoints[2];
+	float						d, divisorX, divisorY;
 	TQ3Vector3D					worldStartToEnd;
+	TQ3Status					qd3dStatus;
 	TQ3WindowPointPickData		pickData;
-	float						d;
 
 
 
@@ -342,13 +343,55 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 
 
 	// See if we fall within the pick
+	qd3dStatus = kQ3Success;
+
 	if (d <= pickData.edgeTolerance)
 		{
+		// Create a world to window matrix
+		Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
+		Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
+		Q3Matrix4x4_Multiply(&worldToFrustum, &frustumToWindow, &worldToWindow);
+
+
 		// Calculate the intersection point on the 3D line
 		Q3View_TransformLocalToWorld(theView,  &instanceData->vertices[0].point, &worldPoints[0]);
 		Q3View_TransformLocalToWorld(theView,  &instanceData->vertices[1].point, &worldPoints[1]);
 
 		Q3Point3D_Subtract(&worldPoints[1], &worldPoints[0], &worldStartToEnd);
+
+		divisorX = ( worldToWindow.value[0][3] * worldStartToEnd.x +
+					 worldToWindow.value[1][3] * worldStartToEnd.y +
+					 worldToWindow.value[2][3] * worldStartToEnd.z ) * hitXY.x -
+					 worldToWindow.value[0][0] * worldStartToEnd.x -
+					 worldToWindow.value[1][0] * worldStartToEnd.y -
+					 worldToWindow.value[2][0] * worldStartToEnd.z;
+					 
+		divisorY = ( worldToWindow.value[0][3] * worldStartToEnd.x +
+					 worldToWindow.value[1][3] * worldStartToEnd.y +
+					 worldToWindow.value[2][3] * worldStartToEnd.z ) * hitXY.y -
+					 worldToWindow.value[0][1] * worldStartToEnd.x -
+					 worldToWindow.value[1][1] * worldStartToEnd.y -
+					 worldToWindow.value[2][1] * worldStartToEnd.z;
+		
+		if ( divisorX * divisorX >= divisorY * divisorY )
+			d = ( ( worldToWindow.value[0][3] * worldPoints[0].x +
+					worldToWindow.value[1][3] * worldPoints[0].y +
+					worldToWindow.value[2][3] * worldPoints[0].z +
+					worldToWindow.value[3][3] ) * hitXY.x -
+					worldToWindow.value[0][0] * worldPoints[0].x -
+					worldToWindow.value[1][0] * worldPoints[0].y -
+					worldToWindow.value[2][0] * worldPoints[0].z -
+					worldToWindow.value[3][0] ) / -divisorX;
+		else
+			d = ( ( worldToWindow.value[0][3] * worldPoints[0].x +
+					worldToWindow.value[1][3] * worldPoints[0].y +
+					worldToWindow.value[2][3] * worldPoints[0].z +
+					worldToWindow.value[3][3] ) * hitXY.y -
+					worldToWindow.value[0][1] * worldPoints[0].x -
+					worldToWindow.value[1][1] * worldPoints[0].y -
+					worldToWindow.value[2][1] * worldPoints[0].z -
+					worldToWindow.value[3][1] ) / -divisorY;
+
 		Q3Vector3D_Scale(&worldStartToEnd, d,   &worldStartToEnd);
 		Q3Point3D_Vector3D_Add(&worldPoints[0], &worldStartToEnd, &hitXYZ);
 
