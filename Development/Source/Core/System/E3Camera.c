@@ -678,9 +678,7 @@ E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 
 
 	// Get the camera method
-	TQ3XCameraFrustumMatrixMethod frustumMatrixMethod = (TQ3XCameraFrustumMatrixMethod)
-						  GetMethod ( kQ3XMethodTypeCameraFrustumMatrix ) ;
-	if ( frustumMatrixMethod == NULL )
+	if ( ( (E3CameraInfo*) GetClass () )->frustumMatrixMethod == NULL )
 		return kQ3Failure ;
 
 
@@ -690,7 +688,7 @@ E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 	// This matrix transforms the viewing coordinate system to the canonical
 	// frustum. This ranges from -1 to +1 in x and y, and 0 to -1 in z (where
 	// 0 is the near clip plane, and -1 is the  far clip plane).
-	frustumMatrixMethod( this, viewToFrustum);
+	( (E3CameraInfo*) GetClass () )->frustumMatrixMethod ( this, viewToFrustum ) ;
 
 
 
