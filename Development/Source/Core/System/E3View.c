@@ -1359,23 +1359,40 @@ TQ3Status
 E3View_SubmitRetained(TQ3ViewObject theView, TQ3Object theObject)
 {	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
 	TQ3Status			qd3dStatus;
+	TQ3Error			theError;
 
 
 
 	// Make sure we're in the correct state
 	if (instanceData->viewState != kQ3ViewStateSubmitting)
 		{
-		E3ErrorManager_PostError(kQ3ViewModePicking == instanceData->viewMode ?
-				kQ3ErrorPickingNotStarted : kQ3ErrorRenderingNotStarted, kQ3False);
+		switch (instanceData->viewMode) {
+			case kQ3ViewModeDrawing:
+				theError = kQ3ErrorRenderingNotStarted;
+				break;
+			case kQ3ViewModePicking:
+				theError = kQ3ErrorPickingNotStarted;
+				break;
+			case kQ3ViewModeWriting:
+				theError = kQ3ErrorWriteStateInactive;
+				break;
+			case kQ3ViewModeCalcBounds:
+				theError = kQ3ErrorBoundsNotStarted;
+				break;
+			default:
+				theError = kQ3ErrorViewNotStarted;
+				break;
+			}
+
+		E3ErrorManager_PostError(theError, kQ3False);
 		return(kQ3Failure);
 		}
 
 
+
 	// Submit the object
-	qd3dStatus = e3view_submit_object(theView,
-										E3ClassTree_GetType(theObject->theClass),
-										theObject,
-										theObject->instanceData);
+	qd3dStatus = e3view_submit_object(theView,   E3ClassTree_GetType(theObject->theClass),
+									  theObject, theObject->instanceData);
 
 	return(qd3dStatus);
 }
@@ -1391,14 +1408,32 @@ TQ3Status
 E3View_SubmitImmediate(TQ3ViewObject theView, TQ3ObjectType objectType, const void *objectData)
 {	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
 	TQ3Status			qd3dStatus;
+	TQ3Error			theError;
 
 
 
 	// Make sure we're in the correct state
 	if (instanceData->viewState != kQ3ViewStateSubmitting)
 		{
-		E3ErrorManager_PostError(kQ3ViewModePicking == instanceData->viewMode ?
-				kQ3ErrorPickingNotStarted : kQ3ErrorRenderingNotStarted, kQ3False);
+		switch (instanceData->viewMode) {
+			case kQ3ViewModeDrawing:
+				theError = kQ3ErrorRenderingNotStarted;
+				break;
+			case kQ3ViewModePicking:
+				theError = kQ3ErrorPickingNotStarted;
+				break;
+			case kQ3ViewModeWriting:
+				theError = kQ3ErrorWriteStateInactive;
+				break;
+			case kQ3ViewModeCalcBounds:
+				theError = kQ3ErrorBoundsNotStarted;
+				break;
+			default:
+				theError = kQ3ErrorViewNotStarted;
+				break;
+			}
+
+		E3ErrorManager_PostError(theError, kQ3False);
 		return(kQ3Failure);
 		}
 
