@@ -55,32 +55,39 @@ extern "C" {
 //      Constants
 //-----------------------------------------------------------------------------
 // View mode (current behaviour)
-enum TQ3ViewMode {
+typedef enum TQ3ViewMode {
 	kQ3ViewModeInactive	             		= 0,		// View not doing anythig
 	kQ3ViewModeDrawing		         		= 1,		// Performing drawing
 	kQ3ViewModePicking		         		= 2,		// Performing picking
 	kQ3ViewModeWriting		    			= 3,		// Performing I/O
 	kQ3ViewModeCalcBounds			 		= 4			// Calculating bounds
-};
-typedef enum TQ3ViewMode TQ3ViewMode;
+} TQ3ViewMode;
 
 
 // View state (activity within current behaviour)
-enum TQ3ViewState {
+typedef enum TQ3ViewState {
 	kQ3ViewStateInactive   					= 0,		// View not doing anything
 	kQ3ViewStateCancelled  					= 1,		// View cancelled
 	kQ3ViewStateSubmitting 					= 2			// Inside submit loop
-};
-typedef enum TQ3ViewState TQ3ViewState;
+} TQ3ViewState;
 
-// Bounding state (activity within current behaviour)
-enum TQ3BoundingMethod {
-	kQ3BoxBoundsExact					= 0,			// Bounding box, slow
-	kQ3BoxBoundsApprox					= 1,			// Bounding box, fast
-	kQ3SphereBoundsExact				= 2,			// Bounding sphere, slow
-	kQ3SphereBoundsApprox				= 3				// Bounding sphere, fast
-};
-typedef enum TQ3BoundingMethod TQ3BoundingMethod;
+
+// Bounding method (activity within current behaviour)
+typedef enum TQ3BoundingMethod {
+	kQ3BoxBoundsExact						= 0,		// Bounding box, slow
+	kQ3BoxBoundsApprox						= 1,		// Bounding box, fast
+	kQ3SphereBoundsExact					= 2,		// Bounding sphere, slow
+	kQ3SphereBoundsApprox					= 3			// Bounding sphere, fast
+} TQ3BoundingMethod;
+
+
+// Matrix state
+typedef enum TQ3MatrixState {
+	kQ3MatrixStateNone						= 0,
+	kQ3MatrixStateLocalToWorld				= (1 << 0),	// Local  to world   changed
+	kQ3MatrixStateWorldToCamera				= (1 << 1),	// World  to camera  changed
+	kQ3MatrixStateCameraToFrustum			= (1 << 2)	// Camera to frustum changed
+} TQ3MatrixState;
 
 
 
@@ -96,6 +103,7 @@ TQ3Status				E3View_SubmitImmediate(TQ3ViewObject theView, TQ3ObjectType objectT
 TQ3Status				E3View_CallIdleMethod(TQ3ViewObject theView, TQ3Uns32 current, TQ3Uns32 completed);
 TQ3PickObject			E3View_AccessPick(TQ3ViewObject theView);
 TQ3RendererObject		E3View_AccessRenderer(TQ3ViewObject theView);
+TQ3DrawContextObject	E3View_AccessDrawContext(TQ3ViewObject theView);
 TQ3FileObject			E3View_AccessFile(TQ3ViewObject theView);
 TQ3FileFormatObject		E3View_AccessFileFormat(TQ3ViewObject theView);
 TQ3CameraObject			E3View_AccessCamera(TQ3ViewObject theView);
@@ -115,11 +123,12 @@ void					E3View_PickStack_EndDecomposedObject(TQ3ViewObject theView);
 void					E3View_PickStack_PopGroup(TQ3ViewObject theView);
 
 TQ3Status						E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *theMatrix);
-const TQ3Matrix4x4				*E3View_State_GetLocalToWorld(TQ3ViewObject theView);
+const TQ3Matrix4x4				*E3View_State_GetMatrixLocalToWorld(TQ3ViewObject theView);
 const TQ3SubdivisionStyleData	*E3View_State_GetStyleSubdivision(TQ3ViewObject theView);
 TQ3OrientationStyle				E3View_State_GetStyleOrientation(TQ3ViewObject theView);
-void							E3View_State_SetShaderSurface(TQ3ViewObject theView, const TQ3SurfaceShaderObject theData);
+TQ3Status						E3View_State_SetMatrix(TQ3ViewObject theView, TQ3MatrixState theState, const TQ3Matrix4x4 *localToWorld, const TQ3Matrix4x4 *worldToCamera, const TQ3Matrix4x4 *cameraToFrustum);
 void							E3View_State_SetShaderIllumination(TQ3ViewObject theView, const TQ3IlluminationShaderObject theData);
+void							E3View_State_SetShaderSurface(TQ3ViewObject theView, const TQ3SurfaceShaderObject theData);
 void							E3View_State_SetStyleSubdivision(TQ3ViewObject theView, const TQ3SubdivisionStyleData *theData);
 void							E3View_State_SetStylePickID(TQ3ViewObject theView, TQ3Uns32 pickID);
 void							E3View_State_SetStylePickParts(TQ3ViewObject theView, TQ3PickParts pickParts);

@@ -632,9 +632,6 @@ e3transform_reset_matrix(const void *transformData, TQ3Matrix4x4 *theMatrix)
 //=============================================================================
 //      e3transform_reset_submit : Reset submit method.
 //-----------------------------------------------------------------------------
-//		Note :	The reset transform is not cumulative - it resets the local to
-//				world matrix of the view to the identity matrix.
-//-----------------------------------------------------------------------------
 static TQ3Status
 e3transform_reset_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
@@ -644,12 +641,15 @@ e3transform_reset_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obj
 
 
 
-	// Reset the view's local to world matrix
-	Q3Matrix4x4_Invert(E3View_State_GetLocalToWorld(theView), &theMatrix);
+	// Update the view
+	//
+	// Unlike other transforms, the reset transform is not cumulative: it
+	// simply resets the local->world matrix of the view to the identity.
+	Q3Matrix4x4_SetIdentity(&theMatrix);
+	
+	qd3dStatus = E3View_State_SetMatrix(theView, kQ3MatrixStateLocalToWorld, &theMatrix, NULL, NULL);
 
-	qd3dStatus = E3View_State_AddMatrixLocalToWorld(theView, &theMatrix);
-
-	return(kQ3Success);
+	return(qd3dStatus);
 }
 
 
@@ -675,6 +675,199 @@ e3transform_reset_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
 			theMethod = (TQ3XFunctionPointer) e3transform_reset_submit;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3transform_camera_matrix : Return the matrix representation.
+//-----------------------------------------------------------------------------
+static void
+e3transform_camera_matrix(const void *transformData, TQ3Matrix4x4 *theMatrix)
+{
+
+
+	// We can't return a matrix, so return an identity matrix
+	Q3Matrix4x4_SetIdentity(theMatrix);
+}
+
+
+
+
+
+//=============================================================================
+//      e3transform_camera_submit : Camera submit method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3transform_camera_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{	const TQ3CameraTransformData	*instanceData = (const TQ3CameraTransformData *) objectData;
+#pragma unused(objectType)
+#pragma unused(theObject)
+
+
+
+	// Update the view
+	E3View_State_SetMatrix(theView, kQ3MatrixStateLocalToWorld  |
+									kQ3MatrixStateWorldToCamera |
+									kQ3MatrixStateCameraToFrustum,
+									&instanceData->localToWorld,
+									&instanceData->worldToCamera,
+									&instanceData->cameraToFrustum);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3transform_camera_metahandler : Camera metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3transform_camera_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeTransformMatrix:
+			theMethod = (TQ3XFunctionPointer) e3transform_camera_matrix;
+			break;
+
+		case kQ3XMethodTypeObjectSubmitRender:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3transform_camera_submit;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3transform_camera_rasterize_matrix : Return the matrix representation.
+//-----------------------------------------------------------------------------
+static void
+e3transform_camera_rasterize_matrix(const void *transformData, TQ3Matrix4x4 *theMatrix)
+{
+
+
+	// We can't return a matrix, so return an identity matrix
+	Q3Matrix4x4_SetIdentity(theMatrix);
+}
+
+
+
+
+
+//=============================================================================
+//      e3transform_camera_rasterize_submit : Camera rasterize submit method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3transform_camera_rasterize_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{	TQ3Matrix4x4				tmpMatrix, localToWorld, worldToCamera, cameraToFrustum;
+	float						theWidth, theHeight, scaleWidth, scaleHeight;
+	TQ3DrawContextData			drawContextData;
+	TQ3DrawContextObject		drawContext;
+	TQ3Status					qd3dStatus;
+#pragma unused(objectType)
+#pragma unused(theObject)
+#pragma unused(objectData)
+
+
+
+	// Get the draw context state
+	//
+	// We rely on Quesa always enabling the pane state, setting it to the
+	// full size of the draw context if no pane was set by the application.
+	drawContext = E3View_AccessDrawContext(theView);
+	qd3dStatus  = Q3DrawContext_GetData(drawContext, &drawContextData);
+	if (qd3dStatus != kQ3Success)
+		return(qd3dStatus);
+
+	Q3_ASSERT(drawContextData.paneState);
+	theWidth  = drawContextData.pane.max.x - drawContextData.pane.min.x;
+	theHeight = drawContextData.pane.max.y - drawContextData.pane.min.y;
+
+
+
+	// Create our matrices
+	//
+	// A rasterize transform causes vertex x and y coordinates to be treated as
+	// pixel coordinates within the draw context pane, and z to range from 0 to 1.
+	//
+	// The QD3D frustum ranges from -1 to +1 in x and y, and 0 to -1 in z: we
+	// therefore need to set the local->world and world->camera matrices to the
+	// identity matrix and create a projection matrix which will map from the
+	// rasterize coordinates to the QD3D frustum.
+	Q3Matrix4x4_SetIdentity(&localToWorld);
+	Q3Matrix4x4_SetIdentity(&worldToCamera);
+	Q3Matrix4x4_SetIdentity(&cameraToFrustum);
+
+
+	// Scale the draw context to 0..2 in each dimension, and reverse the sign
+	// of z so that we take ranges from 0..1 and convert them to 0..-1.
+	// also reverse the sign of y since we want the origin to be in the top
+	// left of the draw context
+	scaleWidth  = 2.0f / theWidth;
+	scaleHeight = 2.0f / theHeight;
+	
+	Q3Matrix4x4_SetScale(&tmpMatrix, scaleWidth, -scaleHeight, -1.0f);
+	Q3Matrix4x4_Multiply(&cameraToFrustum, &tmpMatrix, &cameraToFrustum);
+
+
+	// Translate x and y from 0..2 to -1..+1.
+	Q3Matrix4x4_SetTranslate(&tmpMatrix, -1.0f, 1.0f, 0.0f);
+	Q3Matrix4x4_Multiply(&cameraToFrustum, &tmpMatrix, &cameraToFrustum);
+
+
+
+	// Update the view
+	qd3dStatus = E3View_State_SetMatrix(theView, kQ3MatrixStateLocalToWorld  |
+												 kQ3MatrixStateWorldToCamera |
+												 kQ3MatrixStateCameraToFrustum,
+												 &localToWorld,
+												 &worldToCamera,
+												 &cameraToFrustum);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3transform_camera_rasterize_metahandler : Camera rasterize metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3transform_camera_rasterize_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeTransformMatrix:
+			theMethod = (TQ3XFunctionPointer) e3transform_camera_rasterize_matrix;
+			break;
+
+		case kQ3XMethodTypeObjectSubmitRender:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3transform_camera_rasterize_submit;
 			break;
 		}
 	
@@ -713,7 +906,6 @@ e3transform_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 //      E3Transform_RegisterClass : Register the transform classes.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3Status
 E3Transform_RegisterClass(void)
 {	TQ3Status		qd3dStatus;
@@ -783,6 +975,20 @@ E3Transform_RegisterClass(void)
 												e3transform_reset_metahandler,
 												0);
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+												kQ3TransformTypeCamera,
+												kQ3ClassNameTransformCamera,
+												e3transform_camera_metahandler,
+												sizeof(TQ3CameraTransformData));
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeTransform,
+												kQ3TransformTypeCameraRasterize,
+												kQ3ClassNameTransformCameraRasterize,
+												e3transform_camera_rasterize_metahandler,
+												0);
+
 	return(qd3dStatus);
 }
 
@@ -808,6 +1014,8 @@ E3Transform_UnregisterClass(void)
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeRotateAboutPoint, kQ3True);
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeRotate,           kQ3True);
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeMatrix,           kQ3True);
+	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeCamera,           kQ3True);
+	qd3dStatus = E3ClassTree_UnregisterClass(kQ3TransformTypeCameraRasterize,  kQ3True);
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShapeTypeTransform,            kQ3True);
 
 	return(qd3dStatus);
@@ -883,7 +1091,6 @@ E3Transform_Submit(TQ3TransformObject theTransform, TQ3ViewObject theView)
 //=============================================================================
 //      E3MatrixTransform_New : Create a new matrix transform.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3TransformObject
 E3MatrixTransform_New(const TQ3Matrix4x4 *theMatrix)
 {	TQ3Object		theObject;
@@ -961,7 +1168,6 @@ E3MatrixTransform_Get(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix)
 //=============================================================================
 //      E3RotateTransform_New : Create a new rotate transform.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3TransformObject
 E3RotateTransform_New(const TQ3RotateTransformData *data)
 {	TQ3Object		theObject;
@@ -1117,7 +1323,6 @@ E3RotateTransform_GetAngle(TQ3TransformObject theTransform, float *radians)
 //=============================================================================
 //      E3RotateAboutPointTransform_New : Create a rotate-point transform.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3TransformObject
 E3RotateAboutPointTransform_New(const TQ3RotateAboutPointTransformData *data)
 {	TQ3Object		theObject;
@@ -1312,7 +1517,6 @@ E3RotateAboutPointTransform_GetAboutPoint(TQ3TransformObject theTransform, TQ3Po
 //=============================================================================
 //      E3RotateAboutAxisTransform_New : Create a rotate-axis transform.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3TransformObject
 E3RotateAboutAxisTransform_New(const TQ3RotateAboutAxisTransformData *data)
 {	TQ3Object		theObject;
@@ -1507,7 +1711,6 @@ E3RotateAboutAxisTransform_GetOrigin(TQ3TransformObject theTransform, TQ3Point3D
 //=============================================================================
 //      E3ScaleTransform_New : Create a scale transform.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3TransformObject
 E3ScaleTransform_New(const TQ3Vector3D *scale)
 {	TQ3Object		theObject;
@@ -1585,7 +1788,6 @@ E3ScaleTransform_Get(TQ3TransformObject theTransform, TQ3Vector3D *scale)
 //=============================================================================
 //      E3TranslateTransform_New : Create a translate transform.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3TransformObject
 E3TranslateTransform_New(const TQ3Vector3D *translate)
 {	TQ3Object		theObject;
@@ -1663,7 +1865,6 @@ E3TranslateTransform_Get(TQ3TransformObject theTransform, TQ3Vector3D *translate
 //=============================================================================
 //      E3QuaternionTransform_New : Create a quaternion transform.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3TransformObject
 E3QuaternionTransform_New(const TQ3Quaternion *quaternion)
 {	TQ3Object		theObject;
@@ -1741,7 +1942,6 @@ E3QuaternionTransform_Get(TQ3TransformObject theTransform, TQ3Quaternion *quater
 //=============================================================================
 //      E3ResetTransform_New : Create a reset transform.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3TransformObject
 E3ResetTransform_New(void)
 {	TQ3Object		theObject;
@@ -1769,6 +1969,121 @@ E3ResetTransform_Submit(TQ3ViewObject theView)
 
 	// Submit the object to the view
 	qd3dStatus = E3View_SubmitImmediate(theView, kQ3TransformTypeReset, NULL);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3CameraTransform_New : Create a camera transform.
+//-----------------------------------------------------------------------------
+TQ3TransformObject
+E3CameraTransform_New(const TQ3CameraTransformData *theData)
+{	TQ3Object		theObject;
+
+
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeCamera, kQ3False, theData);
+
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      E3CameraTransform_Submit : Submit the transform to a view.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3CameraTransform_Submit(const TQ3CameraTransformData *theData, TQ3ViewObject theView)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Submit the object to the view
+	qd3dStatus = E3View_SubmitImmediate(theView, kQ3TransformTypeCamera, theData);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3CameraTransform_Set : Set the data for the transform.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3CameraTransform_Set(TQ3TransformObject theTransform, const TQ3CameraTransformData *theData)
+{	TQ3CameraTransformData	*instanceData = (TQ3CameraTransformData *) theTransform->instanceData;
+
+
+
+	// Set the data
+	*instanceData = *theData;
+	Q3Shared_Edited(theTransform);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3CameraTransform_Get : Get the data for the transform.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3CameraTransform_Get(TQ3TransformObject theTransform, TQ3CameraTransformData *theData)
+{	TQ3CameraTransformData	*instanceData = (TQ3CameraTransformData *) theTransform->instanceData;
+
+
+
+	// Get the data
+	*theData = *instanceData;
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      E3RasterizeCameraTransform_New : Create a RasterizeCamera transform.
+//-----------------------------------------------------------------------------
+TQ3TransformObject
+E3RasterizeCameraTransform_New(void)
+{	TQ3Object		theObject;
+
+
+
+	// Create the object
+	theObject = E3ClassTree_CreateInstance(kQ3TransformTypeCameraRasterize, kQ3False, NULL);
+
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      E3RasterizeCameraTransform_Submit : Submit the transform to a view.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3RasterizeCameraTransform_Submit(TQ3ViewObject theView)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Submit the object to the view
+	qd3dStatus = E3View_SubmitImmediate(theView, kQ3TransformTypeCameraRasterize, NULL);
 
 	return(qd3dStatus);
 }

@@ -209,6 +209,8 @@ extern "C" {
 #define kQ3ClassNameTransformRotateAboutPoint		"RotateAboutPoint"
 #define kQ3ClassNameTransformScale					"Scale"
 #define kQ3ClassNameTransformTranslate				"Translate"
+#define kQ3ClassNameTransformCamera					"Quesa:Transform:Camera"
+#define kQ3ClassNameTransformCameraRasterize		"Quesa:Transform:Camera:Rasterize"
 #define kQ3ClassNameStorageUnixPath					"UnixPath"
 #define kQ3ClassNameStorageUnix						"UnixStorage"
 #define kQ3ClassNameUnknown							"Unknown"
