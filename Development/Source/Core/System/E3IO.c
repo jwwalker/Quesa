@@ -447,9 +447,7 @@ E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 
 
 //=============================================================================
-//      E3File_OpenWrite : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3File_OpenWrite : Open a file for writing.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)

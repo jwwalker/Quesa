@@ -611,7 +611,7 @@ E3Int32_Read(TQ3Int32 *data, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Int32_Write : Read a TQ3Int32.
+//      E3Int32_Write : Write a TQ3Int32.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Int32_Write(TQ3Int32 data, TQ3FileObject theFile)

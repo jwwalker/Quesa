@@ -2873,9 +2873,8 @@ E3View_EndPicking(TQ3ViewObject theView)
 
 
 //=============================================================================
-//      E3View_StartWriting : One-line description of the method.
+//      E3View_StartWriting : Start a writing loop.
 //-----------------------------------------------------------------------------
-
 TQ3Status
 E3View_StartWriting(TQ3ViewObject theView, TQ3FileObject theFile)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
@@ -2888,8 +2887,10 @@ E3View_StartWriting(TQ3ViewObject theView, TQ3FileObject theFile)
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 
+
+
+	// Replace the existing file reference
 	if (qd3dStatus == kQ3Success)
-		// Replace the existing file reference
 		E3Shared_Replace(&instanceData->theFile, theFile);
 
 
@@ -2902,9 +2903,11 @@ E3View_StartWriting(TQ3ViewObject theView, TQ3FileObject theFile)
 		}
 
 
+
 	// Submit the initial state
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = e3view_submit_initial_state(theView);
+
 
 
 	// Handle failure
@@ -2920,9 +2923,7 @@ E3View_StartWriting(TQ3ViewObject theView, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3View_EndWriting : One-line description of the method.
-//-----------------------------------------------------------------------------
-//		Note : More detailed comments can be placed here if required.
+//      E3View_EndWriting : End a writing loop.
 //-----------------------------------------------------------------------------
 TQ3ViewStatus
 E3View_EndWriting(TQ3ViewObject theView)
@@ -2939,7 +2940,9 @@ E3View_EndWriting(TQ3ViewObject theView)
 
 	// End the submit loop
 	viewStatus = e3view_submit_end(theView, viewStatus);
-	
+
+
+
 	// clear the file reference
 	E3Shared_Replace(&instanceData->theFile, NULL);
 
