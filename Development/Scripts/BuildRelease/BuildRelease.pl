@@ -659,7 +659,7 @@ sub buildRelease
 
 
 	# Prompt them for the release name
-	my $releaseName = MacPerl::Ask("Please enter a name for this release:", "quesa_1.6d13");
+	my $releaseName = MacPerl::Ask("Please enter a name for this release:", "quesa_1.6d14");
 	exit if !defined($releaseName);
 
 
