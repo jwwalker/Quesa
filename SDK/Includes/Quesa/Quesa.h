@@ -90,7 +90,7 @@
 	#define QUESA_HOST_IS_BIG_ENDIAN 			0
 	
 	#ifndef QUESA_SUPPORT_QUICKTIME
-		#define QUESA_SUPPORT_QUICKTIME 		1
+		#define QUESA_SUPPORT_QUICKTIME 		0
 	#endif
 	
 	#ifndef _WINDOWS_
