@@ -59,7 +59,6 @@
 #include "QuesaView.h"
 #include "QuesaViewer.h"
 
-
 // Mac OS
 #if QUESA_OS_MACINTOSH
 	#if TARGET_API_MAC_CARBON
@@ -88,13 +87,6 @@
 		#endif
 	#endif
 #endif
-
-
-// ANSI
-#include <string.h>
-#include <math.h>
-
-
 
 
 
