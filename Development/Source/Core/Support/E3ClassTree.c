@@ -470,21 +470,22 @@ E3ClassTree::RegisterExternalClass (
 								TQ3XMetaHandler		classMetaHandler,
 								TQ3Uns32			leafInstanceSize )
 	{
-	if ( E3ClassInfo* parentClass = E3ClassTree::GetClass ( parentClassType ) )
-		if ( E3ClassInfo* newClass = parentClass->registerMethod ( classMetaHandler, parentClass ) )
-			return E3ClassTree::RegisterClass ( newClass,
+	if ( E3ClassInfo* theParent = E3ClassTree::GetClass ( parentClassType ) )
+		return E3ClassTree::RegisterClass ( parentClassType,
 										classType,
 										className,
-										leafInstanceSize + parentClass->instanceSize ) ;
+										classMetaHandler,
+										leafInstanceSize + theParent->instanceSize ) ;
 	
 	return kQ3Failure ;
 	}
 	
 	
 TQ3Status
-E3ClassTree::RegisterClass (	E3ClassInfo*		newClass,
+E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 								TQ3ObjectType		classType,
 								const char			*className,
+								TQ3XMetaHandler		classMetaHandler,
 								TQ3Uns32			instanceSize )
 	{
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
@@ -494,10 +495,9 @@ E3ClassTree::RegisterClass (	E3ClassInfo*		newClass,
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(className),                    kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(strlen(className) < kQ3StringMaximumLength, kQ3Failure);
 
-	if ( newClass->theParent == NULL )
+	E3ClassInfo* theParent = E3ClassTree::GetClass ( parentClassType ) ;
+	if ( theParent == NULL )
 		Q3_REQUIRE_OR_RESULT(theGlobals->classTree == NULL, kQ3Failure);
-
-
 
 	// Make sure the class isn't registered yet
 	if ( E3ClassTree::GetClass ( classType ) != NULL )
@@ -506,12 +506,27 @@ E3ClassTree::RegisterClass (	E3ClassInfo*		newClass,
 
 
 	// Find the parent class
-	if ( newClass->theParent != NULL )
+	if ( theParent != NULL )
 		{
-		Q3_ASSERT ( instanceSize >= newClass->theParent->instanceSize ) ;
+		Q3_ASSERT ( instanceSize >= theParent->instanceSize ) ;
 		}
 
+	TQ3XObjectRegisterMethod registerMethod = NULL ;
+	if ( classMetaHandler != NULL )
+		registerMethod = (TQ3XObjectRegisterMethod) classMetaHandler ( kQ3XMethodTypeObjectClassRegister ) ;
 
+	for ( E3ClassInfoPtr theClass = theParent ; theClass != NULL ; theClass = theClass->theParent )
+		if ( theClass->classMetaHandler != NULL ) // Check the current class
+			if ( ( registerMethod = (TQ3XObjectRegisterMethod) theClass->classMetaHandler ( kQ3XMethodTypeObjectClassRegister ) ) != NULL )
+				break ;
+	
+	if ( registerMethod == NULL )
+		return kQ3Failure ;
+
+	E3ClassInfo* newClass = registerMethod ( classMetaHandler, theParent ) ; // performs the new ( std::nothrow ) of the most appropriate C++ class
+
+	if ( newClass == NULL )
+		return kQ3Failure ;
 
 	newClass->className   = (char *) Q3Memory_Allocate ( strlen ( className ) + 1 ) ;
 	newClass->methodTable = E3HashTable_Create ( kMethodHashTableSize)  ;
@@ -596,23 +611,6 @@ E3ClassTree::RegisterClass (	E3ClassInfo*		newClass,
 	}
 
 
-// Old syle version for compatibility with other files which have not been updated yet.
-TQ3Status
-E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
-								TQ3ObjectType		classType,
-								const char			*className,
-								TQ3XMetaHandler		classMetaHandler,
-								TQ3Int32			instanceSize )
-	{
-	return E3ClassTree::RegisterClass ( new ( std::nothrow ) E3Root ( 
-										classMetaHandler,
-										E3ClassTree::GetClass ( parentClassType )
-										),
-									classType,
-									className,
-									instanceSize
-									) ;
-	}
 
 
 //=============================================================================

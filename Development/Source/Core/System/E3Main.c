@@ -448,25 +448,21 @@ static TQ3Status
 e3main_registercoreclasses(void)
 	{
 	// Register the classes
-	E3Root* rootInfo = new ( std::nothrow ) E3Root ( e3root_metahandler , NULL ) ;
 	TQ3Status qd3dStatus = E3ClassTree::RegisterClass (
-											rootInfo,
+											kQ3ObjectTypeQuesa,
 											OpaqueTQ3Object::eClassType,
 											kQ3ClassNameRoot,
+											e3root_metahandler,
 											sizeof ( OpaqueTQ3Object )
 											);
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ObjectTypeRoot,
-												E3Root,
-												kQ3ClassNameShared,
+		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ClassNameShared,
 												e3shared_metahandler,
 												E3Shared ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ObjectTypeShared,
-												E3Root,
-												kQ3ClassNameShape,
+		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ClassNameShape,
 												NULL,
 												E3ShapeData ) ;
 
