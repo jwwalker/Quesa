@@ -121,8 +121,8 @@ TQ3ViewerDrawCallbackMethod				E3Viewer_GetCallbackDraw(TQ3ViewerObject theViewe
 TQ3Status								E3Viewer_SetCallbackDraw(TQ3ViewerObject theViewer, TQ3ViewerDrawCallbackMethod theCallback, const void *userData);
 TQ3ViewerWindowResizeCallbackMethod		E3Viewer_GetCallbackResize(TQ3ViewerObject theViewer);
 TQ3Status								E3Viewer_SetCallbackResize(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallbackMethod theCallback, const void *userData);
-TQ3ViewerPaneResizeNotifyCallbackMethod	E3Viewer_GetCallbackResize(TQ3ViewerObject theViewer);
-TQ3Status								E3Viewer_SetCallbackResize(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod theCallback, const void *userData);
+TQ3ViewerPaneResizeNotifyCallbackMethod	E3Viewer_GetCallbackResizeNotify(TQ3ViewerObject theViewer);
+TQ3Status								E3Viewer_SetCallbackResizeNotify(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod theCallback, const void *userData);
 
 
 
