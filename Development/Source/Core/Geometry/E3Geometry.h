@@ -91,6 +91,23 @@ public :
 
 
 
+class E3GeometryInfo : public E3ShapeInfo
+	{
+	const TQ3XGeomCacheIsValidMethod	cacheIsValid ;
+	const TQ3XGeomCacheUpdateMethod 	cacheUpdate ;
+
+public :
+
+									E3GeometryInfo	(
+											TQ3XMetaHandler	newClassMetaHandler,
+											E3ClassInfo*	newParent
+			 								) ; // constructor	
+
+	friend TQ3Status e3geometry_submit_decomposed ( TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData) ;
+	} ;
+
+
+
 
 
 //=============================================================================

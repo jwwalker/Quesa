@@ -95,6 +95,39 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      E3ShapeInfo::E3ShapeInfo : Constructor for class info of root class.
+//-----------------------------------------------------------------------------
+
+E3GeometryInfo::E3GeometryInfo	(
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+		: E3ShapeInfo ( newClassMetaHandler, newParent ) ,
+		cacheIsValid		( (TQ3XGeomCacheIsValidMethod)		Find_Method ( kQ3XMethodTypeGeomCacheIsValid , kQ3True ) ) ,
+		cacheUpdate			( (TQ3XGeomCacheUpdateMethod)		Find_Method ( kQ3XMethodTypeGeomCacheUpdate , kQ3True ) )
+		 
+	{
+
+	} ;
+
+
+//=============================================================================
+//      e3shape_register : Method to construct a class info record.
+//-----------------------------------------------------------------------------
+static E3ClassInfo*
+e3geometry_new_class_info (
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent
+			 	)
+	{
+	return new ( std::nothrow ) E3GeometryInfo ( newClassMetaHandler, newParent ) ;
+	}
+
+
+
+
+
+//=============================================================================
 //      e3geometry_get_attributes : Get a pointer to a geometry attribute set.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
@@ -205,14 +238,11 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 
 	// If this is a retained mode submit, submit the cached version.
-	if (theObject != NULL)
+	if ( theObject != NULL )
 		{
-		// Find the methods we need
-		TQ3XGeomCacheIsValidMethod cacheIsValid = (TQ3XGeomCacheIsValidMethod) theClass->GetMethod ( kQ3XMethodTypeGeomCacheIsValid ) ;
-		TQ3XGeomCacheUpdateMethod cacheUpdate  = (TQ3XGeomCacheUpdateMethod)  theClass->GetMethod ( kQ3XMethodTypeGeomCacheUpdate ) ;
-
-		if (cacheIsValid == NULL || cacheUpdate == NULL)
-			return(kQ3Failure);
+		// Check we have the methods we need
+		if ( ( (E3GeometryInfo*) theClass )->cacheIsValid == NULL || ( (E3GeometryInfo*) theClass )->cacheUpdate == NULL)
+			return kQ3Failure ;
 
 
 
@@ -222,8 +252,8 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 
 		// Rebuild the cached object if it's out of date
-		if (!cacheIsValid(theView, objectType, theObject, objectData, instanceData->cachedObject))
-			cacheUpdate(theView, objectType, theObject, objectData, &instanceData->cachedObject);
+		if ( ! ( (E3GeometryInfo*) theClass )->cacheIsValid ( theView, objectType, theObject, objectData, instanceData->cachedObject ) )
+			( (E3GeometryInfo*) theClass )->cacheUpdate(theView, objectType, theObject, objectData, &instanceData->cachedObject);
 
 
 
@@ -641,6 +671,10 @@ e3geometry_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
+		case kQ3XMethodTypeNewObjectClass:
+			theMethod = (TQ3XFunctionPointer) e3geometry_new_class_info ;
+			break;
+
 		case kQ3XMethodTypeObjectIsDrawable:
 			theMethod = (TQ3XFunctionPointer) kQ3True;
 			break;
@@ -692,83 +726,78 @@ e3geometry_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-E3Geometry_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
-
-
-
+E3Geometry_RegisterClass ( void )
+	{
 	// Register the geometry classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
-											kQ3ShapeTypeGeometry,
-											kQ3ClassNameGeometry,
-											e3geometry_metahandler,
-											sizeof(E3Geometry));
+	TQ3Status qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGeometry,
+												e3geometry_metahandler,
+												E3Geometry ) ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryBox_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryBox_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryCone_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryCone_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryCylinder_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryCylinder_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryDisk_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryDisk_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryEllipse_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryEllipse_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryEllipsoid_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryEllipsoid_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryGeneralPolygon_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryGeneralPolygon_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryLine_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryLine_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryMarker_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryMarker_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryMesh_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryMesh_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryNURBCurve_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryNURBCurve_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryNURBPatch_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryNURBPatch_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryPixmapMarker_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryPixmapMarker_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryPoint_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryPoint_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryPolyhedron_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryPolyhedron_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryPolyLine_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryPolyLine_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryPolygon_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryPolygon_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryTorus_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryTorus_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryTriangle_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryTriangle_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryTriGrid_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryTriGrid_RegisterClass () ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3GeometryTriMesh_RegisterClass();
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3GeometryTriMesh_RegisterClass () ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
