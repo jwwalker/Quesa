@@ -99,6 +99,17 @@ typedef TQ3AttributeSet (*E3GetSetForGatherProc)(void *userData, TQ3Uns32 setInd
 					}															\
 				while (0)
 
+#define E3Integer_Swap(_a, _b)													\
+				do																\
+					{															\
+					TQ3Uns32 _temp;												\
+																				\
+					_temp = (_a);												\
+					(_a)  = (_b);												\
+					(_b)  = _temp;												\
+					}															\
+				while (0)
+
 #define E3Float_Swap(_a, _b)													\
 				do																\
 					{															\
@@ -118,19 +129,23 @@ typedef TQ3AttributeSet (*E3GetSetForGatherProc)(void *userData, TQ3Uns32 setInd
 
 #define E3Float_Abs(_a)						((_a) > 0.0f ? (_a) : -(_a))
 
+#define E3Bit_Set(_bf, _b)					(_bf) |= (_b)
+
+#define E3Bit_Clear(_bf, _b)				(_bf) &= ~(_b)
+
+#define E3Bit_IsSet(_bf, _b)				((TQ3Boolean) (((_bf) & (_b)) == (_b)))
+
+#define E3Bit_IsNotSet(_bf, _b)				!E3Bit_IsSet(_bf, _b)
+
 #define E3EndianSwap16(_value)                                        	\
                         (((((TQ3Uns16) _value) << 8) & 0xFF00)       |	\
                          ((((TQ3Uns16) _value) >> 8) & 0x00FF))
     
-#define E3EndianSwap32(_value)                                      		\
+#define E3EndianSwap32(_value)                                      	\
                         (((((TQ3Uns32) _value) << 24) & 0xFF000000)  |	\
                          ((((TQ3Uns32) _value) <<  8) & 0x00FF0000)  |	\
                          ((((TQ3Uns32) _value) >>  8) & 0x0000FF00)  |	\
                          ((((TQ3Uns32) _value) >> 24) & 0x000000FF))
-
-#define E3Bit_Test(_bf, _b)						((TQ3Boolean) (((_bf) & (_b)) == (_b)))
-
-#define E3Bit_Set(_bf, _b)						(_bf) |= (_b)
 
 
 
