@@ -155,27 +155,77 @@ e3camera_orthographic_new(TQ3Object theObject, void *privateData, const void *pa
 
 
 //=============================================================================
+//      e3camera_orthographic_read : read an orthographic camera.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3camera_orthographic_read ( TQ3FileObject theFile )
+	{
+	TQ3OrthographicCameraData cameraData ;
+	
+	// Initialise the camera data
+	Q3Memory_Clear ( &cameraData, sizeof ( cameraData ) ) ;
+
+	Q3Float32_Read ( &cameraData.left, theFile ) ;
+	Q3Float32_Read ( &cameraData.top, theFile ) ;
+	Q3Float32_Read ( &cameraData.right, theFile ) ;
+	Q3Float32_Read ( &cameraData.bottom, theFile ) ;
+		
+	// Read in the attributes
+	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+		{
+		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
+		if ( childObject != NULL )
+			{
+			switch ( childObject->GetLeafType () )
+				{
+				case kQ3CameraPlacment :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &cameraData.cameraData.placement, sizeof ( TQ3CameraPlacement ) ) ;
+					break ;
+					}
+				case kQ3CameraRange :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &cameraData.cameraData.range, sizeof ( TQ3CameraRange ) ) ;
+					break ;
+					}
+				case kQ3CameraViewPort :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &cameraData.cameraData.viewPort, sizeof ( TQ3CameraViewPort ) ) ;
+					break ;
+					}
+				}
+				
+			Q3Object_Dispose ( childObject ) ;
+			}
+		}
+
+
+
+	// Create the camera
+	return Q3OrthographicCamera_New ( &cameraData ) ;
+	}
+
+
+//=============================================================================
 //      e3camera_orthographic_metahandler : Orthographic camera metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
-e3camera_orthographic_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
+e3camera_orthographic_metahandler ( TQ3XMethodType methodType )
+	{
 	// Return our methods
 	switch (methodType) {
-		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) e3camera_orthographic_new;
-			break;
+		case kQ3XMethodTypeObjectNew :
+			return (TQ3XFunctionPointer) e3camera_orthographic_new ;
 
 		case kQ3XMethodTypeCameraFrustumMatrix:
-			theMethod = (TQ3XFunctionPointer) e3camera_orthographic_frustum_matrix;
-			break;
+			return (TQ3XFunctionPointer) e3camera_orthographic_frustum_matrix ;
+			
+		case kQ3XMethodTypeObjectRead :
+			return (TQ3XFunctionPointer) e3camera_orthographic_read ;
 		}
 	
-	return(theMethod);
-}
+	return NULL ;
+	}
 
 
 
@@ -225,27 +275,79 @@ e3camera_viewplane_new(TQ3Object theObject, void *privateData, const void *param
 
 
 //=============================================================================
+//      e3camera_viewplane_read : read an view plane camera.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3camera_viewplane_read ( TQ3FileObject theFile )
+	{
+	TQ3ViewPlaneCameraData cameraData ;
+	
+	// Initialise the camera data
+	Q3Memory_Clear ( &cameraData, sizeof ( cameraData ) ) ;
+
+	Q3Float32_Read ( &cameraData.viewPlane, theFile ) ;
+	Q3Float32_Read ( &cameraData.halfWidthAtViewPlane, theFile ) ;
+	Q3Float32_Read ( &cameraData.halfHeightAtViewPlane, theFile ) ;
+	Q3Float32_Read ( &cameraData.centerXOnViewPlane, theFile ) ;
+	Q3Float32_Read ( &cameraData.centerYOnViewPlane, theFile ) ;
+		
+	// Read in the attributes
+	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+		{
+		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
+		if ( childObject != NULL )
+			{
+			switch ( childObject->GetLeafType () )
+				{
+				case kQ3CameraPlacment :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &cameraData.cameraData.placement, sizeof ( TQ3CameraPlacement ) ) ;
+					break ;
+					}
+				case kQ3CameraRange :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &cameraData.cameraData.range, sizeof ( TQ3CameraRange ) ) ;
+					break ;
+					}
+				case kQ3CameraViewPort :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &cameraData.cameraData.viewPort, sizeof ( TQ3CameraViewPort ) ) ;
+					break ;
+					}
+				}
+				
+			Q3Object_Dispose ( childObject ) ;
+			}
+		}
+
+
+
+	// Create the camera
+	return Q3ViewPlaneCamera_New ( &cameraData ) ;
+	}
+
+
+//=============================================================================
 //      e3camera_viewplane_metahandler : View Plane camera metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
-e3camera_viewplane_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
+e3camera_viewplane_metahandler ( TQ3XMethodType methodType )
+	{
 	// Return our methods
-	switch (methodType) {
+	switch ( methodType )
+		{
 		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) e3camera_viewplane_new;
-			break;
+			return (TQ3XFunctionPointer) e3camera_viewplane_new;
 
 		case kQ3XMethodTypeCameraFrustumMatrix:
-			theMethod = (TQ3XFunctionPointer) e3camera_viewplane_frustum_matrix;
-			break;
+			return (TQ3XFunctionPointer) e3camera_viewplane_frustum_matrix;
+			
+		case kQ3XMethodTypeObjectRead :
+			return (TQ3XFunctionPointer) e3camera_viewplane_read ;
 		}
 	
-	return(theMethod);
-}
+	return NULL ;
+	}
 
 
 
@@ -297,6 +399,59 @@ E3ViewAngleAspectCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
 
 
 //=============================================================================
+//      e3camera_viewangle_read : read a view angle aspect camera.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3camera_viewangle_read ( TQ3FileObject theFile )
+	{
+	TQ3ViewAngleAspectCameraData cameraData ;
+	
+	// Initialise the camera data
+	Q3Memory_Clear ( &cameraData, sizeof ( cameraData ) ) ;
+
+	if ( Q3Float32_Read ( &cameraData.fov, theFile ) == kQ3Failure ) 
+		cameraData.fov = 1.0f ; // What is a sensible default?
+		
+	if ( Q3Float32_Read ( &cameraData.aspectRatioXToY, theFile ) == kQ3Failure ) 
+		cameraData.aspectRatioXToY = 1.0f ;
+
+	// Read in the attributes
+	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+		{
+		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
+		if ( childObject != NULL )
+			{
+			switch ( childObject->GetLeafType () )
+				{
+				case kQ3CameraPlacment :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &cameraData.cameraData.placement, sizeof ( TQ3CameraPlacement ) ) ;
+					break ;
+					}
+				case kQ3CameraRange :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &cameraData.cameraData.range, sizeof ( TQ3CameraRange ) ) ;
+					break ;
+					}
+				case kQ3CameraViewPort :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &cameraData.cameraData.viewPort, sizeof ( TQ3CameraViewPort ) ) ;
+					break ;
+					}
+				}
+				
+			Q3Object_Dispose ( childObject ) ;
+			}
+		}
+
+
+
+	// Create the camera
+	return Q3ViewAngleAspectCamera_New ( &cameraData ) ;
+	}
+
+
+//=============================================================================
 //      e3camera_viewangle_new : View Angle camera new method.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -323,23 +478,22 @@ e3camera_viewangle_new(TQ3Object theObject, void *privateData, const void *param
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3camera_viewangle_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
+	{
 	// Return our methods
-	switch (methodType) {
+	switch ( methodType )
+		{
 		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) e3camera_viewangle_new;
-			break;
+			return (TQ3XFunctionPointer) e3camera_viewangle_new ;
 
 		case kQ3XMethodTypeCameraFrustumMatrix:
-			theMethod = (TQ3XFunctionPointer) e3camera_viewangle_frustum_matrix;
-			break;
+			return (TQ3XFunctionPointer) e3camera_viewangle_frustum_matrix ;
+			
+		case kQ3XMethodTypeObjectRead :
+			return (TQ3XFunctionPointer) e3camera_viewangle_read ;
 		}
 	
-	return(theMethod);
-}
+	return NULL ;
+	}
 
 
 

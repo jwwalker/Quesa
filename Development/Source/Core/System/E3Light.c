@@ -166,24 +166,60 @@ e3light_ambient_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 
+
+//=============================================================================
+//      e3light_ambient_read : read an ambient light.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3light_ambient_read ( TQ3FileObject theFile )
+	{
+	TQ3LightData lightData ;
+	
+	// Initialise the light data
+	Q3Memory_Clear ( &lightData, sizeof ( lightData ) ) ;
+
+	// Read in the attributes
+	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+		{
+		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
+		if ( childObject != NULL )
+			{
+			switch ( childObject->GetLeafType () )
+				{
+				case kQ3LightData :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &lightData, sizeof ( TQ3LightData ) ) ;
+					break ;
+					}
+				}
+				
+			Q3Object_Dispose ( childObject ) ;
+			}
+		}
+
+	// Create the camera
+	return Q3AmbientLight_New ( &lightData ) ;
+	}
+
+
 //=============================================================================
 //      e3light_ambient_metahandler : Ambient light metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
-e3light_ambient_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
+e3light_ambient_metahandler ( TQ3XMethodType methodType )
+	{
 	// Return our methods
-	switch (methodType) {
-		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) e3light_ambient_new;
-			break;
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectNew :
+			return (TQ3XFunctionPointer) e3light_ambient_new ;
+			
+		case kQ3XMethodTypeObjectRead :
+			return (TQ3XFunctionPointer) e3light_ambient_read ;
 		}
 	
-	return(theMethod);
-}
+	return NULL ;
+	}
 
 
 
@@ -212,23 +248,63 @@ e3light_directional_new(TQ3Object theObject, void *privateData, const void *para
 
 
 //=============================================================================
+//      e3light_directional_read : read a directional light.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3light_directional_read ( TQ3FileObject theFile )
+	{
+	TQ3DirectionalLightData lightData ;
+	
+	// Initialise the light data
+	Q3Memory_Clear ( &lightData, sizeof ( lightData ) ) ;
+
+	if ( Q3Vector3D_Read ( &lightData.direction, theFile ) == kQ3Failure ) 
+		lightData.direction.y = -1.0f ; // What is a sensible default?
+		
+	Q3Uns32_Read ( (TQ3Uns32*) &lightData.castsShadows, theFile ) ; 
+
+	// Read in the attributes
+	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+		{
+		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
+		if ( childObject != NULL )
+			{
+			switch ( childObject->GetLeafType () )
+				{
+				case kQ3LightData :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &lightData.lightData, sizeof ( TQ3LightData ) ) ;
+					break ;
+					}
+				}
+				
+			Q3Object_Dispose ( childObject ) ;
+			}
+		}
+
+	// Create the camera
+	return Q3DirectionalLight_New ( &lightData ) ;
+	}
+
+
+//=============================================================================
 //      e3light_directional_metahandler : Directional light metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
-e3light_directional_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
+e3light_directional_metahandler ( TQ3XMethodType methodType )
+	{
 	// Return our methods
-	switch (methodType) {
-		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) e3light_directional_new;
-			break;
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectNew :
+			return (TQ3XFunctionPointer) e3light_directional_new ;
+
+		case kQ3XMethodTypeObjectRead :
+			return (TQ3XFunctionPointer) e3light_directional_read ;
 		}
 	
-	return(theMethod);
-}
+	return NULL ;
+	}
 
 
 
@@ -257,23 +333,64 @@ e3light_point_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 //=============================================================================
+//      e3light_point_read : read a point light.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3light_point_read ( TQ3FileObject theFile )
+	{
+	TQ3PointLightData lightData ;
+	
+	// Initialise the light data
+	Q3Memory_Clear ( &lightData, sizeof ( lightData ) ) ;
+
+	Q3Point3D_Read ( &lightData.location, theFile ) ; // If fails, 0,0,0 is a reasonable default
+			
+	Q3Uns32_Read ( (TQ3Uns32*) &lightData.attenuation, theFile ) ; 
+
+	Q3Uns32_Read ( (TQ3Uns32*) &lightData.castsShadows, theFile ) ; 
+
+	// Read in the attributes
+	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+		{
+		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
+		if ( childObject != NULL )
+			{
+			switch ( childObject->GetLeafType () )
+				{
+				case kQ3LightData :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &lightData.lightData, sizeof ( TQ3LightData ) ) ;
+					break ;
+					}
+				}
+				
+			Q3Object_Dispose ( childObject ) ;
+			}
+		}
+
+	// Create the camera
+	return Q3PointLight_New ( &lightData ) ;
+	}
+
+
+//=============================================================================
 //      e3light_point_metahandler : Point light metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
-e3light_point_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
+e3light_point_metahandler ( TQ3XMethodType methodType )
+	{
 	// Return our methods
-	switch (methodType) {
-		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) e3light_point_new;
-			break;
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectNew :
+			return (TQ3XFunctionPointer) e3light_point_new ;
+
+		case kQ3XMethodTypeObjectRead :
+			return (TQ3XFunctionPointer) e3light_point_read ;
 		}
 	
-	return(theMethod);
-}
+	return NULL ;
+	}
 
 
 
@@ -302,23 +419,73 @@ e3light_spot_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 //=============================================================================
+//      e3light_spot_read : read a point light.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3light_spot_read ( TQ3FileObject theFile )
+	{
+	TQ3SpotLightData lightData ;
+	
+	// Initialise the light data
+	Q3Memory_Clear ( &lightData, sizeof ( lightData ) ) ;
+
+	Q3Point3D_Read ( &lightData.location, theFile ) ; // If fails, 0,0,0 is a reasonable default
+	
+	if ( Q3Vector3D_Read ( &lightData.direction, theFile ) == kQ3Failure ) 
+		lightData.direction.y = -1.0f ; // What is a sensible default?
+		
+	Q3Uns32_Read ( (TQ3Uns32*) &lightData.castsShadows, theFile ) ; 
+
+	Q3Uns32_Read ( (TQ3Uns32*) &lightData.attenuation, theFile ) ; 
+
+	Q3Float32_Read ( &lightData.hotAngle, theFile ) ; 
+
+	Q3Float32_Read ( &lightData.outerAngle, theFile ) ; 
+
+	Q3Uns32_Read ( (TQ3Uns32*) &lightData.fallOff, theFile ) ; 
+
+	// Read in the attributes
+	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+		{
+		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
+		if ( childObject != NULL )
+			{
+			switch ( childObject->GetLeafType () )
+				{
+				case kQ3LightData :
+					{
+					BlockMoveData ( childObject->FindLeafInstanceData () , &lightData.lightData, sizeof ( TQ3LightData ) ) ;
+					break ;
+					}
+				}
+				
+			Q3Object_Dispose ( childObject ) ;
+			}
+		}
+
+	// Create the camera
+	return Q3SpotLight_New ( &lightData ) ;
+	}
+
+
+//=============================================================================
 //      e3light_spot_metahandler : Spot light metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
-e3light_spot_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
+e3light_spot_metahandler ( TQ3XMethodType methodType )
+	{
 	// Return our methods
-	switch (methodType) {
-		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) e3light_spot_new;
-			break;
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeObjectNew :
+			return (TQ3XFunctionPointer) e3light_spot_new ;
+
+		case kQ3XMethodTypeObjectRead :
+			return (TQ3XFunctionPointer) e3light_spot_read ;
 		}
 	
-	return(theMethod);
-}
+	return NULL ;
+	}
 
 
 

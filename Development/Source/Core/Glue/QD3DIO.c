@@ -3368,7 +3368,7 @@ Q3ViewHints_SetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject renderer
 
 
 	// Call our implementation
-	return(E3ViewHints_SetRenderer(viewHints, renderer));
+	return ( (E3ViewHints*) viewHints )->SetRenderer ( renderer ) ;
 }
 
 
@@ -3406,7 +3406,7 @@ Q3ViewHints_GetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject *rendere
 
 
 	// Call our implementation
-	return(E3ViewHints_GetRenderer(viewHints, renderer));
+	return ( (E3ViewHints*) viewHints )->GetRenderer ( renderer ) ;
 }
 
 
@@ -3444,7 +3444,7 @@ Q3ViewHints_SetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject camera)
 
 
 	// Call our implementation
-	return(E3ViewHints_SetCamera(viewHints, camera));
+	return ( (E3ViewHints*) viewHints )->SetCamera ( camera ) ;
 }
 
 
@@ -3482,7 +3482,7 @@ Q3ViewHints_GetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject *camera)
 
 
 	// Call our implementation
-	return(E3ViewHints_GetCamera(viewHints, camera));
+	return ( (E3ViewHints*) viewHints )->GetCamera ( camera ) ;
 }
 
 
@@ -3520,7 +3520,7 @@ Q3ViewHints_SetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject lightGrou
 
 
 	// Call our implementation
-	return(E3ViewHints_SetLightGroup(viewHints, lightGroup));
+	return ( (E3ViewHints*) viewHints )->SetLightGroup ( lightGroup ) ;
 }
 
 
@@ -3558,7 +3558,7 @@ Q3ViewHints_GetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject *lightGro
 
 
 	// Call our implementation
-	return(E3ViewHints_GetLightGroup(viewHints, lightGroup));
+	return ( (E3ViewHints*) viewHints )->GetLightGroup ( lightGroup ) ;
 }
 
 
@@ -3595,7 +3595,7 @@ Q3ViewHints_SetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet attrib
 
 
 	// Call our implementation
-	return(E3ViewHints_SetAttributeSet(viewHints, attributeSet));
+	return ( (E3ViewHints*) viewHints )->SetAttributeSet ( attributeSet ) ;
 }
 
 
@@ -3633,7 +3633,7 @@ Q3ViewHints_GetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet *attri
 
 
 	// Call our implementation
-	return(E3ViewHints_GetAttributeSet(viewHints, attributeSet));
+	return ( (E3ViewHints*) viewHints )->GetAttributeSet ( attributeSet ) ;
 }
 
 
@@ -3670,7 +3670,7 @@ Q3ViewHints_SetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid)
 
 
 	// Call our implementation
-	return(E3ViewHints_SetDimensionsState(viewHints, isValid));
+	return ( (E3ViewHints*) viewHints )->SetDimensionsState ( isValid ) ;
 }
 
 
@@ -3708,7 +3708,7 @@ Q3ViewHints_GetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid
 
 
 	// Call our implementation
-	return(E3ViewHints_GetDimensionsState(viewHints, isValid));
+	return ( (E3ViewHints*) viewHints )->GetDimensionsState ( isValid ) ;
 }
 
 
@@ -3748,7 +3748,7 @@ Q3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 width, TQ3Uns32
 
 
 	// Call our implementation
-	return(E3ViewHints_SetDimensions(viewHints, width, height));
+	return ( (E3ViewHints*) viewHints )->SetDimensions ( width, height ) ;
 }
 
 
@@ -3790,7 +3790,7 @@ Q3ViewHints_GetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 *width, TQ3Uns3
 
 
 	// Call our implementation
-	return(E3ViewHints_GetDimensions(viewHints, width, height));
+	return ( (E3ViewHints*) viewHints )->GetDimensions ( width, height ) ;
 }
 
 
@@ -3827,7 +3827,7 @@ Q3ViewHints_SetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid)
 
 
 	// Call our implementation
-	return(E3ViewHints_SetMaskState(viewHints, isValid));
+	return ( (E3ViewHints*) viewHints )->SetMaskState ( isValid ) ;
 }
 
 
@@ -3865,7 +3865,7 @@ Q3ViewHints_GetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid)
 
 
 	// Call our implementation
-	return(E3ViewHints_GetMaskState(viewHints, isValid));
+	return ( (E3ViewHints*) viewHints )->GetMaskState ( isValid ) ;
 }
 
 
@@ -3903,7 +3903,7 @@ Q3ViewHints_SetMask(TQ3ViewHintsObject viewHints, const TQ3Bitmap *mask)
 
 
 	// Call our implementation
-	return(E3ViewHints_SetMask(viewHints, mask));
+	return ( (E3ViewHints*) viewHints )->SetMask ( mask ) ;
 }
 
 
@@ -3941,7 +3941,7 @@ Q3ViewHints_GetMask(TQ3ViewHintsObject viewHints, TQ3Bitmap *mask)
 
 
 	// Call our implementation
-	return(E3ViewHints_GetMask(viewHints, mask));
+	return ( (E3ViewHints*) viewHints )->GetMask ( mask ) ;
 }
 
 
@@ -3978,7 +3978,7 @@ Q3ViewHints_SetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClea
 
 
 	// Call our implementation
-	return(E3ViewHints_SetClearImageMethod(viewHints, clearMethod));
+	return ( (E3ViewHints*) viewHints )->SetClearImageMethod ( clearMethod ) ;
 }
 
 
@@ -4016,7 +4016,7 @@ Q3ViewHints_GetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClea
 
 
 	// Call our implementation
-	return(E3ViewHints_GetClearImageMethod(viewHints, clearMethod));
+	return ( (E3ViewHints*) viewHints )->GetClearImageMethod ( clearMethod ) ;
 }
 
 
@@ -4054,7 +4054,7 @@ Q3ViewHints_SetClearImageColor(TQ3ViewHintsObject viewHints, const TQ3ColorARGB 
 
 
 	// Call our implementation
-	return(E3ViewHints_SetClearImageColor(viewHints, color));
+	return ( (E3ViewHints*) viewHints )->SetClearImageColor ( color ) ;
 }
 
 
@@ -4092,7 +4092,7 @@ Q3ViewHints_GetClearImageColor(TQ3ViewHintsObject viewHints, TQ3ColorARGB *color
 
 
 	// Call our implementation
-	return(E3ViewHints_GetClearImageColor(viewHints, color));
+	return ( (E3ViewHints*) viewHints )->GetClearImageColor ( color ) ;
 }
 
 

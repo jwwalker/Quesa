@@ -5,7 +5,7 @@
         Header file for E3IOData.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -72,6 +72,53 @@ typedef struct TE3UnknownBinary_Data {
 
 
 
+
+
+class E3ViewHints : public E3Shared
+	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeViewHints, E3ViewHints, E3Shared )
+
+	TQ3RendererObject				renderer ;
+	TQ3CameraObject					camera ;
+	TQ3AttributeSet					attributeSet ;
+	TQ3GroupObject					lightGroup ;
+	TQ3Boolean						isValidSetDimensions ;
+	TQ3Uns32						widthDimensions ;
+	TQ3Uns32						heightDimensions ;
+	TQ3Boolean						isValidSetMaskState ;
+	TQ3Bitmap						mask ;
+	TQ3DrawContextClearImageMethod	clearMethod ;
+	TQ3ColorARGB					clearImageColor ;
+
+public :
+
+//	static TQ3Boolean		IsOfMyClass ( TQ3Object object ) ;
+
+	TQ3Status						SetRenderer ( TQ3RendererObject renderer ) ;
+	TQ3Status						GetRenderer ( TQ3RendererObject *renderer ) ;
+	TQ3Status						SetCamera ( TQ3CameraObject camera ) ;
+	TQ3Status						GetCamera ( TQ3CameraObject* camera ) ;
+	TQ3Status						SetLightGroup ( TQ3GroupObject lightGroup ) ;
+	TQ3Status						GetLightGroup ( TQ3GroupObject* lightGroup ) ;
+	TQ3Status						SetAttributeSet ( TQ3AttributeSet attributeSet ) ;
+	TQ3Status						GetAttributeSet ( TQ3AttributeSet* attributeSet ) ;
+	TQ3Status						SetDimensionsState ( TQ3Boolean isValid ) ;
+	TQ3Status						GetDimensionsState ( TQ3Boolean* isValid ) ;
+	TQ3Status						SetDimensions ( TQ3Uns32 width, TQ3Uns32 height ) ;
+	TQ3Status						GetDimensions ( TQ3Uns32* width, TQ3Uns32* height ) ;
+	TQ3Status						SetMaskState ( TQ3Boolean isValid ) ;
+	TQ3Status						GetMaskState ( TQ3Boolean* isValid ) ;
+	TQ3Status						SetMask ( const TQ3Bitmap* mask ) ;
+	TQ3Status						GetMask ( TQ3Bitmap* mask ) ;
+	TQ3Status						SetClearImageMethod ( TQ3DrawContextClearImageMethod clearMethod ) ;
+	TQ3Status						GetClearImageMethod ( TQ3DrawContextClearImageMethod* clearMethod ) ;
+	TQ3Status						SetClearImageColor ( const TQ3ColorARGB* color ) ;
+	TQ3Status						GetClearImageColor ( TQ3ColorARGB* color ) ;
+
+	friend TQ3Status				e3viewhints_new ( E3ViewHints* theObject, void* privateData, const void* paramData ) ;
+	friend void						e3viewhints_delete ( E3ViewHints* theObject, void* privateData ) ;
+	} ;
+	
 
 
 //=============================================================================
@@ -146,27 +193,9 @@ TQ3Status			E3UnknownBinary_EmptyData(TQ3UnknownBinaryData *unknownBinaryData);
 TQ3Status			E3UnknownBinary_GetTypeString(TQ3UnknownObject unknownObject, char **typeString);
 TQ3Status			E3UnknownBinary_EmptyTypeString(char **typeString);
 
+TQ3Status			E3ViewHints_RegisterClass ( void ) ;
+TQ3Status			E3ViewHints_UnregisterClass ( void ) ;
 TQ3ViewHintsObject	E3ViewHints_New(TQ3ViewObject view);
-TQ3Status			E3ViewHints_SetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject renderer);
-TQ3Status			E3ViewHints_GetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject *renderer);
-TQ3Status			E3ViewHints_SetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject camera);
-TQ3Status			E3ViewHints_GetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject *camera);
-TQ3Status			E3ViewHints_SetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject lightGroup);
-TQ3Status			E3ViewHints_GetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject *lightGroup);
-TQ3Status			E3ViewHints_SetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet attributeSet);
-TQ3Status			E3ViewHints_GetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet *attributeSet);
-TQ3Status			E3ViewHints_SetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid);
-TQ3Status			E3ViewHints_GetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid);
-TQ3Status			E3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 width, TQ3Uns32 height);
-TQ3Status			E3ViewHints_GetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 *width, TQ3Uns32 *height);
-TQ3Status			E3ViewHints_SetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid);
-TQ3Status			E3ViewHints_GetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid);
-TQ3Status			E3ViewHints_SetMask(TQ3ViewHintsObject viewHints, const TQ3Bitmap *mask);
-TQ3Status			E3ViewHints_GetMask(TQ3ViewHintsObject viewHints, TQ3Bitmap *mask);
-TQ3Status			E3ViewHints_SetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClearImageMethod clearMethod);
-TQ3Status			E3ViewHints_GetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClearImageMethod *clearMethod);
-TQ3Status			E3ViewHints_SetClearImageColor(TQ3ViewHintsObject viewHints, const TQ3ColorARGB *color);
-TQ3Status			E3ViewHints_GetClearImageColor(TQ3ViewHintsObject viewHints, TQ3ColorARGB *color);
 
 
 
