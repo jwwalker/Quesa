@@ -448,7 +448,7 @@ e3set_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	toInstanceData->theMask = fromInstanceData->theMask;
 	toInstanceData->attributes = fromInstanceData->attributes;
 	if(toInstanceData->attributes.surfaceShader != NULL)
-		toInstanceData->attributes.surfaceShader = Q3Shared_GetReference(toInstanceData->attributes.surfaceShader);
+		toInstanceData->attributes.surfaceShader = Q3Object_Duplicate(toInstanceData->attributes.surfaceShader);
 	
 	
 
