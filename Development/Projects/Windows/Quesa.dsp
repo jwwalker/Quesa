@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "Q3_EXPORT_SYMBOLS" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESA_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /Ob2 /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers/3dmf" /I "../../Source/FileFormats/Writers/3dmf" /I "../../Source/StackCrawl" /I "../../../SDK/Includes/Quesa" /D "QUESA_OS_WIN32" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "Q3_EXPORT_SYMBOLS" /YX"E3Prefix.h" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /Ob2 /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers/3dmf" /I "../../Source/FileFormats/Writers/3dmf" /I "../../Source/StackCrawl" /I "../../../SDK/Includes/Quesa" /D "QUESA_OS_WIN32" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "Q3_EXPORT_SYMBOLS" /YX"E3Prefix.h" /FD /TP /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -57,7 +57,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=xcopy     /Y     ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll     c:\windows\system\ 
+PostBuild_Cmds=xcopy      /Y      ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll      c:\windows\system\ 
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Quesa - Win32 Debug"
@@ -74,7 +74,7 @@ PostBuild_Cmds=xcopy     /Y     ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "Q3_EXPORT_SYMBOLS" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "QUESA_EXPORTS" /D "Q3_DEBUG" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "../../../SDK/Includes/Apple" /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers/3dmf" /I "../../Source/FileFormats/Writers/3dmf" /I "../../Source/StackCrawl" /I "../../../SDK/Includes/Quesa" /D "QUESA_OS_WIN32" /D "Q3_DEBUG" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "Q3_EXPORT_SYMBOLS" /FR /YX"E3Prefix.h" /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "../../../SDK/Includes/Apple" /I "../../Source/Core/Geometry" /I "../../Source/Core/Glue" /I "../../Source/Core/Support" /I "../../Source/Core/System" /I "../../Source/Platform/Windows" /I "../../Source/Renderers/Common" /I "../../Source/Renderers/Generic" /I "../../Source/Renderers/Interactive" /I "../../Source/Renderers/Wireframe" /I "../../Source/FileFormats" /I "../../Source/FileFormats/Readers/3dmf" /I "../../Source/FileFormats/Writers/3dmf" /I "../../Source/StackCrawl" /I "../../../SDK/Includes/Quesa" /D "QUESA_OS_WIN32" /D "Q3_DEBUG" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "Q3_EXPORT_SYMBOLS" /FR /YX"E3Prefix.h" /FD /GZ /TP /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -88,7 +88,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=xcopy     /Y     ..\..\..\SDK\Libraries\Windows\Debug\Quesa.dll     c:\windows\system\ 
+PostBuild_Cmds=xcopy      /Y      ..\..\..\SDK\Libraries\Windows\Debug\Quesa.dll      c:\windows\system\ 
 # End Special Build Tool
 
 !ENDIF 
@@ -469,6 +469,10 @@ SOURCE=..\..\Source\Renderers\Common\GLCamera.c
 # Begin Source File
 
 SOURCE=..\..\Source\Renderers\Common\GLDrawContext.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\Renderers\Common\GLTextureManager.c
 # End Source File
 # Begin Source File
 
