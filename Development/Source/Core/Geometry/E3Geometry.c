@@ -342,8 +342,10 @@ static TQ3Status
 e3geometry_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status		qd3dStatus;
 
-	qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
 
+
+	// Submit the decomposed form
+	qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
 
 	return(qd3dStatus);
 }
