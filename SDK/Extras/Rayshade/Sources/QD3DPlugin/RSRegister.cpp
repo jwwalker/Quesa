@@ -212,6 +212,8 @@ static TQ3Status RS_New(
 	
 	RTSurfaceData_Init(&rsPrivate->surfaceCache);
 	rsPrivate->isCurrentSurface = kQ3False;
+	
+	Q3Matrix3x3_SetIdentity( &rsPrivate->uvTransform );
 
 	return kQ3Success;
 }
