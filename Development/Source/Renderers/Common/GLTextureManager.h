@@ -134,46 +134,34 @@ void				GLTextureMgr_RemoveContext( TQ3GLContext deadGLContext );
 
 
 /*!
-	@function		GLTextureMgr_GetCachedTextureByIndex
-	@abstract		Access a texture cache record by index.
-	@param			txCache			A texture cache.
-	@param			memberIndex		Zero-based index of a cached texture.
-	@result			Pointer to a cached texture record, or NULL if not found.
-*/
-struct TQ3CachedTexture*
-					GLTextureMgr_GetCachedTextureByIndex( TQ3TextureCachePtr txCache,
-								TQ3Uns32 memberIndex );
-
-/*!
 	@function		GLTextureMgr_FindCachedTexture
 	@abstract		Access a texture cache record by matching the texture object.
 	@param			txCache			A texture cache.
 	@param			texture			Reference to a texture object.
 	@result			Pointer to a cached texture record, or NULL if not found.
 */
-struct TQ3CachedTexture*
-					GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
+TQ3CachedTexture* GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
+								TQ3ShaderObject inShader,
 								TQ3TextureObject texture );
 
 /*!
-	@function		GLTextureMgr_FindCachedTextureIndex
-	@abstract		Access a texture cache record by matching the texture object.
+	@function		GLTextureMgr_GetCachedTextureByIndex
+	@abstract		Access a texture cache record by index.
 	@param			txCache			A texture cache.
-	@param			texture			Reference to a texture object.
-	@result			Index of a cached texture record, or -1 if not found.
+	@param			memberIndex		Zero-based index of a cached texture.
+	@result			Pointer to a cached texture record, or NULL if not found.
 */
-TQ3Int32			GLTextureMgr_FindCachedTextureIndex( TQ3TextureCachePtr txCache,
-								TQ3TextureObject texture );
-
+TQ3CachedTexture*	GLTextureMgr_GetCachedTextureByIndex( TQ3TextureCachePtr txCache,
+								TQ3Uns32 memberIndex );
 
 /*!
 	@function		GLTextureMgr_RemoveCachedTexture
 	@abstract		Remove a texture record from a texture cache.
 	@param			txCache			A texture cache.
-	@param			memberIndex		Zero-based index of a cached texture.
+	@param			textureRec		Texture cache record to remove.
 */
 void				GLTextureMgr_RemoveCachedTexture( TQ3TextureCachePtr txCache,
-								TQ3Uns32 memberIndex );
+								TQ3CachedTexture* textureRec );
 
 /*!
 	@function		GLTextureMgr_AddCachedTexture

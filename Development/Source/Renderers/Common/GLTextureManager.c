@@ -70,7 +70,9 @@
 //-----------------------------------------------------------------------------
 namespace
 {
-	typedef std::vector<TQ3CachedTexture>	CachedTextureVec;
+	// We use a list instead of a vector to hold texture caches because we use
+	// the pointer to the TQ3CachedTexture as the OpenGl "name" of the texture.
+	typedef std::list<TQ3CachedTexture>		CachedTextureList;
 	typedef std::vector<TQ3GLContext>		GLContextVec;
 }
 
@@ -80,7 +82,7 @@ namespace
 // structure.
 typedef struct TQ3TextureCache
 {
-	CachedTextureVec		cachedTextures;
+	CachedTextureList		cachedTextures;
 	GLContextVec			glContexts;
 } TQ3TextureCache;
 
@@ -106,26 +108,25 @@ namespace
 		TQ3TextureCachePtr	mCachePtrToMatch;
 	};
 
-	class MatchTexture	// function object for use with find_if and CachedTextureVec
+	class MatchTexture	// function object for use with find_if and CachedTextureList
 	{
 	public:
-							MatchTexture( TQ3TextureObject inTexture )
-									: mTextureToMatch( inTexture ) {}
+							MatchTexture( TQ3ShaderObject inShader, TQ3TextureObject inTexture )
+									: mShaderToMatch( inShader ),
+									mTextureToMatch( inTexture ) {}
 
 		bool				operator()( const TQ3CachedTexture& inCachedTexture ) const
 									{
-										return inCachedTexture.cachedTextureObject ==
-											mTextureToMatch;
+										return (inCachedTexture.cachedTextureObject.get() ==
+											mTextureToMatch) &&
+											(inCachedTexture.cachedTextureShader.get() ==
+											mShaderToMatch);
 									}
 	private:
+		TQ3ShaderObject		mShaderToMatch;
 		TQ3TextureObject	mTextureToMatch;
 	};
 
-	struct DisposeTexture	// function object for use with for_each and CachedTextureVec
-	{
-		void	operator()( TQ3CachedTexture& ioCachedTexture ) const
-							{ Q3Object_Dispose( ioCachedTexture.cachedTextureObject ); }
-	};
 }
 
 
@@ -378,62 +379,6 @@ TQ3Boolean			GLTextureMgr_IsValidTextureCache( TQ3TextureCachePtr txCache )
 
 
 /*!
-	@function		GLTextureMgr_GetCachedTextureByIndex
-	@abstract		Access a texture cache record by index.
-	@param			txCache			A texture cache.
-	@param			memberIndex		Zero-based index of a cached texture.
-	@result			Pointer to a cached texture record, or NULL if not found.
-*/
-struct TQ3CachedTexture*
-					GLTextureMgr_GetCachedTextureByIndex( TQ3TextureCachePtr txCache,
-								TQ3Uns32 memberIndex )
-{
-	TQ3CachedTexture*	theRecord = NULL;
-	
-	if (memberIndex < txCache->cachedTextures.size())
-	{
-		theRecord = &txCache->cachedTextures[ memberIndex ];
-	}
-	return theRecord;
-}
-
-
-
-
-
-/*!
-	@function		GLTextureMgr_FindCachedTextureIndex
-	@abstract		Access a texture cache record by matching the texture object.
-	@param			txCache			A texture cache.
-	@param			texture			Reference to a texture object.
-	@result			Index of a cached texture record, or -1 if not found.
-*/
-TQ3Int32			GLTextureMgr_FindCachedTextureIndex( TQ3TextureCachePtr txCache,
-								TQ3TextureObject texture )
-{
-	TQ3Int32	theIndex = -1;
-	
-	TRY	// probably nothing here can throw, but may as well be safe
-	{
-		CachedTextureVec::iterator	foundIt = std::find_if( txCache->cachedTextures.begin(),
-			txCache->cachedTextures.end(), MatchTexture( texture ) );
-		
-		if (foundIt != txCache->cachedTextures.end())
-		{
-			theIndex = foundIt - txCache->cachedTextures.begin();
-		}
-	}
-	CATCH_ALL
-	
-	
-	return theIndex;
-}
-
-
-
-
-
-/*!
 	@function		GLTextureMgr_FindCachedTexture
 	@abstract		Access a texture cache record by matching the texture object.
 	@discussion		This is the texture manager function that is called most often,
@@ -443,17 +388,53 @@ TQ3Int32			GLTextureMgr_FindCachedTextureIndex( TQ3TextureCachePtr txCache,
 	@result			Pointer to a cached texture record, or NULL if not found.
 */
 TQ3CachedTexture*	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
+								TQ3ShaderObject inShader,
 								TQ3TextureObject texture )
 {
 	TQ3CachedTexture*	theRecord = NULL;
 	
-	TQ3Int32	theIndex = GLTextureMgr_FindCachedTextureIndex( txCache, texture );
-	
-	if (theIndex >= 0)
+	TRY
 	{
-		theRecord = GLTextureMgr_GetCachedTextureByIndex( txCache, theIndex );
+		CachedTextureList::iterator	foundIt = std::find_if( txCache->cachedTextures.begin(),
+			txCache->cachedTextures.end(), MatchTexture( inShader, texture ) );
+		
+		if (foundIt != txCache->cachedTextures.end())
+		{
+			theRecord = &*foundIt;
+		}
 	}
+	CATCH_ALL
 	
+	return theRecord;
+}
+
+
+
+
+
+/*!
+	@function		GLTextureMgr_GetCachedTextureByIndex
+	@abstract		Access a texture cache record by index.
+	@param			txCache			A texture cache.
+	@param			memberIndex		Zero-based index of a cached texture.
+	@result			Pointer to a cached texture record, or NULL if not found.
+*/
+TQ3CachedTexture*	GLTextureMgr_GetCachedTextureByIndex( TQ3TextureCachePtr txCache,
+								TQ3Uns32 memberIndex )
+{
+	TQ3CachedTexture*	theRecord = NULL;
+	
+	TQ3Uns32		theIndex = 0;
+	
+	for (CachedTextureList::iterator i = txCache->cachedTextures.begin();
+		i != txCache->cachedTextures.end(); ++i, ++theIndex)
+	{
+		if (theIndex == memberIndex)
+		{
+			theRecord = &*i;
+			break;
+		}
+	}
 	return theRecord;
 }
 
@@ -483,9 +464,6 @@ void				GLTextureMgr_RemoveContext( TQ3GLContext deadGLContext )
 			
 			if (theCache->glContexts.empty())
 			{
-				std::for_each( theCache->cachedTextures.begin(), theCache->cachedTextures.end(),
-					DisposeTexture() );
-				
 				sTextureCacheList->erase( theCache );
 			}
 		}
@@ -526,16 +504,23 @@ TQ3Status			GLTextureMgr_AddCachedTexture( TQ3TextureCachePtr txCache,
 	@function		GLTextureMgr_RemoveCachedTexture
 	@abstract		Remove a texture record from a texture cache.
 	@param			txCache			A texture cache.
-	@param			memberIndex		Zero-based index of a cached texture.
+	@param			textureRec		Texture cache record to remove.
 */
 void				GLTextureMgr_RemoveCachedTexture( TQ3TextureCachePtr txCache,
-								TQ3Uns32 memberIndex )
+								TQ3CachedTexture* textureRec )
 {
 	TRY
 	{
-		if (memberIndex < txCache->cachedTextures.size())
+		CachedTextureList::iterator	iter;
+		
+		for (iter = txCache->cachedTextures.begin(); iter != txCache->cachedTextures.end();
+			++iter)
 		{
-			txCache->cachedTextures.erase( txCache->cachedTextures.begin() + memberIndex );
+			if (&*iter == textureRec)
+			{
+				txCache->cachedTextures.erase( iter );
+				break;
+			}
 		}
 	}
 	CATCH_ALL
