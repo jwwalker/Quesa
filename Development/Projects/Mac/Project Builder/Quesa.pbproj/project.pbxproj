@@ -1070,16 +1070,6 @@
 			path = Mac;
 			refType = 4;
 		};
-		00D40F70FEDA393FC0A80006 = {
-			isa = PBXFileReference;
-			path = E3CarbonCoating.c;
-			refType = 4;
-		};
-		00D40F71FEDA393FC0A80006 = {
-			isa = PBXFileReference;
-			path = E3CarbonCoating.h;
-			refType = 4;
-		};
 		00D40F72FEDA393FC0A80006 = {
 			isa = PBXFileReference;
 			path = E3MacDebug.c;
