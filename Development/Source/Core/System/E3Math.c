@@ -1178,7 +1178,7 @@ E3Point2D_ToPolar(const TQ3Point2D *point2D, TQ3PolarPoint *result)
 TQ3Point2D *
 E3PolarPoint_ToPoint2D(const TQ3PolarPoint *polarPoint, TQ3Point2D *result)
 {
-	__Q3FastPolarPoint_ToPoint2D(polarPoint, result);
+	Q3FastPolarPoint_ToPoint2D(polarPoint, result);
 	return(result);
 }
 
@@ -1299,7 +1299,7 @@ E3Vector3D_DotArray(
 	{
 		for (i = 0; i < numVectors; ++i)
 		{
-			dotProduct           = Q3FastVector3D_Dot(inFirstVectors3D, inSecondVectors3D);
+			dotProduct           = Q3Vector3D_Dot(inFirstVectors3D, inSecondVectors3D);
 			*outDotProducts      = dotProduct;	
 			*outDotLessThanZeros = (TQ3Boolean) (dotProduct < 0.0f);
 
@@ -1314,7 +1314,7 @@ E3Vector3D_DotArray(
 	{
 		for (i = 0; i < numVectors; ++i)
 		{
-			dotProduct           = Q3FastVector3D_Dot(inFirstVectors3D, inSecondVectors3D);
+			dotProduct           = Q3Vector3D_Dot(inFirstVectors3D, inSecondVectors3D);
 			*outDotProducts      = dotProduct;	
 
 			((const char*) inFirstVectors3D) += inStructSize;
@@ -1327,7 +1327,7 @@ E3Vector3D_DotArray(
 	{
 		for (i = 0; i < numVectors; ++i)
 		{
-			dotProduct           = Q3FastVector3D_Dot(inFirstVectors3D, inSecondVectors3D);
+			dotProduct           = Q3Vector3D_Dot(inFirstVectors3D, inSecondVectors3D);
 			*outDotLessThanZeros = (TQ3Boolean) (dotProduct < 0.0f);
 
 			((const char*) inFirstVectors3D) += inStructSize;
@@ -4403,13 +4403,13 @@ E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox,
 	const TQ3Point3D *points3D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	if (numPoints == 0)
-		Q3FastBoundingBox_Reset(bBox);
+		Q3BoundingBox_Reset(bBox);
 	else
 	{
 		const char* in = (const char*) points3D;
 		TQ3Uns32 i;
 		
-		Q3FastBoundingBox_Set(bBox, points3D, points3D, kQ3False);
+		Q3BoundingBox_Set(bBox, points3D, points3D, kQ3False);
 		in += structSize;
 		
 		for (i = 1; i < numPoints; ++i, in += structSize)
@@ -4432,20 +4432,20 @@ E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox,
 	const TQ3RationalPoint4D *rationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	if (numPoints == 0)
-		Q3FastBoundingBox_Reset(bBox);
+		Q3BoundingBox_Reset(bBox);
 	else
 	{
 		TQ3Point3D point3D;
 		const char* in = (const char*) rationalPoints4D;
 		TQ3Uns32 i;
 		
-		Q3FastRationalPoint4D_To3D(rationalPoints4D, &point3D);
-		Q3FastBoundingBox_Set(bBox, &point3D, &point3D, kQ3False);
+		Q3RationalPoint4D_To3D(rationalPoints4D, &point3D);
+		Q3BoundingBox_Set(bBox, &point3D, &point3D, kQ3False);
 		in += structSize;
 		
 		for (i = 1; i < numPoints; ++i, in += structSize)
 		{
-			Q3FastRationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
+			Q3RationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
 			e3bounding_box_accumulate_point3D(bBox, &point3D);
 		}
 	}
@@ -4486,14 +4486,14 @@ E3BoundingBox_Union(const TQ3BoundingBox *b1, const TQ3BoundingBox *b2,
 	if (b1->isEmpty)
 	{
 		if (b2->isEmpty)
-			Q3FastBoundingBox_Reset(result);
+			Q3BoundingBox_Reset(result);
 		else
-			Q3FastBoundingBox_Copy(b2, result);
+			Q3BoundingBox_Copy(b2, result);
 	}
 	else
 	{
 		if (b2->isEmpty)
-			Q3FastBoundingBox_Copy(b1, result);
+			Q3BoundingBox_Copy(b1, result);
 		else
 		{
 			result->min.x = E3Num_Min(b1->min.x, b2->min.x);
@@ -4524,11 +4524,11 @@ E3BoundingBox_UnionPoint3D(const TQ3BoundingBox *bBox, const TQ3Point3D *point3D
 	TQ3BoundingBox *result)
 {
 	if (bBox->isEmpty)
-		Q3FastBoundingBox_Set(result, point3D, point3D, kQ3False);
+		Q3BoundingBox_Set(result, point3D, point3D, kQ3False);
 	else
 	{
 		if (result != bBox)
-			Q3FastBoundingBox_Copy(bBox, result);
+			Q3BoundingBox_Copy(bBox, result);
 		
 		e3bounding_box_accumulate_point3D(result, point3D);
 	}
@@ -4551,9 +4551,9 @@ E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox,
 {
 	TQ3Point3D point3D;
 	
-	Q3FastRationalPoint4D_To3D(rationalPoint4D, &point3D);
+	Q3RationalPoint4D_To3D(rationalPoint4D, &point3D);
 
-	return(E3BoundingBox_UnionPoint3D(bBox, &point3D, result));
+	return(Q3BoundingBox_UnionPoint3D(bBox, &point3D, result));
 }
 
 
@@ -4603,11 +4603,11 @@ E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *p
 	switch (numPoints)
 	{
 	case 0:
-		Q3FastBoundingSphere_Reset(bSphere);
+		Q3BoundingSphere_Reset(bSphere);
 		break;
 
 	case 1:
-		Q3FastBoundingSphere_Set(bSphere, points3D, 0.0f, kQ3False);
+		Q3BoundingSphere_Set(bSphere, points3D, 0.0f, kQ3False);
 		break;
 
 	default:
@@ -4620,22 +4620,22 @@ E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *p
 			const TQ3Point3D *currPoint3D;
 
 			// Determine the bounding box of the specified points
-			E3BoundingBox_SetFromPoints3D(&bBox, points3D, numPoints, structSize);
+			Q3BoundingBox_SetFromPoints3D(&bBox, points3D, numPoints, structSize);
 
 			// Set the (initial) origin of the bounding sphere to the center of the bounding box
-			E3Point3D_RRatio(&bBox.min, &bBox.max, 0.5f, 0.5f, &origin);
+			Q3Point3D_RRatio(&bBox.min, &bBox.max, 0.5f, 0.5f, &origin);
 
 			// Set the (initial) radius of the bounding sphere to the maximum distance from the origin
 			radiusSquared = 0.0f;
 			for (i = 0, currPoint3D = points3D; i < numPoints; ++i, ((const char *) currPoint3D) += structSize)
 			{
-				float currRadiusSquared = Q3FastPoint3D_DistanceSquared(&origin, currPoint3D);
+				float currRadiusSquared = Q3Point3D_DistanceSquared(&origin, currPoint3D);
 
 				if (currRadiusSquared > radiusSquared)
 					radiusSquared = currRadiusSquared;
 			}
 
-			Q3FastBoundingSphere_Set(bSphere, &origin, E3Math_SquareRoot(radiusSquared), kQ3False);
+			Q3BoundingSphere_Set(bSphere, &origin, Q3Math_SquareRoot(radiusSquared), kQ3False);
 		}
 		break;
 	}
@@ -4665,21 +4665,21 @@ TQ3BoundingSphere *
 E3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3RationalPoint4D *rationalPoints4D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	if (numPoints == 0)
-		Q3FastBoundingSphere_Reset(bSphere);
+		Q3BoundingSphere_Reset(bSphere);
 	else
 	{
 		TQ3Point3D point3D;
 		const char* in = (const char*) rationalPoints4D;
 		TQ3Uns32 i;
 		
-		Q3FastRationalPoint4D_To3D(rationalPoints4D, &point3D);
-		Q3FastBoundingSphere_Set(bSphere, &point3D, 0.0f, kQ3False);
+		Q3RationalPoint4D_To3D(rationalPoints4D, &point3D);
+		Q3BoundingSphere_Set(bSphere, &point3D, 0.0f, kQ3False);
 		in += structSize;
 		
 		for (i = 1; i < numPoints; ++i, in += structSize)
 		{
-			Q3FastRationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
-			E3BoundingSphere_UnionPoint3D(bSphere, &point3D, bSphere);
+			Q3RationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
+			Q3BoundingSphere_UnionPoint3D(bSphere, &point3D, bSphere);
 		}
 	}
 
@@ -4741,9 +4741,9 @@ E3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 			float x1=s1->origin.x, y1=s1->origin.y, z1=s1->origin.z;
 			float x2=s2->origin.x, y2=s2->origin.y, z2=s2->origin.z;
 			// find the deltas between their centers, and the distance.
-			float dx = x2-x1, dy = y2-y1, dz = z2-z1, dist = E3Math_SquareRoot(dx*dx + dy*dy + dz*dz);
+			float dx = x2-x1, dy = y2-y1, dz = z2-z1, dist = Q3Math_SquareRoot(dx*dx + dy*dy + dz*dz);
 			
-			if (dist > 0.0f)
+			if (dist > kQ3RealZero)
 			{
 				// find the far points.
 				float factor = s1->radius / dist;
@@ -4764,7 +4764,7 @@ E3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 					dy = fy1-fy2;
 					dz = fz1-fz2;
 				}
-				result->radius = E3Math_SquareRoot(dx*dx + dy*dy + dz*dz) / 2.0f;
+				result->radius = Q3Math_SquareRoot(dx*dx + dy*dy + dz*dz) / 2.0f;
 			}
 			else
 			{
@@ -4805,7 +4805,7 @@ E3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D
 		float x1=bSphere->origin.x, y1=bSphere->origin.y, z1=bSphere->origin.z;
 		float x2=point3D->x, y2=point3D->y, z2=point3D->z;
 		// find the deltas between their centers, and the distance.
-		float dx = x2-x1, dy = y2-y1, dz = z2-z1, dist = E3Math_SquareRoot(dx*dx + dy*dy + dz*dz);
+		float dx = x2-x1, dy = y2-y1, dz = z2-z1, dist = Q3Math_SquareRoot(dx*dx + dy*dy + dz*dz);
 		if (dist > bSphere->radius)
 		{
 			// find the far points.
@@ -4820,12 +4820,12 @@ E3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D
 			dx = fx1-x2;
 			dy = fy1-y2;
 			dz = fz1-z2;
-			result->radius = E3Math_SquareRoot(dx*dx + dy*dy + dz*dz) / 2.0f;
+			result->radius = Q3Math_SquareRoot(dx*dx + dy*dy + dz*dz) / 2.0f;
 		}
 		else
 		{
 			// if the point is within the sphere, then no change is necessary.
-			Q3FastBoundingSphere_Copy(bSphere, result);
+			Q3BoundingSphere_Copy(bSphere, result);
 			return(result);
 		}
 	}
@@ -4852,9 +4852,9 @@ E3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere,
 {
 	TQ3Point3D point3D;
 	
-	Q3FastRationalPoint4D_To3D(rationalPoint4D, &point3D);
+	Q3RationalPoint4D_To3D(rationalPoint4D, &point3D);
 
-	return(E3BoundingSphere_UnionPoint3D(bSphere, &point3D, result));
+	return(Q3BoundingSphere_UnionPoint3D(bSphere, &point3D, result));
 }
 
 
