@@ -385,11 +385,10 @@ e3style_hilight_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 
 	// Submit the style
 	if (*instanceData != NULL)
-		return(Q3AttributeSet_Submit(*instanceData, theView));
+		E3View_State_SetStyleHighlight(theView, *instanceData);
 
 	return(kQ3Success);
 }
-
 
 
 
