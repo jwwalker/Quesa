@@ -61,6 +61,28 @@
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      ir_interactive_new : Renderer new method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+ir_interactive_new(TQ3Object theObject, void *privateData, void *paramData)
+{
+#pragma unused(privateData)
+#pragma unused(paramData)
+
+
+
+	// Our instance data has already been cleared to 0, so we
+	// simply need to adjust our state to match Apple's IR.
+	Q3InteractiveRenderer_SetRAVETextureFilter(theObject, kQATextureFilter_Mid);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      ir_interactive_delete : Renderer delete method.
 //-----------------------------------------------------------------------------
 static void
@@ -305,6 +327,10 @@ ir_interactive_metahandler(TQ3XMethodType methodType)
 
 	// Return our methods
 	switch (methodType) {
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) ir_interactive_new;
+			break;
+
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) ir_interactive_delete;
 			break;
