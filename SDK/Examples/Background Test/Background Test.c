@@ -114,7 +114,7 @@ setGWorldDrawContext(TQ3ViewObject theView, GWorldPtr theGWorld)
 
 
 	// Get the info we need from the GWorld
-	theRect   = theGWorld->portRect;
+	GetPortBounds(theGWorld,&theRect);
 	thePixMap = GetGWorldPixMap(theGWorld);
 	if (thePixMap == NULL)
 		return;
@@ -184,6 +184,7 @@ appConfigureView(TQ3ViewObject				theView,
 static void
 appRenderPre(TQ3ViewObject theView)
 {	RGBColor		saveBackColour, saveForeColour;
+    Rect			backRect,bufferRect;
 	GDHandle		saveDevice;
 	GWorldPtr		saveGWorld;
 #pragma unused(theView)
@@ -199,13 +200,17 @@ appRenderPre(TQ3ViewObject theView)
 
 	// Copy the background image into the image buffer
 	SetGWorld(gImageBuffer, NULL);
+
 	ForeColor(blackColor);
 	BackColor(whiteColor);
 
-	CopyBits((BitMapPtr) &gImageBackground->portPixMap,
-			 (BitMapPtr) &gImageBuffer->portPixMap,
-			 &gImageBackground->portRect, 
-			 &gImageBuffer->portRect, 
+    GetPortBounds(gImageBackground, &backRect);
+    GetPortBounds(gImageBuffer,     &bufferRect);
+
+	CopyBits((BitMapPtr) GetPortBitMapForCopyBits(gImageBackground),
+			 (BitMapPtr) GetPortBitMapForCopyBits(gImageBuffer),
+			 &backRect, 
+			 &bufferRect, 
 			 srcCopy, 
 			 0);
 
@@ -249,6 +254,7 @@ appRender(TQ3ViewObject theView)
 static void
 appRenderPost(TQ3ViewObject theView)
 {	RGBColor		saveBackColour, saveForeColour;
+    Rect			backRect, windowRect;
 	WindowPtr		theWindow;
 	GrafPtr			savePort;
 #pragma unused(theView)
@@ -264,15 +270,18 @@ appRenderPost(TQ3ViewObject theView)
 
 	// Copy the image buffer to the window
 	theWindow = (WindowPtr) Qut_GetWindow();
-	SetPort(theWindow);
+	SetPort((GrafPtr) GetWindowPort(theWindow));
 
 	ForeColor(blackColor);
 	BackColor(whiteColor);
 
-	CopyBits((BitMapPtr) &gImageBuffer->portPixMap,
-			 (BitMapPtr) &theWindow->portBits,
-			 &gImageBuffer->portRect, 
-			 &theWindow->portRect, 
+    GetPortBounds(gImageBuffer,             &backRect);
+    GetPortBounds(GetWindowPort(theWindow), &windowRect);
+
+	CopyBits((BitMapPtr) GetPortBitMapForCopyBits(gImageBuffer),
+			 (BitMapPtr) GetPortBitMapForCopyBits(GetWindowPort(theWindow)),
+			 &backRect, 
+			 &windowRect, 
 			 srcCopy, 
 			 0);
 

@@ -36,15 +36,9 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-#include <stdio.h>
-#include <stdlib.h>
+#include "Qut.h"
 
-#include "Quesa.h"
-#include "QuesaGroup.h"
-#include "QuesaIO.h"
-#include "QuesaStorage.h"
-
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_MACINTOSH && (!TARGET_RT_MAC_MACHO)
 	#include <console.h>
 #endif
 
@@ -365,7 +359,7 @@ int main(int argc, char * argv[])
 
 
 	/* Special Mac hook */
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_MACINTOSH && (!TARGET_RT_MAC_MACHO)
 	argc = ccommand(&argv);
 #endif
 
@@ -374,7 +368,7 @@ int main(int argc, char * argv[])
 	/* Handle parameters */
 	if (argc == 1)
 		{
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_MACINTOSH && (!TARGET_RT_MAC_MACHO)
 		pathToFile = "::Support Files:Models:3DMF:F18.3dmf";
 #elif QUESA_OS_WIN32
 		pathToFile = "..\\Support Files\\Models\\3DMF\\F18.3dmf";

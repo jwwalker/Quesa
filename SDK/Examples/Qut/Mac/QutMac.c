@@ -42,11 +42,43 @@
 
 
 //=============================================================================
+//      Carbon pre-amble
+//-----------------------------------------------------------------------------
+//		Note :	At the moment we only use Carbon Events on X, but we should be
+//				able to turn this on for 8/9 when running with CarbonLib 1.1.
+//-----------------------------------------------------------------------------
+#ifndef QUT_MAC_CARBON_EVENTS
+	#if defined(TARGET_RT_MAC_MACHO) && (TARGET_RT_MAC_MACHO)
+		#define QUT_MAC_CARBON_EVENTS				1
+	#else
+		#define QUT_MAC_CARBON_EVENTS				0
+	#endif
+#endif
+
+
+
+
+
+//=============================================================================
+//      Carbon include files
+//-----------------------------------------------------------------------------
+#if QUT_MAC_CARBON_EVENTS
+	#include <Carbon/CarbonEvents.h>
+	#include <Carbon/IBCarbonRuntime.h>
+	#include <Carbon/AERegistry.h>
+#endif
+
+
+
+
+
+//=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
 #define kMenuBarQut										128
 #define kDialogAbout									128
 
+#define kQutMacUpdateSeconds							0.05f
 #define kSleepTicksDefault								1
 #define kSleepTicksFPS									0
 #define kWindowMinSize									50
@@ -58,8 +90,21 @@
 #define kMenuFileClose									1
 #define kMenuFileQuit									3
 #define kMenuEdit										130
-#define kMenuRenderer									131
-#define kMenuSpecial									132
+
+#if QUT_MAC_CARBON_EVENTS
+	#define kMenuRenderer								132
+	#define kMenuSpecial								133
+#else
+	#define kMenuRenderer								131
+	#define kMenuSpecial								132
+#endif
+
+enum {
+	kQutCommandShowFPS									= FOUR_CHAR_CODE('Sfps'),
+	kQutCommandUseRenderer								= FOUR_CHAR_CODE('UsRn'),
+	kQutCommandAboutBox									= FOUR_CHAR_CODE('Abot'),
+	kQutCommandClose									= FOUR_CHAR_CODE('clos')
+};
 
 
 
@@ -73,6 +118,10 @@ TQ3Boolean					gShouldQuit  = kQ3False;
 TQ3Boolean					gShowFPS     = kQ3False;
 TQ3Uns32					gSleepTime   = kSleepTicksDefault;
 
+#if QUT_MAC_CARBON_EVENTS
+EventLoopTimerRef			gUpdateTimer = NULL;
+#endif
+
 
 
 
@@ -80,75 +129,24 @@ TQ3Uns32					gSleepTime   = kSleepTicksDefault;
 //=============================================================================
 //		Internal functions.
 //-----------------------------------------------------------------------------
-//		qut_build_renderer_menu : Build the renderer menu.
+//		qut_carbon_get_nib : Get our nib reference.
 //-----------------------------------------------------------------------------
-static void
-qut_build_renderer_menu(void)
-{	TQ3SubClassData		rendererData;
-	TQ3Status			qd3dStatus;
-	MenuHandle			theMenu;
-	Str255				theStr;
-	TQ3Uns32			n, m;
-
-
-
-	// Get the renderer menu
-	theMenu = GetMenuHandle(kMenuRenderer);
-	if (theMenu == NULL)
-		return;
-
-
-
-	// Collect the renderers which are available
-	qd3dStatus = Q3ObjectHierarchy_GetSubClassData(kQ3SharedTypeRenderer, &rendererData);
-	if (qd3dStatus != kQ3Success)
-		return;
-
-
-
-	// If we can find any renderers, add them to the menu
-	if (rendererData.numClasses != 0)
-		{
-		// First two slots are already used
-		gRenderers[0] = kQ3ObjectTypeInvalid;
-		gRenderers[1] = kQ3ObjectTypeInvalid;
-		m = 2;
-		
-		
-		// Fill the remaining slots
-		for (n = 0; n < rendererData.numClasses; n++)
-			{
-			// Skip the generic renderer, since it can't actually render
-			if (rendererData.classTypes[n] != kQ3RendererTypeGeneric)
-				{
-				// Grab the nick name, falling back to the class name if that fails
-				qd3dStatus = Q3RendererClass_GetNickNameString(rendererData.classTypes[n], (char *) &theStr[1]);
-				if (qd3dStatus == kQ3Failure || theStr[1] == 0x00)
-					qd3dStatus = Q3ObjectHierarchy_GetStringFromType(rendererData.classTypes[n], (char *) &theStr[1]);
-
-
-				// Add the menu item and save the type
-				if (qd3dStatus == kQ3Success)
-					{
-					theStr[0] = strlen((char *) &theStr[1]);
-					if (theStr[0] != 0x00)
-						{
-						AppendMenu(theMenu, theStr);				
-						SetMenuItemText(theMenu, n + 3, theStr);
-
-						gRenderers[m++] = rendererData.classTypes[n];
-						}
-					}
-				}
-			}
-		}
-	else
-		DisableMenuItem(theMenu, 0);
-
-
-
-	// Clean up
-	Q3ObjectHierarchy_EmptySubClassData(&rendererData);
+// dair, rename these routines
+#if QUT_MAC_CARBON_EVENTS
+static IBNibRef
+qut_carbon_get_nib(void)
+{
+  static IBNibRef nibRef = NULL;
+  if(!nibRef)
+  {
+    OSStatus err = CreateNibReference(CFSTR("main"), &nibRef);
+    if(err)
+    {
+        fprintf(stderr, "Can't load Main Nib: %d\n", (int)err);
+        ExitToShell();
+    }
+  }
+  return nibRef;
 }
 
 
@@ -156,10 +154,234 @@ qut_build_renderer_menu(void)
 
 
 //=============================================================================
-//		qut_handle_menu : Handle menu selections.
+//		qut_carbon_window_event : Handle window events.
+//-----------------------------------------------------------------------------
+static OSStatus
+qut_carbon_window_event(EventHandlerCallRef inHandlerCallRef, 
+                                  EventRef inEvent, void *inUserData)
+{
+  OSStatus err = noErr;
+    switch(GetEventKind(inEvent))
+    {
+      case kEventWindowClose:
+        gShouldQuit = 1;
+        QuitApplicationEventLoop();
+        break;
+      case kEventWindowClickResizeRgn: {
+        TQ3DrawContextObject theDrawContext;
+
+        if (gWindowCanResize)
+        {
+            err = CallNextEventHandler(inHandlerCallRef, inEvent);
+            if(err)
+              break;
+            
+            theDrawContext = Qut_CreateDrawContext();
+            if (theDrawContext != NULL)
+              {
+                Q3View_SetDrawContext(gView, theDrawContext);
+                Q3Object_Dispose(theDrawContext);
+              }
+          }
+        }
+      case kEventWindowClickContentRgn: {
+      Point mousePoint, lastMouse;
+      TQ3Point2D mouseDiff;
+      MouseTrackingResult result;
+
+      err = GetEventParameter(inEvent,kEventParamMouseLocation,
+                        typeQDPoint, NULL, sizeof(Point),NULL, &mousePoint);
+      if (gFuncAppMouseTrack != NULL)
+          {
+              lastMouse = mousePoint;
+              err = TrackMouseLocation(GetWindowPort(gWindow),&mousePoint,&result);
+              while (!err && (result != kMouseTrackingMouseReleased))
+              {
+                mouseDiff.x = (float) (mousePoint.h - lastMouse.h);
+                mouseDiff.y = (float) (mousePoint.v - lastMouse.v);
+  
+                gFuncAppMouseTrack(gView, mouseDiff);
+                Qut_RenderFrame();
+                lastMouse = mousePoint;
+                err = TrackMouseLocation(GetWindowPort(gWindow),&mousePoint,&result);
+            }
+          }
+      
+      }
+        break;
+      default:
+            err = CallNextEventHandler(inHandlerCallRef, inEvent);
+        break;
+    }
+    return err;
+}
+
+
+
+
+
+//=============================================================================
+//		qut_carbon_command_event : Handle commands.
+//-----------------------------------------------------------------------------
+static OSStatus
+qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef, 
+                                  EventRef inEvent, void *inUserData)
+{
+  OSStatus err = noErr;
+  HICommand command;
+  err = GetEventParameter(inEvent,kEventParamDirectObject,
+                        typeHICommand, NULL, sizeof(HICommand),NULL, &command);
+//  fprintf(stdout,"Command Number %u\n",(unsigned int)command.commandID);fflush(stdout);
+  if(command.commandID == 0)
+  {
+    switch(GetMenuID(command.menu.menuRef))
+    {
+      case kMenuRenderer:
+			if (command.menu.menuItemIndex == 1)
+				{
+				gShowFPS   = (TQ3Boolean) !gShowFPS;
+				gSleepTime = gShowFPS ? kSleepTicksFPS : kSleepTicksDefault;
+				CheckMenuItem(GetMenuHandle(kMenuRenderer), command.menu.menuItemIndex, gShowFPS);
+				}
+			else
+				Q3View_SetRendererByType(gView, gRenderers[command.menu.menuItemIndex - 1]);
+			break;
+      case kMenuSpecial:
+			if (gAppMenuSelect != NULL)
+				gAppMenuSelect(gView, command.menu.menuItemIndex);
+        break;
+      default:
+          err = CallNextEventHandler(inHandlerCallRef, inEvent);
+        break;
+    }
+    	// Unhilight the menu
+      HiliteMenu(0);
+  } else {
+    switch(command.commandID)
+    {
+        case kQutCommandShowFPS:
+          gShowFPS   = (TQ3Boolean) !gShowFPS;
+          gSleepTime = gShowFPS ? kSleepTicksFPS : kSleepTicksDefault;
+          CheckMenuItem(GetMenuHandle(kMenuRenderer), command.menu.menuItemIndex, gShowFPS);
+          break;
+        case kQutCommandUseRenderer:
+            Q3View_SetRendererByType(gView, gRenderers[command.menu.menuItemIndex - 1]);
+          break;
+        case kQutCommandClose:
+          gShouldQuit = 1;
+          QuitApplicationEventLoop();
+         break;
+        case kQutCommandAboutBox: {
+            ModalFilterUPP 		dialogFilter;
+            DialogItemIndex		dialogItem;
+            DialogPtr			theDialog; 
+            GetStdFilterProc(&dialogFilter);
+            theDialog = GetNewDialog(kDialogAbout, NULL, (WindowPtr) -1);
+            SetDialogDefaultItem(theDialog, kStdOkItemIndex);
+            
+            // Run the dialog
+            do
+                {
+                ModalDialog(dialogFilter, &dialogItem);
+                }
+            while (dialogItem != kStdOkItemIndex);
+            
+            // Clean up
+            DisposeDialog(theDialog);
+          }
+          break;
+        default:
+          err = CallNextEventHandler(inHandlerCallRef, inEvent);
+          break;
+    }
+      HiliteMenu(0);
+  }
+  return err;
+}
+
+
+
+
+
+//=============================================================================
+//		qut_carbon_timer_fired : Timer callback.
 //-----------------------------------------------------------------------------
 static void
-qut_handle_menu(TQ3Uns32 menuInfo)
+qut_carbon_timer_fired(EventLoopTimerRef updateTimer,void* inUserData)
+{
+    Str255 theStr;
+    GrafPtr oldPort;
+
+	Qut_RenderFrame();
+    if (gShowFPS)
+    {
+      sprintf((char *) &theStr[1], "FPS: %.2f", gFPS);
+      theStr[0] = strlen((char *) &theStr[1]);
+      GetPort(&oldPort);
+      SetPort((GrafPtr) GetWindowPort(gWindow));
+      ForeColor(whiteColor);
+      TextFont(kFontIDGeneva);
+      TextSize(9);
+  
+      MoveTo(5, 12);
+      DrawString(theStr);
+      SetPort(oldPort);
+    }
+}
+
+
+
+
+
+//=============================================================================
+//      qut_carbon_install_handlers : Install Carbon Event handlers.
+//-----------------------------------------------------------------------------
+static OSStatus
+qut_carbon_install_handlers(void)
+{
+	const EventTypeSpec windowEventTypes[] = { 
+                                        { kEventClassWindow, 
+                                          kEventWindowClose },
+                                        { kEventClassWindow, 
+                                          kEventWindowClickResizeRgn },
+                                        { kEventClassWindow,
+                                          kEventWindowClickContentRgn }
+                                      };
+	EventTypeSpec appEventTypes = { kEventClassCommand, kEventProcessCommand };
+	OSStatus err;
+	err = InstallWindowEventHandler((WindowRef)gWindow,
+                      NewEventHandlerUPP(qut_carbon_window_event),
+                      3,
+                      windowEventTypes,
+                      NULL,NULL);
+	if(err) return err;
+
+    err = InstallApplicationEventHandler(NewEventHandlerUPP(qut_carbon_command_event),
+                                1,
+                                &appEventTypes,
+                                NULL,NULL);                    
+	if(err) return err;
+ 
+    err = InstallEventLoopTimer(GetMainEventLoop(),
+                          0.0f,
+                          kQutMacUpdateSeconds,
+                          NewEventLoopTimerUPP(qut_carbon_timer_fired), 
+                          NULL, &gUpdateTimer);
+    return err;                      
+}
+#endif // QUT_MAC_CARBON_EVENTS
+
+
+
+
+
+//=============================================================================
+//		qut_classic_handle_menu : Handle menu selections.
+//-----------------------------------------------------------------------------
+// dair, rename these routines
+#if !QUT_MAC_CARBON_EVENTS
+static void
+qut_classic_handle_menu(TQ3Uns32 menuInfo)
 {	TQ3Uns16			menuID, menuItem;
 	ModalFilterUPP 		dialogFilter;
 	DialogItemIndex		dialogItem;
@@ -254,10 +476,10 @@ qut_handle_menu(TQ3Uns32 menuInfo)
 
 
 //=============================================================================
-//		qut_handle_key : Handle keystrokes.
+//		qut_classic_handle_key : Handle keystrokes.
 //-----------------------------------------------------------------------------
 static void
-qut_handle_key(const EventRecord *theEvent)
+qut_classic_handle_key(const EventRecord *theEvent)
 {	TQ3Uns8		charCode;
 
 
@@ -266,9 +488,12 @@ qut_handle_key(const EventRecord *theEvent)
 	if (theEvent->modifiers & cmdKey)
 		{
 		charCode = (theEvent->message & charCodeMask);
-		qut_handle_menu(MenuKey(charCode));
+		qut_classic_handle_menu(MenuKey(charCode));
 		}
 }
+#endif // QUT_MAC_CARBON_EVENTS
+
+
 
 
 
@@ -295,16 +520,100 @@ qut_handle_nav_event(NavEventCallbackMessage    callBackSelector,
 
 
 //=============================================================================
+//		qut_build_renderer_menu : Build the renderer menu.
+//-----------------------------------------------------------------------------
+static void
+qut_build_renderer_menu(void)
+{	TQ3SubClassData		rendererData;
+	TQ3Status			qd3dStatus;
+	MenuHandle			theMenu;
+	Str255				theStr;
+	TQ3Uns32			n, m;
+
+
+
+	// Get the renderer menu
+	theMenu = GetMenuHandle(kMenuRenderer);
+	if (theMenu == NULL)
+		return;
+
+
+
+	// Collect the renderers which are available
+	qd3dStatus = Q3ObjectHierarchy_GetSubClassData(kQ3SharedTypeRenderer, &rendererData);
+	if (qd3dStatus != kQ3Success)
+		return;
+
+
+
+	// If we can find any renderers, add them to the menu
+	if (rendererData.numClasses != 0)
+		{
+		// First two slots are already used
+		gRenderers[0] = kQ3ObjectTypeInvalid;
+		gRenderers[1] = kQ3ObjectTypeInvalid;
+		m = 2;
+		
+		
+		// Fill the remaining slots
+		for (n = 0; n < rendererData.numClasses; n++)
+			{
+			// Skip the generic renderer, since it can't actually render
+			if (rendererData.classTypes[n] != kQ3RendererTypeGeneric)
+				{
+				// Grab the nick name, falling back to the class name if that fails
+				qd3dStatus = Q3RendererClass_GetNickNameString(rendererData.classTypes[n], (char *) &theStr[1]);
+				if (qd3dStatus == kQ3Failure || theStr[1] == 0x00)
+					qd3dStatus = Q3ObjectHierarchy_GetStringFromType(rendererData.classTypes[n], (char *) &theStr[1]);
+
+
+				// Add the menu item and save the type
+				if (qd3dStatus == kQ3Success)
+					{
+					theStr[0] = strlen((char *) &theStr[1]);
+					if (theStr[0] != 0x00)
+						{
+						AppendMenu(theMenu, theStr);				
+						SetMenuItemText(theMenu, n + 3, theStr);
+#if QUT_MAC_CARBON_EVENTS                        
+                        SetMenuItemCommandID(theMenu, n + 3, kQutCommandUseRenderer);
+#endif                       
+						gRenderers[m++] = rendererData.classTypes[n];
+						}
+					}
+				}
+			}
+		}
+	else
+		DisableMenuItem(theMenu, 0);
+
+
+
+	// Clean up
+	Q3ObjectHierarchy_EmptySubClassData(&rendererData);
+}
+
+
+
+
+
+//=============================================================================
 //      qut_initialize : Initialise ourselves.
 //-----------------------------------------------------------------------------
 static void
 qut_initialize(void)
 {	TQ3Status		qd3dStatus;
+
+#if QUT_MAC_CARBON_EVENTS
+    OSStatus		theErr;
+#else
 	Handle			theMenuBar;
+#endif
+
 #if !TARGET_API_MAC_CARBON
 	TQ3Uns32		n;
 #endif
-	
+
 
 
 	// Initialise our globals
@@ -340,6 +649,17 @@ qut_initialize(void)
 
 
 	// Set up the menu bar
+#if QUT_MAC_CARBON_EVENTS
+	// Use a nib for Mac OS X
+	theErr = SetMenuBarFromNib(qut_carbon_get_nib(), CFSTR("MainMenu"));
+
+	if (theErr != noErr)
+		{
+		fprintf(stderr, "Can't load MenuBar %d\n", (int) theErr);
+		ExitToShell();
+		}
+#else
+	// Or use the resource fork for classic Mac OS
 	theMenuBar = GetNewMBar(kMenuBarQut);
 	if (theMenuBar == NULL)
 		exit(-1);
@@ -348,6 +668,11 @@ qut_initialize(void)
 	DisposeHandle(theMenuBar);
 	
 	AppendResMenu(GetMenuHandle(kMenuApple), 'DRVR');
+#endif
+
+
+
+	// Build the renderer menu and redraw the menu bar
 	qut_build_renderer_menu();
 	DrawMenuBar();
 }
@@ -387,7 +712,10 @@ qut_terminate(void)
 //-----------------------------------------------------------------------------
 static void
 qut_mainloop(void)
-{	Rect					dragRect = { -32767, -32767, 32767, 32767 };
+{
+#if !QUT_MAC_CARBON_EVENTS
+	// Classic WNE event loop
+	Rect					dragRect = { -32767, -32767, 32767, 32767 };
 	Rect					growRect = { kWindowMinSize, kWindowMinSize, kWindowMaxSize, kWindowMaxSize };
 	Point					lastMouse, theMouse;
 	TQ3DrawContextObject	theDrawContext;
@@ -422,7 +750,7 @@ qut_mainloop(void)
 			case keyDown:
 			case autoKey:
 				// Handle keystrokes
-				qut_handle_key(&theEvent);
+				qut_classic_handle_key(&theEvent);
 				break;
 
 
@@ -430,7 +758,7 @@ qut_mainloop(void)
 				// Handle clicks for our window
 				partCode = FindWindow(theEvent.where, &theWindow);
 				if (partCode == inMenuBar)
-					qut_handle_menu(MenuSelect(theEvent.where));
+					qut_classic_handle_menu(MenuSelect(theEvent.where));
 
 				else if (theWindow == gWindow)
 					{
@@ -502,6 +830,31 @@ qut_mainloop(void)
 				break;
 			}
 		}
+
+
+
+#else
+	// Carbon event loop
+	OSStatus	theErr;
+
+
+	// Make sure we're set up correctly
+	if (gView == NULL || gWindow == NULL)
+		return;
+
+
+	// Install the event handlers
+	theErr = qut_carbon_install_handlers();
+	if (theErr != noErr)
+		{
+		fprintf(stderr,"Error %d installing carbon event handlers\n",(int) theErr);
+	    return;
+		}
+
+
+	// Run the event loop
+	RunApplicationEventLoop();
+#endif                
 }
 
 
@@ -519,7 +872,10 @@ Qut_CreateWindow(const char		*windowTitle,
 					TQ3Uns32	theWidth,
 					TQ3Uns32	theHeight,
 					TQ3Boolean	canResize)
-{	Rect		theRect;
+{
+#if !QUT_MAC_CARBON_EVENTS
+	// Classic Window Manager
+	Rect		theRect;
 	Str255		theStr;
 
 
@@ -543,6 +899,26 @@ Qut_CreateWindow(const char		*windowTitle,
 	gWindowCanResize = canResize;
 	
 	SetPort((GrafPtr) GetWindowPort(gWindow));
+
+
+
+#else
+	// Carbon window manager (do we really need to use a nib for this?)
+	OSStatus		theErr;
+	
+	
+	// Create the window
+	theErr = CreateWindowFromNib(qut_carbon_get_nib(), CFSTR("MainWindow"), (WindowRef *) &gWindow);
+	if (theErr != noErr)
+		{
+		fprintf(stderr, "Can't load Window %d\n", (int) theErr);
+		ExitToShell();
+		}
+
+	gWindowCanResize = canResize;
+    SizeWindow(gWindow, (short) theWidth, (short) theHeight, false);                               
+	ShowWindow(gWindow);
+#endif        
 }
 
 
@@ -809,6 +1185,13 @@ void
 Qut_CreateMenu(qutFuncAppMenuSelect appMenuSelect)
 {
 
+#if QUT_MAC_CARBON_EVENTS
+
+	// Create the Special menu
+	gMenuSpecial = GetMenuHandle(kMenuSpecial);
+    DeleteMenuItem(gMenuSpecial,1);
+
+#else
 
 	// Create the Special menu
 	gMenuSpecial = NewMenu(kMenuSpecial, "\pSpecial");
@@ -816,10 +1199,10 @@ Qut_CreateMenu(qutFuncAppMenuSelect appMenuSelect)
 		return;
 
 
-
 	// Insert the menu and redraw
 	InsertMenu(gMenuSpecial, 0);
 	DrawMenuBar();
+#endif
 
 
 

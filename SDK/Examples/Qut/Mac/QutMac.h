@@ -33,25 +33,42 @@
 #ifndef QUT_MAC_HDR
 #define QUT_MAC_HDR
 //=============================================================================
+//      Mac OS X #includes
+//-----------------------------------------------------------------------------
+#if defined(TARGET_RT_MAC_MACHO) && (TARGET_RT_MAC_MACHO)
+	#include <Carbon/QuickDraw.h>
+#endif
+
+
+
+
+
+//=============================================================================
 //      Carbon compatibility macros
 //-----------------------------------------------------------------------------
 #if !TARGET_API_MAC_CARBON
 	// Get the bounds for a port
-	#define GetPortBounds(_port, _rect)			*(_rect) = _port->portRect;
+	#define GetPortBounds(_port, _rect)				*(_rect) = _port->portRect;
+
+
+	// Get the port for a window
+	#ifndef GetWindowPort
+		#define GetWindowPort(_window)				(GrafPtr) (_window);
+	#endif
 
 
 	// Get the data for an AE descriptor
-	#define AEGetDescData(_ae, _ptr, _size)		memcpy(_ptr, *((_ae)->dataHandle), _size);
+	#define AEGetDescData(_ae, _ptr, _size)			memcpy(_ptr, *((_ae)->dataHandle), _size);
 	
 	
 	// Get the port bits of a port
-	#define GetPortBitMapForCopyBits(_port)		&((GrafPtr) _port)->portBits
+	#define GetPortBitMapForCopyBits(_port)			&((GrafPtr) _port)->portBits
 
 
 	// Older UH support
 	#if (UNIVERSAL_INTERFACES_VERSION == 0x0320)
 		#ifndef DisposeNavEventUPP
-			#define DisposeNavEventUPP(userUPP)	DisposeRoutineDescriptor(userUPP)
+			#define DisposeNavEventUPP(userUPP)		DisposeRoutineDescriptor(userUPP)
 		#endif
 	#endif
 

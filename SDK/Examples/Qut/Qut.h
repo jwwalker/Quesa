@@ -35,53 +35,54 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-// Everyone but Mac OS X MachO
+// Everyone but Mac OS X Mach-O
 #if !defined(TARGET_RT_MAC_MACHO) || !TARGET_RT_MAC_MACHO
-#include "Quesa.h"
-#include "QuesaCamera.h"
-#include "QuesaController.h"
-#include "QuesaCustomElements.h"
-#include "QuesaDrawContext.h"
-#include "QuesaErrors.h"
-#include "QuesaExtension.h"
-#include "QuesaGeometry.h"
-#include "QuesaGroup.h"
-#include "QuesaIO.h"
-#include "QuesaLight.h"
-#include "QuesaMath.h"
-#include "QuesaPick.h"
-#include "QuesaRenderer.h"
-#include "QuesaSet.h"
-#include "QuesaShader.h"
-#include "QuesaStorage.h"
-#include "QuesaString.h"
-#include "QuesaStyle.h"
-#include "QuesaTransform.h"
-#include "QuesaView.h"
-#include "QuesaViewer.h"
+	#include "Quesa.h"
+	#include "QuesaCamera.h"
+	#include "QuesaController.h"
+	#include "QuesaCustomElements.h"
+	#include "QuesaDrawContext.h"
+	#include "QuesaErrors.h"
+	#include "QuesaExtension.h"
+	#include "QuesaGeometry.h"
+	#include "QuesaGroup.h"
+	#include "QuesaIO.h"
+	#include "QuesaLight.h"
+	#include "QuesaMath.h"
+	#include "QuesaPick.h"
+	#include "QuesaRenderer.h"
+	#include "QuesaSet.h"
+	#include "QuesaShader.h"
+	#include "QuesaStorage.h"
+	#include "QuesaString.h"
+	#include "QuesaStyle.h"
+	#include "QuesaTransform.h"
+	#include "QuesaView.h"
+	#include "QuesaViewer.h"
+// Mac OS X Mach-O framework layout
 #else
-#include "Quesa/Quesa.h"
-#include "Quesa/QuesaCamera.h"
-#include "Quesa/QuesaController.h"
-#include "Quesa/QuesaCustomElements.h"
-#include "Quesa/QuesaDrawContext.h"
-#include "Quesa/QuesaErrors.h"
-#include "Quesa/QuesaExtension.h"
-#include "Quesa/QuesaGeometry.h"
-#include "Quesa/QuesaGroup.h"
-#include "Quesa/QuesaIO.h"
-#include "Quesa/QuesaLight.h"
-#include "Quesa/QuesaMath.h"
-#include "Quesa/QuesaPick.h"
-#include "Quesa/QuesaRenderer.h"
-#include "Quesa/QuesaSet.h"
-#include "Quesa/QuesaShader.h"
-#include "Quesa/QuesaStorage.h"
-#include "Quesa/QuesaString.h"
-#include "Quesa/QuesaStyle.h"
-#include "Quesa/QuesaTransform.h"
-#include "Quesa/QuesaView.h"
-#include "Quesa/QuesaViewer.h"
+	#include <Quesa/Quesa.h>
+	#include <Quesa/QuesaCamera.h>
+	#include <Quesa/QuesaController.h>
+	#include <Quesa/QuesaCustomElements.h>
+	#include <Quesa/QuesaDrawContext.h>
+	#include <Quesa/QuesaErrors.h>
+	#include <Quesa/QuesaExtension.h>
+	#include <Quesa/QuesaGeometry.h>
+	#include <Quesa/QuesaGroup.h>
+	#include <Quesa/QuesaIO.h>
+	#include <Quesa/QuesaLight.h>
+	#include <Quesa/QuesaMath.h>
+	#include <Quesa/QuesaPick.h>
+	#include <Quesa/QuesaRenderer.h>
+	#include <Quesa/QuesaSet.h>
+	#include <Quesa/QuesaShader.h>
+	#include <Quesa/QuesaStorage.h>
+	#include <Quesa/QuesaString.h>
+	#include <Quesa/QuesaStyle.h>
+	#include <Quesa/QuesaTransform.h>
+	#include <Quesa/QuesaView.h>
+	#include <Quesa/QuesaViewer.h>
 #endif
 
 #include <stdlib.h>
