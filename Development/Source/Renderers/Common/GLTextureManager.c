@@ -3,6 +3,14 @@
 
     DESCRIPTION:
         Quesa OpenGL texture caching.
+       
+    REMARKS:
+    	The TQ3InteractiveData structure contains the current GL context
+    	pointer and the current texture cache pointer.  It would have been
+    	possible to hold only the GL context pointer in TQ3InteractiveData,
+    	and let the texture manager look up the texture cache at need.
+    	Keeping the texture cache pointer in TQ3InteractiveData was a
+    	performance optimization.
 
     COPYRIGHT:
         Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
@@ -47,88 +55,99 @@
 #include "GLTextureManager.h"
 #include "IRPrefix.h"
 
+#ifndef __cplusplus
+	#error This file must be compiled as C++.
+#endif
+
+#include <algorithm>
+#include <list>
+#include <vector>
 
 
 
 //=============================================================================
 //		Internal types
 //-----------------------------------------------------------------------------
+namespace
+{
+	typedef std::vector<TQ3CachedTexture>	CachedTextureVec;
+	typedef std::vector<TQ3GLContext>		GLContextVec;
+}
+
+// TQ3TextureCache: object holding cached textures for a number of GL contexts
+// that share texture memory.  This declaration cannot be in an unnamed namespace,
+// because it needs to match the struct TQ3TextureCache* member of the TQ3InteractiveData
+// structure.
 typedef struct TQ3TextureCache
 {
-	TQ3Uns32				cachedTextureCount;
-	TQ3CachedTexture		*cachedTextures;
-	TQ3Uns32				glContextCount;
-	TQ3GLContext			*glContexts;
+	CachedTextureVec		cachedTextures;
+	GLContextVec			glContexts;
 } TQ3TextureCache;
 
+namespace
+{
+	// The primary reason for using a list, rather than a vector, here is that
+	// TQ3InteractiveData holds a pointer to its associated texture cache.
+	// If we used a vector, then such a pointer would be invalidated by adding
+	// or deleting other texture caches.
+	typedef std::list< TQ3TextureCache >	TextureCacheList;
 
+
+	class MatchCachePtr	// function object for use with find_if and TextureCacheList
+	{
+	public:
+				MatchCachePtr( TQ3TextureCachePtr inCache )
+					: mCachePtrToMatch( inCache ) {}
+				
+		bool	operator()( const TQ3TextureCache& inCache ) const
+						{ return &inCache == mCachePtrToMatch; }
+
+	private:
+		TQ3TextureCachePtr	mCachePtrToMatch;
+	};
+
+	class MatchTexture	// function object for use with find_if and CachedTextureVec
+	{
+	public:
+							MatchTexture( TQ3TextureObject inTexture )
+									: mTextureToMatch( inTexture ) {}
+
+		bool				operator()( const TQ3CachedTexture& inCachedTexture ) const
+									{
+										return inCachedTexture.cachedTextureObject ==
+											mTextureToMatch;
+									}
+	private:
+		TQ3TextureObject	mTextureToMatch;
+	};
+
+	struct DisposeTexture	// function object for use with for_each and CachedTextureVec
+	{
+		void	operator()( TQ3CachedTexture& ioCachedTexture ) const
+							{ Q3Object_Dispose( ioCachedTexture.cachedTextureObject ); }
+	};
+}
 
 
 
 //=============================================================================
 //		Static variables
 //-----------------------------------------------------------------------------
-static TQ3TextureCache*		sTextureCaches;
-static TQ3Uns32				sTextureCacheCount = 0;
-
+static TextureCacheList*			sTextureCacheList = NULL;
 
 
 
 //=============================================================================
 //		Internal functions
 //-----------------------------------------------------------------------------
-//		gltexturemgr_AppendToDynamicArray : Add an item to a growable array.
-//-----------------------------------------------------------------------------
-static TQ3Status
-gltexturemgr_AppendToDynamicArray( void* newRecord, TQ3Uns32 recordSize,
-								void** ioArray, TQ3Uns32* ioArraySize )
-{
-	TQ3Status	status;
-	
-	status = Q3Memory_Reallocate( ioArray, (*ioArraySize + 1) * recordSize);
-	
-	if (status == kQ3Success)
-	{
-		char*	arrayData = (char*) *ioArray;
-		
-		Q3Memory_Copy( newRecord, arrayData + *ioArraySize * recordSize, recordSize );
-		*ioArraySize += 1;
-	}
-	return status;
-}
-
-
-
-
-
-//=============================================================================
-//		gltexturemgr_DeleteFromDynamicArray : Delete an item from a growable array.
+//		gltexturemgr_InitList : Lazy initialization of the cache list.
 //-----------------------------------------------------------------------------
 static void
-gltexturemgr_DeleteFromDynamicArray( TQ3Uns32 index, TQ3Uns32 recordSize,
-									void** ioArray, TQ3Uns32* ioArraySize )
+gltexturemgr_InitList()
 {
-	Q3_ASSERT( index < *ioArraySize );
-	
-	if (index < *ioArraySize)
+	if (sTextureCacheList == NULL)
 	{
-		if (*ioArraySize == 1)	// we are deleting the only record
-		{
-			Q3Memory_Free( ioArray );
-		}
-		else
-		{
-			// Just move down later items, do not bother resizing the storage.
-			if (index < *ioArraySize - 1)
-			{
-				char*	theData = (char*) *ioArray;
-				
-				memmove( theData + index * recordSize,
-						theData + (index+1) * recordSize,
-						(*ioArraySize - index - 1) * recordSize );
-			}
-		}
-		*ioArraySize -= 1;
+		sTextureCacheList = new TextureCacheList;
 	}
 }
 
@@ -137,30 +156,31 @@ gltexturemgr_DeleteFromDynamicArray( TQ3Uns32 index, TQ3Uns32 recordSize,
 
 
 //=============================================================================
-//		gltexturemgr_FindContextInCache : Find a GL context in our cache.
+//		gltexturemgr_FindContextInCacheList : Find a GL context in our cache.
 //-----------------------------------------------------------------------------
 static TQ3Status
-gltexturemgr_FindContextInCache( TQ3GLContext context,
-											TQ3Uns32* outWhichTextureCache,
-										 	TQ3Uns32* outWhichContext )
+gltexturemgr_FindContextInCacheList( TQ3GLContext context,
+								TextureCacheList::iterator* outWhichTextureCache,
+								GLContextVec::iterator* outWhichContext = NULL )
 {
 	TQ3Status	status = kQ3Failure;
-	TQ3Uns32	whichCache, whichContext;
 	
-	for (whichCache = 0; (whichCache < sTextureCacheCount) && (status == kQ3Failure);
-		++whichCache)
+	gltexturemgr_InitList();
+	TextureCacheList::iterator	endList =  sTextureCacheList->end();
+	*outWhichTextureCache = endList;
+	
+	for (TextureCacheList::iterator	i = sTextureCacheList->begin(); i != endList; ++i)
 	{
-		TQ3Uns32	kNumContexts = sTextureCaches[whichCache].glContextCount;
+		GLContextVec::iterator	foundContextIt = std::find( i->glContexts.begin(),
+			i->glContexts.end(), context );
 		
-		for (whichContext = 0; whichContext < kNumContexts; ++whichContext)
+		if (foundContextIt != i->glContexts.end())
 		{
-			if (sTextureCaches[whichCache].glContexts[whichContext] == context)
-			{
-				*outWhichTextureCache = whichCache;
-				*outWhichContext = whichContext;
-				status = kQ3Success;
-				break;
-			}
+			if (outWhichContext != NULL)
+				*outWhichContext = foundContextIt;
+			*outWhichTextureCache = i;
+			status = kQ3Success;
+			break;
 		}
 	}
 	
@@ -191,30 +211,34 @@ TQ3GLContext		GLTextureMgr_GetNextSharingBase( TQ3GLContext glBase )
 {
 	TQ3GLContext	nextContext = NULL;
 	
-	if (glBase == NULL)
+	try
 	{
-		if (sTextureCacheCount > 0)
-		{
-			Q3_ASSERT( sTextureCaches[ 0 ].glContextCount > 0 );
-			nextContext = sTextureCaches[ 0 ].glContexts[ 0 ];
-		}
-	}
-	else
-	{
-		TQ3Uns32	i;
+		gltexturemgr_InitList();
 		
-		for (i = 0; i < sTextureCacheCount; ++i)
+		if (glBase == NULL)
 		{
-			if (sTextureCaches[ i ].glContexts[ 0 ] == glBase)
+			if (not sTextureCacheList->empty())
 			{
-				break;
+				Q3_ASSERT( not sTextureCacheList->front().glContexts.empty() );
+				nextContext = sTextureCacheList->front().glContexts[ 0 ];
 			}
 		}
-		
-		if (i + 1 < sTextureCacheCount)
+		else
 		{
-			nextContext = sTextureCaches[ i + 1 ].glContexts[ 0 ];
+			TextureCacheList::iterator	theCacheIt;
+			
+			if (kQ3Success == gltexturemgr_FindContextInCacheList( glBase, &theCacheIt ))
+			{
+				++theCacheIt;
+				if (theCacheIt != sTextureCacheList->end())
+				{
+					nextContext = theCacheIt->glContexts[ 0 ];
+				}
+			}
 		}
+	}
+	catch (...)
+	{
 	}
 	
 	return nextContext;
@@ -240,40 +264,35 @@ void				GLTextureMgr_AddContext( TQ3GLContext newGLContext,
 											TQ3GLContext sharingBase )
 {
 	TQ3TextureCachePtr	theCache = NULL;
-	TQ3Uns32	i;
 	
-	
-	if (sharingBase != NULL)
+	try
 	{
-		for (i = 0; i < sTextureCacheCount; ++i)
+		gltexturemgr_InitList();
+		
+		if (sharingBase != NULL)
 		{
-			if (sTextureCaches[ i ].glContexts[ 0 ] == sharingBase)
+			TextureCacheList::iterator	cacheIt;
+			
+			if (kQ3Success == gltexturemgr_FindContextInCacheList( sharingBase, &cacheIt ))
 			{
-				theCache = &sTextureCaches[ i ];
-				break;
+				theCache = &*cacheIt;
 			}
 		}
-	}
-	
-	if (theCache == NULL)
-	{
-		TQ3TextureCache	newCache;
-		newCache.cachedTextureCount = 0;
-		newCache.cachedTextures = NULL;
-		newCache.glContextCount = 0;
-		newCache.glContexts = NULL;
 		
-		if (kQ3Success == gltexturemgr_AppendToDynamicArray( &newCache, sizeof(newCache),
-			(void**)&sTextureCaches, &sTextureCacheCount ))
+		if (theCache == NULL)
 		{
-			theCache = &sTextureCaches[ sTextureCacheCount - 1 ];
+			TQ3TextureCache	newCache;
+			sTextureCacheList->push_back( newCache );
+			theCache = &(sTextureCacheList->back());
+		}
+		
+		if (theCache != NULL)
+		{
+			theCache->glContexts.push_back( newGLContext );
 		}
 	}
-	
-	if (theCache != NULL)
+	catch (...)
 	{
-		gltexturemgr_AppendToDynamicArray( &newGLContext, sizeof(newGLContext),
-			(void**)&theCache->glContexts, &theCache->glContextCount );
 	}
 }
 
@@ -291,18 +310,58 @@ void				GLTextureMgr_AddContext( TQ3GLContext newGLContext,
 */
 TQ3TextureCachePtr	GLTextureMgr_GetTextureCache( TQ3GLContext glContext )
 {
-	TQ3Uns32	whichCache, whichContext;
 	TQ3TextureCachePtr	theCache = NULL;
 	
-	if (kQ3Success == gltexturemgr_FindContextInCache( glContext, &whichCache,
-		&whichContext ))
+	try
 	{
-		theCache =  &sTextureCaches[ whichCache ];
+		TextureCacheList::iterator	cacheIt;
+		
+		if (kQ3Success == gltexturemgr_FindContextInCacheList( glContext, &cacheIt ))
+		{
+			theCache = &*cacheIt;
+		}
 	}
-	Q3_ASSERT( theCache );
+	catch (...)
+	{
+	}
 	
 	return theCache;
 }
+
+
+
+
+
+#if Q3_DEBUG
+/*!
+	@function		GLTextureMgr_IsValidTextureCache
+	@abstract		Test whether a texture cache pointer is valid.
+	@param			txCache			A texture cache.
+	@result			Whether the texture cache pointer is valid.
+*/
+TQ3Boolean			GLTextureMgr_IsValidTextureCache( TQ3TextureCachePtr txCache )
+{
+	TQ3Boolean	isValid = kQ3False;
+	
+	try
+	{
+		gltexturemgr_InitList();
+		
+		MatchCachePtr	matcher( txCache );
+		
+		if (std::find_if( sTextureCacheList->begin(), sTextureCacheList->end(), matcher ) !=
+			sTextureCacheList->end())
+		{
+			isValid = kQ3True;
+		}
+	}
+	catch (...)
+	{
+	}
+
+	return isValid;
+}
+#endif
 
 
 
@@ -321,7 +380,7 @@ struct TQ3CachedTexture*
 {
 	TQ3CachedTexture*	theRecord = NULL;
 	
-	if (memberIndex < txCache->cachedTextureCount)
+	if (memberIndex < txCache->cachedTextures.size())
 	{
 		theRecord = &txCache->cachedTextures[ memberIndex ];
 	}
@@ -343,16 +402,21 @@ TQ3Int32			GLTextureMgr_FindCachedTextureIndex( TQ3TextureCachePtr txCache,
 								TQ3TextureObject texture )
 {
 	TQ3Int32	theIndex = -1;
-	TQ3Uns32	n;
 	
-	for (n = 0; n < txCache->cachedTextureCount; ++n)
+	try	// probably nothing here can throw, but may as well be safe
 	{
-		if (txCache->cachedTextures[ n ].cachedTextureObject == texture)
+		CachedTextureVec::iterator	foundIt = std::find_if( txCache->cachedTextures.begin(),
+			txCache->cachedTextures.end(), MatchTexture( texture ) );
+		
+		if (foundIt != txCache->cachedTextures.end())
 		{
-			theIndex = n;
-			break;
+			theIndex = foundIt - txCache->cachedTextures.begin();
 		}
 	}
+	catch (...)
+	{
+	}
+	
 	
 	return theIndex;
 }
@@ -364,6 +428,8 @@ TQ3Int32			GLTextureMgr_FindCachedTextureIndex( TQ3TextureCachePtr txCache,
 /*!
 	@function		GLTextureMgr_FindCachedTexture
 	@abstract		Access a texture cache record by matching the texture object.
+	@discussion		This is the texture manager function that is called most often,
+					so speed is important.
 	@param			txCache			A texture cache.
 	@param			texture			Reference to a texture object.
 	@result			Pointer to a cached texture record, or NULL if not found.
@@ -372,16 +438,12 @@ TQ3CachedTexture*	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
 								TQ3TextureObject texture )
 {
 	TQ3CachedTexture*	theRecord = NULL;
-	TQ3Uns32	n;
-	TQ3Uns32	txCount = txCache->cachedTextureCount;
 	
-	for (n = 0; n < txCount; ++n)
+	TQ3Int32	theIndex = GLTextureMgr_FindCachedTextureIndex( txCache, texture );
+	
+	if (theIndex >= 0)
 	{
-		if (txCache->cachedTextures[ n ].cachedTextureObject == texture)
-		{
-			theRecord = &txCache->cachedTextures[ n ];
-			break;
-		}
+		theRecord = GLTextureMgr_GetCachedTextureByIndex( txCache, theIndex );
 	}
 	
 	return theRecord;
@@ -401,32 +463,27 @@ TQ3CachedTexture*	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
 */
 void				GLTextureMgr_RemoveContext( TQ3GLContext deadGLContext )
 {
-	TQ3Uns32	cacheIndex, contextIndex;
-	
-	if (kQ3Success == gltexturemgr_FindContextInCache( deadGLContext, &cacheIndex,
-		&contextIndex ))
+	try
 	{
-		TQ3TextureCachePtr	theCache = &sTextureCaches[ cacheIndex ];
+		GLContextVec::iterator		contextIter;
+		TextureCacheList::iterator	theCache;
 		
-		gltexturemgr_DeleteFromDynamicArray( contextIndex, sizeof(TQ3GLContext),
-			(void**)&theCache->glContexts, &theCache->glContextCount );
-		
-		if (theCache->glContextCount == 0)
+		if (kQ3Success == gltexturemgr_FindContextInCacheList( deadGLContext, &theCache,
+			&contextIter ))
 		{
-			TQ3Uns32	i;
+			theCache->glContexts.erase( contextIter );
 			
-			if (theCache->cachedTextureCount > 0)
+			if (theCache->glContexts.empty())
 			{
-				for (i = 0; i < theCache->cachedTextureCount; ++i)
-				{
-					Q3Object_Dispose( theCache->cachedTextures[i].cachedTextureObject );
-				}
-				Q3Memory_Free( &theCache->cachedTextures );
+				std::for_each( theCache->cachedTextures.begin(), theCache->cachedTextures.end(),
+					DisposeTexture() );
+				
+				sTextureCacheList->erase( theCache );
 			}
-			
-			gltexturemgr_DeleteFromDynamicArray( cacheIndex, sizeof(TQ3TextureCache),
-				(void**)&sTextureCaches, &sTextureCacheCount );
 		}
+	}
+	catch (...)
+	{
 	}
 }
 
@@ -444,8 +501,17 @@ void				GLTextureMgr_RemoveContext( TQ3GLContext deadGLContext )
 TQ3Status			GLTextureMgr_AddCachedTexture( TQ3TextureCachePtr txCache,
 								TQ3CachedTexture* textureRec )
 {
-	return gltexturemgr_AppendToDynamicArray( textureRec, sizeof(TQ3CachedTexture),
-		(void**)&txCache->cachedTextures, &txCache->cachedTextureCount );
+	TQ3Status	theStatus = kQ3Failure;
+	try
+	{
+		txCache->cachedTextures.push_back( *textureRec );
+		theStatus = kQ3Success;
+	}
+	catch (...)
+	{
+	}
+
+	return theStatus;
 }
 
 
@@ -461,6 +527,14 @@ TQ3Status			GLTextureMgr_AddCachedTexture( TQ3TextureCachePtr txCache,
 void				GLTextureMgr_RemoveCachedTexture( TQ3TextureCachePtr txCache,
 								TQ3Uns32 memberIndex )
 {
-	gltexturemgr_DeleteFromDynamicArray( memberIndex, sizeof(TQ3CachedTexture),
-				(void**)&txCache->cachedTextures, &txCache->cachedTextureCount );
+	try
+	{
+		if (memberIndex < txCache->cachedTextures.size())
+		{
+			txCache->cachedTextures.erase( txCache->cachedTextures.begin() + memberIndex );
+		}
+	}
+	catch (...)
+	{
+	}
 }
