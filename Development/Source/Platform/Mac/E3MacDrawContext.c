@@ -79,6 +79,41 @@ e3drawcontext_mac_isactivedevice(GDHandle theDevice)
 
 
 //=============================================================================
+//      e3drawcontext_mac_areOnSameScreens : Are 2 rectangles on the same screens?
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+e3drawcontext_mac_areOnSameScreens( const Rect* inFirstRect, const Rect* inSecondRect )
+{
+	TQ3Boolean	sameDevices = kQ3True;
+	GDHandle	theDevice;
+	const Rect*	screenBounds;
+	Rect	commonBounds;
+	
+	for (theDevice = GetDeviceList(); theDevice != NULL; theDevice = GetNextDevice(theDevice))
+	{
+		if (e3drawcontext_mac_isactivedevice( theDevice ))
+		{
+			screenBounds = &(**theDevice).gdRect;
+			
+			// If this screen intersects one rectangle and not the other,
+			// then the rectangles aren't on the same screens.
+			if (SectRect( inFirstRect, screenBounds, &commonBounds ) !=
+				SectRect( inSecondRect, screenBounds, &commonBounds ) )
+			{
+				sameDevices = kQ3False;
+				break;
+			}
+		}
+	}
+	
+	return sameDevices;
+}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_mac_isactiveregion : Is a draw region active?
 //-----------------------------------------------------------------------------
 //		Note :	Given a particular draw region, we return as it is active for
@@ -425,26 +460,28 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 
 
 
-			// Check to see if the window has changed position. If it has, we set the
-			// kQ3XDrawContextValidationDevice bit as well in case it's been moved to
-			// a different device.
-			if (windowRect.top  != macState->windowRect.top ||
-				windowRect.left != macState->windowRect.left)
+			// Check whether the window moved to a different device.
+			if (! e3drawcontext_mac_areOnSameScreens( &windowRect, &macState->windowRect ))
 				{
-				stateChanges |= kQ3XDrawContextValidationWindowPosition;
 				stateChanges |= kQ3XDrawContextValidationDevice;
 				}
 
 
 
-			// Check to see if the window has changed size. If it has, we set the
-			// kQ3XDrawContextValidationDevice bit as well in case it's been grown
-			// to a different device.
+			// Check to see if the window has changed position.
+			if (windowRect.top  != macState->windowRect.top ||
+				windowRect.left != macState->windowRect.left)
+				{
+				stateChanges |= kQ3XDrawContextValidationWindowPosition;
+				}
+
+
+
+			// Check to see if the window has changed size.
 			if (E3Rect_GetWidth(&windowRect)  != E3Rect_GetWidth(&macState->windowRect) ||
 				E3Rect_GetHeight(&windowRect) != E3Rect_GetHeight(&macState->windowRect))
 				{
 				stateChanges |= kQ3XDrawContextValidationWindowSize;
-				stateChanges |= kQ3XDrawContextValidationDevice;
 				}
 
 
