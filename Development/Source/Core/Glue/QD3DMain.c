@@ -211,7 +211,7 @@ Q3GetReleaseVersion(TQ3Uns32 *releaseRevision)
 //-----------------------------------------------------------------------------
 #pragma mark -
 TQ3Status
-Q3ObjectHierarchy_GetTypeFromString(TQ3ObjectClassNameString objectClassString, TQ3ObjectType *objectClassType)
+Q3ObjectHierarchy_GetTypeFromString(const TQ3ObjectClassNameString objectClassString, TQ3ObjectType *objectClassType)
 {
 
 
