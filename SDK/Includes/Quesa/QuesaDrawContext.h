@@ -128,12 +128,19 @@ extern "C" {
  *	@constant	kQ3DrawContextPropertyGLDepthFunc			Initial value for glDepthFunc.
  *															Data type: TQ3Uns32
  *															Default: GL_LESS
+ *  @constant	kQ3DrawContextPropertyGLTextureSharing		If true, requests that an OpenGL
+ *															context should share textures with a
+ *															previously-created OpenGL context, if
+ *															possible.
+ *															Data type: TQ3Boolean.
+ *															Default: kQ3True
  */
 enum {
 	kQ3DrawContextPropertyClearDepthBufferFlag		= Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
 	kQ3DrawContextPropertyClearDepthBufferValue		= Q3_METHOD_TYPE('c', 'l', 'd', 'v'),
 	kQ3DrawContextPropertyWritableDepthBuffer		= Q3_METHOD_TYPE('w', 'r', 'd', 'b'),
 	kQ3DrawContextPropertyGLDepthFunc				= Q3_METHOD_TYPE('g', 'l', 'd', 'f'),
+	kQ3DrawContextPropertyGLTextureSharing			= Q3_METHOD_TYPE('g', 'l', 't', 's'),
 	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
 };
 
