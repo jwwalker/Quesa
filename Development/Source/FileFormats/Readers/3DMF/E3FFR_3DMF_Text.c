@@ -227,18 +227,18 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 								{kQ3ObjectTypeAttributeSetList,"INCLUDE",0},
 								{kQ3ObjectTypeAttributeSetList,"EXCLUDE",1},
 								
-								{0x33444D46/*'3DMF'*/,"FALSE",0},
-								{0x33444D46/*'3DMF'*/,"TRUE",1},
+								{kQ3ObjectType3DMF,"FALSE",0},
+								{kQ3ObjectType3DMF,"TRUE",1},
 								
-								{0x33444D46/*'3DMF'*/,"OFF",0},
-								{0x33444D46/*'3DMF'*/,"ON",1},
+								{kQ3ObjectType3DMF,"OFF",0},
+								{kQ3ObjectType3DMF,"ON",1},
 								
-								{0x33444D46/*'3DMF'*/,"BIGENDIAN",0},
-								{0x33444D46/*'3DMF'*/,"LITTLEENDIAN",1},
+								{kQ3ObjectType3DMF,"BIGENDIAN",0},
+								{kQ3ObjectType3DMF,"LITTLEENDIAN",1},
 								
-								{0x33444D46/*'3DMF'*/,"NORMAL",0},
-								{0x33444D46/*'3DMF'*/,"STREAM",1},
-								{0x33444D46/*'3DMF'*/,"DATABASE",2},
+								{kQ3ObjectType3DMF,"NORMAL",0},
+								{kQ3ObjectType3DMF,"STREAM",1},
+								{kQ3ObjectType3DMF,"DATABASE",2},
 								
 								{kQ3TextureTypePixmap,"RGB32",0},
 								{kQ3TextureTypePixmap,"ARGB32",1},
@@ -255,9 +255,9 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 								{kQ3StyleTypeBackfacing,"CULLED",1},
 								{kQ3StyleTypeBackfacing,"FLIPPED",2},
 
-								{0x63617073/*'caps'*/,"NONE",0},
-								{0x63617073/*'caps'*/,"TOP",1},
-								{0x63617073/*'caps'*/,"BOTTOM",2},
+								{kQ3ObjectTypeGeometryCaps,"NONE",0},
+								{kQ3ObjectTypeGeometryCaps,"TOP",1},
+								{kQ3ObjectTypeGeometryCaps,"BOTTOM",2},
 
 								};
 	
@@ -673,7 +673,7 @@ e3fformat_3dmf_text_read_header(TQ3FileObject theFile)
 	
 	instanceData->MFData.baseData.fileVersion = (major << 16) + minor;
 	if(result == kQ3True)
-		result = (TQ3Boolean)(e3read_3dmf_text_readflag (&instanceData->MFData.fileMode, theFile, 0x33444D46/*'3DMF'*/) != kQ3Failure);
+		result = (TQ3Boolean)(e3read_3dmf_text_readflag (&instanceData->MFData.fileMode, theFile, kQ3ObjectType3DMF) != kQ3Failure);
 	
 	if(result == kQ3True){
 		instanceData->MFData.fileMode += kQ3FileModeText;

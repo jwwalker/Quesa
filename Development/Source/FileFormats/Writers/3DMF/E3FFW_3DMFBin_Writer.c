@@ -259,8 +259,16 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 	
 	
 	//find the object traverse method
-	if(theObject != NULL)
+	if(theObject != NULL){
+		// search it in toc
+		// if found
+		// substitute with a reference object
+		// and up the reference counting
+		// else
+		// add it to the toc
+		// up the seed
 		theClass = theObject->theClass;
+		}
 	else
 		theClass = E3ClassTree_GetClassByType(objectType);
 	
@@ -283,9 +291,9 @@ E3FFW_3DMF_TraverseObject(TQ3ViewObject			theView,
 	// Call the method
 	qd3dStatus = traverse(theObject, (void*)objectData, theView);
 	
-	fileFormatPrivate->baseData.groupDeepCounter--;
 	fileFormatPrivate->lastObjectType = old_lastObjectType;
 	fileFormatPrivate->lastObject = old_lastObject;
+	fileFormatPrivate->baseData.groupDeepCounter--;
 	
 	if((fileFormatPrivate->baseData.groupDeepCounter == 0) && (qd3dStatus == kQ3Success)){ // we're again in the root object
 		if(fileFormatPrivate->stackCount != 0){
@@ -352,6 +360,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 	
 	newItem->level = instanceData->baseData.groupDeepCounter-1;
 	newItem->objectType = instanceData->lastObjectType;
+	// retain objects that could be created and disposed on the fly in a parents' traverse method
 	E3Shared_Acquire (&newItem->theObject, instanceData->lastObject);
 	newItem->writeMethod = writeMethod;
 	newItem->size = size;
