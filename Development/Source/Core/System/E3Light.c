@@ -12,7 +12,7 @@
         light type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,9 +52,89 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Light.h"
+#include "E3Main.h"
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+class E3Light : public TQ3ShapeData // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file. Also the subclasses do want
+								// access to the fields as thats the way QD3D was
+								// structured as for instance spot light data
+								// includes TQ3LightData even though there are
+								// methods for Light which also access TQ3LightData.
+	{
+public :
+
+	TQ3LightData			lightData ;
+
+	} ;
+	
+
+
+class E3AmbientLight : public E3Light // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	// There is no extra data for an ambient light
+	} ;
+	
+
+
+class E3DirectionalLight : public E3Light // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+    TQ3Boolean				castsShadows ;
+    TQ3Vector3D				direction ;
+	} ;
+	
+
+
+class E3PointLight : public E3Light // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+    TQ3Boolean				castsShadows ;
+    TQ3AttenuationType		attenuation ;
+    TQ3Point3D				location ;
+	} ;
+	
+
+
+class E3SpotLight : public E3Light // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+    TQ3Boolean				castsShadows ;
+    TQ3AttenuationType		attenuation ;
+    TQ3Point3D				location ;
+    TQ3Vector3D				direction ;
+    float					hotAngle ;
+    float					outerAngle ;
+    TQ3FallOffType			fallOff ;
+	} ;
+	
 
 
 //=============================================================================
@@ -71,7 +151,8 @@ e3light_ambient_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 	// Initialise our instance data
-	*instanceData = *lightData;
+	if ( lightData != NULL )
+		*instanceData = *lightData ;
 
 	return(kQ3Success);
 }
@@ -115,7 +196,8 @@ e3light_directional_new(TQ3Object theObject, void *privateData, const void *para
 
 
 	// Initialise our instance data
-	*instanceData = *lightData;
+	if ( lightData != NULL )
+		*instanceData = *lightData ;
 
 	return(kQ3Success);
 }
@@ -159,7 +241,8 @@ e3light_point_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	*instanceData = *lightData;
+	if ( lightData != NULL )
+		*instanceData = *lightData ;
 
 	return(kQ3Success);
 }
@@ -203,7 +286,8 @@ e3light_spot_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	*instanceData = *lightData;
+	if ( lightData != NULL )
+		*instanceData = *lightData ;
 
 	return(kQ3Success);
 }
@@ -248,39 +332,39 @@ E3Light_RegisterClass(void)
 
 
 	// Register the Light classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShape,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
 											kQ3ShapeTypeLight,
 											kQ3ClassNameLight,
 											NULL,
-											0);
+											~sizeof(E3Light));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeLight,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
 												kQ3LightTypeAmbient,
 												kQ3ClassNameLightAmbient,
 												e3light_ambient_metahandler,
-												sizeof(TQ3LightData));
+												~sizeof(E3AmbientLight));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeLight,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
 												kQ3LightTypeDirectional,
 												kQ3ClassNameLightDirectional,
 												e3light_directional_metahandler,
-												sizeof(TQ3DirectionalLightData));
+												~sizeof(E3DirectionalLight));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeLight,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
 												kQ3LightTypePoint,
 												kQ3ClassNameLightPoint,
 												e3light_point_metahandler,
-												sizeof(TQ3PointLightData));
+												~sizeof(E3PointLight));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeLight,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeLight,
 												kQ3LightTypeSpot,
 												kQ3ClassNameLightSpot,
 												e3light_spot_metahandler,
-												sizeof(TQ3SpotLightData));
+												~sizeof(E3SpotLight));
 
 	return(qd3dStatus);
 }
@@ -299,11 +383,11 @@ E3Light_UnregisterClass(void)
 
 
 	// Unregister the class in reverse order
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3LightTypeAmbient,		kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3LightTypeDirectional,	kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3LightTypePoint,			kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3LightTypeSpot,			kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShapeTypeLight,			kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3LightTypeAmbient,		kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3LightTypeDirectional,	kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3LightTypePoint,		kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3LightTypeSpot,			kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeLight,		kQ3True);
 
 	return(qd3dStatus);
 }
@@ -334,15 +418,12 @@ E3Light_GetType(TQ3LightObject theLight)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Light_GetState(TQ3LightObject theLight, TQ3Boolean *isOn)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*isOn = instanceData->isOn;
+	*isOn = ( (E3Light*) theLight )->lightData.isOn ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -353,15 +434,12 @@ E3Light_GetState(TQ3LightObject theLight, TQ3Boolean *isOn)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Light_GetBrightness(TQ3LightObject theLight, float *brightness)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*brightness = instanceData->brightness;
+	*brightness = ( (E3Light*) theLight )->lightData.brightness ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -372,15 +450,12 @@ E3Light_GetBrightness(TQ3LightObject theLight, float *brightness)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Light_GetColor(TQ3LightObject theLight, TQ3ColorRGB *color)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*color = instanceData->color;
+	*color = ( (E3Light*) theLight )->lightData.color ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -391,15 +466,12 @@ E3Light_GetColor(TQ3LightObject theLight, TQ3ColorRGB *color)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Light_GetData(TQ3LightObject theLight, TQ3LightData *lightData)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*lightData = *instanceData;
+	*lightData = ( (E3Light*) theLight )->lightData ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -410,16 +482,13 @@ E3Light_GetData(TQ3LightObject theLight, TQ3LightData *lightData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Light_SetState(TQ3LightObject theLight, TQ3Boolean isOn)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field
-	instanceData->isOn = isOn;
-	Q3Shared_Edited(theLight);
+	( (E3Light*) theLight )->lightData.isOn = isOn ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -430,20 +499,17 @@ E3Light_SetState(TQ3LightObject theLight, TQ3Boolean isOn)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Light_SetBrightness(TQ3LightObject theLight, float brightness)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field
 	//
 	// We do not enforce any limits on the light brightness, and renderers which do
 	// not support over-saturated lights should post kQ3NoticeBrightnessGreaterThanOne
 	// if they detect brightness values which are out of range.
-	instanceData->brightness = brightness;
-	Q3Shared_Edited(theLight);
+	( (E3Light*) theLight )->lightData.brightness = brightness ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -454,16 +520,13 @@ E3Light_SetBrightness(TQ3LightObject theLight, float brightness)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Light_SetColor(TQ3LightObject theLight, const TQ3ColorRGB *color)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field
-	instanceData->color = *color;
-	Q3Shared_Edited(theLight);
+	( (E3Light*) theLight )->lightData.color = *color ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -474,16 +537,13 @@ E3Light_SetColor(TQ3LightObject theLight, const TQ3ColorRGB *color)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Light_SetData(TQ3LightObject theLight, const TQ3LightData *lightData)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field
-	*instanceData = *lightData;
-	Q3Shared_Edited(theLight);
+	( (E3Light*) theLight )->lightData = *lightData ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -495,15 +555,14 @@ E3Light_SetData(TQ3LightObject theLight, const TQ3LightData *lightData)
 #pragma mark -
 TQ3LightObject
 E3AmbientLight_New(const TQ3LightData *lightData)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3LightTypeAmbient, kQ3False, lightData);
+	TQ3Object theObject = E3ClassTree_CreateInstance ( kQ3LightTypeAmbient, kQ3False, NULL ) ;
 
-	return(theObject);
-}
+	E3AmbientLight_SetData ( theObject , lightData ) ;
+
+	return theObject ;
+	}
 
 
 
@@ -514,15 +573,12 @@ E3AmbientLight_New(const TQ3LightData *lightData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3AmbientLight_GetData(TQ3LightObject theLight, TQ3LightData *lightData)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeAmbient);
-
-
-
+	{
 	// Get the field
-	*lightData = *instanceData;
+	*lightData = ( (E3AmbientLight*) theLight )->lightData ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -533,16 +589,13 @@ E3AmbientLight_GetData(TQ3LightObject theLight, TQ3LightData *lightData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3AmbientLight_SetData(TQ3LightObject theLight, const TQ3LightData *lightData)
-{	TQ3LightData		*instanceData = (TQ3LightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeAmbient);
-
-
-
+	{
 	// Set the field
-	*instanceData = *lightData;
-	Q3Shared_Edited(theLight);
+	( (E3AmbientLight*) theLight )->lightData = *lightData ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -554,15 +607,14 @@ E3AmbientLight_SetData(TQ3LightObject theLight, const TQ3LightData *lightData)
 #pragma mark -
 TQ3LightObject
 E3DirectionalLight_New(const TQ3DirectionalLightData *directionalLightData)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3LightTypeDirectional, kQ3False, directionalLightData);
-
-	return(theObject);
-}
+	TQ3Object theObject = E3ClassTree_CreateInstance ( kQ3LightTypeDirectional, kQ3False, NULL ) ;
+	
+	E3DirectionalLight_SetData ( theObject , directionalLightData ) ;
+	
+	return theObject ;
+	}
 
 
 
@@ -575,15 +627,12 @@ E3DirectionalLight_New(const TQ3DirectionalLightData *directionalLightData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DirectionalLight_GetCastShadowsState(TQ3LightObject theLight, TQ3Boolean *castsShadows)
-{	TQ3DirectionalLightData		*instanceData = (TQ3DirectionalLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeDirectional);
-
-
-
+	{
 	// Get the field
-	*castsShadows = instanceData->castsShadows;
+	*castsShadows = ( (E3DirectionalLight*) theLight )->castsShadows ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -594,15 +643,12 @@ E3DirectionalLight_GetCastShadowsState(TQ3LightObject theLight, TQ3Boolean *cast
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DirectionalLight_GetDirection(TQ3LightObject theLight, TQ3Vector3D *direction)
-{	TQ3DirectionalLightData		*instanceData = (TQ3DirectionalLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeDirectional);
-
-
-
+	{
 	// Get the field
-	*direction = instanceData->direction;
+	*direction = ( (E3DirectionalLight*) theLight )->direction;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -613,15 +659,14 @@ E3DirectionalLight_GetDirection(TQ3LightObject theLight, TQ3Vector3D *direction)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DirectionalLight_GetData(TQ3LightObject theLight, TQ3DirectionalLightData *directionalLightData)
-{	TQ3DirectionalLightData		*instanceData = (TQ3DirectionalLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeDirectional);
-
-
+	{
+	E3DirectionalLight* instanceData = (E3DirectionalLight*) theLight ;
 
 	// Get the field
-	*directionalLightData = *instanceData;
+	*directionalLightData = * ( (TQ3DirectionalLightData*) & instanceData->lightData ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -634,16 +679,13 @@ E3DirectionalLight_GetData(TQ3LightObject theLight, TQ3DirectionalLightData *dir
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DirectionalLight_SetCastShadowsState(TQ3LightObject theLight, TQ3Boolean castsShadows)
-{	TQ3DirectionalLightData		*instanceData = (TQ3DirectionalLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeDirectional);
-
-
-
+	{
 	// Set the field
-	instanceData->castsShadows = castsShadows;
-	Q3Shared_Edited(theLight);
+	( (E3DirectionalLight*) theLight )->castsShadows = castsShadows ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -654,16 +696,13 @@ E3DirectionalLight_SetCastShadowsState(TQ3LightObject theLight, TQ3Boolean casts
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DirectionalLight_SetDirection(TQ3LightObject theLight, const TQ3Vector3D *direction)
-{	TQ3DirectionalLightData		*instanceData = (TQ3DirectionalLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeDirectional);
-
-
-
+	{
 	// Set the field
-	instanceData->direction = *direction;
-	Q3Shared_Edited(theLight);
+	( (E3DirectionalLight*) theLight )->direction = *direction ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -674,16 +713,15 @@ E3DirectionalLight_SetDirection(TQ3LightObject theLight, const TQ3Vector3D *dire
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DirectionalLight_SetData(TQ3LightObject theLight, const TQ3DirectionalLightData *directionalLightData)
-{	TQ3DirectionalLightData		*instanceData = (TQ3DirectionalLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeDirectional);
-
-
+	{
+	E3DirectionalLight* instanceData = (E3DirectionalLight*) theLight ;
 
 	// Set the field
-	*instanceData = *directionalLightData;
-	Q3Shared_Edited(theLight);
+	* ( (TQ3DirectionalLightData*) & instanceData->lightData ) = *directionalLightData ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -695,14 +733,14 @@ E3DirectionalLight_SetData(TQ3LightObject theLight, const TQ3DirectionalLightDat
 #pragma mark -
 TQ3LightObject
 E3PointLight_New(const TQ3PointLightData *pointLightData)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3LightTypePoint, kQ3False, pointLightData);
-	return(theObject);
-}
+	TQ3Object theObject = E3ClassTree_CreateInstance ( kQ3LightTypePoint, kQ3False, NULL ) ;
+	
+	E3PointLight_SetData ( theObject , pointLightData ) ;
+
+	return theObject ;
+	}
 
 
 
@@ -715,15 +753,12 @@ E3PointLight_New(const TQ3PointLightData *pointLightData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PointLight_GetCastShadowsState(TQ3LightObject theLight, TQ3Boolean *castsShadows)
-{	TQ3PointLightData		*instanceData = (TQ3PointLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypePoint);
-
-
-
+	{
 	// Get the field
-	*castsShadows = instanceData->castsShadows;
+	*castsShadows = ( (E3PointLight*) theLight )->castsShadows ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -734,15 +769,12 @@ E3PointLight_GetCastShadowsState(TQ3LightObject theLight, TQ3Boolean *castsShado
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PointLight_GetAttenuation(TQ3LightObject theLight, TQ3AttenuationType *attenuation)
-{	TQ3PointLightData		*instanceData = (TQ3PointLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypePoint);
-
-
-
+	{
 	// Get the field
-	*attenuation = instanceData->attenuation;
+	*attenuation = ( (E3PointLight*) theLight )->attenuation ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -753,15 +785,12 @@ E3PointLight_GetAttenuation(TQ3LightObject theLight, TQ3AttenuationType *attenua
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PointLight_GetLocation(TQ3LightObject theLight, TQ3Point3D *location)
-{	TQ3PointLightData		*instanceData = (TQ3PointLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypePoint);
-
-
-
+	{
 	// Get the field
-	*location = instanceData->location;
+	*location = ( (E3PointLight*) theLight )->location ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -772,15 +801,14 @@ E3PointLight_GetLocation(TQ3LightObject theLight, TQ3Point3D *location)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PointLight_GetData(TQ3LightObject theLight, TQ3PointLightData *pointLightData)
-{	TQ3PointLightData		*instanceData = (TQ3PointLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypePoint);
-
-
+	{
+	E3PointLight* instanceData = (E3PointLight*) theLight ;
 
 	// Get the field
-	*pointLightData = *instanceData;
+	*pointLightData = * ( (TQ3PointLightData*) & instanceData->lightData ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -793,16 +821,13 @@ E3PointLight_GetData(TQ3LightObject theLight, TQ3PointLightData *pointLightData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PointLight_SetCastShadowsState(TQ3LightObject theLight, TQ3Boolean castsShadows)
-{	TQ3PointLightData		*instanceData = (TQ3PointLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypePoint);
-
-
-
+	{
 	// Set the field
-	instanceData->castsShadows = castsShadows;
-	Q3Shared_Edited(theLight);
+	( (E3PointLight*) theLight )->castsShadows = castsShadows;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -813,16 +838,13 @@ E3PointLight_SetCastShadowsState(TQ3LightObject theLight, TQ3Boolean castsShadow
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PointLight_SetAttenuation(TQ3LightObject theLight, TQ3AttenuationType attenuation)
-{	TQ3PointLightData		*instanceData = (TQ3PointLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypePoint);
-
-
-
+	{
 	// Set the field
-	instanceData->attenuation = attenuation;
-	Q3Shared_Edited(theLight);
+	( (E3PointLight*) theLight )->attenuation = attenuation ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -833,16 +855,13 @@ E3PointLight_SetAttenuation(TQ3LightObject theLight, TQ3AttenuationType attenuat
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PointLight_SetLocation(TQ3LightObject theLight, const TQ3Point3D *location)
-{	TQ3PointLightData		*instanceData = (TQ3PointLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypePoint);
-
-
-
+	{
 	// Set the field
-	instanceData->location = *location;
-	Q3Shared_Edited(theLight);
+	( (E3PointLight*) theLight )->location = *location ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -853,16 +872,15 @@ E3PointLight_SetLocation(TQ3LightObject theLight, const TQ3Point3D *location)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PointLight_SetData(TQ3LightObject theLight, const TQ3PointLightData *pointLightData)
-{	TQ3PointLightData		*instanceData = (TQ3PointLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypePoint);
-
-
+	{
+	E3PointLight* instanceData = (E3PointLight*) theLight ;
 
 	// Set the field
-	*instanceData = *pointLightData;
-	Q3Shared_Edited(theLight);
+	* ( (TQ3PointLightData*) & instanceData->lightData ) = *pointLightData ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -874,15 +892,14 @@ E3PointLight_SetData(TQ3LightObject theLight, const TQ3PointLightData *pointLigh
 #pragma mark -
 TQ3LightObject
 E3SpotLight_New(const TQ3SpotLightData *spotLightData)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3LightTypeSpot, kQ3False, spotLightData);
+	TQ3Object theObject = E3ClassTree_CreateInstance ( kQ3LightTypeSpot, kQ3False,  NULL ) ;
 
-	return(theObject);
-}
+	E3SpotLight_SetData ( theObject , spotLightData ) ;
+
+	return theObject ;
+	}
 
 
 
@@ -893,15 +910,12 @@ E3SpotLight_New(const TQ3SpotLightData *spotLightData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_GetCastShadowsState(TQ3LightObject theLight, TQ3Boolean *castsShadows)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Get the field
-	*castsShadows = instanceData->castsShadows;
+	*castsShadows = ( (E3SpotLight*) theLight )->castsShadows ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -912,15 +926,12 @@ E3SpotLight_GetCastShadowsState(TQ3LightObject theLight, TQ3Boolean *castsShadow
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_GetAttenuation(TQ3LightObject theLight, TQ3AttenuationType *attenuation)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Get the field
-	*attenuation = instanceData->attenuation;
+	*attenuation = ( (E3SpotLight*) theLight )->attenuation ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -931,15 +942,12 @@ E3SpotLight_GetAttenuation(TQ3LightObject theLight, TQ3AttenuationType *attenuat
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_GetLocation(TQ3LightObject theLight, TQ3Point3D *location)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Get the field
-	*location = instanceData->location;
+	*location = ( (E3SpotLight*) theLight )->location ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -950,15 +958,12 @@ E3SpotLight_GetLocation(TQ3LightObject theLight, TQ3Point3D *location)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_GetDirection(TQ3LightObject theLight, TQ3Vector3D *direction)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Get the field
-	*direction = instanceData->direction;
+	*direction = ( (E3SpotLight*) theLight )->direction ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -969,15 +974,12 @@ E3SpotLight_GetDirection(TQ3LightObject theLight, TQ3Vector3D *direction)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_GetHotAngle(TQ3LightObject theLight, float *hotAngle)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Get the field
-	*hotAngle = instanceData->hotAngle;
+	*hotAngle = ( (E3SpotLight*) theLight )->hotAngle ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -988,15 +990,12 @@ E3SpotLight_GetHotAngle(TQ3LightObject theLight, float *hotAngle)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_GetOuterAngle(TQ3LightObject theLight, float *outerAngle)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Get the field
-	*outerAngle = instanceData->outerAngle;
+	*outerAngle = ( (E3SpotLight*) theLight )->outerAngle ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1007,15 +1006,12 @@ E3SpotLight_GetOuterAngle(TQ3LightObject theLight, float *outerAngle)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_GetFallOff(TQ3LightObject theLight, TQ3FallOffType *fallOff)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Get the field
-	*fallOff = instanceData->fallOff;
+	*fallOff = ( (E3SpotLight*) theLight )->fallOff ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1026,15 +1022,14 @@ E3SpotLight_GetFallOff(TQ3LightObject theLight, TQ3FallOffType *fallOff)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_GetData(TQ3LightObject theLight, TQ3SpotLightData *spotLightData)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
+	{
+	E3SpotLight* instanceData = (E3SpotLight*) theLight ;
 
 	// Get the field
-	*spotLightData = *instanceData;
+	*spotLightData = * ( (TQ3SpotLightData*) & instanceData->lightData ) ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1045,16 +1040,13 @@ E3SpotLight_GetData(TQ3LightObject theLight, TQ3SpotLightData *spotLightData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_SetCastShadowsState(TQ3LightObject theLight, TQ3Boolean castsShadows)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Set the field
-	instanceData->castsShadows = castsShadows;
-	Q3Shared_Edited(theLight);
+	( (E3SpotLight*) theLight )->castsShadows = castsShadows ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1065,16 +1057,13 @@ E3SpotLight_SetCastShadowsState(TQ3LightObject theLight, TQ3Boolean castsShadows
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_SetAttenuation(TQ3LightObject theLight, TQ3AttenuationType attenuation)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Set the field
-	instanceData->attenuation = attenuation;
-	Q3Shared_Edited(theLight);
+	( (E3SpotLight*) theLight )->attenuation = attenuation ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1085,16 +1074,13 @@ E3SpotLight_SetAttenuation(TQ3LightObject theLight, TQ3AttenuationType attenuati
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_SetLocation(TQ3LightObject theLight, const TQ3Point3D *location)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Set the field
-	instanceData->location = *location;
-	Q3Shared_Edited(theLight);
+	( (E3SpotLight*) theLight )->location = *location ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1105,16 +1091,13 @@ E3SpotLight_SetLocation(TQ3LightObject theLight, const TQ3Point3D *location)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_SetDirection(TQ3LightObject theLight, const TQ3Vector3D *direction)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Set the field
-	instanceData->direction = *direction;
-	Q3Shared_Edited(theLight);
+	( (E3SpotLight*) theLight )->direction = *direction ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1125,16 +1108,13 @@ E3SpotLight_SetDirection(TQ3LightObject theLight, const TQ3Vector3D *direction)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_SetHotAngle(TQ3LightObject theLight, float hotAngle)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Set the field
-	instanceData->hotAngle = hotAngle;
-	Q3Shared_Edited(theLight);
+	( (E3SpotLight*) theLight )->hotAngle = hotAngle ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1145,16 +1125,13 @@ E3SpotLight_SetHotAngle(TQ3LightObject theLight, float hotAngle)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_SetOuterAngle(TQ3LightObject theLight, float outerAngle)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Set the field
-	instanceData->outerAngle = outerAngle;
-	Q3Shared_Edited(theLight);
+	( (E3SpotLight*) theLight )->outerAngle = outerAngle ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1165,16 +1142,13 @@ E3SpotLight_SetOuterAngle(TQ3LightObject theLight, float outerAngle)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_SetFallOff(TQ3LightObject theLight, TQ3FallOffType fallOff)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
-
+	{
 	// Set the field
-	instanceData->fallOff = fallOff;
-	Q3Shared_Edited(theLight);
+	( (E3SpotLight*) theLight )->fallOff = fallOff ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1185,16 +1159,15 @@ E3SpotLight_SetFallOff(TQ3LightObject theLight, TQ3FallOffType fallOff)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3SpotLight_SetData(TQ3LightObject theLight, const TQ3SpotLightData *spotLightData)
-{	TQ3SpotLightData		*instanceData = (TQ3SpotLightData *) E3ClassTree_FindInstanceData(theLight, kQ3LightTypeSpot);
-
-
+	{
+	E3SpotLight* instanceData = (E3SpotLight*) theLight ;
 
 	// Set the field
-	*instanceData = *spotLightData;
-	Q3Shared_Edited(theLight);
+	* ( (TQ3SpotLightData*) & instanceData->lightData ) = *spotLightData ;
+	Q3Shared_Edited ( theLight ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
