@@ -42,35 +42,39 @@
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
-#define kMenuItemDisplayBoundingBox							1
-#define kMenuItemShowTexture								2
-#define kMenuItemSaveModel									3
-#define kMenuItemDivider1									4
-#define kMenuItemGeometryBox								5
-#define kMenuItemGeometryCone								6
-#define kMenuItemGeometryCylinder							7
-#define kMenuItemGeometryDisk								8
-#define kMenuItemGeometryEllipse							9
-#define kMenuItemGeometryEllipsoid							10
-#define kMenuItemGeometryGeneralPolygon						11
-#define kMenuItemGeometryLine								12
-#define kMenuItemGeometryMarker								13
-#define kMenuItemGeometryMesh								14
-#define kMenuItemGeometryNURBCurve							15
-#define kMenuItemGeometryNURBPatch							16
-#define kMenuItemGeometryPixmapMarker						17
-#define kMenuItemGeometryPoint								18
-#define kMenuItemGeometryPolyLine							19
-#define kMenuItemGeometryPolygon							20
-#define kMenuItemGeometryPolyhedron							21
-#define kMenuItemGeometryTorus								22
-#define kMenuItemGeometryTriangle							23
-#define kMenuItemGeometryTriGrid							24
-#define kMenuItemGeometryTriMesh							25
-#define kMenuItemDivider2									26
-#define kMenuItemMultiBox									27
-#define kMenuItemQuesaLogo									28
-#define kMenuItemDivider3									29
+enum
+{
+	kMenuItemToggleLocalBoundingBox = 1,
+	kMenuItemToggleWorldBoundingBox,
+	kMenuItemShowTexture,
+	kMenuItemSaveModel,
+	kMenuItemDivider1,
+	kMenuItemGeometryBox,
+	kMenuItemGeometryCone,
+	kMenuItemGeometryCylinder,
+	kMenuItemGeometryDisk,
+	kMenuItemGeometryEllipse,
+	kMenuItemGeometryEllipsoid,
+	kMenuItemGeometryGeneralPolygon,
+	kMenuItemGeometryLine,
+	kMenuItemGeometryMarker,
+	kMenuItemGeometryMesh,
+	kMenuItemGeometryNURBCurve,
+	kMenuItemGeometryNURBPatch,
+	kMenuItemGeometryPixmapMarker,
+	kMenuItemGeometryPoint,
+	kMenuItemGeometryPolyLine,
+	kMenuItemGeometryPolygon,
+	kMenuItemGeometryPolyhedron,
+	kMenuItemGeometryTorus,
+	kMenuItemGeometryTriangle,
+	kMenuItemGeometryTriGrid,
+	kMenuItemGeometryTriMesh,
+	kMenuItemDivider2,
+	kMenuItemMultiBox,
+	kMenuItemQuesaLogo,
+	kMenuItemDivider3	
+};
 
 #define kTriGridRows										5
 #define kTriGridCols										10
@@ -94,9 +98,8 @@ TQ3Boolean			gShowTexture       = kQ3False;
 TQ3Uns32			gFlashStep         = 0;
 TQ3Matrix4x4		gMatrixCurrent;
 TQ3ColorARGB		gBackgroundColor;
-
-
-
+TQ3Boolean			gShowWorldBounds   = kQ3False;
+TQ3Object			gWorldBounds       = NULL;
 
 
 //=============================================================================
@@ -163,7 +166,96 @@ createUVsFromPoints(TQ3Uns32 numPoints, TQ3Point3D *thePoints, TQ3Param2D *theUV
 		}
 }
 
+static TQ3Object createWorldBounds( TQ3ViewObject inView )
+{
+	TQ3BoundingBox		theBounds;
+	TQ3GroupObject		theGroup = NULL;
+	TQ3BoxData			boxData;
+	TQ3GeometryObject	theBox;
+	TQ3ColorRGB			boxColor = { 0.3, 0.3, 0.3 };
+	TQ3ColorRGB			edgeColor = { 0.0, 0.3, 1.0 };
+	float           sizeX, sizeY, sizeZ;
+	TQ3ShaderObject		theShader;
+	TQ3StyleObject		theStyle;
+	
+	if (Q3View_StartBoundingBox(inView, kQ3ComputeBoundsExact) == kQ3Success)
+	{
+		do
+		{
+			Q3MatrixTransform_Submit(&gMatrixCurrent, inView);
+			Q3Object_Submit(gSceneGeometry, inView);
+			
+		} while (Q3View_EndBoundingBox(inView, &theBounds) == kQ3ViewStatusRetraverse);
+		
 
+	    // If we have an empty bounding box, bump it up slightly
+	    sizeX = theBounds.max.x - theBounds.min.x;
+	    sizeY = theBounds.max.y - theBounds.min.y;
+	    sizeZ = theBounds.max.z - theBounds.min.z;
+
+	    if (sizeX <= kQ3RealZero && sizeY <= kQ3RealZero && sizeZ <= kQ3RealZero)
+	        {
+	        theBounds.max.x += 0.0001f;
+	        theBounds.max.y += 0.0001f;
+	        theBounds.max.z += 0.0001f;
+	            
+	        theBounds.min.x -= 0.0001f;
+	        theBounds.min.y -= 0.0001f;
+	        theBounds.min.z -= 0.0001f;
+	        }
+	
+		theGroup = Q3DisplayGroup_New();
+		
+		boxData.origin = theBounds.min;
+		
+		Q3Vector3D_Set(&boxData.orientation, 0.0f, theBounds.max.y - theBounds.min.y, 0.0f);
+		Q3Vector3D_Set(&boxData.majorAxis,   0.0f, 0.0f, theBounds.max.z - theBounds.min.z);
+		Q3Vector3D_Set(&boxData.minorAxis,   theBounds.max.x - theBounds.min.x, 0.0f, 0.0f);
+
+		boxData.faceAttributeSet = NULL;
+		boxData.boxAttributeSet  = Q3AttributeSet_New();
+		if (boxData.boxAttributeSet != NULL)
+			Q3AttributeSet_Add( boxData.boxAttributeSet, kQ3AttributeTypeTransparencyColor,
+				&boxColor );
+
+		theBox = Q3Box_New( &boxData );
+		if (theBox != NULL)
+		{
+			Q3Group_AddObject( theGroup, theBox );
+			Q3Object_Dispose( theBox );
+		}
+		Q3Box_EmptyData( &boxData );
+		
+		theShader = Q3NULLIllumination_New();
+		if (theShader != NULL)
+			{
+			Q3Group_AddObject(theGroup, theShader);
+			Q3Object_Dispose(theShader);
+			}
+
+		theStyle = Q3FillStyle_New(kQ3FillStyleEdges);
+		if (theStyle != NULL)
+			{
+			Q3Group_AddObject(theGroup, theStyle);
+			Q3Object_Dispose(theStyle);
+			}
+
+		boxData.boxAttributeSet  = Q3AttributeSet_New();
+		if (boxData.boxAttributeSet != NULL)
+			Q3AttributeSet_Add( boxData.boxAttributeSet, kQ3AttributeTypeDiffuseColor,
+				&edgeColor );
+		theBox = Q3Box_New( &boxData );
+		if (theBox != NULL)
+		{
+			Q3Group_AddObject( theGroup, theBox );
+			Q3Object_Dispose( theBox );
+		}
+		Q3Box_EmptyData( &boxData );
+		
+	}
+	
+	return theGroup;
+}
 
 
 
@@ -1887,7 +1979,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 	// Create the new geometry type
 	theGeom = NULL;
 	switch (menuItem) {
-		case kMenuItemDisplayBoundingBox:
+		case kMenuItemToggleLocalBoundingBox:
 			// Create or dispose of the bounding geometry
 			if (gSceneBounds == NULL)
 				gSceneBounds = createGeomBounds(gSceneGeometry);
@@ -1896,6 +1988,10 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 				Q3Object_Dispose(gSceneBounds);
 				gSceneBounds = NULL;
 				}
+			break;
+			
+		case kMenuItemToggleWorldBoundingBox:
+			gShowWorldBounds = !gShowWorldBounds;
 			break;
 		
 		case kMenuItemShowTexture:
@@ -2023,7 +2119,19 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 }
 
 
-
+static void appPreRender( TQ3ViewObject theView )
+{
+	if (gWorldBounds != NULL)
+	{
+		Q3Object_Dispose( gWorldBounds );
+		gWorldBounds = NULL;
+	}
+	
+	if (gShowWorldBounds)
+	{
+		gWorldBounds = createWorldBounds( theView );
+	}
+}
 
 
 //=============================================================================
@@ -2060,6 +2168,11 @@ appRender(TQ3ViewObject theView)
 	if (gShowTexture && gSceneTexture != NULL)
 		Q3Shader_Submit(gSceneTexture, theView);
 		
+	if (gWorldBounds != NULL)
+		{
+		Q3Object_Submit(gWorldBounds, theView);
+		}
+
 	Q3MatrixTransform_Submit(&gMatrixCurrent, theView);
 	Q3Object_Submit(gSceneGeometry, theView);
 
@@ -2101,6 +2214,7 @@ App_Initialise(void)
 	Qut_CreateWindow("Geom Test", 300, 300, kQ3True);
 	Qut_CreateView(appConfigureView);
 	Qut_SetRenderFunc(appRender);
+	Qut_SetRenderPreFunc( appPreRender );
 	Qut_SetMouseDownFunc(appMouseDown);
 	
 
@@ -2135,7 +2249,8 @@ App_Initialise(void)
 	// Set up the menu bar
 	Qut_CreateMenu(appMenuSelect);
 			
-	Qut_CreateMenuItem(kMenuItemLast, "Toggle Bounding Box");
+	Qut_CreateMenuItem(kMenuItemLast, "Toggle Local Bounding Box");
+	Qut_CreateMenuItem(kMenuItemLast, "Toggle World Bounding Box");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Texture");
 	Qut_CreateMenuItem(kMenuItemLast, "Save Model...");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
