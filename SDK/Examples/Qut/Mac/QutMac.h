@@ -57,7 +57,7 @@
 
 
 	// Get the data for an AE descriptor
-	#define AEGetDescData(_ae, _ptr, _size)			memcpy(_ptr, *((_ae)->dataHandle), _size);
+	#define AEGetDescData(_ae, _ptr, _size)			noErr; memcpy(_ptr, *((_ae)->dataHandle), _size);
 	
 	
 	// Get the port bits of a port
