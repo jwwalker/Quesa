@@ -128,7 +128,8 @@ gldrawcontext_mac_getport( TQ3DrawContextObject theDrawContext )
 //		gldrawcontext_mac_new : Create an OpenGL context for a draw context.
 //-----------------------------------------------------------------------------
 static void *
-gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
+gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
+						TQ3Boolean shareTextures )
 {	GLint					glAttributes[kMaxGLAttributes];
 	TQ3Uns32				numAttributes;
 	TQ3Uns32				sysVersion = 0;
@@ -238,7 +239,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 		// Try to share textures with some existing context.
 		// (Before 10.2, texture sharing didn't work unless you created all your
 		// contexts before loading any textures.)
-		if (sysVersion >= 0x00001020)
+		if ((shareTextures == kQ3True) && (sysVersion >= 0x00001020))
 			{
 			while ((sharingContext = GLTextureMgr_GetNextSharingBase( sharingContext )) != NULL)
 				{
@@ -699,7 +700,8 @@ gldrawcontext_x11_updatepos(void *glContext)
 #pragma mark -
 #if QUESA_OS_WIN32
 static void *
-gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
+gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
+						TQ3Boolean shareTextures )
 {	TQ3ObjectType			drawContextType;
 	TQ3DrawContextData		drawContextData;
     PIXELFORMATDESCRIPTOR	pixelFormatDesc;
@@ -841,11 +843,14 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
     
     
     
-    // Attempt to share textures with a previously created context.
-    while ( (sharingContext = GLTextureMgr_GetNextSharingBase( sharingContext )) != NULL )
+    if (shareTextures)
     {
-    	if (wglShareLists( ((WinGLContext*)sharingContext)->glContext, theContext->glContext ))
-    		break;
+	    // Attempt to share textures with a previously created context.
+	    while ( (sharingContext = GLTextureMgr_GetNextSharingBase( sharingContext )) != NULL )
+	    {
+	    	if (wglShareLists( ((WinGLContext*)sharingContext)->glContext, theContext->glContext ))
+	    		break;
+	    }
     }
 
 	
@@ -1238,6 +1243,7 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 {	TQ3Uns32			preferredDepthBits = 32;
 	void				*glContext;
 	TQ3RendererObject	theRenderer;
+	TQ3Boolean			shareTextures;
 
 
 
@@ -1253,18 +1259,27 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 		Q3Object_GetElement( theRenderer, kQ3ElementTypeDepthBits, &preferredDepthBits );
 		Q3Object_Dispose(    theRenderer );
 	}
+	
+	
+	
+	// Check for the texture sharing preference.
+	if (kQ3Failure == Q3Object_GetProperty( theDrawContext, kQ3DrawContextPropertyGLTextureSharing,
+		sizeof(shareTextures), NULL, &shareTextures ) )
+	{
+		shareTextures = kQ3True;	// default value
+	}
 
 
 
 	// Create the context
 #if QUESA_OS_MACINTOSH
-	glContext = gldrawcontext_mac_new(theDrawContext, preferredDepthBits);
+	glContext = gldrawcontext_mac_new(theDrawContext, preferredDepthBits, shareTextures);
 
 #elif QUESA_OS_UNIX
 	glContext = gldrawcontext_x11_new(theDrawContext);
 
 #elif QUESA_OS_WIN32
-	glContext = gldrawcontext_win_new(theDrawContext, preferredDepthBits);
+	glContext = gldrawcontext_win_new(theDrawContext, preferredDepthBits, shareTextures);
 
 #elif QUESA_OS_BE
 	glContext = gldrawcontext_be_new(theDrawContext);
