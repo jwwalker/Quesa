@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -77,6 +77,18 @@ typedef struct {
 
 
 
+
+class E3TriMesh : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3TriMeshInstanceData			instanceData ;
+
+	} ;
+	
 
 
 //=============================================================================
@@ -1263,14 +1275,11 @@ e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 //      e3geom_trimesh_get_attribute : TriMesh get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_trimesh_get_attribute(TQ3GeometryObject theObject)
-{	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeTriMesh);
-
-
-
+e3geom_trimesh_get_attribute ( E3TriMesh* triMesh )
+	{
 	// Return the address of the geometry attribute set
-	return(&instanceData->geomData.triMeshAttributeSet);
-}
+	return & triMesh->instanceData.geomData.triMeshAttributeSet ;
+	}
 
 
 
@@ -1280,14 +1289,11 @@ e3geom_trimesh_get_attribute(TQ3GeometryObject theObject)
 //      e3geom_trimesh_get_public_data : TriMesh get public data pointer.
 //-----------------------------------------------------------------------------
 static const void *
-e3geom_trimesh_get_public_data(TQ3GeometryObject theObject)
-{	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeTriMesh);
-
-
-
+e3geom_trimesh_get_public_data ( E3TriMesh* triMesh )
+	{
 	// Return the address of the geometry public data
-	return(&instanceData->geomData);
-}
+	return & triMesh->instanceData.geomData ;
+	}
 
 
 
@@ -1360,11 +1366,11 @@ E3GeometryTriMesh_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapeTypeGeometry,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGeometry,
 											kQ3GeometryTypeTriMesh,
 											kQ3ClassNameGeometryTriMesh,
 											e3geom_trimesh_metahandler,
-											sizeof(TQ3TriMeshInstanceData));
+											~sizeof(E3TriMesh));
 
 	return(qd3dStatus);
 }
@@ -1383,7 +1389,7 @@ E3GeometryTriMesh_UnregisterClass(void)
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3GeometryTypeTriMesh, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeTriMesh, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -1433,26 +1439,24 @@ E3TriMesh_Submit(const TQ3TriMeshData *triMeshData, TQ3ViewObject theView)
 //      E3TriMesh_SetData : Set the data for a TriMesh object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriMesh_SetData(TQ3GeometryObject triMesh, const TQ3TriMeshData *triMeshData)
-{	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) E3ClassTree_FindInstanceData(triMesh, kQ3GeometryTypeTriMesh);
-	TQ3Status					qd3dStatus;
-
-
+E3TriMesh_SetData(TQ3GeometryObject theTriMesh, const TQ3TriMeshData *triMeshData)
+	{
+	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
 
 	// Dispose of the existing data
-	e3geom_trimesh_disposedata(&instanceData->geomData);
+	e3geom_trimesh_disposedata ( & triMesh->instanceData.geomData ) ;
 
 
 
 	// Copy the new TriMesh data, then optimize it
-	qd3dStatus = e3geom_trimesh_copydata(triMeshData, &instanceData->geomData, kQ3False);
-	if (qd3dStatus == kQ3Success)
-		e3geom_trimesh_optimize(&instanceData->geomData);
+	TQ3Status qd3dStatus = e3geom_trimesh_copydata ( triMeshData, & triMesh->instanceData.geomData, kQ3False ) ;
+	if ( qd3dStatus != kQ3Failure )
+		e3geom_trimesh_optimize ( & triMesh->instanceData.geomData ) ;
 
-	Q3Shared_Edited(triMesh);
+	Q3Shared_Edited ( triMesh ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -1462,18 +1466,16 @@ E3TriMesh_SetData(TQ3GeometryObject triMesh, const TQ3TriMeshData *triMeshData)
 //      E3TriMesh_GetData : Return the data for a TriMesh object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriMesh_GetData(TQ3GeometryObject triMesh, TQ3TriMeshData *triMeshData)
-{	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) E3ClassTree_FindInstanceData(triMesh, kQ3GeometryTypeTriMesh);
-	TQ3Status					qd3dStatus;
-	
-
+E3TriMesh_GetData(TQ3GeometryObject theTriMesh, TQ3TriMeshData *triMeshData)
+	{
+	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
 
 	// Copy the data out of the TriMesh
-	triMeshData->triMeshAttributeSet = NULL;
-	qd3dStatus = e3geom_trimesh_copydata(&instanceData->geomData, triMeshData, kQ3False);
+	triMeshData->triMeshAttributeSet = NULL ;
+	TQ3Status qd3dStatus = e3geom_trimesh_copydata ( & triMesh->instanceData.geomData, triMeshData, kQ3False ) ;
 
-	return(qd3dStatus);
-}
+	return qd3dStatus ;
+	}
 
 
 
@@ -1511,23 +1513,23 @@ E3TriMesh_EmptyData(TQ3TriMeshData *triMeshData)
 //				is unlocked after being locked without read-only access.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriMesh_LockData(TQ3GeometryObject triMesh, TQ3Boolean readOnly, TQ3TriMeshData **triMeshData)
-{	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) E3ClassTree_FindInstanceData(triMesh, kQ3GeometryTypeTriMesh);
-
+E3TriMesh_LockData(TQ3GeometryObject theTriMesh, TQ3Boolean readOnly, TQ3TriMeshData **triMeshData)
+	{
+	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
 
 
 	// Lock the TriMesh
-	E3Bit_Set(instanceData->theFlags, kTriMeshLocked);
+	E3Bit_Set( triMesh->instanceData.theFlags, kTriMeshLocked ) ;
 	if (readOnly)
-		E3Bit_Set(instanceData->theFlags, kTriMeshLockedReadOnly);
+		E3Bit_Set( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
 
 
 
 	// Return a pointer to the TriMesh data
-	*triMeshData = &instanceData->geomData;
+	*triMeshData = & triMesh->instanceData.geomData ;
 	
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1537,30 +1539,29 @@ E3TriMesh_LockData(TQ3GeometryObject triMesh, TQ3Boolean readOnly, TQ3TriMeshDat
 //      E3TriMesh_UnlockData : Unlock a TriMesh after direct access.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3TriMesh_UnlockData(TQ3GeometryObject triMesh)
-{	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) E3ClassTree_FindInstanceData(triMesh, kQ3GeometryTypeTriMesh);
-
-
+E3TriMesh_UnlockData(TQ3GeometryObject theTriMesh)
+	{
+	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
 
 	// If the TriMesh was mutable, assume it needs updating
-	if (!E3Bit_IsSet(instanceData->theFlags, kTriMeshLockedReadOnly))
+	if ( ! E3Bit_IsSet( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) )
 		{
 		// Re-optimize the TriMesh
-		e3geom_trimesh_optimize(&instanceData->geomData);
+		e3geom_trimesh_optimize ( & triMesh->instanceData.geomData ) ;
 
 
 		// Bump the edit index
-		Q3Shared_Edited(triMesh);
+		Q3Shared_Edited ( triMesh ) ;
 		}
 	
 	
 	
 	// Unlock the TriMesh
-	E3Bit_Clear(instanceData->theFlags, kTriMeshLocked);
-	E3Bit_Clear(instanceData->theFlags, kTriMeshLockedReadOnly);
+	E3Bit_Clear( triMesh->instanceData.theFlags, kTriMeshLocked ) ;
+	E3Bit_Clear( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1570,14 +1571,9 @@ E3TriMesh_UnlockData(TQ3GeometryObject triMesh)
 //      E3TriMesh_AddTriangleNormals : Add triangle normals to a TriMesh.
 //-----------------------------------------------------------------------------
 void
-E3TriMesh_AddTriangleNormals(TQ3GeometryObject triMesh, TQ3OrientationStyle theOrientation)
-{	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) E3ClassTree_FindInstanceData(triMesh, kQ3GeometryTypeTriMesh);
-	TQ3TriMeshAttributeData		*attributeData;
-	TQ3Vector3D					*theNormals;
-	TQ3Status					qd3dStatus;
-	TQ3Uns32					n, theSize;
-
-
+E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle theOrientation)
+	{
+	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(triMesh);
@@ -1585,65 +1581,66 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject triMesh, TQ3OrientationStyle theO
 
 
 	// Do nothing if we already have triangle normals
-	attributeData = e3geom_trimesh_attribute_find(instanceData->geomData.numTriangleAttributeTypes,
-												  instanceData->geomData.triangleAttributeTypes,
-												  kQ3AttributeTypeNormal);
-	if (attributeData != NULL)
-		return;
+	TQ3TriMeshAttributeData* attributeData = e3geom_trimesh_attribute_find (
+												  triMesh->instanceData.geomData.numTriangleAttributeTypes,
+												  triMesh->instanceData.geomData.triangleAttributeTypes,
+												  kQ3AttributeTypeNormal ) ;
+	if ( attributeData != NULL )
+		return ;
 
 
 
 	// Allocate the normals
-	theSize    = instanceData->geomData.numTriangles * sizeof(TQ3Vector3D);
-	theNormals = (TQ3Vector3D *) Q3Memory_Allocate(theSize);
-	qd3dStatus = (theNormals != NULL ? kQ3Success : kQ3Failure);
+	TQ3Uns32 theSize    = triMesh->instanceData.geomData.numTriangles * sizeof ( TQ3Vector3D ) ;
+	TQ3Vector3D* theNormals = (TQ3Vector3D *) Q3Memory_Allocate ( theSize ) ;
+	TQ3Status qd3dStatus = ( theNormals != NULL ? kQ3Success : kQ3Failure ) ;
 
 
 
 	// Append another triangle attribute
-	if (qd3dStatus == kQ3Success)
+	if ( qd3dStatus != kQ3Failure )
 		{
-		theSize    = (instanceData->geomData.numTriangleAttributeTypes + 1) * sizeof(TQ3TriMeshAttributeData);
-		qd3dStatus = Q3Memory_Reallocate(&instanceData->geomData.triangleAttributeTypes, theSize);
-		if (qd3dStatus == kQ3Success)
+		theSize    = ( triMesh->instanceData.geomData.numTriangleAttributeTypes + 1 ) * sizeof ( TQ3TriMeshAttributeData ) ;
+		qd3dStatus = Q3Memory_Reallocate( & triMesh->instanceData.geomData.triangleAttributeTypes, theSize ) ;
+		if ( qd3dStatus != kQ3Failure )
 			{
-			attributeData = &instanceData->geomData.triangleAttributeTypes[instanceData->geomData.numTriangleAttributeTypes];
-			instanceData->geomData.numTriangleAttributeTypes++;
+			attributeData = & triMesh->instanceData.geomData.triangleAttributeTypes [ triMesh->instanceData.geomData.numTriangleAttributeTypes ] ;
+			triMesh->instanceData.geomData.numTriangleAttributeTypes++ ;
 			}
 		}
 
 
 
 	// Calculate the normals
-	if (qd3dStatus == kQ3Success)
+	if ( qd3dStatus != kQ3Failure )
 		{
 		// Set up the attribute
-		attributeData->data              = theNormals;
-		attributeData->attributeType     = kQ3AttributeTypeNormal;
-		attributeData->attributeUseArray = NULL;
+		attributeData->data              = theNormals ;
+		attributeData->attributeType     = kQ3AttributeTypeNormal ;
+		attributeData->attributeUseArray = NULL ;
 			
 			
 			
 		// Calculate the normals in CCW form
-		Q3Triangle_CrossProductArray(instanceData->geomData.numTriangles, NULL,
-									 instanceData->geomData.triangles[0].pointIndices,
-									 instanceData->geomData.points,
-									 theNormals);
+		Q3Triangle_CrossProductArray ( triMesh->instanceData.geomData.numTriangles, NULL,
+									 triMesh->instanceData.geomData.triangles[0].pointIndices,
+									 triMesh->instanceData.geomData.points,
+									 theNormals ) ;
 
 
 		// Reverse them if our orientation is CW
-		if (theOrientation == kQ3OrientationStyleClockwise)
+		if ( theOrientation == kQ3OrientationStyleClockwise )
 			{
-			for (n = 0; n < instanceData->geomData.numTriangles; n++)
-				Q3Vector3D_Negate(&theNormals[n], &theNormals[n]);
+			for ( TQ3Uns32 n = 0 ; n < triMesh->instanceData.geomData.numTriangles ; ++n )
+				Q3Vector3D_Negate ( & theNormals [ n ], &theNormals [ n ] ) ;
 			}
 		}
 
 
 
 	// Clean up
-	Q3Shared_Edited(triMesh);
+	Q3Shared_Edited ( triMesh ) ;
 
-	if (qd3dStatus != kQ3Success)
-		Q3Memory_Free(&theNormals);
-}
+	if ( qd3dStatus == kQ3Failure )
+		Q3Memory_Free( &theNormals ) ;
+	}
