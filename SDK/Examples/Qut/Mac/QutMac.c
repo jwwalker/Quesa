@@ -37,10 +37,6 @@
 #include "QutInternal.h"
 #include "QutMac.h"
 
-
-
-
-
 //=============================================================================
 //      Carbon pre-amble
 //-----------------------------------------------------------------------------
@@ -55,7 +51,9 @@
 	#endif
 #endif
 
-
+#if QUT_MAC_CARBON_EVENTS
+	#include <IBCarbonRuntime.h>
+#endif
 
 
 //=============================================================================
@@ -64,7 +62,8 @@
 #define kMenuBarQut										128
 #define kDialogAbout									128
 
-#define kQutMacUpdateSeconds							0.05f
+#define kQutMacUpdateSeconds							0.02f
+#define kQutMacUpdateSecondsFPS							0.001f
 #define kSleepTicksDefault								1
 #define kSleepTicksFPS									0
 #define kWindowMinSize									50
@@ -77,15 +76,9 @@
 #define kMenuFileQuit									3
 #define kMenuEdit										130
 
-#if QUT_MAC_CARBON_EVENTS
-	#define kMenuRenderer								132
-	#define kMenuStyle									133
-	#define kMenuSpecial								134
-#else
-	#define kMenuRenderer								131
-	#define kMenuStyle									132
-	#define kMenuSpecial								133
-#endif
+#define kMenuRenderer								131
+#define kMenuStyle									132
+#define kMenuSpecial								133
 
 enum {
 	kQutCommandShowFPS									= FOUR_CHAR_CODE('Sfps'),
@@ -137,11 +130,75 @@ EventLoopTimerRef			gUpdateTimer = NULL;
 #endif
 
 
-
-
-
 //=============================================================================
 //		Internal functions.
+//-----------------------------------------------------------------------------
+
+static pascal void
+		qut_carbon_timer_fired(EventLoopTimerRef updateTimer,void* inUserData);
+
+//-----------------------------------------------------------------------------
+//		qut_toggle_fps: Turn frames per second display on or off.
+//-----------------------------------------------------------------------------
+static void	qut_toggle_fps()
+{
+	MenuHandle	rendererMenu;
+	static Str255	sSaveWindowTitle;
+	
+	gShowFPS   = (TQ3Boolean) !gShowFPS;
+	
+	if (gShowFPS)
+	{
+		GetWTitle( gWindow, sSaveWindowTitle );
+	}
+	else
+	{
+		SetWTitle( gWindow, sSaveWindowTitle );
+	}
+	
+	rendererMenu = GetMenuHandle(kMenuRenderer);
+	if (rendererMenu != nil)
+		CheckMenuItem( rendererMenu, 1, gShowFPS);
+
+#if QUT_MAC_CARBON_EVENTS
+	// Reinstall the timer to change its interval
+	RemoveEventLoopTimer( gUpdateTimer );
+	{
+		static EventLoopTimerUPP	sTimerUPP = nil;
+		if (sTimerUPP == nil)
+			sTimerUPP = NewEventLoopTimerUPP(qut_carbon_timer_fired);
+		
+		InstallEventLoopTimer( GetMainEventLoop(), kEventDurationNoWait,
+			(gShowFPS? kQutMacUpdateSecondsFPS : kQutMacUpdateSeconds ),
+			sTimerUPP, NULL, &gUpdateTimer );
+	}
+#else
+	gSleepTime = gShowFPS ? kSleepTicksFPS : kSleepTicksDefault;
+#endif
+}
+
+//-----------------------------------------------------------------------------
+//		qut_update_fps_display : Draw the frames per second in the
+//								title bar of the window.
+//
+//		Previously, we used QuickDraw to draw the FPS over the 3D image,
+//		but that didn't work in Mac OS X.
+//-----------------------------------------------------------------------------
+static void qut_update_fps_display()
+{
+	static UInt32	sNextUpdateFPSTicks = 0;
+	Str255		theStr;
+	
+	sprintf((char *) &theStr[1], "FPS: %.2f", gFPS);
+	theStr[0] = strlen((char *) &theStr[1]);
+	
+	if (TickCount() > sNextUpdateFPSTicks)
+	{
+		SetWTitle( gWindow, theStr );
+		sNextUpdateFPSTicks = TickCount() + 60;
+	}
+}
+
 //-----------------------------------------------------------------------------
 //		qut_carbon_get_nib : Get our nib reference.
 //-----------------------------------------------------------------------------
@@ -165,14 +222,14 @@ qut_carbon_get_nib(void)
 
 
 
-
 //=============================================================================
 //		qut_carbon_window_event : Handle window events.
 //-----------------------------------------------------------------------------
-static OSStatus
+static pascal OSStatus
 qut_carbon_window_event(EventHandlerCallRef inHandlerCallRef, 
                                   EventRef inEvent, void *inUserData)
 {
+#pragma unused(inUserData)
   OSStatus err = noErr;
     switch(GetEventKind(inEvent))
     {
@@ -251,10 +308,11 @@ qut_carbon_window_event(EventHandlerCallRef inHandlerCallRef,
 //=============================================================================
 //		qut_carbon_command_event : Handle commands.
 //-----------------------------------------------------------------------------
-static OSStatus
+static pascal OSStatus
 qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef, 
                                   EventRef inEvent, void *inUserData)
 {
+#pragma unused(inUserData)
   OSStatus err = noErr;
   HICommand command;
   err = GetEventParameter(inEvent,kEventParamDirectObject,
@@ -267,9 +325,7 @@ qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef,
       case kMenuRenderer:
 			if (command.menu.menuItemIndex == 1)
 				{
-				gShowFPS   = (TQ3Boolean) !gShowFPS;
-				gSleepTime = gShowFPS ? kSleepTicksFPS : kSleepTicksDefault;
-				CheckMenuItem(GetMenuHandle(kMenuRenderer), command.menu.menuItemIndex, gShowFPS);
+				qut_toggle_fps();
 				}
 			else
 				Q3View_SetRendererByType(gView, gRenderers[command.menu.menuItemIndex - 1]);
@@ -290,9 +346,7 @@ qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef,
   } else {
 	switch(command.commandID) {
 		case kQutCommandShowFPS:
-			gShowFPS   = (TQ3Boolean) !gShowFPS;
-			gSleepTime = gShowFPS ? kSleepTicksFPS : kSleepTicksDefault;
-			CheckMenuItem(GetMenuHandle(kMenuRenderer), command.menu.menuItemIndex, gShowFPS);
+			qut_toggle_fps();
 			break;
 
         case kQutCommandUseRenderer:
@@ -419,26 +473,15 @@ qut_carbon_command_event(EventHandlerCallRef inHandlerCallRef,
 //=============================================================================
 //		qut_carbon_timer_fired : Timer callback.
 //-----------------------------------------------------------------------------
-static void
+static pascal void
 qut_carbon_timer_fired(EventLoopTimerRef updateTimer,void* inUserData)
 {
-    Str255 theStr;
-    GrafPtr oldPort;
-
+#pragma unused(updateTimer, inUserData)
+ 
 	Qut_RenderFrame();
     if (gShowFPS)
     {
-      sprintf((char *) &theStr[1], "FPS: %.2f", gFPS);
-      theStr[0] = strlen((char *) &theStr[1]);
-      GetPort(&oldPort);
-      SetPort((GrafPtr) GetWindowPort(gWindow));
-      ForeColor(whiteColor);
-      TextFont(kFontIDGeneva);
-      TextSize(9);
-  
-      MoveTo(5, 12);
-      DrawString(theStr);
-      SetPort(oldPort);
+		qut_update_fps_display();
     }
 }
 
@@ -559,9 +602,7 @@ qut_classic_handle_menu(TQ3Uns32 menuInfo)
 		case kMenuRenderer:
 			if (menuItem == 1)
 				{
-				gShowFPS   = (TQ3Boolean) !gShowFPS;
-				gSleepTime = gShowFPS ? kSleepTicksFPS : kSleepTicksDefault;
-				CheckMenuItem(GetMenuHandle(kMenuRenderer), menuItem, gShowFPS);
+				qut_toggle_fps();
 				}
 			else
 				Q3View_SetRendererByType(gView, gRenderers[menuItem - 1]);
@@ -843,7 +884,6 @@ qut_mainloop(void)
 	WindowPtr				theWindow;
 	EventRecord				theEvent;
 	SInt16					partCode;
-	Str255					theStr;
 
 
 
@@ -966,16 +1006,7 @@ qut_mainloop(void)
 				
 				if (gShowFPS)
 					{
-					sprintf((char *) &theStr[1], "FPS: %.2f", gFPS);
-					theStr[0] = strlen((char *) &theStr[1]);
-
-					SetPort((GrafPtr) GetWindowPort(gWindow));
-					ForeColor(whiteColor);
-					TextFont(kFontIDGeneva);
-					TextSize(9);
-				
-					MoveTo(5, 12);
-					DrawString(theStr);
+					qut_update_fps_display();
 					}
 				
 				// If we have an idle handler, call it
@@ -1028,19 +1059,22 @@ Qut_CreateWindow(const char		*windowTitle,
 					TQ3Uns32	theHeight,
 					TQ3Boolean	canResize)
 {
-#if !QUT_MAC_CARBON_EVENTS
-	// Classic Window Manager
+#pragma unused( windowTitle )
 	Rect		theRect;
 	Str255		theStr;
 
-
-
-	// Create the window
 	SetRect(&theRect, 0, 0, theWidth, theHeight);
 	OffsetRect(&theRect, 20, 60);
 
 	strcpy((char *) &theStr[1], windowTitle);
 	theStr[0] = strlen((char *) windowTitle);
+
+#if !QUT_MAC_CARBON_EVENTS
+	// Classic Window Manager
+
+
+
+	// Create the window
 
 	gWindow = NewCWindow(NULL,
 						 &theRect,
@@ -1051,8 +1085,6 @@ Qut_CreateWindow(const char		*windowTitle,
 						 true,
 						 0);
 
-	gWindowCanResize = canResize;
-	
 	SetPort((GrafPtr) GetWindowPort(gWindow));
 	SetRect(&theRect, 0, 0, theWidth, theHeight);
 
@@ -1064,22 +1096,27 @@ Qut_CreateWindow(const char		*windowTitle,
 
 
 #else
-	// Carbon window manager (do we really need to use a nib for this?)
+	// Carbon window manager
+	{
 	OSStatus		theErr;
 	
-	
 	// Create the window
-	theErr = CreateWindowFromNib(qut_carbon_get_nib(), CFSTR("MainWindow"), (WindowRef *) &gWindow);
+	theErr = CreateNewWindow( kDocumentWindowClass,
+		kWindowStandardDocumentAttributes | kWindowStandardHandlerAttribute,
+		&theRect, (WindowRef*) &gWindow );
+	
 	if (theErr != noErr)
 		{
 		fprintf(stderr, "Can't load Window %d\n", (int) theErr);
 		ExitToShell();
 		}
+	}
+
+	ShowWindow(gWindow);
+#endif
 
 	gWindowCanResize = canResize;
-    SizeWindow(gWindow, (short) theWidth, (short) theHeight, false);                               
-	ShowWindow(gWindow);
-#endif        
+    SetWTitle( gWindow, theStr );
 }
 
 
