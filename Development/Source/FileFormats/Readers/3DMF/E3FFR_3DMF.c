@@ -85,7 +85,8 @@ e3fformat_3dmf_is_next_element( TQ3FileObject theFile )
 	TQ3ObjectType	nextType = Q3File_GetNextObjectType( theFile );
 	E3ClassInfoPtr	theClass = E3ClassTree_GetClassByType( nextType );
 	
-	return E3ClassTree_IsType( theClass, kQ3ObjectTypeElement );
+	return E3ClassTree_IsType( theClass, kQ3ObjectTypeElement ) ||
+		E3ClassTree_IsType( theClass, kQ3ShaderTypeSurface );
 }
 
 
