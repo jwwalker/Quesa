@@ -169,7 +169,7 @@ void GetStackCrawl( short depth, char* buffer, long* ioBufferSize )
 		GetCallerName( &name, &length, i+1 );
 		if ( current+length+1 > *ioBufferSize )
 			break;
-		if (length == 0)	// JWWalker 5/29/2002
+		if (length <= 0)	// JWWalker 5/30/2002
 			break;
 		if (*name == '.')	// JWWalker 5/29/2002
 		{
