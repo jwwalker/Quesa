@@ -5515,7 +5515,6 @@ Q3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D, 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox),     NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), NULL);
-	Q3_REQUIRE_OR_RESULT(numPoints >= 1,         NULL);
 
 
 
@@ -5560,7 +5559,6 @@ Q3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoi
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox),     NULL);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints4D), NULL);
-	Q3_REQUIRE_OR_RESULT(numPoints >= 1,         NULL);
 
 
 
