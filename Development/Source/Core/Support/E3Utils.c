@@ -107,6 +107,7 @@ E3Shared_Acquire(TQ3SharedObject *newRef, TQ3SharedObject theObject)
 
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(newRef));
+	*newRef = NULL;
 	if (theObject != NULL)
 		Q3_REQUIRE(Q3Object_IsType(theObject, kQ3ObjectTypeShared));
 
@@ -118,8 +119,6 @@ E3Shared_Acquire(TQ3SharedObject *newRef, TQ3SharedObject theObject)
 		*newRef = Q3Shared_GetReference(theObject);
 		Q3_ASSERT_VALID_PTR(*newRef);
 		}
-	else
-		*newRef = NULL;
 }
 
 
