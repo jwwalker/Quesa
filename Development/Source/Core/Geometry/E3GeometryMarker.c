@@ -234,7 +234,7 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 	rowBytes  = geomData->bitmap.width * sizeof(TQ3Uns16);
 	theSize   = rowBytes * geomData->bitmap.height;
 
-	theBuffer = Q3Memory_AllocateClear(theSize);
+	theBuffer = (TQ3Uns8*) Q3Memory_AllocateClear(theSize);
 	if (theBuffer == NULL)
 		return(NULL);
 

@@ -71,7 +71,7 @@ const TQ3Uns32 kTriMeshLockedReadOnly								= (1 << 1);
 //-----------------------------------------------------------------------------
 // TriMesh instance data
 typedef struct {
-	TQ3Boolean			theFlags;
+	TQ3Uns32			theFlags;
 	TQ3TriMeshData		geomData;
 } TQ3TriMeshInstanceData;
 

@@ -242,7 +242,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 			{
 			while ((sharingContext = GLTextureMgr_GetNextSharingBase( sharingContext )) != NULL)
 				{
-				glContext = aglCreateContext(pixelFormat, sharingContext);
+				glContext = aglCreateContext(pixelFormat, (AGLContext) sharingContext);
 				if (glContext != NULL)
 					break;
 				}
@@ -462,20 +462,20 @@ gldrawcontext_mac_updatesize(
 				glRect[2] = paneWidth;
 				glRect[3] = paneHeight;
 
-				aglSetInteger( glContext, AGL_BUFFER_RECT, glRect );
-				aglEnable( glContext,     AGL_BUFFER_RECT );
+				aglSetInteger( (AGLContext) glContext, AGL_BUFFER_RECT, glRect );
+				aglEnable( (AGLContext) glContext,     AGL_BUFFER_RECT );
 			}
 			else
 			{
 				paneWidth = portBounds.right - portBounds.left;
 				paneHeight = portBounds.bottom - portBounds.top;
-				aglDisable( glContext, AGL_BUFFER_RECT );
+				aglDisable( (AGLContext) glContext, AGL_BUFFER_RECT );
 			}
 			
 			glViewport( 0, 0, paneWidth, paneHeight );
 			
 			
-			if (aglUpdateContext( glContext ))
+			if (aglUpdateContext( (AGLContext) glContext ))
 			{
 				didUpdate = kQ3Success;
 			}

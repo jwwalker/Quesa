@@ -93,8 +93,8 @@ e3fformat_3dmf_is_next_element( TQ3FileObject theFile )
 	TQ3ObjectType	nextType = Q3File_GetNextObjectType( theFile );
 	E3ClassInfoPtr	theClass = E3ClassTree_GetClassByType( nextType );
 	
-	return E3ClassTree_IsType( theClass, kQ3ObjectTypeElement ) ||
-		E3ClassTree_IsType( theClass, kQ3ShaderTypeSurface );
+	return (TQ3Boolean) (E3ClassTree_IsType( theClass, kQ3ObjectTypeElement ) ||
+		E3ClassTree_IsType( theClass, kQ3ShaderTypeSurface ));
 }
 
 
@@ -341,7 +341,7 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 			goto fail;
 	
 		// allocate the array of corners
-		instanceData->corners = Q3Memory_AllocateClear (i * sizeof(TE3FFormat3DMF_MeshCorner_Data));
+		instanceData->corners = (TE3FFormat3DMF_MeshCorner_Data*) Q3Memory_AllocateClear (i * sizeof(TE3FFormat3DMF_MeshCorner_Data));
 		
 		if(instanceData->corners == NULL)
 			goto fail;
@@ -363,7 +363,7 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 				goto fail;
 			
 			// allocate the faces array
-			instanceData->corners[i].faces = Q3Memory_AllocateClear(k * sizeof(TQ3Uns32));
+			instanceData->corners[i].faces = (TQ3Uns32*) Q3Memory_AllocateClear(k * sizeof(TQ3Uns32));
 			if(instanceData->corners[i].faces == NULL)
 				goto fail;
 			
@@ -571,7 +571,7 @@ e3fformat_3dmf_meshedges_read(TQ3FileObject theFile)
 			goto fail;
 	
 		// allocate the array of edges
-		instanceData->edges = Q3Memory_AllocateClear (i * sizeof(TE3FFormat3DMF_MeshEdges_Data));
+		instanceData->edges = (TE3FFormat3DMF_MeshEdge_Data*) Q3Memory_AllocateClear (i * sizeof(TE3FFormat3DMF_MeshEdge_Data));
 		
 		if(instanceData->edges == NULL)
 			goto fail;
@@ -2334,7 +2334,7 @@ E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
 	
 	
 		// allocate the array of corners
-		instanceData->corners = Q3Memory_AllocateClear (numCorners * sizeof(TE3FFormat3DMF_MeshCorner_Data));
+		instanceData->corners = (TE3FFormat3DMF_MeshCorner_Data*) Q3Memory_AllocateClear (numCorners * sizeof(TE3FFormat3DMF_MeshCorner_Data));
 		
 		if(instanceData->corners == NULL)
 			goto fail;
@@ -2355,7 +2355,7 @@ E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
 						{
 					
 						instanceData->corners[numCorners].vertexIndex = i;
-						instanceData->corners[numCorners].faces = 
+						instanceData->corners[numCorners].faces = (TQ3Uns32*)
 									Q3Memory_AllocateClear(meshData->vertices[i].corners[j].numFaces * sizeof(TQ3Uns32));
 						if(instanceData->corners[numCorners].faces == NULL)
 							goto fail;

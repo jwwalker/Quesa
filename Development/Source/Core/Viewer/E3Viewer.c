@@ -434,7 +434,7 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 		PixMapHandle imagePM = NULL, maskPM = NULL;
 		Rect srcRect = {0,0,28,32};
 		
-		SetPort(data->mWindow);
+		SetPort((CGrafPtr)data->mWindow);
 
 		E3Area_ToRect(butnRect, &r);
 		drawInfo.state = down ? kThemeStatePressed : kThemeStateActive;
@@ -540,7 +540,7 @@ static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect
 		Boolean active;
 		
 		E3Area_ToRect(stripRect, &r);
-		SetPort(data->mWindow);
+		SetPort((CGrafPtr)data->mWindow);
 		window = GetWindowFromPort((CGrafPtr)data->mWindow);
 
 		// Let's use the Appearance Manager to draw a proper themed background.
@@ -574,7 +574,7 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 	#if QUESA_OS_MACINTOSH
 		Rect r;
 		Pattern	pat;
-		SetPort(data->mWindow);
+		SetPort((CGrafPtr)data->mWindow);
 
 		E3Area_ToRect(rect, &r);
 		ForeColor(blackColor);
@@ -1480,7 +1480,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		contextData.drawContextData.doubleBufferState = kQ3True;	// should be false on OS X?!?
 
 		// Mac-specific draw context stuff
-		contextData.window = (CWindowPtr)GetWindowFromPort(instanceData->mWindow);
+		contextData.window = (CWindowPtr)GetWindowFromPort((CGrafPtr)instanceData->mWindow);
 		drawContext = Q3MacDrawContext_New(&contextData);
 
 		// renderer
@@ -1634,7 +1634,7 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 	// Convert from port coordinates to window coordinates
 #if QUESA_OS_MACINTOSH
-	GetPortBounds(instanceData->mWindow, &portBounds);
+	GetPortBounds((CGrafPtr)instanceData->mWindow, &portBounds);
 	instanceData->mArea.min.x -= portBounds.left;
 	instanceData->mArea.min.y -= portBounds.top;
 	instanceData->mArea.max.x -= portBounds.left;
@@ -2590,7 +2590,7 @@ E3Viewer_SetBounds(TQ3ViewerObject theViewer, const TQ3Area *theRect)
 
 	// Convert from port coordinates to window coordinates
 #if QUESA_OS_MACINTOSH
-	GetPortBounds(instanceData->mWindow, &portBounds);
+	GetPortBounds((CGrafPtr)instanceData->mWindow, &portBounds);
 	instanceData->mArea.min.x -= portBounds.left;
 	instanceData->mArea.min.y -= portBounds.top;
 	instanceData->mArea.max.x -= portBounds.left;

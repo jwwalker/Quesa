@@ -1068,7 +1068,7 @@ E3Array_Create(
 		TQ3Uns32 itemSize = E3ArrayInfo_ItemSize(arrayInfoPtr);
 	
 		// Allocate new items
-		if ((arrayPtr->headItemPtr_private = Q3Memory_Allocate(length * itemSize)) == NULL)
+		if ((arrayPtr->headItemPtr_private = (TE3GenericItem*) Q3Memory_Allocate(length * itemSize)) == NULL)
 			goto failure_2;
 
 		// Initialize new items
@@ -1633,7 +1633,7 @@ e3listSequence_InsertBeforeNodeItem(
 	Q3_ASSERT_VALID_PTR(nextNodePtr);
 
 	// Allocate new node (including item)
-	if ((currNodePtr = Q3Memory_Allocate(E3ListInfo_NodeSize(listInfoPtr))) == NULL)
+	if ((currNodePtr = (TE3ListNode*) Q3Memory_Allocate(E3ListInfo_NodeSize(listInfoPtr))) == NULL)
 		goto failure;
 
 	// Insert after previous node in list
@@ -1951,7 +1951,7 @@ e3ptrListSequence_InsertBeforeNodePtr(
 	Q3_ASSERT_VALID_PTR(nextNodePtr);
 
 	// Allocate new node (including item)
-	if ((currNodePtr = Q3Memory_Allocate(E3ListInfo_NodeSize(listInfoPtr))) == NULL)
+	if ((currNodePtr = (TE3ListNode*) Q3Memory_Allocate(E3ListInfo_NodeSize(listInfoPtr))) == NULL)
 		goto failure;
 
 	// Insert after previous node in list
@@ -2581,7 +2581,7 @@ E3List_Create(
 		goto failure_1;
 
 	// Allocate tail pseudo-node
-	if ((tailNodePtr = listPtr->tailNodePtr_private = Q3Memory_Allocate(sizeof(TE3ListNode))) == NULL)
+	if ((tailNodePtr = listPtr->tailNodePtr_private = (TE3ListNode*) Q3Memory_Allocate(sizeof(TE3ListNode))) == NULL)
 		goto failure_2;
 
 	// Initialize tail pseudo-node

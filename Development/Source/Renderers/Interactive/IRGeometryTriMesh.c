@@ -309,7 +309,7 @@ ir_geom_trimesh_calc_vertex_colour(TQ3VertexArray			*vertexArray,
 		parentHilightFlag = vertexArray->geomTriHighlightFlag;
 		}
 
-	parentHilighted = (parentHilightData != NULL && parentHilightData[parentIndex] &&
+	parentHilighted = (TQ3Boolean) (parentHilightData != NULL && parentHilightData[parentIndex] &&
 					  (parentHilightFlag == NULL || parentHilightFlag[parentIndex]));
 
 
@@ -321,7 +321,7 @@ ir_geom_trimesh_calc_vertex_colour(TQ3VertexArray			*vertexArray,
 	else
 		{
 		// Check to see if the vertex hilight is present, on, and used
-		vertexHilighted = (vertexHilightData != NULL && vertexHilightData[vertIndex] &&
+		vertexHilighted = (TQ3Boolean) (vertexHilightData != NULL && vertexHilightData[vertIndex] &&
 						  (vertexHilightFlag == NULL || vertexHilightFlag[vertIndex]));
 
 
@@ -845,7 +845,7 @@ ir_geom_trimesh_build_transparent(TQ3VertexArray *vertexArray)
 		if (vertexArray->geomTriTransparencyData != NULL)
 			{
 			isTransparent  = kQ3True;
-			allTransparent = (vertexArray->geomTriTransparencyFlag == NULL);
+			allTransparent = (TQ3Boolean) (vertexArray->geomTriTransparencyFlag == NULL);
 			
 			for (n = 0; n < vertexArray->geomData->numTriangles; n++)
 				{
@@ -868,7 +868,7 @@ ir_geom_trimesh_build_transparent(TQ3VertexArray *vertexArray)
 		if (vertexArray->geomEdgeTransparencyData != NULL)
 			{
 			isTransparent  = kQ3True;
-			allTransparent = (vertexArray->geomEdgeTransparencyFlag == NULL);
+			allTransparent = (TQ3Boolean) (vertexArray->geomEdgeTransparencyFlag == NULL);
 			
 			for (n = 0; n < vertexArray->geomData->numEdges; n++)
 				{
@@ -890,7 +890,7 @@ ir_geom_trimesh_build_transparent(TQ3VertexArray *vertexArray)
 		if (vertexArray->geomVertexTransparencyData != NULL)
 			{
 			isTransparent  = kQ3True;
-			allTransparent = (vertexArray->geomVertexTransparencyFlag == NULL);
+			allTransparent = (TQ3Boolean) (vertexArray->geomVertexTransparencyFlag == NULL);
 			
 			for (n = 0; n < vertexArray->geomData->numPoints; n++)
 				{
@@ -1028,7 +1028,7 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 
 
 	// Calculate our basic triangle/edge values
-	renderEdges = (instanceData->stateFill == kQ3FillStyleEdges && geomData->numEdges != 0);
+	renderEdges = (TQ3Boolean) (instanceData->stateFill == kQ3FillStyleEdges && geomData->numEdges != 0);
 	numIndices  = (renderEdges ? (geomData->numEdges * 2) : (geomData->numTriangles * 3));
 
 
@@ -1080,8 +1080,8 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 		Q3ColorRGB_Set(&tmpFVertex.colourTransparency, 1.0f, 1.0f, 1.0f);
 
 	vertexArray->renderEdges           = renderEdges;
-	vertexArray->geomIsHilighted       = (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL);
-	vertexArray->geomNeedsUVs          = (instanceData->stateTextureActive             && !vertexArray->renderEdges);
+	vertexArray->geomIsHilighted       = (TQ3Boolean) (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL);
+	vertexArray->geomNeedsUVs          = (TQ3Boolean) (instanceData->stateTextureActive             && !vertexArray->renderEdges);
 	vertexArray->geomDiffuse           = tmpFVertex.colourDiffuse;
 	vertexArray->geomTransparency      = tmpFVertex.colourTransparency;
 	vertexArray->geomFinalDiffuse      = vertexArray->geomDiffuse;
@@ -1393,7 +1393,7 @@ IRGeometry_Submit_TriMesh(TQ3ViewObject				theView,
 
 
 	// Clean up
-	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, vertexArray.vertexUVs != NULL);
+	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, (TQ3Boolean) (vertexArray.vertexUVs != NULL) );
 
 	return(kQ3Success);
 }

@@ -341,7 +341,7 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 						
 						
 						// If it's not a pipe, that was the last flag: we're done
-						areDone = (result == kQ3Failure) || !E3CString_IsEqual(buffer, "|");
+						areDone = (TQ3Boolean) ((result == kQ3Failure) || !E3CString_IsEqual(buffer, "|"));
 						if (areDone)
 							formatInstanceData->currentStoragePosition = saveStoragePos;
 							result = kQ3Success;

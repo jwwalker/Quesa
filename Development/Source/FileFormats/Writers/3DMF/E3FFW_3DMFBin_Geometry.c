@@ -1803,7 +1803,7 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 	TQ3Object 			subobject = NULL;
 	TQ3Status			status;
 	
-	meshData = Q3Memory_Allocate(sizeof(TQ3MeshData));
+	meshData = (TQ3MeshData*) Q3Memory_Allocate(sizeof(TQ3MeshData));
 	
 	if(meshData == NULL)
 		return kQ3Failure;
