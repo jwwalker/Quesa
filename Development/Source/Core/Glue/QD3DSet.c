@@ -891,7 +891,7 @@ Q3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 //=============================================================================
 //      Q3XAttributeSet_GetPointer : Quesa API entry point.
 //-----------------------------------------------------------------------------
-/*void *
+void *
 Q3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType)
 {
 
@@ -920,7 +920,7 @@ Q3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attrib
 	return(E3XAttributeSet_GetPointer(attributeSet, attributeType));
 }
 
-*/
+
 
 
 
