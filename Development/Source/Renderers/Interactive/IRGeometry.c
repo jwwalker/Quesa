@@ -903,10 +903,10 @@ static void
 ir_geom_polyline_submit_transparent(TQ3ViewObject				theView,
 									TQ3InteractiveData			*instanceData,
 									const TQ3PolyLineData		*geomData)
-{	TQ3ColorRGB			*colourDiffuse[2], *colourTransparent[2];
-	TQ3Vector3D			*theNormals[2];
-	TQ3Point3D			*thePoints[2];
-	TQ3Uns32			n, m;
+{	const TQ3ColorRGB		*colourDiffuse[2], *colourTransparent[2];
+	const TQ3Vector3D		*theNormals[2];
+	const TQ3Point3D		*thePoints[2];
+	TQ3Uns32				n, m;
 
 
 
@@ -1013,13 +1013,13 @@ ir_geom_trimesh_submit_transparent(TQ3ViewObject				theView,
 									TQ3InteractiveData			*instanceData,
 									TQ3AttributeSet				geomAttributes,
 									const TQ3TriMeshData		*geomData)
-{	TQ3ColorRGB					*colourDiffuse[3], *colourTransparent[3];
+{	const TQ3ColorRGB			*colourDiffuse[3], *colourTransparent[3];
 	TQ3ColorRGB					*vertexDColours, *vertexTColours;
 	TQ3Vector3D					*triNormals, *vertexNormals;
 	TQ3ColorRGB					*triDColours, *triTColours;
-	TQ3Vector3D					*triNormal, *theNormals[3];
-	TQ3Param2D					*vertexUVs, *theUVs[3];
-	TQ3Point3D					*thePoints[3];
+	const TQ3Vector3D			*triNormal, *theNormals[3];
+	const TQ3Param2D			*vertexUVs, *theUVs[3];
+	const TQ3Point3D			*thePoints[3];
 	TQ3TriMeshTriangleData		*theTriangle;
 	TQ3Boolean					canTexture;
 	TQ3Uns32					n, m, v;
@@ -1253,14 +1253,14 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 					TQ3InteractiveData		*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3TriangleData			*geomData)
-{	TQ3ColorRGB			*colourDiffuse[3], *colourTransparent[3];
-	TQ3Vector3D			*theNormals[3], *triNormal;
-	TQ3AttributeSet		geomAttributes;
-	TQ3Point3D			*thePoints[3];
-	TQ3Param2D			*theUVs[3];
-	TQ3Status			qd3dStatus;
-	TQ3Boolean			canTexture;
-	TQ3Uns32			n;
+{	const TQ3ColorRGB		*colourDiffuse[3], *colourTransparent[3];
+	const TQ3Vector3D		*theNormals[3], *triNormal;
+	TQ3AttributeSet			geomAttributes;
+	const TQ3Point3D		*thePoints[3];
+	const TQ3Param2D		*theUVs[3];
+	TQ3Status				qd3dStatus;
+	TQ3Boolean				canTexture;
+	TQ3Uns32				n;
 #pragma unused(theGeom)
 
 
@@ -1345,13 +1345,13 @@ IRGeometry_Line(TQ3ViewObject			theView,
 				TQ3InteractiveData		*instanceData,
 				TQ3GeometryObject		theGeom,
 				TQ3LineData				*geomData)
-{	TQ3ColorRGB			*colourDiffuse[2], *colourTransparent[2];
-	TQ3AttributeSet		geomAttributes;
-	TQ3Vector3D			*theNormals[2];
-	TQ3Point3D			*thePoints[2];
-	TQ3Param2D			*theUVs[2];
-	TQ3Status			qd3dStatus;
-	TQ3Uns32			n;
+{	const TQ3ColorRGB		*colourDiffuse[2], *colourTransparent[2];
+	TQ3AttributeSet			geomAttributes;
+	const TQ3Vector3D		*theNormals[2];
+	const TQ3Point3D		*thePoints[2];
+	const TQ3Param2D		*theUVs[2];
+	TQ3Status				qd3dStatus;
+	TQ3Uns32				n;
 #pragma unused(theGeom)
 
 
@@ -1412,12 +1412,12 @@ IRGeometry_Point(TQ3ViewObject				theView,
 					TQ3InteractiveData		*instanceData,
 					TQ3GeometryObject		theGeom,
 					TQ3PointData			*geomData)
-{	TQ3ColorRGB			*colourDiffuse[1], *colourTransparent[1];
-	TQ3AttributeSet		geomAttributes;
-	TQ3Vector3D			*theNormals[1];
-	TQ3Point3D			*thePoints[1];
-	TQ3Param2D			*theUVs[1];
-	TQ3Status			qd3dStatus;
+{	const TQ3ColorRGB		*colourDiffuse[1], *colourTransparent[1];
+	TQ3AttributeSet			geomAttributes;
+	const TQ3Vector3D		*theNormals[1];
+	const TQ3Point3D		*thePoints[1];
+	const TQ3Param2D		*theUVs[1];
+	TQ3Status				qd3dStatus;
 #pragma unused(theGeom)
 
 
