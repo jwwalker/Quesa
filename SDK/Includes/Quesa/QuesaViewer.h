@@ -1732,6 +1732,8 @@ Q3Viewer_SetCallbackResize (
  *
  *		See also the Q3ViewerGetReleaseVersion function.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param majorRevision    Address of integer to receive major version number.
  *  @param minorRevision    Address of integer to receive major version number.
  *  @result                 Status code (0 for no error).
@@ -1762,6 +1764,8 @@ Q3ViewerGetVersion (
  *
  *		See also the Q3ViewerGetVersion function.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param releaseRevision  Address of integer to receive version data.
  *  @result                 MacOS error/result code.
  */
@@ -1778,6 +1782,8 @@ Q3ViewerGetReleaseVersion (
  *      Creates a new Viewer.  Note that despite the type nomenclature
  *		(TQ3ViewerObject), this is <i>not</i> a Quesa object, and can't be used
  *		with Q3Object functions such as <code>Q3Object_Dispose</code>.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param port             MacOS port to which the Viewer should be attached.
  *  @param rect             Address of a bounding rectangle, in port coordinates.
@@ -1801,6 +1807,8 @@ Q3ViewerNew(
  *		Call this when you're done with the Viewer to ensure that Quesa
  *		has a chance to properly clean up after it.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer created with Q3ViewerNew.
  *  @result                 MacOS error/result code.
  */
@@ -1817,6 +1825,8 @@ Q3ViewerDispose (
  *      Load data from a 3D model file into the Viewer.
  *
  *		See also: <code>Q3ViewerUseData</code>, <code>Q3ViewerUseGroup</code>.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param refNum           MacOS file reference number (e.g., obtained from FSOpen).
@@ -1841,6 +1851,8 @@ Q3ViewerUseFile (
  *
  *		See also: <code>Q3ViewerUseFile</code>, <code>Q3ViewerUseGroup</code>.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param data             Pointer to a buffer containing model data.
  *  @param size             Length of the data buffer (in bytes).
@@ -1859,6 +1871,8 @@ Q3ViewerUseData (
  *      Q3ViewerWriteFile
  *  @discussion
  *      Write the 3D model data contained by the Viewer out to a file.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param refNum           MacOS file reference number (e.g., obtained from FSOpen).
@@ -1883,6 +1897,8 @@ Q3ViewerWriteFile (
  *		error (or by remembering from when the data was loaded in the 
  *		first place).
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param data             Handle to stuff with viewer data.
  *  @result                 Number of bytes actually written, or 0 to indicate failure.
@@ -1905,6 +1921,8 @@ Q3ViewerWriteData (
  *		Viewer, you would call <code>Q3ViewerSetBounds</code> followed by 
  *		<code>Q3ViewerDraw</code>.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
@@ -1925,6 +1943,8 @@ Q3ViewerDraw (
  *		this function than <code>Q3ViewerDraw</code>, which also redraws
  *		other user interface elements (such as control buttons).
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
@@ -1942,6 +1962,8 @@ Q3ViewerDrawContent (
  *
  *		Call this function when you want to redraw the controls, without
  *		re-rendering the 3D view.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -1969,6 +1991,8 @@ Q3ViewerDrawControlStrip (
  *		event functions (<code>Q3ViewerMouseDown</code>, <code>Q3ViewerMouseUp</code>, 
  *		<code>Q3ViewerContinueTracking</code>, and <code>Q3ViewerHandleKeyEvent</code>).
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param evt              Address of event record to process.
  *  @result                 True if event was handled, false if not handled.
@@ -1989,6 +2013,8 @@ Q3ViewerEvent (
  *		This function builds a MacOS Picture containing the current
  *		rendering in the given Viewer.  The caller is responsible for
  *		releasing the picture memory via <code>DisposeHandle</code>.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @result                 Handle to newly created picture.
@@ -2014,6 +2040,8 @@ Q3ViewerGetPict (
  *			kQ3ViewerButtonDolly
  *			kQ3ViewerButtonReset
  *			kQ3ViewerButtonOptions</code>
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param button           Which button to get (e.g., kQ3ViewerButtonCamera).
@@ -2045,6 +2073,8 @@ Q3ViewerGetButtonRect (
  *			kQ3ViewerButtonZoom
  *			kQ3ViewerButtonDolly</code>
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 Active mode button.
  */
@@ -2071,6 +2101,8 @@ Q3ViewerGetCurrentButton (
  *			kQ3ViewerButtonZoom
  *			kQ3ViewerButtonDolly</code>
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param button           Constant indicating a mode button.
  *  @result                 MacOS error/result code.
@@ -2089,6 +2121,8 @@ Q3ViewerSetCurrentButton (
  *      Loads a model data in a TQ3Group into the specified Viewer.
  *
  *		See also: <code>Q3ViewerUseFile</code>, <code>Q3ViewerUseData</code>.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param group            Model data to load.
@@ -2111,6 +2145,8 @@ Q3ViewerUseGroup (
  *		by this call.  Therefore, you should call Q3Object_Dispose on this
  *		value when you're with it.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 Group containing 3D model data.
  */
@@ -2125,6 +2161,8 @@ Q3ViewerGetGroup (
  *      Q3ViewerSetBackgroundColor
  *  @discussion
  *      Sets the background color of the 3D view.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param color            Color to use as background for the 3D rendering.
@@ -2143,6 +2181,8 @@ Q3ViewerSetBackgroundColor (
  *  @discussion
  *      Returns the background color of the 3D view.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param color            Pointer to TQ3ColorARGB to receive background color.
  *  @result                 MacOS error/result code.
@@ -2159,6 +2199,8 @@ Q3ViewerGetBackgroundColor (
  *      Q3ViewerGetView
  *  @discussion
  *      Returns the view object associated with the given Viewer.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @result                 View object associated with this Viewer.
@@ -2179,6 +2221,8 @@ Q3ViewerGetView (
  *
  *		This has the same effect as clicking the reset button in the
  *		viewer controls.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -2236,6 +2280,8 @@ Q3ViewerRestoreView (
  *		Changes to the Viewer's flags will not be visible until the Viewer
  *		is redrawn (e.g., by calling <code>Q3ViewerDraw</code>).
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param flags            Desired combination of feature flags.
  *  @result                 MacOS error/result code.
@@ -2255,6 +2301,8 @@ Q3ViewerSetFlags (
  *
  *		See <code>Q3ViewerSetFlags</code> for a listing of the possible flags.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 Current feature flags.
  */
@@ -2273,6 +2321,8 @@ Q3ViewerGetFlags (
  *		Call this function to change where the Viewer draws itself within
  *		its window.  The bounds are in window coordinates, with (0,0)
  *		being the top-left corner of the window.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param bounds           Address of a Rect containing new desired bounds
@@ -2295,6 +2345,8 @@ Q3ViewerSetBounds (
  *		within its window.  The bounds are in window coordinates, with (0,0)
  *		being the top-left corner of the window.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param bounds           Address of Rect to receive Viewer bounds.
  *  @result                 MacOS error/result code.
@@ -2314,6 +2366,8 @@ Q3ViewerGetBounds (
  *
  *		This might be useful if you were then going to write a 3DMF file
  *		of the Viewer data; presumably it could store this hint in that file.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param width            Desired width of the viewer pane.
@@ -2336,6 +2390,8 @@ Q3ViewerSetDimension (
  *
  *		If the specified Viewer has no view hints, then this function just
  *		returns the actual width and height of the viewer pane.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param width            Address of an integer to receive the hinted width.
@@ -2360,6 +2416,8 @@ Q3ViewerGetDimension (
  *		buttons in the controller strip.  If you allow the viewer pane
  *		(or its window) to be resized, you should not allow it to be
  *		resized smaller than the values returned by this function.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param width            Address of an integer to receive the minimum viewer width.
@@ -2388,6 +2446,8 @@ Q3ViewerGetMinimumDimension (
  *		You may also pass in NULL to indicate that no port should be
  *		associated with this Viewer object.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param port             Color graphics port to be used by this Viewer.
  *  @result                 MacOS error/result code.
@@ -2409,6 +2469,8 @@ Q3ViewerSetPort (
  *		graphics world; or it may be NULL, indicating that the Viewer is
  *		not associated with any port.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 Associated color graphics port.
  */
@@ -2429,6 +2491,8 @@ Q3ViewerGetPort (
  *		Viewer the opportunity to change the cursor as appropriate
  *		for the Viewer mode and cursor location.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param pt               Location of the cursor, in local (window) coordinates.
  *  @result                 True if the cursor was changed, false otherwise.
@@ -2448,6 +2512,8 @@ Q3ViewerAdjustCursor (
  *
  *		If you change the cursor (using SetCursor or similar), notify
  *		all active Viewers by calling this function.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -2474,6 +2540,8 @@ Q3ViewerCursorChanged (
  *
  *		See also the <code>Q3ViewerGetUndoString</code> function.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 Description of the function result.
  */
@@ -2491,6 +2559,8 @@ Q3ViewerGetState (
  *
  *		Call this function in response to the user selecting the standard
  *		Clear command when the viewer has the focus.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -2510,6 +2580,8 @@ Q3ViewerClear (
  *		Call this function in response to the user selecting the standard
  *		Cut command when the viewer has the focus.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
@@ -2527,6 +2599,8 @@ Q3ViewerCut (
  *
  *		Call this function in response to the user selecting the standard
  *		Copy command when the viewer has the focus.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
@@ -2546,6 +2620,8 @@ Q3ViewerCopy (
  *		Call this function in response to the user selecting the standard
  *		Paste command when the viewer has the focus.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
@@ -2563,6 +2639,8 @@ Q3ViewerPaste (
  *
  *		If you're not using <code>Q3ViewerEvent</code>, then you'll need to
  *		handle a mouse-down event by calling this function.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param x                Horizontal global (screen) location of mouse down.
@@ -2588,6 +2666,8 @@ Q3ViewerMouseDown (
  *		receiving a <code>true</code> result), whenever any event (such as
  *		a mouse movement) occurs as long as the mouse remains down.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param x                Horizontal global (screen) location of mouse cursor.
  *  @param y                Vertical global (screen) location of mouse cursor.
@@ -2610,6 +2690,8 @@ Q3ViewerContinueTracking (
  *		If you're not using <code>Q3ViewerEvent</code>, then you'll need to
  *		handle a mouse-up event by calling this function.  But you only need
  *		to do so if <code>Q3ViewerMouseDown</code> returned <code>true</code>.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param x                Horizontal global (screen) location of mouse up.
@@ -2634,6 +2716,8 @@ Q3ViewerMouseUp (
  *		handle a key event that occurs while the Viewer has the focus by
  *		calling this method.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param evt              Address of MacOS event record describing a key event.
  *  @result                 True if the Viewer handled the event, false otherwise.
@@ -2655,6 +2739,8 @@ Q3ViewerHandleKeyEvent (
  *		You can use it to do any further processing you might need to do.
  *		For example, if the Viewer is associated with an offscreen graphics
  *		world, you might use this callback to update the screen.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param callbackMethod   Pointer to a drawing callback routine.
@@ -2681,6 +2767,8 @@ Q3ViewerSetDrawingCallbackMethod (
  *		example, you might resize or move your Viewer pane to fit the
  *		new window bounds.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param windowResizeCallbackMethod Pointer to a window resize callback procedure.
  *  @param data             Arbitrary pointer passed to your callback routine.
@@ -2702,6 +2790,8 @@ Q3ViewerSetWindowResizeCallback (
  *
  *      This function is invoked when the Viewer is resized.  You can
  *		use it to do any further processing that might be needed.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param paneResizeNotifyCallbackMethod Pointer to a pane resize callback procedure.
@@ -2725,6 +2815,8 @@ Q3ViewerSetPaneResizeNotifyCallback (
  *		Call this function in response to the user selecting the standard
  *		Undo command when the viewer has the focus.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @result                 MacOS error/result code.
  */
@@ -2747,6 +2839,8 @@ Q3ViewerUndo (
  *		the "Undo" word itself, but only the name of the operation.  So
  *		if you want to use this to set the text of a menu item, you'll
  *		need to combine it with "Undo " yourself.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param str              Pointer to a character buffer.
@@ -2773,7 +2867,9 @@ Q3ViewerGetUndoString (
  *		with the Viewer, then this function returns 0.
  *
  *		See also <code>Q3ViewerSetCameraByNumber</code>.
- 
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ * 
  *  @param theViewer        Viewer object.
  *  @param cnt              Address of integer to receive the camera count.
  *  @result                 MacOS error/result code.
@@ -2795,6 +2891,8 @@ Q3ViewerGetCameraCount (
  *		"good" camera positions.  This function selects one of those cameras.
  *		The camera number supplied is 1-based, and the value must be less
  *		than or equal to the result of <code>Q3ViewerGetCameraCount</code>.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param cameraNum        1-based index of camera to select.
@@ -2823,6 +2921,8 @@ Q3ViewerSetCameraByNumber (
  *		    kQ3ViewerCameraTop -- look down at the top of the model
  *		    kQ3ViewerCameraBottom -- look up at the bottom of the model
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param viewType         A constant selecting one of the predefined views.
  *  @result                 MacOS error/result code.
@@ -2844,6 +2944,8 @@ Q3ViewerSetCameraByView (
  *		from the pop-up menu on the Options control button.  The object type
  *		must be associated with one of the installed renderers.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param rendererType     Type of renderer to use.
  *  @result                 MacOS error/result code.
@@ -2861,6 +2963,8 @@ Q3ViewerSetRendererType (
  *  @discussion
  *      Gets the renderer type currently used by the Viewer.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param rendererType     Address to stuff with current renderer type.
  *  @result                 MacOS error/result code.
@@ -2877,6 +2981,8 @@ Q3ViewerGetRendererType (
  *      Q3ViewerChangeBrightness
  *  @discussion
  *      Changes the intensity of lighting used on the model.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param brightness       Desired brightness (from 0 to 1?).
@@ -2901,6 +3007,8 @@ Q3ViewerChangeBrightness (
  *		drawn.  If you pass false, all polygons will be drawn, even
  *		when they face away from the camera.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param remove           Whether backfaces should be removed.
  *  @result                 MacOS error/result code.
@@ -2924,6 +3032,8 @@ Q3ViewerSetRemoveBackfaces (
  *		drawn.  If it stores false, all polygons are being drawn, even
  *		when they face away from the camera.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theViewer        Viewer object.
  *  @param remove           Address of boolean to receive backfacing option.
  *  @result                 MacOS error/result code.
@@ -2944,6 +3054,8 @@ Q3ViewerGetRemoveBackfaces (
  *		Phong shading is generally slower but produces a more
  *		realistic effect, particularly where highlights are
  *		concerned.  (Not all renderers support phong shading.)
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param phong            Whether phong shading is desired.
@@ -2970,6 +3082,8 @@ Q3ViewerSetPhongShading (
  *		true reported by this function indicates only that the
  *		phong shading option is turned on; not whether the renderer
  *		is actually rendering any differently because of it.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theViewer        Viewer object.
  *  @param phong            Address of boolean to receive phone shading option.
@@ -3001,6 +3115,8 @@ Q3ViewerGetPhongShading (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param majorRevision    Description of the parameter.
  *  @param minorRevision    Description of the parameter.
  *  @result                 Description of the function result.
@@ -3020,6 +3136,8 @@ Q3WinViewerGetVersion (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param releaseRevision  Description of the parameter.
  *  @result                 Description of the function result.
@@ -3043,6 +3161,8 @@ Q3WinViewerGetReleaseVersion (
  *				GetClientRect(hWnd, (LPRECT)&aWinRect);
  *				theViewer = Q3WinViewerNew (yourWnd, &aWinRect, kQ3ViewerDefault);
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param window           The parent window.
  *  @param rect             The client rect in the parent window.
  *  @param flags            The viewer style.
@@ -3065,6 +3185,8 @@ Q3WinViewerNew (
  *      You call this routine before destroying the parent viewer
  *		of the viewer.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Your viewer which you did create with Q3WinViewerNew.
  *  @result                 Normally kQ3Success, kQ3Failure if you input an invalid viewer.
  */
@@ -3082,6 +3204,8 @@ Q3WinViewerDispose (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @param fileHandle       Description of the parameter.
@@ -3102,6 +3226,8 @@ Q3WinViewerUseFile (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -3125,6 +3251,8 @@ Q3WinViewerUseData (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @param fileHandle       Description of the parameter.
  *  @result                 Description of the function result.
@@ -3144,6 +3272,8 @@ Q3WinViewerWriteFile (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @param data             Description of the parameter.
@@ -3169,6 +3299,8 @@ Q3WinViewerWriteData (
  *      Call this function whenever you think that the normal windows
  *      update mechanisms do not show the current status of your 3D viewer.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           A valid viewer.
  *  @result                 Success indicator.
  */
@@ -3186,6 +3318,8 @@ Q3WinViewerDraw (
  *
  *      Call this function whenever you think that the normal windows
  *      update mechanisms do not show the current status of your 3D world.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           A valid viewer.
  *  @result                 Success indicator.
@@ -3205,6 +3339,8 @@ Q3WinViewerDrawContent (
  *      Call this function whenever you think that the normal windows
  *      update mechanisms do not show the current status of your control strip.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           A valid viewer.
  *  @result                 Success indicator.
  */
@@ -3223,6 +3359,8 @@ Q3WinViewerDrawControlStrip (
  *		It is the answer of the viewer window to a WM_LBUTTONDOWN 
  *		message in in the content. Normally it will not be called from some
  *		user program.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           A valid viewer.
  *  @param x                The x coordinate of the pointer.
@@ -3247,6 +3385,8 @@ Q3WinViewerMouseDown (
  *		message in in the content when the mouse button is down. 
  *		Normally it will not be called from some user program.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           A valid viewer.
  *  @param x                The x coordinate of the pointer.
  *  @param y                The y coordinate of the pointer.
@@ -3269,6 +3409,8 @@ Q3WinViewerContinueTracking (
  *		It is the answer of the viewer window to a WM_LBUTTONUP
  *		message in in the content. Normally it will not be called from some
  *		user program.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           A valid viewer.
  *  @param x                The x coordinate of the pointer.
@@ -3294,6 +3436,8 @@ Q3WinViewerMouseUp (
  *      The color depth of the bitmap will correspond to your current
  *		screen resolution.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           A valid viewer.
  *  @result                 The bitmap, if successful, or NULL.
  */
@@ -3311,6 +3455,8 @@ Q3WinViewerGetBitmap (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @param button           Description of the parameter.
@@ -3334,6 +3480,8 @@ Q3WinViewerGetButtonRect (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -3351,6 +3499,8 @@ Q3WinViewerGetCurrentButton (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @param button           Description of the parameter.
@@ -3372,6 +3522,8 @@ Q3WinViewerSetCurrentButton (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @param group            Description of the parameter.
  *  @result                 Description of the function result.
@@ -3391,6 +3543,8 @@ Q3WinViewerUseGroup (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
@@ -3417,6 +3571,8 @@ Q3WinViewerGetGroup (
  *			color.b = (float)GetBValue(rgb)/(float)255;
  *			Q3WinViewerSetBackgroundColor (theViewer, &color);
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           A valid viewer.
  *  @param color            A Quesa argb color in the 0..1 box.
  *  @result                 Success indicator.
@@ -3439,6 +3595,8 @@ Q3WinViewerSetBackgroundColor (
  *			if (Q3WinViewerGetBackgroundColor (gViewer, &color) == kQ3Failure) return false;
  *			rgb= RGB((BYTE)color.r * 255.0F,(BYTE)color.g * 255.0F, (BYTE)color.b * 255.0F); 
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           A valid viewer.
  *  @param color            A Quesa argb color in the 0..1 box.
  *  @result                 Success indicator.
@@ -3459,6 +3617,8 @@ Q3WinViewerGetBackgroundColor (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -3477,6 +3637,8 @@ Q3WinViewerGetView (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -3494,6 +3656,8 @@ Q3WinViewerRestoreView (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @param flags            Description of the parameter.
@@ -3515,6 +3679,8 @@ Q3WinViewerSetFlags (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -3531,6 +3697,8 @@ Q3WinViewerGetFlags (
  *      Sets the viewer window to a new place in the parent window.
  *
  *		It does include the screen space for the control strip.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           A valid viewer.
  *  @param bounds           The new place of the viewer window in the parent window.
@@ -3550,6 +3718,8 @@ Q3WinViewerSetBounds (
  *      Inquires the current position of the viewer window.
  *
  *		The resulting bounds do include the screen space for the control strip.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           A valid viewer.
  *  @param bounds           The current place of the viewer window in the parent window.
@@ -3573,6 +3743,8 @@ Q3WinViewerGetBounds (
  *
  *		The size does include the screen space for the control strip.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           A valid viewer.
  *  @param width            The new width of the viewer window.
  *  @param height           The new height of the viewer window.
@@ -3593,6 +3765,8 @@ Q3WinViewerSetDimension (
  *      Inquires the extent of the viewer window.
  *
  *		The resulting size does include the screen space for the control strip.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           A valid viewer.
  *  @param width            The current width of the viewer window.
@@ -3616,6 +3790,8 @@ Q3WinViewerGetDimension (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @param width            Description of the parameter.
  *  @param height           Description of the parameter.
@@ -3638,6 +3814,8 @@ Q3WinViewerGetMinimumDimension (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @param window           Description of the parameter.
  *  @result                 Description of the function result.
@@ -3654,6 +3832,8 @@ Q3WinViewerSetWindow (
  *      Q3WinViewerGetWindow
  *  @discussion
  *      Inquires the child window handle of the viewer.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           A valid viewer.
  *  @result                 The handle to the child window of the viewer, or zero, if not successful.
@@ -3672,6 +3852,8 @@ Q3WinViewerGetWindow (
  *
  *		The reference count of the viewer will not be increased.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param theWindow        Your window.
  *  @result                 The viewer, or NULL, if not successful.
  */
@@ -3686,6 +3868,8 @@ Q3WinViewerGetViewer (
  *      Q3WinViewerGetControlStrip
  *  @discussion
  *      Inquires the child window handle of the control strip.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           A valid viewer.
  *  @result                 The handle to the child window of the viewer, or zero, if not successful.
@@ -3704,6 +3888,8 @@ Q3WinViewerGetControlStrip (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @param x                Description of the parameter.
@@ -3726,6 +3912,8 @@ Q3WinViewerAdjustCursor (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -3743,6 +3931,8 @@ Q3WinViewerCursorChanged (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
@@ -3762,6 +3952,8 @@ Q3WinViewerGetState (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -3779,6 +3971,8 @@ Q3WinViewerClear (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
@@ -3798,6 +3992,8 @@ Q3WinViewerCut (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -3815,6 +4011,8 @@ Q3WinViewerCopy (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
@@ -3834,6 +4032,8 @@ Q3WinViewerPaste (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @result                 Description of the function result.
  */
@@ -3851,6 +4051,8 @@ Q3WinViewerUndo (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @param theString        Description of the parameter.
@@ -3876,6 +4078,8 @@ Q3WinViewerGetUndoString (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @param count            Description of the parameter.
  *  @result                 Description of the function result.
@@ -3896,6 +4100,8 @@ Q3WinViewerGetCameraCount (
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
  *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
+ *
  *  @param viewer           Description of the parameter.
  *  @param cameraNo         Description of the parameter.
  *  @result                 Description of the function result.
@@ -3915,6 +4121,8 @@ Q3WinViewerSetCameraNumber (
  *
  *      A more extensive description can be supplied here, covering
  *      the typical usage of this function and any special requirements.
+ *
+ *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           Description of the parameter.
  *  @param viewType         Description of the parameter.
