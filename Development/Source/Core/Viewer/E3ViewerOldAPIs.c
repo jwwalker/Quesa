@@ -177,7 +177,7 @@ static TQ3Uns32 e3viewer_newFlagsToOld(TQ3Uns32 newFlags)
 
 	if (newFlags & kQ3ViewerFlagShowBadge)			oldFlags |= kQ3ViewerShowBadge;
 	if (newFlags & kQ3ViewerFlagActive)				oldFlags |= kQ3ViewerActive;
-	if (newFlags & kQ3ViewerFlagVisible)			oldFlags |= kQ3ViewerControllerVisible;
+	if (newFlags & kQ3ViewerFlagControllerVisible)	oldFlags |= kQ3ViewerControllerVisible;
 	if (newFlags & kQ3ViewerFlagDrawFrame)			oldFlags |= kQ3ViewerDrawFrame;
 	if (newFlags & kQ3ViewerFlagDraggingOff)		oldFlags |= kQ3ViewerDraggingOff;
 	if (newFlags & kQ3ViewerFlagButtonCamera)		oldFlags |= kQ3ViewerButtonCamera;
@@ -655,13 +655,13 @@ E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong)
 
 //=============================================================================
 //      Function prototypes
-//      Old cross-platform QD3D Viewer APIs
+//      Win32 versions of old cross-platform QD3D Viewer APIs
 //-----------------------------------------------------------------------------
 #pragma mark -
 #pragma mark old common APIs
 #pragma mark -
 
-#if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+#if QUESA_OS_WIN32
 
 TQ3Status	
 E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
