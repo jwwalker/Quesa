@@ -882,8 +882,8 @@ E3ViewerPaste(TQ3ViewerObject theViewer)
 }
 
 
-TQ3Status	
-E3ViewerSetDrawingCallbackMethod(TQ3ViewerObject theViewer, TQ3ViewerDrawingCallbackMethod callbackMethod, const void *data)
+TQ3Status		
+E3ViewerSetDrawingCallbackMethod(TQ3ViewerObject theViewer, TQ3ViewerDrawingCallbackMethod *callbackMethod, const void *data)
 {
 
 	return(-4);  // unimplemented
@@ -1146,7 +1146,7 @@ void*
 E3ViewerGetPicture(TQ3ViewerObject theViewer)
 {
 
-	return(defvoid*		);
+	return(NULL);
 }
 
 
