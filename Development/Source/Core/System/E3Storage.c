@@ -415,7 +415,7 @@ e3storage_path_close(TQ3StorageObject storage)
 static TQ3Status
 e3storage_path_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 {	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) storage->instanceData;
-	fpos_t					oldPos, endPos;
+	fpos_t					oldPos;
 
 
 
@@ -434,12 +434,13 @@ e3storage_path_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 
 
 
-	// Seek the end, get the position there, then seek to the start again
+	// Seek to the end and get the position there. Not that using ftell rather
+	// than fgetpos limits us to 2147483647 byte files, but casting an fpos_t
+	// to a 32-bit integer is not valid on some Unix systems.
 	if (fseek(instanceData->theFile, 0, SEEK_END))
 		return(kQ3Failure);
 
-	if (fgetpos(instanceData->theFile, &endPos))
-		return(kQ3Failure);
+	*size = (TQ3Uns32) ftell(instanceData->theFile);
 
 	if (fseek(instanceData->theFile, 0, SEEK_SET))
 		return(kQ3Failure);
@@ -449,11 +450,6 @@ e3storage_path_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 	// Restore the previous position in the file
 	if (fsetpos(instanceData->theFile, &oldPos))
 		return(kQ3Failure);
-
-
-
-	// Return the length of the file	
-	*size = (TQ3Uns32) endPos;
 
 	return(kQ3Success);
 }
