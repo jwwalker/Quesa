@@ -413,7 +413,7 @@ E3NewLine_Write(TQ3FileObject theFile)
 TQ3Status
 E3Uns8_Read(TQ3Uns8 *data, TQ3FileObject theFile)
 {
-	return Q3Int8_Read ((TQ3Int8*)data, theFile);
+	return E3Int8_Read ((TQ3Int8*)data, theFile);
 }
 
 
@@ -475,7 +475,7 @@ E3Uns8_ReadArray(TQ3Uns32 numNums, TQ3Uns8 *data, TQ3FileObject theFile)
 TQ3Status
 E3Uns8_Write(TQ3Uns8 data, TQ3FileObject theFile)
 {
-	return Q3Int8_Write ((TQ3Int8)data, theFile);
+	return E3Int8_Write ((TQ3Int8)data, theFile);
 }
 
 
@@ -488,7 +488,7 @@ E3Uns8_Write(TQ3Uns8 data, TQ3FileObject theFile)
 TQ3Status
 E3Uns16_Read(TQ3Uns16 *data, TQ3FileObject theFile)
 {
-	return Q3Int16_Read ((TQ3Int16*)data, theFile);
+	return E3Int16_Read ((TQ3Int16*)data, theFile);
 }
 
 
@@ -550,7 +550,7 @@ E3Uns16_ReadArray(TQ3Uns32 numNums, TQ3Uns16 *data, TQ3FileObject theFile)
 TQ3Status
 E3Uns16_Write(TQ3Uns16 data, TQ3FileObject theFile)
 {
-	return Q3Int16_Write ((TQ3Int16)data, theFile);
+	return E3Int16_Write ((TQ3Int16)data, theFile);
 }
 
 
@@ -563,7 +563,7 @@ E3Uns16_Write(TQ3Uns16 data, TQ3FileObject theFile)
 TQ3Status
 E3Uns32_Read(TQ3Uns32 *data, TQ3FileObject theFile)
 {
-	return Q3Int32_Read ((TQ3Int32*)data, theFile);
+	return E3Int32_Read ((TQ3Int32*)data, theFile);
 }
 
 
@@ -576,7 +576,7 @@ E3Uns32_Read(TQ3Uns32 *data, TQ3FileObject theFile)
 TQ3Status
 E3Uns32_Write(TQ3Uns32 data, TQ3FileObject theFile)
 {
-	return Q3Int32_Write ((TQ3Int32)data, theFile);
+	return E3Int32_Write ((TQ3Int32)data, theFile);
 }
 
 
@@ -788,7 +788,7 @@ E3Int32_Write(TQ3Int32 data, TQ3FileObject theFile)
 TQ3Status
 E3Uns64_Read(TQ3Uns64 *data, TQ3FileObject theFile)
 {
-	return Q3Int64_Read ((TQ3Int64*)data, theFile);
+	return E3Int64_Read ((TQ3Int64*)data, theFile);
 }
 
 
@@ -801,7 +801,7 @@ E3Uns64_Read(TQ3Uns64 *data, TQ3FileObject theFile)
 TQ3Status
 E3Uns64_Write(TQ3Uns64 data, TQ3FileObject theFile)
 {
-	return Q3Int64_Write (*((TQ3Int64*)&data), theFile);
+	return E3Int64_Write (*((TQ3Int64*)&data), theFile);
 }
 
 
@@ -1461,7 +1461,7 @@ E3Vector2D_Read(TQ3Vector2D *vector2D, TQ3FileObject theFile)
 TQ3Status
 E3Vector2D_Write(const TQ3Vector2D *vector2D, TQ3FileObject theFile)
 {
-	return Q3Point2D_Write ((const TQ3Point2D*)vector2D, theFile);
+	return E3Point2D_Write ((const TQ3Point2D*)vector2D, theFile);
 }
 
 
@@ -1474,7 +1474,7 @@ E3Vector2D_Write(const TQ3Vector2D *vector2D, TQ3FileObject theFile)
 TQ3Status
 E3Vector3D_Read(TQ3Vector3D *vector3D, TQ3FileObject theFile)
 {
-	return Q3Point3D_Read ((TQ3Point3D*)vector3D, theFile);
+	return E3Point3D_Read ((TQ3Point3D*)vector3D, theFile);
 }
 
 
@@ -1487,7 +1487,7 @@ E3Vector3D_Read(TQ3Vector3D *vector3D, TQ3FileObject theFile)
 TQ3Status
 E3Vector3D_Write(const TQ3Vector3D *vector3D, TQ3FileObject theFile)
 {
-	return Q3Point3D_Write ((const TQ3Point3D*)vector3D, theFile);
+	return E3Point3D_Write ((const TQ3Point3D*)vector3D, theFile);
 }
 
 
@@ -1566,9 +1566,9 @@ E3Tangent2D_Read(TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 {
 	TQ3Status result = kQ3Failure;
 	
-	result = Q3Vector3D_Read (&tangent2D->uTangent, theFile);
+	result = E3Vector3D_Read (&tangent2D->uTangent, theFile);
 	if(result == kQ3Success)
-		result = Q3Vector3D_Read (&tangent2D->vTangent, theFile);
+		result = E3Vector3D_Read (&tangent2D->vTangent, theFile);
 
 	return(result);
 }
@@ -1585,9 +1585,9 @@ E3Tangent2D_Write(const TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 {
 	TQ3Status result = kQ3Failure;
 	
-	result = Q3Vector3D_Write (&tangent2D->uTangent, theFile);
+	result = E3Vector3D_Write (&tangent2D->uTangent, theFile);
 	if(result == kQ3Success)
-		result = Q3Vector3D_Write (&tangent2D->vTangent, theFile);
+		result = E3Vector3D_Write (&tangent2D->vTangent, theFile);
 
 	return(result);
 }
@@ -1604,11 +1604,11 @@ E3Tangent3D_Read(TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 {
 	TQ3Status result = kQ3Failure;
 	
-	result = Q3Vector3D_Read (&tangent3D->uTangent, theFile);
+	result = E3Vector3D_Read (&tangent3D->uTangent, theFile);
 	if(result == kQ3Success)
-		result = Q3Vector3D_Read (&tangent3D->vTangent, theFile);
+		result = E3Vector3D_Read (&tangent3D->vTangent, theFile);
 	if(result == kQ3Success)
-		result = Q3Vector3D_Read (&tangent3D->wTangent, theFile);
+		result = E3Vector3D_Read (&tangent3D->wTangent, theFile);
 
 	return(result);
 }
@@ -1625,11 +1625,11 @@ E3Tangent3D_Write(const TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 {
 	TQ3Status result = kQ3Failure;
 	
-	result = Q3Vector3D_Write (&tangent3D->uTangent, theFile);
+	result = E3Vector3D_Write (&tangent3D->uTangent, theFile);
 	if(result == kQ3Success)
-		result = Q3Vector3D_Write (&tangent3D->vTangent, theFile);
+		result = E3Vector3D_Write (&tangent3D->vTangent, theFile);
 	if(result == kQ3Success)
-		result = Q3Vector3D_Write (&tangent3D->wTangent, theFile);
+		result = E3Vector3D_Write (&tangent3D->wTangent, theFile);
 
 	return(result);
 }
