@@ -169,6 +169,28 @@ e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
 
 
 //=============================================================================
+//      e3drawcontext_cocoa_get_dimensions : Cocoa draw context dimensions.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+	NSRect						viewFrame;
+
+
+
+	// Return our dimensions - dair, not sure if this will build?
+	viewFrame = [[instanceData->data.cocoaData.theData.nsView]bounds];
+	thePane->min.x = (float) viewFrame.origin.x;
+	thePane->min.y = (float) viewFrame.origin.y;
+	thePane->max.x = (float) (viewFrame.origin.x + viewFrame.size.width);
+	thePane->max.y = (float) (viewFrame.origin.y + viewFrame.size.height);
+}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_cocoa_metahandler : Cocoa draw context metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -188,6 +210,10 @@ e3drawcontext_cocoa_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeDrawContextUpdate:
 			theMethod = (TQ3XFunctionPointer) e3drawcontext_cocoa_update;
+			break;
+
+		case kQ3XMethodTypeDrawContextGetDimensions:
+			theMethod = (TQ3XFunctionPointer) e3drawcontext_cocoa_get_dimensions;
 			break;
 		}
 	

@@ -141,8 +141,8 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 	instanceData->drawRegions[0].deviceScaleY            = (float) cy;
 	instanceData->drawRegions[0].windowScaleX            = instanceData->drawRegions[0].deviceScaleX;
 	instanceData->drawRegions[0].windowScaleY            = instanceData->drawRegions[0].deviceScaleY;
-	instanceData->drawRegions[0].theDescriptor.width		 = cx;
-	instanceData->drawRegions[0].theDescriptor.height		 = cy;
+	instanceData->drawRegions[0].theDescriptor.width	 = cx;
+	instanceData->drawRegions[0].theDescriptor.height	 = cy;
 	instanceData->drawRegions[0].theDescriptor.rowBytes	 = 2 * ((cx * bitMap.bmBitsPixel + 15) / 16);
 	instanceData->drawRegions[0].theDescriptor.pixelSize = bitMap.bmBitsPixel;
 	instanceData->drawRegions[0].theDescriptor.pixelType = pixelType;
@@ -179,6 +179,26 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 
 
 //=============================================================================
+//      e3drawcontext_win32dc_get_dimensions : Win32DC draw context dimensions.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_win32dc_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+
+
+
+	// Return our dimensions
+	thePane->min.x = 0.0f;
+	thePane->min.y = 0.0f;
+	thePane->max.x = (float) GetDeviceCaps(instanceData->data.win32Data.theData.hdc, HORZRES);
+	thePane->max.y = (float) GetDeviceCaps(instanceData->data.win32Data.theData.hdc, VERTRES);
+}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_win32dc_metahandler : Win32DC draw context metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -199,6 +219,10 @@ e3drawcontext_win32dc_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeDrawContextUpdate:
 			theMethod = (TQ3XFunctionPointer) e3drawcontext_win32dc_update;
+			break;
+
+		case kQ3XMethodTypeDrawContextGetDimensions:
+			theMethod = (TQ3XFunctionPointer) e3drawcontext_win32dc_get_dimensions;
 			break;
 		}
 	
@@ -231,6 +255,26 @@ e3drawcontext_ddsurface_new(TQ3Object theObject, void *privateData, const void *
 
 
 //=============================================================================
+//      e3drawcontext_ddsurface_get_dimensions : DD surface dimensions.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_ddsurface_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+
+
+
+	// Return our dimensions (not currently implemented for Direct Draw surfaces)
+	thePane->min.x = 0.0f;
+	thePane->min.y = 0.0f;
+	thePane->max.x = 0.0f;
+	thePane->max.y = 0.0f;
+}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_ddsurface_metahandler : DD surface metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -243,6 +287,10 @@ e3drawcontext_ddsurface_metahandler(TQ3XMethodType methodType)
 	switch (methodType) {
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3drawcontext_ddsurface_new;
+			break;
+
+		case kQ3XMethodTypeDrawContextGetDimensions:
+			theMethod = (TQ3XFunctionPointer) e3drawcontext_ddsurface_get_dimensions;
 			break;
 		}
 	

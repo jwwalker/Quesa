@@ -684,6 +684,35 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 
 
 //=============================================================================
+//      e3drawcontext_mac_get_dimensions : Mac draw context dimensions.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_mac_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+	WindowRef					theWindow;
+	Rect						theRect;
+
+
+
+	// Get our window and its bounds
+	theWindow = instanceData->data.macData.theData.window;
+	Q3_ASSERT_VALID_PTR(theWindow);
+	GetPortBounds(GetWindowPort(theWindow), &theRect);
+
+
+
+	// Return our dimensions
+	thePane->min.x = (float) theRect.left;
+	thePane->min.y = (float) theRect.top;
+	thePane->max.x = (float) theRect.right;
+	thePane->max.y = (float) theRect.bottom;
+}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_mac_metahandler : Mac draw context metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -704,6 +733,10 @@ e3drawcontext_mac_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeDrawContextUpdate:
 			theMethod = (TQ3XFunctionPointer) e3drawcontext_mac_update;
+			break;
+
+		case kQ3XMethodTypeDrawContextGetDimensions:
+			theMethod = (TQ3XFunctionPointer) e3drawcontext_mac_get_dimensions;
 			break;
 		}
 	

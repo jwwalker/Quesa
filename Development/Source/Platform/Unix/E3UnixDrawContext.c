@@ -63,6 +63,26 @@ e3drawcontext_x_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 //=============================================================================
+//      e3drawcontext_x_get_dimensions : X11 draw context dimensions.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_x_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+
+
+
+	// Return our dimensions (not currently implemented on X11)
+	thePane->min.x = 0.0f;
+	thePane->min.y = 0.0f;
+	thePane->max.x = 0.0f;
+	thePane->max.y = 0.0f;
+}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_x_metahandler : X11 draw context metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -75,6 +95,10 @@ e3drawcontext_x_metahandler(TQ3XMethodType methodType)
 	switch (methodType) {
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3drawcontext_x_new;
+			break;
+
+		case kQ3XMethodTypeDrawContextGetDimensions:
+			theMethod = (TQ3XFunctionPointer) e3drawcontext_x_get_dimensions;
 			break;
 		}
 	
