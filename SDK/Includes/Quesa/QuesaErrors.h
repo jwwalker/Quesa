@@ -189,6 +189,7 @@ extern "C" {
  *  @constant kQ3ErrorWritingLoopFailed                    Writing loop failed.
  *  @constant kQ3ErrorBoundingLoopFailed                   Bounding loop failed.
  *  @constant kQ3ErrorPlatformError                        Platform-specific error (not available in QD3D).
+ *	@constant kQ3ErrorInfiniteRationalPoint                Infinite rational point.
  */
 typedef enum {
     kQ3ErrorNone                                = 0,
@@ -311,6 +312,7 @@ typedef enum {
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
     kQ3ErrorPlatformError                       = -28377,
+    kQ3ErrorInfiniteRationalPoint				= -28376,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3ErrorSize32                              = 0xFFFFFFFF
