@@ -73,7 +73,6 @@
 //-----------------------------------------------------------------------------
 //      Q3Transform_GetType : Quesa API entry point.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3ObjectType
 Q3Transform_GetType(TQ3TransformObject transform)
 {
@@ -179,7 +178,7 @@ Q3Transform_Submit(TQ3TransformObject transform, TQ3ViewObject view)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3MatrixTransform_New : Quesa API entry point.
@@ -327,7 +326,7 @@ Q3MatrixTransform_Get(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3RotateTransform_New : Quesa API entry point.
@@ -625,7 +624,7 @@ Q3RotateTransform_GetAngle(TQ3TransformObject transform, float *radians)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3RotateAboutPointTransform_New : Quesa API entry point.
@@ -999,7 +998,7 @@ Q3RotateAboutPointTransform_GetAboutPoint(TQ3TransformObject transform, TQ3Point
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3RotateAboutAxisTransform_New : Quesa API entry point.
@@ -1374,7 +1373,7 @@ Q3RotateAboutAxisTransform_GetOrigin(TQ3TransformObject transform, TQ3Point3D *o
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3ScaleTransform_New : Quesa API entry point.
@@ -1521,7 +1520,7 @@ Q3ScaleTransform_Get(TQ3TransformObject transform, TQ3Vector3D *scale)
 }
 
 
-#pragma mark -
+
 
 
 //=============================================================================
@@ -1670,7 +1669,7 @@ Q3TranslateTransform_Get(TQ3TransformObject transform, TQ3Vector3D *translate)
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3QuaternionTransform_New : Quesa API entry point.
@@ -1818,7 +1817,7 @@ Q3QuaternionTransform_Get(TQ3TransformObject transform, TQ3Quaternion *quaternio
 
 
 
-#pragma mark -
+
 
 //=============================================================================
 //      Q3ResetTransform_New : Quesa API entry point.
@@ -1872,6 +1871,207 @@ Q3ResetTransform_Submit(TQ3ViewObject view)
 }
 
 
+
+
+
+//=============================================================================
+//      Q3CameraTransform_New : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3TransformObject
+Q3CameraTransform_New(const TQ3CameraTransformData *theData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theData), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theData
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3CameraTransform_New(theData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3CameraTransform_Submit : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3CameraTransform_Submit(const TQ3CameraTransformData *theData, TQ3ViewObject theView)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theData), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, (kQ3ObjectTypeView)), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theData
+		return(kQ3Failure);
+
+	if (0) // Further checks on theView
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3CameraTransform_Submit(theData, theView));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3CameraTransform_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3CameraTransform_Set(TQ3TransformObject theTransform, const TQ3CameraTransformData *theData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theTransform, (kQ3TransformTypeCamera)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theData), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theTransform
+		return(kQ3Failure);
+
+	if (0) // Further checks on theData
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3CameraTransform_Set(theTransform, theData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3CameraTransform_Get : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3CameraTransform_Get(TQ3TransformObject theTransform, TQ3CameraTransformData *theData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theTransform, (kQ3TransformTypeCamera)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theData), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theTransform
+		return(kQ3Failure);
+
+	if (0) // Further checks on theData
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3CameraTransform_Get(theTransform, theData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RasterizeCameraTransform_New : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3TransformObject
+Q3RasterizeCameraTransform_New(void)
+{
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RasterizeCameraTransform_New());
+}
+
+
+
+
+
+//=============================================================================
+//      Q3RasterizeCameraTransform_Submit : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3RasterizeCameraTransform_Submit(TQ3ViewObject theView)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theView, (kQ3ObjectTypeView)), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on theView
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3RasterizeCameraTransform_Submit(theView));
+}
 
 
 
