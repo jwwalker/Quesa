@@ -198,7 +198,6 @@ typedef struct TQ3InteractiveData {
 	TQ3Boolean				stateTextureActive;
 	GLuint					stateTextureObject;
 	TQ3Boolean				stateTextureIsTransparent;
-	TQ3Boolean				stateTextureForceWhite;
 
 	TQ3ColorRGB				*stateGeomDiffuseColour;
 	TQ3ColorRGB				*stateGeomSpecularColour;
