@@ -67,7 +67,7 @@ typedef struct {
 typedef struct {
 	HDC				theDC;
 	HGLRC			glContext;
-	HBITMAP 	backBuffer;
+	HBITMAP 		backBuffer;
 	BYTE			*pBits;
 	TQ3Pixmap pixmap;
 } WinGLContext;
@@ -206,11 +206,13 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 
 
-	// Set the buffer rect.
+	// Set the viewport and buffer rect
 	glRect[0] = drawContextData.pane.min.x;
 	glRect[1] = theRect.bottom             - drawContextData.pane.max.y;
 	glRect[2] = drawContextData.pane.max.x - drawContextData.pane.min.x;
 	glRect[3] = drawContextData.pane.max.y - drawContextData.pane.min.y;
+
+	glViewport(0, 0, glRect[2], glRect[3]);
 
 	aglEnable(glContext,     AGL_BUFFER_RECT);
 	aglSetInteger(glContext, AGL_BUFFER_RECT, glRect);
@@ -219,9 +221,6 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 	// Tell OpenGL to leave renderers in memory when loaded, to make creating
 	// and destroying draw contexts less expensive.
-	//
-	// Note that we may not actually have any renderers which use OpenGL, and
-	// so we need to test to see if OpenGL is present first.
 	//
 	// This is a global library setting, so we used to set this in the Mac
 	// initialisation section of Quesa when it started up - however this was
