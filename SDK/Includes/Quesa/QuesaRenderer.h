@@ -151,7 +151,7 @@ typedef enum {
 	kQ3XDevicePixelTypeRGB24					= 3,				//           R:8, G:8, B:8
 	kQ3XDevicePixelTypeRGB16					= 4,				// Ignore:1, R:5, G:5, B:5
 	kQ3XDevicePixelTypeARGB16					= 5,				// Alpha:1,  R:5, G:5, B:5
-	kQ3XDevicePixelTypeRGB16_565				= 6,				//           R:5, G:6, BL5
+	kQ3XDevicePixelTypeRGB16_565				= 6,				//           R:5, G:6, B:5
 	kQ3XDevicePixelTypeIndexed8					= 7,				// 8 bit colour table index
 	kQ3XDevicePixelTypeIndexed4					= 8,				// 4 bit colour table index
 	kQ3XDevicePixelTypeIndexed2					= 9,				// 2 bit colour table index
