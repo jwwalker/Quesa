@@ -739,10 +739,10 @@ static TQ3Uns32 as_uns32( float x )
 }
 
 
-#define _max_float 3.402823466f+38
+#define _max_float 3.402823466e+38f
 static float as_float( TQ3Int32 x )
 {
-// max_float is 3.402823466f+38 therefore more than the 32 bit range
+// _max_float is 3.402823466e+38 therefore more than the 32 bit range
 // however we encapsulate the truncation of significant digits in this routine
 		return (float) x;
 }
@@ -752,7 +752,7 @@ static float float_from_double( double x )
 {
 		return (x<-_max_float? -_max_float : (x>_max_float? _max_float : (float) x));
 }
-#undef max_float
+#undef _max_float
 
 
 static TQ3Status
