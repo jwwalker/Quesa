@@ -62,7 +62,7 @@ TQ3ObjectType		E3Geometry_GetType(TQ3GeometryObject theGeom);
 TQ3Status			E3Geometry_GetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSet *attributeSet);
 TQ3Status			E3Geometry_SetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSet attributeSet);
 TQ3Status			E3Geometry_Submit(TQ3GeometryObject theGeom, TQ3ViewObject theView);
-
+TQ3Object			E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject view );
 
 
 
