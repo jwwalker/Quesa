@@ -286,8 +286,6 @@ Q3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buffer), NULL);
-
 
 
 	// Debug build checks
