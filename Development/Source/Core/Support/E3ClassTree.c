@@ -1475,6 +1475,7 @@ E3ClassTree_AddMethodByType(TQ3ObjectType classType, TQ3XMethodType methodType, 
 
 	// Find the class, then add the method
 	theClass = E3ClassTree_GetClassByType(classType);
+	Q3_ASSERT( theClass != NULL );
 	if (theClass != NULL)
 		E3ClassTree_AddMethod(theClass, methodType, theMethod);
 }
