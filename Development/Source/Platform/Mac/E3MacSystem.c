@@ -109,16 +109,6 @@ E3MacSystem_Initialise(void)
 		return(kQ3Failure);
 #endif
 
-
-
-	// Tell OpenGL to leave renderers in memory when loaded, to make creating
-	// and destroying draw contexts less expensive.
-	//
-	// Note that we may not actually have any renderers which use OpenGL, and
-	// so we need to test to see if OpenGL is present first.
-	if ((TQ3Uns32) aglConfigure != (TQ3Uns32) kUnresolvedCFragSymbolAddress)
-		aglConfigure(AGL_RETAIN_RENDERERS, GL_TRUE);
-
 	return(kQ3Success);
 }
 

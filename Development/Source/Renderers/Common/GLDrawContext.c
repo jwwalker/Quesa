@@ -227,6 +227,21 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 
 
+	// Tell OpenGL to leave renderers in memory when loaded, to make creating
+	// and destroying draw contexts less expensive.
+	//
+	// Note that we may not actually have any renderers which use OpenGL, and
+	// so we need to test to see if OpenGL is present first.
+	//
+	// This is a global library setting, so we used to set this in the Mac
+	// initialisation section of Quesa when it started up - however this was
+	// causing some apps to crash (apps that linked to OpenGL and to Quesa,
+	// perhaps due to the CFM loading order?), so we now defer it until this
+	// point.
+	aglConfigure(AGL_RETAIN_RENDERERS, GL_TRUE);
+
+
+
 	// Return the context
 	return(glContext);
 }
