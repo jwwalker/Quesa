@@ -504,7 +504,7 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 	if (addElement)
 		{
 		// Handle built in attributes
-		if (theType < kQ3AttributeTypeNumTypes)
+		if ((theType > kQ3AttributeTypeNone) && (theType < kQ3AttributeTypeNumTypes))
 			qd3dStatus = E3Set_Add(theResult, theType, theElement->instanceData);
 
 
@@ -1802,7 +1802,7 @@ E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 		return(kQ3False);
 	
 	// Built-in attributes
-	if (theType < kQ3AttributeTypeNumTypes)
+	if ((theType  > kQ3AttributeTypeNone ) && (theType < kQ3AttributeTypeNumTypes))
 		{
 		// Test the mask
 		theType = E3Attribute_AttributeToClassType(theType);
@@ -2121,7 +2121,7 @@ E3Attribute_AttributeToClassType(TQ3AttributeType theType)
 
 	// If the type is in range, return it. In debug builds,
 	// we check that types can be translated both ways.
-	if ( (theType >= 0) && (theType < kQ3AttributeTypeNumTypes))
+	if ( (theType >= kQ3AttributeTypeNone) && (theType < kQ3AttributeTypeNumTypes))
 		{
 		Q3_ASSERT(theType == E3Attribute_ClassToAttributeType(attributeTypes[theType]));
 		theType = attributeTypes[theType];
@@ -2305,7 +2305,7 @@ E3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElemen
 	// accept the built-in attribute types for the elementType parameter.
 	//
 	// To be consistent with QD3D, we provide the same behaviour.
-	if (elementType > kQ3AttributeTypeNone && elementType < kQ3AttributeTypeNumTypes)
+	if ((elementType > kQ3AttributeTypeNone) && (elementType < kQ3AttributeTypeNumTypes))
 		elementType = E3Attribute_AttributeToClassType(elementType);
 
 
