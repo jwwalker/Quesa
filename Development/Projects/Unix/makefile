@@ -186,8 +186,11 @@ QUESA_OBJS = ${OBJ}${GLUE}/QD3DCamera.o                   \
              ${OBJ}${RENDERER}/Wireframe/WFRenderer.o     \
              ${OBJ}${RENDERER}/Wireframe/WFUpdate.o       \
              ${OBJ}${RENDERER}/Interactive/IRGeometry.o   \
+             ${OBJ}${RENDERER}/Interactive/IRGeometryTriMesh.o \
              ${OBJ}${RENDERER}/Interactive/IRRegister.o   \
              ${OBJ}${RENDERER}/Interactive/IRRenderer.o   \
+             ${OBJ}${RENDERER}/Interactive/IRTexture.o    \
+             ${OBJ}${RENDERER}/Interactive/IRTransparent.o  \
              ${OBJ}${RENDERER}/Interactive/IRLights.o     \
              ${OBJ}${RENDERER}/Interactive/IRUpdate.o     \
              ${OBJ}${PLATFORM}/E3UnixDebug.o              \
@@ -508,10 +511,19 @@ ${OBJ}${RENDERER}/Wireframe/WFUpdate.o: ${SRC}${RENDERER}/Wireframe/WFUpdate.c
 ${OBJ}${RENDERER}/Interactive/IRGeometry.o: ${SRC}${RENDERER}/Interactive/IRGeometry.c
 	$(COMPILE)
 
+${OBJ}${RENDERER}/Interactive/IRGeometryTriMesh.o: ${SRC}${RENDERER}/Interactive/IRGeometryTriMesh.c
+	$(COMPILE)
+
 ${OBJ}${RENDERER}/Interactive/IRRegister.o: ${SRC}${RENDERER}/Interactive/IRRegister.c
 	$(COMPILE)
 
 ${OBJ}${RENDERER}/Interactive/IRRenderer.o: ${SRC}${RENDERER}/Interactive/IRRenderer.c
+	$(COMPILE)
+
+${OBJ}${RENDERER}/Interactive/IRTexture.o: ${SRC}${RENDERER}/Interactive/IRTexture.c
+	$(COMPILE)
+
+${OBJ}${RENDERER}/Interactive/IRTransparent.o: ${SRC}${RENDERER}/Interactive/IRTransparent.c
 	$(COMPILE)
 
 ${OBJ}${RENDERER}/Interactive/IRLights.o: ${SRC}${RENDERER}/Interactive/IRLights.c

@@ -496,6 +496,10 @@ SOURCE=..\..\Source\Renderers\Interactive\IRGeometry.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\Source\Renderers\Interactive\IRGeometryTriMesh.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Source\Renderers\Interactive\IRLights.c
 # End Source File
 # Begin Source File
@@ -505,6 +509,14 @@ SOURCE=..\..\Source\Renderers\Interactive\IRRegister.c
 # Begin Source File
 
 SOURCE=..\..\Source\Renderers\Interactive\IRRenderer.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\Renderers\Interactive\IRTexture.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\Renderers\Interactive\IRTransparent.c
 # End Source File
 # Begin Source File
 
