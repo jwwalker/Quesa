@@ -188,8 +188,8 @@ createWorldBounds( TQ3ViewObject inView )
 	TQ3GroupObject		theGroup = NULL;
 	TQ3BoxData			boxData;
 	TQ3GeometryObject	theBox;
-	TQ3ColorRGB			boxColor = { 0.3, 0.3, 0.3 };
-	TQ3ColorRGB			edgeColor = { 0.0, 0.3, 1.0 };
+	TQ3ColorRGB			boxColor  = { 0.3f, 0.3f, 0.3f };
+	TQ3ColorRGB			edgeColor = { 0.0f, 0.3f, 1.0f };
 	float           sizeX, sizeY, sizeZ;
 	TQ3ShaderObject		theShader;
 	TQ3StyleObject		theStyle;
