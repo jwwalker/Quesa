@@ -64,19 +64,6 @@ extern "C" {
 
 
 //=============================================================================
-//      Types
-//-----------------------------------------------------------------------------
-typedef struct TE3FFormat3DMF_Text_Data {
-	TE3FFormat3DMF_Data				MFData;
-	TQ3Uns32						nestingLevel;
-	TQ3Uns32						containerLevel;
-} TE3FFormat3DMF_Text_Data;
-
-
-
-
-
-//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 TQ3Status				E3FFormat_3DMF_Text_Reader_RegisterClass(void);
