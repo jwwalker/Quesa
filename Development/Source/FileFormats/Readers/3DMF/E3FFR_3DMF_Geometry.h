@@ -128,6 +128,15 @@ TQ3Object		E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile);
 
+TQ3Object		E3Read_3DMF_Geom_Box_Default(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Cone_Default(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Cylinder_Default(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Disk_Default(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Ellipse_Default(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Ellipsoid_Default(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Point_Default(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_Torus_Default(TQ3FileObject theFile);
+
 
 
 

@@ -53,7 +53,7 @@
 			do															\
 				{														\
 				(_data)->MFData.baseData.noMoreObjects = (TQ3Boolean)			\
-					(((_data)->MFData.baseData.currentStoragePosition + 8) >= (_data)->MFData.baseData.logicalEOF); \
+					(((_data)->MFData.baseData.currentStoragePosition + 8) > (_data)->MFData.baseData.logicalEOF); \
 				}														\
 			while (0)
 
@@ -208,7 +208,7 @@ e3fformat_3dmf_bin_canread(TQ3StorageObject storage, TQ3ObjectType* theFileForma
 {
 	TQ3XStorageReadDataMethod readMethod;
 	TQ3Int32 label;
-	TQ3Int32 flags;
+	TQ3Uns32 flags;
 	TQ3Uns32 sizeRead;
 	
 	if (theFileFormatFound == NULL) {
@@ -220,7 +220,7 @@ e3fformat_3dmf_bin_canread(TQ3StorageObject storage, TQ3ObjectType* theFileForma
 	readMethod = (TQ3XStorageReadDataMethod)E3ClassTree_GetMethod (storage->theClass, kQ3XMethodTypeStorageReadData);
 	
 	if(readMethod != NULL){
-		// read 4 bytes, search for 3DMF or FMD3 (if swaped)
+		// read 4 bytes, search for 3DMF or FMD3 (if swapped)
 		readMethod(storage,0, 4,(unsigned char*)&label, &sizeRead);
 		if (sizeRead != 4)
 			return kQ3False;
@@ -601,7 +601,8 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 	TQ3Uns32 				previousContainer;
 	TQ3Uns32 				objLocation;
 	TQ3Uns32 				refID;
-	TQ3XObjectReadMethod 	readMethod;
+	TQ3XObjectReadMethod 	readMethod = NULL;
+	TQ3XObjectReadDefaultMethod		readDefaultMethod = NULL;
 	E3ClassInfoPtr			theClass = NULL;
 	TQ3Int32				tocEntryIndex = -1;
 	TQ3Uns32 				i;
@@ -791,14 +792,35 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 					}
 					
 				else{
-						// find the read Object method for the class and call it
-						readMethod = (TQ3XObjectReadMethod)E3ClassTree_GetMethod (theClass, kQ3XMethodTypeObjectRead);
-						if (readMethod != NULL)
+						// If there is no data, first try a default read method
+						if (objectSize == 0)
 							{
-							result = readMethod(theFile);
-							if(result != NULL && tocEntryIndex >= 0){
+							readDefaultMethod = (TQ3XObjectReadDefaultMethod) E3ClassTree_GetMethod (theClass,
+								kQ3XMethodTypeObjectReadDefault );
+							
+							if (readDefaultMethod != NULL)
+								{
+								result = readDefaultMethod( theFile );
+								}
+							}
+							
+						// If there was no read default method, use the plain read method
+						if (readDefaultMethod == NULL)
+							{
+							readMethod = (TQ3XObjectReadMethod)E3ClassTree_GetMethod (theClass, kQ3XMethodTypeObjectRead);
+							
+							if (readMethod != NULL)
+								{
+								result = readMethod(theFile);
+								}
+							}
+
+						if ( (readMethod != NULL) || (readDefaultMethod != NULL) )
+							{
+							if (result != NULL && tocEntryIndex >= 0)
+								{
 								// save in TOC
-								instanceData->MFData.toc->tocEntries[tocEntryIndex].objType = Q3Object_GetType(result);
+								instanceData->MFData.toc->tocEntries[tocEntryIndex].objType = Q3Object_GetLeafType(result);
 								E3Shared_Replace(&instanceData->MFData.toc->tocEntries[tocEntryIndex].object, result);
 								}
 							// align position (just in case)
