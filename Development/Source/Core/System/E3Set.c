@@ -1908,7 +1908,7 @@ E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 			return (kQ3Failure);
 			
 		if(theType == kQ3AttributeTypeSurfaceShader)
-			Q3Object_Dispose(instanceData->attributes.surfaceShader);
+			Q3Object_CleanDispose(&instanceData->attributes.surfaceShader);
 
 		Q3Shared_Edited(theSet);
 		instanceData->theMask &= ~e3attribute_type_to_mask(theType);
