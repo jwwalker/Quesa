@@ -705,7 +705,7 @@ Q3Object_GetLeafType(TQ3Object object)
 
 
 	// Call our implementation
-	return(E3Object_GetLeafType(object));
+	return object->GetLeafType () ;
 }
 
 
