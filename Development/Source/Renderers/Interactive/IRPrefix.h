@@ -59,6 +59,20 @@ typedef enum {
 	kQ3PrimHaveUV								= (1 << 1)
 } TQ3PrimFlags;
 
+typedef enum {
+	kQ3TriFlagCulled							= 0,
+	kQ3TriFlagVisible							= (1 << 0),
+	kQ3TriFlagFlipped							= (1 << 1),
+	kQ3TriFlagTransparent						= (1 << 2)
+} TQ3TriFlags;
+
+typedef enum {
+	kQ3VertexFlagNone							= 0,
+	kQ3VertexHaveColour							= (1 << 0),
+	kQ3VertexHaveNormal							= (1 << 1),
+	kQ3VertexHaveUV								= (1 << 2)
+} TQ3VertexFlags;
+
 
 
 
@@ -133,6 +147,10 @@ typedef struct TQ3InteractiveData {
 	TQ3TransparentPrim		*transparentPrims;
 
 
+	// TriMesh state
+	TQ3Uns32				triMeshSize;
+	TQ3Uns8					*triMeshData;
+	
 
 	// QD3D state
 	TQ3FillStyle			stateFill;
