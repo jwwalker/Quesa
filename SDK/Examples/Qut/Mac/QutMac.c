@@ -35,6 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "Qut.h"
 #include "QutInternal.h"
+#include "QutMac.h"
 
 
 
@@ -142,7 +143,7 @@ qut_build_renderer_menu(void)
 			}
 		}
 	else
-		DisableItem(theMenu, 0);
+		DisableMenuItem(theMenu, 0);
 
 
 
@@ -200,8 +201,10 @@ qut_handle_menu(TQ3Uns32 menuInfo)
 			// Handle anything else
 			else
 				{
+#if !TARGET_API_MAC_CARBON
 				GetMenuItemText(GetMenuHandle(kMenuApple), menuItem, theStr);
 				OpenDeskAcc(theStr);
+#endif
 				}
 			break;
 
@@ -222,7 +225,7 @@ qut_handle_menu(TQ3Uns32 menuInfo)
 				{
 				gShowFPS   = (TQ3Boolean) !gShowFPS;
 				gSleepTime = gShowFPS ? kSleepTicksFPS : kSleepTicksDefault;
-				CheckItem(GetMenuHandle(kMenuRenderer), menuItem, gShowFPS);
+				CheckMenuItem(GetMenuHandle(kMenuRenderer), menuItem, gShowFPS);
 				}
 			else
 				Q3View_SetRendererByType(gView, gRenderers[menuItem - 1]);
@@ -308,7 +311,8 @@ qut_initialize(void)
 
 
 
-	// Initialise the Toolbox
+	// Initialise the Toolbox if we're not on Carbon
+#if !TARGET_API_MAC_CARBON
 	MaxApplZone();
 	for (n = 0; n < 5; n++)
 		MoreMasters();
@@ -320,6 +324,7 @@ qut_initialize(void)
 	TEInit();
 	InitDialogs(NULL);
 	InitCursor();
+#endif
 
 
 
@@ -378,7 +383,8 @@ qut_terminate(void)
 //-----------------------------------------------------------------------------
 static void
 qut_mainloop(void)
-{	Rect					growRect = { kWindowMinSize, kWindowMinSize, kWindowMaxSize, kWindowMaxSize };
+{	Rect					dragRect = { -32767, -32767, 32767, 32767 };
+	Rect					growRect = { kWindowMinSize, kWindowMinSize, kWindowMaxSize, kWindowMaxSize };
 	Point					lastMouse, theMouse;
 	TQ3DrawContextObject	theDrawContext;
 	UInt32					windowSize;
@@ -426,7 +432,7 @@ qut_mainloop(void)
 					{
 					switch (partCode) {
 						case inDrag:
-							DragWindow(gWindow, theEvent.where, &qd.screenBits.bounds);
+							DragWindow(gWindow, theEvent.where, &dragRect);
 							break;
 
 						case inGoAway:
@@ -481,7 +487,7 @@ qut_mainloop(void)
 					sprintf((char *) &theStr[1], "FPS: %.2f", gFPS);
 					theStr[0] = strlen((char *) &theStr[1]);
 
-					SetPort((GrafPtr) gWindow);
+					SetPort((GrafPtr) GetWindowPort(gWindow));
 					ForeColor(whiteColor);
 					TextFont(kFontIDGeneva);
 					TextSize(9);
@@ -532,7 +538,7 @@ Qut_CreateWindow(const char		*windowTitle,
 
 	gWindowCanResize = canResize;
 	
-	SetPort((GrafPtr) gWindow);
+	SetPort((GrafPtr) GetWindowPort(gWindow));
 }
 
 
@@ -716,6 +722,7 @@ Qut_CreateDrawContext(void)
 	TQ3DrawContextObject	theDrawContext;
 	TQ3Status				qd3dStatus;
 	CGrafPtr				thePort;
+	Rect					theRect;
 
 
 
@@ -758,11 +765,12 @@ Qut_CreateDrawContext(void)
 
 
 	// Reset the fields which are always updated
-	macDrawContextData.drawContextData.pane.min.x = (float) thePort->portRect.left;
-	macDrawContextData.drawContextData.pane.min.y = (float) thePort->portRect.top;
-	macDrawContextData.drawContextData.pane.max.x = (float) thePort->portRect.right;
-	macDrawContextData.drawContextData.pane.max.y = (float) thePort->portRect.bottom;
-	macDrawContextData.window	                  = thePort;
+    GetPortBounds(GetWindowPort(gWindow), &theRect);
+	macDrawContextData.drawContextData.pane.min.x = (float) theRect.left;
+	macDrawContextData.drawContextData.pane.min.y = (float) theRect.top;
+	macDrawContextData.drawContextData.pane.max.x = (float) theRect.right;
+	macDrawContextData.drawContextData.pane.max.y = (float) theRect.bottom;
+	macDrawContextData.window	                  = gWindow;
 	macDrawContextData.library	                  = kQ3Mac2DLibraryNone;
 	macDrawContextData.viewPort                   = NULL;
 	macDrawContextData.grafPort                   = NULL;
