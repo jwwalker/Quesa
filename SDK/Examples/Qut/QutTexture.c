@@ -45,12 +45,242 @@
 //-----------------------------------------------------------------------------
 #include "QutTexture.h"
 
-
+#include <stdio.h>
 
 
 
 //=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+#define	kTGATypeColor							2
+#define	kTGATypeColorRLE						10
+#define	kTGADescTopToBottom						0x20
+
+
+
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+typedef struct TGAHeader {
+	char  IDLength;
+	char  colorMapType;
+	char  dataTypeCode;
+	short int colorMapOrigin;
+	short int colorMapLength;
+	char  colorMapDepth;
+	short int x_origin;
+	short int y_origin;
+	short width;
+	short height;
+	char  bitsPerPixel;
+	char  imageDescriptor;
+} TGAHeader;
+
+
+
+//=============================================================================
+//		Private functions.
+//-----------------------------------------------------------------------------
+
+static short
+qutTexture_read_littleendian_short( FILE* inFile )
+{
+	int	lowByte, hiByte;
+	
+	lowByte = fgetc( inFile );
+	hiByte = fgetc( inFile );
+	
+	return lowByte | (hiByte << 8);
+}
+
+//=============================================================================
 //		Public functions.
+//-----------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------
+//		QutTexture_CreateTextureObjectFromTGAFile : Create texture object from a TGA file.
+//-----------------------------------------------------------------------------
+TQ3TextureObject
+QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath )
+{
+	TQ3TextureObject	theTexture = NULL;
+	FILE*				theFile = NULL;
+	TGAHeader			theHeader;
+	int					numPixels, bytesPerPixel, n, i, j;
+	int					oppositeRow, packetHeader, chunkSize, rowBytes;
+	TQ3Object			memStorage = NULL;
+	unsigned char		p[5];
+	unsigned char*		theBuffer;
+	TQ3Uns32			bufferSize, validSize;
+	TQ3StoragePixmap	thePixMap;
+	
+	theFile = fopen( inFilePath, "rb" );
+	if (theFile != NULL)
+	{
+		// Read the file header.
+		theHeader.IDLength = fgetc( theFile );
+		theHeader.colorMapType = fgetc( theFile );
+		theHeader.dataTypeCode = fgetc( theFile );
+		theHeader.colorMapOrigin = qutTexture_read_littleendian_short( theFile );
+		theHeader.colorMapLength = qutTexture_read_littleendian_short( theFile );
+		theHeader.colorMapDepth = fgetc( theFile );
+		theHeader.x_origin = qutTexture_read_littleendian_short( theFile );
+		theHeader.y_origin = qutTexture_read_littleendian_short( theFile );
+		theHeader.width = qutTexture_read_littleendian_short( theFile );
+		theHeader.height = qutTexture_read_littleendian_short( theFile );
+		theHeader.bitsPerPixel = fgetc( theFile );
+		theHeader.imageDescriptor = fgetc( theFile );
+		
+		// Check that the image format is one we can handle.
+		if (
+			(
+				(theHeader.dataTypeCode == kTGATypeColor) ||
+				(theHeader.dataTypeCode == kTGATypeColorRLE)
+			) &&
+			(
+				(theHeader.bitsPerPixel == 16) ||
+				(theHeader.bitsPerPixel == 24) ||
+				(theHeader.bitsPerPixel == 32)
+			) &&
+			(
+				(theHeader.colorMapType == 0) ||
+				(theHeader.colorMapType == 1)
+			) &&
+			! (feof(theFile) || ferror(theFile))
+		)
+		{
+			// Skip identification field, if any.
+			fseek( theFile, theHeader.IDLength, SEEK_CUR );
+			// Skip color map, if any.
+			fseek( theFile, theHeader.colorMapType * theHeader.colorMapLength, SEEK_CUR );
+			
+			// Make a storage object to hold the pixels.
+			bytesPerPixel = theHeader.bitsPerPixel / 8;
+			numPixels = theHeader.width * theHeader.height;
+			memStorage = Q3MemoryStorage_New( NULL, numPixels * bytesPerPixel );
+			if (memStorage != NULL)
+			{
+				// Read the image.
+				Q3MemoryStorage_GetBuffer( memStorage, &theBuffer, &validSize, &bufferSize );
+				n = 0;
+				while ( (n < numPixels) && (!feof(theFile)) && (!ferror(theFile)) )
+				{
+					if (theHeader.dataTypeCode == kTGATypeColor)	// uncompressed
+					{
+						fread( theBuffer + n * bytesPerPixel, bytesPerPixel, 1, theFile );
+						++n;
+					}
+					else	// RLE compressed
+					{
+						packetHeader = fgetc( theFile );
+						chunkSize = (packetHeader & 0x7F) + 1;
+						
+						if (packetHeader & 0x80)	// RLE chunk
+						{
+							fread( p, bytesPerPixel, 1, theFile );
+							
+							for (i=0; i < chunkSize; ++i)
+							{
+								memcpy( theBuffer + n * bytesPerPixel, p, bytesPerPixel );
+								++n;
+							}
+						}
+						else	// uncompressed chunk
+						{
+							fread( theBuffer + n * bytesPerPixel, bytesPerPixel, chunkSize, theFile );
+							n += chunkSize;
+						}
+					}
+				}
+				
+				// We may need to flip the image into the usual top to bottom row order.
+				rowBytes = theHeader.width * bytesPerPixel;
+				if ( (theHeader.imageDescriptor & kTGADescTopToBottom) == 0)
+				{
+					for (i = 0; i < theHeader.height / 2; ++i)
+					{
+						oppositeRow = theHeader.height - i - 1;
+						for (j = 0; j < rowBytes; ++j)
+						{
+							unsigned char temp = theBuffer[ i * rowBytes + j ];
+							theBuffer[ i * rowBytes + j ] = theBuffer[ oppositeRow * rowBytes + j ];
+							theBuffer[ oppositeRow * rowBytes + j ] = temp;
+						}
+					}
+				}
+				
+				// Create the texture object
+				thePixMap.image = memStorage;
+				thePixMap.width = theHeader.width;
+				thePixMap.height = theHeader.height;
+				thePixMap.rowBytes = rowBytes;
+				thePixMap.pixelSize = bytesPerPixel;
+				switch (bytesPerPixel)
+				{
+					case 2:
+						thePixMap.pixelType = kQ3PixelTypeRGB16;
+						break;
+						
+					case 3:
+						thePixMap.pixelType = kQ3PixelTypeRGB24;
+						break;
+						
+					case 4:
+						thePixMap.pixelType = kQ3PixelTypeRGB32;
+						break;
+				}
+				thePixMap.bitOrder = kQ3EndianLittle;
+				thePixMap.byteOrder = kQ3EndianLittle;
+				
+				theTexture = Q3PixmapTexture_New( &thePixMap );
+				
+				Q3Object_Dispose( memStorage );
+			}
+		}
+		
+		fclose( theFile );
+	}
+	
+	return theTexture;
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
+//		QutTexture_CreateTextureFromTGAFile : Create texture shader from a TGA file.
+//-----------------------------------------------------------------------------
+TQ3ShaderObject
+QutTexture_CreateTextureFromTGAFile( const char* inFilePath )
+{
+	TQ3TextureObject		qd3dTextureObject	= NULL ;
+	TQ3ShaderObject			qd3dTextureShader	= NULL ;
+
+
+
+	// Create the texture
+	qd3dTextureObject = QutTexture_CreateTextureObjectFromTGAFile( inFilePath );
+
+
+
+	// Create the texture shader
+	if (qd3dTextureObject != NULL)
+	{
+		qd3dTextureShader = Q3TextureShader_New(qd3dTextureObject);
+		Q3Object_Dispose(qd3dTextureObject);
+	}
+
+	return(qd3dTextureShader);
+}
+
+
+
+
+
+#if QUESA_OS_MACINTOSH
+
 //-----------------------------------------------------------------------------
 //		QutTexture_CreateGWorldFromPICT : Create a GWorld from a PICT.
 //-----------------------------------------------------------------------------
@@ -612,3 +842,6 @@ QutTexture_CreateCompressedTextureObjectFromFile(
 	
 	return(theTexture);
 }
+
+#endif
+
