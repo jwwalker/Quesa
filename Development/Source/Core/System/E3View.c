@@ -1810,7 +1810,7 @@ e3View_SubmitImmediate_Render ( TQ3ViewObject theView , TQ3ObjectType objectType
 
 	// Call the method
 	if (submitMethod != NULL)
-		qd3dStatus = submitMethod(theView, objectType, nil , objectData);
+		qd3dStatus = submitMethod(theView, objectType, NULL, objectData);
 	else
 		qd3dStatus = kQ3Success;
 
@@ -1850,11 +1850,11 @@ e3View_SubmitImmediate_Pick ( TQ3ViewObject theView , TQ3ObjectType objectType ,
 	// application and not any sub-objects which are submitted to calculate the pick
 	// for that top-level object.
 	if ( instanceData->pickDecomposeCount == 0 )
-		E3View_PickStack_SaveObject(theView, nil );
+		E3View_PickStack_SaveObject(theView, NULL );
 
 	// Call the method
 	if (submitMethod != NULL)
-		qd3dStatus = submitMethod(theView, objectType, nil , objectData);
+		qd3dStatus = submitMethod(theView, objectType, NULL, objectData);
 	else
 		qd3dStatus = kQ3Success;
 		
@@ -1895,7 +1895,7 @@ e3View_SubmitImmediate_Write ( TQ3ViewObject theView , TQ3ObjectType objectType 
 
 	// Call the method
 	if (submitMethod != NULL)
-		qd3dStatus = submitMethod(theView, objectType, nil , objectData);
+		qd3dStatus = submitMethod(theView, objectType, NULL, objectData);
 	else
 		qd3dStatus = kQ3Success;
 
@@ -1929,7 +1929,7 @@ e3View_SubmitImmediate_Bounds ( TQ3ViewObject theView , TQ3ObjectType objectType
 
 	// Call the method
 	if (submitMethod != NULL)
-		qd3dStatus = submitMethod(theView, objectType, nil , objectData);
+		qd3dStatus = submitMethod(theView, objectType, NULL, objectData);
 	else
 		qd3dStatus = kQ3Success;
 
