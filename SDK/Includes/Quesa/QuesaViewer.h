@@ -46,7 +46,7 @@
 #error
 #endif
 
-#define __QD3DVIEW__
+#define __QD3DVIEWER__
 #define __QD3DWINVIEWER__
 
 
