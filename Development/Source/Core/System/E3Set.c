@@ -210,6 +210,96 @@ e3set_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3set_find_element_type : 	Look for an element type within the array
+//									of elements in the set instance data.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_find_element_type( TQ3SetData* inInstanceData, TQ3ElementType inType,
+	TQ3Uns32* outFoundIndex )
+{
+	TQ3Status	found = kQ3Failure;
+	TQ3Uns32	n;
+	
+	for (n = 0; n < inInstanceData->numElements; ++n)
+	{
+		if (inInstanceData->theElements[n] != NULL)
+		{
+			if (Q3Object_IsType(inInstanceData->theElements[n], inType))
+			{
+				if (outFoundIndex != NULL)
+				{
+					*outFoundIndex = n;
+				}
+				found = kQ3Success;
+				break;
+			}
+		}
+	}
+	
+	return found;
+}
+
+
+
+
+
+//=============================================================================
+//      e3set_find_empty_slot : Find an empty slot in the element array.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_find_empty_slot( TQ3SetData* inInstanceData, TQ3Uns32* outFoundIndex )
+{
+	TQ3Status	found = kQ3Failure;
+	TQ3Uns32	n;
+	
+	for (n = 0; n < inInstanceData->numElements; ++n)
+	{
+		if (inInstanceData->theElements[n] == NULL)
+		{
+			found = kQ3Success;
+			break;
+		}
+	}
+	
+	if (outFoundIndex != NULL)
+	{
+		*outFoundIndex = n;
+	}
+	return found;
+}
+
+
+
+
+//=============================================================================
+//      e3set_grow_element_array : Grow the array of elements of a set.
+//-----------------------------------------------------------------------------
+//		Note:	If profiling shows that this takes a significant amount of time,
+//				one could improve it by growing exponentially.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3set_grow_element_array( TQ3SetData* ioInstanceData )
+{
+	TQ3Status	status;
+	
+	status = Q3Memory_Reallocate( &ioInstanceData->theElements,
+				 sizeof(TQ3ElementObject) * (ioInstanceData->numElements+1));
+	
+	if (status == kQ3Success)
+	{
+		// initialize the newly-created slot
+		ioInstanceData->theElements[ ioInstanceData->numElements ] = NULL;
+		
+		ioInstanceData->numElements += 1;
+	}
+	return status;
+}
+
+
+
+
+
+//=============================================================================
 //      e3attributeset_submit : Attribute set class submit method.
 //-----------------------------------------------------------------------------
 //		Note :	See the comments in E3AttributeSet_Submit for an explanation
@@ -1222,17 +1312,10 @@ E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *d
 
 	// Find the element
 	theElement = NULL;
-	for (n = 0; n < instanceData->numElements; n++)
-		{
-		if (instanceData->theElements[n] != NULL)
-			{
-			if (Q3Object_IsType(instanceData->theElements[n], theType))
-				{
-				theElement = instanceData->theElements[n];
-				break;
-				}
-			}
-		}
+	
+	if (kQ3Success == e3set_find_element_type( instanceData, theType, &n ))
+		theElement = instanceData->theElements[n];
+		
 
 	if (theElement == NULL)
 		return(kQ3Failure);
@@ -1320,56 +1403,39 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 
 
 	// If the element exists, replace it
-	for (n = 0; n < instanceData->numElements; n++)
+	if (kQ3Success == e3set_find_element_type( instanceData, theType, &n ))
 		{
-		if (instanceData->theElements[n] != NULL)
+		copyReplaceMethod = (TQ3XElementCopyReplaceMethod) E3ClassTree_GetMethod(theClass,
+															  kQ3XMethodTypeElementCopyReplace);
+		if (copyReplaceMethod != NULL)
 			{
-			if (Q3Object_IsType(instanceData->theElements[n], theType))
-				{
-				copyReplaceMethod = (TQ3XElementCopyReplaceMethod) E3ClassTree_GetMethod(theClass,
-																	  kQ3XMethodTypeElementCopyReplace);
-				if (copyReplaceMethod != NULL)
-					{
-					qd3dStatus = copyReplaceMethod(data, instanceData->theElements[n]->instanceData);
-					return(qd3dStatus);
-					}
-				else
-					{
-					dataSize = E3ClassTree_GetInstanceSize(theClass);
-					memcpy(instanceData->theElements[n]->instanceData, data, dataSize);
-					}
-				
-				Q3Shared_Edited(theSet);
-				return(kQ3Success);
-				}
+			qd3dStatus = copyReplaceMethod(data, instanceData->theElements[n]->instanceData);
 			}
+		else
+			{
+			dataSize = E3ClassTree_GetInstanceSize(theClass);
+			memcpy(instanceData->theElements[n]->instanceData, data, dataSize);
+			qd3dStatus = kQ3Success;
+			}
+		
+		Q3Shared_Edited(theSet);
+		return (qd3dStatus);
 		}
 
 
 
 	// If we're still here, the element doesn't exist. So, try and
 	// find an empty slot that we can use to store it into.
-	for (n = 0; n < instanceData->numElements; n++)
-		{
-		if (instanceData->theElements[n] == NULL)
-			break;
-		}
-
-
-
-	// If we didn't find an empty slot, create one
-	if (n == instanceData->numElements)
+	if (e3set_find_empty_slot( instanceData, &n ) == kQ3Failure)
 		{
 		// Grow the array
-		qd3dStatus = Q3Memory_Reallocate(&instanceData->theElements,
-										 sizeof(TQ3ElementObject) * (instanceData->numElements+1));
+		qd3dStatus = e3set_grow_element_array( instanceData );
+		
 		if (qd3dStatus != kQ3Success)
 			return(qd3dStatus);
 		
-		
-		// Increment the count - n now refers to the last slot
-		instanceData->theElements[n] = NULL;
-		instanceData->numElements++;
+		// Now there has to be an empty slot
+		e3set_find_empty_slot( instanceData, &n );
 		}
 
 
@@ -1448,26 +1514,56 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 TQ3Status
 E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject destSet )
 {
-	void						*elementData;
 	TQ3Status					qd3dStatus;
-	TQ3Uns32					dataSize;
+	TQ3SetData*					srcInstanceData;
+	TQ3SetData*					dstInstanceData;
+	TQ3ElementObject			srcElement;
+	TQ3Uns32					srcIndex;
+	TQ3Uns32					dstIndex;
 
 
+	// Get the instance data for each set
+	srcInstanceData = (TQ3SetData *) E3ClassTree_FindInstanceData( sourceSet,
+		kQ3SharedTypeSet );
+	if (srcInstanceData == NULL)
+		return(kQ3Failure);
+	
+	dstInstanceData = (TQ3SetData *) E3ClassTree_FindInstanceData( destSet,
+		kQ3SharedTypeSet );
+	if (dstInstanceData == NULL)
+		return(kQ3Failure);
 
-	// Get the size and pointer for the data for the element
-	qd3dStatus = E3Set_AccessElementData(sourceSet, theType, &dataSize, &elementData);
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
 
-	// Q3Set_Add requires that the data pointer not be NULL, even if the
-	// data size is zero.
-	if (dataSize == 0)
+	// Find the element to copy
+	if (kQ3Failure == e3set_find_element_type( srcInstanceData, theType, &srcIndex ))
+		return(kQ3Failure);
+		
+	srcElement = srcInstanceData->theElements[ srcIndex ];
+	
+
+	// If the destination has an element of this type, remove it.
+	Q3Set_Clear( destSet, theType );
+
+
+	// Find an empty slot in the destination.
+	if (e3set_find_empty_slot( dstInstanceData, &dstIndex ) == kQ3Failure)
 	{
-		elementData = &elementData;
+		// Grow the array
+		qd3dStatus = e3set_grow_element_array( dstInstanceData );
+		
+		if (qd3dStatus != kQ3Success)
+			return(qd3dStatus);
+		
+		// Now there has to be an empty slot
+		e3set_find_empty_slot( dstInstanceData, &dstIndex );
 	}
 	
-	qd3dStatus = Q3Set_Add( destSet, theType, elementData );
-	return(qd3dStatus);
+	
+	// Duplicate the element.
+	dstInstanceData->theElements[ dstIndex ] = Q3Object_Duplicate( srcElement );
+	
+	
+	return (dstInstanceData->theElements[ dstIndex ] != NULL);
 }
 
 
@@ -1480,7 +1576,6 @@ E3Set_CopyElement( TQ3SetObject sourceSet, TQ3ElementType theType, TQ3SetObject 
 TQ3Boolean
 E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 {	TQ3SetData		*instanceData;
-	TQ3Uns32		n;
 
 
 
@@ -1492,14 +1587,9 @@ E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Look for the element
-	for (n = 0; n < instanceData->numElements; n++)
-		{
-		if (instanceData->theElements[n] != NULL)
-			{
-			if (Q3Object_IsType(instanceData->theElements[n], theType))
-				return(kQ3True);
-			}
-		}
+	if (kQ3Success == e3set_find_element_type( instanceData, theType, NULL ))
+		return kQ3True;
+
 
 	return(kQ3False);
 }
@@ -1526,19 +1616,13 @@ E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Remove the element
-	for (n = 0; n < instanceData->numElements; n++)
+	if (kQ3Success == e3set_find_element_type( instanceData, theType, &n ))
 		{
-		if (instanceData->theElements[n] != NULL)
-			{
-			if (Q3Object_IsType(instanceData->theElements[n], theType))
-				{
-				Q3Object_Dispose(instanceData->theElements[n]);
-				instanceData->theElements[n] = NULL;
+		Q3Object_Dispose(instanceData->theElements[n]);
+		instanceData->theElements[n] = NULL;
 
-				Q3Shared_Edited(theSet);
-				return(kQ3Success);
-				}
-			}
+		Q3Shared_Edited(theSet);
+		return(kQ3Success);
 		}
 
 	return(kQ3Failure);
@@ -1630,13 +1714,11 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 		n = 0;
 	else
 		{
-		for (n = 0; n < instanceData->numElements; n++)
+		if (kQ3Failure == e3set_find_element_type( instanceData, *theType, &n ))
 			{
-			if (instanceData->theElements[n] != NULL)
-				{
-				if (Q3Object_IsType(instanceData->theElements[n], *theType))
-					break;
-				}
+			// this shouldn't typically happen, but maybe the user fed us
+			// a bogus type
+			n = instanceData->numElements;
 			}
 		n++;
 		}
