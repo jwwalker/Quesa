@@ -53,6 +53,7 @@
 #include "E3Prefix.h"
 #include "E3Set.h"
 #include "E3View.h"
+#include "E3IOFileFormat.h"
 
 
 
@@ -990,6 +991,47 @@ e3attribute_type_to_mask(TQ3AttributeType theType)
 
 
 
+#pragma mark -
+//=============================================================================
+//      e3element_write : Element write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3element_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Submit the object
+	qd3dStatus = E3FileFormat_Method_SubmitObject (theView, theObject, objectType, objectData);
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3element_metahandler : Element metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3element_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+	
+	switch (methodType) {
+		case kQ3XMethodTypeObjectSubmitWrite:
+			theMethod = (TQ3XFunctionPointer) e3element_write;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
@@ -1023,7 +1065,7 @@ E3Set_RegisterClass(void)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
 												kQ3ObjectTypeElement,
 												kQ3ClassNameElement,
-												NULL,
+												e3element_metahandler,
 												0);
 
 	if (qd3dStatus == kQ3Success)
@@ -1615,9 +1657,46 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 
 
 
+//=============================================================================
+//      E3Set_SubmitElements : Submit the elements of a set.
+//-----------------------------------------------------------------------------
+TQ3Status			E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView )
+{	TQ3SetData			*instanceData;
+	TQ3ObjectType		theType;
+	TQ3Uns32			n;
+	TQ3ElementObject	theElement;
+	TQ3Status			theStatus = kQ3Success;
+
+
+	// Find the instance data
+	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(inSet, kQ3SharedTypeSet);
+	if (instanceData == NULL)
+		return(kQ3Failure);
+
+
+	// Submit the elements
+	for (n = 0; n < instanceData->numElements; n++)
+		{
+		theElement = instanceData->theElements[n];
+		
+		if (theElement != NULL)
+			{
+			theType = Q3Object_GetLeafType(theElement);
+			theStatus = E3View_SubmitImmediate( inView, theType,
+				theElement->instanceData );
+			if (theStatus == kQ3Failure)
+				break;
+			}
+		}
+	
+	return theStatus;
+}
+
+
+
 
 //=============================================================================
-//      E3Attribute_ClassToAttributeType : Get the attribut type for a class.
+//      E3Attribute_ClassToAttributeType : Get the attribute type for a class.
 //-----------------------------------------------------------------------------
 //		Note :	We convert from an attribute class type to the public QD3D
 //				attribute type for that attribute class.
@@ -1700,7 +1779,7 @@ E3Attribute_AttributeToClassType(TQ3AttributeType theType)
 
 	// If the type is in range, return it. In debug builds,
 	// we check that types can be translated both ways.
-	if (theType < kQ3AttributeTypeNumTypes)
+	if ( (theType >= 0) && (theType < kQ3AttributeTypeNumTypes))
 		{
 		Q3_ASSERT(theType == E3Attribute_ClassToAttributeType(attributeTypes[theType]));
 		theType = attributeTypes[theType];
@@ -2181,6 +2260,39 @@ E3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElemen
 
 	return(kQ3Success);
 }
+
+
+
+
+
+
+//=============================================================================
+//      E3XElement_EmptyData : Dispose of element data.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3XElement_EmptyData( TQ3ElementType elementType, void* data )
+{
+	TQ3Status	result = kQ3Failure;
+	TQ3XObjectClass		theClass;
+	TQ3XElementDeleteMethod	deleteMethod;
+	
+	
+	theClass = Q3XObjectHierarchy_FindClassByType( elementType );
+	
+	if (theClass != NULL)
+		{
+		deleteMethod = (TQ3XElementDeleteMethod) Q3XObjectClass_GetMethod(
+			theClass, kQ3XMethodTypeElementDelete );
+		
+		if (deleteMethod != NULL)
+			{
+			result = deleteMethod( data );
+			}
+		}
+	
+	return result;
+}
+
 
 
 
