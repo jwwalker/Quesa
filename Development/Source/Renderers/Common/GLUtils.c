@@ -59,7 +59,7 @@ GLUtils_ConvertMatrix4x4(const TQ3Matrix4x4 *qd3dMatrix, GLfloat *glMatrix)
 
 
 	// Convert the matrix
-	memcpy(glMatrix, qd3dMatrix, sizeof(TQ3Matrix4x4));
+	Q3Memory_Copy(qd3dMatrix, glMatrix, sizeof(TQ3Matrix4x4));
 }
 
 

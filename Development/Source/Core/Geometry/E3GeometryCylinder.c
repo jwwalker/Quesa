@@ -60,7 +60,7 @@ e3geom_cylinder_copydata(const TQ3CylinderData *src, TQ3CylinderData *dst, TQ3Bo
 		+ 3*sizeof(TQ3Vector3D)	// orientation and 2 axes
 		+ 4*sizeof(float)		// u/v min/max
 		+ sizeof(TQ3EndCap);	// endcaps
-	memcpy( dst, src, theSize );
+	Q3Memory_Copy( src, dst, theSize );
 
 	// copy or shared-replace the attributes
 	if (isDuplicate)
@@ -760,7 +760,7 @@ E3Cylinder_SetOrigin(TQ3GeometryObject theCylinder, const TQ3Point3D *origin)
 {
 	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
 
-	memcpy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
 
 	Q3Shared_Edited(theCylinder);
 	return(kQ3Success);
@@ -778,7 +778,7 @@ E3Cylinder_SetOrientation(TQ3GeometryObject theCylinder, const TQ3Vector3D *orie
 {
 	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
 
-	memcpy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(theCylinder);
 	return(kQ3Success);
@@ -796,7 +796,7 @@ E3Cylinder_SetMajorRadius(TQ3GeometryObject theCylinder, const TQ3Vector3D *majo
 {
 	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
 
-	memcpy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(theCylinder);
 	return(kQ3Success);
@@ -814,7 +814,7 @@ E3Cylinder_SetMinorRadius(TQ3GeometryObject theCylinder, const TQ3Vector3D *mino
 {
 	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
 
-	memcpy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(theCylinder);
 	return(kQ3Success);
@@ -832,7 +832,7 @@ E3Cylinder_GetOrigin(TQ3GeometryObject theCylinder, TQ3Point3D *origin)
 {
 	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
 
-	memcpy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
 	return(kQ3Success);
 }
 
@@ -848,7 +848,7 @@ E3Cylinder_GetOrientation(TQ3GeometryObject theCylinder, TQ3Vector3D *orientatio
 {
 	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
 
-	memcpy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 
@@ -864,7 +864,7 @@ E3Cylinder_GetMajorRadius(TQ3GeometryObject theCylinder, TQ3Vector3D *majorRadiu
 {
 	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
 
-	memcpy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 
@@ -880,7 +880,7 @@ E3Cylinder_GetMinorRadius(TQ3GeometryObject theCylinder, TQ3Vector3D *minorRadiu
 {
 	TQ3CylinderData		*instanceData = (TQ3CylinderData *) theCylinder->instanceData;
 
-	memcpy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 

@@ -65,11 +65,11 @@ e3geom_curve_copydata(const TQ3NURBCurveData *src, TQ3NURBCurveData *dst, TQ3Boo
 	// copy controlPoints,knots
 	theSize = sizeof(TQ3RationalPoint4D) * src->numPoints;
 	dst->controlPoints = (TQ3RationalPoint4D *) Q3Memory_Allocate( theSize );
-	memcpy( dst->controlPoints, src->controlPoints, theSize );
+	Q3Memory_Copy( src->controlPoints, dst->controlPoints, theSize );
 	
 	theSize = sizeof(float) * (src->numPoints+src->order);
 	dst->knots = (float *) Q3Memory_Allocate( theSize );
-	memcpy( dst->knots, src->knots, theSize );
+	Q3Memory_Copy( src->knots, dst->knots, theSize );
 
 	// copy or shared-replace the attributes
 	if (isDuplicate)
@@ -1019,7 +1019,7 @@ E3NURBCurve_SetControlPoint(TQ3GeometryObject theCurve, TQ3Uns32 pointIndex, con
 	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
 	// Copy the point from point4D to controlPoints
-	memcpy( &instanceData->controlPoints[ pointIndex ], point4D, sizeof(TQ3RationalPoint4D) );
+	Q3Memory_Copy( point4D, &instanceData->controlPoints[ pointIndex ], sizeof(TQ3RationalPoint4D) );
 
 	Q3Shared_Edited(theCurve);
 	return(kQ3Success);
@@ -1040,7 +1040,7 @@ E3NURBCurve_GetControlPoint(TQ3GeometryObject theCurve, TQ3Uns32 pointIndex, TQ3
 	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
 	// Copy the point from controlPoints to point4D
-	memcpy( point4D, &instanceData->controlPoints[ pointIndex ], sizeof(TQ3RationalPoint4D) );
+	Q3Memory_Copy( &instanceData->controlPoints[ pointIndex ], point4D, sizeof(TQ3RationalPoint4D) );
 
 	return(kQ3Success);
 }
@@ -1060,7 +1060,7 @@ E3NURBCurve_SetKnot(TQ3GeometryObject theCurve, TQ3Uns32 knotIndex, float knotVa
 	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
 	// Copy the knot from knotValue to knots
-	memcpy( &instanceData->knots[ knotIndex ], &knotValue, sizeof(float) );
+	Q3Memory_Copy( &knotValue, &instanceData->knots[ knotIndex ], sizeof(float) );
 
 	Q3Shared_Edited(theCurve);
 	return(kQ3Success);
@@ -1081,7 +1081,7 @@ E3NURBCurve_GetKnot(TQ3GeometryObject theCurve, TQ3Uns32 knotIndex, float *knotV
 	TQ3NURBCurveData		*instanceData = (TQ3NURBCurveData *) theCurve->instanceData;
 
 	// Copy the knot from knots to knotValue
-	memcpy( knotValue, &instanceData->knots[ knotIndex ], sizeof(float) );
+	Q3Memory_Copy( &instanceData->knots[ knotIndex ], knotValue, sizeof(float) );
 
 	return(kQ3Success);
 }

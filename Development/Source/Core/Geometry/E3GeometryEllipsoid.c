@@ -60,7 +60,7 @@ e3geom_ellipsoid_copydata(const TQ3EllipsoidData *src, TQ3EllipsoidData *dst, TQ
 		+ 3*sizeof(TQ3Vector3D)		// orientation, major & minor axes
 		+ 4*sizeof(float)			// u/v min/max
 		+ sizeof(TQ3EndCap);		// endcaps
-	memcpy( dst, src, theSize );
+	Q3Memory_Copy(src, dst, theSize );
 
 	// copy or shared-replace the attributes
 	if (isDuplicate)
@@ -676,7 +676,7 @@ E3Ellipsoid_SetOrigin(TQ3GeometryObject ellipsoid, const TQ3Point3D *origin)
 {
 	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) ellipsoid->instanceData;
 
-	memcpy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
 
 	Q3Shared_Edited(ellipsoid);
 	return(kQ3Success);
@@ -696,7 +696,7 @@ E3Ellipsoid_SetOrientation(TQ3GeometryObject ellipsoid, const TQ3Vector3D *orien
 {
 	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) ellipsoid->instanceData;
 
-	memcpy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(ellipsoid);
 	return(kQ3Success);
@@ -716,7 +716,7 @@ E3Ellipsoid_SetMajorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *major
 {
 	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) ellipsoid->instanceData;
 
-	memcpy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(ellipsoid);
 	return(kQ3Success);
@@ -736,7 +736,7 @@ E3Ellipsoid_SetMinorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *minor
 {
 	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) ellipsoid->instanceData;
 
-	memcpy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
 
 	Q3Shared_Edited(ellipsoid);
 	return(kQ3Success);
@@ -756,7 +756,7 @@ E3Ellipsoid_GetOrigin(TQ3GeometryObject ellipsoid, TQ3Point3D *origin)
 {
 	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) ellipsoid->instanceData;
 
-	memcpy( origin, &instanceData->origin, sizeof(TQ3Point3D) );
+	Q3Memory_Copy( &instanceData->origin, origin, sizeof(TQ3Point3D) );
 	return(kQ3Success);
 }
 
@@ -774,7 +774,7 @@ E3Ellipsoid_GetOrientation(TQ3GeometryObject ellipsoid, TQ3Vector3D *orientation
 {
 	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) ellipsoid->instanceData;
 
-	memcpy( orientation, &instanceData->orientation, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->orientation, orientation, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 
@@ -792,7 +792,7 @@ E3Ellipsoid_GetMajorRadius(TQ3GeometryObject ellipsoid, TQ3Vector3D *majorRadius
 {
 	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) ellipsoid->instanceData;
 
-	memcpy( majorRadius, &instanceData->majorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->majorRadius, majorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 
@@ -810,7 +810,7 @@ E3Ellipsoid_GetMinorRadius(TQ3GeometryObject ellipsoid, TQ3Vector3D *minorRadius
 {
 	TQ3EllipsoidData		*instanceData = (TQ3EllipsoidData *) ellipsoid->instanceData;
 
-	memcpy( minorRadius, &instanceData->minorRadius, sizeof(TQ3Vector3D) );
+	Q3Memory_Copy( &instanceData->minorRadius, minorRadius, sizeof(TQ3Vector3D) );
 	return(kQ3Success);
 }
 

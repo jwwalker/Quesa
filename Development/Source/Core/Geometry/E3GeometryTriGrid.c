@@ -67,7 +67,7 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 	// copy raw data
 	theSize = sizeof(TQ3Uns32)			// numRows
 		+ sizeof(TQ3Uns32);				// numCols
-	memcpy( dst, src, theSize );
+	Q3Memory_Copy( src, dst, theSize );
 
 	// copy the vertices
 	dst->vertices = (TQ3Vertex3D *) Q3Memory_AllocateClear( sizeof(TQ3Vertex3D) * qtyVerts );
@@ -253,9 +253,9 @@ e3geom_trigrid_addtriangle(TQ3GroupObject group, const TQ3TriGridData *geomData,
 	TQ3GeometryObject	theTriangle;
 
 	// copy vertex data (including vertex attributes)
-	memcpy( &triangleData.vertices[0], &geomData->vertices[n0], sizeof(TQ3Vertex3D) );
-	memcpy( &triangleData.vertices[1], &geomData->vertices[n1], sizeof(TQ3Vertex3D) );
-	memcpy( &triangleData.vertices[2], &geomData->vertices[n2], sizeof(TQ3Vertex3D) );
+	Q3Memory_Copy( &geomData->vertices[n0], &triangleData.vertices[0], sizeof(TQ3Vertex3D) );
+	Q3Memory_Copy( &geomData->vertices[n1], &triangleData.vertices[1], sizeof(TQ3Vertex3D) );
+	Q3Memory_Copy( &geomData->vertices[n2], &triangleData.vertices[2], sizeof(TQ3Vertex3D) );
 
 	// copy triangle attributes	
 	if (geomData->facetAttributeSet != NULL) {
@@ -348,7 +348,7 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	}
 	
 	for (i=0; i<numpoints; i++) {
-		memcpy(&points[i], &geomData->vertices[i], sizeof(TQ3Point3D));
+		Q3Memory_Copy(&geomData->vertices[i], &points[i], sizeof(TQ3Point3D));
 	}
 
 	for (row=0; row < geomData->numRows-1; row++) {

@@ -276,7 +276,7 @@ e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, co
 		thePoints[n] = geomData->vertices[n].point;
 		
 	for (n = 0; n < geomData->numTriangles; n++)
-		memcpy(theTriangles[n].pointIndices, geomData->triangles[n].vertexIndices, sizeof(theTriangles[n].pointIndices));
+		Q3Memory_Copy(geomData->triangles[n].vertexIndices, theTriangles[n].pointIndices, sizeof(theTriangles[n].pointIndices));
 
 
 
@@ -288,8 +288,8 @@ e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, co
 			{
 			for (n = 0; n < geomData->numEdges; n++)
 				{
-				memcpy(theEdges[n].pointIndices,    geomData->edges[n].vertexIndices,   sizeof(theEdges[n].pointIndices));
-				memcpy(theEdges[n].triangleIndices, geomData->edges[n].triangleIndices, sizeof(theEdges[n].triangleIndices));
+				Q3Memory_Copy(geomData->edges[n].vertexIndices,   theEdges[n].pointIndices,    sizeof(theEdges[n].pointIndices));
+				Q3Memory_Copy(geomData->edges[n].triangleIndices, theEdges[n].triangleIndices, sizeof(theEdges[n].triangleIndices));
 				}
 			}
 		
@@ -755,9 +755,9 @@ E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *p
 	
 	for (n = 0; n < instanceData->numTriangles; n++)
 		{
-		memcpy(  instanceData->triangles[n].vertexIndices,
-			   polyhedronData->triangles[n].vertexIndices,
-			   sizeof(instanceData->triangles[n].vertexIndices));
+		Q3Memory_Copy(	polyhedronData->triangles[n].vertexIndices,
+						instanceData->triangles[n].vertexIndices,
+						sizeof(instanceData->triangles[n].vertexIndices));
 
 		instanceData->triangles[n].edgeFlag = polyhedronData->triangles[n].edgeFlag;
 
@@ -767,13 +767,13 @@ E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *p
 	
 	for (n = 0; n < instanceData->numEdges; n++)
 		{
-		memcpy(  instanceData->edges[n].vertexIndices,
-			   polyhedronData->edges[n].vertexIndices,
-			   sizeof(instanceData->edges[n].vertexIndices));
+		Q3Memory_Copy(	polyhedronData->edges[n].vertexIndices,
+						instanceData->edges[n].vertexIndices,
+						sizeof(instanceData->edges[n].vertexIndices));
 
-		memcpy(  instanceData->edges[n].triangleIndices,
-			   polyhedronData->edges[n].triangleIndices,
-			   sizeof(instanceData->edges[n].triangleIndices));
+		Q3Memory_Copy(	polyhedronData->edges[n].triangleIndices,
+						instanceData->edges[n].triangleIndices,
+						sizeof(instanceData->edges[n].triangleIndices));
 
 		E3Shared_Acquire( &instanceData->edges[n].edgeAttributeSet,
 			             polyhedronData->edges[n].edgeAttributeSet);
@@ -842,8 +842,8 @@ E3Polyhedron_GetData(TQ3GeometryObject thePolyhedron, TQ3PolyhedronData *polyhed
 	
 	for (n = 0; n < polyhedronData->numTriangles; n++)
 		{
-		memcpy(polyhedronData->triangles[n].vertexIndices,
-			     instanceData->triangles[n].vertexIndices,
+		Q3Memory_Copy(instanceData->triangles[n].vertexIndices,
+			     polyhedronData->triangles[n].vertexIndices,
 			     sizeof(polyhedronData->triangles[n].vertexIndices));
 
 		polyhedronData->triangles[n].edgeFlag = instanceData->triangles[n].edgeFlag;
@@ -854,12 +854,12 @@ E3Polyhedron_GetData(TQ3GeometryObject thePolyhedron, TQ3PolyhedronData *polyhed
 	
 	for (n = 0; n < polyhedronData->numEdges; n++)
 		{
-		memcpy(polyhedronData->edges[n].vertexIndices,
-			     instanceData->edges[n].vertexIndices,
+		Q3Memory_Copy(instanceData->edges[n].vertexIndices,
+			     polyhedronData->edges[n].vertexIndices,
 			     sizeof(polyhedronData->edges[n].vertexIndices));
 
-		memcpy(polyhedronData->edges[n].triangleIndices,
-			     instanceData->edges[n].triangleIndices,
+		Q3Memory_Copy(instanceData->edges[n].triangleIndices,
+			     polyhedronData->edges[n].triangleIndices,
 			     sizeof(polyhedronData->edges[n].triangleIndices));
 
 		E3Shared_Acquire(&polyhedronData->edges[n].edgeAttributeSet,
@@ -999,8 +999,8 @@ E3Polyhedron_GetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleI
 
 
 	// Get the triangle data
-	memcpy(triangleData->vertexIndices,
-		   instanceData->triangles[triangleIndex].vertexIndices,
+	Q3Memory_Copy(instanceData->triangles[triangleIndex].vertexIndices,
+		   triangleData->vertexIndices,
 		   sizeof(triangleData->vertexIndices));
 
 	triangleData->edgeFlag = instanceData->triangles[triangleIndex].edgeFlag;
@@ -1029,8 +1029,8 @@ E3Polyhedron_SetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleI
 
 
 	// Set the triangle data
-	memcpy(instanceData->triangles[triangleIndex].vertexIndices,
-		   triangleData->vertexIndices,
+	Q3Memory_Copy(triangleData->vertexIndices,
+		   instanceData->triangles[triangleIndex].vertexIndices,
 		   sizeof(instanceData->triangles[triangleIndex].vertexIndices));
 
 	instanceData->triangles[triangleIndex].edgeFlag = triangleData->edgeFlag;
@@ -1061,12 +1061,12 @@ E3Polyhedron_GetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, TQ
 
 
 	// Get the edge data
-	memcpy(edgeData->vertexIndices,
-		   instanceData->edges[edgeIndex].vertexIndices,
+	Q3Memory_Copy(instanceData->edges[edgeIndex].vertexIndices,
+		   edgeData->vertexIndices,
 		   sizeof(edgeData->vertexIndices));
 
-	memcpy(edgeData->triangleIndices,
-		   instanceData->edges[edgeIndex].triangleIndices,
+	Q3Memory_Copy(instanceData->edges[edgeIndex].triangleIndices,
+		   edgeData->triangleIndices,
 		   sizeof(edgeData->triangleIndices));
 
 	E3Shared_Acquire(&edgeData->edgeAttributeSet,
@@ -1093,12 +1093,12 @@ E3Polyhedron_SetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, co
 
 
 	// Set the edge data
-	memcpy(instanceData->edges[edgeIndex].vertexIndices,
-		   edgeData->vertexIndices,
+	Q3Memory_Copy(edgeData->vertexIndices,
+		   instanceData->edges[edgeIndex].vertexIndices,
 		   sizeof(instanceData->edges[edgeIndex].vertexIndices));
 
-	memcpy(instanceData->edges[edgeIndex].triangleIndices,
-		   edgeData->triangleIndices,
+	Q3Memory_Copy(edgeData->triangleIndices,
+		   instanceData->edges[edgeIndex].triangleIndices,
 		   sizeof(instanceData->edges[edgeIndex].triangleIndices));
 
 	E3Shared_Acquire(&instanceData->edges[edgeIndex].edgeAttributeSet,

@@ -70,7 +70,7 @@ e3geom_trimesh_clone(void *srcPtr, void **dstPtr, TQ3Uns32 theSize)
 
 
 	// Copy it over
-	memcpy(*dstPtr, srcPtr, theSize);
+	Q3Memory_Copy(srcPtr, *dstPtr, theSize);
 	
 	return(kQ3Success);
 }

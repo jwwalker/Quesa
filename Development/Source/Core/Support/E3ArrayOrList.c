@@ -445,7 +445,7 @@ E3Array_Create(
 
 		// Initialize new items
 		if (thoseItemsPtr != NULL)
-			memcpy(arrayPtr->headItemPtr_private, thoseItemsPtr, length*itemSize);
+			Q3Memory_Copy(thoseItemsPtr, arrayPtr->headItemPtr_private, length*itemSize);
 	}
 	else
 		arrayPtr->headItemPtr_private = NULL;
@@ -1266,7 +1266,7 @@ E3List_InsertBeforeNodeItem(
 
 	// Initialize new item
 	if (thatItemPtr != NULL)
-		memcpy(itemPtr, thatItemPtr, itemSize);
+		Q3Memory_Copy(thatItemPtr, itemPtr, itemSize);
 
 	return(itemPtr);
 	
@@ -2010,7 +2010,7 @@ E3ArrayOrList_UseArray(
 		TE3SequenceItem* listItemPtr = E3ListNode_Item(listNodePtr, itemOffset);
 		
 		// Move current item
-		memcpy(arrayItemPtr, listItemPtr, itemSize);
+		Q3Memory_Copy(listItemPtr, arrayItemPtr, itemSize);
 
 		// Relocate new and old item
 		if (relocateItemFunc != NULL)
@@ -2085,7 +2085,7 @@ E3ArrayOrList_UseList(
 		TE3SequenceItem* listItemPtr = E3ListNode_Item(listNodePtr, itemOffset);
 		
 		// Move current item
-		memcpy(listItemPtr, arrayItemPtr, itemSize);
+		Q3Memory_Copy(arrayItemPtr, listItemPtr, itemSize);
 
 		// Relocate new and old item
 		if (relocateItemFunc != NULL)

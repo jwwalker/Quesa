@@ -329,24 +329,7 @@ e3storage_mac_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize,
 				
 		src = ((TQ3Uns8*)instanceData->buffer) + (offset - instanceData->bufferStart);
 		dest = (TQ3Uns8*)data;
-		switch(ioByteCount){
-			case sizeof(TQ3Uns8):
-				*dest = *src;
-				break;
-			case sizeof(TQ3Uns16):
-				*((TQ3Uns16*)dest) = *((TQ3Uns16*)src);
-				break;
-			case sizeof(TQ3Uns32):
-				*((TQ3Uns32*)dest) = *((TQ3Uns32*)src);
-				break;
-			case sizeof(double):
-				*((double*)dest) = *((double*)src);
-				break;
-			default:
-				memcpy(dest,src,ioByteCount);
-				break;
-			}
-
+		Q3Memory_Copy(src, dest, ioByteCount);
 		}
 		
 	*sizeRead = ioByteCount;
@@ -437,26 +420,10 @@ e3storage_mac_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 	else{	 // copy it to buffer
 		dest = ((TQ3Uns8*)instanceData->buffer) + (offset - instanceData->bufferStart);
 		src = (TQ3Uns8*)data;
-		switch(dataSize){
-			case sizeof(TQ3Uns8):
-				*dest = *src;
-				break;
-			case sizeof(TQ3Uns16):
-				*((TQ3Uns16*)dest) = *((TQ3Uns16*)src);
-				break;
-			case sizeof(TQ3Uns32):
-				*((TQ3Uns32*)dest) = *((TQ3Uns32*)src);
-				break;
-			case sizeof(double):
-				*((double*)dest) = *((double*)src);
-				break;
-			default:
-				memcpy(dest,src,dataSize);
-				break;
-			}
-			instanceData->validBufferSize += dataSize;
-			e3storage_mac_setFlag(instanceData, kQ3MacStorage_BufferDirtyFlag);
+		Q3Memory_Copy(src, dest, dataSize);
 
+		instanceData->validBufferSize += dataSize;
+		e3storage_mac_setFlag(instanceData, kQ3MacStorage_BufferDirtyFlag);
 		}
 	*sizeWritten = ioByteCount;
 
@@ -828,7 +795,7 @@ e3storage_mac_handle_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 da
 
 
 	// Copy the block (using BlockMoveData since this is Mac specific,
-	// while memcpy would require us to lock the handle).
+	// while Q3Memory_Copy would require us to lock the handle).
 	BlockMoveData((*instanceData->theHnd) + offset, data, bytesToRead);
 	
 	*sizeRead = bytesToRead;
@@ -886,7 +853,7 @@ e3storage_mac_handle_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 d
 
 
 	// Copy the block (using BlockMoveData since this is Mac specific,
-	// while memcpy would require us to lock the handle).
+	// while Q3Memory_Copy would require us to lock the handle).
 	BlockMoveData(data, (*instanceData->theHnd) + offset, bytesToWrite);
 	
 	*sizeWritten = bytesToWrite;
@@ -1235,7 +1202,7 @@ E3FSSpecStorage_Set(TQ3StorageObject storage, const FSSpec *fs)
 		}
 	
 
-	memcpy((void*)fs, storage->instanceData, sizeof(FSSpec));
+	Q3Memory_Copy(storage->instanceData, (void*)fs, sizeof(FSSpec));
 
 	Q3Shared_Edited(storage);
 	
@@ -1255,7 +1222,7 @@ E3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs)
 
 	//parameters has been tested by Q3FSSpecStorage_Get
 
-	memcpy(storage->instanceData, fs, sizeof(FSSpec));
+	Q3Memory_Copy(fs, storage->instanceData, sizeof(FSSpec));
 	
 	return(kQ3Success);
 }

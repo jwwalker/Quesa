@@ -234,7 +234,7 @@ static void GetStackCrawl( short depth, char* buffer, long* ioBufferSize )
 			name += 1;
 			length -= 1;
 		}
-		memcpy( buffer+current, name, length );
+		Q3Memory_Copy( name, buffer+current, length );
 		buffer[ current+length ] = 13;
 		current += length+1;
 		}
@@ -267,7 +267,7 @@ E3StackCrawl_New()
 		{
 			crawlStart = rawCrawl;
 		
-			memcpy( theCrawl->nameData, crawlStart, rawCrawlSize );
+			Q3Memory_Copy( crawlStart, theCrawl->nameData, rawCrawlSize );
 			
 			// Change each 0x0D to 0x00, counting the names as we go.
 			crawlStart = theCrawl->nameData;

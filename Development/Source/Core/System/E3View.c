@@ -477,11 +477,11 @@ e3view_stack_push(TQ3ViewObject theView)
 
 
 		// Take a copy of the state
-		memcpy(newTop, oldTop, sizeof(TQ3ViewStackItem));
+		Q3Memory_Copy(oldTop, newTop, sizeof(TQ3ViewStackItem));
 
 
 
-		// Adjust the reference counts of the shared objects. The memcpy will have
+		// Adjust the reference counts of the shared objects. The Q3Memory_Copy will have
 		// have copied them without adjusting the reference counts, which is incorrect.
 		//
 		// Note that for the attributeSet, we need to duplicate the object rather than

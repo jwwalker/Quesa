@@ -370,7 +370,7 @@ E3XDrawContext_GetColormapData(TQ3DrawContextObject drawContext, TQ3XColormapDat
 
 
 	// Get the field
-	memcpy(colormapData, instanceData->data.x11Data.theData.colorMapData, sizeof(TQ3XColormapData));
+	Q3Memory_Copy(instanceData->data.x11Data.theData.colorMapData, colormapData, sizeof(TQ3XColormapData));
 
 	return(kQ3Success);
 }

@@ -221,9 +221,9 @@ e3texture_mipmap_new(TQ3Object theObject, void *privateData, const void *paramDa
 
 	
 	//copy the mipmapImages
-	memcpy(	&instanceData->mipmaps,
-			&textureData->mipmaps, 
-			sizeof(TQ3MipmapImage) * kQ3MaxMipmaps ) ;
+	Q3Memory_Copy(&textureData->mipmaps, 
+				  &instanceData->mipmaps,
+				  sizeof(TQ3MipmapImage) * kQ3MaxMipmaps ) ;
 	
 	
 
@@ -272,9 +272,9 @@ e3texture_mipmap_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 	
 	
 	//copy the mipmapImages
-	memcpy(	&toInstanceData->mipmaps,
-			&fromInstanceData->mipmaps, 
-			sizeof(TQ3MipmapImage) * kQ3MaxMipmaps) ;
+	Q3Memory_Copy(&fromInstanceData->mipmaps, 
+				  &toInstanceData->mipmaps,
+				  sizeof(TQ3MipmapImage) * kQ3MaxMipmaps) ;
 
 
 
@@ -799,9 +799,9 @@ E3MipmapTexture_GetMipmap(TQ3TextureObject texture, TQ3Mipmap *mipmap)
 
 
 	//copy the mipmapImages
-	memcpy(	&mipmap->mipmaps,
-			&instanceData->mipmaps, 
-			sizeof(TQ3MipmapImage) * kQ3MaxMipmaps) ;	
+	Q3Memory_Copy(&instanceData->mipmaps, 
+				  &mipmap->mipmaps,
+				  sizeof(TQ3MipmapImage) * kQ3MaxMipmaps) ;	
 
 
 
@@ -839,9 +839,9 @@ E3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap *mipmap)
 
 
 	//copy the mipmapImages
-	memcpy(	&instanceData->mipmaps,
-			&mipmap->mipmaps, 
-			sizeof(TQ3MipmapImage) * kQ3MaxMipmaps) ;	
+	Q3Memory_Copy(&mipmap->mipmaps, 
+				  &instanceData->mipmaps,
+				  sizeof(TQ3MipmapImage) * kQ3MaxMipmaps) ;	
 
 
 
