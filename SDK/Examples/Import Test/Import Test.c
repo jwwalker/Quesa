@@ -36,13 +36,14 @@
 #include "Qut.h"
 
 
+#include <ctime>
 
 
 
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
-const TQ3ColorARGB kColourARGBBackground = {1.0f, 1.0, 1.0f, 0.0f};
+const TQ3ColorARGB kColourARGBBackground = {1.0f, 1.0, 1.0f, 1.0f};
 
 
 
@@ -53,8 +54,7 @@ const TQ3ColorARGB kColourARGBBackground = {1.0f, 1.0, 1.0f, 0.0f};
 //-----------------------------------------------------------------------------
 TQ3ShapeObject		gSceneGeometry = NULL;
 TQ3Matrix4x4		gMatrixCurrent;
-TQ3Matrix4x4		gMatrixRotation;
-TQ3Vector3D			gSceneTranslate = { 0.0f, 0.0f, 0.0f };
+TQ3Vector3D			gSceneTranslateToOrigin = { 0.0f, 0.0f, 0.0f };
 TQ3Vector3D			gSceneScale     = { 1.0f, 1.0f, 1.0f };
 TQ3ShaderObject		gSceneIllumination  = NULL;
 
@@ -116,9 +116,9 @@ appConfigureView(TQ3ViewObject				theView,
 	if (xBounds <= 0.0003f && yBounds <= 0.0003f && zBounds <= 0.0003f)
 		scaleFactor = 1.0f;
 
-	gSceneTranslate.x = -(theBounds.min.x + (xBounds * 0.5f));
-	gSceneTranslate.y = -(theBounds.min.y + (yBounds * 0.5f));
-	gSceneTranslate.z = -(theBounds.min.z + (zBounds * 0.5f));
+	gSceneTranslateToOrigin.x = -(theBounds.min.x + (xBounds * 0.5f));
+	gSceneTranslateToOrigin.y = -(theBounds.min.y + (yBounds * 0.5f));
+	gSceneTranslateToOrigin.z = -(theBounds.min.z + (zBounds * 0.5f));
 
 	gSceneScale.x = scaleFactor;
 	gSceneScale.y = scaleFactor;
@@ -143,6 +143,10 @@ appConfigureView(TQ3ViewObject				theView,
 static void
 appRender(TQ3ViewObject theView)
 {
+	static clock_t	sPrevRenderTime = 0;
+	clock_t			renderTime;
+	float			timeFactor;
+	TQ3Matrix4x4	rotationMatrix;
 
 	if( gSceneIllumination != NULL )
 	{
@@ -150,15 +154,24 @@ appRender(TQ3ViewObject theView)
 	}
 
 	// Submit the scene
-	Q3ScaleTransform_Submit(&gSceneScale,         theView);
-	Q3TranslateTransform_Submit(&gSceneTranslate, theView);
 	Q3MatrixTransform_Submit(&gMatrixCurrent,     theView);
+	Q3ScaleTransform_Submit(&gSceneScale,         theView);
+	Q3TranslateTransform_Submit(&gSceneTranslateToOrigin, theView);
+
 	Q3Object_Submit(gSceneGeometry,               theView);
 
 
 
-	// Update the rotation matrix
-	Q3Matrix4x4_Multiply(&gMatrixCurrent, &gMatrixRotation, &gMatrixCurrent);
+	// Update the rotation matrix, in a such a way that the rate of rotation
+	// remains approximately constant in spite of changes in frame rate.
+	renderTime = clock();
+	if (sPrevRenderTime != 0)
+		{
+		timeFactor = (renderTime - sPrevRenderTime) / ((float) CLOCKS_PER_SEC);
+		Q3Matrix4x4_SetRotate_XYZ(&rotationMatrix, 0.3f * timeFactor, 0.5f * timeFactor, 0.05f * timeFactor);
+		Q3Matrix4x4_Multiply(&gMatrixCurrent, &rotationMatrix, &gMatrixCurrent);
+		}
+	sPrevRenderTime = renderTime;
 }
 
 
@@ -189,7 +202,6 @@ App_Initialise(void)
 
 	// Initialise the matrices
 	Q3Matrix4x4_SetIdentity(&gMatrixCurrent);
-	Q3Matrix4x4_SetRotate_XYZ(&gMatrixRotation, 0.01f, 0.05f, 0.03f);
 }
 
 
