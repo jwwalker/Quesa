@@ -288,7 +288,6 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 //=============================================================================
 //      e3root_duplicate : Root object duplicate method.
 //-----------------------------------------------------------------------------
-#if Q3_DEBUG
 static TQ3Status
 e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 						 TQ3Object toObject, void *toPrivateData)
@@ -316,7 +315,6 @@ e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 	
 	return q3status;
 }
-#endif
 
 
 
@@ -1478,6 +1476,42 @@ E3Object_ClearElement(TQ3Object theObject, TQ3ElementType theType)
 	
 	
 	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_GetSet : Get the set of an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Object_GetSet( TQ3Object theObject, TQ3SetObject *theSet )
+{
+	TQ3ObjectData*	instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(
+		theObject, kQ3ObjectTypeRoot );
+	
+	E3Shared_Acquire( theSet, instanceData->theSet );
+	
+	return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_SetSet : Set the set of an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Object_SetSet(TQ3Object theObject, TQ3SetObject theSet)
+{
+	TQ3ObjectData*	instanceData = (TQ3ObjectData *) E3ClassTree_FindInstanceData(
+		theObject, kQ3ObjectTypeRoot );
+	
+	E3Shared_Replace( &instanceData->theSet, theSet );
+	
+	return kQ3Success;
 }
 
 
