@@ -93,7 +93,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 	TQ3Status				qd3dStatus;
 	AGLContext				glContext;
 	GLint					glRect[4];
-	CWindowPtr				theWindow;
+	WindowRef				theWindow;
 	TQ3Pixmap				thePixmap;
 	Rect					theRect;
 
@@ -105,7 +105,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
     	// Mac Window
     	case kQ3DrawContextTypeMacintosh:
     		// Get the window
-			qd3dStatus = Q3MacDrawContext_GetWindow(theDrawContext, &theWindow);
+			qd3dStatus = Q3MacDrawContext_GetWindow(theDrawContext, (CWindowPtr *) &theWindow);
 			if (qd3dStatus != kQ3Success || theWindow == NULL)
 				return(NULL);
 
