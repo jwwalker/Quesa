@@ -1183,11 +1183,12 @@ IRGeometry_FlushPrimCache(TQ3ViewObject				theView,
 
 
 
-	// If this is a rendering flush, submit the primitives and reset
-	// the used count to empty the cache. Note that we don't release
-	// the memory used by the cache, as the chances are we'll need it
-	// again on the next frame.
-	if (renderFlush)
+	// If this is a rendering flush and there's something in the cache,
+	// submit the primitives and reset the used count to 0.
+	//
+	// Note that we don't release the memory used by the cache, as the
+	// chances are we'll need it again on the next frame.
+	if (renderFlush && instanceData->cachedPrimUsed != 0)
 		{
 		// Sort the array
 		qsort(instanceData->cachedPrims,
@@ -1228,11 +1229,11 @@ IRGeometry_FlushPrimCache(TQ3ViewObject				theView,
 
 		instanceData->cachedPrimUsed = 0;
 		}
-	
-	
-	
-	// Otherwise, it's a non-rendering flush to close us down. So we
-	// reset the cache state and release the memory used for the array.
+
+
+
+	// Otherwise we need to perform a shutdown flush and reset the
+	// cache state completely to free up any memory we're using.
 	else
 		{
 		instanceData->cachedPrimUsed  = 0;
