@@ -550,11 +550,13 @@ E3MacSystem_LoadPlugins(void)
 	Boolean					wasChanged, isOnOSX;
 	ProcessSerialNumber		thePSN = { kNoProcess, kCurrentProcess };
 	OSStatus				theErr;
-	FSRef					bundleFSRef;
 	long					sysVersion;
-	CFBundleRef				myBundle;
 	int						i, j;
+#if TARGET_API_MAC_CARBON
+	CFBundleRef				myBundle;
 	FSCatalogInfo			catInfo;
+	FSRef					bundleFSRef;
+#endif
 
 
 
@@ -575,6 +577,7 @@ E3MacSystem_LoadPlugins(void)
 
 
 	// Find the application file
+#if TARGET_API_MAC_CARBON
 	if (isOnOSX)
 		{
 		theErr = GetProcessBundleLocation( &thePSN, &bundleFSRef );
@@ -585,6 +588,7 @@ E3MacSystem_LoadPlugins(void)
 			}
 		}
 	else
+#endif
 		{
 		processInfo.processInfoLength = sizeof(ProcessInfoRec);
 		processInfo.processName       = NULL;
@@ -597,6 +601,7 @@ E3MacSystem_LoadPlugins(void)
 
 
 
+#if TARGET_API_MAC_CARBON
 	if (isOnOSX)
 		{
 		// ~/Library/CFMSupport
@@ -635,6 +640,7 @@ E3MacSystem_LoadPlugins(void)
 			}
 		}
 	else
+#endif
 		{	// OS 9 Extensions folder
 		theErr = e3mac_find_folder_spec( kOnSystemDisk, kExtensionFolderType,
 			&fileSpec[ dirCount ] );
