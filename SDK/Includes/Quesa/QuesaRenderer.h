@@ -76,6 +76,8 @@ extern "C" {
  *  @discussion
  *      CSG attribute.
  *
+ *      The data for the attribute is a single TQ3CSGObjectID.
+ *
  *  @constant kQ3AttributeTypeConstructiveSolidGeometryID    CSG attribute ID.
  */
 typedef enum {
@@ -85,9 +87,9 @@ typedef enum {
 
 /*!
  *  @enum
- *      TQ3CSGObject
+ *      TQ3CSGObjectID
  *  @discussion
- *      CSG objects.
+ *      CSG object IDs.
  *
  *  @constant kQ3SolidGeometryObjNone    Indicates no object.
  *  @constant kQ3SolidGeometryObjA       Indicates the 'A' object.
@@ -96,7 +98,7 @@ typedef enum {
  *  @constant kQ3SolidGeometryObjD       Indicates the 'D' object.
  *  @constant kQ3SolidGeometryObjE       Indicates the 'E' object.
  */
-typedef enum TQ3CSGObject {
+typedef enum TQ3CSGObjectID {
     kQ3SolidGeometryObjNone                     = -1,
     kQ3SolidGeometryObjA                        = 0,
     kQ3SolidGeometryObjB                        = 1,
@@ -104,7 +106,7 @@ typedef enum TQ3CSGObject {
     kQ3SolidGeometryObjD                        = 3,
     kQ3SolidGeometryObjE                        = 4,
     kQ3SolidGeometrySize32                      = 0xFFFFFFFF
-} TQ3CSGObject;
+} TQ3CSGObjectID;
 
 
 /*!
