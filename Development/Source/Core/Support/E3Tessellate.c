@@ -457,7 +457,7 @@ e3tessellate_gather_vertex_attribute(void *userData, TQ3Uns32 setIndex)
 //=============================================================================
 //      e3tessellate_callback_begin : Begin a new triangle.
 //-----------------------------------------------------------------------------
-static void
+static void CALLBACK
 e3tessellate_callback_begin(GLenum which, void *userData)
 {	E3TessellateState		*theState = (E3TessellateState *) userData;
 
@@ -482,7 +482,7 @@ e3tessellate_callback_begin(GLenum which, void *userData)
 //=============================================================================
 //      e3tessellate_callback_end : End the current triangle.
 //-----------------------------------------------------------------------------
-static void
+static void CALLBACK
 e3tessellate_callback_end(void *userData)
 {	E3TessellateState	*theState = (E3TessellateState *) userData;
 	TQ3Boolean			wasAdded;
@@ -516,7 +516,7 @@ e3tessellate_callback_end(void *userData)
 //=============================================================================
 //      e3tessellate_callback_edge : Update the edge state.
 //-----------------------------------------------------------------------------
-static void
+static void CALLBACK
 e3tessellate_callback_edge(GLboolean isEdge, void *userData)
 {	E3TessellateState		*theState = (E3TessellateState *) userData;
 
@@ -533,7 +533,7 @@ e3tessellate_callback_edge(GLboolean isEdge, void *userData)
 //=============================================================================
 //      e3tessellate_callback_vertex : Process another vertex.
 //-----------------------------------------------------------------------------
-static void
+static void CALLBACK
 e3tessellate_callback_vertex(GLvoid *vertex, void *userData)
 {	E3TessellateState		*theState  = (E3TessellateState *) userData;
 	TQ3Vertex3D				*theVertex = (TQ3Vertex3D       *) vertex;
@@ -569,9 +569,9 @@ e3tessellate_callback_vertex(GLvoid *vertex, void *userData)
 
 
 //=============================================================================
-//      e3tessellate_dispose_state : Dispose of the tessellator state.
+//      e3tessellate_callback_error : Store an error code in the tessellator state.
 //-----------------------------------------------------------------------------
-static void
+static void CALLBACK
 e3tessellate_callback_error(GLenum errorCode, void *userData)
 {	E3TessellateState		*theState = (E3TessellateState *) userData;
 
@@ -588,7 +588,7 @@ e3tessellate_callback_error(GLenum errorCode, void *userData)
 //=============================================================================
 //      e3tessellate_callback_combine : Combine vertices to form a new vertex.
 //-----------------------------------------------------------------------------
-static void
+static void CALLBACK
 e3tessellate_callback_combine(const GLdouble		pointIn[3],
 								const void			*dataIn[4],
 								const GLfloat		theWeights[4],
@@ -713,10 +713,17 @@ e3tessellate_create_trimesh(E3TessellateState *theState, TQ3AttributeSet triMesh
 
 	// Allocate the vertex points and attributes arrays
 	thePoints     = (TQ3Point3D              *) Q3Memory_Allocate(theState->numTriMeshVertices * sizeof(TQ3Point3D));
+	
+	if (thePoints == NULL)
+		return NULL;
+	
 	theAttributes = (TQ3TriMeshAttributeData *) Q3Memory_Allocate(kQ3AttributeTypeNumTypes     * sizeof(TQ3TriMeshAttributeData));
 	
-	if (thePoints == NULL || theAttributes == NULL)
+	if (theAttributes == NULL)
+		{
+		Q3Memory_Free( &thePoints );
 		return(NULL);
+		}
 
 
 
@@ -772,12 +779,9 @@ e3tessellate_create_trimesh(E3TessellateState *theState, TQ3AttributeSet triMesh
 		n++;
 	
 	Q3_ASSERT(n < kQ3AttributeTypeNumTypes);
-	if (n != 0)
-		{
-		theState->triMeshData.numVertexAttributeTypes = n;
-		theState->triMeshData.vertexAttributeTypes    = theAttributes;
-		theState->triMeshData.triMeshAttributeSet     = triMeshAttributes;
-		}
+	theState->triMeshData.numVertexAttributeTypes = n;
+	theState->triMeshData.vertexAttributeTypes    = theAttributes;
+	theState->triMeshData.triMeshAttributeSet     = triMeshAttributes;
 
 
 
@@ -923,7 +927,7 @@ E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3At
 
 
 	// Create the TriMesh if all went well
-	if (theState.errorState == GL_NO_ERROR)
+	if ( (theState.errorState == GL_NO_ERROR) && (theState.numTriMeshVertices > 0) )
 		theTriMesh = e3tessellate_create_trimesh(&theState, theAttributes);
 
 
