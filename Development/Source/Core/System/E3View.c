@@ -568,7 +568,7 @@ e3view_stack_push(TQ3ViewObject theView)
 static void
 e3view_stack_pop(TQ3ViewObject theView)
 {	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3ViewStackState		theStateToUpdate, theStateToSave;
+	TQ3ViewStackState		theStateToUpdate;
 	TQ3Status				qd3dStatus;
 	TQ3ViewStackItem*		theItem;
 
