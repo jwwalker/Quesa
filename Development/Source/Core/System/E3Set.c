@@ -1954,11 +1954,17 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 
 
 	// Return the next type in the set
-	Q3_ASSERT(instanceData->scanIndex < instanceData->scanCount);
-	Q3_ASSERT_VALID_PTR(instanceData->scanResults);
-	
-	*theType = instanceData->scanResults[instanceData->scanIndex];
-	instanceData->scanIndex++;
+	if (instanceData->scanIndex < instanceData->scanCount)
+		{
+		Q3_ASSERT_VALID_PTR(instanceData->scanResults);
+		
+		*theType = instanceData->scanResults[instanceData->scanIndex];
+		instanceData->scanIndex++;
+		}
+	else
+		{
+		*theType = kQ3ElementTypeNone;
+		}
 
 
 
