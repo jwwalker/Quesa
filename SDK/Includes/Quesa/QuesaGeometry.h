@@ -1468,20 +1468,22 @@ Q3Geometry_Submit (
  *	@function
  *		Q3Geometry_GetDecomposed
  *	@discussion
- *		This function creates the decomposed form of the geometry, if any.  The result
- *		may be a geometry or a group.  If the geometry cannot be decomposed further,
- *		NULL is returned.  The decomposition of a given geometry is not documented
- *		and is subject to change.  The decomposition could contain more than one kind
- *		of geometry; for example, the decomposition of a cone with a bottom cap may
- *		be a group containing a TriMesh and a Disk.
+ *		Creates the decomposed form of the geometry, if any.
+ *
+ *      The result may be a geometry or a group.  If the geometry cannot be decomposed
+ *      further, NULL is returned.
+ *
+ *      The decomposition of a given geometry is not documented and is subject to change.
+ *      Geometries may be decomposed to multiple objects; for example, the decomposition
+ *      of a cone with a bottom cap may be a group containing a TriMesh and a Disk.
  *
  *		You are free to modify the group or geometry returned by this function, and
  *		it is your responsibility to dispose it when you are done with it.
  *
- *		This function must be called in a submitting loop.  Its result may be affected
- *		by the subdivision style in effect at the time of the call.  Depending on the
- *		subdivision method, the result may also depend on the current transformation
- *		and camera state.
+ *		This function must be called in a submitting loop. Depending on the geometry,
+ *      the result may be affected by the current view state. E.g., the geometry may
+ *      be affected by the current transforms and camera, or even by styles such as
+ *      subdivision or orientation.
  *
  *		<em>This function is not available in QD3D.</em>
  *
