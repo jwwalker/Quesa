@@ -856,7 +856,7 @@ E3Pick_RegisterClass(void)
 	//----------------------------------------------------------------------------------
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShape,
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
 												kQ3SharedTypeShapePart,
 												kQ3ClassNameShapePart,
 												e3shapepart_metahandler,
@@ -865,28 +865,28 @@ E3Pick_RegisterClass(void)
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShapePart,
 												kQ3ShapePartTypeMeshPart,
-												kQ3ClassNameMeshPart,
+												kQ3ClassNameMeshShapePart,
 												e3meshpart_metahandler,
 												sizeof(TQ3MeshComponent));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapePartTypeMeshPart,
 												kQ3MeshPartTypeMeshFacePart,
-												kQ3ClassNameMeshPartFace,
+												kQ3ClassNameMeshFacePart,
 												e3meshpart_face_metahandler,
 												sizeof(TQ3MeshFace));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapePartTypeMeshPart,
 												kQ3MeshPartTypeMeshEdgePart,
-												kQ3ClassNameMeshPartEdge,
+												kQ3ClassNameMeshEdgePart,
 												e3meshpart_edge_metahandler,
 												sizeof(TQ3MeshEdge));
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapePartTypeMeshPart,
 												kQ3MeshPartTypeMeshVertexPart,
-												kQ3ClassNameMeshPartVertex,
+												kQ3ClassNameMeshVertexPart,
 												e3meshpart_vertex_metahandler,
 												sizeof(TQ3MeshVertex));
 
