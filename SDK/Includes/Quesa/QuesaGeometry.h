@@ -2952,7 +2952,7 @@ Q3GeneralPolygon_Submit (
  *  @discussion
  *      Modify a general polygon object by supplying a full new set of data.
  *
- *  @param generalPolygon   	A general polygon object
+ *  @param generalPolygon   	A general polygon object.
  *  @param generalPolygonData	Data describing a general polygon object.
  *  @result						Success or failure of the operation.
  */
@@ -3006,15 +3006,12 @@ Q3GeneralPolygon_EmptyData (
  *  @function
  *      Q3GeneralPolygon_GetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the 3D position of a vertex in a general polygon.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param generalPolygon   Description of the parameter.
- *  @param contourIndex     Description of the parameter.
- *  @param pointIndex       Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param generalPolygon   A general polygon object.
+ *  @param contourIndex		A 0-based index into the array of contours.
+ *  @param pointIndex       A 0-based index into the array of vertices of a contour.
+ *  @param position         Receives the position of the vertex.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3031,15 +3028,12 @@ Q3GeneralPolygon_GetVertexPosition (
  *  @function
  *      Q3GeneralPolygon_SetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Set the 3D position of a vertex in a general polygon.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param generalPolygon   Description of the parameter.
- *  @param contourIndex     Description of the parameter.
- *  @param pointIndex       Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param generalPolygon   A general polygon object.
+ *  @param contourIndex		A 0-based index into the array of contours.
+ *  @param pointIndex       A 0-based index into the array of vertices of a contour.
+ *  @param position         New position for the vertex.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3056,15 +3050,12 @@ Q3GeneralPolygon_SetVertexPosition (
  *  @function
  *      Q3GeneralPolygon_GetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a vertex of a general polygon.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param generalPolygon   Description of the parameter.
- *  @param contourIndex     Description of the parameter.
- *  @param pointIndex       Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param generalPolygon   A general polygon object.
+ *  @param contourIndex		A 0-based index into the array of contours.
+ *  @param pointIndex       A 0-based index into the array of vertices of a contour.
+ *  @param attributeSet     Receives a new reference to the vertex attribute set, or NULL.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3081,15 +3072,14 @@ Q3GeneralPolygon_GetVertexAttributeSet (
  *  @function
  *      Q3GeneralPolygon_SetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Assign an attribute set to a vertex of a general polygon.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The function increments the reference count of the attribute set.
  *
- *  @param generalPolygon   Description of the parameter.
- *  @param contourIndex     Description of the parameter.
- *  @param pointIndex       Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param generalPolygon   A general polygon object.
+ *  @param contourIndex		A 0-based index into the array of contours.
+ *  @param pointIndex       A 0-based index into the array of vertices of a contour.
+ *  @param attributeSet     Attribute set for the vertex.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3106,13 +3096,12 @@ Q3GeneralPolygon_SetVertexAttributeSet (
  *  @function
  *      Q3GeneralPolygon_SetShapeHint
  *  @discussion
- *      One-line description of this function.
+ *      Set the shape hint of a general polygon.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The hint may allow a renderer to optimize drawing the polygon.
  *
- *  @param generalPolygon   Description of the parameter.
- *  @param shapeHint        Description of the parameter.
+ *  @param generalPolygon   A general polygon object.
+ *  @param shapeHint        The shape hint.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3127,13 +3116,10 @@ Q3GeneralPolygon_SetShapeHint (
  *  @function
  *      Q3GeneralPolygon_GetShapeHint
  *  @discussion
- *      One-line description of this function.
+ *      Get the shape hint of a general polygon.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param generalPolygon   Description of the parameter.
- *  @param shapeHint        Description of the parameter.
+ *  @param generalPolygon   A general polygon object.
+ *  @param shapeHint        Receives the shape hint.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3223,14 +3209,11 @@ Q3Line_SetData (
  *  @function
  *      Q3Line_GetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of one of the ends of a line.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param line             Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param line             A line object.
+ *  @param index            An index, 0 or 1, specifying an end of the line.
+ *  @param position         Receives the position of the vertex.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3246,14 +3229,11 @@ Q3Line_GetVertexPosition (
  *  @function
  *      Q3Line_SetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Change the position of one of the ends of a line object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param line             Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param line             A line object.
+ *  @param index            An index, 0 or 1, specifying an end of the line.
+ *  @param position         New position of the vertex.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3269,14 +3249,11 @@ Q3Line_SetVertexPosition (
  *  @function
  *      Q3Line_GetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of one of the ends of a line object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param line             Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param line             A line object.
+ *  @param index            An index, 0 or 1, specifying an end of the line.
+ *  @param attributeSet     Receives a new reference to the attribute set, or NULL.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3292,14 +3269,14 @@ Q3Line_GetVertexAttributeSet (
  *  @function
  *      Q3Line_SetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Assign an attribute set to one of the ends of a line.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      Any previous attribute set on the vertex is disposed.
+ *		The new attribute set has its reference count incremented.
  *
- *  @param line             Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param line             A line object.
+ *  @param index            An index, 0 or 1, specifying an end of the line.
+ *  @param attributeSet     The new attribute set.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3424,13 +3401,13 @@ Q3Marker_EmptyData (
  *  @function
  *      Q3Marker_GetPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of a Marker object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The position corresponds to the <code>location</code> field of the
+ *		<code>TQ3MarkerData</code> structure.
  *
- *  @param marker           Description of the parameter.
- *  @param location         Description of the parameter.
+ *  @param marker			A marker object.
+ *  @param location         Receives the location of the marker object.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3445,13 +3422,13 @@ Q3Marker_GetPosition (
  *  @function
  *      Q3Marker_SetPosition
  *  @discussion
- *      One-line description of this function.
+ *      Set the position of a Marker object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      The position corresponds to the <code>location</code> field of the
+ *		<code>TQ3MarkerData</code> structure.
  *
- *  @param marker           Description of the parameter.
- *  @param location         Description of the parameter.
+ *  @param marker			A marker object.
+ *  @param location         New location of the marker object.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3466,13 +3443,11 @@ Q3Marker_SetPosition (
  *  @function
  *      Q3Marker_GetXOffset
  *  @discussion
- *      One-line description of this function.
+ *      Get the horizontal offset, in screen pixels, from the marker location to the
+ *		upper left corner of the marker bitmap.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param marker           Description of the parameter.
- *  @param xOffset          Description of the parameter.
+ *  @param marker			A marker object.
+ *  @param xOffset          Receives the horizontal offset in pixels.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3487,13 +3462,11 @@ Q3Marker_GetXOffset (
  *  @function
  *      Q3Marker_SetXOffset
  *  @discussion
- *      One-line description of this function.
+ *      Set the horizontal offset, in screen pixels, from the marker location to the
+ *		upper left corner of the marker bitmap.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param marker           Description of the parameter.
- *  @param xOffset          Description of the parameter.
+ *  @param marker			A marker object.
+ *  @param xOffset          New horizontal offset in pixels.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3508,13 +3481,11 @@ Q3Marker_SetXOffset (
  *  @function
  *      Q3Marker_GetYOffset
  *  @discussion
- *      One-line description of this function.
+ *      Get the vertical offset, in screen pixels, from the marker location to the
+ *		upper left corner of the marker bitmap.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param marker           Description of the parameter.
- *  @param yOffset          Description of the parameter.
+ *  @param marker			A marker object.
+ *  @param yOffset          Receives the vertical offset in pixels.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3529,13 +3500,11 @@ Q3Marker_GetYOffset (
  *  @function
  *      Q3Marker_SetYOffset
  *  @discussion
- *      One-line description of this function.
+ *      Set the vertical offset, in screen pixels, from the marker location to the
+ *		upper left corner of the marker bitmap.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param marker           Description of the parameter.
- *  @param yOffset          Description of the parameter.
+ *  @param marker			A marker object.
+ *  @param yOffset          New vertical offset in pixels.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3550,13 +3519,13 @@ Q3Marker_SetYOffset (
  *  @function
  *      Q3Marker_GetBitmap
  *  @discussion
- *      One-line description of this function.
+ *      Get the bitmap of a Marker object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This returns a copy of the bitmap of the marker.  When you are done
+ *      with it, use <code>Q3Bitmap_Empty</code> to release the memory.
  *
- *  @param marker           Description of the parameter.
- *  @param bitmap           Description of the parameter.
+ *  @param marker			A marker object.
+ *  @param bitmap           Receives a copy of the bitmap of the marker.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3571,13 +3540,13 @@ Q3Marker_GetBitmap (
  *  @function
  *      Q3Marker_SetBitmap
  *  @discussion
- *      One-line description of this function.
+ *      Change the bitmap of a Marker object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
+ *      This makes a copy of the bitmap data, so you can dispose of the
+ *      original.
  *
- *  @param marker           Description of the parameter.
- *  @param bitmap           Description of the parameter.
+ *  @param marker			A marker object.
+ *  @param bitmap           New bitmap to be used by the marker.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -3592,7 +3561,7 @@ Q3Marker_SetBitmap (
  *  @function
  *      Q3Mesh_New
  *  @discussion
- *      Create a new Mesh geometry object.
+ *      Create a new empty Mesh geometry object.
  *
  *  @result                 Reference to a new Mesh geometry object, or NULL on failure.
  */
@@ -5705,13 +5674,10 @@ Q3PixmapMarker_EmptyData (
  *  @function
  *      Q3PixmapMarker_GetPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of the pixmap marker in world coordinates.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarker     Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param pixmapMarker		A pixmap marker object.
+ *  @param position         Receives the position of the pixmap marker.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -5726,13 +5692,10 @@ Q3PixmapMarker_GetPosition (
  *  @function
  *      Q3PixmapMarker_SetPosition
  *  @discussion
- *      One-line description of this function.
+ *      Change the position of a pixmap marker object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarker     Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param pixmapMarker		A pixmap marker object.
+ *  @param position         New position of the pixmap marker in world coordinates.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -5747,13 +5710,11 @@ Q3PixmapMarker_SetPosition (
  *  @function
  *      Q3PixmapMarker_GetXOffset
  *  @discussion
- *      One-line description of this function.
+ *      Get the horizontal offset, in screen pixels, from the marker position to
+ *		the upper left corner of the marker image.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarker     Description of the parameter.
- *  @param xOffset          Description of the parameter.
+ *  @param pixmapMarker		A pixmap marker object.
+ *  @param xOffset          Receives the horizontal offset of the marker in pixels.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -5768,13 +5729,11 @@ Q3PixmapMarker_GetXOffset (
  *  @function
  *      Q3PixmapMarker_SetXOffset
  *  @discussion
- *      One-line description of this function.
+ *      Set the horizontal offset, in screen pixels, from the marker position to
+ *		the upper left corner of the marker image.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarker     Description of the parameter.
- *  @param xOffset          Description of the parameter.
+ *  @param pixmapMarker		A pixmap marker object.
+ *  @param xOffset          The horizontal offset of the marker in pixels.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -5789,13 +5748,11 @@ Q3PixmapMarker_SetXOffset (
  *  @function
  *      Q3PixmapMarker_GetYOffset
  *  @discussion
- *      One-line description of this function.
+ *      Get the vertical offset, in screen pixels, from the marker position to
+ *		the upper left corner of the marker image.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarker     Description of the parameter.
- *  @param yOffset          Description of the parameter.
+ *  @param pixmapMarker		A pixmap marker object.
+ *  @param yOffset          Receives the vertical offset of the marker in pixels.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -5810,13 +5767,11 @@ Q3PixmapMarker_GetYOffset (
  *  @function
  *      Q3PixmapMarker_SetYOffset
  *  @discussion
- *      One-line description of this function.
+ *      Set the vertical offset, in screen pixels, from the marker position to
+ *		the upper left corner of the marker image.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarker     Description of the parameter.
- *  @param yOffset          Description of the parameter.
+ *  @param pixmapMarker		A pixmap marker object.
+ *  @param yOffset          The vertical offset of the marker in pixels.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -5831,13 +5786,11 @@ Q3PixmapMarker_SetYOffset (
  *  @function
  *      Q3PixmapMarker_GetPixmap
  *  @discussion
- *      One-line description of this function.
+ *      Get a copy of the pixmap used within a pixmap marker, including
+ *		a new reference to the image storage.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarker     Description of the parameter.
- *  @param pixmap           Description of the parameter.
+ *  @param pixmapMarker		A pixmap marker object.
+ *  @param pixmap           Receives the pixmap structure of the marker.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -5852,13 +5805,11 @@ Q3PixmapMarker_GetPixmap (
  *  @function
  *      Q3PixmapMarker_SetPixmap
  *  @discussion
- *      One-line description of this function.
+ *      Change the pixmap used by a pixmap marker.  The function makes a copy of the data,
+ *		including incrementing the reference count of the image storage.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param pixmapMarker     Description of the parameter.
- *  @param pixmap           Description of the parameter.
+ *  @param pixmapMarker		A pixmap marker object.
+ *  @param pixmap           New pixmap to be used by the marker.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -5965,13 +5916,10 @@ Q3Point_EmptyData (
  *  @function
  *      Q3Point_SetPosition
  *  @discussion
- *      One-line description of this function.
+ *      Change the position of a point object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point            Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param point            A point object.
+ *  @param position         New position for the point.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -5986,13 +5934,10 @@ Q3Point_SetPosition (
  *  @function
  *      Q3Point_GetPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the position of a point object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param point            Description of the parameter.
- *  @param position         Description of the parameter.
+ *  @param point            A point object.
+ *  @param position         Receives the position of the point.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -6099,14 +6044,11 @@ Q3Polygon_EmptyData (
  *  @function
  *      Q3Polygon_GetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Get the 3D position of a vertex of a polygon object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polygon          Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param point            Description of the parameter.
+ *  @param polygon          A polygon object.
+ *  @param index            A 0-based index into the array of vertices of the polygon.
+ *  @param point            Receives the position of the vertex.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -6122,14 +6064,11 @@ Q3Polygon_GetVertexPosition (
  *  @function
  *      Q3Polygon_SetVertexPosition
  *  @discussion
- *      One-line description of this function.
+ *      Change the 3D position of a vertex of a polygon object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polygon          Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param point            Description of the parameter.
+ *  @param polygon          A polygon object.
+ *  @param index            A 0-based index into the array of vertices of the polygon.
+ *  @param point            New position of the vertex.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -6145,14 +6084,11 @@ Q3Polygon_SetVertexPosition (
  *  @function
  *      Q3Polygon_GetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Get the attribute set of a vertex in a polygon object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polygon          Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param polygon          A polygon object.
+ *  @param index            A 0-based index into the array of vertices of the polygon.
+ *  @param attributeSet     Receives a new reference to the attribute set, or NULL.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -6168,14 +6104,11 @@ Q3Polygon_GetVertexAttributeSet (
  *  @function
  *      Q3Polygon_SetVertexAttributeSet
  *  @discussion
- *      One-line description of this function.
+ *      Change the attribute set of a vertex in a polygon object.
  *
- *      A more extensive description can be supplied here, covering
- *      the typical usage of this function and any special requirements.
- *
- *  @param polygon          Description of the parameter.
- *  @param index            Description of the parameter.
- *  @param attributeSet     Description of the parameter.
+ *  @param polygon          A polygon object.
+ *  @param index            A 0-based index into the array of vertices of the polygon.
+ *  @param attributeSet     New attribute set for the vertex.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
