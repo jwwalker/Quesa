@@ -812,14 +812,14 @@ E3Float64_Write(TQ3Float64 data, TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Size_Pad : Pad a number ofbytes to be long-word aligned.
+//      E3Size_Pad : Pad a number of bytes to be long-word aligned.
 //-----------------------------------------------------------------------------
 TQ3Size
 E3Size_Pad(TQ3Size size)
 {
 	
-	if((size & 0x03) != 0)
-		size = (size & 0xFFFFFFF8) + 4;
+	if ((size & 0x03) != 0)
+		size = (size & 0xFFFFFFFC) + 4;
 		
 	return size;
 }
