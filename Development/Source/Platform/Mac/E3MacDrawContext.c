@@ -637,22 +637,21 @@ e3drawcontext_mac_updateregions(TQ3DrawContextObject theDrawContext, TQ3XDrawCon
 static void
 e3drawcontext_mac_normalizeport(TQ3DrawContextObject theDrawContext)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
-	WindowRef					theWindow;
 	CGrafPtr					thePort;
 	Rect						theRect;
 	RgnHandle					theRgn;
 
 
 
-	// Get the window - if we don't have a window, we're done
-	theWindow = (WindowRef) instanceData->data.macData.theData.window;
-	if (theWindow == NULL)
+	// Get the port bounds
+	if (instanceData->data.macData.theData.window != NULL)
+		thePort = GetWindowPort(instanceData->data.macData.theData.window);
+	else
+		thePort = instanceData->data.macData.theData.grafPort;
+
+	if (thePort == NULL)
 		return;
-
-
-
-	// Get the window port and its bounds (to record the current port origin)
-	thePort = GetWindowPort(theWindow);
+	
 	GetPortBounds(thePort, &theRect);
 
 
