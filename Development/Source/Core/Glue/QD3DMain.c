@@ -1037,8 +1037,8 @@ Q3Shape_SetSet(TQ3ShapeObject shape, TQ3SetObject theSet)
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(shape->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(shape, kQ3SharedTypeShape), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theSet->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSet, kQ3SharedTypeSet), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(((theSet == NULL) || (theSet->quesaTag == kQ3ObjectTypeQuesa)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(((theSet == NULL) || (Q3Object_IsType(theSet, kQ3SharedTypeSet))), kQ3Failure);
 
 
 
