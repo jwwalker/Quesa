@@ -1098,26 +1098,23 @@ E3Pick_SetData(TQ3PickObject thePick, const TQ3PickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetVertexTolerance(TQ3PickObject thePick, float *vertexTolerance)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
-	TQ3Status			qd3dStatus    = kQ3Success;
-
-
+	{
+	TQ3PickUnionData* instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
 
 	// Get the field
-	if (Q3Object_IsType(thePick, kQ3PickTypeWindowPoint))
+	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WindowPointPick ) )
 		*vertexTolerance = instanceData->data.windowPointData.vertexTolerance;
-
-	else if (Q3Object_IsType(thePick, kQ3PickTypeWorldRay))
+	else
+	if ( Q3_OBJECT_IS_CLASS (thePick, E3WorldRayPick ) )
 		*vertexTolerance = instanceData->data.worldRayData.vertexTolerance;
-
 	else
 		{
 		*vertexTolerance = 0.0f;
-		qd3dStatus       = kQ3Failure;
+		return kQ3Failure ;
 		}
 
-	return(qd3dStatus);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1128,26 +1125,25 @@ E3Pick_GetVertexTolerance(TQ3PickObject thePick, float *vertexTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetEdgeTolerance(TQ3PickObject thePick, float *edgeTolerance)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
-	TQ3Status			qd3dStatus    = kQ3Success;
+	{
+	TQ3PickUnionData* instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
 
 
 
 	// Get the field
-	if (Q3Object_IsType(thePick, kQ3PickTypeWindowPoint))
-		*edgeTolerance = instanceData->data.windowPointData.edgeTolerance;
-
-	else if (Q3Object_IsType(thePick, kQ3PickTypeWorldRay))
-		*edgeTolerance = instanceData->data.worldRayData.edgeTolerance;
-
+	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WindowPointPick ) )
+		*edgeTolerance = instanceData->data.windowPointData.edgeTolerance ;
+	else
+	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WorldRayPick ) )
+		*edgeTolerance = instanceData->data.worldRayData.edgeTolerance ;
 	else
 		{
-		*edgeTolerance = 0.0f;
-		qd3dStatus     = kQ3Failure;
+		*edgeTolerance = 0.0f ;
+		return kQ3Failure ;
 		}
 
-	return(qd3dStatus);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1158,23 +1154,22 @@ E3Pick_GetEdgeTolerance(TQ3PickObject thePick, float *edgeTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_SetVertexTolerance(TQ3PickObject thePick, float vertexTolerance)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
-	TQ3Status			qd3dStatus    = kQ3Success;
+	{
+	TQ3PickUnionData* instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
 
 
 
 	// Set the field
-	if (Q3Object_IsType(thePick, kQ3PickTypeWindowPoint))
+	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WindowPointPick ) )
 		instanceData->data.windowPointData.vertexTolerance = vertexTolerance;
-
-	else if (Q3Object_IsType(thePick, kQ3PickTypeWorldRay))
-		instanceData->data.worldRayData.vertexTolerance = vertexTolerance;
-
 	else
-		qd3dStatus = kQ3Failure;
+	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WorldRayPick ) )
+		instanceData->data.worldRayData.vertexTolerance = vertexTolerance;
+	else
+		return kQ3Failure;
 	
-	return(qd3dStatus);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1185,23 +1180,22 @@ E3Pick_SetVertexTolerance(TQ3PickObject thePick, float vertexTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_SetEdgeTolerance(TQ3PickObject thePick, float edgeTolerance)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
-	TQ3Status			qd3dStatus    = kQ3Success;
+	{
+	TQ3PickUnionData* instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
 
 
 
 	// Set the field
-	if (Q3Object_IsType(thePick, kQ3PickTypeWindowPoint))
+	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WindowPointPick ) )
 		instanceData->data.windowPointData.edgeTolerance = edgeTolerance;
-
-	else if (Q3Object_IsType(thePick, kQ3PickTypeWorldRay))
-		instanceData->data.worldRayData.edgeTolerance = edgeTolerance;
-
 	else
-		qd3dStatus = kQ3Failure;
+	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WorldRayPick ) )
+		instanceData->data.worldRayData.edgeTolerance = edgeTolerance;
+	else
+		return kQ3Failure;
 	
-	return(qd3dStatus);
-}
+	return kQ3Success ;
+	}
 
 
 

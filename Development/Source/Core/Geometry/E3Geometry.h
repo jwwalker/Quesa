@@ -89,9 +89,9 @@ public :
 
 
 // Geometry data
-class E3Geometry : public E3ShapeData
+class E3Geometry : public E3Shape
 	{
-Q3_CLASS_ENUMS ( kQ3ShapeTypeGeometry, E3Geometry, E3ShapeData )
+Q3_CLASS_ENUMS ( kQ3ShapeTypeGeometry, E3Geometry, E3Shape )
 	TQ3Uns32					cameraEditIndex;
 	TQ3SubdivisionStyleData		styleSubdivision;
 	TQ3OrientationStyle			styleOrientation;

@@ -564,7 +564,7 @@ e3main_registercoreclasses(void)
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ClassNameShape,
 												e3shape_metahandler,
-												E3ShapeData ) ;
+												E3Shape ) ;
 
 	return qd3dStatus ;
 	}
@@ -1109,10 +1109,9 @@ E3Object_Duplicate(TQ3Object theObject)
 	//
 	// If this causes your app problems, please contact Jose Cruanyes
 	// or James Walker to discuss a fix.
-	if ( E3View_IsOfMyClass ( theObject )        ||
-		Q3Object_IsType(theObject, kQ3SharedTypeDrawContext) ||
-		(Q3Object_IsType(theObject, kQ3SharedTypeStorage) &&
-			!Q3Object_IsType(theObject, kQ3StorageTypeMemory)))
+	if ( E3View_IsOfMyClass ( theObject ) // Can't access E3View here as it isn't in a header file (yet) 
+	|| Q3_OBJECT_IS_CLASS ( theObject, E3DrawContext )
+	|| ( Q3_OBJECT_IS_CLASS ( theObject, E3Storage ) && ! Q3_OBJECT_IS_CLASS ( theObject, E3MemoryStorage ) ) )
 		{
 		E3ErrorManager_PostError(kQ3ErrorInvalidObjectType, kQ3False);
 		return(NULL);
@@ -1121,8 +1120,7 @@ E3Object_Duplicate(TQ3Object theObject)
 
 
 	// Duplicate the object
-	TQ3Object newObject =  theObject->DuplicateInstance () ;
-	return newObject ;
+	return theObject->DuplicateInstance () ;
 	}
 
 
@@ -1239,7 +1237,7 @@ OpaqueTQ3Object::AddElement ( TQ3ElementType theType, const void *theData )
 
 
 	// If we've actually been passed a set, use it directly
-	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+	if ( Q3_OBJECT_IS_CLASS ( this, E3Set ) )
 		return Q3Set_Add ( (TQ3SetObject) this, theType, theData ) ;
 		
 	// otherwise use the set within the instance data
@@ -1254,7 +1252,7 @@ OpaqueTQ3Object::AddElement ( TQ3ElementType theType, const void *theData )
 	TQ3Status qd3dStatus = Q3Set_Add ( theSet, theType, theData ) ;
 	
 	
-	if ( ( qd3dStatus != kQ3Failure ) && Q3Object_IsType ( this, kQ3ObjectTypeShared ) )
+	if ( ( qd3dStatus != kQ3Failure ) && Q3_OBJECT_IS_CLASS ( this, E3Shared ) )
 		( (E3Shared*) this )->Edited () ;
 	
 	return qd3dStatus ;
@@ -1277,7 +1275,7 @@ OpaqueTQ3Object::GetElement ( TQ3ElementType theType, void *theData )
 
 
 	// If we've actually been passed a set, use it directly
-	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+	if ( Q3_OBJECT_IS_CLASS ( this, E3Set ) )
 		return Q3Set_Get ( (TQ3SetObject) this, theType, theData ) ;
 	
 	// otherwise use the set within the instance data
@@ -1305,7 +1303,7 @@ OpaqueTQ3Object::ContainsElement ( TQ3ElementType theType )
 
 
 	// If we've actually been passed a set, use it directly
-	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+	if ( Q3_OBJECT_IS_CLASS ( this, E3Set ) )
 		return Q3Set_Contains ( (TQ3SetObject) this, theType ) ;
 	
 	// otherwise use the set within the instance data		
@@ -1339,7 +1337,7 @@ OpaqueTQ3Object::GetNextElementType ( TQ3ElementType *theType )
 
 
 	// If we've actually been passed a set, use it directly
-	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+	if ( Q3_OBJECT_IS_CLASS ( this, E3Set ) )
 		qd3dStatus = Q3Set_GetNextElementType ( (TQ3SetObject) this, theType ) ;
 	else	// otherwise use the set within the instance data
 		{
@@ -1372,7 +1370,7 @@ TQ3Status
 OpaqueTQ3Object::EmptyElements ( void )
 	{
 	// If we've actually been passed a set, use it directly
-	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+	if ( Q3_OBJECT_IS_CLASS ( this, E3Set ) )
 		return Q3Set_Empty ( (TQ3SetObject) this ) ;
 	
 	// otherwise use the set within the instance data
@@ -1382,7 +1380,7 @@ OpaqueTQ3Object::EmptyElements ( void )
 	TQ3Status qd3dStatus = Q3Set_Empty ( theSet ) ;
 	
 	
-	if ( ( qd3dStatus != kQ3Failure ) && Q3Object_IsType ( this, kQ3ObjectTypeShared ) )
+	if ( ( qd3dStatus != kQ3Failure ) && Q3_OBJECT_IS_CLASS ( this, E3Shared ) )
 		( (E3Shared*) this )->Edited () ;
 	
 	
@@ -1406,7 +1404,7 @@ OpaqueTQ3Object::ClearElement ( TQ3ElementType theType )
 
 
 	// If we've actually been passed a set, use it directly
-	if ( Q3Object_IsType ( this, kQ3SharedTypeSet ) )
+	if ( Q3_OBJECT_IS_CLASS ( this, E3Set ) )
 		return Q3Set_Clear ( (TQ3SetObject) this, theType ) ;
 	
 	// otherwise use the set within the instance data
@@ -1416,7 +1414,7 @@ OpaqueTQ3Object::ClearElement ( TQ3ElementType theType )
 	TQ3Status qd3dStatus = Q3Set_Clear ( theSet, theType ) ;
 		
 		
-	if ( ( qd3dStatus != kQ3Failure ) && Q3Object_IsType ( this, kQ3ObjectTypeShared ) )
+	if ( ( qd3dStatus != kQ3Failure ) && Q3_OBJECT_IS_CLASS ( this, E3Shared ) )
 		( (E3Shared*) this )->Edited () ;
 	
 	
@@ -1458,9 +1456,32 @@ OpaqueTQ3Object::SetSet ( TQ3SetObject set )
 
 
 //=============================================================================
-//      E3Shared_GetType : Get the type of a shared object.
+//      E3Shared_IsOfMyClass : Check if object pointer is valid and of type shared
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3ObjectTypeShared )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3Boolean
+E3Shared_IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Shared ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
+//      E3Shared_GetType : Get the type of a shared object.
+//-----------------------------------------------------------------------------
 TQ3ObjectType
 E3Shared_GetType(TQ3SharedObject sharedObject)
 	{
@@ -1561,9 +1582,32 @@ E3Shared::Edited ( void )
 
 
 //=============================================================================
-//      E3Shape_GetType : Get the type of a shape object.
+//      E3Shape_IsOfMyClass : Check if object pointer is valid and of type shape
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3SharedTypeShape )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
 //-----------------------------------------------------------------------------
 #pragma mark -
+TQ3Boolean
+E3Shape_IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Shape ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
+//      E3Shape_GetType : Get the type of a shape object.
+//-----------------------------------------------------------------------------
 TQ3ObjectType
 E3Shape_GetType(TQ3ShapeObject theShape)
 	{

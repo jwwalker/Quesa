@@ -68,7 +68,7 @@ extern "C" {
 TQ3Status			E3Light_RegisterClass(void);
 TQ3Status			E3Light_UnregisterClass(void);
 
-TQ3Boolean			E3Light_IsOfMyClasss ( TQ3Object object ) ;
+TQ3Boolean			E3Light_IsOfMyClass ( TQ3Object object ) ;
 
 TQ3ObjectType		E3Light_GetType(TQ3LightObject light);
 TQ3Status			E3Light_GetState(TQ3LightObject light, TQ3Boolean *isOn);

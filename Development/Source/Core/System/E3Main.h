@@ -271,9 +271,9 @@ public :
 
 
 
-class E3ShapeData : public E3Shared
+class E3Shape : public E3Shared
 	{
-Q3_CLASS_ENUMS ( kQ3SharedTypeShape, E3ShapeData, E3Shared )
+Q3_CLASS_ENUMS ( kQ3SharedTypeShape, E3Shape, E3Shared )
 	// Currently empty
 	} ;
 
@@ -305,10 +305,12 @@ TQ3Boolean			E3Object_IsWritable(TQ3Object theObject, TQ3FileObject theFile);
 TQ3ObjectType		E3Object_GetType(TQ3Object theObject);
 TQ3Boolean			E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType);
 
+TQ3Boolean			E3Shared_IsOfMyClass ( TQ3Object object ) ;
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
 inline TQ3Status	E3Shared_Edited ( TQ3SharedObject sharedObject )
 	{ return ( (E3Shared*) sharedObject )->Edited () ; }
 
+TQ3Boolean			E3Shape_IsOfMyClass ( TQ3Object object ) ;
 TQ3ObjectType		E3Shape_GetType(TQ3ShapeObject theShape);
 TQ3Status			E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet);
 TQ3Status			E3Shape_SetSet(TQ3ShapeObject theShape, TQ3SetObject theSet);

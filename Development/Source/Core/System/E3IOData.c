@@ -58,13 +58,13 @@
 
 
 
-class E3Unknown : public E3ShapeData // This is not a leaf class, but only classes in this,
+class E3Unknown : public E3Shape // This is not a leaf class, but only classes in this,
 								// file inherit from it, so it can be declared here in
 								// the .c file rather than in the .h file, hence all
 								// the fields can be public as nobody should be
 								// including this file.
 	{
-Q3_CLASS_ENUMS ( kQ3ShapeTypeUnknown, E3Unknown, E3ShapeData )
+Q3_CLASS_ENUMS ( kQ3ShapeTypeUnknown, E3Unknown, E3Shape )
 public :
 
 	TQ3Boolean					dirtyFlag ;

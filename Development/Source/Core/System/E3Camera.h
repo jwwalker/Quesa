@@ -85,9 +85,9 @@ public :
 
 
 
-class E3Camera : public E3ShapeData
+class E3Camera : public E3Shape
 	{
-Q3_CLASS_ENUMS ( kQ3ShapeTypeCamera, E3Camera, E3ShapeData )
+Q3_CLASS_ENUMS ( kQ3ShapeTypeCamera, E3Camera, E3Shape )
 protected :
 
     TQ3CameraData cameraData ;

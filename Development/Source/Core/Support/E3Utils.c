@@ -155,7 +155,7 @@ E3Shared_Replace(TQ3SharedObject *origObject, TQ3SharedObject newObject)
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(origObject));
 	if (newObject != NULL)
-		Q3_REQUIRE(Q3Object_IsType(newObject, kQ3ObjectTypeShared));
+		Q3_REQUIRE( Q3_OBJECT_IS_CLASS ( newObject, E3Shared ) ) ;
 
 
 

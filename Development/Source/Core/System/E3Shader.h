@@ -79,9 +79,9 @@ typedef struct TQ3ShaderData {
 
 
 
-class E3Shader : public E3ShapeData
+class E3Shader : public E3Shape
 	{
-Q3_CLASS_ENUMS ( kQ3ShapeTypeShader, E3Shader, E3ShapeData )
+Q3_CLASS_ENUMS ( kQ3ShapeTypeShader, E3Shader, E3Shape )
 
 	TQ3ShaderData		shaderData ;
 
