@@ -2920,10 +2920,95 @@ cleanup:
 TQ3Object
 E3Read_3DMF_Geom_NURBPatch(TQ3FileObject theFile)
 {
+	TQ3Object 			theObject = NULL ;
+	TQ3Object			childObject ;
+	TQ3Uns32			i ;
+	TQ3Uns32			numPoints ;
+	TQ3SetObject		elementSet = NULL ;
+	TQ3NURBPatchData	geomData ;
 
 
-	// To be implemented
-	return(NULL);
+
+	// Initialise the geometry data
+	Q3Memory_Clear ( &geomData , sizeof ( geomData ) ) ;
+
+	// Read patch's u & v orders and the numbers of rows and columns
+	if ( ( Q3Uns32_Read ( &geomData.uOrder , theFile ) == kQ3Failure )
+	||	 ( Q3Uns32_Read ( &geomData.vOrder , theFile ) == kQ3Failure )
+	||	 ( Q3Uns32_Read ( &geomData.numRows , theFile ) == kQ3Failure )
+	||	 ( Q3Uns32_Read ( &geomData.numColumns , theFile ) == kQ3Failure ) )
+		return NULL ;
+	
+	numPoints = geomData.numRows * geomData.numColumns ;
+	// Allocate memory to hold control points
+	geomData.controlPoints =
+	(TQ3RationalPoint4D*) Q3Memory_Allocate ( numPoints * sizeof ( TQ3RationalPoint4D ) ) ;
+	
+	if ( geomData.controlPoints == NULL )
+		return NULL ;
+	
+	// Read in vertices
+	for ( i = 0 ; i < numPoints ; ++i )
+		Q3RationalPoint4D_Read ( &geomData.controlPoints [ i ] , theFile ) ;
+		
+	// Allocate memory to hold knots
+	geomData.uKnots = (float *) Q3Memory_AllocateClear ( ( geomData.numColumns + geomData.uOrder ) * sizeof( float ) ) ;
+	geomData.vKnots = (float *) Q3Memory_AllocateClear ( ( geomData.numRows + geomData.vOrder ) * sizeof( float ) ) ;
+	if ( geomData.uKnots == NULL || geomData.vKnots == NULL )
+		goto cleanup ;
+			
+	// Read in knots
+	for ( i = 0 ; i < geomData.numColumns + geomData.uOrder ; ++i )
+		Q3Float32_Read ( &geomData.uKnots [ i ] , theFile ) ;
+	for ( i = 0 ; i < geomData.numRows + geomData.vOrder ; ++i )
+		Q3Float32_Read ( &geomData.vKnots [ i ] , theFile ) ;
+
+
+	
+
+	// Read in the attributes
+	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+		//read the Attributes
+		childObject = Q3File_ReadObject(theFile);
+		if(childObject != NULL){
+			// Trim loop reading loop will go here one day
+			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
+				{
+				geomData.patchAttributeSet = childObject;
+				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
+			else
+				Q3Object_Dispose(childObject);
+			}
+		}
+	
+
+
+	// Create the geometry
+	theObject =  Q3NURBPatch_New (&geomData);
+
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
+
+
+cleanup:
+	// Clean up
+	if (geomData.patchAttributeSet != NULL)
+		Q3Object_Dispose(geomData.patchAttributeSet);
+		
+	// When trim loops implemented, dispose of trim loop array (and any data hanging off it) here
+	
+	if(geomData.controlPoints != NULL)
+		Q3Memory_Free(&geomData.controlPoints);
+		
+	if(geomData.uKnots != NULL)
+		Q3Memory_Free(&geomData.uKnots);
+		
+	if(geomData.vKnots != NULL)
+		Q3Memory_Free(&geomData.vKnots);
+	
+	return (theObject);
 }
 
 
