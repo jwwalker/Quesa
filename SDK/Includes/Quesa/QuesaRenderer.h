@@ -311,7 +311,10 @@ typedef enum TQ3XDrawRegionServicesMasks {
  *  @constant kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose    The inverse-transpose-local-to-world matrix state has changed.
  *  @constant kQ3XMethodTypeRendererUpdateMatrixLocalToCamera                   The local-to-camera matrix state has changed.
  *  @constant kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum                  The local-to-frustum matrix state has changed.
- *  @constant kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum                  The world-to-world matrix state has changed.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixWorldToCamera                   The world-to-camera matrix state has changed. Not available in QD3D.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum                  The world-to-frustum matrix state has changed.
+ *  @constant kQ3XMethodTypeRendererUpdateMatrixCameraToFrustum                 The camera-to-frustum matrix state has changed. Not available in QD3D.
+
  */
 typedef enum TQ3XMethodTypeRenderer {
     kQ3XMethodTypeRendererIsInteractive                             = Q3_METHOD_TYPE('i', 's', 'i', 'n'),
@@ -340,7 +343,14 @@ typedef enum TQ3XMethodTypeRenderer {
     kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose  = Q3_METHOD_TYPE('u', 'l', 'w', 't'),
     kQ3XMethodTypeRendererUpdateMatrixLocalToCamera                 = Q3_METHOD_TYPE('u', 'l', 'c', 'x'),
     kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum                = Q3_METHOD_TYPE('u', 'l', 'f', 'x'),
-    kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum                = Q3_METHOD_TYPE('u', 'w', 'f', 'x')
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+    kQ3XMethodTypeRendererUpdateMatrixWorldToCamera                 = Q3_METHOD_TYPE('u', 'w', 'c', 'x'),
+#endif
+    kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum                = Q3_METHOD_TYPE('u', 'w', 'f', 'x'),
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+    kQ3XMethodTypeRendererUpdateMatrixCameraToFrustum               = Q3_METHOD_TYPE('u', 'c', 'f', 'x'),
+#endif
+    kQ3XMethodTypeRendererSize32                                    = 0xFFFFFFFF
 } TQ3XMethodTypeRenderer;
 
 
