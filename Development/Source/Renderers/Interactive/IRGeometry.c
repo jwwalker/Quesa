@@ -37,6 +37,7 @@
 #include "IRGeometry.h"
 #include "IRTexture.h"
 #include "IRTransparent.h"
+#include "IRTriBuffer.h"
 #include "IRUpdate.h"
 
 #include "GLDrawContext.h"
@@ -645,54 +646,85 @@ IRGeometry_Primitive_Render(TQ3ViewObject			theView,
 							const TQ3Vector3D		**theNormals,
 							const TQ3Param2D		**theUVs,
 							const TQ3ColorRGB		**colourDiffuse)
-{	TQ3Uns32	n, numVerts;
+{	TQ3FVertex3D	theVertices[3];
+	TQ3Uns32		n, numVerts;
+	TQ3Status		qd3dStatus;
 
 
 
-	// Select the primitive type
-	switch (theType) {
-		case kQ3PrimTriangle:
-			glBegin(GL_TRIANGLES);
-			numVerts = 3;
-			break;
+	// Push triangles into the triangle buffer
+	if (theType == kQ3PrimTriangle)
+		{
+		for (n = 0; n < 3; n++)
+			{
+			theVertices[n].theFlags = kQ3FVertexFlagNone;
+			theVertices[n].thePoint = *thePoints[n];
 
-		case kQ3PrimLine:
+			if (theFlags & kQ3PrimHaveNormal)
+				{
+				theVertices[n].theFlags |= kQ3FVertexHaveNormal;
+				theVertices[n].theNormal = *theNormals[n];
+				}
+
+			if (theFlags & kQ3PrimHaveUV)
+				{
+				theVertices[n].theFlags |= kQ3FVertexHaveUV;
+				theVertices[n].theUV     = *theUVs[n];
+				}
+
+			if (colourDiffuse[n] != NULL)
+				{
+				theVertices[n].theFlags     |= kQ3FVertexHaveDiffuse;
+				theVertices[n].colourDiffuse = *colourDiffuse[n];
+				}
+			}
+
+		qd3dStatus = IRTriBuffer_AddTriangle(theView, instanceData, theVertices);
+		}
+	
+	
+	
+	// Or draw lines and points
+	else
+		{
+		// Begin the primitive
+		if (theType == kQ3PrimLine)
+			{
 			glBegin(GL_LINES);
 			numVerts = 2;
-			break;
+			}
 
-		case kQ3PrimPoint:
+		else if (theType == kQ3PrimPoint)
+			{
 			glBegin(GL_POINTS);
 			numVerts = 1;
-			break;
-        
-        case kQ3PrimNone:
-        default:
+			}
+
+		else
             Q3_ASSERT(!"Should never happen");
-            break;
+
+
+
+		// Draw the primitive
+		for (n = 0; n < numVerts; n++)
+			{
+			if (theFlags & kQ3PrimHaveNormal)
+				glNormal3fv((const GLfloat *) theNormals[n]);
+
+			if (theFlags & kQ3PrimHaveUV)
+				glTexCoord2fv((const GLfloat *) theUVs[n]);
+
+			if (colourDiffuse[n] != NULL)
+				glColor3fv((const GLfloat *) colourDiffuse[n]);
+
+			glVertex3fv((const GLfloat *) thePoints[n]);
+			}
+
+
+
+		// End the primitive
+		glEnd();
 		}
-
-
-
-	// Draw the primitive
-	for (n = 0; n < numVerts; n++)
-		{
-		if (theFlags & kQ3PrimHaveNormal)
-			glNormal3fv((const GLfloat *) theNormals[n]);
-
-		if (theFlags & kQ3PrimHaveUV)
-			glTexCoord2fv((const GLfloat *) theUVs[n]);
-
-		if (colourDiffuse[n] != NULL)
-			glColor3fv((const GLfloat *) colourDiffuse[n]);
-
-		glVertex3fv((const GLfloat *) thePoints[n]);
-		}
-
-
-
-	// End the primitive
-	glEnd();
 }
 
 
