@@ -31,10 +31,8 @@
 #		License along with this library; if not, write to the Free Software
 #		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-# Comment
-
 	Box (
-		 0  4  0	# orientation   # change
+		 0  4  0	# orientation
 		 0  0  2	# majorAxis
 		 6  0  0	# minorAxis
 	)
