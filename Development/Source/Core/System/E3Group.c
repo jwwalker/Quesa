@@ -1268,7 +1268,6 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 		if (!isInline)
 			{
 			Q3Push_Submit(theView);
-			E3View_State_InitGroupMatrix(theView);
 			}
 
 
