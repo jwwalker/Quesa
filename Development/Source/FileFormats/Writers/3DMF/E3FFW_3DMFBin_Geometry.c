@@ -1835,7 +1835,7 @@ e3ffw_3DMF_trimesh_traverse(TQ3Object object,
 					 TQ3ViewObject view)
 {
 	TQ3Status qd3dstatus;
-	TQ3ElementType	elementType = kQ3ElementTypeNone;
+	TQ3AttributeType	attrType = kQ3AttributeTypeNone;
 	TQ3Uns32	size, pointIndexBytes, triIndexBytes, i;
 	
 	// Compute size of data
@@ -1876,9 +1876,14 @@ e3ffw_3DMF_trimesh_traverse(TQ3Object object,
 		qd3dstatus = e3ffw_3DMF_submit_tm_attarray( view, data, 2, i );
 	}
 	
-	// Overall attribute set
-	if ( (data->triMeshAttributeSet != NULL) && (qd3dstatus == kQ3Success) )
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( (data->triMeshAttributeSet != NULL) && (qd3dstatus == kQ3Success) &&
+		(kQ3Success == Q3AttributeSet_GetNextAttributeType( data->triMeshAttributeSet,
+			&attrType )) &&
+		(attrType != kQ3AttributeTypeNone) )
+	{
 		qd3dstatus = Q3Object_Submit (data->triMeshAttributeSet, view);
+	}
 
 	
 	return qd3dstatus;
