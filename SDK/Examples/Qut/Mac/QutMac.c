@@ -528,6 +528,20 @@ qut_carbon_install_handlers(void)
 #endif // QUT_MAC_CARBON_EVENTS
 
 
+//=============================================================================
+//		qut_quit_handler : Handle the quit AppleEvent.
+//-----------------------------------------------------------------------------
+static pascal OSErr
+qut_quit_handler( const AppleEvent *theAppleEvent, AppleEvent *reply, long handlerRefcon )
+{
+#pragma unused( theAppleEvent, reply, handlerRefcon )
+	gShouldQuit = kQ3True;
+	
+#if QUT_MAC_CARBON_EVENTS
+	 QuitApplicationEventLoop();
+#endif
+	return noErr;
+}
 
 
 
@@ -830,6 +844,12 @@ qut_initialize(void)
 	AppendResMenu(GetMenuHandle(kMenuApple), 'DRVR');
 #endif
 
+
+	// Install a handler for the quit AppleEvent.  The host application
+	// is free to override this by installing its own handler in the
+	// App_Initialise function.
+	AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, 
+		NewAEEventHandlerUPP(qut_quit_handler), 0, false );
 
 
 	// Build the renderer menu and redraw the menu bar
