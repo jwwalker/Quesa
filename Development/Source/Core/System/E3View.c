@@ -1128,13 +1128,11 @@ e3view_submit_object(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 static void
 e3view_pick_begin(TQ3ViewObject theView, TQ3PickObject thePick)
 {	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3Matrix4x4			worldToFrustum, frustumToWorld;
-	TQ3Point3D				frustumPoint, worldPoint;
-	float					theWidth, theHeight;
+	TQ3Matrix4x4			worldToFrustum, frustumToWindow, worldToWindow, windowToWorld;
+	TQ3Point3D				worldPoint, windowPoint3D;
 	TQ3CameraPlacement		thePlacement;
 	TQ3Point2D				windowPoint;
 	TQ3Vector3D				theVector;
-	TQ3Area					thePane;
 
 
 
@@ -1160,34 +1158,21 @@ e3view_pick_begin(TQ3ViewObject theView, TQ3PickObject thePick)
 	Q3Memory_Clear(&instanceData->rayThroughPick, sizeof(instanceData->rayThroughPick));
 	if (Q3Pick_GetType(thePick) == kQ3PickTypeWindowPoint)
 		{
-		// Get the size of image we're rendering
-		Q3DrawContext_GetPane(instanceData->theDrawContext, &thePane);
-
-		theWidth  = (thePane.max.x - thePane.min.x);
-		theHeight = (thePane.max.y - thePane.min.y);
-
-
-
-		// Create a point within the frustum which corresponds to the (x,y) pick
-		// that was picked. Note that in QD3D, this frustum is a cuboid which runs
-		// from -1.0 to +1.0 in x, -1.0 to +1.0 in y, and 0.0 to +1.0 in z.
-		//
-		// The center of the window corresponds to the origin.
-		//
-		// The z coordinate we require is therefore 0.0, and the x and y coordinates
-		// are increased by half a pixel so that the ray hits the center of the pixel.
+		// Get the point that was picked, in window coordinates
 		Q3WindowPointPick_GetPoint(thePick, &windowPoint);
 
-		frustumPoint.x = -1.0f + (((windowPoint.x + 0.5f) / theWidth)  * 2.0f);
-		frustumPoint.y =  1.0f - (((windowPoint.y + 0.5f) / theHeight) * 2.0f);
-		frustumPoint.z = 0.0f;
+		windowPoint3D.x = windowPoint.x;
+		windowPoint3D.y = windowPoint.y;
+		windowPoint3D.z = 0.0;
+		
 
 
-
-		// Transform this point from frustum to world coordinates
+		// Transform this point from window to world coordinates
 		Q3Camera_GetWorldToFrustum(instanceData->theCamera, &worldToFrustum);
-		Q3Matrix4x4_Invert(&worldToFrustum, &frustumToWorld);
-		Q3Point3D_Transform(&frustumPoint,  &frustumToWorld, &worldPoint);
+		E3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
+		Q3Matrix4x4_Multiply( &worldToFrustum, &frustumToWindow, &worldToWindow );
+		Q3Matrix4x4_Invert(&worldToWindow, &windowToWorld);
+		Q3Point3D_Transform(&windowPoint3D,  &windowToWorld, &worldPoint);
 
 
 
@@ -4068,12 +4053,10 @@ E3View_GetFrustumToWindowMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMat
 	// Return the frustum to window matrix
 	Q3Matrix4x4_SetIdentity(theMatrix);
 
-	theMatrix->value[3][0] = (thePane.max.x - thePane.min.x + 1) * 0.5f;
-	theMatrix->value[3][1] = (thePane.max.y - thePane.min.y + 1) * 0.5f;
-	theMatrix->value[0][0] =  theMatrix->value[3][0];
-	theMatrix->value[1][1] = -theMatrix->value[3][1];
-	theMatrix->value[2][2] = 1.0f;
-	theMatrix->value[3][3] = 1.0f;
+	theMatrix->value[0][0] = (thePane.max.x - thePane.min.x) * 0.5f;
+	theMatrix->value[1][1] = -(thePane.max.y - thePane.min.y) * 0.5f;
+	theMatrix->value[3][0] = (thePane.max.x + thePane.min.x) * 0.5f;
+	theMatrix->value[3][1] = (thePane.max.y + thePane.min.y) * 0.5f;
 
 	return(kQ3Success);
 }
