@@ -933,7 +933,7 @@ Q3WinViewerDispose (
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerUseFile (
 	TQ3ViewerObject                viewer,
-	Handle                         fileHandle
+	HANDLE                         fileHandle
 );
 
 
@@ -956,7 +956,7 @@ Q3WinViewerUseData (
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerWriteFile (
 	TQ3ViewerObject                viewer,
-	Handle                         fileHandle
+	HANDLE                         fileHandle
 );
 
 
@@ -1057,7 +1057,7 @@ EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetButtonRect (
 	TQ3ViewerObject                viewer,
 	unsigned long                  button,
-	Rect                           *rectangle
+	RECT                           *rectangle
 );
 
 
@@ -1173,7 +1173,7 @@ Q3WinViewerGetFlags (
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerSetBounds (
 	TQ3ViewerObject                viewer,
-	Rect                           *bounds
+	RECT                           *bounds
 );
 
 
@@ -1184,7 +1184,7 @@ Q3WinViewerSetBounds (
 EXTERN_API_C ( TQ3Status )
 Q3WinViewerGetBounds (
 	TQ3ViewerObject                viewer,
-	Rect                           *bounds
+	RECT                           *bounds
 );
 
 
