@@ -45,10 +45,18 @@
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
-// Support for Universal Interfaces 3.2
+// Support for older Universal Interfaces
+#if !TARGET_API_MAC_CARBON
+
 #ifndef DisposeDMNotificationUPP
-	#define DisposeDMNotificationUPP DisposeRoutineDescriptor
+	#define DisposeDMNotificationUPP			DisposeRoutineDescriptor
 #endif
+
+#ifndef GetWindowPort
+	#define GetWindowPort(_window)				(GrafPtr) (_window)
+#endif
+
+#endif // !TARGET_API_MAC_CARBON
 
 
 
