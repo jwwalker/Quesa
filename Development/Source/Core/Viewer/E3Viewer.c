@@ -125,20 +125,18 @@ typedef struct TQ3ViewerParams {
 #define kOptionsPhongShading	5
 #define kOptionsAntiAlias		6
 
-const TQ3Uns32 kQ3ViewerInternalDefault 	
-	= kQ3ViewerFlagActive
-	 | kQ3ViewerFlagShowControlStrip
-	 | kQ3ViewerFlagButtonTruck
-	 | kQ3ViewerFlagButtonOrbit
-	 | kQ3ViewerFlagButtonDolly
-	 | kQ3ViewerFlagButtonReset
-	 | kQ3ViewerFlagButtonOptions
-	 | kQ3ViewerFlagDragMode
-	 | kQ3ViewerFlagDrawDragBorder
-	 | kQ3ViewerFlagDrawFrame
-	 | kQ3ViewerFlagDrawGrowBox
-	 | kQ3ViewerFlagShowControlStrip
-	;
+const TQ3Uns32 kQ3ViewerFlagInternalDefault = kQ3ViewerFlagActive           |
+											  kQ3ViewerFlagShowControlStrip |
+											  kQ3ViewerFlagButtonTruck      |
+											  kQ3ViewerFlagButtonOrbit      |
+											  kQ3ViewerFlagButtonDolly      |
+											  kQ3ViewerFlagButtonReset      |
+											  kQ3ViewerFlagButtonOptions    |
+											  kQ3ViewerFlagDragMode         |
+											  kQ3ViewerFlagDrawDragBorder   |
+											  kQ3ViewerFlagDrawFrame        |
+											  kQ3ViewerFlagDrawGrowBox      |
+											  kQ3ViewerFlagShowControlStrip;
 
 // mouse tracking modes
 enum {
@@ -1619,7 +1617,7 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	Q3Quaternion_SetIdentity(&instanceData->mOrientation);
 	
 	if (kQ3ViewerFlagDefault & params->mFlags)
-		instanceData->mFlags = kQ3ViewerInternalDefault;
+		instanceData->mFlags = kQ3ViewerFlagInternalDefault;
 		
 	instanceData->mFlags |= params->mFlags;
 	
@@ -2490,10 +2488,10 @@ E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
 	
 	oldFlags = instanceData->mFlags;
 	
-	if (theFlags & kQ3ViewerDefault)
+	if (theFlags & kQ3ViewerFlagDefault)
 		{
-		theFlags &= ~kQ3ViewerDefault; // knock off default bit
-		theFlags |= kQ3ViewerInternalDefault; // add on my flags, leaving any other bits the app may have set
+		theFlags &= ~kQ3ViewerFlagDefault; // knock off default bit
+		theFlags |= kQ3ViewerFlagInternalDefault; // add on my flags, leaving any other bits the app may have set
 		}
 
 	// The Mac does here some drag flag modification, could be done in E3SysViewer_SetFlags
@@ -2501,7 +2499,7 @@ E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
 	instanceData->mFlags = theFlags;
 	
 	oldFlags &= theFlags; // old flags now holds the bits that were NOT changed
-	if ((oldFlags & kQ3ViewerControllerVisible) == 0) // kQ3ViewerControllerVisible bit WAS changed
+	if ((oldFlags & kQ3ViewerFlagControllerVisible) == 0) // kQ3ViewerControllerVisible bit WAS changed
 		{
 		E3Viewer_SetBounds (theViewer, &instanceData->mArea);
 		}
