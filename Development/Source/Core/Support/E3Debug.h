@@ -82,6 +82,12 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 					E3Assert(__FILE__, __LINE__, #_theTest)						\
 				)
 
+	#define	Q3_ASSERT_MESSAGE(_condition, _message)								\
+				((_condition) ?													\
+					((void) 0) :												\
+					E3Assert(__FILE__, __LINE__, (_message))					\
+				)
+			
 
 	// Generates an assertion error for a bad pointer
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
@@ -92,6 +98,7 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 	#define Q3_ASSERT(_theTest)													\
 				((void) 0)
 
+	#define	Q3_ASSERT_MESSAGE(_condition, _message)		((void) 0)
 
 	// Do nothing
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
@@ -110,7 +117,7 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 			do																	\
 				{																\
 				TQ3Boolean	_cond = (TQ3Boolean)(_theTest); 	\
-				Q3_ASSERT(_cond);											\
+				Q3_ASSERT_MESSAGE(_cond, #_theTest);							\
 				if (!(_cond))												\
 					return;														\
 				}																\
@@ -122,7 +129,7 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 			do																	\
 				{																\
 				TQ3Boolean	_cond = (TQ3Boolean)(_theTest); 	\
-				Q3_ASSERT(_cond);											\
+				Q3_ASSERT_MESSAGE(_cond, #_theTest);							\
 				if (!(_cond))												\
 					return(_theResult);											\
 				}																\
