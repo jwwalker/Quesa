@@ -657,8 +657,10 @@ E3IsInitialized(void)
 //=============================================================================
 //      E3GetVersion : Return the build version.
 //-----------------------------------------------------------------------------
-//		Note :	kQ3MajorVersion and kQ3MinorVersion are each in binary-code-decimal
-//				format. For example, 12 is represented as 0x12.
+//		Note :	kQ3MajorVersion and kQ3MinorVersion are each in BCD format.
+//				For example, 12 is represented as 0x12.
+//
+//				May be called outside of a Q3Initialize/Q3Exit block.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
@@ -685,8 +687,12 @@ E3GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 //		Note :	We return the version number in the format of the first four
 //				bytes of a 'vers' resource. For example, "1.23a56" is
 //				represented as 0x01234056.
-//		For more information, see the description of the 'vers' resource in
-//			"Inside Macintosh: Macintosh Toolbox Essential", p. 7-69.
+//
+//				For more information, see the description of the 'vers'
+//				resource in "Inside Macintosh: Macintosh Toolbox Essential",
+//				p. 7-69.
+//
+//				May be called outside of a Q3Initialize/Q3Exit block.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GetReleaseVersion(TQ3Uns32 *releaseRevision)
