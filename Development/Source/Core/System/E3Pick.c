@@ -958,7 +958,7 @@ E3Pick_GetType(TQ3PickObject thePick)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetData(TQ3PickObject thePick, TQ3PickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -976,7 +976,7 @@ E3Pick_GetData(TQ3PickObject thePick, TQ3PickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_SetData(TQ3PickObject thePick, const TQ3PickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -997,7 +997,7 @@ E3Pick_SetData(TQ3PickObject thePick, const TQ3PickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetVertexTolerance(TQ3PickObject thePick, float *vertexTolerance)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 	TQ3Status			qd3dStatus    = kQ3Success;
 
 
@@ -1027,7 +1027,7 @@ E3Pick_GetVertexTolerance(TQ3PickObject thePick, float *vertexTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetEdgeTolerance(TQ3PickObject thePick, float *edgeTolerance)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 	TQ3Status			qd3dStatus    = kQ3Success;
 
 
@@ -1057,7 +1057,7 @@ E3Pick_GetEdgeTolerance(TQ3PickObject thePick, float *edgeTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_SetVertexTolerance(TQ3PickObject thePick, float vertexTolerance)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 	TQ3Status			qd3dStatus    = kQ3Success;
 
 
@@ -1084,7 +1084,7 @@ E3Pick_SetVertexTolerance(TQ3PickObject thePick, float vertexTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_SetEdgeTolerance(TQ3PickObject thePick, float edgeTolerance)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 	TQ3Status			qd3dStatus    = kQ3Success;
 
 
@@ -1111,7 +1111,7 @@ E3Pick_SetEdgeTolerance(TQ3PickObject thePick, float edgeTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1136,7 +1136,7 @@ E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_EmptyHitList(TQ3PickObject thePick)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 	TQ3PickHit			*currentHit;
 	TQ3PickHit			*nextHit;
 
@@ -1185,7 +1185,7 @@ E3Pick_EmptyHitList(TQ3PickObject thePick)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetPickDetailValidMask(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 	TQ3PickHit			*theHit;
 
 
@@ -1215,7 +1215,7 @@ E3Pick_GetPickDetailValidMask(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDeta
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 	TQ3Status			qd3dStatus;
 	TQ3PickHit			*theHit;
 
@@ -1292,7 +1292,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 					const TQ3Vector3D		*hitNormal,
 					const TQ3Param2D		*hitUV,
 					TQ3ShapePartObject		hitShape)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 	TQ3PickHit			*theHit, *currentHit, *previousHit;
 	TQ3Boolean			savedHit, foundHit;
 	TQ3PickSort			sortType;
@@ -1444,7 +1444,7 @@ E3WindowPointPick_New(const TQ3WindowPointPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_GetPoint(TQ3PickObject thePick, TQ3Point2D *point)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1462,7 +1462,7 @@ E3WindowPointPick_GetPoint(TQ3PickObject thePick, TQ3Point2D *point)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_SetPoint(TQ3PickObject thePick, const TQ3Point2D *point)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1480,7 +1480,7 @@ E3WindowPointPick_SetPoint(TQ3PickObject thePick, const TQ3Point2D *point)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_GetData(TQ3PickObject thePick, TQ3WindowPointPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1498,7 +1498,7 @@ E3WindowPointPick_GetData(TQ3PickObject thePick, TQ3WindowPointPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_SetData(TQ3PickObject thePick, const TQ3WindowPointPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1538,7 +1538,7 @@ E3WindowRectPick_New(const TQ3WindowRectPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_GetRect(TQ3PickObject thePick, TQ3Area *rect)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1556,7 +1556,7 @@ E3WindowRectPick_GetRect(TQ3PickObject thePick, TQ3Area *rect)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_SetRect(TQ3PickObject thePick, const TQ3Area *rect)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1574,7 +1574,7 @@ E3WindowRectPick_SetRect(TQ3PickObject thePick, const TQ3Area *rect)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_GetData(TQ3PickObject thePick, TQ3WindowRectPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1592,7 +1592,7 @@ E3WindowRectPick_GetData(TQ3PickObject thePick, TQ3WindowRectPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_SetData(TQ3PickObject thePick, const TQ3WindowRectPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1629,7 +1629,7 @@ E3WorldRayPick_New(const TQ3WorldRayPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_GetRay(TQ3PickObject thePick, TQ3Ray3D *ray)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1647,7 +1647,7 @@ E3WorldRayPick_GetRay(TQ3PickObject thePick, TQ3Ray3D *ray)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_SetRay(TQ3PickObject thePick, const TQ3Ray3D *ray)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1665,7 +1665,7 @@ E3WorldRayPick_SetRay(TQ3PickObject thePick, const TQ3Ray3D *ray)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_GetData(TQ3PickObject thePick, TQ3WorldRayPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1683,7 +1683,7 @@ E3WorldRayPick_GetData(TQ3PickObject thePick, TQ3WorldRayPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_SetData(TQ3PickObject thePick, const TQ3WorldRayPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->instanceData;
+{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
 
 
 
@@ -1742,7 +1742,7 @@ E3ShapePart_GetType(TQ3ShapePartObject shapePartObject)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3ShapePart_GetShape(TQ3ShapePartObject shapePartObject, TQ3ShapeObject *shapeObject)
-{	TQ3ShapeObject *instanceData = (TQ3ShapeObject *) shapePartObject->instanceData;
+{	TQ3ShapeObject *instanceData = (TQ3ShapeObject *) E3ClassTree_FindInstanceData(shapePartObject, kQ3SharedTypeShapePart);
 
 	if (*instanceData)
 		*shapeObject = Q3Shared_GetReference (*instanceData);
@@ -1796,7 +1796,7 @@ E3MeshPart_GetType(TQ3MeshPartObject meshPartObject)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MeshPart_GetComponent(TQ3MeshPartObject meshPartObject, TQ3MeshComponent *component)
-{	TQ3MeshComponent *instanceData = (TQ3MeshComponent *) meshPartObject->instanceData;
+{	TQ3MeshComponent *instanceData = (TQ3MeshComponent *) E3ClassTree_FindInstanceData(meshPartObject, kQ3ShapePartTypeMeshPart);
 
 
 	*component = *instanceData;
@@ -1832,7 +1832,7 @@ E3MeshFacePart_New(const TQ3MeshFace data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MeshFacePart_GetFace(TQ3MeshFacePartObject meshFacePartObject, TQ3MeshFace *face)
-{	TQ3MeshFace *instanceData = (TQ3MeshFace *) meshFacePartObject->instanceData;
+{	TQ3MeshFace *instanceData = (TQ3MeshFace *) E3ClassTree_FindInstanceData(meshFacePartObject, kQ3MeshPartTypeMeshFacePart);
 
 
 	*face = *instanceData;
@@ -1868,7 +1868,7 @@ E3MeshEdgePart_New(const TQ3MeshEdge data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MeshEdgePart_GetEdge(TQ3MeshEdgePartObject meshEdgePartObject, TQ3MeshEdge *edge)
-{	TQ3MeshEdge *instanceData = (TQ3MeshEdge *) meshEdgePartObject->instanceData;
+{	TQ3MeshEdge *instanceData = (TQ3MeshEdge *) E3ClassTree_FindInstanceData(meshEdgePartObject, kQ3MeshPartTypeMeshEdgePart);
 
 
 	*edge = *instanceData;
@@ -1904,7 +1904,7 @@ E3MeshVertexPart_New(const TQ3MeshVertex data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MeshVertexPart_GetVertex(TQ3MeshVertexPartObject meshVertexPartObject, TQ3MeshVertex *vertex)
-{	TQ3MeshVertex *instanceData = (TQ3MeshVertex *) meshVertexPartObject->instanceData;
+{	TQ3MeshVertex *instanceData = (TQ3MeshVertex *) E3ClassTree_FindInstanceData(meshVertexPartObject, kQ3MeshPartTypeMeshVertexPart);
 
 
 	*vertex = *instanceData;

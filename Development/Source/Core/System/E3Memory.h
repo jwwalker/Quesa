@@ -71,8 +71,8 @@ typedef struct TQ3ObjectData
 
 #if Q3_DEBUG
 
-#define		PREVLINK(rootobj)	((TQ3ObjectData*)(rootobj)->instanceData)->prev
-#define		NEXTLINK(rootobj)	((TQ3ObjectData*)(rootobj)->instanceData)->next
+#define		PREVLINK(rootobj)	((TQ3ObjectData*)E3ClassTree_FindInstanceData(rootobj, kQ3ObjectTypeRoot))->prev
+#define		NEXTLINK(rootobj)	((TQ3ObjectData*)E3ClassTree_FindInstanceData(rootobj, kQ3ObjectTypeRoot))->next
 
 #endif
 

@@ -265,8 +265,7 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 				sIsMakingListHead = kQ3False;
 				Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, kQ3Failure );
 			}
-			Q3_ASSERT( E3ClassTree_GetType(theGlobals->listHead->theClass) ==
-				kQ3ObjectTypeRoot );
+			Q3_ASSERT( E3ClassTree_GetType(E3ClassTree_GetClassByObject(theGlobals->listHead)) == kQ3ObjectTypeRoot);
 			
 			// insert the new node between the list header and last normal node
 			instanceData->next = theGlobals->listHead;
@@ -338,7 +337,7 @@ e3root_delete( TQ3Object theObject, void *privateData )
 {
 	TQ3ObjectData	*instanceData = (TQ3ObjectData *) privateData;
 
-	Q3_ASSERT( privateData == theObject->instanceData );
+	Q3_ASSERT(privateData == E3ClassTree_FindInstanceData(theObject, kQ3ObjectTypeLeaf));
 	
 	Q3Object_CleanDispose( &instanceData->theSet );
 

@@ -295,7 +295,7 @@ E3XObjectClass_GetPrivate(TQ3XObjectClass objectClass, TQ3Object targetObject)
 
 
 	// Return the instance data
-	return(targetObject->instanceData);
+	return(E3ClassTree_FindInstanceData(targetObject, kQ3ObjectTypeLeaf));
 }
 
 
@@ -311,7 +311,7 @@ E3XObject_GetClass(TQ3Object object)
 
 
 	// Return the class
-	return((TQ3XObjectClass) object->theClass);
+	return((TQ3XObjectClass) E3ClassTree_GetClassByObject(object));
 }
 
 
