@@ -87,7 +87,7 @@ typedef struct WinGLContext {
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
 static void *
-gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
+gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits )
 {	GLint					glAttributes[kMaxGLAttributes];
 	TQ3Uns32				numAttributes, sysVersion;
 	TQ3ObjectType			drawContextType;
@@ -141,7 +141,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 
 			// Grab its dimensions
-			SetRect(&theRect, 0, 0, thePixmap.width, thePixmap.height);
+			SetRect(&theRect, 0, 0, (short)thePixmap.width, (short)thePixmap.height);
 			break;
 		
 		
@@ -175,7 +175,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 	numAttributes = 0;
 	glAttributes[numAttributes++] = AGL_RGBA;
 	glAttributes[numAttributes++] = AGL_DEPTH_SIZE;
-	glAttributes[numAttributes++] = 16;
+	glAttributes[numAttributes++] = (GLint)depthBits;
 	
 	if (drawContextData.doubleBufferState)
 		glAttributes[numAttributes++] = AGL_DOUBLEBUFFER;
@@ -184,7 +184,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 		{
 		glAttributes[numAttributes++] = AGL_OFFSCREEN;
 		glAttributes[numAttributes++] = AGL_PIXEL_SIZE;
-		glAttributes[numAttributes++] = thePixmap.pixelSize;
+		glAttributes[numAttributes++] = (GLint)thePixmap.pixelSize;
 		}
 
 	Q3_ASSERT(numAttributes < kMaxGLAttributes);
@@ -204,8 +204,8 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 			aglSetDrawable(glContext, (AGLDrawable) thePort);
 
 		else if (drawContextType == kQ3DrawContextTypePixmap)
-			aglSetOffScreen(glContext, thePixmap.width,    thePixmap.height,
-									   thePixmap.rowBytes, thePixmap.image);
+			aglSetOffScreen(glContext, (GLint)thePixmap.width,    (GLint)thePixmap.height,
+									   (GLint)thePixmap.rowBytes, thePixmap.image);
 		}
 
 	if (pixelFormat != NULL)
@@ -224,10 +224,10 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 
 
 	// Set the viewport and buffer rect
-	glRect[0] = drawContextData.pane.min.x;
-	glRect[1] = theRect.bottom             - drawContextData.pane.max.y;
-	glRect[2] = drawContextData.pane.max.x - drawContextData.pane.min.x;
-	glRect[3] = drawContextData.pane.max.y - drawContextData.pane.min.y;
+	glRect[0] = (GLint)drawContextData.pane.min.x;
+	glRect[1] = (GLint)(theRect.bottom             - drawContextData.pane.max.y);
+	glRect[2] = (GLint)(drawContextData.pane.max.x - drawContextData.pane.min.x);
+	glRect[3] = (GLint)(drawContextData.pane.max.y - drawContextData.pane.min.y);
 
 	glViewport(0, 0, glRect[2], glRect[3]);
 
@@ -560,7 +560,7 @@ gldrawcontext_x11_updatepos(void *glContext)
 #pragma mark -
 #if QUESA_OS_WIN32
 static void *
-gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
+gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits)
 {	TQ3ObjectType			drawContextType;
 	TQ3DrawContextData		drawContextData;
     PIXELFORMATDESCRIPTOR	pixelFormatDesc;
@@ -660,6 +660,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
     pixelFormatDesc.nVersion   = 1;
     pixelFormatDesc.dwFlags    = pfdFlags;
     pixelFormatDesc.cColorBits = colorBits;
+    pixelFormatDesc.cDepthBits = depthBits;
     pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
 
 	if (drawContextData.doubleBufferState)
@@ -935,8 +936,10 @@ gldrawcontext_be_updatepos(void *glContext)
 //-----------------------------------------------------------------------------
 #pragma mark -
 void *
-GLDrawContext_New(TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags)
+GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags)
 {	void			*glContext;
+	TQ3RendererObject	theRenderer;
+	TQ3Uns32		preferredDepthBits = 16;
 
 
 
@@ -945,15 +948,25 @@ GLDrawContext_New(TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags)
 
 
 
+	// Check the renderer for a depth bits preference
+	Q3View_GetRenderer(theView, &theRenderer);
+	if (theRenderer != NULL)
+	{
+		Q3Object_GetElement( theRenderer, kQ3ElementTypeDepthBits,
+			&preferredDepthBits );
+		Q3Object_Dispose( theRenderer );
+	}
+
+
 	// Create the context
 #if QUESA_OS_MACINTOSH
-	glContext = gldrawcontext_mac_new(theDrawContext);
+	glContext = gldrawcontext_mac_new(theDrawContext, preferredDepthBits);
 
 #elif QUESA_OS_UNIX
 	glContext = gldrawcontext_x11_new(theDrawContext);
 
 #elif QUESA_OS_WIN32
-	glContext = gldrawcontext_win_new(theDrawContext);
+	glContext = gldrawcontext_win_new(theDrawContext, preferredDepthBits);
 
 #elif QUESA_OS_BE
 	glContext = gldrawcontext_be_new(theDrawContext);
