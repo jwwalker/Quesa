@@ -738,6 +738,7 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 				if(objectType != 0)
 					theClass = E3ClassTree_GetClassByType(objectType);
 				
+			E3FFormat_3DMF_Bin_Check_ContainerEnd(instanceData);
 			if(theClass == NULL){
 				instanceData->MFData.baseData.currentStoragePosition = objLocation + 8;
 				result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
