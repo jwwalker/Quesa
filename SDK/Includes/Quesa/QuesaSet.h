@@ -96,9 +96,8 @@ extern "C" {
  *	@constant	kQ3AttributeTypeSurfaceShader		Surface shader (<code>TQ3SurfaceShaderObject</code>)
  *	@constant	kQ3AttributeTypeNumTypes			Number of standard attribute types.
 */
-// Attribute types
 typedef enum TQ3AttributeTypes {
-    kQ3AttributeTypeNone                        = 0,            // n/a
+    kQ3AttributeTypeNone                        = 0,            // N/A
     kQ3AttributeTypeSurfaceUV                   = 1,            // TQ3Param2D
     kQ3AttributeTypeShadingUV                   = 2,            // TQ3Param2D
     kQ3AttributeTypeNormal                      = 3,            // TQ3Vector3D
@@ -110,8 +109,60 @@ typedef enum TQ3AttributeTypes {
     kQ3AttributeTypeSurfaceTangent              = 9,            // TQ3Tangent2D
     kQ3AttributeTypeHighlightState              = 10,           // TQ3Switch
     kQ3AttributeTypeSurfaceShader               = 11,           // TQ3SurfaceShaderObject
-    kQ3AttributeTypeNumTypes                    = 12            // n/a
+    kQ3AttributeTypeNumTypes                    = 12,           // N/A
+    kQ3AttributeTypeSize32                      = 0xFFFFFFFF
 } TQ3AttributeTypes;
+
+
+/*!
+ *  @enum
+ *      TQ3XAttributeMask
+ *  @discussion
+ *      Attribute mask flags.
+ *
+ *  @constant kQ3XAttributeMaskNone                 No attributes.
+ *  @constant kQ3XAttributeMaskSurfaceUV            Surface UV attribute mask.
+ *  @constant kQ3XAttributeMaskShadingUV            Shading UV attribute mask.
+ *  @constant kQ3XAttributeMaskNormal               Normal attribute mask.
+ *  @constant kQ3XAttributeMaskAmbientCoefficient   Ambient coefficent attribute mask.
+ *  @constant kQ3XAttributeMaskDiffuseColor         Diffuse color attribute mask.
+ *  @constant kQ3XAttributeMaskSpecularColor        Specular color attribute mask.
+ *  @constant kQ3XAttributeMaskSpecularControl      Specular control attribute mask.
+ *  @constant kQ3XAttributeMaskTransparencyColor    Transparency color attribute mask.
+ *  @constant kQ3XAttributeMaskSurfaceTangent       Surface tangent attribute mask.
+ *  @constant kQ3XAttributeMaskHighlightState       Highlight state attribute mask.
+ *  @constant kQ3XAttributeMaskSurfaceShader        Surface shader attribute mask.
+ *  @constant kQ3XAttributeMaskCustomAttribute      Custom attribute mask.
+ *  @constant kQ3XAttributeMaskAll                  All attributes.
+ *  @constant kQ3XAttributeMaskInherited            Inherited attributes mask.
+ *  @constant kQ3XAttributeMaskInterpolated         Interpolated attributes mask.
+ */
+typedef enum TQ3XAttributeMask {
+    kQ3XAttributeMaskNone                       = 0,
+    kQ3XAttributeMaskSurfaceUV                  = (1 << (kQ3AttributeTypeSurfaceUV          - 1)),
+    kQ3XAttributeMaskShadingUV                  = (1 << (kQ3AttributeTypeShadingUV          - 1)),
+    kQ3XAttributeMaskNormal                     = (1 << (kQ3AttributeTypeNormal             - 1)),
+    kQ3XAttributeMaskAmbientCoefficient         = (1 << (kQ3AttributeTypeAmbientCoefficient - 1)),
+    kQ3XAttributeMaskDiffuseColor               = (1 << (kQ3AttributeTypeDiffuseColor       - 1)),
+    kQ3XAttributeMaskSpecularColor              = (1 << (kQ3AttributeTypeSpecularColor      - 1)),
+    kQ3XAttributeMaskSpecularControl            = (1 << (kQ3AttributeTypeSpecularControl    - 1)),
+    kQ3XAttributeMaskTransparencyColor          = (1 << (kQ3AttributeTypeTransparencyColor  - 1)),
+    kQ3XAttributeMaskSurfaceTangent             = (1 << (kQ3AttributeTypeSurfaceTangent     - 1)),
+    kQ3XAttributeMaskHighlightState             = (1 << (kQ3AttributeTypeHighlightState     - 1)),
+    kQ3XAttributeMaskSurfaceShader              = (1 << (kQ3AttributeTypeSurfaceShader      - 1)),
+    kQ3XAttributeMaskCustomAttribute            = 0x80000000,
+    kQ3XAttributeMaskAll                        = 0x800007FF,
+    kQ3XAttributeMaskInherited                  = 0x000003FF,
+    kQ3XAttributeMaskInterpolated               = kQ3XAttributeMaskSurfaceUV          |
+                                                  kQ3XAttributeMaskShadingUV          |
+                                                  kQ3XAttributeMaskNormal             |
+                                                  kQ3XAttributeMaskAmbientCoefficient |
+                                                  kQ3XAttributeMaskDiffuseColor       |
+                                                  kQ3XAttributeMaskSpecularControl    |
+                                                  kQ3XAttributeMaskTransparencyColor  |
+                                                  kQ3XAttributeMaskSurfaceTangent,
+    kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
+} TQ3XAttributeMask;
 
 
 /*!
@@ -128,7 +179,6 @@ typedef enum TQ3AttributeTypes {
  *	@constant	kQ3XMethodTypeElementCopyDuplicate	See <code>TQ3XElementCopyDuplicateMethod</code>.
  *	@constant	kQ3XMethodTypeElementDelete			See <code>TQ3XElementDeleteMethod</code>.
 */
-// Element method types
 enum {
     kQ3XMethodTypeElementCopyAdd                = Q3_METHOD_TYPE('e', 'c', 'p', 'a'),
     kQ3XMethodTypeElementCopyReplace            = Q3_METHOD_TYPE('e', 'c', 'p', 'r'),
@@ -151,7 +201,6 @@ enum {
  *	@constant	kQ3XMethodTypeAttributeDefault		See <code>TQ3XAttributeDefaultMethod</code>.
  *	@constant	kQ3XMethodTypeAttributeIsDefault	See <code>TQ3XAttributeIsDefaultMethod</code>.
 */
-// Attribute method types
 enum {
     kQ3XMethodTypeAttributeInherit              = Q3_METHOD_TYPE('i', 'n', 'h', 't'),
     kQ3XMethodTypeAttributeCopyInherit          = Q3_METHOD_TYPE('a', 'c', 'p', 'i'),
@@ -166,15 +215,12 @@ enum {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-// Attribute type
 /*!
  *	@typedef	TQ3AttributeType
  *	@discussion	This is a 32-bit value identifying a particular attribute.
 */
 typedef TQ3ElementType                          TQ3AttributeType;
 
-
-// Element methods
 
 /*!
  *	@typedef	TQ3XElementCopyAddMethod
@@ -191,7 +237,8 @@ typedef TQ3ElementType                          TQ3AttributeType;
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XElementCopyAddMethod)(
                             const void          *fromAPIElement,
                             void                *toInternalElement);
-                            
+
+
 /*!
  *	@typedef	TQ3XElementCopyReplaceMethod
  *	@discussion
@@ -206,7 +253,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XElementCopyAddMethod)(
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XElementCopyReplaceMethod)(
                             const void          *fromAPIElement,
                             void                *toInternalElement);
-                            
+
+
 /*!
  *	@typedef	TQ3XElementCopyGetMethod
  *	@discussion
@@ -221,7 +269,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XElementCopyReplaceMethod)(
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XElementCopyGetMethod)(
                             const void          *fromInternalElement,
                             void                *toAPIElement);
-                            
+
+
 /*!
  *	@typedef	TQ3XElementCopyDuplicateMethod
  *	@discussion
@@ -234,7 +283,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XElementCopyGetMethod)(
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XElementCopyDuplicateMethod)(
                             const void          *fromInternalElement,
                             void                *toInternalElement);
-                            
+
+
 /*!
  *	@typedef	TQ3XElementDeleteMethod
  *	@discussion
@@ -247,7 +297,6 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XElementDeleteMethod)(
                             void                *internalElement);
 
 
-// Attribute methods
 /*!
  *	@typedef	TQ3XAttributeInheritMethod
  *	@discussion
@@ -255,6 +304,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XElementDeleteMethod)(
  *		report whether a custom attribute supports inheritance.
 */
 typedef TQ3Boolean                          TQ3XAttributeInheritMethod;
+
 
 /*!
  *	@typedef	TQ3XAttributeCopyInheritMethod
@@ -276,6 +326,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XAttributeCopyInheritMethod)(
 */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XAttributeDefaultMethod)(
                             void                *internalAttribute);
+
 
 /*!
  *	@typedef	TQ3XAttributeIsDefaultMethod
@@ -779,6 +830,47 @@ Q3XAttributeClass_Register (
     const char                    *className,
     TQ3Uns32                      sizeOfElement,
     TQ3XMetaHandler               metaHandler
+);
+
+
+
+/*!
+ *  @function
+ *      Q3XAttributeSet_GetPointer
+ *  @discussion
+ *      Get a pointer to the internal data structure for an attribute.
+ *
+ *      For attributes of type kQ3AttributeTypeXXX, the internal attribute data
+ *      is currently identical to the data structured passed to Q3AttributeSet_Add.
+ *
+ *      This function should only be called from renderer plug-ins.
+ *
+ *  @param attributeSet     The attribute set to query.
+ *  @param attributeType    The attribute type to locate.
+ *  @result                 A pointer to the internal attribute data if present, or NULL.
+ */
+Q3_EXTERN_API_C ( void * )
+Q3XAttributeSet_GetPointer (
+    TQ3AttributeSet               attributeSet,
+    TQ3AttributeType              attributeType
+);
+
+
+
+/*!
+ *  @function
+ *      Q3XAttributeSet_GetMask
+ *  @discussion
+ *      Get a mask of the attributes contained in an attribute set.
+ *
+ *      This function should only be called from renderer plug-ins.
+ *
+ *  @param attributeSet     The attribute set to query.
+ *  @result                 A mask indicating the attributes present in attributeSet.
+ */
+Q3_EXTERN_API_C ( TQ3XAttributeMask  )
+Q3XAttributeSet_GetMask (
+    TQ3AttributeSet               attributeSet
 );
 
 
