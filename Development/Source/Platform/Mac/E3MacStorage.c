@@ -293,6 +293,7 @@ e3storage_mac_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 
 	OSErr	err;
 	TQ3Object parent;
+	TE3_MacStorageDataPtr	instanceData;
 	SInt32	theLength;
 
 	SInt32	ioByteCount;
@@ -308,33 +309,35 @@ e3storage_mac_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 		return(kQ3Failure);
 		}
 	
-	Q3_REQUIRE_OR_RESULT((((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum == -1),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(!e3storage_mac_hasFlag(parent->instanceData, kQ3MacStorage_ReadOnlyFlag),kQ3Failure);
+	instanceData = (TE3_MacStorageDataPtr)parent->instanceData;
+
+	Q3_REQUIRE_OR_RESULT((instanceData->fsRefNum != -1),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(!e3storage_mac_hasFlag(instanceData, kQ3MacStorage_ReadOnlyFlag),kQ3Failure);
 	
-	((TE3_MacStorageDataPtr)parent->instanceData)->bufferStart = kQ3MacStorage_BufferInvalid;
+	instanceData->bufferStart = kQ3MacStorage_BufferInvalid;
 	
-	err = GetEOF(((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum, &theLength);
+	err = GetEOF(instanceData->fsRefNum, &theLength);
 	if (err != noErr) {
 		E3ErrorManager_PostPlatformError (err);
 		return(kQ3Failure);
 	}
 	// Grow storage 
 	if ((offset + dataSize) > theLength){
-		err = SetEOF(((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum, (offset + dataSize));
+		err = SetEOF(instanceData->fsRefNum, (offset + dataSize));
 		if (err != noErr) {
 			E3ErrorManager_PostPlatformError (err);
 			return(kQ3Failure);
 			}
 		}
 
-	err = SetFPos(((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum, fsFromStart, offset);
+	err = SetFPos(instanceData->fsRefNum, fsFromStart, offset);
 	if (err != noErr) {
 		E3ErrorManager_PostPlatformError (err);
 		return(kQ3Failure);
 	}
 	
 	
-	err = FSWrite(((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum, &ioByteCount, data);
+	err = FSWrite(instanceData->fsRefNum, &ioByteCount, data);
 	if (err != noErr) {
 		E3ErrorManager_PostPlatformError (err);
 		return(kQ3Failure);
@@ -457,6 +460,7 @@ e3storage_mac_fsspec_open(TQ3StorageObject storage, TQ3Boolean forWriting)
 {
 	OSErr	err;
 	TQ3Object parent;
+	TE3_MacStorageDataPtr	instanceData;
 #if QUESA_USES_MOREFILES
 	TQ3Int16 denyModes;
 #else
@@ -472,23 +476,24 @@ e3storage_mac_fsspec_open(TQ3StorageObject storage, TQ3Boolean forWriting)
 		return(kQ3Failure);
 		}
 	
-	Q3_REQUIRE_OR_RESULT((((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum == -1),kQ3Failure);
+	instanceData = (TE3_MacStorageDataPtr)parent->instanceData;
+	Q3_REQUIRE_OR_RESULT((instanceData->fsRefNum == -1),kQ3Failure);
 
 #if QUESA_USES_MOREFILES
 	denyModes = dmRdDenyWr;
 	if(forWriting)
 		denyModes = dmRdWrDenyRdWr;
-	err = FSpOpenAware ((FSSpec*)storage->instanceData, denyModes, &((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum);
+	err = FSpOpenAware ((FSSpec*)storage->instanceData, denyModes, &instanceData->fsRefNum);
 #else
 	permission = fsRdPerm;
 	if(forWriting)
 		permission = fsRdWrPerm;
-	err = FSpOpenDF((FSSpec*)storage->instanceData,permission,&((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum);
+	err = FSpOpenDF((FSSpec*)storage->instanceData,permission,&instanceData->fsRefNum);
 #endif
 
 	if (err != noErr) {
 		E3ErrorManager_PostPlatformError (err);
-		((TE3_MacStorageDataPtr)parent->instanceData)->fsRefNum = -1;
+		instanceData->fsRefNum = -1;
 		return(kQ3Failure);
 	}
 
