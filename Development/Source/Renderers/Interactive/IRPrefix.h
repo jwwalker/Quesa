@@ -97,6 +97,7 @@ typedef struct TQ3TransparentPrim {
 	// Vertices
 	TQ3Uns32				numVerts;
 	TQ3FVertex3D			theVertices[3];
+	TQ3Point3D				frustumSpaceVerts[3];
 
 	// Sorting
 	float					xMin, xMax;
@@ -116,6 +117,7 @@ typedef struct TQ3TransparentPrim {
 	float					specularControl;
 	TQ3ObjectType			illumination;
 	TQ3Boolean				needsSpecular;
+	TQ3Matrix4x4			cameraToFrustum;
 } TQ3TransparentPrim;
 
 
