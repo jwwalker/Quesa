@@ -940,10 +940,19 @@ Q3IsInitialized (
  *  @function
  *      Q3GetVersion
  *  @discussion
- *      Returns the version of Quesa.
+ *      Returns the major and minor revision levels of the installed
+ *      Quesa software.
  *
- *  @param majorRevision    Receives the major version number.
- *  @param minorRevision    Receives the minor version number.
+ *      For example, if the revision is 1.6a23 (= 1.6.0a23), returns 1
+ *      as the major revision level and 6 as the minor revision level:
+ *      The final 0 in the minor revision level is omitted.
+ *      If the revision is 1.61a23 (= 1.6.1a23), returns 1 as the major
+ *      revision level and 61 as the minor revision level.
+ *
+ *      May be called outside of a <code>Q3Initialize/Q3Exit</code> block.
+ *
+ *  @param majorRevision    Receives the major revision level of Quesa.
+ *  @param minorRevision    Receives the minor revision level of Quesa.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
@@ -958,13 +967,22 @@ Q3GetVersion (
  *  @function
  *      Q3GetReleaseVersion
  *  @discussion
- *      Returns the release version of Quesa.
+ *      Returns the revision of the installed Quesa software in the format of the
+ *		first four bytes of a Macintosh <code>'vers'</code> resource.
  *
- *      The version number is returned in the format of the first four
- *      bytes of a Mac 'vers' resource. E.g., 1.6.1 would be identified
- *      as 0x01618000.
+ *      The four bytes contain 1) the major revision level, 2) the minor revision,
+ *      3) the development stage, and 4) the prerelease revision level, respectively.
+ *      The three revision levels are each represented in binary coded decimal.
+ *      The development stage can be development (0x20), alpha (0x40), beta (0x60)
+ *      or release (0x80).
  *
- *  @param releaseRevision  Receives the release version number.
+ *      For example, if the revision is 1.61a23 (= 1.6.1a23), returns 0x01614023.
+ *      For more information, see the description of the <code>'vers'</code> resource
+ *      in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
+ *
+ *      May be called outside of a <code>Q3Initialize/Q3Exit</code> block.
+ *
+ *  @param releaseRevision  Receives the revision of Quesa.
  *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
