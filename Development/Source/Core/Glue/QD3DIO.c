@@ -1947,7 +1947,6 @@ Q3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(length), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
@@ -1976,6 +1975,50 @@ Q3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
 	// Call our implementation
 	return(E3String_Read(data, length, theFile));
 }
+
+
+
+
+
+//=============================================================================
+//      Q3String_ReadUnlimited : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Status
+Q3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, TQ3FileObject theFile)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ioLength), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on data
+		return(kQ3Failure);
+
+	if (0) // Further checks on length
+		return(kQ3Failure);
+
+	if (0) // Further checks on theFile
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3String_ReadUnlimited(data, ioLength, theFile));
+}
+#endif
 
 
 
@@ -2016,6 +2059,45 @@ Q3String_Write(const char *data, TQ3FileObject theFile)
 	return(E3String_Write(data, theFile));
 }
 
+
+
+
+//=============================================================================
+//      Q3String_WriteUnlimited : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Status
+Q3String_WriteUnlimited(const char *data, TQ3FileObject theFile)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theFile->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on data
+		return(kQ3Failure);
+
+	if (0) // Further checks on theFile
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3String_WriteUnlimited(data, theFile));
+}
+#endif
 
 
 
