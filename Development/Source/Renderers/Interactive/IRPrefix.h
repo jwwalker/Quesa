@@ -106,6 +106,8 @@ typedef struct TQ3InteractiveData {
 	// GL state
 	GLbitfield				glClearFlags;
 	void					*glContext;
+	TQ3Boolean				glATICheckedFSAA;
+	TQ3Boolean				glATIAvailableFSAA;
 
 
 	// Light state
