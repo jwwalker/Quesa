@@ -61,6 +61,121 @@ e3drawcontext_win32dc_new(TQ3Object theObject, void *privateData, const void *pa
 
 
 
+//=============================================================================
+//      e3drawcontext_win32dc_delete : Win32DC draw context delete method.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_win32dc_delete(TQ3Object theObject, void *privateData)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) privateData;
+	TQ3Status					qd3dStatus;
+#pragma unused(privateData)
+
+
+
+	// Dispose of the common instance data
+	qd3dStatus = E3DrawContext_CreateRegions(theObject, 0);
+
+	if (instanceData->data.common.maskState)
+		qd3dStatus = Q3Bitmap_Empty(&instanceData->data.common.mask);
+}
+
+
+
+
+
+//=============================================================================
+//      e3drawcontext_win32dc_update : Win32DC draw context update method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+	TQ3Status					qd3dStatus;
+	BITMAP						bitMap;
+	HGDIOBJ						hBitMap;
+	TQ3Uns32					cx,cy;
+	TQ3XDevicePixelType			pixelType;
+
+
+
+	// If we have a draw region, and nothing has changed, we're done
+	if (instanceData->numDrawRegions != 0 && instanceData->theState == kQ3XDrawContextValidationClearFlags)
+		return(kQ3Success);
+
+
+
+	// Build a single draw region
+	qd3dStatus = E3DrawContext_CreateRegions(theDrawContext, 1);
+	if (qd3dStatus != kQ3Success)
+		return(qd3dStatus);
+
+
+
+	//
+	// Clipping masks aren't currently supported.
+	
+	// Create a little bitmap to query color information
+	hBitMap = CreateCompatibleBitmap(instanceData->data.win32Data.theData.hdc, 1, 1);
+	if(hBitMap == NULL){
+		Q3Error_PlatformPost(GetLastError());
+		return(kQ3Failure);
+		}
+		
+	cx = GetObject(hBitMap,sizeof(BITMAP),&bitMap);
+	DeleteObject(hBitMap);
+	
+	if(cx != sizeof(BITMAP)){
+		Q3Error_PlatformPost(GetLastError());
+		return(kQ3Failure);
+		}
+		
+	cx = (TQ3Uns32)(instanceData->data.common.pane.max.x - instanceData->data.common.pane.min.x);
+	cy = (TQ3Uns32)(instanceData->data.common.pane.max.y - instanceData->data.common.pane.min.y);
+	
+	pixelType = E3DrawContext_GetDevicePixelTypeFromBPP(bitMap.bmBitsPixel);
+	
+	instanceData->drawRegions[0].deviceOffsetX           = 0.0f;
+	instanceData->drawRegions[0].deviceOffsetY           = 0.0f;
+	instanceData->drawRegions[0].windowOffsetX           = 0.0f;
+	instanceData->drawRegions[0].windowOffsetY           = 0.0f;
+	instanceData->drawRegions[0].deviceScaleX            = (float) cx;
+	instanceData->drawRegions[0].deviceScaleY            = (float) cy;
+	instanceData->drawRegions[0].windowScaleX            = instanceData->drawRegions[0].deviceScaleX;
+	instanceData->drawRegions[0].windowScaleY            = instanceData->drawRegions[0].deviceScaleY;
+	instanceData->drawRegions[0].theDescriptor.width		 = cx;
+	instanceData->drawRegions[0].theDescriptor.height		 = cy;
+	instanceData->drawRegions[0].theDescriptor.rowBytes	 = 2 * ((cx * bitMap.bmBitsPixel + 15) / 16);
+	instanceData->drawRegions[0].theDescriptor.pixelSize = bitMap.bmBitsPixel;
+	instanceData->drawRegions[0].theDescriptor.pixelType = pixelType;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.redShift	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.redMask	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenShift	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenMask	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueShift	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueMask	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaShift	 = ???;
+	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaMask	 = ???;
+	instanceData->drawRegions[0].theDescriptor.bitOrder	 = kQ3EndianLittle;
+	instanceData->drawRegions[0].theDescriptor.byteOrder = kQ3EndianLittle;
+	instanceData->drawRegions[0].theDescriptor.clipMask = NULL;
+	instanceData->drawRegions[0].imageBuffer             = NULL;
+	instanceData->drawRegions[0].isActive                = kQ3True;
+	instanceData->drawRegions[0].clipMaskState           = kQ3XClipMaskFullyExposed;
+
+	// clear the DrawContext
+	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor){
+		NULL;
+		}
+		
+
+
+	// Update the state flag
+	instanceData->theState = kQ3XDrawContextValidationAll;
+
+	return(kQ3Success);		
+}
+
+
+
 
 
 //=============================================================================
@@ -76,6 +191,14 @@ e3drawcontext_win32dc_metahandler(TQ3XMethodType methodType)
 	switch (methodType) {
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3drawcontext_win32dc_new;
+			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3drawcontext_win32dc_delete;
+			break;
+
+		case kQ3XMethodTypeDrawContextUpdate:
+			theMethod = (TQ3XFunctionPointer) e3drawcontext_win32dc_update;
 			break;
 		}
 	
