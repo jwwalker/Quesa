@@ -4980,7 +4980,7 @@ E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 	// Check for the ray origin being inside the bounding box
 	if (isInside)
 		{
-		*hitPoint = theRay->origin;
+		if (hitPoint) *hitPoint = theRay->origin;
 		return(kQ3True);
 		}
 
@@ -5023,9 +5023,12 @@ E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 			coord[i] = candidatePlane[i];
 		}
 	
-	hitPoint->x = coord[0];
-	hitPoint->y = coord[1];
-	hitPoint->z = coord[2];
+	if (hitPoint)
+		{
+		hitPoint->x = coord[0];
+		hitPoint->y = coord[1];
+		hitPoint->z = coord[2];
+		}
 	
 	return(kQ3True);
 }
