@@ -116,6 +116,14 @@ TQ3Status			E3QuaternionTransform_Get(TQ3TransformObject theTransform, TQ3Quater
 TQ3TransformObject	E3ResetTransform_New(void);
 TQ3Status			E3ResetTransform_Submit(TQ3ViewObject theView);
 
+TQ3TransformObject	E3CameraTransform_New(   const TQ3CameraTransformData *theData);
+TQ3Status			E3CameraTransform_Submit(const TQ3CameraTransformData *theData, TQ3ViewObject theView);
+TQ3Status			E3CameraTransform_Set(TQ3TransformObject theTransform, const TQ3CameraTransformData *theData);
+TQ3Status			E3CameraTransform_Get(TQ3TransformObject theTransform,       TQ3CameraTransformData *theData);
+
+TQ3TransformObject	E3RasterizeCameraTransform_New(void);
+TQ3Status			E3RasterizeCameraTransform_Submit(TQ3ViewObject theView);
+
 
 
 

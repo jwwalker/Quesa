@@ -55,34 +55,39 @@
 
 // View stack
 enum TQ3ViewStackState {
-	kQ3ViewStateMatrixLocalToWorld			= 1 <<  0,		// Local to world changed
-	kQ3ViewStateShaderIllumination			= 1 <<	1,		// Illumination shader changed
-	kQ3ViewStateShaderSurface				= 1 <<	2,		// Surface shader changed
-	kQ3ViewStateStyleBackfacing				= 1 <<  3,		// Backfacing style changed
-	kQ3ViewStateStyleInterpolation			= 1 <<  4,		// Interpolation style changed
-	kQ3ViewStateStyleFill					= 1 <<  5,		// Fill style changed
-	kQ3ViewStateStyleHighlight				= 1 <<  6,		// Highlight style changed
-	kQ3ViewStateStyleSubdivision			= 1 <<  7,		// Subdivision style changed
-	kQ3ViewStateStyleOrientation			= 1 <<  8,		// Orientation style changed
-	kQ3ViewStateStyleCastShadows			= 1 <<  9,		// Cast Shadows style changed
-	kQ3ViewStateStyleReceiveShadows			= 1 << 10,		// Receive Shadows style changed
-	kQ3ViewStateStylePickID					= 1 << 11,		// Pick ID style changed
-	kQ3ViewStateStylePickParts				= 1 << 12,		// Pick Parts style changed
-	kQ3ViewStateStyleAntiAlias				= 1 << 13,		// Anti-alias style changed
-	kQ3ViewStateStyleFog					= 1 << 14,		// Fog style changed
-	kQ3ViewStateAttributeSurfaceUV			= 1 << 15,		// Surface UV attribute changed
-	kQ3ViewStateAttributeShadingUV			= 1 << 16,		// Shading UV attribute changed
-	kQ3ViewStateAttributeNormal				= 1 << 17,		// Normal attribute changed
-	kQ3ViewStateAttributeAmbientCoefficient	= 1 << 18,		// Ambient coefficient attribute changed
-	kQ3ViewStateAttributeDiffuseColour		= 1 << 19,		// Diffuse colour attribute changed
-	kQ3ViewStateAttributeSpecularColour		= 1 << 20,		// Specular colour attribute changed
-	kQ3ViewStateAttributeSpecularControl	= 1 << 21,		// Specular control attribute changed
-	kQ3ViewStateAttributeTransparencyColour = 1 << 22,		// Transparency colour attribute changed
-	kQ3ViewStateAttributeSurfaceTangent		= 1 << 23,		// Surface tangent attribute changed
-	kQ3ViewStateAttributeHighlightState		= 1 << 24,		// Highlight switch attribute changed
-	kQ3ViewStateAttributeSurfaceShader		= 1 << 25,		// Surface shader attribute changed
+	kQ3ViewStateMatrixLocalToWorld			= 1 <<  0,		// Local-to-world changed
+	kQ3ViewStateMatrixWorldToCamera			= 1 <<  1,		// World-to-camera changed
+	kQ3ViewStateMatrixCameraToFrustum		= 1 <<  2,		// Camera-to-frustum changed
+	kQ3ViewStateShaderIllumination			= 1 <<	3,		// Illumination shader changed
+	kQ3ViewStateShaderSurface				= 1 <<	4,		// Surface shader changed
+	kQ3ViewStateStyleBackfacing				= 1 <<  5,		// Backfacing style changed
+	kQ3ViewStateStyleInterpolation			= 1 <<  6,		// Interpolation style changed
+	kQ3ViewStateStyleFill					= 1 <<  7,		// Fill style changed
+	kQ3ViewStateStyleHighlight				= 1 <<  8,		// Highlight style changed
+	kQ3ViewStateStyleSubdivision			= 1 <<  9,		// Subdivision style changed
+	kQ3ViewStateStyleOrientation			= 1 << 10,		// Orientation style changed
+	kQ3ViewStateStyleCastShadows			= 1 << 11,		// Cast Shadows style changed
+	kQ3ViewStateStyleReceiveShadows			= 1 << 12,		// Receive Shadows style changed
+	kQ3ViewStateStylePickID					= 1 << 13,		// Pick ID style changed
+	kQ3ViewStateStylePickParts				= 1 << 14,		// Pick Parts style changed
+	kQ3ViewStateStyleAntiAlias				= 1 << 15,		// Anti-alias style changed
+	kQ3ViewStateStyleFog					= 1 << 16,		// Fog style changed
+	kQ3ViewStateAttributeSurfaceUV			= 1 << 17,		// Surface UV attribute changed
+	kQ3ViewStateAttributeShadingUV			= 1 << 18,		// Shading UV attribute changed
+	kQ3ViewStateAttributeNormal				= 1 << 19,		// Normal attribute changed
+	kQ3ViewStateAttributeAmbientCoefficient	= 1 << 20,		// Ambient coefficient attribute changed
+	kQ3ViewStateAttributeDiffuseColour		= 1 << 21,		// Diffuse colour attribute changed
+	kQ3ViewStateAttributeSpecularColour		= 1 << 22,		// Specular colour attribute changed
+	kQ3ViewStateAttributeSpecularControl	= 1 << 23,		// Specular control attribute changed
+	kQ3ViewStateAttributeTransparencyColour = 1 << 24,		// Transparency colour attribute changed
+	kQ3ViewStateAttributeSurfaceTangent		= 1 << 25,		// Surface tangent attribute changed
+	kQ3ViewStateAttributeHighlightState		= 1 << 26,		// Highlight switch attribute changed
+	kQ3ViewStateAttributeSurfaceShader		= 1 << 27,		// Surface shader attribute changed
 	kQ3ViewStateNone						= 0,			// Nothing changed
-	kQ3ViewStateAll							= 0xFFFFFFFF	// Everything changed
+	kQ3ViewStateAll							= 0xFFFFFFFF,	// Everything changed
+	kQ3ViewStateMatrixAny					= kQ3ViewStateMatrixLocalToWorld  |	// Any matrix changed
+											  kQ3ViewStateMatrixWorldToCamera |
+											  kQ3ViewStateMatrixCameraToFrustum
 };
 typedef enum TQ3ViewStackState TQ3ViewStackState;
 
@@ -103,6 +108,8 @@ typedef struct TQ3ViewStackItem {
 	TQ3ViewStackState			stackState;
 	TQ3AttributeSet				attributeSet;
 	TQ3Matrix4x4				matrixLocalToWorld;
+	TQ3Matrix4x4				matrixWorldToCamera;
+	TQ3Matrix4x4				matrixCameraToFrustum;
 	TQ3ShaderObject				shaderIllumination;
 	TQ3ShaderObject				shaderSurface;
 	TQ3BackfacingStyle			styleBackfacing;
@@ -203,6 +210,8 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 
 	// Initialise the item
 	Q3Matrix4x4_SetIdentity(&theItem->matrixLocalToWorld);
+	Q3Matrix4x4_SetIdentity(&theItem->matrixWorldToCamera);
+	Q3Matrix4x4_SetIdentity(&theItem->matrixCameraToFrustum);
 
 	theItem->next					 = NULL;
 	theItem->stackState				 = kQ3ViewStateAll;
@@ -263,6 +272,7 @@ e3view_stack_update_attribute(TQ3ViewObject				theView,
 {	TQ3Status		qd3dStatus;
 
 
+
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(theView);
 	Q3_ASSERT_VALID_PTR(topItem);
@@ -309,9 +319,10 @@ e3view_stack_update_attribute(TQ3ViewObject				theView,
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3view_stack_update(TQ3ViewObject theView, TQ3ViewStackState stateChange)
-{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3Status			qd3dStatus    = kQ3Success;
-	TQ3ViewStackItem	*theItem;
+{	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3Status				qd3dStatus    = kQ3Success;
+	TQ3MatrixState			matrixState;
+	TQ3ViewStackItem		*theItem;
 
 
 
@@ -335,8 +346,21 @@ e3view_stack_update(TQ3ViewObject theView, TQ3ViewStackState stateChange)
 	// Update the renderer if we're currently drawing
 	if (instanceData->viewMode == kQ3ViewModeDrawing)
 		{
-		if ((stateChange & kQ3ViewStateMatrixLocalToWorld) && qd3dStatus == kQ3Success)
-			qd3dStatus = E3Renderer_Method_UpdateMatrixLocalToWorld(theView, &theItem->matrixLocalToWorld);
+		if ((stateChange & kQ3ViewStateMatrixAny) && qd3dStatus == kQ3Success)
+			{
+			// Identify the matrices which have changed
+			matrixState = kQ3MatrixStateNone;
+			if (stateChange & kQ3ViewStateMatrixLocalToWorld)    matrixState |= kQ3MatrixStateLocalToWorld;
+			if (stateChange & kQ3ViewStateMatrixWorldToCamera)   matrixState |= kQ3MatrixStateWorldToCamera;
+			if (stateChange & kQ3ViewStateMatrixCameraToFrustum) matrixState |= kQ3MatrixStateCameraToFrustum;
+
+
+			// And update them
+			qd3dStatus = E3Renderer_Method_UpdateMatrix(theView, matrixState,
+														&theItem->matrixLocalToWorld,
+														&theItem->matrixWorldToCamera,
+														&theItem->matrixCameraToFrustum);
+			}
 
 		if ((stateChange & kQ3ViewStateShaderIllumination) && qd3dStatus == kQ3Success)
 			qd3dStatus = E3Renderer_Method_UpdateShader(theView, kQ3ShaderTypeIllumination, &theItem->shaderIllumination);
@@ -723,9 +747,7 @@ e3view_bounds_sphere_exact(TQ3ViewObject theView, TQ3Uns32 numPoints, TQ3Uns32 p
 
 		Q3Point3D_To3DTransformArray(thePoints, localToWorld, worldPoints,
 								  numPoints, pointStride, sizeof(TQ3Point3D));
-
-
-	}
+		}
 
 }
 
@@ -1740,6 +1762,25 @@ E3View_AccessRenderer(TQ3ViewObject theView)
 
 
 //=============================================================================
+//      E3View_AccessDrawContext : Access our drawcontext without ref-counting.
+//-----------------------------------------------------------------------------
+//		Note : Used internally by Quesa to access a view's draw context.
+//-----------------------------------------------------------------------------
+TQ3DrawContextObject
+E3View_AccessDrawContext(TQ3ViewObject theView)
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+
+
+
+	// Return the draw context
+	return(instanceData->theDrawContext);
+}
+
+
+
+
+
+//=============================================================================
 //      E3View_AccessFile : Access the current file.
 //-----------------------------------------------------------------------------
 //		Note : Used internally by Quesa to access a view's current file.
@@ -2233,13 +2274,13 @@ E3View_PickStack_PopGroup(TQ3ViewObject theView)
 
 
 //=============================================================================
-//      E3View_State_AddMatrixLocalToWorld : Accumulate a matrix.
+//      E3View_State_AddMatrixLocalToWorld : Add to the local-to-world matrix.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *theMatrix)
-{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
-	TQ3Status			qd3dStatus;
-	TQ3Matrix4x4*		matrixState;
+{	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3Status		qd3dStatus;
+	TQ3Matrix4x4	tmpMatrix;
 
 
 
@@ -2254,21 +2295,11 @@ E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *th
 
 
 
-	// Get the matrix we need
-	matrixState = &instanceData->stackState->matrixLocalToWorld;
+	// Accumulate the local to world transform
+	Q3Matrix4x4_Multiply(theMatrix, E3View_State_GetMatrixLocalToWorld(theView), &tmpMatrix);
 
+	qd3dStatus = E3View_State_SetMatrix(theView, kQ3MatrixStateLocalToWorld, &tmpMatrix, NULL, NULL);
 
-
-	// Multiply in the matrix
-	Q3Matrix4x4_Multiply(theMatrix,
-						 matrixState,
-						 matrixState);
-
-
-
-	// Update the renderer
-	qd3dStatus = e3view_stack_update(theView, kQ3ViewStateMatrixLocalToWorld);
-	
 	return(qd3dStatus);
 }
 
@@ -2277,10 +2308,10 @@ E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *th
 
 
 //=============================================================================
-//      E3View_State_GetLocalToWorld : Get the local to world matrix state.
+//      E3View_State_GetMatrixLocalToWorld : Get the local-to-world matrix.
 //-----------------------------------------------------------------------------
 const TQ3Matrix4x4 *
-E3View_State_GetLocalToWorld(TQ3ViewObject theView)
+E3View_State_GetMatrixLocalToWorld(TQ3ViewObject theView)
 {	TQ3ViewData		*instanceData = (TQ3ViewData *) theView->instanceData;
 
 
@@ -2339,6 +2370,63 @@ E3View_State_GetStyleOrientation(TQ3ViewObject theView)
 
 	// Return the state
 	return(instanceData->stackState->styleOrientation);
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_State_SetMatrix : Set the camera matrices.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_State_SetMatrix(TQ3ViewObject			theView,
+							TQ3MatrixState		theState,
+							const TQ3Matrix4x4	*localToWorld,
+							const TQ3Matrix4x4	*worldToCamera,
+							const TQ3Matrix4x4	*cameraToFrustum)
+{	TQ3ViewData			*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3ViewStackState	stateChange;
+	TQ3Status			qd3dStatus;
+
+
+
+	// Validate our state
+	Q3_ASSERT(Q3_VALID_PTR(instanceData->stackState));
+
+
+
+	// Set the matrices which have changed
+	stateChange = kQ3MatrixStateNone;
+	
+	if (theState & kQ3MatrixStateLocalToWorld)
+		{
+		Q3_ASSERT(Q3_VALID_PTR(localToWorld));
+		stateChange                                 |= kQ3ViewStateMatrixLocalToWorld;
+		instanceData->stackState->matrixLocalToWorld = *localToWorld;
+		}
+	
+	if (theState & kQ3MatrixStateWorldToCamera)
+		{
+		Q3_ASSERT(Q3_VALID_PTR(worldToCamera));
+		stateChange                                  |= kQ3ViewStateMatrixWorldToCamera;
+		instanceData->stackState->matrixWorldToCamera = *worldToCamera;
+		}
+	
+	if (theState & kQ3MatrixStateCameraToFrustum)
+		{
+		Q3_ASSERT(Q3_VALID_PTR(cameraToFrustum));
+		stateChange                                    |= kQ3ViewStateMatrixCameraToFrustum;
+		instanceData->stackState->matrixCameraToFrustum = *cameraToFrustum;
+		}
+
+
+
+	// Update the renderer
+	Q3_ASSERT(stateChange != kQ3MatrixStateNone);
+	qd3dStatus = e3view_stack_update(theView, stateChange);
+
+	return(qd3dStatus);
 }
 
 
@@ -3250,8 +3338,8 @@ E3View_GetRenderer(TQ3ViewObject theView, TQ3RendererObject *theRenderer)
 TQ3Status
 E3View_StartRendering(TQ3ViewObject theView)
 {	TQ3ViewData				*instanceData = (TQ3ViewData *) theView->instanceData;
+	TQ3Matrix4x4			worldToCamera, cameraToFrustum;
 	TQ3DrawContextData		drawContextData;
-	TQ3Matrix4x4			worldToFrustum;
 	TQ3Status				qd3dStatus;
 
 
@@ -3303,10 +3391,14 @@ E3View_StartRendering(TQ3ViewObject theView)
 			qd3dStatus = E3Renderer_Method_StartFrame(theView, instanceData->theDrawContext);
 		
 		if (qd3dStatus == kQ3Success)
-			qd3dStatus = Q3Camera_GetWorldToFrustum(instanceData->theCamera, &worldToFrustum);
+			qd3dStatus = Q3Camera_GetWorldToView(instanceData->theCamera,   &worldToCamera);
+		
+		if (qd3dStatus == kQ3Success)
+			qd3dStatus = Q3Camera_GetViewToFrustum(instanceData->theCamera, &cameraToFrustum);
 
 		if (qd3dStatus == kQ3Success)
-			qd3dStatus = E3Renderer_Method_UpdateMatrixWorldToFrustum(theView, &worldToFrustum);
+			E3View_State_SetMatrix(theView, kQ3MatrixStateWorldToCamera | kQ3MatrixStateCameraToFrustum,
+											NULL, &worldToCamera, &cameraToFrustum);
 		}
 
 
@@ -3317,6 +3409,7 @@ E3View_StartRendering(TQ3ViewObject theView)
 		instanceData->rendererFinishedFrame = kQ3False;
 		qd3dStatus = E3Renderer_Method_StartPass(theView, instanceData->theCamera, instanceData->theLights);
 		}
+
 
 
 	// Submit the initial state
@@ -4072,7 +4165,7 @@ E3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoin
 	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
 	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
 
-	Q3Matrix4x4_Multiply(E3View_State_GetLocalToWorld(theView), &worldToFrustum, &theMatrix);
+	Q3Matrix4x4_Multiply(E3View_State_GetMatrixLocalToWorld(theView), &worldToFrustum, &theMatrix);
 	Q3Matrix4x4_Multiply(&theMatrix, &frustumToWindow, &theMatrix);
 
 
