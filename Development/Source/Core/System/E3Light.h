@@ -5,7 +5,7 @@
         Header file for E3Light.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -67,6 +67,8 @@ extern "C" {
 //-----------------------------------------------------------------------------
 TQ3Status			E3Light_RegisterClass(void);
 TQ3Status			E3Light_UnregisterClass(void);
+
+TQ3Boolean			E3Light_IsOfMyClasss ( TQ3Object object ) ;
 
 TQ3ObjectType		E3Light_GetType(TQ3LightObject light);
 TQ3Status			E3Light_GetState(TQ3LightObject light, TQ3Boolean *isOn);

@@ -392,6 +392,29 @@ E3Light_UnregisterClass(void)
 
 
 //=============================================================================
+//      E3Light_IsOfMyClass : Check if object pointer is valid and of type light
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3ShapeTypeLight )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Light_IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Light ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3Light_GetType : Gets the light's type.
 //-----------------------------------------------------------------------------
 #pragma mark -
