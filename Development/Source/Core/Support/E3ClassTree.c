@@ -736,37 +736,28 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 	if ( theClass->instanceSize != parentInstanceSize )
 		{
 		// If the object has a new method, call it to initialise the object
-		TQ3XObjectNewMethod newMethod = (TQ3XObjectNewMethod) theClass->Find_Method (
-															  kQ3XMethodTypeObjectNew,
+		if ( ( (E3Root*) theClass )->newMethod != NULL )
+			return ( (E3Root*) theClass )->newMethod (	(TQ3Object) this,
+														(void*) ( (TQ3Uns8*) this + parentInstanceSize ),
+														(void *) paramData ) ;
+			
+		// If the object is an element, it might have a copy add method
+		// which we call to initialise the object.
+		TQ3XElementCopyAddMethod copyAddMethod = (TQ3XElementCopyAddMethod) theClass->Find_Method (
+															  kQ3XMethodTypeElementCopyAdd,
 															  kQ3False ) ;
-		if ( newMethod != NULL )
-			{
-			qd3dStatus = newMethod ( (TQ3Object) this, (void*) ( (TQ3Uns8*) this + parentInstanceSize ), (void *) paramData ) ;
-			if ( qd3dStatus == kQ3Failure )
-				return kQ3Failure ;
-			}
-		else 
-			{
-			// If the object is an element, it might have a copy add method
-			// which we call to initialise the object.
-			TQ3XElementCopyAddMethod copyAddMethod = (TQ3XElementCopyAddMethod) theClass->Find_Method (
-																  kQ3XMethodTypeElementCopyAdd,
-																  kQ3False ) ;
-			if ( copyAddMethod != NULL )
-				{
-				qd3dStatus = copyAddMethod ( paramData, ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
-				if ( qd3dStatus == kQ3Failure )
-					return kQ3Failure ;
-				}
+		if ( copyAddMethod != NULL )
+			return copyAddMethod ( paramData, ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
+			
 
-			// Otherwise if there was no new method, but there was parameter data, do a
-			// bitwise copy. Classes which require more advanced initialisation must supply
-			// a new method, and classes which don't have any parameter data will be left
-			// with instance data that's initialised to 0s.
-			else
-			if ( paramData != NULL )
-				Q3Memory_Copy ( paramData, ( (TQ3Uns8*) this ) + parentInstanceSize, theClass->instanceSize - parentInstanceSize ) ;
-			}
+		// Otherwise if there was no new method, but there was parameter data, do a
+		// bitwise copy. Classes which require more advanced initialisation must supply
+		// a new method, and classes which don't have any parameter data will be left
+		// with instance data that's initialised to 0s.
+
+		if ( paramData != NULL )
+			Q3Memory_Copy ( paramData, ( (TQ3Uns8*) this ) + parentInstanceSize, theClass->instanceSize - parentInstanceSize ) ;
+		
 		}
 
 	return qd3dStatus ;
@@ -879,13 +870,8 @@ OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr theClass )
 		}	
 	else
 		{
-		// Get the method
-		TQ3XObjectDeleteMethod deleteMethod = (TQ3XObjectDeleteMethod) theClass->Find_Method (
-																		kQ3XMethodTypeObjectDelete,
-																		kQ3False ) ;
-
-		if ( deleteMethod != NULL )
-			deleteMethod ( (TQ3Object) this , (void*)  ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
+		if ( ( (E3Root*) theClass )->deleteMethod != NULL )
+			( (E3Root*) theClass )->deleteMethod ( (TQ3Object) this , (void*)  ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
 		}
 
 
@@ -939,15 +925,13 @@ TQ3Status
 OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 										E3ClassInfoPtr	theClass )
 	{
-	TQ3Status qd3dStatus ;
 	TQ3Uns32 parentInstanceSize = 0 ;
 	
 	// If the object has a parent, duplicate the parent object
 	if ( theClass->theParent != NULL )
 		{
 		parentInstanceSize = theClass->theParent->instanceSize ;
-		qd3dStatus = DuplicateInstanceData ( newObject , theClass->theParent ) ;
-		if ( qd3dStatus == kQ3Failure )
+		if ( DuplicateInstanceData ( newObject , theClass->theParent ) == kQ3Failure )
 			return kQ3Failure ;
 		}
 
@@ -959,17 +943,27 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 		// Call the object's duplicate method to initialise it. If the object
 		// does not have duplicate method, we do a bitwise copy.
 
-		TQ3XObjectDuplicateMethod duplicateMethod = (TQ3XObjectDuplicateMethod) theClass->Find_Method (
-																			  kQ3XMethodTypeObjectDuplicate,
-																			  kQ3False ) ;
-		if (duplicateMethod == NULL)
+		if ( ( (E3Root*) theClass )->duplicateMethod != NULL)
+			{
+			if ( ( (E3Root*) theClass )->duplicateMethod (
+					(TQ3Object) this,
+					(void*) ( (TQ3Uns8*) this + parentInstanceSize ),
+					newObject,
+					(void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) == kQ3Failure )
+				{
+				if ( theClass->theParent != NULL )
+					newObject->DeleteInstanceData (	theClass->theParent ) ;
+				return kQ3Failure ;
+				}
+			}
+		else
 			{
 			TQ3XElementCopyDuplicateMethod elementDuplicateMethod = (TQ3XElementCopyDuplicateMethod) theClass->Find_Method (
 																			kQ3XMethodTypeElementCopyDuplicate,
 																			kQ3False ) ;
 			if (elementDuplicateMethod != NULL)
 				{
-				qd3dStatus = elementDuplicateMethod ( (void*) ( (TQ3Uns8*) this + parentInstanceSize ) , (void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) ;
+				TQ3Status qd3dStatus = elementDuplicateMethod ( (void*) ( (TQ3Uns8*) this + parentInstanceSize ) , (void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) ;
 				if ( qd3dStatus == kQ3Failure )
 					{
 					if ( theClass->theParent != NULL )
@@ -981,17 +975,6 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 				Q3Memory_Copy ( (void*) ( (TQ3Uns8*) this + parentInstanceSize ) ,
 								(void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) , theClass->instanceSize - parentInstanceSize ) ;
 			}	
-		else
-			{
-			qd3dStatus = duplicateMethod ( (TQ3Object) this, (void*) ( (TQ3Uns8*) this + parentInstanceSize ),
-											newObject, (void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) ;
-			if ( qd3dStatus == kQ3Failure )
-				{
-				if ( theClass->theParent != NULL )
-					newObject->DeleteInstanceData (	theClass->theParent ) ;
-				return kQ3Failure ;
-				}
-			}
 		}
 	return kQ3Success ;
 	}
