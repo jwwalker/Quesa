@@ -749,6 +749,8 @@ gldrawcontext_win_destroy(void *glContext)
 
 
 
+
+
 //=============================================================================
 //		gldrawcontext_win_swapbuffers : Swap the buffers of an OpenGL context.
 //-----------------------------------------------------------------------------
@@ -1010,9 +1012,16 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 
 
 	// Set up the default state
+	//
+	// New contexts start off cleared in the appropriate manner and with a basic
+	// default OpenGL state.
+	//
+	// Backface culling is handled by renderers rather than OpenGL, to allow culling
+	// based on an application-supplied normal rather than the geometric normal.
 	GLDrawContext_SetClearFlags(theDrawContext, clearFlags);
 	GLDrawContext_SetBackgroundColour(theDrawContext);
 
+	glDisable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glClear(*clearFlags);
 
