@@ -7,20 +7,17 @@ Q3Box_EmptyData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Releases the memory allocated by a prior call to Q3Box_GetData.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>boxData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>boxData</tt></td><td>A pointer to the box data allocated by Q3Box_GetData().</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_GetData"></a>
@@ -32,21 +29,21 @@ Q3Box_GetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets the properties of an existing box object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Memory is allocated for the 'boxData' parameter, and Q3Box_EmptyData
+must be called to dispose of this memory.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>boxData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>boxData</tt></td><td>A pointer to the box data to fill with box object's description.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_GetFaceAttributeSet"></a>
@@ -59,22 +56,25 @@ Q3Box_GetFaceAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets the attribute set associated with a certain face of a box object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The TQ3AttributeSet* parameter is filled with the attribute set
+of the face indexed with 'faceIndex' of the box geometry object.
+faceIndex must be between 0 and 5 (inclusive).
+<br><br>
+The reference count of the returned TQ3AttributeSet is incremented.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>faceIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>faceIndex</tt></td><td>The index of the face of the box.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>A pointer to an attribute set to be filled out.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_GetMajorAxis"></a>
@@ -86,21 +86,18 @@ Q3Box_GetMajorAxis (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Gets the major axis of a box object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>majorAxis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>majorAxis</tt></td><td>The vector to be filled with 'box's major axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_GetMinorAxis"></a>
@@ -112,21 +109,18 @@ Q3Box_GetMinorAxis (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Gets the minor axis of a box object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>minorAxis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>minorAxis</tt></td><td>The vector to be filled with 'box's minor axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_GetOrientation"></a>
@@ -138,21 +132,18 @@ Q3Box_GetOrientation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Gets the orientation of a box object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientation</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>The vector to be filled with 'box's orientation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_GetOrigin"></a>
@@ -164,21 +155,18 @@ Q3Box_GetOrigin (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Gets the origin of a box object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>origin</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>origin</tt></td><td>The point to be filled out with 'box's origin.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_New"></a>
@@ -189,20 +177,17 @@ Q3Box_New (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Constructs a new Box geometry object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>boxData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>boxData</tt></td><td>Instance data passed in specifying the parameters of the new box object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A reference to the new geometry object.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_SetData"></a>
@@ -214,21 +199,18 @@ Q3Box_SetData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Sets the properties of an existing box object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>boxData</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>boxData</tt></td><td>A pointer to the box data to apply to the box object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_SetFaceAttributeSet"></a>
@@ -241,22 +223,23 @@ Q3Box_SetFaceAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the attribute set associated with a certain face of a box object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function applies the TQ3AttributeSet* parameter to the attribute set
+of the face indexed with 'faceIndex' of the box geometry object.
+faceIndex must be between 0 and 5 (inclusive).
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>faceIndex</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>faceAttributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>faceIndex</tt></td><td>The index of the face of the box.</td></tr>
+<tr valign=top><td><tt>faceAttributeSet</tt></td><td>A pointer to an attribute set to be applied.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_SetMajorAxis"></a>
@@ -268,21 +251,18 @@ Q3Box_SetMajorAxis (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Sets the major axis of a box object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>majorAxis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>majorAxis</tt></td><td>The vector to which to set 'box's major axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_SetMinorAxis"></a>
@@ -294,21 +274,18 @@ Q3Box_SetMinorAxis (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Sets the minor axis of a box object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>minorAxis</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>minorAxis</tt></td><td>The vector to which to set 'box's minor axis.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_SetOrientation"></a>
@@ -320,21 +297,18 @@ Q3Box_SetOrientation (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Sets the orientation of a box object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>orientation</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>orientation</tt></td><td>The vector to which to set 'box's orientation.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_SetOrigin"></a>
@@ -346,21 +320,18 @@ Q3Box_SetOrigin (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Sets the origin of a box object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>box</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>origin</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>box</tt></td><td>A reference to a box geometry object.</td></tr>
+<tr valign=top><td><tt>origin</tt></td><td>The point to which to set 'box's origin.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Box_Submit"></a>
@@ -372,21 +343,23 @@ Q3Box_Submit (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Submits a box for drawing, picking, bounding, or writing.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Submits the box described by the 'boxData' parameter to the
+supplied view for drawing, picking, bounding, or writing.
+<br><br>
+This function should only be called in a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>boxData</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>boxData</tt></td><td>A pointer to a TQ3BoxData structure specifying the box to be drawn.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to submit the box to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Cone_EmptyData"></a>
@@ -2626,21 +2599,26 @@ Q3Geometry_GetAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Returns the attribute set associated with a geometric object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function fills the TQ3AttributeSet* parameter out with the
+attribute set of the passed in TQ3GeometryObject reference.
+<br><br>
+The reference count of the attribute set is incremented.
+<br><br>
+To decrease the reference count when finished with the attribute set, use
+Q3ObjectDispose().
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>geometry</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>geometry</tt></td><td>A reference to a geometry object.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>A pointer to an attribute set to be filled out.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Geometry_GetType"></a>
@@ -2651,20 +2629,21 @@ Q3Geometry_GetType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Returns the type of the GeometryObject passed in.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function is used to determine the type of geometry object the parameter
+is a reference to. If 'geometry' is invalid, kQ3ObjectTypeInvalid will be
+returned.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>geometry</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>geometry</tt></td><td>A reference to a geometry object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A constant enumerating the type of 'geometry'.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Geometry_SetAttributeSet"></a>
@@ -2676,21 +2655,21 @@ Q3Geometry_SetAttributeSet (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the attribute set associated with a geometric object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Applies the attribute set given by the TQ3AttributeSet parameter onto
+the TQ3GeometryObject reference passed in.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>geometry</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>geometry</tt></td><td>A reference to a geometry object.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set to apply to the object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Geometry_Submit"></a>
@@ -2702,21 +2681,23 @@ Q3Geometry_Submit (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Submits a geometry object for drawing, picking, bounding, or writing.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Submits the passed in TQ3GeometryObject to the supplied view for
+drawing, picking, bounding, or writing.
+<br><br>
+This function should only be called in a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>geometry</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>geometry</tt></td><td>A reference to a (retained) geometry object.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view to submit the geometric object to.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Line_EmptyData"></a>
@@ -8248,5 +8229,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/19/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 6/6/2001 </a></font></p>
 </body></html>

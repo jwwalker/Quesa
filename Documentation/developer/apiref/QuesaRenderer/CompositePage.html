@@ -85,8 +85,8 @@ the typical usage of this function and any special requirements.
 <blockquote><pre><tt>TQ3Status  
 Q3InteractiveRenderer_GetPreferences (
     TQ3RendererObject             renderer,
-    TQ3Int32                      *vendorID,
-    TQ3Int32                      *engineID
+    TQ3RaveVendorID               *vendorID,
+    TQ3RaveEngineID               *engineID
 );
 </tt><br>
 </pre></blockquote>
@@ -171,7 +171,7 @@ the typical usage of this function and any special requirements.
 <blockquote><pre><tt>TQ3Status  
 Q3InteractiveRenderer_GetRAVETextureFilter (
     TQ3RendererObject             renderer,
-    TQ3Uns32                      *RAVEtextureFilterValue
+    TQ3TextureFilter              *raveTextureFilterValue
 );
 </tt><br>
 </pre></blockquote>
@@ -186,7 +186,7 @@ the typical usage of this function and any special requirements.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>renderer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>RAVEtextureFilterValue</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>raveTextureFilterValue</tt></td><td>Description of the parameter.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Description of the function result.
@@ -249,8 +249,8 @@ the typical usage of this function and any special requirements.
 <blockquote><pre><tt>TQ3Status  
 Q3InteractiveRenderer_SetPreferences (
     TQ3RendererObject             renderer,
-    TQ3Int32                      vendorID,
-    TQ3Int32                      engineID
+    TQ3RaveVendorID               vendorID,
+    TQ3RaveEngineID               engineID
 );
 </tt><br>
 </pre></blockquote>
@@ -303,7 +303,7 @@ the typical usage of this function and any special requirements.
 <blockquote><pre><tt>TQ3Status  
 Q3InteractiveRenderer_SetRAVETextureFilter (
     TQ3RendererObject             renderer,
-    TQ3Uns32                      RAVEtextureFilterValue
+    TQ3TextureFilter              raveTextureFilterValue
 );
 </tt><br>
 </pre></blockquote>
@@ -318,7 +318,7 @@ the typical usage of this function and any special requirements.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>renderer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>RAVEtextureFilterValue</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>raveTextureFilterValue</tt></td><td>Description of the parameter.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Description of the function result.
@@ -1288,5 +1288,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/19/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 6/6/2001 </a></font></p>
 </body></html>

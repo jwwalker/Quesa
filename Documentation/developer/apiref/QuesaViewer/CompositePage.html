@@ -11,21 +11,23 @@ Q3ViewerAdjustCursor (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Adjusts the mouse cursor if it's over the specified Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function when the mouse moves, if it might be over
+the specified Viewer (or even if it's not).  That gives the
+Viewer the opportunity to change the cursor as appropriate
+for the Viewer mode and cursor location.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>pt</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>pt</tt></td><td>Location of the cursor, in local (window) coordinates.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True if the cursor was changed, false otherwise.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerChangeBrightness"></a>
@@ -37,21 +39,18 @@ Q3ViewerChangeBrightness (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Changes the intensity of lighting used on the model.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>brightness</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>brightness</tt></td><td>Desired brightness (from 0 to 1?).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerClear"></a>
@@ -62,20 +61,20 @@ Q3ViewerClear (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Executes the Clear editing command.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function in response to the user selecting the standard
+Clear command when the viewer has the focus.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerContinueTracking"></a>
@@ -88,21 +87,24 @@ Q3ViewerContinueTracking (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Handles continued depression of the mouse.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If you're not using <code>Q3ViewerEvent</code>, then you'll should
+call this method after calling <code>Q3ViewerMouseDown</code> (and
+receiving a <code>true</code> result), whenever any event (such as
+a mouse movement) occurs as long as the mouse remains down.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Horizontal global (screen) location of mouse cursor.</td></tr>
+<tr valign=top><td><tt>y</tt></td><td>Vertical global (screen) location of mouse cursor.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True if the Viewer handled the event, false otherwise.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerCopy"></a>
@@ -113,20 +115,20 @@ Q3ViewerCopy (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Executes the Copy editing command.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function in response to the user selecting the standard
+Copy command when the viewer has the focus.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerCursorChanged"></a>
@@ -137,20 +139,20 @@ Q3ViewerCursorChanged (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Notifies the Viewer that you have changed the cursor.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If you change the cursor (using SetCursor or similar), notify
+all active Viewers by calling this function.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerCut"></a>
@@ -161,20 +163,20 @@ Q3ViewerCut (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Executes the Cut editing command.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function in response to the user selecting the standard
+Cut command when the viewer has the focus.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerDispose"></a>
@@ -185,20 +187,20 @@ Q3ViewerDispose (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Disposes of a Viewer object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this when you're done with the Viewer to ensure that Quesa
+has a chance to properly clean up after it.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer created with Q3ViewerNew.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerDraw"></a>
@@ -209,20 +211,22 @@ Q3ViewerDraw (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Forces the given Viewer to redraw itself.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+You only need to call this function if the Viewer's flags or other
+visible features have changed.  For example, to move or resize the
+Viewer, you would call <code>Q3ViewerSetBounds</code> followed by 
+<code>Q3ViewerDraw</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerDrawContent"></a>
@@ -233,20 +237,22 @@ Q3ViewerDrawContent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Redraws the content area (i.e. the 3D view) of the given Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+You should call this function if you directly modify the 3D model
+associated with the Viewer.  In such a case, it's better to call
+this function than <code>Q3ViewerDraw</code>, which also redraws
+other user interface elements (such as control buttons).
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerDrawControlStrip"></a>
@@ -257,20 +263,20 @@ Q3ViewerDrawControlStrip (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Redraws the user interface controls of the given Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function when you want to redraw the controls, without
+re-rendering the 3D view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerEvent"></a>
@@ -282,21 +288,29 @@ Q3ViewerEvent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Handles a MacOS event.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function gives the specified Viewer an opportunity to handle
+user interactiev via a classic (or Carbon) MacOS EventRecord.
+If the event was a Viewer-related event and successfully handled
+by the Viewer, this function returns true.  Otherwise, it returns
+false, and you should proceed to handle the event yourself.
+<br><br>
+Note that this function implements a "closed-loop" event handling
+model; it should not be used in conjunction with the "open-loop"
+event functions (<code>Q3ViewerMouseDown</code>, <code>Q3ViewerMouseUp</code>, 
+<code>Q3ViewerContinueTracking</code>, and <code>Q3ViewerHandleKeyEvent</code>).
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>evt</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>evt</tt></td><td>Address of event record to process.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True if event was handled, false if not handled.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetBackgroundColor"></a>
@@ -308,21 +322,18 @@ Q3ViewerGetBackgroundColor (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Returns the background color of the 3D view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>Pointer to TQ3ColorARGB to receive background color.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetBounds"></a>
@@ -334,21 +345,22 @@ Q3ViewerGetBounds (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets the current bounding rectangle of the Viewer pane.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The bounding rectangle determines where the Viewer draws itself
+within its window.  The bounds are in window coordinates, with (0,0)
+being the top-left corner of the window.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>bounds</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>bounds</tt></td><td>Address of Rect to receive Viewer bounds.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetButtonRect"></a>
@@ -361,22 +373,29 @@ Q3ViewerGetButtonRect (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets the rectangle that encloses a Viewer control button.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Specify the button of interest with one of the following constants:
+<br><br>
+<code>kQ3ViewerButtonCamera
+kQ3ViewerButtonTruck
+kQ3ViewerButtonOrbit
+kQ3ViewerButtonZoom
+kQ3ViewerButtonDolly
+kQ3ViewerButtonReset
+kQ3ViewerButtonOptions</code>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>button</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rect</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>button</tt></td><td>Which button to get (e.g., kQ3ViewerButtonCamera).</td></tr>
+<tr valign=top><td><tt>rect</tt></td><td>Address of a rectangle to stuff with button bounds.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetCameraCount"></a>
@@ -388,21 +407,25 @@ Q3ViewerGetCameraCount (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Returns how many cameras are supplied by the Viewer's view hints.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Model files may contain view hints which provide things such as
+"good" camera positions.  This function will report how many
+such cameras are suggested.  If there are no view hints associated
+with the Viewer, then this function returns 0.
+<br><br>
+See also <code>Q3ViewerSetCameraByNumber</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cnt</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>cnt</tt></td><td>Address of integer to receive the camera count.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetCurrentButton"></a>
@@ -413,20 +436,28 @@ Q3ViewerGetCurrentButton (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets the currently selected mode button of the given Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+A Viewer object always has a "mode" which determines how mouse
+drags in the content area are interpreted.  Modes are selected
+by clicking on one of the mode buttons; this function tells
+you which one is currently active.  The result will be one of
+the following:
+<br><br>
+<code>kQ3ViewerButtonTruck
+kQ3ViewerButtonOrbit
+kQ3ViewerButtonZoom
+kQ3ViewerButtonDolly</code>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Active mode button.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetDimension"></a>
@@ -439,22 +470,22 @@ Q3ViewerGetDimension (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the dimensions of model space in a Viewer's view hints object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the specified Viewer has no view hints, then this function just
+returns the actual width and height of the viewer pane.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>width</tt></td><td>Address of an integer to receive the hinted width.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>Address of an integer to receive the hinted height.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetFlags"></a>
@@ -465,20 +496,19 @@ Q3ViewerGetFlags (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets the Viewer feature flags currently in effect.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+See <code>Q3ViewerSetFlags</code> for a listing of the possible flags.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Current feature flags.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetGroup"></a>
@@ -489,20 +519,21 @@ Q3ViewerGetGroup (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Returns a reference to the 3D model data being used by the Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The reference count of the TQ3GroupObject returned is incremented
+by this call.  Therefore, you should call Q3Object_Dispose on this
+value when you're with it.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Group containing 3D model data.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetMinimumDimension"></a>
@@ -515,22 +546,24 @@ Q3ViewerGetMinimumDimension (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets the minimum allowable size of the viewer pane.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The returned size will take into account the currently displayed
+buttons in the controller strip.  If you allow the viewer pane
+(or its window) to be resized, you should not allow it to be
+resized smaller than the values returned by this function.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>width</tt></td><td>Address of an integer to receive the minimum viewer width.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>Address of an integer to receive the minimum viewer height.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetPhongShading"></a>
@@ -542,21 +575,27 @@ Q3ViewerGetPhongShading (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Reports whether the Viewer is set to use phong shading.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Phong shading is generally slower but produces a more
+realistic effect, particularly where highlights are
+concerned.
+<br><br>
+Not all renderers support phong shading.  A value of 
+true reported by this function indicates only that the
+phong shading option is turned on; not whether the renderer
+is actually rendering any differently because of it.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>phong</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>phong</tt></td><td>Address of boolean to receive phone shading option.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetPict"></a>
@@ -567,20 +606,21 @@ Q3ViewerGetPict (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets a 2D image of the Viewer's rendering in '<code>PICT</code>' format.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function builds a MacOS Picture containing the current
+rendering in the given Viewer.  The caller is responsible for
+releasing the picture memory via <code>DisposeHandle</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Handle to newly created picture.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetPort"></a>
@@ -591,20 +631,21 @@ Q3ViewerGetPort (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets the graphics port into which the specified Viewer draws.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The returned port may be associated with a window or an offscreen
+graphics world; or it may be NULL, indicating that the Viewer is
+not associated with any port.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Associated color graphics port.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetReleaseVersion"></a>
@@ -615,20 +656,30 @@ Q3ViewerGetReleaseVersion (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Returns the version number of the Quesa viewer, in <code>'vers'</code>
+format.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The four bytes contain 1) the major revision level, 2) the minor revision,
+3) the development stage, and 4) the prerelease revision level, respectively.
+The three revision levels are each represented in binary coded decimal.
+The development stage can be development (0x20), alpha (0x40), beta (0x60)
+or release (0x80).
+<br><br>
+For example, if the revision is 1.61a23 (= 1.6.1a23), returns 0x01614023.
+For more information, see the description of the <code>'vers'</code> resource
+in the book <i>Inside Macintosh: Macintosh Toolbox Essentials.</i>
+<br><br>
+See also the Q3ViewerGetVersion function.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>releaseRevision</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>releaseRevision</tt></td><td>Address of integer to receive version data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetRemoveBackfaces"></a>
@@ -640,21 +691,24 @@ Q3ViewerGetRemoveBackfaces (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Reports whether the Viewer is currently removing back-facing polygons.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Use this function to discover how the Viewer handles polygons
+which face away from the camera.  If it stores true in the
+<code>remove</code> parameter, such polygons are not being
+drawn.  If it stores false, all polygons are being drawn, even
+when they face away from the camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>remove</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>remove</tt></td><td>Address of boolean to receive backfacing option.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetRendererType"></a>
@@ -666,21 +720,18 @@ Q3ViewerGetRendererType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Gets the renderer type currently used by the Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rendererType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>rendererType</tt></td><td>Address to stuff with current renderer type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetState"></a>
@@ -691,17 +742,24 @@ Q3ViewerGetState (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Returns a set of status bits indicating the viewer state.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The bits returned will be some combination of the following:
+kQ3ViewerEmpty: no image is currently displayed
+kQ3ViewerHasModel: an image of a 3D model is currently displayed
+kQ3ViewerHasUndo: the Viewer is able to undo a recent action
+<br><br>
+You might use these flags to enable the appropriate items of the
+Edit menu, for example.
+<br><br>
+See also the <code>Q3ViewerGetUndoString</code> function.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
 <b>Result:</b> Description of the function result.
@@ -717,22 +775,27 @@ Q3ViewerGetUndoString (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Gets text for the current Undo operation.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function stores the name of the current Undoable operation
+in the user-supplied character buffer.  The text should be
+localized to the user's preferred language (but probably is not,
+in Quesa 1.6 at least).  Note that this text does not contain
+the "Undo" word itself, but only the name of the operation.  So
+if you want to use this to set the text of a menu item, you'll
+need to combine it with "Undo " yourself.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>str</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cnt</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>str</tt></td><td>Pointer to a character buffer.</td></tr>
+<tr valign=top><td><tt>cnt</tt></td><td>On entry, the buffer size; on exit, the text length.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True if there is an Undoable operation; false otherwise.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetVersion"></a>
@@ -744,21 +807,26 @@ Q3ViewerGetVersion (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Returns the major and minor version number of the Quesa viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+For example, if the revision is 1.6a23 (= 1.6.0a23), returns 1
+as the major revision level and 6 as the minor revision level:
+The final 0 in the minor revision level is omitted.
+If the revision is 1.61a23 (= 1.6.1a23), returns 1 as the major
+revision level and 61 as the minor revision level.
+<br><br>
+See also the Q3ViewerGetReleaseVersion function.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>majorRevision</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>minorRevision</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>majorRevision</tt></td><td>Address of integer to receive major version number.</td></tr>
+<tr valign=top><td><tt>minorRevision</tt></td><td>Address of integer to receive major version number.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Status code (0 for no error).
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerGetView"></a>
@@ -769,20 +837,17 @@ Q3ViewerGetView (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Returns the view object associated with the given Viewer.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> View object associated with this Viewer.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerHandleKeyEvent"></a>
@@ -794,21 +859,22 @@ Q3ViewerHandleKeyEvent (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Handles a key event.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If you're not using <code>Q3ViewerEvent</code>, then you'll need to
+handle a key event that occurs while the Viewer has the focus by
+calling this method.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>evt</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>evt</tt></td><td>Address of MacOS event record describing a key event.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True if the Viewer handled the event, false otherwise.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerMouseDown"></a>
@@ -821,21 +887,22 @@ Q3ViewerMouseDown (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Handles a mouse-down event.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If you're not using <code>Q3ViewerEvent</code>, then you'll need to
+handle a mouse-down event by calling this function.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Horizontal global (screen) location of mouse down.</td></tr>
+<tr valign=top><td><tt>y</tt></td><td>Vertical global (screen) location of mouse down.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True if the Viewer handled the event, false otherwise.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerMouseUp"></a>
@@ -848,21 +915,23 @@ Q3ViewerMouseUp (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Handles a mouse-up event.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If you're not using <code>Q3ViewerEvent</code>, then you'll need to
+handle a mouse-up event by calling this function.  But you only need
+to do so if <code>Q3ViewerMouseDown</code> returned <code>true</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>x</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>x</tt></td><td>Horizontal global (screen) location of mouse up.</td></tr>
+<tr valign=top><td><tt>y</tt></td><td>Vertical global (screen) location of mouse up.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> True if the Viewer handled the event, false otherwise.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerNew"></a>
@@ -875,23 +944,21 @@ Q3ViewerNew(
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Creates a new Viewer.  Note that despite the type nomenclature
+(TQ3ViewerObject), this is <i>not</i> a Quesa object, and can't be used
+with Q3Object functions such as <code>Q3Object_Dispose</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>Q3ViewerNew</tt></td><td>(     Description of the parameter.</td></tr>
-<tr valign=top><td><tt>port</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rect</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>flags</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>port</tt></td><td>MacOS port to which the Viewer should be attached.</td></tr>
+<tr valign=top><td><tt>rect</tt></td><td>Address of a bounding rectangle, in port coordinates.</td></tr>
+<tr valign=top><td><tt>flags</tt></td><td>Any combination of Viewer flags (consider using kQ3ViewerDefault).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Newly created Viewer, or <code>NULL</code> if Viewer could not be created.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerPaste"></a>
@@ -902,20 +969,20 @@ Q3ViewerPaste (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Executes the Paste editing command.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function in response to the user selecting the standard
+Paste command when the viewer has the focus.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerRestoreView"></a>
@@ -926,20 +993,22 @@ Q3ViewerRestoreView (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Resets the viewer camera according to the settings in the associated
+view hints object.  If there are no view hints, resets the camera
+to a standard default state.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This has the same effect as clicking the reset button in the
+viewer controls.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetBackgroundColor"></a>
@@ -951,21 +1020,18 @@ Q3ViewerSetBackgroundColor (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Sets the background color of the 3D view.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>color</tt></td><td>Color to use as background for the 3D rendering.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetBounds"></a>
@@ -977,21 +1043,22 @@ Q3ViewerSetBounds (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the bounding rectangle for the Viewer pane.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function to change where the Viewer draws itself within
+its window.  The bounds are in window coordinates, with (0,0)
+being the top-left corner of the window.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>bounds</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>bounds</tt></td><td>Address of a Rect containing new desired bounds</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetCameraByNumber"></a>
@@ -999,25 +1066,27 @@ the typical usage of this function and any special requirements.
 <blockquote><pre><tt>OSErr 
 Q3ViewerSetCameraByNumber (
     TQ3ViewerObject                theViewer,
-    unsigned long                  cameraNo
+    unsigned long                  cameraNum
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the view to a camera in the Viewer's view hints.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Model files may contain view hints which provide things such as
+"good" camera positions.  This function selects one of those cameras.
+The camera number supplied is 1-based, and the value must be less
+than or equal to the result of <code>Q3ViewerGetCameraCount</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>cameraNo</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>cameraNum</tt></td><td>1-based index of camera to select.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetCameraByView"></a>
@@ -1029,21 +1098,28 @@ Q3ViewerSetCameraByView (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the camera to one of the predefined views.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Possible values for viewType are:
+kQ3ViewerCameraRestore -- reset to initial position
+kQ3ViewerCameraFit -- fit entire model in the view
+kQ3ViewerCameraFront -- look at the front of the model
+kQ3ViewerCameraBack -- look at the back of the model
+kQ3ViewerCameraLeft -- look at the left side of the model
+kQ3ViewerCameraRight -- look at the right side of the model
+kQ3ViewerCameraTop -- look down at the top of the model
+kQ3ViewerCameraBottom -- look up at the bottom of the model
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>viewType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>viewType</tt></td><td>A constant selecting one of the predefined views.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetCurrentButton"></a>
@@ -1055,21 +1131,29 @@ Q3ViewerSetCurrentButton (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the currently selected mode button of the given Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+A Viewer object always has a "mode" which determines how mouse
+drags in the content area are interpreted.  Modes are selected
+by clicking on one of the mode buttons; this function has
+exactly the same effect as a click on the specified button.
+The <code>button</code> parameter should be one of the following:
+<br><br>
+<code>kQ3ViewerButtonTruck
+kQ3ViewerButtonOrbit
+kQ3ViewerButtonZoom
+kQ3ViewerButtonDolly</code>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>button</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>button</tt></td><td>Constant indicating a mode button.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetDimension"></a>
@@ -1082,22 +1166,22 @@ Q3ViewerSetDimension (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the dimensions of model space in a Viewer's view hints object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This might be useful if you were then going to write a 3DMF file
+of the Viewer data; presumably it could store this hint in that file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>width</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>width</tt></td><td>Desired width of the viewer pane.</td></tr>
+<tr valign=top><td><tt>height</tt></td><td>Desired height of the viewer pane.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetDrawingCallbackMethod"></a>
@@ -1110,22 +1194,24 @@ Q3ViewerSetDrawingCallbackMethod (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets a callback function to be called after any drawing.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function is invoked after the Viewer draws any part of itself.
+You can use it to do any further processing you might need to do.
+For example, if the Viewer is associated with an offscreen graphics
+world, you might use this callback to update the screen.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>callbackMethod</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>callbackMethod</tt></td><td>Pointer to a drawing callback routine.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Arbitrary pointer passed to your callback routine.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetFlags"></a>
@@ -1137,21 +1223,59 @@ Q3ViewerSetFlags (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the Viewer feature flags.  Flags are as follows:
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+kQ3ViewerShowBadge: If set, a badge is displayed when the controller
+strip is not visible.
+kQ3ViewerActive: Indicates that the viewer is active (rather than
+deactivated).
+kQ3ViewerControllerVisible: If set, the controller strip is visible.
+kQ3ViewerDrawFrame: If set, a one-pixel frame is drawn within the
+viewer pane.
+kQ3ViewerDraggingOff: If set, drag and drop is turned off (both
+dragging in and dragging out).
+kQ3ViewerButtonCamera: If set, the camera viewpoint control is
+displayed in the controller strip.
+kQ3ViewerButtonTruck: If set, the distance mode button is displayed
+in the controller strip.
+kQ3ViewerButtonOrbit: If set, the rotate mode button is displayed
+in the controller strip.
+kQ3ViewerButtonZoom: If set, the zoom mode button is displayed
+in the controller strip.
+kQ3ViewerButtonDolly: If set, the move (translate) mode button is
+displayed in the controller strip.
+kQ3ViewerButtonReset: If set, the reset button is displayed in the
+controller strip.
+kQ3ViewerOutputTextMode: If set, the <code>Q3ViewerWriteFile</code>
+function writes 3DMF data in text mode rather than binary.
+(<i>Note: not currently supported!</i>)
+kQ3ViewerDragMode: If set, the viewer is in drag and drop mode, causing
+it to respond only to drag and drop interaction.
+kQ3ViewerDrawGrowBox: If set, a grow (resize) box is drawn in the
+lower-right corner of the viewer pane.
+kQ3ViewerDrawDragBorder: If set, a drag border is drawn around the border
+of the rendering pane.  The user can then initiate a drag by grabbing
+this border with the mouse.
+kQ3ViewerDraggingInOff: If set, dragging into the viewer pane is disabled.
+kQ3ViewerDraggingOutOff: If set, dragging out of the viewer pane is disabled.
+kQ3ViewerButtonOptions: If set, the options button is displayed in the
+controller strip.
+kQ3ViewerPaneGrowBox: ?
+kQ3ViewerDefault: Represents the default Viewer configuration.
+<br><br>
+Changes to the Viewer's flags will not be visible until the Viewer
+is redrawn (e.g., by calling <code>Q3ViewerDraw</code>).
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>flags</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>flags</tt></td><td>Desired combination of feature flags.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetPaneResizeNotifyCallback"></a>
@@ -1164,22 +1288,22 @@ Q3ViewerSetPaneResizeNotifyCallback (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets a callback function to be called when the Viewer is resized.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function is invoked when the Viewer is resized.  You can
+use it to do any further processing that might be needed.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>paneResizeNotifyCallbackMethod</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>paneResizeNotifyCallbackMethod</tt></td><td>Pointer to a pane resize callback procedure.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Arbitrary pointer passed to your callback routine.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetPhongShading"></a>
@@ -1191,21 +1315,22 @@ Q3ViewerSetPhongShading (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Tells the Viewer whether to render with phong shading.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Phong shading is generally slower but produces a more
+realistic effect, particularly where highlights are
+concerned.  (Not all renderers support phong shading.)
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>phong</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>phong</tt></td><td>Whether phong shading is desired.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetPort"></a>
@@ -1217,21 +1342,26 @@ Q3ViewerSetPort (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Set the graphics port into which the Viewer should draw.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The given port may be either associated with a window, or it may
+be an offscreen graphics world.  Note that under classic MacOS,
+a Window and its port are basically the same thing, but this is
+not true under Carbon.  Take care to pass in an actual CGrafPtr,
+not a WindowRef (use GetWindowPort to get a window's port).
+You may also pass in NULL to indicate that no port should be
+associated with this Viewer object.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>port</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>port</tt></td><td>Color graphics port to be used by this Viewer.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetRemoveBackfaces"></a>
@@ -1243,21 +1373,24 @@ Q3ViewerSetRemoveBackfaces (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Tells the Viewer whether to draw back-facing polygons.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Use this function to change how the Viewer handles polygons
+which face away from the camera.  If you pass true for the
+<code>remove</code> parameter, such polygons will not be
+drawn.  If you pass false, all polygons will be drawn, even
+when they face away from the camera.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>remove</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>remove</tt></td><td>Whether backfaces should be removed.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetRendererType"></a>
@@ -1269,21 +1402,22 @@ Q3ViewerSetRendererType (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets the renderer type used by the Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Calling this function is equivalent to selecting one of the renderers
+from the pop-up menu on the Options control button.  The object type
+must be associated with one of the installed renderers.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>rendererType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>rendererType</tt></td><td>Type of renderer to use.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerSetWindowResizeCallback"></a>
@@ -1296,22 +1430,25 @@ Q3ViewerSetWindowResizeCallback (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Sets a callback function to be called when window containing
+the Viewer is resized.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function is invoked when the Viewer is resized.  You can
+use it to do any further processing that might be needed.  For
+example, you might resize or move your Viewer pane to fit the
+new window bounds.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>windowResizeCallbackMethod</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>windowResizeCallbackMethod</tt></td><td>Pointer to a window resize callback procedure.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Arbitrary pointer passed to your callback routine.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerUndo"></a>
@@ -1322,20 +1459,20 @@ Q3ViewerUndo (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Executes the Undo editing command.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Call this function in response to the user selecting the standard
+Undo command when the viewer has the focus.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerUseData"></a>
@@ -1348,22 +1485,25 @@ Q3ViewerUseData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Loads 3D model data in memory into the Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The given data buffer is copied by the Viewer; the caller
+is responsible for disposing of it and may do so immediately
+after this call.
+<br><br>
+See also: <code>Q3ViewerUseFile</code>, <code>Q3ViewerUseGroup</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>size</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Pointer to a buffer containing model data.</td></tr>
+<tr valign=top><td><tt>size</tt></td><td>Length of the data buffer (in bytes).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerUseFile"></a>
@@ -1375,21 +1515,20 @@ Q3ViewerUseFile (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Load data from a 3D model file into the Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+See also: <code>Q3ViewerUseData</code>, <code>Q3ViewerUseGroup</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>refNum</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>refNum</tt></td><td>MacOS file reference number (e.g., obtained from FSOpen).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerUseGroup"></a>
@@ -1401,21 +1540,20 @@ Q3ViewerUseGroup (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Loads a model data in a TQ3Group into the specified Viewer.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+See also: <code>Q3ViewerUseFile</code>, <code>Q3ViewerUseData</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>group</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>group</tt></td><td>Model data to load.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerWriteData"></a>
@@ -1427,21 +1565,24 @@ Q3ViewerWriteData (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Copies the 3D model data contained by the Viewer into a MacOS Handle.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The <code>data</code> handle must already exist and be of a size
+large enough to hold the model data.  Unfortunately, you have no
+good way to know how large it needs to be, except by trial and
+error (or by remembering from when the data was loaded in the 
+first place).
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Handle to stuff with viewer data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Number of bytes actually written, or 0 to indicate failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3ViewerWriteFile"></a>
@@ -1453,21 +1594,18 @@ Q3ViewerWriteFile (
 );
 </tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Write the 3D model data contained by the Viewer out to a file.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theViewer</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>refNum</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theViewer</tt></td><td>Viewer object.</td></tr>
+<tr valign=top><td><tt>refNum</tt></td><td>MacOS file reference number (e.g., obtained from FSOpen).</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> MacOS error/result code.
  
 <hr>
 <a name="//apple_ref/c/func/Q3WinViewerAdjustCursor"></a>
@@ -2687,5 +2825,5 @@ the typical usage of this function and any special requirements.
 <b>Result:</b> Description of the function result.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 5/19/2001 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2001 Quesa Developers &#151; last updated on 6/6/2001 </a></font></p>
 </body></html>
