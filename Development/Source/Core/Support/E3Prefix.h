@@ -125,5 +125,10 @@
 #endif
 
 
+// Do we have to be binary compatible with QD3D?
+#ifndef QUESA_BUILD_AS_BINARY_COMPATIBLE
+	#define QUESA_BUILD_AS_BINARY_COMPATIBLE					0
+#endif
+
 
 #endif

@@ -49,6 +49,9 @@
 //      Build constants
 //-----------------------------------------------------------------------------
 #define QUESA_USES_MOREFILES							0
+#if TARGET_API_MAC_OS8
+	#define QUESA_BUILD_AS_BINARY_COMPATIBLE			1
+#endif
 
 
 #endif
