@@ -782,7 +782,7 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -874,7 +874,7 @@ IRGeometry_Line(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -941,7 +941,7 @@ IRGeometry_Point(TQ3ViewObject				theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -1005,7 +1005,7 @@ IRGeometry_Marker(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -1129,7 +1129,7 @@ IRGeometry_PixmapMarker(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
@@ -1261,7 +1261,7 @@ IRGeometry_PolyLine(TQ3ViewObject			theView,
 
 
 	// Activate our context
-	GLDrawContext_SetCurrent(instanceData->glContext);
+	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 
 
 
