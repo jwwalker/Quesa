@@ -301,17 +301,28 @@ Boolean
 E3ViewerEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 {
 	TQ3Boolean handled = kQ3False;
+	Point   localWhere = evt->where;
+	GlobalToLocal(&localWhere);
+
 	switch (evt->what)
 		{
 		case mouseDown:
-			handled = Q3Viewer_EventMouseDown(theViewer, evt->where.h, evt->where.v);
+			// we can recode this with TrackMouseLocation,
+			if(Q3Viewer_EventMouseDown( theViewer, localWhere.h, localWhere.v )){
+				while (StillDown()) {
+					GetMouse( &localWhere );
+					Q3ViewerContinueTracking( theViewer, localWhere.h, localWhere.v );
+				}
+				Q3Viewer_EventMouseUp( theViewer, localWhere.h, localWhere.v );
+				handled = true;
+			}
 			break;
 		case mouseUp:
-			handled = Q3Viewer_EventMouseUp(theViewer, evt->where.h, evt->where.v);
+			handled = Q3Viewer_EventMouseUp(theViewer, localWhere.h, localWhere.v);
 			break;
 	}
 	if (!handled && (evt->message & 0xFF000000)==0xFA000000)  // mouse moved
-		handled = Q3Viewer_EventMouseTrack(theViewer, evt->where.h, evt->where.v);
+		handled = Q3Viewer_EventMouseTrack(theViewer, localWhere.h, localWhere.v);
 		
 	if (kQ3True == handled) return true;
 	else return false;
