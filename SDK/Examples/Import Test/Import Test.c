@@ -207,5 +207,7 @@ App_Terminate(void)
 	// Clean up
 	if (gSceneGeometry != NULL)
 		Q3Object_Dispose(gSceneGeometry);
+	if (gSceneIllumination != NULL)
+		Q3Object_Dispose(gSceneIllumination);
 }
 
