@@ -1533,6 +1533,83 @@ Q3Cone_GetFaceAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet *faceAttribut
 
 
 //=============================================================================
+//      Q3Cone_SetInteriorAttributeSet : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Cone_SetInteriorAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet intAttributeSet)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(cone->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, kQ3GeometryTypeCone), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on cylinder
+		return(kQ3Failure);
+
+	if (0) // Further checks on faceAttributeSet
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Cylinder_SetInteriorAttributeSet(cone, intAttributeSet));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Cone_GetInteriorAttributeSet : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Cone_GetInteriorAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet *intAttributeSet)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(cone->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(cone, kQ3GeometryTypeCone), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(intAttributeSet), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on cylinder
+		return(kQ3Failure);
+
+	if (0) // Further checks on faceAttributeSet
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Cone_GetInteriorAttributeSet(cone, intAttributeSet));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3Cone_EmptyData : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
