@@ -610,7 +610,7 @@ E3Triangle_InterpolateHit (	TQ3ViewObject			theView,
 							  &triNormal);
 	Q3Vector3D_Normalize(&triNormal, &triNormal);
 
-	localToWorldForNormals = *E3View_State_GetLocalToWorld(theView) ;
+	localToWorldForNormals = *E3View_State_GetMatrixLocalToWorld(theView) ;
 	
 	// See 'Computer Graphics principals and practice' second edition page 1108
 	localToWorldForNormals.value [ 3 ] [ 0 ] = 0.0f ;
