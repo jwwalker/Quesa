@@ -411,7 +411,7 @@ e3arraySequence_NextItem(
 	Q3_ASSERT_VALID_PTR(itemPtr);
 
 	nextItemPtr = itemPtr;
-	((char*) nextItemPtr) += E3ArrayInfo_ItemSize(arrayInfoPtr);
+	((char*&) nextItemPtr) += E3ArrayInfo_ItemSize(arrayInfoPtr);
 
 	if (nextItemPtr == tailItemPtr)
 		goto failure;
@@ -453,7 +453,7 @@ e3arraySequence_PreviousItem(
 		goto failure;
 
 	previousItemPtr = itemPtr;
-	((char*) previousItemPtr) -= E3ArrayInfo_ItemSize(arrayInfoPtr);
+	((char*&) previousItemPtr) -= E3ArrayInfo_ItemSize(arrayInfoPtr);
 
 	return(previousItemPtr);
 	
@@ -491,7 +491,7 @@ e3arraySequence_DoForEach(
 
 	// Do for all items in array
 	itemSize = E3ArrayInfo_ItemSize(arrayInfoPtr);
-	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*) itemPtr) += itemSize)
+	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*&) itemPtr) += itemSize)
 	{
 		// Do for current item
 		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3Failure)
@@ -531,7 +531,7 @@ e3arraySequence_AndForEach(
 
 	// And for all items in array
 	itemSize = E3ArrayInfo_ItemSize(arrayInfoPtr);
-	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*) itemPtr) += itemSize)
+	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*&) itemPtr) += itemSize)
 	{
 		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3False)
 			return(kQ3False);
@@ -566,7 +566,7 @@ e3arraySequence_OrForEach(
 
 	// Or for all items in array
 	itemSize = E3ArrayInfo_ItemSize(arrayInfoPtr);
-	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*) itemPtr) += itemSize)
+	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*&) itemPtr) += itemSize)
 	{
 		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3True)
 			return(kQ3True);
@@ -603,7 +603,7 @@ e3arraySequence_Find(
 
 	// Search all items in array
 	itemSize = E3ArrayInfo_ItemSize(arrayInfoPtr);
-	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*) itemPtr) += itemSize)
+	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*&) itemPtr) += itemSize)
 	{
 		if ((*itemParameterFunc)(itemPtr, parameterPtr) == kQ3True)
 			return(itemPtr);
@@ -642,7 +642,7 @@ e3arraySequence_Destroy(
 	for (itemPtr = tailItemPtr; itemPtr != headItemPtr; )
 	{
 		// Get previous item
-		((char*) itemPtr) -= itemSize;
+		((char*&) itemPtr) -= itemSize;
 		
 		// Destroy item
 		(*destroyItemFunc)(itemPtr);
@@ -677,7 +677,7 @@ e3ptrArraySequence_FindPtr(
 
 	// Search all items in array
 	itemSize = E3ArrayInfo_ItemSize(arrayInfoPtr);
-	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*) itemPtr) += itemSize)
+	for (itemPtr = headItemPtr; itemPtr != tailItemPtr; ((char*&) itemPtr) += itemSize)
 	{
 		if (*((void**) itemPtr) == item)
 			return(itemPtr);
@@ -768,7 +768,7 @@ E3Array_TailItem(
 
 	// N.B.: If head item pointer is NULL, then length is 0, producing NULL result.
 	tailItemPtr = E3Array_HeadItem(arrayPtr, arrayInfoPtr);
-	((char*) tailItemPtr) += E3Array_Length(arrayPtr, arrayInfoPtr) * E3ArrayInfo_ItemSize(arrayInfoPtr);
+	((char*&) tailItemPtr) += E3Array_Length(arrayPtr, arrayInfoPtr) * E3ArrayInfo_ItemSize(arrayInfoPtr);
 	
 	return(tailItemPtr);
 }
@@ -796,7 +796,7 @@ E3Array_GetSequence(
 	// N.B.: If head item pointer is NULL, then length is 0, producing NULL result.
 	(*headItemHdl) = 
 	(*tailItemHdl) = E3Array_HeadItem(arrayPtr, arrayInfoPtr);
-	((char*) (*tailItemHdl)) += E3Array_Length(arrayPtr, arrayInfoPtr) * E3ArrayInfo_ItemSize(arrayInfoPtr);
+	((char*&) (*tailItemHdl)) += E3Array_Length(arrayPtr, arrayInfoPtr) * E3ArrayInfo_ItemSize(arrayInfoPtr);
 }
 
 
@@ -825,7 +825,7 @@ E3Array_LastItem(
 	if (lastItemPtr == NULL)
 		goto failure;
 
-	((char*) lastItemPtr) += (E3Array_Length(arrayPtr, arrayInfoPtr) - 1) * E3ArrayInfo_ItemSize(arrayInfoPtr);
+	((char*&) lastItemPtr) += (E3Array_Length(arrayPtr, arrayInfoPtr) - 1) * E3ArrayInfo_ItemSize(arrayInfoPtr);
 	
 	return(lastItemPtr);
 	
@@ -1780,7 +1780,7 @@ e3listSequence_Create(
 			goto failure_2;
 
 		if (thoseItemsPtr != NULL)
-			((const char*) thoseItemsPtr) += itemSize;
+			((const char*&) thoseItemsPtr) += itemSize;
 	}
 
 	return(kQ3Success);
@@ -3169,7 +3169,7 @@ E3ArrayOrList_UseArray(
 			arrayItemPtr = E3Array_HeadItem(&array, arrayInfoPtr);
 		listNodePtr != listTailNodePtr;
 		listNodePtr = listNodePtr->nextNodePtr_private,
-			((char*) arrayItemPtr) += itemSize)
+			((char*&) arrayItemPtr) += itemSize)
 	{
 		TE3GenericItem* listItemPtr = E3ListNode_Item(listNodePtr, listInfoPtr);
 		
@@ -3252,7 +3252,7 @@ E3ArrayOrList_UseList(
 			arrayItemPtr = E3Array_HeadItem(E3ArrayOrList_Array(arrayOrListPtr), arrayInfoPtr);
 		listNodePtr != listTailNodePtr;
 		listNodePtr = listNodePtr->nextNodePtr_private,
-			((char*) arrayItemPtr) += itemSize)
+			((char*&) arrayItemPtr) += itemSize)
 	{
 		TE3GenericItem* listItemPtr = E3ListNode_Item(listNodePtr, listInfoPtr);
 		
