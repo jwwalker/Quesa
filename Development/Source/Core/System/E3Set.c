@@ -78,13 +78,9 @@ typedef struct TQ3SetData {
 	TQ3Uns32			scanCount;			// Size of scanResults
 	TQ3Uns32			scanIndex;			// Current index into scanResults
 	TQ3ElementType		*scanResults;		// Scan results
+	TQ3XAttributeMask	theMask;			// Attribute mask
 } TQ3SetData;
 
-
-// Attribute set instance data
-typedef struct TQ3AttributeSetData {
-	TQ3XAttributeMask	theMask;			// Attribute mask
-} TQ3AttributeSetData;
 
 
 // Set iterator
@@ -98,12 +94,6 @@ typedef struct TQ3SetIteratorParamInfo {
 	void				*iteratorData;		// User data for the set iterator
 } TQ3SetIteratorParamInfo;
 
-
-// Set submit iterator param info
-typedef struct TQ3SetSubmitParamInfo {
-	TQ3Boolean			isAttributeSet;		// Are we an attribute set?
-	TQ3ViewObject		theView;			// View to submit to
-} TQ3SetSubmitParamInfo;
 
 
 // Attribute set inherit iterator param info
@@ -335,28 +325,17 @@ e3set_iterator_duplicate(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3Ele
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3set_iterator_submit(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3ElementObject theElement, void *userData)
-{	TQ3Boolean					isAttributeSet;
-	TQ3Status					qd3dStatus;
-	TQ3SetSubmitParamInfo		*paramInfo;
-	TQ3ViewObject				theView;
+{	TQ3Status					qd3dStatus;
+	TQ3ViewObject				*theView;
 
 
 
 	// Get our param info
-	paramInfo      = (TQ3SetSubmitParamInfo *) userData;
-	isAttributeSet = paramInfo->isAttributeSet;
-	theView        = paramInfo->theView;
+	theView      = (TQ3ViewObject *) userData;
 
 
-
-	// Submit the element in the appropriate way
-	if (isAttributeSet)
-		{
-		theType    = E3Attribute_ClassToAttributeType(theType);
-		qd3dStatus = Q3Attribute_Submit(theType, theElement->instanceData, theView);
-		}
-	else
-		qd3dStatus = E3View_SubmitImmediate(theView, theType, theElement->instanceData);
+	// Submit the element
+	qd3dStatus = E3View_SubmitImmediate(*theView, theType, theElement->instanceData);
 
 	return(qd3dStatus);
 }
@@ -520,13 +499,13 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 
 	// Decide if we need to add the element to the result or not
 	qd3dStatus = kQ3Success;
-	addElement = isChild || !E3AttributeSet_Contains(theResult, theType);
+	addElement = isChild || !E3Set_Contains(theResult, theType);
 
 	if (addElement)
 		{
 		// Handle built in attributes
 		if (theType < kQ3AttributeTypeNumTypes)
-			qd3dStatus = Q3AttributeSet_Add(theResult, theType, theElement->instanceData);
+			qd3dStatus = E3Set_Add(theResult, theType, theElement->instanceData);
 
 
 		// Handle custom attributes
@@ -551,7 +530,7 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 						qd3dStatus = copyInheritMethod(theElement->instanceData, attributeData); 
 	
 					if (qd3dStatus == kQ3Success)
-						qd3dStatus = Q3AttributeSet_Add(theResult, theType, attributeData);
+						qd3dStatus = E3Set_Add(theResult, theType, attributeData);
 	
 					Q3Memory_Free(&attributeData);
 					}
@@ -559,7 +538,7 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 	
 				// Or just copy it directly		
 				else
-					qd3dStatus = Q3AttributeSet_Add(theResult, theType, theElement->instanceData);
+					qd3dStatus = E3Set_Add(theResult, theType, theElement->instanceData);
 				}
 			}
 
@@ -567,7 +546,7 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 
 		// Handle failure
 		if (qd3dStatus != kQ3Success)
-			Q3AttributeSet_Empty(theResult);
+			E3Set_Empty(theResult);
 		}
 
 	return(qd3dStatus);
@@ -580,7 +559,7 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 //=============================================================================
 //      e3attributeset_submit : Attribute set class submit method.
 //-----------------------------------------------------------------------------
-//		Note :	See the comments in E3AttributeSet_Submit for an explanation
+//		Note :	See the comments in E3Set_SubmitElements for an explanation
 //				as to why we don't perform the actual submit here.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -1423,7 +1402,7 @@ E3Set_RegisterClass(void)
 												kQ3SetTypeAttribute,
 												kQ3ClassNameSetAttribute,
 												e3attributeset_metahandler,
-												sizeof(TQ3AttributeSetData));
+												0);
 
 
 
@@ -1667,6 +1646,7 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 	if (instanceData == NULL)
 		return(kQ3Failure);
 
+	theType = E3Attribute_AttributeToClassType(theType);
 
 
 	// Find the element, and replace its data if it exists
@@ -1684,22 +1664,23 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 			qd3dStatus = kQ3Success;
 			}
 		
-		Q3Shared_Edited(theSet);
-		return(qd3dStatus);
+		}
+	else
+		{
+		// We don't have an existing element, so instantiate a new one
+		theElement = E3ClassTree_CreateInstance(theType, kQ3False, data);
+		if (theElement == NULL)
+			return(kQ3Failure);
+
+		// And add it to the set
+		qd3dStatus = e3set_add_element(instanceData, theType, theElement);
 		}
 
 
-
-	// We don't have an existing element, so instantiate a new one
-	theElement = E3ClassTree_CreateInstance(theType, kQ3False, data);
-	if (theElement == NULL)
-		return(kQ3Failure);
-
-
-
-	// And add it to the set
-	qd3dStatus = e3set_add_element(instanceData, theType, theElement);
-	Q3Shared_Edited(theSet);
+	if (qd3dStatus == kQ3Success){
+		instanceData->theMask |= e3attribute_type_to_mask(theType);
+		Q3Shared_Edited(theSet);
+		}
 
 	return(qd3dStatus);
 }
@@ -1720,6 +1701,7 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 	TQ3Uns32					dataSize;
 
 
+	theType    = E3Attribute_AttributeToClassType(theType);
 
 	// Get the size and pointer for the data for the element
 	theElement = E3Set_AccessElementData(theSet, theType, &dataSize, &elementData);
@@ -1811,19 +1793,37 @@ TQ3Boolean
 E3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 {	TQ3SetData			*instanceData;
 	TQ3ElementObject	theElement;
-
+	TQ3Boolean				inSet;
 
 
 	// Find the instance data
 	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3False);
+	
+	// Built-in attributes
+	if (theType < kQ3AttributeTypeNumTypes)
+		{
+		// Test the mask
+		theType = E3Attribute_AttributeToClassType(theType);
+		inSet = (TQ3Boolean) ((instanceData->theMask & e3attribute_type_to_mask(theType)) != 0);
 
 
-
-	// Find the element
-	theElement = e3set_find_element(instanceData, theType);
-	return((TQ3Boolean) (theElement != NULL));
+#if Q3_DEBUG
+		// In debug builds, double-check the underlying set
+		theElement = e3set_find_element(instanceData, theType);
+		Q3_ASSERT(inSet == (TQ3Boolean) (theElement != NULL));
+#endif
+		}
+	
+	// Custom attributes
+	else
+		{
+		theElement = e3set_find_element(instanceData, theType);
+		inSet = (TQ3Boolean) (theElement != NULL);
+		}
+		
+	return(inSet);
 }
 
 
@@ -1846,6 +1846,7 @@ E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 		return(kQ3Failure);
 
 
+	theType    = E3Attribute_AttributeToClassType(theType);
 
 	// Remove the element
 	theElement = e3set_remove_element(instanceData, theType);
@@ -1853,9 +1854,14 @@ E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 		{
 		Q3Object_Dispose(theElement);
 		Q3Shared_Edited(theSet);
+		instanceData->theMask &= ~e3attribute_type_to_mask(theType);
+		return(kQ3Success);
+		}
+	else
+		{
+		return(kQ3Failure);
 		}
 
-	return(theElement != NULL ? kQ3Success : kQ3Failure);
 }
 
 
@@ -1867,15 +1873,10 @@ E3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Set_Empty(TQ3SetObject theSet)
-{	TQ3SetData		*instanceData;
+{	TQ3SetData *instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 
-
-
-	// Find the instance data
-	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(theSet, kQ3SharedTypeSet);
 	if (instanceData == NULL)
 		return(kQ3Failure);
-
 
 
 	// Remove the elements from the set
@@ -1883,6 +1884,8 @@ E3Set_Empty(TQ3SetObject theSet)
 	e3set_clear_elements(instanceData);
 	
 	Q3Shared_Edited(theSet);
+
+	instanceData->theMask = kQ3XAttributeMaskNone;
 
 	return(kQ3Success);
 }
@@ -1918,6 +1921,7 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 		return(kQ3Failure);
 
 
+	*theType   = E3Attribute_AttributeToClassType(*theType);
 
 	// Get the edit index for the set
 	editIndex = Q3Shared_GetEditIndex(theSet);
@@ -1978,6 +1982,8 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 		instanceData->scanIndex     = 0;
 		Q3Memory_Free(&instanceData->scanResults);
 		}
+
+	*theType   = E3Attribute_ClassToAttributeType(*theType);
 	
 	return(kQ3Success);
 }
@@ -1989,11 +1995,28 @@ E3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 //=============================================================================
 //      E3Set_SubmitElements : Submit the elements of a set.
 //-----------------------------------------------------------------------------
+//		Note :	Relies on the fact that an attribute set stores its attributes
+//				as elements in the parent set.
+//
+//				We can therefore submit our attributes by walking through the
+//				elements in the parent set and submitting them.
+//
+//
+//				Note that since an attribute set does not store the data to be
+//				submitted in its instance data, we can't call the normal
+//				E3View_SubmitImmediate routine used for immediate mode submits.
+//
+//				Instead the immediate mode routine (this one) handles the
+//				actual submit, and the retained mode routine (our render
+//				method) calls through to us to submit retained mode objects.
+//
+//				This is the reverse of the normal scheme for immediate/retained
+//				submits, so it's worth explaining.
+//-----------------------------------------------------------------------------
 TQ3Status
 E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView )
 {	TQ3SetData					*instanceData;
 	TQ3Status					qd3dStatus;
-	TQ3SetSubmitParamInfo		paramInfo;
 
 
 
@@ -2005,10 +2028,8 @@ E3Set_SubmitElements( TQ3SetObject inSet, TQ3ViewObject inView )
 
 
 	// Submit the elements in the set
-	paramInfo.isAttributeSet = kQ3False;
-	paramInfo.theView        = inView;
 
-	qd3dStatus = e3set_iterate_elements(instanceData, e3set_iterator_submit, &paramInfo);
+	qd3dStatus = e3set_iterate_elements(instanceData, e3set_iterator_submit, &inView);
 	
 	return(qd3dStatus);
 }
@@ -2118,7 +2139,9 @@ E3Attribute_AttributeToClassType(TQ3AttributeType theType)
 //-----------------------------------------------------------------------------
 TQ3XAttributeMask
 E3AttributeSet_AccessMask(TQ3AttributeSet attributeSet)
-{	TQ3AttributeSetData		*instanceData = (TQ3AttributeSetData *) attributeSet->instanceData;
+{	TQ3SetData *instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(attributeSet, kQ3SharedTypeSet);
+	if (instanceData == NULL)
+		return(0);
 
 
 
@@ -2158,7 +2181,6 @@ E3AttributeSet_New(void)
 {	TQ3SetObject	theObject;
 
 
-
 	// Create the object
 	theObject = E3ClassTree_CreateInstance(kQ3SetTypeAttribute, kQ3False, NULL);
 	return(theObject);
@@ -2167,195 +2189,6 @@ E3AttributeSet_New(void)
 
 
 
-
-//=============================================================================
-//      E3AttributeSet_Add : Add an attribute to an attribute set.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3AttributeSet_Add(TQ3AttributeSet attributeSet, TQ3AttributeType theType, const void *data)
-{	TQ3AttributeSetData		*instanceData = (TQ3AttributeSetData *) attributeSet->instanceData;
-	TQ3Status				qd3dStatus;
-
-
-
-	// Add the attribute and update our mask
-	theType    = E3Attribute_AttributeToClassType(theType);
-	qd3dStatus = Q3Set_Add(attributeSet, theType, data);
-
-	if (qd3dStatus == kQ3Success)
-		instanceData->theMask |= e3attribute_type_to_mask(theType);
-	
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3AttributeSet_Contains : Does a set contain an attribute?
-//-----------------------------------------------------------------------------
-TQ3Boolean
-E3AttributeSet_Contains(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType)
-{	TQ3AttributeSetData		*instanceData = (TQ3AttributeSetData *) attributeSet->instanceData;
-	TQ3Boolean				inSet;
-
-
-
-	// Built-in attributes
-	if (attributeType < kQ3AttributeTypeNumTypes)
-		{
-		// Test the mask
-		attributeType = E3Attribute_AttributeToClassType(attributeType);
-		inSet         = (TQ3Boolean) ((instanceData->theMask & e3attribute_type_to_mask(attributeType)) != 0);
-
-
-		// In debug builds, double-check the underlying set
-		Q3_ASSERT(inSet == Q3Set_Contains(attributeSet, attributeType));
-		}
-	
-	// Custom attributes
-	else
-		inSet = Q3Set_Contains(attributeSet, attributeType);
-	
-	return(inSet);
-}
-
-
-
-
-
-//=============================================================================
-//      E3AttributeSet_Get : Get the data for an attribute in a set.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3AttributeSet_Get(TQ3AttributeSet attributeSet, TQ3AttributeType theType, void *data)
-{	TQ3Status		qd3dStatus;
-
-
-
-	// Get the data
-	theType    = E3Attribute_AttributeToClassType(theType);
-	qd3dStatus = Q3Set_Get(attributeSet, theType, data);
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3AttributeSet_Clear : Remove an attribute from a set.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3AttributeSet_Clear(TQ3AttributeSet attributeSet, TQ3AttributeType theType)
-{	TQ3AttributeSetData		*instanceData = (TQ3AttributeSetData *) attributeSet->instanceData;
-	TQ3Status				qd3dStatus;
-
-
-
-	// Remove the attribute and update our mask
-	theType    = E3Attribute_AttributeToClassType(theType);
-	qd3dStatus = Q3Set_Clear(attributeSet, theType);
-
-	if (qd3dStatus == kQ3Success)
-		instanceData->theMask &= ~e3attribute_type_to_mask(theType);
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3AttributeSet_Empty : Remove everything from a set.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3AttributeSet_Empty(TQ3AttributeSet attributeSet)
-{	TQ3AttributeSetData		*instanceData = (TQ3AttributeSetData *) attributeSet->instanceData;
-	TQ3Status				qd3dStatus;
-
-
-
-	// Empty the set and update our mask
-	qd3dStatus = Q3Set_Empty(attributeSet);
-	if (qd3dStatus == kQ3Success)
-		instanceData->theMask = kQ3XAttributeMaskNone;
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3AttributeSet_GetNextAttributeType : Get the next attribute type.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3AttributeSet_GetNextAttributeType(TQ3AttributeSet source, TQ3AttributeType *theType)
-{	TQ3Status		qd3dStatus;
-
-
-
-	// Get the next attribute type
-	*theType   = E3Attribute_AttributeToClassType(*theType);
-	qd3dStatus = Q3Set_GetNextElementType(source, theType);
-	*theType   = E3Attribute_ClassToAttributeType(*theType);
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3AttributeSet_Submit : Submit an attribute set.
-//-----------------------------------------------------------------------------
-//		Note :	Relies on the fact that an attribute set stores its attributes
-//				as elements in the parent set.
-//
-//				We can therefore submit our attributes by walking through the
-//				elements in the parent set and submitting them.
-//
-//
-//				Note that since an attribute set does not store the data to be
-//				submitted in its instance data, we can't call the normal
-//				E3View_SubmitImmediate routine used for immediate mode submits.
-//
-//				Instead the immediate mode routine (this one) handles the
-//				actual submit, and the retained mode routine (our render
-//				method) calls through to us to submit retained mode objects.
-//
-//				This is the reverse of the normal scheme for immediate/retained
-//				submits, so it's worth explaining.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
-{	TQ3SetData					*instanceData;
-	TQ3Status					qd3dStatus;
-	TQ3SetSubmitParamInfo		paramInfo;
-
-
-
-	// Find the instance data
-	instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(attributeSet, kQ3SharedTypeSet);
-	if (instanceData == NULL)
-		return(kQ3Failure);
-
-
-
-	// Submit the elements in the set
-	paramInfo.isAttributeSet = kQ3True;
-	paramInfo.theView        = view;
-
-	qd3dStatus = e3set_iterate_elements(instanceData, e3set_iterator_submit, &paramInfo);
-	
-	return(qd3dStatus);
-}
 
 
 
@@ -2376,7 +2209,7 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 
 
 	// Empty the final attribute set
-	qd3dStatus = Q3AttributeSet_Empty(result);
+	qd3dStatus = E3Set_Empty(result);
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 

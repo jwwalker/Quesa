@@ -496,7 +496,7 @@ Q3AttributeSet_Add(TQ3AttributeSet attributeSet, TQ3AttributeType theType, const
 
 
 	// Call our implementation
-	return(E3AttributeSet_Add(attributeSet, theType, data));
+	return(E3Set_Add(attributeSet, theType, data));
 }
 
 
@@ -532,7 +532,7 @@ Q3AttributeSet_Contains(TQ3AttributeSet attributeSet, TQ3AttributeType attribute
 
 
 	// Call our implementation
-	return(E3AttributeSet_Contains(attributeSet, attributeType));
+	return(E3Set_Contains(attributeSet, attributeType));
 }
 
 
@@ -572,7 +572,7 @@ Q3AttributeSet_Get(TQ3AttributeSet attributeSet, TQ3AttributeType theType, void 
 
 
 	// Call our implementation
-	return(E3AttributeSet_Get(attributeSet, theType, data));
+	return(E3Set_Get(attributeSet, theType, data));
 }
 
 
@@ -608,7 +608,7 @@ Q3AttributeSet_Clear(TQ3AttributeSet attributeSet, TQ3AttributeType theType)
 
 
 	// Call our implementation
-	return(E3AttributeSet_Clear(attributeSet, theType));
+	return(E3Set_Clear(attributeSet, theType));
 }
 
 
@@ -641,7 +641,7 @@ Q3AttributeSet_Empty(TQ3AttributeSet target)
 
 
 	// Call our implementation
-	return(E3AttributeSet_Empty(target));
+	return(E3Set_Empty(target));
 }
 
 
@@ -678,7 +678,7 @@ Q3AttributeSet_GetNextAttributeType(TQ3AttributeSet source, TQ3AttributeType *th
 
 
 	// Call our implementation
-	return(E3AttributeSet_GetNextAttributeType(source, theType));
+	return(E3Set_GetNextElementType(source, theType));
 }
 
 
@@ -716,7 +716,7 @@ Q3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
 
 
 	// Call our implementation
-	return(E3AttributeSet_Submit(attributeSet, view));
+	return(E3Set_SubmitElements(attributeSet, view));
 }
 
 
