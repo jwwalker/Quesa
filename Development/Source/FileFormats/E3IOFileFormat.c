@@ -131,16 +131,11 @@ TQ3Status
 E3FileFormat_Init(TQ3FileFormatObject theFileFormat, TQ3StorageObject storage)
 {
 	TQ3FFormatBaseData		*instanceData = (TQ3FFormatBaseData *) theFileFormat->instanceData;
-	E3ClassInfoPtr storageClass;
-	E3ClassInfoPtr fformatClass;
-	
-	fformatClass = theFileFormat->theClass;
 
 	E3Shared_Replace(&instanceData->storage, storage);
 
 	if( instanceData->storage != NULL)
 	{
-	storageClass = storage->theClass;
 	
 	instanceData->currentStoragePosition = 0;
 	instanceData->readInGroup = kQ3True;
@@ -284,8 +279,27 @@ E3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64* data)
 
 
 //=============================================================================
-//      E3FileFormat_GenericReadBinary_String : Reads a zero terminated padded
+//      E3FileFormat_GenericReadBinary_String : Reads a zero terminated
 //												string from stream.
+//-----------------------------------------------------------------------------
+//		Note: see notes for E3FileFormat_GenericReadBinary_StringPadded
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data,
+	TQ3Uns32 *ioLength)
+{
+	return E3FileFormat_GenericReadBinary_StringPadded(format, data, ioLength, kQ3False);
+}
+
+
+
+
+
+
+
+//=============================================================================
+//      E3FileFormat_GenericReadBinary_StringPadded : Reads a zero terminated, possibly
+//												padded string from stream.
 //-----------------------------------------------------------------------------
 //		Note: If the data parameter is NULL, this still finds the length of the
 //		string, but leaves the file offset at the beginning of the string.
@@ -299,8 +313,8 @@ E3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64* data)
 //		to fit in the buffer.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data,
-	TQ3Uns32 *ioLength)
+E3FileFormat_GenericReadBinary_StringPadded(TQ3FileFormatObject format, char* data,
+	TQ3Uns32 *ioLength, TQ3Boolean padTo4)
 {
 	TQ3Uns32 					sizeRead = 0;
 	TQ3Status 					result = kQ3Failure;
@@ -350,8 +364,7 @@ E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data,
 			// back to the beginning of the string
 			instanceData->currentStoragePosition = startOffset;
 		}
-		else
-		{
+		else  if (padTo4 == kQ3True){
 			// skip pad bytes
 			instanceData->currentStoragePosition = startOffset +
 				Q3Size_Pad( instanceData->currentStoragePosition - startOffset );
@@ -363,6 +376,7 @@ E3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char* data,
 
 	return result;							 
 }
+
 
 
 
