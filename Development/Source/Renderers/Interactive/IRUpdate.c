@@ -113,7 +113,7 @@ ir_state_texture_get_data(TQ3StorageObject theStorage, TQ3Boolean *wasCopied)
 		default:
 			qd3dStatus = Q3Storage_GetSize(theStorage, &bufferSize);
 			if (qd3dStatus == kQ3Success)
-				basePtr = E3Memory_Allocate(bufferSize);
+				basePtr = (TQ3Uns8 *) E3Memory_Allocate(bufferSize);
 			
 			if (basePtr != NULL)
 				{
@@ -227,7 +227,7 @@ ir_state_texture_convert_depth(TQ3Uns32			theWidth,
 
 
 	// Allocate the buffer for the image data
-	dstBasePtr = E3Memory_Allocate(theWidth * theHeight * 4);
+	dstBasePtr = (TQ3Uns8 *) E3Memory_Allocate(theWidth * theHeight * 4);
 	if (dstBasePtr == NULL)
 		return(NULL);
 
@@ -647,7 +647,7 @@ ir_state_texture_convert_size(TQ3Uns32			srcWidth,
 
 
 	// Allocate the buffer for the image data
-	dstBasePtr = E3Memory_Allocate(theWidth * theHeight * 4);
+	dstBasePtr = (TQ3Uns8 *) E3Memory_Allocate(theWidth * theHeight * 4);
 	if (dstBasePtr == NULL)
 		return(NULL);
 

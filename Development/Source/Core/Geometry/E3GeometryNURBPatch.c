@@ -65,15 +65,15 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 
 	// copy controlPoints, uKnots, vKnots
 	theSize = sizeof(TQ3RationalPoint4D) * src->numColumns * src->numRows;
-	dst->controlPoints = E3Memory_Allocate( theSize );
+	dst->controlPoints = (TQ3RationalPoint4D *) E3Memory_Allocate( theSize );
 	memcpy( dst->controlPoints, src->controlPoints, theSize );
 	
 	theSize = sizeof(float) * (src->uOrder+src->numColumns);
-	dst->uKnots = E3Memory_Allocate( theSize );
+	dst->uKnots = (float *) E3Memory_Allocate( theSize );
 	memcpy( dst->uKnots, src->uKnots, theSize );
         
 	theSize = sizeof(float) * (src->vOrder+src->numRows);
-	dst->vKnots = E3Memory_Allocate( theSize );
+	dst->vKnots = (float *) E3Memory_Allocate( theSize );
 	memcpy( dst->vKnots, src->vKnots, theSize );
     
 	// Copy all trim loops.
@@ -83,7 +83,7 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 	{
 		// Copy TrimLoops, basic data.
 		theSize = sizeof(TQ3NURBPatchTrimLoopData) * src->numTrimLoops;
-		dst->trimLoops = E3Memory_Allocate( theSize );
+		dst->trimLoops = (TQ3NURBPatchTrimLoopData *) E3Memory_Allocate( theSize );
 		memcpy( dst->trimLoops, src->trimLoops, theSize );
 
 		// Now iterate over trim loop curves, copy them.
@@ -92,14 +92,14 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 			// For a particular trimLoop i, copy its array of curve data.
 			theSize = sizeof(TQ3NURBPatchTrimCurveData) * src->trimLoops[i].numTrimCurves;
 			if (theSize) {
-				dst->trimLoops[i].trimCurves = E3Memory_Allocate( theSize );
+				dst->trimLoops[i].trimCurves = (TQ3NURBPatchTrimCurveData *) E3Memory_Allocate( theSize );
 				memcpy( dst->trimLoops[i].trimCurves, src->trimLoops[i].trimCurves, theSize );
 				
 				// Now, for a particular curve, copy its control points and knots.
 				for (j=0; j < src->trimLoops[i].numTrimCurves; j++) {
 					theSize = sizeof(TQ3RationalPoint3D) * src->trimLoops[i].trimCurves[j].numPoints;
 					if (theSize) {
-						dst->trimLoops[i].trimCurves[j].controlPoints = E3Memory_Allocate(theSize);
+						dst->trimLoops[i].trimCurves[j].controlPoints = (TQ3RationalPoint3D *) E3Memory_Allocate(theSize);
 						memcpy( dst->trimLoops[i].trimCurves[j].controlPoints, 
 								src->trimLoops[i].trimCurves[j].controlPoints, theSize );
 					}
@@ -107,7 +107,7 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 								  + src->trimLoops[i].trimCurves[j].order;
 					theSize = sizeof(float) * numKnots;
 					if (theSize) {
-						dst->trimLoops[i].trimCurves[j].knots = E3Memory_Allocate(theSize);
+						dst->trimLoops[i].trimCurves[j].knots = (float *) E3Memory_Allocate(theSize);
 						memcpy( dst->trimLoops[i].trimCurves[j].knots, 
 								src->trimLoops[i].trimCurves[j].knots, theSize );
 					}

@@ -63,11 +63,11 @@ e3geom_curve_copydata(const TQ3NURBCurveData *src, TQ3NURBCurveData *dst, TQ3Boo
 
 	// copy controlPoints,knots
 	theSize = sizeof(TQ3RationalPoint4D) * src->numPoints;
-	dst->controlPoints = E3Memory_Allocate( theSize );
+	dst->controlPoints = (TQ3RationalPoint4D *) E3Memory_Allocate( theSize );
 	memcpy( dst->controlPoints, src->controlPoints, theSize );
 	
 	theSize = sizeof(float) * (src->numPoints+src->order);
-	dst->knots = E3Memory_Allocate( theSize );
+	dst->knots = (float *) E3Memory_Allocate( theSize );
 	memcpy( dst->knots, src->knots, theSize );
 
 	// copy or shared-replace the attributes
