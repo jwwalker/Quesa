@@ -88,11 +88,13 @@ typedef struct TQ3ViewerParams {
 #define kQ3ValidViewer		0xFEEDD0D0
 #define kQ3InvalidViewer	0xDEADD0D0
 
+#define kMaxRenderers		20
+
 #define kQ3ViewerDefaultZ	10.0f
 
 #define kCameraMenuID		8042L
 #define kOptionsMenuID		8043L
-#define kRenderersMenuID 	246L
+#define kRendererMenuID 	246L
 #define kBrightnessMenuID	247L
 
 // Camera menu commands; also used as parameters to 
@@ -536,15 +538,11 @@ static TQ3Int32 e3viewer_popupMenu (TQ3Area* r, TQ3Int32 menuID, TQ3Int32 *outMe
 			pt.h = r->max.x;
 			pt.v = r->min.y + 1;
 			LocalToGlobal (&pt);
-			InsertMenu (menu, -1);
+			InsertMenu (menu, hierMenu);
 			menuSelection = PopUpMenuSelect (menu, pt.v, pt.h, 0);
 			result = menuSelection & 0xFFFF;
 			if (outMenuID) *outMenuID = menuSelection >> 16;
-			#if TARGET_API_MAC_CARBON
-				DeleteMenu (GetMenuID(menu));
-			#else
-				DeleteMenu ((**menu).menuID);
-			#endif
+			DeleteMenu (GetMenuID(menu));
 			DisposeMenu (menu);
 			}
 		else
@@ -677,6 +675,53 @@ static void e3viewer_doCameraButton(TQ3ViewerObject theViewer)
 }
 
 //=============================================================================
+//      e3viewer_getRendererList : Get a list of all the non-generic
+//			renderer types that are available.
+//-----------------------------------------------------------------------------
+static void e3viewer_getRendererList(TQ3ObjectType outRendererTypes[kMaxRenderers],
+			TQ3Uns32 *outRendererCount)
+{
+	TQ3SubClassData subClassData;
+	TQ3Status status;
+	
+	*outRendererCount = 0L;
+	status = Q3ObjectHierarchy_GetSubClassData (kQ3SharedTypeRenderer, &subClassData);
+	if (kQ3Success == status)
+		{
+		TQ3Uns32 i;
+		for (i = 0; i < subClassData.numClasses; ++i)
+			{
+			TQ3ObjectType theType = subClassData.classTypes [i];
+			if (theType != kQ3RendererTypeGeneric && *outRendererCount < kMaxRenderers)
+				{
+				outRendererTypes [*outRendererCount] = theType;
+				(*outRendererCount)++;
+				}
+			}
+		Q3ObjectHierarchy_EmptySubClassData (&subClassData);
+		}
+
+}
+
+//=============================================================================
+//      e3viewer_getRendererName : Get the name of a renderer.  We first try
+//			getting the nickname; if that fails, we get a string directly
+//			from the type code.
+//-----------------------------------------------------------------------------
+static TQ3Status e3viewer_getRendererName(TQ3ObjectType renderer, 
+			TQ3ObjectClassNameString outName)
+{
+	TQ3Status status;
+
+	status = Q3RendererClass_GetNickNameString (renderer, outName);
+
+	if (kQ3Failure == status)
+		status = Q3ObjectHierarchy_GetStringFromType (renderer, outName);
+
+	return status;
+}
+
+//=============================================================================
 //      e3viewer_doOptionsButton : Handle a press of the Options button
 //			by popping up a menu of camera options, then handling the
 //			user's selection.
@@ -689,10 +734,14 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 	TQ3Status			status;
 	TQ3Area				rect;
 	TQ3Boolean			option;
-	
+	TQ3ObjectType		rendererTypes[kMaxRenderers];
+	TQ3Uns32			rendererCount = 0;
+	TQ3ObjectType		currentRenderer = 0L;
+
 	#if QUESA_OS_MACINTOSH
 	MenuHandle			optionsMenu;
 	MenuHandle			lightsMenu;
+	MenuHandle			rendererMenu;
 	short				oldResFile = CurResFile();
 
 	if (!view) return;
@@ -701,20 +750,58 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 	// prepare the main Options menu
 	optionsMenu = GetMenu(kOptionsMenuID);
 	if (!optionsMenu) return;
-	InsertMenu( optionsMenu, -1 );
+	InsertMenu( optionsMenu, hierMenu );
 
 	// prepare the Brightness submenu
 	lightsMenu = GetMenu(kBrightnessMenuID);
 	if (lightsMenu)
 		{
 		float brightness;
-		InsertMenu( lightsMenu, -1 );
+		InsertMenu( lightsMenu, hierMenu );
 		if (E3Viewer_GetBrightness(theViewer, &brightness) == kQ3Success)
 			{
 			TQ3Int32 item = brightness * 10.0f;
 			if (item <= 0) item = 1;
 			else if (item > 10) item = 10;
 			SetItemMark (lightsMenu, item, checkMark);
+			}
+		}
+	
+	// prepare the Renderer submenu
+	e3viewer_getRendererList(rendererTypes, &rendererCount);
+	status = E3Viewer_GetRendererType(theViewer, &currentRenderer);
+	rendererMenu = GetMenu(kRendererMenuID);
+	if (rendererMenu)
+		{
+		TQ3Uns32 i;
+
+		InsertMenu (rendererMenu, hierMenu);
+		for (i = 0; i < rendererCount; ++i)
+			{
+			TQ3ObjectType theType = rendererTypes[i];
+			if (theType != kQ3RendererTypeGeneric)
+				{
+				TQ3ObjectClassNameString rendererClassString;
+				status = e3viewer_getRendererName (theType, rendererClassString);
+				if (kQ3Success == status)
+					{
+					// copy the name into a Pascal string
+					Str255 name;
+					TQ3Int32 j = 0;
+					while (rendererClassString [j] && (j < 255))
+						{
+						name [j + 1] = rendererClassString [j];
+						++j;
+						}
+					name[0] = j;
+					
+					// add to the renderers menu
+					AppendMenu(rendererMenu, "\pfoo");
+					SetMenuItemText(rendererMenu, i+1, name);
+						if (theType == currentRenderer)
+							SetItemMark (rendererMenu, i+1, checkMark);
+					}
+				}
 			}
 		}
 	
@@ -736,12 +823,13 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 	// clean up
 	if (lightsMenu)
 		{
-		#if TARGET_API_MAC_CARBON
-			DeleteMenu (GetMenuID(lightsMenu));
-		#else
-			DeleteMenu ((**lightsMenu).menuID);
-		#endif
+		DeleteMenu (GetMenuID(lightsMenu));
 		DisposeMenu (lightsMenu);
+		}
+	if (rendererMenu)
+		{
+		DeleteMenu (GetMenuID(rendererMenu));
+		DisposeMenu (rendererMenu);
 		}
 
 	UseResFile(oldResFile);
@@ -752,7 +840,10 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 	if (kBrightnessMenuID == selectedMenu)
 		E3Viewer_SetBrightness( theViewer, (float)selection * 0.1f );
 	
-	else
+	else if (kRendererMenuID == selectedMenu)
+		E3Viewer_SetRendererType( theViewer, rendererTypes[selection-1] );
+	
+	else if (kOptionsMenuID == selectedMenu)
 		{
 		// Selected something in the main Options menu.
 		
@@ -2498,10 +2589,17 @@ E3Viewer_EventKeyboard(TQ3ViewerObject theViewer, const void *theEvent)
 TQ3Status
 E3Viewer_GetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType *rendererType)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3RendererObject	renderer = 0L;
 
+	TQ3Status status = Q3View_GetRenderer(instanceData->mView, &renderer);
+	if (kQ3Success == status)
+		{
+		*rendererType = Q3Renderer_GetType(renderer);
+		Q3Object_Dispose(renderer);
+		}
 
-	// To be implemented...
-	return(kQ3Failure);
+	return status;
 }
 
 
@@ -2516,10 +2614,19 @@ E3Viewer_GetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType *rendererType)
 TQ3Status
 E3Viewer_SetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType)
 {
+	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Status			status;
 
+	TQ3RendererObject	renderer = Q3Renderer_NewFromType( rendererType );
+	if (!renderer) return kQ3Failure;
+	
+	status = Q3View_SetRenderer(instanceData->mView, renderer);
 
-	// To be implemented...
-	return(kQ3Failure);
+	if (kQ3Success == status)
+		E3Viewer_DrawContent(theViewer);
+		
+	Q3Object_Dispose(renderer);
+	return status;
 }
 
 
