@@ -864,7 +864,7 @@ E3FFW_3DMF_32_Traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, data, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 4, data, NULL);
 	
 	return qd3dstatus;
 }
@@ -1058,21 +1058,6 @@ E3FFW_3DMF_TOC_Write(const void *object,
 }
 
 
-
-//=============================================================================
-//      E3FFW_3DMF_Reference_Traverse: The traverse method for the 3DMF root class.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3FFW_3DMF_Reference_Traverse(TQ3Object object,
-					 void *data,
-					 TQ3ViewObject view)
-{
-	#pragma unused(object)
-	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 4, data, NULL);
-	
-	return qd3dstatus;
-}
 
 
 
