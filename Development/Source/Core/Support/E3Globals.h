@@ -148,6 +148,8 @@ extern "C" {
 #define kQ3ClassNameMeshFacePart					"MeshFacePart"
 #define kQ3ClassNameMeshVertexPart					"MeshVertexPart"
 #define kQ3ClassNameMeshShapePart					"MeshShapePart"
+#define kQ3ClassNameMeshCorners						"MeshCorners"
+#define kQ3ClassNameMeshEdges						"MeshEdges"
 #define kQ3ClassNamePick							"Pick"
 #define kQ3ClassNamePickWindowPoint					"WindowPointPick"
 #define kQ3ClassNamePickWindowRect					"WindowRectPick"
@@ -277,6 +279,8 @@ extern "C" {
 
 
 // 3DMF object types
+#define kQ3ObjectTypeMeshCorners					Q3_OBJECT_TYPE('c', 'r', 'n', 'r')
+#define kQ3ObjectTypeMeshEdges						Q3_OBJECT_TYPE('e', 'd', 'g', 'e')
 #define kQ3ObjectTypeAttributeSetList				Q3_OBJECT_TYPE('r', 'a', 's', 'l')
 #define kQ3ObjectTypeAttributeArray					Q3_OBJECT_TYPE('a', 't', 'a', 'r')
 #define kQ3ObjectTypeAttributeSetListGeometry		Q3_OBJECT_TYPE('g', 'a', 's', 'l')

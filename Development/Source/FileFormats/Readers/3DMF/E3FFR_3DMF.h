@@ -116,6 +116,33 @@ typedef struct TE3FFormat3DMF_AttributeArray_Data {
 } TE3FFormat3DMF_AttributeArray_Data;
 
 
+typedef struct TE3FFormat3DMF_MeshCorner_Data {
+	TQ3Uns32						vertexIndex;
+	TQ3Uns32						nFaces;
+	TQ3Uns32*						faces;
+	TQ3AttributeSet					attributeSet;
+} TE3FFormat3DMF_MeshCorner_Data;
+
+
+typedef struct TE3FFormat3DMF_MeshCorners_Data {
+	TQ3Uns32						nCorners;
+	TE3FFormat3DMF_MeshCorner_Data*	corners;
+} TE3FFormat3DMF_MeshCorners_Data;
+
+
+typedef struct TE3FFormat3DMF_MeshEdge_Data {
+	TQ3Uns32						vertexIndex1;
+	TQ3Uns32						vertexIndex2;
+	TQ3AttributeSet					attributeSet;
+} TE3FFormat3DMF_MeshEdge_Data;
+
+
+typedef struct TE3FFormat3DMF_MeshEdges_Data {
+	TQ3Uns32						nEdges;
+	TE3FFormat3DMF_MeshEdge_Data*	edges;
+} TE3FFormat3DMF_MeshEdges_Data;
+
+
 
 //=============================================================================
 // protected virtual methods (sorta of...)
@@ -145,6 +172,12 @@ TQ3Object           		E3FFormat_3DMF_GeomAttributeSetList_New(TQ3Size size);
 TQ3AttributeSet				E3FFormat_3DMF_AttributeSetList_Get(TQ3Object theAttributeSetList, TQ3Uns32 index);
 TQ3Status					E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList ,TQ3Uns32 index,
 							TQ3AttributeSet theAttributeSet);
+
+void						E3FFormat_3DMF_MeshCorners_Assign(TQ3Object theMeshCorners, TQ3GeometryObject theMesh,
+																TQ3Uns32 nFaces, TQ3MeshFace* faces,
+																TQ3Uns32 nVertices, TQ3MeshVertex* vertices);
+void						E3FFormat_3DMF_MeshEdges_Assign(TQ3Object theMeshEdges, TQ3GeometryObject theMesh,
+																TQ3Uns32 nVertices, TQ3MeshVertex* vertices);
 
 TQ3GeneralPolygonShapeHint	E3FFormat_3DMF_GeneralPolygonHint_Get(TQ3Object theObject);
 TQ3EndCap					E3FFormat_3DMF_GeometryCapsMask_Get(TQ3Object theObject);
