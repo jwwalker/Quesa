@@ -98,7 +98,7 @@ e3drawcontext_win32dc_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
 	TQ3Status					qd3dStatus;
 	TQ3XDevicePixelType			pixelType;
 	HGDIOBJ						hBitMap;
@@ -196,7 +196,7 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_win32dc_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -290,7 +290,7 @@ e3drawcontext_ddsurface_new(TQ3Object theObject, void *privateData, const void *
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_ddsurface_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->instanceData;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -444,7 +444,7 @@ E3Win32DCDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawCont
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -468,7 +468,7 @@ E3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Win32DCDrawContext_GetDC(TQ3DrawContextObject drawContext, HDC *curHDC)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -547,7 +547,7 @@ E3DDSurfaceDrawContext_New(const TQ3DDSurfaceDrawContextData *drawContextData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DDSurfaceDrawContext_SetDirectDrawSurface(TQ3DrawContextObject drawContext, const TQ3DDSurfaceDescriptor *ddSurfaceDescriptor)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 
@@ -569,7 +569,7 @@ E3DDSurfaceDrawContext_SetDirectDrawSurface(TQ3DrawContextObject drawContext, co
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ3DDSurfaceDescriptor *ddSurfaceDescriptor)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->instanceData;
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
 
 
 

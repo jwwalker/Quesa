@@ -361,7 +361,7 @@ e3geom_polygon_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_polygon_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) theObject->instanceData;
+{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePolygon);
 
 
 
@@ -507,7 +507,7 @@ E3Polygon_Submit(const TQ3PolygonData *polygonData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polygon_SetData(TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonData)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
+{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
 	TQ3Vertex3D			*newVertices;
 	TQ3Uns32			n;
 
@@ -554,7 +554,7 @@ E3Polygon_SetData(TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonDat
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polygon_GetData(TQ3GeometryObject thePolygon, TQ3PolygonData *polygonData)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
+{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
 	TQ3Vertex3D			*newVertices;
 	TQ3Uns32			n;
 
@@ -614,7 +614,7 @@ E3Polygon_EmptyData(TQ3PolygonData *polygonData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polygon_GetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3Point3D *point)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
+{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
 
 
 
@@ -633,7 +633,7 @@ E3Polygon_GetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3Poi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polygon_SetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, const TQ3Point3D *point)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
+{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
 
 
 
@@ -654,7 +654,7 @@ E3Polygon_SetVertexPosition(TQ3GeometryObject thePolygon, TQ3Uns32 index, const 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polygon_GetVertexAttributeSet(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
+{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
 
 
 
@@ -673,7 +673,7 @@ E3Polygon_GetVertexAttributeSet(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polygon_SetVertexAttributeSet(TQ3GeometryObject thePolygon, TQ3Uns32 index, TQ3AttributeSet attributeSet)
-{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) thePolygon->instanceData;
+{	TQ3PolygonData		*instanceData = (TQ3PolygonData *) E3ClassTree_FindInstanceData(thePolygon, kQ3GeometryTypePolygon);
 
 
 

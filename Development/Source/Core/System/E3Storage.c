@@ -92,7 +92,7 @@ typedef struct TQ3PathStorageData {
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_memory_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
+{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
 	TQ3Uns32 		bytesToRead = dataSize;
 	
 	*sizeRead = 0;
@@ -120,7 +120,7 @@ e3storage_memory_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSi
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_memory_grow(TQ3StorageObject storage, TQ3Uns32 requestedSize)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
+{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
 	TQ3Status				qd3dStatus;
 	TQ3Uns32				newSize;
 	TQ3Uns32				expSize;
@@ -153,7 +153,7 @@ e3storage_memory_grow(TQ3StorageObject storage, TQ3Uns32 requestedSize)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_memory_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
-{	TE3_MemoryStorageData	*instanceData = (TE3_MemoryStorageData *) storage->instanceData;
+{	TE3_MemoryStorageData	*instanceData = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
 	TQ3Uns32 				bytesToWrite;
 
 
@@ -204,7 +204,7 @@ e3storage_memory_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataS
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_memory_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
+{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
 
 	*size = instanceData->validSize;
 	
@@ -417,7 +417,7 @@ e3storage_path_delete(TQ3Object storage, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_path_open(TQ3StorageObject storage, TQ3Boolean forWriting)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) storage->instanceData;
+{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
 
 
 
@@ -447,7 +447,7 @@ e3storage_path_open(TQ3StorageObject storage, TQ3Boolean forWriting)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_path_close(TQ3StorageObject storage)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) storage->instanceData;
+{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
 
 
 
@@ -476,7 +476,7 @@ e3storage_path_close(TQ3StorageObject storage)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_path_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) storage->instanceData;
+{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
 	fpos_t					oldPos;
 
 
@@ -527,7 +527,7 @@ e3storage_path_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_path_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) storage->instanceData;
+{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
 
 
 
@@ -565,7 +565,7 @@ e3storage_path_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_path_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) storage->instanceData;
+{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypePath);
 
 
 
@@ -751,8 +751,7 @@ E3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size)
 	TQ3Status result = kQ3Failure;
 	// get the subclass method;
 	TQ3XStorageGetSizeMethod getEOF_Method;
-	getEOF_Method = (TQ3XStorageGetSizeMethod) E3ClassTree_GetMethod(storage->theClass,
-														  kQ3XMethodTypeStorageGetSize);
+	getEOF_Method = (TQ3XStorageGetSizeMethod) E3ClassTree_GetMethodByObject(storage, kQ3XMethodTypeStorageGetSize);
 	if (getEOF_Method != NULL)
 		result = getEOF_Method(storage, size);
 	
@@ -772,8 +771,7 @@ E3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 	TQ3Status result = kQ3Failure;
 	// get the subclass method;
 	TQ3XStorageReadDataMethod getData_Method;
-	getData_Method = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethod(storage->theClass,
-														  kQ3XMethodTypeStorageReadData);
+	getData_Method = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethodByObject(storage, kQ3XMethodTypeStorageReadData);
 	if (getData_Method != NULL)
 		result = getData_Method(storage, offset, dataSize, data, sizeRead);
 	
@@ -797,8 +795,7 @@ E3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 	TQ3Status result = kQ3Failure;
 	// get the subclass method;
 	TQ3XStorageWriteDataMethod setData_Method;
-	setData_Method = (TQ3XStorageWriteDataMethod) E3ClassTree_GetMethod(storage->theClass,
-														  kQ3XMethodTypeStorageWriteData);
+	setData_Method = (TQ3XStorageWriteDataMethod) E3ClassTree_GetMethodByObject(storage, kQ3XMethodTypeStorageWriteData);
 	if (setData_Method != NULL)
 		result = setData_Method(storage, offset, dataSize, data, sizeWritten);
 
@@ -858,7 +855,7 @@ E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Uns32 validSize)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
+{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
 	TQ3Status				qd3dStatus;
 	
 
@@ -938,7 +935,7 @@ E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bu
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
+{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
 	TQ3Status				qd3dStatus;
 
 
@@ -1003,7 +1000,7 @@ E3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Un
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize)
-{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) storage->instanceData;
+{	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) E3ClassTree_FindInstanceData(storage, kQ3StorageTypeMemory);
 
 	if(buffer != NULL)
 		*buffer = instanceData->buffer;
@@ -1043,7 +1040,7 @@ E3PathStorage_New(const char *pathName)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) theStorage->instanceData;
+{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(theStorage, kQ3StorageTypePath);
 	char					*newPath;
 	TQ3Uns32				pathLen;
 
@@ -1082,7 +1079,7 @@ E3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3PathStorage_Get(TQ3StorageObject theStorage, char *pathName)
-{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) theStorage->instanceData;
+{	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) E3ClassTree_FindInstanceData(theStorage, kQ3StorageTypePath);
 
 
 

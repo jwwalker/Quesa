@@ -251,7 +251,7 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_ellipse_get_attribute(TQ3GeometryObject theObject)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) theObject->instanceData;
+{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeEllipse);
 
 
 
@@ -408,7 +408,7 @@ E3Ellipse_Submit(const TQ3EllipseData *ellipseData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_SetData(TQ3GeometryObject theEllipse, const TQ3EllipseData *ellipseData)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) theEllipse->instanceData;
+{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
 
 
 
@@ -435,7 +435,7 @@ E3Ellipse_SetData(TQ3GeometryObject theEllipse, const TQ3EllipseData *ellipseDat
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_GetData(TQ3GeometryObject theEllipse, TQ3EllipseData *ellipseData)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) theEllipse->instanceData;
+{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
 
 
 
@@ -478,7 +478,7 @@ E3Ellipse_EmptyData(TQ3EllipseData *ellipseData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_SetOrigin(TQ3GeometryObject theEllipse, const TQ3Point3D *origin)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) theEllipse->instanceData;
+{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
 
 
 
@@ -499,7 +499,7 @@ E3Ellipse_SetOrigin(TQ3GeometryObject theEllipse, const TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_SetMajorRadius(TQ3GeometryObject theEllipse, const TQ3Vector3D *majorRadius)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) theEllipse->instanceData;
+{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
 
 
 
@@ -520,7 +520,7 @@ E3Ellipse_SetMajorRadius(TQ3GeometryObject theEllipse, const TQ3Vector3D *majorR
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_SetMinorRadius(TQ3GeometryObject theEllipse, const TQ3Vector3D *minorRadius)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) theEllipse->instanceData;
+{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
 
 
 
@@ -541,7 +541,7 @@ E3Ellipse_SetMinorRadius(TQ3GeometryObject theEllipse, const TQ3Vector3D *minorR
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_GetOrigin(TQ3GeometryObject theEllipse, TQ3Point3D *origin)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) theEllipse->instanceData;
+{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
 
 
 
@@ -560,7 +560,7 @@ E3Ellipse_GetOrigin(TQ3GeometryObject theEllipse, TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_GetMajorRadius(TQ3GeometryObject theEllipse, TQ3Vector3D *majorRadius)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) theEllipse->instanceData;
+{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
 
 
 
@@ -579,7 +579,7 @@ E3Ellipse_GetMajorRadius(TQ3GeometryObject theEllipse, TQ3Vector3D *majorRadius)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Ellipse_GetMinorRadius(TQ3GeometryObject theEllipse, TQ3Vector3D *minorRadius)
-{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) theEllipse->instanceData;
+{	TQ3EllipseData		*instanceData = (TQ3EllipseData *) E3ClassTree_FindInstanceData(theEllipse, kQ3GeometryTypeEllipse);
 
 
 

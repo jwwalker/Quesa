@@ -1289,7 +1289,7 @@ e3geom_nurbpatch_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_nurbpatch_get_attribute(TQ3GeometryObject theObject)
-{	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) theObject->instanceData;
+{	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeNURBPatch);
 
 
 
@@ -1438,7 +1438,7 @@ E3NURBPatch_Submit(const TQ3NURBPatchData *nurbPatchData, TQ3ViewObject theView)
 TQ3Status
 E3NURBPatch_SetData(TQ3GeometryObject nurbPatch, const TQ3NURBPatchData *nurbPatchData)
 {
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
 	TQ3Status		qd3dStatus;
 
 	// first, free the old data
@@ -1463,7 +1463,7 @@ E3NURBPatch_SetData(TQ3GeometryObject nurbPatch, const TQ3NURBPatchData *nurbPat
 TQ3Status
 E3NURBPatch_GetData(TQ3GeometryObject nurbPatch, TQ3NURBPatchData *nurbPatchData)
 {
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
 	TQ3Status		qd3dStatus;
 
 	// Copy the data out of the NURBPatch
@@ -1504,7 +1504,7 @@ E3NURBPatch_EmptyData(TQ3NURBPatchData *nurbPatchData)
 TQ3Status
 E3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, const TQ3RationalPoint4D *point4D)
 {
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
 
 	// Copy the point from point4D to controlPoints
 	Q3Memory_Copy( point4D, &instanceData->controlPoints[ instanceData->numColumns*rowIndex + columnIndex ], sizeof(TQ3RationalPoint4D) );
@@ -1525,7 +1525,7 @@ E3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 TQ3Status
 E3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3Uns32 columnIndex, TQ3RationalPoint4D *point4D)
 {
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
 
 	// Copy the point from controlPoints to point4D
 	Q3Memory_Copy( &instanceData->controlPoints[ instanceData->numColumns*rowIndex + columnIndex ], point4D, sizeof(TQ3RationalPoint4D) );
@@ -1545,7 +1545,7 @@ E3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 TQ3Status
 E3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
 {
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
 
 	// Copy the knot from knotValue to uKnots
 	Q3Memory_Copy( &knotValue, &instanceData->uKnots[ knotIndex ], sizeof(float) );
@@ -1566,7 +1566,7 @@ E3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 TQ3Status
 E3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knotValue)
 {
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
 
 	// Copy the knot from knotValue to vKnots
 	Q3Memory_Copy( &knotValue, &instanceData->vKnots[ knotIndex ], sizeof(float) );
@@ -1587,7 +1587,7 @@ E3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 TQ3Status
 E3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
 {
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
 	
 	// Copy the knot from uKnots to knotValue
 	Q3Memory_Copy( &instanceData->uKnots[ knotIndex ], knotValue, sizeof(float) );
@@ -1607,7 +1607,7 @@ E3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *kno
 TQ3Status
 E3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *knotValue)
 {
-	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) nurbPatch->instanceData;
+	TQ3NURBPatchData		*instanceData = (TQ3NURBPatchData *) E3ClassTree_FindInstanceData(nurbPatch, kQ3GeometryTypeNURBPatch);
 	
 	// Copy the knot from uKnots to knotValue
 	Q3Memory_Copy( &instanceData->vKnots[ knotIndex ], knotValue, sizeof(float) );

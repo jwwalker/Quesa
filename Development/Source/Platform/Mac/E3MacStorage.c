@@ -568,48 +568,38 @@ e3storage_mac_metahandler(TQ3XMethodType methodType)
 //      e3storage_mac_fsspec_open : Open the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_mac_fsspec_open(TQ3StorageObject storage, TQ3Boolean forWriting)
-{
-	OSErr	err;
-	TE3_MacStorageDataPtr	instanceData;
+e3storage_mac_fsspec_open(TQ3StorageObject theStorage, TQ3Boolean forWriting)
+{	TE3_MacStorageDataPtr	 instanceDataMac    = (TE3_MacStorageDataPtr) E3ClassTree_FindInstanceData(theStorage, kQ3StorageTypeMacintosh);
+	FSSpec					*instanceDataFSSpec = (FSSpec              *) E3ClassTree_FindInstanceData(theStorage, kQ3MacintoshStorageTypeFSSpec);
+	TQ3Int16				filePerm;
+	OSStatus				theErr;
+
+
+
+	// Validate our state
+	Q3_REQUIRE_OR_RESULT(instanceDataMac->fsRefNum == -1, kQ3Failure);
+
+
+
+	// Open the file
 #if QUESA_USES_MOREFILES
-	TQ3Int16 denyModes;
+	filePerm = forWriting ? dmRdWrDenyRdWr : dmRdDenyWr;
+	theErr   = FSpOpenAware(instanceDataFSSpec, filePerm, &instanceDataMac->fsRefNum);
 #else
-	char permission;
+	filePerm = forWriting ? fsRdWrPerm : fsRdPerm;
+	theErr   = FSpOpenDF(   instanceDataFSSpec, filePerm, &instanceDataMac->fsRefNum);
 #endif
-	
-	err = noErr;
-	
-	instanceData =(TE3_MacStorageDataPtr)E3ClassTree_FindInstanceData (storage, kQ3StorageTypeMacintosh);
-	
-	if(instanceData == NULL)
+
+
+
+	// Handle failure
+	if (theErr != noErr)
 		{
-		E3ErrorManager_PostError (kQ3ErrorInvalidObjectClass, kQ3False);
-		return(kQ3Failure);
+		E3ErrorManager_PostPlatformError(theErr);
+		instanceDataMac->fsRefNum = -1;
 		}
-
-	Q3_REQUIRE_OR_RESULT((instanceData->fsRefNum == -1),kQ3Failure);
-
-#if QUESA_USES_MOREFILES
-	denyModes = dmRdDenyWr;
-	if(forWriting)
-		denyModes = dmRdWrDenyRdWr;
-	err = FSpOpenAware ((FSSpec*)storage->instanceData, denyModes, &instanceData->fsRefNum);
-#else
-	permission = fsRdPerm;
-	if(forWriting)
-		permission = fsRdWrPerm;
-	err = FSpOpenDF((FSSpec*)storage->instanceData,permission,&instanceData->fsRefNum);
-#endif
-
-	if (err != noErr) {
-		E3ErrorManager_PostPlatformError (err);
-		instanceData->fsRefNum = -1;
-		return(kQ3Failure);
-	}
-
-	return(kQ3Success);
-
+	
+	return(theErr == noErr ? kQ3Success : kQ3Failure);
 }
 
 
@@ -620,38 +610,40 @@ e3storage_mac_fsspec_open(TQ3StorageObject storage, TQ3Boolean forWriting)
 //      e3storage_mac_fsspec_close : Close the storage object.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3storage_mac_fsspec_close(TQ3StorageObject storage)
-{
-	OSErr	err;
-	TE3_MacStorageDataPtr	instanceData;
-	
-	instanceData =(TE3_MacStorageDataPtr)E3ClassTree_FindInstanceData (storage, kQ3StorageTypeMacintosh);
-	
-	if(instanceData == NULL)
+e3storage_mac_fsspec_close(TQ3StorageObject theStorage)
+{	TE3_MacStorageDataPtr	 instanceDataMac    = (TE3_MacStorageDataPtr) E3ClassTree_FindInstanceData(theStorage, kQ3StorageTypeMacintosh);
+	FSSpec					*instanceDataFSSpec = (FSSpec              *) E3ClassTree_FindInstanceData(theStorage, kQ3MacintoshStorageTypeFSSpec);
+	OSStatus				theErr;
+
+
+
+	// Close the file
+	if (instanceDataMac->fsRefNum != -1)
 		{
-		E3ErrorManager_PostError (kQ3ErrorInvalidObjectClass, kQ3False);
-		return(kQ3Failure);
-		}
-	
-	if (instanceData->fsRefNum != -1) {
-	
-		if(e3storage_mac_hasFlag(instanceData, kQ3MacStorage_BufferDirtyFlag))
-			e3storage_mac_flushbuffer (storage, instanceData);
+		// Flush the file
+		if(e3storage_mac_hasFlag(instanceDataMac, kQ3MacStorage_BufferDirtyFlag))
+			e3storage_mac_flushbuffer(theStorage, instanceDataMac);
 		
-		err = FSClose(instanceData->fsRefNum);
+
 		
-		instanceData->fsRefNum = -1;
+		// Close it
+		theErr = FSClose(instanceDataMac->fsRefNum);
+		instanceDataMac->fsRefNum = -1;
 		
-		if(err != noErr)
+		if (theErr != noErr)
 			{
-			E3ErrorManager_PostPlatformError (err);
+			E3ErrorManager_PostPlatformError(theErr);
 			return(kQ3Failure);
 			}
+
 		
-		e3storage_mac_clearFlag(instanceData, kQ3MacStorage_IsOpenFlag);
-		if(!e3storage_mac_hasFlag(instanceData, kQ3MacStorage_ReadOnlyFlag))
-			FlushVol(NULL, ((FSSpec*)storage->instanceData)->vRefNum);
-	}
+		
+		// And flush the volume
+		e3storage_mac_clearFlag(instanceDataMac, kQ3MacStorage_IsOpenFlag);
+		if(!e3storage_mac_hasFlag(instanceDataMac, kQ3MacStorage_ReadOnlyFlag))
+			FlushVol(NULL, instanceDataFSSpec->vRefNum);
+		}
+
 	return(kQ3Success);
 }
 
@@ -780,7 +772,7 @@ e3storage_mac_handle_delete(TQ3Object storage, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_mac_handle_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
-{	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) storage->instanceData;
+{	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) E3ClassTree_FindInstanceData(storage, kQ3MemoryStorageTypeHandle);
 
 
 
@@ -799,7 +791,7 @@ e3storage_mac_handle_getsize(TQ3StorageObject storage, TQ3Uns32 *size)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_mac_handle_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead)
-{	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) storage->instanceData;
+{	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) E3ClassTree_FindInstanceData(storage, kQ3MemoryStorageTypeHandle);
 	TQ3Uns32 				bytesToRead;
 
 
@@ -840,7 +832,7 @@ e3storage_mac_handle_read(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 da
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3storage_mac_handle_write(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten)
-{	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) storage->instanceData;
+{	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) E3ClassTree_FindInstanceData(storage, kQ3MemoryStorageTypeHandle);
 	TQ3Uns32 				newSize, bytesToWrite;
 
 
@@ -1010,7 +1002,7 @@ E3HandleStorage_New(Handle handle, TQ3Uns32 validSize)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3HandleStorage_Set(TQ3StorageObject storage, Handle handle, TQ3Uns32 validSize)
-{	TQ3HandleStorageData	*instanceData  = (TQ3HandleStorageData *) storage->instanceData;
+{	TQ3HandleStorageData	*instanceData  = (TQ3HandleStorageData *) E3ClassTree_FindInstanceData(storage, kQ3MemoryStorageTypeHandle);
 	OSErr					theErr;
 
 
@@ -1058,7 +1050,7 @@ E3HandleStorage_Set(TQ3StorageObject storage, Handle handle, TQ3Uns32 validSize)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3HandleStorage_Get(TQ3StorageObject storage, Handle *handle, TQ3Uns32 *validSize)
-{	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) storage->instanceData;
+{	TQ3HandleStorageData	*instanceData = (TQ3HandleStorageData *) E3ClassTree_FindInstanceData(storage, kQ3MemoryStorageTypeHandle);
 
 
 
@@ -1191,32 +1183,24 @@ E3FSSpecStorage_New(const FSSpec *fs)
 //      E3FSSpecStorage_Set : Set the information for an FSSpec storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FSSpecStorage_Set(TQ3StorageObject storage, const FSSpec *fs)
-{
+E3FSSpecStorage_Set(TQ3StorageObject theStorage, const FSSpec *theFSSpec)
+{	TE3_MacStorageDataPtr	 instanceDataMac    = (TE3_MacStorageDataPtr) E3ClassTree_FindInstanceData(theStorage, kQ3StorageTypeMacintosh);
+	FSSpec					*instanceDataFSSpec = (FSSpec              *) E3ClassTree_FindInstanceData(theStorage, kQ3MacintoshStorageTypeFSSpec);
 
-	//parameters has been tested by Q3FSSpecStorage_Set
-	
-	// storage MUST be closed
-	
-	TE3_MacStorageDataPtr instanceData =(TE3_MacStorageDataPtr)E3ClassTree_FindInstanceData (storage, kQ3StorageTypeMacintosh);
-	
-	if(instanceData == NULL)
+
+
+	// Make sure we're not open
+	if (e3storage_mac_hasFlag(instanceDataMac, kQ3MacStorage_IsOpenFlag))
 		{
-		E3ErrorManager_PostError (kQ3ErrorInvalidObjectClass, kQ3False);
+		E3ErrorManager_PostError(kQ3ErrorStorageIsOpen, kQ3False);
 		return(kQ3Failure);
 		}
 
-	
-	if(e3storage_mac_hasFlag(instanceData, kQ3MacStorage_IsOpenFlag))
-		{
-		E3ErrorManager_PostError (kQ3ErrorStorageIsOpen, kQ3False);
-		return(kQ3Failure);
-		}
-	
 
-	Q3Memory_Copy(storage->instanceData, (void*)fs, sizeof(FSSpec));
 
-	Q3Shared_Edited(storage);
+	// Set the data
+	Q3Memory_Copy(theFSSpec, instanceDataFSSpec, sizeof(FSSpec));
+	Q3Shared_Edited(theStorage);
 	
 	return(kQ3Success);
 }
@@ -1229,12 +1213,13 @@ E3FSSpecStorage_Set(TQ3StorageObject storage, const FSSpec *fs)
 //      E3FSSpecStorage_Get : Get the information for an FSSpec storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs)
-{
+E3FSSpecStorage_Get(TQ3StorageObject theStorage, FSSpec *theFSSpec)
+{	FSSpec	*instanceData = E3ClassTree_FindInstanceData(theStorage, kQ3MacintoshStorageTypeFSSpec);
 
-	//parameters has been tested by Q3FSSpecStorage_Get
 
-	Q3Memory_Copy(fs, storage->instanceData, sizeof(FSSpec));
+
+	// Get the data
+	Q3Memory_Copy(theFSSpec, instanceData, sizeof(FSSpec));
 	
 	return(kQ3Success);
 }

@@ -491,7 +491,7 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_disk_get_attribute(TQ3GeometryObject theObject)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) theObject->instanceData;
+{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeDisk);
 
 
 
@@ -646,7 +646,7 @@ E3Disk_Submit(const TQ3DiskData *diskData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_SetData(TQ3GeometryObject theDisk, const TQ3DiskData *diskData)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) theDisk->instanceData;
+{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
 
 
 
@@ -675,7 +675,7 @@ E3Disk_SetData(TQ3GeometryObject theDisk, const TQ3DiskData *diskData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_GetData(TQ3GeometryObject theDisk, TQ3DiskData *diskData)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) theDisk->instanceData;
+{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
 
 
 
@@ -720,7 +720,7 @@ E3Disk_EmptyData(TQ3DiskData *diskData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_SetOrigin(TQ3GeometryObject theDisk, const TQ3Point3D *origin)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) theDisk->instanceData;
+{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
 
 
 
@@ -741,7 +741,7 @@ E3Disk_SetOrigin(TQ3GeometryObject theDisk, const TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_SetMajorRadius(TQ3GeometryObject theDisk, const TQ3Vector3D *majorRadius)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) theDisk->instanceData;
+{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
 
 
 
@@ -762,7 +762,7 @@ E3Disk_SetMajorRadius(TQ3GeometryObject theDisk, const TQ3Vector3D *majorRadius)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_SetMinorRadius(TQ3GeometryObject theDisk, const TQ3Vector3D *minorRadius)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) theDisk->instanceData;
+{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
 
 
 
@@ -783,7 +783,7 @@ E3Disk_SetMinorRadius(TQ3GeometryObject theDisk, const TQ3Vector3D *minorRadius)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_GetOrigin(TQ3GeometryObject theDisk, TQ3Point3D *origin)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) theDisk->instanceData;
+{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
 
 
 
@@ -802,7 +802,7 @@ E3Disk_GetOrigin(TQ3GeometryObject theDisk, TQ3Point3D *origin)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_GetMajorRadius(TQ3GeometryObject theDisk, TQ3Vector3D *majorRadius)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) theDisk->instanceData;
+{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
 
 
 
@@ -821,7 +821,7 @@ E3Disk_GetMajorRadius(TQ3GeometryObject theDisk, TQ3Vector3D *majorRadius)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Disk_GetMinorRadius(TQ3GeometryObject theDisk, TQ3Vector3D *minorRadius)
-{	TQ3DiskData		*instanceData = (TQ3DiskData *) theDisk->instanceData;
+{	TQ3DiskData		*instanceData = (TQ3DiskData *) E3ClassTree_FindInstanceData(theDisk, kQ3GeometryTypeDisk);
 
 
 

@@ -773,12 +773,7 @@ E3Memory_NextRecordedObject( TQ3Object inObject )
 	}
 	
 	if (theNext != NULL)
-	{
-		while (theNext->childObject != NULL)
-		{
-			theNext = theNext->childObject;
-		}
-	}
+		theNext = E3ClassTree_GetLeafObject(theNext);
 	
 	return theNext;
 }
@@ -844,10 +839,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 			leakRec = (TQ3ObjectData*) E3ClassTree_FindInstanceData(anObject, kQ3ObjectTypeLeaf);
 			
 			// anObject currently points to a root object, find the leaf
-			while (anObject->childObject != NULL)
-			{
-				anObject = anObject->childObject;
-			}
+			anObject = E3ClassTree_GetLeafObject(anObject);
 			
 			// Find the class name and print it
 			theType = Q3Object_GetLeafType( anObject );

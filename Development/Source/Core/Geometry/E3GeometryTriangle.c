@@ -353,7 +353,7 @@ e3geom_triangle_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_triangle_get_attribute(TQ3GeometryObject theObject)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) theObject->instanceData;
+{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypeTriangle);
 
 
 
@@ -495,7 +495,7 @@ E3Triangle_Submit(const TQ3TriangleData *triangleData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_SetData(TQ3GeometryObject theTriangle, const TQ3TriangleData *triangleData)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) theTriangle->instanceData;
+{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
 	TQ3Uns32			n;
 
 
@@ -524,7 +524,7 @@ E3Triangle_SetData(TQ3GeometryObject theTriangle, const TQ3TriangleData *triangl
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_GetData(TQ3GeometryObject theTriangle, TQ3TriangleData *triangleData)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) theTriangle->instanceData;
+{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
 	TQ3Uns32			n;
 
 
@@ -574,7 +574,7 @@ E3Triangle_EmptyData(TQ3TriangleData *triangleData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_GetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3Point3D *point)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) theTriangle->instanceData;
+{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
 
 
 
@@ -592,7 +592,7 @@ E3Triangle_GetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3P
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_SetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, const TQ3Point3D *point)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) theTriangle->instanceData;
+{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
 
 
 
@@ -613,7 +613,7 @@ E3Triangle_SetVertexPosition(TQ3GeometryObject theTriangle, TQ3Uns32 index, cons
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_GetVertexAttributeSet(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) theTriangle->instanceData;
+{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
 
 
 
@@ -632,7 +632,7 @@ E3Triangle_GetVertexAttributeSet(TQ3GeometryObject theTriangle, TQ3Uns32 index, 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Triangle_SetVertexAttributeSet(TQ3GeometryObject theTriangle, TQ3Uns32 index, TQ3AttributeSet attributeSet)
-{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) theTriangle->instanceData;
+{	TQ3TriangleData		*instanceData = (TQ3TriangleData *) E3ClassTree_FindInstanceData(theTriangle, kQ3GeometryTypeTriangle);
 
 
 

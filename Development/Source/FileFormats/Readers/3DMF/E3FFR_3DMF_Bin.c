@@ -120,12 +120,11 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent,TQ3FileObject theFile)
 
 
 	format = E3File_GetFileFormat(theFile);
-	fformatData = (TE3FFormat3DMF_Bin_Data*)format->instanceData;
+	fformatData = (TE3FFormat3DMF_Bin_Data*) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFBin);
 
 
 
-	int32Read = (TQ3XFFormatInt32ReadMethod)
-					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt32Read);
+	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
 
 	elemLocation = fformatData->MFData.baseData.currentStoragePosition;
 	
@@ -227,7 +226,7 @@ e3fformat_3dmf_bin_canread(TQ3StorageObject storage, TQ3ObjectType* theFileForma
 
 	*theFileFormatFound = kQ3ObjectTypeInvalid;
 	
-	readMethod = (TQ3XStorageReadDataMethod)E3ClassTree_GetMethod (storage->theClass, kQ3XMethodTypeStorageReadData);
+	readMethod = (TQ3XStorageReadDataMethod) E3ClassTree_GetMethodByObject(storage, kQ3XMethodTypeStorageReadData);
 	
 	if(readMethod != NULL){
 		// read 4 bytes, search for 3DMF or FMD3 (if swapped)
@@ -273,7 +272,7 @@ e3fformat_3dmf_bin_canread(TQ3StorageObject storage, TQ3ObjectType* theFileForma
 static TQ3Status
 e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 {
-	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) format->instanceData;
+	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFBin);
 	TQ3Status					status;
 	TQ3Int32					tocType;
 	TQ3Int32					tocSize;
@@ -288,10 +287,8 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 	TQ3XFFormatInt32ReadMethod	int32Read;
 	TQ3XFFormatInt64ReadMethod	int64Read;
 	
-	int32Read = (TQ3XFFormatInt32ReadMethod)
-					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt32Read);
-	int64Read = (TQ3XFFormatInt64ReadMethod)
-					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt64Read);
+	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
+	int64Read = (TQ3XFFormatInt64ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt64Read);
 					
 	status = int32Read(format, &tocType);
 	Q3_REQUIRE_OR_RESULT(tocType == kQ3ObjectTypeTOC, kQ3Failure);
@@ -410,7 +407,7 @@ static TQ3Boolean
 e3fformat_3dmf_bin_read_header(TQ3FileObject theFile)
 {
 	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
-	TE3FFormat3DMF_Bin_Data			*instanceData = (TE3FFormat3DMF_Bin_Data *) format->instanceData;
+	TE3FFormat3DMF_Bin_Data			*instanceData = (TE3FFormat3DMF_Bin_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFBin);
 
 	TQ3Boolean						result;
 	TQ3Uns32 						head;
@@ -478,7 +475,7 @@ static TQ3FileMode
 e3fformat_3dmf_bin_get_formattype(TQ3FileObject theFile)
 {
 	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
-	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) format->instanceData;
+	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFBin);
 	return (instanceData->MFData.fileMode);
 }
 
@@ -513,7 +510,7 @@ e3fformat_3dmf_bin_get_typestrptr(TQ3FileFormatObject format,TQ3Int32 objectType
 static TQ3Object
 e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3Int32 objectSize)
 {
-	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) format->instanceData;
+	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFBin);
 	TQ3UnknownBinaryData		unknownData;
 	TQ3XFFormatRawReadMethod	rawRead;
 	TQ3Object					theUnknown;
@@ -526,8 +523,7 @@ e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3
 		unknownData.contents = (char *) Q3Memory_Allocate(objectSize);
 		if(unknownData.contents == NULL)
 			return NULL;
-		rawRead = (TQ3XFFormatRawReadMethod)
-						E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatRawRead);
+		rawRead = (TQ3XFFormatRawReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatRawRead);
 		if(rawRead(format,(TQ3Uns8*)unknownData.contents,objectSize) != kQ3Success)
 			{
 			Q3Memory_Free(&unknownData.contents);
@@ -559,11 +555,10 @@ e3fformat_3dmf_bin_skipobject(TQ3FileObject theFile)
 	TQ3Int32 objectSize;
 	TQ3Status result;
 	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
-	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) format->instanceData;
+	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFBin);
 	TQ3XFFormatInt32ReadMethod	int32Read;
 
-	int32Read = (TQ3XFFormatInt32ReadMethod)
-					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt32Read);
+	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
 
 	result = Q3Int32_Read((TQ3Int32*)&objectType,theFile);
 	if(result == kQ3Success)
@@ -618,12 +613,11 @@ e3fformat_3dmf_bin_readobject(TQ3FileObject theFile)
 	TQ3Uns32 				i;
 	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
 	
-	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) format->instanceData;
+	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFBin);
 	TQ3XFFormatInt32ReadMethod	int32Read;
 
 	
-	int32Read = (TQ3XFFormatInt32ReadMethod)
-					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt32Read);
+	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
 
 	objLocation = instanceData->MFData.baseData.currentStoragePosition;
 
@@ -869,13 +863,12 @@ e3fformat_3dmf_bin_get_nexttype(TQ3FileObject theFile)
 	TQ3Int32					refID;
 	TQ3Uns32					previousPosition;
 	TQ3FileFormatObject format 		= E3File_GetFileFormat (theFile);
-	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) format->instanceData;
+	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFBin);
 	TQ3XFFormatInt32ReadMethod	int32Read;
 	E3ClassInfoPtr				theClass;
 
 	
-	int32Read = (TQ3XFFormatInt32ReadMethod)
-					E3ClassTree_GetMethod(format->theClass, kQ3XMethodTypeFFormatInt32Read);
+	int32Read = (TQ3XFFormatInt32ReadMethod) E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatInt32Read);
 
 	previousPosition = instanceData->MFData.baseData.currentStoragePosition;
 	
@@ -934,7 +927,7 @@ e3fformat_3dmf_bin_get_nexttype(TQ3FileObject theFile)
 static TQ3Status
 e3fformat_3dmf_bin_close(TQ3FileFormatObject format, TQ3Boolean abort)
 {
-	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) format->instanceData;
+	TE3FFormat3DMF_Bin_Data		*instanceData = (TE3FFormat3DMF_Bin_Data *) E3ClassTree_FindInstanceData(format, kQ3FFormatReaderType3DMFBin);
 	TQ3Status					status = kQ3Success;
 	TQ3Uns32					i;
 	

@@ -388,7 +388,7 @@ E3FFW_3DMF_Group(TQ3ViewObject       theView,
  	// submit the group start tag
 	qd3dStatus = e3ffw_3DMF_TraverseObject_CheckRef (theView,
 		(TE3FFormatW3DMF_Data*)fileFormatPrivate, theGroup,
-		Q3Object_GetLeafType (theGroup), theGroup->instanceData, &wroteReference);
+		Q3Object_GetLeafType (theGroup), E3ClassTree_FindInstanceData(theGroup, kQ3ObjectTypeLeaf), &wroteReference);
 
 	// If we actually wrote a reference instead of a group start tag, then we don't
 	// want to write contents and group end.
@@ -442,7 +442,7 @@ E3FFW_3DMF_Cancel(TQ3ViewObject theView, TE3FFormatW3DMF_Data *fileFormatPrivate
 TQ3Status
 E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort )
 {
-	TE3FFormatW3DMF_Data*	instanceData = (TE3FFormatW3DMF_Data*)format->instanceData;
+	TE3FFormatW3DMF_Data*	instanceData = (TE3FFormatW3DMF_Data*) E3ClassTree_FindInstanceData(format, kQ3ObjectTypeLeaf);
 	TQ3Status				status = kQ3Success;
 	TE3FFormat3DMF_TOC		*toc = instanceData->toc;
 	TQ3Uns32				i;
@@ -652,10 +652,10 @@ e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 		if(submittedObject != theObject)
 			{
 			fileFormatPrivate->lastObjectType = Q3Object_GetLeafType(submittedObject);
-			objectData = submittedObject->instanceData;
+			objectData = E3ClassTree_FindInstanceData(submittedObject, kQ3ObjectTypeLeaf);
 			}
 			
-		theClass = submittedObject->theClass;
+		theClass = E3ClassTree_GetClassByObject(submittedObject);
 		}
 	else
 		theClass = E3ClassTree_GetClassByType(objectType);
@@ -737,7 +737,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theFormat), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFormat, kQ3FileFormatTypeWriter), kQ3Failure);
 	
-	instanceData = (TE3FFormatW3DMF_Data *) theFormat->instanceData;
+	instanceData = (TE3FFormatW3DMF_Data *) E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf);
 
 	if(size != 0){
 		// retrieve the write method
@@ -805,7 +805,7 @@ E3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3
 	TQ3FileObject theFile = E3View_AccessFile (view);
 	
 	theFormat = E3View_AccessFileFormat(view);
-	instanceData = (TE3FFormatW3DMF_Data *) theFormat->instanceData;
+	instanceData = (TE3FFormatW3DMF_Data *) E3ClassTree_FindInstanceData(theFormat, kQ3ObjectTypeLeaf);
 	
 	qd3dStatus = Q3XObjectClass_GetType (objectClass, &objectType);
 

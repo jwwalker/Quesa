@@ -373,7 +373,7 @@ e3set_iterator_submit(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3Elemen
 
 
 	// Submit the element
-	qd3dStatus = E3View_SubmitImmediate(*theView, theType, theElement->instanceData);
+	qd3dStatus = E3View_SubmitImmediate(*theView, theType, E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf));
 
 	return(qd3dStatus);
 }
@@ -548,29 +548,25 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 		{
 		// Handle built in attributes
 		if ((theType > kQ3AttributeTypeNone) && (theType < kQ3AttributeTypeNumTypes))
-			qd3dStatus = E3Set_Add(theResult, theType, theElement->instanceData);
+			qd3dStatus = E3Set_Add(theResult, theType, E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf));
 
 
 		// Handle custom attributes
 		else
 			{
 			// See if we need to inherit
-			inheritMethod = (TQ3XAttributeInheritMethod) E3ClassTree_GetMethod(
-																theElement->theClass,
-																kQ3XMethodTypeAttributeInherit);
+			inheritMethod = (TQ3XAttributeInheritMethod) E3ClassTree_GetMethodByObject(theElement, kQ3XMethodTypeAttributeInherit);
 			if (inheritMethod == kQ3True)
 				{
 				// Use the copy inherit method to copy the attribute
-				copyInheritMethod = (TQ3XAttributeCopyInheritMethod) E3ClassTree_GetMethod(
-																		theElement->theClass,
-																		kQ3XMethodTypeAttributeCopyInherit);
+				copyInheritMethod = (TQ3XAttributeCopyInheritMethod) E3ClassTree_GetMethodByObject(theElement, kQ3XMethodTypeAttributeCopyInherit);
 				if (copyInheritMethod != NULL)
 					{
 					qd3dStatus    = kQ3Failure;
-					attributeData = Q3Memory_AllocateClear(E3ClassTree_GetInstanceSize(theElement->theClass));
+					attributeData = Q3Memory_AllocateClear(E3ClassTree_GetInstanceSize(E3ClassTree_GetClassByObject(theElement)));
 	
 					if (attributeData != NULL)
-						qd3dStatus = copyInheritMethod(theElement->instanceData, attributeData); 
+						qd3dStatus = copyInheritMethod(E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf), attributeData); 
 	
 					if (qd3dStatus == kQ3Success)
 						qd3dStatus = E3Set_Add(theResult, theType, attributeData);
@@ -581,7 +577,7 @@ e3attributeset_iterator_inherit(TQ3SetData *instanceData, TQ3ObjectType theType,
 	
 				// Or just copy it directly		
 				else
-					qd3dStatus = E3Set_Add(theResult, theType, theElement->instanceData);
+					qd3dStatus = E3Set_Add(theResult, theType, E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf));
 				}
 			}
 
@@ -1751,15 +1747,14 @@ E3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 			theElement = e3set_find_element(instanceData, theType);
 			if (theElement != NULL)
 				{
-				copyReplaceMethod = (TQ3XElementCopyReplaceMethod) E3ClassTree_GetMethod(theElement->theClass,
-																   kQ3XMethodTypeElementCopyReplace);
+				copyReplaceMethod = (TQ3XElementCopyReplaceMethod) E3ClassTree_GetMethodByObject(theElement, kQ3XMethodTypeElementCopyReplace);
 				if (copyReplaceMethod != NULL)
-					qd3dStatus = copyReplaceMethod(data, theElement->instanceData);
+					qd3dStatus = copyReplaceMethod(data, E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf));
 				else
 					{
-					dataSize = E3ClassTree_GetInstanceSize(theElement->theClass);
+					dataSize = E3ClassTree_GetInstanceSize(E3ClassTree_GetClassByObject(theElement));
 					if (dataSize > 0)
-						Q3Memory_Copy(data, theElement->instanceData, dataSize);
+						Q3Memory_Copy(data, E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf), dataSize);
 					qd3dStatus = kQ3Success;
 					}
 				
@@ -1855,10 +1850,10 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 			if (theElement == NULL)
 				return(kQ3Failure);
 
-			if (theElement->theClass == NULL)
+			if (E3ClassTree_GetClassByObject(theElement) == NULL)
 				return(kQ3Failure);
 				
-			dataSize = E3ClassTree_GetInstanceSize(theElement->theClass);
+			dataSize = E3ClassTree_GetInstanceSize(E3ClassTree_GetClassByObject(theElement));
 
 
 			// If there's nothing to copy, bail. It is OK for dataSize to be 0, as the
@@ -1869,13 +1864,12 @@ E3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 
 
 			// Copy the element data
-			copyGetMethod = (TQ3XElementCopyGetMethod) E3ClassTree_GetMethod(theElement->theClass,
-																  kQ3XMethodTypeElementCopyGet);
+			copyGetMethod = (TQ3XElementCopyGetMethod) E3ClassTree_GetMethodByObject(theElement, kQ3XMethodTypeElementCopyGet);
 			if (copyGetMethod != NULL)
-				qd3dStatus = copyGetMethod((void *) theElement->instanceData, (void *) data);
+				qd3dStatus = copyGetMethod(E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf), (void *) data);
 			else
 				{
-				Q3Memory_Copy(theElement->instanceData, data, dataSize);
+				Q3Memory_Copy(E3ClassTree_FindInstanceData(theElement, kQ3ObjectTypeLeaf), data, dataSize);
 				qd3dStatus = kQ3Success;
 				}
 			}

@@ -59,7 +59,7 @@
 //-----------------------------------------------------------------------------
 static TQ3Status 
 e3file_format_attach(TQ3FileObject theFile,TQ3FileFormatObject theFileFormat)
-{	TE3FileData				*instanceData = (TE3FileData *) theFile->instanceData;
+{	TE3FileData				*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 
 	if( (theFileFormat != instanceData->format) && (instanceData->format != NULL))
 		{
@@ -267,7 +267,7 @@ E3File_UnregisterClass()
 void
 E3File_CallIdle(TQ3FileObject theFile)
 {	
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	if(instanceData->idleMethod != NULL)
 		instanceData->idleMethod (theFile,instanceData->idleData);
 }
@@ -297,7 +297,7 @@ E3File_New(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3File_GetStorage(TQ3FileObject theFile, TQ3StorageObject *storage)
-{	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+{	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 
 
 
@@ -328,7 +328,7 @@ E3File_GetStorage(TQ3FileObject theFile, TQ3StorageObject *storage)
 TQ3Status
 E3File_SetStorage(TQ3FileObject theFile, TQ3StorageObject storage)
 {
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Closed),kQ3Failure);
 
 
@@ -349,7 +349,7 @@ E3File_SetStorage(TQ3FileObject theFile, TQ3StorageObject storage)
 TQ3Status
 E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 {
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3FileFormatObject format;
 	TQ3ObjectType formatType;
 	TQ3XFFormatReadHeaderMethod readHeader;
@@ -364,7 +364,7 @@ E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 	Q3_REQUIRE_OR_RESULT((instanceData->storage != NULL),kQ3Failure);
 	
 	// Open the storage for reading
-	open = (TQ3XStorageOpenMethod)E3ClassTree_GetMethod (instanceData->storage->theClass, kQ3XMethodTypeStorageOpen);
+	open = (TQ3XStorageOpenMethod)E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageOpen);
 	if(open != NULL)
 		openStatus = open(instanceData->storage,kQ3False);
 	// Find a FileFormat Capable of read this file
@@ -381,7 +381,7 @@ E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 			instanceData->status = kE3_File_Status_Reading;
 			instanceData->reason = kE3_File_Reason_OK;
 			// lets the fileFormat orient itself;
-			readHeader = (TQ3XFFormatReadHeaderMethod)E3ClassTree_GetMethod (format->theClass, kQ3XMethodTypeFFormatReadHeader);
+			readHeader = (TQ3XFFormatReadHeaderMethod)E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatReadHeader);
 			if(readHeader != NULL)
 				readHeaderStatus = readHeader(theFile);
 			
@@ -389,7 +389,7 @@ E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 			if(mode != NULL)
 				{
 				// get the custom format ID;
-				formatTypeMethod = (TQ3XFFormatGetFormatTypeMethod)E3ClassTree_GetMethod (format->theClass, kQ3XMethodTypeFFormatGetFormatType);
+				formatTypeMethod = (TQ3XFFormatGetFormatTypeMethod)E3ClassTree_GetMethodByObject(format, kQ3XMethodTypeFFormatGetFormatType);
 				if(formatTypeMethod != NULL)
 					*mode = formatTypeMethod(theFile);
 				else
@@ -408,7 +408,7 @@ E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 		}
 	if(openStatus == kQ3Success){
 		// close the storage
-		close = (TQ3XStorageCloseMethod)E3ClassTree_GetMethod (instanceData->storage->theClass, kQ3XMethodTypeStorageClose);
+		close = (TQ3XStorageCloseMethod)E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageClose);
 		if(close != NULL)
 			(void)close(instanceData->storage);
 		}
@@ -426,7 +426,7 @@ E3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 TQ3Status
 E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 {
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3FileFormatObject format;
 
 	TQ3XStorageOpenMethod open;
@@ -472,7 +472,7 @@ E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 	if(format != NULL){
 		if(Q3Object_IsType(format,kQ3FileFormatTypeWriter) == kQ3True){
 			// Open the storage for writing
-			open = (TQ3XStorageOpenMethod)E3ClassTree_GetMethod (instanceData->storage->theClass, kQ3XMethodTypeStorageOpen);
+			open = (TQ3XStorageOpenMethod) E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageOpen);
 			if(open != NULL)
 				openStatus = open(instanceData->storage,kQ3True);
 			if(openStatus == kQ3Success){
@@ -489,7 +489,7 @@ E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 					}
 				else{
 					// close the storage
-					close = (TQ3XStorageCloseMethod)E3ClassTree_GetMethod (instanceData->storage->theClass, kQ3XMethodTypeStorageClose);
+					close = (TQ3XStorageCloseMethod) E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageClose);
 					if(close != NULL)
 						(void)close(instanceData->storage);
 					}
@@ -515,7 +515,7 @@ E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 TQ3Status
 E3File_IsOpen(TQ3FileObject theFile, TQ3Boolean *isOpen)
 {
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	*isOpen = kQ3True;
 	if(instanceData->status == kE3_File_Status_Closed)
 		*isOpen = kQ3False;
@@ -533,7 +533,7 @@ E3File_IsOpen(TQ3FileObject theFile, TQ3Boolean *isOpen)
 TQ3Status
 E3File_GetMode(TQ3FileObject theFile, TQ3FileMode *mode)
 {
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status != kE3_File_Status_Closed),kQ3Failure);
 	
@@ -552,14 +552,14 @@ TQ3Status
 E3File_GetVersion(TQ3FileObject theFile, TQ3FileVersion *version)
 {	
 	TQ3FFormatBaseData* fformatData;
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	
 	
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status != kE3_File_Status_Closed),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 	
-	fformatData = (TQ3FFormatBaseData*)instanceData->format->instanceData;
+	fformatData = (TQ3FFormatBaseData*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
 	*version = fformatData->fileVersion;
 	return(kQ3Success);
@@ -574,7 +574,7 @@ E3File_GetVersion(TQ3FileObject theFile, TQ3FileVersion *version)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3File_Close(TQ3FileObject theFile)
-{	TE3FileData				*instanceData = (TE3FileData *) theFile->instanceData;
+{	TE3FileData				*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XStorageCloseMethod	closeStorage;
 	TQ3XFFormatCloseMethod	closeFormat;
 
@@ -585,12 +585,10 @@ E3File_Close(TQ3FileObject theFile)
 	closeFormat  = NULL;
 
 	if (instanceData->storage != NULL)
-		closeStorage = (TQ3XStorageCloseMethod)
-						E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageClose);
+		closeStorage = (TQ3XStorageCloseMethod) E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageClose);
 
 	if (instanceData->format != NULL)
-		closeFormat = (TQ3XFFormatCloseMethod)
-						E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatClose);
+		closeFormat = (TQ3XFFormatCloseMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatClose);
 
 
 
@@ -623,7 +621,7 @@ E3File_Close(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3File_Cancel(TQ3FileObject theFile)
-{	TE3FileData				*instanceData = (TE3FileData *) theFile->instanceData;
+{	TE3FileData				*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XStorageCloseMethod	closeStorage;
 	TQ3XFFormatCloseMethod	closeFormat;
 
@@ -634,12 +632,10 @@ E3File_Cancel(TQ3FileObject theFile)
 	closeFormat  = NULL;
 
 	if (instanceData->storage != NULL)
-		closeStorage = (TQ3XStorageCloseMethod)
-						E3ClassTree_GetMethod(instanceData->storage->theClass, kQ3XMethodTypeStorageClose);
+		closeStorage = (TQ3XStorageCloseMethod) E3ClassTree_GetMethodByObject(instanceData->storage, kQ3XMethodTypeStorageClose);
 
 	if (instanceData->format != NULL)
-		closeFormat = (TQ3XFFormatCloseMethod)
-						E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatClose);
+		closeFormat = (TQ3XFFormatCloseMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatClose);
 
 
 
@@ -673,7 +669,7 @@ E3File_Cancel(TQ3FileObject theFile)
 TQ3ObjectType
 E3File_GetNextObjectType(TQ3FileObject theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatGetNextTypeMethod	getNextObjectType;
 
 
@@ -681,8 +677,7 @@ E3File_GetNextObjectType(TQ3FileObject theFile)
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
 
-	getNextObjectType = (TQ3XFFormatGetNextTypeMethod)
-							E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatGetNextType);
+	getNextObjectType = (TQ3XFFormatGetNextTypeMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatGetNextType);
 
 
 
@@ -726,14 +721,13 @@ E3File_IsNextObjectOfType(TQ3FileObject theFile, TQ3ObjectType ofType)
 TQ3Object
 E3File_ReadObject(TQ3FileObject theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatReadObjectMethod		readObject;
 
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),NULL);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),NULL);
 
-	readObject = (TQ3XFFormatReadObjectMethod)
-						E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatReadObject);
+	readObject = (TQ3XFFormatReadObjectMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatReadObject);
 						
 	E3File_CallIdle(theFile);
 
@@ -753,14 +747,13 @@ E3File_ReadObject(TQ3FileObject theFile)
 TQ3Status
 E3File_SkipObject(TQ3FileObject theFile)
 {
-	TE3FileData						*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData						*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	TQ3XFFormatSkipObjectMethod		skipObject;
 
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 
-	skipObject = (TQ3XFFormatSkipObjectMethod)
-							E3ClassTree_GetMethod(instanceData->format->theClass, kQ3XMethodTypeFFormatSkipObject);
+	skipObject = (TQ3XFFormatSkipObjectMethod) E3ClassTree_GetMethodByObject(instanceData->format, kQ3XMethodTypeFFormatSkipObject);
 
 	E3File_CallIdle(theFile);
 
@@ -781,7 +774,7 @@ TQ3Boolean
 E3File_IsEndOfData(TQ3FileObject theFile)
 {
 	TE3FFormat3DMF_Data* fformatData;
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	
 	
 	
@@ -789,7 +782,7 @@ E3File_IsEndOfData(TQ3FileObject theFile)
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3True);
 	Q3_REQUIRE_OR_RESULT((instanceData->mode <= 3),kQ3True); // only for 3DMF
 	
-	fformatData = (TE3FFormat3DMF_Data*)instanceData->format->instanceData;
+	fformatData = (TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
 	return(fformatData->noMoreObjectData);
 }
@@ -805,7 +798,7 @@ TQ3Boolean
 E3File_IsEndOfContainer(TQ3FileObject theFile, TQ3Object rootObject)
 {
 	TE3FFormat3DMF_Data* fformatData;
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	
 	
 	
@@ -813,7 +806,7 @@ E3File_IsEndOfContainer(TQ3FileObject theFile, TQ3Object rootObject)
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3True);
 	Q3_REQUIRE_OR_RESULT((instanceData->mode <= 3),kQ3True); // only for 3DMF
 	
-	fformatData = (TE3FFormat3DMF_Data*)instanceData->format->instanceData;
+	fformatData = (TE3FFormat3DMF_Data*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
 	return((TQ3Boolean)((!fformatData->inContainer) || (fformatData->baseData.noMoreObjects)) );
 }
@@ -829,14 +822,14 @@ TQ3Boolean
 E3File_IsEndOfFile(TQ3FileObject theFile)
 {
 	TQ3FFormatBaseData* fformatData;
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	
 	
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3True);
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3True);
 	
-	fformatData = (TQ3FFormatBaseData*)instanceData->format->instanceData;
+	fformatData = (TQ3FFormatBaseData*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
 	return(fformatData->noMoreObjects);
 }
@@ -888,7 +881,7 @@ TQ3Status
 E3File_SetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState readGroupState)
 {
 	TQ3FFormatBaseData* fformatData;
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 		
 	
 	Q3_REQUIRE_OR_RESULT((instanceData->status == kE3_File_Status_Reading),kQ3Failure);
@@ -897,7 +890,7 @@ E3File_SetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState readGroupStat
 	Q3_REQUIRE_OR_RESULT((readGroupState == kQ3FileReadWholeGroup) ||
 						(readGroupState == kQ3FileReadObjectsInGroup),kQ3Failure);
 	
-	fformatData = (TQ3FFormatBaseData*)instanceData->format->instanceData;
+	fformatData = (TQ3FFormatBaseData*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
 	fformatData->readInGroup = (TQ3Boolean) (readGroupState == kQ3FileReadWholeGroup);
 		
@@ -916,7 +909,7 @@ TQ3Status
 E3File_GetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState *readGroupState)
 {
 	TQ3FFormatBaseData* fformatData;
-	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 	
 	*readGroupState = kQ3FileReadWholeGroup;
 	
@@ -925,7 +918,7 @@ E3File_GetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState *readGroupSta
 	Q3_REQUIRE_OR_RESULT((instanceData->format != NULL),kQ3Failure);
 	Q3_REQUIRE_OR_RESULT((instanceData->mode <= 3),kQ3Failure); // only for 3DMF
 	
-	fformatData = (TQ3FFormatBaseData*)instanceData->format->instanceData;
+	fformatData = (TQ3FFormatBaseData*) E3ClassTree_FindInstanceData(instanceData->format, kQ3ObjectTypeLeaf);
 
 	if (fformatData->readInGroup == kQ3False)
 		*readGroupState = kQ3FileReadObjectsInGroup;
@@ -946,7 +939,7 @@ E3File_GetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState *readGroupSta
 //-----------------------------------------------------------------------------
 TQ3Status
 E3File_SetIdleMethod(TQ3FileObject theFile, TQ3FileIdleMethod idle, const void *idleData)
-{	TE3FileData		*instanceData = (TE3FileData *) theFile->instanceData;
+{	TE3FileData		*instanceData = (TE3FileData *) E3ClassTree_FindInstanceData(theFile, kQ3SharedTypeFile);
 
 
 

@@ -316,7 +316,7 @@ e3geom_point_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_point_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PointData		*instanceData = (TQ3PointData *) theObject->instanceData;
+{	TQ3PointData		*instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePoint);
 
 
 
@@ -466,7 +466,7 @@ E3Point_Submit(const TQ3PointData *pointData, TQ3ViewObject theView)
 TQ3Status
 E3Point_GetData(TQ3GeometryObject thePoint, TQ3PointData *pointData)
 {
-	TQ3PointData *		instanceData = (TQ3PointData *) thePoint->instanceData ;
+	TQ3PointData *		instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(thePoint, kQ3GeometryTypePoint);
 
 	//return the data
 	pointData->point = instanceData->point ;
@@ -486,7 +486,7 @@ E3Point_GetData(TQ3GeometryObject thePoint, TQ3PointData *pointData)
 TQ3Status
 E3Point_SetData(TQ3GeometryObject thePoint, const TQ3PointData *pointData)
 {
-	TQ3PointData *			instanceData = (TQ3PointData *) thePoint->instanceData ;
+	TQ3PointData *			instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(thePoint, kQ3GeometryTypePoint);
 	
 	//set the point
 	instanceData->point	= pointData->point ;
@@ -525,7 +525,7 @@ E3Point_EmptyData(TQ3PointData *pointData)
 TQ3Status
 E3Point_SetPosition(TQ3GeometryObject thePoint, const TQ3Point3D *position)
 {
-	TQ3PointData *			instanceData = (TQ3PointData *) thePoint->instanceData ;
+	TQ3PointData *			instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(thePoint, kQ3GeometryTypePoint);
 	
 	//set the position
 	instanceData->point = *position ;
@@ -545,7 +545,7 @@ E3Point_SetPosition(TQ3GeometryObject thePoint, const TQ3Point3D *position)
 TQ3Status
 E3Point_GetPosition(TQ3GeometryObject thePoint, TQ3Point3D *position)
 {
-	TQ3PointData *			instanceData = (TQ3PointData *) thePoint->instanceData ;
+	TQ3PointData *			instanceData = (TQ3PointData *) E3ClassTree_FindInstanceData(thePoint, kQ3GeometryTypePoint);
 
 	*position = instanceData->point ;
 	

@@ -724,7 +724,7 @@ e3geom_polyhedron_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obj
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_polyhedron_get_attribute(TQ3GeometryObject theObject)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) theObject->instanceData;
+{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(theObject, kQ3GeometryTypePolyhedron);
 
 
 
@@ -870,7 +870,7 @@ E3Polyhedron_Submit(const TQ3PolyhedronData *polyhedronData, TQ3ViewObject theVi
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *polyhedronData)
-{	TQ3PolyhedronData			*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData			*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 	TQ3Status					q3status;
 
 	E3Polyhedron_EmptyData( instanceData );
@@ -891,7 +891,7 @@ E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *p
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetData(TQ3GeometryObject thePolyhedron, TQ3PolyhedronData *polyhedronData)
-{	TQ3PolyhedronData			*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData			*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 	TQ3Status					q3status;
 
 
@@ -941,7 +941,7 @@ E3Polyhedron_EmptyData(TQ3PolyhedronData *polyhedronData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, TQ3Point3D *point)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 
 
 
@@ -960,7 +960,7 @@ E3Polyhedron_GetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, const TQ3Point3D *point)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 
 
 
@@ -981,7 +981,7 @@ E3Polyhedron_SetVertexPosition(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, 
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, TQ3AttributeSet *attributeSet)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 
 
 
@@ -1000,7 +1000,7 @@ E3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 ind
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 index, TQ3AttributeSet attributeSet)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 
 
 
@@ -1025,7 +1025,7 @@ E3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject thePolyhedron, TQ3Uns32 ind
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleIndex, TQ3PolyhedronTriangleData *triangleData)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 
 
 
@@ -1055,7 +1055,7 @@ E3Polyhedron_GetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleI
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleIndex, const TQ3PolyhedronTriangleData *triangleData)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 
 
 
@@ -1087,7 +1087,7 @@ E3Polyhedron_SetTriangleData(TQ3GeometryObject thePolyhedron, TQ3Uns32 triangleI
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_GetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, TQ3PolyhedronEdgeData *edgeData)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 
 
 
@@ -1119,7 +1119,7 @@ E3Polyhedron_GetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, TQ
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Polyhedron_SetEdgeData(TQ3GeometryObject thePolyhedron, TQ3Uns32 edgeIndex, const TQ3PolyhedronEdgeData *edgeData)
-{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) thePolyhedron->instanceData;
+{	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) E3ClassTree_FindInstanceData(thePolyhedron, kQ3GeometryTypePolyhedron);
 
 
 
