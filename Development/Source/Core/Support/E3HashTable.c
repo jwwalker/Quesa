@@ -117,7 +117,7 @@ e3hash_find_node(E3HashTablePtr theTable, TQ3ObjectType theKey)
 	// Calculate the index for the node
 	thePtr   = (TQ3Uns8 *) &theKey;
 	
-	theIndex = (27*thePtr[0] + 9*thePtr[1] + 3*thePtr[2] + thePtr[3]) % theTable->tableSize;
+	theIndex = (27*thePtr[0] + 9*thePtr[1] + 3*thePtr[2] + thePtr[3]) & (theTable->tableSize - 1);
 
 	Q3_ASSERT(theIndex >= 0 && theIndex < theTable->tableSize);
 
@@ -220,6 +220,7 @@ E3HashTable_Create(TQ3Uns32 tableSize)
 
 	// Validate our parameters
 	Q3_ASSERT(tableSize != 0 && tableSize < 10000);
+	Q3_ASSERT( (tableSize & (tableSize - 1)) == 0 );	// power of 2
 
 
 
