@@ -79,6 +79,15 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 		case kQ3GeometryTypePoint:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Point;
 			break;
+
+		case kQ3GeometryTypeEllipsoid:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Ellipsoid;
+			break;
+
+		case kQ3GeometryTypeTriMesh:
+			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriMesh;
+			break;
+
 /*
 		case kQ3GeometryTypeMarker:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Marker;
@@ -149,9 +158,6 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 
 		case kQ3GeometryTypeTorus:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_Torus;
-			break;
-		case kQ3GeometryTypeTriMesh:
-			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_TriMesh;
 			break;
 */
 		}
