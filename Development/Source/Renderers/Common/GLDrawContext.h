@@ -55,24 +55,34 @@ extern "C" {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-// Create/Destroy a GL context
-void		*GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags);
-void		GLDrawContext_Destroy(void **glContext);
+void				*GLDrawContext_New(
+								TQ3ViewObject			theView,
+								TQ3DrawContextObject	theDrawContext,
+								GLbitfield				*clearFlags);
 
+void				GLDrawContext_Destroy(
+								void					**glContext);
 
-// Swap the back and front buffers
-void		GLDrawContext_SwapBuffers(void *glContext);
+void				GLDrawContext_SwapBuffers(
+								void					*glContext);
 
+void				GLDrawContext_SetCurrent(
+								void					*glContext,
+								TQ3Boolean				forceSet);
 
-// Make a context active
-void		GLDrawContext_SetCurrent(void *glContext, TQ3Boolean forceSet);
+void				GLDrawContext_SetClearFlags(
+								TQ3DrawContextObject	theDrawContext,
+								GLbitfield				*clearFlags);
 
+void				GLDrawContext_SetBackgroundColour(
+								TQ3DrawContextObject	theDrawContext);
 
-// Update the state
-void		GLDrawContext_SetClearFlags(TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags);
-void		GLDrawContext_SetBackgroundColour(TQ3DrawContextObject theDrawContext);
-TQ3Boolean	GLDrawContext_UpdateWindowClip(void *glContext);
-TQ3Boolean	GLDrawContext_UpdateWindowPosition(void *glContext);
+TQ3Boolean			GLDrawContext_UpdateWindowClip(
+								void					*glContext);
+
+TQ3Boolean			GLDrawContext_UpdateWindowPosition(
+								void					*glContext);
+
 
 
 
