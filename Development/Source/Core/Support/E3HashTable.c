@@ -108,7 +108,7 @@ e3hash_find_node(E3HashTablePtr theTable, TQ3ObjectType theKey)
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(theTable);
-	Q3_ASSERT_VALID_PTR(theKey);
+	Q3_ASSERT(theKey != kQ3ObjectTypeInvalid);
 
 
 
