@@ -82,15 +82,17 @@ extern "C" {
 //-----------------------------------------------------------------------------
 //		Note :	A TE3Pool consists of zero or more TE3PoolBlock's arranged in a
 //				(singly) linked-list. The TE3Pool itself has a pointer to the
-//				most recently added TE3PoolBlock.
+//				most recently added TE3PoolBlock (or NULL).
 //
 //				Each TE3PoolBlock has a preset number of TE3PoolItem's. Each
 //				TE3PoolItem is either free or allocated. The free TE3PoolItem's
 //				are arranged in a (singly) linked-list. The TE3Pool itself has
-//				a pointer to the most recently freed TE3PoolItem.
+//				a pointer to the most recently freed TE3PoolItem (or NULL).
+//				Thus E3Pool_Free and E3Pool_Allocate work like "push" and
+//				"pop": last-freed, first-allocated.
 //
 //				A client may opt to "tag" each TE3PoolBlock with a fixed tag.
-//				In this case, the tag item is the last item in the block. (A
+//				In this case, the tag item is the first item in the block. (A
 //				"tag" is simply a piece of data that is common to all items in
 //				a pool. For example, a particular mesh is common to all parts
 //				of a mesh. All of the handles to parts of the mesh can be
@@ -128,10 +130,11 @@ typedef struct TE3Pool {
 //		commented out and implemented directly as a macro. (Some compliers can
 //		automatically inline a function if it is defined in the source code
 //		before it is used. Unfortunately, the E3FooXxx_Yyy glue functions are
-//		defined in other source files and thus cannot take advantage of this
-//		capability. Thus, functions that should be inlined that are called by
+//		defined in other source files and thus can not take advantage of this
+//		capability.) Thus, functions that should be inlined that are called by
 //		E3FooXxx_Yyy glue functions are defined as macros to ensure they are
-//		inlined.)
+//		inlined. Note that, unlike true functions, macros are not type-safe.
+//		Thus only private, internal functions should be defined as macros.
 //-----------------------------------------------------------------------------
 //		TE3Pool member functions
 //-----------------------------------------------------------------------------
@@ -191,7 +194,7 @@ E3PoolItem_Tag			(const TE3PoolItem*		itemPtr,
 //
 //		2)	In a single source file, define the E3FooPool_* functions:
 //
-//			E3POOL_DEFINE(TE3Foo, E3Foo, prefix, blockLength);
+//			E3POOL_DEFINE (TE3Foo, E3Foo, prefix, blockLength);
 //
 //		Here "prefix" is a possibly empty storage class specifier, for example,
 //		"static", which is applied to every defined function; and "blockLength"

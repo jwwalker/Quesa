@@ -109,6 +109,12 @@ typedef struct TE3Array {
 //				tail node itself) in order to reduce the size of a TE3List to
 //				match the size of a TE3Array, even though this requires
 //				allocating an additional node for each TE3List.
+//
+//				Also, by defining a TE3List to have a pointer to its tail node
+//				(rather than having the tail node itself), a TE3List structure
+//				can be relocated in memory without invalidating the list. Thus
+//				more complicated structures that contain a TE3List or TE3Array
+//				can be freely relocated in memory.
 //-----------------------------------------------------------------------------
 // A generic node within a list
 typedef struct TE3ListNode {
@@ -175,12 +181,13 @@ typedef enum TE3SequenceMasks {
 //		In some cases, both time and space can be saved if the E3Xxx_Yyy
 //		function is "inlined". In these cases, the E3Xxx_Yyy function is
 //		commented out and implemented directly as a macro. (Some compliers can
-//		automatically   a function if it is defined in the source code
+//		automatically inline a function if it is defined in the source code
 //		before it is used. Unfortunately, the E3FooXxx_Yyy glue functions are
 //		defined in other source files and thus can not take advantage of this
-//		capability. Thus, functions that should be inlined that are called by
+//		capability.) Thus, functions that should be inlined that are called by
 //		E3FooXxx_Yyy glue functions are defined as macros to ensure they are
-//		inlined.)
+//		inlined. Note that, unlike true functions, macros are not type-safe.
+//		Thus only private, internal functions should be defined as macros.
 //-----------------------------------------------------------------------------
 //		TE3Sequence member functions
 //-----------------------------------------------------------------------------
@@ -265,7 +272,7 @@ TE3SequenceItem*
 E3Array_FirstItem		(TE3Array*				arrayPtr);
 */
 #define /* inline */														\
-E3Array_FirstItem(																\
+E3Array_FirstItem(															\
 	arrayPtr)																\
 (																			\
 	/* validate our parameters */											\
@@ -276,6 +283,10 @@ E3Array_FirstItem(																\
 
 TE3SequenceItem*
 E3Array_LastItem		(TE3Array*				arrayPtr,
+						 TQ3Uns32				itemSize);
+
+TE3SequenceItem*
+E3Array_TailItem		(TE3Array*				arrayPtr,
 						 TQ3Uns32				itemSize);
 
 TE3SequenceItem*
@@ -298,6 +309,12 @@ void
 E3Array_Destroy			(TE3Array*				arrayPtr,
 						 TQ3Uns32				itemSize,
 						 void					(*destroyItemFunc)(TE3SequenceItem*));
+
+TE3SequenceItem*
+E3Array_Find			(TE3Array*				arrayPtr,
+						 TQ3Uns32				itemSize,
+						 TQ3Boolean				(*itemParameterFunc)(const TE3SequenceItem*, void*),
+						 void*					parameterPtr);
 
 TQ3Status
 E3Array_DoForEach		(TE3Array*				arrayPtr,
@@ -322,14 +339,54 @@ E3Array_OrForEach		(TE3Array*				arrayPtr,
 
 
 //=============================================================================
+//		TE3PtrArray member functions
+//-----------------------------------------------------------------------------
+void**
+E3PtrArray_FindPtr		(TE3Array*				arrayPtr,
+						 void*					ptr);
+
+/*
+TQ3Boolean
+E3PtrArray_HasPtr		(TE3Array*				arrayPtr,
+						 void*					ptr);
+*/
+#define /* inline */														\
+E3PtrArray_HasPtr(															\
+	arrayPtr,																\
+	ptr)																	\
+(																			\
+	/* validate our parameters */											\
+	Q3_ASSERT_VALID_PTR(arrayPtr),											\
+																			\
+	E3PtrArray_FindPtr(arrayPtr, ptr) != NULL ? kQ3True : kQ3False			\
+)
+
+
+
+
+
+//=============================================================================
 //		TE3List member functions
 //-----------------------------------------------------------------------------
 //		Note :	Lower-level functions are defined before higher-level functions
 //				in order to facilitate automatic inlining of functions.
 //-----------------------------------------------------------------------------
+/*
 TE3SequenceItem*
 E3ListNode_Item			(TE3ListNode*			nodePtr,
 						 TQ3Uns32				itemOffset);
+*/
+#define /* inline */														\
+E3ListNode_Item(															\
+	nodePtr,																\
+	itemOffset)																\
+(																			\
+	/* validate our parameters */											\
+	Q3_ASSERT_VALID_PTR(nodePtr),											\
+	Q3_ASSERT((itemOffset) >= sizeof(TE3ListNode)),							\
+																			\
+	(TE3SequenceItem*) (((char*) (nodePtr)) + (itemOffset))					\
+)
 
 /*
 TE3ListNode*
@@ -349,17 +406,6 @@ E3ListItem_Node(															\
 )
 
 /*
-TQ3Int32
-E3List_Length			(const TE3List*			listPtr);
-*/
-#define /* inline */														\
-E3List_Length(																\
-	listPtr)																\
-(																			\
-	E3Sequence_Length(E3_UP_CAST(const TE3Sequence*, (listPtr)))			\
-)
-
-/*
 TE3ListNode*
 E3List_TailNode			(TE3List*				listPtr);
 */
@@ -371,6 +417,17 @@ E3List_TailNode(															\
 	Q3_ASSERT_VALID_PTR(listPtr),											\
 																			\
 	(listPtr)->tailNodePtr_private											\
+)
+
+/*
+TQ3Int32
+E3List_Length			(const TE3List*			listPtr);
+*/
+#define /* inline */														\
+E3List_Length(																\
+	listPtr)																\
+(																			\
+	E3Sequence_Length(E3_UP_CAST(const TE3Sequence*, (listPtr)))			\
 )
 
 TE3SequenceItem*
@@ -408,6 +465,12 @@ E3List_Clear			(TE3List*				listPtr,
  						 TQ3Uns32				itemOffset,
 						 void					(*destroyItemFunc)(TE3SequenceItem*));
 
+TE3SequenceItem*
+E3List_Find				(TE3List*				listPtr,
+						 TQ3Uns32				itemOffset,
+						 TQ3Boolean				(*itemParameterFunc)(const TE3SequenceItem*, void*),
+						 void*					parameterPtr);
+
 TQ3Status
 E3List_DoForEach		(TE3List*				listPtr,
 						 TQ3Uns32				itemOffset,
@@ -436,32 +499,8 @@ E3List_InsertBeforeNodeItem
 
 /*
 TE3SequenceItem*
-E3List_InsertBeforeItemItem
+E3List_PushBackItem
 						(TE3List*				listPtr,
-						 TQ3Uns32				itemOffset,
-						 TQ3Uns32				itemSize,
-						 TE3SequenceItem*		nextItemPtr,
-						 const TE3SequenceItem*	thatItemPtr);
-*/
-#define /* inline */														\
-E3List_InsertBeforeItemItem(												\
-	listPtr,																\
-	itemOffset,																\
-	itemSize,																\
-	nextItemPtr,															\
-	thatItemPtr)															\
-(																			\
-	E3List_InsertBeforeNodeItem(											\
-		listPtr,															\
-		itemOffset,															\
-		itemSize,															\
-		E3ListItem_Node(nextItemPtr, itemOffset),							\
-		thatItemPtr)														\
-)
-
-/*
-TE3SequenceItem*
-E3List_PushBackItem		(TE3List*				listPtr,
 						 TQ3Uns32				itemOffset,
 						 TQ3Uns32				itemSize,
 						 const TE3SequenceItem*	thatItemPtr);
@@ -500,27 +539,6 @@ E3List_SpliceBeforeNodeList
 
 /*
 void
-E3List_SpliceBeforeItemList
-						(TE3List*				listPtr,
-						 TQ3Uns32				itemOffset,
-						 TE3SequenceItem*		nextItemPtr,
-						 TE3List*				thatListPtr);
-*/
-#define /* inline */														\
-E3List_SpliceBeforeItemList(												\
-	listPtr,																\
-	itemOffset,																\
-	nextItemPtr,															\
-	thatListPtr)															\
-(																			\
-	E3List_SpliceBeforeNodeList(											\
-		listPtr,															\
-		E3ListItem_Node(nextItemPtr, itemOffset),							\
-		thatListPtr)														\
-)
-
-/*
-void
 E3List_SpliceBackList	(TE3List*				listPtr,
 						 TE3List*				thatListPtr);
 */
@@ -536,7 +554,7 @@ E3List_SpliceBackList(														\
 )
 
 void
-E3List_SpliceBeforeNodeListNode
+E3List_SpliceBeforeNodeNode
 						(TE3List*				listPtr,
 						 TE3ListNode*			nextNodePtr,
 						 TE3List*				thatListPtr,
@@ -544,68 +562,77 @@ E3List_SpliceBeforeNodeListNode
 
 /*
 void
-E3List_SpliceBeforeItemListItem
-						(TE3List*				listPtr,
-						 TQ3Uns32				itemOffset,
-						 TE3SequenceItem*		nextItemPtr,
-						 TE3List*				thatListPtr,
-						 TE3SequenceItem*		thatItemPtr);
-*/
-#define /* inline */														\
-E3List_SpliceBeforeItemListItem(											\
-	listPtr,																\
-	itemOffset,																\
-	nextItemPtr,															\
-	thatListPtr,															\
-	thatItemPtr)															\
-(																			\
-	E3List_SpliceBeforeNodeListNode(										\
-		listPtr,															\
-		E3ListItem_Node(nextItemPtr, itemOffset),							\
-		thatListPtr,														\
-		E3ListItem_Node(thatItemPtr, itemOffset))							\
-)
-
-/*
-void
-E3List_SpliceBackListNode
+E3List_SpliceBackNode
 						(TE3List*				listPtr,
 						 TE3List*				thatListPtr,
 						 TE3ListNode*			thatNodePtr);
 */
 #define /* inline */														\
-E3List_SpliceBackListNode(													\
+E3List_SpliceBackNode(														\
 	listPtr,																\
 	thatListPtr,															\
 	thatNodePtr)															\
 (																			\
-	E3List_SpliceBeforeNodeListNode(										\
+	E3List_SpliceBeforeNodeNode(											\
 		listPtr,															\
 		E3List_TailNode(listPtr),											\
 		thatListPtr,														\
 		thatNodePtr)														\
 )
 
+
+
+
+
+//=============================================================================
+//		TE3PtrList member functions
+//-----------------------------------------------------------------------------
+void**
+E3PtrList_FindPtr		(TE3List*				listPtr,
+						 void*					ptr);
+
 /*
-void
-E3List_SpliceBackListItem
-						(TE3List*				listPtr,
-						 TQ3Uns32				itemOffset,
-						 TE3List*				thatListPtr,
-						 TE3ListNode*			thatNodePtr);
+TQ3Boolean
+E3PtrList_HasPtr		(TE3List*				listPtr,
+						 void*					ptr);
 */
 #define /* inline */														\
-E3List_SpliceBackListItem(													\
+E3PtrList_HasPtr(															\
 	listPtr,																\
-	itemOffset,																\
-	thatListPtr,															\
-	thatItemPtr)															\
+	ptr)																	\
 (																			\
-	E3List_SpliceBackListNode(												\
-		listPtr,															\
-		thatListPtr,														\
-		E3ListItem_Node(thatItemPtr, itemOffset))							\
+	/* validate our parameters */											\
+	Q3_ASSERT_VALID_PTR(listPtr),											\
+																			\
+	E3PtrList_FindPtr(listPtr, ptr) != NULL ? kQ3True : kQ3False			\
 )
+
+void**
+E3PtrList_InsertBeforeNodePtr
+						(TE3List*				listPtr,
+						 TE3ListNode*			nextNodePtr,
+						 void*					thatPtr);
+
+/*
+void**
+E3PtrList_PushBackPtr
+						(TE3List*				listPtr,
+						 void*					thatPtr);
+*/
+#define /* inline */														\
+E3PtrList_PushBackPtr(														\
+	listPtr,																\
+	thatPtr)																\
+(																			\
+	E3PtrList_InsertBeforeNodePtr(											\
+		listPtr,															\
+		E3List_TailNode(listPtr),											\
+		thatPtr)															\
+)
+
+TQ3Status
+E3PtrList_ErasePtr		(TE3List*				listPtr,
+						 void*					ptr);
 
 
 
@@ -680,6 +707,13 @@ E3ArrayOrList_Destroy	(TE3ArrayOrList*		arrayOrListPtr,
 						 TQ3Uns32				itemSize,
 						 void					(*destroyItemFunc)(TE3SequenceItem*));
 
+TE3SequenceItem*
+E3ArrayOrList_Find		(TE3ArrayOrList*		arrayOrListPtr,
+						 TQ3Uns32				itemOffset,
+						 TQ3Uns32				itemSize,
+						 TQ3Boolean				(*itemParameterFunc)(const TE3SequenceItem*, void*),
+						 void*					parameterPtr);
+
 TQ3Status
 E3ArrayOrList_DoForEach	(TE3ArrayOrList*		arrayOrListPtr,
 						 TQ3Uns32				itemOffset,
@@ -705,13 +739,45 @@ TQ3Status
 E3ArrayOrList_UseArray	(TE3ArrayOrList*		arrayOrListPtr,
 						 TQ3Uns32				itemOffset,
 						 TQ3Uns32				itemSize,
-						 void					(*relocateItemFunc)(TE3SequenceItem*));
+						 void					(*relocateItemFunc)(TE3SequenceItem*, TE3SequenceItem*),
+						 void					(*relinkParameterFunc)(void*),
+						 void*					parameterPtr);
 
 TQ3Status
 E3ArrayOrList_UseList	(TE3ArrayOrList*		arrayOrListPtr,
 						 TQ3Uns32				itemOffset,
 						 TQ3Uns32				itemSize,
-						 void					(*relocateItemFunc)(TE3SequenceItem*));
+						 void					(*relocateItemFunc)(TE3SequenceItem*, TE3SequenceItem*),
+						 void					(*relinkParameterFunc)(void*),
+						 void*					parameterPtr);
+
+
+
+
+
+//=============================================================================
+//		TE3PtrArrayOrList member functions
+//-----------------------------------------------------------------------------
+void**
+E3PtrArrayOrList_FindPtr(TE3ArrayOrList*		arrayOrListPtr,
+						 void*					ptr);
+
+/*
+TQ3Boolean
+E3PtrArrayOrList_HasPtr	(TE3ArrayOrList*		arrayOrListPtr,
+						 void*					ptr);
+*/
+#define /* inline */														\
+E3PtrArrayOrList_HasPtr(													\
+	arrayOrListPtr,															\
+	ptr)																	\
+(																			\
+	/* validate our parameters */											\
+	Q3_ASSERT_VALID_PTR(arrayOrListPtr),									\
+																			\
+	E3PtrArrayOrList_FindPtr(arrayOrListPtr, ptr) != NULL ?					\
+		kQ3True : kQ3False													\
+)
 
 
 
@@ -724,16 +790,17 @@ E3ArrayOrList_UseList	(TE3ArrayOrList*		arrayOrListPtr,
 //-----------------------------------------------------------------------------
 //		The TE3FooArray class is a collection of C types and functions modeled
 //		after the vector<TE3Foo> template class in the C++ Standard Library.
-//		To use the equivalent of vector<TE3Foo>, do the following:
+//
+//		To use a TE3FooArray, do the following:
 //
 //		1)	In header or source files, declare the TE3FooArray type and
 //			E3FooArray_* functions:
 //
-//			E3ARRAY_DECLARE(TE3Foo, E3Foo, prefix);
+//			E3_ARRAY_DECLARE(TE3Foo, E3Foo, prefix);
 //
 //		2)	In a single source file, define the E3FooArray_* functions:
 //
-//			E3ARRAY_DEFINE(TE3Foo, E3Foo, prefix);
+//			E3_ARRAY_DEFINE(TE3Foo, E3Foo, prefix);
 //
 //		Here "prefix" is a possibly empty storage class specifier, for example,
 //		"static", which is applied to every defined function.
@@ -790,6 +857,11 @@ E3ArrayOrList_UseList	(TE3ArrayOrList*		arrayOrListPtr,
 //									(const TE3FooArray*		fooArrayPtr,
 //									 const TE3Foo*			fooPtr);
 //
+//			TE3Foo*
+//			E3FooArray_Find			(TE3FooArray*			fooArrayPtr,
+//									 TQ3Boolean				(*fooParameterFunc)(const TE3Foo*, void*),
+//									 void*					parameterPtr);
+//
 //			TQ3Status
 //			E3FooArray_DoForEach	(TE3FooArray*			fooArrayPtr,
 //									 TQ3Status				(*fooParameterFunc)(TE3Foo*, void*),
@@ -805,7 +877,7 @@ E3ArrayOrList_UseList	(TE3ArrayOrList*		arrayOrListPtr,
 //									 TQ3Boolean				(*fooParameterFunc)(const TE3Foo*, void*),
 //									 void*					parameterPtr);
 //-----------------------------------------------------------------------------
-#define E3ARRAY_DECLARE(TYPE, FUNC, PREFIX)									\
+#define E3_ARRAY_DECLARE(TYPE, FUNC, PREFIX)								\
 																			\
 typedef struct TYPE##Array {												\
 	TE3Array					genericArray_private; /* base class */		\
@@ -880,6 +952,13 @@ FUNC##Array_PreviousItemConst(												\
 	const TYPE* itemPtr);													\
 																			\
 PREFIX																		\
+TYPE*																		\
+FUNC##Array_Find(															\
+	TYPE##Array* arrayPtr,													\
+	TQ3Status (*itemParameterFunc)(TYPE*, void*),							\
+	void* parameterPtr);													\
+																			\
+PREFIX																		\
 TQ3Status																	\
 FUNC##Array_DoForEach(														\
 	TYPE##Array* arrayPtr,													\
@@ -904,7 +983,7 @@ void E3Array_SwallowSemicolon()
 
 
 
-#define E3ARRAY_DEFINE(TYPE, FUNC, PREFIX)									\
+#define E3_ARRAY_DEFINE(TYPE, FUNC, PREFIX)									\
 																			\
 PREFIX																		\
 TQ3Status																	\
@@ -1044,6 +1123,21 @@ FUNC##Array_PreviousItemConst(												\
 }																			\
 																			\
 PREFIX																		\
+TYPE*																		\
+FUNC##Array_Find(															\
+	TYPE##Array* arrayPtr,													\
+	TQ3Status (*itemParameterFunc)(TYPE*, void*),							\
+	void* parameterPtr)														\
+{																			\
+	return(E3_DOWN_CAST(TYPE*, E3Array_Find(								\
+		E3_UP_CAST(TE3Array*, arrayPtr),									\
+		sizeof(TYPE),														\
+		E3_UP_CAST(TQ3Boolean (*)(const TE3SequenceItem*, void*),			\
+			itemParameterFunc),												\
+		parameterPtr)));													\
+}																			\
+																			\
+PREFIX																		\
 TQ3Status																	\
 FUNC##Array_DoForEach(														\
 	TYPE##Array* arrayPtr,													\
@@ -1095,21 +1189,120 @@ void E3Array_SwallowSemicolon()
 
 
 //=============================================================================
+//		TE3FooPtrArray
+//-----------------------------------------------------------------------------
+//		The TE3FooPtrArray class has additional functions beyond those for a
+//		typical TE3FooArray class.
+//
+//		To use a TE3FooPtrArray, do the following:
+//
+//		1)	In header or source files, declare the TE3FooPtrArray type and
+//			E3FooPtrArray_* functions:
+//
+//			E3_PTR_ARRAY_DECLARE(TE3FooPtr, E3FooPtr, prefix);
+//
+//		2)	In a single source file, define the E3FooPtrArray_* functions:
+//
+//			E3_PTR_ARRAY_DEFINE(TE3FooPtr, E3FooPtr, prefix);
+//
+//		Here "prefix" is a possibly empty storage class specifier, for example,
+//		"static", which is applied to every defined function.
+//
+//		These macros declare/define the following *additional* functions:
+//
+//			TE3FooPtr*
+//			E3FooPtrArray_FindPtr	(TE3FooPtrArray*		fooPtrArrayPtr,
+//									 TE3FooPtr				fooPtr);
+//
+//			TQ3Boolean
+//			E3FooPtrArray_HasPtr	(const TE3FooPtrArray*	fooPtrArrayPtr,
+//									 TE3FooPtr				fooPtr);
+//-----------------------------------------------------------------------------
+#define E3_PTR_ARRAY_DECLARE_EXTEND(TYPE, FUNC, PREFIX)						\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##Array_FindPtr(														\
+	TYPE##Array* arrayPtr,													\
+	TYPE ptr);																\
+																			\
+PREFIX																		\
+TQ3Boolean																	\
+FUNC##Array_HasPtr(															\
+	const TYPE##Array* arrayPtr,											\
+	TYPE ptr);																\
+																			\
+void E3PtrArray_SwallowSemicolon()
+
+
+
+#define E3_PTR_ARRAY_DEFINE_EXTEND(TYPE, FUNC, PREFIX)						\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##Array_FindPtr(														\
+	TYPE##Array* arrayPtr,													\
+	TYPE ptr)																\
+{																			\
+	return(E3_DOWN_CAST(TYPE*, E3PtrArray_FindPtr(							\
+		E3_UP_CAST(TE3Array*, arrayPtr),									\
+		E3_UP_CAST(void*, ptr))));											\
+}																			\
+																			\
+PREFIX																		\
+TQ3Boolean																	\
+FUNC##Array_HasPtr(															\
+	const TYPE##Array* arrayPtr,											\
+	TYPE ptr)																\
+{																			\
+	return(E3PtrArray_HasPtr(												\
+		E3_UP_CAST(TE3Array*, arrayPtr),									\
+		E3_UP_CAST(void*, ptr)));											\
+}																			\
+																			\
+void E3PtrArray_SwallowSemicolon()
+
+
+
+#define E3_PTR_ARRAY_DECLARE(TYPE, FUNC, PREFIX)							\
+																			\
+E3_ARRAY_DECLARE(TYPE, FUNC, PREFIX);										\
+																			\
+E3_PTR_ARRAY_DECLARE_EXTEND(TYPE, FUNC, PREFIX);							\
+																			\
+void E3PtrArray_SwallowSemicolon()
+
+
+
+#define E3_PTR_ARRAY_DEFINE(TYPE, FUNC, PREFIX)								\
+																			\
+E3_ARRAY_DEFINE(TYPE, FUNC, PREFIX);										\
+																			\
+E3_PTR_ARRAY_DEFINE_EXTEND(TYPE, FUNC, PREFIX);								\
+																			\
+void E3PtrArray_SwallowSemicolon()
+
+
+
+
+
+//=============================================================================
 //		TE3FooList
 //-----------------------------------------------------------------------------
 //		The TE3FooList class is a collection of C types and functions modeled
 //		after the list<TE3Foo> template class in the C++ Standard Library.
-//		To use the equivalent of list<TE3Foo>, do the following:
+//
+//		To use a TE3FooList, do the following:
 //
 //		1)	In header or source files, declare the TE3FooList type,
 //			E3FooList_* functions, and related types and functions:
 //
-//			E3LIST_DECLARE(TE3Foo, E3Foo, prefix);
+//			E3_LIST_DECLARE(TE3Foo, E3Foo, prefix);
 //
 //		2)	In a single source file, define the E3FooList_* functions and
 //			related functions:
 //
-//			E3LIST_DEFINE(TE3Foo, E3Foo, prefix);
+//			E3_LIST_DEFINE(TE3Foo, E3Foo, prefix);
 //
 //		Here "prefix" is a possibly empty storage class specifier, for example,
 //		"static", which is applied to every defined function.
@@ -1165,6 +1358,11 @@ void E3Array_SwallowSemicolon()
 //									(const TE3FooList*		fooListPtr,
 //									 const TE3Foo*			fooPtr);
 //
+//			TE3Foo*
+//			E3FooList_Find			(TE3FooList*			fooListPtr,
+//									 TQ3Boolean				(*fooParameterFunc)(const TE3Foo*, void*),
+//									 void*					parameterPtr);
+//
 //			TQ3Status
 //			E3FooList_DoForEach		(TE3FooList*			fooListPtr,
 //									 TQ3Status				(*fooParameterFunc)(TE3Foo*, void*),
@@ -1208,9 +1406,19 @@ void E3Array_SwallowSemicolon()
 //			E3FooList_SpliceBackListItem
 //									(TE3FooList*			fooListPtr,
 //									 TE3FooList*			thatFooListPtr,
-//									 TE3Foo*				fooPtr);
+//									 TE3Foo*				thatFooPtr);
 //-----------------------------------------------------------------------------
-#define E3LIST_DECLARE(TYPE, FUNC, PREFIX)									\
+#define																		\
+E3_LISTITEM_NODE(															\
+	TYPE,																	\
+	itemPtr)																\
+(																			\
+	E3ListItem_Node(														\
+		E3_UP_CAST(TE3SequenceItem*, itemPtr),								\
+		offsetof(TYPE##ListNode_Private, item_private))						\
+)
+
+#define E3_LIST_DECLARE(TYPE, FUNC, PREFIX)									\
 																			\
 typedef struct TYPE##ListNode_Private {										\
 	TE3ListNode					genericNode_private; /* base class */		\
@@ -1220,16 +1428,6 @@ typedef struct TYPE##ListNode_Private {										\
 typedef struct TYPE##List {													\
 	TE3List						genericList_private; /* base class */		\
 } TYPE##List;																\
-																			\
-PREFIX																		\
-TYPE*																		\
-FUNC##ListNode_Item(														\
-	TYPE##ListNode_Private* nodePtr);										\
-																			\
-PREFIX																		\
-TYPE##ListNode_Private*														\
-FUNC##ListItem_Node(														\
-	TYPE* itemPtr);															\
 																			\
 PREFIX																		\
 TQ3Status																	\
@@ -1300,10 +1498,31 @@ FUNC##List_PreviousItemConst(												\
 	const TYPE* itemPtr);													\
 																			\
 PREFIX																		\
+TYPE*																		\
+FUNC##List_Find(															\
+	TYPE##List* listPtr,													\
+	TQ3Boolean (*itemParameterFunc)(const TYPE*, void*),					\
+	void* parameterPtr);													\
+																			\
+PREFIX																		\
 TQ3Status																	\
 FUNC##List_DoForEach(														\
 	TYPE##List* listPtr,													\
 	TQ3Status (*itemParameterFunc)(TYPE*, void*),							\
+	void* parameterPtr);													\
+																			\
+PREFIX																		\
+TQ3Boolean																	\
+FUNC##List_AndForEach(														\
+	const TYPE##List* listPtr,												\
+	TQ3Boolean (*itemParameterFunc)(const TYPE*, void*),					\
+	void* parameterPtr);													\
+																			\
+PREFIX																		\
+TQ3Boolean																	\
+FUNC##List_OrForEach(														\
+	const TYPE##List* listPtr,												\
+	TQ3Boolean (*itemParameterFunc)(const TYPE*, void*),					\
 	void* parameterPtr);													\
 																			\
 PREFIX																		\
@@ -1343,31 +1562,13 @@ void																		\
 FUNC##List_SpliceBackListItem(												\
 	TYPE##List* listPtr,													\
 	TYPE##List* thatListPtr,												\
-	TYPE* itemPtr);															\
+	TYPE* thatItemPtr);														\
 																			\
 void E3List_SwallowSemicolon()
 
 
 
-#define E3LIST_DEFINE(TYPE, FUNC, PREFIX)									\
-																			\
-PREFIX																		\
-TYPE*																		\
-FUNC##ListNode_Item(														\
-	TYPE##ListNode_Private* nodePtr)										\
-{																			\
-	return(&nodePtr->item_private);											\
-}																			\
-																			\
-PREFIX																		\
-TYPE##ListNode_Private*														\
-FUNC##ListItem_Node(														\
-	TYPE* itemPtr)															\
-{																			\
-	return(E3_DOWN_CAST(TYPE##ListNode_Private*, E3ListItem_Node(			\
-		E3_UP_CAST(TE3SequenceItem*, itemPtr),								\
-		offsetof(TYPE##ListNode_Private, item_private))));					\
-}																			\
+#define E3_LIST_DEFINE(TYPE, FUNC, PREFIX)									\
 																			\
 PREFIX																		\
 TQ3Status																	\
@@ -1506,6 +1707,21 @@ FUNC##List_PreviousItemConst(												\
 }																			\
 																			\
 PREFIX																		\
+TYPE*																		\
+FUNC##List_Find(															\
+	TYPE##List* listPtr,													\
+	TQ3Boolean (*itemParameterFunc)(const TYPE*, void*),					\
+	void* parameterPtr)														\
+{																			\
+	return(E3_DOWN_CAST(TYPE*, E3List_Find(									\
+		E3_UP_CAST(TE3List*, listPtr),										\
+		offsetof(TYPE##ListNode_Private, item_private),						\
+		E3_UP_CAST(TQ3Boolean (*)(const TE3SequenceItem*, void*),			\
+			itemParameterFunc),												\
+		parameterPtr)));													\
+}																			\
+																			\
+PREFIX																		\
 TQ3Status																	\
 FUNC##List_DoForEach(														\
 	TYPE##List* listPtr,													\
@@ -1557,11 +1773,11 @@ FUNC##List_InsertBeforeItemItem(											\
 	TYPE* nextItemPtr,														\
 	const TYPE* thatItemPtr)												\
 {																			\
-	return(E3_DOWN_CAST(TYPE*, E3List_InsertBeforeItemItem(					\
+	return(E3_DOWN_CAST(TYPE*, E3List_InsertBeforeNodeItem(					\
 		E3_UP_CAST(TE3List*, listPtr),										\
 		offsetof(TYPE##ListNode_Private, item_private),						\
 		sizeof(TYPE),														\
-		E3_UP_CAST(TE3SequenceItem*, nextItemPtr),							\
+		E3_LISTITEM_NODE(TYPE, nextItemPtr),								\
 		E3_UP_CAST(const TE3SequenceItem*, thatItemPtr))));					\
 }																			\
 																			\
@@ -1589,7 +1805,7 @@ FUNC##List_EraseItem(														\
 		E3_UP_CAST(TE3List*, listPtr),										\
 		offsetof(TYPE##ListNode_Private, item_private),						\
 		E3_UP_CAST(void (*)(TE3SequenceItem*), destroyItemFunc),			\
-		E3_UP_CAST(TE3ListNode*, FUNC##ListItem_Node(itemPtr)));			\
+		E3_LISTITEM_NODE(TYPE, itemPtr));									\
 }																			\
 																			\
 PREFIX																		\
@@ -1620,16 +1836,182 @@ void																		\
 FUNC##List_SpliceBackListItem(												\
 	TYPE##List* listPtr,													\
 	TYPE##List* thatListPtr,												\
-	TYPE* itemPtr)															\
+	TYPE* thatItemPtr)														\
 {																			\
-	E3List_SpliceBackListItem(												\
+	E3List_SpliceBackNode(													\
 		E3_UP_CAST(TE3List*, listPtr),										\
-		offsetof(TYPE##ListNode_Private, item_private),						\
 		E3_UP_CAST(TE3List*, thatListPtr),									\
-		E3_UP_CAST(TE3ListNode*, FUNC##ListItem_Node(itemPtr)));			\
+		E3_LISTITEM_NODE(TYPE, thatItemPtr));								\
 }																			\
 																			\
 void E3List_SwallowSemicolon()
+
+
+
+
+
+//=============================================================================
+//		TE3FooPtrList
+//-----------------------------------------------------------------------------
+//		The TE3FooPtrList class has additional functions beyond those for a
+//		typical TE3FooList class.
+//
+//		To use a TE3FooPtrList, do the following:
+//
+//		1)	In header or source files, declare the TE3FooPtrList type and
+//			E3FooPtrList_* functions:
+//
+//			E3_PTR_LIST_DECLARE(TE3FooPtr, E3FooPtr, prefix);
+//
+//		2)	In a single source file, define the E3FooPtrArray_* functions:
+//
+//			E3_PTR_LIST_DEFINE(TE3FooPtr, E3FooPtr, prefix);
+//
+//		Here "prefix" is a possibly empty storage class specifier, for example,
+//		"static", which is applied to every defined function.
+//
+//		These macros declare/define the following *additional* functions:
+//
+//			TE3FooPtr*
+//			E3FooPtrList_FindPtr	(TE3FooPtrList*			fooPtrListPtr,
+//									 TE3FooPtr				fooPtr);
+//
+//			TQ3Boolean
+//			E3FooPtrList_HasPtr		(const TE3FooPtrList*	fooPtrListPtr,
+//									 TE3FooPtr				fooPtr);
+//
+//			TE3FooPtr*
+//			E3FooPtrList_InsertBeforeItemPtr
+//									(TE3FooPtrList*			fooPtrListPtr,
+//									 TE3FooPtr*				nextFooPtrPtr,
+//									 TE3FooPtr				thatFooPtr);
+//
+//			TE3FooPtr*
+//			E3FooPtrList_PushBackPtr(TE3FooPtrList*			fooPtrListPtr,
+//									 TE3FooPtr				thatFooPtr);
+//
+//			TQ3Status
+//			E3FooPtrList_ErasePtr	(TE3FooPtrList*			fooPtrListPtr,
+//									 void					(*fooPtrDestroyFunc)(TE3FooPtr*),
+//									 TE3FooPtr				fooPtr);
+//-----------------------------------------------------------------------------
+#define E3_PTR_LIST_DECLARE_EXTEND(TYPE, FUNC, PREFIX)						\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##List_FindPtr(															\
+	TYPE##List* listPtr,													\
+	TYPE ptr);																\
+																			\
+PREFIX																		\
+TQ3Boolean																	\
+FUNC##List_HasPtr(															\
+	const TYPE##List* listPtr,												\
+	TYPE ptr);																\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##List_InsertBeforeItemPtr(												\
+	TYPE##List* listPtr,													\
+	TYPE* nextItemPtr,														\
+	TYPE thatPtr);															\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##List_PushBackPtr(														\
+	TYPE##List* listPtr,													\
+	TYPE thatPtr);															\
+																			\
+PREFIX																		\
+TQ3Status																	\
+FUNC##List_ErasePtr(														\
+	TYPE##List* listPtr,													\
+	TYPE ptr);																\
+																			\
+void E3PtrList_SwallowSemicolon()
+
+
+
+#define E3_PTR_LIST_DEFINE_EXTEND(TYPE, FUNC, PREFIX)						\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##List_FindPtr(															\
+	TYPE##List* listPtr,													\
+	TYPE ptr)																\
+{																			\
+	return(E3_DOWN_CAST(TYPE*, E3PtrList_FindPtr(							\
+		E3_UP_CAST(TE3List*, listPtr),										\
+		E3_UP_CAST(void*, ptr))));											\
+}																			\
+																			\
+PREFIX																		\
+TQ3Boolean																	\
+FUNC##List_HasPtr(															\
+	const TYPE##List* listPtr,												\
+	TYPE ptr)																\
+{																			\
+	return(E3PtrList_HasPtr(												\
+		E3_UP_CAST(TE3List*, listPtr),										\
+		E3_UP_CAST(void*, ptr)));											\
+}																			\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##List_InsertBeforeItemPtr(												\
+	TYPE##List* listPtr,													\
+	TYPE* nextItemPtr,														\
+	TYPE thatPtr)															\
+{																			\
+	return(E3_DOWN_CAST(TYPE*, E3PtrList_InsertBeforeNodePtr(				\
+		E3_UP_CAST(TE3List*, listPtr),										\
+		E3_LISTITEM_NODE(TYPE, nextItemPtr),								\
+		E3_UP_CAST(void*, thatPtr))));										\
+}																			\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##List_PushBackPtr(														\
+	TYPE##List* listPtr,													\
+	TYPE thatPtr)															\
+{																			\
+	return(E3_DOWN_CAST(TYPE*, E3PtrList_PushBackPtr(						\
+		E3_UP_CAST(TE3List*, listPtr),										\
+		E3_UP_CAST(void*, thatPtr))));										\
+}																			\
+																			\
+PREFIX																		\
+TQ3Status																	\
+FUNC##List_ErasePtr(														\
+	TYPE##List* listPtr,													\
+	TYPE ptr)																\
+{																			\
+	return(E3PtrList_ErasePtr(												\
+		E3_UP_CAST(TE3List*, listPtr),										\
+		E3_UP_CAST(void*, ptr)));											\
+}																			\
+																			\
+void E3PtrList_SwallowSemicolon()
+
+
+
+#define E3_PTR_LIST_DECLARE(TYPE, FUNC, PREFIX)								\
+																			\
+E3_LIST_DECLARE(TYPE, FUNC, PREFIX);										\
+																			\
+E3_PTR_LIST_DECLARE_EXTEND(TYPE, FUNC, PREFIX);								\
+																			\
+void E3PtrList_SwallowSemicolon()
+
+
+
+#define E3_PTR_LIST_DEFINE(TYPE, FUNC, PREFIX)								\
+																			\
+E3_LIST_DEFINE(TYPE, FUNC, PREFIX);											\
+																			\
+E3_PTR_LIST_DEFINE_EXTEND(TYPE, FUNC, PREFIX);								\
+																			\
+void E3PtrList_SwallowSemicolon()
 
 
 
@@ -1654,16 +2036,12 @@ void E3List_SwallowSemicolon()
 //		1)	In header or source files, declare the TE3FooArrayOrList type,
 //			E3FooArrayOrList_* functions, and related types and functions:
 //
-//			E3ARRAY_DECLARE(TE3Foo, E3Foo, prefix);
-//			E3LIST_DECLARE(TE3Foo, E3Foo, prefix);
-//			E3ARRAY_OR_LIST_DECLARE(TE3Foo, E3Foo, prefix);
+//			E3_ARRAY_OR_LIST_DECLARE(TE3Foo, E3Foo, prefix);
 //
 //		2)	In a single source file, define the E3FooArrayOrList_* functions
 //			and related functions:
 //
-//			E3ARRAY_DEFINE(TE3Foo, E3Foo, prefix);
-//			E3LIST_DEFINE(TE3Foo, E3Foo, prefix);
-//			E3ARRAY_OR_LIST_DEFINE(TE3Foo, E3Foo, prefix);
+//			E3_ARRAY_OR_LIST_DEFINE(TE3Foo, E3Foo, prefix);
 //
 //		Here "prefix" is a possibly empty storage class specifier, for example,
 //		"static", which is applied to every defined function.
@@ -1742,13 +2120,21 @@ void E3List_SwallowSemicolon()
 //
 //			TQ3Status
 //			E3FooArrayOrList_UseArray	(TE3FooArrayOrList*			fooArrayOrListPtr,
-//										 void						(*fooRelocateFunc)(TE3Foo*));
+//										 void						(*fooRelocateFunc)(TE3Foo*),
+//										 void						(*relinkParameterFunc)(void*),
+//										 void*						parameterPtr);
 //
 //			TQ3Status
 //			E3FooArrayOrList_UseList	(TE3FooArrayOrList*			fooArrayOrListPtr,
-//										 void						(*fooRelocateFunc)(TE3Foo*));
+//										 void						(*fooRelocateFunc)(TE3Foo*),
+//										 void						(*relinkParameterFunc)(void*),
+//										 void*						parameterPtr);
 //-----------------------------------------------------------------------------
-#define E3ARRAY_OR_LIST_DECLARE(TYPE, FUNC, PREFIX)							\
+#define E3_ARRAY_OR_LIST_DECLARE(TYPE, FUNC, PREFIX)						\
+																			\
+E3_ARRAY_DECLARE(TYPE, FUNC, PREFIX);										\
+																			\
+E3_LIST_DECLARE(TYPE, FUNC, PREFIX);										\
 																			\
 typedef union TYPE##ArrayOrList {											\
 	TYPE##Array					array;										\
@@ -1811,6 +2197,13 @@ FUNC##ArrayOrList_PreviousItemConst(										\
 	const TYPE* itemPtr);													\
 																			\
 PREFIX																		\
+TYPE*																		\
+FUNC##ArrayOrList_Find(														\
+	TYPE##ArrayOrList* arrayOrListPtr,										\
+	TQ3Boolean (*itemParameterFunc)(const TYPE*, void*),					\
+	void* parameterPtr);													\
+																			\
+PREFIX																		\
 TQ3Status																	\
 FUNC##ArrayOrList_DoForEach(												\
 	TYPE##ArrayOrList* arrayOrListPtr,										\
@@ -1845,19 +2238,27 @@ PREFIX																		\
 TQ3Status																	\
 FUNC##ArrayOrList_UseArray(													\
 	TYPE##ArrayOrList* arrayOrListPtr,										\
-	void (*relocateItemFunc)(TYPE*));										\
+	void (*relocateItemFunc)(TYPE*, TYPE*),									\
+	void (*relinkParameterFunc)(void*),										\
+	void* parameterPtr);													\
 																			\
 PREFIX																		\
 TQ3Status																	\
 FUNC##ArrayOrList_UseList(													\
 	TYPE##ArrayOrList* arrayOrListPtr,										\
-	void (*relocateItemFunc)(TYPE*));										\
+	void (*relocateItemFunc)(TYPE*, TYPE*),									\
+	void (*relinkParameterFunc)(void*),										\
+	void* parameterPtr);													\
 																			\
 void E3ArrayOrList_SwallowSemicolon()
 
 
 
-#define E3ARRAY_OR_LIST_DEFINE(TYPE, FUNC, PREFIX)							\
+#define E3_ARRAY_OR_LIST_DEFINE(TYPE, FUNC, PREFIX)							\
+																			\
+E3_ARRAY_DEFINE(TYPE, FUNC, PREFIX);										\
+																			\
+E3_LIST_DEFINE(TYPE, FUNC, PREFIX);											\
 																			\
 PREFIX																		\
 void																		\
@@ -1976,6 +2377,22 @@ FUNC##ArrayOrList_PreviousItemConst(										\
 }																			\
 																			\
 PREFIX																		\
+TYPE*																		\
+FUNC##ArrayOrList_Find(														\
+	TYPE##ArrayOrList* arrayOrListPtr,										\
+	TQ3Boolean (*itemParameterFunc)(const TYPE*, void*),					\
+	void* parameterPtr)														\
+{																			\
+	return(E3_DOWN_CAST(TYPE*, E3ArrayOrList_Find(							\
+		E3_UP_CAST(TE3ArrayOrList*, arrayOrListPtr),						\
+		offsetof(TYPE##ListNode_Private, item_private),						\
+		sizeof(TYPE),														\
+		E3_UP_CAST(TQ3Boolean (*)(const TE3SequenceItem*, void*),			\
+			itemParameterFunc),												\
+		parameterPtr)));													\
+}																			\
+																			\
+PREFIX																		\
 TQ3Status																	\
 FUNC##ArrayOrList_DoForEach(												\
 	TYPE##ArrayOrList* arrayOrListPtr,										\
@@ -2045,29 +2462,148 @@ PREFIX																		\
 TQ3Status																	\
 FUNC##ArrayOrList_UseArray(													\
 	TYPE##ArrayOrList* arrayOrListPtr,										\
-	void (*relocateItemFunc)(TYPE*))										\
+	void (*relocateItemFunc)(TYPE*, TYPE*),									\
+	void (*relinkParameterFunc)(void*),										\
+	void* parameterPtr)														\
 {																			\
 	return(E3ArrayOrList_UseArray(											\
 		E3_UP_CAST(TE3ArrayOrList*, arrayOrListPtr),						\
 		offsetof(TYPE##ListNode_Private, item_private),						\
 		sizeof(TYPE),														\
-		E3_UP_CAST(void (*)(TE3SequenceItem*), relocateItemFunc)));			\
+		E3_UP_CAST(void (*)(TE3SequenceItem*, TE3SequenceItem*),			\
+			relocateItemFunc),												\
+		relinkParameterFunc,												\
+		parameterPtr));														\
 }																			\
 																			\
 PREFIX																		\
 TQ3Status																	\
 FUNC##ArrayOrList_UseList(													\
 	TYPE##ArrayOrList* arrayOrListPtr,										\
-	void (*relocateItemFunc)(TYPE*))										\
+	void (*relocateItemFunc)(TYPE*, TYPE*),									\
+	void (*relinkParameterFunc)(void*),										\
+	void* parameterPtr)														\
 {																			\
 	return(E3ArrayOrList_UseList(											\
 		E3_UP_CAST(TE3ArrayOrList*, arrayOrListPtr),						\
 		offsetof(TYPE##ListNode_Private, item_private),						\
 		sizeof(TYPE),														\
-		E3_UP_CAST(void (*)(TE3SequenceItem*), relocateItemFunc)));			\
+		E3_UP_CAST(void (*)(TE3SequenceItem*, TE3SequenceItem*),			\
+			relocateItemFunc),												\
+		relinkParameterFunc,												\
+		parameterPtr));														\
 }																			\
 																			\
 void E3ArrayOrList_SwallowSemicolon()
+
+
+
+
+
+//=============================================================================
+//		TE3FooPtrArrayOrList
+//-----------------------------------------------------------------------------
+//		The TE3FooPtrArrayOrList class has additional functions beyond those
+//		for a typical TE3FooArrayOrList class.
+//
+//		To use a TE3FooPtrArrayOrList, do the following:
+//
+//		1)	In header or source files, declare the TE3FooPtrArrayOrList type
+//			and E3FooPtrArrayOrList_* functions:
+//
+//			E3_PTR_ARRAY_OR_LIST_DECLARE(TE3FooPtr, E3FooPtr, prefix);
+//
+//		2)	In a single source file, define the E3FooPtrArrayOrList_*
+//			functions:
+//
+//			E3_PTR_ARRAY_OR_LIST_DEFINE(TE3FooPtr, E3FooPtr, prefix);
+//
+//		Here "prefix" is a possibly empty storage class specifier, for example,
+//		"static", which is applied to every defined function.
+//
+//		These macros declare/define the following *additional* functions:
+//
+//			TE3FooPtr*
+//			E3FooPtrArrayOrList_FindPtr
+//									(TE3FooPtrArrayOrList*			fooPtrArrayOrListPtr,
+//									 TE3FooPtr						fooPtr);
+//
+//			TQ3Boolean
+//			E3FooPtrArrayOrList_HasPtr
+//									(const TE3FooPtrArrayOrList*	fooPtrArrayOrListPtr,
+//									 TE3FooPtr						fooPtr);
+//-----------------------------------------------------------------------------
+#define E3_PTR_ARRAY_OR_LIST_DECLARE_EXTEND(TYPE, FUNC, PREFIX)				\
+																			\
+E3_PTR_ARRAY_DECLARE_EXTEND(TYPE, FUNC, PREFIX);							\
+																			\
+E3_PTR_LIST_DECLARE_EXTEND(TYPE, FUNC, PREFIX);								\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##ArrayOrList_FindPtr(													\
+	TYPE##ArrayOrList* arrayOrListPtr,										\
+	TYPE ptr);																\
+																			\
+PREFIX																		\
+TQ3Boolean																	\
+FUNC##ArrayOrList_HasPtr(													\
+	const TYPE##ArrayOrList* arrayOrListPtr,								\
+	TYPE ptr);																\
+																			\
+void E3PtrArrayOrList_SwallowSemicolon()
+
+
+
+#define E3_PTR_ARRAY_OR_LIST_DEFINE_EXTEND(TYPE, FUNC, PREFIX)				\
+																			\
+E3_PTR_ARRAY_DEFINE_EXTEND(TYPE, FUNC, PREFIX);								\
+																			\
+E3_PTR_LIST_DEFINE_EXTEND(TYPE, FUNC, PREFIX);								\
+																			\
+PREFIX																		\
+TYPE*																		\
+FUNC##ArrayOrList_FindPtr(													\
+	TYPE##ArrayOrList* arrayOrListPtr,										\
+	TYPE ptr)																\
+{																			\
+	return(E3_DOWN_CAST(TYPE*, E3PtrArrayOrList_FindPtr(					\
+		E3_UP_CAST(TE3ArrayOrList*, arrayOrListPtr),						\
+		E3_UP_CAST(void*, ptr))));											\
+}																			\
+																			\
+PREFIX																		\
+TQ3Boolean																	\
+FUNC##ArrayOrList_HasPtr(													\
+	const TYPE##ArrayOrList* arrayOrListPtr,								\
+	TYPE ptr)																\
+{																			\
+	return(E3PtrArrayOrList_HasPtr(											\
+		E3_UP_CAST(TE3ArrayOrList*, arrayOrListPtr),						\
+		E3_UP_CAST(void*, ptr)));											\
+}																			\
+																			\
+void E3PtrArray_SwallowSemicolon()
+
+
+
+#define E3_PTR_ARRAY_OR_LIST_DECLARE(TYPE, FUNC, PREFIX)					\
+																			\
+E3_ARRAY_OR_LIST_DECLARE(TYPE, FUNC, PREFIX);								\
+																			\
+E3_PTR_ARRAY_OR_LIST_DECLARE_EXTEND(TYPE, FUNC, PREFIX);					\
+																			\
+void E3PtrArrayOrList_SwallowSemicolon()
+
+
+
+#define E3_PTR_ARRAY_OR_LIST_DEFINE(TYPE, FUNC, PREFIX)						\
+																			\
+E3_ARRAY_OR_LIST_DEFINE(TYPE, FUNC, PREFIX);								\
+																			\
+E3_PTR_ARRAY_OR_LIST_DEFINE_EXTEND(TYPE, FUNC, PREFIX);						\
+																			\
+void E3PtrArray_SwallowSemicolon()
 
 
 
