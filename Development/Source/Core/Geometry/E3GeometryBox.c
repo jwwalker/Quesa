@@ -276,7 +276,7 @@ e3geom_box_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_box_cache_new : Box cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_box_cache_new(TQ3ViewObject /*theView*/, TQ3GeometryObject /*theGeom*/, const TQ3BoxData *geomData)
+e3geom_box_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3BoxData *geomData)
 {	TQ3TriMeshAttributeData		triAttributes[kQ3AttributeTypeNumTypes];
 	float						triAttributeAmbientCoefficient[12];
 	TQ3ColorRGB					triAttributeTransparencyColour[12];
