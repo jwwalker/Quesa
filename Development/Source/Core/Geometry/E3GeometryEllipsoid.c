@@ -215,6 +215,16 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3Boolean		isRightHanded;
 
 
+	
+	// Test whether the geometry is degenerate.
+	if (E3Geometry_IsDegenerateTriple( &geomData->orientation, &geomData->majorRadius,
+		&geomData->minorRadius ))
+	{
+		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+		return NULL;
+	}
+
+
 
 	// Get the subdivision style, to figure out how many sides we should have.
 	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
