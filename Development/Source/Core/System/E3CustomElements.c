@@ -875,80 +875,62 @@ E3CustomElements_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = E3ClassTree::RegisterClass(
-				kQ3ObjectTypeElement,
-				kQ3ObjectTypeCustomElementProperties,
+	qd3dStatus = Q3_REGISTER_CLASS (	
 				kQ3ClassNameCustomElementProperties,
 				e3propertyelement_metahandler,
-				sizeof(E3PropertyElement));
+				E3PropertyElement ) ;
 
-	qd3dStatus = E3ClassTree::RegisterClass(
-				kQ3ObjectTypeElement,
-				kQ3ObjectTypeCustomElementName,
+	qd3dStatus = Q3_REGISTER_CLASS (	
 				kQ3ClassNameCustomElementName,
 				e3nameelement_metahandler,
-				sizeof(E3NameElement));
+				E3NameElement ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(
-					kQ3ObjectTypeElement,
-					kQ3ObjectTypeCustomElementUrl,
+		qd3dStatus = Q3_REGISTER_CLASS (	
 					kQ3ClassNameCustomElementUrl,
 					e3urlelement_metahandler,
-					sizeof(E3URLElement));
+					E3URLElement ) ;
 
 #if QUESA_SUPPORT_QUICKTIME
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(
-					kQ3ObjectTypeElement,
-					kQ3ObjectTypeCustomElementWire,
+		qd3dStatus = Q3_REGISTER_CLASS (	
 					kQ3ClassNameCustomElementWire,
 					e3wireelement_metahandler,
-					sizeof(E3WireElement));
+					E3WireElement ) ;
 #endif
 
 	// The depth bits element does not need a metahandler, because it is plain old data
 	// and is never read or written (being attached to renderers, which aren't read or
 	// written).
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(
-					kQ3ObjectTypeElement,
-					kQ3ElementTypeDepthBits,
+		qd3dStatus = Q3_REGISTER_CLASS (	
 					kQ3ClassNameCustomElementDepthBits,
 					NULL,
-					sizeof(E3BitDepthElement));
+					E3BitDepthElement ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(
-					kQ3ObjectTypeElement,
-					kQ3CallbackElementTypeBeforeRender,
+		qd3dStatus = Q3_REGISTER_CLASS (	
 					kQ3ClassNameCustomElementBeforeRender,
 					NULL,
-					sizeof(E3BeforeRenderElement) );
+					E3BeforeRenderElement ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(
-					kQ3ObjectTypeElement,
-					kQ3CallbackElementTypeAfterRender,
+		qd3dStatus = Q3_REGISTER_CLASS (	
 					kQ3ClassNameCustomElementAfterRender,
 					NULL,
-					sizeof(E3AfterRenderElement) );
+					E3AfterRenderElement ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(
-					kQ3ObjectTypeElement,
-					kQ3CallbackElementTypeBeforePick,
+		qd3dStatus = Q3_REGISTER_CLASS (	
 					kQ3ClassNameCustomElementBeforePick,
 					NULL,
-					sizeof(E3BeforePickElement) );
+					E3BeforePickElement ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(
-					kQ3ObjectTypeElement,
-					kQ3CallbackElementTypeAfterPick,
+		qd3dStatus = Q3_REGISTER_CLASS (	
 					kQ3ClassNameCustomElementAfterPick,
 					NULL,
-					sizeof(E3AfterPickElement) );
+					E3AfterPickElement ) ;
 
 	return(qd3dStatus);
 }

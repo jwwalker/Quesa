@@ -64,6 +64,7 @@ class E3Style : public E3ShapeData // This is not a leaf class, but only classes
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeStyle, E3Style, E3ShapeData )
 public :
 
 	// There is no extra data for this class
@@ -76,6 +77,7 @@ class E3SubdivisionStyle : public E3Style  // This is a leaf class so no other c
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeSubdivision, E3SubdivisionStyle, E3Style )
 public :
 
 	TQ3SubdivisionStyleData		instanceData ;
@@ -88,6 +90,7 @@ class E3PickIDStyle : public E3Style  // This is a leaf class so no other classe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypePickID, E3PickIDStyle, E3Style )
 public :
 
 	TQ3Uns32					instanceData ;
@@ -100,6 +103,7 @@ class E3PickPartsStyle : public E3Style  // This is a leaf class so no other cla
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypePickParts, E3PickPartsStyle, E3Style )
 public :
 
 	TQ3PickParts				instanceData ;
@@ -112,6 +116,7 @@ class E3CastShadowsStyle : public E3Style  // This is a leaf class so no other c
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeCastShadows, E3CastShadowsStyle, E3Style )
 public :
 
 	TQ3Boolean					instanceData ;
@@ -124,6 +129,7 @@ class E3ReceiveShadowsStyle : public E3Style  // This is a leaf class so no othe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeReceiveShadows, E3ReceiveShadowsStyle, E3Style )
 public :
 
 	TQ3Boolean					instanceData ;
@@ -136,6 +142,7 @@ class E3FillStyle : public E3Style  // This is a leaf class so no other classes 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeFill, E3FillStyle, E3Style )
 public :
 
 	TQ3FillStyle				instanceData ;
@@ -148,6 +155,7 @@ class E3BackfacingStyle : public E3Style  // This is a leaf class so no other cl
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeBackfacing, E3BackfacingStyle, E3Style )
 public :
 
 	TQ3BackfacingStyle			instanceData ;
@@ -160,6 +168,7 @@ class E3InterpolationStyle : public E3Style  // This is a leaf class so no other
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeInterpolation, E3InterpolationStyle, E3Style )
 public :
 
 	TQ3InterpolationStyle		instanceData ;
@@ -172,6 +181,7 @@ class E3HighlightStyle : public E3Style  // This is a leaf class so no other cla
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeHighlight, E3HighlightStyle, E3Style )
 public :
 
 	TQ3AttributeSet				instanceData ;
@@ -184,6 +194,7 @@ class E3OrientationStyle : public E3Style  // This is a leaf class so no other c
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeOrientation, E3OrientationStyle, E3Style )
 public :
 
 	TQ3OrientationStyle			instanceData ;
@@ -196,6 +207,7 @@ class E3AntiAliasStyle : public E3Style  // This is a leaf class so no other cla
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeAntiAlias, E3AntiAliasStyle, E3Style )
 public :
 
 	TQ3AntiAliasStyleData		instanceData ;
@@ -208,6 +220,7 @@ class E3FogStyle : public E3Style  // This is a leaf class so no other classes u
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeFog, E3FogStyle, E3Style )
 public :
 
 	TQ3FogStyleData				instanceData ;
@@ -880,95 +893,69 @@ E3Style_RegisterClass(void)
 
 
 	// Register the Style classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
-											kQ3ShapeTypeStyle,
-											kQ3ClassNameStyle,
-											e3style_metahandler,
-											sizeof(E3Style));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyle,
+										e3style_metahandler,
+										E3Style ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeSubdivision,
-												kQ3ClassNameStyleSubdivision,
-												e3style_subdivision_metahandler,
-												sizeof(E3SubdivisionStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleSubdivision,
+											e3style_subdivision_metahandler,
+											E3SubdivisionStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypePickID,
-												kQ3ClassNameStylePickID,
-												e3style_pickid_metahandler,
-												sizeof(E3PickIDStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStylePickID,
+											e3style_pickid_metahandler,
+											E3PickIDStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypePickParts,
-												kQ3ClassNameStylePickParts,
-												e3style_pickparts_metahandler,
-												sizeof(E3PickPartsStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStylePickParts,
+											e3style_pickparts_metahandler,
+											E3PickPartsStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeCastShadows,
-												kQ3ClassNameStyleCastShadows,
-												e3style_castshadows_metahandler,
-												sizeof(E3CastShadowsStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleCastShadows,
+											e3style_castshadows_metahandler,
+											E3CastShadowsStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeReceiveShadows,
-												kQ3ClassNameStyleReceiveShadows,
-												e3style_receiveshadows_metahandler,
-												sizeof(E3ReceiveShadowsStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleReceiveShadows,
+											e3style_receiveshadows_metahandler,
+											E3ReceiveShadowsStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeFill,
-												kQ3ClassNameStyleFill,
-												e3style_fill_metahandler,
-												sizeof(E3FillStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleFill,
+											e3style_fill_metahandler,
+											E3FillStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeBackfacing,
-												kQ3ClassNameStyleBackfacing,
-												e3style_backfacing_metahandler,
-												sizeof(E3BackfacingStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleBackfacing,
+											e3style_backfacing_metahandler,
+											E3BackfacingStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeInterpolation,
-												kQ3ClassNameStyleInterpolation,
-												e3style_interpolation_metahandler,
-												sizeof(E3InterpolationStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleInterpolation,
+											e3style_interpolation_metahandler,
+											E3InterpolationStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeHighlight,
-												kQ3ClassNameStyleHighlight,
-												e3style_hilight_metahandler,
-												sizeof(E3HighlightStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleHighlight,
+											e3style_hilight_metahandler,
+											E3HighlightStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeOrientation,
-												kQ3ClassNameStyleOrientation,
-												e3style_orientation_metahandler,
-												sizeof(E3OrientationStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleOrientation,
+											e3style_orientation_metahandler,
+											E3OrientationStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeAntiAlias,
-												kQ3ClassNameStyleAntiAlias,
-												e3style_antialias_metahandler,
-												sizeof(E3AntiAliasStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleAntiAlias,
+											e3style_antialias_metahandler,
+											E3AntiAliasStyle ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeStyle,
-												kQ3StyleTypeFog,
-												kQ3ClassNameStyleFog,
-												e3style_fog_metahandler,
-												sizeof(E3FogStyle));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleFog,
+											e3style_fog_metahandler,
+											E3FogStyle ) ;
 
 	return(qd3dStatus);
 }

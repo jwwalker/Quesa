@@ -64,6 +64,7 @@ class E3IlluminationShader : public E3Shader // This is not a leaf class, but on
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3ShaderTypeIllumination, E3IlluminationShader, E3Shader )
 public :
 
 	// There is no extra data for this class
@@ -76,6 +77,7 @@ class E3NULLIllumination : public E3IlluminationShader // This is a leaf class s
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3IlluminationTypeNULL, E3NULLIllumination, E3IlluminationShader )
 public :
 
 	// There is no extra data for this class
@@ -88,6 +90,7 @@ class E3LambertIllumination : public E3IlluminationShader // This is a leaf clas
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3IlluminationTypeLambert, E3LambertIllumination, E3IlluminationShader )
 public :
 
 	// There is no extra data for this class
@@ -100,6 +103,7 @@ class E3PhongIllumination : public E3IlluminationShader // This is a leaf class 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3IlluminationTypePhong, E3PhongIllumination, E3IlluminationShader )
 public :
 
 	// There is no extra data for this class
@@ -113,6 +117,7 @@ class E3SurfaceShader : public E3Shader // This is not a leaf class, but only cl
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3ShaderTypeSurface, E3SurfaceShader, E3Shader )
 public :
 
 	// There is no extra data for this class
@@ -125,6 +130,7 @@ class E3TextureShader : public E3SurfaceShader // This is a leaf class so no oth
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3SurfaceShaderTypeTexture, E3TextureShader, E3SurfaceShader )
 public :
 
 	TQ3TextureObject		texture ;
@@ -685,60 +691,47 @@ E3Shader_RegisterClass(void)
 
 
 	// Register the shader base class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
-											kQ3ShapeTypeShader,
-											kQ3ClassNameShader,
-											e3shader_metahandler,
-											sizeof(E3Shader)) ;
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameShader,
+										e3shader_metahandler,
+										E3Shader ) ;
 
 
 	//register illumination shader bases class
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeShader,
-												kQ3ShaderTypeIllumination,
-												kQ3ClassNameShaderIllumination,
-												e3shader_illumination_metahandler,
-												sizeof(E3IlluminationShader)) ;
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameShaderIllumination,
+											e3shader_illumination_metahandler,
+											E3IlluminationShader ) ;
 
 
 	//register illumination shaders
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeIllumination,
-												kQ3IlluminationTypeNULL,
-												kQ3ClassNameIlluminationNULL,
-												NULL,
-												sizeof(E3NULLIllumination));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameIlluminationNULL,
+											NULL,
+											E3NULLIllumination ) ;
+											
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeIllumination,
-												kQ3IlluminationTypeLambert,
-												kQ3ClassNameIlluminationLambert,
-												NULL,
-												sizeof(E3LambertIllumination));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameIlluminationLambert,
+											NULL,
+											E3LambertIllumination ) ;
 	
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeIllumination,
-												kQ3IlluminationTypePhong,
-												kQ3ClassNameIlluminationPhong,
-												NULL,
-												sizeof(E3PhongIllumination));	
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameIlluminationPhong,
+											NULL,
+											E3PhongIllumination ) ;	
 
 
 	//register surface shader base class
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeShader,
-												kQ3ShaderTypeSurface,
-												kQ3ClassNameShaderSurface,
-												e3shader_surface_metahandler,
-												sizeof(E3SurfaceShader)) ;
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameShaderSurface,
+											e3shader_surface_metahandler,
+											E3SurfaceShader ) ;
 
 
 	//register surface shaders
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShaderTypeSurface,
-												kQ3SurfaceShaderTypeTexture,
-												kQ3ClassNameSurfaceTexture,
-												e3shader_texture_metahandler,
-												sizeof(E3TextureShader)) ;
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameSurfaceTexture,
+											e3shader_texture_metahandler,
+											E3TextureShader ) ;
 
 
 	return(qd3dStatus) ;

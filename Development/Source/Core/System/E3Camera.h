@@ -71,7 +71,7 @@ extern "C" {
 
 class E3CameraInfo : public E3ShapeInfo
 	{
-	TQ3XCameraFrustumMatrixMethod frustumMatrixMethod ;
+	const TQ3XCameraFrustumMatrixMethod frustumMatrixMethod ;
 	
 public :
 

@@ -65,24 +65,13 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 
-class E3Texture : public E3Shared // This is not a leaf class, but only classes in this,
-								// file inherit from it, so it can be declared here in
-								// the .c file rather than in the .h file, hence all
-								// the fields can be public as nobody should be
-								// including this file.
-	{
-public :
-
-	// There is no extra data for this class
-	} ;
-	
-
 
 class E3PixmapTexture : public E3Texture // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TextureTypePixmap, E3PixmapTexture, E3Texture )
 public :
 
 	TQ3StoragePixmap	instanceData ;
@@ -95,6 +84,7 @@ class E3MipmapTexture : public E3Texture // This is a leaf class so no other cla
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TextureTypeMipmap, E3MipmapTexture, E3Texture )
 public :
 
 	TQ3Mipmap			instanceData ;
@@ -107,16 +97,50 @@ class E3CompressedPixmapTexture : public E3Texture // This is a leaf class so no
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TextureTypeCompressedPixmap, E3CompressedPixmapTexture, E3Texture )
 public :
 
 	TQ3CompressedPixmap	instanceData ;
 	} ;
+	
+	
 	
 
 
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      E3TextureInfo::E3TextureInfo : Constructor for class info of the class.
+//-----------------------------------------------------------------------------
+
+E3TextureInfo::E3TextureInfo	(
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+		: E3SharedInfo ( newClassMetaHandler, newParent ) ,
+		textureDimensions		( (TQ3XTextureDimensionsMethod)		Find_Method ( kQ3XMethodTypeTextureDimensions ) )		 
+	{
+
+	} ; 
+
+
+//=============================================================================
+//      e3transform_new_class_info : Method to construct a class info record.
+//-----------------------------------------------------------------------------
+static E3ClassInfo*
+e3texture_new_class_info (
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent
+			 	)
+	{
+	return new ( std::nothrow ) E3TextureInfo ( newClassMetaHandler, newParent ) ;
+	}
+
+
+
+
+
+//=============================================================================
 //      e3texture_pixmap_new : Pixmap texture new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -572,6 +596,27 @@ e3texture_compressed_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3texture_metahandler : base metahandler for textures.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3texture_metahandler(TQ3XMethodType methodType)
+	{
+	// Return our methods
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeNewObjectClass :
+			return (TQ3XFunctionPointer) e3texture_new_class_info ;
+
+		}
+	
+	return NULL ;
+	}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3Texture_RegisterClass :	Register the texture classes.
@@ -585,38 +630,30 @@ E3Texture_RegisterClass(void)
 
 	// register the texture base class
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass( kQ3ObjectTypeShared,
-												kQ3SharedTypeTexture,
-												kQ3ClassNameTexture,
-												NULL,
-												sizeof(E3Texture));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTexture,
+											e3texture_metahandler,
+											E3Texture ) ;
 
 
 	// register pixmap texture
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass( kQ3SharedTypeTexture,
-												kQ3TextureTypePixmap,
-												kQ3ClassNameTexturePixmap,
-												e3texture_pixmap_metahandler,
-												sizeof(E3PixmapTexture));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTexturePixmap,
+											e3texture_pixmap_metahandler,
+											E3PixmapTexture ) ;
 
 
 	// register mipmap texture
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass( kQ3SharedTypeTexture,
-												kQ3TextureTypeMipmap,
-												kQ3ClassNameTextureMipmap,
-												e3texture_mipmap_metahandler,
-												sizeof(E3MipmapTexture));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTextureMipmap,
+											e3texture_mipmap_metahandler,
+											E3MipmapTexture ) ;
 
 
 	// register compressed texture
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass( kQ3SharedTypeTexture,
-												kQ3TextureTypeCompressedPixmap,
-												kQ3ClassNameTextureCompressed,
-												e3texture_compressed_metahandler,
-												sizeof(E3CompressedPixmapTexture));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTextureCompressed,
+											e3texture_compressed_metahandler,
+											E3CompressedPixmapTexture ) ;
 
 	return(qd3dStatus) ;
 }
@@ -667,12 +704,9 @@ E3Texture_GetType(TQ3TextureObject texture)
 //      E3Texture_GetWidth : Get the width of the texture in pixels.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
+E3Texture::GetWidth ( TQ3Uns32* width )
 	{
-	// Find the method
-	TQ3XTextureDimensionsMethod textureDimensions = (TQ3XTextureDimensionsMethod)
-							texture->GetMethod ( kQ3XMethodTypeTextureDimensions ) ;
-	if ( textureDimensions == NULL )
+	if ( ( (E3TextureInfo*) GetClass () )->textureDimensions == NULL )
 		{
 		*width = 0;
 		return kQ3Failure ;
@@ -682,7 +716,7 @@ E3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
 
 	// Get the texture width
 	TQ3Point2D theDimensions ;
-	textureDimensions ( texture, &theDimensions ) ;
+	 ( (E3TextureInfo*) GetClass () )->textureDimensions ( this, &theDimensions ) ;
 	
 	*width = (TQ3Uns32) theDimensions.x ;
 	
@@ -697,12 +731,9 @@ E3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
 //      E3Texture_GetHeight : Get the height of a texture in pixels.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
+E3Texture::GetHeight ( TQ3Uns32* height )
 	{
-	// Find the method
-	TQ3XTextureDimensionsMethod textureDimensions = (TQ3XTextureDimensionsMethod)
-							texture->GetMethod ( kQ3XMethodTypeTextureDimensions ) ;
-	if ( textureDimensions == NULL )
+	if ( ( (E3TextureInfo*) GetClass () )->textureDimensions == NULL )
 		{
 		*height = 0 ;
 		return kQ3Failure ;
@@ -712,7 +743,7 @@ E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
 
 	// Get the texture height
 	TQ3Point2D theDimensions ;
-	textureDimensions ( texture, &theDimensions ) ;
+	 ( (E3TextureInfo*) GetClass () )->textureDimensions ( this, &theDimensions ) ;
 	
 	*height = (TQ3Uns32) theDimensions.y ;
 	

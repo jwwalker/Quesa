@@ -65,6 +65,7 @@ class E3String : public E3Shared // This is not a leaf class, but only classes i
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeString, E3String, E3Shared )
 public :
 
 	// There is no extra data for this class
@@ -77,6 +78,7 @@ class E3CString : public E3String  // This is a leaf class so no other classes u
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3StringTypeCString, E3CString, E3String )
 public :
 
 	TQ3StringPtr						instanceData ;
@@ -212,18 +214,14 @@ E3String_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-											kQ3SharedTypeString,
-											kQ3ClassNameString,
-											NULL,
-											sizeof(E3String));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameString,
+										NULL,
+										E3String ) ;
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeString,
-												kQ3StringTypeCString,
-												kQ3ClassNameStringTypeC,
-												e3string_c_metahandler,
-												sizeof(E3CString));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStringTypeC,
+											e3string_c_metahandler,
+											E3CString ) ;
 
 	return(qd3dStatus);
 }

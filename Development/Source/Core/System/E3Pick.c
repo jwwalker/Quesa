@@ -105,6 +105,7 @@ class E3Pick : public OpaqueTQ3Object // This is not a leaf class, but only clas
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypePick, E3Pick, OpaqueTQ3Object )
 public :
 
 	// There is no extra data for this class
@@ -117,6 +118,7 @@ class E3WindowPointPick : public E3Pick  // This is a leaf class so no other cla
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3PickTypeWindowPoint, E3WindowPointPick, E3Pick )
 public :
 
 	TQ3PickUnionData				instanceData ;
@@ -129,6 +131,7 @@ class E3WindowRectPick : public E3Pick  // This is a leaf class so no other clas
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3PickTypeWindowRect, E3WindowRectPick, E3Pick )
 public :
 
 	TQ3PickUnionData				instanceData ;
@@ -141,6 +144,7 @@ class E3WorldRayPick : public E3Pick  // This is a leaf class so no other classe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3PickTypeWorldRay, E3WorldRayPick, E3Pick )
 public :
 
 	TQ3PickUnionData				instanceData ;
@@ -154,6 +158,7 @@ class E3ShapePart : public E3Shared // This is not a leaf class, but only classe
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeShapePart, E3ShapePart, E3Shared )
 public :
 
 	TQ3ShapeObject					shapeObject ;
@@ -167,6 +172,7 @@ class E3MeshPart : public E3ShapePart // This is not a leaf class, but only clas
 								// the fields can be public as nobody should be
 								// including this file.
 	{
+Q3_CLASS_ENUMS ( kQ3ShapePartTypeMeshPart, E3MeshPart, E3ShapePart )
 public :
 
 	TQ3MeshComponent				meshComponent ;
@@ -179,6 +185,7 @@ class E3MeshFacePart : public E3MeshPart  // This is a leaf class so no other cl
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3MeshPartTypeMeshFacePart, E3MeshFacePart, E3MeshPart )
 public :
 
 	TQ3MeshFace						meshFace ;
@@ -191,6 +198,7 @@ class E3MeshEdgePart : public E3MeshPart  // This is a leaf class so no other cl
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3MeshPartTypeMeshEdgePart, E3MeshEdgePart, E3MeshPart )
 public :
 
 	TQ3MeshEdge						meshEdge ;
@@ -203,6 +211,7 @@ class E3MeshVertexPart : public E3MeshPart  // This is a leaf class so no other 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3MeshPartTypeMeshVertexPart, E3MeshVertexPart, E3MeshPart )
 public :
 
 	TQ3MeshVertex					meshVertex ;
@@ -947,69 +956,51 @@ E3Pick_RegisterClass(void)
 
 
 	// Register the pick classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3ObjectTypePick,
-											kQ3ClassNamePick,
-											NULL,
-											sizeof(E3Pick));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNamePick,
+										NULL,
+										E3Pick ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypePick,
-												kQ3PickTypeWindowPoint,
-												kQ3ClassNamePickWindowPoint,
-												e3pick_windowpoint_metahandler,
-												sizeof(E3WindowPointPick));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNamePickWindowPoint,
+											e3pick_windowpoint_metahandler,
+											E3WindowPointPick ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypePick,
-												kQ3PickTypeWindowRect,
-												kQ3ClassNamePickWindowRect,
-												e3pick_windowrect_metahandler,
-												sizeof(E3WindowRectPick));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNamePickWindowRect,
+											e3pick_windowrect_metahandler,
+											E3WindowRectPick ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypePick,
-												kQ3PickTypeWorldRay,
-												kQ3ClassNamePickWorldRay,
-												e3pick_worldray_metahandler,
-												sizeof(E3WorldRayPick));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNamePickWorldRay,
+											e3pick_worldray_metahandler,
+											E3WorldRayPick ) ;
 	
 	//----------------------------------------------------------------------------------
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
-												kQ3SharedTypeShapePart,
-												kQ3ClassNameShapePart,
-												e3shapepart_metahandler,
-												sizeof(E3ShapePart));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameShapePart,
+											e3shapepart_metahandler,
+											E3ShapePart ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShapePart,
-												kQ3ShapePartTypeMeshPart,
-												kQ3ClassNameMeshShapePart,
-												e3meshpart_metahandler,
-												sizeof(E3MeshPart));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameMeshShapePart,
+											e3meshpart_metahandler,
+											E3MeshPart ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapePartTypeMeshPart,
-												kQ3MeshPartTypeMeshFacePart,
-												kQ3ClassNameMeshFacePart,
-												e3meshpart_face_metahandler,
-												sizeof(E3MeshFacePart));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameMeshFacePart,
+											e3meshpart_face_metahandler,
+											E3MeshFacePart ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapePartTypeMeshPart,
-												kQ3MeshPartTypeMeshEdgePart,
-												kQ3ClassNameMeshEdgePart,
-												e3meshpart_edge_metahandler,
-												sizeof(E3MeshEdgePart));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameMeshEdgePart,
+											e3meshpart_edge_metahandler,
+											E3MeshEdgePart ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapePartTypeMeshPart,
-												kQ3MeshPartTypeMeshVertexPart,
-												kQ3ClassNameMeshVertexPart,
-												e3meshpart_vertex_metahandler,
-												sizeof(E3MeshVertexPart));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameMeshVertexPart,
+											e3meshpart_vertex_metahandler,
+											E3MeshVertexPart ) ;
 
 	return(qd3dStatus);
 }

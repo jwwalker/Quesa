@@ -58,24 +58,12 @@
 
 
 
-class E3Transform : public E3ShapeData // This is not a leaf class, but only classes in this,
-								// file inherit from it, so it can be declared here in
-								// the .c file rather than in the .h file, hence all
-								// the fields can be public as nobody should be
-								// including this file.
-	{
-public :
-
-	// There is no extra data for this class
-	} ;
-	
-
-
 class E3MatrixTransform : public E3Transform  // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeMatrix, E3MatrixTransform, E3Transform )
 public :
 
 	TQ3Matrix4x4						instanceData ;
@@ -88,6 +76,7 @@ class E3RotateTransform : public E3Transform  // This is a leaf class so no othe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeRotate, E3RotateTransform, E3Transform )
 public :
 
 	TQ3RotateTransformData				instanceData ;
@@ -100,6 +89,7 @@ class E3RotateAboutPointTransform : public E3Transform  // This is a leaf class 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeRotateAboutPoint, E3RotateAboutPointTransform, E3Transform )
 public :
 
 	TQ3RotateAboutPointTransformData	instanceData ;
@@ -112,6 +102,7 @@ class E3RotateAboutAxisTransform : public E3Transform  // This is a leaf class s
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeRotateAboutAxis, E3RotateAboutAxisTransform, E3Transform )
 public :
 
 	TQ3RotateAboutAxisTransformData		instanceData ;
@@ -124,6 +115,7 @@ class E3ScaleTransform : public E3Transform  // This is a leaf class so no other
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeScale, E3ScaleTransform, E3Transform )
 public :
 
 	TQ3Vector3D							instanceData ;
@@ -136,6 +128,7 @@ class E3TranslateTransform : public E3Transform  // This is a leaf class so no o
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeTranslate, E3TranslateTransform, E3Transform )
 public :
 
 	TQ3Vector3D							instanceData ;
@@ -148,6 +141,7 @@ class E3QuaternionTransform : public E3Transform  // This is a leaf class so no 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeQuaternion, E3QuaternionTransform, E3Transform )
 public :
 
 	TQ3Quaternion						instanceData ;
@@ -160,6 +154,7 @@ class E3ResetTransform : public E3Transform  // This is a leaf class so no other
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeReset, E3ResetTransform, E3Transform )
 public :
 
 	// There is no extra data for this class
@@ -172,6 +167,7 @@ class E3CameraTransform : public E3Transform  // This is a leaf class so no othe
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeCamera, E3CameraTransform, E3Transform )
 public :
 
 	TQ3CameraTransformData				instanceData ;
@@ -184,6 +180,7 @@ class E3CameraRasterizeTransform : public E3Transform  // This is a leaf class s
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3TransformTypeCameraRasterize, E3CameraRasterizeTransform, E3Transform )
 public :
 
 	// There is no extra data for this class
@@ -194,6 +191,51 @@ public :
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      E3TransformInfo::E3TransformInfo : Constructor for class info of the class.
+//-----------------------------------------------------------------------------
+
+E3TransformInfo::E3TransformInfo	(
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent // nil for root class of course
+			 	)
+		: E3ShapeInfo ( newClassMetaHandler, newParent ) ,
+		matrixMethod		( (TQ3XTransformMatrixMethod)		Find_Method ( kQ3XMethodTypeTransformMatrix ) )		 
+	{
+
+	} ;
+
+
+//=============================================================================
+//      e3transform_new_class_info : Method to construct a class info record.
+//-----------------------------------------------------------------------------
+static E3ClassInfo*
+e3transform_new_class_info (
+				TQ3XMetaHandler	newClassMetaHandler,
+				E3ClassInfo*	newParent
+			 	)
+	{
+	return new ( std::nothrow ) E3TransformInfo ( newClassMetaHandler, newParent ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      e3transform_default_matrix : Return the unit matrix.
+//-----------------------------------------------------------------------------
+static void
+e3transform_default_matrix(void *transformData, TQ3Matrix4x4 *theMatrix)
+	{
+	// Return the unit matrix
+	Q3Matrix4x4_SetIdentity ( theMatrix ) ;
+	}
+
+
+
+
+
+//=============================================================================
 //      e3transform_matrix_matrix : Return the matrix representation.
 //-----------------------------------------------------------------------------
 static void
@@ -1029,19 +1071,22 @@ e3transform_camera_rasterize_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
+	{
 	// Return our methods
-	switch (methodType) {
-		case kQ3XMethodTypeObjectIsDrawable:
-			theMethod = (TQ3XFunctionPointer) kQ3True;
-			break;
+	switch ( methodType )
+		{
+		case kQ3XMethodTypeNewObjectClass :
+			return (TQ3XFunctionPointer) e3transform_new_class_info ;
+
+		case kQ3XMethodTypeTransformMatrix :
+			return (TQ3XFunctionPointer) e3transform_default_matrix ;
+
+		case kQ3XMethodTypeObjectIsDrawable :
+			return (TQ3XFunctionPointer) kQ3True ;
 		}
 	
-	return(theMethod);
-}
+	return NULL ;
+	}
 
 
 
@@ -1059,81 +1104,59 @@ E3Transform_RegisterClass(void)
 
 
 	// Register the camera classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
-											kQ3ShapeTypeTransform,
-											kQ3ClassNameTransform,
-											e3transform_metahandler,
-											sizeof(E3Transform));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransform,
+										e3transform_metahandler,
+										E3Transform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeMatrix,
-												kQ3ClassNameTransformMatrix,
-												e3transform_matrix_metahandler,
-												sizeof(E3MatrixTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformMatrix,
+											e3transform_matrix_metahandler,
+											E3MatrixTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeRotate,
-												kQ3ClassNameTransformRotate,
-												e3transform_rotate_metahandler,
-												sizeof(E3RotateTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformRotate,
+											e3transform_rotate_metahandler,
+											E3RotateTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeRotateAboutPoint,
-												kQ3ClassNameTransformRotateAboutPoint,
-												e3transform_rotateaboutpoint_metahandler,
-												sizeof(E3RotateAboutPointTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformRotateAboutPoint,
+											e3transform_rotateaboutpoint_metahandler,
+											E3RotateAboutPointTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeRotateAboutAxis,
-												kQ3ClassNameTransformRotateAboutAxis,
-												e3transform_rotateaboutaxis_metahandler,
-												sizeof(E3RotateAboutAxisTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformRotateAboutAxis,
+											e3transform_rotateaboutaxis_metahandler,
+											E3RotateAboutAxisTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeScale,
-												kQ3ClassNameTransformScale,
-												e3transform_scale_metahandler,
-												sizeof(E3ScaleTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformScale,
+											e3transform_scale_metahandler,
+											E3ScaleTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeTranslate,
-												kQ3ClassNameTransformTranslate,
-												e3transform_translate_metahandler,
-												sizeof(E3TranslateTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformTranslate,
+											e3transform_translate_metahandler,
+											E3TranslateTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeQuaternion,
-												kQ3ClassNameTransformQuaternion,
-												e3transform_quaternion_metahandler,
-												sizeof(E3QuaternionTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformQuaternion,
+											e3transform_quaternion_metahandler,
+											E3QuaternionTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeReset,
-												kQ3ClassNameTransformReset,
-												e3transform_reset_metahandler,
-												sizeof(E3ResetTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformReset,
+											e3transform_reset_metahandler,
+											E3ResetTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeCamera,
-												kQ3ClassNameTransformCamera,
-												e3transform_camera_metahandler,
-												sizeof(E3CameraTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformCamera,
+											e3transform_camera_metahandler,
+											E3CameraTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeTransform,
-												kQ3TransformTypeCameraRasterize,
-												kQ3ClassNameTransformCameraRasterize,
-												e3transform_camera_rasterize_metahandler,
-												sizeof(E3CameraRasterizeTransform));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformCameraRasterize,
+											e3transform_camera_rasterize_metahandler,
+											E3CameraRasterizeTransform ) ;
 
 	return(qd3dStatus);
 }
@@ -1188,20 +1211,14 @@ E3Transform_GetType(TQ3TransformObject theTransform)
 //=============================================================================
 //      E3Transform_GetMatrix : Return the matrix for the transform.
 //-----------------------------------------------------------------------------
-TQ3Matrix4x4 *
-E3Transform_GetMatrix(TQ3TransformObject theTransform, TQ3Matrix4x4 *theMatrix)
+TQ3Matrix4x4*
+E3Transform::GetMatrix ( TQ3Matrix4x4* theMatrix )
 	{
-	// Get the matrix method for the transform
-	TQ3XTransformMatrixMethod matrixMethod = (TQ3XTransformMatrixMethod)
-					theTransform->GetMethod ( kQ3XMethodTypeTransformMatrix ) ;
-
-
-
 	// Call the method, or revert to the identity matrix on error
-	if ( matrixMethod != NULL )
-		matrixMethod ( theTransform->FindLeafInstanceData (), theMatrix ) ;
+	if ( ( (E3TransformInfo*) GetClass () )->matrixMethod != NULL )
+		( (E3TransformInfo*) GetClass () )->matrixMethod ( FindLeafInstanceData (), theMatrix ) ;
 	else
-		Q3Matrix4x4_SetIdentity ( theMatrix ) ;
+		Q3Matrix4x4_SetIdentity ( theMatrix ) ; // Should never happen now as we have a default method
 	
 	return theMatrix ;
 	}

@@ -2499,46 +2499,34 @@ E3Group_RegisterClass(void)
 
 
 	// Register the group classes
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShape,
-											kQ3ShapeTypeGroup,
-											kQ3ClassNameGroup,
-											e3group_metahandler,
-											sizeof(E3Group));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroup,
+										e3group_metahandler,
+										E3Group ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
-												kQ3GroupTypeDisplay,
-												kQ3ClassNameGroupDisplay,
-												e3group_display_metahandler,
-												sizeof(E3DisplayGroup));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupDisplay,
+											e3group_display_metahandler,
+											E3DisplayGroup ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3GroupTypeDisplay,
-												kQ3DisplayGroupTypeOrdered,
-												kQ3ClassNameGroupDisplayOrdered,
-												e3group_display_ordered_metahandler,
-												sizeof(E3OrderedDisplayGroup));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupDisplayOrdered,
+											e3group_display_ordered_metahandler,
+											E3OrderedDisplayGroup ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3GroupTypeDisplay,
-												kQ3DisplayGroupTypeIOProxy,
-												kQ3ClassNameGroupDisplayIOProxy,
-												e3group_display_ioproxy_metahandler,
-												sizeof(E3IOProxyDisplayGroup));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupDisplayIOProxy,
+											e3group_display_ioproxy_metahandler,
+											E3IOProxyDisplayGroup ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
-												kQ3GroupTypeLight,
-												kQ3ClassNameGroupLight,
-												e3group_light_metahandler,
-												sizeof(E3LightGroup));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupLight,
+											e3group_light_metahandler,
+											E3LightGroup ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapeTypeGroup,
-												kQ3GroupTypeInfo,
-												kQ3ClassNameGroupInfo,
-												e3group_info_metahandler,
-												sizeof(E3InfoGroup));
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupInfo,
+											e3group_info_metahandler,
+											E3InfoGroup ) ;
 
 	return(qd3dStatus);
 }

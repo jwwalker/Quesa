@@ -77,6 +77,7 @@ class E3MacDrawContext : public E3DrawContext  // This is a leaf class so no oth
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3DrawContextTypeMacintosh, E3MacDrawContext, E3DrawContext )
 public :
 
 	TQ3DrawContextUnionData				instanceData ;
@@ -965,11 +966,9 @@ E3MacDrawContext_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
-											kQ3DrawContextTypeMacintosh,
-											kQ3ClassNameDrawContextMac,
-											e3drawcontext_mac_metahandler,
-											sizeof(E3MacDrawContext));
+	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameDrawContextMac,
+										e3drawcontext_mac_metahandler,
+										E3MacDrawContext ) ;
 
 	return(qd3dStatus);
 }

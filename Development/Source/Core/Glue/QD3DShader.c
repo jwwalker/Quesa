@@ -1308,7 +1308,7 @@ Q3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
 
 
 	// Call our implementation
-	return(E3Texture_GetWidth(texture, width));
+	return ( (E3Texture*) texture )->GetWidth ( width ) ;
 }
 
 
@@ -1346,7 +1346,7 @@ Q3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
 
 
 	// Call our implementation
-	return(E3Texture_GetHeight(texture, height));
+	return ( (E3Texture*) texture )->GetHeight ( height ) ;
 }
 
 

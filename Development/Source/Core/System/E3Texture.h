@@ -5,7 +5,7 @@
         Header file for E3Texture.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -63,14 +63,52 @@ extern "C" {
 
 
 //=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+class E3TextureInfo : public E3SharedInfo
+	{
+	const TQ3XTextureDimensionsMethod textureDimensions ;
+	
+public :
+
+									E3TextureInfo	(
+													TQ3XMetaHandler	newClassMetaHandler,
+													E3ClassInfo*	newParent
+					 								) ; // constructor	
+	friend class E3Texture ;
+	} ;
+
+
+
+
+class E3Texture : public E3Shared // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeTexture, E3Texture, E3Shared )
+public :
+
+	// There is no extra data for this class
+
+	TQ3Status						GetWidth ( TQ3Uns32* width ) ;
+	TQ3Status						GetHeight ( TQ3Uns32* height ) ;
+
+	} ;
+	
+
+
+//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 TQ3Status				E3Texture_RegisterClass(void);
 TQ3Status				E3Texture_UnregisterClass(void);
 
 TQ3ObjectType			E3Texture_GetType(	TQ3TextureObject texture);
-TQ3Status				E3Texture_GetWidth(	TQ3TextureObject texture, TQ3Uns32 *width);
-TQ3Status				E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height);
+//TQ3Status				E3Texture_GetWidth(	TQ3TextureObject texture, TQ3Uns32 *width);
+//TQ3Status				E3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height);
 
 TQ3TextureObject		E3PixmapTexture_New(const TQ3StoragePixmap *pixmap);
 TQ3Status				E3PixmapTexture_GetPixmap(	TQ3TextureObject texture, TQ3StoragePixmap *pixmap);

@@ -106,6 +106,7 @@ class E3Viewer : public OpaqueTQ3Object  // This is a leaf class so no other cla
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeViewer, E3Viewer, OpaqueTQ3Object )
 public :
 
 	TQ3ViewerData						instanceData ;

@@ -145,7 +145,7 @@ Q3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size)
 
 
 	// Call our implementation
-	return(E3Storage_GetSize(storage, size));
+	return ( (E3Storage*) storage )->GetSize ( size ) ;
 }
 
 
@@ -193,7 +193,7 @@ Q3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 
 
 	// Call our implementation
-	return(E3Storage_GetData(storage, offset, dataSize, data, sizeRead));
+	return ( (E3Storage*) storage )->GetData ( offset, dataSize, data, sizeRead ) ;
 }
 
 
@@ -241,7 +241,7 @@ Q3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 
 
 	// Call our implementation
-	return(E3Storage_SetData(storage, offset, dataSize, data, sizeWritten));
+	return ( (E3Storage*) storage )->SetData ( offset, dataSize, data, sizeWritten ) ;
 }
 
 
