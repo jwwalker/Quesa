@@ -58,9 +58,12 @@
 //=============================================================================
 //      ir_state_is_power_of_2 : Is a number a power of 2?
 //-----------------------------------------------------------------------------
-#define ir_state_is_power_of_2(_x) (((_x)&((_x)-1))==0)
+//		Note : Cute trick found in:
+//			   http://web2.airmail.net/sjbaker1/software/cute_code.html
+//-----------------------------------------------------------------------------
+#define ir_state_is_power_of_2(_x)			(((_x) & ((_x) - 1)) == 0)
 
-// cute trick found in http://web2.airmail.net/sjbaker1/software/cute_code.html
+
 
 
 
@@ -238,8 +241,12 @@ ir_state_texture_convert_depth(TQ3Uns32			theWidth,
 	srcRow = srcBasePtr;
 	dstRow = dstBasePtr;
 
-	if(srcByteOrder == kQ3EndianBig){
-		switch(srcPixelType){
+
+
+	// Big endian conversion
+	if(srcByteOrder == kQ3EndianBig)
+		{
+		switch(srcPixelType) {
 			case kQ3PixelTypeARGB32:
 				{
 				for (y = 0; y < theHeight; y++)
@@ -402,8 +409,12 @@ ir_state_texture_convert_depth(TQ3Uns32			theWidth,
 				break;	//kQ3PixelTypeRGB16_565
 			}
 		}
-	else{
-		switch(srcPixelType){
+
+
+	// Little endian conversion
+	else
+		{
+		switch(srcPixelType) {
 			case kQ3PixelTypeARGB32:
 				{
 				for (y = 0; y < theHeight; y++)
@@ -566,6 +577,8 @@ ir_state_texture_convert_depth(TQ3Uns32			theWidth,
 				break;	//kQ3PixelTypeRGB16_565
 			}
 		}
+
+
 
 	// Return the new image
 	return(dstBasePtr);
