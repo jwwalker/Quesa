@@ -424,6 +424,29 @@ E3Camera::UnregisterClass(void)
 
 
 //=============================================================================
+//      E3Camera::IsOfMyClass : Check if object pointer is valid and of type camera
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3ShapeTypeCamera )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Camera::IsOfMyClass ( TQ3Object object )
+	{
+	if ( object == NULL )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3Camera ) ;
+		
+	return kQ3False ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3Camera_GetType : Return the type of a camera.
 //-----------------------------------------------------------------------------
 TQ3ObjectType
