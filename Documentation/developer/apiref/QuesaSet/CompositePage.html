@@ -26,7 +26,7 @@ the specified type of attribute, it is replaced.
 <tr valign=top><td><tt>data</tt></td><td>Pointer to the attribute data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Clear"></a>
@@ -48,7 +48,7 @@ Q3AttributeSet_Clear (
 <tr valign=top><td><tt>theType</tt></td><td>The attribute type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Contains"></a>
@@ -90,7 +90,7 @@ Q3AttributeSet_Empty (
 <tr valign=top><td><tt>target</tt></td><td>The attribute set.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Get"></a>
@@ -117,7 +117,7 @@ large enough for the given kind of attribute.
 <tr valign=top><td><tt>data</tt></td><td>Pointer to a buffer to receive the attribute data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_GetNextAttributeType"></a>
@@ -149,10 +149,10 @@ while ( Q3AttributeSet_GetNextAttributeType( set, &theType ) &&
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>source</tt></td><td>The attribute set object.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>(input-output parameter) An element type.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Given an attribute type, receives the next attribute type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Inherit"></a>
@@ -181,7 +181,7 @@ but any existing attributes in it will be removed.
 <tr valign=top><td><tt>result</tt></td><td>An attribute set to be redefined.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_New"></a>
@@ -218,7 +218,7 @@ This should only be used within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Attribute_Submit"></a>
@@ -244,7 +244,7 @@ This should only be used within a submitting loop.
 <tr valign=top><td><tt>view</tt></td><td>The view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Add"></a>
@@ -273,7 +273,7 @@ returned by <code>Q3XElementClass_Register</code>.
 <tr valign=top><td><tt>data</tt></td><td>Pointer to the element data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Clear"></a>
@@ -298,7 +298,7 @@ the function returns kQ3Failure.
 <tr valign=top><td><tt>theType</tt></td><td>The element type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Contains"></a>
@@ -349,7 +349,7 @@ type, the element will be replaced.
 <tr valign=top><td><tt>destSet</tt></td><td>Set to receive the copied element.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Empty"></a>
@@ -369,7 +369,7 @@ Q3Set_Empty (
 <tr valign=top><td><tt>target</tt></td><td>The set object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Get"></a>
@@ -393,7 +393,7 @@ Q3Set_Get (
 <tr valign=top><td><tt>data</tt></td><td>Pointer to a buffer large enough to receive the element data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_GetNextElementType"></a>
@@ -425,10 +425,10 @@ while ( Q3Set_GetNextElementType( set, &theType ) &&
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>(input-output parameter) An element type.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Given an element type, receives the next element type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_GetType"></a>
@@ -485,7 +485,7 @@ Q3XAttributeClass_Register (
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeType</tt></td><td>(output) A new attribute type.</td></tr>
+<tr valign=top><td><tt>attributeType</tt></td><td>Receives the new attribute type.</td></tr>
 <tr valign=top><td><tt>className</tt></td><td>Unique name for the new attribute.</td></tr>
 <tr valign=top><td><tt>sizeOfElement</tt></td><td>Size in bytes of the attribute data.</td></tr>
 <tr valign=top><td><tt>metaHandler</tt></td><td>Your metahandler, providing appropriate methods.
@@ -527,7 +527,7 @@ as <code>Q3XObjectHierarchy_UnregisterClass</code>.
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>elementType</tt></td><td>(output) An element type assigned by Quesa.</td></tr>
+<tr valign=top><td><tt>elementType</tt></td><td>Receives the element type assigned by Quesa.</td></tr>
 <tr valign=top><td><tt>name</tt></td><td>The unique name of the new class.</td></tr>
 <tr valign=top><td><tt>sizeOfElement</tt></td><td>Size of the data for the element.</td></tr>
 <tr valign=top><td><tt>metaHandler</tt></td><td>Your metahandler function that returns element methods.
@@ -556,10 +556,10 @@ you provided when you called Q3XElementClass_Register.
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
 <tr valign=top><td><tt>elementType</tt></td><td>An element type.</td></tr>
-<tr valign=top><td><tt>sizeOfElement</tt></td><td>(output) Size in bytes of the element.</td></tr>
+<tr valign=top><td><tt>sizeOfElement</tt></td><td>Receives the size in bytes of the element.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the function.
+<b>Result:</b> Success or failure of the operation.
  
 <hr>
 <h2>Typedefs</h2>
@@ -581,7 +581,7 @@ copy attribute data from a parent set to a child set.
 <tr valign=top><td><tt>toInternalAttribute</tt></td><td>Destination of the copy, in internal form.</td><tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the method.
+<b>Result:</b> Success or failure of the method.
 
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XAttributeDefaultMethod"></a>
@@ -630,7 +630,7 @@ is the size you provided when registering the class.
 <tr valign=top><td><tt>toInternalElement</tt></td><td>Destination of the copy, in internal form.</td><tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the method.
+<b>Result:</b> Success or failure of the method.
 
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XElementCopyDuplicateMethod"></a>
@@ -650,7 +650,7 @@ is the size you provided when registering the class.
 <tr valign=top><td><tt>toInternalElement</tt></td><td>Destination of the copy, in internal form.</td><tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the method.
+<b>Result:</b> Success or failure of the method.
 
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XElementCopyGetMethod"></a>
@@ -672,7 +672,7 @@ a memory copy of <code>sizeOfElement</code> bytes.
 <tr valign=top><td><tt>toAPIElement</tt></td><td>Destination of the copy, in external form.</td><tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the method.
+<b>Result:</b> Success or failure of the method.
 
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XElementCopyReplaceMethod"></a>
@@ -694,7 +694,7 @@ which you may need to dispose before replacing by new data.
 <tr valign=top><td><tt>toInternalElement</tt></td><td>Destination of the copy, in internal form.</td><tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the method.
+<b>Result:</b> Success or failure of the method.
 
 <hr>
 <a name="//apple_ref/c/tdef/TQ3XElementDeleteMethod"></a>
@@ -712,8 +712,8 @@ which you may need to dispose before replacing by new data.
 <tr valign=top><td><tt>internalElement</tt></td><td>Data to be deleted, in its internal form.</td><tr>
 </table>
 </blockquote>
-<b>Result:</b> Error status of the method.
+<b>Result:</b> Success or failure of the method.
 
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 6/1/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 6/2/2002 </a></font></p>
 </body></html>
