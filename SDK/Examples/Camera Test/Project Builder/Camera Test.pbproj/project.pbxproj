@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 32;
+	objectVersion = 38;
 	objects = {
 		00D09AA2FEE24BF0C0A80006 = {
 			isa = PBXFileReference;
@@ -17,6 +17,16 @@
 			settings = {
 			};
 		};
+//000
+//001
+//002
+//003
+//004
+//010
+//011
+//012
+//013
+//014
 		010832F8FEF3418F7F000001 = {
 			isa = PBXFileReference;
 			name = main.nib;
@@ -34,6 +44,7 @@
 			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -59,6 +70,16 @@
 			settings = {
 			};
 		};
+//010
+//011
+//012
+//013
+//014
+//030
+//031
+//032
+//033
+//034
 		03F20AB0FEE9A4E17F000001 = {
 			isa = PBXFileReference;
 			name = QutTexture.c;
@@ -85,14 +106,34 @@
 				);
 			};
 		};
+//030
+//031
+//032
+//033
+//034
+//040
+//041
+//042
+//043
+//044
 		04313892FE3035C9C02AAC07 = {
 			buildActionMask = 2147483647;
 			files = (
 				0DC7C4A3FEF4498D7F000001,
 			);
 			isa = PBXRezBuildPhase;
-			name = "ResourceManager Resources";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
+//040
+//041
+//042
+//043
+//044
+//060
+//061
+//062
+//063
+//064
 		06B177C7FEDA5986C0A80006 = {
 			children = (
 				06B177C8FEDA5986C0A80006,
@@ -168,11 +209,31 @@
 				);
 			};
 		};
+//060
+//061
+//062
+//063
+//064
+//070
+//071
+//072
+//073
+//074
 		07D34CD1FFE40CB57F000001 = {
 			isa = PBXApplicationReference;
 			path = "Camera Test.app";
 			refType = 3;
 		};
+//070
+//071
+//072
+//073
+//074
+//080
+//081
+//082
+//083
+//084
 		0867D6AAFE840B52C02AAC07 = {
 			children = (
 				0867D6ABFE840B52C02AAC07,
@@ -193,6 +254,16 @@
 			settings = {
 			};
 		};
+//080
+//081
+//082
+//083
+//084
+//0D0
+//0D1
+//0D2
+//0D3
+//0D4
 		0DC7C4A2FEF4498D7F000001 = {
 			isa = PBXFileReference;
 			name = QutCarbon.rsrc;
@@ -205,6 +276,16 @@
 			settings = {
 			};
 		};
+//0D0
+//0D1
+//0D2
+//0D3
+//0D4
+//0E0
+//0E1
+//0E2
+//0E3
+//0E4
 		0E4830C9FEF45DF97F000001 = {
 			isa = PBXFileReference;
 			name = "Camera Test.c";
@@ -219,6 +300,16 @@
 				);
 			};
 		};
+//0E0
+//0E1
+//0E2
+//0E3
+//0E4
+//190
+//191
+//192
+//193
+//194
 		195DF8C9FE9D4F0611CA2CBB = {
 			children = (
 				07D34CD1FFE40CB57F000001,
@@ -227,6 +318,16 @@
 			name = Products;
 			refType = 4;
 		};
+//190
+//191
+//192
+//193
+//194
+//200
+//201
+//202
+//203
+//204
 		20286C28FDCF999611CA2CEA = {
 			buildStyles = (
 				0157033600C1C00E7F000001,
@@ -234,6 +335,7 @@
 			);
 			isa = PBXProject;
 			mainGroup = 20286C29FDCF999611CA2CEA;
+			projectDirPath = "";
 			targets = (
 				20286C34FDCF999611CA2CEA,
 			);
@@ -275,6 +377,7 @@
 			children = (
 				0157033900C1C0247F000001,
 				20286C33FDCF999611CA2CEA,
+				F549DE0304A6450F01000064,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libraries";
@@ -300,7 +403,6 @@
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "-DQUESA_OS_MACINTOSH=1 -DTARGET_API_MAC_CARBON=1 -DTARGET_RT_MAC_MACHO=1";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -308,8 +410,6 @@
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				WRAPPER_EXTENSION = app;
-			};
-			conditionalBuildSettings = {
 			};
 			dependencies = (
 			);
@@ -319,8 +419,8 @@
 			productName = "Camera Test";
 			productReference = 07D34CD1FFE40CB57F000001;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist SYSTEM \"file://localhost/System/Library/DTDs/PropertyList.dtd\">
-<plist version=\"0.9\">
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
@@ -350,7 +450,7 @@
 				03F20AB2FEE9A4E17F000001,
 			);
 			isa = PBXHeadersBuildPhase;
-			name = Headers;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C36FDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
@@ -359,7 +459,7 @@
 				010832F9FEF3418F7F000001,
 			);
 			isa = PBXResourcesBuildPhase;
-			name = "Bundle Resources";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C38FDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
@@ -370,19 +470,42 @@
 				0E4830CAFEF45DF97F000001,
 			);
 			isa = PBXSourcesBuildPhase;
-			name = Sources;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C3BFDCF999611CA2CEA = {
 			buildActionMask = 2147483647;
 			files = (
 				20286C3CFDCF999611CA2CEA,
 				0157033A00C1C0247F000001,
+				F549DE0404A6450F01000064,
 			);
 			isa = PBXFrameworksBuildPhase;
-			name = "Frameworks & Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		20286C3CFDCF999611CA2CEA = {
 			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//200
+//201
+//202
+//203
+//204
+//F50
+//F51
+//F52
+//F53
+//F54
+		F549DE0304A6450F01000064 = {
+			isa = PBXFrameworkReference;
+			name = QuickTime.framework;
+			path = /System/Library/Frameworks/QuickTime.framework;
+			refType = 0;
+		};
+		F549DE0404A6450F01000064 = {
+			fileRef = F549DE0304A6450F01000064;
 			isa = PBXBuildFile;
 			settings = {
 			};
