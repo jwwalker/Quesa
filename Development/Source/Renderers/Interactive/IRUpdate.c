@@ -2145,7 +2145,8 @@ TQ3Status
 IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 									TQ3InteractiveData			*instanceData,
 									TQ3AntiAliasStyleData		*styleData)
-{
+{	const TQ3Uns32		ATI_FSAA_SAMPLES = 510;
+	TQ3Int32			fsaaLevel;
 #pragma unused(theView)
 
 
@@ -2177,10 +2178,22 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 		// Do edges or polygons as required
 		if (styleData->mode & kQ3AntiAliasModeMaskEdges)
 			glEnable(GL_LINE_SMOOTH);
-		
+
 		if (styleData->mode & kQ3AntiAliasModeMaskFilled)
 			glEnable(GL_POLYGON_SMOOTH);
 		}
+
+
+
+	// Special-case FSAA support for ATI hardware on the Mac
+	#if QUESA_OS_MACINTOSH
+	if (styleData->state == kQ3On && (styleData->mode & kQ3AntiAliasModeMaskFullScreen))
+		fsaaLevel = (styleData->quality > 0.5f) ? 4 : 2;
+	else
+		fsaaLevel = 0;
+
+	aglSetInteger(instanceData->glContext, ATI_FSAA_SAMPLES, &fsaaLevel);
+	#endif
 
 	return(kQ3Success);
 }
