@@ -4234,7 +4234,9 @@ e3geom_mesh_cache_new(
 	TQ3AttributeSet 				attr;
 	
 
-	if(meshPtr->numCorners || e3mesh_NumFaces(meshPtr) == 1)
+	if (e3mesh_NumFaces(meshPtr) == 0)
+		return NULL;
+	else if(meshPtr->numCorners || e3mesh_NumFaces(meshPtr) == 1)
 		return e3geom_mesh_cache_new_as_polys(meshPtr);
 	else
 		{
