@@ -377,6 +377,7 @@ typedef struct OpaqueTQ3Object {
 typedef struct E3Globals {
 	// System
 	TQ3Boolean				systemInitialised;
+	TQ3Boolean				systemDoBottleneck;
 	TQ3Uns32				systemRefCount;
 
 
@@ -396,7 +397,6 @@ typedef struct E3Globals {
 	TQ3Boolean				errMgrClearWarning;
 	TQ3Boolean				errMgrClearNotice;
 	TQ3Boolean				errMgrClearPlatform;
-	TQ3Boolean				errMgrNeedsClearing;
 	TQ3Boolean				errMgrIsFatalError;
 	TQ3Error				errMgrOldestError;
 	TQ3Warning				errMgrOldestWarning;

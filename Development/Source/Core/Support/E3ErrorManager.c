@@ -230,8 +230,8 @@ E3ErrorManager_GetError(TQ3Error *oldestError, TQ3Error *latestError)
 
 
 	// Set our flags
-	theGlobals->errMgrClearError = kQ3True;
-	theGlobals->errMgrNeedsClearing = kQ3True;
+	theGlobals->systemDoBottleneck = kQ3True;
+	theGlobals->errMgrClearError   = kQ3True;
 }
 
 
@@ -259,8 +259,8 @@ E3ErrorManager_GetWarning(TQ3Warning *oldestWarning, TQ3Warning *latestWarning)
 
 
 	// Set our flags
+	theGlobals->systemDoBottleneck = kQ3True;
 	theGlobals->errMgrClearWarning = kQ3True;
-	theGlobals->errMgrNeedsClearing = kQ3True;
 }
 
 
@@ -288,8 +288,8 @@ E3ErrorManager_GetNotice(TQ3Notice *oldestNotice, TQ3Notice *latestNotice)
 
 
 	// Set our flags
-	theGlobals->errMgrClearNotice = kQ3True;
-	theGlobals->errMgrNeedsClearing = kQ3True;
+	theGlobals->systemDoBottleneck = kQ3True;
+	theGlobals->errMgrClearNotice  = kQ3True;
 }
 
 
@@ -317,8 +317,8 @@ E3ErrorManager_GetPlatformError(TQ3Uns32 *oldestPlatform, TQ3Uns32 *latestPlatfo
 
 
 	// Set our flags
+	theGlobals->systemDoBottleneck  = kQ3True;
 	theGlobals->errMgrClearPlatform = kQ3True;
-	theGlobals->errMgrNeedsClearing = kQ3True;
 }
 
 
