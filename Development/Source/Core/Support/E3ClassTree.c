@@ -728,7 +728,7 @@ E3InstanceNode::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 																  kQ3False ) ;
 			if (copyAddMethod != NULL)
 				{
-				qd3dStatus = copyAddMethod(paramData, this );
+				qd3dStatus = copyAddMethod(paramData, ( (TQ3Uns8*) this + parentInstanceSize ) );
 				if (qd3dStatus != kQ3Success)
 					{
 					if (parentObject != NULL)
@@ -975,13 +975,21 @@ E3ClassTree::CreateInstance (	TQ3ObjectType	classType,
 //-----------------------------------------------------------------------------
 void
 E3InstanceNode::DeleteInstanceData ( E3ClassInfoPtr theClass )
-	{	
+	{
+	TQ3Uns32 parentInstanceSize = 0 ;
+	
+	if ( theClass->theParent != NULL )
+		parentInstanceSize = theClass->theParent->instanceSize ;
+
 	// Call the object's delete method
 	TQ3XElementDeleteMethod elementDeleteMethod = (TQ3XElementDeleteMethod) theClass->Find_Method (
 																			kQ3XMethodTypeElementDelete,
 																			kQ3False ) ;
-	if (elementDeleteMethod != NULL) 
-		elementDeleteMethod ( (void*) this ) ;		
+	if (elementDeleteMethod != NULL)
+		{
+		E3InstanceNode* thisPtr = this ; // So can be set to null in delete method
+		elementDeleteMethod ( ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
+		}	
 	else
 		{
 		// Get the method
@@ -990,7 +998,7 @@ E3InstanceNode::DeleteInstanceData ( E3ClassInfoPtr theClass )
 																		kQ3False ) ;
 
 		if (deleteMethod != NULL)
-			deleteMethod ( (TQ3Object) this , (void*)  ( (TQ3Uns8*) this + ( theClass->theParent != NULL ? theClass->theParent->instanceSize : 0 ) ) ) ;
+			deleteMethod ( (TQ3Object) this , (void*)  ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
 		}
 
 
@@ -1076,7 +1084,7 @@ E3InstanceNode::DuplicateInstanceData (	TQ3Object		newObject,
 	TQ3Uns32 parentInstanceSize = 0 ;
 	
 	// If the object has a parent, duplicate the parent object
-	if ( theClass->theParent != NULL)
+	if ( theClass->theParent != NULL )
 		{
 		parentInstanceSize = theClass->theParent->instanceSize ;
 		qd3dStatus = DuplicateInstanceData ( newObject , theClass->theParent ) ;
@@ -1102,7 +1110,7 @@ E3InstanceNode::DuplicateInstanceData (	TQ3Object		newObject,
 																			kQ3False ) ;
 			if (elementDuplicateMethod != NULL)
 				{
-				qd3dStatus = elementDuplicateMethod ( (void*) this , (void*) newObject ) ;
+				qd3dStatus = elementDuplicateMethod ( (void*) ( (TQ3Uns8*) this + parentInstanceSize ) , (void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) ;
 				if ( qd3dStatus == kQ3Failure )
 					{
 					if ( theClass->theParent != NULL )
