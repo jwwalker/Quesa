@@ -36,6 +36,8 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
+#include "QuesaGroup.h"
+
 
 #include "QD3DViewer.h"
 #include "QD3DWinViewer.h"
@@ -91,7 +93,7 @@ extern "C" {
 //=============================================================================
 //      Mac OS function prototypes
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 
 /*
  *	Q3ViewerGetVersion
@@ -722,7 +724,7 @@ Q3ViewerGetPhongShading (
 //=============================================================================
 //      Windows function prototypes
 //-----------------------------------------------------------------------------
-#if OS_WIN32
+#if QUESA_OS_WIN32
 
 /*
  *	Q3WinViewerGetVersion
@@ -1233,7 +1235,7 @@ Q3WinViewerSetCameraView (
 	TQ3ViewerCameraView            viewType
 );
 
-#endif // OS_WIN32
+#endif // QUESA_OS_WIN32
 
 #endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 

@@ -75,7 +75,7 @@ extern "C" {
 //=============================================================================
 //		Be OS types
 //-----------------------------------------------------------------------------
-#if OS_BE
+#if QUESA_OS_BE
 
 // Be Draw Context
 typedef struct TQ3BeDrawContextData {
@@ -83,7 +83,7 @@ typedef struct TQ3BeDrawContextData {
 	BView 							*theView;
 } TQ3BeDrawContextData;
 
-#endif // OS_BE
+#endif // QUESA_OS_BE
 
 
 
@@ -346,7 +346,7 @@ Q3PixmapDrawContext_GetPixmap (
 //=============================================================================
 //      Mac OS function prototypes
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 
 /*
  *	Q3MacDrawContext_New
@@ -453,7 +453,7 @@ Q3MacDrawContext_Get2DLibrary (
 	TQ3MacDrawContext2DLibrary    *library
 );
 
-#endif // OS_MACINTOSH
+#endif // QUESA_OS_MACINTOSH
 
 
 
@@ -462,7 +462,7 @@ Q3MacDrawContext_Get2DLibrary (
 //=============================================================================
 //      Unix function prototypes
 //-----------------------------------------------------------------------------
-#if OS_UNIX
+#if QUESA_OS_UNIX
 
 /*
  *	Q3XBuffers_New
@@ -630,7 +630,7 @@ Q3XDrawContext_GetColormapData (
 	TQ3XColormapData              *colormapData
 );
 
-#endif // OS_UNIX
+#endif // QUESA_OS_UNIX
 
 
 
@@ -639,7 +639,7 @@ Q3XDrawContext_GetColormapData (
 //=============================================================================
 //      Windows function prototypes
 //-----------------------------------------------------------------------------
-#if OS_WIN32
+#if QUESA_OS_WIN32
 
 /*
  *	Q3Win32DCDrawContext_New
@@ -709,7 +709,7 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
 	TQ3DDSurfaceDescriptor        *ddSurfaceDescriptor
 );
 
-#endif // OS_WIN32
+#endif // QUESA_OS_WIN32
 
 #endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
@@ -720,7 +720,7 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
 //=============================================================================
 //      Be function prototypes
 //-----------------------------------------------------------------------------
-#if OS_BE
+#if QUESA_OS_BE
 
 /*
  *	Q3BeDrawContext_New
@@ -755,7 +755,7 @@ Q3BeDrawContext_GetView (
 	BView                         **theView
 );
 
-#endif // OS_BE
+#endif // QUESA_OS_BE
 
 
 

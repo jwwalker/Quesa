@@ -36,6 +36,9 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
+
+#include "QD3DDrawContext.h"
+#include "QD3DView.h"
 #include "QuesaRenderer.h"
 
 #include "QD3DIO.h"

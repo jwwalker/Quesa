@@ -37,6 +37,9 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
+#include "QuesaStyle.h"
+#include "QuesaSet.h"
+
 #include "QD3DView.h"
 
 

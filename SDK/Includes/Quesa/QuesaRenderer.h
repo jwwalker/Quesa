@@ -37,6 +37,9 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 
+#include "QuesaSet.h"
+#include "QuesaView.h"
+
 #include "QD3DRenderer.h"
 
 
@@ -75,14 +78,14 @@ extern "C" {
 //=============================================================================
 //		Be OS types
 //-----------------------------------------------------------------------------
-#if OS_BE
+#if QUESA_OS_BE
 
 // Be Dialog anchor
 typedef struct TQ3DialogAnchor {
 	BWindow							*ownerWindow;
 } TQ3DialogAnchor;
 
-#endif // OS_BE
+#endif // QUESA_OS_BE
 
 
 
@@ -677,7 +680,7 @@ Q3XDrawRegion_GetUseDefaultRendererFlag (
 //=============================================================================
 //      Mac OS function prototypes
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 
 /*
  *	Q3XDrawRegion_GetClipRegion
@@ -701,7 +704,7 @@ Q3XDrawRegion_GetGDHandle (
 	GDHandle                      *gdHandle
 );
 
-#endif // OS_MAC
+#endif // QUESA_OS_MAC
 
 #endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 

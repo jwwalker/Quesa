@@ -292,7 +292,7 @@ Q3PathStorage_Get (
 //=============================================================================
 //      Mac OS function prototypes
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 
 /*
  *	Q3HandleStorage_New
@@ -411,7 +411,7 @@ Q3FSSpecStorage_Get (
 	FSSpec                        *fs
 );
 
-#endif // OS_MACINTOSH
+#endif // QUESA_OS_MACINTOSH
 
 
 
@@ -420,7 +420,7 @@ Q3FSSpecStorage_Get (
 //=============================================================================
 //      Windows function prototypes
 //-----------------------------------------------------------------------------
-#if OS_WIN32
+#if QUESA_OS_WIN32
 
 /*
  *	Q3Win32Storage_New
@@ -455,7 +455,7 @@ Q3Win32Storage_Get (
 	HANDLE                        *hFile
 );
 
-#endif // OS_WIN32
+#endif // QUESA_OS_WIN32
 
 
 
@@ -464,7 +464,7 @@ Q3Win32Storage_Get (
 //=============================================================================
 //      Unix function prototypes
 //-----------------------------------------------------------------------------
-#if OS_UNIX
+#if QUESA_OS_UNIX
 
 /*
  *	Q3UnixPathStorage_New
@@ -499,7 +499,7 @@ Q3UnixPathStorage_Get (
 	char                          *pathName
 );
 
-#endif // OS_UNIX
+#endif // QUESA_OS_UNIX
 
 #endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
@@ -510,7 +510,7 @@ Q3UnixPathStorage_Get (
 //=============================================================================
 //      Be function prototypes
 //-----------------------------------------------------------------------------
-#if OS_BE
+#if QUESA_OS_BE
 
 /*
  *	Q3BeStorage_New
@@ -545,7 +545,7 @@ Q3BeStorage_Get (
 	BFile                         **theFile
 );
 
-#endif // OS_BE
+#endif // QUESA_OS_BE
 
 
 

@@ -164,8 +164,8 @@ Q3Notice_Get (
 	TQ3Notice                     *firstNotice
 );
 
-#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
+#endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
 /*
  *	Q3Error_PlatformGet
@@ -196,7 +196,7 @@ Q3Error_PlatformPost (
 //-----------------------------------------------------------------------------
 #if defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 
 /*
  *	Q3MacintoshError_Get
@@ -207,7 +207,7 @@ Q3MacintoshError_Get (
 	OSErr                         *firstMacErr
 );
 
-#endif // OS_MACINTOSH
+#endif // QUESA_OS_MACINTOSH
 
 #endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 

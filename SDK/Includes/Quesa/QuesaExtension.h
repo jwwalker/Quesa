@@ -36,6 +36,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
+#include "QuesaErrors.h"
 
 #include "QD3DExtension.h"
 
@@ -267,7 +268,7 @@ Q3XNotice_Post (
 //=============================================================================
 //      Mac OS function prototypes
 //-----------------------------------------------------------------------------
-#if OS_MACINTOSH
+#if QUESA_OS_MACINTOSH
 
 /*
  *	Q3XMacintoshError_Post
@@ -278,7 +279,7 @@ Q3XMacintoshError_Post (
 	OSErr                         macOSErr
 );
 
-#endif // OS_MACINTOSH
+#endif // QUESA_OS_MACINTOSH
 
 #endif // defined(CALL_NOT_IN_CARBON) && !CALL_NOT_IN_CARBON
 

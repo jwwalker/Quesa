@@ -36,6 +36,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
+#include "QuesaSet.h"
 
 #include "QD3DGeometry.h"
 
