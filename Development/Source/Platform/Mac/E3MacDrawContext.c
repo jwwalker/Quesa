@@ -38,8 +38,10 @@
 #include "E3Prefix.h"
 #include "E3DrawContext.h"
 
-#include <QuickDraw.h>
-#include <MacWindows.h>
+#if !QUESA_UH_IN_FRAMEWORKS
+	#include <QuickDraw.h>
+	#include <MacWindows.h>
+#endif
 
 
 

@@ -56,7 +56,7 @@
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
     #if QUESA_UH_IN_FRAMEWORKS
-        #include <HIToolbox/MacWindows.h>
+        #include <Carbon/Carbon.h>
     #else
         #include <Windows.h>
     #endif

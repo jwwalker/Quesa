@@ -36,7 +36,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #if QUESA_UH_IN_FRAMEWORKS
-    #include <HIToolbox/Displays.h>
+	#include <Carbon/Carbon.h>
 #else
 	#include <Displays.h>
 #endif

@@ -1,1 +1,396 @@
-{	archiveVersion = 1;	classes = {	};	objectVersion = 30;	objects = {		00C913AEFEE1E755C0A80006 = {			isa = PBXFrameworkReference;			name = Quesa.framework;			path = /Local/Library/Frameworks/Quesa.framework;			refType = 0;		};		00C913AFFEE1E755C0A80006 = {			fileRef = 00C913AEFEE1E755C0A80006;			isa = PBXBuildFile;			settings = {				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		00D09AA2FEE24BF0C0A80006 = {			isa = PBXFileReference;			path = QutMac.h;			refType = 4;		};		00D09AA3FEE24BF0C0A80006 = {			fileRef = 00D09AA2FEE24BF0C0A80006;			isa = PBXBuildFile;			settings = {				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		00F3A3E7FEF202757F000001 = {			isa = PBXFileReference;			path = "Import Test.c";			refType = 4;		};		00F3A3E8FEF202757F000001 = {			fileRef = 00F3A3E7FEF202757F000001;			isa = PBXBuildFile;			settings = {				ATTRIBUTES = (					Debug,				);				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		03F20AB0FEE9A4E17F000001 = {			isa = PBXFileReference;			path = QutTexture.c;			refType = 4;		};		03F20AB1FEE9A4E17F000001 = {			isa = PBXFileReference;			path = QutTexture.h;			refType = 4;		};		03F20AB2FEE9A4E17F000001 = {			fileRef = 03F20AB1FEE9A4E17F000001;			isa = PBXBuildFile;			settings = {				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		03F20AB3FEE9A4E17F000001 = {			fileRef = 03F20AB0FEE9A4E17F000001;			isa = PBXBuildFile;			settings = {				ATTRIBUTES = (					Debug,				);				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		04313892FE3035C9C02AAC07 = {			buildActionMask = 2147483647;			files = (				0E4830CCFEF45EF37F000001,			);			isa = PBXRezBuildPhase;			name = "ResourceManager Resources";		};		06B177C7FEDA5986C0A80006 = {			children = (				06B177C8FEDA5986C0A80006,				06B177C9FEDA5986C0A80006,				06B177CAFEDA5986C0A80006,				06B177CBFEDA5986C0A80006,				03F20AB0FEE9A4E17F000001,				03F20AB1FEE9A4E17F000001,			);			isa = PBXGroup;			name = Qut;			path = ../Qut;			refType = 4;		};		06B177C8FEDA5986C0A80006 = {			isa = PBXFileReference;			path = Qut.c;			refType = 4;		};		06B177C9FEDA5986C0A80006 = {			isa = PBXFileReference;			path = Qut.h;			refType = 4;		};		06B177CAFEDA5986C0A80006 = {			isa = PBXFileReference;			path = QutInternal.h;			refType = 4;		};		06B177CBFEDA5986C0A80006 = {			children = (				06B177CDFEDA5986C0A80006,				00D09AA2FEE24BF0C0A80006,			);			isa = PBXGroup;			path = Mac;			refType = 4;		};		06B177CDFEDA5986C0A80006 = {			isa = PBXFileReference;			path = QutMac.c;			refType = 4;		};		06B177CFFEDA5986C0A80006 = {			fileRef = 06B177C9FEDA5986C0A80006;			isa = PBXBuildFile;			settings = {				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		06B177D0FEDA5986C0A80006 = {			fileRef = 06B177CAFEDA5986C0A80006;			isa = PBXBuildFile;			settings = {				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		06B177D2FEDA5986C0A80006 = {			fileRef = 06B177C8FEDA5986C0A80006;			isa = PBXBuildFile;			settings = {				ATTRIBUTES = (					Debug,				);				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		06B177DBFEDA5FA8C0A80006 = {			fileRef = 06B177CDFEDA5986C0A80006;			isa = PBXBuildFile;			settings = {				ATTRIBUTES = (					Debug,				);				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		07D71ED7FFE40CE77F000001 = {			isa = PBXApplicationReference;			path = "Import Test.app";			refType = 3;		};		0867D6AAFE840B52C02AAC07 = {			children = (				0867D6ABFE840B52C02AAC07,			);			isa = PBXVariantGroup;			name = InfoPlist.strings;			refType = 4;		};		0867D6ABFE840B52C02AAC07 = {			isa = PBXFileReference;			name = English;			path = English.lproj/InfoPlist.strings;			refType = 4;		};		0867D6ACFE840B52C02AAC07 = {			fileRef = 0867D6AAFE840B52C02AAC07;			isa = PBXBuildFile;			settings = {				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		0E4830CBFEF45EF37F000001 = {			isa = PBXFileReference;			name = QutCarbon.rsrc;			path = ../Qut/Mac/QutCarbon.rsrc;			refType = 4;		};		0E4830CCFEF45EF37F000001 = {			fileRef = 0E4830CBFEF45EF37F000001;			isa = PBXBuildFile;			settings = {				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		0E4830CDFEF45F5D7F000001 = {			isa = PBXFileReference;			name = main.nib;			path = ../Qut/Mac/main.nib;			refType = 4;		};		0E4830CEFEF45F5D7F000001 = {			fileRef = 0E4830CDFEF45F5D7F000001;			isa = PBXBuildFile;			settings = {				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};		195DF8C9FE9D4F0611CA2CBB = {			children = (				07D71ED7FFE40CE77F000001,			);			isa = PBXGroup;			name = Products;			refType = 4;		};		20286C28FDCF999611CA2CEA = {			isa = PBXProject;			mainGroup = 20286C29FDCF999611CA2CEA;			targets = (				20286C34FDCF999611CA2CEA,			);		};		20286C29FDCF999611CA2CEA = {			children = (				20286C2AFDCF999611CA2CEA,				20286C2CFDCF999611CA2CEA,				20286C32FDCF999611CA2CEA,				195DF8C9FE9D4F0611CA2CBB,			);			isa = PBXGroup;			name = CarbonApp;			path = "";			refType = 4;		};		20286C2AFDCF999611CA2CEA = {			children = (				00F3A3E7FEF202757F000001,				06B177C7FEDA5986C0A80006,			);			isa = PBXGroup;			name = Sources;			path = "";			refType = 4;		};		20286C2CFDCF999611CA2CEA = {			children = (				0867D6AAFE840B52C02AAC07,				0E4830CBFEF45EF37F000001,				0E4830CDFEF45F5D7F000001,			);			isa = PBXGroup;			name = Resources;			path = "";			refType = 4;		};		20286C32FDCF999611CA2CEA = {			children = (				20286C33FDCF999611CA2CEA,				00C913AEFEE1E755C0A80006,			);			isa = PBXGroup;			name = "External Frameworks and Libraries";			path = "";			refType = 4;		};		20286C33FDCF999611CA2CEA = {			isa = PBXFrameworkReference;			name = Carbon.framework;			path = /System/Library/Frameworks/Carbon.framework;			refType = 0;		};		20286C34FDCF999611CA2CEA = {			buildPhases = (				20286C35FDCF999611CA2CEA,				20286C36FDCF999611CA2CEA,				20286C38FDCF999611CA2CEA,				20286C3BFDCF999611CA2CEA,				04313892FE3035C9C02AAC07,			);			buildSettings = {				FRAMEWORK_SEARCH_PATHS = "";				HEADER_SEARCH_PATHS = "";				LIBRARY_SEARCH_PATHS = "";				OPTIMIZATION_CFLAGS = "";				OTHER_CFLAGS = "-DQUESA_OS_MACINTOSH=1 -DTARGET_API_MAC_CARBON=1 -DTARGET_RT_MAC_MACHO=1";				OTHER_LDFLAGS = "";				OTHER_REZFLAGS = "";				SECTORDER_FLAGS = "";				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";				WRAPPER_EXTENSION = app;			};			conditionalBuildSettings = {			};			dependencies = (			);			isa = PBXApplicationTarget;			name = "Import Test";			productInstallPath = "$(HOME)/Applications";			productName = "Import Test";			productReference = 07D71ED7FFE40CE77F000001;			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE plist SYSTEM \"file://localhost/System/Library/DTDs/PropertyList.dtd\"><plist version=\"0.9\"><dict>	<key>CFBundleDevelopmentRegion</key>	<string>English</string>	<key>CFBundleDocumentTypes</key>	<array>		<dict>			<key>CFBundleTypeExtensions</key>			<array>				<string>3dmf</string>				<string>3DS</string>				<string>3DMF</string>				<string>3ds</string>			</array>		</dict>	</array>	<key>CFBundleExecutable</key>	<string>Import Test</string>	<key>CFBundleIconFile</key>	<string></string>	<key>CFBundleInfoDictionaryVersion</key>	<string>6.0</string>	<key>CFBundlePackageType</key>	<string>APPL</string>	<key>CFBundleSignature</key>	<string>????</string>	<key>CFBundleVersion</key>	<string>0.0.1d1</string></dict></plist>";			shouldUseHeadermap = 1;		};		20286C35FDCF999611CA2CEA = {			buildActionMask = 2147483647;			files = (				06B177CFFEDA5986C0A80006,				06B177D0FEDA5986C0A80006,				00D09AA3FEE24BF0C0A80006,				03F20AB2FEE9A4E17F000001,			);			isa = PBXHeadersBuildPhase;			name = Headers;		};		20286C36FDCF999611CA2CEA = {			buildActionMask = 2147483647;			files = (				0867D6ACFE840B52C02AAC07,				0E4830CEFEF45F5D7F000001,			);			isa = PBXResourcesBuildPhase;			name = "Bundle Resources";		};		20286C38FDCF999611CA2CEA = {			buildActionMask = 2147483647;			files = (				06B177D2FEDA5986C0A80006,				06B177DBFEDA5FA8C0A80006,				03F20AB3FEE9A4E17F000001,				00F3A3E8FEF202757F000001,			);			isa = PBXSourcesBuildPhase;			name = Sources;		};		20286C3BFDCF999611CA2CEA = {			buildActionMask = 2147483647;			files = (				20286C3CFDCF999611CA2CEA,				00C913AFFEE1E755C0A80006,			);			isa = PBXFrameworksBuildPhase;			name = "Frameworks & Libraries";		};		20286C3CFDCF999611CA2CEA = {			fileRef = 20286C33FDCF999611CA2CEA;			isa = PBXBuildFile;			settings = {				INCLUDED_OSS = (					MACOS,					WINDOWS,					PDOUNIX,				);			};		};	};	rootObject = 20286C28FDCF999611CA2CEA;}
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 32;
+	objects = {
+		00D09AA2FEE24BF0C0A80006 = {
+			isa = PBXFileReference;
+			path = QutMac.h;
+			refType = 4;
+		};
+		00D09AA3FEE24BF0C0A80006 = {
+			fileRef = 00D09AA2FEE24BF0C0A80006;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		00F3A3E7FEF202757F000001 = {
+			isa = PBXFileReference;
+			path = "Import Test.c";
+			refType = 4;
+		};
+		00F3A3E8FEF202757F000001 = {
+			fileRef = 00F3A3E7FEF202757F000001;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		0157034000C1C08A7F000001 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		0157034100C1C08A7F000001 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+		0157034300C1C09B7F000001 = {
+			isa = PBXFrameworkReference;
+			name = Quesa.framework;
+			path = "../../../../Development/Projects/Mac/Project Builder/build/Quesa.framework";
+			refType = 2;
+		};
+		0157034400C1C09B7F000001 = {
+			fileRef = 0157034300C1C09B7F000001;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		03F20AB0FEE9A4E17F000001 = {
+			isa = PBXFileReference;
+			path = QutTexture.c;
+			refType = 4;
+		};
+		03F20AB1FEE9A4E17F000001 = {
+			isa = PBXFileReference;
+			path = QutTexture.h;
+			refType = 4;
+		};
+		03F20AB2FEE9A4E17F000001 = {
+			fileRef = 03F20AB1FEE9A4E17F000001;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		03F20AB3FEE9A4E17F000001 = {
+			fileRef = 03F20AB0FEE9A4E17F000001;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		04313892FE3035C9C02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+				0E4830CCFEF45EF37F000001,
+			);
+			isa = PBXRezBuildPhase;
+			name = "ResourceManager Resources";
+		};
+		06B177C7FEDA5986C0A80006 = {
+			children = (
+				06B177C8FEDA5986C0A80006,
+				06B177C9FEDA5986C0A80006,
+				06B177CAFEDA5986C0A80006,
+				06B177CBFEDA5986C0A80006,
+				03F20AB0FEE9A4E17F000001,
+				03F20AB1FEE9A4E17F000001,
+			);
+			isa = PBXGroup;
+			name = Qut;
+			path = ../Qut;
+			refType = 4;
+		};
+		06B177C8FEDA5986C0A80006 = {
+			isa = PBXFileReference;
+			path = Qut.c;
+			refType = 4;
+		};
+		06B177C9FEDA5986C0A80006 = {
+			isa = PBXFileReference;
+			path = Qut.h;
+			refType = 4;
+		};
+		06B177CAFEDA5986C0A80006 = {
+			isa = PBXFileReference;
+			path = QutInternal.h;
+			refType = 4;
+		};
+		06B177CBFEDA5986C0A80006 = {
+			children = (
+				06B177CDFEDA5986C0A80006,
+				00D09AA2FEE24BF0C0A80006,
+			);
+			isa = PBXGroup;
+			path = Mac;
+			refType = 4;
+		};
+		06B177CDFEDA5986C0A80006 = {
+			isa = PBXFileReference;
+			path = QutMac.c;
+			refType = 4;
+		};
+		06B177CFFEDA5986C0A80006 = {
+			fileRef = 06B177C9FEDA5986C0A80006;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		06B177D0FEDA5986C0A80006 = {
+			fileRef = 06B177CAFEDA5986C0A80006;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		06B177D2FEDA5986C0A80006 = {
+			fileRef = 06B177C8FEDA5986C0A80006;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		06B177DBFEDA5FA8C0A80006 = {
+			fileRef = 06B177CDFEDA5986C0A80006;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		07D71ED7FFE40CE77F000001 = {
+			isa = PBXApplicationReference;
+			path = "Import Test.app";
+			refType = 3;
+		};
+		0867D6AAFE840B52C02AAC07 = {
+			children = (
+				0867D6ABFE840B52C02AAC07,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			refType = 4;
+		};
+		0867D6ABFE840B52C02AAC07 = {
+			isa = PBXFileReference;
+			name = English;
+			path = English.lproj/InfoPlist.strings;
+			refType = 4;
+		};
+		0867D6ACFE840B52C02AAC07 = {
+			fileRef = 0867D6AAFE840B52C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0E4830CBFEF45EF37F000001 = {
+			isa = PBXFileReference;
+			name = QutCarbon.rsrc;
+			path = ../Qut/Mac/QutCarbon.rsrc;
+			refType = 4;
+		};
+		0E4830CCFEF45EF37F000001 = {
+			fileRef = 0E4830CBFEF45EF37F000001;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0E4830CDFEF45F5D7F000001 = {
+			isa = PBXFileReference;
+			name = main.nib;
+			path = ../Qut/Mac/main.nib;
+			refType = 4;
+		};
+		0E4830CEFEF45F5D7F000001 = {
+			fileRef = 0E4830CDFEF45F5D7F000001;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		195DF8C9FE9D4F0611CA2CBB = {
+			children = (
+				07D71ED7FFE40CE77F000001,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+		};
+		20286C28FDCF999611CA2CEA = {
+			buildStyles = (
+				0157034000C1C08A7F000001,
+				0157034100C1C08A7F000001,
+			);
+			isa = PBXProject;
+			mainGroup = 20286C29FDCF999611CA2CEA;
+			targets = (
+				20286C34FDCF999611CA2CEA,
+			);
+		};
+		20286C29FDCF999611CA2CEA = {
+			children = (
+				20286C2AFDCF999611CA2CEA,
+				20286C2CFDCF999611CA2CEA,
+				20286C32FDCF999611CA2CEA,
+				195DF8C9FE9D4F0611CA2CBB,
+			);
+			isa = PBXGroup;
+			name = CarbonApp;
+			path = "";
+			refType = 4;
+		};
+		20286C2AFDCF999611CA2CEA = {
+			children = (
+				00F3A3E7FEF202757F000001,
+				06B177C7FEDA5986C0A80006,
+			);
+			isa = PBXGroup;
+			name = Sources;
+			path = "";
+			refType = 4;
+		};
+		20286C2CFDCF999611CA2CEA = {
+			children = (
+				0867D6AAFE840B52C02AAC07,
+				0E4830CBFEF45EF37F000001,
+				0E4830CDFEF45F5D7F000001,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			path = "";
+			refType = 4;
+		};
+		20286C32FDCF999611CA2CEA = {
+			children = (
+				0157034300C1C09B7F000001,
+				20286C33FDCF999611CA2CEA,
+			);
+			isa = PBXGroup;
+			name = "External Frameworks and Libraries";
+			path = "";
+			refType = 4;
+		};
+		20286C33FDCF999611CA2CEA = {
+			isa = PBXFrameworkReference;
+			name = Carbon.framework;
+			path = /System/Library/Frameworks/Carbon.framework;
+			refType = 0;
+		};
+		20286C34FDCF999611CA2CEA = {
+			buildPhases = (
+				20286C35FDCF999611CA2CEA,
+				20286C36FDCF999611CA2CEA,
+				20286C38FDCF999611CA2CEA,
+				20286C3BFDCF999611CA2CEA,
+				04313892FE3035C9C02AAC07,
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "\"../../../../Development/Projects/Mac/Project Builder/build\"";
+				HEADER_SEARCH_PATHS = "";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "-DQUESA_OS_MACINTOSH=1 -DTARGET_API_MAC_CARBON=1 -DTARGET_RT_MAC_MACHO=1";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Import Test";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = app;
+			};
+			conditionalBuildSettings = {
+			};
+			dependencies = (
+			);
+			isa = PBXApplicationTarget;
+			name = "Import Test";
+			productInstallPath = "$(HOME)/Applications";
+			productName = "Import Test";
+			productReference = 07D71ED7FFE40CE77F000001;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist SYSTEM \"file://localhost/System/Library/DTDs/PropertyList.dtd\">
+<plist version=\"0.9\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>3dmf</string>
+				<string>3DS</string>
+				<string>3DMF</string>
+				<string>3ds</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>Import Test</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>0.0.1d1</string>
+</dict>
+</plist>
+";
+			shouldUseHeadermap = 1;
+		};
+		20286C35FDCF999611CA2CEA = {
+			buildActionMask = 2147483647;
+			files = (
+				06B177CFFEDA5986C0A80006,
+				06B177D0FEDA5986C0A80006,
+				00D09AA3FEE24BF0C0A80006,
+				03F20AB2FEE9A4E17F000001,
+			);
+			isa = PBXHeadersBuildPhase;
+			name = Headers;
+		};
+		20286C36FDCF999611CA2CEA = {
+			buildActionMask = 2147483647;
+			files = (
+				0867D6ACFE840B52C02AAC07,
+				0E4830CEFEF45F5D7F000001,
+			);
+			isa = PBXResourcesBuildPhase;
+			name = "Bundle Resources";
+		};
+		20286C38FDCF999611CA2CEA = {
+			buildActionMask = 2147483647;
+			files = (
+				06B177D2FEDA5986C0A80006,
+				06B177DBFEDA5FA8C0A80006,
+				03F20AB3FEE9A4E17F000001,
+				00F3A3E8FEF202757F000001,
+			);
+			isa = PBXSourcesBuildPhase;
+			name = Sources;
+		};
+		20286C3BFDCF999611CA2CEA = {
+			buildActionMask = 2147483647;
+			files = (
+				20286C3CFDCF999611CA2CEA,
+				0157034400C1C09B7F000001,
+			);
+			isa = PBXFrameworksBuildPhase;
+			name = "Frameworks & Libraries";
+		};
+		20286C3CFDCF999611CA2CEA = {
+			fileRef = 20286C33FDCF999611CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+	};
+	rootObject = 20286C28FDCF999611CA2CEA;
+}

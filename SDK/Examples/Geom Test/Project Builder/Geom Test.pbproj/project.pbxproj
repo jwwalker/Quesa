@@ -1,26 +1,10 @@
+// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 30;
+	objectVersion = 32;
 	objects = {
-		00C913AEFEE1E755C0A80006 = {
-			isa = PBXFrameworkReference;
-			name = Quesa.framework;
-			path = /System/Library/Frameworks/Quesa.framework;
-			refType = 0;
-		};
-		00C913AFFEE1E755C0A80006 = {
-			fileRef = 00C913AEFEE1E755C0A80006;
-			isa = PBXBuildFile;
-			settings = {
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
-				);
-			};
-		};
 		00D09AA2FEE24BF0C0A80006 = {
 			isa = PBXFileReference;
 			name = QutMac.h;
@@ -31,11 +15,6 @@
 			fileRef = 00D09AA2FEE24BF0C0A80006;
 			isa = PBXBuildFile;
 			settings = {
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
-				);
 			};
 		};
 		010832F8FEF3418F7F000001 = {
@@ -48,11 +27,36 @@
 			fileRef = 010832F8FEF3418F7F000001;
 			isa = PBXBuildFile;
 			settings = {
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
-				);
+			};
+		};
+		0157032C00C1BABE7F000001 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		0157032D00C1BABE7F000001 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+		0157032F00C1BE9D7F000001 = {
+			isa = PBXFrameworkReference;
+			name = Quesa.framework;
+			path = "../../../../Development/Projects/Mac/Project Builder/build/Quesa.framework";
+			refType = 2;
+		};
+		0157033000C1BE9D7F000001 = {
+			fileRef = 0157032F00C1BE9D7F000001;
+			isa = PBXBuildFile;
+			settings = {
 			};
 		};
 		03F20AB0FEE9A4E17F000001 = {
@@ -71,11 +75,6 @@
 			fileRef = 03F20AB1FEE9A4E17F000001;
 			isa = PBXBuildFile;
 			settings = {
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
-				);
 			};
 		};
 		03F20AB3FEE9A4E17F000001 = {
@@ -83,12 +82,6 @@
 			isa = PBXBuildFile;
 			settings = {
 				ATTRIBUTES = (
-					Debug,
-				);
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
 				);
 			};
 		};
@@ -157,22 +150,12 @@
 			fileRef = 06B177C9FEDA5986C0A80006;
 			isa = PBXBuildFile;
 			settings = {
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
-				);
 			};
 		};
 		06B177D0FEDA5986C0A80006 = {
 			fileRef = 06B177CAFEDA5986C0A80006;
 			isa = PBXBuildFile;
 			settings = {
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
-				);
 			};
 		};
 		06B177D1FEDA5986C0A80006 = {
@@ -180,12 +163,6 @@
 			isa = PBXBuildFile;
 			settings = {
 				ATTRIBUTES = (
-					Debug,
-				);
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
 				);
 			};
 		};
@@ -194,12 +171,6 @@
 			isa = PBXBuildFile;
 			settings = {
 				ATTRIBUTES = (
-					Debug,
-				);
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
 				);
 			};
 		};
@@ -208,12 +179,6 @@
 			isa = PBXBuildFile;
 			settings = {
 				ATTRIBUTES = (
-					Debug,
-				);
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
 				);
 			};
 		};
@@ -240,11 +205,6 @@
 			fileRef = 0867D6AAFE840B52C02AAC07;
 			isa = PBXBuildFile;
 			settings = {
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
-				);
 			};
 		};
 		0DC7C4A2FEF4498D7F000001 = {
@@ -257,11 +217,6 @@
 			fileRef = 0DC7C4A2FEF4498D7F000001;
 			isa = PBXBuildFile;
 			settings = {
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
-				);
 			};
 		};
 		195DF8C9FE9D4F0611CA2CBB = {
@@ -273,6 +228,10 @@
 			refType = 4;
 		};
 		20286C28FDCF999611CA2CEA = {
+			buildStyles = (
+				0157032C00C1BABE7F000001,
+				0157032D00C1BABE7F000001,
+			);
 			isa = PBXProject;
 			mainGroup = 20286C29FDCF999611CA2CEA;
 			targets = (
@@ -314,8 +273,8 @@
 		};
 		20286C32FDCF999611CA2CEA = {
 			children = (
-				00C913AEFEE1E755C0A80006,
 				20286C33FDCF999611CA2CEA,
+				0157032F00C1BE9D7F000001,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libraries";
@@ -325,8 +284,8 @@
 		20286C33FDCF999611CA2CEA = {
 			isa = PBXFrameworkReference;
 			name = Carbon.framework;
-			path = /System/Library/Frameworks/Carbon.framework;
-			refType = 0;
+			path = ../../../../../../../../../../../System/Library/Frameworks/Carbon.framework;
+			refType = 2;
 		};
 		20286C34FDCF999611CA2CEA = {
 			buildPhases = (
@@ -337,13 +296,15 @@
 				04313892FE3035C9C02AAC07,
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "\"../../../../Development/Projects/Mac/Project Builder/build\"";
 				HEADER_SEARCH_PATHS = "";
+				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "-DQUESA_OS_MACINTOSH=1 -DTARGET_API_MAC_CARBON=1 -DTARGET_RT_MAC_MACHO=1";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Geom Test";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 				WRAPPER_EXTENSION = app;
@@ -415,7 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				20286C3CFDCF999611CA2CEA,
-				00C913AFFEE1E755C0A80006,
+				0157033000C1BE9D7F000001,
 			);
 			isa = PBXFrameworksBuildPhase;
 			name = "Frameworks & Libraries";
@@ -424,11 +385,6 @@
 			fileRef = 20286C33FDCF999611CA2CEA;
 			isa = PBXBuildFile;
 			settings = {
-				INCLUDED_OSS = (
-					MACOS,
-					WINDOWS,
-					PDOUNIX,
-				);
 			};
 		};
 	};

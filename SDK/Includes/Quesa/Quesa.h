@@ -149,8 +149,7 @@
 
     // Includes
     #if QUESA_UH_IN_FRAMEWORKS
-        #include <HIToolbox/Dialogs.h>
-        #include <CarbonCore/MacTypes.h>
+        #include <Carbon/Carbon.h>
     #else
         #include <Dialogs.h>
         #include <MacTypes.h>

@@ -98,17 +98,8 @@
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
   	#if QUESA_UH_IN_FRAMEWORKS
-		#include <CarbonCore/Devices.h>
-		#include <CarbonCore/ToolUtils.h>
-		#include <HIToolbox/Events.h>
-		#include <HIToolbox/Menus.h>
-		#include <HIToolbox/MacWindows.h>
-		#include <NavigationServices/Navigation.h>
-		#include <QD/Fonts.h>
-		#include <QD/QDOffscreen.h>
-		#include <QD/QuickDraw.h>
-		#include <QuickTime/QuickTimeComponents.h>
-		#include <QuickTime/ImageCompression.h>
+		#include <Carbon/Carbon.h>
+		#include <QuickTime/QuickTime.h>
   	#else
 		#include <Events.h>
 		#include <Devices.h>

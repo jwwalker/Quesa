@@ -58,26 +58,6 @@
 
 
 
-
-//=============================================================================
-//      Carbon include files
-//-----------------------------------------------------------------------------
-#if QUT_MAC_CARBON_EVENTS
-  	#if QUESA_UH_IN_FRAMEWORKS
-		#include <HIToolbox/CarbonEvents.h>
-		#include <IBCarbonRuntime/IBCarbonRuntime.h>
-		#include <AE/AERegistry.h>
-	#else
-		#include <Carbon/CarbonEvents.h>
-		#include <Carbon/IBCarbonRuntime.h>
-		#include <Carbon/AERegistry.h>
-	#endif
-#endif
-
-
-
-
-
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
@@ -1089,8 +1069,8 @@ Qut_CreateWindow(const char		*windowTitle,
 TQ3StorageObject
 Qut_SelectMetafileToOpen(void)
 {	Str255				thePrompt = "\pSelect a model:";
-	SFTypeList			fileTypes = { '3DMF', 'TEXT', '3DS ', 'BINA' };
-	const TQ3Int16		numTypes  = 4;
+	OSType				fileTypes[] = { '3DMF', 'TEXT', '3DS ', 'BINA' };
+	UInt32				numTypes  = sizeof(fileTypes) / sizeof(OSType);
 	/*
 		Jose'
 		note we have to found a global mechanism to choose the supported file formats
