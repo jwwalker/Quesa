@@ -538,8 +538,8 @@ Q3Geometry_GetType (
  *		Q3ObjectDispose().
  *
  *  @param geometry         A reference to a geometry object.
- *  @param attributeSet     A pointer to an attribute set to be filled out.
- *  @result                 The error status of the function.
+ *  @param attributeSet     Receives a reference to the attribute set of the geometry.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Geometry_GetAttributeSet (
@@ -560,7 +560,7 @@ Q3Geometry_GetAttributeSet (
  *
  *  @param geometry         A reference to a geometry object.
  *  @param attributeSet     The attribute set to apply to the object.
- *  @result                 The error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Geometry_SetAttributeSet (
@@ -583,7 +583,7 @@ Q3Geometry_SetAttributeSet (
  *
  *  @param geometry         A reference to a (retained) geometry object.
  *  @param view             The view to submit the geometric object to.
- *  @result                 The error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Geometry_Submit (
@@ -622,7 +622,7 @@ Q3Box_New (
  *
  *  @param boxData			A pointer to a TQ3BoxData structure specifying the box to be drawn.
  *  @param view				The view to submit the box to.
- *  @result					The error status of the function.
+ *  @result					Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_Submit (
@@ -640,7 +640,7 @@ Q3Box_Submit (
  *
  *  @param box              A reference to a box geometry object.
  *  @param boxData          A pointer to the box data to apply to the box object.
- *  @result                 The error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_SetData (
@@ -660,8 +660,8 @@ Q3Box_SetData (
  *		must be called to dispose of this memory.
  *
  *  @param box              A reference to a box geometry object.
- *  @param boxData          A pointer to the box data to fill with box object's description.
- *  @result                 The error status of the function.
+ *  @param boxData          Receives the box object's description.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_GetData (
@@ -678,7 +678,7 @@ Q3Box_GetData (
  *      Releases the memory allocated by a prior call to Q3Box_GetData.
  *
  *  @param boxData          A pointer to the box data allocated by Q3Box_GetData().
- *  @result                 The error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_EmptyData (
@@ -695,7 +695,7 @@ Q3Box_EmptyData (
  *
  *  @param box              A reference to a box geometry object.
  *  @param origin           The point to which to set 'box's origin.
- *  @result                 The error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_SetOrigin (
@@ -713,7 +713,7 @@ Q3Box_SetOrigin (
  *
  *  @param box              A reference to a box geometry object.
  *  @param orientation      The vector to which to set 'box's orientation.
- *  @result                 The error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_SetOrientation (
@@ -731,7 +731,7 @@ Q3Box_SetOrientation (
  *
  *  @param box              A reference to a box geometry object.
  *  @param majorAxis        The vector to which to set 'box's major axis.
- *  @result                 The error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_SetMajorAxis (
@@ -749,7 +749,7 @@ Q3Box_SetMajorAxis (
  *
  *  @param box              A reference to a box geometry object.
  *  @param minorAxis        The vector to which to set 'box's minor axis.
- *  @result                 The error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_SetMinorAxis (
@@ -766,8 +766,8 @@ Q3Box_SetMinorAxis (
  *      Gets the origin of a box object.
  *
  *  @param box              A reference to a box geometry object.
- *  @param origin           The point to be filled out with 'box's origin.
- *  @result                 The error status of the function.
+ *  @param origin           Receives the origin of the box object.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_GetOrigin (
@@ -784,8 +784,8 @@ Q3Box_GetOrigin (
  *      Gets the orientation of a box object.
  *
  *  @param box              A reference to a box geometry object.
- *  @param orientation      The vector to be filled with 'box's orientation.
- *  @result                 The error status of the function.
+ *  @param orientation      Receives the orientation vector of the box.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_GetOrientation (
@@ -802,8 +802,8 @@ Q3Box_GetOrientation (
  *      Gets the major axis of a box object.
  *
  *  @param box              A reference to a box geometry object.
- *  @param majorAxis        The vector to be filled with 'box's major axis.
- *  @result                 The error status of the function.
+ *  @param majorAxis        Receives the major axis of the box.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_GetMajorAxis (
@@ -820,8 +820,8 @@ Q3Box_GetMajorAxis (
  *      Gets the minor axis of a box object.
  *
  *  @param box              A reference to a box geometry object.
- *  @param minorAxis        The vector to be filled with 'box's minor axis.
- *  @result                 The error status of the function.
+ *  @param minorAxis        Receives the minor axis of the box.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_GetMinorAxis (
@@ -845,8 +845,8 @@ Q3Box_GetMinorAxis (
  *
  *  @param box              A reference to a box geometry object.
  *  @param faceIndex        The index of the face of the box.
- *  @param faceAttributeSet A pointer to an attribute set to be filled out.
- *  @result                 The error status of the function.
+ *  @param faceAttributeSet Receives a reference to the attribute of the box face.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_GetFaceAttributeSet (
@@ -870,7 +870,7 @@ Q3Box_GetFaceAttributeSet (
  *  @param box              A reference to a box geometry object.
  *  @param faceIndex        The index of the face of the box.
  *  @param faceAttributeSet A pointer to an attribute set to be applied.
- *  @result                 The error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Box_SetFaceAttributeSet (

@@ -147,7 +147,7 @@ Q3Transform_GetType (
  *
  *
  *  @param transform        A transform object.
- *  @param matrix           (output) The matrix of the transform.
+ *  @param matrix           Receives the matrix of the transform.
  *  @result                 Address of the resulting matrix, for convenience.
  */
 EXTERN_API_C ( TQ3Matrix4x4 * )
@@ -167,7 +167,7 @@ Q3Transform_GetMatrix (
  *
  *  @param transform        A transform object.
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Transform_Submit (
@@ -203,7 +203,7 @@ Q3MatrixTransform_New (
  *
  *  @param matrix           Matrix of the desired transform.
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MatrixTransform_Submit (
@@ -221,7 +221,7 @@ Q3MatrixTransform_Submit (
  *
  *  @param transform        The matrix transform object.
  *  @param matrix           The new matrix.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MatrixTransform_Set (
@@ -238,8 +238,8 @@ Q3MatrixTransform_Set (
  *      Get the matrix of a matrix transform.
  *
  *  @param transform        The matrix transform object.
- *  @param matrix           (output) The matrix of the transform.
- *  @result                 Error status of the function.
+ *  @param matrix           Receives the matrix of the transform.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3MatrixTransform_Get (
@@ -274,7 +274,7 @@ Q3RotateTransform_New (
  *
  *  @param data             Data specifying the transform.
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateTransform_Submit (
@@ -292,7 +292,7 @@ Q3RotateTransform_Submit (
  *
  *  @param transform        The rotate transform object.
  *  @param data             Data specifying the new state of the transform.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateTransform_SetData (
@@ -309,8 +309,8 @@ Q3RotateTransform_SetData (
  *      Get the state of a rotate transform object.
  *
  *  @param transform        The rotate transform object.
- *  @param data             (output) Receives data specifying the state of the transform.
- *  @result                 Error status of the function.
+ *  @param data             Receives the data specifying the state of the transform.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateTransform_GetData (
@@ -328,7 +328,7 @@ Q3RotateTransform_GetData (
  *
  *  @param transform        The rotate transform object.
  *  @param axis             New axis of rotation.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateTransform_SetAxis (
@@ -346,7 +346,7 @@ Q3RotateTransform_SetAxis (
  *
  *  @param transform        The rotate transform object.
  *  @param radians          New angle of rotation in radians.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateTransform_SetAngle (
@@ -363,8 +363,8 @@ Q3RotateTransform_SetAngle (
  *      Get the axis of a rotate transform.
  *
  *  @param renderable       The rotate transform object.
- *  @param axis             (output) An enumerated value specifying the axis.
- *  @result                 Error status of the function.
+ *  @param axis             Receives the enumerated value specifying the axis.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateTransform_GetAxis (
@@ -381,8 +381,8 @@ Q3RotateTransform_GetAxis (
  *      Get the angle of rotation of a rotate transform.
  *
  *  @param transform        The rotate transform object.
- *  @param radians          (output) The angle in radians.
- *  @result                 Error status of the function.
+ *  @param radians          Receives the angle in radians.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateTransform_GetAngle (
@@ -418,7 +418,7 @@ Q3RotateAboutPointTransform_New (
  *
  *  @param data             Structure containing the state of the transform.
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutPointTransform_Submit (
@@ -436,7 +436,7 @@ Q3RotateAboutPointTransform_Submit (
  *
  *  @param transform        A rotate-about-point transform object.
  *  @param data             Structure containing the new state of the transform.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutPointTransform_SetData (
@@ -453,8 +453,8 @@ Q3RotateAboutPointTransform_SetData (
  *      Get the state of a rotate-about-point transform.
  *
  *  @param transform        A rotate-about-point transform object.
- *  @param data             (output) Structure to receive the state of the transform.
- *  @result                 Error status of the function.
+ *  @param data             Receives the state of the transform.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutPointTransform_GetData (
@@ -472,7 +472,7 @@ Q3RotateAboutPointTransform_GetData (
  *
  *  @param transform        A rotate-about-point transform object.
  *  @param axis             The new axis.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutPointTransform_SetAxis (
@@ -489,8 +489,8 @@ Q3RotateAboutPointTransform_SetAxis (
  *      Get the axis of a rotate-about-point transform.
  *
  *  @param transform        A rotate-about-point transform object.
- *  @param axis             (output) Enumerated value specifying the axis.
- *  @result                 Error status of the function.
+ *  @param axis             Receives the enumerated value specifying the axis.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutPointTransform_GetAxis (
@@ -508,7 +508,7 @@ Q3RotateAboutPointTransform_GetAxis (
  *
  *  @param transform        A rotate-about-point transform object.
  *  @param radians          The new angle in radians.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutPointTransform_SetAngle (
@@ -525,8 +525,8 @@ Q3RotateAboutPointTransform_SetAngle (
  *      Get the angle of a rotate-about-point transform.
  *
  *  @param transform        A rotate-about-point transform object.
- *  @param radians          (output) The angle in radians.
- *  @result                 Error status of the function.
+ *  @param radians          Receives the angle in radians.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutPointTransform_GetAngle (
@@ -544,7 +544,7 @@ Q3RotateAboutPointTransform_GetAngle (
  *
  *  @param transform        A rotate-about-point transform object.
  *  @param about            A point on the desired axis.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutPointTransform_SetAboutPoint (
@@ -561,8 +561,8 @@ Q3RotateAboutPointTransform_SetAboutPoint (
  *      Get a point on the axis of rotation of a rotate-about-point transform.
  *
  *  @param transform        A rotate-about-point transform object.
- *  @param about            (output) A point on the axis of rotation.
- *  @result                 Error status of the function.
+ *  @param about            Receives a point on the axis of rotation.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutPointTransform_GetAboutPoint (
@@ -598,7 +598,7 @@ Q3RotateAboutAxisTransform_New (
  *
  *  @param data             Structure specifying the state of the transform.
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutAxisTransform_Submit (
@@ -616,7 +616,7 @@ Q3RotateAboutAxisTransform_Submit (
  *
  *  @param transform        A rotate-about-axis transform object.
  *  @param data             Structure specifying the new state of the transform.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutAxisTransform_SetData (
@@ -633,8 +633,8 @@ Q3RotateAboutAxisTransform_SetData (
  *      Get the state of a rotate-about-axis transform object.
  *
  *  @param transform        A rotate-about-axis transform object.
- *  @param data             (output) Structure receiving the state of the transform.
- *  @result                 Error status of the function.
+ *  @param data             Receives the state of the transform.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutAxisTransform_GetData (
@@ -653,7 +653,7 @@ Q3RotateAboutAxisTransform_GetData (
  *
  *  @param transform        A rotate-about-axis transform object.
  *  @param axis             New axis direction vector (normalized).
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutAxisTransform_SetOrientation (
@@ -670,8 +670,8 @@ Q3RotateAboutAxisTransform_SetOrientation (
  *      Get the axis direction of a rotate-about-axis transform object.
  *
  *  @param transform        A rotate-about-axis transform object.
- *  @param axis             (output) The axis direction vector.
- *  @result                 Error status of the function.
+ *  @param axis             Receives the axis direction vector.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutAxisTransform_GetOrientation (
@@ -689,7 +689,7 @@ Q3RotateAboutAxisTransform_GetOrientation (
  *
  *  @param transform        A rotate-about-axis transform object.
  *  @param radians          New angle of rotation, in radians.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutAxisTransform_SetAngle (
@@ -706,8 +706,8 @@ Q3RotateAboutAxisTransform_SetAngle (
  *      Get the angle of rotation of a rotate-about-axis transform object.
  *
  *  @param transform        A rotate-about-axis transform object.
- *  @param radians          (output) The angle of rotation, in radians.
- *  @result                 Error status of the function.
+ *  @param radians          Receives the angle of rotation, in radians.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutAxisTransform_GetAngle (
@@ -725,7 +725,7 @@ Q3RotateAboutAxisTransform_GetAngle (
  *
  *  @param transform        A rotate-about-axis transform object.
  *  @param origin           A point on the desired axis of rotation.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutAxisTransform_SetOrigin (
@@ -742,8 +742,8 @@ Q3RotateAboutAxisTransform_SetOrigin (
  *      Get a point lying on the axis of a rotate-about-axis transform object.
  *
  *  @param transform        A rotate-about-axis transform object.
- *  @param origin           (output) A point on the desired axis of rotation.
- *  @result                 Error status of the function.
+ *  @param origin           Receives a point on the desired axis of rotation.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3RotateAboutAxisTransform_GetOrigin (
@@ -780,7 +780,7 @@ Q3ScaleTransform_New (
  *
  *  @param scale            Vector containing the 3 scale factors.
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ScaleTransform_Submit (
@@ -798,7 +798,7 @@ Q3ScaleTransform_Submit (
  *
  *  @param transform        A scale transform object.
  *  @param scale            Vector containing the 3 scale factors.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ScaleTransform_Set (
@@ -815,8 +815,8 @@ Q3ScaleTransform_Set (
  *      Get the scale factors of a scale transform.
  *
  *  @param transform        A scale transform object.
- *  @param scale            (output) Vector containing the 3 scale factors.
- *  @result                 Error status of the function.
+ *  @param scale            Receives the vector containing the 3 scale factors.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ScaleTransform_Get (
@@ -851,7 +851,7 @@ Q3TranslateTransform_New (
  *
  *  @param translate        Vector by which to translate.
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TranslateTransform_Submit (
@@ -869,7 +869,7 @@ Q3TranslateTransform_Submit (
  *
  *  @param transform        A translate transform object.
  *  @param translate        New vector by which to translate.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TranslateTransform_Set (
@@ -886,8 +886,8 @@ Q3TranslateTransform_Set (
  *      Get the translation vector of a translate transform.
  *
  *  @param transform        A translate transform object.
- *  @param translate        (output) Vector by which the transform translates.
- *  @result                 Error status of the function.
+ *  @param translate        Receives the vector by which the transform translates.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3TranslateTransform_Get (
@@ -922,7 +922,7 @@ Q3QuaternionTransform_New (
  *
  *  @param quaternion       Quaternion data specifying the transform.
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3QuaternionTransform_Submit (
@@ -940,7 +940,7 @@ Q3QuaternionTransform_Submit (
  *
  *  @param transform        A quaternion transform object.
  *  @param quaternion       Quaternion data specifying the transform.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3QuaternionTransform_Set (
@@ -957,8 +957,8 @@ Q3QuaternionTransform_Set (
  *      Get the quaternion data of a quaternion transform object.
  *
  *  @param transform        A quaternion transform object.
- *  @param quaternion       (output) Quaternion data specifying the transform.
- *  @result                 Error status of the function.
+ *  @param quaternion       Receives the quaternion data specifying the transform.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3QuaternionTransform_Get (
@@ -995,7 +995,7 @@ Q3ResetTransform_New (
  *		within a submitting loop.
  *
  *  @param view             A view object.
- *  @result                 Error status of the function.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ResetTransform_Submit (
