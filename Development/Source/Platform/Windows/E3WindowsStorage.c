@@ -306,7 +306,7 @@ E3Win32Storage_Set(TQ3StorageObject storage, HANDLE hFile)
 	{
 	// Clean up the instance data
 	if ( ( (E3Win32Storage*) storage )->instanceData.theFile != NULL )
-		CloseHandle ( instanceData->theFile ) ;
+		CloseHandle ( ( (E3Win32Storage*) storage )->instanceData.theFile ) ;
 
 
 
