@@ -33,8 +33,17 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 	___________________________________________________________________________
 */
-#ifndef E3POOL_OR_LIST_HDR
-#define E3POOL_OR_LIST_HDR
+#ifndef E3POOL_HDR
+#define E3POOL_HDR
+//=============================================================================
+//      Include files
+//-----------------------------------------------------------------------------
+#include <stddef.h>
+
+
+
+
+
 //=============================================================================
 //		C++ preamble
 //-----------------------------------------------------------------------------
@@ -76,7 +85,7 @@ extern "C" {
 //-----------------------------------------------------------------------------
 typedef struct TE3PoolBlock {
 	struct TE3PoolBlock*		private_nextPtr;
-//	TYPE						private_items[SIZE];
+//	TYPE						private_items[BLOCK_LENGTH];
 } TE3PoolBlock;
 
 typedef struct TE3PoolItem {
@@ -134,14 +143,20 @@ void
 E3Pool_Destroy			(TE3Pool*				poolPtr);
 
 TE3PoolItem*
-E3Pool_Allocate			(TE3Pool*				poolPtr,
+E3Pool_AllocateTagged	(TE3Pool*				poolPtr,
 						 TQ3Uns32				itemOffset,
 						 TQ3Uns32				itemSize,
-						 TQ3Uns32				blockLength);
+						 TQ3Uns32				blockLength,
+						 const TE3PoolItem*		tagItemPtr);
 
 void
 E3Pool_Free				(TE3Pool*				poolPtr,
-						 TE3PoolItem*			itemPtr);
+						 TE3PoolItem**			itemPtrPtr);
+
+const TE3PoolItem*
+E3PoolItem_Tag			(const TE3PoolItem*		itemPtr,
+						 TQ3Uns32				itemSize,
+						 TQ3Boolean				(*isTagItemFunc)(const TE3PoolItem*));
 
 
 
@@ -152,9 +167,9 @@ E3Pool_Free				(TE3Pool*				poolPtr,
 //-----------------------------------------------------------------------------
 //		TE3FooPool
 //-----------------------------------------------------------------------------
-//		The TE3Pool class is a collection of C types and functions designed to
-//		emulate an owned pool of memory for efficiently allocating TE3Foo's.
-//		To implement the TE3FooPool class, do the following:
+//		The TE3FooPool class is a collection of C types and functions designed
+//		to implement an owned pool of memory for efficiently allocating
+//		TE3Foo's. To use the TE3FooPool class, do the following:
 //
 //		1)	In header or source files, declare the TE3FooPool type and
 //			E3FooPool_* functions:
@@ -182,21 +197,30 @@ E3Pool_Free				(TE3Pool*				poolPtr,
 //			TE3Foo*
 //			E3FooPool_Allocate		(TE3FooPool*			fooPoolPtr);
 //
+//			TE3Foo*
+//			E3FooPool_AllocateTagged(TE3FooPool*			fooPoolPtr,
+//									 const TE3Foo*			tagFooPtr);
+//
 //			void
 //			E3FooPool_Free			(TE3FooPool*			fooPoolPtr,
-//									 TE3Foo*				fooPtr);
+//									 TE3Foo**				fooPtrPtr);
+//
+//			const TE3Foo*
+//			E3FooPoolItem_Tag		(const TE3Foo*			fooPtr,
+//									 TQ3Boolean				(*isTagFooFunc)(const TE3Foo*));
 //-----------------------------------------------------------------------------
 #define E3POOL_DECLARE(TYPE, FUNC)											\
 																			\
-typedef union TYPE##PoolItem {												\
+typedef union TYPE##PoolItem_Private {										\
 	TE3PoolItem					private_genericItem;						\
 	TYPE						private_data;								\
-} TYPE##PoolItem;															\
+} TYPE##PoolItem_Private;													\
 																			\
-typedef struct TYPE##PoolBlock {											\
-	struct TYPE##PoolBlock*		private_nextPtr;							\
-	TYPE##PoolItem				private_items[1];							\
-} TYPE##PoolBlock;															\
+typedef struct TYPE##PoolBlock_Private TYPE##PoolBlock_Private;				\
+struct TYPE##PoolBlock_Private {											\
+	TYPE##PoolBlock_Private*	private_nextPtr;							\
+	TYPE##PoolItem_Private		private_items[1];							\
+};																			\
 																			\
 typedef struct TYPE##Pool {													\
 	TE3Pool						private_genericPool; /* base class */		\
@@ -214,9 +238,20 @@ TYPE*																		\
 FUNC##Pool_Allocate(														\
 	TYPE##Pool* poolPtr);													\
 																			\
+TYPE*																		\
+FUNC##Pool_AllocateTagged(													\
+	TYPE##Pool* poolPtr,													\
+	const TYPE* tagItemPtr);												\
+																			\
 void																		\
 FUNC##Pool_Free(															\
-	TYPE##Pool* poolPtr, TYPE* itemPtr);									\
+	TYPE##Pool* poolPtr,													\
+	TYPE** itemPtrPtr);														\
+																			\
+const TYPE*																	\
+FUNC##PoolItem_Tag(															\
+	const TYPE* itemPtr,													\
+	TQ3Boolean (*isTagItemFunc)(const TYPE*));								\
 																			\
 void E3Pool_SwallowSemicolon()
 
@@ -244,22 +279,46 @@ PREFIX TYPE*																\
 FUNC##Pool_Allocate(														\
 	TYPE##Pool* poolPtr)													\
 {																			\
-	return(E3_DOWN_CAST(TYPE*, E3Pool_Allocate(								\
+	return(E3_DOWN_CAST(TYPE*, E3Pool_AllocateTagged(						\
 		E3_UP_CAST(TE3Pool*, poolPtr),										\
-		E3_UP_CAST(TQ3Uns32,												\
-			&E3_DOWN_CAST(TYPE##PoolBlock*, 0)->private_items),				\
-		sizeof(TYPE##PoolItem),												\
-		BLOCK_LENGTH)));													\
+		offsetof(TYPE##PoolBlock_Private, private_items),					\
+		sizeof(TYPE##PoolItem_Private),										\
+		BLOCK_LENGTH,														\
+		NULL)));															\
+}																			\
+																			\
+PREFIX TYPE*																\
+FUNC##Pool_AllocateTagged(													\
+	TYPE##Pool* poolPtr,													\
+	const TYPE* tagItemPtr)													\
+{																			\
+	return(E3_DOWN_CAST(TYPE*, E3Pool_AllocateTagged(						\
+		E3_UP_CAST(TE3Pool*, poolPtr),										\
+		offsetof(TYPE##PoolBlock_Private, private_items),					\
+		sizeof(TYPE##PoolItem_Private),										\
+		BLOCK_LENGTH,														\
+		E3_UP_CAST(const TE3PoolItem*, tagItemPtr))));						\
 }																			\
 																			\
 PREFIX void																	\
 FUNC##Pool_Free(															\
 	TYPE##Pool* poolPtr,													\
-	TYPE* itemPtr)															\
+	TYPE** itemPtrPtr)														\
 {																			\
 	E3Pool_Free(															\
 		E3_UP_CAST(TE3Pool*, poolPtr),										\
-		E3_UP_CAST(TE3PoolItem*, itemPtr));									\
+		E3_UP_CAST(TE3PoolItem**, itemPtrPtr));								\
+}																			\
+																			\
+PREFIX const TYPE*															\
+FUNC##PoolItem_Tag(															\
+	const TYPE* itemPtr,													\
+	TQ3Boolean (*isTagItemFunc)(const TYPE*))								\
+{																			\
+	return(E3_DOWN_CAST(const TYPE*, E3PoolItem_Tag(						\
+		E3_UP_CAST(const TE3PoolItem*, itemPtr),							\
+		sizeof(TYPE##PoolItem_Private),										\
+		E3_UP_CAST(TQ3Boolean (*)(const TE3PoolItem*), isTagItemFunc))));	\
 }																			\
 																			\
 void E3Pool_SwallowSemicolon()
@@ -276,4 +335,3 @@ void E3Pool_SwallowSemicolon()
 #endif
 
 #endif
-
