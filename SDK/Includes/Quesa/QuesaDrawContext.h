@@ -83,8 +83,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -107,7 +105,8 @@ extern "C" {
  */
 typedef enum {
     kQ3ClearMethodNone                          = 0,
-    kQ3ClearMethodWithColor                     = 1
+    kQ3ClearMethodWithColor                     = 1,
+    kQ3ClearMethodSize32                        = 0xFFFFFFFF
 } TQ3DrawContextClearImageMethod;
 
 
@@ -125,7 +124,8 @@ typedef enum {
 typedef enum {
     kQ3Mac2DLibraryNone                         = 0,
     kQ3Mac2DLibraryQuickDraw                    = 1,
-    kQ3Mac2DLibraryQuickDrawGX                  = 2
+    kQ3Mac2DLibraryQuickDrawGX                  = 2,
+    kQ3Mac2DLibrarySize32                       = 0xFFFFFFFF
 } TQ3MacDrawContext2DLibrary;
 
 
@@ -140,7 +140,8 @@ typedef enum {
  */
 typedef enum {
     kQ3DirectDrawObject                         = 1,
-    kQ3DirectDrawObject2                        = 2
+    kQ3DirectDrawObject2                        = 2,
+    kQ3DirectDrawObjectSize32                   = 0xFFFFFFFF
 } TQ3DirectDrawObjectSelector;
 
 
@@ -155,7 +156,8 @@ typedef enum {
  */
 typedef enum {
     kQ3DirectDrawSurface                        = 1,
-    kQ3DirectDrawSurface2                       = 2
+    kQ3DirectDrawSurface2                       = 2,
+    kQ3DirectDrawSurfaceSize32                  = 0xFFFFFFFF
 } TQ3DirectDrawSurfaceSelector;
 
 
@@ -1527,8 +1529,6 @@ Q3CocoaDrawContext_GetNSView (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

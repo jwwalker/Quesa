@@ -261,8 +261,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -335,7 +333,8 @@ enum {
  */
 typedef enum {
     kQ3LanguageDefault                          = 0,
-    kQ3LanguageEnglishUS                        = 1
+    kQ3LanguageEnglishUS                        = 1,
+    kQ3LanguageSize32                           = 0xFFFFFFFF
 } TQ3Language;
 
 
@@ -350,7 +349,8 @@ typedef enum {
  */
 typedef enum {
     kQ3False                                    = 0,
-    kQ3True                                     = 1
+    kQ3True                                     = 1,
+    kQ3BooleanSize32                            = 0xFFFFFFFF
 } TQ3Boolean;
 
 
@@ -365,7 +365,8 @@ typedef enum {
  */
 typedef enum {
     kQ3Off                                      = 0,
-    kQ3On                                       = 1
+    kQ3On                                       = 1,
+    kQ3SwitchSize32                             = 0xFFFFFFFF
 } TQ3Switch;
 
 
@@ -380,7 +381,8 @@ typedef enum {
  */
 typedef enum {
     kQ3Failure                                  = 0,
-    kQ3Success                                  = 1
+    kQ3Success                                  = 1,
+    kQ3StatusSize32                             = 0xFFFFFFFF
 } TQ3Status;
 
 
@@ -397,7 +399,8 @@ typedef enum {
 typedef enum {
     kQ3AxisX                                    = 0,
     kQ3AxisY                                    = 1,
-    kQ3AxisZ                                    = 2
+    kQ3AxisZ                                    = 2,
+    kQ3AxisSize32                               = 0xFFFFFFFF
 } TQ3Axis;
 
 
@@ -422,7 +425,8 @@ typedef enum {
     kQ3PixelTypeARGB16                          = 3,
     kQ3PixelTypeRGB16_565                       = 4,
     kQ3PixelTypeRGB24                           = 5,
-    kQ3PixelTypeUnknown							= 200
+    kQ3PixelTypeUnknown							= 200,
+    kQ3PixelTypeSize32                          = 0xFFFFFFFF
 } TQ3PixelType;
 
 
@@ -437,7 +441,8 @@ typedef enum {
  */
 typedef enum {
     kQ3EndianBig                                = 0,
-    kQ3EndianLittle                             = 1
+    kQ3EndianLittle                             = 1,
+    kQ3EndianSize32                             = 0xFFFFFFFF
 } TQ3Endian;
 
 
@@ -456,7 +461,8 @@ typedef enum {
     kQ3EndCapNone                               = 0,
     kQ3EndCapMaskTop                            = (1 << 0),
     kQ3EndCapMaskBottom                         = (1 << 1),
-    kQ3EndCapMaskInterior                       = (1 << 2)
+    kQ3EndCapMaskInterior                       = (1 << 2),
+    kQ3EndCapSize32                             = 0xFFFFFFFF
 } TQ3EndCapMasks;
 
 
@@ -473,7 +479,8 @@ typedef enum {
 typedef enum {
     kQ3ElementTypeNone                          = 0,
     kQ3ElementTypeUnknown                       = 1,
-    kQ3ElementTypeSet                           = 2
+    kQ3ElementTypeSet                           = 2,
+    kQ3ElementTypeSize32                        = 0xFFFFFFFF
 } TQ3ElementTypes;
 
 
@@ -492,7 +499,8 @@ typedef enum {
  */
 typedef enum {
     kQ3ComputeBoundsExact                       = 0,
-    kQ3ComputeBoundsApproximate                 = 1
+    kQ3ComputeBoundsApproximate                 = 1,
+    kQ3ComputeBoundsSize32                      = 0xFFFFFFFF
 } TQ3ComputeBounds;
 
 
@@ -508,6 +516,7 @@ enum {
     kQ3ObjectTypeInvalid                        = ((TQ3ObjectType) 0),
     kQ3ObjectTypeView                           = Q3_OBJECT_TYPE('v', 'i', 'e', 'w'),
     kQ3ObjectTypeViewer                         = Q3_OBJECT_TYPE('v', 'w', 'e', 'r'),
+    kQ3ObjectTypeSlab                           = Q3_OBJECT_TYPE('s', 'l', 'a', 'b'),
     kQ3ObjectTypeElement                        = Q3_OBJECT_TYPE('e', 'l', 'm', 'n'),
         kQ3ElementTypeAttribute                 = Q3_OBJECT_TYPE('e', 'a', 't', 't'),
     kQ3ObjectTypePick                           = Q3_OBJECT_TYPE('p', 'i', 'c', 'k'),
@@ -725,6 +734,7 @@ typedef TQ3Object                               TQ3SharedObject;
     typedef TQ3SharedObject                     TQ3ViewHintsObject;
 typedef TQ3Object                               TQ3ViewObject;
 typedef TQ3Object                               TQ3ViewerObject;
+typedef TQ3Object                               TQ3SlabObject;
 typedef TQ3Object                               TQ3PickObject;
 
 
@@ -2055,8 +2065,6 @@ Q3Bitmap_GetImageSize (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

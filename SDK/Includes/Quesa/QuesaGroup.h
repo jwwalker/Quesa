@@ -54,8 +54,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -95,13 +93,13 @@ typedef enum {
     kQ3DisplayGroupStateMaskUseBoundingBox      = (1 << 2),
     kQ3DisplayGroupStateMaskUseBoundingSphere   = (1 << 3),
     kQ3DisplayGroupStateMaskIsPicked            = (1 << 4),
-    kQ3DisplayGroupStateMaskIsWritten           = (1 << 5)
+    kQ3DisplayGroupStateMaskIsWritten           = (1 << 5),
     
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-    ,
-    kQ3DisplayGroupStateMaskIsNotForBounding	= (1 << 6)
+    kQ3DisplayGroupStateMaskIsNotForBounding	= (1 << 6),
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+    kQ3DisplayGroupStateMaskSize32              = 0xFFFFFFFF
 } TQ3DisplayGroupStateMasks;
 
 
@@ -131,6 +129,7 @@ enum {
     kQ3XMethodType_GroupEndIterate              = Q3_METHOD_TYPE('g', 'i', 't', 'd'),
     kQ3XMethodType_GroupEndRead                 = Q3_METHOD_TYPE('g', 'e', 'r', 'd')
 };
+
 
 
 
@@ -1242,8 +1241,6 @@ Q3XGroup_GetPositionPrivate (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

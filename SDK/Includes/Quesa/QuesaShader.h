@@ -54,8 +54,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -67,10 +65,19 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Shader boundary types
-typedef enum {
+/*!
+ *  @enum
+ *      TQ3ShaderUVBoundary
+ *  @discussion
+ *      Shader UV boundary behaviour.
+ *
+ *  @constant kQ3ShaderUVBoundaryWrap    Wrap UV values outside of 0..1.
+ *  @constant kQ3ShaderUVBoundaryClamp   Clamp UV values to 0..1.
+ */
+typedef enum TQ3ShaderUVBoundary {
     kQ3ShaderUVBoundaryWrap                     = 0,
-    kQ3ShaderUVBoundaryClamp                    = 1
+    kQ3ShaderUVBoundaryClamp                    = 1,
+    kQ3ShaderUVBoundarySize32                   = 0xFFFFFFFF
 } TQ3ShaderUVBoundary;
 
 
@@ -1293,8 +1300,6 @@ Q3CompressedPixmapTexture_CompressImage (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

@@ -54,8 +54,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -84,7 +82,8 @@ extern "C" {
 typedef enum {
     kQ3AttenuationTypeNone                      = 0,
     kQ3AttenuationTypeInverseDistance           = 1,
-    kQ3AttenuationTypeInverseDistanceSquared    = 2
+    kQ3AttenuationTypeInverseDistanceSquared    = 2,
+    kQ3AttenuationTypeSize32                    = 0xFFFFFFFF
 } TQ3AttenuationType;
 
 
@@ -107,7 +106,8 @@ typedef enum {
     kQ3FallOffTypeNone                          = 0,
     kQ3FallOffTypeLinear                        = 1,
     kQ3FallOffTypeExponential                   = 2,
-    kQ3FallOffTypeCosine                        = 3
+    kQ3FallOffTypeCosine                        = 3,
+    kQ3FallOffSize32                            = 0xFFFFFFFF
 } TQ3FallOffType;
 
 
@@ -1038,8 +1038,6 @@ Q3SpotLight_SetData (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

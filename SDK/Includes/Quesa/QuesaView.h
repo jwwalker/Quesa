@@ -57,8 +57,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -85,7 +83,8 @@ typedef enum TQ3ViewStatus {
     kQ3ViewStatusDone                           = 0,
     kQ3ViewStatusRetraverse                     = 1,
     kQ3ViewStatusError                          = 2,
-    kQ3ViewStatusCancelled                      = 3
+    kQ3ViewStatusCancelled                      = 3,
+    kQ3ViewStatusSize32                         = 0xFFFFFFFF
 } TQ3ViewStatus;
 
 
@@ -1253,8 +1252,6 @@ Q3View_GetAttributeState (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif

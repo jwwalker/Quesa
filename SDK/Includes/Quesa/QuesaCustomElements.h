@@ -54,8 +54,6 @@
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint on
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -84,7 +82,8 @@ extern "C" {
  */
 typedef enum {
     kCEUrlOptionNone                            = 0,
-    kCEUrlOptionUseMap                          = 1
+    kCEUrlOptionUseMap                          = 1,
+    kCEUrlOptionSize32                          = 0xFFFFFFFF
 } TCEUrlOptions;
 
 
@@ -299,8 +298,6 @@ CEWireElement_EmptyData (
 //=============================================================================
 //      C++ postamble
 //-----------------------------------------------------------------------------
-#pragma enumsalwaysint reset
-
 #ifdef __cplusplus
 }
 #endif
