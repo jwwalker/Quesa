@@ -748,37 +748,7 @@ e3geom_trimesh_pick_screen_bounds(TQ3ViewObject theView, TQ3Object theObject, co
 
 
 	// Obtain the eight corners of our bounding box
-	worldPoints[0].x = instanceData->bBox.min.x;
-	worldPoints[0].y = instanceData->bBox.min.y;
-	worldPoints[0].z = instanceData->bBox.min.z;
-
-	worldPoints[1].x = instanceData->bBox.max.x;
-	worldPoints[1].y = instanceData->bBox.min.y;
-	worldPoints[1].z = instanceData->bBox.min.z;
-
-	worldPoints[2].x = instanceData->bBox.min.x;
-	worldPoints[2].y = instanceData->bBox.max.y;
-	worldPoints[2].z = instanceData->bBox.min.z;
-
-	worldPoints[3].x = instanceData->bBox.max.x;
-	worldPoints[3].y = instanceData->bBox.max.y;
-	worldPoints[3].z = instanceData->bBox.min.z;
-
-	worldPoints[4].x = instanceData->bBox.min.x;
-	worldPoints[4].y = instanceData->bBox.min.y;
-	worldPoints[4].z = instanceData->bBox.max.z;
-
-	worldPoints[5].x = instanceData->bBox.max.x;
-	worldPoints[5].y = instanceData->bBox.min.y;
-	worldPoints[5].z = instanceData->bBox.max.z;
-
-	worldPoints[6].x = instanceData->bBox.min.x;
-	worldPoints[6].y = instanceData->bBox.max.y;
-	worldPoints[6].z = instanceData->bBox.max.z;
-
-	worldPoints[7].x = instanceData->bBox.max.x;
-	worldPoints[7].y = instanceData->bBox.max.y;
-	worldPoints[7].z = instanceData->bBox.max.z;
+	e3geom_trimesh_bounds_to_corners( &instanceData->bBox, worldPoints );
 
 
 
@@ -947,6 +917,13 @@ static TQ3Status
 e3geom_trimesh_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
 	TQ3PickObject		thePick;
+	TQ3TriMeshData		*instanceData = (TQ3TriMeshData *) objectData;	// casting away const
+
+
+
+	// Recalculate our local-coordinate bounding box if it hasn't been initialised
+	if (instanceData->bBox.isEmpty == kQ3True)
+		Q3BoundingBox_SetFromPoints3D(&instanceData->bBox, instanceData->points, instanceData->numPoints, sizeof(TQ3Point3D));
 
 
 
