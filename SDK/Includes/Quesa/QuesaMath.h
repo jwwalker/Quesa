@@ -3059,6 +3059,39 @@ Q3Quaternion_InterpolateLinear (
 );
 
 
+/*!
+ *  @function
+ *      Q3Quaternion_GetAxisAndAngle
+ *  @discussion
+ *      Get the rotation axis and/or angle represented by a quaternion.
+ *
+ *      Note that for correct results, the quaternion should be normalized.
+ *
+ *		If the quaternion represents a null rotation, then outAngle will be
+ *		set to 0.0 and outAxis will be set to <0, 1, 0> (since in this case
+ *		the rotation axis is undefined, but we want to always give you a 
+ *		valid axis).
+ *
+ *		Either outAxis or outAngle may be null if you are not interested in
+ *		that result.  (You could even pass null for both, but that would be
+ *		rather pointless.)
+ *
+ *  @param quaternion       Address of a quaternion to inspect.
+ *  @param outAxis          Address of a vector to set to the rotation axis (may be null).
+ *  @param outAngle         Address of a float to set to the rotation angle (may be null).
+ *  @result                 Convenience copy of outAxis parameter.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Vector3D * )
+Q3Quaternion_GetAxisAndAngle (
+	const TQ3Quaternion           *quaternion,
+	TQ3Vector3D                   *outAxis,
+	float                         *outAngle
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
 
 /*!
  *  @function
@@ -3079,7 +3112,6 @@ Q3Vector3D_TransformQuaternion (
     const TQ3Quaternion           *quaternion,
     TQ3Vector3D                   *result
 );
-
 
 
 /*!

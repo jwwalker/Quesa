@@ -5372,6 +5372,44 @@ Q3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 
 
 
+//=============================================================================
+//      Q3Quaternion_GetAxisAndAngle : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Vector3D *
+Q3Quaternion_GetAxisAndAngle(const TQ3Quaternion *quaternion, TQ3Vector3D *outAxis, float *outAngle)
+{
+	float qlength;
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	// Further checks on quaternion
+	qlength = (float) sqrt(E3Quaternion_Dot(quaternion, quaternion));
+	if (qlength < 1.0f - FLT_EPSILON || qlength > 1.0f + FLT_EPSILON)
+		return(NULL);			// quaternion must be normalized
+
+	if (0) // Further checks on outAngle
+		return(NULL);
+
+	if (0) // Further checks on outAxis
+		return(NULL);
+
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Quaternion_GetAxisAndAngle(quaternion, outAxis, outAngle));
+}
 
 
 //=============================================================================
