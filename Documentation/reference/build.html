@@ -146,13 +146,13 @@ find useful when adding code to Quesa:
 		<br>
 		<br>
 
-	<li>E3Memory.h defines the Quesa memory manager - all memory management within
-		Quesa must go through these routines, rather than accessing malloc/free
-		directly.
+	<li>QuesaMemory.h defines the Quesa memory manager - all memory management
+		within Quesa must go through these routines, rather than accessing
+		malloc/free directly.
 		<br>
 		<br>
-		This gives us an extra level of indirection to add debug code, and adjust
-		our behaviour on platforms with badly performing C libraries.
+		This gives us an extra level of indirection to add debug code, and allows
+		us to adjust our behaviour on platforms with badly performing C libraries.
 		<br>
 		<br>
 
