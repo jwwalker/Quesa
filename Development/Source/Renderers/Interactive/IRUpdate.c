@@ -374,7 +374,7 @@ ir_state_texture_cache(TQ3ViewObject			theView,
 		Q3Object_Dispose(theRenderer);
 		}
 	
-	cachedTexture.qualityFilter = (raveFilter) ? GL_NEAREST : GL_LINEAR;
+	cachedTexture.qualityFilter = (raveFilter) ? GL_LINEAR : GL_NEAREST;
 
 
 
