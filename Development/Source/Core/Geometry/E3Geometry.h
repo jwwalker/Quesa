@@ -74,7 +74,9 @@ TQ3Status			E3Geometry_SetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSe
 TQ3Status			E3Geometry_Submit(TQ3GeometryObject theGeom, TQ3ViewObject theView);
 TQ3Object			E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject view );
 
-
+TQ3Boolean			E3Geometry_IsDegenerateTriple( const TQ3Vector3D* orientation,
+												const TQ3Vector3D* majorAxis,
+												const TQ3Vector3D* minorAxis );
 
 
 //=============================================================================
