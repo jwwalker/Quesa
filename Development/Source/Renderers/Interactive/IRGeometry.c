@@ -311,6 +311,60 @@ IRGeometry_Attribute_GetUV(TQ3InteractiveData *instanceData, TQ3AttributeSet the
 
 
 //=============================================================================
+//      IRGeometry_Triangle_CalcFlags : Calculate the flags for a triangle
+//-----------------------------------------------------------------------------
+TQ3TriFlags
+IRGeometry_Triangle_CalcFlags(TQ3InteractiveData	*instanceData,
+								const TQ3Vector3D	*triNormal,
+								const TQ3Point3D	*pointOnTri)
+{	TQ3Boolean		isBackfacing;
+	float			dotProduct;
+	TQ3Vector3D		eyeToTri;
+	TQ3Uns32		theFlags;
+
+
+
+	// Determine the eye->triangle vector to use
+	//
+	// For orthographic cameras we can use the camera's view direction (in
+	// local coordinates), but for perspective cameras we need a vector from
+	// the eye position to one of the triangle's vertices.
+	if (instanceData->cameraIsOrtho)
+		eyeToTri = instanceData->stateLocalCameraViewVector;
+	else
+		Q3Point3D_Subtract(&instanceData->stateLocalCameraPosition, pointOnTri, &eyeToTri);
+
+
+
+	// Determine if the triangle is back-facing
+	dotProduct   = Q3Vector3D_Dot(triNormal, &eyeToTri);
+	isBackfacing = (TQ3Boolean) (dotProduct < 0.0f);
+
+
+
+	// Set up the triangle flags
+	//
+	// Back-facing triangles aren't visible if we're to remove them, and
+	// they're flipped if we're to flip them for rendering.
+	theFlags = kQ3TriFlagVisible;
+
+	if (isBackfacing)
+		{
+		if (instanceData->stateBackfacing == kQ3BackfacingStyleRemove)
+			theFlags = kQ3TriFlagCulled;
+		
+		else if (instanceData->stateBackfacing == kQ3BackfacingStyleFlip)
+			theFlags |= kQ3TriFlagFlipped;
+		}
+
+	return(theFlags);
+}
+
+
+
+
+
+//=============================================================================
 //      IRGeometry_Triangle_IsVisible : Check a triangle normal for culling.
 //-----------------------------------------------------------------------------
 //		Note :	If the triangle normal indicates that it is backfacing, and the
