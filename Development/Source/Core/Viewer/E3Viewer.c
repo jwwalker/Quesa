@@ -558,6 +558,97 @@ static TQ3Int32 e3viewer_popupMenu (TQ3Area* r, TQ3Int32 menuID, TQ3Int32 *outMe
 }
 
 //=============================================================================
+//	e3viewer_readFile : Read data from a storage object.
+//-----------------------------------------------------------------------------
+static TQ3Status e3viewer_readFile(TQ3ViewerObject theViewer, TQ3StorageObject store)
+{
+	TQ3ViewerData		*viewerData = (TQ3ViewerData *) theViewer->instanceData;
+	TQ3Status status;
+	TQ3FileObject theFile = Q3File_New ();
+	if (!theFile) return kQ3Failure;
+
+	status = Q3File_SetStorage (theFile, store);
+	if (status == kQ3Success)
+		{
+		TQ3FileMode mode = kQ3FileModeNormal;
+		status = Q3File_OpenRead (theFile, &mode);
+		if (status == kQ3Success)
+			{
+			if (!viewerData->mGroup)
+				{
+				viewerData->mGroup = Q3DisplayGroup_New ();
+				if (!viewerData->mGroup)
+					goto bail;
+				}
+			else
+				Q3Group_EmptyObjects (viewerData->mGroup);
+/*				if (viewerData->otherObjects)
+				Q3Group_EmptyObjects (viewerData->otherObjects);
+			if (viewerData->theViewHints)
+				Q3Group_EmptyObjects (viewerData->theViewHints);
+*/				
+			Q3Error_Get (NULL); // clears any pending errors
+			while (Q3File_IsEndOfFile (theFile) == kQ3False)
+				{
+				TQ3Error readError;
+				TQ3Object object = Q3File_ReadObject (theFile);
+				readError = Q3Error_Get (NULL);
+				if (readError)
+					{
+					if (Q3Error_IsFatalError (readError))
+						{
+						if (object)
+							Q3Object_Dispose (object);
+						status = kQ3Failure;
+						break;
+						}
+					}
+					
+				if (object)
+					{
+					TQ3ObjectType theType = Q3Object_GetLeafType (object);
+					if (theType == kQ3SharedTypeViewHints)
+						{
+//							if (viewerData->theViewHints) // add this view hint to my list of cameras
+//								Q3Group_AddObject (viewerData->theViewHints, object);
+						}
+					else if (theType == 'push') // get these when the app writes in immediate mode.
+						{
+// ???
+						// need to create a new group
+						}
+					else if (theType == 'pop ')
+						{
+// ???
+						}
+					else if (Q3Object_IsDrawable (object))
+						Q3Group_AddObject (viewerData->mGroup, object); // no need to check viewerData->theObjects != NULL, done above
+//						else if (viewerData->otherObjects)
+//							Q3Group_AddObject (viewerData->otherObjects, object);
+
+					Q3Object_Dispose (object);
+					}
+				else // no object
+					{
+					status = kQ3Failure;
+					break;
+					}
+				}
+		bail:
+			Q3File_Close (theFile);
+			}
+		}
+	Q3Object_Dispose (theFile);
+	if (status == kQ3Failure)
+		{
+		// clear all the geometries out, or leave what was read in so far ??
+//			if (viewerData->otherObjects)
+//				Q3Group_EmptyObjects (viewerData->otherObjects);
+		}
+	return status;
+}
+
+//=============================================================================
 //      e3viewer_askBackgroundColor : Post a standard color picker to ask
 //			the user what we should use for the background color.
 //-----------------------------------------------------------------------------
@@ -1495,12 +1586,24 @@ E3Viewer_UseFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 //		Note : More detailed comments can be placed here if required.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Viewer_UseData(TQ3ViewerObject theViewer, const void *theData, TQ3Uns32 dataSize)
+E3Viewer_UseData(TQ3ViewerObject theViewer, const void *data, TQ3Uns32 dataSize)
 {
+	TQ3StorageObject store;
+	if (data == NULL)
+		return kQ3Failure;
 
-
-	// To be implemented...
-	return(kQ3Failure);
+	store = Q3MemoryStorage_New ((unsigned char*)data, dataSize);
+	if (store)
+		{
+		TQ3Status status = e3viewer_readFile(theViewer, store);
+		Q3Object_Dispose (store);
+		if (status == kQ3Success)
+			{
+			e3viewer_reset(theViewer);
+			return kQ3Success;
+			}
+		}
+	return kQ3Failure;
 }
 
 
