@@ -446,11 +446,10 @@ E3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 		case (kQ3FileModeStream + kQ3FileModeDatabase):
 			mode = kQ3FFormatWriterType3DMFDatabaseStreamBin;
 			break;
-		case (kQ3FileModeDatabase + kQ3FileModeDatabase + kQ3FileModeText):
+		case (kQ3FileModeDatabase + kQ3FileModeStream + kQ3FileModeText):
 			mode = kQ3FFormatWriterType3DMFDatabaseStreamText;
 			break;
 		}
-			mode = kQ3FFormatWriterType3DMFStreamBin;
 	
 	// Instantiate the fileFormat 
 	format = Q3FileFormat_NewFromType(mode);
