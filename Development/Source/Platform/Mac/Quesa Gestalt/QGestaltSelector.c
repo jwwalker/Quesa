@@ -52,7 +52,7 @@ pascal OSErr main(OSType theSelector, SInt32 *theResponse)
 	// Handle the QD3D selectors
 	switch (theSelector) {
 		case gestaltQD3DVersion:
-			*theResponse = kQ3PackedVersion;
+			*theResponse = (SInt32) kQ3PackedVersion;
 			break;
 
 		case gestaltQD3DViewer:
