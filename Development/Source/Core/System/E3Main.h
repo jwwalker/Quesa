@@ -68,11 +68,15 @@ extern "C" {
 public :														\
 	enum														\
 		{														\
-		classDepth = _parentClass::classDepth + 1 ,				\
-		classType = _type ,										\
-		parentType = _parentClass::classType					\
+		eClassDepth = _parentClass::eClassDepth + 1 ,			\
+		eClassType = _type ,									\
+		eParentType = _parentClass::eClassType					\
 		} ;														\
 private :		
+
+
+
+#define Q3_OBJECT_IS_CLASS(_object, _class) ((_object)->IsClass ( _class::eClassType, _class::eClassDepth ))
 
 
 //=============================================================================
@@ -87,8 +91,8 @@ class OpaqueTQ3Object
 public :
 	enum
 		{
-		classDepth = 0 ,
-		classType = kQ3ObjectTypeRoot
+		eClassDepth = 0 ,
+		eClassType = kQ3ObjectTypeRoot
 		} ;
 private :
 
@@ -126,8 +130,11 @@ public :
 	TQ3Object					DuplicateInstance ( void ) ;
 	void*						FindLeafInstanceData ( void ) ;
 	TQ3ObjectType				GetObjectType ( TQ3ObjectType baseType ) ;
+	TQ3ObjectType				GetLeafType ( void ) { return GetClass ()->GetType () ; }
 	TQ3Object					GetLeafObject ( void ) ;
 	TQ3Boolean					IsObjectValid ( void ) { return (TQ3Boolean) ( quesaTag == kQ3ObjectTypeQuesa ) ; }
+	TQ3Boolean					IsClass ( TQ3ObjectType queryClass, TQ3Int32 queryDepth )
+												{ return (TQ3Boolean) ( theClass->ownAndParentTypes [ queryDepth ] == queryClass ) ; }
 
 
 	// Locate a class
@@ -215,7 +222,6 @@ TQ3Status			E3Object_Submit(TQ3Object theObject, TQ3ViewObject theView);
 TQ3Boolean			E3Object_IsDrawable(TQ3Object theObject);
 TQ3Boolean			E3Object_IsWritable(TQ3Object theObject, TQ3FileObject theFile);
 TQ3ObjectType		E3Object_GetType(TQ3Object theObject);
-TQ3ObjectType		E3Object_GetLeafType(TQ3Object theObject);
 TQ3Boolean			E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType);
 
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
