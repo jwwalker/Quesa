@@ -851,6 +851,8 @@ Q3Point3D_CrossProductTri (
  *      NULL, only triangles whose corresponding entry in this array is 0 will
  *      be processed.
  *
+ *      The returning vectors are normalized.
+ *
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param numTriangles     The number of triangles to process.
