@@ -567,7 +567,7 @@ e3matrix4x4_invert(TQ3Matrix4x4* a)
 //		e3vector3d_below_tolerance : Is a vector below a threshold?
 //-----------------------------------------------------------------------------
 static TQ3Boolean
-e3vector3d_below_tolerance(const TQ3Vector3D *theVector, double tol)
+e3vector3d_below_tolerance(const TQ3Vector3D *theVector, float tol)
 {	float	vecLen2;
 	float	tol2;
 
