@@ -258,6 +258,9 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 	{ kQ3WarningTypeNewerVersionAlreadyRegistered,	"Quesa Warning: " "Type newer version already registered" },
 	{ kQ3WarningInvalidObjectInGroupMetafile,		"Quesa Warning: " "Invalid object in group metafile" },
 	{ kQ3WarningQuaternionNotNormalized,			"Quesa Warning: " "Quaternion is not normalized" },
+	{ kQ3WarningNormalCanNotBeFlipped,				"Quesa Warning: " "Normal can not be flipped correctly" },
+	{ kQ3WarningTriMeshTriangleNotNormalized,		"Quesa Warning: " "TriMesh triangle normal is normalized" },
+	{ kQ3WarningTriMeshVertexNotNormalized,			"Quesa Warning: " "TriMesh vertex normal is not normalized" },
 	{ kQ3WarningNone, NULL } };
 
 
@@ -274,11 +277,12 @@ static TQ3StringIdentifier gEnglishStringTable_Notice[] = {
 	{ kQ3NoticeMeshEdgeIsNotBoundary,				"Quesa Notice: " "Mesh edge is not boundary" },
 	{ kQ3NoticeDrawContextNotSetUsingInternalDefaults,		"Quesa Notice: " "Draw context not set using internal defaults" },
 	{ kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults,	"Quesa Notice: " "Invalid attenuation type using internal defaults" },
-	{ kQ3NoticeBrightnessGreaterThanOne,			"Quesa Notice: " "Brightness greater than one" },
+	{ kQ3NoticeBrightnessGreaterThanOne,			"Quesa Notice: " "Brightness greater than 1.0" },
 	{ kQ3NoticeScaleContainsZeroEntries,			"Quesa Notice: " "Scale contains zero entries" },
 	{ kQ3NoticeSystemAlreadyInitialized,			"Quesa Notice: " "System already initialized" },
 	{ kQ3NoticeViewSyncCalledAgain,					"Quesa Notice: " "View sync called again" },
 	{ kQ3NoticeFileCancelled,						"Quesa Notice: " "File cancelled" },
+	{ kQ3NoticeBrightnessLessThanZero,				"Quesa Notice: " "Brightness less than 0.0" },
 	{ kQ3NoticeNone, NULL } };
 
 
