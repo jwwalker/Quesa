@@ -483,8 +483,8 @@ Q3Viewer_GetReleaseVersion (
  *      Creates a new Viewer object. Should be disposed of with Q3Viewer_Dispose
  *		or Q3Object_Dispose.
  *
- *		On Mac OS, the window parameter should be a WindowRef. On Windows, it
- *		should be an HWND.
+ *		On Windows, the window parameter should be an HWND.  On Mac OS, it should be
+ *		a CGrafPtr (which you can get from a WindowRef via GetWindowPort).
  *
  *		Note that Q3Viewer_New requires kQ3ViewerFlagXXXX constants for the flags
  *		parameter, not the QuickDraw 3D style kQ3ViewerXXXX constants.
@@ -1344,8 +1344,8 @@ Q3Viewer_EventMouseDown (
  *		Should be called repeatedly until the mouse is released.
  *
  *  @param theViewer        Viewer object.
- *  @param hPos             Horizontal global (screen) location of mouse down.
- *  @param vPos             Vertical global (screen) location of mouse down.
+ *  @param hPos             Horizontal global (screen) location of mouse.
+ *  @param vPos             Vertical global (screen) location of mouse.
  *  @result                 Returns as the Viewer handled the event.
  */
 EXTERN_API_C ( TQ3Boolean )
@@ -1365,8 +1365,8 @@ Q3Viewer_EventMouseTrack (
  *		has returned true.
  *
  *  @param theViewer        Viewer object.
- *  @param hPos             Horizontal global (screen) location of mouse down.
- *  @param vPos             Vertical global (screen) location of mouse down.
+ *  @param hPos             Horizontal global (screen) location of mouse up.
+ *  @param vPos             Vertical global (screen) location of mouse up.
  *  @result                 Returns as the Viewer handled the event.
  */
 EXTERN_API_C ( TQ3Boolean )
