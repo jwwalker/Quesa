@@ -133,7 +133,7 @@ ir_geom_polyline_submit_transparent(TQ3ViewObject				theView,
 			// Grab the attribute values
 			thePoints[m]		 = &geomData->vertices[n + m].point;
 			theNormals[m]        = IRGeometry_Attribute_GetNormal(     instanceData, geomData->vertices[n + m].attributeSet);
-			colourDiffuse[m]     = IRGeometry_Attribute_GetDiffuse(	   instanceData, geomData->vertices[n + m].attributeSet, kQ3False);
+			colourDiffuse[m]     = IRGeometry_Attribute_GetDiffuse(	   instanceData, geomData->vertices[n + m].attributeSet, kQ3False, kQ3False);
 			colourTransparent[m] = IRGeometry_Attribute_GetTransparent(instanceData, geomData->vertices[n + m].attributeSet);
 			}
 
@@ -209,8 +209,10 @@ IRGeometry_Attribute_Combine(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 TQ3ColorRGB *
 IRGeometry_Attribute_GetDiffuse(TQ3InteractiveData		*instanceData,
 								 TQ3AttributeSet		theAttributes,
-								 TQ3Boolean				canTexture)
-{	TQ3ColorRGB		*theColour = NULL;
+								 TQ3Boolean				canTexture,
+								 TQ3Boolean				fallBackToWhite)
+{	static TQ3ColorRGB		kQ3ColourWhite = { 1.0f, 1.0f, 1.0f };
+	TQ3ColorRGB				*theColour = NULL;
 
 
 
@@ -227,10 +229,17 @@ IRGeometry_Attribute_GetDiffuse(TQ3InteractiveData		*instanceData,
 	
 	
 	// Fall back to the geometry colour or get it for highlight
-	if ((theColour == NULL) ||
-			((instanceData->stateGeomHilightState == kQ3On) && (instanceData->stateGeomDiffuseColour != NULL)))
+	if (theColour == NULL ||
+	    	(instanceData->stateGeomHilightState == kQ3On &&
+	    	 instanceData->stateGeomDiffuseColour != NULL))
 		theColour = instanceData->stateGeomDiffuseColour;
-	
+
+
+
+	// Fall back to white if required
+	if (theColour == NULL && fallBackToWhite)
+		theColour = &kQ3ColourWhite;
+
 	return(theColour);
 }
 
@@ -240,6 +249,8 @@ IRGeometry_Attribute_GetDiffuse(TQ3InteractiveData		*instanceData,
 
 //=============================================================================
 //      IRGeometry_Attribute_GetTransparent : Get the transparent colour.
+//-----------------------------------------------------------------------------
+//		Note : Never returns NULL.
 //-----------------------------------------------------------------------------
 TQ3ColorRGB *
 IRGeometry_Attribute_GetTransparent(TQ3InteractiveData		*instanceData,
@@ -717,7 +728,7 @@ IRGeometry_Triangle(TQ3ViewObject			theView,
 	for (n = 0; n < 3; n++)
 		{
 		thePoints[n]         = &geomData->vertices[n].point;
-		colourDiffuse[n]     = IRGeometry_Attribute_GetDiffuse(    instanceData, geomData->vertices[n].attributeSet, canTexture);
+		colourDiffuse[n]     = IRGeometry_Attribute_GetDiffuse(    instanceData, geomData->vertices[n].attributeSet, canTexture, kQ3False);
 		colourTransparent[n] = IRGeometry_Attribute_GetTransparent(instanceData, geomData->vertices[n].attributeSet);
 		theNormals[n]        = IRGeometry_Attribute_GetNormal(     instanceData, geomData->vertices[n].attributeSet);
 		}
@@ -796,7 +807,7 @@ IRGeometry_Line(TQ3ViewObject			theView,
 		{
 		// Grab the attribute values
 		thePoints[n]         = &geomData->vertices[n].point;
-		colourDiffuse[n]     = IRGeometry_Attribute_GetDiffuse(	   instanceData, geomData->vertices[n].attributeSet, kQ3False);
+		colourDiffuse[n]     = IRGeometry_Attribute_GetDiffuse(	   instanceData, geomData->vertices[n].attributeSet, kQ3False, kQ3False);
 		colourTransparent[n] = IRGeometry_Attribute_GetTransparent(instanceData, geomData->vertices[n].attributeSet);
 		theNormals[n]        = IRGeometry_Attribute_GetNormal(     instanceData, geomData->vertices[n].attributeSet);
 		theUVs[n]            = NULL;
@@ -1194,7 +1205,7 @@ IRGeometry_PolyLine(TQ3ViewObject			theView,
 			{
 			// Get the values we need
 			thePoint  = &geomData->vertices[n].point;
-			theColour = IRGeometry_Attribute_GetDiffuse(instanceData, geomData->vertices[n].attributeSet, kQ3False);
+			theColour = IRGeometry_Attribute_GetDiffuse(instanceData, geomData->vertices[n].attributeSet, kQ3False, kQ3False);
 			theNormal = IRGeometry_Attribute_GetNormal( instanceData, geomData->vertices[n].attributeSet);
 
 
