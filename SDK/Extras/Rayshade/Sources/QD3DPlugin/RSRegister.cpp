@@ -76,10 +76,18 @@
 #if defined(macintosh)
 
 #include <CodeFragments.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#if TARGET_RT_MAC_MACHO
+/*
+ *  Shared library initialization entry point
+ */
+__declspec(dllexport) void RS_Initialize();
+
+#else	// CFM
 /*
  *  Shared library initialization entry point
  */
@@ -90,7 +98,9 @@ OSErr RS_Initialize(
  */
 TQ3Status RS_Exit( 
 	void);
-	
+
+#endif
+
 #ifdef __cplusplus
 }
 #endif
@@ -855,25 +865,7 @@ static TQ3Status RS_Register(void)
 	return (kQ3Success);
 }
 
-/*===========================================================================*\
- *
- *	Routine:	SR_Exit()
- *
- *	Comments:	Called on exiting from QD3D, this function unregisters this
- *				plug-in renderer.
- *
-\*===========================================================================*/
-TQ3Status RS_Exit( 
-	void)
-{
-	if (gRS_SharedLibrary != NULL) {
-		Q3XSharedLibrary_Unregister(gRS_SharedLibrary);
-		gRS_SharedLibrary = NULL;
-	}
-	return (kQ3Success);
-}
-
-#if defined(macintosh)
+#if TARGET_RT_MAC_CFM
 /*===========================================================================*\
  *
  *	Routine:	RS_Initialize()
@@ -899,7 +891,42 @@ OSErr RS_Initialize(
 	return (err);
 }
 
+/*===========================================================================*\
+ *
+ *	Routine:	SR_Exit()
+ *
+ *	Comments:	Called on exiting from QD3D, this function unregisters this
+ *				plug-in renderer.
+ *
+\*===========================================================================*/
+TQ3Status RS_Exit( 
+	void)
+{
+	if (gRS_SharedLibrary != NULL) {
+		Q3XSharedLibrary_Unregister(gRS_SharedLibrary);
+		gRS_SharedLibrary = NULL;
+	}
+	return (kQ3Success);
+}
+
+
+
+#elif TARGET_RT_MAC_MACHO
+
+#pragma CALL_ON_LOAD RS_Initialize
+void RS_Initialize()
+{
+	TQ3XSharedLibraryInfo	sharedLibraryInfo;
+	
+	
+	sharedLibraryInfo.registerFunction 	= RS_Register;
+	sharedLibraryInfo.sharedLibrary 	= NULL;
+												
+	Q3XSharedLibrary_Register(&sharedLibraryInfo);
+}
+
 #endif	/* WINDOW_SYSTEM_MACINTOSH */
+
 #if defined(WIN32)
 BOOL __stdcall DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
