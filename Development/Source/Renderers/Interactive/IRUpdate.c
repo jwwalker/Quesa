@@ -170,11 +170,11 @@ ir_state_texture_convert_mipmap(TQ3TextureObject theTexture)
 	if (theMipmap.useMipmapping)
 		{
 		numImages = 0;
-		theWidth  = theMipmap.mipmaps[0].width;
-		while (theWidth > 1)
+		n         = E3Num_Min(theMipmap.mipmaps[0].width, theMipmap.mipmaps[1].height);
+		while (n > 1)
 			{
-			theWidth /= 2;
-			numImages++;
+			n         /= 2;
+			numImages += 1;
 			}
 		}
 	else
