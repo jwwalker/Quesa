@@ -1,8 +1,8 @@
 /*  NAME:
-        GLPrefix.h
+        E3CocoaPrefix.h
 
     DESCRIPTION:
-        Global prefix file for OpenGL.
+        Cocoa specific prefix file.
 
     COPYRIGHT:
         Quesa Copyright © 1999-2000, Quesa Developers.
@@ -30,58 +30,12 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef GLPREFIX_HDR
-#define GLPREFIX_HDR
+#ifndef E3COCOAPREFIX_HDR
+#define E3COCOAPREFIX_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-// Quesa
-#include "E3Prefix.h"
-
-
-// OpenGL (everywhere but Mac OS X)
-#if !TARGET_RT_MAC_MACHO && !QUESA_OS_COCOA
-    #include <GL/gl.h>
-    #include <GL/glu.h>
-#endif
-
-
-// OpenGL (platform specific)
-#if QUESA_OS_MACINTOSH
-	#if TARGET_RT_MAC_MACHO
-            #include <OpenGL/gl.h>
-            #include <OpenGL/glu.h>
-            #include <AGL/agl.h>
-            #include <AGL/aglRenderers.h>
-        #else
-            #include <agl.h>
-            #include <aglRenderers.h>
-        #endif
-
-#elif QUESA_OS_UNIX
-	#include <GL/glx.h>
-
-#elif QUESA_OS_BE
-	#include <be/opengl/GLView.h>
-
-#elif QUESA_OS_COCOA
-	#include <OpenGL/gl.h>
-	#include <OpenGL/glu.h>
-#endif
-
-
-
-
-
-//=============================================================================
-//      Macros
-//-----------------------------------------------------------------------------
-// For Mac specific weak linking
-#if QUESA_OS_MACINTOSH
-	#define QUESA_FOUND_OPENGL		((TQ3Uns32) aglGetVersion != (TQ3Uns32) kUnresolvedCFragSymbolAddress)
-#else
-	#define QUESA_FOUND_OPENGL		(1)
-#endif
+// Include files go here
 
 
 

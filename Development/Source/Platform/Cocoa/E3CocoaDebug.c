@@ -1,8 +1,8 @@
 /*  NAME:
-        E3Prefix.h
+        E3CocoaDebug.c
 
     DESCRIPTION:
-        Global prefix file for Quesa.
+        Cocoa debug implementation.
 
     COPYRIGHT:
         Quesa Copyright © 1999-2000, Quesa Developers.
@@ -30,89 +30,58 @@
 		Foundation Inc, 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
     ___________________________________________________________________________
 */
-#ifndef E3PREFIX_HDR
-#define E3PREFIX_HDR
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-// Quesa (public)
-#include "Quesa.h"
-
-
-// Quesa (private, platform specific)
-#if QUESA_OS_MACINTOSH
-	#include "E3MacPrefix.h"
-
-#elif QUESA_OS_WIN32
-	#include "E3WindowsPrefix.h"
-
-#elif QUESA_OS_UNIX
-	#include "E3UnixPrefix.h"
-
-#elif QUESA_OS_BE
-	#include "E3BePrefix.h"
-
-#elif QUESA_OS_COCOA
-	#include "E3CocoaPrefix.h"
-#endif
-
-
-
-// Quesa (public)
-#include "QuesaCamera.h"
-#include "QuesaController.h"
-#include "QuesaCustomElements.h"
-#include "QuesaDrawContext.h"
-#include "QuesaErrors.h"
-#include "QuesaExtension.h"
-#include "QuesaGeometry.h"
-#include "QuesaGroup.h"
-#include "QuesaIO.h"
-#include "QuesaLight.h"
-#include "QuesaMath.h"
-#include "QuesaPick.h"
-#include "QuesaRenderer.h"
-#include "QuesaSet.h"
-#include "QuesaShader.h"
-#include "QuesaStorage.h"
-#include "QuesaString.h"
-#include "QuesaStyle.h"
-#include "QuesaTransform.h"
-#include "QuesaView.h"
-
-
-// Quesa (private, platform independent)
+#include "E3Prefix.h"
 #include "E3Debug.h"
-#include "E3Globals.h"
-#include "E3Utils.h"
-#include "E3System.h"
-#include "E3Memory.h"
-#include "E3ErrorManager.h"
 
-
-// ANSI
-#include <string.h>
-#include <math.h>
+#include <stdio.h>
 
 
 
 
 
 //=============================================================================
-//      Build constants
+//      E3Assert : Report failed assertions.
 //-----------------------------------------------------------------------------
-// Dumps class tree stats on Q3Exit
-#ifndef QUESA_DUMP_STATS_ON_EXIT
-	#define QUESA_DUMP_STATS_ON_EXIT							0
-#endif
+void
+E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
+{ 
 
 
-// Should we register the built-in plug-ins?
-#ifndef QUESA_REGISTER_BUILTIN_PLUGINS
-	#define QUESA_REGISTER_BUILTIN_PLUGINS						1
-#endif
+    // Check our parameters
+    if (srcFile == NULL)
+    	srcFile = "Unknown";
+
+    if (theAssertion == NULL)
+    	theAssertion = "Unknown";
+
+
+
+	// Report the assertion failure
+	fprintf(stderr, "Quesa Assertion: '%s' failed on line %ld of %s", theAssertion, lineNum, srcFile);
+}
 
 
 
 
-#endif
+
+//=============================================================================
+//      E3IsValidPtr : Check a pointer for validity.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3IsValidPtr(void *thePtr)
+{
+
+
+	// Check the pointer
+	if (thePtr == NULL)
+		return(kQ3False);
+
+
+
+	// If we're still here, it looks OK	
+	return(kQ3True);
+}
+

@@ -247,6 +247,10 @@ E3DrawContext_RegisterClass(void)
 #elif QUESA_OS_BE
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3BeDrawContext_RegisterClass();
+
+#elif QUESA_OS_COCOA
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3CocoaDrawContext_RegisterClass();
 #endif
 
 	return(qd3dStatus);
@@ -280,6 +284,9 @@ E3DrawContext_UnregisterClass(void)
 
 #elif QUESA_OS_BE
 	qd3dStatus = E3BeDrawContext_UnregisterClass();
+
+#elif QUESA_OS_COCOA
+    qd3dStatus = E3CocoaDrawContext_UnregisterClass();
 #endif
 
 	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SharedTypeDrawContext, kQ3True);

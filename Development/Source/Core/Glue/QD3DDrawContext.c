@@ -2061,3 +2061,120 @@ Q3BeDrawContext_GetView(TQ3DrawContextObject drawContext, BView **theView)
 	return(E3BeDrawContext_GetView(drawContext, theView));
 }
 #endif // QUESA_OS_BE
+
+
+
+
+
+//=============================================================================
+//      Q3CocoaDrawContext_New : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#pragma mark -
+#if QUESA_OS_COCOA
+TQ3DrawContextObject
+Q3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on drawContextData
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3CocoaDrawContext_New(drawContextData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3CocoaDrawContext_SetNSView : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(drawContext->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, kQ3SharedTypeDrawContext), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on drawContext
+		return(kQ3Failure);
+
+	if (0) // Further checks on nsView
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3CocoaDrawContext_SetNSView(drawContext, nsView));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3CocoaDrawContext_GetNSView : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3CocoaDrawContext_GetNSView(TQ3DrawContextObject drawContext, void **nsView)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(drawContext->quesaTag == kQ3ObjectTypeQuesa, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(drawContext, kQ3SharedTypeDrawContext), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nsView), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on drawContext
+		return(kQ3Failure);
+
+	if (0) // Further checks on nsView
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3CocoaDrawContext_GetNSView(drawContext, nsView));
+}    
+
+#endif // QUESA_OS_COCOA
+
+

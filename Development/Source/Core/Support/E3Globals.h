@@ -87,6 +87,7 @@ extern "C" {
 #define kQ3ClassNameDrawContext						"DrawContext"
 #define kQ3ClassNameDrawContextDDSurface			"DDSurfaceDrawContext"
 #define kQ3ClassNameDrawContextMac					"MacDrawContext"
+#define kQ3ClassNameDrawContextCocoa				"CocoaDrawContext"
 #define kQ3ClassNameDrawContextPixmap				"PixmapDrawContext"
 #define kQ3ClassNameDrawContextWin32DC				"Win32DCDrawContext"
 #define kQ3ClassNameDrawContextX11					"X11DrawContext"

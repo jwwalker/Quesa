@@ -35,6 +35,8 @@
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
 #include "GLDrawContext.h"
+#include "GLCocoaContext.h"
+
 
 
 
@@ -311,7 +313,7 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 	// Allocate the context structure
 	theContext = (X11GLContext *) E3Memory_AllocateClear(sizeof(X11GLContext));
 	if (theContext == NULL)
-		return(NULL);
+		goto fail;
 
 
 
@@ -330,7 +332,7 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 				qd3dStatus = Q3XDrawContext_GetDrawable(theDrawContext, &theContext->glDrawable);
 
 			if (qd3dStatus != kQ3Success)
-				return(NULL);
+				goto fail;
 			break;
 
 
@@ -338,7 +340,7 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 		// Unsupported
 		case kQ3DrawContextTypePixmap:
 		default:
-			return(NULL);
+			goto fail;
 			break;
 		}
 
@@ -347,7 +349,7 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 	// Get the common draw context data
 	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
 	if (qd3dStatus != kQ3Success)
-		return(NULL);
+		goto fail;
 
 
 
@@ -363,7 +365,7 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 	// Create the context
 	theContext->glContext = glXCreateContext(theContext->theDisplay, visualInfo, NULL, True);
 	if (theContext->glContext == NULL)
-		return(NULL);
+		goto fail;
 
 
 
@@ -385,6 +387,10 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 	XFree(visualInfo);
 	
 	return(theContext);
+
+fail:
+	E3Memory_Free(&theContext);
+	return(NULL);
 }
 
 
@@ -472,16 +478,12 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 	BITMAPINFOHEADER		bmih;
 	BYTE					colorBits = 0;
 
-	// Get the common draw context data
-	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
-	if (qd3dStatus != kQ3Success)
-		return(NULL);
 
 
 	// Allocate the context structure
 	theContext = (WinGLContext *) E3Memory_AllocateClear(sizeof(WinGLContext));
 	if (theContext == NULL)
-		return(NULL);
+		goto fail;
 
 
 
@@ -493,7 +495,8 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
     		// Get the DC
 			qd3dStatus = Q3Win32DCDrawContext_GetDC(theDrawContext, &theContext->theDC);
 			if (qd3dStatus != kQ3Success || theContext->theDC == NULL)
-				return(NULL);
+				goto fail;
+
 			pfdFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
 			if (drawContextData.doubleBufferState)
 				pfdFlags |= PFD_DOUBLEBUFFER;
@@ -505,7 +508,8 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 			
 			qd3dStatus = Q3PixmapDrawContext_GetPixmap (theDrawContext, &theContext->pixmap);
 			if (qd3dStatus != kQ3Success )
-				return(NULL);
+				goto fail;
+
 			// create a surface for OpenGL
 			// initialize bmih
 			E3Memory_Clear(&bmih, sizeof(bmih));
@@ -523,7 +527,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 																								DIB_RGB_COLORS, &theContext->pBits, NULL, 0);
 			if(theContext->backBuffer == NULL){
 				Q3Error_PlatformPost(GetLastError());
-				return(NULL);
+				goto fail;
 				}
 				
 			//create the Device
@@ -532,7 +536,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 				Q3Error_PlatformPost(GetLastError());
 				DeleteObject(theContext->backBuffer);
 				theContext->backBuffer = NULL;
-				return(NULL);
+				goto fail;
 				}
 				
 			//Attach the bitmap to the DC
@@ -545,9 +549,16 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 		// Unsupported
 		case kQ3DrawContextTypeDDSurface:
 		default:
-			return(NULL);
+			goto fail;
 			break;
 		}
+
+
+
+	// Get the common draw context data
+	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
+	if (qd3dStatus != kQ3Success)
+		goto fail;
 
 
 
@@ -565,10 +576,10 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 	pixelFormat = ChoosePixelFormat(theContext->theDC, &pixelFormatDesc);
 
 	if (pixelFormat == 0)
-		return(NULL);
+		goto fail;
 
     if (!SetPixelFormat(theContext->theDC, pixelFormat, &pixelFormatDesc))
-    	return(NULL);
+    	goto fail;
 
     DescribePixelFormat(theContext->theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
 
@@ -592,6 +603,10 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 
 	// Return the context
 	return(theContext);
+
+fail:
+	E3Memory_Free(&theContext);
+	return(NULL);
 }
 
 
@@ -615,11 +630,16 @@ gldrawcontext_win_destroy(void *glContext)
 	// Destroy the context
 	wglDeleteContext(theContext->glContext);
 
-	// if there is an Quesa backBuffer dispose it and its associated DC
-	if(theContext->backBuffer != NULL){
+
+
+	// If there is an Quesa backBuffer dispose it and its associated DC
+	if (theContext->backBuffer != NULL)
+		{
 		DeleteDC(theContext->theDC);
 		DeleteObject(theContext->backBuffer);
 		}
+
+
 
 	// Dispose of the GL state
 	E3Memory_Free(&theContext);
@@ -777,6 +797,9 @@ GLDrawContext_New(TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags)
 #elif QUESA_OS_BE
 	glContext = gldrawcontext_be_new(theDrawContext);
 
+#elif QUESA_OS_COCOA
+	glContext = gldrawcontext_cocoa_new(theDrawContext);
+
 #else
 	glContext = NULL;
 #endif
@@ -823,6 +846,9 @@ GLDrawContext_Destroy(void **glContext)
 
 #elif QUESA_OS_BE
 	gldrawcontext_be_destroy(*glContext);
+
+#elif QUESA_OS_COCOA
+	gldrawcontext_cocoa_destroy(*glContext);
 #endif
 
 
@@ -860,6 +886,9 @@ GLDrawContext_SwapBuffers(void *glContext)
 
 #elif QUESA_OS_BE
 	gldrawcontext_be_swapbuffers(glContext);
+
+#elif QUESA_OS_COCOA
+	gldrawcontext_cocoa_swapbuffers(glContext);
 #endif
 }
 
@@ -892,6 +921,9 @@ GLDrawContext_SetCurrent(void *glContext)
 
 #elif QUESA_OS_BE
 	gldrawcontext_be_setcurrent(glContext);
+
+#elif QUESA_OS_COCOA
+	gldrawcontext_cocoa_setcurrent(glContext);
 #endif
 }
 

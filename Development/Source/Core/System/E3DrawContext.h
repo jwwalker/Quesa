@@ -127,6 +127,12 @@ typedef struct {
 	TQ3BeDrawContextData			theData;
 } TQ3BeDrawContextState;
 
+
+#elif QUESA_OS_COCOA
+typedef struct {
+	TQ3CocoaDrawContextData			theData;
+} TQ3CocoaDrawContextState;
+
 #endif
 
 
@@ -158,6 +164,9 @@ typedef struct TQ3DrawContextUnionData {
 
 #elif QUESA_OS_BE
 		TQ3BeDrawContextState			beData;
+
+#elif QUESA_OS_COCOA
+		TQ3CocoaDrawContextState		cocoaData;
 #endif
 	} data;
 } TQ3DrawContextUnionData;
@@ -266,6 +275,17 @@ TQ3Status				E3BeDrawContext_UnregisterClass(void);
 TQ3DrawContextObject	E3BeDrawContext_New(const TQ3BeDrawContextData *drawContextData);
 TQ3Status				E3BeDrawContext_SetView(TQ3DrawContextObject drawContext, BView *theView);
 TQ3Status				E3BeDrawContext_GetView(TQ3DrawContextObject drawContext, BView **theView);
+#endif
+
+
+// Cocoa specific
+#if QUESA_OS_COCOA
+TQ3Status				E3CocoaDrawContext_RegisterClass(void);
+TQ3Status				E3CocoaDrawContext_UnregisterClass(void);
+
+TQ3DrawContextObject	E3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData);
+TQ3Status				E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView);
+TQ3Status				E3CocoaDrawContext_GetNSView(TQ3DrawContextObject drawContext, void **nsView);
 #endif
 
 
