@@ -441,9 +441,7 @@ IRRenderer_Lights_Terminate(TQ3InteractiveData *instanceData)
 
 	// Turn off the lights and reset their state
 	for (n = 0; n < instanceData->lightCount; n++)
-		{
 		glDisable(GL_LIGHT0 + n);
-		}
 
 
 
