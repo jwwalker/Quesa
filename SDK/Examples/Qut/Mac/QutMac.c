@@ -866,6 +866,10 @@ qut_mainloop(void)
 				BackColor(whiteColor);
 				EraseRect(&dragRect);
 				
+				// And invoke the redraw function, if there is one
+				if (gFuncAppRedraw != NULL)
+					gFuncAppRedraw(gView);
+				
 				EndUpdate(gWindow);
 				break;
 
@@ -941,6 +945,15 @@ qut_mainloop(void)
 									lastMouse = theMouse;
 									}
 								}
+							
+							// If we have a mouse up handler, call it
+							if (gFuncAppMouseUp != NULL)
+								{
+								q3MousePoint.x = (float) lastMouse.h;
+								q3MousePoint.y = (float) lastMouse.v;
+			
+								gFuncAppMouseUp(gView, q3MousePoint);
+								}
 							break;
 						}
 					}
@@ -964,6 +977,11 @@ qut_mainloop(void)
 					MoveTo(5, 12);
 					DrawString(theStr);
 					}
+				
+				// If we have an idle handler, call it
+				if (gFuncAppIdle != NULL)
+					gFuncAppIdle(gView);
+				
 				break;
 			}
 		}
@@ -1037,6 +1055,11 @@ Qut_CreateWindow(const char		*windowTitle,
 	
 	SetPort((GrafPtr) GetWindowPort(gWindow));
 	SetRect(&theRect, 0, 0, theWidth, theHeight);
+
+	// And invoke the redraw function, if there is one
+	if (gFuncAppRedraw != NULL)
+		gFuncAppRedraw(gView);
+
 	ValidWindowRect(gWindow, &theRect);
 
 
