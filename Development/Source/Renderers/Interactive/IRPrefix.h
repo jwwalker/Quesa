@@ -85,20 +85,24 @@ typedef struct TQ3FVertex3D {
 
 // Transparent primitive data
 typedef struct TQ3TransparentPrim {
+	// Vertices
 	TQ3Uns32				numVerts;
 	TQ3FVertex3D			theVertices[3];
+
+	// Sorting
 	float					zMin;
 	float					zMax;
+	TQ3Vector3D				cameraSide;
+	TQ3Point3D				cameraWorld;
+	TQ3Boolean				planeIsValid;
+	float					planeConstant;
 
+	// State
 	GLuint					theTexture;
 	TQ3Boolean				textureIsTransparent;
 	TQ3OrientationStyle		orientationStyle;
 	TQ3FillStyle			fillStyle;
 	TQ3BackfacingStyle		backfacingStyle;
-	
-	// fields for experimental alternate depth sorting algorithm
-	TQ3Vector3D				cameraSide;
-	float					planeConstant;
 } TQ3TransparentPrim;
 
 
