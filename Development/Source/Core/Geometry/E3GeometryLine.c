@@ -66,9 +66,9 @@ e3geom_line_ray_intersect(const TQ3Point3D 		linePoints[2],
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(linePoints),      kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRay),          kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(smallestSegment), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(linePoints),      kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRay),          kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(smallestSegment), kQ3False);
 
 
 

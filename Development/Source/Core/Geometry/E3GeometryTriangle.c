@@ -147,7 +147,7 @@ e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
 
 	// Determine if we should cull back-facing triangles or not
 	qd3dStatus   = E3View_GetBackfacingStyleState(theView, &backfacingStyle);
-	cullBackface = (qd3dStatus == kQ3Success && backfacingStyle == kQ3BackfacingStyleRemove);
+	cullBackface = (TQ3Boolean)(qd3dStatus == kQ3Success && backfacingStyle == kQ3BackfacingStyleRemove);
 
 
 
