@@ -66,6 +66,7 @@ typedef struct TE3FFormat3DMF_TOC {
 	TQ3Uns32						refSeed;
 	TQ3Int32						typeSeed;
 	TQ3Uns32						nEntries;
+	TQ3Uns32						nUsedEntries;
 	TE3FFormat3DMF_TOCEntry			tocEntries[1];// better a BTree?
 } TE3FFormat3DMF_TOC;
 
@@ -84,6 +85,7 @@ typedef struct TQ33DMFWStackItem {
 	TQ3Object						theObject;
 	TQ3ObjectType					objectType;
 	TQ3Size							size;
+	TQ3Uns32						tocIndex;
 	TQ3XObjectWriteMethod			writeMethod;
 	void							*data;
 	TQ3XDataDeleteMethod 			deleteData;
@@ -95,6 +97,7 @@ typedef struct TE3FFormatW3DMF_Data {
 	TQ3FileMode						fileMode;
 	TQ3ObjectType					lastObjectType;
 	TQ3Object						lastObject;
+	TQ3Uns32						lastTocIndex;
 	// objects stack
 	TQ3Uns32						stackCount;
 	TQ33DMFWStackItem				*stack;
