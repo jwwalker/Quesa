@@ -166,8 +166,9 @@ ir_geom_attribute_get_diffuse_colour(TQ3InteractiveData		*instanceData,
 	
 	
 	
-	// Fall back to the geometry colour
-	if (theColour == NULL)
+	// Fall back to the geometry colour or get it for highlight
+	if ((theColour == NULL) ||
+			((instanceData->stateGeomHilightState == kQ3On) && (instanceData->stateGeomDiffuseColour != NULL)))
 		theColour = instanceData->stateGeomDiffuseColour;
 	
 	return(theColour);
