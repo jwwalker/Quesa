@@ -37,10 +37,7 @@
 #include "E3System.h"
 
 #if QUESA_UH_IN_FRAMEWORKS
-    #include <CarbonCore/Aliases.h>
-    #include <CarbonCore/CodeFragments.h>
-    #include <CarbonCore/Folders.h>
-    #include <CarbonCore/Processes.h>
+	#include <Carbon/Carbon.h>
 #else
 	#include <Aliases.h>
 	#include <CodeFragments.h>
