@@ -705,10 +705,11 @@ ir_state_reset(TQ3InteractiveData *instanceData)
 
 
     // Reset our state
-    instanceData->stateFill        = kQ3FillStyleFilled;
-    instanceData->stateHilight     = NULL;
-    instanceData->stateBackfacing  = kQ3BackfacingStyleBoth;
-    instanceData->stateOrientation = kQ3OrientationStyleCounterClockwise;
+    instanceData->stateFill          = kQ3FillStyleFilled;
+    instanceData->stateHilight       = NULL;
+    instanceData->stateInterpolation = kQ3InterpolationStyleVertex;
+    instanceData->stateBackfacing    = kQ3BackfacingStyleBoth;
+    instanceData->stateOrientation   = kQ3OrientationStyleCounterClockwise;
 
     Q3Vector3D_Set(&instanceData->stateLocalCameraViewVector,     0.0f, 0.0f, -1.0f);
     Q3ColorRGB_Set(&instanceData->stateDefaultDiffuseColour,      kQ3ViewDefaultDiffuseColor);
@@ -1789,9 +1790,9 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 //      IRRenderer_Update_Style_Interpolation : Update our state.
 //-----------------------------------------------------------------------------
 TQ3Status
-IRRenderer_Update_Style_Interpolation(TQ3ViewObject			theView,
-									TQ3InteractiveData		*instanceData,
-									TQ3InterpolationStyle	*styleData)
+IRRenderer_Update_Style_Interpolation(TQ3ViewObject				theView,
+										TQ3InteractiveData		*instanceData,
+										TQ3InterpolationStyle	*styleData)
 {
 #pragma unused(theView)
 
@@ -1807,7 +1808,9 @@ IRRenderer_Update_Style_Interpolation(TQ3ViewObject			theView,
 	// OpenGL has two shading model, flat and smooth (Gouraud shading).
 	// Like QD3D's IR, we treat kQ3InterpolationStyleVertex as being
 	// equivalent to kQ3InterpolationStylePixel.
-	switch (*styleData) {
+	instanceData->stateInterpolation = *styleData;
+	
+	switch (instanceData->stateInterpolation) {
 		case kQ3InterpolationStyleNone:
 			glShadeModel(GL_FLAT);
 			break;

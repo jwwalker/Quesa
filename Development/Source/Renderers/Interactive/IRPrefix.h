@@ -123,6 +123,7 @@ typedef struct TQ3InteractiveData {
 	// QD3D state
 	TQ3FillStyle			stateFill;
 	TQ3AttributeSet			stateHilight;
+	TQ3InterpolationStyle	stateInterpolation;
 	TQ3BackfacingStyle		stateBackfacing;
 	TQ3OrientationStyle		stateOrientation;
 	TQ3Vector3D				stateLocalCameraViewVector;

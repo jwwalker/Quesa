@@ -1954,10 +1954,14 @@ IRGeometry_TriMesh(TQ3ViewObject			theView,
 																geomData->numVertexAttributeTypes,
 																geomData->vertexAttributeTypes,
 																kQ3AttributeTypeDiffuseColor);
-		vertexNormals = (TQ3Vector3D *) ir_geom_attribute_find(instanceData, kQ3True,
-																geomData->numVertexAttributeTypes,
-																geomData->vertexAttributeTypes,
-																kQ3AttributeTypeNormal);
+
+		// Find vertex normals if we're to use them for rendering
+		vertexNormals = NULL;
+		if (instanceData->stateInterpolation != kQ3InterpolationStyleNone)
+			vertexNormals = (TQ3Vector3D *) ir_geom_attribute_find(instanceData, kQ3True,
+																	geomData->numVertexAttributeTypes,
+																	geomData->vertexAttributeTypes,
+																	kQ3AttributeTypeNormal);
 
 
 
