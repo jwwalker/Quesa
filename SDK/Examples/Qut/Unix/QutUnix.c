@@ -485,15 +485,7 @@ qut_initialise_platform(int argc, char *argv[])
 	if (qd3dStatus != kQ3Success)
 		exit(-1);	
 
-	if (gWindow == NULL)
-		exit(-1);	
 
-
-
-	// Build the extra menus
-	qut_build_renderer_menu();
-	qut_build_style_menu();
-	qut_build_help_menu();
 
 
 
@@ -577,6 +569,11 @@ Qut_CreateWindow(const char		*windowTitle,
 	gtk_box_pack_start(GTK_BOX(gWindowContent), gMenuBar, FALSE, TRUE, 0);
 	gtk_widget_show(gMenuBar);
 
+
+	// Build the extra menus
+	qut_build_renderer_menu();
+	qut_build_style_menu();
+	qut_build_help_menu();
 
 
 	// Show the window
