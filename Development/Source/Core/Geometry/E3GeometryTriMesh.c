@@ -310,7 +310,15 @@ e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boole
 
 	// 8. bounding box
 	if (qd3dStatus == kQ3Success)
-		E3BoundingBox_Copy( &src->bBox, &dst->bBox );
+		{
+        if (src->bBox.isEmpty)
+            Q3BoundingBox_SetFromPoints3D(&dst->bBox,
+                                           dst->points,
+                                           dst->numPoints,
+                                           sizeof(TQ3Point3D));
+        else
+            Q3BoundingBox_Copy(&src->bBox, &dst->bBox);
+		}
 
 
 
@@ -917,14 +925,10 @@ static TQ3Status
 e3geom_trimesh_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Status			qd3dStatus;
 	TQ3PickObject		thePick;
-	TQ3TriMeshData		*instanceData = (TQ3TriMeshData *) objectData;	// casting away const
+	const TQ3TriMeshData		*instanceData = (const TQ3TriMeshData *) objectData;
 
 
-
-	// Recalculate our local-coordinate bounding box if it hasn't been initialised
-	if (instanceData->bBox.isEmpty == kQ3True)
-		Q3BoundingBox_SetFromPoints3D(&instanceData->bBox, instanceData->points, instanceData->numPoints, sizeof(TQ3Point3D));
-
+	Q3_ASSERT( instanceData->bBox.isEmpty == kQ3False );
 
 
 	// Handle the pick
@@ -959,18 +963,14 @@ e3geom_trimesh_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3TriMeshData			*instanceData = (TQ3TriMeshData *) objectData;
+{	const TQ3TriMeshData			*instanceData = (const TQ3TriMeshData *) objectData;
 	TQ3Point3D				boundCorners[8];
 	TQ3BoundingMethod		boundingMethod;
 #pragma unused(objectType)
 #pragma unused(theObject)
 
 
-
-	// Recalculate our local-coordinate bounding box if it hasn't been initialised
-	if (instanceData->bBox.isEmpty == kQ3True)
-		Q3BoundingBox_SetFromPoints3D(&instanceData->bBox, instanceData->points, instanceData->numPoints, sizeof(TQ3Point3D));
-
+	Q3_ASSERT( instanceData->bBox.isEmpty == kQ3False );
 
 
 	// Calculate the exact bounds from our points
