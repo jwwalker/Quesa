@@ -36,6 +36,7 @@
 #include "E3Prefix.h"
 #include "E3View.h"
 #include "E3Geometry.h"
+#include "E3GeometryTriMesh.h"
 #include "E3GeometryTorus.h"
 
 
@@ -188,6 +189,7 @@ static TQ3Object
 e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3TorusData *geomData)
 {	TQ3TriMeshData				triMeshData;
 	TQ3GeometryObject			theTriMesh;
+	TQ3GroupObject				theGroup;
 	TQ3Uns32 u,v;
 	float uang=0.0f, duang, vang, dvang;
 	TQ3Point3D *points;
@@ -209,6 +211,7 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 	TQ3Vector3D	majXMinor;
 	TQ3Vector3D	axisXOrient, axisPrime, axisPrimeXOrient;
 	TQ3Boolean	isRightHanded;
+
 
 	// Get the subdivision style, to figure out how many sides we should have.
 	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
@@ -264,10 +267,10 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 
 
 	// Get the UV limits
-	uMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	uMax  = E3Num_Max(E3Num_Min(geomData->uMax, 1.0f), 0.0f);
-	vMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	vMax  = E3Num_Max(E3Num_Min(geomData->vMax, 1.0f), 0.0f);
+	uMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
+	uMax  = E3Num_Clamp(geomData->uMax, 0.0f, 1.0f);
+	vMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
+	vMax  = E3Num_Clamp(geomData->vMax, 0.0f, 1.0f);
 	uDiff = uMax - uMin;
 	vDiff = vMax - vMin;
 
@@ -360,12 +363,8 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 			Q3Vector3D_Scale( &majXMinor, - cosVAngle * ratioTimesOrient *
 				(axisLength + sinVAngle * ratioTimesOrient), &vec );
 			Q3Vector3D_Add( &normals[pnum], &vec, &normals[pnum] );
-			Q3Vector3D_Normalize( &normals[pnum], &normals[pnum] );
-
 			if (isRightHanded == kQ3True)
-				{
 				Q3Vector3D_Negate( &normals[pnum], &normals[pnum] );
-				}
 
 			// uvs come from the surface parameterisation
 			uvs[pnum].u = uMin + (((uDiff / (float) upts)) * u);
@@ -435,8 +434,9 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 
 
 
-	// finally, create the TriMesh
+	// Create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
+	theGroup   = E3TriMesh_BuildOrientationGroup(theTriMesh, kQ3OrientationStyleCounterClockwise);
 
 
 
@@ -447,10 +447,7 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 	Q3Memory_Free(&uvs);
 	Q3Memory_Free(&triangles);
 
-
-
-	// Return the cached geometry
-	return(theTriMesh);
+	return(theGroup);
 }
 
 

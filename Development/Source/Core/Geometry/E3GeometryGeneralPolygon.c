@@ -38,6 +38,7 @@
 #include "E3Set.h"
 #include "E3Tessellate.h"
 #include "E3Geometry.h"
+#include "E3GeometryTriMesh.h"
 #include "E3GeometryGeneralPolygon.h"
 
 
@@ -220,16 +221,17 @@ e3geom_generalpolygon_duplicate(TQ3Object fromObject, const void *fromPrivateDat
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3GeneralPolygonData *geomData)
-{	TQ3Contour				*theContours;
+{	TQ3OrientationStyle		theOrientation;
+	TQ3Contour				*theContours;
 	TQ3GeometryObject		theTriMesh;
-#pragma unused(theView)
 #pragma unused(theGeom)
 
 
 
-	// Obtain the contour data. For now we can simply cast between the two structures,
-	// since they are identical - we assert this to make sure, since TQ3Contour is
-	// internal at present and so may change.
+	// Obtain the contour data
+	//
+	// For now we can simply cast between the two structures, since they are identical - we
+	// assert this to make sure, since TQ3Contour is internal at present and so may change.
 	Q3_REQUIRE_OR_RESULT(sizeof(TQ3Contour) == sizeof(TQ3GeneralPolygonContourData), NULL);
 	theContours = (TQ3Contour *) geomData->contours;
 
@@ -237,6 +239,11 @@ e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom
 
 	// Tessellate the polygon
 	theTriMesh = E3Tessellate_Contours(geomData->numContours, theContours, geomData->generalPolygonAttributeSet);	
+	if (theTriMesh != NULL)
+		{
+		theOrientation = E3View_State_GetStyleOrientation(theView);
+		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
+		}
 
 	return(theTriMesh);
 }
@@ -323,6 +330,10 @@ e3geom_generalpolygon_metahandler(TQ3XMethodType methodType)
 		
 		case kQ3XMethodTypeGeomGetAttribute:
 			theMethod = (TQ3XFunctionPointer) e3geom_generalpolygon_get_attribute;
+			break;
+
+		case kQ3XMethodTypeGeomUsesOrientation:
+			theMethod = (TQ3XFunctionPointer) kQ3True;
 			break;
 		}
 	

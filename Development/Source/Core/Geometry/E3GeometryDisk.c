@@ -155,33 +155,32 @@ e3geom_disk_calc_point( const TQ3DiskData *inGeomData, float inSine, float inCos
 static TQ3Object
 e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3DiskData *geomData)
 {	float						theAngle, deltaAngle, cosAngle, sinAngle;
-	float						uMin, uMax, vMin, vMax;
 	TQ3Uns32					numSides, numPoints, numTriangles, n;
+	TQ3Boolean					isPartAngleRange, hasHoleInCenter;
+	float						startAngle, endAngle, angleRange;
+	float						uMin, uMax, vMin, vMax;
 	TQ3TriMeshAttributeData		vertexAttributes[2];
-	TQ3TriMeshAttributeData		faceAttributes;
+	TQ3Vector3D					surfaceNormalVector;
 	TQ3SubdivisionStyleData		subdivisionData;
 	TQ3TriMeshTriangleData		*theTriangles;
 	TQ3TriMeshData				triMeshData;
 	TQ3Vector3D					*theNormals;
-	TQ3Vector3D					*faceNormals;
+	float						crossLength;
 	TQ3GeometryObject			theTriMesh;
 	TQ3Point3D					*thePoints;
 	TQ3Status					qd3dStatus;
-	TQ3Vector3D					surfaceNormalVector;
+	TQ3GroupObject				theGroup;
 	TQ3Param2D					*theUVs;
-	float						startAngle, endAngle, angleRange;
-	TQ3Boolean					isPartAngleRange, hasHoleInCenter;
-	float						crossLength;
 
 
 
 	// Get the UV limits and make sure they are valid.
 	// These are for specifying partial disks, and have little to do
 	// with surface UV coordinates.
-	uMin  = E3Num_Max(E3Num_Min(geomData->uMin, 1.0f), 0.0f);
-	uMax  = E3Num_Max(E3Num_Min(geomData->uMax, 1.0f), 0.0f);
-	vMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	vMax  = E3Num_Max(E3Num_Min(geomData->vMax, 1.0f), 0.0f);
+	uMin  = E3Num_Clamp(geomData->uMin, 0.0f, 1.0f);
+	uMax  = E3Num_Clamp(geomData->uMax, 0.0f, 1.0f);
+	vMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
+	vMax  = E3Num_Clamp(geomData->vMax, 0.0f, 1.0f);
 	// It is possible for uMin to be greater than uMax, so that
 	// we can specify which way to wrap around the circle.
 	// But it doesn't make sense for vMin to be greater than vMax.
@@ -240,7 +239,7 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 				break;
 			}
 		}
-	numSides  = E3Num_Max(E3Num_Min(numSides, 256), 3);
+	numSides  = E3Num_Clamp(numSides, 3, 256);
 	
 	
 	
@@ -268,18 +267,15 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	// Allocate the memory we need for the TriMesh data
 	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
 	theNormals   = (TQ3Vector3D *)            Q3Memory_Allocate(numPoints * sizeof(TQ3Vector3D));
-	faceNormals	 = (TQ3Vector3D *)            Q3Memory_Allocate(numTriangles * sizeof(TQ3Vector3D));
 	theUVs       = (TQ3Param2D  *)            Q3Memory_Allocate(numPoints * sizeof(TQ3Param2D));
 	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numTriangles * sizeof(TQ3TriMeshTriangleData));
 
-	if (thePoints == NULL || theNormals == NULL || theUVs == NULL || theTriangles == NULL ||
-		faceNormals == NULL)
+	if (thePoints == NULL || theNormals == NULL || theUVs == NULL || theTriangles == NULL)
 		{
 		Q3Memory_Free(&thePoints);
 		Q3Memory_Free(&theNormals);
 		Q3Memory_Free(&theUVs);
 		Q3Memory_Free(&theTriangles);
-		Q3Memory_Free(&faceNormals);
 		
 		return(NULL);
 		}
@@ -416,14 +412,9 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	{
 		Q3Vector3D_Scale( &surfaceNormalVector, 1.0f/crossLength, &surfaceNormalVector );
 	}
+
 	for (n = 0; n < numPoints; ++n)
-		{
 		theNormals[ n ] = surfaceNormalVector;
-		}
-	for (n = 0; n < numTriangles; ++n)
-		{
-		faceNormals[ n ] = surfaceNormalVector;
-		}
 
 
 
@@ -438,20 +429,13 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 
-	// Set up the face attributes
-	faceAttributes.attributeType     = kQ3AttributeTypeNormal;
-	faceAttributes.data              = faceNormals;
-	faceAttributes.attributeUseArray = NULL;
-
-
-
 	// Initialise the TriMesh data
 	triMeshData.numPoints                 = numPoints;
 	triMeshData.points                    = thePoints;
 	triMeshData.numTriangles              = numTriangles;
 	triMeshData.triangles                 = theTriangles;
-	triMeshData.numTriangleAttributeTypes = 1;
-	triMeshData.triangleAttributeTypes    = &faceAttributes;
+	triMeshData.numTriangleAttributeTypes = 0;
+	triMeshData.triangleAttributeTypes    = NULL;
 	triMeshData.numEdges                  = 0;
 	triMeshData.edges                     = NULL;
 	triMeshData.numEdgeAttributeTypes     = 0;
@@ -464,16 +448,22 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 
-	// Create the TriMesh and clean up
+	// Create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
+	theGroup   = E3TriMesh_BuildOrientationGroup(theTriMesh, kQ3OrientationStyleCounterClockwise);
 
+
+
+	// Clean up
 	Q3Memory_Free(&thePoints);
 	Q3Memory_Free(&theNormals);
 	Q3Memory_Free(&theUVs);
 	Q3Memory_Free(&theTriangles);
-	Q3Memory_Free(&faceNormals);
 
-	return(theTriMesh);
+
+
+	// Return the cached geometry
+	return(theGroup);
 }
 
 

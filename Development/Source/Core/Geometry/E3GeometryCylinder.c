@@ -36,6 +36,7 @@
 #include "E3Prefix.h"
 #include "E3View.h"
 #include "E3Geometry.h"
+#include "E3GeometryTriMesh.h"
 #include "E3GeometryCylinder.h"
 
 
@@ -204,35 +205,36 @@ e3geom_cylinder_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3CylinderData *geomData)
-{	float				ang=0.0f, dang, cosAngle, sinAngle;
-	float				uMin, uMax, vMin, vMax;
-	TQ3Param2D			*uvs;
-	TQ3GroupObject		theGroup;
+{	float						ang=0.0f, dang, cosAngle, sinAngle;
+	float						startAngle, endAngle, angleRange;
+	TQ3Vector3D					orientCrossMaj, orientCrossMin;
+	float						uMin, uMax, vMin, vMax;
+	TQ3Point3D					bottomCenter, topCenter;
+	TQ3TriMeshAttributeData		vertexAttributes[2];
+	TQ3Boolean					isPartAngleRange;
+	TQ3SubdivisionStyleData		subdivisionData;
+	TQ3Vector3D					workVec, sideVec;
 	TQ3TriMeshData				triMeshData;
 	TQ3GeometryObject			theTriMesh;
-	TQ3Uns32 sides = 10;
-	TQ3Uns32 numpoints;
-	TQ3Uns32 i;
-	TQ3Point3D *points;
-	TQ3Vector3D *normals;
-	TQ3TriMeshTriangleData *triangles;
-	TQ3Vector3D v;
-	TQ3TriMeshAttributeData vertexAttributes[2];
-	TQ3Vector3D orientCrossMaj, orientCrossMin;
-	float						startAngle, endAngle, angleRange;
-	TQ3Boolean					isPartAngleRange;
-	TQ3SubdivisionStyleData subdivisionData;
-	TQ3Vector3D		workVec, sideVec;
-	TQ3Point3D		bottomCenter, topCenter;
-	float			dotCross;
+	TQ3Uns32					sides = 10;
+	TQ3TriMeshTriangleData		*triangles;
+	TQ3Uns32					numpoints;
+	TQ3Vector3D					*normals;
+	float						dotCross;
+	TQ3StyleObject				theStyle;
+	TQ3GroupObject				theGroup;
+	TQ3Point3D					*points;
+	TQ3Param2D					*uvs;
+	TQ3Uns32					i;
+	TQ3Vector3D					v;
 
 
 
 	// Get the UV limits and make sure they are valid
-	uMin  = E3Num_Max(E3Num_Min(geomData->uMin, 1.0f), 0.0f);
-	uMax  = E3Num_Max(E3Num_Min(geomData->uMax, 1.0f), 0.0f);
-	vMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	vMax  = E3Num_Max(E3Num_Min(geomData->vMax, 1.0f), 0.0f);
+	uMin  = E3Num_Clamp(geomData->uMin, 0.0f, 1.0f);
+	uMax  = E3Num_Clamp(geomData->uMax, 0.0f, 1.0f);
+	vMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
+	vMax  = E3Num_Clamp(geomData->vMax, 0.0f, 1.0f);
 	// It is possible for uMin to be greater than uMax, so that
 	// we can specify which way to wrap around the circle.
 	// But it doesn't make sense for vMin to be greater than vMax.
@@ -243,7 +245,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	
 	// Turn the u limits into an angle range in radians.
 	startAngle = uMin * kQ32Pi;
-	endAngle = uMax * kQ32Pi;
+	endAngle   = uMax * kQ32Pi;
 	if (startAngle > endAngle)
 		startAngle -= kQ32Pi;
 	angleRange = endAngle - startAngle;
@@ -295,7 +297,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 				break;
 		}
 	}
-	sides = E3Num_Max(E3Num_Min(sides, 256), 3);	// sanity checking
+	sides = E3Num_Clamp(sides, 3, 256);	// sanity checking
 
 	numpoints = sides*2;
 
@@ -316,7 +318,19 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
 		return NULL;
 	}
-	
+
+
+
+	// Add the orientation style
+	//
+	// All of the TriMeshes which form the cylinder have triangle normals created in a CCW style,
+	// so we need to add an orientation to our group to ensure they are always treated as such.
+	theStyle = Q3OrientationStyle_New(kQ3OrientationStyleCounterClockwise);
+	Q3Group_AddObjectAndDispose(theGroup, &theStyle);
+
+
+
+	// Add the cone attributes	
 	if (geomData->cylinderAttributeSet != NULL)
 		Q3Group_AddObject( theGroup, geomData->cylinderAttributeSet );
 
@@ -385,7 +399,6 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		Q3Vector3D_Scale( &orientCrossMaj, -sinAngle, &normals[i] );
 		Q3Vector3D_Scale( &orientCrossMin, cosAngle, &v );
 		Q3Vector3D_Add( &normals[i], &v, &normals[i] );
-		Q3Vector3D_Normalize( &normals[i], &normals[i] );
 		Q3Vector3D_Negate( &normals[i], &normals[i] );
 
 		// corresponding top point is bottom point + sideVec
@@ -449,7 +462,10 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	// finally, create the TriMesh and add to the group
 	theTriMesh = Q3TriMesh_New(&triMeshData);
 	if (theTriMesh != NULL)
+		{
+		E3TriMesh_AddTriangleNormals(theTriMesh, kQ3OrientationStyleCounterClockwise);
 		Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
+		}
 
 
 
@@ -536,7 +552,6 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		
 		// Define normal
 		Q3Vector3D_Cross( &sideVec, &v, &workVec );
-		Q3Vector3D_Normalize( &workVec, &workVec );
 		interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] =
 			interiorPtNorms[3] = workVec;
 		
@@ -573,7 +588,11 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		
 		// Make the first part of the interior
 		intGeom = Q3TriMesh_New( &intTriMeshData );
-		Q3Group_AddObjectAndDispose(theGroup, &intGeom);
+		if (intGeom != NULL)
+			{
+			E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
+			Q3Group_AddObjectAndDispose(theGroup, &intGeom);
+			}
 		
 		// Second part of interior, center to start edge
 		ang = startAngle;
@@ -589,7 +608,6 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		
 		// Define normal
 		Q3Vector3D_Cross( &sideVec, &v, &workVec );
-		Q3Vector3D_Normalize( &workVec, &workVec );
 		interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] =
 			interiorPtNorms[3] = workVec;
 		
@@ -601,7 +619,11 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		
 		// Make the second part of the interior
 		intGeom = Q3TriMesh_New( &intTriMeshData );
-		Q3Group_AddObjectAndDispose(theGroup, &intGeom);
+		if (intGeom != NULL)
+			{
+			E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
+			Q3Group_AddObjectAndDispose(theGroup, &intGeom);
+			}
 	}
 
 

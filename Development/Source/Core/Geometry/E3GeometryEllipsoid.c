@@ -36,6 +36,7 @@
 #include "E3Prefix.h"
 #include "E3View.h"
 #include "E3Geometry.h"
+#include "E3GeometryTriMesh.h"
 #include "E3GeometryEllipsoid.h"
 
 
@@ -183,6 +184,7 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 {	float						uMin, uMax, vMin, vMax, uDiff, vDiff;
 	TQ3TriMeshData				triMeshData;
 	TQ3GeometryObject			theTriMesh;
+	TQ3GroupObject				theGroup;
 	TQ3Param2D					*uvs;
 	TQ3Uns32 u,v;
 	float uang=0.0f, duang, vang, dvang, uvalue;
@@ -201,6 +203,8 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3Vector3D		normPole0, normPolePi;
 	float			sinUAngle, cosUAngle, sinVAngle, cosVAngle;
 	TQ3Boolean		isRightHanded;
+
+
 
 	// Get the subdivision style, to figure out how many sides we should have.
 	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
@@ -265,10 +269,10 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 
 
 	// Get the UV limits
-	uMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	uMax  = E3Num_Max(E3Num_Min(geomData->uMax, 1.0f), 0.0f);
-	vMin  = E3Num_Max(E3Num_Min(geomData->vMin, 1.0f), 0.0f);
-	vMax  = E3Num_Max(E3Num_Min(geomData->vMax, 1.0f), 0.0f);
+	uMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
+	uMax  = E3Num_Clamp(geomData->uMax, 0.0f, 1.0f);
+	vMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
+	vMax  = E3Num_Clamp(geomData->vMax, 0.0f, 1.0f);
 	uDiff = uMax - uMin;
 	vDiff = vMax - vMin;
 
@@ -393,10 +397,8 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 			Q3Vector3D_Scale( &majXMinor, - cosVAngle, &vec );
 			Q3Vector3D_Add( &vec, &normals[pnum], &normals[pnum] );
 			if (isRightHanded == kQ3True)
-			{
 				Q3Vector3D_Negate( &normals[pnum], &normals[pnum] );
-			}
-			Q3Vector3D_Normalize( &normals[pnum], &normals[pnum] );
+
 			
 			// Set up the UVs
 			uvs[pnum].u = uMin + ((uDiff / (float) upts) * u);
@@ -472,8 +474,9 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 
 
 
-	// finally, create the TriMesh
+	// Create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
+	theGroup   = E3TriMesh_BuildOrientationGroup(theTriMesh, kQ3OrientationStyleCounterClockwise);
 
 
 
@@ -487,7 +490,7 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 
 
 	// Return the cached geometry
-	return(theTriMesh);
+	return(theGroup);
 }
 
 

@@ -36,6 +36,7 @@
 #include "E3Prefix.h"
 #include "E3View.h"
 #include "E3Geometry.h"
+#include "E3GeometryTriMesh.h"
 #include "E3GeometryNURBPatch.h"
 
 
@@ -412,12 +413,7 @@ e3geom_nurbpatch_evaluate_uv( float u, float v, const TQ3NURBPatchData * patchDa
 	dV.y = ((bottom * yTopDv) - (yTop * bottomDv))*OneOverBottom ;
 	dV.z = ((bottom * zTopDv) - (zTop * bottomDv))*OneOverBottom ;
 	
-	Q3Vector3D_Cross( (const TQ3Vector3D *)&dU, (const TQ3Vector3D *)&dV, outNormal );
-
-	// Make sure the final normal is normalised
-	Q3Vector3D_Normalize( (const TQ3Vector3D *)outNormal, outNormal );
-	
-	return;
+	Q3Vector3D_Cross(&dU, &dV, outNormal);
 }
 
 
@@ -467,8 +463,6 @@ e3geom_nurbpatch_evaluate_uv_no_deriv( float u, float v, const TQ3NURBPatchData 
 	outPoint->x = xTop * OneOverBottom ;
 	outPoint->y = yTop * OneOverBottom ;
 	outPoint->z = zTop * OneOverBottom ;
-	
-	return;
 }
 
 
@@ -938,8 +932,8 @@ e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
 #endif
 	
 	// First some sanity checking on subdivisionData
-	subdivU = (float) ((TQ3Uns32)E3Num_Max(E3Num_Min(subdivU, 256.0f), 1.0f));
-	subdivV = (float) ((TQ3Uns32)E3Num_Max(E3Num_Min(subdivV, 256.0f), 1.0f));
+	subdivU = (float) ((TQ3Uns32) E3Num_Clamp(subdivU, 1.0f, 256.0f));
+	subdivV = (float) ((TQ3Uns32) E3Num_Clamp(subdivV, 1.0f, 256.0f));
 	
 	// Find the interesting knots (ie skip the repeated knots)
 	interestingU = (float *) Q3Memory_Allocate((geomData->numColumns - geomData->uOrder + 2) * sizeof(float));
@@ -1058,7 +1052,6 @@ e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
 								&(*thePoints)[numpts - 1],
 								uBasisValues, vBasisValues, uBasisDerivValues, vBasisDerivValues );
 
-
 	// Make triangles from the points
 	for ( v = 0; v < numrows - 1; v++ )
 		for ( u = 0; u < (numcolumns - 1)*2; u+=2 ) {
@@ -1104,6 +1097,7 @@ static TQ3Object
 e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3NURBPatchData *geomData)
 {	TQ3TriMeshData			triMeshData;
 	TQ3GeometryObject		theTriMesh;
+	TQ3GroupObject			theGroup;
 	TQ3Point3D 				*points;
 	TQ3Vector3D 			*normals;
 	TQ3Param2D				*uvs;
@@ -1219,6 +1213,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 
 	// finally, create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
+	theGroup   = E3TriMesh_BuildOrientationGroup(theTriMesh, kQ3OrientationStyleCounterClockwise);
 
 
 
@@ -1236,8 +1231,7 @@ surface_cache_new_error_cleanup:
 	Q3Memory_Free(&uBasisDerivValues);
 	Q3Memory_Free(&vBasisDerivValues);
 	
-	// And return the TriMesh
-	return(theTriMesh);
+	return(theGroup);
 }
 
 
