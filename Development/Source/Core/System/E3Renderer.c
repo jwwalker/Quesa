@@ -266,6 +266,13 @@ E3Renderer_RegisterClass(void)
 											NULL,
 											sizeof(TQ3RendererData));
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = E3ClassTree_RegisterClass(kQ3ElementTypeAttribute,
+												kQ3AttributeTypeConstructiveSolidGeometryID,
+												kQ3ClassNameAttributeCSGID,
+												NULL,
+												sizeof(TQ3CSGObjectID));
+
 	return(qd3dStatus);
 }
 
@@ -282,8 +289,9 @@ E3Renderer_UnregisterClass(void)
 
 
 
-	// Unregister the renderer classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SharedTypeRenderer, kQ3True);
+	// Unregister the classes
+	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SharedTypeRenderer,                       kQ3True);
+	qd3dStatus = E3ClassTree_UnregisterClass(kQ3AttributeTypeConstructiveSolidGeometryID, kQ3True);
 
 	return(qd3dStatus);
 }
