@@ -1208,7 +1208,12 @@ typedef struct TQ3MipmapImage {
  *  @struct
  *      TQ3Mipmap
  *  @discussion
- *      Fundamental Mipmap image type.
+ *      This is the data structure for a mipmap texture.  If the useMipmapping field is kQ3False,
+ *		then only the first record of the mipmaps array needs to be filled in.  If useMipmapping
+ *		is kQ3True, then the number of mipmaps should be the base 2 logarithm of the larger
+ *		dimension of the first mipmap, plus 1.  For example, if the first mipmap is of size 4 &times; 16, then
+ *		you must also include mipmaps of sizes 2 &times; 8, 1 &times; 4, 1 &times; 2, and 1 &times; 1,
+ *		making 5 mipmaps in all.
  *
  *  @field image            A storage object that contains the image data.
  *  @field useMipmapping    Flag indicating if mipmapping should be used and all mipmaps have been supplied.
