@@ -1323,6 +1323,8 @@ Q3Memory_NextRecordedObject
 Q3Error_ToString
 Q3Warning_ToString
 Q3Notice_ToString
+Q3String_ReadUnlimited
+Q3String_WriteUnlimited
 
 # support for use as a statically-linked library
 #__ViewerInitialize
