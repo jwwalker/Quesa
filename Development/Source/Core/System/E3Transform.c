@@ -789,27 +789,23 @@ static TQ3Status
 e3transform_camera_rasterize_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	TQ3Matrix4x4				tmpMatrix, localToWorld, worldToCamera, cameraToFrustum;
 	float						theWidth, theHeight, scaleWidth, scaleHeight;
-	TQ3DrawContextData			drawContextData;
 	TQ3DrawContextObject		drawContext;
 	TQ3Status					qd3dStatus;
+	TQ3Area						drawContextArea;
 #pragma unused(objectType)
 #pragma unused(theObject)
 #pragma unused(objectData)
 
 
 
-	// Get the draw context state
-	//
-	// We rely on Quesa always enabling the pane state, setting it to the
-	// full size of the draw context if no pane was set by the application.
+	// Get the draw context size
 	drawContext = E3View_AccessDrawContext(theView);
-	qd3dStatus  = Q3DrawContext_GetData(drawContext, &drawContextData);
+	qd3dStatus = Q3DrawContext_GetPane( drawContext, &drawContextArea );
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 
-	Q3_ASSERT(drawContextData.paneState);
-	theWidth  = drawContextData.pane.max.x - drawContextData.pane.min.x;
-	theHeight = drawContextData.pane.max.y - drawContextData.pane.min.y;
+	theWidth  = drawContextArea.max.x - drawContextArea.min.x;
+	theHeight = drawContextArea.max.y - drawContextArea.min.y;
 
 
 
