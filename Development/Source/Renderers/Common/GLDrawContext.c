@@ -63,8 +63,11 @@ typedef struct {
 
 #if QUESA_OS_WIN32
 typedef struct {
-	HDC		theDC;
-	HGLRC	glContext;
+	HDC				theDC;
+	HGLRC			glContext;
+	HBITMAP 	backBuffer;
+	BYTE			*pBits;
+	TQ3Pixmap pixmap;
 } WinGLContext;
 #endif
 
@@ -456,7 +459,14 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
     int						pixelFormat;
 	WinGLContext			*theContext;
 	TQ3Status				qd3dStatus;
+	TQ3Int32				pfdFlags;
+	BITMAPINFOHEADER		bmih;
+	BYTE					colorBits = 0;
 
+	// Get the common draw context data
+	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
+	if (qd3dStatus != kQ3Success)
+		return(NULL);
 
 
 	// Allocate the context structure
@@ -475,12 +485,55 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 			qd3dStatus = Q3Win32DCDrawContext_GetDC(theDrawContext, &theContext->theDC);
 			if (qd3dStatus != kQ3Success || theContext->theDC == NULL)
 				return(NULL);
+			pfdFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+			if (drawContextData.doubleBufferState)
+				pfdFlags |= PFD_DOUBLEBUFFER;
 			break;
 
 
 
-		// Unsupported
 		case kQ3DrawContextTypePixmap:
+			
+			qd3dStatus = Q3PixmapDrawContext_GetPixmap (theDrawContext, &theContext->pixmap);
+			if (qd3dStatus != kQ3Success )
+				return(NULL);
+			// create a surface for OpenGL
+			// initialize bmih
+			E3Memory_Clear(&bmih, sizeof(bmih));
+			bmih.biSize = sizeof(BITMAPINFOHEADER);
+			bmih.biWidth = theContext->pixmap.width;
+			bmih.biHeight = theContext->pixmap.height;
+			bmih.biPlanes = 1;
+			bmih.biBitCount = (unsigned short)theContext->pixmap.pixelSize;
+			bmih.biCompression = BI_RGB;
+
+			colorBits = (BYTE)bmih.biBitCount;
+			
+			//Create the bits
+			theContext->backBuffer = CreateDIBSection(NULL, (BITMAPINFO*)&bmih,
+																								DIB_RGB_COLORS, &theContext->pBits, NULL, 0);
+			if(theContext->backBuffer == NULL){
+				Q3Error_PlatformPost(GetLastError());
+				return(NULL);
+				}
+				
+			//create the Device
+			theContext->theDC = CreateCompatibleDC(NULL);
+			if(theContext->theDC == NULL){
+				Q3Error_PlatformPost(GetLastError());
+				DeleteObject(theContext->backBuffer);
+				theContext->backBuffer = NULL;
+				return(NULL);
+				}
+				
+			//Attach the bitmap to the DC
+			SelectObject(theContext->theDC,theContext->backBuffer);
+			
+			pfdFlags = PFD_DRAW_TO_BITMAP | PFD_SUPPORT_OPENGL;
+			break;
+			
+			
+		// Unsupported
 		case kQ3DrawContextTypeDDSurface:
 		default:
 			return(NULL);
@@ -489,24 +542,14 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext)
 
 
 
-	// Get the common draw context data
-	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
-	if (qd3dStatus != kQ3Success)
-		return(NULL);
-
-
-
 	// Build up the attributes we need
 	E3Memory_Clear(&pixelFormatDesc, sizeof(pixelFormatDesc));
 
 	pixelFormatDesc.nSize      = sizeof(pixelFormatDesc);
     pixelFormatDesc.nVersion   = 1;
-    pixelFormatDesc.dwFlags    = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+    pixelFormatDesc.dwFlags    = pfdFlags;
+    pixelFormatDesc.cColorBits = colorBits;
     pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
-
-	if (drawContextData.doubleBufferState)
-		pixelFormatDesc.dwFlags |= PFD_DOUBLEBUFFER;
-
 
 
 	// Create the pixel format and context, and attach the context
@@ -563,7 +606,11 @@ gldrawcontext_win_destroy(void *glContext)
 	// Destroy the context
 	wglDeleteContext(theContext->glContext);
 
-
+	// if there is an Quesa backBuffer dispose it and its associated DC
+	if(theContext->backBuffer != NULL){
+		DeleteDC(theContext->theDC);
+		DeleteObject(theContext->backBuffer);
+		}
 
 	// Dispose of the GL state
 	E3Memory_Free(&theContext);
@@ -579,12 +626,34 @@ gldrawcontext_win_destroy(void *glContext)
 static void
 gldrawcontext_win_swapbuffers(void *glContext)
 {	HDC		theDC;
-
+	WinGLContext		*theContext = (WinGLContext *) glContext;
+	TQ3Uns32 x,y,srcRows,dstRows,*src,*dst;
+	
 
 
 	// Swap the buffers
 	theDC = wglGetCurrentDC();
+	
+	Q3_ASSERT(theDC == theContext->theDC);
+	
 	SwapBuffers(theDC);
+	
+	// if OpenGL is drawing into our backBuffer copy it
+	if(theContext->backBuffer != NULL){
+		//Quick hack to test concept
+			if(theContext->pixmap.pixelSize == 16){
+				src = (TQ3Uns32*)theContext->pBits;
+				dst = theContext->pixmap.image;
+				srcRows = dstRows = (theContext->pixmap.width + 1) / 2;
+				for(y = 0; y < theContext->pixmap.height; y++){
+					for(x = 0; x < srcRows; x++){
+						dst[x] = src[x];
+						}
+						src += srcRows;
+						dst += dstRows;
+					}
+				}
+		}
 }
 
 
