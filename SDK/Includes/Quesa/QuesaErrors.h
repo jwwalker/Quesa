@@ -404,7 +404,7 @@ Q3Error_IsFatalError (
 /*!
  *  @function
  *      Q3Warning_Get
- *	@discussing
+ *	@discussion
  *      Retrieve latest warning codes from Quesa.
  *
  *      Retrieve the most recent warning code, and optionally also the oldest
