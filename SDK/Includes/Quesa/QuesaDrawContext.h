@@ -69,6 +69,10 @@
 	#include <X11/Xutil.h>
 #endif // QUESA_OS_UNIX
 
+#if QUESA_OS_COCOA
+	#include <AppKit/NSView.h>
+#endif // QUESA_OS_COCOA
+
 
 
 
@@ -275,7 +279,7 @@ typedef struct TQ3BeDrawContextData {
 // Cocoa draw context data
 typedef struct {
 	TQ3DrawContextData 							drawContextData;
-	void 										*nsView;
+	NSView 										nsView;
 } TQ3CocoaDrawContextData;
 
 #endif // QUESA_OS_COCOA
@@ -965,7 +969,7 @@ Q3CocoaDrawContext_New (
 EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_SetNSView (
 	TQ3DrawContextObject          drawContext,
-	void                          *nsView
+	NSView                        nsView
 );
 
 
@@ -977,7 +981,7 @@ Q3CocoaDrawContext_SetNSView (
 EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_GetNSView (
 	TQ3DrawContextObject          drawContext,
-	void                          **nsView
+	NSView                        *nsView
 );
 
 #endif // QUESA_OS_COCOA
