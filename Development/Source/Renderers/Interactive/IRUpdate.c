@@ -271,8 +271,8 @@ IRRenderer_State_AdjustGL(TQ3InteractiveData *instanceData)
 			instanceData->stateCurrentSpecularControl = instanceData->stateGeomSpecularControl;
 			specularControl                           = instanceData->stateCurrentSpecularControl;
 			
-			if (specularControl < 0.0)
-				specularControl = 0.0;
+			if (specularControl < 0.0f)
+				specularControl = 0.0f;
 
 
 			// This function was arrived at heuristically, but notice several properties:
@@ -280,7 +280,7 @@ IRRenderer_State_AdjustGL(TQ3InteractiveData *instanceData)
 			// 2. as specularControl increases, shininess increases.
 			// 3. as specularControl tends to infinity, shininess approaches 128 (the maximum
 			//    allowed by OpenGL).
-			shininess = 128.0 - (20.0 * 128.0)/(specularControl + 20.0);
+			shininess = 128.0f - (20.0f * 128.0f)/(specularControl + 20.0f);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
 			}
 		}

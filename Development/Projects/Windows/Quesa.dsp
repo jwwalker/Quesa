@@ -57,7 +57,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=xcopy   /Y   ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll   c:\windows\system\ 
+PostBuild_Cmds=xcopy    /Y    ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll    c:\windows\system\ 
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Quesa - Win32 Debug"
@@ -88,7 +88,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=xcopy   /Y   ..\..\..\SDK\Libraries\Windows\Debug\Quesa.dll   c:\windows\system\ 
+PostBuild_Cmds=xcopy    /Y    ..\..\..\SDK\Libraries\Windows\Debug\Quesa.dll    c:\windows\system\ 
 # End Special Build Tool
 
 !ENDIF 
@@ -444,6 +444,10 @@ SOURCE=..\..\Source\Platform\Windows\E3WindowsDrawContext.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\Source\Platform\Windows\E3WindowsStackCrawl.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Source\Platform\Windows\E3WindowsStorage.c
 # End Source File
 # Begin Source File
@@ -596,19 +600,6 @@ SOURCE=..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Writer.c
 SOURCE=..\..\Source\FileFormats\E3IOFileFormat.c
 # End Source File
 # End Group
-# Begin Group "StackCrawl"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=..\..\Source\StackCrawl\E3StackCrawl.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\Source\StackCrawl\E3StackCrawl.h
-# End Source File
-# End Group
 # End Group
 # End Target
 # End Project
-

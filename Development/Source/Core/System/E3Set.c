@@ -1574,9 +1574,9 @@ E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *d
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theSet),  kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dataSize), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data),     kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theSet),   NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dataSize), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data),     NULL);
 
 
 

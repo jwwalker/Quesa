@@ -290,7 +290,7 @@ void E3Geometry_AddNormalIndicators(TQ3GroupObject group, TQ3Uns32 numPoints,
 	// Add the normal indicators
 	for (i=0; i<numPoints; i++) {
 		lineData.vertices[0].point = points[i];
-		Q3Vector3D_Scale( &normals[i], 0.5, &v );
+		Q3Vector3D_Scale( &normals[i], 0.5f, &v );
 		Q3Point3D_Vector3D_Add( &points[i], &v, &lineData.vertices[1].point );
 		theLine = Q3Line_New(&lineData);
 		Q3Group_AddObject( group, theLine );

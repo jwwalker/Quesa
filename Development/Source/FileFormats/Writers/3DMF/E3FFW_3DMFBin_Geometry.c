@@ -1690,11 +1690,11 @@ e3ffw_3DMF_write_comp_num( TQ3Uns32 toWrite, TQ3Uns32 numBytes,
 	switch (numBytes)
 	{
 		case 1:
-			status = Q3Uns8_Write( toWrite, file );
+			status = Q3Uns8_Write( (TQ3Uns8) toWrite, file );
 			break;
 		
 		case 2:
-			status = Q3Uns16_Write( toWrite, file );
+			status = Q3Uns16_Write( (TQ3Uns16) toWrite, file );
 			break;
 		
 		default:

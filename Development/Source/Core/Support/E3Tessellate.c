@@ -646,9 +646,9 @@ e3tessellate_callback_combine(const GLdouble		pointIn[3],
 	// weight for the 4th vertex be redistributed amongst the other 3?). To be decided.
 	Q3Memory_Clear(&combinedState, sizeof(combinedState));
 
-	combinedPoint.x = pointIn[0];
-	combinedPoint.y = pointIn[1];
-	combinedPoint.z = pointIn[2];
+	combinedPoint.x = (float) pointIn[0];
+	combinedPoint.y = (float) pointIn[1];
+	combinedPoint.z = (float) pointIn[2];
 
 	for (n = 0; n < 4; n++)
 		e3tessellate_attribute_blend(&combinedState, &vertexState[n], theWeights[n]);
