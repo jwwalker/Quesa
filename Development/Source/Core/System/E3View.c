@@ -2548,6 +2548,7 @@ E3View_StartRendering(TQ3ViewObject theView)
 		
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = Q3Camera_GetWorldToFrustum(instanceData->theCamera, &worldToFrustum);
+
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3Renderer_Method_UpdateMatrixWorldToFrustum(theView, &worldToFrustum);
 		}

@@ -1004,7 +1004,6 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 	Handle					compressedDataH		= NULL;
 	Ptr						compressedDataP		= NULL;
 	OSErr					theErr				= noErr;
-	PicHandle				myPic 				= NULL;
 	Rect 					bounds				= (**sourcePixMap).bounds;
 	TQ3StorageObject		compressedImage		= NULL;
 	TQ3StorageObject		imageDesc			= NULL;

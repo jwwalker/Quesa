@@ -157,9 +157,8 @@ e3drawcontext_pixmap_update(TQ3DrawContextObject theDrawContext)
 	instanceData->drawRegions[0].clipMaskState           = kQ3XClipMaskFullyExposed;
 
 	// clear the DrawContext
-	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor){
-		NULL;
-		}
+	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor)
+		;
 		
 
 

@@ -667,9 +667,8 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 		}
 
 	// clear the DrawContext
-	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor){
-		NULL;
-		}
+	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor)
+		;
 		
 	
 	return(qd3dStatus);		

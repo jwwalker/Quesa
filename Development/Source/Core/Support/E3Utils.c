@@ -255,10 +255,10 @@ void E3Geometry_AddNormalIndicators(TQ3GroupObject group, TQ3Uns32 numPoints,
 //      E3Matrix4x4_IsIdentity : Is a TQ3Matrix4x4 an identity matrix?
 //-----------------------------------------------------------------------------
 TQ3Boolean	E3Matrix4x4_IsIdentity(const TQ3Matrix4x4 *theMatrix)
-{	static const TQ3Matrix4x4	identityMatrix = { 1.0f, 0.0f, 0.0f, 0.0f,
-												   0.0f, 1.0f, 0.0f, 0.0f,
-												   0.0f, 0.0f, 1.0f, 0.0f,
-												   0.0f, 0.0f, 0.0f, 1.0f };
+{	static const TQ3Matrix4x4	identityMatrix = { { { 1.0f, 0.0f, 0.0f, 0.0f},
+												     { 0.0f, 1.0f, 0.0f, 0.0f},
+												     { 0.0f, 0.0f, 1.0f, 0.0f},
+												     { 0.0f, 0.0f, 0.0f, 1.0f} } };
 	TQ3Boolean					isIdentity;
 
 

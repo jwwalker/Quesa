@@ -1814,8 +1814,6 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	
 	TQ3Object*		faces = NULL;
 	
-	TQ3Uns32			faceCount = 0L;
-	
 	TQ3Uns32			i,j,index;
 	TQ3Boolean			readFailed = kQ3False;
 	
