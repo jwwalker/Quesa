@@ -34,7 +34,6 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Qut.h"
-#include <QuesaMemory.h>
 
 #include <time.h>
 
