@@ -515,7 +515,10 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 				//default:	// this was dangerous
 					qd3dstatus = Q3Set_Get (theSet, theType, &subObject);
 					if(qd3dstatus == kQ3Success)
+						{
 						qd3dstatus = Q3Object_Submit (subObject, view);
+						Q3Object_Dispose( subObject );
+						}
 					break;
 			}	// end switch
 		
