@@ -54,6 +54,7 @@ typedef struct {
 	TQ3Boolean				interactiveDoubleBufferBypass;
 	TQ3Uns32				raveContextHints;
 	TQ3Uns32				raveTextureFilter;
+	TQ3Boolean				drawContextReset;
 } TQ3RendererData;
 
 
@@ -335,6 +336,7 @@ E3Renderer_UnregisterClass(void)
 TQ3Status
 E3Renderer_Method_StartFrame(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext)
 {	TQ3RendererObject				theRenderer = E3View_AccessRenderer(theView);
+	TQ3RendererData					*instanceData;
 	TQ3XRendererStartFrameMethod	startFrame;
 	TQ3Status						qd3dStatus;
 
@@ -346,13 +348,43 @@ E3Renderer_Method_StartFrame(TQ3ViewObject theView, TQ3DrawContextObject theDraw
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	startFrame = (TQ3XRendererStartFrameMethod)
 					E3ClassTree_GetMethod(theRenderer->theClass,
 										  kQ3XMethodTypeRendererStartFrame);
-	// No-op if renderer doesn't implements kQ3XMethodTypeRendererStartFrame
 	if (startFrame == NULL)
 		return(kQ3Success);
+
+
+
+	// Find the renderer instance data
+	instanceData = e3renderer_findinstance(theRenderer);
+	if (instanceData != NULL)
+		{
+		// If the draw context has to be reset, reset it now.
+		//
+		// This is slightly ugly: the reason for this is that changing the RAVE
+		// texture hint has to flush the texture cache maintained by the IR.
+		//
+		// Since Q3InteractiveRenderer_SetRAVETextureFilter doesn't have access
+		// to the draw context, we need to keep a flag indicating if it's
+		// changed since the last frame.
+		//
+		// If it has changed, we reset the draw context validation flags and
+		// thus cause a rebuild of the texture cache. We just reset all the
+		// flags for now, rather than add a new API call to set specific
+		// flags - assumption is that flushing the texture cache will be
+		// expensive enough that resetting the reset of the validation flags
+		// will be of no consequence.
+		//
+		// If this turns out to be too expensive, we should add an API so that
+		// we can just reset kQ3XDrawContextValidationRAVETextureFilter.
+		if (instanceData->drawContextReset)
+			{
+			E3DrawContext_ResetState(theDrawContext);
+			instanceData->drawContextReset = kQ3False;
+			}
+		}
 
 
 
@@ -372,8 +404,8 @@ E3Renderer_Method_StartFrame(TQ3ViewObject theView, TQ3DrawContextObject theDraw
 TQ3Status
 E3Renderer_Method_StartPass(TQ3ViewObject theView, TQ3CameraObject theCamera, TQ3GroupObject theLights)
 {	TQ3RendererObject				theRenderer = E3View_AccessRenderer(theView);
-	TQ3XRendererStartPassMethod		startPass;
 	TQ3Status						qd3dStatus;
+	TQ3XRendererStartPassMethod		startPass;
 
 
 
@@ -383,11 +415,10 @@ E3Renderer_Method_StartPass(TQ3ViewObject theView, TQ3CameraObject theCamera, TQ
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	startPass = (TQ3XRendererStartPassMethod)
 					E3ClassTree_GetMethod(theRenderer->theClass,
 										  kQ3XMethodTypeRendererStartPass);
-	// No-op if renderer doesn't implements kQ3XMethodTypeRendererStartPass
 	if (startPass == NULL)
 		return(kQ3Success);
 
@@ -420,11 +451,10 @@ E3Renderer_Method_EndPass(TQ3ViewObject theView)
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	endPass = (TQ3XRendererEndPassMethod)
 					E3ClassTree_GetMethod(theRenderer->theClass,
 										  kQ3XMethodTypeRendererEndPass);
-	// No-op if renderer doesn't implements kQ3XMethodTypeRendererEndPass
 	if (endPass == NULL)
 		return(kQ3ViewStatusDone);
 
@@ -457,7 +487,7 @@ E3Renderer_Method_FlushFrame(TQ3ViewObject theView, TQ3DrawContextObject theDraw
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	flushFrame = (TQ3XRendererFlushFrameMethod)
 					E3ClassTree_GetMethod(theRenderer->theClass,
 										  kQ3XMethodTypeRendererFlushFrame);
@@ -493,12 +523,10 @@ E3Renderer_Method_EndFrame(TQ3ViewObject theView, TQ3DrawContextObject theDrawCo
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	endFrame = (TQ3XRendererEndFrameMethod)
 					E3ClassTree_GetMethod(theRenderer->theClass,
 										  kQ3XMethodTypeRendererEndFrame);
-										  
-	// No-op if renderer doesn't implements kQ3XMethodTypeRendererEndFrame
 	if (endFrame == NULL)
 		return(kQ3Success);
 
@@ -531,7 +559,7 @@ E3Renderer_Method_IsBBoxVisible(TQ3ViewObject theView, const TQ3BoundingBox *the
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	isBoundingBoxVisible = (TQ3XRendererIsBoundingBoxVisibleMethod)
 							E3ClassTree_GetMethod(theRenderer->theClass,
 												  kQ3XMethodTypeRendererIsBoundingBoxVisible);
@@ -700,8 +728,7 @@ TQ3Status
 E3Renderer_Method_UpdateMatrixWorldToFrustum(TQ3ViewObject theView, const TQ3Matrix4x4 *theMatrix)
 {	TQ3RendererObject					theRenderer = E3View_AccessRenderer(theView);
 	TQ3XRendererUpdateMatrixMethod		updateMatrixWorldToFrustum;
-
-	TQ3Status							qd3dStatus = kQ3Success;
+	TQ3Status							qd3dStatus;
 
 
 
@@ -711,21 +738,19 @@ E3Renderer_Method_UpdateMatrixWorldToFrustum(TQ3ViewObject theView, const TQ3Mat
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	updateMatrixWorldToFrustum = (TQ3XRendererUpdateMatrixMethod)
 								E3ClassTree_GetMethod(theRenderer->theClass,
 					  				kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum);
+	if (updateMatrixWorldToFrustum == NULL)
+		return(kQ3Success);
 
 
 
 	// Call the method
-	if (updateMatrixWorldToFrustum != NULL)
-		{
+	qd3dStatus = updateMatrixWorldToFrustum(theView, theRenderer->instanceData, theMatrix);
 
-		qd3dStatus = updateMatrixWorldToFrustum(theView, theRenderer->instanceData, theMatrix);
-		}
 	return(qd3dStatus);
-
 }
 
 
@@ -749,7 +774,7 @@ E3Renderer_Method_UpdateShader(TQ3ViewObject theView, TQ3ObjectType shaderType, 
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	updateMethod = (TQ3XRendererUpdateShaderMethod)
 								E3ClassTree_GetMethod(theRenderer->theClass,
 													  shaderType);
@@ -785,7 +810,7 @@ E3Renderer_Method_UpdateStyle(TQ3ViewObject theView, TQ3ObjectType styleType, co
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	updateMethod = (TQ3XRendererUpdateStyleMethod)
 								E3ClassTree_GetMethod(theRenderer->theClass,
 													  styleType);
@@ -821,7 +846,7 @@ E3Renderer_Method_UpdateAttribute(TQ3ViewObject theView, TQ3AttributeType attrib
 
 
 
-	// Find the method
+	// Find the method, if implemented
 	updateMethod = (TQ3XRendererUpdateAttributeMethod)
 								E3ClassTree_GetMethod(theRenderer->theClass,
 													  attributeType);
@@ -1273,8 +1298,10 @@ E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3Uns
 
 
 
-	// Set the field
+	// Set the field, and flag that we need to reset the draw context state.
 	instanceData->raveTextureFilter = RAVEtextureFilterValue;
+	instanceData->drawContextReset  = kQ3True;
+
 	Q3Shared_Edited(theRenderer);
 	
 	return(kQ3Success);
