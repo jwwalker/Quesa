@@ -57,7 +57,7 @@ typedef struct E3WindowsSystem_DLLSlot {
 //=============================================================================
 //      Internal globals
 //-----------------------------------------------------------------------------
-E3WindowsSystem_DLLSlot* e3windowssystem_dllSlotHead = NULL;
+static E3WindowsSystem_DLLSlot* e3windowssystem_dllSlotHead = NULL;
 
 
 
@@ -66,31 +66,6 @@ E3WindowsSystem_DLLSlot* e3windowssystem_dllSlotHead = NULL;
 //=============================================================================
 //      Private functions
 //-----------------------------------------------------------------------------
-//      e3windowsystem_unloadplugins : Closes and unloads the plug-ins.
-//-----------------------------------------------------------------------------
-static void
-e3windowsystem_unloadplugins()
-{
-
-		E3WindowsSystem_DLLSlot* nextSlot;
-		E3WindowsSystem_DLLSlot* currentSlot;
-
-		nextSlot = e3windowssystem_dllSlotHead;
-
-		while( nextSlot != NULL){
-			currentSlot = nextSlot;
-			nextSlot = currentSlot->nextSlot;
-			FreeLibrary(currentSlot->Dll);
-			Q3Memory_Free(&currentSlot);
-		}
-
-}
-
-
-
-
-
-//=============================================================================
 //      e3windowsystem_load1plugin : Opens and memorizes the DLL pointed by path.
 //-----------------------------------------------------------------------------
 static E3WindowsSystem_DLLSlot*
@@ -190,8 +165,6 @@ E3WindowsSystem_Initialise(void)
 void
 E3WindowsSystem_Terminate(void)
 {
-
-	e3windowsystem_unloadplugins();
 	// Terminate the system
 }
 
@@ -216,4 +189,28 @@ E3WindowsSystem_LoadPlugins(void)
 
 	if(GetWindowsDirectory(systemDir, MAX_PATH * sizeof(*systemDir)) > 0)
 		e3windowsystem_loadplugins(systemDir, TEXT("xq3"));
+}
+
+
+
+
+//=============================================================================
+//      E3WindowsSystem_UnloadPlugins : Unload plug-ins.
+//-----------------------------------------------------------------------------
+#pragma mark -
+void
+E3WindowsSystem_UnloadPlugins(void)
+{
+		E3WindowsSystem_DLLSlot* nextSlot;
+		E3WindowsSystem_DLLSlot* currentSlot;
+
+		nextSlot = e3windowssystem_dllSlotHead;
+
+		while( nextSlot != NULL){
+			currentSlot = nextSlot;
+			nextSlot = currentSlot->nextSlot;
+			FreeLibrary(currentSlot->Dll);
+			Q3Memory_Free(&currentSlot);
+		}
+
 }

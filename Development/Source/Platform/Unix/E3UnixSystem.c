@@ -83,3 +83,14 @@ void
 E3UnixSystem_LoadPlugins(void)
 {
 }
+
+
+
+
+//=============================================================================
+//      E3UnixSystem_UnloadPlugins : Unload plug-ins.
+//-----------------------------------------------------------------------------
+void
+E3UnixSystem_UnloadPlugins(void)
+{
+}

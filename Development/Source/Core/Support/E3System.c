@@ -186,6 +186,25 @@ E3System_UnloadPlugins(void)
 	WFRenderer_Unregister();
 	IRRenderer_Unregister();
 #endif
+
+
+	// Unload the plug-ins on a per-platform basis
+#if QUESA_OS_MACINTOSH
+	E3MacSystem_UnloadPlugins();
+
+#elif QUESA_OS_UNIX
+	E3UnixSystem_UnloadPlugins();
+
+#elif QUESA_OS_WIN32
+	E3WindowsSystem_UnloadPlugins();
+
+#elif QUESA_OS_BE
+	E3BeSystem_UnloadPlugins();
+
+#elif QUESA_OS_COCOA
+	E3CocoaSystem_UnloadPlugins();
+#endif
+
 }
 
 
