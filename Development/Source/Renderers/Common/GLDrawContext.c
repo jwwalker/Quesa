@@ -1658,8 +1658,8 @@ TQ3Status			GLDrawContext_UpdateSize(
 	TQ3Status	didUpdate = kQ3Failure;
 	
 	// Validate our parameters
-	Q3_REQUIRE(Q3_VALID_PTR(theDrawContext));
-	Q3_REQUIRE(Q3_VALID_PTR(glContext));
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theDrawContext), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glContext), kQ3Failure);
 	
 	
 #if QUESA_OS_MACINTOSH
