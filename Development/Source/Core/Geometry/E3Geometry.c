@@ -205,8 +205,12 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 
 
-	// First thing to do, find the class for the object
-	theClass = E3ClassTree_GetClassByType(objectType);
+	// Get the class for the geometry
+	if (theObject != NULL)
+		theClass = theObject->theClass;
+	else
+		theClass = E3ClassTree_GetClassByType(objectType);
+
 	if (theClass == NULL)
 		return(kQ3Failure);
 
@@ -216,8 +220,8 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 	if (theObject != NULL)
 		{
 		// Find the methods we need
-		cacheIsValid = (TQ3XGeomCacheIsValidMethod) E3ClassTree_GetMethod(theClass,            kQ3XMethodTypeGeomCacheIsValid);
-		cacheUpdate  = (TQ3XGeomCacheUpdateMethod)  E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodTypeGeomCacheUpdate);
+		cacheIsValid = (TQ3XGeomCacheIsValidMethod) E3ClassTree_GetMethod(theClass, kQ3XMethodTypeGeomCacheIsValid);
+		cacheUpdate  = (TQ3XGeomCacheUpdateMethod)  E3ClassTree_GetMethod(theClass, kQ3XMethodTypeGeomCacheUpdate);
 
 		if (cacheIsValid == NULL || cacheUpdate == NULL)
 			return(kQ3Failure);
@@ -282,21 +286,42 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3Boolean		geomSupported;
-	TQ3Status		qd3dStatus;
+{	TQ3XGeomGetPublicDataMethod		getPublicData;
+	TQ3Boolean						geomSupported;
+	const void						*publicData;
+	TQ3Status						qd3dStatus;
+
+
+
+	// Get the public data for the geometry object
+	//
+	// The pointer submitted to renderers must be of the public data structure for
+	// a geometry, however this may not correspond directly to their instance data.
+	//
+	// We can use the geometry's GetPublicData method to retrieve the data for the
+	// renderer. For immediate mode submits, or objects without this method, we can
+	// use the supplied data directly.
+	publicData = objectData;
+
+	if (theObject != NULL)
+		{
+		getPublicData = (TQ3XGeomGetPublicDataMethod) E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodTypeGeomGetPublicData);
+		if (getPublicData != NULL)
+			publicData = getPublicData(theObject);
+		}
 
 
 
 	// Submit the geometry
-	qd3dStatus = E3Renderer_Method_SubmitGeometry(theView,
-													objectType,
-													&geomSupported,
-													theObject,
-													objectData);
+	//
+	// Note that we always pass the public data to renderers.
+	qd3dStatus = E3Renderer_Method_SubmitGeometry(theView, objectType, &geomSupported, theObject, publicData);
 
 
 
 	// If it's not supported, try and decompose it
+	//
+	// Note that we pass the instance data on if we need to decompose.
 	if (!geomSupported)
 		qd3dStatus = e3geometry_submit_decomposed(theView, objectType, theObject, objectData);
 
