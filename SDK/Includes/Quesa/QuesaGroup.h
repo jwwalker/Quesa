@@ -1,3 +1,6 @@
+/*! @header QuesaGroup.h
+        Declares the Quesa group objects.
+ */
 /*  NAME:
         QuesaGroup.h
 

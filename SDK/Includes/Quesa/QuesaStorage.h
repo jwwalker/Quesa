@@ -1,3 +1,6 @@
+/*! @header QuesaStorage.h
+        Declares the Quesa storage objects.
+ */
 /*  NAME:
         QuesaStorage.h
 

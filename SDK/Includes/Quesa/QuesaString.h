@@ -1,3 +1,6 @@
+/*! @header QuesaString.h
+        Declares the Quesa string objects.
+ */
 /*  NAME:
         QuesaString.h
 

@@ -1,3 +1,6 @@
+/*! @header QuesaStyle.h
+        Declares the Quesa style objects.
+ */
 /*  NAME:
         QuesaStyle.h
 

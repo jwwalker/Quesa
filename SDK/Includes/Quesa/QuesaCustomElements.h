@@ -1,3 +1,6 @@
+/*! @header QuesaCustomElements.h
+        Declares the Quesa custom elements inherited from QD3D.
+ */
 /*  NAME:
         QuesaCustomElements.h
 

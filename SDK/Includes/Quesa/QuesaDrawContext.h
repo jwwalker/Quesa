@@ -1,3 +1,6 @@
+/*! @header QuesaDrawContext.h
+        Declares the Quesa draw context objects.
+ */
 /*  NAME:
         QuesaDrawContext.h
 

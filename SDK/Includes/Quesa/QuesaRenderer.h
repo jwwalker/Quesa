@@ -1,3 +1,6 @@
+/*! @header QuesaRenderer.h
+        Declares the Quesa renderer objects.
+ */
 /*  NAME:
         QuesaRenderer.h
 

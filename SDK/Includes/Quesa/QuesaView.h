@@ -1,3 +1,6 @@
+/*! @header QuesaView.h
+        Declares the Quesa view object.
+ */
 /*  NAME:
         QuesaView.h
 

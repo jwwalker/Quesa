@@ -1,3 +1,6 @@
+/*! @header QuesaMath.h
+        Declares the Quesa math utilities.
+ */
 /*  NAME:
         QuesaMath.h
 

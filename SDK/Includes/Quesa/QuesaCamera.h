@@ -1,3 +1,6 @@
+/*! @header QuesaCamera.h
+        Declares the Quesa camera objects.
+ */
 /*  NAME:
         QuesaCamera.h
 
@@ -63,6 +66,20 @@ extern "C" {
 //      Types
 //-----------------------------------------------------------------------------
 // Camera placement
+/*!
+ *  @struct
+ *      TQ3CameraPlacement
+ *  @discussion
+ *      Describes the location and orientation of a camera. All points are
+ *		in world-space coordinates.
+
+ *  @field cameraLocation	The location of the camera.
+ *  @field pointOfInterest	The point at which the camera is aimed.
+ *  @field upVector			The up vector for the camera. This vector must be
+ *							normalised and perpendicular to the viewing direction
+ *							of the camera. This vector is transformed to the y
+ *							axis of the viewing plane.
+ */
 typedef struct {
 	TQ3Point3D									cameraLocation;
 	TQ3Point3D									pointOfInterest;
@@ -70,7 +87,19 @@ typedef struct {
 } TQ3CameraPlacement;
 
 
-// Camera range
+/*!
+ *  @struct
+ *      TQ3CameraRange
+ *  @discussion
+ *      Describes the hither and yon clipping planes of a camera.
+
+ *  @field hither			The distance from the camera to the near clipping plane.
+ *							This value must always be more than 0.
+ *  @field yon				The distance from the camera to the far clipping plane.
+ *							This value must always be more than the hither field,
+ *							although if it is too large then artifacts may be visible
+ *							during rendering.
+ */
 typedef struct {
 	float										hither;
 	float										yon;
@@ -128,9 +157,18 @@ typedef struct {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-/*
- *	Q3Camera_GetType
- *		Description of function
+/*!
+ *  @function
+ *      Q3Camera_GetType
+ *  @discussion
+ *      Returns the type of a camera.
+ *
+ *		Returns kQ3CameraTypeOrthographic, kQ3CameraTypeViewAngleAspect, or
+ *		kQ3CameraTypeViewPlane. Returns kQ3ObjectTypeInvalid if the camera type
+ *      is unknown.
+ *
+ *  @param camera			The camera to test.
+ *  @result                 The type of the camera object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Camera_GetType (

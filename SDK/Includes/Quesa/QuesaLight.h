@@ -1,3 +1,6 @@
+/*! @header QuesaLight.h
+        Declares the Quesa light objects.
+ */
 /*  NAME:
         QuesaLight.h
 

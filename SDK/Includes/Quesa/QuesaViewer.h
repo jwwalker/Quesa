@@ -1,3 +1,6 @@
+/*! @header QuesaViewer.h
+        Declares the Quesa viewer library.
+ */
 /*  NAME:
         QuesaViewer.h
 

@@ -1,3 +1,6 @@
+/*! @header QuesaErrors.h
+        Declares the Quesa error manager.
+ */
 /*  NAME:
         QuesaErrors.h
 

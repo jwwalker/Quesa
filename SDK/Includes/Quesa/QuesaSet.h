@@ -1,3 +1,6 @@
+/*! @header QuesaSet.h
+        Declares the Quesa set objects.
+ */
 /*  NAME:
         QuesaSet.h
 

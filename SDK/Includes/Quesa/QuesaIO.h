@@ -1,3 +1,6 @@
+/*! @header QuesaIO.h
+        Declares the Quesa IO objects.
+ */
 /*  NAME:
         QuesaIO.h
 

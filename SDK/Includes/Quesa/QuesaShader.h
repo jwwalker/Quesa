@@ -1,3 +1,6 @@
+/*! @header QuesaShader.h
+        Declares the Quesa shader objects.
+ */
 /*  NAME:
         QuesaShader.h
 

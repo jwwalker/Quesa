@@ -1,3 +1,6 @@
+/*! @header QuesaPick.h
+        Declares the Quesa pick objects.
+ */
 /*  NAME:
         QuesaPick.h
 

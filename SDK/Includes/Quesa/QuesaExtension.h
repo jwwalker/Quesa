@@ -1,3 +1,6 @@
+/*! @header QuesaExtension.h
+        Declares the Quesa extension interface.
+ */
 /*  NAME:
         QuesaExtension.h
 

@@ -1,3 +1,6 @@
+/*! @header QuesaGeometry.h
+        Declares the Quesa geometry objects.
+ */
 /*  NAME:
         QuesaGeometry.h
 

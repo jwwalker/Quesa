@@ -1,3 +1,6 @@
+/*! @header QuesaTransform.h
+        Declares the Quesa transform objects.
+ */
 /*  NAME:
         QuesaTransform.h
 

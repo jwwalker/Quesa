@@ -1,3 +1,8 @@
+/*! @header QuesaController.h
+        Declares the Quesa controller interface.
+        
+        This interface has not been implemented.
+ */
 /*  NAME:
         QuesaController.h
 

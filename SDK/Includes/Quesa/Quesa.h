@@ -1,3 +1,6 @@
+/*! @header Quesa.h
+        Declares the fundamental Quesa types and functions.
+ */
 /*  NAME:
         Quesa.h
 
@@ -287,42 +290,89 @@ typedef TQ3Int32								TQ3ObjectType;
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-// Misc constants
+/*!
+ *  @enum
+ *      Miscellaneous constants
+ *
+ *  @constant kQ3StringMaximumLength    Maximum length of TQ3ObjectClassNameString.
+ *  @constant kQ3ArrayIndexNULL         NULL array index.
+ */
 enum {
 	kQ3StringMaximumLength						= 1024,
 	kQ3ArrayIndexNULL							= ~0
 };
 
 
-// Languages
+/*!
+ *  @enum
+ *      TQ3Language
+ *  @discussion
+ *      Languages.
+ *
+ *  @constant kQ3LanguageDefault		Default language for current OS.
+ *  @constant kQ3LanguageEnglishUS		US English.
+ */
 typedef enum {
 	kQ3LanguageDefault							= 0,
 	kQ3LanguageEnglishUS						= 1
 } TQ3Language;
 
 
-// Boolean
+/*!
+ *  @enum
+ *      TQ3Boolean
+ *  @discussion
+ *      Fundamental boolean type.
+ *
+ *  @constant kQ3False      False.
+ *  @constant kQ3True       True.
+ */
 typedef enum {
 	kQ3False									= 0,
 	kQ3True										= 1
 } TQ3Boolean;
 
 
-// Switch
+/*!
+ *  @enum
+ *      TQ3Switch
+ *  @discussion
+ *      Fundamental switch type.
+ *
+ *  @constant kQ3Off        Off.
+ *  @constant kQ3On         On.
+ */
 typedef enum {
 	kQ3Off										= 0,
 	kQ3On										= 1
 } TQ3Switch;
 
 
-// Status
+/*!
+ *  @enum
+ *      TQ3Status
+ *  @discussion
+ *      Fundamental status type.
+ *
+ *  @constant kQ3Failure    Indicates failure.
+ *  @constant kQ3Success    Indicates success
+ */
 typedef enum {
 	kQ3Failure									= 0,
 	kQ3Success									= 1
 } TQ3Status;
 
 
-// Axes
+/*!
+ *  @enum
+ *      TQ3Axis
+ *  @discussion
+ *      Fundamental axis type.
+ *
+ *  @constant kQ3AxisX      Indicates X axis.
+ *  @constant kQ3AxisY      Indicates Y axis.
+ *  @constant kQ3AxisZ      Indicates Z axis.
+ */
 typedef enum {
 	kQ3AxisX									= 0,
 	kQ3AxisY									= 1,
@@ -601,22 +651,60 @@ typedef TQ3Object								TQ3PickObject;
 
 
 // Geometric types
+/*!
+ *  @struct
+ *      TQ3Vector2D
+ *  @discussion
+ *      Fundamental 2D vector type.
+ *
+ *  @field x                x coordinate.
+ *  @field y                y coordinate.
+ */
 typedef struct {
 	float										x;
 	float										y;
 } TQ3Vector2D;
 
+/*!
+ *  @struct
+ *      TQ3Vector3D
+ *  @discussion
+ *      Fundamental 3D vector type.
+ *
+ *  @field x                x coordinate.
+ *  @field y                y coordinate.
+ *  @field z                z coordinate.
+ */
 typedef struct {
 	float										x;
 	float										y;
 	float										z;
 } TQ3Vector3D;
 
+/*!
+ *  @struct
+ *      TQ3Point2D
+ *  @discussion
+ *      Fundamental 2D point type.
+ *
+ *  @field x                x coordinate.
+ *  @field y                y coordinate.
+ */
 typedef struct {
 	float										x;
 	float										y;
 } TQ3Point2D;
 
+/*!
+ *  @struct
+ *      TQ3Point3D
+ *  @discussion
+ *      Fundamental 3D point type.
+ *
+ *  @field x                x coordinate.
+ *  @field y                y coordinate.
+ *  @field z                z coordinate.
+ */
 typedef struct {
 	float										x;
 	float										y;
@@ -811,9 +899,16 @@ typedef struct {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-/*
- *	Q3Initialize
- *		Initialize Quesa.
+/*!
+ *  @function
+ *      Q3Initialize
+ *  @discussion
+ *      Initialises Quesa.
+ *
+ *      Only Q3IsInitialized, Q3GetVersion, and Q3GetReleaseVersion may be
+ *      called before the Quesa library is initialised.
+ *
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Initialize (
@@ -822,9 +917,13 @@ Q3Initialize (
 
 
 
-/*
- *	Q3Exit
- *		Terminate Quesa.
+/*!
+ *  @function
+ *      Q3Exit
+ *  @discussion
+ *      Shuts down Quesa, and releases any resources allocated by the library.
+ *
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Exit (
@@ -833,9 +932,13 @@ Q3Exit (
 
 
 
-/*
- *	Q3IsInitialized
- *		Has Quesa been initialized?
+/*!
+ *  @function
+ *      Q3IsInitialized
+ *  @discussion
+ *      Tests to see if Quesa has been initialised or not.
+ *
+ *  @result                 True or false as Quesa has been initialised or not.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3IsInitialized (
@@ -844,11 +947,15 @@ Q3IsInitialized (
 
 
 
-/*
- *	Q3GetVersion
- *		Return the Quesa major and minor versions, in BCD format.
+/*!
+ *  @function
+ *      Q3GetVersion
+ *  @discussion
+ *      Returns the version of Quesa.
  *
- *		May be called outside of a Q3Initialize/Q3Exit block.
+ *  @param majorRevision    Receives the major version number.
+ *  @param minorRevision    Receives the minor version number.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GetVersion (
@@ -858,11 +965,18 @@ Q3GetVersion (
 
 
 
-/*
- *	Q3GetReleaseVersion
- *		Return the Quesa release version, in 'vers' format.
+/*!
+ *  @function
+ *      Q3GetReleaseVersion
+ *  @discussion
+ *      Returns the release version of Quesa.
  *
- *		May be called outside of a Q3Initialize/Q3Exit block.
+ *      The version number is returned in the format of the first four
+ *      bytes of a Mac 'vers' resource. E.g., 1.6.1 would be identified
+ *      as 0x01618000.
+ *
+ *  @param releaseRevision  Receives the release version number.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3GetReleaseVersion (
@@ -871,9 +985,15 @@ Q3GetReleaseVersion (
 
 
 
-/*
- *	Q3ObjectHierarchy_GetTypeFromString
- *		Description of function
+/*!
+ *  @function
+ *      Q3ObjectHierarchy_GetTypeFromString
+ *  @discussion
+ *      Returns the class type for a class identified by a class name string.
+ *
+ *  @param objectClassString    The class name of the class to locate.
+ *  @param objectClassType      Receives the class type of the class.
+ *  @result                     Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetTypeFromString (
@@ -883,9 +1003,15 @@ Q3ObjectHierarchy_GetTypeFromString (
 
 
 
-/*
- *	Q3ObjectHierarchy_GetStringFromType
- *		Description of function
+/*!
+ *  @function
+ *      Q3ObjectHierarchy_GetStringFromType
+ *  @discussion
+ *      Returns the class name string for a class identified by a class type.
+ *
+ *  @param objectClassType      The class type of the class to locate.
+ *  @param objectClassString    Receives the class name string of the class.
+ *  @result                     Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetStringFromType (
@@ -895,9 +1021,14 @@ Q3ObjectHierarchy_GetStringFromType (
 
 
 
-/*
- *	Q3ObjectHierarchy_IsTypeRegistered
- *		Description of function
+/*!
+ *  @function
+ *      Q3ObjectHierarchy_IsTypeRegistered
+ *  @discussion
+ *      Check to see if a class is registered with Quesa.
+ *
+ *  @param objectClassType  The class type of the class to check.
+ *  @result                 True or false as the class is registered or not.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3ObjectHierarchy_IsTypeRegistered (
@@ -906,9 +1037,14 @@ Q3ObjectHierarchy_IsTypeRegistered (
 
 
 
-/*
- *	Q3ObjectHierarchy_IsNameRegistered
- *		Description of function
+/*!
+ *  @function
+ *      Q3ObjectHierarchy_IsNameRegistered
+ *  @discussion
+ *      Check to see if a class is registered with Quesa.
+ *
+ *  @param majorRevision    The class name of the class to check.
+ *  @result                 True or false as the class is registered or not.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3ObjectHierarchy_IsNameRegistered (
@@ -917,9 +1053,18 @@ Q3ObjectHierarchy_IsNameRegistered (
 
 
 
-/*
- *	Q3ObjectHierarchy_GetSubClassData
- *		Description of function
+/*!
+ *  @function
+ *      Q3ObjectHierarchy_GetSubClassData
+ *  @discussion
+ *      Return the immediate sub-classes of a class.
+ *
+ *      The data returned must be released with a subsequent call to
+ *      Q3ObjectHierarchy_EmptySubClassData.
+ *
+ *  @param objectClassType  The class type of the class to query.
+ *  @param subClassData     Receives the immediate sub-classes of the class.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetSubClassData (
@@ -929,9 +1074,15 @@ Q3ObjectHierarchy_GetSubClassData (
 
 
 
-/*
- *	Q3ObjectHierarchy_EmptySubClassData
- *		Description of function
+/*!
+ *  @function
+ *      Q3ObjectHierarchy_EmptySubClassData
+ *  @discussion
+ *      Release the memory allocated by a previous call to
+ *      Q3ObjectHierarchy_GetSubClassData.
+ *
+ *  @param subClassData     The sub-class data to release.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_EmptySubClassData (
@@ -940,9 +1091,18 @@ Q3ObjectHierarchy_EmptySubClassData (
 
 
 
-/*
- *	Q3Object_Dispose
- *		Description of function
+/*!
+ *  @function
+ *      Q3Object_Dispose
+ *  @discussion
+ *      Disposes of a Quesa object.
+ *
+ *      Since TQ3Objects are reference counted, this function decrements the
+ *      reference count of the object. When the reference count falls to 0,
+ *      the object is disposed of.
+ *
+ *  @param object           The object to dispose.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Object_Dispose (
@@ -951,9 +1111,16 @@ Q3Object_Dispose (
 
 
 
-/*
- *	Q3Object_Duplicate
- *		Description of function
+/*!
+ *  @function
+ *      Q3Object_Duplicate
+ *  @discussion
+ *      Duplicates a Quesa object.
+ *
+ *      Returns a new copy of the object, with a reference count of 1.
+ *
+ *  @param object           The object to duplicate.
+ *  @result                 A new copy of the object.
  */
 EXTERN_API_C ( TQ3Object  )
 Q3Object_Duplicate (
@@ -962,9 +1129,18 @@ Q3Object_Duplicate (
 
 
 
-/*
- *	Q3Object_Submit
- *		Description of function
+/*!
+ *  @function
+ *      Q3Object_Submit
+ *  @discussion
+ *      Submit an object to a view.
+ *
+ *      The object is submitted to the view's current processing loop,
+ *      e.g., for rendering, picking, or writing to a file.
+ *
+ *  @param object           The object to submit.
+ *  @param view             The view to submit the object to.
+ *  @result                 Success or failure of the operation.
  */
 EXTERN_API_C ( TQ3Status  )
 Q3Object_Submit (
@@ -974,9 +1150,16 @@ Q3Object_Submit (
 
 
 
-/*
- *	Q3Object_IsDrawable
- *		Description of function
+/*!
+ *  @function
+ *      Q3Object_IsDrawable
+ *  @discussion
+ *      Tests to see if an object is drawable.
+ *
+ *      Only drawable objects may be submitted to a view's rendering loop.
+ *
+ *  @param object           The object to test.
+ *  @result                 True or false as the object is drawable or not.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3Object_IsDrawable (
@@ -985,9 +1168,16 @@ Q3Object_IsDrawable (
 
 
 
-/*
- *	Q3Object_IsWritable
- *		Description of function
+/*!
+ *  @function
+ *      Q3Object_IsWritable
+ *  @discussion
+ *      Tests to see if an object is writable.
+ *
+ *      Only drawable objects may be submitted to a view's writing loop.
+ *
+ *  @param object           The object to test.
+ *  @result                 True or false as the object is writable or not.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3Object_IsWritable (
@@ -997,9 +1187,18 @@ Q3Object_IsWritable (
 
 
 
-/*
- *	Q3Object_GetType
- *		Description of function
+/*!
+ *  @function
+ *      Q3Object_GetType
+ *  @discussion
+ *      Returns the top level type of an object.
+ *
+ *      Returns kQ3ObjectTypeElement, kQ3ObjectTypePick, kQ3ObjectTypeShared,
+ *      or kQ3ObjectTypeView. Returns kQ3ObjectTypeInvalid if the object type
+ *      is unknown.
+ *
+ *  @param object           The object to test.
+ *  @result                 The top level type of the object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Object_GetType (
@@ -1008,9 +1207,18 @@ Q3Object_GetType (
 
 
 
-/*
- *	Q3Object_GetLeafType
- *		Description of function
+/*!
+ *  @function
+ *      Q3Object_GetLeafType
+ *  @discussion
+ *      Returns the leaf type of an object.
+ *
+ *      Returns the most specific type that can be identified from the object
+ *      (e.g., a camera object may have a leaf type of kQ3CameraTypeViewAngleAspect).
+ *      Returns kQ3ObjectTypeInvalid if the object type is unknown.
+ *
+ *  @param object           The object to test.
+ *  @result                 The leaf type of the object.
  */
 EXTERN_API_C ( TQ3ObjectType  )
 Q3Object_GetLeafType (
@@ -1019,9 +1227,20 @@ Q3Object_GetLeafType (
 
 
 
-/*
- *	Q3Object_IsType
- *		Description of function
+/*!
+ *  @function
+ *      Q3Object_IsType
+ *  @discussion
+ *      Tests to see if an object belongs to a given type.
+ *
+ *      Examines both the object supplied and its parents. E.g., a camera object
+ *      would return true for a type of kQ3CameraTypeViewAngleAspect,
+ *      kQ3ShapeTypeCamera, kQ3SharedTypeShape, and kQ3ObjectTypeShared but would
+ *      return false for kQ3ObjectTypePick.
+ *
+ *  @param object           The object to test.
+ *  @param theType          The type to test the object against.
+ *  @result                 True or false as the object belongs to the type or not.
  */
 EXTERN_API_C ( TQ3Boolean  )
 Q3Object_IsType (
