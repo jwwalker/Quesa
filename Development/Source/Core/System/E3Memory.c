@@ -43,6 +43,8 @@
 
 
 
+
+
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
@@ -96,7 +98,7 @@ E3Memory_Allocate(TQ3Uns32 theSize)
 
 
 		// Fill the block with rubbish
-		E3Memory_Initialize(thePtr, theSize + Q3_MEMORY_TRAILER, kMemoryUninitialised);
+		Q3Memory_Initialize(thePtr, theSize + Q3_MEMORY_TRAILER, kMemoryUninitialised);
 		}
 #endif
 
@@ -117,6 +119,13 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 
 
 	// Allocate the memory and a header to hold the size
+	//
+	// We deliberately use calloc rather than allocate with Q3Memory_Allocate,
+	// since some platforms (e.g., Mac OS X) will allocate cleared pages via
+	// the VM system.
+	//
+	// These platforms can allocate pages in an uninitialised state, and only
+	// clear them to 0 if an application attempts to read before writing.
 	thePtr = calloc(1, theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER);
 	if (thePtr == NULL)
 		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
@@ -133,8 +142,7 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 		
 		
 		// Fill the trailer with rubbish
-		E3Memory_Initialize(((TQ3Uns8 *) thePtr) + theSize, Q3_MEMORY_TRAILER,
-			kMemoryUninitialised);
+		Q3Memory_Initialize(((TQ3Uns8 *) thePtr) + theSize, Q3_MEMORY_TRAILER, kMemoryUninitialised);
 		}
 #endif
 
@@ -173,13 +181,11 @@ E3Memory_Free(void **thePtr)
 		
 		
 		// Check that the trailer is undamaged
-		Q3_ASSERT( *(((TQ3Uns8 *) realPtr) + Q3_MEMORY_HEADER + theSize) ==
-			kMemoryUninitialised );
+		Q3_ASSERT( *(((TQ3Uns8 *) realPtr) + Q3_MEMORY_HEADER + theSize) == kMemoryUninitialised );
 
 
 		// Fill the block with rubbish
-		E3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER,
-			kMemoryFreed);
+		Q3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER, kMemoryFreed);
 #endif
 
 
@@ -199,14 +205,12 @@ E3Memory_Free(void **thePtr)
 TQ3Status
 E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 {	void			*realPtr, *newPtr;
-	TQ3Status		qd3dStatus;
-	TQ3Uns32		padSize;
 	TQ3Uns32		oldSize, copySize;
+	TQ3Status		qd3dStatus;
 
 
 
 	// Initialise ourselves
-	padSize = 0;
 	realPtr = *thePtr;
 
 
@@ -226,50 +230,40 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 			{
 			// Not every implementation of realloc frees when called as
 			// realloc( p, 0 ).  Let's not leave it up to chance.
-			E3Memory_Free( thePtr );
+			Q3Memory_Free( thePtr );
 			}
 		qd3dStatus = kQ3Success;
 		}
 	
 	else	// newSize != 0
-	
 		{
-		// If we're going to allocate or resize, increase the pad size to cover any header
-		padSize = Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER;
-		
-		
-		
 		// Reallocate the block, and see if it worked
 	#if Q3_MEMORY_DEBUG
 		// For debugging, we don't use realloc so that
 		// 1. the block always moves rather than grows
 		// 2. the freed block is scrubbed
-		newPtr = E3Memory_Allocate( newSize );
-		
+		newPtr = Q3Memory_Allocate( newSize );
 		if ( (newPtr != NULL) && (realPtr != NULL) )	// resize
 			{
 			oldSize = *(TQ3Uns32*) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
 			copySize = E3Num_Min( oldSize, newSize );
-			E3Memory_Copy( realPtr, newPtr, copySize );
-			E3Memory_Free( thePtr );
+			Q3Memory_Copy( realPtr, newPtr, copySize );
+			Q3Memory_Free( thePtr );
 			}
 	#else
-		newPtr     = realloc(realPtr, newSize + padSize);
+		// Or just reallocate with realloc
+		newPtr = realloc(realPtr, newSize);
 	#endif
+
+
+
+		// Handle failure
 		qd3dStatus = (newPtr != NULL) ? kQ3Success : kQ3Failure;
-
-
-
-		if (qd3dStatus != kQ3Success)
-			E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
-
-
-
 		if (qd3dStatus == kQ3Success)
-			{
-			// Return the new pointer
 			*thePtr = newPtr;
-			}
+		
+		else
+			E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
 		}
 
 	return(qd3dStatus);
