@@ -55,17 +55,19 @@
 #define kMenuItemGeometryGeneralPolygon						11
 #define kMenuItemGeometryLine								12
 #define kMenuItemGeometryMarker								13
-#define kMenuItemGeometryPixmapMarker						14
-#define kMenuItemGeometryPoint								15
-#define kMenuItemGeometryPolygon							16
-#define kMenuItemGeometryPolyhedron							17
-#define kMenuItemGeometryPolyLine							18
-#define kMenuItemQuesaLogo									19
-#define kMenuItemGeometryTorus								20
-#define kMenuItemGeometryTriangle							21
-#define kMenuItemGeometryTriGrid							22
-#define kMenuItemGeometryTriMesh							23
-#define kMenuItemGeometryNURBCurve							24
+#define kMenuItemGeometryMesh								14
+#define kMenuItemGeometryNURBCurve							15
+#define kMenuItemGeometryNURBPatch							16
+#define kMenuItemGeometryPixmapMarker						17
+#define kMenuItemGeometryPoint								18
+#define kMenuItemGeometryPolyLine							19
+#define kMenuItemGeometryPolygon							20
+#define kMenuItemGeometryPolyhedron							21
+#define kMenuItemQuesaLogo									22
+#define kMenuItemGeometryTorus								23
+#define kMenuItemGeometryTriangle							24
+#define kMenuItemGeometryTriGrid							25
+#define kMenuItemGeometryTriMesh							26
 
 #define kTriGridRows										5
 #define kTriGridCols										10
@@ -88,6 +90,7 @@ TQ3ShaderObject		gSceneTexture       = NULL;
 TQ3Boolean			gShowTexture        = kQ3False;
 TQ3Matrix4x4		gMatrixCurrent;
 TQ3Matrix4x4		gMatrixRotation;
+
 
 
 
@@ -741,6 +744,221 @@ createGeomMarker(void)
 
 
 //=============================================================================
+//      createGeomMesh : Create a Mesh object.
+//-----------------------------------------------------------------------------
+static TQ3GeometryObject
+createGeomMesh(void)
+{	TQ3Vertex3D			theVertices[9] = { { { -1.5f,  1.5f, 0.0f }, NULL },
+										   { { -1.5f, -1.5f, 0.0f }, NULL },
+										   { {  0.0f, -1.5f, 0.9f }, NULL },
+										   { {  1.5f, -1.5f, 0.0f }, NULL },
+										   { {  1.5f,  1.5f, 0.0f }, NULL },
+										   { {  0.0f,  1.5f, 0.9f }, NULL },
+										   { { -1.2f,  0.6f, 0.0f }, NULL },
+										   { {  0.0f,  0.0f, 0.0f }, NULL },
+										   { { -1.2f, -0.6f, 0.0f }, NULL } };
+	TQ3Param2D			vertUVs[9] = {
+		{0.0, 1.0}, {0.0, 0.0}, {0.5, 0.0}, {1.0, 0.0},
+		{1.0, 1.0}, {0.5, 1.0}, {0.1, 0.8}, {0.5, 0.5},
+		{0.1, 0.4}};
+	TQ3ColorRGB			theColour = { 0.3f, 0.9f, 0.5f };
+	TQ3MeshVertex		meshVertices[9];
+	TQ3AttributeSet		theAttributes;
+	TQ3MeshFace			theFace;
+	TQ3GeometryObject	theMesh;
+	TQ3Uns32			n;
+
+
+
+	// Create the mesh
+	theMesh = Q3Mesh_New();
+	Q3Mesh_DelayUpdates(theMesh);
+
+
+
+	// Create the vertices
+	for (n = 0; n < 9; n++)
+		{
+		meshVertices[n] = Q3Mesh_VertexNew(theMesh, &theVertices[n]);
+
+		theAttributes = Q3AttributeSet_New();
+		if (theAttributes != NULL)
+			{
+			Q3AttributeSet_Add(theAttributes, kQ3AttributeTypeSurfaceUV, &vertUVs[n]);
+			Q3Mesh_SetVertexAttributeSet(theMesh, meshVertices[n], theAttributes);
+			Q3Object_Dispose(theAttributes);
+			}
+		}
+
+
+
+	// Add the face
+	theAttributes = Q3AttributeSet_New();
+	if (theAttributes != NULL)
+		Q3AttributeSet_Add(theAttributes, kQ3AttributeTypeDiffuseColor, &theColour);
+
+	theFace = Q3Mesh_FaceNew(theMesh, 6, meshVertices, theAttributes);
+	if (theFace != NULL)
+		Q3Mesh_FaceToContour(theMesh, theFace, Q3Mesh_FaceNew(theMesh, 3, &meshVertices[6], NULL));
+
+
+
+	// Resume updates and clean up
+	Q3Mesh_ResumeUpdates(theMesh);
+	
+	Q3Object_Dispose(theAttributes);
+
+	return(theMesh);
+}
+
+
+
+
+
+//=============================================================================
+//      createGeomNURBCurve : Create a NURB curve object.
+//-----------------------------------------------------------------------------
+static TQ3GeometryObject
+createGeomNURBCurve(void)
+{	TQ3ColorRGB			theColour = { 0.8f, 0.2f, 0.6f };
+	TQ3RationalPoint4D	thePoints[7] = { { -2.0f,  0.0f,  0.0f, 1.0f },
+										 { -1.0f,  1.0f,  0.0f, 1.0f },
+										 { -0.5f,  0.0f,  0.0f, 1.0f },
+										 {  0.0f,  1.0f,  0.0f, 1.0f },
+										 {  0.5f,  0.0f,  0.0f, 1.0f },
+										 {  1.0f,  1.0f,  0.0f, 1.0f },
+										 {  2.0f,  0.0f,  0.0f, 1.0f } };
+	float				theKnots[11] = { 0.0f,  0.0f, 0.0f,  0.0f,
+										 0.25f, 0.5f, 0.75f, 1.0f,
+										 1.0f,  1.0f, 1.0f };
+	TQ3NURBCurveData	curveData;
+	TQ3GeometryObject	theCurve;
+
+
+
+	// Set up the data
+	curveData.order 			= 4;
+	curveData.numPoints			= 7;
+	curveData.controlPoints		= thePoints;
+	curveData.knots 			= theKnots;
+	curveData.curveAttributeSet = Q3AttributeSet_New();
+	
+	if (curveData.curveAttributeSet != NULL)
+		Q3AttributeSet_Add(curveData.curveAttributeSet, kQ3AttributeTypeDiffuseColor, &theColour);
+
+
+
+	// Create the geometry
+	theCurve = Q3NURBCurve_New(&curveData);
+
+
+
+	// Clean up
+	if (curveData.curveAttributeSet != NULL)
+		Q3Object_Dispose(curveData.curveAttributeSet);
+
+	return(theCurve);
+}
+
+
+
+
+
+//=============================================================================
+//      createGeomNURBPatch : Create a NURB patch object.
+//-----------------------------------------------------------------------------
+static TQ3GeometryObject
+createGeomNURBPatch(void)
+{	TQ3RationalPoint4D		thePoints[12] = { { -1.5f, -1.0f,  0.0f, 1.0f },
+											  { -0.5f, -1.0f,  2.0f, 1.0f },
+											  {  0.5f, -1.0f,  0.0f, 1.0f },
+											  {  1.5f, -1.0f,  0.0f, 1.0f },
+
+											  { -1.5f, -0.0f,  0.0f, 1.0f },
+											  { -0.5f, -0.0f,  2.0f, 1.0f },
+											  {  0.5f, -0.0f, -2.0f, 1.0f },
+											  {  1.5f, -0.0f, -2.0f, 1.0f },
+
+											  { -1.5f,  1.0f,  0.0f, 1.0f },
+											  { -0.5f,  1.0f,  0.0f, 1.0f },
+											  {  0.5f,  1.0f,  0.0f, 1.0f },
+											  {  1.5f,  1.0f,  0.0f, 1.0f } };
+
+	float					vKnots[6] = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f };
+	float					uKnots[8] = { 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+
+	TQ3RationalPoint3D		trimPointsZero[5] = { { 0.1f, 0.1f, 1.0f },
+												  { 0.9f, 0.1f, 1.0f },
+												  { 0.4f, 0.4f, 1.0f },
+												  { 0.1f, 0.4f, 1.0f },
+												  { 0.1f, 0.1f, 1.0f } };
+	TQ3RationalPoint3D		trimPointsOne[5] =  { { 0.3f, 0.6f, 1.0f },
+												  { 0.9f, 0.6f, 1.0f },
+												  { 0.4f, 0.9f, 1.0f },
+												  { 0.2f, 0.9f, 1.0f },
+												  { 0.3f, 0.6f, 1.0f } };
+
+	float					trimKnotsZero[9] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.5f,
+												 1.0f, 1.0f, 1.0f, 1.0f };
+	float					trimKnotsOne[9]  = { 0.0f, 0.0f, 0.0f, 0.0f, 0.5f,
+												 1.0f, 1.0f, 1.0f, 1.0f };
+
+	TQ3ColorRGB							theColour = { 0.9f, 0.2f, 0.9f };
+	TQ3NURBPatchTrimCurveData			trimCurveZero, trimCurveOne;
+	TQ3NURBPatchTrimLoopData			trimLoops[2];
+	TQ3NURBPatchData					patchData;
+	TQ3GeometryObject					thePatch;
+
+
+
+	// Set up the data
+	trimLoops[0].numTrimCurves 	= 1;
+	trimLoops[0].trimCurves		= &trimCurveZero;	
+	trimLoops[1].numTrimCurves 	= 1;
+	trimLoops[1].trimCurves		= &trimCurveOne;	
+
+	trimCurveZero.order			= 4;
+	trimCurveZero.numPoints		= 5;
+	trimCurveZero.knots			= trimKnotsZero;
+	trimCurveZero.controlPoints = trimPointsZero;
+
+	trimCurveOne.order		   = 4;
+	trimCurveOne.numPoints	   = 5;
+	trimCurveOne.knots		   = trimKnotsOne;
+	trimCurveOne.controlPoints = trimPointsOne;
+							
+	patchData.uOrder		= 4;
+	patchData.vOrder		= 3;
+	patchData.numColumns	= 4;
+	patchData.numRows		= 3;
+	patchData.uKnots		= uKnots;
+	patchData.vKnots		= vKnots;
+	patchData.controlPoints = thePoints;
+	patchData.numTrimLoops	= 0;
+	patchData.trimLoops 	= NULL;
+
+	patchData.patchAttributeSet = Q3AttributeSet_New();
+	if (patchData.patchAttributeSet != NULL)
+		Q3AttributeSet_Add(patchData.patchAttributeSet, kQ3AttributeTypeDiffuseColor, &theColour);
+
+
+
+	// Create the geometry
+	thePatch = Q3NURBPatch_New(&patchData);
+
+
+
+	// Clean up
+	Q3Object_Dispose(patchData.patchAttributeSet);
+
+	return(thePatch);
+}
+
+
+
+
+
+//=============================================================================
 //      createGeomPixmapMarker : Create a Pixmap marker object.
 //-----------------------------------------------------------------------------
 static TQ3GeometryObject
@@ -982,51 +1200,7 @@ createGeomPolyhedron(void)
 }
 
 
-//=============================================================================
-//      createGeomPolyLine : Create a NURBCurve object.
-//-----------------------------------------------------------------------------
-static TQ3GeometryObject
-createGeomNURBCurve(void)
-{
-	TQ3GeometryObject		 curveObject;
-	TQ3NURBCurveData		 curveData;
-	const TQ3RationalPoint4D controlPoints[4] = {
-													{ -140, 0, 0, 1  },
-													{ -101.9986, 116.1863, 0, 1 },
-													{ -46.78129, 130.7575, 0, 1  },
-													{ -20, 0, 0, 1  },
-													{ 47.35859, 76.22787, 0, 1},
-													{ 61.63103, 10.05559, 0, 1 ,
-											 
-												};
-	
-	const float knots[8] = { 0, 0, 0, 0, 1, 1, 1, 1 };
-	
-	const TQ3ColorRGB color = {0.0f,1.0f,1.0f};
-		
-	// Initialize the data structure.
-	curveData.order = 4;
-	curveData.numPoints = 8;
-	curveData.controlPoints = controlPoints;
-	curveData.knots = knots;
-	curveData.curveAttributeSet = Q3AttributeSet_New();
 
-	if (curveData.curveAttributeSet != NULL)
-	{
-			Q3AttributeSet_Add(curveData.curveAttributeSet,
-								kQ3AttributeTypeDiffuseColor,
-								&color);
-	}
-	
-	curveObject = Q3NURBCurve_New(&curveData);	
-	
-	{
-		if (curveData.curveAttributeSet != NULL)
-			Q3Object_Dispose(curveData.curveAttributeSet);
-	}
-
-	return curveObject;
-}
 
 
 //=============================================================================
@@ -1533,6 +1707,18 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			theGeom = createGeomMarker();
 			break;
 
+		case kMenuItemGeometryMesh:
+			theGeom = createGeomMesh();
+			break;
+
+		case kMenuItemGeometryNURBCurve:
+			theGeom = createGeomNURBCurve();
+			break;
+
+		case kMenuItemGeometryNURBPatch:
+			theGeom = createGeomNURBPatch();
+			break;
+
 		case kMenuItemGeometryPixmapMarker:
 			theGeom = createGeomPixmapMarker();
 			break;
@@ -1540,17 +1726,17 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemGeometryPoint:
 			theGeom = createGeomPoint();
 			break;
-		
+
+		case kMenuItemGeometryPolyLine:
+			theGeom = createGeomPolyLine();
+			break;
+
 		case kMenuItemGeometryPolygon:
 			theGeom = createGeomPolygon();
 			break;
 		
 		case kMenuItemGeometryPolyhedron:
 			theGeom = createGeomPolyhedron();
-			break;
-		
-		case kMenuItemGeometryPolyLine:
-			theGeom = createGeomPolyLine();
 			break;
 		
 		case kMenuItemQuesaLogo:
@@ -1572,9 +1758,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemGeometryTriMesh:
 			theGeom = createGeomTriMesh();
 			break;
-		case kMenuItemGeometryNURBCurve:
-			theGeom = createGeomNURBCurve();
-			break;
+
 		default:
 			break;
 		}
@@ -1703,17 +1887,19 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "General Polygon");
 	Qut_CreateMenuItem(kMenuItemLast, "Line");
 	Qut_CreateMenuItem(kMenuItemLast, "Marker");
+	Qut_CreateMenuItem(kMenuItemLast, "Mesh");
+	Qut_CreateMenuItem(kMenuItemLast, "NURB Curve");
+	Qut_CreateMenuItem(kMenuItemLast, "NURB Patch");
 	Qut_CreateMenuItem(kMenuItemLast, "Pixmap Marker");
 	Qut_CreateMenuItem(kMenuItemLast, "Point");
+	Qut_CreateMenuItem(kMenuItemLast, "PolyLine");
 	Qut_CreateMenuItem(kMenuItemLast, "Polygon");
 	Qut_CreateMenuItem(kMenuItemLast, "Polyhedron");
-	Qut_CreateMenuItem(kMenuItemLast, "PolyLine");
 	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
 	Qut_CreateMenuItem(kMenuItemLast, "Torus");
 	Qut_CreateMenuItem(kMenuItemLast, "Triangle");
 	Qut_CreateMenuItem(kMenuItemLast, "TriGrid");
 	Qut_CreateMenuItem(kMenuItemLast, "TriMesh");
-	Qut_CreateMenuItem(kMenuItemLast, "NurbCurve");
 }
 
 
