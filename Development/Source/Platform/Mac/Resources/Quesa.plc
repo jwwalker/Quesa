@@ -1,0 +1,17 @@
+#define		PLIST_COMPILER		1
+
+#include "E3Version.h"
+
+plist
+{
+	dictionary
+	{
+		key "CFBundleIdentifier" value string "org.Quesa.Quesa"
+		key "CFBundleName" value string __OUTPUT_FILENAME__
+		key "CFBundlePackageType" value string __OUTPUT_TYPE__
+		key "CFBundleSignature" value string __OUTPUT_CREATOR__
+		key "CFBundleVersion" value string kQ3StringVersion
+		key "CFBundleDevelopmentRegion" value string "English"
+		key "CFBundleInfoDictionaryVersion" value string "6.0"
+	}
+}
