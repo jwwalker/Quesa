@@ -1,15 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
 <!--=========================================================================-->
 <!-- Page Header                                                             -->
 <!--=========================================================================-->
 <html>
 <head>
 	<title>Quesa - Todo</title>
+	<link rel="stylesheet" type="text/css" href="../site-styles.css">
 </head>
 <body bgcolor=white text=black background="../images/logo_gray.gif">
 
-<p align=center>
-<a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width=311 height=105 border=0></a>
-</p>
+<div class="sflogo">
+<a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=45158&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
+</div>
+
+<div class="qlogo">
+<a href="../index.html">
+<img src="../images/logo_text.jpg" alt="Quesa" width="311" height="105" border="0"></a>
+</div>
 
 
 
@@ -18,37 +26,41 @@
 <!--=========================================================================-->
 <table border=0>
 <tr>
-<td valign=top width=90 bgcolor="#EEEEEE">
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Info</font></td></tr></table><br>
+<td class="navbar">
+	<table class="navtable" cellspacing="0">
+	
+	<tr><td class="navhead">Info</td></tr>
+	<tr><td class="navlinks">
 	<a href="../info/status.html">Status</a><br>
-	<a href="../info/screenshots.html">Screenshots</a><br>
+	<a href="../info/screenshots.html">Screenshots</a>
 	<a href="../info/download.html">Download</a><br>
 	<a href="../info/list.html">Mailing List</a><br>
 	<a href="../info/list_archive.html">List Archive</a><br>
-	<a href="http://www.quesa.org/quesa_forum.html">Quesa Forum</a><br>
+	</td></tr>
 
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Developer</font></td></tr></table><br>
+	<tr><td class="navhead">Developer</td></tr>
+	<tr><td class="navlinks">
 	<a href="../developer/todo.html">Todo</a><br>
 	<a href="../developer/bugs.html">Bug List</a><br>
 	<a href="../developer/cvs.html">CVS Server</a><br>
-	<a href="../developer/apiref/MasterTOC.html">API Reference</a><br>
-
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Reference</font></td></tr></table><br>
+	<a href="../developer/apiref/MasterTOC.html">API Reference</a>
+	</td></tr>
+	
+	<tr><td class="navhead">Reference</td></tr>
+	<tr><td class="navlinks">
 	<a href="../reference/docs.html">Documentation</a><br>
 	<a href="../reference/build.html">Building Quesa</a><br>
-	<a href="../reference/licence.html">License</a><br>
+	<a href="../reference/licence.html">License</a>
+	</td></tr>
 
-	<br>
-	<table border=0 bgcolor="#404090" width="100%">
-	<tr><td><font color=white size="+1">Other</font></td></tr></table><br>
+	<tr><td class="navhead">Other</td></tr>
+	<tr><td class="navlinks">
 	<a href="../other/contributors.html">Contributors</a><br>
 	<a href="../other/logo.html">Quesa Logo</a><br>
-	<a href="../other/links.html">Links</a><br>
+	<a href="../other/links.html">Links</a>
+	</td></tr>
+
+	</table>
 </td>
 <!--=========================================================================-->
 <td width=10>&nbsp;</td>
@@ -71,14 +83,14 @@ Our high priority items are:
 </p>
 
 <ul>
-	<li>More testing.
-	<li>More documentation (e.g., finishing adding HeaderDoc markup for the API reference).
-	<li>Qut, make all example apps cross platform.
-	<li>Qut, implement select picture/metafile for Unix/Windows.
-	<li>Qut, implement texture importers for Unix/Windows.
-	<li>Qut, implement mouse events for Unix.
-	<li>Viewer, unify QD3D's two Viewer interfaces into one.
-	<li>Viewer, make portable to Windows/Unix/Be.
+	<li>More testing.</li>
+	<li>More documentation (e.g., finishing adding HeaderDoc markup for the API reference).</li>
+	<li>Qut, make all example apps cross platform.</li>
+	<li>Qut, implement select picture/metafile for Unix/Windows.</li>
+	<li>Qut, implement texture importers for Unix/Windows.</li>
+	<li>Qut, implement mouse events for Unix.</li>
+	<li>Viewer, unify QD3D's two Viewer interfaces into one.</li>
+	<li>Viewer, make portable to Windows/Unix/Be.</li>
 </ul>
 
 <p>
@@ -86,46 +98,46 @@ Our lower priority items are:
 </p>
 
 <ul>
-	<li>Be, add OpenGL support.
-	<li>E3Main.c, add callback to find out when an object is disposed of (would allow OpenGL renderer to release textures automatically rather than polling).
-	<li>E3Main.c, add control over object registration (apps should be able to only register the objects they need).
-	<li>Glue, should use the Error Manager to report errors and include additional test in debug builds.
-	<li>IRGeometry.c, if object is entirely visible within frustum then set GL frustum clip hint to turn off scissoring.
-	<li>IRUpdate.c, uncompress QuickTime textures before passing to OpenGL.
-	<li>Misc, add accessors to retrieve callbacks after setting them: e.g., error handlers or view progress.
-	<li>Misc, add attribute to indicate if geometry is closed (e.g., box or ellipsoid). Renderers can turn on backface culling for these objects if not transparent/in edge mode, even if app has turned it off.
-	<li>Misc, be able to associate behavious with objects for animation.
-	<li>Misc, make thread-safe (add mutex around glue entry points)
-	<li>Misc, should we automatically add face/vertex normals to cached form of retained mode objects to increase performance?
-	<li>Misc, some kind of Q3Perf application for performance testing (similar to GLPerf).
-	<li>Misc, when debugging put shared objects onto a freed-list to catch double-disposes.
-	<li>Quesa.h, add kQ3PixelTypeLuminance8 for grayscale textures and update OpenGL renderer to support it.
-	<li>QuesaCamera.h, add matrix camera object that allows direct specification of world->screen matrix.
-	<li>QuesaGeometry.h, add 3D extrustion object that takes a TQ3Bitmap and creates a 3D extrusion.
-	<li>QuesaGeometry.h, add 3D text object that takes string objects and creates a 3D extrusion.
-	<li>QuesaGeometry.h, add API to expose cached TriMesh form of geometries.
-	<li>QuesaGeometry.h, add Q3Geometry_AddNormalIndicators to add normal indicators (implemented, but not public yet).
-	<li>QuesaGeometry.h, document and make public plug-in geometry API.
-	<li>QuesaIO.h, more file importers (e.g., DXF or VRML).
-	<li>QuesaIO.h, move 3DMF importer/exporter into a plug-in as per renderers.
-	<li>QuesaIO.h, add Q3File_Submit that reads a file and submits it to a view (and Q3File_ReadAsGroup that reads a file into a group).
-	<li>QuesaIO.h, add method to return the HFS file types/extensions/MIME types supported for importer/exporter plug-ins.
-	<li>QuesaLight.h, allow lights to be placed in non-light groups.
-	<li>QuesaLight.h, an 'eye' light type.
-	<li>QuesaMath.h, #define to enable inline versions of simple routines.
-	<li>QuesaRenderer.h, add API to allow apps to register post and pre render callbacks to adjust API-specific functionality as objects are rendered.
-	<li>QuesaRenderer.h, additional plug-in renderers (e.g., D3D or a raytracer).
-	<li>QuesaShader.h, add Q3ColorARGB_Luminance, to take a TQ3ColorARGB.
-	<li>QuesaStyle.h, add 'cast shadow' style to complement the 'receive shadow' style.
-	<li>QuesaStyle.h, add a 'kQ3AntiAliasModeMaskPoints' style as per OpenGL.
-	<li>QuesaStyle.h, allows use of c2 in world and screen space subdivision styles.
-	<li>QuesaStyle.h, be able to set fill style independently for backfacing and frontfacing polygons.
-	<li>QuesaView.h, add Q3View_GetAllowAllGroupCulling to access group culling state.
-	<li>QuesaView.h, add Q3View_NewFromType to create a default view given a platform specific window.
-	<li>Qut, should apps limit their frame rate to 60fps when not in Show FPS mode?
-	<li>Viewer, put platform specific code in separate source files.
-	<li>Viewer, split tools up into distinct source files?
-	<li>Viewer, update about box.
+	<li>Be, add OpenGL support.</li>
+	<li>E3Main.c, add callback to find out when an object is disposed of (would allow OpenGL renderer to release textures automatically rather than polling).</li>
+	<li>E3Main.c, add control over object registration (apps should be able to only register the objects they need).</li>
+	<li>Glue, should use the Error Manager to report errors and include additional test in debug builds.</li>
+	<li>IRGeometry.c, if object is entirely visible within frustum then set GL frustum clip hint to turn off scissoring.</li>
+	<li>IRUpdate.c, uncompress QuickTime textures before passing to OpenGL.</li>
+	<li>Misc, add accessors to retrieve callbacks after setting them: e.g., error handlers or view progress.</li>
+	<li>Misc, add attribute to indicate if geometry is closed (e.g., box or ellipsoid). Renderers can turn on backface culling for these objects if not transparent/in edge mode, even if app has turned it off.</li>
+	<li>Misc, be able to associate behavious with objects for animation.</li>
+	<li>Misc, make thread-safe (add mutex around glue entry points)</li>
+	<li>Misc, should we automatically add face/vertex normals to cached form of retained mode objects to increase performance?</li>
+	<li>Misc, some kind of Q3Perf application for performance testing (similar to GLPerf).</li>
+	<li>Misc, when debugging put shared objects onto a freed-list to catch double-disposes.</li>
+	<li>Quesa.h, add kQ3PixelTypeLuminance8 for grayscale textures and update OpenGL renderer to support it.</li>
+	<li>QuesaCamera.h, add matrix camera object that allows direct specification of world-&gt;screen matrix.</li>
+	<li>QuesaGeometry.h, add 3D extrustion object that takes a TQ3Bitmap and creates a 3D extrusion.</li>
+	<li>QuesaGeometry.h, add 3D text object that takes string objects and creates a 3D extrusion.</li>
+	<li>QuesaGeometry.h, add API to expose cached TriMesh form of geometries.</li>
+	<li>QuesaGeometry.h, add Q3Geometry_AddNormalIndicators to add normal indicators (implemented, but not public yet).</li>
+	<li>QuesaGeometry.h, document and make public plug-in geometry API.</li>
+	<li>QuesaIO.h, more file importers (e.g., DXF or VRML).</li>
+	<li>QuesaIO.h, move 3DMF importer/exporter into a plug-in as per renderers.</li>
+	<li>QuesaIO.h, add Q3File_Submit that reads a file and submits it to a view (and Q3File_ReadAsGroup that reads a file into a group).</li>
+	<li>QuesaIO.h, add method to return the HFS file types/extensions/MIME types supported for importer/exporter plug-ins.</li>
+	<li>QuesaLight.h, allow lights to be placed in non-light groups.</li>
+	<li>QuesaLight.h, an 'eye' light type.</li>
+	<li>QuesaMath.h, #define to enable inline versions of simple routines.</li>
+	<li>QuesaRenderer.h, add API to allow apps to register post and pre render callbacks to adjust API-specific functionality as objects are rendered.</li>
+	<li>QuesaRenderer.h, additional plug-in renderers (e.g., D3D or a raytracer).</li>
+	<li>QuesaShader.h, add Q3ColorARGB_Luminance, to take a TQ3ColorARGB.</li>
+	<li>QuesaStyle.h, add 'cast shadow' style to complement the 'receive shadow' style.</li>
+	<li>QuesaStyle.h, add a 'kQ3AntiAliasModeMaskPoints' style as per OpenGL.</li>
+	<li>QuesaStyle.h, allows use of c2 in world and screen space subdivision styles.</li>
+	<li>QuesaStyle.h, be able to set fill style independently for backfacing and frontfacing polygons.</li>
+	<li>QuesaView.h, add Q3View_GetAllowAllGroupCulling to access group culling state.</li>
+	<li>QuesaView.h, add Q3View_NewFromType to create a default view given a platform specific window.</li>
+	<li>Qut, should apps limit their frame rate to 60fps when not in Show FPS mode?</li>
+	<li>Viewer, put platform specific code in separate source files.</li>
+	<li>Viewer, split tools up into distinct source files?</li>
+	<li>Viewer, update about box.</li>
 </ul>
 
 </td>
@@ -142,15 +154,10 @@ Our lower priority items are:
 <br>
 <br>
 <hr width="90%">
-<table border=0 align=center>
-<tr>
-<td colspan=2 align=center>
-<font size="-1">
-Quesa Web Site hosted by <a href="http://www.DesignCommunity.com/home.html">DesignCommunity.com</a>
-</font>
-</td>
-</tr>
-</table>
+
+<div class="footer">
+Quesa Web Site hosted by <a href="http://sourceforge.net">SourceForge</a>
+</div>
 
 </body>
 </html>
