@@ -126,7 +126,7 @@ e3texture_pixmap_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 	
 		
 	//duplicate the texture storage
-	E3Shared_Acquire(&toInstanceData->image, fromInstanceData->image);
+	toInstanceData->image = Q3Object_Duplicate( fromInstanceData->image );
 
 	return(qd3dStatus) ;
 }
@@ -289,7 +289,7 @@ e3texture_mipmap_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 
 
 	//set the texture storage
-	E3Shared_Acquire(&toInstanceData->image, fromInstanceData->image);
+	toInstanceData->image = Q3Object_Duplicate( fromInstanceData->image );
 
 	return(kQ3Success) ;
 }
