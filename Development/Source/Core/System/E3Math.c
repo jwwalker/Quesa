@@ -3832,7 +3832,8 @@ E3Quaternion_GetAxisAndAngle(const TQ3Quaternion *q, TQ3Vector3D *outAxis, float
 		// |w| != 1, so we have a non-null rotation.
 		// w is the cosine of the half-angle.
 		float coshalf = q->w;
-		float angle = 2.0f * (float)acos(coshalf);
+		if (outAngle)
+			*outAngle = 2.0f * (float)acos(coshalf);
 		if (outAxis)
 			{
 			float sinhalf = sqrt( 1.0f - coshalf * coshalf );
