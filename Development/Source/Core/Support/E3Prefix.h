@@ -109,12 +109,6 @@
 #endif
 
 
-// Should we overwrite the QD3D renderers?
-#ifndef QUESA_REPLACE_QD3D_RENDERERS
-	#define QUESA_REPLACE_QD3D_RENDERERS						1
-#endif
-
-
 
 
 #endif

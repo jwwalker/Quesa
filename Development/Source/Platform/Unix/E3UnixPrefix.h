@@ -42,9 +42,8 @@
 //=============================================================================
 //      Build constants
 //-----------------------------------------------------------------------------
+// Build constants go here
 
-// We don't support Apple's QD3D renderers under Unix
-#define QUESA_REPLACE_QD3D_RENDERERS			1
 
 
 

@@ -58,7 +58,6 @@
 //      Build constants
 //-----------------------------------------------------------------------------
 #define QUESA_USES_MOREFILES							0
-#define QUESA_REPLACE_QD3D_RENDERERS					0
 
 
 #endif
