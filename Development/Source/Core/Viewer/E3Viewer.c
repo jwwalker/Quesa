@@ -101,7 +101,7 @@ typedef struct TQ3ViewerParams {
 
 #define kMaxRenderers		20
 
-#define kQ3ViewerDefaultZ	7.0f
+#define kQ3ViewerDefaultZ	2.0f
 
 #define kCameraMenuID		8042L
 #define kOptionsMenuID		8043L
@@ -706,11 +706,6 @@ static TQ3Status e3viewer_readFile(TQ3ViewerObject theViewer, TQ3StorageObject s
 
 					Q3Object_Dispose (object);
 					}
-				else // no object
-					{
-					status = kQ3Failure;
-					break;
-					}
 				}
 		bail:
 			Q3File_Close (theFile);
@@ -822,7 +817,7 @@ static TQ3Status e3viewer_askBackgroundColor(TQ3ColorARGB *inOutColor)
 //-----------------------------------------------------------------------------
 static void e3viewer_applyCameraPreset(TQ3ViewerObject theViewer, TQ3Uns32 thePreset)
 {	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
-	TQ3CameraPlacement	placement;
+	TQ3CameraData		cameraData;
 	TQ3CameraObject		camera = NULL;
 
 	// reset the model translation to center
@@ -830,19 +825,18 @@ static void e3viewer_applyCameraPreset(TQ3ViewerObject theViewer, TQ3Uns32 thePr
 
 	// get the camera (which we usually need to move)
 	Q3View_GetCamera(instanceData->mView, &camera);
-	Q3Camera_GetPlacement(camera, &placement);
-	placement.cameraLocation.z = kQ3ViewerDefaultZ;
-
+	Q3Camera_GetData(camera, &cameraData);
+	cameraData.placement.cameraLocation.z = kQ3ViewerDefaultZ;
+	cameraData.range.hither = kQ3ViewerDefaultZ - .6f;
+	cameraData.range.yon = kQ3ViewerDefaultZ + .6f;
+	
 	// now, do preset-specific stuff
 	switch (thePreset)
 		{
 		case kCameraHome:
 		case kCameraFrontView:
-			Q3Quaternion_SetIdentity(&instanceData->mOrientation);
-			break;
-			
 		case kCameraFitToView:
-			// ???
+			Q3Quaternion_SetIdentity(&instanceData->mOrientation);
 			break;
 		
 		case kCameraLeftView:
@@ -877,7 +871,7 @@ static void e3viewer_applyCameraPreset(TQ3ViewerObject theViewer, TQ3Uns32 thePr
 		}
 
 	// update the camera placement
-	Q3Camera_SetPlacement(camera, &placement);	
+	Q3Camera_SetData(camera, &cameraData);	
 	Q3Object_Dispose(camera);
 
 	// redraw
@@ -1269,14 +1263,14 @@ static void e3viewer_applyTruck(TQ3ViewerObject theViewer,
 			TQ3Int32 oldY, TQ3Int32 newY)
 {
 	TQ3ViewerData		*instanceData = (TQ3ViewerData *) theViewer->instanceData;
-	TQ3CameraPlacement	placement;
+	TQ3CameraData		cameraData;
 	TQ3CameraObject		camera = NULL;
 	float				zoom;
 		
 	if (oldY == newY) return;
 
 	Q3View_GetCamera(instanceData->mView, &camera);
-	Q3Camera_GetPlacement(camera, &placement);
+	Q3Camera_GetData(camera, &cameraData);
 
 	// Adjust the distance from the origin by this formula:
 	// For every 500 pixels up, double the distance from the origin.
@@ -1287,11 +1281,16 @@ static void e3viewer_applyTruck(TQ3ViewerObject theViewer,
 	else
 		zoom = 1.0f + (oldY-newY)*0.004f;
 
-	placement.cameraLocation.z *= zoom;
-	if (placement.cameraLocation.z < 0.1f)
-		placement.cameraLocation.z = 0.1f;
+	cameraData.placement.cameraLocation.z *= zoom;
+	if (cameraData.placement.cameraLocation.z < 0.001f)
+		cameraData.placement.cameraLocation.z = 0.001f;
+		
+	cameraData.range.hither = cameraData.placement.cameraLocation.z - .6f;
+	if (cameraData.range.hither < 0.0005)
+		cameraData.range.hither = 0.0005;
+	cameraData.range.yon = cameraData.placement.cameraLocation.z + .6f;
 	
-	Q3Camera_SetPlacement(camera, &placement);	
+	Q3Camera_SetData(camera, &cameraData);	
 	Q3Object_Dispose(camera);
 	E3Viewer_DrawContent(theViewer);
 }
@@ -1356,25 +1355,31 @@ static void e3viewer_applyOrbit(TQ3ViewerObject theViewer, TQ3Int32 oldX,
  	good = Q3Ray3D_IntersectSphere(&ray, &ball, (TQ3Point3D*)&oldPos);
  	if (!good)
  		{
- 		length = Q3Vector3D_Length((TQ3Vector3D*)&ray.origin);
+ 		length = Q3FastVector3D_Length((TQ3Vector3D*)&ray.origin);
  		oldPos.x = ray.origin.x * length / ball.radius;
  		oldPos.y = ray.origin.y * length / ball.radius;
+ 		
  		}
+ 		
+ 	Q3FastVector3D_Normalize(&oldPos,&oldPos);
+ 		
 	e3viewer_windowToObject(theViewer, newX, newY, &ray.origin);
  	good = Q3Ray3D_IntersectSphere(&ray, &ball, (TQ3Point3D*)&newPos);
+ 	
  	if (!good)
  		{
- 		length = Q3Vector3D_Length((TQ3Vector3D*)&ray.origin);
+ 		length = Q3FastVector3D_Length((TQ3Vector3D*)&ray.origin);
  		newPos.x = ray.origin.x * length / ball.radius;
  		newPos.y = ray.origin.y * length / ball.radius;
  		}
-	
+	Q3FastVector3D_Normalize(&newPos,&newPos);
+
 	// Now, construct a quaternion that rotates between these two points.
 	Q3Quaternion_SetRotateVectorToVector(&q, &oldPos, &newPos);
 
 	// Then rotate the object by this amount.
 	Q3Quaternion_Multiply(&instanceData->mOrientation, &q, &instanceData->mOrientation);
-	Q3Quaternion_Normalize(&instanceData->mOrientation, &instanceData->mOrientation);
+	Q3FastQuaternion_Normalize(&instanceData->mOrientation, &instanceData->mOrientation);
 
 	// And redraw the view.
 	E3Viewer_DrawContent(theViewer);
@@ -1476,13 +1481,13 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		camData.cameraData.placement.cameraLocation.y = 0.0f;
 		camData.cameraData.placement.cameraLocation.z = kQ3ViewerDefaultZ;
 		camData.cameraData.placement.upVector.y = 1.0f;
-		camData.cameraData.range.hither = 0.05f;
-		camData.cameraData.range.yon = 10.0f;
+		camData.cameraData.range.hither = kQ3ViewerDefaultZ - .6f;
+		camData.cameraData.range.yon = kQ3ViewerDefaultZ + .6f;
 		camData.cameraData.viewPort.origin.x = -1.0f;
 		camData.cameraData.viewPort.origin.y = 1.0f;
 		camData.cameraData.viewPort.width = 2.0f;
 		camData.cameraData.viewPort.height = 2.0f;	
-		camData.fov = 40.0f * 0.0174532925f;		// (convert degrees to radians)
+		camData.fov = 35.0f * 0.0174532925f;		// (convert degrees to radians)
 		camData.aspectRatioXToY = 
 				(contextData.drawContextData.pane.max.x - contextData.drawContextData.pane.min.x)
 			  / (contextData.drawContextData.pane.max.y - contextData.drawContextData.pane.min.y);
@@ -1550,6 +1555,8 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
 	TQ3BoundingBox	bbox;
 	float			xBounds, yBounds, zBounds, scaleFactor;
 	
+	scaleFactor = 1.0f;
+	
 	// get the geometry group
 	group = E3Viewer_GetGroup(theViewer);
 
@@ -1572,23 +1579,19 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
 		instanceData->mTranslateToOrigin.y = (bbox.min.y - bbox.max.y) / 2.0;
 		instanceData->mTranslateToOrigin.z = (bbox.min.z - bbox.max.z) / 2.0;
 		
-		scaleFactor = (xBounds > yBounds)     ? xBounds : yBounds;
-		scaleFactor = (zBounds > scaleFactor) ? zBounds : scaleFactor;
-		scaleFactor = 1.0f / (scaleFactor * 0.7f);
+		scaleFactor = .5f / (instanceData->mRadius); // make a 1.0 diameter model
 
-		if (xBounds <= 0.0003f && yBounds <= 0.0003f && zBounds <= 0.0003f)
-			scaleFactor = 1.0f;
 
 		instanceData->mTranslateToOrigin.x = -(bbox.min.x + (xBounds * 0.5f));
 		instanceData->mTranslateToOrigin.y = -(bbox.min.y + (yBounds * 0.5f));
 		instanceData->mTranslateToOrigin.z = -(bbox.min.z + (zBounds * 0.5f));
 
-		instanceData->mObjectScale.x = scaleFactor;
-		instanceData->mObjectScale.y = scaleFactor;
-		instanceData->mObjectScale.z = scaleFactor;
-	
 		instanceData->mRadius *= scaleFactor;
 		}
+	
+	instanceData->mObjectScale.x = 
+	instanceData->mObjectScale.y = 
+	instanceData->mObjectScale.z = scaleFactor;
 	
 	Q3Object_Dispose(group);
 	Q3Object_CleanDispose(&instanceData->mDataStorage);
@@ -1615,6 +1618,11 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	instanceData->mWindow = params->mWindow;
 	instanceData->mArea = *params->mArea;
 	Q3Quaternion_SetIdentity(&instanceData->mOrientation);
+	
+	instanceData->mObjectScale.x = 
+	instanceData->mObjectScale.y = 
+	instanceData->mObjectScale.z = 1.0f;
+
 	
 	if (kQ3ViewerFlagDefault & params->mFlags)
 		instanceData->mFlags = kQ3ViewerFlagInternalDefault;
@@ -2102,7 +2110,7 @@ E3Viewer_Draw(TQ3ViewerObject theViewer)
 		e3viewer_drawDragFrame(instanceData, &rect);
 		}
 
-	if (kQ3Success == status)
+	if (kQ3Success == status && (instanceData->mFlags & kQ3ViewerFlagShowControlStrip))
 		status = E3Viewer_DrawControlStrip(theViewer);
 		
 	return(status);
@@ -2195,6 +2203,8 @@ E3Viewer_DrawControlStrip(TQ3ViewerObject theViewer)
 	TQ3Status			status;
 	TQ3Area				rect;
 	TQ3Boolean			buttonDown;
+	
+	if ((instanceData->mFlags & kQ3ViewerFlagShowControlStrip) == 0) return kQ3Failure;
 	
 	rect = instanceData->mArea;
 	rect.min.y = rect.max.y - e3viewer_buttonHeight(instanceData);
@@ -2481,7 +2491,7 @@ E3Viewer_GetFlags(TQ3ViewerObject theViewer)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Viewer_SetFlags(TQ3ViewerObject theViewer, TQ3Uns32 theFlags)
-{	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) theViewer;
+{	TQ3ViewerData			*instanceData  = (TQ3ViewerData *) theViewer->instanceData;
 	TQ3Uns32 oldFlags;
 
 	CheckViewerFailure (theViewer);
