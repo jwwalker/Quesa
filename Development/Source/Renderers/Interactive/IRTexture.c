@@ -208,7 +208,7 @@ ir_texture_convert_pixmap(TQ3TextureObject theTexture)
 
 
 	// Get the image data for the pixmap in a form that OpenGL can accept
-	basePtr = IRRenderer_Texture_ConvertImage(thePixmap.image,    thePixmap.pixelType,
+	basePtr = IRRenderer_Texture_ConvertImage(thePixmap.image, 0,  thePixmap.pixelType,
 											  thePixmap.width,    thePixmap.height,
 											  thePixmap.rowBytes, thePixmap.byteOrder,
 											  &theWidth,          &theHeight,
@@ -247,13 +247,11 @@ ir_texture_convert_pixmap(TQ3TextureObject theTexture)
 static TQ3Status
 ir_texture_convert_mipmap(TQ3TextureObject theTexture)
 {	TQ3Uns32				theWidth, theHeight, rowBytes;
-	TQ3Uns32				skipPixels, skipRows;
 	TQ3Uns32				n, numImages;
 	GLint					glPixelType;
 	TQ3Status				qd3dStatus;
 	TQ3Mipmap				theMipmap;
 	TQ3Uns8					*basePtr;
-
 
 
 	// Validate our parameters
@@ -268,47 +266,41 @@ ir_texture_convert_mipmap(TQ3TextureObject theTexture)
 
 
 
-	// Work out how many images are contained in the mipmap
+	// Work out how many images are contained in the mipmap.
 	if (theMipmap.useMipmapping)
-		{
-		numImages = 0;
-		n         = E3Num_Min(theMipmap.mipmaps[0].width, theMipmap.mipmaps[1].height);
+	{
+		numImages = 1;
+		n         = E3Num_Max(theMipmap.mipmaps[0].width, theMipmap.mipmaps[0].height);
 		while (n > 1)
-			{
+		{
 			n         /= 2;
 			numImages += 1;
-			}
 		}
+	}
 	else
 		numImages = 1;
 
 
+	glPixelStorei(GL_PACK_SKIP_ROWS,   0);
+	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
 
-	// Get the image data for the mipmap in a form that OpenGL can accept
-	basePtr = IRRenderer_Texture_ConvertImage(theMipmap.image, theMipmap.pixelType,
-											  theMipmap.mipmaps[0].width,
-											  theMipmap.mipmaps[0].height,
-											  theMipmap.mipmaps[0].rowBytes,
+
+	for (n = 0; n < numImages; ++n)
+	{
+		// Get the image data for the mipmap in a form that OpenGL can accept
+		basePtr = IRRenderer_Texture_ConvertImage(theMipmap.image,
+												theMipmap.mipmaps[n].offset,
+												theMipmap.pixelType,
+											  theMipmap.mipmaps[n].width,
+											  theMipmap.mipmaps[n].height,
+											  theMipmap.mipmaps[n].rowBytes,
 											  theMipmap.byteOrder,
 											  &theWidth, &theHeight,
 											  &rowBytes, &glPixelType);
-
-
-
-	// Pass the mipmap images to OpenGL
-	if (basePtr != NULL)
+		
+		if (basePtr != NULL)
 		{
-		skipPixels    = 0;
-		skipRows      = 0;
-
-		for (n = 0; n < numImages; n++)
-			{
-			// Locate the image within the mipmap
-			glPixelStorei(GL_PACK_ROW_LENGTH,  theWidth);
-			glPixelStorei(GL_PACK_SKIP_ROWS,   skipPixels);
-			glPixelStorei(GL_PACK_SKIP_PIXELS, skipRows);
-
-
+			glPixelStorei(GL_PACK_ROW_LENGTH,  rowBytes);
 
 			// Pass this image to OpenGL
 			glTexImage2D(GL_TEXTURE_2D, n,						// Mip map level
@@ -316,26 +308,20 @@ ir_texture_convert_mipmap(TQ3TextureObject theTexture)
 							theWidth, theHeight, 0,				// Size of texture and border
 							GL_RGBA, GL_UNSIGNED_BYTE,			// Format of input texture
 							basePtr);							// Input texture
-
-
-			// Adjust our offsets for the next image
-			skipPixels +=  theMipmap.mipmaps[n].width;
-			skipRows   += (theMipmap.mipmaps[n].height / 2);
-			}
+			
+			Q3Memory_Free(&basePtr);
 		}
+	}
 
 
 
 	// Reset OpenGL parameters to defaults
 	glPixelStorei(GL_PACK_ROW_LENGTH,  0);
-	glPixelStorei(GL_PACK_SKIP_ROWS,   0);
-	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
 
 
 
 	// Clean up and return
 	Q3Object_CleanDispose(&theMipmap.image);
-	Q3Memory_Free(&basePtr);
 	
 	return(kQ3Success);
 }
@@ -1595,6 +1581,7 @@ IRRenderer_Texture_ConvertSize(TQ3Uns32			srcWidth,
 //-----------------------------------------------------------------------------
 TQ3Uns8 *
 IRRenderer_Texture_ConvertImage(TQ3StorageObject	theStorage,
+								TQ3Uns32			storageOffset,
 								TQ3PixelType		srcPixelType,
 								TQ3Uns32			srcWidth,
 								TQ3Uns32			srcHeight,
@@ -1639,7 +1626,8 @@ IRRenderer_Texture_ConvertImage(TQ3StorageObject	theStorage,
 
 	// Copy the texture to a temporary copy of the correct depth and orientation
 	depthBasePtr = IRRenderer_Texture_ConvertDepthAndFlip(srcWidth,       srcHeight,
-															srcRowBytes,  qd3dBasePtr,
+															srcRowBytes,
+															qd3dBasePtr + storageOffset,
 															srcPixelType, srcByteOrder,
 															kQ3True,      glPixelType);
 
