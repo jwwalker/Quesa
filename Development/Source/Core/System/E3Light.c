@@ -404,6 +404,15 @@ E3Light_SetBrightness(TQ3LightObject light, float brightness)
 
 
 
+	// Clamp the brightness if it's more than 1.0
+	if (brightness > 1.0f)
+		{
+		E3ErrorManager_PostNotice(kQ3NoticeBrightnessGreaterThanOne);
+		brightness = 1.0f;
+		}
+
+
+
 	// Set the field
 	instanceData->brightness = brightness;
 	Q3Shared_Edited(light);
