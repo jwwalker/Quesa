@@ -65,16 +65,25 @@
 const TQ3Uns32 kSetTableSize									= 6;
 
 
-#define e3attribute_type_to_mask(theType) (((theType  > kQ3AttributeTypeNone ) && (theType < kQ3AttributeTypeNumTypes))? \
-								(1 << (theType - 1)):kQ3XAttributeMaskCustomAttribute)
+
+
+
+//=============================================================================
+//      Internal macros
+//-----------------------------------------------------------------------------
+#define e3attribute_type_to_mask(theType)												\
+			((theType > kQ3AttributeTypeNone && theType < kQ3AttributeTypeNumTypes) ?	\
+				(1 << (theType - 1)) : kQ3XAttributeMaskCustomAttribute)
+
+
+
 
 
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-// Set instance data
+// Set attribute data
 typedef struct TQ3SetAttributes {
-	
 	TQ3Vector3D			normal;
 	TQ3Switch			highlightState;
 	TQ3Tangent2D		surfaceTangent;
@@ -88,19 +97,17 @@ typedef struct TQ3SetAttributes {
 	TQ3ColorRGB			trasparencyColor;
 } TQ3SetAttributes;
 
-typedef struct TQ3SetData {
-	
-	TQ3SetAttributes	attributes;
-	
-	E3HashTablePtr		theTable;			// Elements in set, keyed by type
 
+// Set instance data
+typedef struct TQ3SetData {
+	TQ3SetAttributes	attributes;			// Data for built-in attributes
+	E3HashTablePtr		theTable;			// Elements in set, keyed by type
 	TQ3Uns32			scanEditIndex;		// Set edit index while scanning
 	TQ3Uns32			scanCount;			// Size of scanResults
 	TQ3Uns32			scanIndex;			// Current index into scanResults
 	TQ3ElementType		*scanResults;		// Scan results
 	TQ3XAttributeMask	theMask;			// Attribute mask
 } TQ3SetData;
-
 
 
 // Set iterator
@@ -351,7 +358,8 @@ e3set_iterator_submit(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3Elemen
 
 
 	// Get our param info
-	theView      = (TQ3ViewObject *) userData;
+	theView = (TQ3ViewObject *) userData;
+
 
 
 	// Submit the element
@@ -1510,7 +1518,7 @@ E3Set_UnregisterClass(void)
 TQ3ElementObject
 E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *dataSize, void **data)
 {	TQ3SetData			*instanceData;
-	TQ3ElementObject	theElement = NULL;
+	TQ3ElementObject	theElement;
 	E3ClassInfoPtr		theClass;
 
 
@@ -1523,8 +1531,9 @@ E3Set_AccessElementData(TQ3SetObject theSet, TQ3ElementType theType, TQ3Uns32 *d
 
 
 	// Set up some return values
-	*dataSize = 0;
-	*data     = NULL;
+	*dataSize  = 0;
+	*data      = NULL;
+	theElement = NULL;
 
 
 
@@ -2382,25 +2391,6 @@ E3Attribute_AttributeToClassType(TQ3AttributeType theType)
 
 
 //=============================================================================
-//      E3AttributeSet_AccessMask : Access the mask of an attribute set.
-//-----------------------------------------------------------------------------
-TQ3XAttributeMask
-E3AttributeSet_AccessMask(TQ3AttributeSet attributeSet)
-{	TQ3SetData *instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(attributeSet, kQ3SharedTypeSet);
-	if (instanceData == NULL)
-		return(0);
-
-
-
-	// Return the mask
-	return(instanceData->theMask);
-}
-
-
-
-
-
-//=============================================================================
 //      E3Attribute_Submit : Submit an attribute to the view.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -2432,10 +2422,6 @@ E3AttributeSet_New(void)
 	theObject = E3ClassTree_CreateInstance(kQ3SetTypeAttribute, kQ3False, NULL);
 	return(theObject);
 }
-
-
-
-
 
 
 
@@ -2658,4 +2644,49 @@ E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 
 	return((TQ3XObjectClass) theClass);
 }
+
+
+
+
+
+//=============================================================================
+//      E3XAttributeSet_GetPointer : Get a pointer to an attribute's data.
+//-----------------------------------------------------------------------------
+void *
+E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType)
+{	TQ3ElementObject	theElement;
+	TQ3Uns32			dataSize;
+	void				*theData;
+
+
+
+	// Get the size and pointer for the data for the attribute
+	theElement = E3Set_AccessElementData(attributeSet, attributeType, &dataSize, &theData);
+
+
+
+	// Return the data for the attribute
+	return(theData);
+}
+
+
+
+
+
+//=============================================================================
+//      E3XAttributeSet_GetMask : Get the mask of attributes in a set.
+//-----------------------------------------------------------------------------
+TQ3XAttributeMask
+E3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
+{	TQ3SetData *instanceData = (TQ3SetData *) E3ClassTree_FindInstanceData(attributeSet, kQ3SharedTypeSet);
+
+
+
+	// Return the mask
+	if (instanceData == NULL)
+		return(kQ3XAttributeMaskNone);
+
+	return(instanceData->theMask);
+}
+
 

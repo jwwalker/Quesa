@@ -1865,31 +1865,3 @@ E3XView_EndFrame(TQ3ViewObject theView)
 	return(kQ3Success);
 }
 
-
-
-
-
-//=============================================================================
-//      E3XAttributeSet_GetPointer : Get a pointer to an attribute's data.
-//-----------------------------------------------------------------------------
-void *
-E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType)
-{	TQ3ElementObject	theElement;
-	TQ3Uns32			dataSize;
-	void				*theData;
-
-
-
-	// Get the size and pointer for the data for the attribute
-	theElement    = E3Set_AccessElementData(attributeSet, attributeType, &dataSize, &theData);
-
-
-
-	// Return the data for the attribute
-	return(theData);
-}
-
-
-
-
-
