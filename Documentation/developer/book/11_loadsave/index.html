@@ -17,12 +17,45 @@
 <!--=========================================================================-->
 <h2>Loading and Saving</h2>
 <ol>
-	<li>QuesaIO.h</li>
-	<li>QuesaStorage.h</li>
+	<li><a href="../../apiref/QuesaIO/index.html">QuesaIO.h</a></li>
+	<li><a href="../../apiref/QuesaStorage/index.html">QuesaStorage.h</a></li>
 </ol>
 
+<p>
+Quesa provides support for reading and writing arbitrary hierarchies of Quesa objects to and from files or memory buffers.
 
+<p>
+To read objects from a buffer or file, first create a TQ3FileObject that represents the input stream.  Then, call Q3File_OpenRead to open the file for reading.  While Q3File_IsEndOfFile is not true, call Q3File_ReadObject to read each object from the stream.  What you do with the TQ3Object returned is up to you; but a typical application is to store this in a display group, so that the entire file contents can be treated elsewhere as a single object.
 
+<p>
+The C++ sample code below illustrates reading the contents of a memory buffer into a TQ3DisplayGroup.
+
+<hr><h4>Example: Loading a model from a memory buffer</h4>
+<pre>
+	// Create a place to store the geometry.
+	TQ3GeometryObject geom = Q3DisplayGroup_New();
+
+	// create a File object
+	TQ3FileObject fileObj = Q3File_New();
+
+	// create a Storage object, and associate it with the File
+	TQ3StorageObject storageObj = Q3MemoryStorage_NewBuffer(buffer, bytes, bytes);
+
+	Q3File_SetStorage(fileObj, storageObj);
+	Q3Object_Dispose(storageObj);
+
+	// open the file, read the model
+	TQ3FileMode fileMode = 0;
+	Q3File_OpenRead(fileObj, &fileMode);
+
+	while (not Q3File_IsEndOfFile(fileObj)) {
+		TQ3Object tempObj = Q3File_ReadObject(fileObj);
+		if (tempObj) {
+			Q3Group_AddObject(geom, tempObj);
+			Q3Object_Dispose(tempObj);
+		}
+	}
+</pre><hr>
 
 
 <!--=========================================================================-->
