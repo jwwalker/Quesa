@@ -24,6 +24,39 @@
 
 
 
+<h3>TriMesh</h3>
+<h4>Summary</h4>
+<p>
+The TriMesh is the core vertex-based geometry in Quesa, and is designed for optimal
+rendering performance at the cost of flexibility.
+</p>
+
+
+<h4>Notes</h4>
+<p>
+Unlike QD3D, Quesa's TriMesh object will automatically normalize any triangle and vertex
+attributes assigned to the triangles or vertices in the TriMesh. Applications which submit
+immediate mode TriMesh data structures should ensure that these normals are also normalized,
+as renderers expect all TriMesh normals to be pre-normalized.
+</p>
+
+
+
+
+
+<h3>Performance Tips</h3>
+<h4>Notes</h4>
+<p>
+For objects which are not transparent, backface culling may be turned on to remove those
+polygons which will not be visible in the final scene. To perform backface culling, renderers
+require a normal for each polygon. To reduce the overhead of calculating these normals, you
+should supply triangle normals for all polygonal geometry if you intend to use backface culling.
+</p>
+
+
+
+
+
 <!--=========================================================================-->
 <!-- Page Footer                                                             -->
 <!--=========================================================================-->
