@@ -7,11 +7,89 @@
 # of the routine.
 #
 # Routines should only be added to this file after they have been
-# fully tested and verified to be complete implementations.
+# fully tested and verified to be complete implementations. All the
+# routines which need to be added are already in this file, although
+# the remaining routines are prefixed with '#' to prevent them being
+# included in the totals.
 #
 # This file is not part of the user-visible docs, but is parsed by
 # various script files to generate reports.
 #
+# QD3DGeometry.h				Q3Mesh_DelayUpdates
+# QD3DGeometry.h				Q3Mesh_FirstComponentEdge
+# QD3DGeometry.h				Q3Mesh_FirstComponentVertex
+# QD3DGeometry.h				Q3Mesh_FirstContourEdge
+# QD3DGeometry.h				Q3Mesh_FirstContourFace
+# QD3DGeometry.h				Q3Mesh_FirstFaceEdge
+# QD3DGeometry.h				Q3Mesh_FirstFaceFace
+# QD3DGeometry.h				Q3Mesh_FirstMeshComponent
+# QD3DGeometry.h				Q3Mesh_FirstMeshEdge
+# QD3DGeometry.h				Q3Mesh_FirstVertexEdge
+# QD3DGeometry.h				Q3Mesh_FirstVertexVertex
+# QD3DGeometry.h				Q3Mesh_GetComponentBoundingBox
+# QD3DGeometry.h				Q3Mesh_GetComponentNumEdges
+# QD3DGeometry.h				Q3Mesh_GetComponentNumVertices
+# QD3DGeometry.h				Q3Mesh_GetComponentOrientable
+# QD3DGeometry.h				Q3Mesh_GetEdgeAttributeSet
+# QD3DGeometry.h				Q3Mesh_GetEdgeComponent
+# QD3DGeometry.h				Q3Mesh_GetEdgeFaces
+# QD3DGeometry.h				Q3Mesh_GetEdgeOnBoundary
+# QD3DGeometry.h				Q3Mesh_GetEdgeVertices
+# QD3DGeometry.h				Q3Mesh_GetFaceComponent
+# QD3DGeometry.h				Q3Mesh_GetFacePlaneEquation
+# QD3DGeometry.h				Q3Mesh_GetNumComponents
+# QD3DGeometry.h				Q3Mesh_GetNumEdges
+# QD3DGeometry.h				Q3Mesh_GetOrientable
+# QD3DGeometry.h				Q3Mesh_GetVertexComponent
+# QD3DGeometry.h				Q3Mesh_GetVertexOnBoundary
+# QD3DGeometry.h				Q3Mesh_NextComponentEdge
+# QD3DGeometry.h				Q3Mesh_NextComponentVertex
+# QD3DGeometry.h				Q3Mesh_NextContourEdge
+# QD3DGeometry.h				Q3Mesh_NextContourFace
+# QD3DGeometry.h				Q3Mesh_NextFaceEdge
+# QD3DGeometry.h				Q3Mesh_NextFaceFace
+# QD3DGeometry.h				Q3Mesh_NextMeshComponent
+# QD3DGeometry.h				Q3Mesh_NextMeshEdge
+# QD3DGeometry.h				Q3Mesh_NextVertexEdge
+# QD3DGeometry.h				Q3Mesh_NextVertexVertex
+# QD3DGeometry.h				Q3Mesh_ResumeUpdates
+# QD3DGeometry.h				Q3Mesh_SetEdgeAttributeSet
+# QD3DIO.h					Q3Comment_Write
+# QD3DIO.h					Q3File_GetExternalReferences
+# QD3DIO.h					Q3File_MarkAsExternalReference
+# QD3DIO.h					Q3NewLine_Write
+# QD3DIO.h					Q3Shared_ClearEditTracking
+# QD3DIO.h					Q3Shared_GetEditTrackingState
+# QD3DIO.h					Q3ViewHints_GetAttributeSet
+# QD3DIO.h					Q3ViewHints_GetCamera
+# QD3DIO.h					Q3ViewHints_GetClearImageColor
+# QD3DIO.h					Q3ViewHints_GetClearImageMethod
+# QD3DIO.h					Q3ViewHints_GetDimensions
+# QD3DIO.h					Q3ViewHints_GetDimensionsState
+# QD3DIO.h					Q3ViewHints_GetLightGroup
+# QD3DIO.h					Q3ViewHints_GetMask
+# QD3DIO.h					Q3ViewHints_GetMaskState
+# QD3DIO.h					Q3ViewHints_GetRenderer
+# QD3DIO.h					Q3ViewHints_New
+# QD3DIO.h					Q3ViewHints_SetAttributeSet
+# QD3DIO.h					Q3ViewHints_SetCamera
+# QD3DIO.h					Q3ViewHints_SetClearImageColor
+# QD3DIO.h					Q3ViewHints_SetClearImageMethod
+# QD3DIO.h					Q3ViewHints_SetDimensions
+# QD3DIO.h					Q3ViewHints_SetDimensionsState
+# QD3DIO.h					Q3ViewHints_SetLightGroup
+# QD3DIO.h					Q3ViewHints_SetMask
+# QD3DIO.h					Q3ViewHints_SetMaskState
+# QD3DIO.h					Q3ViewHints_SetRenderer
+# QD3DWinViewer.h				Q3WinViewerAdjustCursor
+# QD3DWinViewer.h				Q3WinViewerContinueTracking
+# QD3DWinViewer.h				Q3WinViewerCopy
+# QD3DWinViewer.h				Q3WinViewerDrawControlStrip
+# QD3DWinViewer.h				Q3WinViewerGetBitmap
+# QD3DWinViewer.h				Q3WinViewerGetControlStrip
+# QD3DWinViewer.h				Q3WinViewerPaste
+# QD3DWinViewer.h				Q3WinViewerSetCameraNumber
+# QD3DWinViewer.h				Q3WinViewerSetCameraView
 QD3D.h						Q3Bitmap_Empty
 QD3D.h						Q3Bitmap_GetImageSize
 QD3D.h						Q3Exit
@@ -180,14 +258,12 @@ QD3DGeometry.h				Q3Box_GetMinorAxis
 QD3DGeometry.h				Q3Box_GetOrientation
 QD3DGeometry.h				Q3Box_GetOrigin
 QD3DGeometry.h				Q3Box_New
-QD3DGeometry.h				Q3Box_New
 QD3DGeometry.h				Q3Box_SetData
 QD3DGeometry.h				Q3Box_SetFaceAttributeSet
 QD3DGeometry.h				Q3Box_SetMajorAxis
 QD3DGeometry.h				Q3Box_SetMinorAxis
 QD3DGeometry.h				Q3Box_SetOrientation
 QD3DGeometry.h				Q3Box_SetOrigin
-QD3DGeometry.h				Q3Box_Submit
 QD3DGeometry.h				Q3Box_Submit
 QD3DGeometry.h				Q3Cone_EmptyData
 QD3DGeometry.h				Q3Cone_GetBottomAttributeSet
@@ -208,7 +284,6 @@ QD3DGeometry.h				Q3Cone_SetMinorRadius
 QD3DGeometry.h				Q3Cone_SetOrientation
 QD3DGeometry.h				Q3Cone_SetOrigin
 QD3DGeometry.h				Q3Cone_Submit
-QD3DGeometry.h				Q3Cone_Submit
 QD3DGeometry.h				Q3Cylinder_EmptyData
 QD3DGeometry.h				Q3Cylinder_GetBottomAttributeSet
 QD3DGeometry.h				Q3Cylinder_GetCaps
@@ -220,7 +295,6 @@ QD3DGeometry.h				Q3Cylinder_GetOrientation
 QD3DGeometry.h				Q3Cylinder_GetOrigin
 QD3DGeometry.h				Q3Cylinder_GetTopAttributeSet
 QD3DGeometry.h				Q3Cylinder_New
-QD3DGeometry.h				Q3Cylinder_New
 QD3DGeometry.h				Q3Cylinder_SetBottomAttributeSet
 QD3DGeometry.h				Q3Cylinder_SetCaps
 QD3DGeometry.h				Q3Cylinder_SetData
@@ -230,7 +304,6 @@ QD3DGeometry.h				Q3Cylinder_SetMinorRadius
 QD3DGeometry.h				Q3Cylinder_SetOrientation
 QD3DGeometry.h				Q3Cylinder_SetOrigin
 QD3DGeometry.h				Q3Cylinder_SetTopAttributeSet
-QD3DGeometry.h				Q3Cylinder_Submit
 QD3DGeometry.h				Q3Cylinder_Submit
 QD3DGeometry.h				Q3Disk_EmptyData
 QD3DGeometry.h				Q3Disk_GetData
@@ -273,12 +346,10 @@ QD3DGeometry.h				Q3GeneralPolygon_GetShapeHint
 QD3DGeometry.h				Q3GeneralPolygon_GetVertexAttributeSet
 QD3DGeometry.h				Q3GeneralPolygon_GetVertexPosition
 QD3DGeometry.h				Q3GeneralPolygon_New
-QD3DGeometry.h				Q3GeneralPolygon_New
 QD3DGeometry.h				Q3GeneralPolygon_SetData
 QD3DGeometry.h				Q3GeneralPolygon_SetShapeHint
 QD3DGeometry.h				Q3GeneralPolygon_SetVertexAttributeSet
 QD3DGeometry.h				Q3GeneralPolygon_SetVertexPosition
-QD3DGeometry.h				Q3GeneralPolygon_Submit
 QD3DGeometry.h				Q3GeneralPolygon_Submit
 QD3DGeometry.h				Q3Geometry_GetAttributeSet
 QD3DGeometry.h				Q3Geometry_GetType
@@ -318,6 +389,7 @@ QD3DGeometry.h				Q3Mesh_GetNumVertices
 QD3DGeometry.h				Q3Mesh_GetVertexAttributeSet
 QD3DGeometry.h				Q3Mesh_GetVertexCoordinates
 QD3DGeometry.h				Q3Mesh_GetVertexIndex
+QD3DGeometry.h				Q3Mesh_New
 QD3DGeometry.h				Q3Mesh_NextContourVertex
 QD3DGeometry.h				Q3Mesh_NextFaceContour
 QD3DGeometry.h				Q3Mesh_NextFaceVertex
@@ -377,13 +449,11 @@ QD3DGeometry.h				Q3Polyhedron_GetTriangleData
 QD3DGeometry.h				Q3Polyhedron_GetVertexAttributeSet
 QD3DGeometry.h				Q3Polyhedron_GetVertexPosition
 QD3DGeometry.h				Q3Polyhedron_New
-QD3DGeometry.h				Q3Polyhedron_New
 QD3DGeometry.h				Q3Polyhedron_SetData
 QD3DGeometry.h				Q3Polyhedron_SetEdgeData
 QD3DGeometry.h				Q3Polyhedron_SetTriangleData
 QD3DGeometry.h				Q3Polyhedron_SetVertexAttributeSet
 QD3DGeometry.h				Q3Polyhedron_SetVertexPosition
-QD3DGeometry.h				Q3Polyhedron_Submit
 QD3DGeometry.h				Q3Polyhedron_Submit
 QD3DGeometry.h				Q3Torus_EmptyData
 QD3DGeometry.h				Q3Torus_GetData
@@ -393,14 +463,12 @@ QD3DGeometry.h				Q3Torus_GetOrientation
 QD3DGeometry.h				Q3Torus_GetOrigin
 QD3DGeometry.h				Q3Torus_GetRatio
 QD3DGeometry.h				Q3Torus_New
-QD3DGeometry.h				Q3Torus_New
 QD3DGeometry.h				Q3Torus_SetData
 QD3DGeometry.h				Q3Torus_SetMajorRadius
 QD3DGeometry.h				Q3Torus_SetMinorRadius
 QD3DGeometry.h				Q3Torus_SetOrientation
 QD3DGeometry.h				Q3Torus_SetOrigin
 QD3DGeometry.h				Q3Torus_SetRatio
-QD3DGeometry.h				Q3Torus_Submit
 QD3DGeometry.h				Q3Torus_Submit
 QD3DGeometry.h				Q3TriGrid_EmptyData
 QD3DGeometry.h				Q3TriGrid_GetData
@@ -498,6 +566,7 @@ QD3DGroup.h                 Q3LightGroup_New
 QD3DGroup.h                 Q3OrderedDisplayGroup_New
 QD3DIO.h					Q3File_Cancel
 QD3DIO.h					Q3File_Close
+QD3DIO.h					Q3File_GetFileFormat
 QD3DIO.h					Q3File_GetMode
 QD3DIO.h					Q3File_GetNextObjectType
 QD3DIO.h					Q3File_GetReadInGroup
@@ -517,6 +586,7 @@ QD3DIO.h					Q3File_SetReadInGroup
 QD3DIO.h					Q3File_SetStorage
 QD3DIO.h					Q3File_SkipObject
 QD3DIO.h					Q3Float32_Read
+QD3DIO.h					Q3Float32_ReadArray
 QD3DIO.h					Q3Float32_Write
 QD3DIO.h					Q3Float64_Read
 QD3DIO.h					Q3Float64_Write
@@ -542,7 +612,9 @@ QD3DIO.h					Q3RawData_Read
 QD3DIO.h					Q3RawData_Write
 QD3DIO.h					Q3Size_Pad
 QD3DIO.h					Q3String_Read
+QD3DIO.h					Q3String_ReadUnlimited
 QD3DIO.h					Q3String_Write
+QD3DIO.h					Q3String_WriteUnlimited
 QD3DIO.h					Q3Tangent2D_Read
 QD3DIO.h					Q3Tangent2D_Write
 QD3DIO.h					Q3Tangent3D_Read
@@ -557,13 +629,15 @@ QD3DIO.h					Q3Unknown_GetDirtyState
 QD3DIO.h					Q3Unknown_GetType
 QD3DIO.h					Q3Unknown_SetDirtyState
 QD3DIO.h					Q3Uns16_Read
+QD3DIO.h					Q3Uns16_ReadArray
 QD3DIO.h					Q3Uns16_Write
 QD3DIO.h					Q3Uns32_Read
+QD3DIO.h					Q3Uns32_ReadArray
 QD3DIO.h					Q3Uns32_Write
 QD3DIO.h					Q3Uns64_Read
 QD3DIO.h					Q3Uns64_Write
-QD3DIO.h					Q3Uns64_Write
 QD3DIO.h					Q3Uns8_Read
+QD3DIO.h					Q3Uns8_ReadArray
 QD3DIO.h					Q3Uns8_Write
 QD3DIO.h					Q3Vector2D_Read
 QD3DIO.h					Q3Vector2D_Write
@@ -571,6 +645,8 @@ QD3DIO.h					Q3Vector3D_Read
 QD3DIO.h					Q3Vector3D_Write
 QD3DIO.h					Q3View_EndWriting
 QD3DIO.h					Q3View_StartWriting
+QD3DIO.h					Q3XView_SubmitSubObjectData
+QD3DIO.h					Q3XView_SubmitWriteData
 QD3DLight.h					Q3AmbientLight_GetData
 QD3DLight.h					Q3AmbientLight_New
 QD3DLight.h					Q3AmbientLight_SetData
@@ -1124,15 +1200,20 @@ QD3DViewer.h				Q3ViewerUseGroup
 QD3DViewer.h				Q3ViewerWriteData
 QD3DViewer.h				Q3ViewerWriteFile
 QD3DWinViewer.h				Q3WinViewerClear
+QD3DWinViewer.h				Q3WinViewerContinueTracking
+QD3DWinViewer.h				Q3WinViewerCopy
 QD3DWinViewer.h				Q3WinViewerCursorChanged
 QD3DWinViewer.h				Q3WinViewerCut
 QD3DWinViewer.h				Q3WinViewerDispose
 QD3DWinViewer.h				Q3WinViewerDraw
 QD3DWinViewer.h				Q3WinViewerDrawContent
+QD3DWinViewer.h				Q3WinViewerDrawControlStrip
 QD3DWinViewer.h				Q3WinViewerGetBackgroundColor
+QD3DWinViewer.h				Q3WinViewerGetBitmap
 QD3DWinViewer.h				Q3WinViewerGetBounds
 QD3DWinViewer.h				Q3WinViewerGetButtonRect
 QD3DWinViewer.h				Q3WinViewerGetCameraCount
+QD3DWinViewer.h				Q3WinViewerGetControlStrip
 QD3DWinViewer.h				Q3WinViewerGetCurrentButton
 QD3DWinViewer.h				Q3WinViewerGetDimension
 QD3DWinViewer.h				Q3WinViewerGetFlags
@@ -1143,9 +1224,12 @@ QD3DWinViewer.h				Q3WinViewerGetState
 QD3DWinViewer.h				Q3WinViewerGetUndoString
 QD3DWinViewer.h				Q3WinViewerGetVersion
 QD3DWinViewer.h				Q3WinViewerGetView
+QD3DWinViewer.h				Q3WinViewerGetViewer
+QD3DWinViewer.h				Q3WinViewerGetWindow
 QD3DWinViewer.h				Q3WinViewerMouseDown
 QD3DWinViewer.h				Q3WinViewerMouseUp
 QD3DWinViewer.h				Q3WinViewerNew
+QD3DWinViewer.h				Q3WinViewerPaste
 QD3DWinViewer.h				Q3WinViewerRestoreView
 QD3DWinViewer.h				Q3WinViewerSetBackgroundColor
 QD3DWinViewer.h				Q3WinViewerSetBounds
