@@ -129,56 +129,6 @@ typedef enum TQ3CSGEquation {
 } TQ3CSGEquation;
 
 
-/*!
- *  @enum
- *      TQ3XAttributeMask
- *  @discussion
- *      Attribute mask flags.
- *
- *  @constant kQ3XAttributeMaskNone                 No attributes.
- *  @constant kQ3XAttributeMaskSurfaceUV            Surface UV attribute mask.
- *  @constant kQ3XAttributeMaskShadingUV            Shading UV attribute mask.
- *  @constant kQ3XAttributeMaskNormal               Normal attribute mask.
- *  @constant kQ3XAttributeMaskAmbientCoefficient   Ambient coefficent attribute mask.
- *  @constant kQ3XAttributeMaskDiffuseColor         Diffuse color attribute mask.
- *  @constant kQ3XAttributeMaskSpecularColor        Specular color attribute mask.
- *  @constant kQ3XAttributeMaskSpecularControl      Specular control attribute mask.
- *  @constant kQ3XAttributeMaskTransparencyColor    Transparency color attribute mask.
- *  @constant kQ3XAttributeMaskSurfaceTangent       Surface tangent attribute mask.
- *  @constant kQ3XAttributeMaskHighlightState       Highlight state attribute mask.
- *  @constant kQ3XAttributeMaskSurfaceShader        Surface shader attribute mask.
- *  @constant kQ3XAttributeMaskCustomAttribute      Custom attribute mask.
- *  @constant kQ3XAttributeMaskAll                  All attributes.
- *  @constant kQ3XAttributeMaskInherited            Inherited attributes mask.
- *  @constant kQ3XAttributeMaskInterpolated         Interpolated attributes mask.
- */
-typedef enum TQ3XAttributeMask {
-    kQ3XAttributeMaskNone                       = 0,
-    kQ3XAttributeMaskSurfaceUV                  = (1 << (kQ3AttributeTypeSurfaceUV          - 1)),
-    kQ3XAttributeMaskShadingUV                  = (1 << (kQ3AttributeTypeShadingUV          - 1)),
-    kQ3XAttributeMaskNormal                     = (1 << (kQ3AttributeTypeNormal             - 1)),
-    kQ3XAttributeMaskAmbientCoefficient         = (1 << (kQ3AttributeTypeAmbientCoefficient - 1)),
-    kQ3XAttributeMaskDiffuseColor               = (1 << (kQ3AttributeTypeDiffuseColor       - 1)),
-    kQ3XAttributeMaskSpecularColor              = (1 << (kQ3AttributeTypeSpecularColor      - 1)),
-    kQ3XAttributeMaskSpecularControl            = (1 << (kQ3AttributeTypeSpecularControl    - 1)),
-    kQ3XAttributeMaskTransparencyColor          = (1 << (kQ3AttributeTypeTransparencyColor  - 1)),
-    kQ3XAttributeMaskSurfaceTangent             = (1 << (kQ3AttributeTypeSurfaceTangent     - 1)),
-    kQ3XAttributeMaskHighlightState             = (1 << (kQ3AttributeTypeHighlightState     - 1)),
-    kQ3XAttributeMaskSurfaceShader              = (1 << (kQ3AttributeTypeSurfaceShader      - 1)),
-    kQ3XAttributeMaskCustomAttribute            = 0x80000000,
-    kQ3XAttributeMaskAll                        = 0x800007FF,
-    kQ3XAttributeMaskInherited                  = 0x000003FF,
-    kQ3XAttributeMaskInterpolated               = kQ3XAttributeMaskSurfaceUV          |
-                                                  kQ3XAttributeMaskShadingUV          |
-                                                  kQ3XAttributeMaskNormal             |
-                                                  kQ3XAttributeMaskAmbientCoefficient |
-                                                  kQ3XAttributeMaskDiffuseColor       |
-                                                  kQ3XAttributeMaskSpecularControl    |
-                                                  kQ3XAttributeMaskTransparencyColor  |
-                                                  kQ3XAttributeMaskSurfaceTangent,
-    kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
-} TQ3XAttributeMask;
-
 
 /*!
  *  @enum
@@ -1780,47 +1730,6 @@ Q3XView_IdleProgress (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_EndFrame (
     TQ3ViewObject                 view
-);
-
-
-
-/*!
- *  @function
- *      Q3XAttributeSet_GetPointer
- *  @discussion
- *      Get a pointer to the internal data structure for an attribute.
- *
- *      For attributes of type kQ3AttributeTypeXXX, the internal attribute data
- *      is currently identical to the data structured passed to Q3AttributeSet_Add.
- *
- *      This function should only be called from renderer plug-ins.
- *
- *  @param attributeSet     The attribute set to query.
- *  @param attributeType    The attribute type to locate.
- *  @result                 A pointer to the internal attribute data if present, or NULL.
- */
-Q3_EXTERN_API_C ( void * )
-Q3XAttributeSet_GetPointer (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              attributeType
-);
-
-
-
-/*!
- *  @function
- *      Q3XAttributeSet_GetMask
- *  @discussion
- *      Get a mask of the attributes contained in an attribute set.
- *
- *      This function should only be called from renderer plug-ins.
- *
- *  @param attributeSet     The attribute set to query.
- *  @result                 A mask indicating the attributes present in attributeSet.
- */
-Q3_EXTERN_API_C ( TQ3XAttributeMask  )
-Q3XAttributeSet_GetMask (
-    TQ3AttributeSet               attributeSet
 );
 
 
