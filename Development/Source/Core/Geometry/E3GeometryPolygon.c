@@ -211,9 +211,12 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		{
 		theEdges[n].pointIndices[0]    = n;
 		theEdges[n].pointIndices[1]    = (n == (numEdges-1)) ? 0 : (n + 1);
-		theEdges[n].triangleIndices[0] = kQ3ArrayIndexNULL;
+		theEdges[n].triangleIndices[0] = n - 1;
 		theEdges[n].triangleIndices[1] = kQ3ArrayIndexNULL;
 		}
+	
+	theEdges[0].triangleIndices[0] = 0;
+	theEdges[numEdges - 1].triangleIndices[0] = numEdges - 3;
 		
 	for (n = 0; n < numTriangles; n++)
 		{
