@@ -40,26 +40,64 @@
 #include <stdlib.h>
 
 
-#define	SORT_EXPERIMENT	0
+
+
+
+//=============================================================================
+//      Internal constants
+//-----------------------------------------------------------------------------
+const float kQ3LargeZero											= -1.0e-5;
+
+
 
 
 
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+//      ir_geom_transparent_calc_plane : Calculate the plane equation.
+//-----------------------------------------------------------------------------
+static void
+ir_geom_transparent_calc_plane(TQ3TransparentPrim *thePrim)
+{	TQ3Vector3D		cameraSideVec, cameraToTri;
+
+
+
+	// Calculate the plane equation for the triangle
+	Q3Point3D_Subtract(&thePrim->theVertices[0].thePoint, &thePrim->cameraWorld, &cameraToTri);
+	Q3Point3D_CrossProductTri(&thePrim->theVertices[0].thePoint,
+							  &thePrim->theVertices[1].thePoint,
+							  &thePrim->theVertices[2].thePoint,
+							  &cameraSideVec);
+
+	if (Q3Vector3D_Dot(&cameraToTri, &cameraSideVec) > 0.0f)
+		Q3Vector3D_Negate(&cameraSideVec, &cameraSideVec);
+
+	thePrim->cameraSide    = cameraSideVec;
+	thePrim->planeIsValid  = kQ3True;
+	thePrim->planeConstant = Q3Vector3D_Dot(&cameraSideVec, (TQ3Vector3D *) &thePrim->theVertices[0].thePoint);
+
+}
+
+
+
+
+
+//=============================================================================
 //      ir_geom_transparent_sort : Sort callback for cached prims.
 //-----------------------------------------------------------------------------
 static int
 ir_geom_transparent_sort(const void *item1, const void *item2)
-{	const TQ3TransparentPrim	*prim1, *prim2;
-	float						mid1, mid2;
-	int							sortResult;
+{	float					mid1, mid2, testVal, minVal;
+	TQ3TransparentPrim		*prim1, *prim2;
+	int						sortResult;
+	TQ3Uns32				i;
 
 
 
-	// Grab our primitives
-	prim1 = (const TQ3TransparentPrim *) item1;
-	prim2 = (const TQ3TransparentPrim *) item2;
+	// Grab our parameters
+	prim1 = (TQ3TransparentPrim *) item1;
+	prim2 = (TQ3TransparentPrim *) item2;
 
 
 
@@ -68,37 +106,49 @@ ir_geom_transparent_sort(const void *item1, const void *item2)
 		sortResult = -1;
 
 
+
 	// Primitive 1 is further away than primitive 2
 	else if (prim1->zMin > prim2->zMax)
 		sortResult = 1;
 
 
-#if SORT_EXPERIMENT
+
+	// Primitives overlap - triangles
+	//
+	// Comparing extents in z is not sufficient for triangles, as they may overlap in depth
+	// but still have a determinate order relative to the camera (e.g., two triangles ABC
+	// and ABD where C is closer to the camera in z yet D is in front).
+	//
+	// To get a better result for such triangles, we try using the triangle plane equation
+	// to determine if the second triangle is on the same side of the plane as the camera.
 	else if (prim1->numVerts == 3)
 		{
-		float	testVal, minVal = kQ3MaxFloat;
-		int		i;
-		
+		// Calculate the plane equation of prim1
+		if (!prim1->planeIsValid)
+			ir_geom_transparent_calc_plane(prim1);
+
+
+		// Push in the vertices of prim2
+		minVal = kQ3MaxFloat;
 		for (i = 0; i < prim2->numVerts; ++i)
 			{
-			testVal = prim1->cameraSide.x * prim2->theVertices[i].thePoint.x +
-				prim1->cameraSide.y * prim2->theVertices[i].thePoint.y +
-				prim1->cameraSide.z * prim2->theVertices[i].thePoint.z;
-			minVal = E3Num_Min( minVal, testVal );
+			testVal = Q3Vector3D_Dot(&prim1->cameraSide, (TQ3Vector3D *) &prim2->theVertices[i].thePoint);
+			minVal  = E3Num_Min(minVal, testVal);
 			}
-		
-		// I seem to need a somewhat bigger fudge factor than kQ3RealZero here
-		if ( (minVal - prim1->planeConstant) >= -1.0e-5 )
+
+
+		// Sort based on the side of prim1 which prim2 falls on
+		if ((minVal - prim1->planeConstant) >= kQ3LargeZero)
 			sortResult = 1;
 		else 
 			sortResult = -1;
 		}
-#endif
+	
+	
 
-	// Primitives overlap
+	// Primitives overlap - lines/points
 	else
 		{
-		
 		// Treat the closest midpoint as the frontmost primitive
 		mid1 = prim1->zMin + ((prim1->zMax - prim1->zMin) * 0.5f);
 		mid2 = prim2->zMin + ((prim2->zMax - prim2->zMin) * 0.5f);
@@ -301,18 +351,9 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	Q3View_GetWorldToFrustumMatrixState(theView, &worldToFrustum);
 
 
-	
-	// Set up the primitive state
-	thePrim->numVerts             = numVerts;
-	thePrim->theTexture           = instanceData->stateTextureObject;
-	thePrim->textureIsTransparent = instanceData->stateTextureIsTransparent;
-	thePrim->orientationStyle	  = instanceData->stateOrientation;
-	thePrim->fillStyle			  = instanceData->stateFill;
-	thePrim->backfacingStyle	  = instanceData->stateBackfacing;
-
-
 
 	// Set up the primitive vertices
+	thePrim->numVerts = numVerts;
 	Q3Memory_Copy(theVertices, thePrim->theVertices, numVerts * sizeof(TQ3FVertex3D));
 
 	theVertex = thePrim->theVertices;
@@ -342,38 +383,32 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 
 
 
-	#if SORT_EXPERIMENT
-	// Find the plane of the triangle, for an experiment in depth-sorting.	
-	if (numVerts == 3)
-		{
-		TQ3Point3D				cameraWorld;
-		TQ3Vector3D				cameraSideVec, cameraToTri;
-
-		Q3Point3D_Transform( &instanceData->stateLocalCameraPosition, &localToWorld, &cameraWorld );
-		Q3Point3D_Subtract( &thePrim->theVertices[0].thePoint, &cameraWorld, &cameraToTri );
-		Q3Point3D_CrossProductTri( &thePrim->theVertices[0].thePoint,
-			&thePrim->theVertices[1].thePoint,
-			&thePrim->theVertices[2].thePoint, &cameraSideVec );
-		if (Q3Vector3D_Dot( &cameraToTri, &cameraSideVec ) > 0.0f)
-			{
-			Q3Vector3D_Negate( &cameraSideVec, &cameraSideVec );
-			}
-		thePrim->cameraSide = cameraSideVec;
-		thePrim->planeConstant = cameraSideVec.x * thePrim->theVertices[0].thePoint.x +
-			cameraSideVec.y * thePrim->theVertices[0].thePoint.y +
-			cameraSideVec.z * thePrim->theVertices[0].thePoint.z;
-		}
-	#endif
-
-
-
-	// Set up the primitive bounds in z
+	// Set up the primitive sorting
+	//
+	// Triangles may require the plane equation for sorting if they overlap in z, however we
+	// defer calculating this until we know we need it for - for now we just save the camera
+	// position in world coordinates and flag the rest of the plane state as invalid.
 	z1 =                   (-frustumPoints[0].z);
 	z2 = (numVerts >= 2) ? (-frustumPoints[1].z) : z1;
 	z3 = (numVerts >= 3) ? (-frustumPoints[2].z) : z1;
 
 	thePrim->zMin = E3Num_Min(z1, E3Num_Min(z2, z3));
 	thePrim->zMax = E3Num_Max(z1, E3Num_Max(z2, z3));
+
+	if (numVerts == 3)
+		{
+		thePrim->planeIsValid  = kQ3False;
+		Q3Point3D_Transform(&instanceData->stateLocalCameraPosition, &localToWorld, &thePrim->cameraWorld);
+		}
+
+
+
+	// Set up the primitive state
+	thePrim->theTexture           = instanceData->stateTextureObject;
+	thePrim->textureIsTransparent = instanceData->stateTextureIsTransparent;
+	thePrim->orientationStyle	  = instanceData->stateOrientation;
+	thePrim->fillStyle			  = instanceData->stateFill;
+	thePrim->backfacingStyle	  = instanceData->stateBackfacing;
 	
 	return(kQ3Success);
 }
