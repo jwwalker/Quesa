@@ -119,7 +119,7 @@ e3geom_cylinder_disposedata(TQ3CylinderData *theCylinder)
 	E3Object_DisposeAndForget( theCylinder->interiorAttributeSet );
 	E3Object_DisposeAndForget( theCylinder->faceAttributeSet );
 	E3Object_DisposeAndForget( theCylinder->topAttributeSet );
-	E3Object_DisposeAndForget( theCylinder->topAttributeSet );
+	E3Object_DisposeAndForget( theCylinder->bottomAttributeSet );
 	E3Object_DisposeAndForget( theCylinder->cylinderAttributeSet );
 }	
 
