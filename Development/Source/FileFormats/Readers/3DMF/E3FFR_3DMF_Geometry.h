@@ -118,6 +118,7 @@ TQ3Object		E3Read_3DMF_Geom_Torus(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile);
 
 
 

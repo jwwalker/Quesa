@@ -906,6 +906,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriGrid,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_TriGrid);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriMesh,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_TriMesh);
 	E3ClassTree_AddMethodByType(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_Triangle);
+	E3ClassTree_AddMethodByType(kQ3GeometryTypeNURBCurve,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Geom_NURBCurve);
 
 	return(qd3dStatus);
 }

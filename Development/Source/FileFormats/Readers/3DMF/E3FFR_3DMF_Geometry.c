@@ -2618,3 +2618,98 @@ E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile)
 	
 }
 
+//=============================================================================
+//      E3Read_3DMF_Geom_NURBCurve : NURB curve read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
+{	TQ3Object			childObject;
+	TQ3NURBCurveData	geomData;
+	TQ3Object 			theObject;
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			i;
+	
+	
+	
+	theObject = NULL;
+	
+
+	// Initialise the geometry data
+	E3Memory_Clear(&geomData, sizeof(geomData));
+
+
+	// Read curve order
+	qd3dStatus = Q3Uns32_Read (&geomData.order, theFile);
+	
+	if(qd3dStatus != kQ3Success)
+		goto cleanup;
+	// Read number of points
+	qd3dStatus = Q3Uns32_Read (&geomData.numPoints, theFile);
+	
+	if(qd3dStatus != kQ3Success)
+		goto cleanup;
+	
+		
+	// Allocate memory to hold control points
+	geomData.controlPoints =
+	(TQ3RationalPoint4D *) E3Memory_AllocateClear(geomData.numPoints * sizeof(TQ3RationalPoint4D)) ;
+	
+	if(geomData.controlPoints == NULL)
+		goto cleanup;
+
+	
+	// Read in vertices
+	for(i = 0; i< geomData.numPoints; i++)
+	{
+		Q3RationalPoint4D_Read(&geomData.controlPoints[i],theFile);
+	}
+		
+	// Allocate memory to hold knots
+	geomData.knots =
+	(float *) E3Memory_AllocateClear( (geomData.numPoints+geomData.order) * sizeof( float )) ;
+	if(geomData.knots == NULL)
+		goto cleanup;
+			
+	// Read in knots
+	for(i = 0; i< (geomData.numPoints+geomData.order); i++)
+	{
+		Q3Float32_Read(&geomData.knots[i],theFile);
+	}
+
+	// Read in the attributes
+	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+		//read the Attributes
+		childObject = Q3File_ReadObject(theFile);
+		if(childObject != NULL){
+			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
+				{
+				geomData.curveAttributeSet = childObject;
+				}
+			else
+				Q3Object_Dispose(childObject);
+			}
+		}
+	
+
+	// Create the geometry
+	theObject =  Q3NURBCurve_New (&geomData);
+		
+		
+
+	
+	
+cleanup:
+	// Clean up
+	if (geomData.curveAttributeSet != NULL)
+		Q3Object_Dispose(geomData.curveAttributeSet);
+		
+	if(geomData.controlPoints != NULL)
+		E3Memory_Free(&geomData.controlPoints);
+		
+	if(geomData.knots != NULL)
+		E3Memory_Free(&geomData.knots);
+		
+	
+	return (theObject);
+}
+
