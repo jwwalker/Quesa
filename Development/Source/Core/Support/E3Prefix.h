@@ -119,6 +119,11 @@
 #endif
 
 
+// Are we being built as a static library?
+#ifndef QUESA_BUILD_AS_STATIC_LIBRARY
+	#define QUESA_BUILD_AS_STATIC_LIBRARY						0
+#endif
+
 
 
 #endif

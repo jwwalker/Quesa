@@ -51,13 +51,6 @@
 #define kAppHeapThreshold                   (50 * 1024)
 
 
-// Set this constant to 1 if you're using an older version of CodeWarrior
-//
-// The prototypes for the MSL allocators was changed in CWPro4, so we need
-// this ugly #define to be able to support older compilers.
-#define QUESA_USING_PRE_CWPRO4_MSL				0
-
-
 
 
 
@@ -74,12 +67,12 @@
 //=============================================================================
 //      __sys_alloc : Allocate a block of memory.
 //-----------------------------------------------------------------------------
+//		Note : We only want to override MSL when building as a shared library.
+//-----------------------------------------------------------------------------
+#if !QUESA_BUILD_AS_STATIC_LIBRARY
+
 void *
-#if QUESA_USING_PRE_CWPRO4_MSL
-	__sys_alloc(mem_size theSize, mem_pool_obj *)
-#else
-	__sys_alloc(__std(size_t) theSize)
-#endif
+__sys_alloc(__std(size_t) theSize)
 {   TQ3Uns32    totalMem, memAvail, requiredSize;
     Handle      theHnd;
     Ptr			thePtr;
@@ -132,6 +125,8 @@ void *
     return(thePtr);
 }
 
+#endif // QUESA_BUILD_AS_STATIC_LIBRARY
+
 
 
 
@@ -139,12 +134,12 @@ void *
 //=============================================================================
 //      __sys_free : Free a block of memory.
 //-----------------------------------------------------------------------------
+//		Note : We only want to override MSL when building as a shared library.
+//-----------------------------------------------------------------------------
+#if !QUESA_BUILD_AS_STATIC_LIBRARY
+
 void
-#if QUESA_USING_PRE_CWPRO4_MSL
-	__sys_free(void *thePtr, mem_pool_obj *)
-#else
-	__sys_free(void *thePtr)
-#endif
+__sys_free(void *thePtr)
 {   Handle      theHnd, *hndPtr;
 
 
@@ -161,6 +156,10 @@ void
     
     DisposeHandle(theHnd);
 }
+
+#endif // QUESA_BUILD_AS_STATIC_LIBRARY
+
+
 
 
 
