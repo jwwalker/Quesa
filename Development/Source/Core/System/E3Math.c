@@ -567,7 +567,7 @@ e3vector3d_below_tolerance(const TQ3Vector3D *theVector, double tol)
 	vecLen2 = E3Vector3D_LengthSquared(theVector);
 	tol2    = tol * tol;
 
-	return((TQ3Boolean) vecLen2 < tol2);
+	return (TQ3Boolean) (vecLen2 < tol2);
 }
 
 
