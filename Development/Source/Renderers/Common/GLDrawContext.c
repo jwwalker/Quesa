@@ -95,6 +95,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 	GLint					glRect[4];
 	WindowRef				theWindow;
 	TQ3Pixmap				thePixmap;
+	CGrafPtr				thePort;
 	Rect					theRect;
 
 
@@ -104,14 +105,26 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
     switch (drawContextType) {
     	// Mac Window
     	case kQ3DrawContextTypeMacintosh:
-    		// Get the window
+    		// Get the port
+    		//
+    		// If a window has been supplied we use its port, and if not we try the port field.
+    		//
+    		// A NULL WindowRef with a valid port was not accepted by QD3D, however we allow
+    		// this to support rendering to a Mac OS X QD port which was obtained from a
+    		// non-WindowRef context (e.g., from an NSWindow or a CoreGraphics context).
 			qd3dStatus = Q3MacDrawContext_GetWindow(theDrawContext, (CWindowPtr *) &theWindow);
-			if (qd3dStatus != kQ3Success || theWindow == NULL)
-				return(NULL);
+			if (qd3dStatus == kQ3Success && theWindow != NULL)
+				thePort = GetWindowPort(theWindow);
+			else
+				{
+				qd3dStatus = Q3MacDrawContext_GetGrafPort(theDrawContext, &thePort);
+				if (qd3dStatus != kQ3Success || thePort == NULL)
+					return(NULL);
+				}
 
 
 			// Grab its dimensions
-			GetPortBounds( GetWindowPort(theWindow), &theRect );
+			GetPortBounds(thePort, &theRect);
 			break;
 
 
@@ -185,7 +198,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext)
 	if (glContext != NULL)
 		{
 		if (drawContextType == kQ3DrawContextTypeMacintosh)
-			aglSetDrawable(glContext, (AGLDrawable) GetWindowPort(theWindow));
+			aglSetDrawable(glContext, (AGLDrawable) thePort);
 
 		else if (drawContextType == kQ3DrawContextTypePixmap)
 			aglSetOffScreen(glContext, thePixmap.width,    thePixmap.height,
