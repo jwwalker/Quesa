@@ -3659,7 +3659,7 @@ Q3Math_SquareRoot (
  *  @function
  *      Q3Math_InvSquareRoot
  *  @discussion
- *      Obtain a fast, but possibly inaccurate, invser square root.
+ *      Obtain a fast, but possibly inaccurate, inverse square root.
  *
  *      The available precision depends on the current architecture, but will
  *      suffice for most non-accumulating 3D operations. If a reliable degree
