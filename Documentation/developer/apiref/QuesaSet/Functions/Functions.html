@@ -1,545 +1,563 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
+<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvetica"><h1>Functions</h1></font><hr><br>
 <a name="//apple_ref/c/func/Q3AttributeSet_Add"></a>
 <h3><a name="Q3AttributeSet_Add">Q3AttributeSet_Add</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3AttributeSet_Add (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              theType,
-    const void                    *data
-);
-</tt><br>
+ TQ3AttributeSet attributeSet,
+ TQ3AttributeType theType,
+ const void *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Add an attribute to an attribute set.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Copy attribute data into an attribute set.  If the set already contains
+the specified type of attribute, it is replaced.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The attribute type.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Pointer to the attribute data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Clear"></a>
 <h3><a name="Q3AttributeSet_Clear">Q3AttributeSet_Clear</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3AttributeSet_Clear (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              theType
-);
-</tt><br>
+ TQ3AttributeSet attributeSet,
+ TQ3AttributeType theType
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
+<p>Remove an attribute from an attribute set.
+<br><br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The attribute type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Contains"></a>
 <h3><a name="Q3AttributeSet_Contains">Q3AttributeSet_Contains</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
+<blockquote><pre><tt>TQ3Boolean 
 Q3AttributeSet_Contains (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              attributeType
-);
-</tt><br>
+ TQ3AttributeSet attributeSet,
+ TQ3AttributeType attributeType
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
+<p>Determine whether an attribute set contains a specified attribute.
+<br><br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>attributeType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set.</td></tr>
+<tr valign=top><td><tt>attributeType</tt></td><td>The attribute type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> kQ3True if the attribute type exists in the set.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Empty"></a>
 <h3><a name="Q3AttributeSet_Empty">Q3AttributeSet_Empty</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3AttributeSet_Empty (
-    TQ3AttributeSet               target
-);
-</tt><br>
+ TQ3AttributeSet target
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
+<p>Remove all attributes from an attribute set.
+<br><br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>target</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>target</tt></td><td>The attribute set.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Get"></a>
 <h3><a name="Q3AttributeSet_Get">Q3AttributeSet_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3AttributeSet_Get (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              theType,
-    void                          *data
-);
-</tt><br>
+ TQ3AttributeSet attributeSet,
+ TQ3AttributeType theType,
+ void *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get attribute data from an attribute set.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Copies attribute data into a user-provided buffer which should be
+large enough for the given kind of attribute.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The attribute type.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Pointer to a buffer to receive the attribute data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_GetNextAttributeType"></a>
 <h3><a name="Q3AttributeSet_GetNextAttributeType">Q3AttributeSet_GetNextAttributeType</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3AttributeSet_GetNextAttributeType (
-    TQ3AttributeSet               source,
-    TQ3AttributeType              *theType
-);
-</tt><br>
+ TQ3AttributeSet source,
+ TQ3AttributeType *theType
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Find the next attribute type in an attribute set.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If you pass <code>kQ3AttributeTypeNone</code>, it will return the first attribute type.
+After reaching the last element type, it returns <code>kQ3AttributeTypeNone</code>.
+Hence, you could iterate through all the attribute types as follows:
+<br><br>
+<blockquote><code><pre>
+TQ3AttributeType	theType = kQ3AttributeTypeNone;
+while ( Q3AttributeSet_GetNextAttributeType( set, &theType ) &&
+&nbsp;	(theType != kQ3AttributeTypeNone) )
+{
+&nbsp;	DoSomething( theType );
+}
+</pre></code></blockquote>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>source</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>source</tt></td><td>The attribute set object.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>(input-output parameter) An element type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Inherit"></a>
 <h3><a name="Q3AttributeSet_Inherit">Q3AttributeSet_Inherit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3AttributeSet_Inherit (
-    TQ3AttributeSet               parent,
-    TQ3AttributeSet               child,
-    TQ3AttributeSet               result
-);
-</tt><br>
+ TQ3AttributeSet parent,
+ TQ3AttributeSet child,
+ TQ3AttributeSet result
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Configures an attribute set by copying all attributes from one set
+(the child) and then copying any attributes that were not in the
+child from another attribute set (the parent).
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The set you pass to receive the result must be an existing attribute set,
+but any existing attributes in it will be removed.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>parent</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>child</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>parent</tt></td><td>An attribute set.</td></tr>
+<tr valign=top><td><tt>child</tt></td><td>An attribute set.</td></tr>
+<tr valign=top><td><tt>result</tt></td><td>An attribute set to be redefined.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_New"></a>
 <h3><a name="Q3AttributeSet_New">Q3AttributeSet_New</a></h3>
-<blockquote><pre><tt>TQ3AttributeSet  
+<blockquote><pre><tt>TQ3AttributeSet 
 Q3AttributeSet_New (
-    void
-);
-</tt><br>
+ void
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
+<p>Create an attribute set object.
+<br><br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> A new empty attribute set, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3AttributeSet_Submit"></a>
 <h3><a name="Q3AttributeSet_Submit">Q3AttributeSet_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3AttributeSet_Submit (
-    TQ3AttributeSet               attributeSet,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ TQ3AttributeSet attributeSet,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Submit an attribute set.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This should only be used within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set object.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Attribute_Submit"></a>
 <h3><a name="Q3Attribute_Submit">Q3Attribute_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3Attribute_Submit (
-    TQ3AttributeType              attributeType,
-    const void                    *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+ TQ3AttributeType attributeType,
+ const void *data,
+ TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Submit an attribute in immediate mode.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This should only be used within a submitting loop.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>attributeType</tt></td><td>The attribute type.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Pointer to attribute data.</td></tr>
+<tr valign=top><td><tt>view</tt></td><td>The view object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Add"></a>
 <h3><a name="Q3Set_Add">Q3Set_Add</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3Set_Add (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                theType,
-    const void                    *data
-);
-</tt><br>
+ TQ3SetObject theSet,
+ TQ3ElementType theType,
+ const void *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Add an element to a set.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+This function copies an element into an existing set.  If the set
+already contains an element of the given type, it is replaced.
+In the case of a custom element, the type is the type that was
+returned by <code>Q3XElementClass_Register</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Type of the element.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Pointer to the element data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Clear"></a>
 <h3><a name="Q3Set_Clear">Q3Set_Clear</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3Set_Clear (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                theType
-);
-</tt><br>
+ TQ3SetObject theSet,
+ TQ3ElementType theType
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Remove an element of a given type from a set.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If the set did not contain an element of the specified type,
+the function returns kQ3Failure.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The element type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Contains"></a>
 <h3><a name="Q3Set_Contains">Q3Set_Contains</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
+<blockquote><pre><tt>TQ3Boolean 
 Q3Set_Contains (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                theType
-);
-</tt><br>
+ TQ3SetObject theSet,
+ TQ3ElementType theType
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Determine whether a set contains an element of a given type.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The element type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> kQ3True if the element exists in the set.
+ 
+<hr>
+<a name="//apple_ref/c/func/Q3Set_CopyElement"></a>
+<h3><a name="Q3Set_CopyElement">Q3Set_CopyElement</a></h3>
+<blockquote><pre><tt>TQ3Status 
+Q3Set_CopyElement(
+ TQ3SetObject sourceSet,
+ TQ3ElementType theType,
+ TQ3SetObject destSet
+);</tt><br>
+</pre></blockquote>
+<p>Copies an element from one set to another.
+<br><br>
+If the destination set already contains an element of the specified
+type, the element will be replaced.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h4>Parameters</h4>
+<blockquote>
+<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
+<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
+<tr valign=top><td><tt>sourceSet</tt></td><td>The set containing the element to be copied.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>Type of the element.</td></tr>
+<tr valign=top><td><tt>destSet</tt></td><td>Set to receive the copied element.</td></tr>
+</table>
+</blockquote>
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Empty"></a>
 <h3><a name="Q3Set_Empty">Q3Set_Empty</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3Set_Empty (
-    TQ3SetObject                  target
-);
-</tt><br>
+ TQ3SetObject target
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Remove all elements from a set.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>target</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>target</tt></td><td>The set object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_Get"></a>
 <h3><a name="Q3Set_Get">Q3Set_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3Set_Get (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                theType,
-    void                          *data
-);
-</tt><br>
+ TQ3SetObject theSet,
+ TQ3ElementType theType,
+ void *data
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+<p>Copy the data of an element into a buffer you provide.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>The element type.</td></tr>
+<tr valign=top><td><tt>data</tt></td><td>Pointer to a buffer large enough to receive the element data.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_GetNextElementType"></a>
 <h3><a name="Q3Set_GetNextElementType">Q3Set_GetNextElementType</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3Set_GetNextElementType (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                *theType
-);
-</tt><br>
+ TQ3SetObject theSet,
+ TQ3ElementType *theType
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Find the next element type in a set.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+If you pass <code>kQ3ElementTypeNone</code>, it will return the first element type.
+After reaching the last element type, it returns <code>kQ3ElementTypeNone</code>.
+Hence, you could iterate through all the element types as follows:
+<br><br>
+<blockquote><code><pre>
+TQ3ElementType	theType = kQ3ElementTypeNone;
+while ( Q3Set_GetNextElementType( set, &theType ) &&
+&nbsp;	(theType != kQ3ElementTypeNone) )
+{
+&nbsp;	DoSomething( theType );
+}
+</pre></code></blockquote>
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
+<tr valign=top><td><tt>theType</tt></td><td>(input-output parameter) An element type.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_GetType"></a>
 <h3><a name="Q3Set_GetType">Q3Set_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
+<blockquote><pre><tt>TQ3ObjectType 
 Q3Set_GetType (
-    TQ3SetObject                  theSet
-);
-</tt><br>
+ TQ3SetObject theSet
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Get the type of a set object.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Returns kQ3SetTypeAttribute or kQ3ObjectTypeInvalid.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The subtype of the set.
  
 <hr>
 <a name="//apple_ref/c/func/Q3Set_New"></a>
 <h3><a name="Q3Set_New">Q3Set_New</a></h3>
-<blockquote><pre><tt>TQ3SetObject  
+<blockquote><pre><tt>TQ3SetObject 
 Q3Set_New (
-    void
-);
-</tt><br>
+ void
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Create a new set, initially empty.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+Plain sets are less commonly used than attribute sets.
 <br><br>
 </p>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> The new set object, or NULL on failure.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XAttributeClass_Register"></a>
 <h3><a name="Q3XAttributeClass_Register">Q3XAttributeClass_Register</a></h3>
-<blockquote><pre><tt>TQ3XObjectClass  
+<blockquote><pre><tt>TQ3XObjectClass 
 Q3XAttributeClass_Register (
-    TQ3AttributeType              *attributeType,
-    const char                    *creatorName,
-    TQ3Uns32                      sizeOfElement,
-    TQ3XMetaHandler               metaHandler
-);
-</tt><br>
+ TQ3AttributeType *attributeType,
+ const char *className,
+ TQ3Uns32 sizeOfElement,
+ TQ3XMetaHandler metaHandler
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
-<br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
+<p>Register a custom attribute class.
+<br><br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>creatorName</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>sizeOfElement</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>metaHandler</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>attributeType</tt></td><td>(output) A new attribute type.</td></tr>
+<tr valign=top><td><tt>className</tt></td><td>Unique name for the new attribute.</td></tr>
+<tr valign=top><td><tt>sizeOfElement</tt></td><td>Size in bytes of the attribute data.</td></tr>
+<tr valign=top><td><tt>metaHandler</tt></td><td>Your metahandler, providing appropriate methods.
+It may return NULL in some cases.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Pointer to the new class.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XElementClass_Register"></a>
 <h3><a name="Q3XElementClass_Register">Q3XElementClass_Register</a></h3>
-<blockquote><pre><tt>TQ3XObjectClass  
+<blockquote><pre><tt>TQ3XObjectClass 
 Q3XElementClass_Register (
-    TQ3ElementType                *elementType,
-    const char                    *name,
-    TQ3Uns32                      sizeOfElement,
-    TQ3XMetaHandler               metaHandler
-);
-</tt><br>
+ TQ3ElementType *elementType,
+ const char *name,
+ TQ3Uns32 sizeOfElement,
+ TQ3XMetaHandler metaHandler
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Register a custom element class.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
+The custom class naming convention is to begin with your company name,
+then a colon, then a specific class name.
+<br><br>
+If your element's data contains indirect data, such as pointers to other
+data or references to Quesa objects, your metahandler should provide methods
+of the types <code>kQ3XMethodTypeElementCopyAdd</code>, <code>kQ3XMethodTypeElementCopyGet</code>,
+<code>kQ3XMethodTypeElementCopyDuplicate</code>, <code>kQ3XMethodTypeElementCopyReplace</code>, and
+<code>kQ3XMethodTypeElementDelete</code>.  If you want to be able to write your element
+to a file and read it back, your metahandler should define methods of the
+types <code>kQ3XMethodTypeObjectTraverse</code>, <code>kQ3XMethodTypeObjectWrite</code>, and
+<code>kQ3XMethodTypeObjectReadData</code>.
+<br><br>
+See QuesaExtension.h for other operations on a custom class, such
+as <code>Q3XObjectHierarchy_UnregisterClass</code>.
 <br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>elementType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>name</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>sizeOfElement</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>metaHandler</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>elementType</tt></td><td>(output) An element type assigned by Quesa.</td></tr>
+<tr valign=top><td><tt>name</tt></td><td>The unique name of the new class.</td></tr>
+<tr valign=top><td><tt>sizeOfElement</tt></td><td>Size of the data for the element.</td></tr>
+<tr valign=top><td><tt>metaHandler</tt></td><td>Your metahandler function that returns element methods.
+You may return NULL for some methods.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Opaque pointer to the new object class.
  
 <hr>
 <a name="//apple_ref/c/func/Q3XElementType_GetElementSize"></a>
 <h3><a name="Q3XElementType_GetElementSize">Q3XElementType_GetElementSize</a></h3>
-<blockquote><pre><tt>TQ3Status  
+<blockquote><pre><tt>TQ3Status 
 Q3XElementType_GetElementSize (
-    TQ3ElementType                elementType,
-    TQ3Uns32                      *sizeOfElement
-);
-</tt><br>
+ TQ3ElementType elementType,
+ TQ3Uns32 *sizeOfElement
+);</tt><br>
 </pre></blockquote>
-<p>One-line description of this function.
+<p>Return the size in bytes of an element type.
 <br><br>
-A more extensive description can be supplied here, covering
-the typical usage of this function and any special requirements.
-<br><br>
+In the case of a custom element, this would be the same as the size
+you provided when you called Q3XElementClass_Register.
+<br><br><br>
 </p>
 <h4>Parameters</h4>
 <blockquote>
 <table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
 <thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>elementType</tt></td><td>Description of the parameter.</td></tr>
-<tr valign=top><td><tt>sizeOfElement</tt></td><td>Description of the parameter.</td></tr>
+<tr valign=top><td><tt>elementType</tt></td><td>An element type.</td></tr>
+<tr valign=top><td><tt>sizeOfElement</tt></td><td>(output) Size in bytes of the element.</td></tr>
 </table>
 </blockquote>
-<b>Result:</b> Description of the function result.
+<b>Result:</b> Error status of the function.
  
 <hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 4/3/2002 </a></font></p>
+<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2002 Quesa Developers &#151; last updated on 6/1/2002 </a></font></p>
 </body></html>
