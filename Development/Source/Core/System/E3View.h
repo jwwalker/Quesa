@@ -40,7 +40,6 @@
 
 
 
-
 //=============================================================================
 //		C++ preamble
 //-----------------------------------------------------------------------------
@@ -97,6 +96,7 @@ TQ3Status				E3View_SubmitImmediate(TQ3ViewObject theView, TQ3ObjectType objectT
 TQ3Status				E3View_CallIdleMethod(TQ3ViewObject theView, TQ3Uns32 current, TQ3Uns32 completed);
 TQ3RendererObject		E3View_AccessRenderer(TQ3ViewObject theView);
 TQ3CameraObject			E3View_AccessCamera(TQ3ViewObject theView);
+TQ3FileFormatObject		E3View_AccessFileFormat(TQ3ViewObject theView);
 void					E3View_EndFrame(TQ3ViewObject theView);
 TQ3ViewMode				E3View_GetViewMode(TQ3ViewObject theView);
 TQ3ViewState			E3View_GetViewState(TQ3ViewObject theView);
@@ -184,6 +184,8 @@ TQ3StateOperatorObject	E3Pop_New(void);
 TQ3Status				E3StateOperator_Submit(TQ3StateOperatorObject stateOperator, TQ3ViewObject theView);
 
 
+TQ3Status				E3View_StartWriting(TQ3ViewObject view, TQ3FileObject theFile);
+TQ3ViewStatus			E3View_EndWriting(TQ3ViewObject view);
 
 
 
