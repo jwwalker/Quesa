@@ -960,6 +960,10 @@ typedef struct TQ3PolyLineData {
  *	@field		vMax					Maximum value in the v parametric direction (the short way
  *										around.)  Normally 1.
  *	@field		caps					Cap style.  Should be kQ3EndCapNone.
+ *
+ *	@field		interiorAttributeSet	Interior attribute set.  Not currently used.
+ *
+ *	@field		torusAttributeSet		Overall attribute set.
  */
 typedef struct TQ3TorusData {
     TQ3Point3D                                  origin;
@@ -1449,7 +1453,12 @@ Q3Geometry_Submit (
  *  @discussion
  *      Constructs a new Box geometry object.
  *
- *  @param boxData          Instance data passed in specifying the parameters of the new box object.
+ *		If you pass NULL, you will get a default box with orientation (1, 0, 0), major axis
+ *		(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+ *		not present in QuickDraw 3D.</em>
+ *
+ *  @param boxData          Instance data passed in specifying the parameters of the new box object,
+ *							or NULL.
  *  @result                 A reference to the new geometry object, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
@@ -1736,7 +1745,11 @@ Q3Box_SetFaceAttributeSet (
  *  @discussion
  *      Create a cone geometry object.
  *
- *  @param coneData         Pointer to data describing the cone.
+ *		If you pass NULL, you will get a default cone with orientation (1, 0, 0), major axis
+ *		(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+ *		not present in QuickDraw 3D.</em>
+ *
+ *  @param coneData         Pointer to data describing the cone, or NULL.
  *  @result                 The new cone object, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
@@ -2085,7 +2098,11 @@ Q3Cone_EmptyData (
  *  @discussion
  *      Create a new Cylinder object.
  *
- *  @param cylinderData     Data describing a cylinder.
+ *		If you pass NULL, you will get a default cylinder with orientation (1, 0, 0), major axis
+ *		(0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and no end caps.  <em>This behavior was
+ *		not present in QuickDraw 3D.</em>
+ *
+ *  @param cylinderData     Data describing a cylinder, or NULL.
  *  @result                 Reference to a new Cylinder geometry object, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
@@ -2468,7 +2485,11 @@ Q3Cylinder_EmptyData (
  *  @discussion
  *      Create a new disk object.
  *
- *  @param diskData         Data describing a disk object.
+ *		If you pass NULL instead of a data pointer, you will get a default disk, with origin
+ *		(0, 0, 0), major radius (1, 0, 0), and minor radius (0, 1, 0).  <em>This behavior was
+ *		not present in QuickDraw 3D.</em>
+ *
+ *  @param diskData         Data describing a disk object, or NULL.
  *  @result                 Reference to a new Disk geometry object, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
@@ -2667,7 +2688,11 @@ Q3Disk_EmptyData (
  *  @discussion
  *      Create a new ellipse geometry object.
  *
- *  @param ellipseData      Data describing an ellipse.
+ *		If you pass NULL, you will get a default ellipse with major axis (0, 1, 0),
+ *		minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+ *		not present in QuickDraw 3D.</em>
+ *
+ *  @param ellipseData      Data describing an ellipse, or NULL.
  *  @result                 Reference to a new Ellipse geometry object, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
@@ -2867,7 +2892,11 @@ Q3Ellipse_EmptyData (
  *  @discussion
  *      Create a new ellipsoid geometry object.
  *
- *  @param ellipsoidData    Data describing an ellipsoid.
+ *		If you pass NULL, you will get a default ellipsoid with orientation (1, 0, 0), major axis
+ *		(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
+ *		not present in QuickDraw 3D.</em>
+ *
+ *  @param ellipsoidData    Data describing an ellipsoid, or NULL.
  *  @result                 Reference to a new Ellipsoid geometry object, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
@@ -5847,7 +5876,10 @@ Q3PixmapMarker_SetPixmap (
  *  @discussion
  *      Create a new point geometry object.
  *
- *  @param pointData        Data describing a point.
+ *		If you pass NULL instead of a data pointer, you will get a point disk, at (0, 0, 0).
+ *		<em>This behavior was not present in QuickDraw 3D.</em>
+ *
+ *  @param pointData        Data describing a point, or NULL.
  *  @result                 Reference to a new Point geometry object, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
@@ -6611,7 +6643,11 @@ Q3PolyLine_SetSegmentAttributeSet (
  *  @discussion
  *      Create a new torus geometry object.
  *
- *  @param torusData        Data describing a torus.
+ *		If you pass NULL, you will get a default torus with orientation (1, 0, 0), major axis
+ *		(0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and ratio 1.  <em>This behavior was
+ *		not present in QuickDraw 3D.</em>
+ *
+ *  @param torusData        Data describing a torus, or NULL.
  *  @result                 Reference to a new Torus geometry object, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
