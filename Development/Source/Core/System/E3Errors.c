@@ -189,6 +189,7 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 	{ kQ3ErrorWritingLoopFailed,					"Quesa Error: " "Writing loop failed" },
 	{ kQ3ErrorBoundingLoopFailed,					"Quesa Error: " "Bounding loop failed" },
 	{ kQ3ErrorPlatformError,						"Quesa Error: " "Platform-specific error" },
+	{ kQ3ErrorInfiniteRationalPoint,				"Quesa Error: " "Infinite rational point" },
 	{ kQ3ErrorNone, NULL } };
 
 
