@@ -78,11 +78,11 @@ ir_geom_transparent_calc_plane(TQ3TransparentPrim *thePrim)
 	//
 	// Since transparent primitives are transformed to frustum space,
 	// the camera position is always fixed at the origin.
-	Q3Point3D_Subtract(&thePrim->theVertices[0].thePoint, &kFrustumOrigin, &cameraToTri);
+	Q3Point3D_Subtract(&thePrim->frustumSpaceVerts[0], &kFrustumOrigin, &cameraToTri);
 
-	Q3Point3D_CrossProductTri(&thePrim->theVertices[0].thePoint,
-							  &thePrim->theVertices[1].thePoint,
-							  &thePrim->theVertices[2].thePoint,
+	Q3Point3D_CrossProductTri(&thePrim->frustumSpaceVerts[0],
+							  &thePrim->frustumSpaceVerts[1],
+							  &thePrim->frustumSpaceVerts[2],
 							  &cameraSideVec);
 
 	if (Q3Vector3D_Dot(&cameraToTri, &cameraSideVec) > 0.0f)
@@ -90,7 +90,7 @@ ir_geom_transparent_calc_plane(TQ3TransparentPrim *thePrim)
 
 	thePrim->cameraSide    = cameraSideVec;
 	thePrim->planeIsValid  = kQ3True;
-	thePrim->planeConstant = Q3Vector3D_Dot(&cameraSideVec, (TQ3Vector3D *) &thePrim->theVertices[0].thePoint);
+	thePrim->planeConstant = Q3Vector3D_Dot(&cameraSideVec, (TQ3Vector3D *) &thePrim->frustumSpaceVerts[0]);
 
 }
 
@@ -158,7 +158,7 @@ ir_geom_transparent_sort(const void *item1, const void *item2)
 		minVal = kQ3MaxFloat;
 		for (i = 0; i < prim2->numVerts; ++i)
 			{
-			testVal = Q3Vector3D_Dot(&prim1->cameraSide, (TQ3Vector3D *) &prim2->theVertices[i].thePoint);
+			testVal = Q3Vector3D_Dot(&prim1->cameraSide, (TQ3Vector3D *) &prim2->frustumSpaceVerts[i]);
 			minVal  = E3Num_Min(minVal, testVal);
 			}
 
@@ -403,12 +403,13 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 							TQ3Uns32				numVerts,
 							const TQ3FVertex3D		*theVertices)
 {	TQ3Matrix4x4			localToFrustum;
-	TQ3Point3D				*thePoints[3];
-	TQ3FVertex3D			*theVertex;
+	TQ3Point3D				theCameraPoints[3];
+	const TQ3FVertex3D		*theVertex;
 	TQ3FVertexFlags			vertFlags;
 	TQ3TransparentPrim		*thePrim;
 	float					x, y, z;
 	TQ3Uns32				n;
+	TQ3Boolean				isAllowed;
 
 
 
@@ -417,6 +418,29 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 		Q3_ASSERT(theVertices[0].theFlags == theVertices[n].theFlags);
 
 	Q3_ASSERT(E3Bit_IsSet(theVertices[0].theFlags, kQ3FVertexHaveTransparency));
+
+
+
+	// Transform the vertices to camera space.
+	// If all z values are positive, reject the primitive.
+	theVertex = theVertices;
+	isAllowed = kQ3False;
+	for (n = 0; n < numVerts; n++)
+	{
+		Q3Point3D_Transform(&theVertex->thePoint, &instanceData->stateMatrixLocalToCamera,
+			&theCameraPoints[n]);
+		if ( theCameraPoints[n].z <= 0.0f )
+		{
+			isAllowed = kQ3True;
+		}
+		
+		theVertex++;
+	}
+	
+	if (isAllowed == kQ3False)
+	{
+		return kQ3Success;
+	}
 
 
 
@@ -434,27 +458,28 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 
 	// Set up the primitive vertices
 	//
-	// Points and normals are transformed to frustum space, so that we can sort and
-	// render in a fixed coordinate system rather than having to track the current
-	// camera matrix state at the time each primitive was added to the buffer.
+	// Points are transformed to frustum space, so that we can sort
+	// in a fixed coordinate system.  However we use camera coordinates for rendering.
 	thePrim->numVerts = numVerts;
 	Q3Memory_Copy(theVertices, thePrim->theVertices, numVerts * sizeof(TQ3FVertex3D));
 
-	theVertex = thePrim->theVertices;
-	vertFlags = theVertex->theFlags;
+	vertFlags = thePrim->theVertices[0].theFlags;
 	
 	for (n = 0; n < numVerts; n++)
 		{
-		thePoints[n] = &theVertex->thePoint;
-		Q3Point3D_Transform(thePoints[n], &localToFrustum, thePoints[n]);
+		Q3Point3D_Transform(&thePrim->theVertices[n].thePoint, &localToFrustum,
+			&thePrim->frustumSpaceVerts[n]);
 
+		thePrim->theVertices[n].thePoint = theCameraPoints[n];
+		
 		if (E3Bit_IsSet(vertFlags, kQ3FVertexHaveNormal))
 			{
-			Q3Vector3D_Transform(&theVertex->theNormal, &localToFrustum, &theVertex->theNormal);
-			Q3Vector3D_Normalize(&theVertex->theNormal, &theVertex->theNormal);
+			Q3Vector3D_Transform(&thePrim->theVertices[n].theNormal,
+				&instanceData->stateMatrixLocalToCamera,
+				&thePrim->theVertices[n].theNormal);
+			Q3Vector3D_Normalize(&thePrim->theVertices[n].theNormal,
+				&thePrim->theVertices[n].theNormal);
 			}
-		
-		theVertex++;
 		}
 
 
@@ -467,16 +492,16 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	// We negate the z coordinate for sorting, since it's easier to visualise if 0
 	// is the near plane and +1 the far plane (the Quesa frustum coordinate space
 	// runs from 0 at the near plane in z and -1 at the far plane in z).
-	thePrim->xMin = thePrim->xMax = -thePoints[0]->x;
-	thePrim->yMin = thePrim->yMax = -thePoints[0]->y;
-	thePrim->zMin = thePrim->zMax = -thePoints[0]->z;
+	thePrim->xMin = thePrim->xMax = -thePrim->frustumSpaceVerts[0].x;
+	thePrim->yMin = thePrim->yMax = -thePrim->frustumSpaceVerts[0].y;
+	thePrim->zMin = thePrim->zMax = -thePrim->frustumSpaceVerts[0].z;
 	thePrim->planeIsValid = kQ3False;
 
 	if (numVerts >= 2)
 		{
-		x = -thePoints[1]->x;
-		y = -thePoints[1]->y;
-		z = -thePoints[1]->z;
+		x = -thePrim->frustumSpaceVerts[1].x;
+		y = -thePrim->frustumSpaceVerts[1].y;
+		z = -thePrim->frustumSpaceVerts[1].z;
 		
 		if (x < thePrim->xMin) thePrim->xMin = x;
 		if (y < thePrim->yMin) thePrim->yMin = y;
@@ -489,9 +514,9 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	
 	if (numVerts == 3)
 		{
-		x = -thePoints[2]->x;
-		y = -thePoints[2]->y;
-		z = -thePoints[2]->z;
+		x = -thePrim->frustumSpaceVerts[2].x;
+		y = -thePrim->frustumSpaceVerts[2].y;
+		z = -thePrim->frustumSpaceVerts[2].z;
 
 		if (x < thePrim->xMin) thePrim->xMin = x;
 		if (y < thePrim->yMin) thePrim->yMin = y;
@@ -514,6 +539,7 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	thePrim->specularControl      = instanceData->stateGeomSpecularControl;
 	thePrim->illumination         = instanceData->stateViewIllumination;
 	thePrim->needsSpecular        = ir_geom_transparent_needs_specular(thePrim);
+	thePrim->cameraToFrustum	  = instanceData->stateMatrixCameraToFrustum;
 
 
 
@@ -555,6 +581,32 @@ static void ir_geom_transparent_update_specular( const TQ3TransparentPrim* inPri
 		shininess = IRRenderer_SpecularControl_to_GLshininess( specularControl );
 		glMaterialfv( GL_FRONT_AND_BACK, GL_SHININESS, &shininess );
 	}
+}
+
+
+
+
+//=============================================================================
+//      ir_geom_transparent_equal_matrix4x4 : Test 4x4 matrices for equality.
+//-----------------------------------------------------------------------------
+static TQ3Boolean ir_geom_transparent_equal_matrix4x4( const TQ3Matrix4x4* inOne,
+	const TQ3Matrix4x4* inTwo )
+{
+	TQ3Boolean	isSame = kQ3True;
+	const float*	vals1 = &inOne->value[0][0];
+	const float*	vals2 = &inTwo->value[0][0];
+	int	i;
+	
+	for (i = 0; i < 16; ++i)
+	{
+		if (fabsf( vals1[i] - vals2[i] ) > kQ3RealZero)
+		{
+			isSame = kQ3False;
+			break;
+		}
+	}
+	
+	return isSame; 
 }
 
 
@@ -649,7 +701,8 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 		// Update the OpenGL state
 		//
 		// We need to clear any transforms which are active when the rendering loop ended,
-		// since transparent primitives are already transformed into frustum coordinates.
+		// since transparent primitives are already transformed into camera coordinates,
+		// and the camera to frustum matrix will be updated later.
 		//
 		// We also enable blending and turn off writes to the depth buffer.
 		Q3Matrix4x4_SetIdentity(&cameraTransformData.localToWorld);
@@ -679,6 +732,18 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 			    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
+			    
+			
+			// Update the camera to frustum matrix if it has changed.
+			if (kQ3False == ir_geom_transparent_equal_matrix4x4( &cameraTransformData.cameraToFrustum,
+				&ptrs[n]->cameraToFrustum ))
+			{
+				cameraTransformData.cameraToFrustum = ptrs[n]->cameraToFrustum;
+				Q3CameraTransform_Submit(&cameraTransformData, theView);
+			}
+
+
+
 			// Render the primitive
 			ir_geom_transparent_render(ptrs[n]);
 			}
@@ -696,6 +761,15 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 				{
 				if (ptrs[n]->needsSpecular)
 					{
+					// Update the camera to frustum matrix if it has changed.
+					if (kQ3False == ir_geom_transparent_equal_matrix4x4( &cameraTransformData.cameraToFrustum,
+						&ptrs[n]->cameraToFrustum ))
+					{
+						cameraTransformData.cameraToFrustum = ptrs[n]->cameraToFrustum;
+						Q3CameraTransform_Submit(&cameraTransformData, theView);
+					}
+
+
 					ir_geom_transparent_update_specular( ptrs[n], specularColor, &specularControl );
 					ir_geom_transparent_specular_render( ptrs[n] );
 					}
