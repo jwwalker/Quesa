@@ -7,7 +7,7 @@
         Only WindowPtr based Mac draw contexts are supported at present.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -64,6 +64,24 @@
 
 
 
+
+
+//=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3MacDrawContext : public E3DrawContext  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3DrawContextUnionData				instanceData ;
+	} ;
+	
 
 
 //=============================================================================
@@ -148,7 +166,7 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 									TQ3Area				*windowArea,
 									TQ3XClipMaskState	*clipMaskState,
 									RgnHandle			clipRgn)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	Rect						windowRect, deviceRect, overlapRect, paneRect;
 	Rect						portRect, visRect, contentRect;
 	TQ3MacDrawContext2DLibrary	theLibrary;
@@ -270,7 +288,7 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3drawcontext_mac_createregions(TQ3DrawContextObject theDrawContext, TQ3Uns32 numRegions)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	TQ3Status					qd3dStatus;
 	TQ3Uns32					n;
 
@@ -311,7 +329,7 @@ e3drawcontext_mac_createregions(TQ3DrawContextObject theDrawContext, TQ3Uns32 nu
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3drawcontext_mac_buildregions(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	TQ3Uns32					n, numRegions, rowBytes, pixelBytes;
 	GDHandle					activeDevices[kMaxDevices];
 	TQ3Status					qd3dStatus;
@@ -416,7 +434,7 @@ e3drawcontext_mac_buildregions(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static TQ3XDrawContextValidation
 e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData			*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData			*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	E3GlobalsPtr					theGlobals    = E3Globals_Get();
 	TQ3XDrawContextValidation		stateChanges;
 	TQ3MacDrawContext2DLibrary		theLibrary;
@@ -561,7 +579,7 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_mac_updateregions(TQ3DrawContextObject theDrawContext, TQ3XDrawContextValidation stateChanges)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	TQ3Area						deviceArea, windowArea;
 	TQ3XClipMaskState			clipMaskState;
 	TQ3Boolean					isActive;
@@ -657,7 +675,7 @@ e3drawcontext_mac_updateregions(TQ3DrawContextObject theDrawContext, TQ3XDrawCon
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_mac_normalizeport(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	CGrafPtr					thePort;
 	Rect						theRect;
 	RgnHandle					theRgn;
@@ -789,7 +807,7 @@ e3drawcontext_mac_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	TQ3XDrawContextValidation	stateChanges;
 	TQ3Status					qd3dStatus;
 
@@ -844,7 +862,7 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_mac_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	WindowRef					theWindow;
 	Rect						theRect;
 
@@ -947,11 +965,11 @@ E3MacDrawContext_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeDrawContext,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
 											kQ3DrawContextTypeMacintosh,
 											kQ3ClassNameDrawContextMac,
 											e3drawcontext_mac_metahandler,
-											sizeof(TQ3DrawContextUnionData));
+											~sizeof(E3MacDrawContext));
 
 	return(qd3dStatus);
 }
@@ -984,7 +1002,7 @@ E3MacDrawContext_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3DrawContextTypeMacintosh, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DrawContextTypeMacintosh, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -998,15 +1016,10 @@ E3MacDrawContext_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3DrawContextObject
 E3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3DrawContextTypeMacintosh, kQ3False, drawContextData);
-
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance(kQ3DrawContextTypeMacintosh, kQ3False, drawContextData);
+	}
 
 
 
@@ -1064,7 +1077,7 @@ E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextT
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -1088,7 +1101,7 @@ E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, CWindowPtr *window)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -1106,7 +1119,7 @@ E3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, CWindowPtr *window)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_SetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort viewPort)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -1130,7 +1143,7 @@ E3MacDrawContext_SetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort view
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_GetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort *viewPort)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -1148,7 +1161,7 @@ E3MacDrawContext_GetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort *vie
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_SetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr grafPort)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -1172,7 +1185,7 @@ E3MacDrawContext_SetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr grafPort
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_GetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr *grafPort)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -1190,7 +1203,7 @@ E3MacDrawContext_GetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr *grafPor
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_Set2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContext2DLibrary library)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -1214,7 +1227,7 @@ E3MacDrawContext_Set2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_Get2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContext2DLibrary *library)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 

@@ -5,7 +5,7 @@
         Unix specific Draw Context calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,24 @@
 
 
 //=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3XDrawContext : public E3DrawContext  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3DrawContextUnionData				instanceData ;
+	} ;
+	
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3drawcontext_x_new : X11 draw context new method.
@@ -79,10 +97,7 @@ e3drawcontext_x_new(TQ3Object theObject, void *privateData, const void *paramDat
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_x_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
-
-
-
+{
 	// Return our dimensions (not currently implemented on X11)
 	thePane->min.x = 0.0f;
 	thePane->min.y = 0.0f;
@@ -133,11 +148,11 @@ E3XDrawContext_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeDrawContext,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
 											kQ3DrawContextTypeX11,
 											kQ3ClassNameDrawContextX11,
 											e3drawcontext_x_metahandler,
-											sizeof(TQ3DrawContextUnionData));
+											~sizeof(E3XDrawContext));
 
 	return(qd3dStatus);
 }
@@ -156,7 +171,7 @@ E3XDrawContext_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3DrawContextTypeX11, kQ3True);
+	qd3dStatus = E3ClassTre::UnregisterClass(kQ3DrawContextTypeX11, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -175,7 +190,7 @@ E3XDrawContext_New(const TQ3XDrawContextData *drawContextData)
 
 
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3DrawContextTypeX11, kQ3False, drawContextData);
+	theObject = E3ClassTree::CreateInstance(kQ3DrawContextTypeX11, kQ3False, drawContextData);
 
 	return(theObject);
 }
@@ -234,18 +249,15 @@ E3XDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTar
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_SetDisplay(TQ3DrawContextObject drawContext, const Display *display)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field and reset our flag. We don't compare the current
 	// state, and assume that setting a new display may cause a rebuild.
-	instanceData->data.x11Data.theData.display = (Display *) display;
-	instanceData->theState                    |= kQ3XDrawContextValidationAll;
+	( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.display = (Display *) display;
+	( (E3XDrawContext*) drawContext )->instanceData.theState                    |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
 
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -256,15 +268,12 @@ E3XDrawContext_SetDisplay(TQ3DrawContextObject drawContext, const Display *displ
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_GetDisplay(TQ3DrawContextObject drawContext, Display **display)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*display = instanceData->data.x11Data.theData.display;
+	*display = ( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.display;
 
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -275,20 +284,17 @@ E3XDrawContext_GetDisplay(TQ3DrawContextObject drawContext, Display **display)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_SetDrawable(TQ3DrawContextObject drawContext, Drawable drawable)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field and reset our flag
-	if (instanceData->data.x11Data.theData.drawable != drawable)
+	if (( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.drawable != drawable)
 		{
-		instanceData->data.x11Data.theData.drawable = drawable;
-		instanceData->theState                     |= kQ3XDrawContextValidationAll;
+		( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.drawable = drawable;
+		( (E3XDrawContext*) drawContext )->instanceData.theState                     |= kQ3XDrawContextValidationAll;
 		Q3Shared_Edited(drawContext);
 		}
 
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -299,15 +305,12 @@ E3XDrawContext_SetDrawable(TQ3DrawContextObject drawContext, Drawable drawable)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_GetDrawable(TQ3DrawContextObject drawContext, Drawable *drawable)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*drawable = instanceData->data.x11Data.theData.drawable;
+	*drawable = ( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.drawable;
 
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -318,18 +321,15 @@ E3XDrawContext_GetDrawable(TQ3DrawContextObject drawContext, Drawable *drawable)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_SetVisual(TQ3DrawContextObject drawContext, const Visual *visual)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field and reset our flag. We don't compare the current
 	// state, and assume that setting a new visual may cause a rebuild.
-	instanceData->data.x11Data.theData.visual = (Visual *) visual;
-	instanceData->theState                   |= kQ3XDrawContextValidationAll;
+	( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.visual = (Visual *) visual;
+	( (E3XDrawContext*) drawContext )->instanceData.theState                   |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
 
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -340,15 +340,12 @@ E3XDrawContext_SetVisual(TQ3DrawContextObject drawContext, const Visual *visual)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_GetVisual(TQ3DrawContextObject drawContext, Visual **visual)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*visual = instanceData->data.x11Data.theData.visual;
+	*visual = ( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.visual;
 
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -359,18 +356,15 @@ E3XDrawContext_GetVisual(TQ3DrawContextObject drawContext, Visual **visual)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_SetColormap(TQ3DrawContextObject drawContext, Colormap colormap)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field and reset our flag. We don't compare the current
 	// state, and assume that setting a new colormap may cause a rebuild.
-	instanceData->data.x11Data.theData.cmap = colormap;
-	instanceData->theState                 |= kQ3XDrawContextValidationAll;
+	( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.cmap = colormap;
+	( (E3XDrawContext*) drawContext )->instanceData.theState                 |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
 
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -381,15 +375,12 @@ E3XDrawContext_SetColormap(TQ3DrawContextObject drawContext, Colormap colormap)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_GetColormap(TQ3DrawContextObject drawContext, Colormap *colormap)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*colormap = instanceData->data.x11Data.theData.cmap;
+	*colormap = ( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.cmap;
 
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -400,18 +391,15 @@ E3XDrawContext_GetColormap(TQ3DrawContextObject drawContext, Colormap *colormap)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_SetColormapData(TQ3DrawContextObject drawContext, const TQ3XColormapData *colormapData)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field and reset our flag. We don't compare the current
 	// state, and assume that setting a new colormap may cause a rebuild.
-	instanceData->data.x11Data.theData.colorMapData = (TQ3XColormapData *) colormapData;
-	instanceData->theState                         |= kQ3XDrawContextValidationAll;
+	( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.colorMapData = (TQ3XColormapData *) colormapData;
+	( (E3XDrawContext*) drawContext )->instanceData.theState                         |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
 
 	return(kQ3Success);
-}
+	}
 
 
 
@@ -422,15 +410,12 @@ E3XDrawContext_SetColormapData(TQ3DrawContextObject drawContext, const TQ3XColor
 //-----------------------------------------------------------------------------
 TQ3Status
 E3XDrawContext_GetColormapData(TQ3DrawContextObject drawContext, TQ3XColormapData *colormapData)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	Q3Memory_Copy(instanceData->data.x11Data.theData.colorMapData, colormapData, sizeof(TQ3XColormapData));
+	Q3Memory_Copy(( (E3XDrawContext*) drawContext )->instanceData.data.x11Data.theData.colorMapData, colormapData, sizeof(TQ3XColormapData));
 
 	return(kQ3Success);
-}
+	}
 
 
 

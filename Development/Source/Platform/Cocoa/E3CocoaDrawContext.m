@@ -5,7 +5,7 @@
         Cocoa specific draw context implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -54,6 +54,24 @@
 
 
 //=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3CocoaDrawContext : public E3DrawContext  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3DrawContextUnionData				instanceData ;
+	} ;
+	
+
+
+///=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3drawcontext_cocoa_new : Cocoa draw context new method.
@@ -114,7 +132,7 @@ e3drawcontext_cocoa_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	TQ3Status					qd3dStatus;
 	TQ3Uns32					cx, cy;
 
@@ -186,7 +204,7 @@ e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	NSRect						viewFrame;
 
 
@@ -249,11 +267,11 @@ E3CocoaDrawContext_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeDrawContext,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
 											kQ3DrawContextTypeCocoa,
 											kQ3ClassNameDrawContextCocoa,
 											e3drawcontext_cocoa_metahandler,
-											sizeof(TQ3DrawContextUnionData));
+											~sizeof(E3CocoaDrawContext));
 
 	return(qd3dStatus);
 }
@@ -272,7 +290,7 @@ E3CocoaDrawContext_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3DrawContextTypeCocoa, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DrawContextTypeCocoa, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -286,16 +304,11 @@ E3CocoaDrawContext_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3DrawContextObject
 E3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3DrawContextTypeCocoa, 
+	return E3ClassTree::CreateInstance(kQ3DrawContextTypeCocoa, 
                                            kQ3False, drawContextData);
-
-	return(theObject);
-}
+	}
 
 
 
@@ -354,7 +367,7 @@ E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContex
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 
 
 
@@ -378,7 +391,7 @@ E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CocoaDrawContext_GetNSView(TQ3DrawContextObject drawContext, void **nsView)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 
 
 

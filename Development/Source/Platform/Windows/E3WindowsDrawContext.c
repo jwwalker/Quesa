@@ -5,7 +5,7 @@
         Windows specific Draw Context calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,36 @@
 
 
 //=============================================================================
+//      Internal types
+//-----------------------------------------------------------------------------
+
+
+
+class E3Win32DCDrawContext : public E3DrawContext  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3DrawContextUnionData				instanceData ;
+	} ;
+	
+
+
+class E3DDSurfaceDrawContext : public E3DrawContext  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3DrawContextUnionData				instanceData ;
+	} ;
+	
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3drawcontext_win32dc_get_dimensions_from_DC : Win32DC DC dimensions.
@@ -90,13 +120,10 @@ e3drawcontext_win32dc_get_dimensions_from_DC( HDC theDC, TQ3Area *thePane)
 //      e3drawcontext_win32dc_get_dimensions : Win32DC draw context dimensions.
 //-----------------------------------------------------------------------------
 static void
-e3drawcontext_win32dc_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
-
-
-
-	e3drawcontext_win32dc_get_dimensions_from_DC( instanceData->data.win32Data.theData.hdc, thePane );
-}
+e3drawcontext_win32dc_get_dimensions ( E3Win32DCDrawContext* theDrawContext, TQ3Area *thePane )
+	{
+	e3drawcontext_win32dc_get_dimensions_from_DC( theDrawContext->instanceData.data.win32Data.theData.hdc, thePane );
+	}
 
 
 
@@ -151,8 +178,8 @@ e3drawcontext_win32dc_delete(TQ3Object theObject, void *privateData)
 //      e3drawcontext_win32dc_update : Win32DC draw context update method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
+e3drawcontext_win32dc_update ( E3Win32DCDrawContext* theDrawContext )
+	
 	TQ3Status					qd3dStatus;
 	TQ3XDevicePixelType			pixelType;
 	HGDIOBJ						hBitMap;
@@ -163,17 +190,17 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 
 	// If we have a draw region, and nothing has changed, all we need to do is check whether the window
 	// has been resized.
-	if (instanceData->numDrawRegions != 0 &&
-		(instanceData->theState & ~kQ3XDrawContextValidationBackgroundShader) == kQ3XDrawContextValidationClearFlags)
+	if ( theDrawContext->instanceData.numDrawRegions != 0 &&
+		( theDrawContext->instanceData.theState & ~kQ3XDrawContextValidationBackgroundShader) == kQ3XDrawContextValidationClearFlags)
 		{
 		TQ3Area		newArea;
-		e3drawcontext_win32dc_get_dimensions_from_DC( instanceData->data.win32Data.theData.hdc,
+		e3drawcontext_win32dc_get_dimensions_from_DC( theDrawContext->instanceData.data.win32Data.theData.hdc,
 			&newArea );
-		if ( (newArea.max.x != instanceData->data.win32Data.windowRect.max.x) ||
-			(newArea.max.y != instanceData->data.win32Data.windowRect.max.y) )
+		if ( (newArea.max.x != theDrawContext->instanceData.data.win32Data.windowRect.max.x) ||
+			(newArea.max.y != theDrawContext->instanceData.data.win32Data.windowRect.max.y) )
 			{
-			instanceData->data.win32Data.windowRect = newArea;
-			instanceData->theState = kQ3XDrawContextValidationWindowSize;
+			theDrawContext->instanceData.data.win32Data.windowRect = newArea;
+			theDrawContext->instanceData.theState = kQ3XDrawContextValidationWindowSize;
 			}
 		return(kQ3Success);
 		}
@@ -190,7 +217,7 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 	// Clipping masks aren't currently supported.
 	//
 	// Create a little bitmap to query color information
-	hBitMap = CreateCompatibleBitmap(instanceData->data.win32Data.theData.hdc, 1, 1);
+	hBitMap = CreateCompatibleBitmap( theDrawContext->instanceData.data.win32Data.theData.hdc, 1, 1);
 	if(hBitMap == NULL){
 		Q3Error_PlatformPost(GetLastError());
 		return(kQ3Failure);
@@ -207,49 +234,49 @@ e3drawcontext_win32dc_update(TQ3DrawContextObject theDrawContext)
 
 
 	// Fill it in
-	cx = (TQ3Uns32) E3Num_Max(instanceData->data.common.pane.max.x - instanceData->data.common.pane.min.x, 0.0f);
-	cy = (TQ3Uns32) E3Num_Max(instanceData->data.common.pane.max.y - instanceData->data.common.pane.min.y, 0.0f);
+	cx = (TQ3Uns32) E3Num_Max(theDrawContext->instanceData.data.common.pane.max.x - theDrawContext->instanceData.data.common.pane.min.x, 0.0f);
+	cy = (TQ3Uns32) E3Num_Max(theDrawContext->instanceData.data.common.pane.max.y - theDrawContext->instanceData.data.common.pane.min.y, 0.0f);
 
 	pixelType = E3DrawContext_GetDevicePixelTypeFromBPP(bitMap.bmBitsPixel);
 	
-	instanceData->drawRegions[0].deviceOffsetX           = 0.0f;
-	instanceData->drawRegions[0].deviceOffsetY           = 0.0f;
-	instanceData->drawRegions[0].windowOffsetX           = 0.0f;
-	instanceData->drawRegions[0].windowOffsetY           = 0.0f;
-	instanceData->drawRegions[0].deviceScaleX            = (float) cx;
-	instanceData->drawRegions[0].deviceScaleY            = (float) cy;
-	instanceData->drawRegions[0].windowScaleX            = instanceData->drawRegions[0].deviceScaleX;
-	instanceData->drawRegions[0].windowScaleY            = instanceData->drawRegions[0].deviceScaleY;
-	instanceData->drawRegions[0].theDescriptor.width	 = cx;
-	instanceData->drawRegions[0].theDescriptor.height	 = cy;
-	instanceData->drawRegions[0].theDescriptor.rowBytes	 = 2 * ((cx * bitMap.bmBitsPixel + 15) / 16);
-	instanceData->drawRegions[0].theDescriptor.pixelSize = bitMap.bmBitsPixel;
-	instanceData->drawRegions[0].theDescriptor.pixelType = pixelType;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.redShift	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.redMask	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenShift	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenMask	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueShift	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueMask	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaShift	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaMask	 = ???;
-	instanceData->drawRegions[0].theDescriptor.bitOrder	 = kQ3EndianLittle;
-	instanceData->drawRegions[0].theDescriptor.byteOrder = kQ3EndianLittle;
-	instanceData->drawRegions[0].theDescriptor.clipMask = NULL;
-	instanceData->drawRegions[0].imageBuffer             = NULL;
-	instanceData->drawRegions[0].isActive                = kQ3True;
-	instanceData->drawRegions[0].clipMaskState           = kQ3XClipMaskFullyExposed;
+	theDrawContext->instanceData.drawRegions[0].deviceOffsetX           = 0.0f;
+	theDrawContext->instanceData.drawRegions[0].deviceOffsetY           = 0.0f;
+	theDrawContext->instanceData.drawRegions[0].windowOffsetX           = 0.0f;
+	theDrawContext->instanceData.drawRegions[0].windowOffsetY           = 0.0f;
+	theDrawContext->instanceData.drawRegions[0].deviceScaleX            = (float) cx;
+	theDrawContext->instanceData.drawRegions[0].deviceScaleY            = (float) cy;
+	theDrawContext->instanceData.drawRegions[0].windowScaleX            = theDrawContext->instanceData.drawRegions[0].deviceScaleX;
+	theDrawContext->instanceData.drawRegions[0].windowScaleY            = theDrawContext->instanceData.drawRegions[0].deviceScaleY;
+	theDrawContext->instanceData.drawRegions[0].theDescriptor.width	 = cx;
+	theDrawContext->instanceData.drawRegions[0].theDescriptor.height	 = cy;
+	theDrawContext->instanceData.drawRegions[0].theDescriptor.rowBytes	 = 2 * ((cx * bitMap.bmBitsPixel + 15) / 16);
+	theDrawContext->instanceData.drawRegions[0].theDescriptor.pixelSize = bitMap.bmBitsPixel;
+	theDrawContext->instanceData.drawRegions[0].theDescriptor.pixelType = pixelType;
+	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.redShift	 = ???;
+	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.redMask	 = ???;
+	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.greenShift	 = ???;
+	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.greenMask	 = ???;
+	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.blueShift	 = ???;
+	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.blueMask	 = ???;
+	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.alphaShift	 = ???;
+	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.alphaMask	 = ???;
+	theDrawContext->instanceData.drawRegions[0].theDescriptor.bitOrder	 = kQ3EndianLittle;
+	theDrawContext->instanceData.drawRegions[0].theDescriptor.byteOrder = kQ3EndianLittle;
+	theDrawContext->instanceData.drawRegions[0].theDescriptor.clipMask = NULL;
+	theDrawContext->instanceData.drawRegions[0].imageBuffer             = NULL;
+	theDrawContext->instanceData.drawRegions[0].isActive                = kQ3True;
+	theDrawContext->instanceData.drawRegions[0].clipMaskState           = kQ3XClipMaskFullyExposed;
 
 
 
 	// clear the DrawContext
-	if (instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor)
+	if (theDrawContext->instanceData.data.common.clearImageMethod == kQ3ClearMethodWithColor)
 		NULL;
 
 
 
 	// Update the state flag
-	instanceData->theState = kQ3XDrawContextValidationAll;
+	theDrawContext->instanceData.theState = kQ3XDrawContextValidationAll;
 
 	return(kQ3Success);		
 }
@@ -321,16 +348,13 @@ e3drawcontext_ddsurface_new(TQ3Object theObject, void *privateData, const void *
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_ddsurface_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(theDrawContext, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Return our dimensions (not currently implemented for Direct Draw surfaces)
 	thePane->min.x = 0.0f;
 	thePane->min.y = 0.0f;
 	thePane->max.x = 0.0f;
 	thePane->max.y = 0.0f;
-}
+	}
 
 
 
@@ -376,11 +400,11 @@ E3Win32DCDrawContext_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeDrawContext,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
 											kQ3DrawContextTypeWin32DC,
 											kQ3ClassNameDrawContextWin32DC,
 											e3drawcontext_win32dc_metahandler,
-											sizeof(TQ3DrawContextUnionData));
+											~sizeof(E3Win32DCDrawContext));
 
 	return(qd3dStatus);
 }
@@ -399,7 +423,7 @@ E3Win32DCDrawContext_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3DrawContextTypeWin32DC, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DrawContextTypeWin32DC, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -413,14 +437,10 @@ E3Win32DCDrawContext_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3DrawContextObject
 E3Win32DCDrawContext_New(const TQ3Win32DCDrawContextData *drawContextData)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3DrawContextTypeWin32DC, kQ3False, drawContextData);
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance(kQ3DrawContextTypeWin32DC, kQ3False, drawContextData);
+	}
 
 
 
@@ -475,7 +495,7 @@ E3Win32DCDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawCont
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -499,7 +519,7 @@ E3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Win32DCDrawContext_GetDC(TQ3DrawContextObject drawContext, HDC *curHDC)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -523,11 +543,11 @@ E3DDSurfaceDrawContext_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeDrawContext,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
 											kQ3DrawContextTypeDDSurface,
 											kQ3ClassNameDrawContextDDSurface,
 											e3drawcontext_ddsurface_metahandler,
-											sizeof(TQ3DrawContextUnionData));
+											~sizeof(E3DDSurfaceDrawContext));
 
 	return(qd3dStatus);
 }
@@ -546,7 +566,7 @@ E3DDSurfaceDrawContext_UnregisterClass(void)
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3DrawContextTypeDDSurface, kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DrawContextTypeDDSurface, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -560,14 +580,10 @@ E3DDSurfaceDrawContext_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3DrawContextObject
 E3DDSurfaceDrawContext_New(const TQ3DDSurfaceDrawContextData *drawContextData)
-{	TQ3Object		theObject;
-
-
-
+	{
 	// Create the object
-	theObject = E3ClassTree_CreateInstance(kQ3DrawContextTypeDDSurface, kQ3False, drawContextData);
-	return(theObject);
-}
+	return E3ClassTree::CreateInstance(kQ3DrawContextTypeDDSurface, kQ3False, drawContextData);
+	}
 
 
 
@@ -578,7 +594,7 @@ E3DDSurfaceDrawContext_New(const TQ3DDSurfaceDrawContextData *drawContextData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DDSurfaceDrawContext_SetDirectDrawSurface(TQ3DrawContextObject drawContext, const TQ3DDSurfaceDescriptor *ddSurfaceDescriptor)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -600,7 +616,7 @@ E3DDSurfaceDrawContext_SetDirectDrawSurface(TQ3DrawContextObject drawContext, co
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ3DDSurfaceDescriptor *ddSurfaceDescriptor)
-{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) E3ClassTree_FindInstanceData(drawContext, kQ3ObjectTypeLeaf);
+{	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
