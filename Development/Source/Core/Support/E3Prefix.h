@@ -33,6 +33,18 @@
 #ifndef E3PREFIX_HDR
 #define E3PREFIX_HDR
 //=============================================================================
+//      External build constants
+//-----------------------------------------------------------------------------
+// Enable inline APIs
+#ifndef QUESA_ALLOW_INLINE_APIS
+	#define QUESA_ALLOW_INLINE_APIS								1
+#endif
+
+
+
+
+
+//=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
 // Quesa (public)
@@ -99,7 +111,7 @@
 
 
 //=============================================================================
-//      Build constants
+//      Internal build constants
 //-----------------------------------------------------------------------------
 // Make sure extensions are turned on when we're building Quesa itself
 #if !QUESA_ALLOW_QD3D_EXTENSIONS
