@@ -268,7 +268,7 @@ E3CString_New(const char *str)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
-{	TQ3StringPtr		*instanceData = (TQ3StringPtr *) stringObj->instanceData;
+{	TQ3StringPtr		*instanceData = (TQ3StringPtr *) E3ClassTree_FindInstanceData(stringObj, kQ3StringTypeCString);
 
 
 
@@ -290,7 +290,7 @@ E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CString_SetString(TQ3StringObject stringObj, const char *str)
-{	TQ3StringPtr		*instanceData = (TQ3StringPtr *) stringObj->instanceData;
+{	TQ3StringPtr		*instanceData = (TQ3StringPtr *) E3ClassTree_FindInstanceData(stringObj, kQ3StringTypeCString);
 	TQ3Status			qd3dStatus;
 
 
@@ -323,7 +323,7 @@ E3CString_SetString(TQ3StringObject stringObj, const char *str)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CString_GetString(TQ3StringObject stringObj, char **str)
-{	TQ3StringPtr		*instanceData = (TQ3StringPtr *) stringObj->instanceData;
+{	TQ3StringPtr		*instanceData = (TQ3StringPtr *) E3ClassTree_FindInstanceData(stringObj, kQ3StringTypeCString);
 
 
 

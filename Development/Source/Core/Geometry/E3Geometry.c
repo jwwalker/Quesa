@@ -123,8 +123,7 @@ e3geometry_get_attributes(TQ3GeometryObject theGeom)
 
 	// Get the geometry attribute method
 	getAttribute = (TQ3XGeomGetAttributeMethod)
-							E3ClassTree_GetMethod(theGeom->theClass,
-													kQ3XMethodTypeGeomGetAttribute);
+							E3ClassTree_GetMethodByObject(theGeom, kQ3XMethodTypeGeomGetAttribute);
 	if (getAttribute == NULL)
 		return(NULL);
 
@@ -217,7 +216,7 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 	// Get the class for the geometry
 	if (theObject != NULL)
-		theClass = theObject->theClass;
+		theClass = E3ClassTree_GetClassByObject(theObject);
 	else
 		theClass = E3ClassTree_GetClassByType(objectType);
 
@@ -315,7 +314,7 @@ e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 
 	if (theObject != NULL)
 		{
-		getPublicData = (TQ3XGeomGetPublicDataMethod) E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodTypeGeomGetPublicData);
+		getPublicData = (TQ3XGeomGetPublicDataMethod) E3ClassTree_GetMethodByObject(theObject, kQ3XMethodTypeGeomGetPublicData);
 		if (getPublicData != NULL)
 			publicData = getPublicData(theObject);
 		}
@@ -418,10 +417,11 @@ e3geometry_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3Boolean		geomSupported;
-	TQ3Status		qd3dStatus;
-	const void		*publicData;
+{	TQ3Boolean						geomSupported;
 	TQ3XGeomGetPublicDataMethod		getPublicData;
+	const void						*publicData;
+	TQ3Status						qd3dStatus;
+
 
 
 	// Get the public data for the geometry object
@@ -436,7 +436,7 @@ e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theO
 
 	if (theObject != NULL)
 		{
-		getPublicData = (TQ3XGeomGetPublicDataMethod) E3ClassTree_GetMethod(theObject->theClass, kQ3XMethodTypeGeomGetPublicData);
+		getPublicData = (TQ3XGeomGetPublicDataMethod) E3ClassTree_GetMethodByObject(theObject, kQ3XMethodTypeGeomGetPublicData);
 		if (getPublicData != NULL)
 			publicData = getPublicData(theObject);
 		}
@@ -936,7 +936,7 @@ E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject view )
 
 
 	// Find the method we need
-	cacheNew  = (TQ3XGeomCacheNewMethod)  E3ClassTree_GetMethod(theGeom->theClass, kQ3XMethodTypeGeomCacheNew);
+	cacheNew  = (TQ3XGeomCacheNewMethod)  E3ClassTree_GetMethodByObject(theGeom, kQ3XMethodTypeGeomCacheNew);
 	if (cacheNew == NULL)
 		return (NULL);
 
