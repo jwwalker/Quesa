@@ -803,6 +803,8 @@ e3geom_trimesh_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, T
 	TQ3Status					qd3dStatus = kQ3Success;
 	TQ3WindowPointPickData		pickData;
 	TQ3Ray3D					theRay;
+	TQ3Point3D					corners[8];
+	TQ3BoundingBox				worldBounds;
 
 
 	// Get the pick data
@@ -811,7 +813,12 @@ e3geom_trimesh_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, T
 
 	// See if the pick ray falls within our bounding box.
 	E3View_GetRayThroughPickPoint(theView, &theRay);
-	if (kQ3True == E3Ray3D_IntersectBoundingBox(&theRay, &instanceData->bBox, NULL))
+	e3geom_trimesh_bounds_to_corners( &instanceData->bBox, corners );
+	Q3Point3D_To3DTransformArray( corners, E3View_State_GetLocalToWorld(theView),
+		corners, 8, sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
+	Q3BoundingBox_SetFromPoints3D( &worldBounds, corners, 8, sizeof(TQ3Point3D) );
+	
+	if (kQ3True == E3Ray3D_IntersectBoundingBox(&theRay, &worldBounds, NULL))
 		{
 		// It does, so do the actual triangle-level hit test.
 		qd3dStatus = e3geom_trimesh_pick_with_ray(theView, thePick, &theRay, theObject, objectData);
