@@ -839,9 +839,12 @@ E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window)
 
 
 	// Set the window and reset our flag
-	instanceData->data.macData.theData.window = window;
-	instanceData->theState                   |= kQ3XDrawContextValidationAll;
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.macData.theData.window != window)
+		{
+		instanceData->data.macData.theData.window = window;
+		instanceData->theState                   |= kQ3XDrawContextValidationAll;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -878,9 +881,12 @@ E3MacDrawContext_SetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort view
 
 
 	// Set the GX viewport and reset our flag
-	instanceData->data.macData.theData.viewPort = viewPort;
-	instanceData->theState                     |= kQ3XDrawContextValidationAll;
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.macData.theData.viewPort != viewPort)
+		{
+		instanceData->data.macData.theData.viewPort = viewPort;
+		instanceData->theState                     |= kQ3XDrawContextValidationAll;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -917,9 +923,12 @@ E3MacDrawContext_SetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr grafPort
 
 
 	// Set the GrafPort and reset the flag
-	instanceData->data.macData.theData.grafPort = grafPort;
-	instanceData->theState                     |= kQ3XDrawContextValidationAll;
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.macData.theData.grafPort != grafPort)
+		{
+		instanceData->data.macData.theData.grafPort = grafPort;
+		instanceData->theState                     |= kQ3XDrawContextValidationAll;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -956,9 +965,12 @@ E3MacDrawContext_Set2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 
 
 	// Set the 2D library and reset our flag
-	instanceData->data.macData.theData.library = library;
-	instanceData->theState                    |= kQ3XDrawContextValidationAll;
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.macData.theData.library != library)
+		{
+		instanceData->data.macData.theData.library = library;
+		instanceData->theState                    |= kQ3XDrawContextValidationAll;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }

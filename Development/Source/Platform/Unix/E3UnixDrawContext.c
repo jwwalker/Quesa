@@ -157,7 +157,8 @@ E3XDrawContext_SetDisplay(TQ3DrawContextObject drawContext, const Display *displ
 
 
 
-	// Set the field and reset our flag
+	// Set the field and reset our flag. We don't compare the current
+	// state, and assume that setting a new display may cause a rebuild.
 	instanceData->data.x11Data.theData.display = display;
 	instanceData->theState                    |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
@@ -198,9 +199,12 @@ E3XDrawContext_SetDrawable(TQ3DrawContextObject drawContext, Drawable drawable)
 
 
 	// Set the field and reset our flag
-	instanceData->data.x11Data.theData.drawable = drawable;
-	instanceData->theState                     |= kQ3XDrawContextValidationAll;
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.x11Data.theData.drawable != drawable)
+		{
+		instanceData->data.x11Data.theData.drawable = drawable;
+		instanceData->theState                     |= kQ3XDrawContextValidationAll;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -237,7 +241,8 @@ E3XDrawContext_SetVisual(TQ3DrawContextObject drawContext, const Visual *visual)
 
 
 
-	// Set the field and reset our flag
+	// Set the field and reset our flag. We don't compare the current
+	// state, and assume that setting a new visual may cause a rebuild.
 	instanceData->data.x11Data.theData.visual = visual;
 	instanceData->theState                   |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
@@ -277,7 +282,8 @@ E3XDrawContext_SetColormap(TQ3DrawContextObject drawContext, Colormap colormap)
 
 
 
-	// Set the field and reset our flag
+	// Set the field and reset our flag. We don't compare the current
+	// state, and assume that setting a new colormap may cause a rebuild.
 	instanceData->data.x11Data.theData.cmap = colormap;
 	instanceData->theState                 |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);
@@ -317,7 +323,8 @@ E3XDrawContext_SetColormapData(TQ3DrawContextObject drawContext, const TQ3XColor
 
 
 
-	// Set the field and reset our flag
+	// Set the field and reset our flag. We don't compare the current
+	// state, and assume that setting a new colormap may cause a rebuild.
 	instanceData->data.x11Data.theData.colorMapData = colormapData;
 	instanceData->theState                         |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);

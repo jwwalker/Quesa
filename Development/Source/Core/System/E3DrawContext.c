@@ -567,9 +567,12 @@ E3DrawContext_SetClearImageColor(TQ3DrawContextObject drawContext, const TQ3Colo
 
 
 	// Set the clear colour and update our flags
-	instanceData->data.common.clearImageColor = *color;
-	instanceData->theState                   |= kQ3XDrawContextValidationBackgroundShader;
-	Q3Shared_Edited(drawContext);
+	if (memcmp(&instanceData->data.common.clearImageColor, color, sizeof(TQ3ColorARGB)) != 0)
+		{
+		instanceData->data.common.clearImageColor = *color;
+		instanceData->theState                   |= kQ3XDrawContextValidationBackgroundShader;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -606,9 +609,12 @@ E3DrawContext_SetPane(TQ3DrawContextObject drawContext, const TQ3Area *pane)
 
 
 	// Set the pane and update our flags
-	instanceData->data.common.pane = *pane;
-	instanceData->theState        |= kQ3XDrawContextValidationPane;
-	Q3Shared_Edited(drawContext);
+	if (memcmp(&instanceData->data.common.pane, pane, sizeof(TQ3Area)) != 0)
+		{
+		instanceData->data.common.pane = *pane;
+		instanceData->theState        |= kQ3XDrawContextValidationPane;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -645,9 +651,12 @@ E3DrawContext_SetPaneState(TQ3DrawContextObject drawContext, TQ3Boolean state)
 
 
 	// Set the pane state and update our flags
-	instanceData->data.common.paneState = state;
-	instanceData->theState             |= kQ3XDrawContextValidationPane;
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.common.paneState != state)
+		{
+		instanceData->data.common.paneState = state;
+		instanceData->theState             |= kQ3XDrawContextValidationPane;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -684,9 +693,12 @@ E3DrawContext_SetClearImageMethod(TQ3DrawContextObject drawContext, TQ3DrawConte
 
 
 	// Set the clear image method and update our flags
-	instanceData->data.common.clearImageMethod = method;
-	instanceData->theState                    |= kQ3XDrawContextValidationClearFunction;
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.common.clearImageMethod != method)
+		{
+		instanceData->data.common.clearImageMethod = method;
+		instanceData->theState                    |= kQ3XDrawContextValidationClearFunction;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -723,7 +735,8 @@ E3DrawContext_SetMask(TQ3DrawContextObject drawContext, const TQ3Bitmap *mask)
 
 
 
-	// Copy the mask image and update our flags
+	// Copy the mask image and update our flags. We don't compare the current
+	// state, and assume that setting a mask may cause a rebuild.
 	qd3dStatus = E3Bitmap_Replace(mask, &instanceData->data.common.mask, kQ3True);
 	instanceData->theState |= kQ3XDrawContextValidationMask;
 	Q3Shared_Edited(drawContext);
@@ -765,9 +778,12 @@ E3DrawContext_SetMaskState(TQ3DrawContextObject drawContext, TQ3Boolean state)
 
 
 	// Set the mask state and update our flags
-	instanceData->data.common.maskState = state;
-	instanceData->theState             |= kQ3XDrawContextValidationMask;
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.common.maskState != state)
+		{
+		instanceData->data.common.maskState = state;
+		instanceData->theState             |= kQ3XDrawContextValidationMask;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -804,9 +820,12 @@ E3DrawContext_SetDoubleBufferState(TQ3DrawContextObject drawContext, TQ3Boolean 
 
 
 	// Set the double buffer state and update our flags
-	instanceData->data.common.doubleBufferState = state;
-	instanceData->theState                     |= kQ3XDrawContextValidationDoubleBuffer;
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.common.doubleBufferState != state)
+		{
+		instanceData->data.common.doubleBufferState = state;
+		instanceData->theState                     |= kQ3XDrawContextValidationDoubleBuffer;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }
@@ -862,7 +881,8 @@ E3PixmapDrawContext_SetPixmap(TQ3DrawContextObject drawContext, const TQ3Pixmap 
 
 
 
-	// Set the pixmap and update our flag
+	// Set the pixmap and update our flag. We don't compare the current
+	// state, and assume that setting a new pixmap may cause a rebuild.
 	instanceData->data.pixmapData.pixmap = *pixmap;
 	instanceData->theState              |= kQ3XDrawContextValidationAll;
 	Q3Shared_Edited(drawContext);

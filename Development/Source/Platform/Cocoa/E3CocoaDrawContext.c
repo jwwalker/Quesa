@@ -276,10 +276,12 @@ E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
 
 
 	// Set the field and reset our flag
-	instanceData->data.cocoaData.theData.nsView = nsView;
-	instanceData->theState                     |= kQ3XDrawContextValidationAll;
-
-	Q3Shared_Edited(drawContext);
+	if (instanceData->data.cocoaData.theData.nsView != nsView)
+		{
+		instanceData->data.cocoaData.theData.nsView = nsView;
+		instanceData->theState                     |= kQ3XDrawContextValidationAll;
+		Q3Shared_Edited(drawContext);
+		}
 
 	return(kQ3Success);
 }

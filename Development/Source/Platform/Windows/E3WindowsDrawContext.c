@@ -326,10 +326,13 @@ E3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC)
 
 
 	// Set the field and reset our flag
-	instanceData->data.win32Data.theData.hdc = newHDC;
-	instanceData->theState                  |= kQ3XDrawContextValidationAll;
+	if (instanceData->data.win32Data.theData.hdc != newHDC)
+		{
+		instanceData->data.win32Data.theData.hdc = newHDC;
+		instanceData->theState                  |= kQ3XDrawContextValidationAll;
+		Q3Shared_Edited(drawContext);
+		}
 
-	Q3Shared_Edited(drawContext);
 	return(kQ3Success);
 }
 
@@ -425,7 +428,8 @@ E3DDSurfaceDrawContext_SetDirectDrawSurface(TQ3DrawContextObject drawContext, co
 
 
 
-	// Set the field and reset our flag
+	// Set the field and reset our flag. We don't compare the current
+	// state, and assume that setting a new dd surface may cause a rebuild.
 	instanceData->data.winDDData.theData.ddSurfaceDescriptor = *ddSurfaceDescriptor;
 	instanceData->theState                                  |= kQ3XDrawContextValidationAll;
 
