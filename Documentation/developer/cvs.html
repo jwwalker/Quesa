@@ -57,13 +57,164 @@
 
 <h3>CVS Server</h3>
 <p>
-Source code is currently available from the <a href="../info/download.html">Download</a> page.
+Complete and compact source code packages for Macintosh, Windows, and Unix
+developers are currently available from the
+<a href="../info/download.html">Download</a> page.  These code packages
+provide a good way to get started with Quesa, especially for anyone who
+hasn't used a CVS server before.
 </p>
 
 <p>
-Providing access through a CVS server is currently being investigated - when the server is online,
-this page will be updated with the connection details.
+However, the most up-to-date Quesa source code is always available through
+our CVS server (for more information about CVS, see the Source Gear
+<a href="http://www.sourcegear.com/CVS/">CVS pages</a>).
 </p>
+
+<p>
+No personal account is necessary to check out code from the Quesa CVS
+server - anyone can check out the latest source, provided you have a
+CVS client for your development machine.
+</p>
+
+<p>
+To check code in to the Quesa CVS server, a Quesa editor-level account
+is required. These accounts are currently for steering committee members
+only, and are granted to additional developers as necessary. When you have
+updated source code to submit, please send it by email to the appropriate
+<a href="../other/contributors.html">steering committee member</a>.
+</p>
+
+
+
+<h3>Server Details</h3>
+<p>
+No personal account is necessary to check out code from the Quesa CVS
+server - anyone can check out the latest source, provided you have a
+CVS client for your development machine.
+</p>
+
+<p>
+Once you have a CVS client, you should set your cvsroot to:
+</p>
+
+<p>
+<dd>anonymous@cvs.designcommunity.com:/cvsroot</dd>
+</p>
+
+<p>
+You should set your user name to "anonymous", and your password "anonymous".
+</p>
+
+<p>
+The module name to fetch is "quesa", and you should have at least 20Mb free
+disk space to fetch the complete project.
+</p>
+
+
+
+<h3>Client Details</h3>
+<p>
+The following clients are available for Mac OS:
+</p>
+
+<ul>
+	<li><a href="http://www.maccvs.org/download.html">MacCVS Pro</a> (recommended)
+	<li><a href="http://www.wincvs.org/download.html">MacCVS</a>
+	<li><a href="http://www.glink.net.hk/~jb/MacCVSClient/">MacCVSClient</a>
+</ul>
+
+
+<p>
+The following clients are available for Windows:
+</p>
+
+<ul>
+	<li><a href="http://www.wincvs.org/download.html">WinCVS</a>
+</ul>
+
+
+<p>
+Unix clients can be obtained from:
+</p>
+
+<ul>
+	<li><a href="http://www.sourcegear.com/CVS/Dev/code">Source Gear</a>
+</ul>
+
+
+<h3>Mac OS Client Details</h3>
+<p>
+MacCVS Pro users can obtain a pre-configured CVS session file
+<a href="files/Quesa.cvs.sit">here</a>. Open this session file, select "Session
+Settings..." from the Edit menu, and click the "Local Tree Directory" button to
+select where you want the source to be downloaded to.
+</p>
+
+<p>
+To bring yourself up to date with the latest source, select "Check Out Default
+Module" from the Action menu.
+</p>
+
+<hr width=20% align=center>
+
+<p>
+MacCVS users (i.e., <em>not</em> "Mac CVS <em>Pro</em>" users) can fetch the
+current source by connecting using the Login command, and then selecting Checkout
+Module from the Cvs Admin menu.
+</p>
+
+<p>
+With this client, you may also need to specify some file mappings on top of your
+Internet Config settings - with Mac CVS Pro, these file mappings are set up for
+you in the session file.
+</p>
+
+
+
+<h3>Windows Client Details</h3>
+<p>
+To set up the server details, select "Preferences" from the Admin menu (this
+dialog will also be displayed the first time you start WinCVS). Enter the
+CVSROOT value on the first tab, and select "passwd" authentication. Select the
+Globals tab, and check the "Use TCP/IP compression" checkbox.
+</p>
+
+<p>
+Next, you need to select the browser's root folder: select "Change browse location"
+from the View menu, and select your development folder.
+</p>
+
+<p>
+Log in to the server by selecting "Login" from the Admin menu, and check out
+the source by selecting "Checkout module" from the Create menu.
+</p>
+
+<p>
+To update your source in the future, select your local development source
+folder in the browser pane and select "Update selection" from the Modify menu.
+</p>
+
+
+
+<h3>Unix Client Details</h3>
+<p>
+An example session showing how to log in to the CVS server and extract the
+latest source is:
+</p>
+
+<pre>   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.designcommunity.com:/cvsroot login
+   (Logging in to anonymous@cvs.designcommunity.com)
+   CVS password: anonymous
+
+   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.designcommunity.com:/cvsroot -z 9 co quesa</pre>
+
+<p>
+To check out updates to the source, you should only need to run the second
+command again - the login details should be saved automatically.
+</p>
+
+
+
 </td>
 </tr>
 </table>
