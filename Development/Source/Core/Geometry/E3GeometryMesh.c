@@ -1339,7 +1339,7 @@ e3meshVertex_Destroy(
 	Q3Object_CleanDispose(&vertexPtr->attributeSet);
 
 	// Destroy corner array or list
-	e3meshCornerArrayOrList_Destroy(&vertexPtr->cornerArrayOrList, NULL);
+	e3meshCornerArrayOrList_Destroy(&vertexPtr->cornerArrayOrList, e3meshCorner_Destroy);
 
 	// Destroy part
 	e3meshPart_Destroy(&vertexPtr->part);
