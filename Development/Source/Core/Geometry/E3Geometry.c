@@ -851,7 +851,7 @@ E3Geometry_GetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSet *attribute
 
 	// Return another reference to the attribute set
 	if (*geomAttributes != NULL)
-		*attributeSet = Q3Shared_GetReference(*geomAttributes);
+		*attributeSet = ((E3Shared*)*geomAttributes)->GetReference();
 
 	return(kQ3Success);
 }
