@@ -215,10 +215,12 @@ e3camera_viewangle_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMa
 	
 	a = 1.0f / (1.0f - zNear * oneOverZFar);
 	c = (-zNear * a) / (zNear * zFar);
-  if (instanceData->aspectRatioXToY <= 1.0f)
-    w = 1.0f / (float) tan(instanceData->fov * 0.5f);
-  else
-    w = 1.0f / (float) tan(instanceData->fov * 0.5f) / instanceData->aspectRatioXToY;
+
+	if (instanceData->aspectRatioXToY <= 1.0f)
+		w = 1.0f / (float) tan(instanceData->fov * 0.5f);
+	else
+		w = 1.0f / (float) tan(instanceData->fov * 0.5f) / instanceData->aspectRatioXToY;
+
 	h = w * instanceData->aspectRatioXToY;
 	q = zFar / (zFar - zNear);
 
@@ -617,7 +619,8 @@ E3Camera_GetWorldToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *worldToFrust
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum)
-{	float								scaleWidth, scaleHeight, translateX, translateY;
+{	float								scaleWidth, scaleHeight;
+	float								translateX, translateY;
 	TQ3XCameraFrustumMatrixMethod		frustumMatrixMethod;
 	TQ3Matrix4x4						viewPortMatrix;
 	TQ3CameraViewPort					viewPort;
@@ -631,45 +634,51 @@ E3Camera_GetViewToFrustum(TQ3CameraObject theCamera, TQ3Matrix4x4 *viewToFrustum
 
 	// Get the camera method
 	frustumMatrixMethod = (TQ3XCameraFrustumMatrixMethod)
-								E3ClassTree_GetMethod(theCamera->theClass,
-													  kQ3XMethodTypeCameraFrustumMatrix);
+						  E3ClassTree_GetMethod(theCamera->theClass, kQ3XMethodTypeCameraFrustumMatrix);
 	if (frustumMatrixMethod == NULL)
 		return(kQ3Failure);
 
 
 
-	// Call the method
+	// Get the view to frustum matrix
+	//
+	// This matrix transforms the viewing coordinate system to the canonical
+	// frustum. This ranges from -1 to +1 in x and y, and 0 to -1 in z (where
+	// 0 is the near clip plane, and -1 is the  far clip plane).
 	frustumMatrixMethod(theCamera, viewToFrustum);
 
 
 
-	// If we're using a non-identity view port, distort the frustum as
-	// per the viewport settings. For more info on viewports, see the
-	// QD3D 1.5.4 book (in particular, the 3DMF section on viewports
-	// has more detail than the camera section).
+	// Get the camera view port
+	//
+	// A portion of the viewing frustum can be selected with the camera's
+	// view port.
+	//
+	// Since the frustum sides are parallel, this can be accomplished by
+	// scaling and translating the viewing frustum in order to expand some
+	// portion of the xy plane to the full -1/+1 range.
+	//
+	// The default view port corresponds to the full -1/+1 range, and so the
+	// additional transforms will be identity transforms for that case.
 	Q3Camera_GetViewPort(theCamera, &viewPort);
-	if (viewPort.origin.x != -1.0f || viewPort.origin.y !=  1.0f ||
-		viewPort.width    !=  2.0f || viewPort.height   !=  2.0f)
-		{
-		// Work out the scaling and translation required
-		scaleWidth  = 2.0f / viewPort.width;
-		scaleHeight = 2.0f / viewPort.height;
-
-		translateX = -1.0f - (viewPort.origin.x * scaleWidth);
-		translateY =  1.0f - (viewPort.origin.y * scaleHeight);
 
 
 
-		// Scale the frustum
- 		Q3Matrix4x4_SetScale(&viewPortMatrix, scaleWidth, scaleHeight, 1.0f);
-		Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
+	// Translate the view port to the origin
+	translateX = viewPort.origin.x + (viewPort.width  / 2.0f);
+	translateY = viewPort.origin.y - (viewPort.height / 2.0f);
+
+	Q3Matrix4x4_SetTranslate(&viewPortMatrix, -translateX, -translateY, 0.0f);
+	Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
 
 
 
-		// Then translate it
-		Q3Matrix4x4_SetTranslate(&viewPortMatrix, translateX, translateY, 0.0f);
-		Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
-		}
+	// Scale it back up to -1 to +1 in x and y
+	scaleWidth  = 2.0f / viewPort.width;
+	scaleHeight = 2.0f / viewPort.height;
+
+ 	Q3Matrix4x4_SetScale(&viewPortMatrix, scaleWidth, scaleHeight, 1.0f);
+	Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
 
 	return(kQ3Success);
 }
