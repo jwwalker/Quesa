@@ -246,8 +246,7 @@ enum TModalButtons
 	} TModalButtons;
 
 
-typedef struct TQ3ViewerData
-	{
+typedef struct TQ3ViewerData {
 	TQ3Uns32								validViewer;
 	TQ3Uns32								flags;
 	TQ3Uns32								currentButton;
@@ -280,7 +279,7 @@ typedef struct TQ3ViewerData
 #else
 	// other platforms
 #endif
-	} TQ3ViewerData;
+} TQ3ViewerData;
 
 
 static char gContinueTracking = 0;

@@ -66,7 +66,7 @@ typedef struct TE3_MemoryStorageData {
 
 
 // Path storage
-typedef struct {
+typedef struct TQ3PathStorageData {
 	char		*thePath;
 	FILE		*theFile;
 } TQ3PathStorageData;

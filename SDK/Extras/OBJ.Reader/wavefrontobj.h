@@ -49,8 +49,7 @@
 
 
 
-typedef struct
-{
+typedef struct OBJMaterialType {
 	Str32					name;
 	TQ3ColorRGB				diffuseColor;
 	TQ3ColorRGB				ambientColor;
@@ -58,11 +57,10 @@ typedef struct
 	float					diffuseCoeff;
 	float					specularCoeff;
 	TQ3SurfaceShaderObject	texture;
-}OBJMaterialType;
+} OBJMaterialType;
 
 
-typedef struct
-{
+typedef struct OBJGroupType {
 	short		materialNum;
 
 	TQ3Int32	numPoints;	
@@ -78,15 +76,14 @@ typedef struct
 	TQ3Uns16		trianglePointIndecies[MAX_TRIANGLES][3];
 	TQ3Uns16		triangleUVIndecies[MAX_TRIANGLES][3];
 	TQ3Uns16		triangleNormalIndecies[MAX_TRIANGLES][3];
-	
-}OBJGroupType;
+} OBJGroupType;
 
 
 
 
 
 
-typedef struct {
+typedef struct TE3FFormat_OBJ_Data {
 	TQ3FFormatBaseData baseData;
 
 	TQ3Object			model;
@@ -104,8 +101,6 @@ typedef struct {
 	TQ3Uns32			gCurrentGroup;
 	OBJGroupType*		gGroups[MAX_GROUPS];
 	char				gWord[32];
-	
-
 } TE3FFormat_OBJ_Data;
 
 

@@ -81,6 +81,9 @@ typedef enum
 } TQ3XOrderIndex;
 
 
+
+
+
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
@@ -94,14 +97,14 @@ typedef struct TQ3XGroupPosition { // 12 bytes overhead per object in a group
 } TQ3XGroupPosition;
 
 
-typedef struct { // 16 bytes overhead per group
+typedef struct TQ3GroupData { // 16 bytes overhead per group
 // initialised in e3group_new
 	TQ3XGroupPosition						listHead;
 	TQ3Uns32								groupPositionSize;
 } TQ3GroupData;
 
 
-typedef struct { // 32 bytes + 16 bytes = 48 bytes overhead per display group
+typedef struct TQ3DisplayGroupData { // 32 bytes + 16 bytes = 48 bytes overhead per display group
 // initialised in e3group_display_new
 	TQ3DisplayGroupState	state;
 	TQ3BoundingBox			bBox;
@@ -111,6 +114,10 @@ typedef struct { // 32 bytes + 16 bytes = 48 bytes overhead per display group
 typedef struct TQ3OrderedDisplayGroupData {
 	TQ3XGroupPosition		listHeads[ kQ3XOrderIndex_Count ];
 } TQ3OrderedDisplayGroupData;
+
+
+
+
 
 #pragma mark -
 //=============================================================================

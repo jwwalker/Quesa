@@ -107,7 +107,7 @@ typedef TQ3Uns32 TQ3PickDetail;
 
 
 // Pick data
-typedef struct {
+typedef struct TQ3PickData {
     TQ3PickSort                                 sort;
     TQ3PickDetail                               mask;
     TQ3Uns32                                    numHitsToReturn;
@@ -115,7 +115,7 @@ typedef struct {
 
 
 // Window point pick data
-typedef struct {
+typedef struct TQ3WindowPointPickData {
     TQ3PickData                                 data;
     TQ3Point2D                                  point;
     float                                       vertexTolerance;
@@ -124,14 +124,14 @@ typedef struct {
 
 
 // Window rect pick data
-typedef struct {
+typedef struct TQ3WindowRectPickData {
     TQ3PickData                                 data;
     TQ3Area                                     rect;
 } TQ3WindowRectPickData;
 
 
 // World ray pick data
-typedef struct {
+typedef struct TQ3WorldRayPickData {
     TQ3PickData                                 data;
     TQ3Ray3D                                    ray;
     float                                       vertexTolerance;
@@ -181,7 +181,7 @@ typedef struct {
  *  @field depth            Number of valid entries within positions.
  *  @field positions        Array of group positions leading to the picked object.
  */
-typedef struct {
+typedef struct TQ3HitPath {
     TQ3GroupObject                              rootGroup;
     TQ3Uns32                                    depth;
     TQ3GroupPosition                            *positions;

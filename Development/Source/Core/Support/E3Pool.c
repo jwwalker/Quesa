@@ -6,7 +6,7 @@
 		
 		To instantiate a pool, do:
 
-			typedef struct {
+			typedef struct TE3Foo {
 				TQ3Int32		foo;
 			} TE3Foo;
 

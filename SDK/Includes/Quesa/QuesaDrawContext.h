@@ -128,7 +128,7 @@ typedef enum {
 //      Types
 //-----------------------------------------------------------------------------
 // Draw context data
-typedef struct {
+typedef struct TQ3DrawContextData {
     TQ3DrawContextClearImageMethod              clearImageMethod;
     TQ3ColorARGB                                clearImageColor;
     TQ3Area                                     pane;
@@ -140,7 +140,7 @@ typedef struct {
 
 
 // Pixmap draw context data
-typedef struct {
+typedef struct TQ3PixmapDrawContextData {
     TQ3DrawContextData                          drawContextData;
     TQ3Pixmap                                   pixmap;
 } TQ3PixmapDrawContextData;
@@ -161,7 +161,7 @@ typedef struct {
 
 
 // Mac draw context data
-typedef struct {
+typedef struct TQ3MacDrawContextData {
     TQ3DrawContextData                          drawContextData;
     CWindowPtr                                  window;
     TQ3MacDrawContext2DLibrary                  library;
@@ -181,7 +181,7 @@ typedef struct {
 #if QUESA_OS_WIN32
 
 // Windows DC draw context data
-typedef struct {
+typedef struct TQ3Win32DCDrawContextData {
     TQ3DrawContextData                          drawContextData;
     HDC                                         hdc;
 } TQ3Win32DCDrawContextData;
@@ -191,7 +191,7 @@ typedef struct {
 #if !defined(QD3D_NO_DIRECTDRAW)
 
 // DD interface
-typedef struct {
+typedef struct TQ3DDSurfaceDescriptor {
     TQ3DirectDrawObjectSelector                 objectSelector;
 
     union {
@@ -206,7 +206,7 @@ typedef struct {
 } TQ3DDSurfaceDescriptor;
 
 // DD draw context data
-typedef struct {
+typedef struct TQ3DDSurfaceDrawContextData {
     TQ3DrawContextData                          drawContextData;
     TQ3DDSurfaceDescriptor                      ddSurfaceDescriptor;
 } TQ3DDSurfaceDrawContextData;
@@ -230,7 +230,7 @@ typedef struct OpaqueTQ3XBufferObject           *TQ3XBufferObject;
 
 
 // X11 color map 
-typedef struct {
+typedef struct TQ3XColormapData {
     TQ3Int32                                    baseEntry;
     TQ3Int32                                    maxRed;
     TQ3Int32                                    maxGreen;
@@ -242,7 +242,7 @@ typedef struct {
 
 
 // X11 draw context data
-typedef struct {
+typedef struct TQ3XDrawContextData {
     TQ3DrawContextData                          contextData;
     Display                                     *display;
     Drawable                                    drawable;
@@ -280,7 +280,7 @@ typedef struct TQ3BeDrawContextData {
 #if QUESA_OS_COCOA
 
 // Cocoa draw context data
-typedef struct {
+typedef struct TQ3CocoaDrawContextData {
     TQ3DrawContextData                          drawContextData;
     void                                        *nsView;
 } TQ3CocoaDrawContextData;

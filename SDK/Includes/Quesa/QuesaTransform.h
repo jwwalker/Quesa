@@ -66,14 +66,14 @@ extern "C" {
 //      Types
 //-----------------------------------------------------------------------------
 // Rotate transform data
-typedef struct {
+typedef struct TQ3RotateTransformData {
     TQ3Axis                                     axis;
     TQ3Float32                                  radians;
 } TQ3RotateTransformData;
 
 
 // Rotate about point transform data
-typedef struct {
+typedef struct TQ3RotateAboutPointTransformData {
     TQ3Axis                                     axis;
     TQ3Float32                                  radians;
     TQ3Point3D                                  about;
@@ -81,7 +81,7 @@ typedef struct {
 
 
 // Rotate about axis transform data
-typedef struct {
+typedef struct TQ3RotateAboutAxisTransformData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
     TQ3Float32                                  radians;

@@ -46,7 +46,7 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-typedef struct {
+typedef struct TQ3RendererData {
 	// Interactive renderer state (for all interactive renderers)
 	TQ3CSGEquation			interactiveCSGEquation;
 	TQ3RaveVendorID			interactiveVendorID;

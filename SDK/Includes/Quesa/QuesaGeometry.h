@@ -96,7 +96,7 @@ typedef enum {
 //      Types
 //-----------------------------------------------------------------------------
 // Box data
-typedef struct {
+typedef struct TQ3BoxData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
     TQ3Vector3D                                 majorAxis;
@@ -107,7 +107,7 @@ typedef struct {
 
 
 // Cone data
-typedef struct {
+typedef struct TQ3ConeData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
     TQ3Vector3D                                 majorRadius;
@@ -125,7 +125,7 @@ typedef struct {
 
 
 // Cylinder data
-typedef struct {
+typedef struct TQ3CylinderData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
     TQ3Vector3D                                 majorRadius;
@@ -144,7 +144,7 @@ typedef struct {
 
 
 // Disk data
-typedef struct {
+typedef struct TQ3DiskData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 majorRadius;
     TQ3Vector3D                                 minorRadius;
@@ -157,7 +157,7 @@ typedef struct {
 
 
 // Ellipse data
-typedef struct {
+typedef struct TQ3EllipseData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 majorRadius;
     TQ3Vector3D                                 minorRadius;
@@ -168,7 +168,7 @@ typedef struct {
 
 
 // Ellipsoid data
-typedef struct {
+typedef struct TQ3EllipsoidData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
     TQ3Vector3D                                 majorRadius;
@@ -184,14 +184,14 @@ typedef struct {
 
 
 // General polygon contour
-typedef struct {
+typedef struct TQ3GeneralPolygonContourData {
     TQ3Uns32                                    numVertices;
     TQ3Vertex3D                                 *vertices;
 } TQ3GeneralPolygonContourData;
 
 
 // General polygon data
-typedef struct {
+typedef struct TQ3GeneralPolygonData {
     TQ3Uns32                                    numContours;
     TQ3GeneralPolygonContourData                *contours;
     TQ3GeneralPolygonShapeHint                  shapeHint;
@@ -200,14 +200,14 @@ typedef struct {
 
 
 // Line data
-typedef struct {
+typedef struct TQ3LineData {
     TQ3Vertex3D                                 vertices[2];
     TQ3AttributeSet                             lineAttributeSet;
 } TQ3LineData;
 
 
 // Marker data
-typedef struct {
+typedef struct TQ3MarkerData {
     TQ3Point3D                                  location;
     TQ3Int32                                    xOffset;
     TQ3Int32                                    yOffset;
@@ -223,7 +223,7 @@ typedef struct OpaqueTQ3MeshFace                *TQ3MeshFace;
 typedef struct OpaqueTQ3MeshEdge                *TQ3MeshEdge;
 typedef struct OpaqueTQ3MeshContour             *TQ3MeshContour;
 
-typedef struct {
+typedef struct TQ3MeshIterator {
     void                                        *var1;
     void                                        *var2;
     void                                        *var3;
@@ -235,7 +235,7 @@ typedef struct {
 
 
 // NURB curve data
-typedef struct {
+typedef struct TQ3NURBCurveData {
     TQ3Uns32                                    order;
     TQ3Uns32                                    numPoints;
     TQ3RationalPoint4D                          *controlPoints;
@@ -245,19 +245,19 @@ typedef struct {
 
 
 // NURB patch data
-typedef struct {
+typedef struct TQ3NURBPatchTrimCurveData {
     TQ3Uns32                                    order;
     TQ3Uns32                                    numPoints;
     TQ3RationalPoint3D                          *controlPoints;
     float                                       *knots;
 } TQ3NURBPatchTrimCurveData;
 
-typedef struct {
+typedef struct TQ3NURBPatchTrimLoopData {
     TQ3Uns32                                    numTrimCurves;
     TQ3NURBPatchTrimCurveData                   *trimCurves;
 } TQ3NURBPatchTrimLoopData;
 
-typedef struct {
+typedef struct TQ3NURBPatchData {
     TQ3Uns32                                    uOrder;
     TQ3Uns32                                    vOrder;
     TQ3Uns32                                    numRows;
@@ -272,7 +272,7 @@ typedef struct {
 
 
 // Pixmap marker data
-typedef struct {
+typedef struct TQ3PixmapMarkerData {
     TQ3Point3D                                  position;
     TQ3Int32                                    xOffset;
     TQ3Int32                                    yOffset;
@@ -282,14 +282,14 @@ typedef struct {
 
 
 // Point data
-typedef struct {
+typedef struct TQ3PointData {
     TQ3Point3D                                  point;
     TQ3AttributeSet                             pointAttributeSet;
 } TQ3PointData;
 
 
 // Polygon data
-typedef struct {
+typedef struct TQ3PolygonData {
     TQ3Uns32                                    numVertices;
     TQ3Vertex3D                                 *vertices;
     TQ3AttributeSet                             polygonAttributeSet;
@@ -299,19 +299,19 @@ typedef struct {
 // Polyhedron data
 typedef TQ3Uns32                                TQ3PolyhedronEdge;
 
-typedef struct {
+typedef struct TQ3PolyhedronEdgeData {
     TQ3Uns32                                    vertexIndices[2];
     TQ3Uns32                                    triangleIndices[2];
     TQ3AttributeSet                             edgeAttributeSet;
 } TQ3PolyhedronEdgeData;
 
-typedef struct {
+typedef struct TQ3PolyhedronTriangleData {
     TQ3Uns32                                    vertexIndices[3];
     TQ3PolyhedronEdge                           edgeFlag;
     TQ3AttributeSet                             triangleAttributeSet;
 } TQ3PolyhedronTriangleData;
 
-typedef struct {
+typedef struct TQ3PolyhedronData {
     TQ3Uns32                                    numVertices;
     TQ3Vertex3D                                 *vertices;
     TQ3Uns32                                    numEdges;
@@ -323,7 +323,7 @@ typedef struct {
 
 
 // Polyline data
-typedef struct {
+typedef struct TQ3PolyLineData {
     TQ3Uns32                                    numVertices;
     TQ3Vertex3D                                 *vertices;
     TQ3AttributeSet                             *segmentAttributeSet;
@@ -332,7 +332,7 @@ typedef struct {
 
 
 // Torus data
-typedef struct {
+typedef struct TQ3TorusData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
     TQ3Vector3D                                 majorRadius;
@@ -349,14 +349,14 @@ typedef struct {
 
 
 // Triangle data
-typedef struct {
+typedef struct TQ3TriangleData {
     TQ3Vertex3D                                 vertices[3];
     TQ3AttributeSet                             triangleAttributeSet;
 } TQ3TriangleData;
 
 
 // TriGrid data
-typedef struct {
+typedef struct TQ3TriGridData {
     TQ3Uns32                                    numRows;
     TQ3Uns32                                    numColumns;
     TQ3Vertex3D                                 *vertices;
@@ -366,22 +366,22 @@ typedef struct {
 
 
 // TriMesh data
-typedef struct {
+typedef struct TQ3TriMeshTriangleData {
     TQ3Uns32                                    pointIndices[3];
 } TQ3TriMeshTriangleData;
 
-typedef struct {
+typedef struct TQ3TriMeshEdgeData {
     TQ3Uns32                                    pointIndices[2];
     TQ3Uns32                                    triangleIndices[2];
 } TQ3TriMeshEdgeData;
 
-typedef struct {
+typedef struct TQ3TriMeshAttributeData {
     TQ3AttributeType                            attributeType;
     void                                        *data;
     char                                        *attributeUseArray;
 } TQ3TriMeshAttributeData;
 
-typedef struct {
+typedef struct TQ3TriMeshData {
     TQ3AttributeSet                             triMeshAttributeSet;
 
     TQ3Uns32                                    numTriangles;

@@ -93,7 +93,7 @@ typedef enum TQ3ViewStackState TQ3ViewStackState;
 //      Internal types
 //-----------------------------------------------------------------------------
 // Stack data
-typedef struct {
+typedef struct TQ3ViewStackItem {
 	TQ3ViewStackState			stackState;
 	TQ3AttributeSet				attributeSet;
 	TQ3Matrix4x4				matrixLocal;
@@ -127,7 +127,7 @@ typedef struct {
 
 
 // View data
-typedef struct {
+typedef struct TQ3ViewData {
 	// View state
 	TQ3ViewMode					viewMode;
 	TQ3ViewState				viewState;

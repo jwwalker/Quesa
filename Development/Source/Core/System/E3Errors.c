@@ -52,7 +52,7 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
-typedef struct {
+typedef struct TQ3StringIdentifier {
 	TQ3Int32		theEnum;
 	const char		*theString;
 } TQ3StringIdentifier;

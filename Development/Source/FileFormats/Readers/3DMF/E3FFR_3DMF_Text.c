@@ -217,11 +217,11 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag,TQ3FileObject theFile, TQ3ObjectType hi
 	TQ3Uns32 charsRead,i;
 	
 
-	typedef struct{
+	typedef struct dictEntry {
 		TQ3ObjectType hint;
 		char name[32];
 		TQ3Int32 value;
-		} dictEntry;
+	} dictEntry;
 		
 	static dictEntry dictionary[] = {
 								{kQ3ObjectTypeAttributeSetList,"INCLUDE",0},

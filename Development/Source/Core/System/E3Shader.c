@@ -45,7 +45,7 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 // Shader state data
-typedef struct {
+typedef struct TQ3ShaderData {
 	TQ3ShaderUVBoundary		uBoundary;
 	TQ3ShaderUVBoundary		vBoundary;
 	TQ3Matrix3x3			uvTransform;

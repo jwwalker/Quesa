@@ -130,7 +130,7 @@ typedef CALLBACK_API_C(TQ3Status,           TQ3XSharedLibraryRegister)(
 
 
 // Shared library info
-typedef struct {
+typedef struct TQ3XSharedLibraryInfo {
     TQ3XSharedLibraryRegister       registerFunction;
     TQ3Uns32                        sharedLibrary;
 } TQ3XSharedLibraryInfo;

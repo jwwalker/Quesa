@@ -222,7 +222,7 @@ typedef enum {
 //      Types
 //-----------------------------------------------------------------------------
 // Subdivision style
-typedef struct {
+typedef struct TQ3SubdivisionStyleData {
     TQ3SubdivisionMethod                        method;
     float                                       c1;
     float                                       c2;
@@ -236,7 +236,7 @@ typedef TQ3Uns32                                TQ3PickParts;
 // Anti-alias style
 typedef TQ3Uns32                                TQ3AntiAliasMode;
 
-typedef struct {
+typedef struct TQ3AntiAliasStyleData {
     TQ3Switch                                   state;
     TQ3AntiAliasMode                            mode;
     float                                       quality;
@@ -244,7 +244,7 @@ typedef struct {
 
 
 // Fog style
-typedef struct {
+typedef struct TQ3FogStyleData {
     TQ3Switch                                   state;
     TQ3FogMode                                  mode;
     float                                       fogStart;

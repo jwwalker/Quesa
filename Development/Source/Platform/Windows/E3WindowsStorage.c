@@ -48,7 +48,7 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 // Windows storage
-typedef struct {
+typedef struct TQ3Win32StorageData {
 	HANDLE		theFile;
 } TQ3Win32StorageData;
 

@@ -161,11 +161,14 @@ typedef struct TparamData {
 
 
 
-typedef struct {
+typedef struct TE3FFormat_3ds_Data {
 	TQ3FFormatBaseData baseData;
 
 	TQ3Object model;
 } TE3FFormat_3ds_Data;
+
+
+
 
 
 //=============================================================================
@@ -181,6 +184,10 @@ static FILE *sLogFile = NULL;
 #define REPORT(a)
 #endif
 
+
+
+
+
 //=============================================================================
 //      Global Variables
 //-----------------------------------------------------------------------------
@@ -192,6 +199,9 @@ static TQ3XObjectClass sRegisteredClass;
 
 #define kCameraHint  -2
 #define kLightHint  -1
+
+
+
 
 
 //=============================================================================
