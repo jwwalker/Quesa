@@ -1718,6 +1718,28 @@ Q3Shared_IsReferenced (
 );
 
 
+/*!
+ *  @function
+ *      Q3Shared_GetReferenceCount
+ *  @discussion
+ *      Return the reference count of a shared object.
+ *
+ *      This function should be used only for debugging.  If you are
+ *      tempted to use it for something else, then you probably don't
+ *		understand the correct way to work with reference-counted objects.
+ *
+ *  @param sharedObject     The object to test.
+ *  @result                 Reference count.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+EXTERN_API_C ( TQ3Uns32 )
+Q3Shared_GetReferenceCount (
+	TQ3SharedObject               sharedObject
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
 
 /*!
  *  @function
