@@ -3,6 +3,19 @@
 
 	DESCRIPTION:
 		Quesa generic array and generic doubly-linked circular list.
+		
+		To instantiate the array, do:
+
+			typedef struct {
+				TQ3Int32		foo;
+			} TE3Foo;
+
+			E3ARRAY_DECLARE        (TE3Foo, e3foo);
+			E3ARRAY_DEFINE         (TE3Foo, e3foo, static);
+			E3LIST_DECLARE         (TE3Foo, e3foo);
+			E3LIST_DEFINE          (TE3Foo, e3foo, static);
+			E3ARRAY_OR_LIST_DECLARE(TE3Foo, e3foo);
+			E3ARRAY_OR_LIST_DEFINE (TE3Foo, e3foo, static);
 
 	COPYRIGHT:
 		Quesa Copyright © 1999-2000, Quesa Developers.
@@ -35,26 +48,6 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3ArrayOrList.h"
-
-
-
-
-
-//=============================================================================
-//      Example instantiation
-//-----------------------------------------------------------------------------
-/*
-typedef struct {
-	TQ3Int32		foo;
-} TE3Foo;
-
-E3ARRAY_DECLARE        (TE3Foo, e3foo);
-E3ARRAY_DEFINE         (TE3Foo, e3foo, static);
-E3LIST_DECLARE         (TE3Foo, e3foo);
-E3LIST_DEFINE          (TE3Foo, e3foo, static);
-E3ARRAY_OR_LIST_DECLARE(TE3Foo, e3foo);
-E3ARRAY_OR_LIST_DEFINE (TE3Foo, e3foo, static);
-*/
 
 
 

@@ -3,6 +3,15 @@
 
 	DESCRIPTION:
 		Quesa pool of identically-sized objects.
+		
+		To instantiate a pool, do:
+
+			typedef struct {
+				TQ3Int32		foo;
+			} TE3Foo;
+
+			E3POOL_DECLARE(TE3Foo, E3Foo);
+			E3POOL_DEFINE (TE3Foo, E3Foo, static, 8);
 
 	COPYRIGHT:
 		Quesa Copyright © 1999-2000, Quesa Developers.
@@ -35,22 +44,6 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Pool.h"
-
-
-
-
-
-//=============================================================================
-//      Example instantiation
-//-----------------------------------------------------------------------------
-/*
-typedef struct {
-	TQ3Int32		foo;
-} TE3Foo;
-
-E3POOL_DECLARE(TE3Foo, E3Foo);
-E3POOL_DEFINE (TE3Foo, E3Foo, static, 8);
-*/
 
 
 
