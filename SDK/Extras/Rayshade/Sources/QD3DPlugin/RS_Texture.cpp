@@ -180,6 +180,7 @@ rs_TextureConvertMemory(
 		TQ3Uns32				srcWidth,
 		TQ3Uns32				srcHeight,
 		TQ3Uns32				srcRowBytes,
+		bool					srcBigEndian,
 		TQ3Uns8					*srcBaseAddr,
 		int						*dstWidth,
 		int						*dstHeight,
@@ -220,6 +221,18 @@ rs_TextureConvertMemory(
 			break;
 	}
 	
+	// Encode both the source pixel type and byte order in a new variable srcPixelFormat.
+	enum
+	{
+		kLittleEndianOffset = 100
+	};
+	
+	int	srcPixelFormat = srcPixelType;
+	
+	if (not srcBigEndian)
+	{
+		srcPixelFormat += kLittleEndianOffset;
+	}
 	
 	for (y = 0; y < (int)srcHeight; y++)
 	{
@@ -230,7 +243,7 @@ rs_TextureConvertMemory(
 		for (x = 0; x < (int)srcWidth; x++)
 		{
 			TQ3Uns32 n;
-			switch (srcPixelType) {
+			switch (srcPixelFormat) {
 				case kQ3PixelTypeARGB32:
 					dstPixel[1] = srcPixel[1];
 					dstPixel[2] = srcPixel[2];
@@ -238,10 +251,24 @@ rs_TextureConvertMemory(
 					dstPixel[0] = srcPixel[0];
 					break;
 
+				case kQ3PixelTypeARGB32 + kLittleEndianOffset:
+					dstPixel[1] = srcPixel[2];
+					dstPixel[2] = srcPixel[1];
+					dstPixel[3] = srcPixel[0];
+					dstPixel[0] = srcPixel[3];
+					break;
+
 				case kQ3PixelTypeRGB32:
 					dstPixel[1] = srcPixel[1];
 					dstPixel[2] = srcPixel[2];
 					dstPixel[3] = srcPixel[3];
+					dstPixel[0] = 0xFF;
+					break;
+
+				case kQ3PixelTypeRGB32 + kLittleEndianOffset:
+					dstPixel[1] = srcPixel[2];
+					dstPixel[2] = srcPixel[1];
+					dstPixel[3] = srcPixel[0];
 					dstPixel[0] = 0xFF;
 					break;
 
@@ -252,8 +279,28 @@ rs_TextureConvertMemory(
 					dstPixel[0] = 0xFF;
 					break;
 
+				case kQ3PixelTypeRGB24 + kLittleEndianOffset:
+					dstPixel[1] = srcPixel[2];
+					dstPixel[2] = srcPixel[1];
+					dstPixel[3] = srcPixel[0];
+					dstPixel[0] = 0xFF;
+					break;
+
 				case kQ3PixelTypeARGB16:
-				    n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+				    n = (((TQ3Uns16)srcPixel[0]) << 8) | srcPixel[1];
+					alphaBits = (n >> 15) & 0x0001;
+					redBits   = (n >> 10) & 0x001F;
+					greenBits = (n >>  5) & 0x001F;
+					blueBits  = (n >>  0) & 0x001F;
+							
+					dstPixel[1] = (TQ3Uns8) (redBits   * 8);
+					dstPixel[2] = (TQ3Uns8) (greenBits * 8);
+					dstPixel[3] = (TQ3Uns8) (blueBits  * 8);
+					dstPixel[0] = (TQ3Uns8) (alphaBits * 0xFF);
+					break;
+
+				case kQ3PixelTypeARGB16 + kLittleEndianOffset:
+				    n = (((TQ3Uns16)srcPixel[1]) << 8) | srcPixel[0];
 					alphaBits = (n >> 15) & 0x0001;
 					redBits   = (n >> 10) & 0x001F;
 					greenBits = (n >>  5) & 0x001F;
@@ -266,7 +313,19 @@ rs_TextureConvertMemory(
 					break;
 
 				case kQ3PixelTypeRGB16:
-					n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+					 n = (((TQ3Uns16)srcPixel[0]) << 8) | srcPixel[1];
+					redBits   = (n >> 10) & 0x001F;
+					greenBits = (n >>  5) & 0x001F;
+					blueBits  = (n >>  0) & 0x001F;
+
+					dstPixel[1] = (TQ3Uns8) (redBits   * 8);
+					dstPixel[2] = (TQ3Uns8) (greenBits * 8);
+					dstPixel[3] = (TQ3Uns8) (blueBits  * 8);
+					dstPixel[0] = 0xFF;
+					break;
+
+				case kQ3PixelTypeRGB16 + kLittleEndianOffset:
+					 n = (((TQ3Uns16)srcPixel[1]) << 8) | srcPixel[0];
 					redBits   = (n >> 10) & 0x001F;
 					greenBits = (n >>  5) & 0x001F;
 					blueBits  = (n >>  0) & 0x001F;
@@ -278,7 +337,7 @@ rs_TextureConvertMemory(
 					break;
 
 				case kQ3PixelTypeRGB16_565:
-					n         = (TQ3Uns32) *((TQ3Uns16 *) srcPixel);
+					n = (((TQ3Uns16)srcPixel[0]) << 8) | srcPixel[1];
 					redBits   = (n >> 11) & 0x001F;
 					greenBits = (n >>  5) & 0x003F;
 					blueBits  = (n >>  0) & 0x001F;
@@ -288,8 +347,21 @@ rs_TextureConvertMemory(
 					dstPixel[3] = (TQ3Uns8) (blueBits  * 8);
 					dstPixel[0] = 0xFF;
 					break;
+					
+				case kQ3PixelTypeRGB16_565 + kLittleEndianOffset:
+					n = (((TQ3Uns16)srcPixel[1]) << 8) | srcPixel[0];
+					redBits   = (n >> 11) & 0x001F;
+					greenBits = (n >>  5) & 0x003F;
+					blueBits  = (n >>  0) & 0x001F;
+
+					dstPixel[1] = (TQ3Uns8) (redBits   * 8);
+					dstPixel[2] = (TQ3Uns8) (greenBits * 4);
+					dstPixel[3] = (TQ3Uns8) (blueBits  * 8);
+					dstPixel[0] = 0xFF;
+					break;
+					
 				default:
-					Q3_ASSERT(false);
+					Q3_ASSERT(!"unknown pixel format");
 					break;
 				}
 				srcPixel += srcPixelSize;
@@ -320,6 +392,7 @@ rt_TextureConvertImage(
 		TQ3Uns32				srcWidth,
 		TQ3Uns32				srcHeight,
 		TQ3Uns32				srcRowBytes,
+		bool					srcBigEndian,
 		int						*dstWidth,
 		int						*dstHeight,
 		TQ3Uns32				*dstRowBytes,
@@ -346,7 +419,7 @@ rt_TextureConvertImage(
 	
 
 	dstBasePtr = rs_TextureConvertMemory(
-					rsPrivate,srcPixelType,srcWidth,srcHeight,srcRowBytes,srcBasePtr,
+					rsPrivate,srcPixelType,srcWidth,srcHeight,srcRowBytes,srcBigEndian,srcBasePtr,
 					dstWidth,dstHeight,dstRowBytes,dstPixelType);
 	
 	
@@ -394,6 +467,7 @@ RS_DefineTexture_PixMap(
 							thePixmap.width,
 							thePixmap.height,
 							thePixmap.rowBytes,
+							(thePixmap.byteOrder == kQ3EndianBig),
 							&theWidth,
 							&theHeight,
 							&rowBytes,
@@ -456,6 +530,7 @@ RS_DefineTexture_MipMap(
 							theMipmap.mipmaps[0].width,
 							theMipmap.mipmaps[0].height,
 							theMipmap.mipmaps[0].rowBytes,
+							(theMipmap.byteOrder == kQ3EndianBig),
 							&theWidth,
 							&theHeight,
 							&rowBytes,
