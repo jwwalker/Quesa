@@ -77,25 +77,25 @@
 //                  1) kQ3MajorVersion ... kQ3PrereleaseVersion (4 separate bytes)
 //                  2) kQ3StringVersion (string)
 //                  3) kQ3PackedVersion (4-byte word)
-//      Note :  kQ3MajorVersion, kQ3MinorVersion and kQ3PrereleaseVersion are
-//              each in binary-code-decimal format. For example, "1.2a56" is
-//              represented as 0x01,0x20,0x40,0x56. Note that the hexidecimal
-//              digits a..f should not occur in a version number.
+//      Note :  kQ3MajorVersion and kQ3MinorVersion are in binary-code-decimal
+//              format, whereas kQ3PrereleaseVersion is simply an unsigned
+//				integer. For example, "1.2.3a46" is represented as
+//              0x01,0x23,0x40,0x2E. Note that the hexadecimal digits a..f can
+//              occur only in the kQ3PrereleaseVersion part of in a version number.
 //      Note :  While kQ3MajorVersion and kQ3PrereleaseVersion occur BEFORE a
 //              decimal place, kQ3MinorVersion occurs AFTER the decimal place.
 //              Thus ".2" (= ".20" = ".2.0") is represented as 0x20, NOT 0x02.
-//      For more information, see the description of the 'vers' resource in
-//          "Inside Macintosh: Macintosh Toolbox Essential", p. 7-69.
+//      For more information, see the "Version Territory" tech note,
+//			<http://developer.apple.com/technotes/tn/tn1132.html>.
 //-----------------------------------------------------------------------------
 #define kQ3MajorVersion             0x01            // Major version for build
 #define kQ3MinorVersion             0x60            // Minor version for build
 #define kQ3ReleaseType              kDevelopment    // Release type for build
-#define kQ3PrereleaseVersion        0x19            // Prerelease version for build
+#define kQ3PrereleaseVersion        0x13            // Prerelease version for build
 #define kQ3StringVersion            "1.6d19"        // Stringified version of above
 #define kQ3PackedVersion            E3_FOUR_BYTE_CONSTANT(kQ3MajorVersion,  \
                                                           kQ3MinorVersion,  \
                                                           kQ3ReleaseType,   \
                                                           kQ3PrereleaseVersion)
-                                    
 
 #endif
