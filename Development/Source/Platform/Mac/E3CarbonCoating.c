@@ -38,8 +38,8 @@
 #include "E3Prefix.h"
 
 
-
-
+#pragma mark SHARED FUNCTIONS
+#pragma mark -
 
 //=============================================================================
 //      Public functions -- for all targets
@@ -89,14 +89,16 @@ void GetWindowContentRegion(CWindowPtr window, RgnHandle contentRgn)
 
 
 
-
+#if !TARGET_API_MAC_CARBON
+#pragma mark -
+#pragma mark CLASSIC FUNCTIONS
+#pragma mark -
 
 //=============================================================================
 //      Public functions -- for pre-Carbon targets
 //-----------------------------------------------------------------------------
 //	GetPortBounds : Get the bounds for a port.
 //-----------------------------------------------------------------------------
-#if !TARGET_API_MAC_CARBON
 
 Rect *GetPortBounds(CGrafPtr port, Rect* outRect)
 {
@@ -140,6 +142,65 @@ Rect *GetRegionBounds(RgnHandle region, Rect *bounds)
 Boolean IsRegionRectangular(RgnHandle region)
 {
 	return((*region)->rgnSize == 10);
+}
+
+#else
+#pragma mark -
+#pragma mark CARBON FUNCTIONS
+#pragma mark -
+
+//=============================================================================
+//	ZeroScrap : Clears the current scrap (clipboard).
+//-----------------------------------------------------------------------------
+void ZeroScrap()
+{
+	ClearCurrentScrap();
+}
+
+//=============================================================================
+//	GetScrap : Get data of the requested type from the clipboard; return
+//			   the size of the data (in bytes), or 0 if not found.
+//-----------------------------------------------------------------------------
+long GetScrap(Handle destHandle, ResType theType, long *scrapOffset)
+{
+	ScrapRef scrap;
+	GetCurrentScrap(&scrap);
+
+	// Check to see if the scrap type exists.
+	ScrapFlavorFlags flags;
+	GetScrapFlavorFlags(scrap, theType, &flags);
+	
+	// Get the size.
+	Size byteCount;
+	GetScrapFlavorSize(scrap, theType, &byteCount);
+
+	// If have a valid handle, get data.
+	if (destHandle and byteCount > 0) {
+		SetHandleSize(destHandle, byteCount);
+		if (MemError()) {
+			SysBeep(3); // couldn't resize handle; TO-DO: report error to user.
+		}
+		HLock(destHandle);
+		GetScrapFlavorData(scrap, theType, &byteCount, *destHandle);
+		HUnlock(destHandle);
+	}
+	
+	// Don't know how to get scrap offset, so:
+	if (scrapOffset) *scrapOffset = 0;
+	
+	// Return data size.
+	return byteCount;
+}
+
+//=============================================================================
+//	PutScrap : Adds data to the clipboard; returns an error code.
+//-----------------------------------------------------------------------------
+long PutScrap(long length, ResType theType, void* srcPtr)
+{
+	ScrapRef scrap;
+	ScrapFlavorFlags flavorFlags = kScrapFlavorMaskNone;			// Global scrap with no special handling
+	GetCurrentScrap(&scrap);										// initialize scrap
+	return PutScrapFlavor(scrap, theType, flavorFlags, length, srcPtr);	// copy the text to the clipboard
 }
 
 #endif // !TARGET_API_MAC_CARBON

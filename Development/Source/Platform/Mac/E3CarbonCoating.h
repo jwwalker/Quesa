@@ -63,13 +63,20 @@ void		GetWindowContentRegion(CWindowPtr window, RgnHandle contentRgn);
 void		GetWindowPortRect(CWindowPtr window, Rect* outRect);
 
 
-//  Functions used only in Classic targets (i.e., are already found in Carbon)
 #if !TARGET_API_MAC_CARBON
+//  Functions used only in Classic targets (i.e., are already found in Carbon)
 
 Rect		*GetPortBounds(CGrafPtr port, Rect* outRect);
 RgnHandle	GetPortVisibleRegion(CGrafPtr port, RgnHandle visRgn);
 Rect		*GetRegionBounds(RgnHandle region, Rect *bounds);
 Boolean		IsRegionRectangular(RgnHandle region);
+
+#else
+//  Functions used only in Carbon targets (i.e., are already found in Classic)
+
+void ZeroScrap();
+long GetScrap(Handle destHandle, ResType theType, long *scrapOffset);
+long PutScrap(long length, ResType theType, void* srcPtr);
 
 #endif // !TARGET_API_MAC_CARBON
 
