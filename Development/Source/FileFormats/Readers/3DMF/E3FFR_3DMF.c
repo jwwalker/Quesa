@@ -35,6 +35,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Set.h"
+#include "E3ClassTree.h"
 #include "E3FFR_3DMF.h"
 #include "E3FFR_3DMF_Bin.h"
 #include "E3FFR_3DMF_Text.h"
@@ -75,6 +76,21 @@ e3fformat_3dmf_read_next_element(TQ3AttributeSet parent,TQ3FileObject theFile)
 
 
 
+//=============================================================================
+//      e3fformat_3dmf_is_next_element : Is the next object an element?
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+e3fformat_3dmf_is_next_element( TQ3FileObject theFile )
+{
+	TQ3ObjectType	nextType = Q3File_GetNextObjectType( theFile );
+	E3ClassInfoPtr	theClass = E3ClassTree_GetClassByType( nextType );
+	
+	return E3ClassTree_IsType( theClass, kQ3ObjectTypeElement );
+}
+
+
+
+
 
 //=============================================================================
 //      e3fformat_3dmf_set_read : Creates and read an attribute set from a 3DMF.
@@ -93,7 +109,7 @@ e3fformat_3dmf_set_read(TQ3FileObject theFile)
 
 
 	// Read the elements in to the set
-	while (!Q3File_IsEndOfContainer(theFile, NULL))
+	while (!Q3File_IsEndOfContainer(theFile, NULL) && e3fformat_3dmf_is_next_element(theFile))
 		e3fformat_3dmf_read_next_element(theSet, theFile);
 
 	return(theSet);
