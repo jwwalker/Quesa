@@ -114,7 +114,6 @@ void					E3View_PickStack_BeginDecomposedObject(TQ3ViewObject theView);
 void					E3View_PickStack_EndDecomposedObject(TQ3ViewObject theView);
 void					E3View_PickStack_PopGroup(TQ3ViewObject theView);
 
-void							E3View_State_InitGroupMatrix(TQ3ViewObject theView);
 TQ3Status						E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *theMatrix);
 const TQ3Matrix4x4				*E3View_State_GetLocalToWorld(TQ3ViewObject theView);
 const TQ3SubdivisionStyleData	*E3View_State_GetStyleSubdivision(TQ3ViewObject theView);
