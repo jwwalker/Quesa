@@ -811,6 +811,42 @@ Q3Shared_IsReferenced(TQ3SharedObject sharedObject)
 
 
 //=============================================================================
+//      Q3Shared_GetReferenceCount : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Uns32
+Q3Shared_GetReferenceCount( TQ3SharedObject               sharedObject )
+{
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(sharedObject->quesaTag == kQ3ObjectTypeQuesa, kQ3False);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(sharedObject, kQ3ObjectTypeShared), kQ3False);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on sharedObject
+		return(kQ3False);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3Shared_GetReferenceCount( sharedObject ));
+}
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+
+
+//=============================================================================
 //      Q3Shared_GetEditIndex : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Uns32
