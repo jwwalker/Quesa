@@ -37,6 +37,7 @@
 #include "IRRenderer.h"
 #include "IRGeometry.h"
 #include "IRUpdate.h"
+#include "IRTransparent.h"
 #include "IRLights.h"
 
 #include "GLPrefix.h"
@@ -69,6 +70,11 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 		// If we don't have a draw context, rebuild everything
 		if (instanceData->glContext == NULL)
 			drawContextFlags = kQ3XDrawContextValidationAll;
+
+
+        // Otherwise, make sure it's active (in case we can re-use it)
+        else
+            GLDrawContext_SetCurrent(instanceData->glContext);
 
 
 
@@ -203,7 +209,7 @@ IRRenderer_StartPass(TQ3ViewObject			theView,
 	// Initialise our state
 	IRRenderer_State_Initialise(instanceData,  theView);
 	IRRenderer_Lights_Initialise(instanceData, theCamera, theLights);
-	IRGeometry_Initialise(instanceData, theCamera);
+	IRGeometry_Transparent_Initialise(instanceData, theCamera);
 
 	return(kQ3Success);
 }
@@ -228,7 +234,7 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 
 	// Flush the primitive cache
-	IRGeometry_FlushPrimCache(theView, instanceData, kQ3True);
+	IRGeometry_Transparent_Flush(theView, instanceData, kQ3True);
 
 
 
