@@ -738,7 +738,9 @@ TQ3Status
 E3MacDrawContext_RegisterClass(void)
 {	E3GlobalsPtr			theGlobals = E3Globals_Get();
 	TQ3Status				qd3dStatus;
+#if !TARGET_API_MAC_CARBON
 	ProcessSerialNumber		thePSN;
+#endif
 
 
 
@@ -777,7 +779,9 @@ TQ3Status
 E3MacDrawContext_UnregisterClass(void)
 {	E3GlobalsPtr			theGlobals = E3Globals_Get();
 	TQ3Status				qd3dStatus;
+#if !TARGET_API_MAC_CARBON
 	ProcessSerialNumber		thePSN;
+#endif
 
 
 
@@ -790,8 +794,8 @@ E3MacDrawContext_UnregisterClass(void)
 
 		DisposeDMNotificationUPP(theGlobals->dmNotifyUPP);
 		theGlobals->dmNotifyUPP = NULL;
-#endif
 		}
+#endif
 
 
 
