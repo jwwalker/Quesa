@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -97,6 +97,117 @@ typedef struct TQ3PickUnionData {
 
 
 
+
+
+class E3Pick : public OpaqueTQ3Object // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
+class E3WindowPointPick : public E3Pick  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3PickUnionData				instanceData ;
+	} ;
+	
+
+
+class E3WindowRectPick : public E3Pick  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3PickUnionData				instanceData ;
+	} ;
+	
+
+
+class E3WorldRayPick : public E3Pick  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3PickUnionData				instanceData ;
+	} ;
+	
+
+
+class E3ShapePart : public TQ3SharedData // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	TQ3ShapeObject					shapeObject ;
+	} ;
+	
+
+
+class E3MeshPart : public E3ShapePart // This is not a leaf class, but only classes in this,
+								// file inherit from it, so it can be declared here in
+								// the .c file rather than in the .h file, hence all
+								// the fields can be public as nobody should be
+								// including this file.
+	{
+public :
+
+	TQ3MeshComponent				meshComponent ;
+	} ;
+	
+
+
+class E3MeshFacePart : public E3MeshPart  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3MeshFace						meshFace ;
+	} ;
+	
+
+
+class E3MeshEdgePart : public E3MeshPart  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3MeshEdge						meshEdge ;
+	} ;
+	
+
+
+class E3MeshVertexPart : public E3MeshPart  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+public :
+
+	TQ3MeshVertex					meshVertex ;
+	} ;
+	
 
 
 //=============================================================================
@@ -836,69 +947,69 @@ E3Pick_RegisterClass(void)
 
 
 	// Register the pick classes
-	qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeRoot,
+	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
 											kQ3ObjectTypePick,
 											kQ3ClassNamePick,
 											NULL,
-											0);
+											~sizeof(E3Pick));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypePick,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypePick,
 												kQ3PickTypeWindowPoint,
 												kQ3ClassNamePickWindowPoint,
 												e3pick_windowpoint_metahandler,
-												sizeof(TQ3PickUnionData));
+												~sizeof(E3WindowPointPick));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypePick,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypePick,
 												kQ3PickTypeWindowRect,
 												kQ3ClassNamePickWindowRect,
 												e3pick_windowrect_metahandler,
-												sizeof(TQ3PickUnionData));
+												~sizeof(E3WindowRectPick));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypePick,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypePick,
 												kQ3PickTypeWorldRay,
 												kQ3ClassNamePickWorldRay,
 												e3pick_worldray_metahandler,
-												sizeof(TQ3PickUnionData));
+												~sizeof(E3WorldRayPick));
 	
 	//----------------------------------------------------------------------------------
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ObjectTypeShared,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeShared,
 												kQ3SharedTypeShapePart,
 												kQ3ClassNameShapePart,
 												e3shapepart_metahandler,
-												sizeof(TQ3ShapeObject));
+												~sizeof(E3ShapePart));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3SharedTypeShapePart,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeShapePart,
 												kQ3ShapePartTypeMeshPart,
 												kQ3ClassNameMeshShapePart,
 												e3meshpart_metahandler,
-												sizeof(TQ3MeshComponent));
+												~sizeof(E3MeshPart));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapePartTypeMeshPart,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapePartTypeMeshPart,
 												kQ3MeshPartTypeMeshFacePart,
 												kQ3ClassNameMeshFacePart,
 												e3meshpart_face_metahandler,
-												sizeof(TQ3MeshFace));
+												~sizeof(E3MeshFacePart));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapePartTypeMeshPart,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapePartTypeMeshPart,
 												kQ3MeshPartTypeMeshEdgePart,
 												kQ3ClassNameMeshEdgePart,
 												e3meshpart_edge_metahandler,
-												sizeof(TQ3MeshEdge));
+												~sizeof(E3MeshEdgePart));
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3ClassTree_RegisterClass(kQ3ShapePartTypeMeshPart,
+		qd3dStatus = E3ClassTree::RegisterClass(kQ3ShapePartTypeMeshPart,
 												kQ3MeshPartTypeMeshVertexPart,
 												kQ3ClassNameMeshVertexPart,
 												e3meshpart_vertex_metahandler,
-												sizeof(TQ3MeshVertex));
+												~sizeof(E3MeshVertexPart));
 
 	return(qd3dStatus);
 }
@@ -917,16 +1028,16 @@ E3Pick_UnregisterClass(void)
 
 
 	// Unregister the class in reverse order
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3MeshPartTypeMeshVertexPart,	kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3MeshPartTypeMeshEdgePart,	kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3MeshPartTypeMeshFacePart,	kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ShapePartTypeMeshPart,		kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3SharedTypeShapePart,		kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3MeshPartTypeMeshVertexPart,kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3MeshPartTypeMeshEdgePart,	kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3MeshPartTypeMeshFacePart,	kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapePartTypeMeshPart,		kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeShapePart,		kQ3True);
 
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3PickTypeWorldRay,			kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3PickTypeWindowRect,			kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3PickTypeWindowPoint,		kQ3True);
-	qd3dStatus = E3ClassTree_UnregisterClass(kQ3ObjectTypePick,				kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3PickTypeWorldRay,			kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3PickTypeWindowRect,		kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3PickTypeWindowPoint,		kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypePick,			kQ3True);
 
 	return(qd3dStatus);
 }
@@ -1444,14 +1555,11 @@ E3WindowPointPick_New(const TQ3WindowPointPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_GetPoint(TQ3PickObject thePick, TQ3Point2D *point)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*point = instanceData->data.windowPointData.point;
-	return(kQ3Success);
-}
+	*point = ( (E3WindowPointPick*) thePick )->instanceData.data.windowPointData.point ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1462,14 +1570,11 @@ E3WindowPointPick_GetPoint(TQ3PickObject thePick, TQ3Point2D *point)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_SetPoint(TQ3PickObject thePick, const TQ3Point2D *point)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field
-	instanceData->data.windowPointData.point = *point;
-	return(kQ3Success);
-}
+	( (E3WindowPointPick*) thePick )->instanceData.data.windowPointData.point = *point ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1480,14 +1585,11 @@ E3WindowPointPick_SetPoint(TQ3PickObject thePick, const TQ3Point2D *point)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_GetData(TQ3PickObject thePick, TQ3WindowPointPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*data = instanceData->data.windowPointData;
-	return(kQ3Success);
-}
+	*data = ( (E3WindowPointPick*) thePick )->instanceData.data.windowPointData;
+	return kQ3Success ;
+	}
 
 
 
@@ -1498,17 +1600,17 @@ E3WindowPointPick_GetData(TQ3PickObject thePick, TQ3WindowPointPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_SetData(TQ3PickObject thePick, const TQ3WindowPointPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
+	{
+	E3WindowPointPick* pick = (E3WindowPointPick*) thePick ;
 
 
 	// Set the field
-	instanceData->data.windowPointData = *data;
+	pick->instanceData.data.windowPointData = *data ;
 
-	e3pick_set_sort_mask(&instanceData->data.windowPointData.data);
+	e3pick_set_sort_mask ( & pick->instanceData.data.windowPointData.data ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1538,14 +1640,11 @@ E3WindowRectPick_New(const TQ3WindowRectPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_GetRect(TQ3PickObject thePick, TQ3Area *rect)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*rect = instanceData->data.windowRectData.rect;
-	return(kQ3Success);
-}
+	*rect = ( (E3WindowRectPick*) thePick )->instanceData.data.windowRectData.rect ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1556,14 +1655,11 @@ E3WindowRectPick_GetRect(TQ3PickObject thePick, TQ3Area *rect)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_SetRect(TQ3PickObject thePick, const TQ3Area *rect)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field
-	instanceData->data.windowRectData.rect = *rect;
-	return(kQ3Success);
-}
+	( (E3WindowRectPick*) thePick )->instanceData.data.windowRectData.rect = *rect ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1574,14 +1670,11 @@ E3WindowRectPick_SetRect(TQ3PickObject thePick, const TQ3Area *rect)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_GetData(TQ3PickObject thePick, TQ3WindowRectPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*data = instanceData->data.windowRectData;
-	return(kQ3Success);
-}
+	*data = ( (E3WindowRectPick*) thePick )->instanceData.data.windowRectData ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1592,14 +1685,10 @@ E3WindowRectPick_GetData(TQ3PickObject thePick, TQ3WindowRectPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_SetData(TQ3PickObject thePick, const TQ3WindowRectPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
-	// Set the field
-	instanceData->data.windowRectData = *data;
-	return(kQ3Success);
-}
+	{	// Set the field
+	( (E3WindowRectPick*) thePick )->instanceData.data.windowRectData = *data ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1629,14 +1718,11 @@ E3WorldRayPick_New(const TQ3WorldRayPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_GetRay(TQ3PickObject thePick, TQ3Ray3D *ray)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*ray = instanceData->data.worldRayData.ray;
-	return(kQ3Success);
-}
+	*ray = ( (E3WorldRayPick*) thePick )->instanceData.data.worldRayData.ray ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1647,14 +1733,11 @@ E3WorldRayPick_GetRay(TQ3PickObject thePick, TQ3Ray3D *ray)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_SetRay(TQ3PickObject thePick, const TQ3Ray3D *ray)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Set the field
-	instanceData->data.worldRayData.ray = *ray;
-	return(kQ3Success);
-}
+	( (E3WorldRayPick*) thePick )->instanceData.data.worldRayData.ray = *ray ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1665,14 +1748,11 @@ E3WorldRayPick_SetRay(TQ3PickObject thePick, const TQ3Ray3D *ray)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_GetData(TQ3PickObject thePick, TQ3WorldRayPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
-
-
+	{
 	// Get the field
-	*data = instanceData->data.worldRayData;
-	return(kQ3Success);
-}
+	*data = ( (E3WorldRayPick*) thePick )->instanceData.data.worldRayData ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1683,17 +1763,17 @@ E3WorldRayPick_GetData(TQ3PickObject thePick, TQ3WorldRayPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_SetData(TQ3PickObject thePick, const TQ3WorldRayPickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) E3ClassTree_FindInstanceData(thePick, kQ3ObjectTypeLeaf);
-
+	{
+	E3WorldRayPick* pick = (E3WorldRayPick*) thePick ;
 
 
 	// Set the field
-	instanceData->data.worldRayData = *data;
+	pick->instanceData.data.worldRayData = *data ;
 
-	e3pick_set_sort_mask(&instanceData->data.worldRayData.data);
+	e3pick_set_sort_mask ( & pick->instanceData.data.worldRayData.data ) ;
 
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1741,15 +1821,12 @@ E3ShapePart_GetType(TQ3ShapePartObject shapePartObject)
 //      E3ShapePart_GetShape : Gets the shape of a shape part.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3ShapePart_GetShape(TQ3ShapePartObject shapePartObject, TQ3ShapeObject *shapeObject)
-{	TQ3ShapeObject *instanceData = (TQ3ShapeObject *) E3ClassTree_FindInstanceData(shapePartObject, kQ3SharedTypeShapePart);
+E3ShapePart_GetShape(TQ3ShapePartObject theShapePartObject, TQ3ShapeObject *shapeObject)
+	{
+	*shapeObject = Q3Shared_GetReference ( ( (E3ShapePart*) theShapePartObject )->shapeObject ) ;
 
-	if (*instanceData)
-		*shapeObject = Q3Shared_GetReference (*instanceData);
-	else
-		*shapeObject = NULL;
-	return(kQ3Success);
-}
+	return kQ3Success ;
+	}
 
 
 
@@ -1796,12 +1873,10 @@ E3MeshPart_GetType(TQ3MeshPartObject meshPartObject)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MeshPart_GetComponent(TQ3MeshPartObject meshPartObject, TQ3MeshComponent *component)
-{	TQ3MeshComponent *instanceData = (TQ3MeshComponent *) E3ClassTree_FindInstanceData(meshPartObject, kQ3ShapePartTypeMeshPart);
-
-
-	*component = *instanceData;
-	return(kQ3Success);
-}
+	{
+	*component = ( (E3MeshPart*) meshPartObject )->meshComponent ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1832,12 +1907,10 @@ E3MeshFacePart_New(const TQ3MeshFace data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MeshFacePart_GetFace(TQ3MeshFacePartObject meshFacePartObject, TQ3MeshFace *face)
-{	TQ3MeshFace *instanceData = (TQ3MeshFace *) E3ClassTree_FindInstanceData(meshFacePartObject, kQ3MeshPartTypeMeshFacePart);
-
-
-	*face = *instanceData;
-	return(kQ3Success);
-}
+	{
+	*face = ( (E3MeshFacePart*) meshFacePartObject )->meshFace ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1868,12 +1941,10 @@ E3MeshEdgePart_New(const TQ3MeshEdge data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MeshEdgePart_GetEdge(TQ3MeshEdgePartObject meshEdgePartObject, TQ3MeshEdge *edge)
-{	TQ3MeshEdge *instanceData = (TQ3MeshEdge *) E3ClassTree_FindInstanceData(meshEdgePartObject, kQ3MeshPartTypeMeshEdgePart);
-
-
-	*edge = *instanceData;
-	return(kQ3Success);
-}
+	{
+	*edge = ( (E3MeshEdgePart*) meshEdgePartObject )->meshEdge ;
+	return kQ3Success ;
+	}
 
 
 
@@ -1904,12 +1975,10 @@ E3MeshVertexPart_New(const TQ3MeshVertex data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MeshVertexPart_GetVertex(TQ3MeshVertexPartObject meshVertexPartObject, TQ3MeshVertex *vertex)
-{	TQ3MeshVertex *instanceData = (TQ3MeshVertex *) E3ClassTree_FindInstanceData(meshVertexPartObject, kQ3MeshPartTypeMeshVertexPart);
-
-
-	*vertex = *instanceData;
-	return(kQ3Success);
-}
+	{
+	*vertex = ( (E3MeshVertexPart*) meshVertexPartObject )->meshVertex ;
+	return kQ3Success ;
+	}
 
 
 
