@@ -655,6 +655,11 @@ ir_geom_trimesh_build_vertex_normals(TQ3VertexArray *vertexArray)
 		for (n = 0; n < vertexArray->geomData->numPoints; n++)
 			{
 			m = vertexArray->vertexParents[n];
+			
+			if ( m == kVAUnknownParent ) // 0xFFFFFFFF
+				m = 0 ; // Strange, but vertex is not part of any triangle. Not an error, just inefficient.
+						// To stop IRGeometry_Validate_Vertices reporting error, use any valid normal, the one from triangle 0 will do.
+						
 			vertexArray->vertexNormals[n] = vertexArray->triNormals[m];
 			}
 		}
@@ -796,7 +801,6 @@ ir_geom_trimesh_build_triangles(TQ3VertexArray *vertexArray)
 											 		vertexArray->geomData->points,
 											 		vertexArray->triNormals,
 													vertexArray->triFlags);
-
 	if (qd3dStatus != kQ3Success)
 		Q3Memory_Clear(vertexArray->triFlags, vertexArray->geomData->numTriangles * sizeof(TQ3TriFlags));
 }
