@@ -36,7 +36,7 @@
 #include "Qut.h"
 
 
-
+#include <ctime>
 
 
 //=============================================================================
@@ -93,7 +93,6 @@ TQ3ShaderObject		gSceneTexture      = NULL;
 TQ3Boolean			gShowTexture       = kQ3False;
 TQ3Uns32			gFlashStep         = 0;
 TQ3Matrix4x4		gMatrixCurrent;
-TQ3Matrix4x4		gMatrixRotation;
 TQ3ColorARGB		gBackgroundColor;
 
 
@@ -2033,7 +2032,10 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 static void
 appRender(TQ3ViewObject theView)
 {
-
+	static clock_t	sPrevRenderTime = 0;
+	clock_t			renderTime;
+	float			timeFactor;
+	TQ3Matrix4x4	rotationMatrix;
 
 	// If we're flashing the background color, update it now
 	TQ3DrawContextObject context;
@@ -2071,9 +2073,17 @@ appRender(TQ3ViewObject theView)
 		}
 
 
-
-	// Update the rotation matrix
-	Q3Matrix4x4_Multiply(&gMatrixCurrent, &gMatrixRotation, &gMatrixCurrent);
+	// Update the rotation matrix, in a such a way that the rate of rotation
+	// remains approximately constant in spite of changes in frame rate.
+	renderTime = clock();
+	if (sPrevRenderTime != 0)
+		{
+		timeFactor = (renderTime - sPrevRenderTime) / ((float) CLOCKS_PER_SEC);
+		Q3Matrix4x4_SetRotate_XYZ( &rotationMatrix,
+			0.3f * timeFactor, 0.5f * timeFactor, 0.05f * timeFactor );
+		Q3Matrix4x4_Multiply(&gMatrixCurrent, &rotationMatrix, &gMatrixCurrent);
+		}
+	sPrevRenderTime = renderTime;
 }
 
 
@@ -2119,7 +2129,6 @@ App_Initialise(void)
 
 	// Initialise the matrices
 	Q3Matrix4x4_SetIdentity(&gMatrixCurrent);
-	Q3Matrix4x4_SetRotate_XYZ(&gMatrixRotation, 0.03f, 0.05f, 0.005f);
 
 
 
