@@ -266,9 +266,27 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 
 
 
+	// If we are on Tiger and rendering offscreen, try for the better
+	// software renderer.  This, for instance, has a larger viewport limit
+	// and shows specular highlights on textured material.
+	if ( (sysVersion >= 0x1040) && (drawContextType == kQ3DrawContextTypePixmap) )
+		{
+		glAttributes[numAttributes++] = AGL_RENDERER_ID;
+		glAttributes[numAttributes++] = 0x20400;
+		}
+
+
 	// Create the pixel format and context, and attach the context
 	glContext   = NULL;
 	pixelFormat = aglChoosePixelFormat(NULL, 0, glAttributes);
+	
+	// If that failed, try not asking for the specific renderer.
+	if ( (pixelFormat == NULL) && (sysVersion >= 0x1040) && (drawContextType == kQ3DrawContextTypePixmap) )
+		{
+		numAttributes -= 2;
+		glAttributes[numAttributes] = AGL_NONE;
+		pixelFormat = aglChoosePixelFormat(NULL, 0, glAttributes);
+		}
 
 	if (pixelFormat != NULL)
 		{
