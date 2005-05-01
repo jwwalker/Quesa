@@ -290,8 +290,20 @@ extern "C" {
 //      Bootstrap types/macros
 //-----------------------------------------------------------------------------
 // Types
+/*!
+	@typedef	TQ3Uns32
+	@abstract	Unsigned 32-bit integer.
+*/
 typedef unsigned long                           TQ3Uns32;
+/*!
+	@typedef	TQ3Int32
+	@abstract	Signed 32-bit integer.
+*/
 typedef signed long                             TQ3Int32;
+/*!
+	@typedef	TQ3ObjectType
+	@abstract	Numeric type code for a class of Quesa objects.
+*/
 typedef TQ3Int32                                TQ3ObjectType;
 
 
@@ -529,6 +541,11 @@ enum {
 
 
 // Object types
+/*!
+	@enum		Object_Types
+	@abstract	Type codes of Quesa object classes.
+	@discussion	These values should be considered to be of type TQ3ObjectType.
+*/
 enum {
     kQ3ObjectTypeInvalid                        = ((TQ3ObjectType) 0),
     kQ3ObjectTypeView                           = Q3_OBJECT_TYPE('v', 'i', 'e', 'w'),
@@ -671,20 +688,56 @@ enum {
 //      Types
 //-----------------------------------------------------------------------------
 // Basic types
+/*!
+	@typedef		TQ3Uns8
+	@abstract		Unsigned 8-bit integer.
+*/
 typedef unsigned char                           TQ3Uns8;
+/*!
+	@typedef		TQ3Int8
+	@abstract		Signed 8-bit integer.
+*/
 typedef signed char                             TQ3Int8;
+/*!
+	@typedef		TQ3Uns16
+	@abstract		Unsigned 16-bit integer.
+*/
 typedef unsigned short                          TQ3Uns16;
+/*!
+	@typedef		TQ3Int16
+	@abstract		Signed 16-bit integer.
+*/
 typedef signed short                            TQ3Int16;
+/*!
+	@typedef		TQ3Float32
+	@abstract		32-bit floating-point number.
+*/
 typedef float                                   TQ3Float32;
+/*!
+	@typedef		TQ3Float64
+	@abstract		64-bit floating-point number.
+*/
 typedef double                                  TQ3Float64;
+/*!
+	@typedef		TQ3Size
+	@abstract		Size type.
+*/
 typedef TQ3Uns32                                TQ3Size;
 
 #if QUESA_HOST_IS_BIG_ENDIAN
+/*!
+	@typedef		TQ3Uns64
+	@abstract		Unsigned 64-bit integer.
+*/
     typedef struct TQ3Uns64 {
         TQ3Uns32                                hi;
         TQ3Uns32                                lo;
     } TQ3Uns64;
     
+/*!
+	@typedef		TQ3Int64
+	@abstract		Signed 64-bit integer.
+*/
     typedef struct TQ3Int64 {
         TQ3Int32                                hi;
         TQ3Uns32                                lo;
@@ -704,11 +757,35 @@ typedef TQ3Uns32                                TQ3Size;
 
 
 // Misc types
+/*!
+	@typedef		TQ3ElementType
+	@abstract		Type identifier for an element.
+*/
 typedef TQ3Int32                                TQ3ElementType;
+/*!
+	@typedef		TQ3XMethodType
+	@abstract		Type identifier for an element.
+*/
 typedef TQ3Uns32                                TQ3XMethodType;
+/*!
+	@typedef		TQ3EndCap
+	@abstract		End cap flag word, see TQ3EndCapMasks for specific values.
+*/
 typedef TQ3Uns32                                TQ3EndCap;
+/*!
+	@typedef		TQ3XObjectClass
+	@abstract		Object class opaque pointer.
+*/
 typedef struct OpaqueTQ3XObjectClass            *TQ3XObjectClass;
+/*!
+	@typedef		TQ3GroupPosition
+	@abstract		Group position opaque pointer.
+*/
 typedef struct OpaqueTQ3GroupPosition           *TQ3GroupPosition;
+/*!
+	@typedef		TQ3ObjectClassNameString
+	@abstract		Class name C string.
+*/
 typedef char                                    TQ3ObjectClassNameString[kQ3StringMaximumLength];
 typedef void                                    *TQ3ControllerRef;
 
@@ -722,6 +799,10 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XMetaHandler)(
 
 
 // Object types
+/*!
+	@typedef		TQ3Object
+	@abstract		Quesa object opaque pointer.
+*/
 typedef struct OpaqueTQ3Object                  *TQ3Object;
 
 typedef TQ3Object                               TQ3ElementObject;
