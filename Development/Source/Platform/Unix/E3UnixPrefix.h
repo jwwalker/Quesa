@@ -48,6 +48,9 @@
 // Include files go here
 
 
+#ifndef isfinite
+	#define isfinite(x) finite(x)
+#endif
 
 //=============================================================================
 //      Build constants
