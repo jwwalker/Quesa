@@ -38,25 +38,26 @@ WARN= -Wall -Wpointer-arith -Wno-cast-qual -Waggregate-return         \
 					 
 
 pkginclude_HEADERS= ${QUESAAPI}/Quesa.h				\
-				${QUESAAPI}/QuesaCamera.h			\
+				${QUESAAPI}/CQ3ObjectRef.h	\
+				${QUESAAPI}/QuesaCamera.h		\
 				${QUESAAPI}/QuesaController.h		\
 				${QUESAAPI}/QuesaCustomElements.h	\
 				${QUESAAPI}/QuesaDrawContext.h		\
-				${QUESAAPI}/QuesaErrors.h			\
+				${QUESAAPI}/QuesaErrors.h		\
 				${QUESAAPI}/QuesaExtension.h		\
 				${QUESAAPI}/QuesaGeometry.h		\
-				${QUESAAPI}/QuesaGroup.h			\
-				${QUESAAPI}/QuesaIO.h				\
-				${QUESAAPI}/QuesaLight.h			\
+				${QUESAAPI}/QuesaGroup.h		\
+				${QUESAAPI}/QuesaIO.h			\
+				${QUESAAPI}/QuesaLight.h		\
 				${QUESAAPI}/QuesaMath.h			\
-				${QUESAAPI}/QuesaMemory.h			\
+				${QUESAAPI}/QuesaMemory.h		\
 				${QUESAAPI}/QuesaPick.h			\
 				${QUESAAPI}/QuesaRenderer.h		\
-				${QUESAAPI}/QuesaSet.h				\
-				${QUESAAPI}/QuesaShader.h			\
-				${QUESAAPI}/QuesaStorage.h			\
-				${QUESAAPI}/QuesaString.h			\
-				${QUESAAPI}/QuesaStyle.h			\
+				${QUESAAPI}/QuesaSet.h			\
+				${QUESAAPI}/QuesaShader.h		\
+				${QUESAAPI}/QuesaStorage.h		\
+				${QUESAAPI}/QuesaString.h		\
+				${QUESAAPI}/QuesaStyle.h		\
 				${QUESAAPI}/QuesaTransform.h		\
 				${QUESAAPI}/QuesaView.h			\
 				${QUESAAPI}/QuesaViewer.h
