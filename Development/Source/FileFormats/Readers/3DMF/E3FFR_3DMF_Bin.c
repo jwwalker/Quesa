@@ -144,6 +144,24 @@ e3read_3dmf_bin_getinstancedata( TQ3FileFormatObject format )
 
 
 //=============================================================================
+//      e3read_3dmf_bin_copy_all_elements : Copy elements from set to set.
+//-----------------------------------------------------------------------------
+static void e3read_3dmf_bin_copy_all_elements( TQ3SetObject inSource, TQ3SetObject ioDest )
+{
+	TQ3ElementType	theType = kQ3ElementTypeNone;
+	
+	while ( (kQ3Success == Q3Set_GetNextElementType( inSource, &theType )) &&
+		(theType != kQ3ElementTypeNone) )
+	{
+		Q3Set_CopyElement( inSource, theType, ioDest );
+	}
+}
+
+
+
+
+
+//=============================================================================
 //      e3read_3dmf_bin_readnextelement : Manages the reading of the next Element from a 3DMF.
 //-----------------------------------------------------------------------------
 static void
@@ -181,13 +199,15 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 			if (result != NULL)
 				{
 				elemType = Q3Object_GetLeafType(result);
-				switch(elemType)
+				
+				if (elemType == kQ3SurfaceShaderTypeTexture)
 					{
-					case kQ3SurfaceShaderTypeTexture:
-						elemType = kQ3AttributeTypeSurfaceShader;
-						break;
+					Q3AttributeSet_Add (parent, kQ3AttributeTypeSurfaceShader, &result);
 					}
-				Q3AttributeSet_Add (parent, elemType, &result);
+				else if (elemType == kQ3SharedTypeSet)	// custom elements
+					{
+					e3read_3dmf_bin_copy_all_elements( result, parent );
+					}
 				Q3Object_Dispose(result);
 				}
 			}
@@ -528,6 +548,7 @@ e3fformat_3dmf_bin_get_formattype ( E3File* theFile )
 static const char*
 e3fformat_3dmf_bin_get_typestrptr(TQ3FileFormatObject format,TQ3Int32 objectType)
 	{
+	#pragma unused( format )
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass != NULL )
 		return theClass->GetName () ;
@@ -611,11 +632,7 @@ static void CopyElementsToShape( TQ3SetObject inSet, TQ3ShapeObject ioShape )
 	
 	if (kQ3Success == Q3Object_GetSet( ioShape, &shapeSet ))
 	{
-		while ( (kQ3Success == Q3Set_GetNextElementType( inSet, &theType )) &&
-			(theType != kQ3ElementTypeNone) )
-		{
-			Q3Set_CopyElement( inSet, theType, shapeSet );
-		}
+		e3read_3dmf_bin_copy_all_elements( inSet, shapeSet );
 		
 		Q3Object_Dispose( shapeSet );
 	}
@@ -963,6 +980,7 @@ e3fformat_3dmf_bin_get_nexttype ( E3File* theFile )
 static TQ3Status
 e3fformat_3dmf_bin_close(TQ3FileFormatObject format, TQ3Boolean abort)
 {
+#pragma unused( abort )
 	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
 	TQ3Status					status = kQ3Success;
 	TQ3Uns32					i;
