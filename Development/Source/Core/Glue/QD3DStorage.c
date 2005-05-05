@@ -368,7 +368,8 @@ Q3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bu
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buffer), NULL);
+	// Note, buffer is allowed to be NULL.
+	Q3_REQUIRE_OR_RESULT( validSize <= bufferSize, NULL );
 
 
 
