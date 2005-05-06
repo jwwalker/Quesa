@@ -467,6 +467,7 @@ Q3AttributeSet_Add(TQ3AttributeSet attributeSet, TQ3AttributeType theType, const
 	{
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( attributeSet, kQ3SetTypeAttribute ), kQ3Failure );
 	TQ3ObjectType classType = E3Attribute_AttributeToClassType ( theType ) ;
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( classType ) ;
 	Q3_REQUIRE_OR_RESULT( theClass->IsType ( kQ3ElementTypeAttribute ), kQ3Failure ) ;
@@ -508,6 +509,7 @@ Q3AttributeSet_Contains(TQ3AttributeSet attributeSet, TQ3AttributeType attribute
 
 
 	// Release build checks
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( attributeSet, kQ3SetTypeAttribute ), kQ3False );
 
 
 
@@ -545,6 +547,7 @@ Q3AttributeSet_Get(TQ3AttributeSet attributeSet, TQ3AttributeType theType, void 
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( attributeSet, kQ3SetTypeAttribute ), kQ3Failure );
 
 
 
@@ -584,6 +587,7 @@ Q3AttributeSet_Clear(TQ3AttributeSet attributeSet, TQ3AttributeType theType)
 
 
 	// Release build checks
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( attributeSet, kQ3SetTypeAttribute ), kQ3Failure );
 
 
 
@@ -620,6 +624,7 @@ Q3AttributeSet_Empty(TQ3AttributeSet target)
 
 
 	// Release build checks
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( target, kQ3SetTypeAttribute ), kQ3Failure );
 
 
 
@@ -654,6 +659,7 @@ Q3AttributeSet_GetNextAttributeType(TQ3AttributeSet source, TQ3AttributeType *th
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theType), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( source, kQ3SetTypeAttribute ), kQ3Failure );
 
 
 
@@ -690,6 +696,7 @@ Q3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
 
 
 	// Release build checks
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( attributeSet, kQ3SetTypeAttribute ), kQ3Failure );
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 
 
@@ -727,6 +734,9 @@ Q3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 
 
 	// Release build checks
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( parent, kQ3SetTypeAttribute ), kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( child, kQ3SetTypeAttribute ), kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( Q3Object_IsType( result, kQ3SetTypeAttribute ), kQ3Failure );
 
 
 
