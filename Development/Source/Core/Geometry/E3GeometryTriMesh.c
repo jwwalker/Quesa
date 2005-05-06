@@ -740,7 +740,7 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	TQ3GeometryObject		theTriangle;
 	TQ3GroupObject			theGroup;
 	TQ3Uns32				n;
-#pragma unused(theView)
+#pragma unused(theView, theGeom)
 
 
 
@@ -912,6 +912,87 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
 
 
 //=============================================================================
+//      e3geom_trimesh_find_line_point_in_area : Given two points in window
+//				coordinates and an area in screen space, try to find a point
+//				that is both in the line segment and the area.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+e3geom_trimesh_find_line_point_in_area( const TQ3Area& inRect,
+										const TQ3Point3D& inPtOne,
+										const TQ3Point3D& inPtTwo,
+										TQ3Point3D& outInArea )
+{
+	TQ3Point2D	startPt = { inPtOne.x, inPtOne.y };
+	TQ3Point2D	endPt = { inPtOne.x, inPtOne.y };
+	TQ3Point2D	clipStart = startPt;
+	TQ3Point2D	clipEnd = endPt;
+	
+	TQ3Boolean	doIntersect = E3Rect_ClipLine( &inRect, &clipStart, &clipEnd );
+	
+	if (doIntersect == kQ3True)
+	{
+		TQ3Point2D	midHit;
+		Q3FastPoint2D_RRatio( &clipStart, &clipEnd, 1.0f, 1.0f, &midHit );
+		
+		// Find a number t such that midHit = t*startPt + (1-t)*endPt.
+		// Equivalently, midHit = t*(startPt - endPt) + endPt,
+		// or midHit - endPt = t*(startPt - endPt).
+		float	t;
+		TQ3Vector2D	endToMid, endToStart;
+		Q3FastPoint2D_Subtract( &midHit, &endPt, &endToMid );
+		Q3FastPoint2D_Subtract( &startPt, &endPt, &endToStart );
+		float	wholeLen = Q3FastVector2D_Length( &endToStart );
+		if (wholeLen < kQ3RealZero)
+		{
+			t = 0.5f;
+		}
+		else
+		{
+			t = Q3FastVector2D_Length( &endToMid ) / wholeLen;
+		}
+		
+		// Back from screen space to 3D window space.
+		Q3FastPoint3D_RRatio( &inPtOne, &inPtTwo, t, 1.0f - t, &outInArea );
+	}
+	
+	return doIntersect;
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_trimesh_find_triangle_point_in_area : Given 3 points in window
+//				coordinates and an area in window space, try to find a point
+//				in both the triangle and the area.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+e3geom_trimesh_find_triangle_point_in_area( const TQ3Area& inRect,
+											const TQ3Point3D& inVert1,
+											const TQ3Point3D& inVert2,
+											const TQ3Point3D& inVert3,
+											TQ3Point3D& outInArea )
+{
+	TQ3Boolean	foundPoint = kQ3False;
+
+	if (
+		e3geom_trimesh_find_line_point_in_area( inRect, inVert1, inVert2, outInArea ) ||
+		e3geom_trimesh_find_line_point_in_area( inRect, inVert1, inVert3, outInArea ) ||
+		e3geom_trimesh_find_line_point_in_area( inRect, inVert2, inVert3, outInArea )
+	)
+	{
+		foundPoint = kQ3True;
+	}
+	
+	return foundPoint;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_trimesh_pick_with_rect : TriMesh rect picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -919,7 +1000,7 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 								TQ3PickObject			thePick,
 								const TQ3Area			*theRect,
 								const TQ3TriMeshData	*geomData)
-{	TQ3Matrix4x4		theMatrix, worldToFrustum, frustumToWindow;
+{	TQ3Matrix4x4		worldToFrustum, frustumToWindow, worldToWindow, localToWindow;
 	TQ3Uns32			n, numPoints, v0, v1, v2;
 	TQ3Point2D			triVertices[3];
 	TQ3Point3D			*windowPoints;
@@ -935,10 +1016,11 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 
 	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
 	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
-	Q3Matrix4x4_Multiply(E3View_State_GetMatrixLocalToWorld(theView), &worldToFrustum, &theMatrix);
-	Q3Matrix4x4_Multiply(&theMatrix, &frustumToWindow, &theMatrix);
+	Q3Matrix4x4_Multiply( &worldToFrustum, &frustumToWindow, &worldToWindow );
+	Q3Matrix4x4_Multiply(E3View_State_GetMatrixLocalToWorld(theView), &worldToWindow, &localToWindow);
 
-	Q3Point3D_To3DTransformArray(geomData->points, &theMatrix, windowPoints, numPoints, sizeof(TQ3Point3D), sizeof(TQ3Point3D));
+	Q3Point3D_To3DTransformArray(geomData->points, &localToWindow, windowPoints,
+		numPoints, sizeof(TQ3Point3D), sizeof(TQ3Point3D));
 
 
 
@@ -947,7 +1029,7 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 
 	for (n = 0; n < geomData->numTriangles && qd3dStatus == kQ3Success; n++)
 		{
-		// Grab the vertex indicies
+		// Grab the vertex indices
 		v0 = geomData->triangles[n].pointIndices[0];
 		v1 = geomData->triangles[n].pointIndices[1];
 		v2 = geomData->triangles[n].pointIndices[2];
@@ -968,15 +1050,18 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 
 
 		// See if this triangle falls within the pick
-		if (E3Rect_ContainsLine(theRect, &triVertices[0], &triVertices[1]) ||
-			E3Rect_ContainsLine(theRect, &triVertices[0], &triVertices[2]) ||
-			E3Rect_ContainsLine(theRect, &triVertices[1], &triVertices[2]))
+		TQ3Point3D	windowHitPt;
+		if (e3geom_trimesh_find_triangle_point_in_area( *theRect, windowPoints[v0],
+			windowPoints[v1], windowPoints[v2], windowHitPt ))
 			{
-			qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
+			TQ3Matrix4x4	windowToWorld;
+			Q3Matrix4x4_Invert( &worldToWindow, &windowToWorld );
+			TQ3Point3D		worldHitPt;
+			Q3Point3D_Transform( &windowHitPt, &windowToWorld, &worldHitPt );
+			qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHitPt, NULL, NULL, NULL);
 			break;
 			}
 		}
-
 
 
 	// Clean up
@@ -1087,6 +1172,24 @@ e3geom_trimesh_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, c
 
 
 //=============================================================================
+//      e3geom_trimesh_record_any_xyz : Record a hit on any point in the TriMesh, in world coords.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_trimesh_record_any_xyz( TQ3ViewObject theView, TQ3PickObject thePick,
+								const TQ3TriMeshData& geomData )
+{
+	TQ3Point3D	worldHit;
+	Q3Point3D_Transform( &geomData.points[0], E3View_State_GetMatrixLocalToWorld(theView),
+		&worldHit );
+	TQ3Status	qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, NULL, NULL, NULL);
+	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_trimesh_pick_window_rect : TriMesh window-rect picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -1109,7 +1212,7 @@ e3geom_trimesh_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, co
 
 	// See if we fall within the pick - identifying trivial matches if we can
 	if (E3Rect_ContainsRect(&windowBounds, &pickData.rect))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
+		e3geom_trimesh_record_any_xyz( theView, thePick, *geomData );
 
 	else if (E3Rect_IntersectRect(&windowBounds, &pickData.rect))
 		qd3dStatus = e3geom_trimesh_pick_with_rect(theView, thePick, &pickData.rect, geomData);
@@ -1182,7 +1285,9 @@ e3geom_trimesh_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, cons
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-{	TQ3Status				qd3dStatus;
+{
+#pragma unused( objectType )
+	TQ3Status				qd3dStatus;
 	const TQ3TriMeshData	*geomData;
 	TQ3PickObject			thePick;
 
