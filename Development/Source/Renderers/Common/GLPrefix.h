@@ -109,4 +109,18 @@ typedef struct TQ3GLExtensions
 } TQ3GLExtensions;
 
 
+// GLU callback
+#ifndef CALLBACK
+	#define CALLBACK
+#endif
+
+#if defined(__GNUC__) && (__GNUC__ >= 4)
+
+	typedef GLvoid (CALLBACK *GLcallback)(...);
+#else
+
+	typedef void (CALLBACK *GLcallback)();
+
+#endif
+
 #endif

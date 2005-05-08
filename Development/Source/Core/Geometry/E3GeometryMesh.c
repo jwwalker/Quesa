@@ -175,13 +175,6 @@ E3_ARRAY_OR_LIST_DEFINE(TE3MeshVertexData, e3meshVertex, static, kE3MeshVertex);
 
 
 
-// GLU callback
-#ifndef CALLBACK
-	#define CALLBACK
-#endif
-
-typedef void (CALLBACK *GLcallback)();
-
 
 
 // TQ3PolyhedronTriangleData
