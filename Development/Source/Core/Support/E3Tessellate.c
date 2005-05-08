@@ -60,8 +60,6 @@
 	#define CALLBACK
 #endif
 
-typedef void (CALLBACK *GLcallback)();
-
 
 // Tessellator state
 typedef struct E3TessellateState {
