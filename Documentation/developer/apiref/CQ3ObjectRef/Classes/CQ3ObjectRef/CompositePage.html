@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>CQ3ObjectRef</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">CQ3ObjectRef</font></h1><br>
+<h2>Abstract</h2>
+Wrapper for Quesa objects.
+<h2>Discussion</h2>
+The main purpose for using a C++ wrapper for a Quesa object is to
+prevent memory leaks.  The wrapper's destructor disposes the object.
+This class is designed to be usable in STL container classes.
+It is not like std::auto_ptr, in that the copy constructor adds a
+reference rather than transferring ownership.  One could base such
+a wrapper on boost::intrusive_pointer, but I chose not to require
+Boost.
+<br><br>
+Due to a HeaderDoc bug, it is not possible to automatically
+document more than one constructor.  Besides the constructor from
+a TQ3Object, there is a default constructor (which holds NULL)
+and a copy constructor.
+<br><br>
+This wrapper is not fully functional with objects that are not
+reference-counted (such as views and picks) because the copy
+constructor calls Q3Shared_GetReference.
+<hr><br><h2>Member Functions</h2>
+<hr><a name="//Quesa/cpp/instm/CQ3ObjectRef/CQ3ObjectRef/TQ3SharedObjectinObject:mObject(inObject"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3ObjectRef">CQ3ObjectRef</a></h2>
+</td></tr></table><hr>Constructor from a TQ3Object.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>explicit CQ3ObjectRef (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject inObject
+)&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;: mObject( inObject
+);
+</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>It is assumed that you pass a new reference
+to this constructor.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inObject</em></tt></dt><dd>A new reference to a Quesa object,
+or NULL.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/cpp/instm/CQ3ObjectRef/get/"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="get">get</a></h2>
+</td></tr></table><hr>Get the value held by the wrapper.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>TQ3SharedObject get (void) const;</tt><br>
+</pre></blockquote>
+<dl><dt><i>function result</i></dt><dd>A TQ3Object, or NULL.
+							</dd></dl>
+<hr><a name="//Quesa/cpp/instm/CQ3ObjectRef/isvalid/"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="isvalid">isvalid</a></h2>
+</td></tr></table><hr>Test whether this object holds a Quesa object.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>bool isvalid (void) const;</tt><br>
+</pre></blockquote>
+<dl><dt><i>function result</i></dt><dd>True if it holds a non-NULL Quesa object.
+							</dd></dl>
+<hr><a name="//Quesa/cpp/instm/CQ3ObjectRef/operator=/constCQ3ObjectRef&"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="operator=">operator=</a></h2>
+</td></tr></table><hr>Assignment operator.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>CQ3ObjectRef& operator= (
+&nbsp;&nbsp;&nbsp;&nbsp;const CQ3ObjectRef& inOther
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The previous object held by this wrapper
+is disposed, and a new reference replaces
+it.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inOther</em></tt></dt><dd>Another CQ3ObjectRef.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/cpp/instm/CQ3ObjectRef/swap/CQ3ObjectRef&"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="swap">swap</a></h2>
+</td></tr></table><hr>Swap contents with another CQ3ObjectRef.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>void swap (
+&nbsp;&nbsp;&nbsp;&nbsp;CQ3ObjectRef& ioOther
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>ioOther</em></tt></dt><dd>Another CQ3ObjectRef.</dd>
+</dl>
+</blockquote>
+<h2>Member Data</h2>
+<hr><a name="//Quesa/cpp/var/CQ3ObjectRef/mObject"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="mObject">mObject</a></h2>
+</td></tr></table><hr>The Quesa object held by the wrapper.
+							<BR>
+<blockquote><tt>private:</tt> <pre>
+TQ3SharedObject   mObject;
+</pre>
+</blockquote>
+<hr>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>
