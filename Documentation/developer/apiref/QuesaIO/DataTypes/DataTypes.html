@@ -1,649 +1,623 @@
-<html><head><title>Defined Types</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Defined Types</h1></font><hr><br>
-<a name="//apple_ref/c/tdef/TQ3FileIdleMethod"></a>
-<h3><a name="TQ3FileIdleMethod">TQ3FileIdleMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3FileIdleMethod)</b>(TQ3FileObject theFile, const void *idlerData);</tt><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Defined Types</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Defined Types</font></h1><br>
+<hr><a name="//Quesa/c/tdef/TQ3FileIdleMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FileIdleMethod">TQ3FileIdleMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3FileIdleMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void *idlerData<BR>);</tt><br>
 </blockquote>
-<p>Idle callback for reading/writing.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Idle callback for reading/writing.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>The file being process.</td><tr>
-<tr valign=top><td><tt>idlerData</tt></td><td>Application-specific data.</td><tr>
-</table>
+<dl><dt><tt>theFile</tt></dt><dd>The file being process.</dd>
+<dt><tt>idlerData</tt></dt><dd>Application-specific data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XDataDeleteMethod"></a>
-<h3><a name="TQ3XDataDeleteMethod">TQ3XDataDeleteMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3XDataDeleteMethod)</b>(void *data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XDataDeleteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XDataDeleteMethod">TQ3XDataDeleteMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                    TQ3XDataDeleteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void *data<BR>);</tt><br>
 </blockquote>
-<p>Delete method.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Delete method.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>delete</tt></td><td>The data to delete.</td><tr>
-</table>
+<dl><dt><tt>delete</tt></dt><dd>The data to delete.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatCanReadMethod"></a>
-<h3><a name="TQ3XFFormatCanReadMethod">TQ3XFFormatCanReadMethod</a></h3>
-<b>Abstract:</b> Returns whether the called FileFormat is able to read the given storage.
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatCanReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatCanReadMethod">TQ3XFFormatCanReadMethod</a></h2>
+</td></tr></table><hr>Returns whether the called FileFormat is able to read the given storage.
 
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Boolean, <b>TQ3XFFormatCanReadMethod)</b>(TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);</tt><br>
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Boolean,              TQ3XFFormatCanReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType* theFileFormatFound<BR>);</tt><br>
 </blockquote>
-<p>This method is called for every subclass of kQ3FileFormatTypeReader from Q3File_OpenRead.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called for every subclass of kQ3FileFormatTypeReader from Q3File_OpenRead.
 Once found a FileFormat that returns something other than kQ3ObjectTypeInvalid in the theFileFormatFound
 parameter the search stops.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>Storage Object - positioned at zero - that contains the model to read.</td><tr>
-<tr valign=top><td><tt>theFileFormatFound</tt></td><td>returns the signature of the FileFormat able to read this file 
-or kQ3ObjectTypeInvalid.</td><tr>
-</table>
+<dl><dt><tt>storage</tt></dt><dd>Storage Object - positioned at zero - that contains the model to read.</dd>
+<dt><tt>theFileFormatFound</tt></dt><dd>returns the signature of the FileFormat able to read this file 
+or kQ3ObjectTypeInvalid.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatCloseMethod"></a>
-<h3><a name="TQ3XFFormatCloseMethod">TQ3XFFormatCloseMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatCloseMethod)</b>(TQ3FileFormatObject format, TQ3Boolean abort);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatCloseMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatCloseMethod">TQ3XFFormatCloseMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XFFormatCloseMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean abort<BR>);</tt><br>
 </blockquote>
-<p>Close method.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Close method.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The format to close.</td><tr>
-<tr valign=top><td><tt>abort</tt></td><td>Closing due to an abort.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The format to close.</dd>
+<dt><tt>abort</tt></dt><dd>Closing due to an abort.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the callback.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatFloat32ReadArrayMethod"></a>
-<h3><a name="TQ3XFFormatFloat32ReadArrayMethod">TQ3XFFormatFloat32ReadArrayMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat32ReadArrayMethod)</b>(TQ3FileFormatObject format, TQ3Uns32 numFloats, TQ3Float32* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat32ReadArrayMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat32ReadArrayMethod">TQ3XFFormatFloat32ReadArrayMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat32ReadArrayMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numFloats,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32* data<BR>);</tt><br>
 </blockquote>
-<p>Read an array of 32-bit floats from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 32-bit floats from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>numFloats</tt></td><td>The number of floats to read.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>numFloats</tt></dt><dd>The number of floats to read.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatFloat32ReadMethod"></a>
-<h3><a name="TQ3XFFormatFloat32ReadMethod">TQ3XFFormatFloat32ReadMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat32ReadMethod)</b>(TQ3FileFormatObject format, TQ3Float32* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat32ReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat32ReadMethod">TQ3XFFormatFloat32ReadMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat32ReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32* data<BR>);</tt><br>
 </blockquote>
-<p>Read a 32-bit float from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 32-bit float from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatFloat32WriteMethod"></a>
-<h3><a name="TQ3XFFormatFloat32WriteMethod">TQ3XFFormatFloat32WriteMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat32WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Float32 *data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat32WriteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat32WriteMethod">TQ3XFFormatFloat32WriteMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat32WriteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Float32 *data<BR>);</tt><br>
 </blockquote>
-<p>Write a 32-bit float to a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 32-bit float to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>The data to write.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatFloat64ReadMethod"></a>
-<h3><a name="TQ3XFFormatFloat64ReadMethod">TQ3XFFormatFloat64ReadMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat64ReadMethod)</b>(TQ3FileFormatObject format, TQ3Float64* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat64ReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat64ReadMethod">TQ3XFFormatFloat64ReadMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat64ReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float64* data<BR>);</tt><br>
 </blockquote>
-<p>Read a 64-bit float from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 64-bit float from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatFloat64WriteMethod"></a>
-<h3><a name="TQ3XFFormatFloat64WriteMethod">TQ3XFFormatFloat64WriteMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatFloat64WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Float64 *data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat64WriteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat64WriteMethod">TQ3XFFormatFloat64WriteMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat64WriteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Float64 *data<BR>);</tt><br>
 </blockquote>
-<p>Write a 64-bit float to a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 64-bit float to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>The data to write.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatGetFormatTypeMethod"></a>
-<h3><a name="TQ3XFFormatGetFormatTypeMethod">TQ3XFFormatGetFormatTypeMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3FileMode, <b>TQ3XFFormatGetFormatTypeMethod)</b>(TQ3FileObject theFile);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatGetFormatTypeMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatGetFormatTypeMethod">TQ3XFFormatGetFormatTypeMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3FileMode,             TQ3XFFormatGetFormatTypeMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
 </blockquote>
-<p>Get the format type for a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the format type for a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>The file to query.</td><tr>
-</table>
+<dl><dt><tt>theFile</tt></dt><dd>The file to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The file format.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatGetNextTypeMethod"></a>
-<h3><a name="TQ3XFFormatGetNextTypeMethod">TQ3XFFormatGetNextTypeMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3ObjectType, <b>TQ3XFFormatGetNextTypeMethod)</b>(TQ3FileObject theFile);</tt><br>
+<dl><dt><i>function result</i></dt><dd>The file format.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatGetNextTypeMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatGetNextTypeMethod">TQ3XFFormatGetNextTypeMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
 </blockquote>
-<p>Get the next type from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the next type from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>The file to process.</td><tr>
-</table>
+<dl><dt><tt>theFile</tt></dt><dd>The file to process.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The next type in the file.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt16ReadArrayMethod"></a>
-<h3><a name="TQ3XFFormatInt16ReadArrayMethod">TQ3XFFormatInt16ReadArrayMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt16ReadArrayMethod)</b>(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>The next type in the file.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt16ReadArrayMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt16ReadArrayMethod">TQ3XFFormatInt16ReadArrayMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt16ReadArrayMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numNums,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16* data<BR>);</tt><br>
 </blockquote>
-<p>Read an array of 16-bit integers from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 16-bit integers from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>numNums</tt></td><td>The number of numbers to read.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>numNums</tt></dt><dd>The number of numbers to read.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt16ReadMethod"></a>
-<h3><a name="TQ3XFFormatInt16ReadMethod">TQ3XFFormatInt16ReadMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt16ReadMethod)</b>(TQ3FileFormatObject format, TQ3Int16* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt16ReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt16ReadMethod">TQ3XFFormatInt16ReadMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt16ReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16* data<BR>);</tt><br>
 </blockquote>
-<p>Read a 16-bit integer from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 16-bit integer from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt16WriteMethod"></a>
-<h3><a name="TQ3XFFormatInt16WriteMethod">TQ3XFFormatInt16WriteMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt16WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Int16 *data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt16WriteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt16WriteMethod">TQ3XFFormatInt16WriteMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt16WriteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int16 *data<BR>);</tt><br>
 </blockquote>
-<p>Write a 16-bit integer to a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 16-bit integer to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>The data to write.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt32ReadArrayMethod"></a>
-<h3><a name="TQ3XFFormatInt32ReadArrayMethod">TQ3XFFormatInt32ReadArrayMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt32ReadArrayMethod)</b>(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt32ReadArrayMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt32ReadArrayMethod">TQ3XFFormatInt32ReadArrayMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt32ReadArrayMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numNums,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32* data<BR>);</tt><br>
 </blockquote>
-<p>Read an array of 32-bit integers from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 32-bit integers from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>numNums</tt></td><td>The number of numbers to read.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>numNums</tt></dt><dd>The number of numbers to read.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt32ReadMethod"></a>
-<h3><a name="TQ3XFFormatInt32ReadMethod">TQ3XFFormatInt32ReadMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt32ReadMethod)</b>(TQ3FileFormatObject format, TQ3Int32* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt32ReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt32ReadMethod">TQ3XFFormatInt32ReadMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt32ReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32* data<BR>);</tt><br>
 </blockquote>
-<p>Read a 32-bit integer from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 32-bit integer from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt32WriteMethod"></a>
-<h3><a name="TQ3XFFormatInt32WriteMethod">TQ3XFFormatInt32WriteMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt32WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Int32 *data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt32WriteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt32WriteMethod">TQ3XFFormatInt32WriteMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt32WriteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int32 *data<BR>);</tt><br>
 </blockquote>
-<p>Write a 32-bit integer to a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 32-bit integer to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>The data to write.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt64ReadMethod"></a>
-<h3><a name="TQ3XFFormatInt64ReadMethod">TQ3XFFormatInt64ReadMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt64ReadMethod)</b>(TQ3FileFormatObject format, TQ3Int64* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt64ReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt64ReadMethod">TQ3XFFormatInt64ReadMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt64ReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64* data<BR>);</tt><br>
 </blockquote>
-<p>Read a 64-bit integer from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 64-bit integer from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt64WriteMethod"></a>
-<h3><a name="TQ3XFFormatInt64WriteMethod">TQ3XFFormatInt64WriteMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt64WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Int64 *data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt64WriteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt64WriteMethod">TQ3XFFormatInt64WriteMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt64WriteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int64 *data<BR>);</tt><br>
 </blockquote>
-<p>Write a 64-bit integer to a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 64-bit integer to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>The data to write.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt8ReadArrayMethod"></a>
-<h3><a name="TQ3XFFormatInt8ReadArrayMethod">TQ3XFFormatInt8ReadArrayMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt8ReadArrayMethod)</b>(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int8* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt8ReadArrayMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt8ReadArrayMethod">TQ3XFFormatInt8ReadArrayMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt8ReadArrayMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numNums,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8* data<BR>);</tt><br>
 </blockquote>
-<p>Read an array of 8-bit integers from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 8-bit integers from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>numNums</tt></td><td>The number of numbers to read.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>numNums</tt></dt><dd>The number of numbers to read.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt8ReadMethod"></a>
-<h3><a name="TQ3XFFormatInt8ReadMethod">TQ3XFFormatInt8ReadMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt8ReadMethod)</b>(TQ3FileFormatObject format, TQ3Int8* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt8ReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt8ReadMethod">TQ3XFFormatInt8ReadMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt8ReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8* data<BR>);</tt><br>
 </blockquote>
-<p>Read an 8-bit integer from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an 8-bit integer from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatInt8WriteMethod"></a>
-<h3><a name="TQ3XFFormatInt8WriteMethod">TQ3XFFormatInt8WriteMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatInt8WriteMethod)</b>(TQ3FileFormatObject format, const TQ3Int8 *data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatInt8WriteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt8WriteMethod">TQ3XFFormatInt8WriteMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt8WriteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int8 *data<BR>);</tt><br>
 </blockquote>
-<p>Write a 8-bit integer to a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 8-bit integer to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>The data to write.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatRawReadMethod"></a>
-<h3><a name="TQ3XFFormatRawReadMethod">TQ3XFFormatRawReadMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatRawReadMethod)</b>(TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatRawReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatRawReadMethod">TQ3XFFormatRawReadMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatRawReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char* data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 length<BR>);</tt><br>
 </blockquote>
-<p>Read a block of data from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a block of data from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-<tr valign=top><td><tt>length</tt></td><td>Receives the number of bytes read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+<dt><tt>length</tt></dt><dd>Receives the number of bytes read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatRawWriteMethod"></a>
-<h3><a name="TQ3XFFormatRawWriteMethod">TQ3XFFormatRawWriteMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatRawWriteMethod)</b>(TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatRawWriteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatRawWriteMethod">TQ3XFFormatRawWriteMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatRawWriteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char* data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 length<BR>);</tt><br>
 </blockquote>
-<p>Write a block of data to a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a block of data to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
-<tr valign=top><td><tt>length</tt></td><td>The number of bytes to write.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>The data to write.</dd>
+<dt><tt>length</tt></dt><dd>The number of bytes to write.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatReadHeaderMethod"></a>
-<h3><a name="TQ3XFFormatReadHeaderMethod">TQ3XFFormatReadHeaderMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatReadHeaderMethod)</b>(TQ3FileObject theFile);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatReadHeaderMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatReadHeaderMethod">TQ3XFFormatReadHeaderMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XFFormatReadHeaderMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
 </blockquote>
-<p>Read the header from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read the header from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>The file to process.</td><tr>
-</table>
+<dl><dt><tt>theFile</tt></dt><dd>The file to process.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatReadObjectMethod"></a>
-<h3><a name="TQ3XFFormatReadObjectMethod">TQ3XFFormatReadObjectMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Object, <b>TQ3XFFormatReadObjectMethod)</b>(TQ3FileObject theFile);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatReadObjectMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatReadObjectMethod">TQ3XFFormatReadObjectMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Object,               TQ3XFFormatReadObjectMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
 </blockquote>
-<p>Read an object from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an object from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>The file to process.</td><tr>
-</table>
+<dl><dt><tt>theFile</tt></dt><dd>The file to process.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatSkipObjectMethod"></a>
-<h3><a name="TQ3XFFormatSkipObjectMethod">TQ3XFFormatSkipObjectMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatSkipObjectMethod)</b>(TQ3FileObject theFile);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatSkipObjectMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatSkipObjectMethod">TQ3XFFormatSkipObjectMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XFFormatSkipObjectMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
 </blockquote>
-<p>Skip an object in a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Skip an object in a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>The file to process.</td><tr>
-</table>
+<dl><dt><tt>theFile</tt></dt><dd>The file to process.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatStringReadMethod"></a>
-<h3><a name="TQ3XFFormatStringReadMethod">TQ3XFFormatStringReadMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatStringReadMethod)</b>(TQ3FileFormatObject format, char* data, TQ3Uns32 *length);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatStringReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatStringReadMethod">TQ3XFFormatStringReadMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatStringReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;char* data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *length<BR>);</tt><br>
 </blockquote>
-<p>Read a string from a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a string from a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data being read.</td><tr>
-<tr valign=top><td><tt>length</tt></td><td>Receives the number of bytes read.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>Receives the data being read.</dd>
+<dt><tt>length</tt></dt><dd>Receives the number of bytes read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFFormatStringWriteMethod"></a>
-<h3><a name="TQ3XFFormatStringWriteMethod">TQ3XFFormatStringWriteMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFFormatStringWriteMethod)</b>(TQ3FileFormatObject format, const char* data);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFFormatStringWriteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatStringWriteMethod">TQ3XFFormatStringWriteMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatStringWriteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const char* data<BR>);</tt><br>
 </blockquote>
-<p>Write a C-string to a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a C-string to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>format</tt></td><td>The file format.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>The data to write.</td><tr>
-</table>
+<dl><dt><tt>format</tt></dt><dd>The file format.</dd>
+<dt><tt>data</tt></dt><dd>The data to write.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XFileFormatSubmitObjectMethod"></a>
-<h3><a name="TQ3XFileFormatSubmitObjectMethod">TQ3XFileFormatSubmitObjectMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XFileFormatSubmitObjectMethod)</b>(
-                            TQ3ViewObject       theView,
-                            void                *fileFormatPrivate,
-                            TQ3Object			theObject,
-							TQ3ObjectType		objectType,
-							const void			*objectData);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XFileFormatSubmitObjectMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFileFormatSubmitObjectMethod">TQ3XFileFormatSubmitObjectMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XFileFormatSubmitObjectMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                *fileFormatPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object			theObject,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType		objectType,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void			*objectData<BR>);</tt><br>
 </blockquote>
-<p>Submit an object to a file.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an object to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theView</tt></td><td>The view being submitted to.</td><tr>
-<tr valign=top><td><tt>fileFormatPrivate</tt></td><td>File-format specific data.</td><tr>
-<tr valign=top><td><tt>theObject</tt></td><td>The object to submit.</td><tr>
-<tr valign=top><td><tt>objectType</tt></td><td>The type of theObject.</td><tr>
-<tr valign=top><td><tt>objectData</tt></td><td>The data for theObject.</td><tr>
-</table>
+<dl><dt><tt>theView</tt></dt><dd>The view being submitted to.</dd>
+<dt><tt>fileFormatPrivate</tt></dt><dd>File-format specific data.</dd>
+<dt><tt>theObject</tt></dt><dd>The object to submit.</dd>
+<dt><tt>objectType</tt></dt><dd>The type of theObject.</dd>
+<dt><tt>objectData</tt></dt><dd>The data for theObject.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XObjectAttachMethod"></a>
-<h3><a name="TQ3XObjectAttachMethod">TQ3XObjectAttachMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectAttachMethod)</b>(TQ3Object childObject, TQ3Object parentObject);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XObjectAttachMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectAttachMethod">TQ3XObjectAttachMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectAttachMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object childObject,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object parentObject<BR>);</tt><br>
 </blockquote>
-<p>Attach method.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Attach method.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>childObject</tt></td><td>The child object.</td><tr>
-<tr valign=top><td><tt>parentObject</tt></td><td>The parent object.</td><tr>
-</table>
+<dl><dt><tt>childObject</tt></dt><dd>The child object.</dd>
+<dt><tt>parentObject</tt></dt><dd>The parent object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the callback.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XObjectReadDataMethod"></a>
-<h3><a name="TQ3XObjectReadDataMethod">TQ3XObjectReadDataMethod</a></h3>
-<b>Abstract:</b> Object method of type <code>kQ3XMethodTypeObjectReadData</code> for a
+<dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XObjectReadDataMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectReadDataMethod">TQ3XObjectReadDataMethod</a></h2>
+</td></tr></table><hr>Object method of type <code>kQ3XMethodTypeObjectReadData</code> for a
 custom element or attribute.
 
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectReadDataMethod)</b>(TQ3Object parentObject, TQ3FileObject theFile);</tt><br>
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectReadDataMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object parentObject,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
 </blockquote>
-<p>The method normally reads the element's data using functions such as
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The method normally reads the element's data using functions such as
 <code>Q3Float32_Read</code> and <code>Q3File_ReadObject</code> (for child objects),
 then adds the element data to its parent set.
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>parentObject</tt></td><td>Set object to receive the new element or attribute.</td><tr>
-<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td><tr>
-</table>
+<dl><dt><tt>parentObject</tt></dt><dd>Set object to receive the new element or attribute.</dd>
+<dt><tt>theFile</tt></dt><dd>A file object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XObjectReadDefaultMethod"></a>
-<h3><a name="TQ3XObjectReadDefaultMethod">TQ3XObjectReadDefaultMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Object, <b>TQ3XObjectReadDefaultMethod)</b>(TQ3FileObject theFile);</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XObjectReadDefaultMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectReadDefaultMethod">TQ3XObjectReadDefaultMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Object,               TQ3XObjectReadDefaultMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
 </blockquote>
-<p>Read method for default geometries (geometries represented with no data in 3DMF files).
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read method for default geometries (geometries represented with no data in 3DMF files).
 <br><br>
 <em>This method is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td><tr>
-</table>
+<dl><dt><tt>theFile</tt></dt><dd>A file object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new default object.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XObjectReadMethod"></a>
-<h3><a name="TQ3XObjectReadMethod">TQ3XObjectReadMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Object, <b>TQ3XObjectReadMethod)</b>(TQ3FileObject theFile);</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new default object.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XObjectReadMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectReadMethod">TQ3XObjectReadMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Object,               TQ3XObjectReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
 </blockquote>
-<p>Read method.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read method.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>The file to read.</td><tr>
-</table>
+<dl><dt><tt>theFile</tt></dt><dd>The file to read.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The object(s) read from the file.
- 
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XObjectTraverseDataMethod"></a>
-<h3><a name="TQ3XObjectTraverseDataMethod">TQ3XObjectTraverseDataMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseDataMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
+<dl><dt><i>function result</i></dt><dd>The object(s) read from the file.
+ </dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XObjectTraverseDataMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectTraverseDataMethod">TQ3XObjectTraverseDataMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectTraverseDataMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void *data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view<BR>);</tt><br>
 </blockquote>
-<p>This is the custom object method of type <code>kQ3XMethodTypeObjectTraverseData</code>.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This is the custom object method of type <code>kQ3XMethodTypeObjectTraverseData</code>.
 The QuickDraw 3D documention mentions this method, but does not explain how it
 differs from <code>TQ3XObjectTraverseMethod</code>.  Quesa does not use it.
  </p>
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XObjectTraverseMethod"></a>
-<h3><a name="TQ3XObjectTraverseMethod">TQ3XObjectTraverseMethod</a></h3>
-<b>Abstract:</b> Traversal method (<code>kQ3XMethodTypeObjectTraverse</code>) for a
+<hr><a name="//Quesa/c/tdef/TQ3XObjectTraverseMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectTraverseMethod">TQ3XObjectTraverseMethod</a></h2>
+</td></tr></table><hr>Traversal method (<code>kQ3XMethodTypeObjectTraverse</code>) for a
 custom element or attribute.
 
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectTraverseMethod)</b>(TQ3Object object, void *data, TQ3ViewObject view);</tt><br>
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectTraverseMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void *data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view<BR>);</tt><br>
 </blockquote>
-<p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
 objects are to be written and how much space each will use, and the actual
 writing.  Two phases are necessary because the start of a container includes
 the total length of the container, but this cannot be known without asking
@@ -654,26 +628,25 @@ specify the immediate object data, and then call <code>Q3Object_Submit</code>
 for each child object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to traverse.</td><tr>
-<tr valign=top><td><tt>data</tt></td><td>The object's instance data.  In the case of a custom element,
-this is the internal form of the element data.</td><tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.
-result		Success or failure of the operation.</td><tr>
-</table>
+<dl><dt><tt>object</tt></dt><dd>The object to traverse.</dd>
+<dt><tt>data</tt></dt><dd>The object's instance data.  In the case of a custom element,
+this is the internal form of the element data.</dd>
+<dt><tt>view</tt></dt><dd>A view object.
+result		Success or failure of the operation.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tdef/TQ3XObjectWriteMethod"></a>
-<h3><a name="TQ3XObjectWriteMethod">TQ3XObjectWriteMethod</a></h3>
-<b>Abstract:</b> Object method of type <code>kQ3XMethodTypeObjectWrite</code> for a
+<hr><a name="//Quesa/c/tdef/TQ3XObjectWriteMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectWriteMethod">TQ3XObjectWriteMethod</a></h2>
+</td></tr></table><hr>Object method of type <code>kQ3XMethodTypeObjectWrite</code> for a
 custom element or attribute.
 
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3XObjectWriteMethod)</b>(const void *data, TQ3FileObject theFile);</tt><br>
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectWriteMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void *data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
 </blockquote>
-<p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
 objects are to be written and how much space each will use, and the actual
 writing.  Two phases are necessary because the start of a container includes
 the total length of the container, but this cannot be known without asking
@@ -684,17 +657,14 @@ This method will write the object's instance data using functions such as
 child objects does not need to provide this method.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Instance data to write.  This will be the data passed to
-<code>Q3XView_SubmitWriteData</code> by the traversal method.</td><tr>
-<tr valign=top><td><tt>theFile</tt></td><td>A file object.</td><tr>
-</table>
+<dl><dt><tt>data</tt></dt><dd>Instance data to write.  This will be the data passed to
+<code>Q3XView_SubmitWriteData</code> by the traversal method.</dd>
+<dt><tt>theFile</tt></dt><dd>A file object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

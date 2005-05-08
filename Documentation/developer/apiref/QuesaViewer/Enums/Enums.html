@@ -1,14 +1,20 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/Viewer"></a>
-<h3><a name="Viewer">Viewer</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/Viewer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Viewer">Viewer</a></h2>
+</td></tr></table><hr><blockquote><pre>
 enum {
-	// Quesa constants
-	kQ3ViewerStateEmpty                         = 0,
-    kQ3ViewerStateHasModel                      = (1 << 0),
-    kQ3ViewerStateHasUndo                       = (1 << 1),
+  // Quesa constants
+  kQ3ViewerStateEmpty                         = 0,
+    kQ3ViewerStateHasModel                      = (1 &lt;&lt; 0),
+    kQ3ViewerStateHasUndo                       = (1 &lt;&lt; 1),
 
-	// QD3D constants - deprecated
+  // QD3D constants - deprecated
 #if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
     kQ3ViewerEmpty                              = kQ3ViewerStateEmpty,
     kQ3ViewerHasModel                           = kQ3ViewerStateHasModel,
@@ -19,22 +25,20 @@ enum {
 };
 </pre>
 </blockquote>
-<p>state flags.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>state flags.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerStateEmpty"><tt>kQ3ViewerStateEmpty</tt></a></td><td>Set if the viewer does not contain a model.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerStateHasModel"><tt>kQ3ViewerStateHasModel</tt></a></td><td>Set if the viewer does contain a model.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerStateHasUndo"><tt>kQ3ViewerStateHasUndo</tt></a></td><td>Set if the viewer can undo the last action.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ViewerStateEmpty"><tt>kQ3ViewerStateEmpty</tt></a></dt><dd>Set if the viewer does not contain a model.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerStateHasModel"><tt>kQ3ViewerStateHasModel</tt></a></dt><dd>Set if the viewer does contain a model.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerStateHasUndo"><tt>kQ3ViewerStateHasUndo</tt></a></dt><dd>Set if the viewer can undo the last action.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/Viewer"></a>
-<h3><a name="Viewer">Viewer</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/Viewer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Viewer">Viewer</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3ViewerCameraView {
     kQ3ViewerCameraRestore                      = 0,
     kQ3ViewerCameraFit                          = 1,
@@ -48,90 +52,86 @@ typedef enum TQ3ViewerCameraView {
 } TQ3ViewerCameraView;
 </pre>
 </blockquote>
-<p>camera flags for Q3Viewer_SetCameraByView.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>camera flags for Q3Viewer_SetCameraByView.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerCameraRestore"><tt>kQ3ViewerCameraRestore</tt></a></td><td>Sets the camera view to its original position.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerCameraFit"><tt>kQ3ViewerCameraFit</tt></a></td><td>Sets the camera view so that the 3D model fits entirely within the window.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerCameraFront"><tt>kQ3ViewerCameraFront</tt></a></td><td>Sets the camera to look at the front of the model.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerCameraBack"><tt>kQ3ViewerCameraBack</tt></a></td><td>Sets the camera to look at the back of the model.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerCameraLeft"><tt>kQ3ViewerCameraLeft</tt></a></td><td>Sets the camera to look at the left of the model.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerCameraRight"><tt>kQ3ViewerCameraRight</tt></a></td><td>Sets the camera to look at the right of the model.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerCameraTop"><tt>kQ3ViewerCameraTop</tt></a></td><td>Sets the camera to look at the top of the model.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerCameraBottom"><tt>kQ3ViewerCameraBottom</tt></a></td><td>Sets the camera to look at the bottom of the model.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ViewerCameraRestore"><tt>kQ3ViewerCameraRestore</tt></a></dt><dd>Sets the camera view to its original position.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerCameraFit"><tt>kQ3ViewerCameraFit</tt></a></dt><dd>Sets the camera view so that the 3D model fits entirely within the window.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerCameraFront"><tt>kQ3ViewerCameraFront</tt></a></dt><dd>Sets the camera to look at the front of the model.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerCameraBack"><tt>kQ3ViewerCameraBack</tt></a></dt><dd>Sets the camera to look at the back of the model.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerCameraLeft"><tt>kQ3ViewerCameraLeft</tt></a></dt><dd>Sets the camera to look at the left of the model.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerCameraRight"><tt>kQ3ViewerCameraRight</tt></a></dt><dd>Sets the camera to look at the right of the model.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerCameraTop"><tt>kQ3ViewerCameraTop</tt></a></dt><dd>Sets the camera to look at the top of the model.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerCameraBottom"><tt>kQ3ViewerCameraBottom</tt></a></dt><dd>Sets the camera to look at the bottom of the model.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/Viewer"></a>
-<h3><a name="Viewer">Viewer</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/Viewer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Viewer">Viewer</a></h2>
+</td></tr></table><hr><blockquote><pre>
 enum {
-    kQ3ViewerFlagDefault                        = (1 << 0),
-    kQ3ViewerFlagButtonCamera                   = (1 << 1),
-    kQ3ViewerFlagButtonTruck                    = (1 << 2),
-    kQ3ViewerFlagButtonOrbit                    = (1 << 3),
-    kQ3ViewerFlagButtonZoom                     = (1 << 4),
-    kQ3ViewerFlagButtonDolly                    = (1 << 5),
-    kQ3ViewerFlagButtonReset                    = (1 << 6),
-    kQ3ViewerFlagButtonOptions                  = (1 << 7),
+    kQ3ViewerFlagDefault                        = (1 &lt;&lt; 0),
+    kQ3ViewerFlagButtonCamera                   = (1 &lt;&lt; 1),
+    kQ3ViewerFlagButtonTruck                    = (1 &lt;&lt; 2),
+    kQ3ViewerFlagButtonOrbit                    = (1 &lt;&lt; 3),
+    kQ3ViewerFlagButtonZoom                     = (1 &lt;&lt; 4),
+    kQ3ViewerFlagButtonDolly                    = (1 &lt;&lt; 5),
+    kQ3ViewerFlagButtonReset                    = (1 &lt;&lt; 6),
+    kQ3ViewerFlagButtonOptions                  = (1 &lt;&lt; 7),
     // 8 to 9, reserved for future buttons
-    kQ3ViewerFlagDragMode                       = (1 << 10),
-    kQ3ViewerFlagDraggingOff                    = (1 << 11),
-    kQ3ViewerFlagDraggingInOff                  = (1 << 12),
-    kQ3ViewerFlagDraggingOutOff                 = (1 << 13),
-    kQ3ViewerFlagDrawFrame                      = (1 << 14),
-    kQ3ViewerFlagDrawGrowBox                    = (1 << 15),
-    kQ3ViewerFlagDrawDragBorder                 = (1 << 16),
+    kQ3ViewerFlagDragMode                       = (1 &lt;&lt; 10),
+    kQ3ViewerFlagDraggingOff                    = (1 &lt;&lt; 11),
+    kQ3ViewerFlagDraggingInOff                  = (1 &lt;&lt; 12),
+    kQ3ViewerFlagDraggingOutOff                 = (1 &lt;&lt; 13),
+    kQ3ViewerFlagDrawFrame                      = (1 &lt;&lt; 14),
+    kQ3ViewerFlagDrawGrowBox                    = (1 &lt;&lt; 15),
+    kQ3ViewerFlagDrawDragBorder                 = (1 &lt;&lt; 16),
     // 17 to 18, reserved for future expansion
-    kQ3ViewerFlagControllerVisible              = (1 << 19),
-    kQ3ViewerFlagActive                         = (1 << 20),
-    kQ3ViewerFlagShowBadge                      = (1 << 21),
-    kQ3ViewerFlagShowControlStrip               = (1 << 22),
-    kQ3ViewerFlagOutputTextMode                 = (1 << 23),
-    kQ3ViewerFlagPaneGrowBox                    = (1 << 24),
+    kQ3ViewerFlagControllerVisible              = (1 &lt;&lt; 19),
+    kQ3ViewerFlagActive                         = (1 &lt;&lt; 20),
+    kQ3ViewerFlagShowBadge                      = (1 &lt;&lt; 21),
+    kQ3ViewerFlagShowControlStrip               = (1 &lt;&lt; 22),
+    kQ3ViewerFlagOutputTextMode                 = (1 &lt;&lt; 23),
+    kQ3ViewerFlagPaneGrowBox                    = (1 &lt;&lt; 24),
     // 25 to 31, reserved for future expansion
     kQ3ViewerFlagSize32                         = 0xFFFFFFFF
 };
 </pre>
 </blockquote>
-<p>flags.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>flags.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagDefault"><tt>kQ3ViewerFlagDefault</tt></a></td><td>The default viewer configuration.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagButtonCamera"><tt>kQ3ViewerFlagButtonCamera</tt></a></td><td>Displays the camera button in the control strip.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagButtonTruck"><tt>kQ3ViewerFlagButtonTruck</tt></a></td><td>Displays the distance mode button in the control strip.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagButtonOrbit"><tt>kQ3ViewerFlagButtonOrbit</tt></a></td><td>Displays the orbit mode button in the control strip.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagButtonZoom"><tt>kQ3ViewerFlagButtonZoom</tt></a></td><td>Displays the zoom mode button in the control strip.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagButtonDolly"><tt>kQ3ViewerFlagButtonDolly</tt></a></td><td>Displays the move mode button in the control strip.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagButtonReset"><tt>kQ3ViewerFlagButtonReset</tt></a></td><td>Displays the camera reset button in the control strip.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagButtonOptions"><tt>kQ3ViewerFlagButtonOptions</tt></a></td><td>Displays the viewer options button in the control strip</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagDragMode"><tt>kQ3ViewerFlagDragMode</tt></a></td><td>Enables drag and drop mode.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagDraggingOff"><tt>kQ3ViewerFlagDraggingOff</tt></a></td><td>If set, disables drag and drop mode.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagDraggingInOff"><tt>kQ3ViewerFlagDraggingInOff</tt></a></td><td>If set, disables dragging in to the viewer.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagDraggingOutOff"><tt>kQ3ViewerFlagDraggingOutOff</tt></a></td><td>If set, disables dragging out of the viewer.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagDrawFrame"><tt>kQ3ViewerFlagDrawFrame</tt></a></td><td>Displays a one-pixel frame within the viewer.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagDrawGrowBox"><tt>kQ3ViewerFlagDrawGrowBox</tt></a></td><td>Displays a grow box on the viewer window (Mac OS only).</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagDrawDragBorder"><tt>kQ3ViewerFlagDrawDragBorder</tt></a></td><td>Displays a drag border within the viewer.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagActive"><tt>kQ3ViewerFlagActive</tt></a></td><td>Indicates the viewer is active.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagControllerVisible"><tt>kQ3ViewerFlagControllerVisible</tt></a></td><td>Indicates the viewer controller is visible.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagShowBadge"><tt>kQ3ViewerFlagShowBadge</tt></a></td><td>Displays a badge when the control strip is hidden.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagShowControlStrip"><tt>kQ3ViewerFlagShowControlStrip</tt></a></td><td>Displays the control strip.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagOutputTextMode"><tt>kQ3ViewerFlagOutputTextMode</tt></a></td><td>If set, 3D data will be written/returned in text mode.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ViewerFlagPaneGrowBox"><tt>kQ3ViewerFlagPaneGrowBox</tt></a></td><td>Displays a grow box within the viewer.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagDefault"><tt>kQ3ViewerFlagDefault</tt></a></dt><dd>The default viewer configuration.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagButtonCamera"><tt>kQ3ViewerFlagButtonCamera</tt></a></dt><dd>Displays the camera button in the control strip.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagButtonTruck"><tt>kQ3ViewerFlagButtonTruck</tt></a></dt><dd>Displays the distance mode button in the control strip.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagButtonOrbit"><tt>kQ3ViewerFlagButtonOrbit</tt></a></dt><dd>Displays the orbit mode button in the control strip.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagButtonZoom"><tt>kQ3ViewerFlagButtonZoom</tt></a></dt><dd>Displays the zoom mode button in the control strip.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagButtonDolly"><tt>kQ3ViewerFlagButtonDolly</tt></a></dt><dd>Displays the move mode button in the control strip.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagButtonReset"><tt>kQ3ViewerFlagButtonReset</tt></a></dt><dd>Displays the camera reset button in the control strip.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagButtonOptions"><tt>kQ3ViewerFlagButtonOptions</tt></a></dt><dd>Displays the viewer options button in the control strip</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagDragMode"><tt>kQ3ViewerFlagDragMode</tt></a></dt><dd>Enables drag and drop mode.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagDraggingOff"><tt>kQ3ViewerFlagDraggingOff</tt></a></dt><dd>If set, disables drag and drop mode.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagDraggingInOff"><tt>kQ3ViewerFlagDraggingInOff</tt></a></dt><dd>If set, disables dragging in to the viewer.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagDraggingOutOff"><tt>kQ3ViewerFlagDraggingOutOff</tt></a></dt><dd>If set, disables dragging out of the viewer.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagDrawFrame"><tt>kQ3ViewerFlagDrawFrame</tt></a></dt><dd>Displays a one-pixel frame within the viewer.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagDrawGrowBox"><tt>kQ3ViewerFlagDrawGrowBox</tt></a></dt><dd>Displays a grow box on the viewer window (Mac OS only).</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagDrawDragBorder"><tt>kQ3ViewerFlagDrawDragBorder</tt></a></dt><dd>Displays a drag border within the viewer.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagActive"><tt>kQ3ViewerFlagActive</tt></a></dt><dd>Indicates the viewer is active.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagControllerVisible"><tt>kQ3ViewerFlagControllerVisible</tt></a></dt><dd>Indicates the viewer controller is visible.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagShowBadge"><tt>kQ3ViewerFlagShowBadge</tt></a></dt><dd>Displays a badge when the control strip is hidden.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagShowControlStrip"><tt>kQ3ViewerFlagShowControlStrip</tt></a></dt><dd>Displays the control strip.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagOutputTextMode"><tt>kQ3ViewerFlagOutputTextMode</tt></a></dt><dd>If set, 3D data will be written/returned in text mode.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ViewerFlagPaneGrowBox"><tt>kQ3ViewerFlagPaneGrowBox</tt></a></dt><dd>Displays a grow box within the viewer.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/WM_NOTIFY"></a>
-<h3><a name="WM_NOTIFY">WM_NOTIFY</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/WM_NOTIFY"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="WM_NOTIFY">WM_NOTIFY</a></h2>
+</td></tr></table><hr><blockquote><pre>
 enum {
     Q3VNM_DROPFILES                             = 0x5000,
     Q3VNM_CANUNDO                               = 0x5001,
@@ -143,22 +143,20 @@ enum {
 };
 </pre>
 </blockquote>
-<p>messages. Windows specific.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>messages. Windows specific.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/Q3VNM_DROPFILES"><tt>Q3VNM_DROPFILES</tt></a></td><td>Files have been dropped on the viewer.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/Q3VNM_CANUNDO"><tt>Q3VNM_CANUNDO</tt></a></td><td>The viewer can undo.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/Q3VNM_DRAWCOMPLETE"><tt>Q3VNM_DRAWCOMPLETE</tt></a></td><td>The viewer has finished drawing.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/Q3VNM_SETVIEW"><tt>Q3VNM_SETVIEW</tt></a></td><td>A new view has been set.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/Q3VNM_SETVIEWNUMBER"><tt>Q3VNM_SETVIEWNUMBER</tt></a></td><td>A new view has been set by index.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/Q3VNM_BUTTONSET"><tt>Q3VNM_BUTTONSET</tt></a></td><td>The active button has changed.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/Q3VNM_BADGEHIT"><tt>Q3VNM_BADGEHIT</tt></a></td><td>The viewer badge has been clicked.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/Q3VNM_DROPFILES"><tt>Q3VNM_DROPFILES</tt></a></dt><dd>Files have been dropped on the viewer.</dd>
+<dt><a name="//Quesa/c/econst/Q3VNM_CANUNDO"><tt>Q3VNM_CANUNDO</tt></a></dt><dd>The viewer can undo.</dd>
+<dt><a name="//Quesa/c/econst/Q3VNM_DRAWCOMPLETE"><tt>Q3VNM_DRAWCOMPLETE</tt></a></dt><dd>The viewer has finished drawing.</dd>
+<dt><a name="//Quesa/c/econst/Q3VNM_SETVIEW"><tt>Q3VNM_SETVIEW</tt></a></dt><dd>A new view has been set.</dd>
+<dt><a name="//Quesa/c/econst/Q3VNM_SETVIEWNUMBER"><tt>Q3VNM_SETVIEWNUMBER</tt></a></dt><dd>A new view has been set by index.</dd>
+<dt><a name="//Quesa/c/econst/Q3VNM_BUTTONSET"><tt>Q3VNM_BUTTONSET</tt></a></dt><dd>The active button has changed.</dd>
+<dt><a name="//Quesa/c/econst/Q3VNM_BADGEHIT"><tt>Q3VNM_BADGEHIT</tt></a></dt><dd>The viewer badge has been clicked.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

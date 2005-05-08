@@ -1,28 +1,32 @@
-<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3Area"></a>
-<h3><a name="TQ3Area">TQ3Area</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Structs</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3Area"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Area">TQ3Area</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Area {
     TQ3Point2D                                  min;
     TQ3Point2D                                  max;
 } TQ3Area;
 </pre>
 </blockquote>
-<p>Fundamental area type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental area type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>min</tt></td><td>Minimum corner of area.</td><tr>
-<tr valign=top><td><tt>max</tt></td><td>Maximum corner of area.</td><tr>
-</table>
+<dl>
+<dt><tt>min</tt></dt><dd>Minimum corner of area.</dd>
+<dt><tt>max</tt></dt><dd>Maximum corner of area.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Bitmap"></a>
-<h3><a name="TQ3Bitmap">TQ3Bitmap</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Bitmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Bitmap">TQ3Bitmap</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Bitmap {
     TQ3Uns8                                     *image;
     TQ3Uns32                                    width;
@@ -32,25 +36,23 @@ typedef struct TQ3Bitmap {
 } TQ3Bitmap;
 </pre>
 </blockquote>
-<p>Fundamental Bitmap type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental Bitmap type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>image</tt></td><td>Pointer to (height*rowBytes) sized block of memory containing the image data.
-Note that each row of image data starts on a new byte.</td><tr>
-<tr valign=top><td><tt>width</tt></td><td>Width of the image.</td><tr>
-<tr valign=top><td><tt>height</tt></td><td>Height of the image.</td><tr>
-<tr valign=top><td><tt>rowBytes</tt></td><td>Distance in bytes from begining of one row of image data to the next.</td><tr>
-<tr valign=top><td><tt>bitOrder</tt></td><td>The order in which bits in a byte are addressed within the image data.</td><tr>
-</table>
+<dl>
+<dt><tt>image</tt></dt><dd>Pointer to (height*rowBytes) sized block of memory containing the image data.
+Each row of image data starts on a new byte.</dd>
+<dt><tt>width</tt></dt><dd>Width of the image.</dd>
+<dt><tt>height</tt></dt><dd>Height of the image.</dd>
+<dt><tt>rowBytes</tt></dt><dd>Distance in bytes from begining of one row of image data to the next.</dd>
+<dt><tt>bitOrder</tt></dt><dd>The order in which bits in a byte are addressed within the image data.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3BoundingBox"></a>
-<h3><a name="TQ3BoundingBox">TQ3BoundingBox</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3BoundingBox"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3BoundingBox">TQ3BoundingBox</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3BoundingBox {
     TQ3Point3D                                  min;
     TQ3Point3D                                  max;
@@ -58,22 +60,20 @@ typedef struct TQ3BoundingBox {
 } TQ3BoundingBox;
 </pre>
 </blockquote>
-<p>Fundamental bounding box type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental bounding box type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>min</tt></td><td>Minimum corner of bounding box.</td><tr>
-<tr valign=top><td><tt>max</tt></td><td>Maximum corner of bounding box.</td><tr>
-<tr valign=top><td><tt>isEmpty</tt></td><td>Is the bounding box empty. The box is only valid if isEmpty is kQ3False.</td><tr>
-</table>
+<dl>
+<dt><tt>min</tt></dt><dd>Minimum corner of bounding box.</dd>
+<dt><tt>max</tt></dt><dd>Maximum corner of bounding box.</dd>
+<dt><tt>isEmpty</tt></dt><dd>Is the bounding box empty. The box is only valid if isEmpty is kQ3False.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3BoundingSphere"></a>
-<h3><a name="TQ3BoundingSphere">TQ3BoundingSphere</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3BoundingSphere"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3BoundingSphere">TQ3BoundingSphere</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3BoundingSphere {
     TQ3Point3D                                  origin;
     float                                       radius;
@@ -81,22 +81,20 @@ typedef struct TQ3BoundingSphere {
 } TQ3BoundingSphere;
 </pre>
 </blockquote>
-<p>Fundamental bounding sphere type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental bounding sphere type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>origin</tt></td><td>Origin of bounding sphere.</td><tr>
-<tr valign=top><td><tt>radius</tt></td><td>Radius of bounding sphere.</td><tr>
-<tr valign=top><td><tt>isEmpty</tt></td><td>Is the bounding sphere empty? The sphere is only valid if isEmpty is kQ3False.</td><tr>
-</table>
+<dl>
+<dt><tt>origin</tt></dt><dd>Origin of bounding sphere.</dd>
+<dt><tt>radius</tt></dt><dd>Radius of bounding sphere.</dd>
+<dt><tt>isEmpty</tt></dt><dd>Is the bounding sphere empty? The sphere is only valid if isEmpty is kQ3False.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3ColorARGB"></a>
-<h3><a name="TQ3ColorARGB">TQ3ColorARGB</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3ColorARGB"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ColorARGB">TQ3ColorARGB</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3ColorARGB {
     float                                       a;
     float                                       r;
@@ -105,23 +103,21 @@ typedef struct TQ3ColorARGB {
 } TQ3ColorARGB;
 </pre>
 </blockquote>
-<p>Fundamental ARGB point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental ARGB point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>a</tt></td><td>Alpha component, between 0.0 (transparent) and 1.0 (opaque).</td><tr>
-<tr valign=top><td><tt>r</tt></td><td>Red component, between 0.0 and 1.0.</td><tr>
-<tr valign=top><td><tt>g</tt></td><td>Green component, between 0.0 and 1.0.</td><tr>
-<tr valign=top><td><tt>b</tt></td><td>Blue component, between 0.0 and 1.0.</td><tr>
-</table>
+<dl>
+<dt><tt>a</tt></dt><dd>Alpha component, between 0.0 (transparent) and 1.0 (opaque).</dd>
+<dt><tt>r</tt></dt><dd>Red component, between 0.0 and 1.0.</dd>
+<dt><tt>g</tt></dt><dd>Green component, between 0.0 and 1.0.</dd>
+<dt><tt>b</tt></dt><dd>Blue component, between 0.0 and 1.0.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3ColorRGB"></a>
-<h3><a name="TQ3ColorRGB">TQ3ColorRGB</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3ColorRGB"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ColorRGB">TQ3ColorRGB</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3ColorRGB {
     float                                       r;
     float                                       g;
@@ -129,22 +125,20 @@ typedef struct TQ3ColorRGB {
 } TQ3ColorRGB;
 </pre>
 </blockquote>
-<p>Fundamental RGB colour type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental RGB colour type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>r</tt></td><td>Red component, between 0.0 and 1.0.</td><tr>
-<tr valign=top><td><tt>g</tt></td><td>Green component, between 0.0 and 1.0.</td><tr>
-<tr valign=top><td><tt>b</tt></td><td>Blue component, between 0.0 and 1.0.</td><tr>
-</table>
+<dl>
+<dt><tt>r</tt></dt><dd>Red component, between 0.0 and 1.0.</dd>
+<dt><tt>g</tt></dt><dd>Green component, between 0.0 and 1.0.</dd>
+<dt><tt>b</tt></dt><dd>Blue component, between 0.0 and 1.0.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3ColorRGBA"></a>
-<h3><a name="TQ3ColorRGBA">TQ3ColorRGBA</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3ColorRGBA"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ColorRGBA">TQ3ColorRGBA</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3ColorRGBA {
     float                                       r;
     float                                       g;
@@ -153,23 +147,21 @@ typedef struct TQ3ColorRGBA {
 } TQ3ColorRGBA;
 </pre>
 </blockquote>
-<p>Fundamental RGBA point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental RGBA point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>r</tt></td><td>Red component, between 0.0 and 1.0.</td><tr>
-<tr valign=top><td><tt>g</tt></td><td>Green component, between 0.0 and 1.0.</td><tr>
-<tr valign=top><td><tt>b</tt></td><td>Blue component, between 0.0 and 1.0.</td><tr>
-<tr valign=top><td><tt>a</tt></td><td>Alpha component, between 0.0 (transparent) and 1.0 (opaque).</td><tr>
-</table>
+<dl>
+<dt><tt>r</tt></dt><dd>Red component, between 0.0 and 1.0.</dd>
+<dt><tt>g</tt></dt><dd>Green component, between 0.0 and 1.0.</dd>
+<dt><tt>b</tt></dt><dd>Blue component, between 0.0 and 1.0.</dd>
+<dt><tt>a</tt></dt><dd>Alpha component, between 0.0 (transparent) and 1.0 (opaque).</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3CompressedPixmap"></a>
-<h3><a name="TQ3CompressedPixmap">TQ3CompressedPixmap</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3CompressedPixmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CompressedPixmap">TQ3CompressedPixmap</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3CompressedPixmap {
     TQ3StorageObject                            compressedImage;
     TQ3Endian                                   imageDescByteOrder;
@@ -182,65 +174,59 @@ typedef struct TQ3CompressedPixmap {
 } TQ3CompressedPixmap;
 </pre>
 </blockquote>
-<p>QuickTime compressed Pixmap image type. Only available on platforms with QuickTime.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>QuickTime compressed Pixmap image type. Only available on platforms with QuickTime.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>compressedImage</tt></td><td>A storage object that contains the QuickTime compressed image data.</td><tr>
-<tr valign=top><td><tt>imageDescByteOrder</tt></td><td>Endianness of data in the imageDesc field.</td><tr>
-<tr valign=top><td><tt>imageDesc</tt></td><td>QuickTime image description.</td><tr>
-<tr valign=top><td><tt>makeMipmaps</tt></td><td>Indicates if mipmapping is required.</td><tr>
-<tr valign=top><td><tt>width</tt></td><td>Width of the image.</td><tr>
-<tr valign=top><td><tt>height</tt></td><td>Height of the image.</td><tr>
-<tr valign=top><td><tt>pixelSize</tt></td><td>Size in bits of each pixel (must be 16 or 32).</td><tr>
-<tr valign=top><td><tt>pixelType</tt></td><td>The pixel format of the image data. The format must be appropriate for pixelSize.</td><tr>
-</table>
+<dl>
+<dt><tt>compressedImage</tt></dt><dd>A storage object that contains the QuickTime compressed image data.</dd>
+<dt><tt>imageDescByteOrder</tt></dt><dd>Endianness of data in the imageDesc field.</dd>
+<dt><tt>imageDesc</tt></dt><dd>QuickTime image description.</dd>
+<dt><tt>makeMipmaps</tt></dt><dd>Indicates if mipmapping is required.</dd>
+<dt><tt>width</tt></dt><dd>Width of the image.</dd>
+<dt><tt>height</tt></dt><dd>Height of the image.</dd>
+<dt><tt>pixelSize</tt></dt><dd>Size in bits of each pixel (must be 16 or 32).</dd>
+<dt><tt>pixelType</tt></dt><dd>The pixel format of the image data. The format must be appropriate for pixelSize.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Matrix3x3"></a>
-<h3><a name="TQ3Matrix3x3">TQ3Matrix3x3</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Matrix3x3"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Matrix3x3">TQ3Matrix3x3</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Matrix3x3 {
     float                                       value[3][3];
 } TQ3Matrix3x3;
 </pre>
 </blockquote>
-<p>Fundamental 3x3 matrix type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 3x3 matrix type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>value</tt></td><td>3x3 array of values that define the matrix.</td><tr>
-</table>
+<dl>
+<dt><tt>value</tt></dt><dd>3x3 array of values that define the matrix.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Matrix4x4"></a>
-<h3><a name="TQ3Matrix4x4">TQ3Matrix4x4</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Matrix4x4"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Matrix4x4">TQ3Matrix4x4</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Matrix4x4 {
     float                                       value[4][4];
 } TQ3Matrix4x4;
 </pre>
 </blockquote>
-<p>Fundamental 4x4 matrix type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 4x4 matrix type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>value</tt></td><td>4x4 array of values that define the matrix.</td><tr>
-</table>
+<dl>
+<dt><tt>value</tt></dt><dd>4x4 array of values that define the matrix.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Mipmap"></a>
-<h3><a name="TQ3Mipmap">TQ3Mipmap</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Mipmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Mipmap">TQ3Mipmap</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Mipmap {
     TQ3StorageObject                            image;
     TQ3Boolean                                  useMipmapping;
@@ -252,26 +238,29 @@ typedef struct TQ3Mipmap {
 } TQ3Mipmap;
 </pre>
 </blockquote>
-<p>Fundamental Mipmap image type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This is the data structure for a mipmap texture.  If the useMipmapping field is kQ3False,
+then only the first record of the mipmaps array needs to be filled in.  If useMipmapping
+is kQ3True, then the number of mipmaps should be the base 2 logarithm of the larger
+dimension of the first mipmap, plus 1.  For example, if the first mipmap is of size 4 &times; 16, then
+you must also include mipmaps of sizes 2 &times; 8, 1 &times; 4, 1 &times; 2, and 1 &times; 1,
+making 5 mipmaps in all.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>image</tt></td><td>A storage object that contains the image data.</td><tr>
-<tr valign=top><td><tt>useMipmapping</tt></td><td>Flag indicating if mipmapping should be used and all mipmaps have been supplied.</td><tr>
-<tr valign=top><td><tt>pixelType</tt></td><td>The pixel format of the image data.</td><tr>
-<tr valign=top><td><tt>bitOrder</tt></td><td>The order in which bits in a byte are addressed within the image data.</td><tr>
-<tr valign=top><td><tt>byteOrder</tt></td><td>The order in which bytes in a word are addressed within the image data.</td><tr>
-<tr valign=top><td><tt>reserved</tt></td><td>Reserved - must be set to 0.</td><tr>
-<tr valign=top><td><tt>mipmaps</tt></td><td>Up to 32 mip-map image specifications.</td><tr>
-</table>
+<dl>
+<dt><tt>image</tt></dt><dd>A storage object that contains the image data.</dd>
+<dt><tt>useMipmapping</tt></dt><dd>Flag indicating if mipmapping should be used and all mipmaps have been supplied.</dd>
+<dt><tt>pixelType</tt></dt><dd>The pixel format of the image data.</dd>
+<dt><tt>bitOrder</tt></dt><dd>The order in which bits in a byte are addressed within the image data.</dd>
+<dt><tt>byteOrder</tt></dt><dd>The order in which bytes in a word are addressed within the image data.</dd>
+<dt><tt>reserved</tt></dt><dd>Reserved - must be set to 0.</dd>
+<dt><tt>mipmaps</tt></dt><dd>Up to 32 mip-map image specifications.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3MipmapImage"></a>
-<h3><a name="TQ3MipmapImage">TQ3MipmapImage</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3MipmapImage"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MipmapImage">TQ3MipmapImage</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MipmapImage {
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -280,44 +269,40 @@ typedef struct TQ3MipmapImage {
 } TQ3MipmapImage;
 </pre>
 </blockquote>
-<p>Fundamental Mipmap image type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental Mipmap image type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>width</tt></td><td>Width of the mipmap, which must be a power of 2.</td><tr>
-<tr valign=top><td><tt>height</tt></td><td>Height of the mipmap, which must be a power of 2.</td><tr>
-<tr valign=top><td><tt>rowBytes</tt></td><td>Distance in bytes from begining of one row of image data to the next.</td><tr>
-<tr valign=top><td><tt>offset</tt></td><td>Offset in bytes from the begining of the image base to this mipmap.</td><tr>
-</table>
+<dl>
+<dt><tt>width</tt></dt><dd>Width of the mipmap, which must be a power of 2.</dd>
+<dt><tt>height</tt></dt><dd>Height of the mipmap, which must be a power of 2.</dd>
+<dt><tt>rowBytes</tt></dt><dd>Distance in bytes from begining of one row of image data to the next.</dd>
+<dt><tt>offset</tt></dt><dd>Offset in bytes from the begining of the image base to this mipmap.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Param2D"></a>
-<h3><a name="TQ3Param2D">TQ3Param2D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Param2D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Param2D">TQ3Param2D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Param2D {
     float                                       u;
     float                                       v;
 } TQ3Param2D;
 </pre>
 </blockquote>
-<p>Fundamental 2D parametric point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 2D parametric point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>u</tt></td><td>u component.</td><tr>
-<tr valign=top><td><tt>v</tt></td><td>v component.</td><tr>
-</table>
+<dl>
+<dt><tt>u</tt></dt><dd>u component.</dd>
+<dt><tt>v</tt></dt><dd>v component.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Param3D"></a>
-<h3><a name="TQ3Param3D">TQ3Param3D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Param3D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Param3D">TQ3Param3D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Param3D {
     float                                       u;
     float                                       v;
@@ -325,22 +310,20 @@ typedef struct TQ3Param3D {
 } TQ3Param3D;
 </pre>
 </blockquote>
-<p>Fundamental 3D parametric point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 3D parametric point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>u</tt></td><td>u component.</td><tr>
-<tr valign=top><td><tt>v</tt></td><td>v component.</td><tr>
-<tr valign=top><td><tt>w</tt></td><td>w component.</td><tr>
-</table>
+<dl>
+<dt><tt>u</tt></dt><dd>u component.</dd>
+<dt><tt>v</tt></dt><dd>v component.</dd>
+<dt><tt>w</tt></dt><dd>w component.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Pixmap"></a>
-<h3><a name="TQ3Pixmap">TQ3Pixmap</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Pixmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Pixmap">TQ3Pixmap</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Pixmap {
     void                                        *image;
     TQ3Uns32                                    width;
@@ -353,69 +336,63 @@ typedef struct TQ3Pixmap {
 } TQ3Pixmap;
 </pre>
 </blockquote>
-<p>Fundamental Pixmap type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental Pixmap type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>image</tt></td><td>Pointer to (height*rowBytes) sized block of memory containing the image data.</td><tr>
-<tr valign=top><td><tt>width</tt></td><td>Width of the image.</td><tr>
-<tr valign=top><td><tt>height</tt></td><td>Height of the image.</td><tr>
-<tr valign=top><td><tt>rowBytes</tt></td><td>Distance in bytes from begining of one row of image data to the next.</td><tr>
-<tr valign=top><td><tt>pixelSize</tt></td><td>Size in bits of each pixel.</td><tr>
-<tr valign=top><td><tt>pixelType</tt></td><td>The pixel format of the image data. The format must be appropriate for pixelSize.</td><tr>
-<tr valign=top><td><tt>bitOrder</tt></td><td>The order in which bits in a byte are addressed within the image data.</td><tr>
-<tr valign=top><td><tt>byteOrder</tt></td><td>The order in which bytes in a word are addressed within the image data.</td><tr>
-</table>
+<dl>
+<dt><tt>image</tt></dt><dd>Pointer to (height*rowBytes) sized block of memory containing the image data.</dd>
+<dt><tt>width</tt></dt><dd>Width of the image.</dd>
+<dt><tt>height</tt></dt><dd>Height of the image.</dd>
+<dt><tt>rowBytes</tt></dt><dd>Distance in bytes from begining of one row of image data to the next.</dd>
+<dt><tt>pixelSize</tt></dt><dd>Size in bits of each pixel.</dd>
+<dt><tt>pixelType</tt></dt><dd>The pixel format of the image data. The format must be appropriate for pixelSize.</dd>
+<dt><tt>bitOrder</tt></dt><dd>The order in which bits in a byte are addressed within the image data.</dd>
+<dt><tt>byteOrder</tt></dt><dd>The order in which bytes in a word are addressed within the image data.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3PlaneEquation"></a>
-<h3><a name="TQ3PlaneEquation">TQ3PlaneEquation</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3PlaneEquation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PlaneEquation">TQ3PlaneEquation</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PlaneEquation {
     TQ3Vector3D                                 normal;
     float                                       constant;
 } TQ3PlaneEquation;
 </pre>
 </blockquote>
-<p>Fundamental plane equation type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental plane equation type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>normal</tt></td><td>The normal vector to the plane.</td><tr>
-<tr valign=top><td><tt>constant</tt></td><td>The plane constant (the value d in the plane equation ax+by+cz+d=0).</td><tr>
-</table>
+<dl>
+<dt><tt>normal</tt></dt><dd>The normal vector to the plane.</dd>
+<dt><tt>constant</tt></dt><dd>The plane constant (the value d in the plane equation ax+by+cz+d=0).</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Point2D"></a>
-<h3><a name="TQ3Point2D">TQ3Point2D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Point2D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Point2D">TQ3Point2D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Point2D {
     float                                       x;
     float                                       y;
 } TQ3Point2D;
 </pre>
 </blockquote>
-<p>Fundamental 2D point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 2D point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
-<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
-</table>
+<dl>
+<dt><tt>x</tt></dt><dd>x coordinate.</dd>
+<dt><tt>y</tt></dt><dd>y coordinate.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Point3D"></a>
-<h3><a name="TQ3Point3D">TQ3Point3D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Point3D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Point3D">TQ3Point3D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Point3D {
     float                                       x;
     float                                       y;
@@ -423,43 +400,39 @@ typedef struct TQ3Point3D {
 } TQ3Point3D;
 </pre>
 </blockquote>
-<p>Fundamental 3D point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 3D point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
-<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
-<tr valign=top><td><tt>z</tt></td><td>z coordinate.</td><tr>
-</table>
+<dl>
+<dt><tt>x</tt></dt><dd>x coordinate.</dd>
+<dt><tt>y</tt></dt><dd>y coordinate.</dd>
+<dt><tt>z</tt></dt><dd>z coordinate.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3PolarPoint"></a>
-<h3><a name="TQ3PolarPoint">TQ3PolarPoint</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3PolarPoint"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PolarPoint">TQ3PolarPoint</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PolarPoint {
     float                                       r;
     float                                       theta;
 } TQ3PolarPoint;
 </pre>
 </blockquote>
-<p>Fundamental polar point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental polar point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>r</tt></td><td>Distance along the radius vector from polar origin.</td><tr>
-<tr valign=top><td><tt>theta</tt></td><td>Angle in radians between polar axis and the radius vector.</td><tr>
-</table>
+<dl>
+<dt><tt>r</tt></dt><dd>Distance along the radius vector from polar origin.</dd>
+<dt><tt>theta</tt></dt><dd>Angle in radians between polar axis and the radius vector.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Quaternion"></a>
-<h3><a name="TQ3Quaternion">TQ3Quaternion</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Quaternion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Quaternion">TQ3Quaternion</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Quaternion {
     float                                       w;
     float                                       x;
@@ -468,23 +441,21 @@ typedef struct TQ3Quaternion {
 } TQ3Quaternion;
 </pre>
 </blockquote>
-<p>Fundamental Quaternion type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental Quaternion type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>w</tt></td><td>w component.</td><tr>
-<tr valign=top><td><tt>x</tt></td><td>x component.</td><tr>
-<tr valign=top><td><tt>y</tt></td><td>y component.</td><tr>
-<tr valign=top><td><tt>z</tt></td><td>z component.</td><tr>
-</table>
+<dl>
+<dt><tt>w</tt></dt><dd>w component.</dd>
+<dt><tt>x</tt></dt><dd>x component.</dd>
+<dt><tt>y</tt></dt><dd>y component.</dd>
+<dt><tt>z</tt></dt><dd>z component.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3RationalPoint3D"></a>
-<h3><a name="TQ3RationalPoint3D">TQ3RationalPoint3D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3RationalPoint3D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RationalPoint3D">TQ3RationalPoint3D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3RationalPoint3D {
     float                                       x;
     float                                       y;
@@ -492,22 +463,20 @@ typedef struct TQ3RationalPoint3D {
 } TQ3RationalPoint3D;
 </pre>
 </blockquote>
-<p>Fundamental 3D rational point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 3D rational point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
-<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
-<tr valign=top><td><tt>w</tt></td><td>Point weight.</td><tr>
-</table>
+<dl>
+<dt><tt>x</tt></dt><dd>x coordinate.</dd>
+<dt><tt>y</tt></dt><dd>y coordinate.</dd>
+<dt><tt>w</tt></dt><dd>Point weight.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3RationalPoint4D"></a>
-<h3><a name="TQ3RationalPoint4D">TQ3RationalPoint4D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3RationalPoint4D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RationalPoint4D">TQ3RationalPoint4D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3RationalPoint4D {
     float                                       x;
     float                                       y;
@@ -516,65 +485,59 @@ typedef struct TQ3RationalPoint4D {
 } TQ3RationalPoint4D;
 </pre>
 </blockquote>
-<p>Fundamental 4D rational point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 4D rational point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
-<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
-<tr valign=top><td><tt>z</tt></td><td>z coordinate.</td><tr>
-<tr valign=top><td><tt>w</tt></td><td>Point weight.</td><tr>
-</table>
+<dl>
+<dt><tt>x</tt></dt><dd>x coordinate.</dd>
+<dt><tt>y</tt></dt><dd>y coordinate.</dd>
+<dt><tt>z</tt></dt><dd>z coordinate.</dd>
+<dt><tt>w</tt></dt><dd>Point weight.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Ray3D"></a>
-<h3><a name="TQ3Ray3D">TQ3Ray3D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Ray3D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Ray3D">TQ3Ray3D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Ray3D {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 direction;
 } TQ3Ray3D;
 </pre>
 </blockquote>
-<p>Fundamental ray type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental ray type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>origin</tt></td><td>Origin of ray.</td><tr>
-<tr valign=top><td><tt>direction</tt></td><td>Direction of ray.</td><tr>
-</table>
+<dl>
+<dt><tt>origin</tt></dt><dd>Origin of ray.</dd>
+<dt><tt>direction</tt></dt><dd>Direction of ray.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Sphere"></a>
-<h3><a name="TQ3Sphere">TQ3Sphere</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Sphere"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Sphere">TQ3Sphere</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Sphere {
     TQ3Point3D                                  origin;
     float                                       radius;
 } TQ3Sphere;
 </pre>
 </blockquote>
-<p>Fundamental sphere type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental sphere type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>origin</tt></td><td>Origin of sphere.</td><tr>
-<tr valign=top><td><tt>radius</tt></td><td>Radius of sphere.</td><tr>
-</table>
+<dl>
+<dt><tt>origin</tt></dt><dd>Origin of sphere.</dd>
+<dt><tt>radius</tt></dt><dd>Radius of sphere.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3SphericalPoint"></a>
-<h3><a name="TQ3SphericalPoint">TQ3SphericalPoint</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3SphericalPoint"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3SphericalPoint">TQ3SphericalPoint</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3SphericalPoint {
     float                                       rho;
     float                                       theta;
@@ -582,23 +545,21 @@ typedef struct TQ3SphericalPoint {
 } TQ3SphericalPoint;
 </pre>
 </blockquote>
-<p>Fundamental spherical point type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental spherical point type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>rho</tt></td><td>Distance along the radius vector from polar origin.</td><tr>
-<tr valign=top><td><tt>theta</tt></td><td>Angle in radians between x axis and the projection of the
-radius vector onto the xy plane.</td><tr>
-<tr valign=top><td><tt>phi</tt></td><td>Angle in radians between z axis and the radius vector.</td><tr>
-</table>
+<dl>
+<dt><tt>rho</tt></dt><dd>Distance along the radius vector from polar origin.</dd>
+<dt><tt>theta</tt></dt><dd>Angle in radians between x axis and the projection of the
+radius vector onto the xy plane.</dd>
+<dt><tt>phi</tt></dt><dd>Angle in radians between z axis and the radius vector.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3StoragePixmap"></a>
-<h3><a name="TQ3StoragePixmap">TQ3StoragePixmap</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3StoragePixmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3StoragePixmap">TQ3StoragePixmap</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3StoragePixmap {
     TQ3StorageObject                            image;
     TQ3Uns32                                    width;
@@ -611,69 +572,63 @@ typedef struct TQ3StoragePixmap {
 } TQ3StoragePixmap;
 </pre>
 </blockquote>
-<p>Fundamental storage Pixmap type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental storage Pixmap type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>image</tt></td><td>A storage object that contains the image data.</td><tr>
-<tr valign=top><td><tt>width</tt></td><td>Width of the image.</td><tr>
-<tr valign=top><td><tt>height</tt></td><td>Height of the image.</td><tr>
-<tr valign=top><td><tt>rowBytes</tt></td><td>Distance in bytes from begining of one row of image data to the next.</td><tr>
-<tr valign=top><td><tt>pixelSize</tt></td><td>Size in bits of each pixel.</td><tr>
-<tr valign=top><td><tt>pixelType</tt></td><td>The pixel format of the image data. The format must be appropriate for pixelSize.</td><tr>
-<tr valign=top><td><tt>bitOrder</tt></td><td>The order in which bits in a byte are addressed within the image data.</td><tr>
-<tr valign=top><td><tt>byteOrder</tt></td><td>The order in which bytes in a word are addressed within the image data.</td><tr>
-</table>
+<dl>
+<dt><tt>image</tt></dt><dd>A storage object that contains the image data.</dd>
+<dt><tt>width</tt></dt><dd>Width of the image.</dd>
+<dt><tt>height</tt></dt><dd>Height of the image.</dd>
+<dt><tt>rowBytes</tt></dt><dd>Distance in bytes from begining of one row of image data to the next.</dd>
+<dt><tt>pixelSize</tt></dt><dd>Size in bits of each pixel.</dd>
+<dt><tt>pixelType</tt></dt><dd>The pixel format of the image data. The format must be appropriate for pixelSize.</dd>
+<dt><tt>bitOrder</tt></dt><dd>The order in which bits in a byte are addressed within the image data.</dd>
+<dt><tt>byteOrder</tt></dt><dd>The order in which bytes in a word are addressed within the image data.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3SubClassData"></a>
-<h3><a name="TQ3SubClassData">TQ3SubClassData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3SubClassData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3SubClassData">TQ3SubClassData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3SubClassData {
     TQ3Uns32                                    numClasses;
     TQ3ObjectType                               *classTypes;
 } TQ3SubClassData;
 </pre>
 </blockquote>
-<p>Object sub-class type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Object sub-class type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>numClasses</tt></td><td>The number of types contained in classTypes.</td><tr>
-<tr valign=top><td><tt>classTypes</tt></td><td>The types of the sub-classes.</td><tr>
-</table>
+<dl>
+<dt><tt>numClasses</tt></dt><dd>The number of types contained in classTypes.</dd>
+<dt><tt>classTypes</tt></dt><dd>The types of the sub-classes.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Tangent2D"></a>
-<h3><a name="TQ3Tangent2D">TQ3Tangent2D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Tangent2D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Tangent2D">TQ3Tangent2D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Tangent2D {
     TQ3Vector3D                                 uTangent;
     TQ3Vector3D                                 vTangent;
 } TQ3Tangent2D;
 </pre>
 </blockquote>
-<p>Fundamental 2D parametric surface tangent type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 2D parametric surface tangent type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>uTangent</tt></td><td>Tangent in the u direction.</td><tr>
-<tr valign=top><td><tt>vTangent</tt></td><td>Tangent in the v direction.</td><tr>
-</table>
+<dl>
+<dt><tt>uTangent</tt></dt><dd>Tangent in the u direction.</dd>
+<dt><tt>vTangent</tt></dt><dd>Tangent in the v direction.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Tangent3D"></a>
-<h3><a name="TQ3Tangent3D">TQ3Tangent3D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Tangent3D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Tangent3D">TQ3Tangent3D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Tangent3D {
     TQ3Vector3D                                 uTangent;
     TQ3Vector3D                                 vTangent;
@@ -681,43 +636,39 @@ typedef struct TQ3Tangent3D {
 } TQ3Tangent3D;
 </pre>
 </blockquote>
-<p>Fundamental 3D parametric surface tangent type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 3D parametric surface tangent type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>uTangent</tt></td><td>Tangent in the u direction.</td><tr>
-<tr valign=top><td><tt>vTangent</tt></td><td>Tangent in the v direction.</td><tr>
-<tr valign=top><td><tt>wTangent</tt></td><td>Tangent in the w direction.</td><tr>
-</table>
+<dl>
+<dt><tt>uTangent</tt></dt><dd>Tangent in the u direction.</dd>
+<dt><tt>vTangent</tt></dt><dd>Tangent in the v direction.</dd>
+<dt><tt>wTangent</tt></dt><dd>Tangent in the w direction.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Vector2D"></a>
-<h3><a name="TQ3Vector2D">TQ3Vector2D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Vector2D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Vector2D">TQ3Vector2D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Vector2D {
     float                                       x;
     float                                       y;
 } TQ3Vector2D;
 </pre>
 </blockquote>
-<p>Fundamental 2D vector type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 2D vector type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
-<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
-</table>
+<dl>
+<dt><tt>x</tt></dt><dd>x coordinate.</dd>
+<dt><tt>y</tt></dt><dd>y coordinate.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Vector3D"></a>
-<h3><a name="TQ3Vector3D">TQ3Vector3D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Vector3D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Vector3D">TQ3Vector3D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Vector3D {
     float                                       x;
     float                                       y;
@@ -725,39 +676,35 @@ typedef struct TQ3Vector3D {
 } TQ3Vector3D;
 </pre>
 </blockquote>
-<p>Fundamental 3D vector type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental 3D vector type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>x</tt></td><td>x coordinate.</td><tr>
-<tr valign=top><td><tt>y</tt></td><td>y coordinate.</td><tr>
-<tr valign=top><td><tt>z</tt></td><td>z coordinate.</td><tr>
-</table>
+<dl>
+<dt><tt>x</tt></dt><dd>x coordinate.</dd>
+<dt><tt>y</tt></dt><dd>y coordinate.</dd>
+<dt><tt>z</tt></dt><dd>z coordinate.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Vertex3D"></a>
-<h3><a name="TQ3Vertex3D">TQ3Vertex3D</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Vertex3D"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Vertex3D">TQ3Vertex3D</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Vertex3D {
     TQ3Point3D                                  point;
     TQ3AttributeSet                             attributeSet;
 } TQ3Vertex3D;
 </pre>
 </blockquote>
-<p>Fundamental vertex type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental vertex type.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>point</tt></td><td>Location of the vertex.</td><tr>
-<tr valign=top><td><tt>attributeSet</tt></td><td>Attribute set for the vertex.</td><tr>
-</table>
+<dl>
+<dt><tt>point</tt></dt><dd>Location of the vertex.</dd>
+<dt><tt>attributeSet</tt></dt><dd>Attribute set for the vertex.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

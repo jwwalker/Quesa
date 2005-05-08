@@ -1,7 +1,13 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3Error"></a>
-<h3><a name="TQ3Error">TQ3Error</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3Error"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Error">TQ3Error</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3ErrorNone                                = 0,
     kQ3ErrorFirst                               = -28500,
@@ -129,9 +135,8 @@ typedef enum {
     kQ3ErrorWritingLoopFailed                   = -28379,
     kQ3ErrorBoundingLoopFailed                  = -28378,
 
-#if QUESA_ALLOW_QD3D_EXTENSIONS
     kQ3ErrorPlatformError                       = -28377,
-    kQ3ErrorInfiniteRationalPoint				= -28376,
+    kQ3ErrorInfiniteRationalPoint        = -28376,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3ErrorLast,
@@ -139,138 +144,136 @@ typedef enum {
 } TQ3Error;
 </pre>
 </blockquote>
-<p>Quesa error constants.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Quesa error constants.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNone"><tt>kQ3ErrorNone</tt></a></td><td>No error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInternalError"><tt>kQ3ErrorInternalError</tt></a></td><td>Internal error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNoRecovery"><tt>kQ3ErrorNoRecovery</tt></a></td><td>No recovery.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorLastFatalError"><tt>kQ3ErrorLastFatalError</tt></a></td><td>Last fatal error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNotInitialized"><tt>kQ3ErrorNotInitialized</tt></a></td><td>Not initialized.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorAlreadyInitialized"><tt>kQ3ErrorAlreadyInitialized</tt></a></td><td>Already initialized.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnimplemented"><tt>kQ3ErrorUnimplemented</tt></a></td><td>Unimplemented.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorRegistrationFailed"><tt>kQ3ErrorRegistrationFailed</tt></a></td><td>Registration failed.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnixError"><tt>kQ3ErrorUnixError</tt></a></td><td>Unix error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorMacintoshError"><tt>kQ3ErrorMacintoshError</tt></a></td><td>Macintosh error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorX11Error"><tt>kQ3ErrorX11Error</tt></a></td><td>X11 error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorMemoryLeak"><tt>kQ3ErrorMemoryLeak</tt></a></td><td>Memory leak.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorOutOfMemory"><tt>kQ3ErrorOutOfMemory</tt></a></td><td>Out of memory.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNULLParameter"><tt>kQ3ErrorNULLParameter</tt></a></td><td>NULL parameter.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorParameterOutOfRange"><tt>kQ3ErrorParameterOutOfRange</tt></a></td><td>Parameter out of range.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidParameter"><tt>kQ3ErrorInvalidParameter</tt></a></td><td>Invalid parameter.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidData"><tt>kQ3ErrorInvalidData</tt></a></td><td>Invalid data.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorAcceleratorAlreadySet"><tt>kQ3ErrorAcceleratorAlreadySet</tt></a></td><td>Accelerator already set.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorVector3DNotUnitLength"><tt>kQ3ErrorVector3DNotUnitLength</tt></a></td><td>Vector3D not unit length.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorVector3DZeroLength"><tt>kQ3ErrorVector3DZeroLength</tt></a></td><td>Vector3D zero length.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidObject"><tt>kQ3ErrorInvalidObject</tt></a></td><td>Invalid object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidObjectClass"><tt>kQ3ErrorInvalidObjectClass</tt></a></td><td>Invalid object class.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidObjectType"><tt>kQ3ErrorInvalidObjectType</tt></a></td><td>Invalid object type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidObjectName"><tt>kQ3ErrorInvalidObjectName</tt></a></td><td>Invalid object name.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorObjectClassInUse"><tt>kQ3ErrorObjectClassInUse</tt></a></td><td>Object class in use.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorAccessRestricted"><tt>kQ3ErrorAccessRestricted</tt></a></td><td>Access restricted.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorMetaHandlerRequired"><tt>kQ3ErrorMetaHandlerRequired</tt></a></td><td>Meta handler required.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNeedRequiredMethods"><tt>kQ3ErrorNeedRequiredMethods</tt></a></td><td>Need required methods.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNoSubClassType"><tt>kQ3ErrorNoSubClassType</tt></a></td><td>No sub class type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnknownElementType"><tt>kQ3ErrorUnknownElementType</tt></a></td><td>Unknown element type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNotSupported"><tt>kQ3ErrorNotSupported</tt></a></td><td>Not supported.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNoExtensionsFolder"><tt>kQ3ErrorNoExtensionsFolder</tt></a></td><td>No extensions folder.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorExtensionError"><tt>kQ3ErrorExtensionError</tt></a></td><td>Extension error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorPrivateExtensionError"><tt>kQ3ErrorPrivateExtensionError</tt></a></td><td>Private extension error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorDegenerateGeometry"><tt>kQ3ErrorDegenerateGeometry</tt></a></td><td>Degenerate geometry detected.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorGeometryInsufficientNumberOfPoints"><tt>kQ3ErrorGeometryInsufficientNumberOfPoints</tt></a></td><td>Geometry has an insufficient number of points.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNoStorageSetForFile"><tt>kQ3ErrorNoStorageSetForFile</tt></a></td><td>No storage set for file.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorEndOfFile"><tt>kQ3ErrorEndOfFile</tt></a></td><td>End of file.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorFileCancelled"><tt>kQ3ErrorFileCancelled</tt></a></td><td>File cancelled.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidMetafile"><tt>kQ3ErrorInvalidMetafile</tt></a></td><td>Invalid metafile.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidMetafilePrimitive"><tt>kQ3ErrorInvalidMetafilePrimitive</tt></a></td><td>Invalid metafile primitive.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidMetafileLabel"><tt>kQ3ErrorInvalidMetafileLabel</tt></a></td><td>Invalid metafile label.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidMetafileObject"><tt>kQ3ErrorInvalidMetafileObject</tt></a></td><td>Invalid metafile object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidMetafileSubObject"><tt>kQ3ErrorInvalidMetafileSubObject</tt></a></td><td>Invalid metafile sub object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidSubObjectForObject"><tt>kQ3ErrorInvalidSubObjectForObject</tt></a></td><td>Invalid sub object for object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnresolvableReference"><tt>kQ3ErrorUnresolvableReference</tt></a></td><td>Unresolvable reference.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnknownObject"><tt>kQ3ErrorUnknownObject</tt></a></td><td>Unknown object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorStorageInUse"><tt>kQ3ErrorStorageInUse</tt></a></td><td>Storage in use.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorStorageAlreadyOpen"><tt>kQ3ErrorStorageAlreadyOpen</tt></a></td><td>Storage already open.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorStorageNotOpen"><tt>kQ3ErrorStorageNotOpen</tt></a></td><td>Storage not open.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorStorageIsOpen"><tt>kQ3ErrorStorageIsOpen</tt></a></td><td>Storage is open.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorFileAlreadyOpen"><tt>kQ3ErrorFileAlreadyOpen</tt></a></td><td>File already open.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorFileNotOpen"><tt>kQ3ErrorFileNotOpen</tt></a></td><td>File not open.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorFileIsOpen"><tt>kQ3ErrorFileIsOpen</tt></a></td><td>File is open.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorBeginWriteAlreadyCalled"><tt>kQ3ErrorBeginWriteAlreadyCalled</tt></a></td><td>Begin write already called.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorBeginWriteNotCalled"><tt>kQ3ErrorBeginWriteNotCalled</tt></a></td><td>Begin write not called.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorEndWriteNotCalled"><tt>kQ3ErrorEndWriteNotCalled</tt></a></td><td>End write not called.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorReadStateInactive"><tt>kQ3ErrorReadStateInactive</tt></a></td><td>Read state inactive.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorStateUnavailable"><tt>kQ3ErrorStateUnavailable</tt></a></td><td>State unavailable.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorWriteStateInactive"><tt>kQ3ErrorWriteStateInactive</tt></a></td><td>Write state inactive.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorSizeNotLongAligned"><tt>kQ3ErrorSizeNotLongAligned</tt></a></td><td>Size not long aligned.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorFileModeRestriction"><tt>kQ3ErrorFileModeRestriction</tt></a></td><td>File mode restriction.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidHexString"><tt>kQ3ErrorInvalidHexString</tt></a></td><td>Invalid hex string.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorWroteMoreThanSize"><tt>kQ3ErrorWroteMoreThanSize</tt></a></td><td>Wrote more than size.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorWroteLessThanSize"><tt>kQ3ErrorWroteLessThanSize</tt></a></td><td>Wrote less than size.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorReadLessThanSize"><tt>kQ3ErrorReadLessThanSize</tt></a></td><td>Read less than size.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorReadMoreThanSize"><tt>kQ3ErrorReadMoreThanSize</tt></a></td><td>Read more than size.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNoBeginGroup"><tt>kQ3ErrorNoBeginGroup</tt></a></td><td>No begin group.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorSizeMismatch"><tt>kQ3ErrorSizeMismatch</tt></a></td><td>Size mismatch.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorStringExceedsMaximumLength"><tt>kQ3ErrorStringExceedsMaximumLength</tt></a></td><td>String exceeds maximum length.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorValueExceedsMaximumSize"><tt>kQ3ErrorValueExceedsMaximumSize</tt></a></td><td>Value exceeds maximum size.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNonUniqueLabel"><tt>kQ3ErrorNonUniqueLabel</tt></a></td><td>Non unique label.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorEndOfContainer"><tt>kQ3ErrorEndOfContainer</tt></a></td><td>End of container.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnmatchedEndGroup"><tt>kQ3ErrorUnmatchedEndGroup</tt></a></td><td>Unmatched end group.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorFileVersionExists"><tt>kQ3ErrorFileVersionExists</tt></a></td><td>File version exists.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorViewNotStarted"><tt>kQ3ErrorViewNotStarted</tt></a></td><td>View not started.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorViewIsStarted"><tt>kQ3ErrorViewIsStarted</tt></a></td><td>View is started.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorRendererNotSet"><tt>kQ3ErrorRendererNotSet</tt></a></td><td>Renderer not set.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorRenderingIsActive"><tt>kQ3ErrorRenderingIsActive</tt></a></td><td>Rendering is active.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorImmediateModeUnderflow"><tt>kQ3ErrorImmediateModeUnderflow</tt></a></td><td>Immediate mode underflow.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorDisplayNotSet"><tt>kQ3ErrorDisplayNotSet</tt></a></td><td>Display not set.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorCameraNotSet"><tt>kQ3ErrorCameraNotSet</tt></a></td><td>Camera not set.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorDrawContextNotSet"><tt>kQ3ErrorDrawContextNotSet</tt></a></td><td>Draw context not set.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNonInvertibleMatrix"><tt>kQ3ErrorNonInvertibleMatrix</tt></a></td><td>Non invertible matrix.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorRenderingNotStarted"><tt>kQ3ErrorRenderingNotStarted</tt></a></td><td>Rendering not started.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorPickingNotStarted"><tt>kQ3ErrorPickingNotStarted</tt></a></td><td>Picking not started.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorBoundsNotStarted"><tt>kQ3ErrorBoundsNotStarted</tt></a></td><td>Bounds not started.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorDataNotAvailable"><tt>kQ3ErrorDataNotAvailable</tt></a></td><td>Data not available.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorNothingToPop"><tt>kQ3ErrorNothingToPop</tt></a></td><td>Nothing to pop.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnknownStudioType"><tt>kQ3ErrorUnknownStudioType</tt></a></td><td>Unknown studio type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorAlreadyRendering"><tt>kQ3ErrorAlreadyRendering</tt></a></td><td>Already rendering.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorStartGroupRange"><tt>kQ3ErrorStartGroupRange</tt></a></td><td>Start group range.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnsupportedGeometryType"><tt>kQ3ErrorUnsupportedGeometryType</tt></a></td><td>Unsupported geometry type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidGeometryType"><tt>kQ3ErrorInvalidGeometryType</tt></a></td><td>Invalid geometry type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnsupportedFunctionality"><tt>kQ3ErrorUnsupportedFunctionality</tt></a></td><td>Unsupported functionality.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidPositionForGroup"><tt>kQ3ErrorInvalidPositionForGroup</tt></a></td><td>Invalid position for group.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidObjectForGroup"><tt>kQ3ErrorInvalidObjectForGroup</tt></a></td><td>Invalid object for group.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidObjectForPosition"><tt>kQ3ErrorInvalidObjectForPosition</tt></a></td><td>Invalid object for position.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorScaleOfZero"><tt>kQ3ErrorScaleOfZero</tt></a></td><td>Scale of zero.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorBadStringType"><tt>kQ3ErrorBadStringType</tt></a></td><td>Bad string type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorAttributeNotContained"><tt>kQ3ErrorAttributeNotContained</tt></a></td><td>Attribute not contained.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorAttributeInvalidType"><tt>kQ3ErrorAttributeInvalidType</tt></a></td><td>Attribute invalid type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInvalidCameraValues"><tt>kQ3ErrorInvalidCameraValues</tt></a></td><td>Invalid camera values.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorBadDrawContextType"><tt>kQ3ErrorBadDrawContextType</tt></a></td><td>Bad draw context type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorBadDrawContextFlag"><tt>kQ3ErrorBadDrawContextFlag</tt></a></td><td>Bad draw context flag.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorBadDrawContext"><tt>kQ3ErrorBadDrawContext</tt></a></td><td>Bad draw context.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorUnsupportedPixelDepth"><tt>kQ3ErrorUnsupportedPixelDepth</tt></a></td><td>Unsupported pixel depth.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorController"><tt>kQ3ErrorController</tt></a></td><td>Controller error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorTracker"><tt>kQ3ErrorTracker</tt></a></td><td>Tracker error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorWin32Error"><tt>kQ3ErrorWin32Error</tt></a></td><td>Windows error.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorTypeAlreadyExistsAndHasSubclasses"><tt>kQ3ErrorTypeAlreadyExistsAndHasSubclasses</tt></a></td><td>Type already exists and has subclasses.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorTypeAlreadyExistsAndOtherClassesDependOnIt"><tt>kQ3ErrorTypeAlreadyExistsAndOtherClassesDependOnIt</tt></a></td><td>Type already exists and other classes depend on it.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorTypeAlreadyExistsAndHasObjectInstances"><tt>kQ3ErrorTypeAlreadyExistsAndHasObjectInstances</tt></a></td><td>Type already exists and has object instances.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorPickingLoopFailed"><tt>kQ3ErrorPickingLoopFailed</tt></a></td><td>Picking loop failed.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorRenderingLoopFailed"><tt>kQ3ErrorRenderingLoopFailed</tt></a></td><td>Rendering loop failed.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorWritingLoopFailed"><tt>kQ3ErrorWritingLoopFailed</tt></a></td><td>Writing loop failed.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorBoundingLoopFailed"><tt>kQ3ErrorBoundingLoopFailed</tt></a></td><td>Bounding loop failed.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorPlatformError"><tt>kQ3ErrorPlatformError</tt></a></td><td>Platform-specific error. Not available in QD3D.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ErrorInfiniteRationalPoint"><tt>kQ3ErrorInfiniteRationalPoint</tt></a></td><td>Infinite rational point. Not available in QD3D.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNone"><tt>kQ3ErrorNone</tt></a></dt><dd>No error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInternalError"><tt>kQ3ErrorInternalError</tt></a></dt><dd>Internal error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoRecovery"><tt>kQ3ErrorNoRecovery</tt></a></dt><dd>No recovery.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorLastFatalError"><tt>kQ3ErrorLastFatalError</tt></a></dt><dd>Last fatal error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNotInitialized"><tt>kQ3ErrorNotInitialized</tt></a></dt><dd>Not initialized.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAlreadyInitialized"><tt>kQ3ErrorAlreadyInitialized</tt></a></dt><dd>Already initialized.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnimplemented"><tt>kQ3ErrorUnimplemented</tt></a></dt><dd>Unimplemented.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRegistrationFailed"><tt>kQ3ErrorRegistrationFailed</tt></a></dt><dd>Registration failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnixError"><tt>kQ3ErrorUnixError</tt></a></dt><dd>Unix error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorMacintoshError"><tt>kQ3ErrorMacintoshError</tt></a></dt><dd>Macintosh error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorX11Error"><tt>kQ3ErrorX11Error</tt></a></dt><dd>X11 error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorMemoryLeak"><tt>kQ3ErrorMemoryLeak</tt></a></dt><dd>Memory leak.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorOutOfMemory"><tt>kQ3ErrorOutOfMemory</tt></a></dt><dd>Out of memory.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNULLParameter"><tt>kQ3ErrorNULLParameter</tt></a></dt><dd>NULL parameter.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorParameterOutOfRange"><tt>kQ3ErrorParameterOutOfRange</tt></a></dt><dd>Parameter out of range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidParameter"><tt>kQ3ErrorInvalidParameter</tt></a></dt><dd>Invalid parameter.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidData"><tt>kQ3ErrorInvalidData</tt></a></dt><dd>Invalid data.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAcceleratorAlreadySet"><tt>kQ3ErrorAcceleratorAlreadySet</tt></a></dt><dd>Accelerator already set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorVector3DNotUnitLength"><tt>kQ3ErrorVector3DNotUnitLength</tt></a></dt><dd>Vector3D not unit length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorVector3DZeroLength"><tt>kQ3ErrorVector3DZeroLength</tt></a></dt><dd>Vector3D zero length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObject"><tt>kQ3ErrorInvalidObject</tt></a></dt><dd>Invalid object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectClass"><tt>kQ3ErrorInvalidObjectClass</tt></a></dt><dd>Invalid object class.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectType"><tt>kQ3ErrorInvalidObjectType</tt></a></dt><dd>Invalid object type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectName"><tt>kQ3ErrorInvalidObjectName</tt></a></dt><dd>Invalid object name.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorObjectClassInUse"><tt>kQ3ErrorObjectClassInUse</tt></a></dt><dd>Object class in use.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAccessRestricted"><tt>kQ3ErrorAccessRestricted</tt></a></dt><dd>Access restricted.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorMetaHandlerRequired"><tt>kQ3ErrorMetaHandlerRequired</tt></a></dt><dd>Meta handler required.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNeedRequiredMethods"><tt>kQ3ErrorNeedRequiredMethods</tt></a></dt><dd>Need required methods.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoSubClassType"><tt>kQ3ErrorNoSubClassType</tt></a></dt><dd>No sub class type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnknownElementType"><tt>kQ3ErrorUnknownElementType</tt></a></dt><dd>Unknown element type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNotSupported"><tt>kQ3ErrorNotSupported</tt></a></dt><dd>Not supported.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoExtensionsFolder"><tt>kQ3ErrorNoExtensionsFolder</tt></a></dt><dd>No extensions folder.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorExtensionError"><tt>kQ3ErrorExtensionError</tt></a></dt><dd>Extension error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorPrivateExtensionError"><tt>kQ3ErrorPrivateExtensionError</tt></a></dt><dd>Private extension error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorDegenerateGeometry"><tt>kQ3ErrorDegenerateGeometry</tt></a></dt><dd>Degenerate geometry detected.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorGeometryInsufficientNumberOfPoints"><tt>kQ3ErrorGeometryInsufficientNumberOfPoints</tt></a></dt><dd>Geometry has an insufficient number of points.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoStorageSetForFile"><tt>kQ3ErrorNoStorageSetForFile</tt></a></dt><dd>No storage set for file.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorEndOfFile"><tt>kQ3ErrorEndOfFile</tt></a></dt><dd>End of file.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileCancelled"><tt>kQ3ErrorFileCancelled</tt></a></dt><dd>File cancelled.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafile"><tt>kQ3ErrorInvalidMetafile</tt></a></dt><dd>Invalid metafile.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafilePrimitive"><tt>kQ3ErrorInvalidMetafilePrimitive</tt></a></dt><dd>Invalid metafile primitive.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafileLabel"><tt>kQ3ErrorInvalidMetafileLabel</tt></a></dt><dd>Invalid metafile label.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafileObject"><tt>kQ3ErrorInvalidMetafileObject</tt></a></dt><dd>Invalid metafile object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafileSubObject"><tt>kQ3ErrorInvalidMetafileSubObject</tt></a></dt><dd>Invalid metafile sub object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidSubObjectForObject"><tt>kQ3ErrorInvalidSubObjectForObject</tt></a></dt><dd>Invalid sub object for object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnresolvableReference"><tt>kQ3ErrorUnresolvableReference</tt></a></dt><dd>Unresolvable reference.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnknownObject"><tt>kQ3ErrorUnknownObject</tt></a></dt><dd>Unknown object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStorageInUse"><tt>kQ3ErrorStorageInUse</tt></a></dt><dd>Storage in use.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStorageAlreadyOpen"><tt>kQ3ErrorStorageAlreadyOpen</tt></a></dt><dd>Storage already open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStorageNotOpen"><tt>kQ3ErrorStorageNotOpen</tt></a></dt><dd>Storage not open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStorageIsOpen"><tt>kQ3ErrorStorageIsOpen</tt></a></dt><dd>Storage is open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileAlreadyOpen"><tt>kQ3ErrorFileAlreadyOpen</tt></a></dt><dd>File already open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileNotOpen"><tt>kQ3ErrorFileNotOpen</tt></a></dt><dd>File not open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileIsOpen"><tt>kQ3ErrorFileIsOpen</tt></a></dt><dd>File is open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBeginWriteAlreadyCalled"><tt>kQ3ErrorBeginWriteAlreadyCalled</tt></a></dt><dd>Begin write already called.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBeginWriteNotCalled"><tt>kQ3ErrorBeginWriteNotCalled</tt></a></dt><dd>Begin write not called.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorEndWriteNotCalled"><tt>kQ3ErrorEndWriteNotCalled</tt></a></dt><dd>End write not called.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorReadStateInactive"><tt>kQ3ErrorReadStateInactive</tt></a></dt><dd>Read state inactive.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStateUnavailable"><tt>kQ3ErrorStateUnavailable</tt></a></dt><dd>State unavailable.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWriteStateInactive"><tt>kQ3ErrorWriteStateInactive</tt></a></dt><dd>Write state inactive.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorSizeNotLongAligned"><tt>kQ3ErrorSizeNotLongAligned</tt></a></dt><dd>Size not long aligned.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileModeRestriction"><tt>kQ3ErrorFileModeRestriction</tt></a></dt><dd>File mode restriction.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidHexString"><tt>kQ3ErrorInvalidHexString</tt></a></dt><dd>Invalid hex string.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWroteMoreThanSize"><tt>kQ3ErrorWroteMoreThanSize</tt></a></dt><dd>Wrote more than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWroteLessThanSize"><tt>kQ3ErrorWroteLessThanSize</tt></a></dt><dd>Wrote less than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorReadLessThanSize"><tt>kQ3ErrorReadLessThanSize</tt></a></dt><dd>Read less than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorReadMoreThanSize"><tt>kQ3ErrorReadMoreThanSize</tt></a></dt><dd>Read more than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoBeginGroup"><tt>kQ3ErrorNoBeginGroup</tt></a></dt><dd>No begin group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorSizeMismatch"><tt>kQ3ErrorSizeMismatch</tt></a></dt><dd>Size mismatch.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStringExceedsMaximumLength"><tt>kQ3ErrorStringExceedsMaximumLength</tt></a></dt><dd>String exceeds maximum length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorValueExceedsMaximumSize"><tt>kQ3ErrorValueExceedsMaximumSize</tt></a></dt><dd>Value exceeds maximum size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNonUniqueLabel"><tt>kQ3ErrorNonUniqueLabel</tt></a></dt><dd>Non unique label.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorEndOfContainer"><tt>kQ3ErrorEndOfContainer</tt></a></dt><dd>End of container.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnmatchedEndGroup"><tt>kQ3ErrorUnmatchedEndGroup</tt></a></dt><dd>Unmatched end group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileVersionExists"><tt>kQ3ErrorFileVersionExists</tt></a></dt><dd>File version exists.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorViewNotStarted"><tt>kQ3ErrorViewNotStarted</tt></a></dt><dd>View not started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorViewIsStarted"><tt>kQ3ErrorViewIsStarted</tt></a></dt><dd>View is started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRendererNotSet"><tt>kQ3ErrorRendererNotSet</tt></a></dt><dd>Renderer not set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRenderingIsActive"><tt>kQ3ErrorRenderingIsActive</tt></a></dt><dd>Rendering is active.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorImmediateModeUnderflow"><tt>kQ3ErrorImmediateModeUnderflow</tt></a></dt><dd>Immediate mode underflow.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorDisplayNotSet"><tt>kQ3ErrorDisplayNotSet</tt></a></dt><dd>Display not set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorCameraNotSet"><tt>kQ3ErrorCameraNotSet</tt></a></dt><dd>Camera not set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorDrawContextNotSet"><tt>kQ3ErrorDrawContextNotSet</tt></a></dt><dd>Draw context not set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNonInvertibleMatrix"><tt>kQ3ErrorNonInvertibleMatrix</tt></a></dt><dd>Non invertible matrix.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRenderingNotStarted"><tt>kQ3ErrorRenderingNotStarted</tt></a></dt><dd>Rendering not started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorPickingNotStarted"><tt>kQ3ErrorPickingNotStarted</tt></a></dt><dd>Picking not started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBoundsNotStarted"><tt>kQ3ErrorBoundsNotStarted</tt></a></dt><dd>Bounds not started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorDataNotAvailable"><tt>kQ3ErrorDataNotAvailable</tt></a></dt><dd>Data not available.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNothingToPop"><tt>kQ3ErrorNothingToPop</tt></a></dt><dd>Nothing to pop.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnknownStudioType"><tt>kQ3ErrorUnknownStudioType</tt></a></dt><dd>Unknown studio type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAlreadyRendering"><tt>kQ3ErrorAlreadyRendering</tt></a></dt><dd>Already rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStartGroupRange"><tt>kQ3ErrorStartGroupRange</tt></a></dt><dd>Start group range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnsupportedGeometryType"><tt>kQ3ErrorUnsupportedGeometryType</tt></a></dt><dd>Unsupported geometry type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidGeometryType"><tt>kQ3ErrorInvalidGeometryType</tt></a></dt><dd>Invalid geometry type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnsupportedFunctionality"><tt>kQ3ErrorUnsupportedFunctionality</tt></a></dt><dd>Unsupported functionality.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidPositionForGroup"><tt>kQ3ErrorInvalidPositionForGroup</tt></a></dt><dd>Invalid position for group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectForGroup"><tt>kQ3ErrorInvalidObjectForGroup</tt></a></dt><dd>Invalid object for group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectForPosition"><tt>kQ3ErrorInvalidObjectForPosition</tt></a></dt><dd>Invalid object for position.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorScaleOfZero"><tt>kQ3ErrorScaleOfZero</tt></a></dt><dd>Scale of zero.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBadStringType"><tt>kQ3ErrorBadStringType</tt></a></dt><dd>Bad string type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAttributeNotContained"><tt>kQ3ErrorAttributeNotContained</tt></a></dt><dd>Attribute not contained.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAttributeInvalidType"><tt>kQ3ErrorAttributeInvalidType</tt></a></dt><dd>Attribute invalid type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidCameraValues"><tt>kQ3ErrorInvalidCameraValues</tt></a></dt><dd>Invalid camera values.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBadDrawContextType"><tt>kQ3ErrorBadDrawContextType</tt></a></dt><dd>Bad draw context type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBadDrawContextFlag"><tt>kQ3ErrorBadDrawContextFlag</tt></a></dt><dd>Bad draw context flag.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBadDrawContext"><tt>kQ3ErrorBadDrawContext</tt></a></dt><dd>Bad draw context.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnsupportedPixelDepth"><tt>kQ3ErrorUnsupportedPixelDepth</tt></a></dt><dd>Unsupported pixel depth.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorController"><tt>kQ3ErrorController</tt></a></dt><dd>Controller error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorTracker"><tt>kQ3ErrorTracker</tt></a></dt><dd>Tracker error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWin32Error"><tt>kQ3ErrorWin32Error</tt></a></dt><dd>Windows error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorTypeAlreadyExistsAndHasSubclasses"><tt>kQ3ErrorTypeAlreadyExistsAndHasSubclasses</tt></a></dt><dd>Type already exists and has subclasses.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorTypeAlreadyExistsAndOtherClassesDependOnIt"><tt>kQ3ErrorTypeAlreadyExistsAndOtherClassesDependOnIt</tt></a></dt><dd>Type already exists and other classes depend on it.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorTypeAlreadyExistsAndHasObjectInstances"><tt>kQ3ErrorTypeAlreadyExistsAndHasObjectInstances</tt></a></dt><dd>Type already exists and has object instances.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorPickingLoopFailed"><tt>kQ3ErrorPickingLoopFailed</tt></a></dt><dd>Picking loop failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRenderingLoopFailed"><tt>kQ3ErrorRenderingLoopFailed</tt></a></dt><dd>Rendering loop failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWritingLoopFailed"><tt>kQ3ErrorWritingLoopFailed</tt></a></dt><dd>Writing loop failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBoundingLoopFailed"><tt>kQ3ErrorBoundingLoopFailed</tt></a></dt><dd>Bounding loop failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorPlatformError"><tt>kQ3ErrorPlatformError</tt></a></dt><dd>Platform-specific error. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInfiniteRationalPoint"><tt>kQ3ErrorInfiniteRationalPoint</tt></a></dt><dd>Infinite rational point. Not available in QD3D.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Notice"></a>
-<h3><a name="TQ3Notice">TQ3Notice</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Notice"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Notice">TQ3Notice</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3NoticeNone                               = 0,
     kQ3NoticeFirst                              = -28100,
@@ -291,8 +294,7 @@ typedef enum {
     kQ3NoticeViewSyncCalledAgain                = -28086,
     kQ3NoticeFileCancelled                      = -28085,
 
-#if QUESA_ALLOW_QD3D_EXTENSIONS
-	kQ3NoticeBrightnessLessThanZero             = -28084,
+  kQ3NoticeBrightnessLessThanZero             = -28084,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3NoticeLast,
@@ -300,37 +302,35 @@ typedef enum {
 } TQ3Notice;
 </pre>
 </blockquote>
-<p>Quesa notice constants.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Quesa notice constants.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeNone"><tt>kQ3NoticeNone</tt></a></td><td>No notice.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeDataAlreadyEmpty"><tt>kQ3NoticeDataAlreadyEmpty</tt></a></td><td>Data already empty.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeMethodNotSupported"><tt>kQ3NoticeMethodNotSupported</tt></a></td><td>Method not supported.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeObjectAlreadySet"><tt>kQ3NoticeObjectAlreadySet</tt></a></td><td>Object already set.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeParameterOutOfRange"><tt>kQ3NoticeParameterOutOfRange</tt></a></td><td>Parameter out of range.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeFileAliasWasChanged"><tt>kQ3NoticeFileAliasWasChanged</tt></a></td><td>File alias was changed.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeMeshVertexHasNoComponent"><tt>kQ3NoticeMeshVertexHasNoComponent</tt></a></td><td>Mesh vertex has no component.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeMeshInvalidVertexFacePair"><tt>kQ3NoticeMeshInvalidVertexFacePair</tt></a></td><td>Mesh invalid vertex face pair.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeMeshEdgeVertexDoNotCorrespond"><tt>kQ3NoticeMeshEdgeVertexDoNotCorrespond</tt></a></td><td>Mesh edge vertex do not correspond.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeMeshEdgeIsNotBoundary"><tt>kQ3NoticeMeshEdgeIsNotBoundary</tt></a></td><td>Mesh edge is not boundary.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeDrawContextNotSetUsingInternalDefaults"><tt>kQ3NoticeDrawContextNotSetUsingInternalDefaults</tt></a></td><td>Draw context not set using internal defaults.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults"><tt>kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults</tt></a></td><td>Invalid attenuation type using internal defaults.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeBrightnessGreaterThanOne"><tt>kQ3NoticeBrightnessGreaterThanOne</tt></a></td><td>Brightness greater than 1.0.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeScaleContainsZeroEntries"><tt>kQ3NoticeScaleContainsZeroEntries</tt></a></td><td>Scale contains zero entries.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeSystemAlreadyInitialized"><tt>kQ3NoticeSystemAlreadyInitialized</tt></a></td><td>System already initialized.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeViewSyncCalledAgain"><tt>kQ3NoticeViewSyncCalledAgain</tt></a></td><td>View sync called again.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeFileCancelled"><tt>kQ3NoticeFileCancelled</tt></a></td><td>File cancelled.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3NoticeBrightnessLessThanZero"><tt>kQ3NoticeBrightnessLessThanZero</tt></a></td><td>Brightness less than 0.0. Not available in QD3D.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3NoticeNone"><tt>kQ3NoticeNone</tt></a></dt><dd>No notice.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeDataAlreadyEmpty"><tt>kQ3NoticeDataAlreadyEmpty</tt></a></dt><dd>Data already empty.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMethodNotSupported"><tt>kQ3NoticeMethodNotSupported</tt></a></dt><dd>Method not supported.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeObjectAlreadySet"><tt>kQ3NoticeObjectAlreadySet</tt></a></dt><dd>Object already set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeParameterOutOfRange"><tt>kQ3NoticeParameterOutOfRange</tt></a></dt><dd>Parameter out of range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeFileAliasWasChanged"><tt>kQ3NoticeFileAliasWasChanged</tt></a></dt><dd>File alias was changed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMeshVertexHasNoComponent"><tt>kQ3NoticeMeshVertexHasNoComponent</tt></a></dt><dd>Mesh vertex has no component.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMeshInvalidVertexFacePair"><tt>kQ3NoticeMeshInvalidVertexFacePair</tt></a></dt><dd>Mesh invalid vertex face pair.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMeshEdgeVertexDoNotCorrespond"><tt>kQ3NoticeMeshEdgeVertexDoNotCorrespond</tt></a></dt><dd>Mesh edge vertex do not correspond.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMeshEdgeIsNotBoundary"><tt>kQ3NoticeMeshEdgeIsNotBoundary</tt></a></dt><dd>Mesh edge is not boundary.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeDrawContextNotSetUsingInternalDefaults"><tt>kQ3NoticeDrawContextNotSetUsingInternalDefaults</tt></a></dt><dd>Draw context not set using internal defaults.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults"><tt>kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults</tt></a></dt><dd>Invalid attenuation type using internal defaults.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeBrightnessGreaterThanOne"><tt>kQ3NoticeBrightnessGreaterThanOne</tt></a></dt><dd>Brightness greater than 1.0.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeScaleContainsZeroEntries"><tt>kQ3NoticeScaleContainsZeroEntries</tt></a></dt><dd>Scale contains zero entries.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeSystemAlreadyInitialized"><tt>kQ3NoticeSystemAlreadyInitialized</tt></a></dt><dd>System already initialized.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeViewSyncCalledAgain"><tt>kQ3NoticeViewSyncCalledAgain</tt></a></dt><dd>View sync called again.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeFileCancelled"><tt>kQ3NoticeFileCancelled</tt></a></dt><dd>File cancelled.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeBrightnessLessThanZero"><tt>kQ3NoticeBrightnessLessThanZero</tt></a></dt><dd>Brightness less than 0.0. Not available in QD3D.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Warning"></a>
-<h3><a name="TQ3Warning">TQ3Warning</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Warning"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Warning">TQ3Warning</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3WarningNone                              = 0,
     kQ3WarningFirst                             = -28300,
@@ -375,11 +375,10 @@ typedef enum {
     kQ3WarningTypeNewerVersionAlreadyRegistered = -28262,
     kQ3WarningInvalidObjectInGroupMetafile      = -28261,
 
-#if QUESA_ALLOW_QD3D_EXTENSIONS
-	kQ3WarningQuaternionNotNormalized           = -28260,
-	kQ3WarningNormalCanNotBeFlipped             = -28259,
-	kQ3WarningTriangleNotNormalized             = -28258,
-	kQ3WarningVertexNotNormalized               = -28257,
+  kQ3WarningQuaternionNotNormalized           = -28260,
+  kQ3WarningNormalCanNotBeFlipped             = -28259,
+  kQ3WarningTriangleNotNormalized             = -28258,
+  kQ3WarningVertexNotNormalized               = -28257,
     kQ3WarningReadInfiniteFloatingPointNumber   = -28256,
     kQ3WarningReadBadNormalVector               = -28255,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -389,65 +388,63 @@ typedef enum {
 } TQ3Warning;
 </pre>
 </blockquote>
-<p>Quesa warning constants.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Quesa warning constants.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningNone"><tt>kQ3WarningNone</tt></a></td><td>No warning.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningInternalException"><tt>kQ3WarningInternalException</tt></a></td><td>Internal exception.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningNoObjectSupportForDuplicateMethod"><tt>kQ3WarningNoObjectSupportForDuplicateMethod</tt></a></td><td>No object support for duplicate method.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningNoObjectSupportForDrawMethod"><tt>kQ3WarningNoObjectSupportForDrawMethod</tt></a></td><td>No object support for draw method.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningNoObjectSupportForWriteMethod"><tt>kQ3WarningNoObjectSupportForWriteMethod</tt></a></td><td>No object support for write method.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningNoObjectSupportForReadMethod"><tt>kQ3WarningNoObjectSupportForReadMethod</tt></a></td><td>No object support for read method.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningUnknownElementType"><tt>kQ3WarningUnknownElementType</tt></a></td><td>Unknown element type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTypeAndMethodAlreadyDefined"><tt>kQ3WarningTypeAndMethodAlreadyDefined</tt></a></td><td>Type and method already defined.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTypeIsOutOfRange"><tt>kQ3WarningTypeIsOutOfRange</tt></a></td><td>Type is out of range.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTypeHasNotBeenRegistered"><tt>kQ3WarningTypeHasNotBeenRegistered</tt></a></td><td>Type has not been registered.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningVector3DNotUnitLength"><tt>kQ3WarningVector3DNotUnitLength</tt></a></td><td>Vector3D not unit length.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningInvalidSubObjectForObject"><tt>kQ3WarningInvalidSubObjectForObject</tt></a></td><td>Invalid sub object for object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningInvalidHexString"><tt>kQ3WarningInvalidHexString</tt></a></td><td>Invalid hex string.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningUnknownObject"><tt>kQ3WarningUnknownObject</tt></a></td><td>Unknown object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningInvalidMetafileObject"><tt>kQ3WarningInvalidMetafileObject</tt></a></td><td>Invalid metafile object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningUnmatchedBeginGroup"><tt>kQ3WarningUnmatchedBeginGroup</tt></a></td><td>Unmatched begin group.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningUnmatchedEndGroup"><tt>kQ3WarningUnmatchedEndGroup</tt></a></td><td>Unmatched end group.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningInvalidTableOfContents"><tt>kQ3WarningInvalidTableOfContents</tt></a></td><td>Invalid table of contents.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningUnresolvableReference"><tt>kQ3WarningUnresolvableReference</tt></a></td><td>Unresolvable reference.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningNoAttachMethod"><tt>kQ3WarningNoAttachMethod</tt></a></td><td>No attach method.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningInconsistentData"><tt>kQ3WarningInconsistentData</tt></a></td><td>Inconsistent data.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningReadLessThanSize"><tt>kQ3WarningReadLessThanSize</tt></a></td><td>Read less than size.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningFilePointerResolutionFailed"><tt>kQ3WarningFilePointerResolutionFailed</tt></a></td><td>File pointer resolution failed.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningFilePointerRedefined"><tt>kQ3WarningFilePointerRedefined</tt></a></td><td>File pointer redefined.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningStringExceedsMaximumLength"><tt>kQ3WarningStringExceedsMaximumLength</tt></a></td><td>String exceeds maximum length.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningLowMemory"><tt>kQ3WarningLowMemory</tt></a></td><td>Low memory.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningPossibleMemoryLeak"><tt>kQ3WarningPossibleMemoryLeak</tt></a></td><td>Possible memory leak.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningViewTraversalInProgress"><tt>kQ3WarningViewTraversalInProgress</tt></a></td><td>View traversal in progress.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningNonInvertibleMatrix"><tt>kQ3WarningNonInvertibleMatrix</tt></a></td><td>Non invertible matrix.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningQuaternionEntriesAreZero"><tt>kQ3WarningQuaternionEntriesAreZero</tt></a></td><td>Quaternion entries are zero.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningFunctionalityNotSupported"><tt>kQ3WarningFunctionalityNotSupported</tt></a></td><td>Functionality not supported.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningInvalidPaneDimensions"><tt>kQ3WarningInvalidPaneDimensions</tt></a></td><td>Invalid pane dimensions.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningPickParamOutside"><tt>kQ3WarningPickParamOutside</tt></a></td><td>Pick param outside.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningScaleEntriesAllZero"><tt>kQ3WarningScaleEntriesAllZero</tt></a></td><td>Scale entries all zero.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningScaleContainsNegativeEntries"><tt>kQ3WarningScaleContainsNegativeEntries</tt></a></td><td>Scale contains negative entries.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningParameterOutOfRange"><tt>kQ3WarningParameterOutOfRange</tt></a></td><td>Parameter out of range.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningExtensionNotLoading"><tt>kQ3WarningExtensionNotLoading</tt></a></td><td>Extension not loading.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTypeAlreadyRegistered"><tt>kQ3WarningTypeAlreadyRegistered</tt></a></td><td>Type already registered.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTypeSameVersionAlreadyRegistered"><tt>kQ3WarningTypeSameVersionAlreadyRegistered</tt></a></td><td>Type same version already registered.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTypeNewerVersionAlreadyRegistered"><tt>kQ3WarningTypeNewerVersionAlreadyRegistered</tt></a></td><td>Type newer version already registered.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningInvalidObjectInGroupMetafile"><tt>kQ3WarningInvalidObjectInGroupMetafile</tt></a></td><td>Invalid object in group metafile.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningQuaternionNotNormalized"><tt>kQ3WarningQuaternionNotNormalized</tt></a></td><td>Quaternion is not normalized. Not available in QD3D.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningNormalCanNotBeFlipped"><tt>kQ3WarningNormalCanNotBeFlipped</tt></a></td><td>Normal can not be flipped as they would under QD3D. Not available in QD3D.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningTriangleNotNormalized"><tt>kQ3WarningTriangleNotNormalized</tt></a></td><td>Triangle normal is not normalized. Not available in QD3D.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningVertexNotNormalized"><tt>kQ3WarningVertexNotNormalized</tt></a></td><td>Vertex normal is not normalized. Not available in QD3D.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningReadInfiniteFloatingPointNumber"><tt>kQ3WarningReadInfiniteFloatingPointNumber</tt></a></td><td>Floating-point number read from file was
-infinite or NaN.  Not available in QD3D.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3WarningReadBadNormalVector"><tt>kQ3WarningReadBadNormalVector</tt></a></td><td>A supposed normal vector has components so
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3WarningNone"><tt>kQ3WarningNone</tt></a></dt><dd>No warning.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInternalException"><tt>kQ3WarningInternalException</tt></a></dt><dd>Internal exception.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoObjectSupportForDuplicateMethod"><tt>kQ3WarningNoObjectSupportForDuplicateMethod</tt></a></dt><dd>No object support for duplicate method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoObjectSupportForDrawMethod"><tt>kQ3WarningNoObjectSupportForDrawMethod</tt></a></dt><dd>No object support for draw method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoObjectSupportForWriteMethod"><tt>kQ3WarningNoObjectSupportForWriteMethod</tt></a></dt><dd>No object support for write method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoObjectSupportForReadMethod"><tt>kQ3WarningNoObjectSupportForReadMethod</tt></a></dt><dd>No object support for read method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnknownElementType"><tt>kQ3WarningUnknownElementType</tt></a></dt><dd>Unknown element type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeAndMethodAlreadyDefined"><tt>kQ3WarningTypeAndMethodAlreadyDefined</tt></a></dt><dd>Type and method already defined.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeIsOutOfRange"><tt>kQ3WarningTypeIsOutOfRange</tt></a></dt><dd>Type is out of range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeHasNotBeenRegistered"><tt>kQ3WarningTypeHasNotBeenRegistered</tt></a></dt><dd>Type has not been registered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningVector3DNotUnitLength"><tt>kQ3WarningVector3DNotUnitLength</tt></a></dt><dd>Vector3D not unit length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidSubObjectForObject"><tt>kQ3WarningInvalidSubObjectForObject</tt></a></dt><dd>Invalid sub object for object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidHexString"><tt>kQ3WarningInvalidHexString</tt></a></dt><dd>Invalid hex string.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnknownObject"><tt>kQ3WarningUnknownObject</tt></a></dt><dd>Unknown object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidMetafileObject"><tt>kQ3WarningInvalidMetafileObject</tt></a></dt><dd>Invalid metafile object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnmatchedBeginGroup"><tt>kQ3WarningUnmatchedBeginGroup</tt></a></dt><dd>Unmatched begin group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnmatchedEndGroup"><tt>kQ3WarningUnmatchedEndGroup</tt></a></dt><dd>Unmatched end group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidTableOfContents"><tt>kQ3WarningInvalidTableOfContents</tt></a></dt><dd>Invalid table of contents.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnresolvableReference"><tt>kQ3WarningUnresolvableReference</tt></a></dt><dd>Unresolvable reference.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoAttachMethod"><tt>kQ3WarningNoAttachMethod</tt></a></dt><dd>No attach method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInconsistentData"><tt>kQ3WarningInconsistentData</tt></a></dt><dd>Inconsistent data.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningReadLessThanSize"><tt>kQ3WarningReadLessThanSize</tt></a></dt><dd>Read less than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningFilePointerResolutionFailed"><tt>kQ3WarningFilePointerResolutionFailed</tt></a></dt><dd>File pointer resolution failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningFilePointerRedefined"><tt>kQ3WarningFilePointerRedefined</tt></a></dt><dd>File pointer redefined.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningStringExceedsMaximumLength"><tt>kQ3WarningStringExceedsMaximumLength</tt></a></dt><dd>String exceeds maximum length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningLowMemory"><tt>kQ3WarningLowMemory</tt></a></dt><dd>Low memory.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningPossibleMemoryLeak"><tt>kQ3WarningPossibleMemoryLeak</tt></a></dt><dd>Possible memory leak.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningViewTraversalInProgress"><tt>kQ3WarningViewTraversalInProgress</tt></a></dt><dd>View traversal in progress.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNonInvertibleMatrix"><tt>kQ3WarningNonInvertibleMatrix</tt></a></dt><dd>Non invertible matrix.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningQuaternionEntriesAreZero"><tt>kQ3WarningQuaternionEntriesAreZero</tt></a></dt><dd>Quaternion entries are zero.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningFunctionalityNotSupported"><tt>kQ3WarningFunctionalityNotSupported</tt></a></dt><dd>Functionality not supported.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidPaneDimensions"><tt>kQ3WarningInvalidPaneDimensions</tt></a></dt><dd>Invalid pane dimensions.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningPickParamOutside"><tt>kQ3WarningPickParamOutside</tt></a></dt><dd>Pick param outside.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningScaleEntriesAllZero"><tt>kQ3WarningScaleEntriesAllZero</tt></a></dt><dd>Scale entries all zero.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningScaleContainsNegativeEntries"><tt>kQ3WarningScaleContainsNegativeEntries</tt></a></dt><dd>Scale contains negative entries.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningParameterOutOfRange"><tt>kQ3WarningParameterOutOfRange</tt></a></dt><dd>Parameter out of range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningExtensionNotLoading"><tt>kQ3WarningExtensionNotLoading</tt></a></dt><dd>Extension not loading.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeAlreadyRegistered"><tt>kQ3WarningTypeAlreadyRegistered</tt></a></dt><dd>Type already registered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeSameVersionAlreadyRegistered"><tt>kQ3WarningTypeSameVersionAlreadyRegistered</tt></a></dt><dd>Type same version already registered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeNewerVersionAlreadyRegistered"><tt>kQ3WarningTypeNewerVersionAlreadyRegistered</tt></a></dt><dd>Type newer version already registered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidObjectInGroupMetafile"><tt>kQ3WarningInvalidObjectInGroupMetafile</tt></a></dt><dd>Invalid object in group metafile.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningQuaternionNotNormalized"><tt>kQ3WarningQuaternionNotNormalized</tt></a></dt><dd>Quaternion is not normalized. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNormalCanNotBeFlipped"><tt>kQ3WarningNormalCanNotBeFlipped</tt></a></dt><dd>Normal can not be flipped as they would under QD3D. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTriangleNotNormalized"><tt>kQ3WarningTriangleNotNormalized</tt></a></dt><dd>Triangle normal is not normalized. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningVertexNotNormalized"><tt>kQ3WarningVertexNotNormalized</tt></a></dt><dd>Vertex normal is not normalized. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningReadInfiniteFloatingPointNumber"><tt>kQ3WarningReadInfiniteFloatingPointNumber</tt></a></dt><dd>Floating-point number read from file was
+infinite or NaN.  Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningReadBadNormalVector"><tt>kQ3WarningReadBadNormalVector</tt></a></dt><dd>A supposed normal vector has components so
 large or small that it cannot be normalized.
-Not available in QD3D.</td><tr>
-</table>
+Not available in QD3D.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

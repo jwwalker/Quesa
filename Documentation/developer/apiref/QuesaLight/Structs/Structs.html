@@ -1,7 +1,13 @@
-<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3DirectionalLightData"></a>
-<h3><a name="TQ3DirectionalLightData">TQ3DirectionalLightData</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Structs</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3DirectionalLightData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DirectionalLightData">TQ3DirectionalLightData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DirectionalLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
@@ -9,25 +15,23 @@ typedef struct TQ3DirectionalLightData {
 } TQ3DirectionalLightData;
 </pre>
 </blockquote>
-<p>Describes the state for a directional light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a directional light.
 <br><br>
 A directional light is defined by a vector, which indicates the
 world-space direction away from the light source.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>lightData</tt></td><td>The common state for the light.</td><tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>Indicates if the light casts shadows.</td><tr>
-<tr valign=top><td><tt>direction</tt></td><td>The direction of the light.</td><tr>
-</table>
+<dl>
+<dt><tt>lightData</tt></dt><dd>The common state for the light.</dd>
+<dt><tt>castsShadows</tt></dt><dd>Indicates if the light casts shadows.</dd>
+<dt><tt>direction</tt></dt><dd>The direction of the light.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3LightData"></a>
-<h3><a name="TQ3LightData">TQ3LightData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3LightData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3LightData">TQ3LightData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3LightData {
     TQ3Boolean                                  isOn;
     float                                       brightness;
@@ -35,7 +39,7 @@ typedef struct TQ3LightData {
 } TQ3LightData;
 </pre>
 </blockquote>
-<p>Describes the common state for a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the common state for a light.
 <br><br>
 The common light state includes the on/off state, brightness, and color.
 Brightness and color values should be between 0.0 and 1.0 inclusive.
@@ -49,19 +53,17 @@ in kQ3NoticeBrightnessGreaterThanOne or kQ3NoticeBrightnessLessThanZero
 warnings.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>isOn</tt></td><td>Controls if the light is active or not.</td><tr>
-<tr valign=top><td><tt>brightness</tt></td><td>The brightness of the light.</td><tr>
-<tr valign=top><td><tt>color</tt></td><td>The colour of the light.</td><tr>
-</table>
+<dl>
+<dt><tt>isOn</tt></dt><dd>Controls if the light is active or not.</dd>
+<dt><tt>brightness</tt></dt><dd>The brightness of the light.</dd>
+<dt><tt>color</tt></dt><dd>The colour of the light.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3PointLightData"></a>
-<h3><a name="TQ3PointLightData">TQ3PointLightData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3PointLightData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PointLightData">TQ3PointLightData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PointLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
@@ -70,27 +72,25 @@ typedef struct TQ3PointLightData {
 } TQ3PointLightData;
 </pre>
 </blockquote>
-<p>Describes the state for a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a point light.
 <br><br>
 A point light is defined by a coordinate in world space, and an
 attenuation value which controls how the light diminishes with
 distance.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>lightData</tt></td><td>The common state for the light.</td><tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>Indicates if the light casts shadows.</td><tr>
-<tr valign=top><td><tt>attenuation</tt></td><td>The attenuation style of the light.</td><tr>
-<tr valign=top><td><tt>location</tt></td><td>The location of the light.</td><tr>
-</table>
+<dl>
+<dt><tt>lightData</tt></dt><dd>The common state for the light.</dd>
+<dt><tt>castsShadows</tt></dt><dd>Indicates if the light casts shadows.</dd>
+<dt><tt>attenuation</tt></dt><dd>The attenuation style of the light.</dd>
+<dt><tt>location</tt></dt><dd>The location of the light.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3SpotLightData"></a>
-<h3><a name="TQ3SpotLightData">TQ3SpotLightData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3SpotLightData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3SpotLightData">TQ3SpotLightData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3SpotLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
@@ -103,7 +103,7 @@ typedef struct TQ3SpotLightData {
 } TQ3SpotLightData;
 </pre>
 </blockquote>
-<p>Describes the state for a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a spot light.
 <br><br>
 A spot light is defined by a coordinate in world space, a vector
 away from that coordinate, and an attenuation value which controls
@@ -124,20 +124,18 @@ to kQ3Pi/2.0 (inclusive), and the outerAngle must be equal than or
 greater to the hotAngle.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>lightData</tt></td><td>The common state for the light.</td><tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>Indicates if the light casts shadows.</td><tr>
-<tr valign=top><td><tt>attenuation</tt></td><td>The attenuation style of the light.</td><tr>
-<tr valign=top><td><tt>location</tt></td><td>The location of the light.</td><tr>
-<tr valign=top><td><tt>direction</tt></td><td>The direction of the light.</td><tr>
-<tr valign=top><td><tt>hotAngle</tt></td><td>The half-angle where the light intensity starts to drop.</td><tr>
-<tr valign=top><td><tt>outerAngle</tt></td><td>The half-angle where the light intensity reaches zero.</td><tr>
-<tr valign=top><td><tt>fallOff</tt></td><td>The fall off between the hotAngle and the outerAngle.</td><tr>
-</table>
+<dl>
+<dt><tt>lightData</tt></dt><dd>The common state for the light.</dd>
+<dt><tt>castsShadows</tt></dt><dd>Indicates if the light casts shadows.</dd>
+<dt><tt>attenuation</tt></dt><dd>The attenuation style of the light.</dd>
+<dt><tt>location</tt></dt><dd>The location of the light.</dd>
+<dt><tt>direction</tt></dt><dd>The direction of the light.</dd>
+<dt><tt>hotAngle</tt></dt><dd>The half-angle where the light intensity starts to drop.</dd>
+<dt><tt>outerAngle</tt></dt><dd>The half-angle where the light intensity reaches zero.</dd>
+<dt><tt>fallOff</tt></dt><dd>The fall off between the hotAngle and the outerAngle.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

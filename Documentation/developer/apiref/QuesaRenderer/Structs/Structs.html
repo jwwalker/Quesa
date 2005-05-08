@@ -1,117 +1,113 @@
-<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3DialogAnchor"></a>
-<h3><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h3>
-<blockquote><pre>
-typedef struct TQ3DialogAnchor {
-    HWND                                        ownerWindow;
-} TQ3DialogAnchor;
-</pre>
-</blockquote>
-<p>Windows dialog anchor.
-<br><br>
-Supplied to Q3Renderer_ModalConfigure to pass platform-specific
-dialog state to the renderer.
-<br><br>
-</p>
-<h4>Fields</h4>
-<blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>ownerWindow</tt></td><td>The parent window of the configure dialog.</td><tr>
-</table>
-</blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3DialogAnchor"></a>
-<h3><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h3>
-<blockquote><pre>
-typedef struct TQ3DialogAnchor {
-    BWindow                                     *ownerWindow;
-} TQ3DialogAnchor;
-</pre>
-</blockquote>
-<p>Be dialog anchor.
-<br><br>
-Supplied to Q3Renderer_ModalConfigure to pass platform-specific
-dialog state to the renderer.
-<br><br>
-</p>
-<h4>Fields</h4>
-<blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>ownerWindow</tt></td><td>The parent window of the configure dialog.</td><tr>
-</table>
-</blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3DialogAnchor"></a>
-<h3><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h3>
-<blockquote><pre>
-typedef struct TQ3DialogAnchor {
-    void                                        *notUsed;
-} TQ3DialogAnchor;
-</pre>
-</blockquote>
-<p>Cocoa dialog anchor.
-<br><br>
-Supplied to Q3Renderer_ModalConfigure to pass platform-specific
-dialog state to the renderer.
-<br><br>
-</p>
-<h4>Fields</h4>
-<blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>notUsed</tt></td><td>Not used.</td><tr>
-</table>
-</blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3DialogAnchor"></a>
-<h3><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Structs</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DialogAnchor {
     TQ3MacOSDialogEventHandler                  clientEventHandler;
 } TQ3DialogAnchor;
 </pre>
 </blockquote>
-<p>Mac OS dialog anchor.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mac OS dialog anchor.
 <br><br>
 Supplied to Q3Renderer_ModalConfigure to pass platform-specific
 dialog state to the renderer.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>clientEventHandler</tt></td><td>The application event handler.</td><tr>
-</table>
+<dl>
+<dt><tt>clientEventHandler</tt></dt><dd>The application event handler.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3DialogAnchor"></a>
-<h3><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef struct TQ3DialogAnchor {
+    HWND                                        ownerWindow;
+} TQ3DialogAnchor;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Windows dialog anchor.
+<br><br>
+Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+dialog state to the renderer.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>ownerWindow</tt></dt><dd>The parent window of the configure dialog.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DialogAnchor {
     void                                        *notUsed;
 } TQ3DialogAnchor;
 </pre>
 </blockquote>
-<p>Unix dialog anchor.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Unix dialog anchor.
 <br><br>
 Supplied to Q3Renderer_ModalConfigure to pass platform-specific
 dialog state to the renderer.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>notUsed</tt></td><td>Not used.</td><tr>
-</table>
+<dl>
+<dt><tt>notUsed</tt></dt><dd>Not used.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3XColorDescriptor"></a>
-<h3><a name="TQ3XColorDescriptor">TQ3XColorDescriptor</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef struct TQ3DialogAnchor {
+    BWindow                                     *ownerWindow;
+} TQ3DialogAnchor;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Be dialog anchor.
+<br><br>
+Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+dialog state to the renderer.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>ownerWindow</tt></dt><dd>The parent window of the configure dialog.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef struct TQ3DialogAnchor {
+    void                                        *notUsed;
+} TQ3DialogAnchor;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Cocoa dialog anchor.
+<br><br>
+Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+dialog state to the renderer.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>notUsed</tt></dt><dd>Not used.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3XColorDescriptor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XColorDescriptor">TQ3XColorDescriptor</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3XColorDescriptor {
     TQ3Uns32                                    redShift;
     TQ3Uns32                                    redMask;
@@ -124,27 +120,25 @@ typedef struct TQ3XColorDescriptor {
 } TQ3XColorDescriptor;
 </pre>
 </blockquote>
-<p>Draw region color descriptor.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Draw region color descriptor.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>redShift</tt></td><td>Shift for red bits.</td><tr>
-<tr valign=top><td><tt>redMask</tt></td><td>Mask for red bits.</td><tr>
-<tr valign=top><td><tt>greenShift</tt></td><td>Shift for green bits.</td><tr>
-<tr valign=top><td><tt>greenMask</tt></td><td>Mask for green bits.</td><tr>
-<tr valign=top><td><tt>blueShift</tt></td><td>Shift for blue bits.</td><tr>
-<tr valign=top><td><tt>blueMask</tt></td><td>Mask for blue bits.</td><tr>
-<tr valign=top><td><tt>alphaShift</tt></td><td>Shift for alpha bits.</td><tr>
-<tr valign=top><td><tt>alphaMask</tt></td><td>Mask for alpha bits.</td><tr>
-</table>
+<dl>
+<dt><tt>redShift</tt></dt><dd>Shift for red bits.</dd>
+<dt><tt>redMask</tt></dt><dd>Mask for red bits.</dd>
+<dt><tt>greenShift</tt></dt><dd>Shift for green bits.</dd>
+<dt><tt>greenMask</tt></dt><dd>Mask for green bits.</dd>
+<dt><tt>blueShift</tt></dt><dd>Shift for blue bits.</dd>
+<dt><tt>blueMask</tt></dt><dd>Mask for blue bits.</dd>
+<dt><tt>alphaShift</tt></dt><dd>Shift for alpha bits.</dd>
+<dt><tt>alphaMask</tt></dt><dd>Mask for alpha bits.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3XDrawRegionDescriptor"></a>
-<h3><a name="TQ3XDrawRegionDescriptor">TQ3XDrawRegionDescriptor</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3XDrawRegionDescriptor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XDrawRegionDescriptor">TQ3XDrawRegionDescriptor</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3XDrawRegionDescriptor {
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -158,24 +152,22 @@ typedef struct TQ3XDrawRegionDescriptor {
 } TQ3XDrawRegionDescriptor;
 </pre>
 </blockquote>
-<p>Draw region descriptor.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Draw region descriptor.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>width</tt></td><td>Width of draw region.</td><tr>
-<tr valign=top><td><tt>height</tt></td><td>Height of draw region.</td><tr>
-<tr valign=top><td><tt>rowBytes</tt></td><td>Row stride of draw region.</td><tr>
-<tr valign=top><td><tt>pixelSize</tt></td><td>Pixel size of draw region.</td><tr>
-<tr valign=top><td><tt>pixelType</tt></td><td>Pixel type of draw region.</td><tr>
-<tr valign=top><td><tt>colorDescriptor</tt></td><td>Color descriptor of draw region.</td><tr>
-<tr valign=top><td><tt>bitOrder</tt></td><td>Bit order of draw region.</td><tr>
-<tr valign=top><td><tt>byteOrder</tt></td><td>Byte order of draw region.</td><tr>
-<tr valign=top><td><tt>clipMask</tt></td><td>Clipping mask for draw region (may be NULL).</td><tr>
-</table>
+<dl>
+<dt><tt>width</tt></dt><dd>Width of draw region.</dd>
+<dt><tt>height</tt></dt><dd>Height of draw region.</dd>
+<dt><tt>rowBytes</tt></dt><dd>Row stride of draw region.</dd>
+<dt><tt>pixelSize</tt></dt><dd>Pixel size of draw region.</dd>
+<dt><tt>pixelType</tt></dt><dd>Pixel type of draw region.</dd>
+<dt><tt>colorDescriptor</tt></dt><dd>Color descriptor of draw region.</dd>
+<dt><tt>bitOrder</tt></dt><dd>Bit order of draw region.</dd>
+<dt><tt>byteOrder</tt></dt><dd>Byte order of draw region.</dd>
+<dt><tt>clipMask</tt></dt><dd>Clipping mask for draw region (may be NULL).</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

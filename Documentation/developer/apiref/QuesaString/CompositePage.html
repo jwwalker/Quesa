@@ -1,69 +1,65 @@
-<html><head><title>QuesaString.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaString.h</h1></font><hr><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>QuesaString.h</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">QuesaString.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa string objects.
  <hr><br><h2>Functions</h2>
-<a name="//apple_ref/c/func/Q3CString_EmptyData"></a>
-<h3><a name="Q3CString_EmptyData">Q3CString_EmptyData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3CString_EmptyData (
-    char                          **str
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3CString_EmptyData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_EmptyData">Q3CString_EmptyData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CString_EmptyData (
+&nbsp;&nbsp;&nbsp;&nbsp;char **str
+);</tt><br>
 </pre></blockquote>
-<p>Releases the memory allocated by a previous call to
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Releases the memory allocated by a previous call to
 Q3CString_GetString.
 <br><br>
 After the string data has been freed, the str parameter
 will be reset to NULL.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>str</tt></td><td>The string data to release.</td></tr>
-</table>
+<dl>
+<dt><tt><em>str</em></tt></dt><dd>The string data to release.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CString_GetLength"></a>
-<h3><a name="Q3CString_GetLength">Q3CString_GetLength</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3CString_GetLength (
-    TQ3StringObject               stringObj,
-    TQ3Uns32                      *length
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CString_GetLength"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_GetLength">Q3CString_GetLength</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CString_GetLength (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject stringObj,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *length
+);</tt><br>
 </pre></blockquote>
-<p>Get the length of a string object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the length of a string object.
 <br><br>
 Returns the number of bytes required to store the character
 data in the string object. The length returned does not
 include the terminating NULL byte.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>stringObj</tt></td><td>The object to test.</td></tr>
-<tr valign=top><td><tt>length</tt></td><td>The number of bytes needed for character data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>stringObj</em></tt></dt><dd>The object to test.</dd>
+<dt><tt><em>length</em></tt></dt><dd>The number of bytes needed for character data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CString_GetString"></a>
-<h3><a name="Q3CString_GetString">Q3CString_GetString</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3CString_GetString (
-    TQ3StringObject               stringObj,
-    char                          **str
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CString_GetString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_GetString">Q3CString_GetString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CString_GetString (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject stringObj,
+&nbsp;&nbsp;&nbsp;&nbsp;char **str
+);</tt><br>
 </pre></blockquote>
-<p>Return the character data of a string object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the character data of a string object.
 <br><br>
 The data returned must be released with a subsequent call to
 Q3CString_EmptyData. The data returned will be NULL terminated.
@@ -73,91 +69,77 @@ existing string or a memory leak will occur. If the value of
 the str parameter is not NULL, a warning will be posted.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>stringObj</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>str</tt></td><td>Receives a pointer to the character data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>stringObj</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>str</em></tt></dt><dd>Receives a pointer to the character data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CString_New"></a>
-<h3><a name="Q3CString_New">Q3CString_New</a></h3>
-<blockquote><pre><tt>TQ3StringObject  
-Q3CString_New (
-    const char                    *str
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CString_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_New">Q3CString_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StringObject ) Q3CString_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const char *str
+);</tt><br>
 </pre></blockquote>
-<p>Create a new C string object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new C string object.
 <br><br>
 Creates a string object based on a NULL terminated string. The
 string data is copied, and so str can be disposed of after
 creating the object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>str</tt></td><td>The C string to copy.</td></tr>
-</table>
+<dl>
+<dt><tt><em>str</em></tt></dt><dd>The C string to copy.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new string object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CString_SetString"></a>
-<h3><a name="Q3CString_SetString">Q3CString_SetString</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3CString_SetString (
-    TQ3StringObject               stringObj,
-    const char                    *str
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new string object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CString_SetString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_SetString">Q3CString_SetString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CString_SetString (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject stringObj,
+&nbsp;&nbsp;&nbsp;&nbsp;const char *str
+);</tt><br>
 </pre></blockquote>
-<p>Set the character data of a string object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the character data of a string object.
 <br><br>
 Assigns a C string to the string object. The string data is copied
 and so str can be disposed of after this call.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>stringObj</tt></td><td>The object to update.</td></tr>
-<tr valign=top><td><tt>str</tt></td><td>The string to assign to the object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>stringObj</em></tt></dt><dd>The object to update.</dd>
+<dt><tt><em>str</em></tt></dt><dd>The string to assign to the object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3String_GetType"></a>
-<h3><a name="Q3String_GetType">Q3String_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3String_GetType (
-    TQ3StringObject               stringObj
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3String_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3String_GetType">Q3String_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3String_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject stringObj
+);</tt><br>
 </pre></blockquote>
-<p>Returns the type of a string object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the type of a string object.
 <br><br>
 Returns kQ3StringTypeCString, or kQ3ObjectTypeInvalid if the
 object type is unknown.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>stringObj</tt></td><td>The object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>stringObj</em></tt></dt><dd>The object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the object.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>The type of the object.
+ </dd></dl>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

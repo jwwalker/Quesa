@@ -1,7 +1,13 @@
-<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3HitPath"></a>
-<h3><a name="TQ3HitPath">TQ3HitPath</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Structs</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3HitPath"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3HitPath">TQ3HitPath</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3HitPath {
     TQ3GroupObject                              rootGroup;
     TQ3Uns32                                    depth;
@@ -9,7 +15,7 @@ typedef struct TQ3HitPath {
 } TQ3HitPath;
 </pre>
 </blockquote>
-<p>Hit path data.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Hit path data.
 <br><br>
 Returned by Q3Pick_GetPickDetailData for the kQ3PickDetailMaskPath
 pick selector. Disposed of by Q3HitPath_EmptyData.
@@ -43,19 +49,17 @@ If these groups have had items added or removed since they
 were submitted, the positions array will no longer be valid.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>rootGroup</tt></td><td>Top level group which was submitted.</td><tr>
-<tr valign=top><td><tt>depth</tt></td><td>Number of valid entries within positions.</td><tr>
-<tr valign=top><td><tt>positions</tt></td><td>Array of group positions leading to the picked object.</td><tr>
-</table>
+<dl>
+<dt><tt>rootGroup</tt></dt><dd>Top level group which was submitted.</dd>
+<dt><tt>depth</tt></dt><dd>Number of valid entries within positions.</dd>
+<dt><tt>positions</tt></dt><dd>Array of group positions leading to the picked object.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3PickData"></a>
-<h3><a name="TQ3PickData">TQ3PickData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3PickData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PickData">TQ3PickData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PickData {
     TQ3PickSort                                 sort;
     TQ3PickDetail                               mask;
@@ -63,23 +67,21 @@ typedef struct TQ3PickData {
 } TQ3PickData;
 </pre>
 </blockquote>
-<p>Describes the common state for a pick object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the common state for a pick object.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sort</tt></td><td>The type of sorting, if any, to performed on the results.</td><tr>
-<tr valign=top><td><tt>mask</tt></td><td>The type of pick information to be returned.</td><tr>
-<tr valign=top><td><tt>numHitsToReturn</tt></td><td>The number of hits to return. Set to <code>kQ3ReturnAllHits</code>
-to retrieve all hits.</td><tr>
-</table>
+<dl>
+<dt><tt>sort</tt></dt><dd>The type of sorting, if any, to performed on the results.</dd>
+<dt><tt>mask</tt></dt><dd>The type of pick information to be returned.</dd>
+<dt><tt>numHitsToReturn</tt></dt><dd>The number of hits to return. Set to <code>kQ3ReturnAllHits</code>
+to retrieve all hits.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3WindowPointPickData"></a>
-<h3><a name="TQ3WindowPointPickData">TQ3WindowPointPickData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3WindowPointPickData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3WindowPointPickData">TQ3WindowPointPickData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3WindowPointPickData {
     TQ3PickData                                 data;
     TQ3Point2D                                  point;
@@ -88,46 +90,42 @@ typedef struct TQ3WindowPointPickData {
 } TQ3WindowPointPickData;
 </pre>
 </blockquote>
-<p>Describes the state for a window-point pick object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a window-point pick object.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>The common state for the pick.</td><tr>
-<tr valign=top><td><tt>point</tt></td><td>The pick point in local window coordinates.  Note that on Win32,
-this means relative to the HWND which contains the view.</td><tr>
-<tr valign=top><td><tt>vertexTolerance</tt></td><td>The vertex tolerance.  Only relevant to picking Point objects.</td><tr>
-<tr valign=top><td><tt>edgeTolerance</tt></td><td>The edge tolerance.  Only relevant to picking one-dimensional
-objects such as Lines and PolyLines.</td><tr>
-</table>
+<dl>
+<dt><tt>data</tt></dt><dd>The common state for the pick.</dd>
+<dt><tt>point</tt></dt><dd>The pick point in local window coordinates.  Note that on Win32,
+this means relative to the HWND which contains the view.</dd>
+<dt><tt>vertexTolerance</tt></dt><dd>The vertex tolerance.  Only relevant to picking Point objects.</dd>
+<dt><tt>edgeTolerance</tt></dt><dd>The edge tolerance.  Only relevant to picking one-dimensional
+objects such as Lines and PolyLines.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3WindowRectPickData"></a>
-<h3><a name="TQ3WindowRectPickData">TQ3WindowRectPickData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3WindowRectPickData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3WindowRectPickData">TQ3WindowRectPickData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3WindowRectPickData {
     TQ3PickData                                 data;
     TQ3Area                                     rect;
 } TQ3WindowRectPickData;
 </pre>
 </blockquote>
-<p>Describes the state for a window-rect pick object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a window-rect pick object.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>The common state for the pick.</td><tr>
-<tr valign=top><td><tt>rect</tt></td><td>The pick rect in local window coordinates.</td><tr>
-</table>
+<dl>
+<dt><tt>data</tt></dt><dd>The common state for the pick.</dd>
+<dt><tt>rect</tt></dt><dd>The pick rect in local window coordinates.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3WorldRayPickData"></a>
-<h3><a name="TQ3WorldRayPickData">TQ3WorldRayPickData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3WorldRayPickData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3WorldRayPickData">TQ3WorldRayPickData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3WorldRayPickData {
     TQ3PickData                                 data;
     TQ3Ray3D                                    ray;
@@ -136,20 +134,18 @@ typedef struct TQ3WorldRayPickData {
 } TQ3WorldRayPickData;
 </pre>
 </blockquote>
-<p>Describes the state for a world-ray pick object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a world-ray pick object.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>The common state for the pick.</td><tr>
-<tr valign=top><td><tt>ray</tt></td><td>The pick ray in world coordinates.</td><tr>
-<tr valign=top><td><tt>vertexTolerance</tt></td><td>The vertex tolerance.  Only relevant to picking Point objects.</td><tr>
-<tr valign=top><td><tt>edgeTolerance</tt></td><td>The edge tolerance.  Only relevant to picking one-dimensional
-objects such as Lines and PolyLines.</td><tr>
-</table>
+<dl>
+<dt><tt>data</tt></dt><dd>The common state for the pick.</dd>
+<dt><tt>ray</tt></dt><dd>The pick ray in world coordinates.</dd>
+<dt><tt>vertexTolerance</tt></dt><dd>The vertex tolerance.  Only relevant to picking Point objects.</dd>
+<dt><tt>edgeTolerance</tt></dt><dd>The edge tolerance.  Only relevant to picking one-dimensional
+objects such as Lines and PolyLines.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

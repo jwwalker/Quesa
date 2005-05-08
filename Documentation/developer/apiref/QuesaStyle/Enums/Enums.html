@@ -1,34 +1,37 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3AntiAliasModeMasks"></a>
-<h3><a name="TQ3AntiAliasModeMasks">TQ3AntiAliasModeMasks</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3AntiAliasModeMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AntiAliasModeMasks">TQ3AntiAliasModeMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3AntiAliasModeMasks {
-    kQ3AntiAliasModeMaskEdges                   = (1 << 0),
-    kQ3AntiAliasModeMaskFilled                  = (1 << 1),
-#if QUESA_ALLOW_QD3D_EXTENSIONS    
-    kQ3AntiAliasModeMaskFullScreen              = (1 << 2),
+    kQ3AntiAliasModeMaskEdges                   = (1 &lt;&lt; 0),
+    kQ3AntiAliasModeMaskFilled                  = (1 &lt;&lt; 1),
+    kQ3AntiAliasModeMaskFullScreen              = (1 &lt;&lt; 2),
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
     kQ3AntiAliasModeSize32                      = 0xFFFFFFFF
 } TQ3AntiAliasModeMasks;
 </pre>
 </blockquote>
-<p>Anti-alias style selectors.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Anti-alias style selectors.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AntiAliasModeMaskEdges"><tt>kQ3AntiAliasModeMaskEdges</tt></a></td><td>Apply anti-aliasing to wireframe objects.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AntiAliasModeMaskFilled"><tt>kQ3AntiAliasModeMaskFilled</tt></a></td><td>Apply anti-aliasing to filled objects.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AntiAliasModeMaskFullScreen"><tt>kQ3AntiAliasModeMaskFullScreen</tt></a></td><td>Apply global anti-aliasing (e.g., FSAA).
-<em>This feature is not available in QD3D.</em></td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3AntiAliasModeMaskEdges"><tt>kQ3AntiAliasModeMaskEdges</tt></a></dt><dd>Apply anti-aliasing to wireframe objects.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AntiAliasModeMaskFilled"><tt>kQ3AntiAliasModeMaskFilled</tt></a></dt><dd>Apply anti-aliasing to filled objects.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AntiAliasModeMaskFullScreen"><tt>kQ3AntiAliasModeMaskFullScreen</tt></a></dt><dd>Apply global anti-aliasing (e.g., FSAA).
+<em>This feature is not available in QD3D.</em></dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3BackfacingStyle"></a>
-<h3><a name="TQ3BackfacingStyle">TQ3BackfacingStyle</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3BackfacingStyle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3BackfacingStyle">TQ3BackfacingStyle</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3BackfacingStyle {
     kQ3BackfacingStyleBoth                      = 0,
     kQ3BackfacingStyleRemove                    = 1,
@@ -37,25 +40,23 @@ typedef enum TQ3BackfacingStyle {
 } TQ3BackfacingStyle;
 </pre>
 </blockquote>
-<p>Backfacing styles.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Backfacing styles.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3BackfacingStyleBoth"><tt>kQ3BackfacingStyleBoth</tt></a></td><td>Both backfacing and front facing surfaces
-are rendered.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3BackfacingStyleRemove"><tt>kQ3BackfacingStyleRemove</tt></a></td><td>Backfacing surfaces are removed before rendering.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3BackfacingStyleFlip"><tt>kQ3BackfacingStyleFlip</tt></a></td><td>Both backfacing and front facing surfaces are
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3BackfacingStyleBoth"><tt>kQ3BackfacingStyleBoth</tt></a></dt><dd>Both backfacing and front facing surfaces
+are rendered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3BackfacingStyleRemove"><tt>kQ3BackfacingStyleRemove</tt></a></dt><dd>Backfacing surfaces are removed before rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3BackfacingStyleFlip"><tt>kQ3BackfacingStyleFlip</tt></a></dt><dd>Both backfacing and front facing surfaces are
 rendered, and the surface normals of backfacing
-surfaces are inverted before rendering.</td><tr>
-</table>
+surfaces are inverted before rendering.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3FillStyle"></a>
-<h3><a name="TQ3FillStyle">TQ3FillStyle</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3FillStyle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FillStyle">TQ3FillStyle</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3FillStyle {
     kQ3FillStyleFilled                          = 0,
     kQ3FillStyleEdges                           = 1,
@@ -64,22 +65,20 @@ typedef enum TQ3FillStyle {
 } TQ3FillStyle;
 </pre>
 </blockquote>
-<p>Fill styles.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fill styles.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FillStyleFilled"><tt>kQ3FillStyleFilled</tt></a></td><td>Shapes are rendered as filled surfaces.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FillStyleEdges"><tt>kQ3FillStyleEdges</tt></a></td><td>Shapes are rendered as sets of lines.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FillStylePoints"><tt>kQ3FillStylePoints</tt></a></td><td>Shapes are rendered as sets of points.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FillStyleFilled"><tt>kQ3FillStyleFilled</tt></a></dt><dd>Shapes are rendered as filled surfaces.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FillStyleEdges"><tt>kQ3FillStyleEdges</tt></a></dt><dd>Shapes are rendered as sets of lines.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FillStylePoints"><tt>kQ3FillStylePoints</tt></a></dt><dd>Shapes are rendered as sets of points.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3FogMode"></a>
-<h3><a name="TQ3FogMode">TQ3FogMode</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3FogMode"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FogMode">TQ3FogMode</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3FogMode {
     kQ3FogModeLinear                            = 0,
     kQ3FogModeExponential                       = 1,
@@ -89,23 +88,21 @@ typedef enum TQ3FogMode {
 } TQ3FogMode;
 </pre>
 </blockquote>
-<p>Indicates how fog increases in density with distance.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Indicates how fog increases in density with distance.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FogModeLinear"><tt>kQ3FogModeLinear</tt></a></td><td>Fog == (End - Z) / (End - Start)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FogModeExponential"><tt>kQ3FogModeExponential</tt></a></td><td>Fog == exp(-Density * z)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FogModeExponentialSquared"><tt>kQ3FogModeExponentialSquared</tt></a></td><td>Fog == exp(-Density * z * Density * Z).</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FogModeAlpha"><tt>kQ3FogModeAlpha</tt></a></td><td>Fog == Vertex Alpha</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FogModeLinear"><tt>kQ3FogModeLinear</tt></a></dt><dd>Fog == (End - Z) / (End - Start)</dd>
+<dt><a name="//Quesa/c/econst/kQ3FogModeExponential"><tt>kQ3FogModeExponential</tt></a></dt><dd>Fog == exp(-Density * z)</dd>
+<dt><a name="//Quesa/c/econst/kQ3FogModeExponentialSquared"><tt>kQ3FogModeExponentialSquared</tt></a></dt><dd>Fog == exp(-Density * z * Density * Z).</dd>
+<dt><a name="//Quesa/c/econst/kQ3FogModeAlpha"><tt>kQ3FogModeAlpha</tt></a></dt><dd>Fog == Vertex Alpha</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3InterpolationStyle"></a>
-<h3><a name="TQ3InterpolationStyle">TQ3InterpolationStyle</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3InterpolationStyle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3InterpolationStyle">TQ3InterpolationStyle</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3InterpolationStyle {
     kQ3InterpolationStyleNone                   = 0,
     kQ3InterpolationStyleVertex                 = 1,
@@ -114,24 +111,22 @@ typedef enum TQ3InterpolationStyle {
 } TQ3InterpolationStyle;
 </pre>
 </blockquote>
-<p>Interpolation styles.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Interpolation styles.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3InterpolationStyleNone"><tt>kQ3InterpolationStyleNone</tt></a></td><td>Faces are rendered with a uniform illumination.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3InterpolationStyleVertex"><tt>kQ3InterpolationStyleVertex</tt></a></td><td>Individual vertices are shaded, and their values
-are interpolated across each face.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3InterpolationStylePixel"><tt>kQ3InterpolationStylePixel</tt></a></td><td>Individual pixels are shaded. Is not typically
-supported by interactive renderers.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3InterpolationStyleNone"><tt>kQ3InterpolationStyleNone</tt></a></dt><dd>Faces are rendered with a uniform illumination.</dd>
+<dt><a name="//Quesa/c/econst/kQ3InterpolationStyleVertex"><tt>kQ3InterpolationStyleVertex</tt></a></dt><dd>Individual vertices are shaded, and their values
+are interpolated across each face.</dd>
+<dt><a name="//Quesa/c/econst/kQ3InterpolationStylePixel"><tt>kQ3InterpolationStylePixel</tt></a></dt><dd>Individual pixels are shaded. Is not typically
+supported by interactive renderers.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3OrientationStyle"></a>
-<h3><a name="TQ3OrientationStyle">TQ3OrientationStyle</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3OrientationStyle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3OrientationStyle">TQ3OrientationStyle</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3OrientationStyle {
     kQ3OrientationStyleCounterClockwise         = 0,
     kQ3OrientationStyleClockwise                = 1,
@@ -139,47 +134,43 @@ typedef enum TQ3OrientationStyle {
 } TQ3OrientationStyle;
 </pre>
 </blockquote>
-<p>Defines the "front facing" side of polygons.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Defines the "front facing" side of polygons.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3OrientationStyleCounterClockwise"><tt>kQ3OrientationStyleCounterClockwise</tt></a></td><td>The front face is defined as CCW order.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3OrientationStyleClockwise"><tt>kQ3OrientationStyleClockwise</tt></a></td><td>The front face is defined as CW order.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3OrientationStyleCounterClockwise"><tt>kQ3OrientationStyleCounterClockwise</tt></a></dt><dd>The front face is defined as CCW order.</dd>
+<dt><a name="//Quesa/c/econst/kQ3OrientationStyleClockwise"><tt>kQ3OrientationStyleClockwise</tt></a></dt><dd>The front face is defined as CW order.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3PickPartsMasks"></a>
-<h3><a name="TQ3PickPartsMasks">TQ3PickPartsMasks</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3PickPartsMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PickPartsMasks">TQ3PickPartsMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3PickPartsMasks {
     kQ3PickPartsObject                          = 0,
-    kQ3PickPartsMaskFace                        = (1 << 0),
-    kQ3PickPartsMaskEdge                        = (1 << 1),
-    kQ3PickPartsMaskVertex                      = (1 << 2),
+    kQ3PickPartsMaskFace                        = (1 &lt;&lt; 0),
+    kQ3PickPartsMaskEdge                        = (1 &lt;&lt; 1),
+    kQ3PickPartsMaskVertex                      = (1 &lt;&lt; 2),
     kQ3PickPartsMaskSize32                      = 0xFFFFFFFF
 } TQ3PickPartsMasks;
 </pre>
 </blockquote>
-<p>Indicates the kind of objects placed in a hit list.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Indicates the kind of objects placed in a hit list.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickPartsObject"><tt>kQ3PickPartsObject</tt></a></td><td>The hit list contains whole objects.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickPartsMaskFace"><tt>kQ3PickPartsMaskFace</tt></a></td><td>The hit list contains faces.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickPartsMaskEdge"><tt>kQ3PickPartsMaskEdge</tt></a></td><td>The hit list contains edges.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickPartsMaskVertex"><tt>kQ3PickPartsMaskVertex</tt></a></td><td>The hit list contains vertices.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3PickPartsObject"><tt>kQ3PickPartsObject</tt></a></dt><dd>The hit list contains whole objects.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickPartsMaskFace"><tt>kQ3PickPartsMaskFace</tt></a></dt><dd>The hit list contains faces.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickPartsMaskEdge"><tt>kQ3PickPartsMaskEdge</tt></a></dt><dd>The hit list contains edges.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickPartsMaskVertex"><tt>kQ3PickPartsMaskVertex</tt></a></dt><dd>The hit list contains vertices.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3SubdivisionMethod"></a>
-<h3><a name="TQ3SubdivisionMethod">TQ3SubdivisionMethod</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3SubdivisionMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3SubdivisionMethod">TQ3SubdivisionMethod</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3SubdivisionMethod {
     kQ3SubdivisionMethodConstant                = 0,
     kQ3SubdivisionMethodWorldSpace              = 1,
@@ -188,21 +179,19 @@ typedef enum TQ3SubdivisionMethod {
 } TQ3SubdivisionMethod;
 </pre>
 </blockquote>
-<p>Subdivision methods.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subdivision methods.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SubdivisionMethodConstant"><tt>kQ3SubdivisionMethodConstant</tt></a></td><td>Surfaces are divided into the specified
-number of segments.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SubdivisionMethodWorldSpace"><tt>kQ3SubdivisionMethodWorldSpace</tt></a></td><td>Surfaces are divided into segments smaller
-than the specified size in world-space.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3SubdivisionMethodScreenSpace"><tt>kQ3SubdivisionMethodScreenSpace</tt></a></td><td>Surfaces are divided into segments smaller
-than the specified size in pixels.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3SubdivisionMethodConstant"><tt>kQ3SubdivisionMethodConstant</tt></a></dt><dd>Surfaces are divided into the specified
+number of segments.</dd>
+<dt><a name="//Quesa/c/econst/kQ3SubdivisionMethodWorldSpace"><tt>kQ3SubdivisionMethodWorldSpace</tt></a></dt><dd>Surfaces are divided into segments smaller
+than the specified size in world-space.</dd>
+<dt><a name="//Quesa/c/econst/kQ3SubdivisionMethodScreenSpace"><tt>kQ3SubdivisionMethodScreenSpace</tt></a></dt><dd>Surfaces are divided into segments smaller
+than the specified size in pixels.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

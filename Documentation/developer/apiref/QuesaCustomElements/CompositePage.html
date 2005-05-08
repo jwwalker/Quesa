@@ -1,268 +1,262 @@
-<html><head><title>QuesaCustomElements.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaCustomElements.h</h1></font><hr><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>QuesaCustomElements.h</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">QuesaCustomElements.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa custom elements inherited from QD3D.
  <hr><br><h2>Functions</h2>
-<a name="//apple_ref/c/func/CENameElement_EmptyData"></a>
-<h3><a name="CENameElement_EmptyData">CENameElement_EmptyData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-CENameElement_EmptyData (
-    char                          **name
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/CENameElement_EmptyData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CENameElement_EmptyData">CENameElement_EmptyData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CENameElement_EmptyData (
+&nbsp;&nbsp;&nbsp;&nbsp;char **name
+);</tt><br>
 </pre></blockquote>
-<p>Release the data returned by CENameElement_GetData.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the data returned by CENameElement_GetData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>name</tt></td><td>A pointer previously returned by CENameElement_GetData.</td></tr>
-</table>
+<dl>
+<dt><tt><em>name</em></tt></dt><dd>A pointer previously returned by CENameElement_GetData.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/CENameElement_GetData"></a>
-<h3><a name="CENameElement_GetData">CENameElement_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-CENameElement_GetData (
-    TQ3Object                     object,
-    char                          **name
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CENameElement_GetData "></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CENameElement_GetData ">CENameElement_GetData </a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CENameElement_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;char **name
+);</tt><br>
 </pre></blockquote>
-<p>Get the name element for an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the name element for an object.
 <br><br>
 The name parameter will receive a C string, or NULL if no name has
 been associated with the object. If a non-NULL pointer is returned,
 it must be disposed of with CENameElement_EmptyData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>name</tt></td><td>Receives the name associated with the object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>name</em></tt></dt><dd>Receives the name associated with the object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/CENameElement_SetData"></a>
-<h3><a name="CENameElement_SetData">CENameElement_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-CENameElement_SetData (
-    TQ3Object                     object,
-    const char                    *name
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CENameElement_PeekData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CENameElement_PeekData">CENameElement_PeekData</a></h2>
+</td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
+<br>
+<blockquote><pre><tt>( TQ3Status ) CENameElement_PeekData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;const char **name
+);</tt><br>
 </pre></blockquote>
-<p>Set the name element for an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the name element for an object.
+<br><br>
+The name parameter will receive a C string, or NULL if no name has
+been associated with the object. If a non-NULL pointer is returned,
+it should be considered read-only and temporary.  Unlike
+CENameElement_GetData, this function returns the actual string within
+the element, not a copy.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>name</em></tt></dt><dd>Receives the name associated with the object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CENameElement_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CENameElement_SetData">CENameElement_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CENameElement_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;const char *name
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the name element for an object.
 <br><br>
 The name parameter should point to a C string, and will be copied
 by CENameElement_SetData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to assign the name to.</td></tr>
-<tr valign=top><td><tt>name</tt></td><td>The C string to associate with the object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to assign the name to.</dd>
+<dt><tt><em>name</em></tt></dt><dd>The C string to associate with the object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/CEUrlElement_EmptyData"></a>
-<h3><a name="CEUrlElement_EmptyData">CEUrlElement_EmptyData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-CEUrlElement_EmptyData (
-    TCEUrlData                    **urlData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CEUrlElement_EmptyData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEUrlElement_EmptyData">CEUrlElement_EmptyData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEUrlElement_EmptyData (
+&nbsp;&nbsp;&nbsp;&nbsp;TCEUrlData **urlData
+);</tt><br>
 </pre></blockquote>
-<p>Release the data returned by CEUrlElement_GetData.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the data returned by CEUrlElement_GetData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>urlData</tt></td><td>A pointer previously returned by CEUrlElement_GetData.</td></tr>
-</table>
+<dl>
+<dt><tt><em>urlData</em></tt></dt><dd>A pointer previously returned by CEUrlElement_GetData.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/CEUrlElement_GetData"></a>
-<h3><a name="CEUrlElement_GetData">CEUrlElement_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-CEUrlElement_GetData (
-    TQ3Object                     object,
-    TCEUrlData                    **urlData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CEUrlElement_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEUrlElement_GetData">CEUrlElement_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEUrlElement_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TCEUrlData **urlData
+);</tt><br>
 </pre></blockquote>
-<p>Get the URL element for an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the URL element for an object.
 <br><br>
 The urlData parameter will receive a pointer to the URL data, or NULL
 if no URL element has been associated with the object. If a non-NULL
 pointer is returned, it must be disposed of with CEUrlElement_EmptyData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to retrieve the URL element from.</td></tr>
-<tr valign=top><td><tt>urlData</tt></td><td>Receives the URL data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to retrieve the URL element from.</dd>
+<dt><tt><em>urlData</em></tt></dt><dd>Receives the URL data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/CEUrlElement_SetData"></a>
-<h3><a name="CEUrlElement_SetData">CEUrlElement_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-CEUrlElement_SetData (
-    TQ3Object                     object,
-    TCEUrlData                    *urlData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CEUrlElement_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEUrlElement_SetData">CEUrlElement_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEUrlElement_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TCEUrlData *urlData
+);</tt><br>
 </pre></blockquote>
-<p>Set the URL element for an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the URL element for an object.
 <br><br>
 The URL element data will be copied by CEUrlElement_SetData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to assign the URL element to.</td></tr>
-<tr valign=top><td><tt>urlData</tt></td><td>The URL data to associate with the object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to assign the URL element to.</dd>
+<dt><tt><em>urlData</em></tt></dt><dd>The URL data to associate with the object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/CEWireElement_EmptyData"></a>
-<h3><a name="CEWireElement_EmptyData">CEWireElement_EmptyData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-CEWireElement_EmptyData (
-    QTAtomContainer               *wireData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CEWireElement_EmptyData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEWireElement_EmptyData">CEWireElement_EmptyData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEWireElement_EmptyData (
+&nbsp;&nbsp;&nbsp;&nbsp;QTAtomContainer *wireData
+);</tt><br>
 </pre></blockquote>
-<p>Release the data returned by CEWireElement_GetData.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the data returned by CEWireElement_GetData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>wireData</tt></td><td>A pointer previously returned by CEWireElement_GetData.</td></tr>
-</table>
+<dl>
+<dt><tt><em>wireData</em></tt></dt><dd>A pointer previously returned by CEWireElement_GetData.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/CEWireElement_GetData"></a>
-<h3><a name="CEWireElement_GetData">CEWireElement_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-CEWireElement_GetData (
-    TQ3Object                     object,
-    QTAtomContainer               *wireData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CEWireElement_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEWireElement_GetData">CEWireElement_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEWireElement_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;QTAtomContainer *wireData
+);</tt><br>
 </pre></blockquote>
-<p>Get the QuickTime wired element for an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the QuickTime wired element for an object.
 <br><br>
 The wireData parameter will receive a QTAtomContainer, or NULL if no
 wired element has been associated with the object. If a non-NULL pointer
 is returned, it must be disposed of with CEWireElement_EmptyData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>wireData</tt></td><td>Receives the QuickTime wired element associated with the object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>wireData</em></tt></dt><dd>Receives the QuickTime wired element associated with the object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/CEWireElement_SetData"></a>
-<h3><a name="CEWireElement_SetData">CEWireElement_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-CEWireElement_SetData (
-    TQ3Object                     object,
-    QTAtomContainer               wireData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CEWireElement_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEWireElement_SetData">CEWireElement_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEWireElement_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;QTAtomContainer wireData
+);</tt><br>
 </pre></blockquote>
-<p>Set the QuickTime wired element for an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the QuickTime wired element for an object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to assign the element to.</td></tr>
-<tr valign=top><td><tt>wireData</tt></td><td>The QuickTime wired element to associate with the object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to assign the element to.</dd>
+<dt><tt><em>wireData</em></tt></dt><dd>The QuickTime wired element to associate with the object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
 <h2>Constants</h2>
-<a name="//apple_ref/c/data/CEcNameElementName"></a>
-<h3><a name="CEcNameElementName">CEcNameElementName</a></h3>
-<blockquote></blockquote>
-<p>Class name of the name element.
+<hr><a name="//Quesa/c/data/CEcNameElementName"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEcNameElementName">CEcNameElementName</a></h2>
+</td></tr></table><hr><blockquote></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Class name of the name element.
 <br><br>
 Ordinarily you will not need to use the class name, because you
 can manipulate name elements using the functions
 CENameElement_SetData, CENameElement_GetData, and
 CENameElement_EmptyData.
 </p>
-<hr>
-<a name="//apple_ref/c/data/CEcUrlElementName"></a>
-<h3><a name="CEcUrlElementName">CEcUrlElementName</a></h3>
-<blockquote></blockquote>
-<p>Class name of the URL element.
+<hr><a name="//Quesa/c/data/CEcUrlElementName"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEcUrlElementName">CEcUrlElementName</a></h2>
+</td></tr></table><hr><blockquote></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Class name of the URL element.
 <br><br>
 Ordinarily you will not need to use the class name, because you
 can manipulate name elements using the functions
 CEUrlElement_SetData, CEUrlElement_GetData, and
 CEUrlElement_EmptyData.
 </p>
-<hr>
-<a name="//apple_ref/c/data/CEcWireElementName"></a>
-<h3><a name="CEcWireElementName">CEcWireElementName</a></h3>
-<blockquote></blockquote>
-<p>Class name of the wire element.
+<hr><a name="//Quesa/c/data/CEcWireElementName"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEcWireElementName">CEcWireElementName</a></h2>
+</td></tr></table><hr><blockquote></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Class name of the wire element.
 <br><br>
 Ordinarily you will not need to use the class name, because you
 can manipulate name elements using the functions
 CEWireElement_SetData, CEWireElement_SetData, and
 CEWireElement_EmptyData.
 </p>
-<hr>
 <h2>Typedefs</h2>
-<a name="//apple_ref/c/tdef/TQ3ObjectEventCallback"></a>
-<h3><a name="TQ3ObjectEventCallback">TQ3ObjectEventCallback</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(TQ3Status, <b>TQ3ObjectEventCallback)</b>(
-                            TQ3Object       theObject,
-                            TQ3ElementType  theEventType,
-                            TQ3Object   	theHost );</tt><br>
+<hr><a name="//Quesa/c/tdef/TQ3ObjectEventCallback"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ObjectEventCallback">TQ3ObjectEventCallback</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3ObjectEventCallback</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object       theObject,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType  theEventType,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object   	theHost<BR>);</tt><br>
 </blockquote>
-<p>Applications can obtain callbacks as objects are processed
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Applications can obtain callbacks as objects are processed
 by Quesa.  Callbacks are installed as custom elements.  In some cases,
 it may be necessary to attach the element to each object of interest,
 while in other cases the element may be attached to another object
@@ -279,22 +273,19 @@ Event callbacks are only available for retained mode objects.
 <em>This functionality is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theObject</tt></td><td>The object being processed.</td><tr>
-<tr valign=top><td><tt>theEventType</tt></td><td>The event occurring to the object.</td><tr>
-<tr valign=top><td><tt>theHost</tt></td><td>The object to which the callback element is attached.</td><tr>
-</table>
+<dl><dt><tt>theObject</tt></dt><dd>The object being processed.</dd>
+<dt><tt>theEventType</tt></dt><dd>The event occurring to the object.</dd>
+<dt><tt>theHost</tt></dt><dd>The object to which the callback element is attached.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Whether to continue with the event.
-
-<hr>
+<dl><dt><i>function result</i></dt><dd>Whether to continue with the event.
+</dd></dl>
 <h2>Structs</h2>
-<a name="//apple_ref/c/tag/TCEUrlData"></a>
-<h3><a name="TCEUrlData">TCEUrlData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TCEUrlData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEUrlData">TCEUrlData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TCEUrlData {
     char                                        *url;
     char                                        *description;
@@ -302,18 +293,86 @@ typedef struct TCEUrlData {
 } TCEUrlData;
 </pre>
 </blockquote>
-<p>Describes the data for a URL.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the data for a URL.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>url</tt></td><td>C string containing the full (scheme + path) URL.</td><tr>
-<tr valign=top><td><tt>description</tt></td><td>Human readable description of the URL.</td><tr>
-<tr valign=top><td><tt>options</tt></td><td>Options for the URL.</td><tr>
-</table>
+<dl>
+<dt><tt>url</tt></dt><dd>C string containing the full (scheme + path) URL.</dd>
+<dt><tt>description</tt></dt><dd>Human readable description of the URL.</dd>
+<dt><tt>options</tt></dt><dd>Options for the URL.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/TCEUrlOptions"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEUrlOptions">TCEUrlOptions</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kCEUrlOptionNone                            = 0,
+    kCEUrlOptionUseMap                          = 1,
+    kCEUrlOptionSize32                          = 0xFFFFFFFF
+} TCEUrlOptions;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>URL options.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kCEUrlOptionNone"><tt>kCEUrlOptionNone</tt></a></dt><dd>No options set.</dd>
+<dt><a name="//Quesa/c/econst/kCEUrlOptionUseMap"><tt>kCEUrlOptionUseMap</tt></a></dt><dd>Map option set (meaning unknown).</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3EventCallbackElementTypes"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3EventCallbackElementTypes">TQ3EventCallbackElementTypes</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+  kQ3CallbackElementTypeBeforeRender      =  Q3_OBJECT_TYPE(0xF0, 'b', 'r', 'e'),
+  kQ3CallbackElementTypeAfterRender      =  Q3_OBJECT_TYPE(0xF0, 'a', 'r', 'e'),
+  kQ3CallbackElementTypeBeforePick      =  Q3_OBJECT_TYPE(0xF0, 'b', 'p', 'k'),
+  kQ3CallbackElementTypeAfterPick        =  Q3_OBJECT_TYPE(0xF0, 'a', 'p', 'k')
+} TQ3EventCallbackElementTypes;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Custom elements containing callback functions can be attached to objects,
+in order that client code can be notified by Quesa of certain events.
+The callback function has the type TQ3ObjectEventCallback.
+<br><br>
+<em>This functionality is not available in QD3D.</em>
+<br><br>
+Example of installing an event callback:
+<br><br>
+<blockquote><pre><code>
+TQ3ObjectEventCallback	callback = MyCallback;
+Q3Object_AddElement( theView,
+&nbsp;		kQ3CallbackElementTypeBeforeRender,
+&nbsp;		&amp;callback );
+</code></pre></blockquote>
+<br><br>
+The before and after rendering callbacks should be attached to the view
+object.  They are called not only for retained objects that you explicitly submit
+for rendering, but also for each object in the hierarchy of a group that
+you submit.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeBeforeRender"><tt>kQ3CallbackElementTypeBeforeRender</tt></a></dt><dd>The callback will be called just before each retained object
+is passed to the renderer.  If the callback returns
+kQ3Failure, then the object will not be passed to the renderer.</dd>
+<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeAfterRender"><tt>kQ3CallbackElementTypeAfterRender</tt></a></dt><dd>The callback will be called just after each retained object
+is passed to the renderer.  The callback's status result
+is ignored.</dd>
+<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeBeforePick"><tt>kQ3CallbackElementTypeBeforePick</tt></a></dt><dd>The callback will be called just before each retained object
+is submitted for picking.  If the callback returns
+kQ3Failure, then the object will not be submitted.</dd>
+<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeAfterPick"><tt>kQ3CallbackElementTypeAfterPick</tt></a></dt><dd>The callback will be called just after each retained object
+is submitted for picking.  The callback's status result
+is ignored.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

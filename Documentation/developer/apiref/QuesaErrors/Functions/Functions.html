@@ -1,65 +1,61 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
-<a name="//apple_ref/c/func/Q3Error_Get"></a>
-<h3><a name="Q3Error_Get">Q3Error_Get</a></h3>
-<blockquote><pre><tt>TQ3Error  
-Q3Error_Get (
-    TQ3Error                      *firstError
-);
-</tt><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Functions</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/Q3Error_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_Get">Q3Error_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Error ) Q3Error_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error *firstError
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve latest error codes from Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve latest error codes from Quesa.
 <br><br>
 Retrieve the most recent error code, and optionally also the oldest
 unreported error code.  After this call, the next Quesa call that is not
 part of the Error Manager will clear the error codes.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstError</tt></td><td>Pointer to variable to receive the oldest error code
+<dl>
+<dt><tt><em>firstError</em></tt></dt><dd>Pointer to variable to receive the oldest error code
 that has not yet been reported.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent error code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Error_IsFatalError"></a>
-<h3><a name="Q3Error_IsFatalError">Q3Error_IsFatalError</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Error_IsFatalError (
-    TQ3Error                      error
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent error code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Error_IsFatalError"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_IsFatalError">Q3Error_IsFatalError</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Error_IsFatalError (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error error
+);</tt><br>
 </pre></blockquote>
-<p>Determine whether a Quesa error code is fatal.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine whether a Quesa error code is fatal.
 <br><br>
 You can call this function from an error callback or after getting
 an error code with Q3Error_Get.  If the error is fatal, your application
 should quit without calling any other Quesa routines.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>error</tt></td><td>A Quesa error code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>error</em></tt></dt><dd>A Quesa error code.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> True if the error is fatal.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Error_PlatformGet"></a>
-<h3><a name="Q3Error_PlatformGet">Q3Error_PlatformGet</a></h3>
-<blockquote><pre><tt>TQ3Uns32  
-Q3Error_PlatformGet (
-    TQ3Uns32                      *firstErr
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>True if the error is fatal.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Error_PlatformGet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_PlatformGet">Q3Error_PlatformGet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3Error_PlatformGet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *firstErr
+);</tt><br>
 </pre></blockquote>
-<p>Gets platform-specific error codes.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Gets platform-specific error codes.
 This is a generalization of Q3MacintoshError_Get, and may be used in place
 of Q3MacintoshError_Get on the Macintosh platform.
 <br><br>
@@ -73,158 +69,134 @@ will clear the platform-specific error codes.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstErr</tt></td><td>Pointer to variable to receive the oldest unreported
+<dl>
+<dt><tt><em>firstErr</em></tt></dt><dd>Pointer to variable to receive the oldest unreported
 platform-specific error code.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent platform-specific error code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Error_PlatformPost"></a>
-<h3><a name="Q3Error_PlatformPost">Q3Error_PlatformPost</a></h3>
-<blockquote><pre><tt>void  
-Q3Error_PlatformPost (
-    TQ3Uns32                      theErr
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent platform-specific error code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Error_PlatformPost"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_PlatformPost">Q3Error_PlatformPost</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3Error_PlatformPost (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theErr
+);</tt><br>
 </pre></blockquote>
-<p>Posts a platform-specific error code.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Posts a platform-specific error code.
 <br><br>
 Normally this would be used only by Quesa plug-ins, not by application code.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theErr</tt></td><td>A platform-specific error code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theErr</em></tt></dt><dd>A platform-specific error code.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3Error_Register"></a>
-<h3><a name="Q3Error_Register">Q3Error_Register</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Error_Register (
-    TQ3ErrorMethod                errorPost,
-    TQ3Int32                      reference
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3Error_Register"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_Register">Q3Error_Register</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Error_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ErrorMethod errorPost,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 reference
+);</tt><br>
 </pre></blockquote>
-<p>Install a callback to handle errors.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Install a callback to handle errors.
 <br><br>
 Use this function to register an error-handling function that will be
 called when Quesa detects an error condition that it can't handle.
 Your callback should not call Quesa except for Error Manager routines.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>errorPost</tt></td><td>Callback to receive error notifications.</td></tr>
-<tr valign=top><td><tt>reference</tt></td><td>Constant passed to error callback.</td></tr>
-</table>
+<dl>
+<dt><tt><em>errorPost</em></tt></dt><dd>Callback to receive error notifications.</dd>
+<dt><tt><em>reference</em></tt></dt><dd>Constant passed to error callback.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> kQ3Success when the callback is installed.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Error_ToString"></a>
-<h3><a name="Q3Error_ToString">Q3Error_ToString</a></h3>
-<blockquote><pre><tt>const char * 
-Q3Error_ToString (
-    TQ3Language                   theLanguage,
-    TQ3Error                      theError
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>kQ3Success when the callback is installed.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Error_ToString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_ToString">Q3Error_ToString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( const char * ) Q3Error_ToString (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Language theLanguage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error theError
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve a string version of the error code.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve a string version of the error code.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theLanguage</tt></td><td>Preferred language for the error string.
-Currently only English is supported.</td></tr>
-<tr valign=top><td><tt>theError</tt></td><td>Quesa error code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theLanguage</em></tt></dt><dd>Preferred language for the error string.
+Currently only English is supported.</dd>
+<dt><tt><em>theError</em></tt></dt><dd>Quesa error code.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Text version of the error code, as a NULL-terminated string.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacintoshError_Get"></a>
-<h3><a name="Q3MacintoshError_Get">Q3MacintoshError_Get</a></h3>
-<blockquote><pre><tt>OSErr  
-Q3MacintoshError_Get (
-    OSErr                         *firstMacErr
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Text version of the error code, as a NULL-terminated string.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacintoshError_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshError_Get">Q3MacintoshError_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( OSErr ) Q3MacintoshError_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;OSErr *firstMacErr
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve the most recent Macintosh error code, and optionally also the oldest
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve the most recent Macintosh error code, and optionally also the oldest
 unreported Mac error code.  After this call, the next Quesa call that is not
 part of the Error Manager will clear the error codes.
 <br><br>
 Q3Error_PlatformGet may be used in place of this function.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstMacErr</tt></td><td>Pointer to variable to receive the oldest Mac error code
+<dl>
+<dt><tt><em>firstMacErr</em></tt></dt><dd>Pointer to variable to receive the oldest Mac error code
 that has not yet been reported.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent Mac error code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Notice_Get"></a>
-<h3><a name="Q3Notice_Get">Q3Notice_Get</a></h3>
-<blockquote><pre><tt>TQ3Notice  
-Q3Notice_Get (
-    TQ3Notice                     *firstNotice
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent Mac error code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Notice_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_Get">Q3Notice_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Notice ) Q3Notice_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice *firstNotice
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve latest notice codes from Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve latest notice codes from Quesa.
 <br><br>
 Retrieve the most recent notice code, and optionally also the oldest
 unreported notice code.  After this call, the next Quesa call that is not
 part of the Error Manager will clear the notice codes.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstNotice</tt></td><td>Pointer to variable to receive the oldest notice code
+<dl>
+<dt><tt><em>firstNotice</em></tt></dt><dd>Pointer to variable to receive the oldest notice code
 that has not yet been reported.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent notice code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Notice_Register"></a>
-<h3><a name="Q3Notice_Register">Q3Notice_Register</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Notice_Register (
-    TQ3NoticeMethod               noticePost,
-    TQ3Int32                      reference
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent notice code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Notice_Register"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_Register">Q3Notice_Register</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Notice_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3NoticeMethod noticePost,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 reference
+);</tt><br>
 </pre></blockquote>
-<p>Install a callback to handle notifications.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Install a callback to handle notifications.
 <br><br>
 Use this function to register an warning-handling function that will be
 called when a Quesa routine generates a notice.
@@ -232,122 +204,104 @@ This will only happen in debugging versions of Quesa.
 Your callback should not call Quesa except for Error Manager routines.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>noticePost</tt></td><td>Routine to be called to handle notices.</td></tr>
-<tr valign=top><td><tt>reference</tt></td><td>Constant passed to notice callback.</td></tr>
-</table>
+<dl>
+<dt><tt><em>noticePost</em></tt></dt><dd>Routine to be called to handle notices.</dd>
+<dt><tt><em>reference</em></tt></dt><dd>Constant passed to notice callback.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> kQ3Success when the callback is installed.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Notice_ToString"></a>
-<h3><a name="Q3Notice_ToString">Q3Notice_ToString</a></h3>
-<blockquote><pre><tt>const char * 
-Q3Notice_ToString (
-    TQ3Language                   theLanguage,
-    TQ3Notice                     theError
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>kQ3Success when the callback is installed.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Notice_ToString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_ToString">Q3Notice_ToString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( const char * ) Q3Notice_ToString (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Language theLanguage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice theError
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve a string version of the notice code.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve a string version of the notice code.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theLanguage</tt></td><td>Preferred language for the notice string.
-Currently only English is supported.</td></tr>
-<tr valign=top><td><tt>theWarning</tt></td><td>Quesa notice code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theLanguage</em></tt></dt><dd>Preferred language for the notice string.
+Currently only English is supported.</dd>
+<dt><tt><em>theWarning</em></tt></dt><dd>Quesa notice code.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Text version of the notice code, as a NULL-terminated string.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Warning_Get"></a>
-<h3><a name="Q3Warning_Get">Q3Warning_Get</a></h3>
-<blockquote><pre><tt>TQ3Warning  
-Q3Warning_Get (
-    TQ3Warning                    *firstWarning
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Text version of the notice code, as a NULL-terminated string.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Warning_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_Get">Q3Warning_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Warning ) Q3Warning_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning *firstWarning
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve latest warning codes from Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve latest warning codes from Quesa.
 <br><br>
 Retrieve the most recent warning code, and optionally also the oldest
 unreported warning code.  After this call, the next Quesa call that is not
 part of the Error Manager will clear the warning codes.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstWarning</tt></td><td>Pointer to variable to receive the oldest warning code
+<dl>
+<dt><tt><em>firstWarning</em></tt></dt><dd>Pointer to variable to receive the oldest warning code
 that has not yet been reported.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent warning code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Warning_Register"></a>
-<h3><a name="Q3Warning_Register">Q3Warning_Register</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Warning_Register (
-    TQ3WarningMethod              warningPost,
-    TQ3Int32                      reference
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent warning code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Warning_Register"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_Register">Q3Warning_Register</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Warning_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3WarningMethod warningPost,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 reference
+);</tt><br>
 </pre></blockquote>
-<p>Install a callback to handle warnings.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Install a callback to handle warnings.
 <br><br>
 Use this function to register an warning-handling function that will be
 called when a Quesa routine generates a warning that it can't handle.
 Your callback should not call Quesa except for Error Manager routines.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>warningPost</tt></td><td>Callback to receive warning notifications.</td></tr>
-<tr valign=top><td><tt>reference</tt></td><td>Constant passed to warning callback.</td></tr>
-</table>
+<dl>
+<dt><tt><em>warningPost</em></tt></dt><dd>Callback to receive warning notifications.</dd>
+<dt><tt><em>reference</em></tt></dt><dd>Constant passed to warning callback.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> kQ3Success when the callback is installed.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Warning_ToString"></a>
-<h3><a name="Q3Warning_ToString">Q3Warning_ToString</a></h3>
-<blockquote><pre><tt>const char * 
-Q3Warning_ToString (
-    TQ3Language                   theLanguage,
-    TQ3Warning                    theWarning
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>kQ3Success when the callback is installed.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Warning_ToString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_ToString">Q3Warning_ToString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( const char * ) Q3Warning_ToString (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Language theLanguage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning theWarning
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve a string version of the warning code.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve a string version of the warning code.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theLanguage</tt></td><td>Preferred language for the warning string.
-Currently only English is supported.</td></tr>
-<tr valign=top><td><tt>theWarning</tt></td><td>Quesa warning code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theLanguage</em></tt></dt><dd>Preferred language for the warning string.
+Currently only English is supported.</dd>
+<dt><tt><em>theWarning</em></tt></dt><dd>Quesa warning code.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Text version of the warning code, as a NULL-terminated string.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>Text version of the warning code, as a NULL-terminated string.
+ </dd></dl>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

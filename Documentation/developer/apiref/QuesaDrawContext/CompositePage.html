@@ -1,368 +1,312 @@
-<html><head><title>QuesaDrawContext.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaDrawContext.h</h1></font><hr><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>QuesaDrawContext.h</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">QuesaDrawContext.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa draw context objects.
  <hr><br><h2>Functions</h2>
-<a name="//apple_ref/c/func/Q3BeDrawContext_GetView"></a>
-<h3><a name="Q3BeDrawContext_GetView">Q3BeDrawContext_GetView</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3BeDrawContext_GetView (
-    TQ3DrawContextObject          drawContext,
-    BView                         **theView
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3BeDrawContext_GetView"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BeDrawContext_GetView">Q3BeDrawContext_GetView</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BeDrawContext_GetView (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;BView **theView
+);</tt><br>
 </pre></blockquote>
-<p>Get the BView for a Be draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the BView for a Be draw context.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>theView</tt></td><td>Receives the BView of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>theView</em></tt></dt><dd>Receives the BView of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3BeDrawContext_New"></a>
-<h3><a name="Q3BeDrawContext_New">Q3BeDrawContext_New</a></h3>
-<blockquote><pre><tt>TQ3DrawContextObject  
-Q3BeDrawContext_New (
-    const TQ3BeDrawContextData    *drawContextData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3BeDrawContext_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BeDrawContext_New">Q3BeDrawContext_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3BeDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BeDrawContextData *drawContextData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new Be draw context object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Be draw context object.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The data for the Be draw context object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContextData</em></tt></dt><dd>The data for the Be draw context object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new draw context object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3BeDrawContext_SetView"></a>
-<h3><a name="Q3BeDrawContext_SetView">Q3BeDrawContext_SetView</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3BeDrawContext_SetView (
-    TQ3DrawContextObject          drawContext,
-    BView                         *theView
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new draw context object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3BeDrawContext_SetView"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BeDrawContext_SetView">Q3BeDrawContext_SetView</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BeDrawContext_SetView (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;BView *theView
+);</tt><br>
 </pre></blockquote>
-<p>Set the BView for a Be draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the BView for a Be draw context.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>theView</tt></td><td>The new BView for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>theView</em></tt></dt><dd>The new BView for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CocoaDrawContext_GetNSView"></a>
-<h3><a name="Q3CocoaDrawContext_GetNSView">Q3CocoaDrawContext_GetNSView</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3CocoaDrawContext_GetNSView (
-    TQ3DrawContextObject          drawContext,
-    void                          **nsView
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CocoaDrawContext_GetNSView"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CocoaDrawContext_GetNSView">Q3CocoaDrawContext_GetNSView</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CocoaDrawContext_GetNSView (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;void **nsView
+);</tt><br>
 </pre></blockquote>
-<p>Get the NSView of a Cocoa draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the NSView of a Cocoa draw context.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>nsView</tt></td><td>Receives the NSView of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>nsView</em></tt></dt><dd>Receives the NSView of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CocoaDrawContext_New"></a>
-<h3><a name="Q3CocoaDrawContext_New">Q3CocoaDrawContext_New</a></h3>
-<blockquote><pre><tt>TQ3DrawContextObject  
-Q3CocoaDrawContext_New (
-    const TQ3CocoaDrawContextData *drawContextData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CocoaDrawContext_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CocoaDrawContext_New">Q3CocoaDrawContext_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3CocoaDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CocoaDrawContextData *drawContextData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new Cocoa draw context object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Cocoa draw context object.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The data for the Cocoa draw context object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContextData</em></tt></dt><dd>The data for the Cocoa draw context object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new draw context object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CocoaDrawContext_SetNSView"></a>
-<h3><a name="Q3CocoaDrawContext_SetNSView">Q3CocoaDrawContext_SetNSView</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3CocoaDrawContext_SetNSView (
-    TQ3DrawContextObject          drawContext,
-    void                          *nsView
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new draw context object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CocoaDrawContext_SetNSView"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CocoaDrawContext_SetNSView">Q3CocoaDrawContext_SetNSView</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CocoaDrawContext_SetNSView (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;void *nsView
+);</tt><br>
 </pre></blockquote>
-<p>Set the NSView for a Cocoa draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the NSView for a Cocoa draw context.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>nsView</tt></td><td>The new NSView for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>nsView</em></tt></dt><dd>The new NSView for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DDSurfaceDrawContext_GetDirectDrawSurface"></a>
-<h3><a name="Q3DDSurfaceDrawContext_GetDirectDrawSurface">Q3DDSurfaceDrawContext_GetDirectDrawSurface</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DDSurfaceDrawContext_GetDirectDrawSurface (
-    TQ3DrawContextObject          drawContext,
-    TQ3DDSurfaceDescriptor        *ddSurfaceDescriptor
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DDSurfaceDrawContext_GetDirectDrawSurface"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DDSurfaceDrawContext_GetDirectDrawSurface">Q3DDSurfaceDrawContext_GetDirectDrawSurface</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DDSurfaceDrawContext_GetDirectDrawSurface (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DDSurfaceDescriptor *ddSurfaceDescriptor
+);</tt><br>
 </pre></blockquote>
-<p>Get the DD surface of a Win32 DD draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the DD surface of a Win32 DD draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>ddSurfaceDescriptor</tt></td><td>Receives the DD surface of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>ddSurfaceDescriptor</em></tt></dt><dd>Receives the DD surface of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DDSurfaceDrawContext_New"></a>
-<h3><a name="Q3DDSurfaceDrawContext_New">Q3DDSurfaceDrawContext_New</a></h3>
-<blockquote><pre><tt>TQ3DrawContextObject  
-Q3DDSurfaceDrawContext_New (
-    const TQ3DDSurfaceDrawContextData *drawContextData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DDSurfaceDrawContext_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DDSurfaceDrawContext_New">Q3DDSurfaceDrawContext_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3DDSurfaceDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DDSurfaceDrawContextData *drawContextData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new Win32 DD draw context object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Win32 DD draw context object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The data for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContextData</em></tt></dt><dd>The data for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new Win32 DD draw context.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DDSurfaceDrawContext_SetDirectDrawSurface"></a>
-<h3><a name="Q3DDSurfaceDrawContext_SetDirectDrawSurface">Q3DDSurfaceDrawContext_SetDirectDrawSurface</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DDSurfaceDrawContext_SetDirectDrawSurface (
-    TQ3DrawContextObject          drawContext,
-    const TQ3DDSurfaceDescriptor  *ddSurfaceDescriptor
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new Win32 DD draw context.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DDSurfaceDrawContext_SetDirectDrawSurface"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DDSurfaceDrawContext_SetDirectDrawSurface">Q3DDSurfaceDrawContext_SetDirectDrawSurface</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DDSurfaceDrawContext_SetDirectDrawSurface (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DDSurfaceDescriptor *ddSurfaceDescriptor
+);</tt><br>
 </pre></blockquote>
-<p>Set the DD surface for a Win32 DD draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the DD surface for a Win32 DD draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>ddSurfaceDescriptor</tt></td><td>The new DD surface for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>ddSurfaceDescriptor</em></tt></dt><dd>The new DD surface for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_GetClearImageColor"></a>
-<h3><a name="Q3DrawContext_GetClearImageColor">Q3DrawContext_GetClearImageColor</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_GetClearImageColor (
-    TQ3DrawContextObject          context,
-    TQ3ColorARGB                  *color
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_GetClearImageColor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetClearImageColor">Q3DrawContext_GetClearImageColor</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetClearImageColor (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *color
+);</tt><br>
 </pre></blockquote>
-<p>Get the clear image colour of a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clear image colour of a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>Receives the clear image colour.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>color</em></tt></dt><dd>Receives the clear image colour.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_GetClearImageMethod"></a>
-<h3><a name="Q3DrawContext_GetClearImageMethod">Q3DrawContext_GetClearImageMethod</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_GetClearImageMethod (
-    TQ3DrawContextObject            context,
-    TQ3DrawContextClearImageMethod *method
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_GetClearImageMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetClearImageMethod">Q3DrawContext_GetClearImageMethod</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetClearImageMethod (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextClearImageMethod *method
+);</tt><br>
 </pre></blockquote>
-<p>Get the clear image method of a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clear image method of a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>method</tt></td><td>Receives the clear image method.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>method</em></tt></dt><dd>Receives the clear image method.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_GetData"></a>
-<h3><a name="Q3DrawContext_GetData">Q3DrawContext_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_GetData (
-    TQ3DrawContextObject          context,
-    TQ3DrawContextData            *contextData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetData">Q3DrawContext_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextData *contextData
+);</tt><br>
 </pre></blockquote>
-<p>Get the common state of a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the common state of a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>contextData</tt></td><td>Receives the common state for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>contextData</em></tt></dt><dd>Receives the common state for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_GetDoubleBufferState"></a>
-<h3><a name="Q3DrawContext_GetDoubleBufferState">Q3DrawContext_GetDoubleBufferState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_GetDoubleBufferState (
-    TQ3DrawContextObject          context,
-    TQ3Boolean                    *state
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_GetDoubleBufferState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetDoubleBufferState">Q3DrawContext_GetDoubleBufferState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetDoubleBufferState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *state
+);</tt><br>
 </pre></blockquote>
-<p>Get the double-buffer state of a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the double-buffer state of a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>state</tt></td><td>Receives true or false as the draw context is double-buffered.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>state</em></tt></dt><dd>Receives true or false as the draw context is double-buffered.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_GetMask"></a>
-<h3><a name="Q3DrawContext_GetMask">Q3DrawContext_GetMask</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_GetMask (
-    TQ3DrawContextObject          context,
-    TQ3Bitmap                     *mask
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_GetMask"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetMask">Q3DrawContext_GetMask</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetMask (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Bitmap *mask
+);</tt><br>
 </pre></blockquote>
-<p>Get the mask of a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mask of a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>mask</tt></td><td>Receives the current draw context mask.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>mask</em></tt></dt><dd>Receives the current draw context mask.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_GetMaskState"></a>
-<h3><a name="Q3DrawContext_GetMaskState">Q3DrawContext_GetMaskState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_GetMaskState (
-    TQ3DrawContextObject          context,
-    TQ3Boolean                    *state
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_GetMaskState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetMaskState">Q3DrawContext_GetMaskState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetMaskState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *state
+);</tt><br>
 </pre></blockquote>
-<p>Get the mask state of a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mask state of a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>state</tt></td><td>Receives true or false as the mask is active.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>state</em></tt></dt><dd>Receives true or false as the mask is active.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_GetPane"></a>
-<h3><a name="Q3DrawContext_GetPane">Q3DrawContext_GetPane</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_GetPane (
-    TQ3DrawContextObject          context,
-    TQ3Area                       *pane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_GetPane"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetPane">Q3DrawContext_GetPane</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetPane (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Area *pane
+);</tt><br>
 </pre></blockquote>
-<p>Get the area within the draw context which is rendered to.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the area within the draw context which is rendered to.
 <br><br>
 Rendering within a draw context is constrained to within the active
 pane. If no pane is active, renderers will draw to the entire
@@ -373,169 +317,141 @@ draw context if this routine is called on a draw context which has
 not had an explicit pane set.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>pane</tt></td><td>Receives the dimensions of the rendered area.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>pane</em></tt></dt><dd>Receives the dimensions of the rendered area.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_GetPaneState"></a>
-<h3><a name="Q3DrawContext_GetPaneState">Q3DrawContext_GetPaneState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_GetPaneState (
-    TQ3DrawContextObject          context,
-    TQ3Boolean                    *state
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_GetPaneState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetPaneState">Q3DrawContext_GetPaneState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetPaneState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *state
+);</tt><br>
 </pre></blockquote>
-<p>Get the pane state of a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pane state of a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>state</tt></td><td>Receives true or false as the pane is active.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>state</em></tt></dt><dd>Receives true or false as the pane is active.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_GetType"></a>
-<h3><a name="Q3DrawContext_GetType">Q3DrawContext_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3DrawContext_GetType (
-    TQ3DrawContextObject          drawContext
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetType">Q3DrawContext_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3DrawContext_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a draw context.
 <br><br>
 Returns kQ3ObjectTypeInvalid if the draw context type is unknown.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the draw context object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_SetClearImageColor"></a>
-<h3><a name="Q3DrawContext_SetClearImageColor">Q3DrawContext_SetClearImageColor</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_SetClearImageColor (
-    TQ3DrawContextObject          context,
-    const TQ3ColorARGB            *color
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the draw context object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_SetClearImageColor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetClearImageColor">Q3DrawContext_SetClearImageColor</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetClearImageColor (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *color
+);</tt><br>
 </pre></blockquote>
-<p>Set the clear image colour for a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the clear image colour for a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>The new clear image colour.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>color</em></tt></dt><dd>The new clear image colour.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_SetClearImageMethod"></a>
-<h3><a name="Q3DrawContext_SetClearImageMethod">Q3DrawContext_SetClearImageMethod</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_SetClearImageMethod (
-    TQ3DrawContextObject          context,
-    TQ3DrawContextClearImageMethod method
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_SetClearImageMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetClearImageMethod">Q3DrawContext_SetClearImageMethod</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetClearImageMethod (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextClearImageMethod method
+);</tt><br>
 </pre></blockquote>
-<p>Set the clear image method for a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the clear image method for a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>method</tt></td><td>The new clear image method.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>method</em></tt></dt><dd>The new clear image method.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_SetData"></a>
-<h3><a name="Q3DrawContext_SetData">Q3DrawContext_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_SetData (
-    TQ3DrawContextObject          context,
-    const TQ3DrawContextData      *contextData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetData">Q3DrawContext_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DrawContextData *contextData
+);</tt><br>
 </pre></blockquote>
-<p>Set the common state for a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the common state for a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>contextData</tt></td><td>The new common state for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>contextData</em></tt></dt><dd>The new common state for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_SetDoubleBufferState"></a>
-<h3><a name="Q3DrawContext_SetDoubleBufferState">Q3DrawContext_SetDoubleBufferState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_SetDoubleBufferState (
-    TQ3DrawContextObject          context,
-    TQ3Boolean                    state
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_SetDoubleBufferState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetDoubleBufferState">Q3DrawContext_SetDoubleBufferState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetDoubleBufferState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean state
+);</tt><br>
 </pre></blockquote>
-<p>Set the double-buffer state of a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the double-buffer state of a draw context.
 <br><br>
 A double-buffered draw context will draw to an off-screen buffer as
 objects are submited, and update the destination window/surface once
 at the end of the frame.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>state</tt></td><td>True or false as the draw context is to be double-buffered.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>state</em></tt></dt><dd>True or false as the draw context is to be double-buffered.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_SetMask"></a>
-<h3><a name="Q3DrawContext_SetMask">Q3DrawContext_SetMask</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_SetMask (
-    TQ3DrawContextObject          context,
-    const TQ3Bitmap               *mask
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_SetMask"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetMask">Q3DrawContext_SetMask</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetMask (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Bitmap *mask
+);</tt><br>
 </pre></blockquote>
-<p>Set the mask for a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the mask for a draw context.
 <br><br>
 The mask field is a bitmap-level clipping mask, which clips the rendered
 output as it is copied to the destination.
@@ -543,852 +459,714 @@ output as it is copied to the destination.
 This feature is not currently supported by Quesa's interactive renderers.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>mask</tt></td><td>The new mask for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>mask</em></tt></dt><dd>The new mask for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_SetMaskState"></a>
-<h3><a name="Q3DrawContext_SetMaskState">Q3DrawContext_SetMaskState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_SetMaskState (
-    TQ3DrawContextObject          context,
-    TQ3Boolean                    state
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_SetMaskState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetMaskState">Q3DrawContext_SetMaskState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetMaskState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean state
+);</tt><br>
 </pre></blockquote>
-<p>Set the mask state for a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the mask state for a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>state</tt></td><td>True or false as the mask is active.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>state</em></tt></dt><dd>True or false as the mask is active.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_SetPane"></a>
-<h3><a name="Q3DrawContext_SetPane">Q3DrawContext_SetPane</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_SetPane (
-    TQ3DrawContextObject          context,
-    const TQ3Area                 *pane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_SetPane"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetPane">Q3DrawContext_SetPane</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetPane (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Area *pane
+);</tt><br>
 </pre></blockquote>
-<p>Set the area within the draw context which is rendered to.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the area within the draw context which is rendered to.
 <br><br>
 Rendering within a draw context is constrained to within the active
 pane. If no pane is active, renderers will draw to the entire
 draw context (e.g., the bounds of the window).
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>pane</tt></td><td>The area which rendering will be constrained to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>pane</em></tt></dt><dd>The area which rendering will be constrained to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DrawContext_SetPaneState"></a>
-<h3><a name="Q3DrawContext_SetPaneState">Q3DrawContext_SetPaneState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DrawContext_SetPaneState (
-    TQ3DrawContextObject          context,
-    TQ3Boolean                    state
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DrawContext_SetPaneState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetPaneState">Q3DrawContext_SetPaneState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetPaneState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean state
+);</tt><br>
 </pre></blockquote>
-<p>Set the pane state for a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the pane state for a draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>context</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>state</tt></td><td>True or false as the pane is active.</td></tr>
-</table>
+<dl>
+<dt><tt><em>context</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>state</em></tt></dt><dd>True or false as the pane is active.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacDrawContext_Get2DLibrary"></a>
-<h3><a name="Q3MacDrawContext_Get2DLibrary">Q3MacDrawContext_Get2DLibrary</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacDrawContext_Get2DLibrary (
-    TQ3DrawContextObject          drawContext,
-    TQ3MacDrawContext2DLibrary    *library
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacDrawContext_Get2DLibrary"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_Get2DLibrary">Q3MacDrawContext_Get2DLibrary</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_Get2DLibrary (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MacDrawContext2DLibrary *library
+);</tt><br>
 </pre></blockquote>
-<p>Get the 2D library of a Mac draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the 2D library of a Mac draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>library</tt></td><td>Receives the 2D library of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>library</em></tt></dt><dd>Receives the 2D library of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacDrawContext_GetGXViewPort"></a>
-<h3><a name="Q3MacDrawContext_GetGXViewPort">Q3MacDrawContext_GetGXViewPort</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacDrawContext_GetGXViewPort (
-    TQ3DrawContextObject          drawContext,
-    gxViewPort                    *viewPort
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacDrawContext_GetGXViewPort"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetGXViewPort">Q3MacDrawContext_GetGXViewPort</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetGXViewPort (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;gxViewPort *viewPort
+);</tt><br>
 </pre></blockquote>
-<p>Get the QuickDraw GX port of a Mac draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the QuickDraw GX port of a Mac draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>viewPort</tt></td><td>Receives the QuickDraw GX port of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>viewPort</em></tt></dt><dd>Receives the QuickDraw GX port of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacDrawContext_GetGrafPort"></a>
-<h3><a name="Q3MacDrawContext_GetGrafPort">Q3MacDrawContext_GetGrafPort</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacDrawContext_GetGrafPort (
-    TQ3DrawContextObject          drawContext,
-    CGrafPtr                      *grafPort
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacDrawContext_GetGrafPort"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetGrafPort">Q3MacDrawContext_GetGrafPort</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetGrafPort (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;CGrafPtr *grafPort
+);</tt><br>
 </pre></blockquote>
-<p>Get the Mac OS GrafPort of a Mac draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the Mac OS GrafPort of a Mac draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>grafPort</tt></td><td>Receives the Mac OS GrafPort of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>grafPort</em></tt></dt><dd>Receives the Mac OS GrafPort of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacDrawContext_GetWindow"></a>
-<h3><a name="Q3MacDrawContext_GetWindow">Q3MacDrawContext_GetWindow</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacDrawContext_GetWindow (
-    TQ3DrawContextObject          drawContext,
-    CWindowPtr                    *window
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacDrawContext_GetWindow"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetWindow">Q3MacDrawContext_GetWindow</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetWindow (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;CWindowPtr *window
+);</tt><br>
 </pre></blockquote>
-<p>Get the window of a Mac draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the window of a Mac draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>window</tt></td><td>Receives the window of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>window</em></tt></dt><dd>Receives the window of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacDrawContext_New"></a>
-<h3><a name="Q3MacDrawContext_New">Q3MacDrawContext_New</a></h3>
-<blockquote><pre><tt>TQ3DrawContextObject  
-Q3MacDrawContext_New (
-    const TQ3MacDrawContextData   *drawContextData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacDrawContext_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_New">Q3MacDrawContext_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3MacDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3MacDrawContextData *drawContextData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new Mac draw context object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Mac draw context object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The data for the Mac draw context object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContextData</em></tt></dt><dd>The data for the Mac draw context object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new draw context object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacDrawContext_Set2DLibrary"></a>
-<h3><a name="Q3MacDrawContext_Set2DLibrary">Q3MacDrawContext_Set2DLibrary</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacDrawContext_Set2DLibrary (
-    TQ3DrawContextObject          drawContext,
-    TQ3MacDrawContext2DLibrary    library
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new draw context object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacDrawContext_Set2DLibrary"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_Set2DLibrary">Q3MacDrawContext_Set2DLibrary</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_Set2DLibrary (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MacDrawContext2DLibrary library
+);</tt><br>
 </pre></blockquote>
-<p>Set the 2D library for a Mac draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the 2D library for a Mac draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>library</tt></td><td>The new 2D library for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>library</em></tt></dt><dd>The new 2D library for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacDrawContext_SetGXViewPort"></a>
-<h3><a name="Q3MacDrawContext_SetGXViewPort">Q3MacDrawContext_SetGXViewPort</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacDrawContext_SetGXViewPort (
-    TQ3DrawContextObject          drawContext,
-    gxViewPort                    viewPort
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacDrawContext_SetGXViewPort"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetGXViewPort">Q3MacDrawContext_SetGXViewPort</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetGXViewPort (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;gxViewPort viewPort
+);</tt><br>
 </pre></blockquote>
-<p>Set the QuickDraw GX port for a Mac draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the QuickDraw GX port for a Mac draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>viewPort</tt></td><td>The new QuickDraw GX port for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>viewPort</em></tt></dt><dd>The new QuickDraw GX port for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacDrawContext_SetGrafPort"></a>
-<h3><a name="Q3MacDrawContext_SetGrafPort">Q3MacDrawContext_SetGrafPort</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacDrawContext_SetGrafPort (
-    TQ3DrawContextObject          drawContext,
-    CGrafPtr                      grafPort
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacDrawContext_SetGrafPort"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetGrafPort">Q3MacDrawContext_SetGrafPort</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetGrafPort (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;CGrafPtr grafPort
+);</tt><br>
 </pre></blockquote>
-<p>Set the Mac OS GrafPort for a Mac draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the Mac OS GrafPort for a Mac draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>grafPort</tt></td><td>The new Mac OS GrafPort for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>grafPort</em></tt></dt><dd>The new Mac OS GrafPort for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacDrawContext_SetWindow"></a>
-<h3><a name="Q3MacDrawContext_SetWindow">Q3MacDrawContext_SetWindow</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacDrawContext_SetWindow (
-    TQ3DrawContextObject          drawContext,
-    CWindowPtr                    window
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacDrawContext_SetWindow"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetWindow">Q3MacDrawContext_SetWindow</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetWindow (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;CWindowPtr window
+);</tt><br>
 </pre></blockquote>
-<p>Set the window for a Mac draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the window for a Mac draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>window</tt></td><td>The new window for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>window</em></tt></dt><dd>The new window for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PixmapDrawContext_GetPixmap"></a>
-<h3><a name="Q3PixmapDrawContext_GetPixmap">Q3PixmapDrawContext_GetPixmap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PixmapDrawContext_GetPixmap (
-    TQ3DrawContextObject          drawContext,
-    TQ3Pixmap                     *pixmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PixmapDrawContext_GetPixmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapDrawContext_GetPixmap">Q3PixmapDrawContext_GetPixmap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapDrawContext_GetPixmap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Pixmap *pixmap
+);</tt><br>
 </pre></blockquote>
-<p>Get the pixmap of a pixmap draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pixmap of a pixmap draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>pixmap</tt></td><td>Receives the pixmap of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>pixmap</em></tt></dt><dd>Receives the pixmap of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PixmapDrawContext_New"></a>
-<h3><a name="Q3PixmapDrawContext_New">Q3PixmapDrawContext_New</a></h3>
-<blockquote><pre><tt>TQ3DrawContextObject  
-Q3PixmapDrawContext_New (
-    const TQ3PixmapDrawContextData *contextData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PixmapDrawContext_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapDrawContext_New">Q3PixmapDrawContext_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3PixmapDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PixmapDrawContextData *contextData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new Pixmap draw context object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Pixmap draw context object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>contextData</tt></td><td>The data for the pixmap draw context object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>contextData</em></tt></dt><dd>The data for the pixmap draw context object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new draw context object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PixmapDrawContext_SetPixmap"></a>
-<h3><a name="Q3PixmapDrawContext_SetPixmap">Q3PixmapDrawContext_SetPixmap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PixmapDrawContext_SetPixmap (
-    TQ3DrawContextObject          drawContext,
-    const TQ3Pixmap               *pixmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new draw context object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PixmapDrawContext_SetPixmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapDrawContext_SetPixmap">Q3PixmapDrawContext_SetPixmap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapDrawContext_SetPixmap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Pixmap *pixmap
+);</tt><br>
 </pre></blockquote>
-<p>Set the pixmap for a pixmap draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the pixmap for a pixmap draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>pixmap</tt></td><td>The new pixmap for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>pixmap</em></tt></dt><dd>The new pixmap for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Win32DCDrawContext_GetDC"></a>
-<h3><a name="Q3Win32DCDrawContext_GetDC">Q3Win32DCDrawContext_GetDC</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Win32DCDrawContext_GetDC (
-    TQ3DrawContextObject          drawContext,
-    HDC                           *curHDC
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Win32DCDrawContext_GetDC"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32DCDrawContext_GetDC">Q3Win32DCDrawContext_GetDC</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32DCDrawContext_GetDC (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;HDC *curHDC
+);</tt><br>
 </pre></blockquote>
-<p>Get the DC for a Win32 DC draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the DC for a Win32 DC draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>curHDC</tt></td><td>Receives the DC of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>curHDC</em></tt></dt><dd>Receives the DC of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Win32DCDrawContext_New"></a>
-<h3><a name="Q3Win32DCDrawContext_New">Q3Win32DCDrawContext_New</a></h3>
-<blockquote><pre><tt>TQ3DrawContextObject  
-Q3Win32DCDrawContext_New (
-    const TQ3Win32DCDrawContextData *drawContextData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Win32DCDrawContext_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32DCDrawContext_New">Q3Win32DCDrawContext_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3Win32DCDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Win32DCDrawContextData *drawContextData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new Win32 DC draw context object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Win32 DC draw context object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The data for the Win32 DC draw context object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContextData</em></tt></dt><dd>The data for the Win32 DC draw context object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new draw context object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Win32DCDrawContext_SetDC"></a>
-<h3><a name="Q3Win32DCDrawContext_SetDC">Q3Win32DCDrawContext_SetDC</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Win32DCDrawContext_SetDC (
-    TQ3DrawContextObject          drawContext,
-    HDC                           newHDC
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new draw context object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Win32DCDrawContext_SetDC"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32DCDrawContext_SetDC">Q3Win32DCDrawContext_SetDC</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32DCDrawContext_SetDC (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;HDC newHDC
+);</tt><br>
 </pre></blockquote>
-<p>Set the DC for a Win32 DC draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the DC for a Win32 DC draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>newHDC</tt></td><td>The new DC for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>newHDC</em></tt></dt><dd>The new DC for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XBuffers_New"></a>
-<h3><a name="Q3XBuffers_New">Q3XBuffers_New</a></h3>
-<blockquote><pre><tt>TQ3XBufferObject  
-Q3XBuffers_New (
-    Display                       *dpy,
-    TQ3Uns32                      numBuffers,
-    Window                        window
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XBuffers_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XBuffers_New">Q3XBuffers_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XBufferObject ) Q3XBuffers_New (
+&nbsp;&nbsp;&nbsp;&nbsp;Display *dpy,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numBuffers,
+&nbsp;&nbsp;&nbsp;&nbsp;Window window
+);</tt><br>
 </pre></blockquote>
-<p>Create a new X11 buffer object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new X11 buffer object.
 <br><br>
 Note - no QD3D documentation could be found for this routine. The
 purpose of the function, and its parameters/result, have been assumed.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>dpy</tt></td><td>The X11 display.</td></tr>
-<tr valign=top><td><tt>numBuffers</tt></td><td>The number of buffers to create.</td></tr>
-<tr valign=top><td><tt>window</tt></td><td>The X11 window.</td></tr>
-</table>
+<dl>
+<dt><tt><em>dpy</em></tt></dt><dd>The X11 display.</dd>
+<dt><tt><em>numBuffers</em></tt></dt><dd>The number of buffers to create.</dd>
+<dt><tt><em>window</em></tt></dt><dd>The X11 window.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new X11 buffer object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XBuffers_Swap"></a>
-<h3><a name="Q3XBuffers_Swap">Q3XBuffers_Swap</a></h3>
-<blockquote><pre><tt>void  
-Q3XBuffers_Swap (
-    Display                       *dpy,
-    TQ3XBufferObject              buffers
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new X11 buffer object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XBuffers_Swap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XBuffers_Swap">Q3XBuffers_Swap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3XBuffers_Swap (
+&nbsp;&nbsp;&nbsp;&nbsp;Display *dpy,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XBufferObject buffers
+);</tt><br>
 </pre></blockquote>
-<p>Swap the front and back buffers of an X11 buffer object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Swap the front and back buffers of an X11 buffer object.
 <br><br>
 Note - no QD3D documentation could be found for this routine. The
 purpose of the function, and its parameters/result, have been assumed.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>dpy</tt></td><td>The X11 display.</td></tr>
-<tr valign=top><td><tt>buffers</tt></td><td>The X11 buffer object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>dpy</em></tt></dt><dd>The X11 display.</dd>
+<dt><tt><em>buffers</em></tt></dt><dd>The X11 buffer object.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_GetColormap"></a>
-<h3><a name="Q3XDrawContext_GetColormap">Q3XDrawContext_GetColormap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_GetColormap (
-    TQ3DrawContextObject          drawContext,
-    Colormap                      *colormap
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_GetColormap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetColormap">Q3XDrawContext_GetColormap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetColormap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;Colormap *colormap
+);</tt><br>
 </pre></blockquote>
-<p>Get the Colormap of an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the Colormap of an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>colormap</tt></td><td>Receives the Colormap of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>colormap</em></tt></dt><dd>Receives the Colormap of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_GetColormapData"></a>
-<h3><a name="Q3XDrawContext_GetColormapData">Q3XDrawContext_GetColormapData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_GetColormapData (
-    TQ3DrawContextObject          drawContext,
-    TQ3XColormapData              *colormapData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_GetColormapData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetColormapData">Q3XDrawContext_GetColormapData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetColormapData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XColormapData *colormapData
+);</tt><br>
 </pre></blockquote>
-<p>Get the Colormap data of an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the Colormap data of an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>colormapData</tt></td><td>Receives the Colormap data of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>colormapData</em></tt></dt><dd>Receives the Colormap data of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_GetDisplay"></a>
-<h3><a name="Q3XDrawContext_GetDisplay">Q3XDrawContext_GetDisplay</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_GetDisplay (
-    TQ3DrawContextObject          drawContext,
-    Display                       **display
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_GetDisplay"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetDisplay">Q3XDrawContext_GetDisplay</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetDisplay (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;Display **display
+);</tt><br>
 </pre></blockquote>
-<p>Get the Display of an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the Display of an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>display</tt></td><td>Receives the Display of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>display</em></tt></dt><dd>Receives the Display of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_GetDrawable"></a>
-<h3><a name="Q3XDrawContext_GetDrawable">Q3XDrawContext_GetDrawable</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_GetDrawable (
-    TQ3DrawContextObject          drawContext,
-    Drawable                      *drawable
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_GetDrawable"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetDrawable">Q3XDrawContext_GetDrawable</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetDrawable (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;Drawable *drawable
+);</tt><br>
 </pre></blockquote>
-<p>Get the Drawable of an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the Drawable of an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>drawable</tt></td><td>Receives the Drawable of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>drawable</em></tt></dt><dd>Receives the Drawable of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_GetVisual"></a>
-<h3><a name="Q3XDrawContext_GetVisual">Q3XDrawContext_GetVisual</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_GetVisual (
-    TQ3DrawContextObject          drawContext,
-    Visual                        **visual
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_GetVisual"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetVisual">Q3XDrawContext_GetVisual</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetVisual (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;Visual **visual
+);</tt><br>
 </pre></blockquote>
-<p>Get the Visual of an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the Visual of an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>visual</tt></td><td>Receives the Visual of the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>visual</em></tt></dt><dd>Receives the Visual of the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_New"></a>
-<h3><a name="Q3XDrawContext_New">Q3XDrawContext_New</a></h3>
-<blockquote><pre><tt>TQ3DrawContextObject  
-Q3XDrawContext_New (
-    const TQ3XDrawContextData     *drawContextData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_New">Q3XDrawContext_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3XDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3XDrawContextData *drawContextData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new X11 draw context object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new X11 draw context object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The data for the X11 draw context object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContextData</em></tt></dt><dd>The data for the X11 draw context object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new draw context object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_SetColormap"></a>
-<h3><a name="Q3XDrawContext_SetColormap">Q3XDrawContext_SetColormap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_SetColormap (
-    TQ3DrawContextObject          drawContext,
-    Colormap                      colormap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new draw context object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_SetColormap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_SetColormap">Q3XDrawContext_SetColormap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_SetColormap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;Colormap colormap
+);</tt><br>
 </pre></blockquote>
-<p>Set the Colormap of an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the Colormap of an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>colormap</tt></td><td>The new Colormap for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>colormap</em></tt></dt><dd>The new Colormap for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_SetColormapData"></a>
-<h3><a name="Q3XDrawContext_SetColormapData">Q3XDrawContext_SetColormapData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_SetColormapData (
-    TQ3DrawContextObject          drawContext,
-    const TQ3XColormapData        *colormapData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_SetColormapData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_SetColormapData">Q3XDrawContext_SetColormapData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_SetColormapData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3XColormapData *colormapData
+);</tt><br>
 </pre></blockquote>
-<p>Set the Colormap data for an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the Colormap data for an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>colormapData</tt></td><td>The new Colormap data for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>colormapData</em></tt></dt><dd>The new Colormap data for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_SetDisplay"></a>
-<h3><a name="Q3XDrawContext_SetDisplay">Q3XDrawContext_SetDisplay</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_SetDisplay (
-    TQ3DrawContextObject          drawContext,
-    const Display                 *display
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_SetDisplay"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_SetDisplay">Q3XDrawContext_SetDisplay</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_SetDisplay (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;const Display *display
+);</tt><br>
 </pre></blockquote>
-<p>Set the Display for an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the Display for an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>display</tt></td><td>The new Display for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>display</em></tt></dt><dd>The new Display for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_SetDrawable"></a>
-<h3><a name="Q3XDrawContext_SetDrawable">Q3XDrawContext_SetDrawable</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_SetDrawable (
-    TQ3DrawContextObject          drawContext,
-    Drawable                      drawable
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_SetDrawable"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_SetDrawable">Q3XDrawContext_SetDrawable</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_SetDrawable (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;Drawable drawable
+);</tt><br>
 </pre></blockquote>
-<p>Set the Drawable for an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the Drawable for an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>drawable</tt></td><td>The new Drawable for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>drawable</em></tt></dt><dd>The new Drawable for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_SetVisual"></a>
-<h3><a name="Q3XDrawContext_SetVisual">Q3XDrawContext_SetVisual</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_SetVisual (
-    TQ3DrawContextObject          drawContext,
-    const Visual                  *visual
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_SetVisual"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_SetVisual">Q3XDrawContext_SetVisual</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_SetVisual (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;const Visual *visual
+);</tt><br>
 </pre></blockquote>
-<p>Set the Visual of an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the Visual of an X11 draw context.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-<tr valign=top><td><tt>visual</tt></td><td>The new Visual for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+<dt><tt><em>visual</em></tt></dt><dd>The new Visual for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3X_GetVisualInfo"></a>
-<h3><a name="Q3X_GetVisualInfo">Q3X_GetVisualInfo</a></h3>
-<blockquote><pre><tt>XVisualInfo * 
-Q3X_GetVisualInfo (
-    Display                       *dpy,
-    Screen                        *screen
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3X_GetVisualInfo"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3X_GetVisualInfo">Q3X_GetVisualInfo</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( XVisualInfo * ) Q3X_GetVisualInfo (
+&nbsp;&nbsp;&nbsp;&nbsp;Display *dpy,
+&nbsp;&nbsp;&nbsp;&nbsp;Screen *screen
+);</tt><br>
 </pre></blockquote>
-<p>Get an X11 visual info.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get an X11 visual info.
 <br><br>
 Note - no QD3D documentation could be found for this routine. The
 purpose of the function, and its parameters/result, have been assumed.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>dpy</tt></td><td>The X11 display.</td></tr>
-<tr valign=top><td><tt>screen</tt></td><td>The X11 screen.</td></tr>
-</table>
+<dl>
+<dt><tt><em>dpy</em></tt></dt><dd>The X11 display.</dd>
+<dt><tt><em>screen</em></tt></dt><dd>The X11 screen.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The X11 visual info.
- 
-<hr>
+<dl><dt><i>function result</i></dt><dd>The X11 visual info.
+ </dd></dl>
 <h2>Structs</h2>
-<a name="//apple_ref/c/tag/TQ3BeDrawContextData"></a>
-<h3><a name="TQ3BeDrawContextData">TQ3BeDrawContextData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3BeDrawContextData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3BeDrawContextData">TQ3BeDrawContextData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3BeDrawContextData {
     TQ3DrawContextData                          drawContextData;
     BView                                       *theView;
 } TQ3BeDrawContextData;
 </pre>
 </blockquote>
-<p>Describes the state for a Be draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a Be draw context.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
-<tr valign=top><td><tt>theView</tt></td><td>The BView to render to.</td><tr>
-</table>
+<dl>
+<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
+<dt><tt>theView</tt></dt><dd>The BView to render to.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3CocoaDrawContextData"></a>
-<h3><a name="TQ3CocoaDrawContextData">TQ3CocoaDrawContextData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3CocoaDrawContextData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CocoaDrawContextData">TQ3CocoaDrawContextData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3CocoaDrawContextData {
     TQ3DrawContextData                          drawContextData;
     void                                        *nsView;
 } TQ3CocoaDrawContextData;
 </pre>
 </blockquote>
-<p>Describes the state for a Cocoa draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a Cocoa draw context.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
-<tr valign=top><td><tt>nsView</tt></td><td>The NSView to render to.</td><tr>
-</table>
+<dl>
+<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
+<dt><tt>nsView</tt></dt><dd>The NSView to render to.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3DDSurfaceDescriptor"></a>
-<h3><a name="TQ3DDSurfaceDescriptor">TQ3DDSurfaceDescriptor</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3DDSurfaceDescriptor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DDSurfaceDescriptor">TQ3DDSurfaceDescriptor</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DDSurfaceDescriptor {
     TQ3DirectDrawObjectSelector                 objectSelector;
-
     union {
-        LPDIRECTDRAW                            lpDirectDraw;
-        LPDIRECTDRAW2                           lpDirectDraw2;
-    };
+    LPDIRECTDRAW                            lpDirectDraw;
+    LPDIRECTDRAW2                           lpDirectDraw2;
+    
+} ;
 </pre>
 </blockquote>
-<p>Describes the type of DirectDraw objects to be used for rendering.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the type of DirectDraw objects to be used for rendering.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectSelector</tt></td><td>Indicates the type of interface which has been supplied.</td><tr>
-<tr valign=top><td><tt>lpDirectDraw</tt></td><td>A DIRECTDRAW interface object.</td><tr>
-<tr valign=top><td><tt>lpDirectDraw2</tt></td><td>A DIRECTDRAW2 interface object.</td><tr>
-<tr valign=top><td><tt>lpDirectDrawSurface</tt></td><td>A DIRECTDRAWSURFACE interface object.</td><tr>
-<tr valign=top><td><tt>lpDirectDrawSurface2</tt></td><td>A DIRECTDRAWSURFACE2 interface object.</td><tr>
-</table>
+<dl>
+<dt><tt>objectSelector</tt></dt><dd>Indicates the type of interface which has been supplied.</dd>
+<dt><tt>lpDirectDraw</tt></dt><dd>A DIRECTDRAW interface object.</dd>
+<dt><tt>lpDirectDraw2</tt></dt><dd>A DIRECTDRAW2 interface object.</dd>
+<dt><tt>lpDirectDrawSurface</tt></dt><dd>A DIRECTDRAWSURFACE interface object.</dd>
+<dt><tt>lpDirectDrawSurface2</tt></dt><dd>A DIRECTDRAWSURFACE2 interface object.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3DDSurfaceDrawContextData"></a>
-<h3><a name="TQ3DDSurfaceDrawContextData">TQ3DDSurfaceDrawContextData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3DDSurfaceDrawContextData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DDSurfaceDrawContextData">TQ3DDSurfaceDrawContextData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DDSurfaceDrawContextData {
     TQ3DrawContextData                          drawContextData;
     TQ3DDSurfaceDescriptor                      ddSurfaceDescriptor;
 } TQ3DDSurfaceDrawContextData;
 </pre>
 </blockquote>
-<p>Describes the state for a Windows DirectDraw draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a Windows DirectDraw draw context.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
-<tr valign=top><td><tt>ddSurfaceDescriptor</tt></td><td>Describes the DirectDraw surface to render to.</td><tr>
-</table>
+<dl>
+<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
+<dt><tt>ddSurfaceDescriptor</tt></dt><dd>Describes the DirectDraw surface to render to.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3DrawContextData"></a>
-<h3><a name="TQ3DrawContextData">TQ3DrawContextData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3DrawContextData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DrawContextData">TQ3DrawContextData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DrawContextData {
     TQ3DrawContextClearImageMethod              clearImageMethod;
     TQ3ColorARGB                                clearImageColor;
@@ -1400,7 +1178,7 @@ typedef struct TQ3DrawContextData {
 } TQ3DrawContextData;
 </pre>
 </blockquote>
-<p>Describes the common state for a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the common state for a draw context.
 <br><br>
 If paneState is false, the draw context has an implicit pane which fills
 the entire window/destination surface. Under Quesa, querying a draw
@@ -1411,23 +1189,21 @@ The mask and maskState fields are currently ignored by Quesa's interactive
 renderers.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>clearImageMethod</tt></td><td>How the draw context should be cleared on each frame.</td><tr>
-<tr valign=top><td><tt>clearImageColor</tt></td><td>The clear colour to use if clearImageMethod is kQ3ClearMethodWithColor.</td><tr>
-<tr valign=top><td><tt>pane</tt></td><td>The area within the draw context which will be rendered to.</td><tr>
-<tr valign=top><td><tt>paneState</tt></td><td>Indicates if the pane field is used.</td><tr>
-<tr valign=top><td><tt>mask</tt></td><td>The clipping mask to be applied for rendering.</td><tr>
-<tr valign=top><td><tt>maskState</tt></td><td>indicates if the clipping mask is used.</td><tr>
-<tr valign=top><td><tt>doubleBufferState</tt></td><td>Indicates if rendering will be double-buffered.</td><tr>
-</table>
+<dl>
+<dt><tt>clearImageMethod</tt></dt><dd>How the draw context should be cleared on each frame.</dd>
+<dt><tt>clearImageColor</tt></dt><dd>The clear colour to use if clearImageMethod is kQ3ClearMethodWithColor.</dd>
+<dt><tt>pane</tt></dt><dd>The area within the draw context which will be rendered to.</dd>
+<dt><tt>paneState</tt></dt><dd>Indicates if the pane field is used.</dd>
+<dt><tt>mask</tt></dt><dd>The clipping mask to be applied for rendering.</dd>
+<dt><tt>maskState</tt></dt><dd>indicates if the clipping mask is used.</dd>
+<dt><tt>doubleBufferState</tt></dt><dd>Indicates if rendering will be double-buffered.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3MacDrawContextData"></a>
-<h3><a name="TQ3MacDrawContextData">TQ3MacDrawContextData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3MacDrawContextData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MacDrawContextData">TQ3MacDrawContextData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MacDrawContextData {
     TQ3DrawContextData                          drawContextData;
     CWindowPtr                                  window;
@@ -1437,7 +1213,7 @@ typedef struct TQ3MacDrawContextData {
 } TQ3MacDrawContextData;
 </pre>
 </blockquote>
-<p>Describes the state for a Mac OS draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a Mac OS draw context.
 <br><br>
 The library and viewPort fields are not supported by Quesa.
 <br><br>
@@ -1452,63 +1228,57 @@ from a CoreGraphics context), the window field should be NULL and the
 port to render to supplied in the grafPort field.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
-<tr valign=top><td><tt>window</tt></td><td>The window to render to.</td><tr>
-<tr valign=top><td><tt>library</tt></td><td>The library to use for rendering. Should be kQ3Mac2DLibraryNone.</td><tr>
-<tr valign=top><td><tt>viewPort</tt></td><td>The QuickDraw GX port to render to. Should be NULL.</td><tr>
-<tr valign=top><td><tt>grafPort</tt></td><td>The QuickDraw port to render to.</td><tr>
-</table>
+<dl>
+<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
+<dt><tt>window</tt></dt><dd>The window to render to.</dd>
+<dt><tt>library</tt></dt><dd>The library to use for rendering. Should be kQ3Mac2DLibraryNone.</dd>
+<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be NULL.</dd>
+<dt><tt>grafPort</tt></dt><dd>The QuickDraw port to render to.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3PixmapDrawContextData"></a>
-<h3><a name="TQ3PixmapDrawContextData">TQ3PixmapDrawContextData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3PixmapDrawContextData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PixmapDrawContextData">TQ3PixmapDrawContextData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PixmapDrawContextData {
     TQ3DrawContextData                          drawContextData;
     TQ3Pixmap                                   pixmap;
 } TQ3PixmapDrawContextData;
 </pre>
 </blockquote>
-<p>Describes the state for a pixmap draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a pixmap draw context.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
-<tr valign=top><td><tt>pixmap</tt></td><td>The pixmap to render to.</td><tr>
-</table>
+<dl>
+<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
+<dt><tt>pixmap</tt></dt><dd>The pixmap to render to.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Win32DCDrawContextData"></a>
-<h3><a name="TQ3Win32DCDrawContextData">TQ3Win32DCDrawContextData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Win32DCDrawContextData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Win32DCDrawContextData">TQ3Win32DCDrawContextData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Win32DCDrawContextData {
     TQ3DrawContextData                          drawContextData;
     HDC                                         hdc;
 } TQ3Win32DCDrawContextData;
 </pre>
 </blockquote>
-<p>Describes the state for a Windows HDC draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a Windows HDC draw context.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
-<tr valign=top><td><tt>hdc</tt></td><td>The HDC to render to.</td><tr>
-</table>
+<dl>
+<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
+<dt><tt>hdc</tt></dt><dd>The HDC to render to.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3XColormapData"></a>
-<h3><a name="TQ3XColormapData">TQ3XColormapData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3XColormapData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XColormapData">TQ3XColormapData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3XColormapData {
     TQ3Int32                                    baseEntry;
     TQ3Int32                                    maxRed;
@@ -1520,29 +1290,27 @@ typedef struct TQ3XColormapData {
 } TQ3XColormapData;
 </pre>
 </blockquote>
-<p>The colormap entry for an X11 draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The colormap entry for an X11 draw context.
 <br><br>
 Note - no QD3D documentation could be found for this type. The purpose
 of the fields have been assumed.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>baseEntry</tt></td><td>The base entry.</td><tr>
-<tr valign=top><td><tt>maxRed</tt></td><td>The maximum red value.</td><tr>
-<tr valign=top><td><tt>maxGreen</tt></td><td>The maximum green value.</td><tr>
-<tr valign=top><td><tt>maxBlue</tt></td><td>The maximum blue value.</td><tr>
-<tr valign=top><td><tt>multRed</tt></td><td>The red multiplier value.</td><tr>
-<tr valign=top><td><tt>multGreen</tt></td><td>The green multiplier value.</td><tr>
-<tr valign=top><td><tt>multBlue</tt></td><td>The blue multiplier value.</td><tr>
-</table>
+<dl>
+<dt><tt>baseEntry</tt></dt><dd>The base entry.</dd>
+<dt><tt>maxRed</tt></dt><dd>The maximum red value.</dd>
+<dt><tt>maxGreen</tt></dt><dd>The maximum green value.</dd>
+<dt><tt>maxBlue</tt></dt><dd>The maximum blue value.</dd>
+<dt><tt>multRed</tt></dt><dd>The red multiplier value.</dd>
+<dt><tt>multGreen</tt></dt><dd>The green multiplier value.</dd>
+<dt><tt>multBlue</tt></dt><dd>The blue multiplier value.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3XDrawContextData"></a>
-<h3><a name="TQ3XDrawContextData">TQ3XDrawContextData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3XDrawContextData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XDrawContextData">TQ3XDrawContextData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3XDrawContextData {
     TQ3DrawContextData                          contextData;
     Display                                     *display;
@@ -1553,24 +1321,157 @@ typedef struct TQ3XDrawContextData {
 } TQ3XDrawContextData;
 </pre>
 </blockquote>
-<p>Describes the state for an X11 DirectDraw draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for an X11 DirectDraw draw context.
 <br><br>
 Note - no QD3D documentation could be found for this type. The purpose
 of the fields have been assumed.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContextData</tt></td><td>The common state for the draw context.</td><tr>
-<tr valign=top><td><tt>display</tt></td><td>The X11 Display.</td><tr>
-<tr valign=top><td><tt>drawable</tt></td><td>The X11 Drawable.</td><tr>
-<tr valign=top><td><tt>visual</tt></td><td>The X11 Visual.</td><tr>
-<tr valign=top><td><tt>cmap</tt></td><td>The X11 color map.</td><tr>
-<tr valign=top><td><tt>colorMapData</tt></td><td>The X11 color map data.</td><tr>
-</table>
+<dl>
+<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
+<dt><tt>display</tt></dt><dd>The X11 Display.</dd>
+<dt><tt>drawable</tt></dt><dd>The X11 Drawable.</dd>
+<dt><tt>visual</tt></dt><dd>The X11 Visual.</dd>
+<dt><tt>cmap</tt></dt><dd>The X11 color map.</dd>
+<dt><tt>colorMapData</tt></dt><dd>The X11 color map data.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/Draw context property types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Draw context property types">Draw context property types</a></h2>
+</td></tr></table><hr><blockquote><pre>
+enum {
+  kQ3DrawContextPropertyClearDepthBufferFlag    = Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
+  kQ3DrawContextPropertyClearDepthBufferValue    = Q3_METHOD_TYPE('c', 'l', 'd', 'v'),
+  kQ3DrawContextPropertyWritableDepthBuffer    = Q3_METHOD_TYPE('w', 'r', 'd', 'b'),
+  kQ3DrawContextPropertyGLDepthFunc        = Q3_METHOD_TYPE('g', 'l', 'd', 'f'),
+  kQ3DrawContextPropertyGLTextureSharing      = Q3_METHOD_TYPE('g', 'l', 't', 's'),
+  kQ3DrawContextPropertySwapBufferInEndPass    = Q3_METHOD_TYPE('s', 'b', 'e', 'p'),
+  kQ3DrawContextPropertyTypeSize32        = 0xFFFFFFFF
+};
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Property types that may be assigned to a draw context, for instance to
+request special rendering behavior.  Such requests may be ignored by some
+renderers.  If a particular property has not been set, it will be treated
+as having the default value.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyClearDepthBufferFlag"><tt>kQ3DrawContextPropertyClearDepthBufferFlag</tt></a></dt><dd>Whether to clear the depth buffer before
+rendering.
+Data type: TQ3Boolean.
+Default: kQ3True</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyClearDepthBufferValue"><tt>kQ3DrawContextPropertyClearDepthBufferValue</tt></a></dt><dd>Value to fill the depth buffer with if
+it is cleared.
+Data type: TQ3Float64
+Default: 1.0</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyWritableDepthBuffer"><tt>kQ3DrawContextPropertyWritableDepthBuffer</tt></a></dt><dd>Whether the depth buffer is initially
+writable.  (See glDepthMask)
+Data type: TQ3Boolean
+Default: kQ3True</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLDepthFunc"><tt>kQ3DrawContextPropertyGLDepthFunc</tt></a></dt><dd>Initial value for glDepthFunc.
+Data type: TQ3Uns32
+Default: GL_LESS</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLTextureSharing"><tt>kQ3DrawContextPropertyGLTextureSharing</tt></a></dt><dd>If true, requests that an OpenGL
+context should share textures with a
+previously-created OpenGL context, if
+possible.
+Data type: TQ3Boolean.
+Default: kQ3True</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertySwapBufferInEndPass"><tt>kQ3DrawContextPropertySwapBufferInEndPass</tt></a></dt><dd>If true, requests that the renderer
+swap buffers in its EndPass method.
+Only relevant to double-buffered contexts.
+Data type: TQ3Boolean.
+Default: kQ3True.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DirectDrawObjectSelector"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DirectDrawObjectSelector">TQ3DirectDrawObjectSelector</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3DirectDrawObject                         = 1,
+    kQ3DirectDrawObject2                        = 2,
+    kQ3DirectDrawObjectSize32                   = 0xFFFFFFFF
+} TQ3DirectDrawObjectSelector;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Windows DirectDraw interface selectors.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3DirectDrawObject"><tt>kQ3DirectDrawObject</tt></a></dt><dd>A DIRECTDRAW  interface has been supplied.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DirectDrawObject2"><tt>kQ3DirectDrawObject2</tt></a></dt><dd>A DIRECTDRAW2 interface has been supplied.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DirectDrawObjectSelector"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DirectDrawObjectSelector">TQ3DirectDrawObjectSelector</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3DirectDrawSurface                        = 1,
+    kQ3DirectDrawSurface2                       = 2,
+    kQ3DirectDrawSurfaceSize32                  = 0xFFFFFFFF
+} TQ3DirectDrawSurfaceSelector;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Windows DirectDraw surface selectors.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3DirectDrawSurface"><tt>kQ3DirectDrawSurface</tt></a></dt><dd>A DIRECTDRAWSURFACE  interface has been supplied.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DirectDrawSurface2"><tt>kQ3DirectDrawSurface2</tt></a></dt><dd>A DIRECTDRAWSURFACE2 interface has been supplied.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DrawContextClearImageMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DrawContextClearImageMethod">TQ3DrawContextClearImageMethod</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3ClearMethodNone                          = 0,
+    kQ3ClearMethodWithColor                     = 1,
+    kQ3ClearMethodSize32                        = 0xFFFFFFFF
+} TQ3DrawContextClearImageMethod;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clear method.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ClearMethodNone"><tt>kQ3ClearMethodNone</tt></a></dt><dd>Do not clear the draw context before rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ClearMethodWithColor"><tt>kQ3ClearMethodWithColor</tt></a></dt><dd>Clear the draw context to the clear colour before rendering.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3MacDrawContext2DLibrary"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MacDrawContext2DLibrary">TQ3MacDrawContext2DLibrary</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3Mac2DLibraryNone                         = 0,
+    kQ3Mac2DLibraryQuickDraw                    = 1,
+    kQ3Mac2DLibraryQuickDrawGX                  = 2,
+    kQ3Mac2DLibrarySize32                       = 0xFFFFFFFF
+} TQ3MacDrawContext2DLibrary;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mac draw context variants. These are legacy constants from QD3D, and for Quesa
+the library field should be set to kQ3Mac2DLibraryNone.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryNone"><tt>kQ3Mac2DLibraryNone</tt></a></dt><dd>Unspecified method should be used.</dd>
+<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDraw"><tt>kQ3Mac2DLibraryQuickDraw</tt></a></dt><dd>Renderers should use QuickDraw in the final stage of rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

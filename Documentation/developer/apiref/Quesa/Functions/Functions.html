@@ -1,78 +1,117 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
-<a name="//apple_ref/c/func/Q3Bitmap_Empty"></a>
-<h3><a name="Q3Bitmap_Empty">Q3Bitmap_Empty</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Bitmap_Empty (
-    TQ3Bitmap                     *bitmap
-);
-</tt><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Functions</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/Q3Bitmap_Empty"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Bitmap_Empty">Q3Bitmap_Empty</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Bitmap_Empty (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Bitmap *bitmap
+);</tt><br>
 </pre></blockquote>
-<p>Release the memory used by a TQ3Bitmap.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the memory used by a TQ3Bitmap.
 <br><br>
 Should be used to release the data used by TQ3Bitmaps returned by
 Quesa. You should not call Q3Bitmap_Empty on TQ3Bitmaps whose
 image data was allocated by you.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>bitmap</tt></td><td>The TQ3Bitmap whose image data should be released.</td></tr>
-</table>
+<dl>
+<dt><tt><em>bitmap</em></tt></dt><dd>The TQ3Bitmap whose image data should be released.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Bitmap_GetImageSize"></a>
-<h3><a name="Q3Bitmap_GetImageSize">Q3Bitmap_GetImageSize</a></h3>
-<blockquote><pre><tt>TQ3Uns32  
-Q3Bitmap_GetImageSize (
-    TQ3Uns32                      width,
-    TQ3Uns32                      height
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Bitmap_GetBit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Bitmap_GetBit">Q3Bitmap_GetBit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Bitmap_GetBit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Bitmap *theBitmap,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 x,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 y
+);</tt><br>
 </pre></blockquote>
-<p>Determine how much image data would be required for a TQ3Bitmap.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the status of a bit within a bitmap.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theBitMap</em></tt></dt><dd>The bitmap to query.</dd>
+<dt><tt><em>x</em></tt></dt><dd>The x coordinate of the pixel to query.</dd>
+<dt><tt><em>y</em></tt></dt><dd>The y coordinate of the pixel to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The status of the bit.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Bitmap_GetImageSize"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Bitmap_GetImageSize">Q3Bitmap_GetImageSize</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3Bitmap_GetImageSize (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 width,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 height
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine how much image data would be required for a TQ3Bitmap.
 <br><br>
 Returns the smallest block of memory that could hold a bitmap
 with the specified dimensions.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>width</tt></td><td>The proposed width of the bitmap.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>The proposed height of the bitmap.</td></tr>
-</table>
+<dl>
+<dt><tt><em>width</em></tt></dt><dd>The proposed width of the bitmap.</dd>
+<dt><tt><em>height</em></tt></dt><dd>The proposed height of the bitmap.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The number of bytes needed for the bitmap.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Exit"></a>
-<h3><a name="Q3Exit">Q3Exit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Exit (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The number of bytes needed for the bitmap.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Bitmap_SetBit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Bitmap_SetBit">Q3Bitmap_SetBit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Bitmap_SetBit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Bitmap *theBitmap,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 x,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 y,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean theState
+);</tt><br>
 </pre></blockquote>
-<p>Shuts down Quesa, and releases any resources allocated by the library.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the status of a bit within a bitmap.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3GetReleaseVersion"></a>
-<h3><a name="Q3GetReleaseVersion">Q3GetReleaseVersion</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3GetReleaseVersion (
-    TQ3Uns32                      *releaseRevision
-);
-</tt><br>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theBitMap</em></tt></dt><dd>The bitmap to update.</dd>
+<dt><tt><em>x</em></tt></dt><dd>The x coordinate of the pixel to update.</dd>
+<dt><tt><em>y</em></tt></dt><dd>The y coordinate of the pixel to update.</dd>
+<dt><tt><em>theState</em></tt></dt><dd>The new state for the pixel.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Exit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Exit">Q3Exit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Exit (void);</tt><br>
 </pre></blockquote>
-<p>Returns the revision of the installed Quesa software in the format of the
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Shuts down Quesa, and releases any resources allocated by the library.
+<br><br>
+</p>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3GetReleaseVersion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3GetReleaseVersion">Q3GetReleaseVersion</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3GetReleaseVersion (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *releaseRevision
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the revision of the installed Quesa software in the format of the
 first four bytes of a Macintosh <code>'vers'</code> resource.
 <br><br>
 The four bytes contain 1) the major revision level, 2) the minor revision,
@@ -89,26 +128,22 @@ Note that unlike QD3D, Quesa allows Q3GetReleaseVersion to be called
 outside of a <code>Q3Initialize</code>/<code>Q3Exit</code> block.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>releaseRevision</tt></td><td>Receives the revision of Quesa.</td></tr>
-</table>
+<dl>
+<dt><tt><em>releaseRevision</em></tt></dt><dd>Receives the revision of Quesa.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3GetVersion"></a>
-<h3><a name="Q3GetVersion">Q3GetVersion</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3GetVersion (
-    TQ3Uns32                      *majorRevision,
-    TQ3Uns32                      *minorRevision
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3GetVersion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3GetVersion">Q3GetVersion</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3GetVersion (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *majorRevision,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *minorRevision
+);</tt><br>
 </pre></blockquote>
-<p>Returns the major and minor revision levels of the installed
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the major and minor revision levels of the installed
 Quesa software.
 <br><br>
 For example, if the revision is 1.6a23 (= 1.6.0a23), returns 1
@@ -121,195 +156,157 @@ Note that unlike QD3D, Quesa allows Q3GetVersion to be called
 outside of a <code>Q3Initialize</code>/<code>Q3Exit</code> block.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>majorRevision</tt></td><td>Receives the major revision level of Quesa.</td></tr>
-<tr valign=top><td><tt>minorRevision</tt></td><td>Receives the minor revision level of Quesa.</td></tr>
-</table>
+<dl>
+<dt><tt><em>majorRevision</em></tt></dt><dd>Receives the major revision level of Quesa.</dd>
+<dt><tt><em>minorRevision</em></tt></dt><dd>Receives the minor revision level of Quesa.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Initialize"></a>
-<h3><a name="Q3Initialize">Q3Initialize</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Initialize (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Initialize"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Initialize">Q3Initialize</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Initialize (void);</tt><br>
 </pre></blockquote>
-<p>Initialises Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Initialises Quesa.
 <br><br>
 Only Q3IsInitialized, Q3GetVersion, and Q3GetReleaseVersion may be
 called before the Quesa library is initialised.
 <br><br>
 </p>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3IsInitialized"></a>
-<h3><a name="Q3IsInitialized">Q3IsInitialized</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3IsInitialized (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3IsInitialized"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3IsInitialized">Q3IsInitialized</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3IsInitialized (void);</tt><br>
 </pre></blockquote>
-<p>Tests to see if Quesa has been initialised or not.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Tests to see if Quesa has been initialised or not.
 <br><br>
 </p>
-<b>Result:</b> True or false as Quesa has been initialised or not.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ObjectHierarchy_EmptySubClassData"></a>
-<h3><a name="Q3ObjectHierarchy_EmptySubClassData">Q3ObjectHierarchy_EmptySubClassData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ObjectHierarchy_EmptySubClassData (
-    TQ3SubClassData               *subClassData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>True or false as Quesa has been initialised or not.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ObjectHierarchy_EmptySubClassData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ObjectHierarchy_EmptySubClassData">Q3ObjectHierarchy_EmptySubClassData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ObjectHierarchy_EmptySubClassData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SubClassData *subClassData
+);</tt><br>
 </pre></blockquote>
-<p>Release the memory allocated by a previous call to
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the memory allocated by a previous call to
 Q3ObjectHierarchy_GetSubClassData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>subClassData</tt></td><td>The sub-class data to release.</td></tr>
-</table>
+<dl>
+<dt><tt><em>subClassData</em></tt></dt><dd>The sub-class data to release.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ObjectHierarchy_GetStringFromType"></a>
-<h3><a name="Q3ObjectHierarchy_GetStringFromType">Q3ObjectHierarchy_GetStringFromType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ObjectHierarchy_GetStringFromType (
-    TQ3ObjectType                 objectClassType,
-    TQ3ObjectClassNameString      objectClassString
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ObjectHierarchy_GetStringFromType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ObjectHierarchy_GetStringFromType">Q3ObjectHierarchy_GetStringFromType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ObjectHierarchy_GetStringFromType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType objectClassType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectClassNameString objectClassString
+);</tt><br>
 </pre></blockquote>
-<p>Returns the class name string for a class identified by a class type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the class name string for a class identified by a class type.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClassType</tt></td><td>The class type of the class to locate.</td></tr>
-<tr valign=top><td><tt>objectClassString</tt></td><td>Receives the class name string of the class.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClassType</em></tt></dt><dd>The class type of the class to locate.</dd>
+<dt><tt><em>objectClassString</em></tt></dt><dd>Receives the class name string of the class.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ObjectHierarchy_GetSubClassData"></a>
-<h3><a name="Q3ObjectHierarchy_GetSubClassData">Q3ObjectHierarchy_GetSubClassData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ObjectHierarchy_GetSubClassData (
-    TQ3ObjectType                 objectClassType,
-    TQ3SubClassData               *subClassData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ObjectHierarchy_GetSubClassData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ObjectHierarchy_GetSubClassData">Q3ObjectHierarchy_GetSubClassData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ObjectHierarchy_GetSubClassData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType objectClassType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SubClassData *subClassData
+);</tt><br>
 </pre></blockquote>
-<p>Return the immediate sub-classes of a class.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the immediate sub-classes of a class.
 <br><br>
 The data returned must be released with a subsequent call to
 Q3ObjectHierarchy_EmptySubClassData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClassType</tt></td><td>The class type of the class to query.</td></tr>
-<tr valign=top><td><tt>subClassData</tt></td><td>Receives the immediate sub-classes of the class.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClassType</em></tt></dt><dd>The class type of the class to query.</dd>
+<dt><tt><em>subClassData</em></tt></dt><dd>Receives the immediate sub-classes of the class.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ObjectHierarchy_GetTypeFromString"></a>
-<h3><a name="Q3ObjectHierarchy_GetTypeFromString">Q3ObjectHierarchy_GetTypeFromString</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ObjectHierarchy_GetTypeFromString (
-    const TQ3ObjectClassNameString      objectClassString,
-    TQ3ObjectType                 *objectClassType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ObjectHierarchy_GetTypeFromString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ObjectHierarchy_GetTypeFromString">Q3ObjectHierarchy_GetTypeFromString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ObjectHierarchy_GetTypeFromString (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ObjectClassNameString objectClassString,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType *objectClassType
+);</tt><br>
 </pre></blockquote>
-<p>Returns the class type for a class identified by a class name string.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the class type for a class identified by a class name string.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClassString</tt></td><td>The class name of the class to locate.</td></tr>
-<tr valign=top><td><tt>objectClassType</tt></td><td>Receives the class type of the class.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClassString</em></tt></dt><dd>The class name of the class to locate.</dd>
+<dt><tt><em>objectClassType</em></tt></dt><dd>Receives the class type of the class.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ObjectHierarchy_IsNameRegistered"></a>
-<h3><a name="Q3ObjectHierarchy_IsNameRegistered">Q3ObjectHierarchy_IsNameRegistered</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3ObjectHierarchy_IsNameRegistered (
-    const char                    *objectClassName
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ObjectHierarchy_IsNameRegistered"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ObjectHierarchy_IsNameRegistered">Q3ObjectHierarchy_IsNameRegistered</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3ObjectHierarchy_IsNameRegistered (
+&nbsp;&nbsp;&nbsp;&nbsp;const char *objectClassName
+);</tt><br>
 </pre></blockquote>
-<p>Check to see if a class is registered with Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Check to see if a class is registered with Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>majorRevision</tt></td><td>The class name of the class to check.</td></tr>
-</table>
+<dl>
+<dt><tt><em>majorRevision</em></tt></dt><dd>The class name of the class to check.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> True or false as the class is registered or not.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ObjectHierarchy_IsTypeRegistered"></a>
-<h3><a name="Q3ObjectHierarchy_IsTypeRegistered">Q3ObjectHierarchy_IsTypeRegistered</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3ObjectHierarchy_IsTypeRegistered (
-    TQ3ObjectType                 objectClassType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>True or false as the class is registered or not.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ObjectHierarchy_IsTypeRegistered"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ObjectHierarchy_IsTypeRegistered">Q3ObjectHierarchy_IsTypeRegistered</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3ObjectHierarchy_IsTypeRegistered (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType objectClassType
+);</tt><br>
 </pre></blockquote>
-<p>Check to see if a class is registered with Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Check to see if a class is registered with Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClassType</tt></td><td>The class type of the class to check.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClassType</em></tt></dt><dd>The class type of the class to check.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> True or false as the class is registered or not.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_AddElement"></a>
-<h3><a name="Q3Object_AddElement">Q3Object_AddElement</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_AddElement (
-    TQ3Object                     object,
-    TQ3ElementType                theType,
-    const void                    *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>True or false as the class is registered or not.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_AddElement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_AddElement">Q3Object_AddElement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_AddElement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
+&nbsp;&nbsp;&nbsp;&nbsp;const void *data
+);</tt><br>
 </pre></blockquote>
-<p>Add an element to an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add an element to an object.
 Same as <code>Q3Shape_AddElement</code>, except that the object is not
 required to be a shape or set.
 <br><br>
@@ -318,27 +315,23 @@ If the object is Shared, this operation will increment the object's edit index.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to update.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The type of the element data.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>The element data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to update.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The type of the element data.</dd>
+<dt><tt><em>data</em></tt></dt><dd>The element data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_CleanDispose"></a>
-<h3><a name="Q3Object_CleanDispose">Q3Object_CleanDispose</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_CleanDispose (
-    TQ3Object                     *theObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_CleanDispose"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_CleanDispose">Q3Object_CleanDispose</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_CleanDispose (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object *theObject
+);</tt><br>
 </pre></blockquote>
-<p>Cleanly disposes of a Quesa object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Cleanly disposes of a Quesa object.
 <br><br>
 If theObject is not NULL, invokes Q3Object_Dispose to decrement the object
 reference count then clears the supplied pointer to prevent stale references.
@@ -354,26 +347,22 @@ theObject = NULL;
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theObject</tt></td><td>The object to dispose (may be NULL).</td></tr>
-</table>
+<dl>
+<dt><tt><em>theObject</em></tt></dt><dd>The object to dispose (may be NULL).</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_ClearElement"></a>
-<h3><a name="Q3Object_ClearElement">Q3Object_ClearElement</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_ClearElement (
-    TQ3Object               object,
-    TQ3ElementType          theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_ClearElement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_ClearElement">Q3Object_ClearElement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_ClearElement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType
+);</tt><br>
 </pre></blockquote>
-<p>Empty an object of a particular type of element.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Empty an object of a particular type of element.
 Same as <code>Q3Shape_ClearElement</code>, except that the object is not
 required to be a shape or set.
 <br><br>
@@ -382,101 +371,88 @@ If the object is Shared, this operation will increment the object's edit index.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to update.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The element type to remove.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to update.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The element type to remove.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_ContainsElement"></a>
-<h3><a name="Q3Object_ContainsElement">Q3Object_ContainsElement</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Object_ContainsElement (
-    TQ3Object                object,
-    TQ3ElementType           theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_ContainsElement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_ContainsElement">Q3Object_ContainsElement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Object_ContainsElement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType
+);</tt><br>
 </pre></blockquote>
-<p>Check to see if an object contains an element of a given type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Check to see if an object contains an element of a given type.
 Same as <code>Q3Shape_ContainsElement</code>, except that the object is not
 required to be a shape or set.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The type of the element data to look for.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The type of the element data to look for.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_Dispose"></a>
-<h3><a name="Q3Object_Dispose">Q3Object_Dispose</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_Dispose (
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_Dispose"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_Dispose">Q3Object_Dispose</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_Dispose (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Disposes of a Quesa object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Disposes of a Quesa object.
 <br><br>
-Since TQ3Objects are reference counted, this function decrements the
-reference count of the object. When the reference count falls to 0,
-the object is disposed of.
+Most types of TQ3Object are reference-counted.  This function
+decrements the reference count of the object. When the reference count
+falls to 0, the object is deleted.
+<br><br>
+When used on a non-reference-counted object such as a view or pick,
+the object is deleted immediately.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to dispose.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to dispose.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_Duplicate"></a>
-<h3><a name="Q3Object_Duplicate">Q3Object_Duplicate</a></h3>
-<blockquote><pre><tt>TQ3Object  
-Q3Object_Duplicate (
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_Duplicate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_Duplicate">Q3Object_Duplicate</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Object ) Q3Object_Duplicate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Duplicates a Quesa object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Duplicates a Quesa object.
 <br><br>
 Returns a new copy of the object, with a reference count of 1.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to duplicate.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to duplicate.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A new copy of the object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_EmptyElements"></a>
-<h3><a name="Q3Object_EmptyElements">Q3Object_EmptyElements</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_EmptyElements (
-    TQ3Object                object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new copy of the object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_EmptyElements"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_EmptyElements">Q3Object_EmptyElements</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_EmptyElements (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Empty an object of any elements it contains.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Empty an object of any elements it contains.
 Same as <code>Q3Shape_EmptyElements</code>, except that the object is not
 required to be a shape or set.
 <br><br>
@@ -485,80 +461,68 @@ If the object is Shared, this operation will increment the object's edit index.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to update.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to update.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_GetElement"></a>
-<h3><a name="Q3Object_GetElement">Q3Object_GetElement</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_GetElement (
-    TQ3Object                     object,
-    TQ3ElementType                theType,
-    void                          *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_GetElement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_GetElement">Q3Object_GetElement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_GetElement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
+&nbsp;&nbsp;&nbsp;&nbsp;void *data
+);</tt><br>
 </pre></blockquote>
-<p>Get an element from an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get an element from an object.
 Same as <code>Q3Shape_GetElement</code>, except that the object is not
 required to be a shape or set.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The type of the element data.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the element data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The type of the element data.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the element data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_GetLeafType"></a>
-<h3><a name="Q3Object_GetLeafType">Q3Object_GetLeafType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Object_GetLeafType (
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_GetLeafType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_GetLeafType">Q3Object_GetLeafType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Object_GetLeafType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Returns the leaf type of an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the leaf type of an object.
 <br><br>
 Returns the most specific type that can be identified from the object
 (e.g., a camera object may have a leaf type of kQ3CameraTypeViewAngleAspect).
 Returns kQ3ObjectTypeInvalid if the object type is unknown.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The leaf type of the object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_GetNextElementType"></a>
-<h3><a name="Q3Object_GetNextElementType">Q3Object_GetNextElementType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_GetNextElementType (
-    TQ3Object                object,
-    TQ3ElementType           *theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The leaf type of the object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_GetNextElementType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_GetNextElementType">Q3Object_GetNextElementType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_GetNextElementType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType *theType
+);</tt><br>
 </pre></blockquote>
-<p>Iterate through the element types in an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Iterate through the element types in an object.
 Same as <code>Q3Shape_GetNextElementType</code>, except that the object is not
 required to be a shape or set.
 <br><br>
@@ -570,27 +534,58 @@ elements in the shape.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Receives the next element type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>Receives the next element type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_GetSet"></a>
-<h3><a name="Q3Object_GetSet">Q3Object_GetSet</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_GetSet (
-    TQ3Object               object,
-    TQ3SetObject*			set
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_GetProperty"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_GetProperty">Q3Object_GetProperty</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_GetProperty (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType propType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32* actualSize,
+&nbsp;&nbsp;&nbsp;&nbsp;void* buffer
+);</tt><br>
 </pre></blockquote>
-<p>Get the element set of an object.  This is not the same as the set
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get property data from an object.
+<br><br>
+The operation fails if the property does not exist or if you provide a
+buffer that is not large enough to hold the data.
+<br><br>
+If you do not know the size of the property, you may call Q3Object_GetProperty
+passing NULL for the buffer to find the size of the data, then allocate your
+buffer and call Q3Object_GetProperty again.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object.</dd>
+<dt><tt><em>propType</em></tt></dt><dd>Property type tag.</dd>
+<dt><tt><em>bufferSize</em></tt></dt><dd>Size of provided buffer in bytes.</dd>
+<dt><tt><em>actualSize</em></tt></dt><dd>Returns size of returned data in bytes.
+You may pass NULL if you do not need this information.</dd>
+<dt><tt><em>buffer</em></tt></dt><dd>Buffer to receive the property data.  May be NULL.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_GetSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_GetSet">Q3Object_GetSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_GetSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject* set
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the element set of an object.  This is not the same as the set
 returned by <code>Q3Shape_GetSet</code>.
 <br><br>
 This function is primarily for the use of file format plug-ins.
@@ -599,75 +594,63 @@ Most applications will not need it.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object.</td></tr>
-<tr valign=top><td><tt>set</tt></td><td>Receives a set object, or NULL.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object.</dd>
+<dt><tt><em>set</em></tt></dt><dd>Receives a set object, or NULL.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_GetType"></a>
-<h3><a name="Q3Object_GetType">Q3Object_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Object_GetType (
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_GetType">Q3Object_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Object_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Returns the top level type of an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the top level type of an object.
 <br><br>
 Returns kQ3ObjectTypeElement, kQ3ObjectTypePick, kQ3ObjectTypeShared,
 or kQ3ObjectTypeView. Returns kQ3ObjectTypeInvalid if the object type
 is unknown.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The top level type of the object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_IsDrawable"></a>
-<h3><a name="Q3Object_IsDrawable">Q3Object_IsDrawable</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Object_IsDrawable (
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The top level type of the object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_IsDrawable"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_IsDrawable">Q3Object_IsDrawable</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Object_IsDrawable (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Tests to see if an object is drawable.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Tests to see if an object is drawable.
 <br><br>
 Only drawable objects may be submitted to a view's rendering loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> True or false as the object is drawable or not.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_IsType"></a>
-<h3><a name="Q3Object_IsType">Q3Object_IsType</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Object_IsType (
-    TQ3Object                     object,
-    TQ3ObjectType                 theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>True or false as the object is drawable or not.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_IsType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_IsType">Q3Object_IsType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Object_IsType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType theType
+);</tt><br>
 </pre></blockquote>
-<p>Tests to see if an object belongs to a given type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Tests to see if an object belongs to a given type.
 <br><br>
 Examines both the object supplied and its parents. E.g., a camera object
 would return true for a type of kQ3CameraTypeViewAngleAspect,
@@ -675,51 +658,93 @@ kQ3ShapeTypeCamera, kQ3SharedTypeShape, and kQ3ObjectTypeShared but would
 return false for kQ3ObjectTypePick.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The type to test the object against.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to test.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The type to test the object against.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> True or false as the object belongs to the type or not.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_IsWritable"></a>
-<h3><a name="Q3Object_IsWritable">Q3Object_IsWritable</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Object_IsWritable (
-    TQ3Object                     object,
-    TQ3FileObject                 theFile
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>True or false as the object belongs to the type or not.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_IsWritable"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_IsWritable">Q3Object_IsWritable</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Object_IsWritable (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+);</tt><br>
 </pre></blockquote>
-<p>Tests to see if an object is writable.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Tests to see if an object is writable.
 <br><br>
 Only drawable objects may be submitted to a view's writing loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> True or false as the object is writable or not.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_SetSet"></a>
-<h3><a name="Q3Object_SetSet">Q3Object_SetSet</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_SetSet (
-    TQ3Object               object,
-    TQ3SetObject			set
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>True or false as the object is writable or not.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_RemoveProperty"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_RemoveProperty">Q3Object_RemoveProperty</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_RemoveProperty (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType propType
+);</tt><br>
 </pre></blockquote>
-<p>Assign to the element set of an object, disposing any previous set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove a property from an object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object.</dd>
+<dt><tt><em>propType</em></tt></dt><dd>Property type tag.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_SetProperty"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_SetProperty">Q3Object_SetProperty</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_SetProperty (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType propType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 dataSize,
+&nbsp;&nbsp;&nbsp;&nbsp;const void* data
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set a property of an object.  If there was already a property of the
+same type, it is replaced.
+<br><br>
+Property type tags consisting of all lowercase ASCII letters are reserved
+for Quesa internal use.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object.</dd>
+<dt><tt><em>propType</em></tt></dt><dd>Property type tag.</dd>
+<dt><tt><em>dataSize</em></tt></dt><dd>Size in bytes of the data.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Data to copy into the property.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_SetSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_SetSet">Q3Object_SetSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_SetSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject set
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Assign to the element set of an object, disposing any previous set.
 This is not the same as the set element that is
 changed by <code>Q3Shape_SetSet</code>.
 <br><br>
@@ -729,170 +754,142 @@ Most applications will not need it.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object.</td></tr>
-<tr valign=top><td><tt>set</tt></td><td>A set object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object.</dd>
+<dt><tt><em>set</em></tt></dt><dd>A set object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A set object, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Object_Submit"></a>
-<h3><a name="Q3Object_Submit">Q3Object_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Object_Submit (
-    TQ3Object                     object,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A set object, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_Submit">Q3Object_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit an object to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an object to a view.
 <br><br>
 The object is submitted to the view's current processing loop,
 e.g., for rendering, picking, or writing to a file.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to submit.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the object to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to submit.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the object to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shape_AddElement"></a>
-<h3><a name="Q3Shape_AddElement">Q3Shape_AddElement</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shape_AddElement (
-    TQ3ShapeObject                shape,
-    TQ3ElementType                theType,
-    const void                    *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shape_AddElement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_AddElement">Q3Shape_AddElement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shape_AddElement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject shape,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
+&nbsp;&nbsp;&nbsp;&nbsp;const void *data
+);</tt><br>
 </pre></blockquote>
-<p>Add an element to a shape.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add an element to a shape.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>The object to update.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The type of the element data.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>The element data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to update.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The type of the element data.</dd>
+<dt><tt><em>data</em></tt></dt><dd>The element data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shape_ClearElement"></a>
-<h3><a name="Q3Shape_ClearElement">Q3Shape_ClearElement</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shape_ClearElement (
-    TQ3ShapeObject                shape,
-    TQ3ElementType                theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shape_ClearElement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_ClearElement">Q3Shape_ClearElement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shape_ClearElement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject shape,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType
+);</tt><br>
 </pre></blockquote>
-<p>Empty a shape of a particular type of element.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Empty a shape of a particular type of element.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>The object to update.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The element type to remove.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to update.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The element type to remove.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shape_ContainsElement"></a>
-<h3><a name="Q3Shape_ContainsElement">Q3Shape_ContainsElement</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Shape_ContainsElement (
-    TQ3ShapeObject                shape,
-    TQ3ElementType                theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shape_ContainsElement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_ContainsElement">Q3Shape_ContainsElement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Shape_ContainsElement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject shape,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType
+);</tt><br>
 </pre></blockquote>
-<p>Check to see if a shape contains an element of a given type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Check to see if a shape contains an element of a given type.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The type of the element data to look for.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The type of the element data to look for.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shape_EmptyElements"></a>
-<h3><a name="Q3Shape_EmptyElements">Q3Shape_EmptyElements</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shape_EmptyElements (
-    TQ3ShapeObject                shape
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shape_EmptyElements"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_EmptyElements">Q3Shape_EmptyElements</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shape_EmptyElements (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject shape
+);</tt><br>
 </pre></blockquote>
-<p>Empty a shape of any elements it contains.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Empty a shape of any elements it contains.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>The object to update.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to update.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shape_GetElement"></a>
-<h3><a name="Q3Shape_GetElement">Q3Shape_GetElement</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shape_GetElement (
-    TQ3ShapeObject                shape,
-    TQ3ElementType                theType,
-    void                          *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shape_GetElement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_GetElement">Q3Shape_GetElement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shape_GetElement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject shape,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
+&nbsp;&nbsp;&nbsp;&nbsp;void *data
+);</tt><br>
 </pre></blockquote>
-<p>Get an element from a shape.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get an element from a shape.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The type of the element data.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the element data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The type of the element data.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the element data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shape_GetNextElementType"></a>
-<h3><a name="Q3Shape_GetNextElementType">Q3Shape_GetNextElementType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shape_GetNextElementType (
-    TQ3ShapeObject                shape,
-    TQ3ElementType                *theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shape_GetNextElementType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_GetNextElementType">Q3Shape_GetNextElementType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shape_GetNextElementType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject shape,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType *theType
+);</tt><br>
 </pre></blockquote>
-<p>Iterate through the element types in a shape.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Iterate through the element types in a shape.
 <br><br>
 Pass in kQ3ElementTypeNone to start iterating through the element
 types in the shape, and pass back the returned value to obtain
@@ -900,27 +897,23 @@ the next type. Is set to kQ3ElementTypeNone if there are no more
 elements in the shape.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Receives the next element type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>Receives the next element type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shape_GetSet"></a>
-<h3><a name="Q3Shape_GetSet">Q3Shape_GetSet</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shape_GetSet (
-    TQ3ShapeObject                shape,
-    TQ3SetObject                  *theSet
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shape_GetSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_GetSet">Q3Shape_GetSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shape_GetSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject shape,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject *theSet
+);</tt><br>
 </pre></blockquote>
-<p>Get the set element currently associated with a shape.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the set element currently associated with a shape.
 The function call <code>Q3Shape_GetSet( o, &s )</code> is equivalent to
 <code>Q3Shape_GetElement( o, kQ3ElementTypeSet, &s )</code>.
 <br><br>
@@ -930,149 +923,125 @@ after adding elements or attributes to an object, this function may still
 return the NULL set.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>The object to query.</td></tr>
-<tr valign=top><td><tt>theSet</tt></td><td>Receives the set of the object, or NULL.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>theSet</em></tt></dt><dd>Receives the set of the object, or NULL.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shape_GetType"></a>
-<h3><a name="Q3Shape_GetType">Q3Shape_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Shape_GetType (
-    TQ3ShapeObject                shape
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shape_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_GetType">Q3Shape_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Shape_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject shape
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a shape object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a shape object.
 <br><br>
 Returns kQ3ObjectTypeInvalid if the object is not a shape object or
 the type can not be determined. Returns a kQ3ShapeTypeXXXX value
 for shape objects.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>The object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the shape object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shape_SetSet"></a>
-<h3><a name="Q3Shape_SetSet">Q3Shape_SetSet</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shape_SetSet (
-    TQ3ShapeObject                shape,
-    TQ3SetObject                  theSet
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the shape object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shape_SetSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_SetSet">Q3Shape_SetSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shape_SetSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject shape,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet
+);</tt><br>
 </pre></blockquote>
-<p>Set the set element currently associated with a shape.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the set element currently associated with a shape.
 The function call <code>Q3Shape_SetSet( o, s )</code> is equivalent to
 <code>Q3Shape_SetElement( o, kQ3ElementTypeSet, &s )</code>.
 <br><br>
 Note that this is not the same as the attribute set of a geometry object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shape</tt></td><td>The object to update.</td></tr>
-<tr valign=top><td><tt>theSet</tt></td><td>The new set for the object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to update.</dd>
+<dt><tt><em>theSet</em></tt></dt><dd>The new set for the object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shared_Edited"></a>
-<h3><a name="Q3Shared_Edited">Q3Shared_Edited</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shared_Edited (
-    TQ3SharedObject               sharedObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shared_Edited"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_Edited">Q3Shared_Edited</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shared_Edited (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+);</tt><br>
 </pre></blockquote>
-<p>Change the edit index of a shared object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the edit index of a shared object.
 <br><br>
 Editing a shared object will change its edit index automatically: this
 function is typically used for shared plug-in objects who need to indicate
 to Quesa that their private data has changed.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>The object to update.</td></tr>
-</table>
+<dl>
+<dt><tt><em>sharedObject</em></tt></dt><dd>The object to update.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shared_GetEditIndex"></a>
-<h3><a name="Q3Shared_GetEditIndex">Q3Shared_GetEditIndex</a></h3>
-<blockquote><pre><tt>TQ3Uns32  
-Q3Shared_GetEditIndex (
-    TQ3SharedObject               sharedObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shared_GetEditIndex"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_GetEditIndex">Q3Shared_GetEditIndex</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3Shared_GetEditIndex (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+);</tt><br>
 </pre></blockquote>
-<p>Get the edit index of a shared object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the edit index of a shared object.
 <br><br>
 An edit index is a unique number associated with a shared object, which
 changes each time the object is edited. By testing this number, you
 can determine when an object has been edited.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>The object to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>sharedObject</em></tt></dt><dd>The object to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The current edit index of the object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shared_GetReference"></a>
-<h3><a name="Q3Shared_GetReference">Q3Shared_GetReference</a></h3>
-<blockquote><pre><tt>TQ3SharedObject  
-Q3Shared_GetReference (
-    TQ3SharedObject               sharedObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The current edit index of the object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shared_GetReference"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_GetReference">Q3Shared_GetReference</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3SharedObject ) Q3Shared_GetReference (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+);</tt><br>
 </pre></blockquote>
-<p>Increment the reference count of a shared object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Increment the reference count of a shared object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>The object whose reference count should be incremented.</td></tr>
-</table>
+<dl>
+<dt><tt><em>sharedObject</em></tt></dt><dd>The object whose reference count should be incremented.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The object whose reference count has been incremented.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shared_GetReferenceCount"></a>
-<h3><a name="Q3Shared_GetReferenceCount">Q3Shared_GetReferenceCount</a></h3>
-<blockquote><pre><tt>TQ3Uns32 
-Q3Shared_GetReferenceCount (
-	TQ3SharedObject               sharedObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The object whose reference count has been incremented.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shared_GetReferenceCount"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_GetReferenceCount">Q3Shared_GetReferenceCount</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3Shared_GetReferenceCount (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+);</tt><br>
 </pre></blockquote>
-<p>Return the reference count of a shared object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the reference count of a shared object.
 <br><br>
 This function should be used only for debugging.  If you are
 tempted to use it for something else, then you probably don't
@@ -1081,64 +1050,54 @@ understand the correct way to work with reference-counted objects.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>The object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>sharedObject</em></tt></dt><dd>The object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Reference count.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shared_GetType"></a>
-<h3><a name="Q3Shared_GetType">Q3Shared_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Shared_GetType (
-    TQ3SharedObject               sharedObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Reference count.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shared_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_GetType">Q3Shared_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Shared_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a shared object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a shared object.
 <br><br>
 Returns kQ3ObjectTypeInvalid if the object is not a shared object or
 the type can not be determined. Returns a kQ3SharedTypeXXXX value
 for shared objects.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>The object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>sharedObject</em></tt></dt><dd>The object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the shared object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shared_IsReferenced"></a>
-<h3><a name="Q3Shared_IsReferenced">Q3Shared_IsReferenced</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Shared_IsReferenced (
-    TQ3SharedObject               sharedObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the shared object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shared_IsReferenced"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_IsReferenced">Q3Shared_IsReferenced</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Shared_IsReferenced (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+);</tt><br>
 </pre></blockquote>
-<p>Determine if a shared object has more than one reference to it.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine if a shared object has more than one reference to it.
 <br><br>
 Returns kQ3True if the object has more than one reference to it. Will
 return kQ3False if the object a reference count of one.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedObject</tt></td><td>The object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>sharedObject</em></tt></dt><dd>The object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> True or false as the object has more than one reference.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>True or false as the object has more than one reference.
+ </dd></dl>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

@@ -1,184 +1,160 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
-<a name="//apple_ref/c/func/Q3BeStorage_Get"></a>
-<h3><a name="Q3BeStorage_Get">Q3BeStorage_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3BeStorage_Get (
-    TQ3StorageObject              theStorage,
-    BFile                         **theFile
-);
-</tt><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Functions</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/Q3BeStorage_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BeStorage_Get">Q3BeStorage_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BeStorage_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;BFile **theFile
+);</tt><br>
 </pre></blockquote>
-<p>Get the BFile for a Be storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the BFile for a Be storage object.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theStorage</tt></td><td>The storage object to query.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>Receives the BFile.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theStorage</em></tt></dt><dd>The storage object to query.</dd>
+<dt><tt><em>theFile</em></tt></dt><dd>Receives the BFile.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3BeStorage_New"></a>
-<h3><a name="Q3BeStorage_New">Q3BeStorage_New</a></h3>
-<blockquote><pre><tt>TQ3StorageObject  
-Q3BeStorage_New (
-    BFile                         *theFile
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3BeStorage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BeStorage_New">Q3BeStorage_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3BeStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;BFile *theFile
+);</tt><br>
 </pre></blockquote>
-<p>Create a new Be BFile storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Be BFile storage object.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theFile</tt></td><td>A valid BFile.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theFile</em></tt></dt><dd>A valid BFile.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new storage object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3BeStorage_Set"></a>
-<h3><a name="Q3BeStorage_Set">Q3BeStorage_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3BeStorage_Set (
-    TQ3StorageObject              theStorage,
-    BFile                         *theFile
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3BeStorage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BeStorage_Set">Q3BeStorage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BeStorage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;BFile *theFile
+);</tt><br>
 </pre></blockquote>
-<p>Set the BFile for a Be storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the BFile for a Be storage object.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theStorage</tt></td><td>The storage object to update.</td></tr>
-<tr valign=top><td><tt>theFile</tt></td><td>The new BFile for the storage object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theStorage</em></tt></dt><dd>The storage object to update.</dd>
+<dt><tt><em>theFile</em></tt></dt><dd>The new BFile for the storage object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FSSpecStorage_Get"></a>
-<h3><a name="Q3FSSpecStorage_Get">Q3FSSpecStorage_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3FSSpecStorage_Get (
-    TQ3StorageObject              storage,
-    FSSpec                        *fs
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FSSpecStorage_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSSpecStorage_Get">Q3FSSpecStorage_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FSSpecStorage_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;FSSpec *fs
+);</tt><br>
 </pre></blockquote>
-<p>Find the FSSpec associated with an FSSpec storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Find the FSSpec associated with an FSSpec storage object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The FSSpec storage object to examine.</td></tr>
-<tr valign=top><td><tt>fs</tt></td><td>On output, a file system specification.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The FSSpec storage object to examine.</dd>
+<dt><tt><em>fs</em></tt></dt><dd>On output, a file system specification.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FSSpecStorage_New"></a>
-<h3><a name="Q3FSSpecStorage_New">Q3FSSpecStorage_New</a></h3>
-<blockquote><pre><tt>TQ3StorageObject  
-Q3FSSpecStorage_New (
-    const FSSpec                  *fs
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FSSpecStorage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSSpecStorage_New">Q3FSSpecStorage_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3FSSpecStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const FSSpec *fs
+);</tt><br>
 </pre></blockquote>
-<p>Create a storage object associated with a Mac file specification.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a storage object associated with a Mac file specification.
 <br><br>
 Given a valid FSSpec structure, Quesa creates a storage object.
 The file should exist, but should not be open.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>fs</tt></td><td>A valid file system specification.</td></tr>
-</table>
+<dl>
+<dt><tt><em>fs</em></tt></dt><dd>A valid file system specification.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new storage object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FSSpecStorage_Set"></a>
-<h3><a name="Q3FSSpecStorage_Set">Q3FSSpecStorage_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3FSSpecStorage_Set (
-    TQ3StorageObject              storage,
-    const FSSpec                  *fs
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FSSpecStorage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSSpecStorage_Set">Q3FSSpecStorage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FSSpecStorage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;const FSSpec *fs
+);</tt><br>
 </pre></blockquote>
-<p>Change the file specification for an FSSpec storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the file specification for an FSSpec storage object.
 <br><br>
 The storage must be closed at the time you call this.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The FSSpec storage object to modify.</td></tr>
-<tr valign=top><td><tt>fs</tt></td><td>The new file system specification.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The FSSpec storage object to modify.</dd>
+<dt><tt><em>fs</em></tt></dt><dd>The new file system specification.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3HandleStorage_Get"></a>
-<h3><a name="Q3HandleStorage_Get">Q3HandleStorage_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3HandleStorage_Get (
-    TQ3StorageObject              storage,
-    Handle                        *handle,
-    TQ3Uns32                      *validSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3HandleStorage_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HandleStorage_Get">Q3HandleStorage_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HandleStorage_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;Handle *handle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *validSize
+);</tt><br>
 </pre></blockquote>
-<p>Get information about a Handle storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get information about a Handle storage object.
 <br><br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>handle</tt></td><td>On output, the Handle associated with the storage.</td></tr>
-<tr valign=top><td><tt>validSize</tt></td><td>On output, the valid size in bytes of the storage.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>handle</em></tt></dt><dd>On output, the Handle associated with the storage.</dd>
+<dt><tt><em>validSize</em></tt></dt><dd>On output, the valid size in bytes of the storage.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3HandleStorage_New"></a>
-<h3><a name="Q3HandleStorage_New">Q3HandleStorage_New</a></h3>
-<blockquote><pre><tt>TQ3StorageObject  
-Q3HandleStorage_New (
-    Handle                        handle,
-    TQ3Uns32                      validSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3HandleStorage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HandleStorage_New">Q3HandleStorage_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3HandleStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;Handle handle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize
+);</tt><br>
 </pre></blockquote>
-<p>Create a Handle storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Handle storage object.
 <br><br>
 Create a storage object that stores data in a Macintosh memory Handle.
 If you pass NULL for the Handle, Quesa internally allocates a
@@ -186,29 +162,25 @@ Handle of the given size, and disposes the Handle when the storage
 object is disposed.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>handle</tt></td><td>An existing Handle, or NULL.</td></tr>
-<tr valign=top><td><tt>validSize</tt></td><td>The size of the valid date in the given Handle,
-or the desired size if the Handle is NULL.</td></tr>
-</table>
+<dl>
+<dt><tt><em>handle</em></tt></dt><dd>An existing Handle, or NULL.</dd>
+<dt><tt><em>validSize</em></tt></dt><dd>The size of the valid date in the given Handle,
+or the desired size if the Handle is NULL.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new storage object, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3HandleStorage_Set"></a>
-<h3><a name="Q3HandleStorage_Set">Q3HandleStorage_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3HandleStorage_Set (
-    TQ3StorageObject              storage,
-    Handle                        handle,
-    TQ3Uns32                      validSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new storage object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3HandleStorage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HandleStorage_Set">Q3HandleStorage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HandleStorage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;Handle handle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize
+);</tt><br>
 </pre></blockquote>
-<p>Set information about a Handle storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set information about a Handle storage object.
 <br><br>
 Sets the buffer location and size of a Handle storage object.
 If you pass NULL for the Handle, Quesa internally allocates a
@@ -216,130 +188,109 @@ Handle of the given size, and disposes the Handle when the storage
 object is disposed.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>handle</tt></td><td>A Mac Handle to be associated with the storage, or NULL.</td></tr>
-<tr valign=top><td><tt>validSize</tt></td><td>Size in bytes of the specified buffer.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>handle</em></tt></dt><dd>A Mac Handle to be associated with the storage, or NULL.</dd>
+<dt><tt><em>validSize</em></tt></dt><dd>Size in bytes of the specified buffer.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacintoshStorage_Get"></a>
-<h3><a name="Q3MacintoshStorage_Get">Q3MacintoshStorage_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacintoshStorage_Get (
-    TQ3StorageObject              storage,
-    TQ3Int16                      *fsRefNum
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacintoshStorage_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshStorage_Get">Q3MacintoshStorage_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacintoshStorage_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 *fsRefNum
+);</tt><br>
 </pre></blockquote>
-<p>Get the file reference number associated with the storage.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the file reference number associated with the storage.
 <br><br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>fsRefNum</tt></td><td>On output, the file reference number of the file
-associated with the storage.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>fsRefNum</em></tt></dt><dd>On output, the file reference number of the file
+associated with the storage.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacintoshStorage_GetType"></a>
-<h3><a name="Q3MacintoshStorage_GetType">Q3MacintoshStorage_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3MacintoshStorage_GetType (
-    TQ3StorageObject              storage
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacintoshStorage_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshStorage_GetType">Q3MacintoshStorage_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3MacintoshStorage_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage
+);</tt><br>
 </pre></blockquote>
-<p>Get a derived type of a Mac storage object, currently either
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a derived type of a Mac storage object, currently either
 kQ3MacintoshStorageTypeFSSpec or kQ3ObjectTypeInvalid.
 <br><br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The object type.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacintoshStorage_New"></a>
-<h3><a name="Q3MacintoshStorage_New">Q3MacintoshStorage_New</a></h3>
-<blockquote><pre><tt>TQ3StorageObject  
-Q3MacintoshStorage_New (
-    TQ3Int16                      fsRefNum
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The object type.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacintoshStorage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshStorage_New">Q3MacintoshStorage_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3MacintoshStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 fsRefNum
+);</tt><br>
 </pre></blockquote>
-<p>Create a Macintosh storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Macintosh storage object.
 <br><br>
 This creates a storage object whose data is stored in a file,
 specified by a Mac file reference number for an open file.
-the typical usage of this function and any special requirements.
 The specified file must remain open as long as you use the storage
 object, and it is your responsibility to close the file later.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>fsRefNum</tt></td><td>A file reference number for an open data fork of a
-Mac file.</td></tr>
-</table>
+<dl>
+<dt><tt><em>fsRefNum</em></tt></dt><dd>A file reference number for an open data fork of a
+Mac file.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new storage object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacintoshStorage_Set"></a>
-<h3><a name="Q3MacintoshStorage_Set">Q3MacintoshStorage_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MacintoshStorage_Set (
-    TQ3StorageObject              storage,
-    TQ3Int16                      fsRefNum
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacintoshStorage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshStorage_Set">Q3MacintoshStorage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacintoshStorage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 fsRefNum
+);</tt><br>
 </pre></blockquote>
-<p>Change the file reference number associated with a Mac storage.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the file reference number associated with a Mac storage.
 <br><br>
 This cannot be used when the storage is open.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>fsRefNum</tt></td><td>A file reference number for an open data fork of a
-Mac file.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>fsRefNum</em></tt></dt><dd>A file reference number for an open data fork of a
+Mac file.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MemoryStorage_GetBuffer"></a>
-<h3><a name="Q3MemoryStorage_GetBuffer">Q3MemoryStorage_GetBuffer</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MemoryStorage_GetBuffer (
-    TQ3StorageObject              storage,
-    unsigned char                 **buffer,
-    TQ3Uns32                      *validSize,
-    TQ3Uns32                      *bufferSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MemoryStorage_GetBuffer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_GetBuffer">Q3MemoryStorage_GetBuffer</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MemoryStorage_GetBuffer (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char **buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *validSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *bufferSize
+);</tt><br>
 </pre></blockquote>
-<p>Get the data of a memory storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data of a memory storage object.
 <br><br>
 Gets a pointer to the data of a memory storage object without copying.
 The pointer may become invalid if later storage operations cause the
@@ -348,117 +299,101 @@ buffer to be reallocated.
 Each of the output parameters may be NULL if you don't need that information.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>buffer</tt></td><td>On output, receives a pointer to the actual data
-of the storage.</td></tr>
-<tr valign=top><td><tt>validSize</tt></td><td>On output, the number of valid metafile data bytes
-in the storage object.</td></tr>
-<tr valign=top><td><tt>bufferSize</tt></td><td>On output, the size of the buffer in bytes.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>buffer</em></tt></dt><dd>On output, receives a pointer to the actual data
+of the storage.</dd>
+<dt><tt><em>validSize</em></tt></dt><dd>On output, the number of valid metafile data bytes
+in the storage object.</dd>
+<dt><tt><em>bufferSize</em></tt></dt><dd>On output, the size of the buffer in bytes.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MemoryStorage_GetType"></a>
-<h3><a name="Q3MemoryStorage_GetType">Q3MemoryStorage_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3MemoryStorage_GetType (
-    TQ3StorageObject              storage
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MemoryStorage_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_GetType">Q3MemoryStorage_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3MemoryStorage_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a memory storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a memory storage object.
 <br><br>
 Returns the sub-type of a memory storage object,
 currently either kQ3MemoryStorageTypeHandle or kQ3ObjectTypeInvalid.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of memory storage, or kQ3ObjectTypeInvalid.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MemoryStorage_New"></a>
-<h3><a name="Q3MemoryStorage_New">Q3MemoryStorage_New</a></h3>
-<blockquote><pre><tt>TQ3StorageObject  
-Q3MemoryStorage_New (
-    const unsigned char           *buffer,
-    TQ3Uns32                      validSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of memory storage, or kQ3ObjectTypeInvalid.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MemoryStorage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_New">Q3MemoryStorage_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3MemoryStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char *buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize
+);</tt><br>
 </pre></blockquote>
-<p>Create a memory storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a memory storage object.
 <br><br>
 Creates a memory storage object using memory that is maintained
 internally by Quesa.  If you pass a buffer of data, that data will be
 copied to the storage object's private memory
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>buffer</tt></td><td>Pointer to a buffer in memory, or NULL.</td></tr>
-<tr valign=top><td><tt>validSize</tt></td><td>Number of bytes of data in the buffer.
+<dl>
+<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer in memory, or NULL.</dd>
+<dt><tt><em>validSize</em></tt></dt><dd>Number of bytes of data in the buffer.
 If you passed NULL for the buffer, this number serves
 as the initial size and grow size of the internally
 allocated buffer.  If you passed NULL for buffer and
-0 for validSize, then Quesa uses a default grow size.</td></tr>
-</table>
+0 for validSize, then Quesa uses a default grow size.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new storage object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MemoryStorage_NewBuffer"></a>
-<h3><a name="Q3MemoryStorage_NewBuffer">Q3MemoryStorage_NewBuffer</a></h3>
-<blockquote><pre><tt>TQ3StorageObject  
-Q3MemoryStorage_NewBuffer (
-    unsigned char                 *buffer,
-    TQ3Uns32                      validSize,
-    TQ3Uns32                      bufferSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MemoryStorage_NewBuffer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_NewBuffer">Q3MemoryStorage_NewBuffer</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3MemoryStorage_NewBuffer (
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
+);</tt><br>
 </pre></blockquote>
-<p>Create a memory storage object that uses a provided buffer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a memory storage object that uses a provided buffer.
 <br><br>
 Creates a memory storage object using a given buffer rather than by
 allocating Quesa memory.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>buffer</tt></td><td>Pointer to a buffer of data, or NULL.</td></tr>
-<tr valign=top><td><tt>validSize</tt></td><td>Number of bytes of valid data in the provided buffer,
+<dl>
+<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer of data, or NULL.</dd>
+<dt><tt><em>validSize</em></tt></dt><dd>Number of bytes of valid data in the provided buffer,
 or if buffer was NULL, the initial size and grow
-size of an internally-allocated buffer.</td></tr>
-<tr valign=top><td><tt>bufferSize</tt></td><td>Size in bytes of the buffer.</td></tr>
-</table>
+size of an internally-allocated buffer.</dd>
+<dt><tt><em>bufferSize</em></tt></dt><dd>Size in bytes of the buffer.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new storage object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MemoryStorage_Set"></a>
-<h3><a name="Q3MemoryStorage_Set">Q3MemoryStorage_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MemoryStorage_Set (
-    TQ3StorageObject              storage,
-    const unsigned char           *buffer,
-    TQ3Uns32                      validSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MemoryStorage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_Set">Q3MemoryStorage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MemoryStorage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char *buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize
+);</tt><br>
 </pre></blockquote>
-<p>Sets the data of a memory storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Sets the data of a memory storage object.
 <br><br>
 Writes data to a storage object by copying data from a buffer.
 Whether or not the storage object owned its own memory before
@@ -466,61 +401,53 @@ this call (i.e., whether it was created with Q3MemoryStorage_New
 or Q3MemoryStorage_NewBuffer), it will own its own memory afterward.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>buffer</tt></td><td>Pointer to a buffer of data, or NULL.</td></tr>
-<tr valign=top><td><tt>validSize</tt></td><td>Number of bytes to be copied from the buffer to the
-storage, or initial memory size if buffer was NULL.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer of data, or NULL.</dd>
+<dt><tt><em>validSize</em></tt></dt><dd>Number of bytes to be copied from the buffer to the
+storage, or initial memory size if buffer was NULL.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MemoryStorage_SetBuffer"></a>
-<h3><a name="Q3MemoryStorage_SetBuffer">Q3MemoryStorage_SetBuffer</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MemoryStorage_SetBuffer (
-    TQ3StorageObject              storage,
-    unsigned char                 *buffer,
-    TQ3Uns32                      validSize,
-    TQ3Uns32                      bufferSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MemoryStorage_SetBuffer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_SetBuffer">Q3MemoryStorage_SetBuffer</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MemoryStorage_SetBuffer (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
+);</tt><br>
 </pre></blockquote>
-<p>Sets the data of a memory storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Sets the data of a memory storage object.
 <br><br>
 Sets the data of a memory storage object to be stored in a
 given buffer.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>buffer</tt></td><td>Pointer to a buffer of data, or NULL.</td></tr>
-<tr valign=top><td><tt>validSize</tt></td><td>Number of valid bytes in the buffer, or
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer of data, or NULL.</dd>
+<dt><tt><em>validSize</em></tt></dt><dd>Number of valid bytes in the buffer, or
 if the buffer is NULL, the initial and grow size
-of an internally allocated buffer.</td></tr>
-<tr valign=top><td><tt>bufferSize</tt></td><td>Size in bytes of the buffer.</td></tr>
-</table>
+of an internally allocated buffer.</dd>
+<dt><tt><em>bufferSize</em></tt></dt><dd>Size in bytes of the buffer.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PathStorage_Get"></a>
-<h3><a name="Q3PathStorage_Get">Q3PathStorage_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PathStorage_Get (
-    TQ3StorageObject              theStorage,
-    char                          *pathName
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PathStorage_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PathStorage_Get">Q3PathStorage_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PathStorage_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;char *pathName
+);</tt><br>
 </pre></blockquote>
-<p>Finds the path associated with a path storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Finds the path associated with a path storage object.
 <br><br>
 The path returned by this function could be up to 1024 bytes long.
 Be sure to allocate enough space for it.
@@ -528,26 +455,22 @@ Be sure to allocate enough space for it.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theStorage</tt></td><td>A path storage object.</td></tr>
-<tr valign=top><td><tt>pathName</tt></td><td>On output, the path as a NULL-terminated string.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theStorage</em></tt></dt><dd>A path storage object.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>On output, the path as a NULL-terminated string.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PathStorage_New"></a>
-<h3><a name="Q3PathStorage_New">Q3PathStorage_New</a></h3>
-<blockquote><pre><tt>TQ3StorageObject  
-Q3PathStorage_New (
-    const char                    *pathName
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PathStorage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PathStorage_New">Q3PathStorage_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3PathStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const char *pathName
+);</tt><br>
 </pre></blockquote>
-<p>Creates a storage object of type kQ3StorageTypePath.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Creates a storage object of type kQ3StorageTypePath.
 This type of storage is associated with a file specified by a path name,
 and is intended to replace the poorly-named "Unix path" storage.
 <br><br>
@@ -558,296 +481,253 @@ the path is colon-separated and assumed to be in the system encoding.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pathName</tt></td><td>A NULL-terminated pathname, as might be passed to fopen.</td></tr>
-</table>
+<dl>
+<dt><tt><em>pathName</em></tt></dt><dd>A NULL-terminated pathname, as might be passed to fopen.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PathStorage_Set"></a>
-<h3><a name="Q3PathStorage_Set">Q3PathStorage_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PathStorage_Set (
-    TQ3StorageObject              theStorage,
-    const char                    *pathName
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PathStorage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PathStorage_Set">Q3PathStorage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PathStorage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;const char *pathName
+);</tt><br>
 </pre></blockquote>
-<p>Changes the path associated with a path storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Changes the path associated with a path storage object.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theStorage</tt></td><td>A path storage object.</td></tr>
-<tr valign=top><td><tt>pathName</tt></td><td>A NULL-terminated pathname.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theStorage</em></tt></dt><dd>A path storage object.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>A NULL-terminated pathname.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Storage_GetData"></a>
-<h3><a name="Q3Storage_GetData">Q3Storage_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Storage_GetData (
-    TQ3StorageObject              storage,
-    TQ3Uns32                      offset,
-    TQ3Uns32                      dataSize,
-    unsigned char                 *data,
-    TQ3Uns32                      *sizeRead
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Storage_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_GetData">Q3Storage_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Storage_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 offset,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 dataSize,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *sizeRead
+);</tt><br>
 </pre></blockquote>
-<p>Get private data from a storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get private data from a storage object.
 <br><br>
 Returns some or all of the private data associated with a storage
 object.  If the storage is associated with a file object, then
 the file must be closed.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>offset</tt></td><td>Starting offset of the data to be retrieved.</td></tr>
-<tr valign=top><td><tt>dataSize</tt></td><td>Number of bytes of data to get.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Buffer to receive the data.</td></tr>
-<tr valign=top><td><tt>sizeRead</tt></td><td>On output, number of bytes actually received.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>offset</em></tt></dt><dd>Starting offset of the data to be retrieved.</dd>
+<dt><tt><em>dataSize</em></tt></dt><dd>Number of bytes of data to get.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Buffer to receive the data.</dd>
+<dt><tt><em>sizeRead</em></tt></dt><dd>On output, number of bytes actually received.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Storage_GetSize"></a>
-<h3><a name="Q3Storage_GetSize">Q3Storage_GetSize</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Storage_GetSize (
-    TQ3StorageObject              storage,
-    TQ3Uns32                      *size
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Storage_GetSize"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_GetSize">Q3Storage_GetSize</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Storage_GetSize (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *size
+);</tt><br>
 </pre></blockquote>
-<p>Get the size of the data in a storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the size of the data in a storage object.
 <br><br>
 Returns the number of bytes of data stored in the object.
 If the storage is a type associated with a file, the file
 must be open.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>size</tt></td><td>On output, receives the size.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>size</em></tt></dt><dd>On output, receives the size.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Storage_GetType"></a>
-<h3><a name="Q3Storage_GetType">Q3Storage_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Storage_GetType (
-    TQ3StorageObject              storage
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Storage_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_GetType">Q3Storage_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Storage_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage
+);</tt><br>
 </pre></blockquote>
-<p>Returns the type of a storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the type of a storage object.
 <br><br>
 Returns kQ3StorageTypeMemory, kQ3StorageTypeUnix, kQ3StorageTypeMacintosh,
 or kQ3StorageTypeWin32, provided that the object is a storage object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object to test.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object to test.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of storage, or kQ3ObjectTypeInvalid.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Storage_SetData"></a>
-<h3><a name="Q3Storage_SetData">Q3Storage_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Storage_SetData (
-    TQ3StorageObject              storage,
-    TQ3Uns32                      offset,
-    TQ3Uns32                      dataSize,
-    const unsigned char           *data,
-    TQ3Uns32                      *sizeWritten
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of storage, or kQ3ObjectTypeInvalid.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Storage_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_SetData">Q3Storage_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Storage_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 offset,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 dataSize,
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *sizeWritten
+);</tt><br>
 </pre></blockquote>
-<p>Write some data to a storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write some data to a storage object.
 <br><br>
 Write some data to a storage object, possibly extending the storage
 to accommodate the new data.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object.</td></tr>
-<tr valign=top><td><tt>offset</tt></td><td>The offset at which to begin writing new data.</td></tr>
-<tr valign=top><td><tt>dataSize</tt></td><td>Number of bytes of data to be written.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Data to be written.</td></tr>
-<tr valign=top><td><tt>sizeWritten</tt></td><td>On output, number of bytes actually written,
-normally the same as dataSize.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>offset</em></tt></dt><dd>The offset at which to begin writing new data.</dd>
+<dt><tt><em>dataSize</em></tt></dt><dd>Number of bytes of data to be written.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Data to be written.</dd>
+<dt><tt><em>sizeWritten</em></tt></dt><dd>On output, number of bytes actually written,
+normally the same as dataSize.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3UnixPathStorage_Get"></a>
-<h3><a name="Q3UnixPathStorage_Get">Q3UnixPathStorage_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3UnixPathStorage_Get (
-    TQ3StorageObject              storage,
-    char                          *pathName
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3UnixPathStorage_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnixPathStorage_Get">Q3UnixPathStorage_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnixPathStorage_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;char *pathName
+);</tt><br>
 </pre></blockquote>
-<p>Get the path associated with a Unix path storage object
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the path associated with a Unix path storage object
 <br><br>
 The path returned by this function could be up to 1024 bytes long.
 Be sure to allocate enough space for it.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>A Unix path storage object.</td></tr>
-<tr valign=top><td><tt>pathName</tt></td><td>On output, a NULL-terminated path.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>A Unix path storage object.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>On output, a NULL-terminated path.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3UnixPathStorage_New"></a>
-<h3><a name="Q3UnixPathStorage_New">Q3UnixPathStorage_New</a></h3>
-<blockquote><pre><tt>TQ3StorageObject  
-Q3UnixPathStorage_New (
-    const char                    *pathName
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3UnixPathStorage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnixPathStorage_New">Q3UnixPathStorage_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3UnixPathStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const char *pathName
+);</tt><br>
 </pre></blockquote>
-<p>Create a storage object associated with a file system path.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a storage object associated with a file system path.
 <br><br>
 The Quesa extension Q3PathStorage_New may be used in place of this.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pathName</tt></td><td>A NULL-terminated file system path.</td></tr>
-</table>
+<dl>
+<dt><tt><em>pathName</em></tt></dt><dd>A NULL-terminated file system path.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new storage object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3UnixPathStorage_Set"></a>
-<h3><a name="Q3UnixPathStorage_Set">Q3UnixPathStorage_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3UnixPathStorage_Set (
-    TQ3StorageObject              storage,
-    const char                    *pathName
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3UnixPathStorage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnixPathStorage_Set">Q3UnixPathStorage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnixPathStorage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;const char *pathName
+);</tt><br>
 </pre></blockquote>
-<p>Change the path associated with a Unix path storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the path associated with a Unix path storage object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>A Unix path storage object.</td></tr>
-<tr valign=top><td><tt>pathName</tt></td><td>A NULL-terminated file system path.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>A Unix path storage object.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>A NULL-terminated file system path.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Win32Storage_Get"></a>
-<h3><a name="Q3Win32Storage_Get">Q3Win32Storage_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Win32Storage_Get (
-    TQ3StorageObject              storage,
-    HANDLE                        *hFile
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Win32Storage_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32Storage_Get">Q3Win32Storage_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32Storage_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;HANDLE *hFile
+);</tt><br>
 </pre></blockquote>
-<p>Get the file handle for a Win32 storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the file handle for a Win32 storage object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object to query.</td></tr>
-<tr valign=top><td><tt>hFile</tt></td><td>Receives the file handle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object to query.</dd>
+<dt><tt><em>hFile</em></tt></dt><dd>Receives the file handle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Win32Storage_New"></a>
-<h3><a name="Q3Win32Storage_New">Q3Win32Storage_New</a></h3>
-<blockquote><pre><tt>TQ3StorageObject  
-Q3Win32Storage_New (
-    HANDLE                        hFile
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Win32Storage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32Storage_New">Q3Win32Storage_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3Win32Storage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;HANDLE hFile
+);</tt><br>
 </pre></blockquote>
-<p>Create a new Win32 storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This creates a storage object whose data is stored in a file,
+specified by a file HANDLE for an open file.
+The specified file must remain open as long as you use the storage
+object, and it is your responsibility to close the file later.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>hFile</tt></td><td>A valid file handle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>hFile</em></tt></dt><dd>A valid file handle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new storage object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Win32Storage_Set"></a>
-<h3><a name="Q3Win32Storage_Set">Q3Win32Storage_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Win32Storage_Set (
-    TQ3StorageObject              storage,
-    HANDLE                        hFile
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Win32Storage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32Storage_Set">Q3Win32Storage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32Storage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;HANDLE hFile
+);</tt><br>
 </pre></blockquote>
-<p>Set the file handle for a Win32 storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the file handle for a Win32 storage object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>storage</tt></td><td>The storage object to update.</td></tr>
-<tr valign=top><td><tt>hFile</tt></td><td>The new file handle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object to update.</dd>
+<dt><tt><em>hFile</em></tt></dt><dd>The new file handle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

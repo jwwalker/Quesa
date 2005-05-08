@@ -1,14 +1,18 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
-<a name="//apple_ref/c/func/Q3ColorARGB_Accumulate"></a>
-<h3><a name="Q3ColorARGB_Accumulate">Q3ColorARGB_Accumulate</a></h3>
-<blockquote><pre><tt>TQ3ColorARGB * 
-Q3ColorARGB_Accumulate (
-    const TQ3ColorARGB            *src,
-    TQ3ColorARGB                  *result
-);
-</tt><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Functions</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/Q3ColorARGB_Accumulate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Accumulate">Q3ColorARGB_Accumulate</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Accumulate (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *src,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Add a colour to an existing color.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add a colour to an existing color.
 <br><br>
 The result is not clamped, and its components may increase past 1.0.
 <br><br>
@@ -17,311 +21,267 @@ Available in inline form as Q3FastColorARGB_Accumulate.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>src</tt></td><td>The color to accumulate.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>The color to accumulate into.</td></tr>
-</table>
+<dl>
+<dt><tt><em>src</em></tt></dt><dd>The color to accumulate.</dd>
+<dt><tt><em>result</em></tt></dt><dd>The color to accumulate into.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorARGB_Add"></a>
-<h3><a name="Q3ColorARGB_Add">Q3ColorARGB_Add</a></h3>
-<blockquote><pre><tt>TQ3ColorARGB * 
-Q3ColorARGB_Add (
-    const TQ3ColorARGB            *c1,
-    const TQ3ColorARGB            *c2,
-    TQ3ColorARGB                  *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorARGB_Add"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Add">Q3ColorARGB_Add</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *c1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *c2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Add c1 to c2.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add c1 to c2.
 <br><br>
 Available in inline form as Q3FastColorARGB_Add.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>c1</tt></td><td>The first color.</td></tr>
-<tr valign=top><td><tt>c2</tt></td><td>The second color.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives the sum of c1 and c2.</td></tr>
-</table>
+<dl>
+<dt><tt><em>c1</em></tt></dt><dd>The first color.</dd>
+<dt><tt><em>c2</em></tt></dt><dd>The second color.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives the sum of c1 and c2.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorARGB_Clamp"></a>
-<h3><a name="Q3ColorARGB_Clamp">Q3ColorARGB_Clamp</a></h3>
-<blockquote><pre><tt>TQ3ColorARGB * 
-Q3ColorARGB_Clamp (
-    const TQ3ColorARGB            *color,
-    TQ3ColorARGB                  *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorARGB_Clamp"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Clamp">Q3ColorARGB_Clamp</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Clamp (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *color,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Clamp the components of a color to within 0.0 to 1.0.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clamp the components of a color to within 0.0 to 1.0.
 <br><br>
 Available in inline form as Q3FastColorARGB_Clamp.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>The color to clamp.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives the clamped color.</td></tr>
-</table>
+<dl>
+<dt><tt><em>color</em></tt></dt><dd>The color to clamp.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives the clamped color.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorARGB_Lerp"></a>
-<h3><a name="Q3ColorARGB_Lerp">Q3ColorARGB_Lerp</a></h3>
-<blockquote><pre><tt>TQ3ColorARGB * 
-Q3ColorARGB_Lerp (
-    const TQ3ColorARGB            *first,
-    const TQ3ColorARGB            *last,
-    float                         alpha,
-    TQ3ColorARGB                  *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorARGB_Lerp"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Lerp">Q3ColorARGB_Lerp</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Lerp (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *first,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *last,
+&nbsp;&nbsp;&nbsp;&nbsp;float alpha,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Linearly interpolate between two colors.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Linearly interpolate between two colors.
 <br><br>
 Available in inline form as Q3FastColorARGB_Lerp.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>first</tt></td><td>The first color.</td></tr>
-<tr valign=top><td><tt>last</tt></td><td>The second color.</td></tr>
-<tr valign=top><td><tt>alpha</tt></td><td>The blend factor to interpolate by.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives the interpolated color.</td></tr>
-</table>
+<dl>
+<dt><tt><em>first</em></tt></dt><dd>The first color.</dd>
+<dt><tt><em>last</em></tt></dt><dd>The second color.</dd>
+<dt><tt><em>alpha</em></tt></dt><dd>The blend factor to interpolate by.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives the interpolated color.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorARGB_Scale"></a>
-<h3><a name="Q3ColorARGB_Scale">Q3ColorARGB_Scale</a></h3>
-<blockquote><pre><tt>TQ3ColorARGB * 
-Q3ColorARGB_Scale (
-    const TQ3ColorARGB            *color,
-    float                         scale,
-    TQ3ColorARGB                  *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorARGB_Scale"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Scale">Q3ColorARGB_Scale</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Scale (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *color,
+&nbsp;&nbsp;&nbsp;&nbsp;float scale,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Scale a color.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a color.
 <br><br>
 Available in inline form as Q3FastColorARGB_Scale.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>The color to scale.</td></tr>
-<tr valign=top><td><tt>scale</tt></td><td>The factor to scale by.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives the scaled color.</td></tr>
-</table>
+<dl>
+<dt><tt><em>color</em></tt></dt><dd>The color to scale.</dd>
+<dt><tt><em>scale</em></tt></dt><dd>The factor to scale by.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives the scaled color.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorARGB_Set"></a>
-<h3><a name="Q3ColorARGB_Set">Q3ColorARGB_Set</a></h3>
-<blockquote><pre><tt>TQ3ColorARGB * 
-Q3ColorARGB_Set (
-    TQ3ColorARGB                  *color,
-    float                         a,
-    float                         r,
-    float                         g,
-    float                         b
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorARGB_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Set">Q3ColorARGB_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *color,
+&nbsp;&nbsp;&nbsp;&nbsp;float a,
+&nbsp;&nbsp;&nbsp;&nbsp;float r,
+&nbsp;&nbsp;&nbsp;&nbsp;float g,
+&nbsp;&nbsp;&nbsp;&nbsp;float b
+);</tt><br>
 </pre></blockquote>
-<p>Set an ARGB color.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set an ARGB color.
 <br><br>
 Available in inline form as Q3FastColorARGB_Set.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>The color to set.</td></tr>
-<tr valign=top><td><tt>a</tt></td><td>The alpha component for the color.</td></tr>
-<tr valign=top><td><tt>r</tt></td><td>The red component for the color.</td></tr>
-<tr valign=top><td><tt>g</tt></td><td>The green component for the color.</td></tr>
-<tr valign=top><td><tt>b</tt></td><td>The blue component for the color.</td></tr>
-</table>
+<dl>
+<dt><tt><em>color</em></tt></dt><dd>The color to set.</dd>
+<dt><tt><em>a</em></tt></dt><dd>The alpha component for the color.</dd>
+<dt><tt><em>r</em></tt></dt><dd>The red component for the color.</dd>
+<dt><tt><em>g</em></tt></dt><dd>The green component for the color.</dd>
+<dt><tt><em>b</em></tt></dt><dd>The blue component for the color.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorARGB_Subtract"></a>
-<h3><a name="Q3ColorARGB_Subtract">Q3ColorARGB_Subtract</a></h3>
-<blockquote><pre><tt>TQ3ColorARGB * 
-Q3ColorARGB_Subtract (
-    const TQ3ColorARGB            *c1,
-    const TQ3ColorARGB            *c2,
-    TQ3ColorARGB                  *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorARGB_Subtract"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Subtract">Q3ColorARGB_Subtract</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *c1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *c2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Subtract c1 from c2.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract c1 from c2.
 <br><br>
 Available in inline form as Q3FastColorARGB_Subtract.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>c1</tt></td><td>The first color.</td></tr>
-<tr valign=top><td><tt>c2</tt></td><td>The second color.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives c2 minus c1.</td></tr>
-</table>
+<dl>
+<dt><tt><em>c1</em></tt></dt><dd>The first color.</dd>
+<dt><tt><em>c2</em></tt></dt><dd>The second color.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives c2 minus c1.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorRGB_Accumulate"></a>
-<h3><a name="Q3ColorRGB_Accumulate">Q3ColorRGB_Accumulate</a></h3>
-<blockquote><pre><tt>TQ3ColorRGB * 
-Q3ColorRGB_Accumulate (
-    const TQ3ColorRGB             *src,
-    TQ3ColorRGB                   *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorRGB_Accumulate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Accumulate">Q3ColorRGB_Accumulate</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Accumulate (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *src,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Add a colour to an existing color.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add a colour to an existing color.
 <br><br>
 The result is not clamped, and its components may increase past 1.0.
 <br><br>
 Available in inline form as Q3FastColorRGB_Accumulate.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>src</tt></td><td>The color to accumulate.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>The color to accumulate into.</td></tr>
-</table>
+<dl>
+<dt><tt><em>src</em></tt></dt><dd>The color to accumulate.</dd>
+<dt><tt><em>result</em></tt></dt><dd>The color to accumulate into.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorRGB_Add"></a>
-<h3><a name="Q3ColorRGB_Add">Q3ColorRGB_Add</a></h3>
-<blockquote><pre><tt>TQ3ColorRGB * 
-Q3ColorRGB_Add (
-    const TQ3ColorRGB             *c1,
-    const TQ3ColorRGB             *c2,
-    TQ3ColorRGB                   *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorRGB_Add"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Add">Q3ColorRGB_Add</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *c1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *c2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Add c1 to c2.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add c1 to c2.
 <br><br>
 Available in inline form as Q3FastColorRGB_Add.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>c1</tt></td><td>The first color.</td></tr>
-<tr valign=top><td><tt>c2</tt></td><td>The second color.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives the sum of c1 and c2.</td></tr>
-</table>
+<dl>
+<dt><tt><em>c1</em></tt></dt><dd>The first color.</dd>
+<dt><tt><em>c2</em></tt></dt><dd>The second color.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives the sum of c1 and c2.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorRGB_Clamp"></a>
-<h3><a name="Q3ColorRGB_Clamp">Q3ColorRGB_Clamp</a></h3>
-<blockquote><pre><tt>TQ3ColorRGB * 
-Q3ColorRGB_Clamp (
-    const TQ3ColorRGB             *color,
-    TQ3ColorRGB                   *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorRGB_Clamp"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Clamp">Q3ColorRGB_Clamp</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Clamp (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *color,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Clamp the components of a color to within 0.0 to 1.0.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clamp the components of a color to within 0.0 to 1.0.
 <br><br>
 Available in inline form as Q3FastColorRGB_Clamp.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>The color to clamp.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives the clamped color.</td></tr>
-</table>
+<dl>
+<dt><tt><em>color</em></tt></dt><dd>The color to clamp.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives the clamped color.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorRGB_Lerp"></a>
-<h3><a name="Q3ColorRGB_Lerp">Q3ColorRGB_Lerp</a></h3>
-<blockquote><pre><tt>TQ3ColorRGB * 
-Q3ColorRGB_Lerp (
-    const TQ3ColorRGB             *first,
-    const TQ3ColorRGB             *last,
-    float                         alpha,
-    TQ3ColorRGB                   *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorRGB_Lerp"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Lerp">Q3ColorRGB_Lerp</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Lerp (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *first,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *last,
+&nbsp;&nbsp;&nbsp;&nbsp;float alpha,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Linearly interpolate between two colors.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Linearly interpolate between two colors.
 <br><br>
 Available in inline form as Q3FastColorRGB_Lerp.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>first</tt></td><td>The first color.</td></tr>
-<tr valign=top><td><tt>last</tt></td><td>The second color.</td></tr>
-<tr valign=top><td><tt>alpha</tt></td><td>The blend factor to interpolate by.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives the interpolated color.</td></tr>
-</table>
+<dl>
+<dt><tt><em>first</em></tt></dt><dd>The first color.</dd>
+<dt><tt><em>last</em></tt></dt><dd>The second color.</dd>
+<dt><tt><em>alpha</em></tt></dt><dd>The blend factor to interpolate by.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives the interpolated color.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorRGB_Luminance"></a>
-<h3><a name="Q3ColorRGB_Luminance">Q3ColorRGB_Luminance</a></h3>
-<blockquote><pre><tt>float * 
-Q3ColorRGB_Luminance (
-    const TQ3ColorRGB             *color,
-    float                         *luminance
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorRGB_Luminance"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Luminance">Q3ColorRGB_Luminance</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( float * ) Q3ColorRGB_Luminance (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *color,
+&nbsp;&nbsp;&nbsp;&nbsp;float *luminance
+);</tt><br>
 </pre></blockquote>
-<p>Calculate the luminance of a color.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Calculate the luminance of a color.
 <br><br>
 The luminance is calculated with the factors used by QD3D, i.e.,:
 <br><br>
@@ -332,742 +292,613 @@ The luminance is calculated with the factors used by QD3D, i.e.,:
 Available in inline form as Q3FastColorRGB_Luminance.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>The color whose luminance is to be calculated.</td></tr>
-<tr valign=top><td><tt>luminance</tt></td><td>Receives the luminance value for the color.</td></tr>
-</table>
+<dl>
+<dt><tt><em>color</em></tt></dt><dd>The color whose luminance is to be calculated.</dd>
+<dt><tt><em>luminance</em></tt></dt><dd>Receives the luminance value for the color.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorRGB_Scale"></a>
-<h3><a name="Q3ColorRGB_Scale">Q3ColorRGB_Scale</a></h3>
-<blockquote><pre><tt>TQ3ColorRGB * 
-Q3ColorRGB_Scale (
-    const TQ3ColorRGB             *color,
-    float                         scale,
-    TQ3ColorRGB                   *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorRGB_Scale"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Scale">Q3ColorRGB_Scale</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Scale (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *color,
+&nbsp;&nbsp;&nbsp;&nbsp;float scale,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Scale a color.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a color.
 <br><br>
 Available in inline form as Q3FastColorRGB_Scale.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>The color to scale.</td></tr>
-<tr valign=top><td><tt>scale</tt></td><td>The factor to scale by.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives the scaled color.</td></tr>
-</table>
+<dl>
+<dt><tt><em>color</em></tt></dt><dd>The color to scale.</dd>
+<dt><tt><em>scale</em></tt></dt><dd>The factor to scale by.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives the scaled color.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorRGB_Set"></a>
-<h3><a name="Q3ColorRGB_Set">Q3ColorRGB_Set</a></h3>
-<blockquote><pre><tt>TQ3ColorRGB * 
-Q3ColorRGB_Set (
-    TQ3ColorRGB                   *color,
-    float                         r,
-    float                         g,
-    float                         b
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorRGB_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Set">Q3ColorRGB_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *color,
+&nbsp;&nbsp;&nbsp;&nbsp;float r,
+&nbsp;&nbsp;&nbsp;&nbsp;float g,
+&nbsp;&nbsp;&nbsp;&nbsp;float b
+);</tt><br>
 </pre></blockquote>
-<p>Set an RGB color.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set an RGB color.
 <br><br>
 Available in inline form as Q3FastColorRGB_Set.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>color</tt></td><td>The color to set.</td></tr>
-<tr valign=top><td><tt>r</tt></td><td>The red component for the color.</td></tr>
-<tr valign=top><td><tt>g</tt></td><td>The green component for the color.</td></tr>
-<tr valign=top><td><tt>b</tt></td><td>The blue component for the color.</td></tr>
-</table>
+<dl>
+<dt><tt><em>color</em></tt></dt><dd>The color to set.</dd>
+<dt><tt><em>r</em></tt></dt><dd>The red component for the color.</dd>
+<dt><tt><em>g</em></tt></dt><dd>The green component for the color.</dd>
+<dt><tt><em>b</em></tt></dt><dd>The blue component for the color.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ColorRGB_Subtract"></a>
-<h3><a name="Q3ColorRGB_Subtract">Q3ColorRGB_Subtract</a></h3>
-<blockquote><pre><tt>TQ3ColorRGB * 
-Q3ColorRGB_Subtract (
-    const TQ3ColorRGB             *c1,
-    const TQ3ColorRGB             *c2,
-    TQ3ColorRGB                   *result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ColorRGB_Subtract"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Subtract">Q3ColorRGB_Subtract</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *c1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *c2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+);</tt><br>
 </pre></blockquote>
-<p>Subtract c1 from c2.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract c1 from c2.
 <br><br>
 Available in inline form as Q3FastColorRGB_Subtract.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>c1</tt></td><td>The first color.</td></tr>
-<tr valign=top><td><tt>c2</tt></td><td>The second color.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>Receives c2 minus c1.</td></tr>
-</table>
+<dl>
+<dt><tt><em>c1</em></tt></dt><dd>The first color.</dd>
+<dt><tt><em>c2</em></tt></dt><dd>The second color.</dd>
+<dt><tt><em>result</em></tt></dt><dd>Receives c2 minus c1.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Convenience pointer to the result.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CompressedPixmapTexture_CompressImage"></a>
-<h3><a name="Q3CompressedPixmapTexture_CompressImage">Q3CompressedPixmapTexture_CompressImage</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3CompressedPixmapTexture_CompressImage (
-    TQ3CompressedPixmap           *compressedPixmap,
-    PixMapHandle                  sourcePixMap,
-    CodecType                     codecType,
-    CodecComponent                codecComponent,
-    TQ3Int16                      codedDepth,
-    CodecQ                        codecQuality
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_CompressImage"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_CompressImage">Q3CompressedPixmapTexture_CompressImage</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CompressedPixmapTexture_CompressImage (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CompressedPixmap *compressedPixmap,
+&nbsp;&nbsp;&nbsp;&nbsp;PixMapHandle sourcePixMap,
+&nbsp;&nbsp;&nbsp;&nbsp;CodecType codecType,
+&nbsp;&nbsp;&nbsp;&nbsp;CodecComponent codecComponent,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 codedDepth,
+&nbsp;&nbsp;&nbsp;&nbsp;CodecQ codecQuality
+);</tt><br>
 </pre></blockquote>
-<p>Create a compressed pixmap from a PixMapHandle.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a compressed pixmap from a PixMapHandle.
 <br><br>
 This function is only available on platforms that support QuickTime.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>compressedPixmap</tt></td><td>Receives the compressed pixmap.</td></tr>
-<tr valign=top><td><tt>sourcePixMap</tt></td><td>The uncompressed PixMapHandle.</td></tr>
-<tr valign=top><td><tt>codecType</tt></td><td>The QuickTime codec to use for compression.</td></tr>
-<tr valign=top><td><tt>codecComponent</tt></td><td>The QuickTime component to use for compression.</td></tr>
-<tr valign=top><td><tt>codedDepth</tt></td><td>The depth the codec should compress to.</td></tr>
-<tr valign=top><td><tt>codecQuality</tt></td><td>The quality the codec should compress to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>compressedPixmap</em></tt></dt><dd>Receives the compressed pixmap.</dd>
+<dt><tt><em>sourcePixMap</em></tt></dt><dd>The uncompressed PixMapHandle.</dd>
+<dt><tt><em>codecType</em></tt></dt><dd>The QuickTime codec to use for compression.</dd>
+<dt><tt><em>codecComponent</em></tt></dt><dd>The QuickTime component to use for compression.</dd>
+<dt><tt><em>codedDepth</em></tt></dt><dd>The depth the codec should compress to.</dd>
+<dt><tt><em>codecQuality</em></tt></dt><dd>The quality the codec should compress to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CompressedPixmapTexture_GetCompressedPixmap"></a>
-<h3><a name="Q3CompressedPixmapTexture_GetCompressedPixmap">Q3CompressedPixmapTexture_GetCompressedPixmap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3CompressedPixmapTexture_GetCompressedPixmap (
-    TQ3TextureObject              texture,
-    TQ3CompressedPixmap           *compressedPixmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_GetCompressedPixmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_GetCompressedPixmap">Q3CompressedPixmapTexture_GetCompressedPixmap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CompressedPixmapTexture_GetCompressedPixmap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CompressedPixmap *compressedPixmap
+);</tt><br>
 </pre></blockquote>
-<p>Get the compressed pixmap from a compressed pixmap texture.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the compressed pixmap from a compressed pixmap texture.
 <br><br>
 This function is only available on platforms that support QuickTime.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
-<tr valign=top><td><tt>compressedPixmap</tt></td><td>Receives the compressed pixmap of the texture.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture to query.</dd>
+<dt><tt><em>compressedPixmap</em></tt></dt><dd>Receives the compressed pixmap of the texture.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CompressedPixmapTexture_New"></a>
-<h3><a name="Q3CompressedPixmapTexture_New">Q3CompressedPixmapTexture_New</a></h3>
-<blockquote><pre><tt>TQ3TextureObject  
-Q3CompressedPixmapTexture_New (
-    const TQ3CompressedPixmap     *compressedPixmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_New">Q3CompressedPixmapTexture_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TextureObject ) Q3CompressedPixmapTexture_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CompressedPixmap *compressedPixmap
+);</tt><br>
 </pre></blockquote>
-<p>Create a compressed pixmap texture.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a compressed pixmap texture.
 <br><br>
 This function is only available on platforms that support QuickTime.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>compressedPixmap</tt></td><td>The compressed pixmap for the texture.</td></tr>
-</table>
+<dl>
+<dt><tt><em>compressedPixmap</em></tt></dt><dd>The compressed pixmap for the texture.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new compressed pixmap texture.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3CompressedPixmapTexture_SetCompressedPixmap"></a>
-<h3><a name="Q3CompressedPixmapTexture_SetCompressedPixmap">Q3CompressedPixmapTexture_SetCompressedPixmap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3CompressedPixmapTexture_SetCompressedPixmap (
-    TQ3TextureObject              texture,
-    const TQ3CompressedPixmap     *compressedPixmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new compressed pixmap texture.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_SetCompressedPixmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_SetCompressedPixmap">Q3CompressedPixmapTexture_SetCompressedPixmap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CompressedPixmapTexture_SetCompressedPixmap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CompressedPixmap *compressedPixmap
+);</tt><br>
 </pre></blockquote>
-<p>Set the compressed pixmap for a compressed pixmap texture.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the compressed pixmap for a compressed pixmap texture.
 <br><br>
 This function is only available on platforms that support QuickTime.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture to update.</td></tr>
-<tr valign=top><td><tt>compressedPixmap</tt></td><td>The new compressed pixmap for the texture.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture to update.</dd>
+<dt><tt><em>compressedPixmap</em></tt></dt><dd>The new compressed pixmap for the texture.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3IlluminationShader_GetType"></a>
-<h3><a name="Q3IlluminationShader_GetType">Q3IlluminationShader_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3IlluminationShader_GetType (
-    TQ3ShaderObject               shader
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3IlluminationShader_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3IlluminationShader_GetType">Q3IlluminationShader_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3IlluminationShader_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of an illumination shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of an illumination shader.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the illumination shader.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3LambertIllumination_New"></a>
-<h3><a name="Q3LambertIllumination_New">Q3LambertIllumination_New</a></h3>
-<blockquote><pre><tt>TQ3ShaderObject  
-Q3LambertIllumination_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the illumination shader.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3LambertIllumination_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LambertIllumination_New">Q3LambertIllumination_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject ) Q3LambertIllumination_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a Lambert illumination shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Lambert illumination shader.
 <br><br>
 </p>
-<b>Result:</b> The new illumination shader.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MipmapTexture_GetMipmap"></a>
-<h3><a name="Q3MipmapTexture_GetMipmap">Q3MipmapTexture_GetMipmap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MipmapTexture_GetMipmap (
-    TQ3TextureObject              texture,
-    TQ3Mipmap                     *mipmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new illumination shader.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MipmapTexture_GetMipmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MipmapTexture_GetMipmap">Q3MipmapTexture_GetMipmap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MipmapTexture_GetMipmap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Mipmap *mipmap
+);</tt><br>
 </pre></blockquote>
-<p>Get the mipmap from a mipmap texture.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mipmap from a mipmap texture.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
-<tr valign=top><td><tt>mipmap</tt></td><td>Receives the mipmap of the texture.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture to query.</dd>
+<dt><tt><em>mipmap</em></tt></dt><dd>Receives the mipmap of the texture.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MipmapTexture_New"></a>
-<h3><a name="Q3MipmapTexture_New">Q3MipmapTexture_New</a></h3>
-<blockquote><pre><tt>TQ3TextureObject  
-Q3MipmapTexture_New (
-    const TQ3Mipmap               *mipmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MipmapTexture_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MipmapTexture_New">Q3MipmapTexture_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TextureObject ) Q3MipmapTexture_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Mipmap *mipmap
+);</tt><br>
 </pre></blockquote>
-<p>Create a mipmap texture.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a mipmap texture.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>mipmap</tt></td><td>The mipmap to be used by the texture.</td></tr>
-</table>
+<dl>
+<dt><tt><em>mipmap</em></tt></dt><dd>The mipmap to be used by the texture.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new mipmap texture.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MipmapTexture_SetMipmap"></a>
-<h3><a name="Q3MipmapTexture_SetMipmap">Q3MipmapTexture_SetMipmap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MipmapTexture_SetMipmap (
-    TQ3TextureObject              texture,
-    const TQ3Mipmap               *mipmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new mipmap texture.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MipmapTexture_SetMipmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MipmapTexture_SetMipmap">Q3MipmapTexture_SetMipmap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MipmapTexture_SetMipmap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Mipmap *mipmap
+);</tt><br>
 </pre></blockquote>
-<p>Set the mipmap for a mipmap texture.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the mipmap for a mipmap texture.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture to update.</td></tr>
-<tr valign=top><td><tt>mipmap</tt></td><td>The new mipmap for the texture.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture to update.</dd>
+<dt><tt><em>mipmap</em></tt></dt><dd>The new mipmap for the texture.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3NULLIllumination_New"></a>
-<h3><a name="Q3NULLIllumination_New">Q3NULLIllumination_New</a></h3>
-<blockquote><pre><tt>TQ3ShaderObject  
-Q3NULLIllumination_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3NULLIllumination_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3NULLIllumination_New">Q3NULLIllumination_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject ) Q3NULLIllumination_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a NULL illumination shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a NULL illumination shader.
 <br><br>
 </p>
-<b>Result:</b> The new illumination shader.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PhongIllumination_New"></a>
-<h3><a name="Q3PhongIllumination_New">Q3PhongIllumination_New</a></h3>
-<blockquote><pre><tt>TQ3ShaderObject  
-Q3PhongIllumination_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new illumination shader.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PhongIllumination_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PhongIllumination_New">Q3PhongIllumination_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject ) Q3PhongIllumination_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a Phong illumination shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Phong illumination shader.
 <br><br>
 </p>
-<b>Result:</b> The new illumination shader.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PixmapTexture_GetPixmap"></a>
-<h3><a name="Q3PixmapTexture_GetPixmap">Q3PixmapTexture_GetPixmap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PixmapTexture_GetPixmap (
-    TQ3TextureObject              texture,
-    TQ3StoragePixmap              *pixmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new illumination shader.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PixmapTexture_GetPixmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapTexture_GetPixmap">Q3PixmapTexture_GetPixmap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapTexture_GetPixmap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StoragePixmap *pixmap
+);</tt><br>
 </pre></blockquote>
-<p>Get the pixmap from a pixmap texture.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pixmap from a pixmap texture.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
-<tr valign=top><td><tt>pixmap</tt></td><td>Receives the pixmap of the texture.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture to query.</dd>
+<dt><tt><em>pixmap</em></tt></dt><dd>Receives the pixmap of the texture.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PixmapTexture_New"></a>
-<h3><a name="Q3PixmapTexture_New">Q3PixmapTexture_New</a></h3>
-<blockquote><pre><tt>TQ3TextureObject  
-Q3PixmapTexture_New (
-    const TQ3StoragePixmap        *pixmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PixmapTexture_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapTexture_New">Q3PixmapTexture_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TextureObject ) Q3PixmapTexture_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3StoragePixmap *pixmap
+);</tt><br>
 </pre></blockquote>
-<p>Create a pixmap texture.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a pixmap texture.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pixmap</tt></td><td>The pixmap to be used by the texture.</td></tr>
-</table>
+<dl>
+<dt><tt><em>pixmap</em></tt></dt><dd>The pixmap to be used by the texture.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new pixmap texture.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PixmapTexture_SetPixmap"></a>
-<h3><a name="Q3PixmapTexture_SetPixmap">Q3PixmapTexture_SetPixmap</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PixmapTexture_SetPixmap (
-    TQ3TextureObject              texture,
-    const TQ3StoragePixmap        *pixmap
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new pixmap texture.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PixmapTexture_SetPixmap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapTexture_SetPixmap">Q3PixmapTexture_SetPixmap</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapTexture_SetPixmap (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3StoragePixmap *pixmap
+);</tt><br>
 </pre></blockquote>
-<p>Set the pixmap for a pixmap texture.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the pixmap for a pixmap texture.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture to update.</td></tr>
-<tr valign=top><td><tt>pixmap</tt></td><td>The new pixmap for the texture.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture to update.</dd>
+<dt><tt><em>pixmap</em></tt></dt><dd>The new pixmap for the texture.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shader_GetType"></a>
-<h3><a name="Q3Shader_GetType">Q3Shader_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Shader_GetType (
-    TQ3ShaderObject               shader
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shader_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_GetType">Q3Shader_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Shader_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a shader object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a shader object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the shader.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shader_GetUBoundary"></a>
-<h3><a name="Q3Shader_GetUBoundary">Q3Shader_GetUBoundary</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shader_GetUBoundary (
-    TQ3ShaderObject               shader,
-    TQ3ShaderUVBoundary           *uBoundary
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the shader.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shader_GetUBoundary"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_GetUBoundary">Q3Shader_GetUBoundary</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_GetUBoundary (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary *uBoundary
+);</tt><br>
 </pre></blockquote>
-<p>Get the U boundary behaviour of a shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the U boundary behaviour of a shader.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
-<tr valign=top><td><tt>uBoundary</tt></td><td>Receives the U boundary behaviour of the shader.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to query.</dd>
+<dt><tt><em>uBoundary</em></tt></dt><dd>Receives the U boundary behaviour of the shader.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shader_GetUVTransform"></a>
-<h3><a name="Q3Shader_GetUVTransform">Q3Shader_GetUVTransform</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shader_GetUVTransform (
-    TQ3ShaderObject               shader,
-    TQ3Matrix3x3                  *uvTransform
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shader_GetUVTransform"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_GetUVTransform">Q3Shader_GetUVTransform</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_GetUVTransform (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *uvTransform
+);</tt><br>
 </pre></blockquote>
-<p>Get the UV transform for a shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the UV transform for a shader.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
-<tr valign=top><td><tt>uvTransform</tt></td><td>Receives the UV transform of the shader.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to query.</dd>
+<dt><tt><em>uvTransform</em></tt></dt><dd>Receives the UV transform of the shader.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shader_GetVBoundary"></a>
-<h3><a name="Q3Shader_GetVBoundary">Q3Shader_GetVBoundary</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shader_GetVBoundary (
-    TQ3ShaderObject               shader,
-    TQ3ShaderUVBoundary           *vBoundary
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shader_GetVBoundary"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_GetVBoundary">Q3Shader_GetVBoundary</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_GetVBoundary (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary *vBoundary
+);</tt><br>
 </pre></blockquote>
-<p>Get the V boundary behaviour of a shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the V boundary behaviour of a shader.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
-<tr valign=top><td><tt>vBoundary</tt></td><td>Receives the V boundary behaviour of the shader.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to query.</dd>
+<dt><tt><em>vBoundary</em></tt></dt><dd>Receives the V boundary behaviour of the shader.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shader_SetUBoundary"></a>
-<h3><a name="Q3Shader_SetUBoundary">Q3Shader_SetUBoundary</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shader_SetUBoundary (
-    TQ3ShaderObject               shader,
-    TQ3ShaderUVBoundary           uBoundary
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shader_SetUBoundary"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_SetUBoundary">Q3Shader_SetUBoundary</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_SetUBoundary (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary uBoundary
+);</tt><br>
 </pre></blockquote>
-<p>Set the U boundary behaviour for a shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the U boundary behaviour for a shader.
+<br><br>
+The initial U boundary behaviour for a shader is kQ3ShaderUVBoundaryWrap.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to update.</td></tr>
-<tr valign=top><td><tt>uBoundary</tt></td><td>The U boundary behaviour for the shader.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to update.</dd>
+<dt><tt><em>uBoundary</em></tt></dt><dd>The U boundary behaviour for the shader.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shader_SetUVTransform"></a>
-<h3><a name="Q3Shader_SetUVTransform">Q3Shader_SetUVTransform</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shader_SetUVTransform (
-    TQ3ShaderObject               shader,
-    const TQ3Matrix3x3            *uvTransform
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shader_SetUVTransform"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_SetUVTransform">Q3Shader_SetUVTransform</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_SetUVTransform (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *uvTransform
+);</tt><br>
 </pre></blockquote>
-<p>Set the UV transform for a shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the UV transform for a shader.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to update.</td></tr>
-<tr valign=top><td><tt>uvTransform</tt></td><td>The new UV transform for the shader.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to update.</dd>
+<dt><tt><em>uvTransform</em></tt></dt><dd>The new UV transform for the shader.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shader_SetVBoundary"></a>
-<h3><a name="Q3Shader_SetVBoundary">Q3Shader_SetVBoundary</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shader_SetVBoundary (
-    TQ3ShaderObject               shader,
-    TQ3ShaderUVBoundary           vBoundary
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shader_SetVBoundary"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_SetVBoundary">Q3Shader_SetVBoundary</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_SetVBoundary (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary vBoundary
+);</tt><br>
 </pre></blockquote>
-<p>Set the V boundary behaviour for a shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the V boundary behaviour for a shader.
+<br><br>
+The initial V boundary behaviour for a shader is kQ3ShaderUVBoundaryWrap.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to update.</td></tr>
-<tr valign=top><td><tt>vBoundary</tt></td><td>The V boundary behaviour for the shader.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to update.</dd>
+<dt><tt><em>vBoundary</em></tt></dt><dd>The V boundary behaviour for the shader.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Shader_Submit"></a>
-<h3><a name="Q3Shader_Submit">Q3Shader_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Shader_Submit (
-    TQ3ShaderObject               shader,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shader_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_Submit">Q3Shader_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a shader to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a shader to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to submit.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the shader to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to submit.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the shader to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SurfaceShader_GetType"></a>
-<h3><a name="Q3SurfaceShader_GetType">Q3SurfaceShader_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3SurfaceShader_GetType (
-    TQ3SurfaceShaderObject        shader
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SurfaceShader_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SurfaceShader_GetType">Q3SurfaceShader_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3SurfaceShader_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SurfaceShaderObject shader
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a surface shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a surface shader.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the surface shader.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3TextureShader_GetTexture"></a>
-<h3><a name="Q3TextureShader_GetTexture">Q3TextureShader_GetTexture</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3TextureShader_GetTexture (
-    TQ3ShaderObject               shader,
-    TQ3TextureObject              *texture
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the surface shader.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TextureShader_GetTexture"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TextureShader_GetTexture">Q3TextureShader_GetTexture</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TextureShader_GetTexture (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject *texture
+);</tt><br>
 </pre></blockquote>
-<p>Get the texture from a texture shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the texture from a texture shader.
 <br><br>
 The reference count of the returned shader is incremented, and the
 caller must release their reference when done.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to query.</td></tr>
-<tr valign=top><td><tt>texture</tt></td><td>Receives the texture from the texture shader.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to query.</dd>
+<dt><tt><em>texture</em></tt></dt><dd>Receives the texture from the texture shader.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3TextureShader_New"></a>
-<h3><a name="Q3TextureShader_New">Q3TextureShader_New</a></h3>
-<blockquote><pre><tt>TQ3ShaderObject  
-Q3TextureShader_New (
-    TQ3TextureObject              texture
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TextureShader_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TextureShader_New">Q3TextureShader_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject ) Q3TextureShader_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture
+);</tt><br>
 </pre></blockquote>
-<p>Create a texture shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a texture shader.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture object for the shader.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture object for the shader.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new texture shader.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3TextureShader_SetTexture"></a>
-<h3><a name="Q3TextureShader_SetTexture">Q3TextureShader_SetTexture</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3TextureShader_SetTexture (
-    TQ3ShaderObject               shader,
-    TQ3TextureObject              texture
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new texture shader.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TextureShader_SetTexture"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TextureShader_SetTexture">Q3TextureShader_SetTexture</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TextureShader_SetTexture (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture
+);</tt><br>
 </pre></blockquote>
-<p>Set the texture for a texture shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the texture for a texture shader.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>shader</tt></td><td>The shader to update.</td></tr>
-<tr valign=top><td><tt>texture</tt></td><td>The texture for the shader.</td></tr>
-</table>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to update.</dd>
+<dt><tt><em>texture</em></tt></dt><dd>The texture for the shader.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Texture_GetHeight"></a>
-<h3><a name="Q3Texture_GetHeight">Q3Texture_GetHeight</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Texture_GetHeight (
-    TQ3TextureObject              texture,
-    TQ3Uns32                      *height
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Texture_GetHeight"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Texture_GetHeight">Q3Texture_GetHeight</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Texture_GetHeight (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *height
+);</tt><br>
 </pre></blockquote>
-<p>Get the height of a texture object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the height of a texture object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
-<tr valign=top><td><tt>height</tt></td><td>Receives the height of the texture object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture to query.</dd>
+<dt><tt><em>height</em></tt></dt><dd>Receives the height of the texture object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Texture_GetType"></a>
-<h3><a name="Q3Texture_GetType">Q3Texture_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Texture_GetType (
-    TQ3TextureObject              texture
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Texture_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Texture_GetType">Q3Texture_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Texture_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a texture object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a texture object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the texture object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Texture_GetWidth"></a>
-<h3><a name="Q3Texture_GetWidth">Q3Texture_GetWidth</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Texture_GetWidth (
-    TQ3TextureObject              texture,
-    TQ3Uns32                      *width
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the texture object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Texture_GetWidth"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Texture_GetWidth">Q3Texture_GetWidth</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Texture_GetWidth (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *width
+);</tt><br>
 </pre></blockquote>
-<p>Get the width of a texture object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the width of a texture object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>texture</tt></td><td>The texture to query.</td></tr>
-<tr valign=top><td><tt>width</tt></td><td>Receives the width of the texture object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>texture</em></tt></dt><dd>The texture to query.</dd>
+<dt><tt><em>width</em></tt></dt><dd>Receives the width of the texture object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

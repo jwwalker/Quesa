@@ -1,57 +1,58 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3FileModeMasks"></a>
-<h3><a name="TQ3FileModeMasks">TQ3FileModeMasks</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3FileModeMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FileModeMasks">TQ3FileModeMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3FileModeMasks {
     kQ3FileModeNormal                           = 0,
-    kQ3FileModeStream                           = (1 << 0),
-    kQ3FileModeDatabase                         = (1 << 1),
-    kQ3FileModeText                             = (1 << 2),
-#if QUESA_ALLOW_QD3D_EXTENSIONS
-    kQ3FileModeSwap                             = (1 << 3),
+    kQ3FileModeStream                           = (1 &lt;&lt; 0),
+    kQ3FileModeDatabase                         = (1 &lt;&lt; 1),
+    kQ3FileModeText                             = (1 &lt;&lt; 2),
+    kQ3FileModeSwap                             = (1 &lt;&lt; 3),
 #endif
     kQ3FileModeSize32                           = 0xFFFFFFFF
 } TQ3FileModeMasks;
 </pre>
 </blockquote>
-<p>Mode masks for file operations.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mode masks for file operations.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FileModeNormal"><tt>kQ3FileModeNormal</tt></a></td><td>Normal file mode.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FileModeStream"><tt>kQ3FileModeStream</tt></a></td><td>Stream mode.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FileModeDatabase"><tt>kQ3FileModeDatabase</tt></a></td><td>Database mode.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FileModeText"><tt>kQ3FileModeText</tt></a></td><td>Text mode.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FileModeSwap"><tt>kQ3FileModeSwap</tt></a></td><td>Binary mode with byte order swapped (not present in QD3D).</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FileModeNormal"><tt>kQ3FileModeNormal</tt></a></dt><dd>Normal file mode.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FileModeStream"><tt>kQ3FileModeStream</tt></a></dt><dd>Stream mode.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FileModeDatabase"><tt>kQ3FileModeDatabase</tt></a></dt><dd>Database mode.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FileModeText"><tt>kQ3FileModeText</tt></a></dt><dd>Text mode.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FileModeSwap"><tt>kQ3FileModeSwap</tt></a></dt><dd>Binary mode with byte order swapped (not present in QD3D).</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3FileReadGroupStateMasks"></a>
-<h3><a name="TQ3FileReadGroupStateMasks">TQ3FileReadGroupStateMasks</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3FileReadGroupStateMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FileReadGroupStateMasks">TQ3FileReadGroupStateMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3FileReadGroupStateMasks {
     kQ3FileReadWholeGroup                       = 0,
-    kQ3FileReadObjectsInGroup                   = (1 << 0),
-    kQ3FileCurrentlyInsideGroup                 = (1 << 1),
+    kQ3FileReadObjectsInGroup                   = (1 &lt;&lt; 0),
+    kQ3FileCurrentlyInsideGroup                 = (1 &lt;&lt; 1),
     kQ3FileReadGroupStateSize32                 = 0xFFFFFFFF
 } TQ3FileReadGroupStateMasks;
 </pre>
 </blockquote>
-<p>Read group state masks.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read group state masks.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FileReadWholeGroup"><tt>kQ3FileReadWholeGroup</tt></a></td><td>Read the whole group.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FileReadObjectsInGroup"><tt>kQ3FileReadObjectsInGroup</tt></a></td><td>Read objects in the group.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FileCurrentlyInsideGroup"><tt>kQ3FileCurrentlyInsideGroup</tt></a></td><td>Currently inside a group.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FileReadWholeGroup"><tt>kQ3FileReadWholeGroup</tt></a></dt><dd>Read the whole group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FileReadObjectsInGroup"><tt>kQ3FileReadObjectsInGroup</tt></a></dt><dd>Read objects in the group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FileCurrentlyInsideGroup"><tt>kQ3FileCurrentlyInsideGroup</tt></a></dt><dd>Currently inside a group.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

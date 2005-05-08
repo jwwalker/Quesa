@@ -1,137 +1,121 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
-<a name="//apple_ref/c/func/Q3AttributeSet_Add"></a>
-<h3><a name="Q3AttributeSet_Add">Q3AttributeSet_Add</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AttributeSet_Add (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              theType,
-    const void                    *data
-);
-</tt><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Functions</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/Q3AttributeSet_Add"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Add">Q3AttributeSet_Add</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType theType,
+&nbsp;&nbsp;&nbsp;&nbsp;const void *data
+);</tt><br>
 </pre></blockquote>
-<p>Add an attribute to an attribute set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add an attribute to an attribute set.
 <br><br>
 Copy attribute data into an attribute set.  If the set already contains
 the specified type of attribute, it is replaced.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The attribute type.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Pointer to the attribute data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>attributeSet</em></tt></dt><dd>The attribute set.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The attribute type.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Pointer to the attribute data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AttributeSet_Clear"></a>
-<h3><a name="Q3AttributeSet_Clear">Q3AttributeSet_Clear</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AttributeSet_Clear (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AttributeSet_Clear"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Clear">Q3AttributeSet_Clear</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Clear (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType theType
+);</tt><br>
 </pre></blockquote>
-<p>Remove an attribute from an attribute set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove an attribute from an attribute set.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The attribute type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>attributeSet</em></tt></dt><dd>The attribute set.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The attribute type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AttributeSet_Contains"></a>
-<h3><a name="Q3AttributeSet_Contains">Q3AttributeSet_Contains</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3AttributeSet_Contains (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              attributeType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AttributeSet_Contains"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Contains">Q3AttributeSet_Contains</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3AttributeSet_Contains (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType attributeType
+);</tt><br>
 </pre></blockquote>
-<p>Determine whether an attribute set contains a specified attribute.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine whether an attribute set contains a specified attribute.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set.</td></tr>
-<tr valign=top><td><tt>attributeType</tt></td><td>The attribute type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>attributeSet</em></tt></dt><dd>The attribute set.</dd>
+<dt><tt><em>attributeType</em></tt></dt><dd>The attribute type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> kQ3True if the attribute type exists in the set.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AttributeSet_Empty"></a>
-<h3><a name="Q3AttributeSet_Empty">Q3AttributeSet_Empty</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AttributeSet_Empty (
-    TQ3AttributeSet               target
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>kQ3True if the attribute type exists in the set.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AttributeSet_Empty"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Empty">Q3AttributeSet_Empty</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Empty (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet target
+);</tt><br>
 </pre></blockquote>
-<p>Remove all attributes from an attribute set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove all attributes from an attribute set.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>target</tt></td><td>The attribute set.</td></tr>
-</table>
+<dl>
+<dt><tt><em>target</em></tt></dt><dd>The attribute set.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AttributeSet_Get"></a>
-<h3><a name="Q3AttributeSet_Get">Q3AttributeSet_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AttributeSet_Get (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              theType,
-    void                          *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AttributeSet_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Get">Q3AttributeSet_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType theType,
+&nbsp;&nbsp;&nbsp;&nbsp;void *data
+);</tt><br>
 </pre></blockquote>
-<p>Get attribute data from an attribute set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get attribute data from an attribute set.
 <br><br>
 Copies attribute data into a user-provided buffer which should be
 large enough for the given kind of attribute.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The attribute type.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Pointer to a buffer to receive the attribute data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>attributeSet</em></tt></dt><dd>The attribute set.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The attribute type.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Pointer to a buffer to receive the attribute data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AttributeSet_GetNextAttributeType"></a>
-<h3><a name="Q3AttributeSet_GetNextAttributeType">Q3AttributeSet_GetNextAttributeType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AttributeSet_GetNextAttributeType (
-    TQ3AttributeSet               source,
-    TQ3AttributeType              *theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AttributeSet_GetNextAttributeType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_GetNextAttributeType">Q3AttributeSet_GetNextAttributeType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_GetNextAttributeType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet source,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType *theType
+);</tt><br>
 </pre></blockquote>
-<p>Find the next attribute type in an attribute set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Find the next attribute type in an attribute set.
 <br><br>
 If you pass <code>kQ3AttributeTypeNone</code>, it will return the first attribute type.
 After reaching the last element type, it returns <code>kQ3AttributeTypeNone</code>.
@@ -147,28 +131,24 @@ while ( Q3AttributeSet_GetNextAttributeType( set, &amp;theType ) &amp;&amp;
 </code></pre></blockquote>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>source</tt></td><td>The attribute set object.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Given an attribute type, receives the next attribute type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>source</em></tt></dt><dd>The attribute set object.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>Given an attribute type, receives the next attribute type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AttributeSet_Inherit"></a>
-<h3><a name="Q3AttributeSet_Inherit">Q3AttributeSet_Inherit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AttributeSet_Inherit (
-    TQ3AttributeSet               parent,
-    TQ3AttributeSet               child,
-    TQ3AttributeSet               result
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AttributeSet_Inherit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Inherit">Q3AttributeSet_Inherit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Inherit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet parent,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet child,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet result
+);</tt><br>
 </pre></blockquote>
-<p>Configures an attribute set by copying all attributes from one set
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Configures an attribute set by copying all attributes from one set
 (the child) and then copying any attributes that were not in the
 child from another attribute set (the parent).
 <br><br>
@@ -176,95 +156,78 @@ The set you pass to receive the result must be an existing attribute set,
 but any existing attributes in it will be removed.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>parent</tt></td><td>An attribute set.</td></tr>
-<tr valign=top><td><tt>child</tt></td><td>An attribute set.</td></tr>
-<tr valign=top><td><tt>result</tt></td><td>An attribute set to be redefined.</td></tr>
-</table>
+<dl>
+<dt><tt><em>parent</em></tt></dt><dd>An attribute set.</dd>
+<dt><tt><em>child</em></tt></dt><dd>An attribute set.</dd>
+<dt><tt><em>result</em></tt></dt><dd>An attribute set to be redefined.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AttributeSet_New"></a>
-<h3><a name="Q3AttributeSet_New">Q3AttributeSet_New</a></h3>
-<blockquote><pre><tt>TQ3AttributeSet  
-Q3AttributeSet_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AttributeSet_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_New">Q3AttributeSet_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3AttributeSet ) Q3AttributeSet_New (void);</tt><br>
 </pre></blockquote>
-<p>Create an attribute set object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create an attribute set object.
 <br><br>
 </p>
-<b>Result:</b> A new empty attribute set, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AttributeSet_Submit"></a>
-<h3><a name="Q3AttributeSet_Submit">Q3AttributeSet_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AttributeSet_Submit (
-    TQ3AttributeSet               attributeSet,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new empty attribute set, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AttributeSet_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Submit">Q3AttributeSet_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit an attribute set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an attribute set.
 <br><br>
 This should only be used within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set object.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>attributeSet</em></tt></dt><dd>The attribute set object.</dd>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Attribute_Submit"></a>
-<h3><a name="Q3Attribute_Submit">Q3Attribute_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Attribute_Submit (
-    TQ3AttributeType              attributeType,
-    const void                    *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Attribute_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Attribute_Submit">Q3Attribute_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Attribute_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType attributeType,
+&nbsp;&nbsp;&nbsp;&nbsp;const void *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit an attribute in immediate mode.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an attribute in immediate mode.
 <br><br>
 This should only be used within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeType</tt></td><td>The attribute type.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Pointer to attribute data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>attributeType</em></tt></dt><dd>The attribute type.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Pointer to attribute data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Set_Add"></a>
-<h3><a name="Q3Set_Add">Q3Set_Add</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Set_Add (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                theType,
-    const void                    *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Set_Add"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Add">Q3Set_Add</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
+&nbsp;&nbsp;&nbsp;&nbsp;const void *data
+);</tt><br>
 </pre></blockquote>
-<p>Add an element to a set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add an element to a set.
 <br><br>
 This function copies an element into an existing set.  If the set
 already contains an element of the given type, it is replaced.
@@ -272,78 +235,66 @@ In the case of a custom element, the type is the type that was
 returned by <code>Q3XElementClass_Register</code>.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Type of the element.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Pointer to the element data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSet</em></tt></dt><dd>The set object.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>Type of the element.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Pointer to the element data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Set_Clear"></a>
-<h3><a name="Q3Set_Clear">Q3Set_Clear</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Set_Clear (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Set_Clear"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Clear">Q3Set_Clear</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_Clear (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType
+);</tt><br>
 </pre></blockquote>
-<p>Remove an element of a given type from a set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove an element of a given type from a set.
 <br><br>
 If the set did not contain an element of the specified type,
 the function returns kQ3Failure.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The element type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSet</em></tt></dt><dd>The set object.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The element type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Set_Contains"></a>
-<h3><a name="Q3Set_Contains">Q3Set_Contains</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Set_Contains (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Set_Contains"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Contains">Q3Set_Contains</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Set_Contains (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType
+);</tt><br>
 </pre></blockquote>
-<p>Determine whether a set contains an element of a given type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine whether a set contains an element of a given type.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The element type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSet</em></tt></dt><dd>The set object.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The element type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> kQ3True if the element exists in the set.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Set_CopyElement"></a>
-<h3><a name="Q3Set_CopyElement">Q3Set_CopyElement</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Set_CopyElement(
-	TQ3SetObject				sourceSet,
-	TQ3ElementType				theType,
-	TQ3SetObject				destSet
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>kQ3True if the element exists in the set.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Set_CopyElement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_CopyElement">Q3Set_CopyElement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_CopyElement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject sourceSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject destSet
+);</tt><br>
 </pre></blockquote>
-<p>Copies an element from one set to another.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copies an element from one set to another.
 <br><br>
 If the destination set already contains an element of the specified
 type, the element will be replaced.
@@ -351,74 +302,62 @@ type, the element will be replaced.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sourceSet</tt></td><td>The set containing the element to be copied.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Type of the element.</td></tr>
-<tr valign=top><td><tt>destSet</tt></td><td>Set to receive the copied element.</td></tr>
-</table>
+<dl>
+<dt><tt><em>sourceSet</em></tt></dt><dd>The set containing the element to be copied.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>Type of the element.</dd>
+<dt><tt><em>destSet</em></tt></dt><dd>Set to receive the copied element.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Set_Empty"></a>
-<h3><a name="Q3Set_Empty">Q3Set_Empty</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Set_Empty (
-    TQ3SetObject                  target
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Set_Empty"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Empty">Q3Set_Empty</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_Empty (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject target
+);</tt><br>
 </pre></blockquote>
-<p>Remove all elements from a set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove all elements from a set.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>target</tt></td><td>The set object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>target</em></tt></dt><dd>The set object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Set_Get"></a>
-<h3><a name="Q3Set_Get">Q3Set_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Set_Get (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                theType,
-    void                          *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Set_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Get">Q3Set_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
+&nbsp;&nbsp;&nbsp;&nbsp;void *data
+);</tt><br>
 </pre></blockquote>
-<p>Copy the data of an element into a buffer you provide.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copy the data of an element into a buffer you provide.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>The element type.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Pointer to a buffer large enough to receive the element data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSet</em></tt></dt><dd>The set object.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>The element type.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Pointer to a buffer large enough to receive the element data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Set_GetNextElementType"></a>
-<h3><a name="Q3Set_GetNextElementType">Q3Set_GetNextElementType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Set_GetNextElementType (
-    TQ3SetObject                  theSet,
-    TQ3ElementType                *theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Set_GetNextElementType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_GetNextElementType">Q3Set_GetNextElementType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_GetNextElementType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType *theType
+);</tt><br>
 </pre></blockquote>
-<p>Find the next element type in a set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Find the next element type in a set.
 <br><br>
 If you pass <code>kQ3ElementTypeNone</code>, it will return the first element type.
 After reaching the last element type, it returns <code>kQ3ElementTypeNone</code>.
@@ -439,117 +378,96 @@ however some elements may be skipped if the set is modified before the final
 kQ3ElementTypeNone is returned.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Given an element type, receives the next element type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSet</em></tt></dt><dd>The set object.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>Given an element type, receives the next element type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Set_GetType"></a>
-<h3><a name="Q3Set_GetType">Q3Set_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Set_GetType (
-    TQ3SetObject                  theSet
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Set_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_GetType">Q3Set_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Set_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a set object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a set object.
 <br><br>
 Returns kQ3SetTypeAttribute or kQ3ObjectTypeInvalid.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSet</tt></td><td>The set object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSet</em></tt></dt><dd>The set object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The subtype of the set.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Set_New"></a>
-<h3><a name="Q3Set_New">Q3Set_New</a></h3>
-<blockquote><pre><tt>TQ3SetObject  
-Q3Set_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The subtype of the set.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Set_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_New">Q3Set_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3SetObject ) Q3Set_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a new set, initially empty.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new set, initially empty.
 <br><br>
 Plain sets are less commonly used than attribute sets.
 <br><br>
 </p>
-<b>Result:</b> The new set object, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XAttributeClass_Register"></a>
-<h3><a name="Q3XAttributeClass_Register">Q3XAttributeClass_Register</a></h3>
-<blockquote><pre><tt>TQ3XObjectClass  
-Q3XAttributeClass_Register (
-    TQ3AttributeType              *attributeType,
-    const char                    *className,
-    TQ3Uns32                      sizeOfElement,
-    TQ3XMetaHandler               metaHandler
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new set object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XAttributeClass_Register"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XAttributeClass_Register">Q3XAttributeClass_Register</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XAttributeClass_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType *attributeType,
+&nbsp;&nbsp;&nbsp;&nbsp;const char *className,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 sizeOfElement,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler metaHandler
+);</tt><br>
 </pre></blockquote>
-<p>Register a custom attribute class.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Register a custom attribute class.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeType</tt></td><td>Receives the new attribute type.</td></tr>
-<tr valign=top><td><tt>className</tt></td><td>Unique name for the new attribute.</td></tr>
-<tr valign=top><td><tt>sizeOfElement</tt></td><td>Size in bytes of the attribute data.</td></tr>
-<tr valign=top><td><tt>metaHandler</tt></td><td>Your metahandler, providing appropriate methods.
-It may return NULL in some cases.</td></tr>
-</table>
+<dl>
+<dt><tt><em>attributeType</em></tt></dt><dd>Receives the new attribute type.</dd>
+<dt><tt><em>className</em></tt></dt><dd>Unique name for the new attribute.</dd>
+<dt><tt><em>sizeOfElement</em></tt></dt><dd>Size in bytes of the attribute data.</dd>
+<dt><tt><em>metaHandler</em></tt></dt><dd>Your metahandler, providing appropriate methods.
+It may return NULL in some cases.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Pointer to the new class.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XAttributeSet_GetMask"></a>
-<h3><a name="Q3XAttributeSet_GetMask">Q3XAttributeSet_GetMask</a></h3>
-<blockquote><pre><tt>TQ3XAttributeMask  
-Q3XAttributeSet_GetMask (
-    TQ3AttributeSet               attributeSet
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Pointer to the new class.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XAttributeSet_GetMask"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XAttributeSet_GetMask">Q3XAttributeSet_GetMask</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XAttributeMask ) Q3XAttributeSet_GetMask (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet
+);</tt><br>
 </pre></blockquote>
-<p>Get a mask of the attributes contained in an attribute set.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a mask of the attributes contained in an attribute set.
 <br><br>
 This function should only be called from renderer plug-ins.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>attributeSet</em></tt></dt><dd>The attribute set to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A mask indicating the attributes present in attributeSet.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XAttributeSet_GetPointer"></a>
-<h3><a name="Q3XAttributeSet_GetPointer">Q3XAttributeSet_GetPointer</a></h3>
-<blockquote><pre><tt>void * 
-Q3XAttributeSet_GetPointer (
-    TQ3AttributeSet               attributeSet,
-    TQ3AttributeType              attributeType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A mask indicating the attributes present in attributeSet.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XAttributeSet_GetPointer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XAttributeSet_GetPointer">Q3XAttributeSet_GetPointer</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3XAttributeSet_GetPointer (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType attributeType
+);</tt><br>
 </pre></blockquote>
-<p>Get a pointer to the internal data structure for an attribute.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a pointer to the internal data structure for an attribute.
 <br><br>
 For attributes of type kQ3AttributeTypeXXX, the internal attribute data
 is currently identical to the data structured passed to Q3AttributeSet_Add.
@@ -557,29 +475,25 @@ is currently identical to the data structured passed to Q3AttributeSet_Add.
 This function should only be called from renderer plug-ins.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>attributeSet</tt></td><td>The attribute set to query.</td></tr>
-<tr valign=top><td><tt>attributeType</tt></td><td>The attribute type to locate.</td></tr>
-</table>
+<dl>
+<dt><tt><em>attributeSet</em></tt></dt><dd>The attribute set to query.</dd>
+<dt><tt><em>attributeType</em></tt></dt><dd>The attribute type to locate.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A pointer to the internal attribute data if present, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XElementClass_Register"></a>
-<h3><a name="Q3XElementClass_Register">Q3XElementClass_Register</a></h3>
-<blockquote><pre><tt>TQ3XObjectClass  
-Q3XElementClass_Register (
-    TQ3ElementType                *elementType,
-    const char                    *name,
-    TQ3Uns32                      sizeOfElement,
-    TQ3XMetaHandler               metaHandler
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A pointer to the internal attribute data if present, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XElementClass_Register"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XElementClass_Register">Q3XElementClass_Register</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XElementClass_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType *elementType,
+&nbsp;&nbsp;&nbsp;&nbsp;const char *name,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 sizeOfElement,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler metaHandler
+);</tt><br>
 </pre></blockquote>
-<p>Register a custom element class.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Register a custom element class.
 <br><br>
 The custom class naming convention is to begin with your company name,
 then a colon, then a specific class name.
@@ -597,45 +511,39 @@ See QuesaExtension.h for other operations on a custom class, such
 as <code>Q3XObjectHierarchy_UnregisterClass</code>.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>elementType</tt></td><td>Receives the element type assigned by Quesa.</td></tr>
-<tr valign=top><td><tt>name</tt></td><td>The unique name of the new class.</td></tr>
-<tr valign=top><td><tt>sizeOfElement</tt></td><td>Size of the data for the element.</td></tr>
-<tr valign=top><td><tt>metaHandler</tt></td><td>Your metahandler function that returns element methods.
-You may return NULL for some methods.</td></tr>
-</table>
+<dl>
+<dt><tt><em>elementType</em></tt></dt><dd>Receives the element type assigned by Quesa.</dd>
+<dt><tt><em>name</em></tt></dt><dd>The unique name of the new class.</dd>
+<dt><tt><em>sizeOfElement</em></tt></dt><dd>Size of the data for the element.</dd>
+<dt><tt><em>metaHandler</em></tt></dt><dd>Your metahandler function that returns element methods.
+You may return NULL for some methods.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Opaque pointer to the new object class.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XElementType_GetElementSize"></a>
-<h3><a name="Q3XElementType_GetElementSize">Q3XElementType_GetElementSize</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XElementType_GetElementSize (
-    TQ3ElementType                elementType,
-    TQ3Uns32                      *sizeOfElement
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Opaque pointer to the new object class.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XElementType_GetElementSize"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XElementType_GetElementSize">Q3XElementType_GetElementSize</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XElementType_GetElementSize (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType elementType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *sizeOfElement
+);</tt><br>
 </pre></blockquote>
-<p>Return the size in bytes of an element type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the size in bytes of an element type.
 <br><br>
 In the case of a custom element, this would be the same as the size
 you provided when you called <code>Q3XElementClass_Register</code>.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>elementType</tt></td><td>An element type.</td></tr>
-<tr valign=top><td><tt>sizeOfElement</tt></td><td>Receives the size in bytes of the element.</td></tr>
-</table>
+<dl>
+<dt><tt><em>elementType</em></tt></dt><dd>An element type.</dd>
+<dt><tt><em>sizeOfElement</em></tt></dt><dd>Receives the size in bytes of the element.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>
