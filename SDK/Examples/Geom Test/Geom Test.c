@@ -173,7 +173,7 @@ TQ3ColorARGB		gBackgroundColor;
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-void appRender(TQ3ViewObject theView);
+static void appRender(TQ3ViewObject theView);
 
 
 
