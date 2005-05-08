@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Defined Types</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Defined Types</font></h1><br>
+<hr><a name="//Quesa/c/tdef/TQ3ElementType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ElementType">TQ3ElementType</a></h2>
+</td></tr></table><hr>Type identifier for an element.
+
+<blockquote><pre>
+typedef TQ3Int32                                TQ3ElementType;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3EndCap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3EndCap">TQ3EndCap</a></h2>
+</td></tr></table><hr>End cap flag word, see TQ3EndCapMasks for specific values.
+
+<blockquote><pre>
+typedef TQ3Uns32                                TQ3EndCap;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Float32"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Float32">TQ3Float32</a></h2>
+</td></tr></table><hr>32-bit floating-point number.
+
+<blockquote><pre>
+typedef float                                   TQ3Float32;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Float64"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Float64">TQ3Float64</a></h2>
+</td></tr></table><hr>64-bit floating-point number.
+
+<blockquote><pre>
+typedef double                                  TQ3Float64;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3GroupPosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3GroupPosition">TQ3GroupPosition</a></h2>
+</td></tr></table><hr>Group position opaque pointer.
+
+<blockquote><pre>
+typedef struct OpaqueTQ3GroupPosition           *TQ3GroupPosition;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Int16"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Int16">TQ3Int16</a></h2>
+</td></tr></table><hr>Signed 16-bit integer.
+
+<blockquote><pre>
+typedef signed short                            TQ3Int16;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Int32"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Int32">TQ3Int32</a></h2>
+</td></tr></table><hr>Signed 32-bit integer.
+
+<blockquote><pre>
+typedef signed long                             TQ3Int32;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Int64"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Int64">TQ3Int64</a></h2>
+</td></tr></table><hr>Signed 64-bit integer.
+
+<blockquote><pre>
+    typedef struct TQ3Int64 {
+        TQ3Int32                                hi;
+        TQ3Uns32                                lo;
+    } TQ3Int64;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Int8"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Int8">TQ3Int8</a></h2>
+</td></tr></table><hr>Signed 8-bit integer.
+
+<blockquote><pre>
+typedef signed char                             TQ3Int8;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Object"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Object">TQ3Object</a></h2>
+</td></tr></table><hr>Quesa object opaque pointer.
+
+<blockquote><pre>
+typedef struct OpaqueTQ3Object                  *TQ3Object;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3ObjectClassNameString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ObjectClassNameString">TQ3ObjectClassNameString</a></h2>
+</td></tr></table><hr>Class name C string.
+
+<blockquote><pre>
+typedef char                                    TQ3ObjectClassNameString[kQ3StringMaximumLength];
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3ObjectType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ObjectType">TQ3ObjectType</a></h2>
+</td></tr></table><hr>Numeric type code for a class of Quesa objects.
+
+<blockquote><pre>
+typedef TQ3Int32                                TQ3ObjectType;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Size"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Size">TQ3Size</a></h2>
+</td></tr></table><hr>Size type.
+
+<blockquote><pre>
+typedef TQ3Uns32                                TQ3Size;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Uns16"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Uns16">TQ3Uns16</a></h2>
+</td></tr></table><hr>Unsigned 16-bit integer.
+
+<blockquote><pre>
+typedef unsigned short                          TQ3Uns16;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Uns32"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Uns32">TQ3Uns32</a></h2>
+</td></tr></table><hr>Unsigned 32-bit integer.
+
+<blockquote><pre>
+typedef unsigned long                           TQ3Uns32;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Uns64"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Uns64">TQ3Uns64</a></h2>
+</td></tr></table><hr>Unsigned 64-bit integer.
+
+<blockquote><pre>
+    typedef struct TQ3Uns64 {
+        TQ3Uns32                                hi;
+        TQ3Uns32                                lo;
+    } TQ3Uns64;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3Uns8"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Uns8">TQ3Uns8</a></h2>
+</td></tr></table><hr>Unsigned 8-bit integer.
+
+<blockquote><pre>
+typedef unsigned char                           TQ3Uns8;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3XMethodType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XMethodType">TQ3XMethodType</a></h2>
+</td></tr></table><hr>Type identifier for an element.
+
+<blockquote><pre>
+typedef TQ3Uns32                                TQ3XMethodType;
+</pre>
+</blockquote>
+<hr><a name="//Quesa/c/tdef/TQ3XObjectClass"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectClass">TQ3XObjectClass</a></h2>
+</td></tr></table><hr>Object class opaque pointer.
+
+<blockquote><pre>
+typedef struct OpaqueTQ3XObjectClass            *TQ3XObjectClass;
+</pre>
+</blockquote>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>
