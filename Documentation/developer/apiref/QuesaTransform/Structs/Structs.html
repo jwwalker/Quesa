@@ -1,7 +1,55 @@
-<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3RotateAboutAxisTransformData"></a>
-<h3><a name="TQ3RotateAboutAxisTransformData">TQ3RotateAboutAxisTransformData</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Structs</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3CameraTransformData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CameraTransformData">TQ3CameraTransformData</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef struct TQ3CameraTransformData {
+    TQ3Matrix4x4                                localToWorld;
+    TQ3Matrix4x4                                worldToCamera;
+    TQ3Matrix4x4                                cameraToFrustum;
+} TQ3CameraTransformData;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>State data for a transform object that manipulates the camera matrix state.
+<br><br>
+Vertices are passed through three transforms to convert them from local
+coordinates to the canonical viewing frustum.
+<br><br>
+The localToWorld transform converts local coordinates to the world coordinate
+system.
+<br><br>
+The worldToCamera transform converts world coordinates to the camera's
+coordinate system, which places the camera at the origin and establishes
+the camera's view of the world.
+<br><br>
+The cameraToFrustum converts the camera's coordinate system to the canonical
+viewing frustum. This frustum is a box centered on the origin, ranging from
+-1 to +1 in x and y. In z the frustum ranges from 0 at the near clipping plane
+to -1 at the far clipping plane.
+<br><br>
+Once vertices have been transformed to the canonical frustum, a portion of
+the frustum is then selected using the current camera's viewPort and that
+portion mapped to the draw context's pane. These two steps are controlled by
+the current camera and draw context, and are not affected by a camera transform
+object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>localToWorld</tt></dt><dd>The local-to-world matrix.</dd>
+<dt><tt>worldToCamera</tt></dt><dd>The world-to-camera matrix.</dd>
+<dt><tt>cameraToFrustum</tt></dt><dd>The camera-to-frustum matrix.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3RotateAboutAxisTransformData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RotateAboutAxisTransformData">TQ3RotateAboutAxisTransformData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3RotateAboutAxisTransformData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
@@ -9,22 +57,21 @@ typedef struct TQ3RotateAboutAxisTransformData {
 } TQ3RotateAboutAxisTransformData;
 </pre>
 </blockquote>
-<p>State data for a transform object that rotates about an arbitrary axis.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>State data for a transform object that rotates about an arbitrary axis.
 Note that the orientation vector must be normalized.
+<br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>origin</tt></td><td>A point on the axis of rotation.</td><tr>
-<tr valign=top><td><tt>orientation</tt></td><td>A normal vector determining the direction of the axis.</td><tr>
-<tr valign=top><td><tt>radians</tt></td><td>Number of radians to rotate about the axis.</td><tr>
-</table>
+<dl>
+<dt><tt>origin</tt></dt><dd>A point on the axis of rotation.</dd>
+<dt><tt>orientation</tt></dt><dd>A normal vector determining the direction of the axis.</dd>
+<dt><tt>radians</tt></dt><dd>Number of radians to rotate about the axis.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3RotateAboutPointTransformData"></a>
-<h3><a name="TQ3RotateAboutPointTransformData">TQ3RotateAboutPointTransformData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3RotateAboutPointTransformData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RotateAboutPointTransformData">TQ3RotateAboutPointTransformData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3RotateAboutPointTransformData {
     TQ3Axis                                     axis;
     TQ3Float32                                  radians;
@@ -32,37 +79,35 @@ typedef struct TQ3RotateAboutPointTransformData {
 } TQ3RotateAboutPointTransformData;
 </pre>
 </blockquote>
-<p>State data for a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>State data for a rotate-about-point transform.
+<br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>axis</tt></td><td>Enumerated value specifying the x, y, or z axis.</td><tr>
-<tr valign=top><td><tt>radians</tt></td><td>Number of radians to rotate about the axis.</td><tr>
-<tr valign=top><td><tt>about</tt></td><td>A point on the desired axis of rotation.</td><tr>
-</table>
+<dl>
+<dt><tt>axis</tt></dt><dd>Enumerated value specifying the x, y, or z axis.</dd>
+<dt><tt>radians</tt></dt><dd>Number of radians to rotate about the axis.</dd>
+<dt><tt>about</tt></dt><dd>A point on the desired axis of rotation.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3RotateTransformData"></a>
-<h3><a name="TQ3RotateTransformData">TQ3RotateTransformData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3RotateTransformData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RotateTransformData">TQ3RotateTransformData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3RotateTransformData {
     TQ3Axis                                     axis;
     TQ3Float32                                  radians;
 } TQ3RotateTransformData;
 </pre>
 </blockquote>
-<p>State data for a rotate transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>State data for a rotate transform.
+<br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>axis</tt></td><td>Enumerated value specifying the x, y, or z axis.</td><tr>
-<tr valign=top><td><tt>radians</tt></td><td>Number of radians to rotate about the axis.</td><tr>
-</table>
+<dl>
+<dt><tt>axis</tt></dt><dd>Enumerated value specifying the x, y, or z axis.</dd>
+<dt><tt>radians</tt></dt><dd>Number of radians to rotate about the axis.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

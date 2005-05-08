@@ -1,7 +1,13 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TCEUrlOptions"></a>
-<h3><a name="TCEUrlOptions">TCEUrlOptions</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/TCEUrlOptions"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEUrlOptions">TCEUrlOptions</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kCEUrlOptionNone                            = 0,
     kCEUrlOptionUseMap                          = 1,
@@ -9,28 +15,28 @@ typedef enum {
 } TCEUrlOptions;
 </pre>
 </blockquote>
-<p>URL options.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>URL options.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kCEUrlOptionNone"><tt>kCEUrlOptionNone</tt></a></td><td>No options set.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kCEUrlOptionUseMap"><tt>kCEUrlOptionUseMap</tt></a></td><td>Map option set (meaning unknown).</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kCEUrlOptionNone"><tt>kCEUrlOptionNone</tt></a></dt><dd>No options set.</dd>
+<dt><a name="//Quesa/c/econst/kCEUrlOptionUseMap"><tt>kCEUrlOptionUseMap</tt></a></dt><dd>Map option set (meaning unknown).</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3EventCallbackElementTypes"></a>
-<h3><a name="TQ3EventCallbackElementTypes">TQ3EventCallbackElementTypes</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3EventCallbackElementTypes"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3EventCallbackElementTypes">TQ3EventCallbackElementTypes</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
-	kQ3CallbackElementTypeBeforeRender			=	Q3_OBJECT_TYPE(0xF0, 'b', 'r', 'e'),
-	kQ3CallbackElementTypeAfterRender			=	Q3_OBJECT_TYPE(0xF0, 'a', 'r', 'e')
+  kQ3CallbackElementTypeBeforeRender      =  Q3_OBJECT_TYPE(0xF0, 'b', 'r', 'e'),
+  kQ3CallbackElementTypeAfterRender      =  Q3_OBJECT_TYPE(0xF0, 'a', 'r', 'e'),
+  kQ3CallbackElementTypeBeforePick      =  Q3_OBJECT_TYPE(0xF0, 'b', 'p', 'k'),
+  kQ3CallbackElementTypeAfterPick        =  Q3_OBJECT_TYPE(0xF0, 'a', 'p', 'k')
 } TQ3EventCallbackElementTypes;
 </pre>
 </blockquote>
-<p>Custom elements containing callback functions can be attached to objects,
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Custom elements containing callback functions can be attached to objects,
 in order that client code can be notified by Quesa of certain events.
 The callback function has the type TQ3ObjectEventCallback.
 <br><br>
@@ -53,16 +59,20 @@ you submit.
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3CallbackElementTypeBeforeRender"><tt>kQ3CallbackElementTypeBeforeRender</tt></a></td><td>The callback will be called just before each retained object
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeBeforeRender"><tt>kQ3CallbackElementTypeBeforeRender</tt></a></dt><dd>The callback will be called just before each retained object
 is passed to the renderer.  If the callback returns
-kQ3Failure, then the object will not be passed to the renderer.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3CallbackElementTypeAfterRender"><tt>kQ3CallbackElementTypeAfterRender</tt></a></td><td>The callback will be called just after each retained object
+kQ3Failure, then the object will not be passed to the renderer.</dd>
+<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeAfterRender"><tt>kQ3CallbackElementTypeAfterRender</tt></a></dt><dd>The callback will be called just after each retained object
 is passed to the renderer.  The callback's status result
-is ignored.</td><tr>
-</table>
+is ignored.</dd>
+<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeBeforePick"><tt>kQ3CallbackElementTypeBeforePick</tt></a></dt><dd>The callback will be called just before each retained object
+is submitted for picking.  If the callback returns
+kQ3Failure, then the object will not be submitted.</dd>
+<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeAfterPick"><tt>kQ3CallbackElementTypeAfterPick</tt></a></dt><dd>The callback will be called just after each retained object
+is submitted for picking.  The callback's status result
+is ignored.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

@@ -1,35 +1,35 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
-<a name="//apple_ref/c/func/Q3XError_Post"></a>
-<h3><a name="Q3XError_Post">Q3XError_Post</a></h3>
-<blockquote><pre><tt>void  
-Q3XError_Post (
-    TQ3Error                      error
-);
-</tt><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Functions</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/Q3XError_Post"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XError_Post">Q3XError_Post</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3XError_Post (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error error
+);</tt><br>
 </pre></blockquote>
-<p>Post an error to the error manager.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Post an error to the error manager.
 <br><br>
 Although intended only for use by extensions in QD3D, this call
 is also available to general application clients in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>error</tt></td><td>The error to post.</td></tr>
-</table>
+<dl>
+<dt><tt><em>error</em></tt></dt><dd>The error to post.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3XMacintoshError_Post"></a>
-<h3><a name="Q3XMacintoshError_Post">Q3XMacintoshError_Post</a></h3>
-<blockquote><pre><tt>void  
-Q3XMacintoshError_Post (
-    OSErr                         macOSErr
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3XMacintoshError_Post"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XMacintoshError_Post">Q3XMacintoshError_Post</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3XMacintoshError_Post (
+&nbsp;&nbsp;&nbsp;&nbsp;OSErr macOSErr
+);</tt><br>
 </pre></blockquote>
-<p>Post a Mac OS-specific error to the error manager.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Post a Mac OS-specific error to the error manager.
 <br><br>
 Although intended only for use by extensions in QD3D, this call
 is also available to general application clients in Quesa.
@@ -38,216 +38,180 @@ Note that this call is equivalent to a call to Q3Error_PlatformPost,
 which is the preferred method for posting platform-specific errors.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>macOSErr</tt></td><td>The Mac OS error to post.</td></tr>
-</table>
+<dl>
+<dt><tt><em>macOSErr</em></tt></dt><dd>The Mac OS error to post.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3XNotice_Post"></a>
-<h3><a name="Q3XNotice_Post">Q3XNotice_Post</a></h3>
-<blockquote><pre><tt>void  
-Q3XNotice_Post (
-    TQ3Notice                     notice
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3XNotice_Post"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XNotice_Post">Q3XNotice_Post</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3XNotice_Post (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice notice
+);</tt><br>
 </pre></blockquote>
-<p>Post a notice to the error manager.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Post a notice to the error manager.
 <br><br>
 Although intended only for use by extensions in QD3D, this call
 is also available to general application clients in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>notice</tt></td><td>The notice to post.</td></tr>
-</table>
+<dl>
+<dt><tt><em>notice</em></tt></dt><dd>The notice to post.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3XObjectClass_GetLeafType"></a>
-<h3><a name="Q3XObjectClass_GetLeafType">Q3XObjectClass_GetLeafType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3XObjectClass_GetLeafType (
-    TQ3XObjectClass               objectClass
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3XObjectClass_GetLeafType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectClass_GetLeafType">Q3XObjectClass_GetLeafType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3XObjectClass_GetLeafType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass
+);</tt><br>
 </pre></blockquote>
-<p>Get the leaf type of a class.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the leaf type of a class.
 <br><br>
 The leaf type is the type returned by Q3XObjectHierarchy_RegisterClass
 when the class was registered.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>The class to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClass</em></tt></dt><dd>The class to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The leaf type of the class.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XObjectClass_GetMethod"></a>
-<h3><a name="Q3XObjectClass_GetMethod">Q3XObjectClass_GetMethod</a></h3>
-<blockquote><pre><tt>TQ3XFunctionPointer  
-Q3XObjectClass_GetMethod (
-    TQ3XObjectClass               objectClass,
-    TQ3XMethodType                methodType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The leaf type of the class.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XObjectClass_GetMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectClass_GetMethod">Q3XObjectClass_GetMethod</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XFunctionPointer ) Q3XObjectClass_GetMethod (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMethodType methodType
+);</tt><br>
 </pre></blockquote>
-<p>Get a method of a class.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a method of a class.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>The class to query.</td></tr>
-<tr valign=top><td><tt>methodType</tt></td><td>The method type to retrieve.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClass</em></tt></dt><dd>The class to query.</dd>
+<dt><tt><em>methodType</em></tt></dt><dd>The method type to retrieve.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The function pointer for the method.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XObjectClass_GetPrivate"></a>
-<h3><a name="Q3XObjectClass_GetPrivate">Q3XObjectClass_GetPrivate</a></h3>
-<blockquote><pre><tt>void * 
-Q3XObjectClass_GetPrivate (
-    TQ3XObjectClass               objectClass,
-    TQ3Object                     targetObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The function pointer for the method.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XObjectClass_GetPrivate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectClass_GetPrivate">Q3XObjectClass_GetPrivate</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3XObjectClass_GetPrivate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object targetObject
+);</tt><br>
 </pre></blockquote>
-<p>Get the private instance data of an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the private instance data of an object.
 <br><br>
 If no instance data space was reserved for the object, a NULL
 pointer will be returned.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>The class of the object.</td></tr>
-<tr valign=top><td><tt>targetObject</tt></td><td>The object to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClass</em></tt></dt><dd>The class of the object.</dd>
+<dt><tt><em>targetObject</em></tt></dt><dd>The object to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A pointer to the private instance data.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XObjectClass_GetType"></a>
-<h3><a name="Q3XObjectClass_GetType">Q3XObjectClass_GetType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XObjectClass_GetType (
-    TQ3XObjectClass               objectClass,
-    TQ3ObjectType                 *theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A pointer to the private instance data.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XObjectClass_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectClass_GetType">Q3XObjectClass_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XObjectClass_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType *theType
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a class.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a class.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>The class to query.</td></tr>
-<tr valign=top><td><tt>theType</tt></td><td>Receives the type of the class.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClass</em></tt></dt><dd>The class to query.</dd>
+<dt><tt><em>theType</em></tt></dt><dd>Receives the type of the class.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XObjectHierarchy_FindClassByType"></a>
-<h3><a name="Q3XObjectHierarchy_FindClassByType">Q3XObjectHierarchy_FindClassByType</a></h3>
-<blockquote><pre><tt>TQ3XObjectClass  
-Q3XObjectHierarchy_FindClassByType (
-    TQ3ObjectType                 theType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XObjectHierarchy_FindClassByType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_FindClassByType">Q3XObjectHierarchy_FindClassByType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XObjectHierarchy_FindClassByType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType theType
+);</tt><br>
 </pre></blockquote>
-<p>Locate a class within the class tree.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Locate a class within the class tree.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theType</tt></td><td>The class type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theType</em></tt></dt><dd>The class type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The class registered under theType, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XObjectHierarchy_GetClassVersion"></a>
-<h3><a name="Q3XObjectHierarchy_GetClassVersion">Q3XObjectHierarchy_GetClassVersion</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XObjectHierarchy_GetClassVersion (
-    TQ3ObjectType                 objectClassType,
-    TQ3XObjectClassVersion        *version
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The class registered under theType, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XObjectHierarchy_GetClassVersion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_GetClassVersion">Q3XObjectHierarchy_GetClassVersion</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XObjectHierarchy_GetClassVersion (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType objectClassType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClassVersion *version
+);</tt><br>
 </pre></blockquote>
-<p>Get the version of a class.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the version of a class.
 <br><br>
 The class version is returned by the class ClassVersion method.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClassType</tt></td><td>The class to query.</td></tr>
-<tr valign=top><td><tt>version</tt></td><td>Receives the version of the class.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClassType</em></tt></dt><dd>The class to query.</dd>
+<dt><tt><em>version</em></tt></dt><dd>Receives the version of the class.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XObjectHierarchy_NewObject"></a>
-<h3><a name="Q3XObjectHierarchy_NewObject">Q3XObjectHierarchy_NewObject</a></h3>
-<blockquote><pre><tt>TQ3Object  
-Q3XObjectHierarchy_NewObject (
-    TQ3XObjectClass               objectClass,
-    void                          *parameters
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XObjectHierarchy_NewObject"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_NewObject">Q3XObjectHierarchy_NewObject</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Object ) Q3XObjectHierarchy_NewObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass,
+&nbsp;&nbsp;&nbsp;&nbsp;void *parameters
+);</tt><br>
 </pre></blockquote>
-<p>Instantiate a class.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Instantiate a class.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>The class to instantiate.</td></tr>
-<tr valign=top><td><tt>parameters</tt></td><td>The parameter data for the NewMethod method.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClass</em></tt></dt><dd>The class to instantiate.</dd>
+<dt><tt><em>parameters</em></tt></dt><dd>The parameter data for the NewMethod method.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A new instance of the class.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XObjectHierarchy_RegisterClass"></a>
-<h3><a name="Q3XObjectHierarchy_RegisterClass">Q3XObjectHierarchy_RegisterClass</a></h3>
-<blockquote><pre><tt>TQ3XObjectClass  
-Q3XObjectHierarchy_RegisterClass (
-    TQ3ObjectType                 parentType,
-    TQ3ObjectType                 *objectType,
-    char                          *objectName,
-    TQ3XMetaHandler               metaHandler,
-    TQ3XMetaHandler               virtualMetaHandler,
-    TQ3Uns32                      methodsSize,
-    TQ3Uns32                      instanceSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new instance of the class.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XObjectHierarchy_RegisterClass"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_RegisterClass">Q3XObjectHierarchy_RegisterClass</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XObjectHierarchy_RegisterClass (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType parentType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType *objectType,
+&nbsp;&nbsp;&nbsp;&nbsp;char *objectName,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler metaHandler,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler virtualMetaHandler,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 methodsSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 instanceSize
+);</tt><br>
 </pre></blockquote>
-<p>Register a new object class in the class tree.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Register a new object class in the class tree.
 <br><br>
 Quesa does not support the virtualMetaHandler or methodsSize parameters,
 and these should be set to NULL and 0 respectively.
@@ -257,84 +221,72 @@ Quesa class tree, and the QD3D docs are unclear on the purpose of
 methodsSize.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>parentType</tt></td><td>The object type of the parent the new class should
+<dl>
+<dt><tt><em>parentType</em></tt></dt><dd>The object type of the parent the new class should
 be derived from. To derive new classes from the
-root TQ3Object class, pass in kQ3ObjectTypeInvalid.</td></tr>
-<tr valign=top><td><tt>objectType</tt></td><td>Receives the new object type for the new class.
+root TQ3Object class, pass in kQ3ObjectTypeInvalid.</dd>
+<dt><tt><em>objectType</em></tt></dt><dd>Receives the new object type for the new class.
 This value is used as the class identifier in binary
 3DMF files, and is returned by the _GetType and
 Q3Object_GetLeafType class. It may also be passed to
-Q3Object_IsType to identify objects of this class.</td></tr>
-<tr valign=top><td><tt>objectName</tt></td><td>A C string which acts as a unique textual identifier
+Q3Object_IsType to identify objects of this class.</dd>
+<dt><tt><em>objectName</em></tt></dt><dd>A C string which acts as a unique textual identifier
 for the new class. This value is used as the class
-identifier in text 3DMF files.</td></tr>
-<tr valign=top><td><tt>metaHandler</tt></td><td>The metahandler for the class.</td></tr>
-<tr valign=top><td><tt>virtualMetaHandler</tt></td><td>The virtual metahandler for the class (should be NULL).</td></tr>
-<tr valign=top><td><tt>methodsSize</tt></td><td>The size of the private class data (shoudld be 0).</td></tr>
-<tr valign=top><td><tt>instanceSize</tt></td><td>The size of the instance data for the class, if any.</td></tr>
-</table>
+identifier in text 3DMF files.</dd>
+<dt><tt><em>metaHandler</em></tt></dt><dd>The metahandler for the class.</dd>
+<dt><tt><em>virtualMetaHandler</em></tt></dt><dd>The virtual metahandler for the class (should be NULL).</dd>
+<dt><tt><em>methodsSize</em></tt></dt><dd>The size of the private class data (shoudld be 0).</dd>
+<dt><tt><em>instanceSize</em></tt></dt><dd>The size of the instance data for the class, if any.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new class reference.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XObjectHierarchy_UnregisterClass"></a>
-<h3><a name="Q3XObjectHierarchy_UnregisterClass">Q3XObjectHierarchy_UnregisterClass</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XObjectHierarchy_UnregisterClass (
-    TQ3XObjectClass               objectClass
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new class reference.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XObjectHierarchy_UnregisterClass"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_UnregisterClass">Q3XObjectHierarchy_UnregisterClass</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XObjectHierarchy_UnregisterClass (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass
+);</tt><br>
 </pre></blockquote>
-<p>Unregister a object class from the class tree.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Unregister a object class from the class tree.
 <br><br>
 Only classes registered by Q3XObjectHierarchy_RegisterClass should
 be unregistered by this routine.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>objectClass</tt></td><td>The class to unregister.</td></tr>
-</table>
+<dl>
+<dt><tt><em>objectClass</em></tt></dt><dd>The class to unregister.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XObject_GetClass"></a>
-<h3><a name="Q3XObject_GetClass">Q3XObject_GetClass</a></h3>
-<blockquote><pre><tt>TQ3XObjectClass  
-Q3XObject_GetClass (
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XObject_GetClass"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObject_GetClass">Q3XObject_GetClass</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XObject_GetClass (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Get the class of an object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the class of an object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>object</tt></td><td>The object to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>object</em></tt></dt><dd>The object to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The class of the object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XSharedLibrary_Register"></a>
-<h3><a name="Q3XSharedLibrary_Register">Q3XSharedLibrary_Register</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XSharedLibrary_Register (
-    TQ3XSharedLibraryInfo         *sharedLibraryInfo
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The class of the object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XSharedLibrary_Register"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XSharedLibrary_Register">Q3XSharedLibrary_Register</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XSharedLibrary_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XSharedLibraryInfo *sharedLibraryInfo
+);</tt><br>
 </pre></blockquote>
-<p>Register a shared library with Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Register a shared library with Quesa.
 <br><br>
 Can be called from within a shared library entry point to register
 a callback with Quesa. The callback will be invoked by Q3Initialize
@@ -342,62 +294,52 @@ during initialisation, to allow it to register custom classes with
 the Quesa class tree.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedLibraryInfo</tt></td><td>The shared library registration state.</td></tr>
-</table>
+<dl>
+<dt><tt><em>sharedLibraryInfo</em></tt></dt><dd>The shared library registration state.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XSharedLibrary_Unregister"></a>
-<h3><a name="Q3XSharedLibrary_Unregister">Q3XSharedLibrary_Unregister</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XSharedLibrary_Unregister (
-    TQ3Uns32                      sharedLibrary
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XSharedLibrary_Unregister"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XSharedLibrary_Unregister">Q3XSharedLibrary_Unregister</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XSharedLibrary_Unregister (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 sharedLibrary
+);</tt><br>
 </pre></blockquote>
-<p>Unregister a shared library with Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Unregister a shared library with Quesa.
 <br><br>
 The sharedLibrary parameter should match the sharedLibrary field
 within the TQ3XSharedLibraryInfo that was passed to
 Q3XSharedLibrary_Register.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>sharedLibrary</tt></td><td>The shared library reference.</td></tr>
-</table>
+<dl>
+<dt><tt><em>sharedLibrary</em></tt></dt><dd>The shared library reference.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XWarning_Post"></a>
-<h3><a name="Q3XWarning_Post">Q3XWarning_Post</a></h3>
-<blockquote><pre><tt>void  
-Q3XWarning_Post (
-    TQ3Warning                    warning
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XWarning_Post"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XWarning_Post">Q3XWarning_Post</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3XWarning_Post (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning warning
+);</tt><br>
 </pre></blockquote>
-<p>Post a warning to the error manager.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Post a warning to the error manager.
 <br><br>
 Although intended only for use by extensions in QD3D, this call
 is also available to general application clients in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>warning</tt></td><td>The warning to post.</td></tr>
-</table>
+<dl>
+<dt><tt><em>warning</em></tt></dt><dd>The warning to post.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

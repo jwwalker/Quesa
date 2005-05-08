@@ -1,1038 +1,864 @@
-<html><head><title>QuesaLight.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaLight.h</h1></font><hr><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>QuesaLight.h</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">QuesaLight.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa light objects.
  <hr><br><h2>Functions</h2>
-<a name="//apple_ref/c/func/Q3AmbientLight_GetData"></a>
-<h3><a name="Q3AmbientLight_GetData">Q3AmbientLight_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AmbientLight_GetData (
-    TQ3LightObject                light,
-    TQ3LightData                  *lightData
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3AmbientLight_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AmbientLight_GetData">Q3AmbientLight_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AmbientLight_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightData *lightData
+);</tt><br>
 </pre></blockquote>
-<p>Get the data for an ambient light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for an ambient light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>lightData</tt></td><td>Receives the data of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>lightData</em></tt></dt><dd>Receives the data of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AmbientLight_New"></a>
-<h3><a name="Q3AmbientLight_New">Q3AmbientLight_New</a></h3>
-<blockquote><pre><tt>TQ3LightObject  
-Q3AmbientLight_New (
-    const TQ3LightData            *lightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AmbientLight_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AmbientLight_New">Q3AmbientLight_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject ) Q3AmbientLight_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3LightData *lightData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new ambient light object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new ambient light object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>lightData</tt></td><td>The data for the light object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>lightData</em></tt></dt><dd>The data for the light object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new light object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AmbientLight_SetData"></a>
-<h3><a name="Q3AmbientLight_SetData">Q3AmbientLight_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AmbientLight_SetData (
-    TQ3LightObject                light,
-    const TQ3LightData            *lightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new light object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AmbientLight_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AmbientLight_SetData">Q3AmbientLight_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AmbientLight_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3LightData *lightData
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for an ambient light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for an ambient light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>lightData</tt></td><td>The new data for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>lightData</em></tt></dt><dd>The new data for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DirectionalLight_GetCastShadowsState"></a>
-<h3><a name="Q3DirectionalLight_GetCastShadowsState">Q3DirectionalLight_GetCastShadowsState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DirectionalLight_GetCastShadowsState (
-    TQ3LightObject                light,
-    TQ3Boolean                    *castsShadows
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DirectionalLight_GetCastShadowsState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_GetCastShadowsState">Q3DirectionalLight_GetCastShadowsState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_GetCastShadowsState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *castsShadows
+);</tt><br>
 </pre></blockquote>
-<p>Get the cast-shadow state of a directional light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the cast-shadow state of a directional light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>Receives true or false as the light casts shadows.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>castsShadows</em></tt></dt><dd>Receives true or false as the light casts shadows.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DirectionalLight_GetData"></a>
-<h3><a name="Q3DirectionalLight_GetData">Q3DirectionalLight_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DirectionalLight_GetData (
-    TQ3LightObject                light,
-    TQ3DirectionalLightData       *directionalLightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DirectionalLight_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_GetData">Q3DirectionalLight_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DirectionalLightData *directionalLightData
+);</tt><br>
 </pre></blockquote>
-<p>Get the data for a directional light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a directional light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>directionalLightData</tt></td><td>Receives the data of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>directionalLightData</em></tt></dt><dd>Receives the data of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DirectionalLight_GetDirection"></a>
-<h3><a name="Q3DirectionalLight_GetDirection">Q3DirectionalLight_GetDirection</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DirectionalLight_GetDirection (
-    TQ3LightObject                light,
-    TQ3Vector3D                   *direction
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DirectionalLight_GetDirection"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_GetDirection">Q3DirectionalLight_GetDirection</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_GetDirection (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *direction
+);</tt><br>
 </pre></blockquote>
-<p>Get the direction of a directional light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the direction of a directional light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>direction</tt></td><td>Receives the direction of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>direction</em></tt></dt><dd>Receives the direction of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DirectionalLight_New"></a>
-<h3><a name="Q3DirectionalLight_New">Q3DirectionalLight_New</a></h3>
-<blockquote><pre><tt>TQ3LightObject  
-Q3DirectionalLight_New (
-    const TQ3DirectionalLightData *directionalLightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DirectionalLight_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_New">Q3DirectionalLight_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject ) Q3DirectionalLight_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DirectionalLightData *directionalLightData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new directional light object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new directional light object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>directionalLightData</tt></td><td>The data for the light object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>directionalLightData</em></tt></dt><dd>The data for the light object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new light object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DirectionalLight_SetCastShadowsState"></a>
-<h3><a name="Q3DirectionalLight_SetCastShadowsState">Q3DirectionalLight_SetCastShadowsState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DirectionalLight_SetCastShadowsState (
-    TQ3LightObject                light,
-    TQ3Boolean                    castsShadows
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new light object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DirectionalLight_SetCastShadowsState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_SetCastShadowsState">Q3DirectionalLight_SetCastShadowsState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_SetCastShadowsState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castsShadows
+);</tt><br>
 </pre></blockquote>
-<p>Set the cast-shadow state of a directional light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the cast-shadow state of a directional light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>True or false as the light casts shadows.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>castsShadows</em></tt></dt><dd>True or false as the light casts shadows.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DirectionalLight_SetData"></a>
-<h3><a name="Q3DirectionalLight_SetData">Q3DirectionalLight_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DirectionalLight_SetData (
-    TQ3LightObject                light,
-    const TQ3DirectionalLightData *directionalLightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DirectionalLight_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_SetData">Q3DirectionalLight_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DirectionalLightData *directionalLightData
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a directional light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a directional light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>directionalLightData</tt></td><td>The new data for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>directionalLightData</em></tt></dt><dd>The new data for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DirectionalLight_SetDirection"></a>
-<h3><a name="Q3DirectionalLight_SetDirection">Q3DirectionalLight_SetDirection</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DirectionalLight_SetDirection (
-    TQ3LightObject                light,
-    const TQ3Vector3D             *direction
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DirectionalLight_SetDirection"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_SetDirection">Q3DirectionalLight_SetDirection</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_SetDirection (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *direction
+);</tt><br>
 </pre></blockquote>
-<p>Set the direction of a directional light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the direction of a directional light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>direction</tt></td><td>The new direction for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>direction</em></tt></dt><dd>The new direction for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Light_GetBrightness"></a>
-<h3><a name="Q3Light_GetBrightness">Q3Light_GetBrightness</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Light_GetBrightness (
-    TQ3LightObject                light,
-    float                         *brightness
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Light_GetBrightness"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetBrightness">Q3Light_GetBrightness</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_GetBrightness (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;float *brightness
+);</tt><br>
 </pre></blockquote>
-<p>Get the brightness of a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the brightness of a light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>brightness</tt></td><td>Receives the brightness of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>brightness</em></tt></dt><dd>Receives the brightness of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Light_GetColor"></a>
-<h3><a name="Q3Light_GetColor">Q3Light_GetColor</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Light_GetColor (
-    TQ3LightObject                light,
-    TQ3ColorRGB                   *color
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Light_GetColor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetColor">Q3Light_GetColor</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_GetColor (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *color
+);</tt><br>
 </pre></blockquote>
-<p>Get the color of a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the color of a light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>Receives the color of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>color</em></tt></dt><dd>Receives the color of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Light_GetData"></a>
-<h3><a name="Q3Light_GetData">Q3Light_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Light_GetData (
-    TQ3LightObject                light,
-    TQ3LightData                  *lightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Light_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetData">Q3Light_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightData *lightData
+);</tt><br>
 </pre></blockquote>
-<p>Get the common state of a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the common state of a light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>lightData</tt></td><td>Receives the common state of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>lightData</em></tt></dt><dd>Receives the common state of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Light_GetState"></a>
-<h3><a name="Q3Light_GetState">Q3Light_GetState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Light_GetState (
-    TQ3LightObject                light,
-    TQ3Boolean                    *isOn
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Light_GetState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetState">Q3Light_GetState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_GetState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *isOn
+);</tt><br>
 </pre></blockquote>
-<p>Get the on/off state of a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the on/off state of a light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>isOn</tt></td><td>Receives true/false as the light is on.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>isOn</em></tt></dt><dd>Receives true/false as the light is on.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Light_GetType"></a>
-<h3><a name="Q3Light_GetType">Q3Light_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Light_GetType (
-    TQ3LightObject                light
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Light_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetType">Q3Light_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Light_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a light.
 <br><br>
 Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the light object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Light_SetBrightness"></a>
-<h3><a name="Q3Light_SetBrightness">Q3Light_SetBrightness</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Light_SetBrightness (
-    TQ3LightObject                light,
-    float                         brightness
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the light object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Light_SetBrightness"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_SetBrightness">Q3Light_SetBrightness</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_SetBrightness (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;float brightness
+);</tt><br>
 </pre></blockquote>
-<p>Set the brightness of a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the brightness of a light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>brightness</tt></td><td>The new brightness for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>brightness</em></tt></dt><dd>The new brightness for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Light_SetColor"></a>
-<h3><a name="Q3Light_SetColor">Q3Light_SetColor</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Light_SetColor (
-    TQ3LightObject                light,
-    const TQ3ColorRGB             *color
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Light_SetColor"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_SetColor">Q3Light_SetColor</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_SetColor (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *color
+);</tt><br>
 </pre></blockquote>
-<p>Set the color of a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the color of a light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>color</tt></td><td>The new color for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>color</em></tt></dt><dd>The new color for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Light_SetData"></a>
-<h3><a name="Q3Light_SetData">Q3Light_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Light_SetData (
-    TQ3LightObject                light,
-    const TQ3LightData            *lightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Light_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_SetData">Q3Light_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3LightData *lightData
+);</tt><br>
 </pre></blockquote>
-<p>Set the common state for a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the common state for a light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>lightData</tt></td><td>The new common state for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>lightData</em></tt></dt><dd>The new common state for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Light_SetState"></a>
-<h3><a name="Q3Light_SetState">Q3Light_SetState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Light_SetState (
-    TQ3LightObject                light,
-    TQ3Boolean                    isOn
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Light_SetState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_SetState">Q3Light_SetState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_SetState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean isOn
+);</tt><br>
 </pre></blockquote>
-<p>Set the on/off state for a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the on/off state for a light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>isOn</tt></td><td>True or false as the light is on.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>isOn</em></tt></dt><dd>True or false as the light is on.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PointLight_GetAttenuation"></a>
-<h3><a name="Q3PointLight_GetAttenuation">Q3PointLight_GetAttenuation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PointLight_GetAttenuation (
-    TQ3LightObject                light,
-    TQ3AttenuationType            *attenuation
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_GetAttenuation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetAttenuation">Q3PointLight_GetAttenuation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetAttenuation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType *attenuation
+);</tt><br>
 </pre></blockquote>
-<p>Get the attenuation of a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attenuation of a point light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>attenuation</tt></td><td>Receives the attenuation of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>attenuation</em></tt></dt><dd>Receives the attenuation of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PointLight_GetCastShadowsState"></a>
-<h3><a name="Q3PointLight_GetCastShadowsState">Q3PointLight_GetCastShadowsState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PointLight_GetCastShadowsState (
-    TQ3LightObject                light,
-    TQ3Boolean                    *castsShadows
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_GetCastShadowsState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetCastShadowsState">Q3PointLight_GetCastShadowsState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetCastShadowsState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *castsShadows
+);</tt><br>
 </pre></blockquote>
-<p>Get the cast-shadow state of a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the cast-shadow state of a point light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>Receives true or false as the light casts shadows.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>castsShadows</em></tt></dt><dd>Receives true or false as the light casts shadows.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PointLight_GetData"></a>
-<h3><a name="Q3PointLight_GetData">Q3PointLight_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PointLight_GetData (
-    TQ3LightObject                light,
-    TQ3PointLightData             *pointLightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetData">Q3PointLight_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PointLightData *pointLightData
+);</tt><br>
 </pre></blockquote>
-<p>Get the data for a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a point light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>pointLightData</tt></td><td>Receives the data of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>pointLightData</em></tt></dt><dd>Receives the data of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PointLight_GetLocation"></a>
-<h3><a name="Q3PointLight_GetLocation">Q3PointLight_GetLocation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PointLight_GetLocation (
-    TQ3LightObject                light,
-    TQ3Point3D                    *location
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_GetLocation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetLocation">Q3PointLight_GetLocation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetLocation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *location
+);</tt><br>
 </pre></blockquote>
-<p>Get the location of a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the location of a point light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>location</tt></td><td>Receives the location of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>location</em></tt></dt><dd>Receives the location of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PointLight_New"></a>
-<h3><a name="Q3PointLight_New">Q3PointLight_New</a></h3>
-<blockquote><pre><tt>TQ3LightObject  
-Q3PointLight_New (
-    const TQ3PointLightData       *pointLightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_New">Q3PointLight_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject ) Q3PointLight_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PointLightData *pointLightData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new point light object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new point light object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pointLightData</tt></td><td>The data for the light object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>pointLightData</em></tt></dt><dd>The data for the light object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new light object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PointLight_SetAttenuation"></a>
-<h3><a name="Q3PointLight_SetAttenuation">Q3PointLight_SetAttenuation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PointLight_SetAttenuation (
-    TQ3LightObject                light,
-    TQ3AttenuationType            attenuation
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new light object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_SetAttenuation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetAttenuation">Q3PointLight_SetAttenuation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetAttenuation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType attenuation
+);</tt><br>
 </pre></blockquote>
-<p>Set the attenuation of a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the attenuation of a point light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>attenuation</tt></td><td>The new attenuation for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>attenuation</em></tt></dt><dd>The new attenuation for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PointLight_SetCastShadowsState"></a>
-<h3><a name="Q3PointLight_SetCastShadowsState">Q3PointLight_SetCastShadowsState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PointLight_SetCastShadowsState (
-    TQ3LightObject                light,
-    TQ3Boolean                    castsShadows
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_SetCastShadowsState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetCastShadowsState">Q3PointLight_SetCastShadowsState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetCastShadowsState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castsShadows
+);</tt><br>
 </pre></blockquote>
-<p>Set the cast-shadow state of a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the cast-shadow state of a point light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>True or false as the light casts shadows.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>castsShadows</em></tt></dt><dd>True or false as the light casts shadows.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PointLight_SetData"></a>
-<h3><a name="Q3PointLight_SetData">Q3PointLight_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PointLight_SetData (
-    TQ3LightObject                light,
-    const TQ3PointLightData       *pointLightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetData">Q3PointLight_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PointLightData *pointLightData
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a point light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>pointLightData</tt></td><td>The new data for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>pointLightData</em></tt></dt><dd>The new data for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PointLight_SetLocation"></a>
-<h3><a name="Q3PointLight_SetLocation">Q3PointLight_SetLocation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PointLight_SetLocation (
-    TQ3LightObject                light,
-    const TQ3Point3D              *location
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_SetLocation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetLocation">Q3PointLight_SetLocation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetLocation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *location
+);</tt><br>
 </pre></blockquote>
-<p>Set the location of a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the location of a point light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>location</tt></td><td>The new location for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>location</em></tt></dt><dd>The new location for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_GetAttenuation"></a>
-<h3><a name="Q3SpotLight_GetAttenuation">Q3SpotLight_GetAttenuation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_GetAttenuation (
-    TQ3LightObject                light,
-    TQ3AttenuationType            *attenuation
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_GetAttenuation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetAttenuation">Q3SpotLight_GetAttenuation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetAttenuation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType *attenuation
+);</tt><br>
 </pre></blockquote>
-<p>Get the attenuation of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attenuation of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>attenuation</tt></td><td>Receives the attenuation of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>attenuation</em></tt></dt><dd>Receives the attenuation of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_GetCastShadowsState"></a>
-<h3><a name="Q3SpotLight_GetCastShadowsState">Q3SpotLight_GetCastShadowsState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_GetCastShadowsState (
-    TQ3LightObject                light,
-    TQ3Boolean                    *castsShadows
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_GetCastShadowsState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetCastShadowsState">Q3SpotLight_GetCastShadowsState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetCastShadowsState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *castsShadows
+);</tt><br>
 </pre></blockquote>
-<p>Get the cast-shadow state of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the cast-shadow state of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>Receives true or false as the light casts shadows.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>castsShadows</em></tt></dt><dd>Receives true or false as the light casts shadows.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_GetData"></a>
-<h3><a name="Q3SpotLight_GetData">Q3SpotLight_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_GetData (
-    TQ3LightObject                light,
-    TQ3SpotLightData              *spotLightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetData">Q3SpotLight_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SpotLightData *spotLightData
+);</tt><br>
 </pre></blockquote>
-<p>Get the data for a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>spotLightData</tt></td><td>Receives the data of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>spotLightData</em></tt></dt><dd>Receives the data of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_GetDirection"></a>
-<h3><a name="Q3SpotLight_GetDirection">Q3SpotLight_GetDirection</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_GetDirection (
-    TQ3LightObject                light,
-    TQ3Vector3D                   *direction
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_GetDirection"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetDirection">Q3SpotLight_GetDirection</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetDirection (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *direction
+);</tt><br>
 </pre></blockquote>
-<p>Get the direction of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the direction of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>direction</tt></td><td>Receives the direction of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>direction</em></tt></dt><dd>Receives the direction of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_GetFallOff"></a>
-<h3><a name="Q3SpotLight_GetFallOff">Q3SpotLight_GetFallOff</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_GetFallOff (
-    TQ3LightObject                light,
-    TQ3FallOffType                *fallOff
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_GetFallOff"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetFallOff">Q3SpotLight_GetFallOff</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetFallOff (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FallOffType *fallOff
+);</tt><br>
 </pre></blockquote>
-<p>Get the fall off of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the fall off of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>fallOff</tt></td><td>Receives the fall off value of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>fallOff</em></tt></dt><dd>Receives the fall off value of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_GetHotAngle"></a>
-<h3><a name="Q3SpotLight_GetHotAngle">Q3SpotLight_GetHotAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_GetHotAngle (
-    TQ3LightObject                light,
-    float                         *hotAngle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_GetHotAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetHotAngle">Q3SpotLight_GetHotAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetHotAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;float *hotAngle
+);</tt><br>
 </pre></blockquote>
-<p>Get the hot angle of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the hot angle of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>hotAngle</tt></td><td>Receives the hot angle of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>hotAngle</em></tt></dt><dd>Receives the hot angle of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_GetLocation"></a>
-<h3><a name="Q3SpotLight_GetLocation">Q3SpotLight_GetLocation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_GetLocation (
-    TQ3LightObject                light,
-    TQ3Point3D                    *location
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_GetLocation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetLocation">Q3SpotLight_GetLocation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetLocation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *location
+);</tt><br>
 </pre></blockquote>
-<p>Get the location of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the location of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>location</tt></td><td>Receives the location of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>location</em></tt></dt><dd>Receives the location of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_GetOuterAngle"></a>
-<h3><a name="Q3SpotLight_GetOuterAngle">Q3SpotLight_GetOuterAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_GetOuterAngle (
-    TQ3LightObject                light,
-    float                         *outerAngle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_GetOuterAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetOuterAngle">Q3SpotLight_GetOuterAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetOuterAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;float *outerAngle
+);</tt><br>
 </pre></blockquote>
-<p>Get the outer angle of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the outer angle of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to query.</td></tr>
-<tr valign=top><td><tt>outerAngle</tt></td><td>Receives the outer angle of the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>outerAngle</em></tt></dt><dd>Receives the outer angle of the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_New"></a>
-<h3><a name="Q3SpotLight_New">Q3SpotLight_New</a></h3>
-<blockquote><pre><tt>TQ3LightObject  
-Q3SpotLight_New (
-    const TQ3SpotLightData        *spotLightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_New">Q3SpotLight_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject ) Q3SpotLight_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SpotLightData *spotLightData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new spot light object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new spot light object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>spotLightData</tt></td><td>The data for the light object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>spotLightData</em></tt></dt><dd>The data for the light object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new light object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_SetAttenuation"></a>
-<h3><a name="Q3SpotLight_SetAttenuation">Q3SpotLight_SetAttenuation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_SetAttenuation (
-    TQ3LightObject                light,
-    TQ3AttenuationType            attenuation
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new light object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_SetAttenuation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetAttenuation">Q3SpotLight_SetAttenuation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetAttenuation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType attenuation
+);</tt><br>
 </pre></blockquote>
-<p>Set the attenuation for a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the attenuation for a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>attenuation</tt></td><td>The new attenuation for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>attenuation</em></tt></dt><dd>The new attenuation for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_SetCastShadowsState"></a>
-<h3><a name="Q3SpotLight_SetCastShadowsState">Q3SpotLight_SetCastShadowsState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_SetCastShadowsState (
-    TQ3LightObject                light,
-    TQ3Boolean                    castsShadows
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_SetCastShadowsState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetCastShadowsState">Q3SpotLight_SetCastShadowsState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetCastShadowsState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castsShadows
+);</tt><br>
 </pre></blockquote>
-<p>Set the cast-shadow state of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the cast-shadow state of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>True or false as the light casts shadows.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>castsShadows</em></tt></dt><dd>True or false as the light casts shadows.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_SetData"></a>
-<h3><a name="Q3SpotLight_SetData">Q3SpotLight_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_SetData (
-    TQ3LightObject                light,
-    const TQ3SpotLightData        *spotLightData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetData">Q3SpotLight_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SpotLightData *spotLightData
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>spotLightData</tt></td><td>The new data for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>spotLightData</em></tt></dt><dd>The new data for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_SetDirection"></a>
-<h3><a name="Q3SpotLight_SetDirection">Q3SpotLight_SetDirection</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_SetDirection (
-    TQ3LightObject                light,
-    const TQ3Vector3D             *direction
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_SetDirection"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetDirection">Q3SpotLight_SetDirection</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetDirection (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *direction
+);</tt><br>
 </pre></blockquote>
-<p>Set the direction of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the direction of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>direction</tt></td><td>The new direction for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>direction</em></tt></dt><dd>The new direction for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_SetFallOff"></a>
-<h3><a name="Q3SpotLight_SetFallOff">Q3SpotLight_SetFallOff</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_SetFallOff (
-    TQ3LightObject                light,
-    TQ3FallOffType                fallOff
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_SetFallOff"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetFallOff">Q3SpotLight_SetFallOff</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetFallOff (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FallOffType fallOff
+);</tt><br>
 </pre></blockquote>
-<p>Set the fall off of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the fall off of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>fallOff</tt></td><td>The new fall off value for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>fallOff</em></tt></dt><dd>The new fall off value for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_SetHotAngle"></a>
-<h3><a name="Q3SpotLight_SetHotAngle">Q3SpotLight_SetHotAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_SetHotAngle (
-    TQ3LightObject                light,
-    float                         hotAngle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_SetHotAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetHotAngle">Q3SpotLight_SetHotAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetHotAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;float hotAngle
+);</tt><br>
 </pre></blockquote>
-<p>Set the hot angle of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the hot angle of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>hotAngle</tt></td><td>The new hot angle for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>hotAngle</em></tt></dt><dd>The new hot angle for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_SetLocation"></a>
-<h3><a name="Q3SpotLight_SetLocation">Q3SpotLight_SetLocation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_SetLocation (
-    TQ3LightObject                light,
-    const TQ3Point3D              *location
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_SetLocation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetLocation">Q3SpotLight_SetLocation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetLocation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *location
+);</tt><br>
 </pre></blockquote>
-<p>Set the location for a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the location for a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>location</tt></td><td>The new location for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>location</em></tt></dt><dd>The new location for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SpotLight_SetOuterAngle"></a>
-<h3><a name="Q3SpotLight_SetOuterAngle">Q3SpotLight_SetOuterAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SpotLight_SetOuterAngle (
-    TQ3LightObject                light,
-    float                         outerAngle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SpotLight_SetOuterAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetOuterAngle">Q3SpotLight_SetOuterAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetOuterAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;float outerAngle
+);</tt><br>
 </pre></blockquote>
-<p>Set the outer angle of a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the outer angle of a spot light.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>light</tt></td><td>The light to update.</td></tr>
-<tr valign=top><td><tt>outerAngle</tt></td><td>The new outer angle for the light.</td></tr>
-</table>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>outerAngle</em></tt></dt><dd>The new outer angle for the light.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
 <h2>Structs</h2>
-<a name="//apple_ref/c/tag/TQ3DirectionalLightData"></a>
-<h3><a name="TQ3DirectionalLightData">TQ3DirectionalLightData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3DirectionalLightData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DirectionalLightData">TQ3DirectionalLightData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DirectionalLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
@@ -1040,25 +866,23 @@ typedef struct TQ3DirectionalLightData {
 } TQ3DirectionalLightData;
 </pre>
 </blockquote>
-<p>Describes the state for a directional light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a directional light.
 <br><br>
 A directional light is defined by a vector, which indicates the
 world-space direction away from the light source.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>lightData</tt></td><td>The common state for the light.</td><tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>Indicates if the light casts shadows.</td><tr>
-<tr valign=top><td><tt>direction</tt></td><td>The direction of the light.</td><tr>
-</table>
+<dl>
+<dt><tt>lightData</tt></dt><dd>The common state for the light.</dd>
+<dt><tt>castsShadows</tt></dt><dd>Indicates if the light casts shadows.</dd>
+<dt><tt>direction</tt></dt><dd>The direction of the light.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3LightData"></a>
-<h3><a name="TQ3LightData">TQ3LightData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3LightData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3LightData">TQ3LightData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3LightData {
     TQ3Boolean                                  isOn;
     float                                       brightness;
@@ -1066,7 +890,7 @@ typedef struct TQ3LightData {
 } TQ3LightData;
 </pre>
 </blockquote>
-<p>Describes the common state for a light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the common state for a light.
 <br><br>
 The common light state includes the on/off state, brightness, and color.
 Brightness and color values should be between 0.0 and 1.0 inclusive.
@@ -1080,19 +904,17 @@ in kQ3NoticeBrightnessGreaterThanOne or kQ3NoticeBrightnessLessThanZero
 warnings.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>isOn</tt></td><td>Controls if the light is active or not.</td><tr>
-<tr valign=top><td><tt>brightness</tt></td><td>The brightness of the light.</td><tr>
-<tr valign=top><td><tt>color</tt></td><td>The colour of the light.</td><tr>
-</table>
+<dl>
+<dt><tt>isOn</tt></dt><dd>Controls if the light is active or not.</dd>
+<dt><tt>brightness</tt></dt><dd>The brightness of the light.</dd>
+<dt><tt>color</tt></dt><dd>The colour of the light.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3PointLightData"></a>
-<h3><a name="TQ3PointLightData">TQ3PointLightData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3PointLightData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PointLightData">TQ3PointLightData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PointLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
@@ -1101,27 +923,25 @@ typedef struct TQ3PointLightData {
 } TQ3PointLightData;
 </pre>
 </blockquote>
-<p>Describes the state for a point light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a point light.
 <br><br>
 A point light is defined by a coordinate in world space, and an
 attenuation value which controls how the light diminishes with
 distance.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>lightData</tt></td><td>The common state for the light.</td><tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>Indicates if the light casts shadows.</td><tr>
-<tr valign=top><td><tt>attenuation</tt></td><td>The attenuation style of the light.</td><tr>
-<tr valign=top><td><tt>location</tt></td><td>The location of the light.</td><tr>
-</table>
+<dl>
+<dt><tt>lightData</tt></dt><dd>The common state for the light.</dd>
+<dt><tt>castsShadows</tt></dt><dd>Indicates if the light casts shadows.</dd>
+<dt><tt>attenuation</tt></dt><dd>The attenuation style of the light.</dd>
+<dt><tt>location</tt></dt><dd>The location of the light.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3SpotLightData"></a>
-<h3><a name="TQ3SpotLightData">TQ3SpotLightData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3SpotLightData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3SpotLightData">TQ3SpotLightData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3SpotLightData {
     TQ3LightData                                lightData;
     TQ3Boolean                                  castsShadows;
@@ -1134,7 +954,7 @@ typedef struct TQ3SpotLightData {
 } TQ3SpotLightData;
 </pre>
 </blockquote>
-<p>Describes the state for a spot light.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a spot light.
 <br><br>
 A spot light is defined by a coordinate in world space, a vector
 away from that coordinate, and an attenuation value which controls
@@ -1155,20 +975,73 @@ to kQ3Pi/2.0 (inclusive), and the outerAngle must be equal than or
 greater to the hotAngle.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>lightData</tt></td><td>The common state for the light.</td><tr>
-<tr valign=top><td><tt>castsShadows</tt></td><td>Indicates if the light casts shadows.</td><tr>
-<tr valign=top><td><tt>attenuation</tt></td><td>The attenuation style of the light.</td><tr>
-<tr valign=top><td><tt>location</tt></td><td>The location of the light.</td><tr>
-<tr valign=top><td><tt>direction</tt></td><td>The direction of the light.</td><tr>
-<tr valign=top><td><tt>hotAngle</tt></td><td>The half-angle where the light intensity starts to drop.</td><tr>
-<tr valign=top><td><tt>outerAngle</tt></td><td>The half-angle where the light intensity reaches zero.</td><tr>
-<tr valign=top><td><tt>fallOff</tt></td><td>The fall off between the hotAngle and the outerAngle.</td><tr>
-</table>
+<dl>
+<dt><tt>lightData</tt></dt><dd>The common state for the light.</dd>
+<dt><tt>castsShadows</tt></dt><dd>Indicates if the light casts shadows.</dd>
+<dt><tt>attenuation</tt></dt><dd>The attenuation style of the light.</dd>
+<dt><tt>location</tt></dt><dd>The location of the light.</dd>
+<dt><tt>direction</tt></dt><dd>The direction of the light.</dd>
+<dt><tt>hotAngle</tt></dt><dd>The half-angle where the light intensity starts to drop.</dd>
+<dt><tt>outerAngle</tt></dt><dd>The half-angle where the light intensity reaches zero.</dd>
+<dt><tt>fallOff</tt></dt><dd>The fall off between the hotAngle and the outerAngle.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/TQ3AttenuationType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AttenuationType">TQ3AttenuationType</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3AttenuationTypeNone                      = 0,
+    kQ3AttenuationTypeInverseDistance           = 1,
+    kQ3AttenuationTypeInverseDistanceSquared    = 2,
+    kQ3AttenuationTypeSize32                    = 0xFFFFFFFF
+} TQ3AttenuationType;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Light attenuation methods.
+<br><br>
+The attenuation of a light controls how the intensity of the light
+is diminished over distance. In the real world, the itensity of a
+light source is attenuated as 1/(d*d).
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3AttenuationTypeNone"><tt>kQ3AttenuationTypeNone</tt></a></dt><dd>Intensity is not attenuated.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttenuationTypeInverseDistance"><tt>kQ3AttenuationTypeInverseDistance</tt></a></dt><dd>Intensity is attenuated as 1/d.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttenuationTypeInverseDistanceSquared"><tt>kQ3AttenuationTypeInverseDistanceSquared</tt></a></dt><dd>Intensity is attenuated as 1/(d*d).</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3FallOffType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FallOffType">TQ3FallOffType</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3FallOffTypeNone                          = 0,
+    kQ3FallOffTypeLinear                        = 1,
+    kQ3FallOffTypeExponential                   = 2,
+    kQ3FallOffTypeCosine                        = 3,
+    kQ3FallOffSize32                            = 0xFFFFFFFF
+} TQ3FallOffType;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Light fall-off methods.
+<br><br>
+The fall-off value of a light controls how the intensity of the light
+varies from the edge of the hot angle (where the light is at full intensity)
+to the outer angle (where the light intensity falls to zero).
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeNone"><tt>kQ3FallOffTypeNone</tt></a></dt><dd>Intensity does not fall off.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeLinear"><tt>kQ3FallOffTypeLinear</tt></a></dt><dd>Intensity falls off linearly.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeExponential"><tt>kQ3FallOffTypeExponential</tt></a></dt><dd>Intensity falls off exponentially.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeCosine"><tt>kQ3FallOffTypeCosine</tt></a></dt><dd>Intensity falls off as the cosine of the angle.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

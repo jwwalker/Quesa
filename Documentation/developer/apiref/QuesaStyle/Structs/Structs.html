@@ -1,7 +1,13 @@
-<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3AntiAliasStyleData"></a>
-<h3><a name="TQ3AntiAliasStyleData">TQ3AntiAliasStyleData</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Structs</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3AntiAliasStyleData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AntiAliasStyleData">TQ3AntiAliasStyleData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3AntiAliasStyleData {
     TQ3Switch                                   state;
     TQ3AntiAliasMode                            mode;
@@ -9,7 +15,7 @@ typedef struct TQ3AntiAliasStyleData {
 } TQ3AntiAliasStyleData;
 </pre>
 </blockquote>
-<p>Anti-alias style data.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Anti-alias style data.
 <br><br>
 Anti-aliasing may be toggled on and off using the state switch. To
 guarantee that no anti-aliasing is performed, the state must be set
@@ -22,19 +28,17 @@ field, which can range from 0.0 (minimum) to 1.0 (maximum). Values
 outside this range are undefined.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>state</tt></td><td>Is anti-aliasing active?</td><tr>
-<tr valign=top><td><tt>mode</tt></td><td>The anti-aliasing mode.</td><tr>
-<tr valign=top><td><tt>quality</tt></td><td>The anti-aliasing quality.</td><tr>
-</table>
+<dl>
+<dt><tt>state</tt></dt><dd>Is anti-aliasing active?</dd>
+<dt><tt>mode</tt></dt><dd>The anti-aliasing mode.</dd>
+<dt><tt>quality</tt></dt><dd>The anti-aliasing quality.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3FogStyleData"></a>
-<h3><a name="TQ3FogStyleData">TQ3FogStyleData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3FogStyleData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FogStyleData">TQ3FogStyleData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3FogStyleData {
     TQ3Switch                                   state;
     TQ3FogMode                                  mode;
@@ -45,7 +49,7 @@ typedef struct TQ3FogStyleData {
 } TQ3FogStyleData;
 </pre>
 </blockquote>
-<p>Fog style data.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fog style data.
 <br><br>
 Fog may be toggled on and off using the state switch. To guarantee that
 no fogging is performed, the state must be set to kQ3Off.
@@ -53,22 +57,20 @@ no fogging is performed, the state must be set to kQ3Off.
 The type of fogging performed is controlled by the mode switch.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>state</tt></td><td>Is fog active?</td><tr>
-<tr valign=top><td><tt>mode</tt></td><td>The fog mode.</td><tr>
-<tr valign=top><td><tt>fogStart</tt></td><td>The start point for fog.</td><tr>
-<tr valign=top><td><tt>fogEnd</tt></td><td>The end point for fog.</td><tr>
-<tr valign=top><td><tt>density</tt></td><td>The maximum density for fog.</td><tr>
-<tr valign=top><td><tt>color</tt></td><td>The fog color.</td><tr>
-</table>
+<dl>
+<dt><tt>state</tt></dt><dd>Is fog active?</dd>
+<dt><tt>mode</tt></dt><dd>The fog mode.</dd>
+<dt><tt>fogStart</tt></dt><dd>The start point for fog.</dd>
+<dt><tt>fogEnd</tt></dt><dd>The end point for fog.</dd>
+<dt><tt>density</tt></dt><dd>The maximum density for fog.</dd>
+<dt><tt>color</tt></dt><dd>The fog color.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3SubdivisionStyleData"></a>
-<h3><a name="TQ3SubdivisionStyleData">TQ3SubdivisionStyleData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3SubdivisionStyleData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3SubdivisionStyleData">TQ3SubdivisionStyleData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3SubdivisionStyleData {
     TQ3SubdivisionMethod                        method;
     float                                       c1;
@@ -76,7 +78,7 @@ typedef struct TQ3SubdivisionStyleData {
 } TQ3SubdivisionStyleData;
 </pre>
 </blockquote>
-<p>Subdivision style data.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subdivision style data.
 <br><br>
 The c1 parameter is used as the "size" for all subdivision methods. Its
 meaning and units depends on the subdivision method.
@@ -86,15 +88,13 @@ kQ3SubdivisionMethodConstant method, to allow control over subdivision
 in both horizontal and vertical dimensions.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>method</tt></td><td>The subdivision method.</td><tr>
-<tr valign=top><td><tt>c1</tt></td><td>The first parameter for the subdivision method.</td><tr>
-<tr valign=top><td><tt>c2</tt></td><td>The second parameter for the subdivision method.</td><tr>
-</table>
+<dl>
+<dt><tt>method</tt></dt><dd>The subdivision method.</dd>
+<dt><tt>c1</tt></dt><dd>The first parameter for the subdivision method.</dd>
+<dt><tt>c2</tt></dt><dd>The second parameter for the subdivision method.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

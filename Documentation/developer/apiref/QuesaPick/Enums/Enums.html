@@ -1,47 +1,51 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3PickDetailMasks"></a>
-<h3><a name="TQ3PickDetailMasks">TQ3PickDetailMasks</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3PickDetailMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PickDetailMasks">TQ3PickDetailMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3PickDetailMasks {
     kQ3PickDetailNone                           = 0,
-    kQ3PickDetailMaskPickID                     = (1 << 0),
-    kQ3PickDetailMaskPath                       = (1 << 1),
-    kQ3PickDetailMaskObject                     = (1 << 2),
-    kQ3PickDetailMaskLocalToWorldMatrix         = (1 << 3),
-    kQ3PickDetailMaskXYZ                        = (1 << 4),
-    kQ3PickDetailMaskDistance                   = (1 << 5),
-    kQ3PickDetailMaskNormal                     = (1 << 6),
-    kQ3PickDetailMaskShapePart                  = (1 << 7),
-    kQ3PickDetailMaskPickPart                   = (1 << 8),
-    kQ3PickDetailMaskUV                         = (1 << 9),
+    kQ3PickDetailMaskPickID                     = (1 &lt;&lt; 0),
+    kQ3PickDetailMaskPath                       = (1 &lt;&lt; 1),
+    kQ3PickDetailMaskObject                     = (1 &lt;&lt; 2),
+    kQ3PickDetailMaskLocalToWorldMatrix         = (1 &lt;&lt; 3),
+    kQ3PickDetailMaskXYZ                        = (1 &lt;&lt; 4),
+    kQ3PickDetailMaskDistance                   = (1 &lt;&lt; 5),
+    kQ3PickDetailMaskNormal                     = (1 &lt;&lt; 6),
+    kQ3PickDetailMaskShapePart                  = (1 &lt;&lt; 7),
+    kQ3PickDetailMaskPickPart                   = (1 &lt;&lt; 8),
+    kQ3PickDetailMaskUV                         = (1 &lt;&lt; 9),
     kQ3PickDetailSize32                         = 0xFFFFFFFF
 } TQ3PickDetailMasks;
 </pre>
 </blockquote>
-<p>Bitfield indicating the type of data to be returned by picks.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Bitfield indicating the type of data to be returned by picks.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailNone"><tt>kQ3PickDetailNone</tt></a></td><td>No pick details are required.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskPickID"><tt>kQ3PickDetailMaskPickID</tt></a></td><td>The picking ID of the picked object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskPath"><tt>kQ3PickDetailMaskPath</tt></a></td><td>The path through the model hierarchy to the picked object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskObject"><tt>kQ3PickDetailMaskObject</tt></a></td><td>The picked object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskLocalToWorldMatrix"><tt>kQ3PickDetailMaskLocalToWorldMatrix</tt></a></td><td>The local-to-world matrix for the picked object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskXYZ"><tt>kQ3PickDetailMaskXYZ</tt></a></td><td>The picked location in world coordinates.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskDistance"><tt>kQ3PickDetailMaskDistance</tt></a></td><td>The distance between the picked location and the pick origin.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskNormal"><tt>kQ3PickDetailMaskNormal</tt></a></td><td>The surface normal at the picked location.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskShapePart"><tt>kQ3PickDetailMaskShapePart</tt></a></td><td>The shape part of the picked object.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskPickPart"><tt>kQ3PickDetailMaskPickPart</tt></a></td><td>The picked object, edge, or vertex.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickDetailMaskUV"><tt>kQ3PickDetailMaskUV</tt></a></td><td>The UV coordinate of the picked location.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailNone"><tt>kQ3PickDetailNone</tt></a></dt><dd>No pick details are required.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskPickID"><tt>kQ3PickDetailMaskPickID</tt></a></dt><dd>The picking ID of the picked object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskPath"><tt>kQ3PickDetailMaskPath</tt></a></dt><dd>The path through the model hierarchy to the picked object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskObject"><tt>kQ3PickDetailMaskObject</tt></a></dt><dd>The picked object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskLocalToWorldMatrix"><tt>kQ3PickDetailMaskLocalToWorldMatrix</tt></a></dt><dd>The local-to-world matrix for the picked object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskXYZ"><tt>kQ3PickDetailMaskXYZ</tt></a></dt><dd>The picked location in world coordinates.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskDistance"><tt>kQ3PickDetailMaskDistance</tt></a></dt><dd>The distance between the picked location and the pick origin.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskNormal"><tt>kQ3PickDetailMaskNormal</tt></a></dt><dd>The surface normal at the picked location.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskShapePart"><tt>kQ3PickDetailMaskShapePart</tt></a></dt><dd>The shape part of the picked object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskPickPart"><tt>kQ3PickDetailMaskPickPart</tt></a></dt><dd>The picked object, edge, or vertex.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskUV"><tt>kQ3PickDetailMaskUV</tt></a></dt><dd>The UV coordinate of the picked location.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3PickSort"></a>
-<h3><a name="TQ3PickSort">TQ3PickSort</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3PickSort"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PickSort">TQ3PickSort</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3PickSort {
     kQ3PickSortNone                             = 0,
     kQ3PickSortNearToFar                        = 1,
@@ -50,18 +54,16 @@ typedef enum TQ3PickSort {
 } TQ3PickSort;
 </pre>
 </blockquote>
-<p>The order in which pick results should be sorted.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The order in which pick results should be sorted.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickSortNone"><tt>kQ3PickSortNone</tt></a></td><td>The pick hit list should not be sorted.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickSortNearToFar"><tt>kQ3PickSortNearToFar</tt></a></td><td>The pick hit list should be sorted from near to far.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PickSortFarToNear"><tt>kQ3PickSortFarToNear</tt></a></td><td>The pick hit list should be sorted from far to near.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3PickSortNone"><tt>kQ3PickSortNone</tt></a></dt><dd>The pick hit list should not be sorted.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickSortNearToFar"><tt>kQ3PickSortNearToFar</tt></a></dt><dd>The pick hit list should be sorted from near to far.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickSortFarToNear"><tt>kQ3PickSortFarToNear</tt></a></dt><dd>The pick hit list should be sorted from far to near.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

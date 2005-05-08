@@ -1,28 +1,172 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/Miscellaneous"></a>
-<h3><a name="Miscellaneous">Miscellaneous</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/Miscellaneous"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Miscellaneous">Miscellaneous</a></h2>
+</td></tr></table><hr><blockquote><pre>
 enum {
     kQ3StringMaximumLength                      = 1024,
-    kQ3ArrayIndexNULL                           = ~0
+    kQ3ArrayIndexNULL                           = 0xFFFFFFFFUL
 };
 </pre>
 </blockquote>
-<p>constants
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>constants
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3StringMaximumLength"><tt>kQ3StringMaximumLength</tt></a></td><td>Maximum length of TQ3ObjectClassNameString.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ArrayIndexNULL"><tt>kQ3ArrayIndexNULL</tt></a></td><td>NULL array index.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3StringMaximumLength"><tt>kQ3StringMaximumLength</tt></a></dt><dd>Maximum length of TQ3ObjectClassNameString.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ArrayIndexNULL"><tt>kQ3ArrayIndexNULL</tt></a></dt><dd>NULL array index.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Axis"></a>
-<h3><a name="TQ3Axis">TQ3Axis</a></h3>
+<hr><a name="//Quesa/c/tag/Object_Types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Object_Types">Object_Types</a></h2>
+</td></tr></table><hr>Type codes of Quesa object classes.
+<br>
 <blockquote><pre>
+enum {
+    kQ3ObjectTypeInvalid                        = ((TQ3ObjectType) 0),
+    kQ3ObjectTypeView                           = Q3_OBJECT_TYPE('v', 'i', 'e', 'w'),
+    kQ3ObjectTypeViewer                         = Q3_OBJECT_TYPE('v', 'w', 'e', 'r'),
+    kQ3ObjectTypeSlab                           = Q3_OBJECT_TYPE('s', 'l', 'a', 'b'),
+    kQ3ObjectTypeElement                        = Q3_OBJECT_TYPE('e', 'l', 'm', 'n'),
+        kQ3ElementTypeAttribute                 = Q3_OBJECT_TYPE('e', 'a', 't', 't'),
+    kQ3ObjectTypePick                           = Q3_OBJECT_TYPE('p', 'i', 'c', 'k'),
+        kQ3PickTypeWindowPoint                  = Q3_OBJECT_TYPE('p', 'k', 'w', 'p'),
+        kQ3PickTypeWindowRect                   = Q3_OBJECT_TYPE('p', 'k', 'w', 'r'),
+        kQ3PickTypeWorldRay                     = Q3_OBJECT_TYPE('p', 'k', 'r', 'y'),
+    kQ3ObjectTypeShared                         = Q3_OBJECT_TYPE('s', 'h', 'r', 'd'),
+        kQ3SharedTypeRenderer                   = Q3_OBJECT_TYPE('r', 'd', 'd', 'r'),
+            kQ3RendererTypeWireFrame            = Q3_OBJECT_TYPE('w', 'r', 'f', 'r'),
+            kQ3RendererTypeGeneric              = Q3_OBJECT_TYPE('g', 'n', 'r', 'r'),
+            kQ3RendererTypeInteractive          = Q3_OBJECT_TYPE('c', 't', 'w', 'n'),
+        kQ3SharedTypeShape                      = Q3_OBJECT_TYPE('s', 'h', 'a', 'p'),
+            kQ3ShapeTypeGeometry                = Q3_OBJECT_TYPE('g', 'm', 't', 'r'),
+                kQ3GeometryTypeBox              = Q3_OBJECT_TYPE('b', 'o', 'x', ' '),
+                kQ3GeometryTypeGeneralPolygon   = Q3_OBJECT_TYPE('g', 'p', 'g', 'n'),
+                kQ3GeometryTypeLine             = Q3_OBJECT_TYPE('l', 'i', 'n', 'e'),
+                kQ3GeometryTypeMarker           = Q3_OBJECT_TYPE('m', 'r', 'k', 'r'),
+                kQ3GeometryTypePixmapMarker     = Q3_OBJECT_TYPE('m', 'r', 'k', 'p'),
+                kQ3GeometryTypeMesh             = Q3_OBJECT_TYPE('m', 'e', 's', 'h'),
+                kQ3GeometryTypeNURBCurve        = Q3_OBJECT_TYPE('n', 'r', 'b', 'c'),
+                kQ3GeometryTypeNURBPatch        = Q3_OBJECT_TYPE('n', 'r', 'b', 'p'),
+                kQ3GeometryTypePoint            = Q3_OBJECT_TYPE('p', 'n', 't', ' '),
+                kQ3GeometryTypePolygon          = Q3_OBJECT_TYPE('p', 'l', 'y', 'g'),
+                kQ3GeometryTypePolyLine         = Q3_OBJECT_TYPE('p', 'l', 'y', 'l'),
+                kQ3GeometryTypeTriangle         = Q3_OBJECT_TYPE('t', 'r', 'n', 'g'),
+                kQ3GeometryTypeTriGrid          = Q3_OBJECT_TYPE('t', 'r', 'i', 'g'),
+                kQ3GeometryTypeCone             = Q3_OBJECT_TYPE('c', 'o', 'n', 'e'),
+                kQ3GeometryTypeCylinder         = Q3_OBJECT_TYPE('c', 'y', 'l', 'n'),
+                kQ3GeometryTypeDisk             = Q3_OBJECT_TYPE('d', 'i', 's', 'k'),
+                kQ3GeometryTypeEllipse          = Q3_OBJECT_TYPE('e', 'l', 'p', 's'),
+                kQ3GeometryTypeEllipsoid        = Q3_OBJECT_TYPE('e', 'l', 'p', 'd'),
+                kQ3GeometryTypePolyhedron       = Q3_OBJECT_TYPE('p', 'l', 'h', 'd'),
+                kQ3GeometryTypeTorus            = Q3_OBJECT_TYPE('t', 'o', 'r', 's'),
+                kQ3GeometryTypeTriMesh          = Q3_OBJECT_TYPE('t', 'm', 's', 'h'),
+            kQ3ShapeTypeShader                  = Q3_OBJECT_TYPE('s', 'h', 'd', 'r'),
+                kQ3ShaderTypeSurface            = Q3_OBJECT_TYPE('s', 'u', 's', 'h'),
+                    kQ3SurfaceShaderTypeTexture = Q3_OBJECT_TYPE('t', 'x', 's', 'u'),
+                kQ3ShaderTypeIllumination       = Q3_OBJECT_TYPE('i', 'l', 's', 'h'),
+                    kQ3IlluminationTypePhong    = Q3_OBJECT_TYPE('p', 'h', 'i', 'l'),
+                    kQ3IlluminationTypeLambert  = Q3_OBJECT_TYPE('l', 'm', 'i', 'l'),
+                    kQ3IlluminationTypeNULL     = Q3_OBJECT_TYPE('n', 'u', 'i', 'l'),
+            kQ3ShapeTypeStyle                   = Q3_OBJECT_TYPE('s', 't', 'y', 'l'),
+                kQ3StyleTypeBackfacing          = Q3_OBJECT_TYPE('b', 'c', 'k', 'f'),
+                kQ3StyleTypeInterpolation       = Q3_OBJECT_TYPE('i', 'n', 't', 'p'),
+                kQ3StyleTypeFill                = Q3_OBJECT_TYPE('f', 'i', 's', 't'),
+                kQ3StyleTypePickID              = Q3_OBJECT_TYPE('p', 'k', 'i', 'd'),
+                kQ3StyleTypeCastShadows         = Q3_OBJECT_TYPE('c', 'a', 's', 'h'),
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+                kQ3StyleTypeReceiveShadows      = Q3_OBJECT_TYPE('r', 'c', 's', 'h'),
+                kQ3StyleTypeHighlight           = Q3_OBJECT_TYPE('h', 'i', 'g', 'h'),
+                kQ3StyleTypeSubdivision         = Q3_OBJECT_TYPE('s', 'b', 'd', 'v'),
+                kQ3StyleTypeOrientation         = Q3_OBJECT_TYPE('o', 'f', 'd', 'r'),
+                kQ3StyleTypePickParts           = Q3_OBJECT_TYPE('p', 'k', 'p', 't'),
+                kQ3StyleTypeAntiAlias           = Q3_OBJECT_TYPE('a', 'n', 't', 'i'),
+                kQ3StyleTypeFog                 = Q3_OBJECT_TYPE('f', 'o', 'g', 'g'),
+            kQ3ShapeTypeTransform               = Q3_OBJECT_TYPE('x', 'f', 'r', 'm'),
+                kQ3TransformTypeMatrix          = Q3_OBJECT_TYPE('m', 't', 'r', 'x'),
+                kQ3TransformTypeScale           = Q3_OBJECT_TYPE('s', 'c', 'a', 'l'),
+                kQ3TransformTypeTranslate       = Q3_OBJECT_TYPE('t', 'r', 'n', 's'),
+                kQ3TransformTypeRotate          = Q3_OBJECT_TYPE('r', 'o', 't', 't'),
+                kQ3TransformTypeRotateAboutPoint= Q3_OBJECT_TYPE('r', 't', 'a', 'p'),
+                kQ3TransformTypeRotateAboutAxis = Q3_OBJECT_TYPE('r', 't', 'a', 'a'),
+                kQ3TransformTypeQuaternion      = Q3_OBJECT_TYPE('q', 't', 'r', 'n'),
+                kQ3TransformTypeReset           = Q3_OBJECT_TYPE('r', 's', 'e', 't'),
+                kQ3TransformTypeCamera           = Q3_OBJECT_TYPE('c', 'a', 'm', 't'),
+                kQ3TransformTypeCameraRasterize  = Q3_OBJECT_TYPE('r', 'a', 's', 't'),
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+            kQ3ShapeTypeLight                   = Q3_OBJECT_TYPE('l', 'g', 'h', 't'),
+                kQ3LightTypeAmbient             = Q3_OBJECT_TYPE('a', 'm', 'b', 'n'),
+                kQ3LightTypeDirectional         = Q3_OBJECT_TYPE('d', 'r', 'c', 't'),
+                kQ3LightTypePoint               = Q3_OBJECT_TYPE('p', 'n', 't', 'l'),
+                kQ3LightTypeSpot                = Q3_OBJECT_TYPE('s', 'p', 'o', 't'),
+            kQ3ShapeTypeCamera                  = Q3_OBJECT_TYPE('c', 'm', 'r', 'a'),
+                kQ3CameraTypeOrthographic       = Q3_OBJECT_TYPE('o', 'r', 't', 'h'),
+                kQ3CameraTypeViewPlane          = Q3_OBJECT_TYPE('v', 'w', 'p', 'l'),
+                kQ3CameraTypeViewAngleAspect    = Q3_OBJECT_TYPE('v', 'a', 'n', 'a'),
+            kQ3ShapeTypeStateOperator           = Q3_OBJECT_TYPE('s', 't', 'o', 'p'),
+                kQ3StateOperatorTypePush        = Q3_OBJECT_TYPE('p', 'u', 's', 'h'),
+                kQ3StateOperatorTypePop         = Q3_OBJECT_TYPE('p', 'o', 'p', ' '),
+            kQ3ShapeTypeGroup                   = Q3_OBJECT_TYPE('g', 'r', 'u', 'p'),
+                kQ3GroupTypeDisplay             = Q3_OBJECT_TYPE('d', 's', 'p', 'g'),
+                    kQ3DisplayGroupTypeOrdered  = Q3_OBJECT_TYPE('o', 'r', 'd', 'g'),
+                    kQ3DisplayGroupTypeIOProxy  = Q3_OBJECT_TYPE('i', 'o', 'p', 'x'),
+                kQ3GroupTypeLight               = Q3_OBJECT_TYPE('l', 'g', 'h', 'g'),
+                kQ3GroupTypeInfo                = Q3_OBJECT_TYPE('i', 'n', 'f', 'o'),
+            kQ3ShapeTypeUnknown                 = Q3_OBJECT_TYPE('u', 'n', 'k', 'n'),
+                kQ3UnknownTypeText              = Q3_OBJECT_TYPE('u', 'k', 't', 'x'),
+                kQ3UnknownTypeBinary            = Q3_OBJECT_TYPE('u', 'k', 'b', 'n'),
+            kQ3ShapeTypeReference               = Q3_OBJECT_TYPE('r', 'f', 'r', 'n'),
+                kQ3ReferenceTypeExternal        = Q3_OBJECT_TYPE('r', 'f', 'e', 'x'),
+        kQ3SharedTypeSet                        = Q3_OBJECT_TYPE('s', 'e', 't', ' '),
+            kQ3SetTypeAttribute                 = Q3_OBJECT_TYPE('a', 't', 't', 'r'),
+        kQ3SharedTypeDrawContext                = Q3_OBJECT_TYPE('d', 'c', 't', 'x'),
+            kQ3DrawContextTypePixmap            = Q3_OBJECT_TYPE('d', 'p', 'x', 'p'),
+            kQ3DrawContextTypeMacintosh         = Q3_OBJECT_TYPE('d', 'm', 'a', 'c'),
+            kQ3DrawContextTypeCocoa             = Q3_OBJECT_TYPE('d', 'c', 'c', 'o'),
+            kQ3DrawContextTypeWin32DC           = Q3_OBJECT_TYPE('d', 'w', '3', '2'),
+            kQ3DrawContextTypeDDSurface         = Q3_OBJECT_TYPE('d', 'd', 'd', 's'),
+            kQ3DrawContextTypeX11               = Q3_OBJECT_TYPE('d', 'x', '1', '1'),
+            kQ3DrawContextTypeBe                = Q3_OBJECT_TYPE('d', 'c', 'b', 'e'),
+        kQ3SharedTypeTexture                    = Q3_OBJECT_TYPE('t', 'x', 't', 'r'),
+            kQ3TextureTypePixmap                = Q3_OBJECT_TYPE('t', 'x', 'p', 'm'),
+            kQ3TextureTypeMipmap                = Q3_OBJECT_TYPE('t', 'x', 'm', 'm'),
+            kQ3TextureTypeCompressedPixmap      = Q3_OBJECT_TYPE('t', 'x', 'c', 'p'),
+        kQ3SharedTypeFile                       = Q3_OBJECT_TYPE('f', 'i', 'l', 'e'),
+        kQ3SharedTypeStorage                    = Q3_OBJECT_TYPE('s', 't', 'r', 'g'),
+            kQ3StorageTypeMemory                = Q3_OBJECT_TYPE('m', 'e', 'm', 's'),
+                kQ3MemoryStorageTypeHandle      = Q3_OBJECT_TYPE('h', 'n', 'd', 'l'),
+            kQ3StorageTypeUnix                  = Q3_OBJECT_TYPE('u', 'x', 's', 't'),
+                kQ3UnixStorageTypePath          = Q3_OBJECT_TYPE('u', 'n', 'i', 'x'),
+            kQ3StorageTypeMacintosh             = Q3_OBJECT_TYPE('m', 'a', 'c', 'n'),
+                kQ3MacintoshStorageTypeFSSpec   = Q3_OBJECT_TYPE('m', 'a', 'c', 'p'),
+            kQ3StorageTypeWin32                 = Q3_OBJECT_TYPE('w', 'i', 's', 't'),
+            kQ3StorageTypeBe                    = Q3_OBJECT_TYPE('b', 'e', 's', 't'),
+        kQ3SharedTypeString                     = Q3_OBJECT_TYPE('s', 't', 'r', 'n'),
+            kQ3StringTypeCString                = Q3_OBJECT_TYPE('s', 't', 'r', 'c'),
+        kQ3SharedTypeShapePart                  = Q3_OBJECT_TYPE('s', 'p', 'r', 't'),
+            kQ3ShapePartTypeMeshPart            = Q3_OBJECT_TYPE('s', 'p', 'm', 'h'),
+                kQ3MeshPartTypeMeshFacePart     = Q3_OBJECT_TYPE('m', 'f', 'a', 'c'),
+                kQ3MeshPartTypeMeshEdgePart     = Q3_OBJECT_TYPE('m', 'e', 'd', 'g'),
+                kQ3MeshPartTypeMeshVertexPart   = Q3_OBJECT_TYPE('m', 'v', 't', 'x'),
+        kQ3SharedTypeControllerState            = Q3_OBJECT_TYPE('c', 't', 's', 't'),
+        kQ3SharedTypeTracker                    = Q3_OBJECT_TYPE('t', 'r', 'k', 'r'),
+        kQ3SharedTypeViewHints                  = Q3_OBJECT_TYPE('v', 'w', 'h', 'n'),
+        kQ3SharedTypeEndGroup                   = Q3_OBJECT_TYPE('e', 'n', 'd', 'g')
+};
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>These values should be considered to be of type TQ3ObjectType.
+</p>
+<hr><a name="//Quesa/c/tag/TQ3Axis"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Axis">TQ3Axis</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3AxisX                                    = 0,
     kQ3AxisY                                    = 1,
@@ -31,22 +175,20 @@ typedef enum {
 } TQ3Axis;
 </pre>
 </blockquote>
-<p>Fundamental axis type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental axis type.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AxisX"><tt>kQ3AxisX</tt></a></td><td>Indicates X axis.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AxisY"><tt>kQ3AxisY</tt></a></td><td>Indicates Y axis.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AxisZ"><tt>kQ3AxisZ</tt></a></td><td>Indicates Z axis.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3AxisX"><tt>kQ3AxisX</tt></a></dt><dd>Indicates X axis.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AxisY"><tt>kQ3AxisY</tt></a></dt><dd>Indicates Y axis.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AxisZ"><tt>kQ3AxisZ</tt></a></dt><dd>Indicates Z axis.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Boolean"></a>
-<h3><a name="TQ3Boolean">TQ3Boolean</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Boolean"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Boolean">TQ3Boolean</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3False                                    = 0,
     kQ3True                                     = 1,
@@ -54,21 +196,19 @@ typedef enum {
 } TQ3Boolean;
 </pre>
 </blockquote>
-<p>Fundamental boolean type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental boolean type.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3False"><tt>kQ3False</tt></a></td><td>False.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3True"><tt>kQ3True</tt></a></td><td>True.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3False"><tt>kQ3False</tt></a></dt><dd>False.</dd>
+<dt><a name="//Quesa/c/econst/kQ3True"><tt>kQ3True</tt></a></dt><dd>True.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3ComputeBounds"></a>
-<h3><a name="TQ3ComputeBounds">TQ3ComputeBounds</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3ComputeBounds"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ComputeBounds">TQ3ComputeBounds</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3ComputeBoundsExact                       = 0,
     kQ3ComputeBoundsApproximate                 = 1,
@@ -76,25 +216,23 @@ typedef enum {
 } TQ3ComputeBounds;
 </pre>
 </blockquote>
-<p>Bounds accuracy types.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Bounds accuracy types.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ComputeBoundsExact"><tt>kQ3ComputeBoundsExact</tt></a></td><td>Compute exact bounds by transforming vertices
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ComputeBoundsExact"><tt>kQ3ComputeBoundsExact</tt></a></dt><dd>Compute exact bounds by transforming vertices
 to world coordinates then calculating bounds.
-Slower, but more accurate.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ComputeBoundsApproximate"><tt>kQ3ComputeBoundsApproximate</tt></a></td><td>Compute approximate bounds by transforming
+Slower, but more accurate.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ComputeBoundsApproximate"><tt>kQ3ComputeBoundsApproximate</tt></a></dt><dd>Compute approximate bounds by transforming
 local bounding box to world coordinates.
-Faster, but less accurate.</td><tr>
-</table>
+Faster, but less accurate.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3ElementTypes"></a>
-<h3><a name="TQ3ElementTypes">TQ3ElementTypes</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3ElementTypes"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ElementTypes">TQ3ElementTypes</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3ElementTypeNone                          = 0,
     kQ3ElementTypeUnknown                       = 32,
@@ -103,48 +241,44 @@ typedef enum {
 } TQ3ElementTypes;
 </pre>
 </blockquote>
-<p>Fundamental element types.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental element types.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ElementTypeNone"><tt>kQ3ElementTypeNone</tt></a></td><td>Indicates no element.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ElementTypeUnknown"><tt>kQ3ElementTypeUnknown</tt></a></td><td>Indicates unknown element type.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ElementTypeSet"><tt>kQ3ElementTypeSet</tt></a></td><td>Indicates set element.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ElementTypeNone"><tt>kQ3ElementTypeNone</tt></a></dt><dd>Indicates no element.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ElementTypeUnknown"><tt>kQ3ElementTypeUnknown</tt></a></dt><dd>Indicates unknown element type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ElementTypeSet"><tt>kQ3ElementTypeSet</tt></a></dt><dd>Indicates set element.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3EndCapMasks"></a>
-<h3><a name="TQ3EndCapMasks">TQ3EndCapMasks</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3EndCapMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3EndCapMasks">TQ3EndCapMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3EndCapNone                               = 0,
-    kQ3EndCapMaskTop                            = (1 << 0),
-    kQ3EndCapMaskBottom                         = (1 << 1),
-    kQ3EndCapMaskInterior                       = (1 << 2),
+    kQ3EndCapMaskTop                            = (1 &lt;&lt; 0),
+    kQ3EndCapMaskBottom                         = (1 &lt;&lt; 1),
+    kQ3EndCapMaskInterior                       = (1 &lt;&lt; 2),
     kQ3EndCapSize32                             = 0xFFFFFFFF
 } TQ3EndCapMasks;
 </pre>
 </blockquote>
-<p>Fundamental end caps type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental end caps type.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndCapNone"><tt>kQ3EndCapNone</tt></a></td><td>No end caps.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndCapMaskTop"><tt>kQ3EndCapMaskTop</tt></a></td><td>Top end cap.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndCapMaskBottom"><tt>kQ3EndCapMaskBottom</tt></a></td><td>Bottom end cap.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndCapMaskInterior"><tt>kQ3EndCapMaskInterior</tt></a></td><td>Interior end cap.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3EndCapNone"><tt>kQ3EndCapNone</tt></a></dt><dd>No end caps.</dd>
+<dt><a name="//Quesa/c/econst/kQ3EndCapMaskTop"><tt>kQ3EndCapMaskTop</tt></a></dt><dd>Top end cap.</dd>
+<dt><a name="//Quesa/c/econst/kQ3EndCapMaskBottom"><tt>kQ3EndCapMaskBottom</tt></a></dt><dd>Bottom end cap.</dd>
+<dt><a name="//Quesa/c/econst/kQ3EndCapMaskInterior"><tt>kQ3EndCapMaskInterior</tt></a></dt><dd>Interior end cap.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Endian"></a>
-<h3><a name="TQ3Endian">TQ3Endian</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Endian"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Endian">TQ3Endian</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3EndianBig                                = 0,
     kQ3EndianLittle                             = 1,
@@ -152,21 +286,19 @@ typedef enum {
 } TQ3Endian;
 </pre>
 </blockquote>
-<p>Fundamental endian type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental endian type.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndianBig"><tt>kQ3EndianBig</tt></a></td><td>Big endian.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3EndianLittle"><tt>kQ3EndianLittle</tt></a></td><td>Little endian.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3EndianBig"><tt>kQ3EndianBig</tt></a></dt><dd>Big endian.</dd>
+<dt><a name="//Quesa/c/econst/kQ3EndianLittle"><tt>kQ3EndianLittle</tt></a></dt><dd>Little endian.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Language"></a>
-<h3><a name="TQ3Language">TQ3Language</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Language"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Language">TQ3Language</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3LanguageDefault                          = 0,
     kQ3LanguageEnglishUS                        = 1,
@@ -174,21 +306,19 @@ typedef enum {
 } TQ3Language;
 </pre>
 </blockquote>
-<p>Languages.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Languages.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3LanguageDefault"><tt>kQ3LanguageDefault</tt></a></td><td>Default language for current OS.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3LanguageEnglishUS"><tt>kQ3LanguageEnglishUS</tt></a></td><td>US English.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3LanguageDefault"><tt>kQ3LanguageDefault</tt></a></dt><dd>Default language for current OS.</dd>
+<dt><a name="//Quesa/c/econst/kQ3LanguageEnglishUS"><tt>kQ3LanguageEnglishUS</tt></a></dt><dd>US English.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3PixelType"></a>
-<h3><a name="TQ3PixelType">TQ3PixelType</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3PixelType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PixelType">TQ3PixelType</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3PixelTypeRGB32                           = 0,
     kQ3PixelTypeARGB32                          = 1,
@@ -196,31 +326,29 @@ typedef enum {
     kQ3PixelTypeARGB16                          = 3,
     kQ3PixelTypeRGB16_565                       = 4,
     kQ3PixelTypeRGB24                           = 5,
-    kQ3PixelTypeUnknown							= 200,
+    kQ3PixelTypeUnknown              = 200,
     kQ3PixelTypeSize32                          = 0xFFFFFFFF
 } TQ3PixelType;
 </pre>
 </blockquote>
-<p>Fundamental pixel formats.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental pixel formats.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeRGB32"><tt>kQ3PixelTypeRGB32</tt></a></td><td>8 bits for red, green, and blue. Alpha ignored.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeARGB32"><tt>kQ3PixelTypeARGB32</tt></a></td><td>8 bits for alpha, red, green, and blue.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeRGB16"><tt>kQ3PixelTypeRGB16</tt></a></td><td>5 bits for red, green, and blue. Alpha ignored.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeARGB16"><tt>kQ3PixelTypeARGB16</tt></a></td><td>1 bit for alpha. 5 bits for red, green, and blue.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeRGB16_565"><tt>kQ3PixelTypeRGB16_565</tt></a></td><td>5 bits for red, 6 bits for green, 5 bits for blue.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeRGB24"><tt>kQ3PixelTypeRGB24</tt></a></td><td>8 bits for red, green, and blue. No alpha byte.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3PixelTypeUnknown"><tt>kQ3PixelTypeUnknown</tt></a></td><td>Unknown pixel type.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB32"><tt>kQ3PixelTypeRGB32</tt></a></dt><dd>8 bits for red, green, and blue. Alpha ignored.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PixelTypeARGB32"><tt>kQ3PixelTypeARGB32</tt></a></dt><dd>8 bits for alpha, red, green, and blue.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB16"><tt>kQ3PixelTypeRGB16</tt></a></dt><dd>5 bits for red, green, and blue. Alpha ignored.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PixelTypeARGB16"><tt>kQ3PixelTypeARGB16</tt></a></dt><dd>1 bit for alpha. 5 bits for red, green, and blue.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB16_565"><tt>kQ3PixelTypeRGB16_565</tt></a></dt><dd>5 bits for red, 6 bits for green, 5 bits for blue.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB24"><tt>kQ3PixelTypeRGB24</tt></a></dt><dd>8 bits for red, green, and blue. No alpha byte.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PixelTypeUnknown"><tt>kQ3PixelTypeUnknown</tt></a></dt><dd>Unknown pixel type.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Status"></a>
-<h3><a name="TQ3Status">TQ3Status</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Status"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Status">TQ3Status</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3Failure                                  = 0,
     kQ3Success                                  = 1,
@@ -228,21 +356,19 @@ typedef enum {
 } TQ3Status;
 </pre>
 </blockquote>
-<p>Fundamental status type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental status type.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3Failure"><tt>kQ3Failure</tt></a></td><td>Indicates failure.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3Success"><tt>kQ3Success</tt></a></td><td>Indicates success</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3Failure"><tt>kQ3Failure</tt></a></dt><dd>Indicates failure.</dd>
+<dt><a name="//Quesa/c/econst/kQ3Success"><tt>kQ3Success</tt></a></dt><dd>Indicates success</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3Switch"></a>
-<h3><a name="TQ3Switch">TQ3Switch</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3Switch"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Switch">TQ3Switch</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3Off                                      = 0,
     kQ3On                                       = 1,
@@ -250,17 +376,15 @@ typedef enum {
 } TQ3Switch;
 </pre>
 </blockquote>
-<p>Fundamental switch type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental switch type.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3Off"><tt>kQ3Off</tt></a></td><td>Off.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3On"><tt>kQ3On</tt></a></td><td>On.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3Off"><tt>kQ3Off</tt></a></dt><dd>Off.</dd>
+<dt><a name="//Quesa/c/econst/kQ3On"><tt>kQ3On</tt></a></dt><dd>On.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

@@ -1,68 +1,64 @@
-<html><head><title>QuesaErrors.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaErrors.h</h1></font><hr><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>QuesaErrors.h</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">QuesaErrors.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa error manager.
  <hr><br><h2>Functions</h2>
-<a name="//apple_ref/c/func/Q3Error_Get"></a>
-<h3><a name="Q3Error_Get">Q3Error_Get</a></h3>
-<blockquote><pre><tt>TQ3Error  
-Q3Error_Get (
-    TQ3Error                      *firstError
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3Error_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_Get">Q3Error_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Error ) Q3Error_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error *firstError
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve latest error codes from Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve latest error codes from Quesa.
 <br><br>
 Retrieve the most recent error code, and optionally also the oldest
 unreported error code.  After this call, the next Quesa call that is not
 part of the Error Manager will clear the error codes.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstError</tt></td><td>Pointer to variable to receive the oldest error code
+<dl>
+<dt><tt><em>firstError</em></tt></dt><dd>Pointer to variable to receive the oldest error code
 that has not yet been reported.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent error code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Error_IsFatalError"></a>
-<h3><a name="Q3Error_IsFatalError">Q3Error_IsFatalError</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Error_IsFatalError (
-    TQ3Error                      error
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent error code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Error_IsFatalError"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_IsFatalError">Q3Error_IsFatalError</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Error_IsFatalError (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error error
+);</tt><br>
 </pre></blockquote>
-<p>Determine whether a Quesa error code is fatal.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine whether a Quesa error code is fatal.
 <br><br>
 You can call this function from an error callback or after getting
 an error code with Q3Error_Get.  If the error is fatal, your application
 should quit without calling any other Quesa routines.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>error</tt></td><td>A Quesa error code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>error</em></tt></dt><dd>A Quesa error code.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> True if the error is fatal.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Error_PlatformGet"></a>
-<h3><a name="Q3Error_PlatformGet">Q3Error_PlatformGet</a></h3>
-<blockquote><pre><tt>TQ3Uns32  
-Q3Error_PlatformGet (
-    TQ3Uns32                      *firstErr
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>True if the error is fatal.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Error_PlatformGet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_PlatformGet">Q3Error_PlatformGet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3Error_PlatformGet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *firstErr
+);</tt><br>
 </pre></blockquote>
-<p>Gets platform-specific error codes.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Gets platform-specific error codes.
 This is a generalization of Q3MacintoshError_Get, and may be used in place
 of Q3MacintoshError_Get on the Macintosh platform.
 <br><br>
@@ -76,158 +72,134 @@ will clear the platform-specific error codes.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstErr</tt></td><td>Pointer to variable to receive the oldest unreported
+<dl>
+<dt><tt><em>firstErr</em></tt></dt><dd>Pointer to variable to receive the oldest unreported
 platform-specific error code.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent platform-specific error code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Error_PlatformPost"></a>
-<h3><a name="Q3Error_PlatformPost">Q3Error_PlatformPost</a></h3>
-<blockquote><pre><tt>void  
-Q3Error_PlatformPost (
-    TQ3Uns32                      theErr
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent platform-specific error code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Error_PlatformPost"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_PlatformPost">Q3Error_PlatformPost</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3Error_PlatformPost (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theErr
+);</tt><br>
 </pre></blockquote>
-<p>Posts a platform-specific error code.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Posts a platform-specific error code.
 <br><br>
 Normally this would be used only by Quesa plug-ins, not by application code.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theErr</tt></td><td>A platform-specific error code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theErr</em></tt></dt><dd>A platform-specific error code.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3Error_Register"></a>
-<h3><a name="Q3Error_Register">Q3Error_Register</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Error_Register (
-    TQ3ErrorMethod                errorPost,
-    TQ3Int32                      reference
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3Error_Register"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_Register">Q3Error_Register</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Error_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ErrorMethod errorPost,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 reference
+);</tt><br>
 </pre></blockquote>
-<p>Install a callback to handle errors.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Install a callback to handle errors.
 <br><br>
 Use this function to register an error-handling function that will be
 called when Quesa detects an error condition that it can't handle.
 Your callback should not call Quesa except for Error Manager routines.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>errorPost</tt></td><td>Callback to receive error notifications.</td></tr>
-<tr valign=top><td><tt>reference</tt></td><td>Constant passed to error callback.</td></tr>
-</table>
+<dl>
+<dt><tt><em>errorPost</em></tt></dt><dd>Callback to receive error notifications.</dd>
+<dt><tt><em>reference</em></tt></dt><dd>Constant passed to error callback.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> kQ3Success when the callback is installed.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Error_ToString"></a>
-<h3><a name="Q3Error_ToString">Q3Error_ToString</a></h3>
-<blockquote><pre><tt>const char * 
-Q3Error_ToString (
-    TQ3Language                   theLanguage,
-    TQ3Error                      theError
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>kQ3Success when the callback is installed.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Error_ToString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_ToString">Q3Error_ToString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( const char * ) Q3Error_ToString (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Language theLanguage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error theError
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve a string version of the error code.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve a string version of the error code.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theLanguage</tt></td><td>Preferred language for the error string.
-Currently only English is supported.</td></tr>
-<tr valign=top><td><tt>theError</tt></td><td>Quesa error code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theLanguage</em></tt></dt><dd>Preferred language for the error string.
+Currently only English is supported.</dd>
+<dt><tt><em>theError</em></tt></dt><dd>Quesa error code.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Text version of the error code, as a NULL-terminated string.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MacintoshError_Get"></a>
-<h3><a name="Q3MacintoshError_Get">Q3MacintoshError_Get</a></h3>
-<blockquote><pre><tt>OSErr  
-Q3MacintoshError_Get (
-    OSErr                         *firstMacErr
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Text version of the error code, as a NULL-terminated string.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MacintoshError_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshError_Get">Q3MacintoshError_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( OSErr ) Q3MacintoshError_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;OSErr *firstMacErr
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve the most recent Macintosh error code, and optionally also the oldest
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve the most recent Macintosh error code, and optionally also the oldest
 unreported Mac error code.  After this call, the next Quesa call that is not
 part of the Error Manager will clear the error codes.
 <br><br>
 Q3Error_PlatformGet may be used in place of this function.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstMacErr</tt></td><td>Pointer to variable to receive the oldest Mac error code
+<dl>
+<dt><tt><em>firstMacErr</em></tt></dt><dd>Pointer to variable to receive the oldest Mac error code
 that has not yet been reported.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent Mac error code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Notice_Get"></a>
-<h3><a name="Q3Notice_Get">Q3Notice_Get</a></h3>
-<blockquote><pre><tt>TQ3Notice  
-Q3Notice_Get (
-    TQ3Notice                     *firstNotice
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent Mac error code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Notice_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_Get">Q3Notice_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Notice ) Q3Notice_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice *firstNotice
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve latest notice codes from Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve latest notice codes from Quesa.
 <br><br>
 Retrieve the most recent notice code, and optionally also the oldest
 unreported notice code.  After this call, the next Quesa call that is not
 part of the Error Manager will clear the notice codes.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstNotice</tt></td><td>Pointer to variable to receive the oldest notice code
+<dl>
+<dt><tt><em>firstNotice</em></tt></dt><dd>Pointer to variable to receive the oldest notice code
 that has not yet been reported.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent notice code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Notice_Register"></a>
-<h3><a name="Q3Notice_Register">Q3Notice_Register</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Notice_Register (
-    TQ3NoticeMethod               noticePost,
-    TQ3Int32                      reference
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent notice code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Notice_Register"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_Register">Q3Notice_Register</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Notice_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3NoticeMethod noticePost,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 reference
+);</tt><br>
 </pre></blockquote>
-<p>Install a callback to handle notifications.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Install a callback to handle notifications.
 <br><br>
 Use this function to register an warning-handling function that will be
 called when a Quesa routine generates a notice.
@@ -235,186 +207,601 @@ This will only happen in debugging versions of Quesa.
 Your callback should not call Quesa except for Error Manager routines.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>noticePost</tt></td><td>Routine to be called to handle notices.</td></tr>
-<tr valign=top><td><tt>reference</tt></td><td>Constant passed to notice callback.</td></tr>
-</table>
+<dl>
+<dt><tt><em>noticePost</em></tt></dt><dd>Routine to be called to handle notices.</dd>
+<dt><tt><em>reference</em></tt></dt><dd>Constant passed to notice callback.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> kQ3Success when the callback is installed.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Notice_ToString"></a>
-<h3><a name="Q3Notice_ToString">Q3Notice_ToString</a></h3>
-<blockquote><pre><tt>const char * 
-Q3Notice_ToString (
-    TQ3Language                   theLanguage,
-    TQ3Notice                     theError
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>kQ3Success when the callback is installed.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Notice_ToString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_ToString">Q3Notice_ToString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( const char * ) Q3Notice_ToString (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Language theLanguage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice theError
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve a string version of the notice code.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve a string version of the notice code.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theLanguage</tt></td><td>Preferred language for the notice string.
-Currently only English is supported.</td></tr>
-<tr valign=top><td><tt>theWarning</tt></td><td>Quesa notice code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theLanguage</em></tt></dt><dd>Preferred language for the notice string.
+Currently only English is supported.</dd>
+<dt><tt><em>theWarning</em></tt></dt><dd>Quesa notice code.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Text version of the notice code, as a NULL-terminated string.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Warning_Get"></a>
-<h3><a name="Q3Warning_Get">Q3Warning_Get</a></h3>
-<blockquote><pre><tt>TQ3Warning  
-Q3Warning_Get (
-    TQ3Warning                    *firstWarning
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Text version of the notice code, as a NULL-terminated string.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Warning_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_Get">Q3Warning_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Warning ) Q3Warning_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning *firstWarning
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve latest warning codes from Quesa.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve latest warning codes from Quesa.
 <br><br>
 Retrieve the most recent warning code, and optionally also the oldest
 unreported warning code.  After this call, the next Quesa call that is not
 part of the Error Manager will clear the warning codes.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstWarning</tt></td><td>Pointer to variable to receive the oldest warning code
+<dl>
+<dt><tt><em>firstWarning</em></tt></dt><dd>Pointer to variable to receive the oldest warning code
 that has not yet been reported.  May be NULL if you
-don't need that information.</td></tr>
-</table>
+don't need that information.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Most recent warning code.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Warning_Register"></a>
-<h3><a name="Q3Warning_Register">Q3Warning_Register</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Warning_Register (
-    TQ3WarningMethod              warningPost,
-    TQ3Int32                      reference
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Most recent warning code.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Warning_Register"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_Register">Q3Warning_Register</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Warning_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3WarningMethod warningPost,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 reference
+);</tt><br>
 </pre></blockquote>
-<p>Install a callback to handle warnings.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Install a callback to handle warnings.
 <br><br>
 Use this function to register an warning-handling function that will be
 called when a Quesa routine generates a warning that it can't handle.
 Your callback should not call Quesa except for Error Manager routines.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>warningPost</tt></td><td>Callback to receive warning notifications.</td></tr>
-<tr valign=top><td><tt>reference</tt></td><td>Constant passed to warning callback.</td></tr>
-</table>
+<dl>
+<dt><tt><em>warningPost</em></tt></dt><dd>Callback to receive warning notifications.</dd>
+<dt><tt><em>reference</em></tt></dt><dd>Constant passed to warning callback.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> kQ3Success when the callback is installed.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Warning_ToString"></a>
-<h3><a name="Q3Warning_ToString">Q3Warning_ToString</a></h3>
-<blockquote><pre><tt>const char * 
-Q3Warning_ToString (
-    TQ3Language                   theLanguage,
-    TQ3Warning                    theWarning
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>kQ3Success when the callback is installed.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Warning_ToString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_ToString">Q3Warning_ToString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( const char * ) Q3Warning_ToString (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Language theLanguage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning theWarning
+);</tt><br>
 </pre></blockquote>
-<p>Retrieve a string version of the warning code.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve a string version of the warning code.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theLanguage</tt></td><td>Preferred language for the warning string.
-Currently only English is supported.</td></tr>
-<tr valign=top><td><tt>theWarning</tt></td><td>Quesa warning code.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theLanguage</em></tt></dt><dd>Preferred language for the warning string.
+Currently only English is supported.</dd>
+<dt><tt><em>theWarning</em></tt></dt><dd>Quesa warning code.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Text version of the warning code, as a NULL-terminated string.
- 
-<hr>
+<dl><dt><i>function result</i></dt><dd>Text version of the warning code, as a NULL-terminated string.
+ </dd></dl>
 <h2>Typedefs</h2>
-<a name="//apple_ref/c/tdef/TQ3ErrorMethod"></a>
-<h3><a name="TQ3ErrorMethod">TQ3ErrorMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3ErrorMethod)</b>(
-                            TQ3Error            firstError,
-                            TQ3Error            lastError,
-                            TQ3Int32            userData);</tt><br>
+<hr><a name="//Quesa/c/tdef/TQ3ErrorMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ErrorMethod">TQ3ErrorMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                TQ3ErrorMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error            firstError,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error            lastError,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32            userData<BR>);</tt><br>
 </blockquote>
-<p>Error Manager error callback.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Error Manager error callback.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstError</tt></td><td>The first error which has occurred since the last
-time the handler was invoked.</td><tr>
-<tr valign=top><td><tt>lastError</tt></td><td>The most recent error which has occurred.</td><tr>
-<tr valign=top><td><tt>userData</tt></td><td>The reference parameter passed to Q3Error_Register.</td><tr>
-</table>
+<dl><dt><tt>firstError</tt></dt><dd>The first error which has occurred since the last
+time the handler was invoked.</dd>
+<dt><tt>lastError</tt></dt><dd>The most recent error which has occurred.</dd>
+<dt><tt>userData</tt></dt><dd>The reference parameter passed to Q3Error_Register.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tdef/TQ3NoticeMethod"></a>
-<h3><a name="TQ3NoticeMethod">TQ3NoticeMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3NoticeMethod)</b>(
-                            TQ3Notice           firstNotice,
-                            TQ3Notice           lastNotice,
-                            TQ3Int32            userData);</tt><br>
+<hr><a name="//Quesa/c/tdef/TQ3NoticeMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3NoticeMethod">TQ3NoticeMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                TQ3NoticeMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice           firstNotice,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice           lastNotice,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32            userData<BR>);</tt><br>
 </blockquote>
-<p>Error Manager notice callback.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Error Manager notice callback.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstNotice</tt></td><td>The first notice which has occurred since the last
-time the handler was invoked.</td><tr>
-<tr valign=top><td><tt>lastNotice</tt></td><td>The most recent notice which has occurred.</td><tr>
-<tr valign=top><td><tt>userData</tt></td><td>The reference parameter passed to Q3Notice_Register.</td><tr>
-</table>
+<dl><dt><tt>firstNotice</tt></dt><dd>The first notice which has occurred since the last
+time the handler was invoked.</dd>
+<dt><tt>lastNotice</tt></dt><dd>The most recent notice which has occurred.</dd>
+<dt><tt>userData</tt></dt><dd>The reference parameter passed to Q3Notice_Register.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tdef/TQ3WarningMethod"></a>
-<h3><a name="TQ3WarningMethod">TQ3WarningMethod</a></h3>
-<blockquote><tt>typedef Q3_CALLBACK_API_C(void, <b>TQ3WarningMethod)</b>(
-                            TQ3Warning          firstWarning,
-                            TQ3Warning          lastWarning,
-                            TQ3Int32            userData);</tt><br>
+<hr><a name="//Quesa/c/tdef/TQ3WarningMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3WarningMethod">TQ3WarningMethod</a></h2>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                TQ3WarningMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning          firstWarning,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning          lastWarning,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32            userData<BR>);</tt><br>
 </blockquote>
-<p>Error Manager warning callback.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Error Manager warning callback.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>firstWarning</tt></td><td>The first warning which has occurred since the last
-time the handler was invoked.</td><tr>
-<tr valign=top><td><tt>lastWarning</tt></td><td>The most recent warning which has occurred.</td><tr>
-<tr valign=top><td><tt>userData</tt></td><td>The reference parameter passed to Q3Warning_Register.</td><tr>
-</table>
+<dl><dt><tt>firstWarning</tt></dt><dd>The first warning which has occurred since the last
+time the handler was invoked.</dd>
+<dt><tt>lastWarning</tt></dt><dd>The most recent warning which has occurred.</dd>
+<dt><tt>userData</tt></dt><dd>The reference parameter passed to Q3Warning_Register.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/TQ3Error"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Error">TQ3Error</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3ErrorNone                                = 0,
+    kQ3ErrorFirst                               = -28500,
+    kQ3ErrorInternalError                       = -28500,
+    kQ3ErrorNoRecovery                          = -28499,
+    kQ3ErrorLastFatalError                      = -28498,
+    kQ3ErrorNotUsedByQD3D_1                     = -28497,
+    kQ3ErrorNotUsedByQD3D_2                     = -28496,
+    kQ3ErrorNotUsedByQD3D_3                     = -28495,
+    kQ3ErrorNotUsedByQD3D_4                     = -28494,
+    kQ3ErrorNotUsedByQD3D_5                     = -28493,
+    kQ3ErrorNotUsedByQD3D_6                     = -28492,
+    kQ3ErrorNotUsedByQD3D_7                     = -28491,
+    kQ3ErrorNotInitialized                      = -28490,
+    kQ3ErrorAlreadyInitialized                  = -28489,
+    kQ3ErrorUnimplemented                       = -28488,
+    kQ3ErrorRegistrationFailed                  = -28487,
+    kQ3ErrorUnixError                           = -28486,
+    kQ3ErrorMacintoshError                      = -28485,
+    kQ3ErrorX11Error                            = -28484,
+    kQ3ErrorMemoryLeak                          = -28483,
+    kQ3ErrorOutOfMemory                         = -28482,
+    kQ3ErrorNULLParameter                       = -28481,
+    kQ3ErrorParameterOutOfRange                 = -28480,
+    kQ3ErrorInvalidParameter                    = -28479,
+    kQ3ErrorInvalidData                         = -28478,
+    kQ3ErrorAcceleratorAlreadySet               = -28477,
+    kQ3ErrorVector3DNotUnitLength               = -28476,
+    kQ3ErrorVector3DZeroLength                  = -28475,
+    kQ3ErrorInvalidObject                       = -28474,
+    kQ3ErrorInvalidObjectClass                  = -28473,
+    kQ3ErrorInvalidObjectType                   = -28472,
+    kQ3ErrorInvalidObjectName                   = -28471,
+    kQ3ErrorObjectClassInUse                    = -28470,
+    kQ3ErrorAccessRestricted                    = -28469,
+    kQ3ErrorMetaHandlerRequired                 = -28468,
+    kQ3ErrorNeedRequiredMethods                 = -28467,
+    kQ3ErrorNoSubClassType                      = -28466,
+    kQ3ErrorUnknownElementType                  = -28465,
+    kQ3ErrorNotSupported                        = -28464,
+    kQ3ErrorNoExtensionsFolder                  = -28463,
+    kQ3ErrorExtensionError                      = -28462,
+    kQ3ErrorPrivateExtensionError               = -28461,
+    kQ3ErrorDegenerateGeometry                  = -28460,
+    kQ3ErrorGeometryInsufficientNumberOfPoints  = -28459,
+    kQ3ErrorNoStorageSetForFile                 = -28458,
+    kQ3ErrorEndOfFile                           = -28457,
+    kQ3ErrorFileCancelled                       = -28456,
+    kQ3ErrorInvalidMetafile                     = -28455,
+    kQ3ErrorInvalidMetafilePrimitive            = -28454,
+    kQ3ErrorInvalidMetafileLabel                = -28453,
+    kQ3ErrorInvalidMetafileObject               = -28452,
+    kQ3ErrorInvalidMetafileSubObject            = -28451,
+    kQ3ErrorInvalidSubObjectForObject           = -28450,
+    kQ3ErrorUnresolvableReference               = -28449,
+    kQ3ErrorUnknownObject                       = -28448,
+    kQ3ErrorStorageInUse                        = -28447,
+    kQ3ErrorStorageAlreadyOpen                  = -28446,
+    kQ3ErrorStorageNotOpen                      = -28445,
+    kQ3ErrorStorageIsOpen                       = -28444,
+    kQ3ErrorFileAlreadyOpen                     = -28443,
+    kQ3ErrorFileNotOpen                         = -28442,
+    kQ3ErrorFileIsOpen                          = -28441,
+    kQ3ErrorBeginWriteAlreadyCalled             = -28440,
+    kQ3ErrorBeginWriteNotCalled                 = -28439,
+    kQ3ErrorEndWriteNotCalled                   = -28438,
+    kQ3ErrorReadStateInactive                   = -28437,
+    kQ3ErrorStateUnavailable                    = -28436,
+    kQ3ErrorWriteStateInactive                  = -28435,
+    kQ3ErrorSizeNotLongAligned                  = -28434,
+    kQ3ErrorFileModeRestriction                 = -28433,
+    kQ3ErrorInvalidHexString                    = -28432,
+    kQ3ErrorWroteMoreThanSize                   = -28431,
+    kQ3ErrorWroteLessThanSize                   = -28430,
+    kQ3ErrorReadLessThanSize                    = -28429,
+    kQ3ErrorReadMoreThanSize                    = -28428,
+    kQ3ErrorNoBeginGroup                        = -28427,
+    kQ3ErrorSizeMismatch                        = -28426,
+    kQ3ErrorStringExceedsMaximumLength          = -28425,
+    kQ3ErrorValueExceedsMaximumSize             = -28424,
+    kQ3ErrorNonUniqueLabel                      = -28423,
+    kQ3ErrorEndOfContainer                      = -28422,
+    kQ3ErrorUnmatchedEndGroup                   = -28421,
+    kQ3ErrorFileVersionExists                   = -28420,
+    kQ3ErrorViewNotStarted                      = -28419,
+    kQ3ErrorViewIsStarted                       = -28418,
+    kQ3ErrorRendererNotSet                      = -28417,
+    kQ3ErrorRenderingIsActive                   = -28416,
+    kQ3ErrorImmediateModeUnderflow              = -28415,
+    kQ3ErrorDisplayNotSet                       = -28414,
+    kQ3ErrorCameraNotSet                        = -28413,
+    kQ3ErrorDrawContextNotSet                   = -28412,
+    kQ3ErrorNonInvertibleMatrix                 = -28411,
+    kQ3ErrorRenderingNotStarted                 = -28410,
+    kQ3ErrorPickingNotStarted                   = -28409,
+    kQ3ErrorBoundsNotStarted                    = -28408,
+    kQ3ErrorDataNotAvailable                    = -28407,
+    kQ3ErrorNothingToPop                        = -28406,
+    kQ3ErrorUnknownStudioType                   = -28405,
+    kQ3ErrorAlreadyRendering                    = -28404,
+    kQ3ErrorStartGroupRange                     = -28403,
+    kQ3ErrorUnsupportedGeometryType             = -28402,
+    kQ3ErrorInvalidGeometryType                 = -28401,
+    kQ3ErrorUnsupportedFunctionality            = -28400,
+    kQ3ErrorInvalidPositionForGroup             = -28399,
+    kQ3ErrorInvalidObjectForGroup               = -28398,
+    kQ3ErrorInvalidObjectForPosition            = -28397,
+    kQ3ErrorScaleOfZero                         = -28396,
+    kQ3ErrorBadStringType                       = -28395,
+    kQ3ErrorAttributeNotContained               = -28394,
+    kQ3ErrorAttributeInvalidType                = -28393,
+    kQ3ErrorInvalidCameraValues                 = -28392,
+    kQ3ErrorBadDrawContextType                  = -28391,
+    kQ3ErrorBadDrawContextFlag                  = -28390,
+    kQ3ErrorBadDrawContext                      = -28389,
+    kQ3ErrorUnsupportedPixelDepth               = -28388,
+    kQ3ErrorController                          = -28387,
+    kQ3ErrorTracker                             = -28386,
+    kQ3ErrorWin32Error                          = -28385,
+    kQ3ErrorTypeAlreadyExistsAndHasSubclasses           = -28384,
+    kQ3ErrorTypeAlreadyExistsAndOtherClassesDependOnIt  = -28383,
+    kQ3ErrorTypeAlreadyExistsAndHasObjectInstances      = -28382,
+    kQ3ErrorPickingLoopFailed                   = -28381,
+    kQ3ErrorRenderingLoopFailed                 = -28380,
+    kQ3ErrorWritingLoopFailed                   = -28379,
+    kQ3ErrorBoundingLoopFailed                  = -28378,
+
+    kQ3ErrorPlatformError                       = -28377,
+    kQ3ErrorInfiniteRationalPoint        = -28376,
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+    kQ3ErrorLast,
+    kQ3ErrorSize32                              = 0xFFFFFFFF
+} TQ3Error;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Quesa error constants.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNone"><tt>kQ3ErrorNone</tt></a></dt><dd>No error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInternalError"><tt>kQ3ErrorInternalError</tt></a></dt><dd>Internal error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoRecovery"><tt>kQ3ErrorNoRecovery</tt></a></dt><dd>No recovery.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorLastFatalError"><tt>kQ3ErrorLastFatalError</tt></a></dt><dd>Last fatal error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNotInitialized"><tt>kQ3ErrorNotInitialized</tt></a></dt><dd>Not initialized.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAlreadyInitialized"><tt>kQ3ErrorAlreadyInitialized</tt></a></dt><dd>Already initialized.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnimplemented"><tt>kQ3ErrorUnimplemented</tt></a></dt><dd>Unimplemented.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRegistrationFailed"><tt>kQ3ErrorRegistrationFailed</tt></a></dt><dd>Registration failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnixError"><tt>kQ3ErrorUnixError</tt></a></dt><dd>Unix error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorMacintoshError"><tt>kQ3ErrorMacintoshError</tt></a></dt><dd>Macintosh error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorX11Error"><tt>kQ3ErrorX11Error</tt></a></dt><dd>X11 error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorMemoryLeak"><tt>kQ3ErrorMemoryLeak</tt></a></dt><dd>Memory leak.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorOutOfMemory"><tt>kQ3ErrorOutOfMemory</tt></a></dt><dd>Out of memory.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNULLParameter"><tt>kQ3ErrorNULLParameter</tt></a></dt><dd>NULL parameter.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorParameterOutOfRange"><tt>kQ3ErrorParameterOutOfRange</tt></a></dt><dd>Parameter out of range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidParameter"><tt>kQ3ErrorInvalidParameter</tt></a></dt><dd>Invalid parameter.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidData"><tt>kQ3ErrorInvalidData</tt></a></dt><dd>Invalid data.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAcceleratorAlreadySet"><tt>kQ3ErrorAcceleratorAlreadySet</tt></a></dt><dd>Accelerator already set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorVector3DNotUnitLength"><tt>kQ3ErrorVector3DNotUnitLength</tt></a></dt><dd>Vector3D not unit length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorVector3DZeroLength"><tt>kQ3ErrorVector3DZeroLength</tt></a></dt><dd>Vector3D zero length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObject"><tt>kQ3ErrorInvalidObject</tt></a></dt><dd>Invalid object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectClass"><tt>kQ3ErrorInvalidObjectClass</tt></a></dt><dd>Invalid object class.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectType"><tt>kQ3ErrorInvalidObjectType</tt></a></dt><dd>Invalid object type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectName"><tt>kQ3ErrorInvalidObjectName</tt></a></dt><dd>Invalid object name.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorObjectClassInUse"><tt>kQ3ErrorObjectClassInUse</tt></a></dt><dd>Object class in use.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAccessRestricted"><tt>kQ3ErrorAccessRestricted</tt></a></dt><dd>Access restricted.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorMetaHandlerRequired"><tt>kQ3ErrorMetaHandlerRequired</tt></a></dt><dd>Meta handler required.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNeedRequiredMethods"><tt>kQ3ErrorNeedRequiredMethods</tt></a></dt><dd>Need required methods.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoSubClassType"><tt>kQ3ErrorNoSubClassType</tt></a></dt><dd>No sub class type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnknownElementType"><tt>kQ3ErrorUnknownElementType</tt></a></dt><dd>Unknown element type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNotSupported"><tt>kQ3ErrorNotSupported</tt></a></dt><dd>Not supported.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoExtensionsFolder"><tt>kQ3ErrorNoExtensionsFolder</tt></a></dt><dd>No extensions folder.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorExtensionError"><tt>kQ3ErrorExtensionError</tt></a></dt><dd>Extension error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorPrivateExtensionError"><tt>kQ3ErrorPrivateExtensionError</tt></a></dt><dd>Private extension error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorDegenerateGeometry"><tt>kQ3ErrorDegenerateGeometry</tt></a></dt><dd>Degenerate geometry detected.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorGeometryInsufficientNumberOfPoints"><tt>kQ3ErrorGeometryInsufficientNumberOfPoints</tt></a></dt><dd>Geometry has an insufficient number of points.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoStorageSetForFile"><tt>kQ3ErrorNoStorageSetForFile</tt></a></dt><dd>No storage set for file.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorEndOfFile"><tt>kQ3ErrorEndOfFile</tt></a></dt><dd>End of file.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileCancelled"><tt>kQ3ErrorFileCancelled</tt></a></dt><dd>File cancelled.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafile"><tt>kQ3ErrorInvalidMetafile</tt></a></dt><dd>Invalid metafile.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafilePrimitive"><tt>kQ3ErrorInvalidMetafilePrimitive</tt></a></dt><dd>Invalid metafile primitive.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafileLabel"><tt>kQ3ErrorInvalidMetafileLabel</tt></a></dt><dd>Invalid metafile label.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafileObject"><tt>kQ3ErrorInvalidMetafileObject</tt></a></dt><dd>Invalid metafile object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidMetafileSubObject"><tt>kQ3ErrorInvalidMetafileSubObject</tt></a></dt><dd>Invalid metafile sub object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidSubObjectForObject"><tt>kQ3ErrorInvalidSubObjectForObject</tt></a></dt><dd>Invalid sub object for object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnresolvableReference"><tt>kQ3ErrorUnresolvableReference</tt></a></dt><dd>Unresolvable reference.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnknownObject"><tt>kQ3ErrorUnknownObject</tt></a></dt><dd>Unknown object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStorageInUse"><tt>kQ3ErrorStorageInUse</tt></a></dt><dd>Storage in use.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStorageAlreadyOpen"><tt>kQ3ErrorStorageAlreadyOpen</tt></a></dt><dd>Storage already open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStorageNotOpen"><tt>kQ3ErrorStorageNotOpen</tt></a></dt><dd>Storage not open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStorageIsOpen"><tt>kQ3ErrorStorageIsOpen</tt></a></dt><dd>Storage is open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileAlreadyOpen"><tt>kQ3ErrorFileAlreadyOpen</tt></a></dt><dd>File already open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileNotOpen"><tt>kQ3ErrorFileNotOpen</tt></a></dt><dd>File not open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileIsOpen"><tt>kQ3ErrorFileIsOpen</tt></a></dt><dd>File is open.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBeginWriteAlreadyCalled"><tt>kQ3ErrorBeginWriteAlreadyCalled</tt></a></dt><dd>Begin write already called.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBeginWriteNotCalled"><tt>kQ3ErrorBeginWriteNotCalled</tt></a></dt><dd>Begin write not called.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorEndWriteNotCalled"><tt>kQ3ErrorEndWriteNotCalled</tt></a></dt><dd>End write not called.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorReadStateInactive"><tt>kQ3ErrorReadStateInactive</tt></a></dt><dd>Read state inactive.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStateUnavailable"><tt>kQ3ErrorStateUnavailable</tt></a></dt><dd>State unavailable.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWriteStateInactive"><tt>kQ3ErrorWriteStateInactive</tt></a></dt><dd>Write state inactive.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorSizeNotLongAligned"><tt>kQ3ErrorSizeNotLongAligned</tt></a></dt><dd>Size not long aligned.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileModeRestriction"><tt>kQ3ErrorFileModeRestriction</tt></a></dt><dd>File mode restriction.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidHexString"><tt>kQ3ErrorInvalidHexString</tt></a></dt><dd>Invalid hex string.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWroteMoreThanSize"><tt>kQ3ErrorWroteMoreThanSize</tt></a></dt><dd>Wrote more than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWroteLessThanSize"><tt>kQ3ErrorWroteLessThanSize</tt></a></dt><dd>Wrote less than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorReadLessThanSize"><tt>kQ3ErrorReadLessThanSize</tt></a></dt><dd>Read less than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorReadMoreThanSize"><tt>kQ3ErrorReadMoreThanSize</tt></a></dt><dd>Read more than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNoBeginGroup"><tt>kQ3ErrorNoBeginGroup</tt></a></dt><dd>No begin group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorSizeMismatch"><tt>kQ3ErrorSizeMismatch</tt></a></dt><dd>Size mismatch.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStringExceedsMaximumLength"><tt>kQ3ErrorStringExceedsMaximumLength</tt></a></dt><dd>String exceeds maximum length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorValueExceedsMaximumSize"><tt>kQ3ErrorValueExceedsMaximumSize</tt></a></dt><dd>Value exceeds maximum size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNonUniqueLabel"><tt>kQ3ErrorNonUniqueLabel</tt></a></dt><dd>Non unique label.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorEndOfContainer"><tt>kQ3ErrorEndOfContainer</tt></a></dt><dd>End of container.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnmatchedEndGroup"><tt>kQ3ErrorUnmatchedEndGroup</tt></a></dt><dd>Unmatched end group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorFileVersionExists"><tt>kQ3ErrorFileVersionExists</tt></a></dt><dd>File version exists.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorViewNotStarted"><tt>kQ3ErrorViewNotStarted</tt></a></dt><dd>View not started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorViewIsStarted"><tt>kQ3ErrorViewIsStarted</tt></a></dt><dd>View is started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRendererNotSet"><tt>kQ3ErrorRendererNotSet</tt></a></dt><dd>Renderer not set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRenderingIsActive"><tt>kQ3ErrorRenderingIsActive</tt></a></dt><dd>Rendering is active.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorImmediateModeUnderflow"><tt>kQ3ErrorImmediateModeUnderflow</tt></a></dt><dd>Immediate mode underflow.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorDisplayNotSet"><tt>kQ3ErrorDisplayNotSet</tt></a></dt><dd>Display not set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorCameraNotSet"><tt>kQ3ErrorCameraNotSet</tt></a></dt><dd>Camera not set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorDrawContextNotSet"><tt>kQ3ErrorDrawContextNotSet</tt></a></dt><dd>Draw context not set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNonInvertibleMatrix"><tt>kQ3ErrorNonInvertibleMatrix</tt></a></dt><dd>Non invertible matrix.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRenderingNotStarted"><tt>kQ3ErrorRenderingNotStarted</tt></a></dt><dd>Rendering not started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorPickingNotStarted"><tt>kQ3ErrorPickingNotStarted</tt></a></dt><dd>Picking not started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBoundsNotStarted"><tt>kQ3ErrorBoundsNotStarted</tt></a></dt><dd>Bounds not started.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorDataNotAvailable"><tt>kQ3ErrorDataNotAvailable</tt></a></dt><dd>Data not available.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorNothingToPop"><tt>kQ3ErrorNothingToPop</tt></a></dt><dd>Nothing to pop.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnknownStudioType"><tt>kQ3ErrorUnknownStudioType</tt></a></dt><dd>Unknown studio type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAlreadyRendering"><tt>kQ3ErrorAlreadyRendering</tt></a></dt><dd>Already rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorStartGroupRange"><tt>kQ3ErrorStartGroupRange</tt></a></dt><dd>Start group range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnsupportedGeometryType"><tt>kQ3ErrorUnsupportedGeometryType</tt></a></dt><dd>Unsupported geometry type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidGeometryType"><tt>kQ3ErrorInvalidGeometryType</tt></a></dt><dd>Invalid geometry type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnsupportedFunctionality"><tt>kQ3ErrorUnsupportedFunctionality</tt></a></dt><dd>Unsupported functionality.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidPositionForGroup"><tt>kQ3ErrorInvalidPositionForGroup</tt></a></dt><dd>Invalid position for group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectForGroup"><tt>kQ3ErrorInvalidObjectForGroup</tt></a></dt><dd>Invalid object for group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidObjectForPosition"><tt>kQ3ErrorInvalidObjectForPosition</tt></a></dt><dd>Invalid object for position.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorScaleOfZero"><tt>kQ3ErrorScaleOfZero</tt></a></dt><dd>Scale of zero.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBadStringType"><tt>kQ3ErrorBadStringType</tt></a></dt><dd>Bad string type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAttributeNotContained"><tt>kQ3ErrorAttributeNotContained</tt></a></dt><dd>Attribute not contained.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorAttributeInvalidType"><tt>kQ3ErrorAttributeInvalidType</tt></a></dt><dd>Attribute invalid type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInvalidCameraValues"><tt>kQ3ErrorInvalidCameraValues</tt></a></dt><dd>Invalid camera values.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBadDrawContextType"><tt>kQ3ErrorBadDrawContextType</tt></a></dt><dd>Bad draw context type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBadDrawContextFlag"><tt>kQ3ErrorBadDrawContextFlag</tt></a></dt><dd>Bad draw context flag.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBadDrawContext"><tt>kQ3ErrorBadDrawContext</tt></a></dt><dd>Bad draw context.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorUnsupportedPixelDepth"><tt>kQ3ErrorUnsupportedPixelDepth</tt></a></dt><dd>Unsupported pixel depth.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorController"><tt>kQ3ErrorController</tt></a></dt><dd>Controller error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorTracker"><tt>kQ3ErrorTracker</tt></a></dt><dd>Tracker error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWin32Error"><tt>kQ3ErrorWin32Error</tt></a></dt><dd>Windows error.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorTypeAlreadyExistsAndHasSubclasses"><tt>kQ3ErrorTypeAlreadyExistsAndHasSubclasses</tt></a></dt><dd>Type already exists and has subclasses.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorTypeAlreadyExistsAndOtherClassesDependOnIt"><tt>kQ3ErrorTypeAlreadyExistsAndOtherClassesDependOnIt</tt></a></dt><dd>Type already exists and other classes depend on it.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorTypeAlreadyExistsAndHasObjectInstances"><tt>kQ3ErrorTypeAlreadyExistsAndHasObjectInstances</tt></a></dt><dd>Type already exists and has object instances.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorPickingLoopFailed"><tt>kQ3ErrorPickingLoopFailed</tt></a></dt><dd>Picking loop failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorRenderingLoopFailed"><tt>kQ3ErrorRenderingLoopFailed</tt></a></dt><dd>Rendering loop failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorWritingLoopFailed"><tt>kQ3ErrorWritingLoopFailed</tt></a></dt><dd>Writing loop failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorBoundingLoopFailed"><tt>kQ3ErrorBoundingLoopFailed</tt></a></dt><dd>Bounding loop failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorPlatformError"><tt>kQ3ErrorPlatformError</tt></a></dt><dd>Platform-specific error. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorInfiniteRationalPoint"><tt>kQ3ErrorInfiniteRationalPoint</tt></a></dt><dd>Infinite rational point. Not available in QD3D.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3Notice"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Notice">TQ3Notice</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3NoticeNone                               = 0,
+    kQ3NoticeFirst                              = -28100,
+    kQ3NoticeDataAlreadyEmpty                   = -28100,
+    kQ3NoticeMethodNotSupported                 = -28099,
+    kQ3NoticeObjectAlreadySet                   = -28098,
+    kQ3NoticeParameterOutOfRange                = -28097,
+    kQ3NoticeFileAliasWasChanged                = -28096,
+    kQ3NoticeMeshVertexHasNoComponent           = -28095,
+    kQ3NoticeMeshInvalidVertexFacePair          = -28094,
+    kQ3NoticeMeshEdgeVertexDoNotCorrespond      = -28093,
+    kQ3NoticeMeshEdgeIsNotBoundary              = -28092,
+    kQ3NoticeDrawContextNotSetUsingInternalDefaults         = -28091,
+    kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults    = -28090,
+    kQ3NoticeBrightnessGreaterThanOne           = -28089,
+    kQ3NoticeScaleContainsZeroEntries           = -28088,
+    kQ3NoticeSystemAlreadyInitialized           = -28087,
+    kQ3NoticeViewSyncCalledAgain                = -28086,
+    kQ3NoticeFileCancelled                      = -28085,
+
+  kQ3NoticeBrightnessLessThanZero             = -28084,
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+    kQ3NoticeLast,
+    kQ3NoticeSize32                             = 0xFFFFFFFF
+} TQ3Notice;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Quesa notice constants.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3NoticeNone"><tt>kQ3NoticeNone</tt></a></dt><dd>No notice.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeDataAlreadyEmpty"><tt>kQ3NoticeDataAlreadyEmpty</tt></a></dt><dd>Data already empty.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMethodNotSupported"><tt>kQ3NoticeMethodNotSupported</tt></a></dt><dd>Method not supported.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeObjectAlreadySet"><tt>kQ3NoticeObjectAlreadySet</tt></a></dt><dd>Object already set.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeParameterOutOfRange"><tt>kQ3NoticeParameterOutOfRange</tt></a></dt><dd>Parameter out of range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeFileAliasWasChanged"><tt>kQ3NoticeFileAliasWasChanged</tt></a></dt><dd>File alias was changed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMeshVertexHasNoComponent"><tt>kQ3NoticeMeshVertexHasNoComponent</tt></a></dt><dd>Mesh vertex has no component.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMeshInvalidVertexFacePair"><tt>kQ3NoticeMeshInvalidVertexFacePair</tt></a></dt><dd>Mesh invalid vertex face pair.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMeshEdgeVertexDoNotCorrespond"><tt>kQ3NoticeMeshEdgeVertexDoNotCorrespond</tt></a></dt><dd>Mesh edge vertex do not correspond.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeMeshEdgeIsNotBoundary"><tt>kQ3NoticeMeshEdgeIsNotBoundary</tt></a></dt><dd>Mesh edge is not boundary.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeDrawContextNotSetUsingInternalDefaults"><tt>kQ3NoticeDrawContextNotSetUsingInternalDefaults</tt></a></dt><dd>Draw context not set using internal defaults.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults"><tt>kQ3NoticeInvalidAttenuationTypeUsingInternalDefaults</tt></a></dt><dd>Invalid attenuation type using internal defaults.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeBrightnessGreaterThanOne"><tt>kQ3NoticeBrightnessGreaterThanOne</tt></a></dt><dd>Brightness greater than 1.0.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeScaleContainsZeroEntries"><tt>kQ3NoticeScaleContainsZeroEntries</tt></a></dt><dd>Scale contains zero entries.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeSystemAlreadyInitialized"><tt>kQ3NoticeSystemAlreadyInitialized</tt></a></dt><dd>System already initialized.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeViewSyncCalledAgain"><tt>kQ3NoticeViewSyncCalledAgain</tt></a></dt><dd>View sync called again.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeFileCancelled"><tt>kQ3NoticeFileCancelled</tt></a></dt><dd>File cancelled.</dd>
+<dt><a name="//Quesa/c/econst/kQ3NoticeBrightnessLessThanZero"><tt>kQ3NoticeBrightnessLessThanZero</tt></a></dt><dd>Brightness less than 0.0. Not available in QD3D.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3Warning"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Warning">TQ3Warning</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3WarningNone                              = 0,
+    kQ3WarningFirst                             = -28300,
+    kQ3WarningInternalException                 = -28300,
+    kQ3WarningNoObjectSupportForDuplicateMethod = -28299,
+    kQ3WarningNoObjectSupportForDrawMethod      = -28298,
+    kQ3WarningNoObjectSupportForWriteMethod     = -28297,
+    kQ3WarningNoObjectSupportForReadMethod      = -28296,
+    kQ3WarningUnknownElementType                = -28295,
+    kQ3WarningTypeAndMethodAlreadyDefined       = -28294,
+    kQ3WarningTypeIsOutOfRange                  = -28293,
+    kQ3WarningTypeHasNotBeenRegistered          = -28292,
+    kQ3WarningVector3DNotUnitLength             = -28291,
+    kQ3WarningInvalidSubObjectForObject         = -28290,
+    kQ3WarningInvalidHexString                  = -28289,
+    kQ3WarningUnknownObject                     = -28288,
+    kQ3WarningInvalidMetafileObject             = -28287,
+    kQ3WarningUnmatchedBeginGroup               = -28286,
+    kQ3WarningUnmatchedEndGroup                 = -28285,
+    kQ3WarningInvalidTableOfContents            = -28284,
+    kQ3WarningUnresolvableReference             = -28283,
+    kQ3WarningNoAttachMethod                    = -28282,
+    kQ3WarningInconsistentData                  = -28281,
+    kQ3WarningReadLessThanSize                  = -28280,
+    kQ3WarningFilePointerResolutionFailed       = -28279,
+    kQ3WarningFilePointerRedefined              = -28278,
+    kQ3WarningStringExceedsMaximumLength        = -28277,
+    kQ3WarningLowMemory                         = -28276,
+    kQ3WarningPossibleMemoryLeak                = -28275,
+    kQ3WarningViewTraversalInProgress           = -28274,
+    kQ3WarningNonInvertibleMatrix               = -28273,
+    kQ3WarningQuaternionEntriesAreZero          = -28272,
+    kQ3WarningFunctionalityNotSupported         = -28271,
+    kQ3WarningInvalidPaneDimensions             = -28270,
+    kQ3WarningPickParamOutside                  = -28269,
+    kQ3WarningScaleEntriesAllZero               = -28268,
+    kQ3WarningScaleContainsNegativeEntries      = -28267,
+    kQ3WarningParameterOutOfRange               = -28266,
+    kQ3WarningExtensionNotLoading               = -28265,
+    kQ3WarningTypeAlreadyRegistered             = -28264,
+    kQ3WarningTypeSameVersionAlreadyRegistered  = -28263,
+    kQ3WarningTypeNewerVersionAlreadyRegistered = -28262,
+    kQ3WarningInvalidObjectInGroupMetafile      = -28261,
+
+  kQ3WarningQuaternionNotNormalized           = -28260,
+  kQ3WarningNormalCanNotBeFlipped             = -28259,
+  kQ3WarningTriangleNotNormalized             = -28258,
+  kQ3WarningVertexNotNormalized               = -28257,
+    kQ3WarningReadInfiniteFloatingPointNumber   = -28256,
+    kQ3WarningReadBadNormalVector               = -28255,
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+    kQ3WarningLast,
+    kQ3WarningSize32                            = 0xFFFFFFFF
+} TQ3Warning;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Quesa warning constants.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3WarningNone"><tt>kQ3WarningNone</tt></a></dt><dd>No warning.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInternalException"><tt>kQ3WarningInternalException</tt></a></dt><dd>Internal exception.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoObjectSupportForDuplicateMethod"><tt>kQ3WarningNoObjectSupportForDuplicateMethod</tt></a></dt><dd>No object support for duplicate method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoObjectSupportForDrawMethod"><tt>kQ3WarningNoObjectSupportForDrawMethod</tt></a></dt><dd>No object support for draw method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoObjectSupportForWriteMethod"><tt>kQ3WarningNoObjectSupportForWriteMethod</tt></a></dt><dd>No object support for write method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoObjectSupportForReadMethod"><tt>kQ3WarningNoObjectSupportForReadMethod</tt></a></dt><dd>No object support for read method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnknownElementType"><tt>kQ3WarningUnknownElementType</tt></a></dt><dd>Unknown element type.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeAndMethodAlreadyDefined"><tt>kQ3WarningTypeAndMethodAlreadyDefined</tt></a></dt><dd>Type and method already defined.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeIsOutOfRange"><tt>kQ3WarningTypeIsOutOfRange</tt></a></dt><dd>Type is out of range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeHasNotBeenRegistered"><tt>kQ3WarningTypeHasNotBeenRegistered</tt></a></dt><dd>Type has not been registered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningVector3DNotUnitLength"><tt>kQ3WarningVector3DNotUnitLength</tt></a></dt><dd>Vector3D not unit length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidSubObjectForObject"><tt>kQ3WarningInvalidSubObjectForObject</tt></a></dt><dd>Invalid sub object for object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidHexString"><tt>kQ3WarningInvalidHexString</tt></a></dt><dd>Invalid hex string.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnknownObject"><tt>kQ3WarningUnknownObject</tt></a></dt><dd>Unknown object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidMetafileObject"><tt>kQ3WarningInvalidMetafileObject</tt></a></dt><dd>Invalid metafile object.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnmatchedBeginGroup"><tt>kQ3WarningUnmatchedBeginGroup</tt></a></dt><dd>Unmatched begin group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnmatchedEndGroup"><tt>kQ3WarningUnmatchedEndGroup</tt></a></dt><dd>Unmatched end group.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidTableOfContents"><tt>kQ3WarningInvalidTableOfContents</tt></a></dt><dd>Invalid table of contents.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnresolvableReference"><tt>kQ3WarningUnresolvableReference</tt></a></dt><dd>Unresolvable reference.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoAttachMethod"><tt>kQ3WarningNoAttachMethod</tt></a></dt><dd>No attach method.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInconsistentData"><tt>kQ3WarningInconsistentData</tt></a></dt><dd>Inconsistent data.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningReadLessThanSize"><tt>kQ3WarningReadLessThanSize</tt></a></dt><dd>Read less than size.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningFilePointerResolutionFailed"><tt>kQ3WarningFilePointerResolutionFailed</tt></a></dt><dd>File pointer resolution failed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningFilePointerRedefined"><tt>kQ3WarningFilePointerRedefined</tt></a></dt><dd>File pointer redefined.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningStringExceedsMaximumLength"><tt>kQ3WarningStringExceedsMaximumLength</tt></a></dt><dd>String exceeds maximum length.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningLowMemory"><tt>kQ3WarningLowMemory</tt></a></dt><dd>Low memory.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningPossibleMemoryLeak"><tt>kQ3WarningPossibleMemoryLeak</tt></a></dt><dd>Possible memory leak.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningViewTraversalInProgress"><tt>kQ3WarningViewTraversalInProgress</tt></a></dt><dd>View traversal in progress.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNonInvertibleMatrix"><tt>kQ3WarningNonInvertibleMatrix</tt></a></dt><dd>Non invertible matrix.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningQuaternionEntriesAreZero"><tt>kQ3WarningQuaternionEntriesAreZero</tt></a></dt><dd>Quaternion entries are zero.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningFunctionalityNotSupported"><tt>kQ3WarningFunctionalityNotSupported</tt></a></dt><dd>Functionality not supported.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidPaneDimensions"><tt>kQ3WarningInvalidPaneDimensions</tt></a></dt><dd>Invalid pane dimensions.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningPickParamOutside"><tt>kQ3WarningPickParamOutside</tt></a></dt><dd>Pick param outside.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningScaleEntriesAllZero"><tt>kQ3WarningScaleEntriesAllZero</tt></a></dt><dd>Scale entries all zero.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningScaleContainsNegativeEntries"><tt>kQ3WarningScaleContainsNegativeEntries</tt></a></dt><dd>Scale contains negative entries.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningParameterOutOfRange"><tt>kQ3WarningParameterOutOfRange</tt></a></dt><dd>Parameter out of range.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningExtensionNotLoading"><tt>kQ3WarningExtensionNotLoading</tt></a></dt><dd>Extension not loading.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeAlreadyRegistered"><tt>kQ3WarningTypeAlreadyRegistered</tt></a></dt><dd>Type already registered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeSameVersionAlreadyRegistered"><tt>kQ3WarningTypeSameVersionAlreadyRegistered</tt></a></dt><dd>Type same version already registered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTypeNewerVersionAlreadyRegistered"><tt>kQ3WarningTypeNewerVersionAlreadyRegistered</tt></a></dt><dd>Type newer version already registered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningInvalidObjectInGroupMetafile"><tt>kQ3WarningInvalidObjectInGroupMetafile</tt></a></dt><dd>Invalid object in group metafile.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningQuaternionNotNormalized"><tt>kQ3WarningQuaternionNotNormalized</tt></a></dt><dd>Quaternion is not normalized. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNormalCanNotBeFlipped"><tt>kQ3WarningNormalCanNotBeFlipped</tt></a></dt><dd>Normal can not be flipped as they would under QD3D. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTriangleNotNormalized"><tt>kQ3WarningTriangleNotNormalized</tt></a></dt><dd>Triangle normal is not normalized. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningVertexNotNormalized"><tt>kQ3WarningVertexNotNormalized</tt></a></dt><dd>Vertex normal is not normalized. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningReadInfiniteFloatingPointNumber"><tt>kQ3WarningReadInfiniteFloatingPointNumber</tt></a></dt><dd>Floating-point number read from file was
+infinite or NaN.  Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningReadBadNormalVector"><tt>kQ3WarningReadBadNormalVector</tt></a></dt><dd>A supposed normal vector has components so
+large or small that it cannot be normalized.
+Not available in QD3D.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

@@ -1,1132 +1,1119 @@
-<html><head><title>QuesaTransform.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaTransform.h</h1></font><hr><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>QuesaTransform.h</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">QuesaTransform.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa transform functions.
  <hr><br><h2>Functions</h2>
-<a name="//apple_ref/c/func/Q3MatrixTransform_Get"></a>
-<h3><a name="Q3MatrixTransform_Get">Q3MatrixTransform_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MatrixTransform_Get (
-    TQ3TransformObject            transform,
-    TQ3Matrix4x4                  *matrix
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3CameraTransform_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CameraTransform_Get">Q3CameraTransform_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CameraTransform_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject theTransform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraTransformData *theData
+);</tt><br>
 </pre></blockquote>
-<p>Get the matrix of a matrix transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data of a camera transform object.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>The matrix transform object.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>Receives the matrix of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theTransform</em></tt></dt><dd>The camera transform object to query.</dd>
+<dt><tt><em>theData</em></tt></dt><dd>Receives thedata for the transform object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MatrixTransform_New"></a>
-<h3><a name="Q3MatrixTransform_New">Q3MatrixTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
-Q3MatrixTransform_New (
-    const TQ3Matrix4x4            *matrix
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CameraTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CameraTransform_New">Q3CameraTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3CameraTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraTransformData *theData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new matrix transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new camera transform object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theData</em></tt></dt><dd>The data for the camera transform object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>A new camera transform object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CameraTransform_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CameraTransform_Set">Q3CameraTransform_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CameraTransform_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject theTransform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraTransformData *theData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data of a camera transform object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theTransform</em></tt></dt><dd>The camera transform object to update.</dd>
+<dt><tt><em>theData</em></tt></dt><dd>The new data for the transform object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CameraTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CameraTransform_Submit">Q3CameraTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CameraTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraTransformData *theData,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject theView
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a camera transform in immediate mode. Should only be called
+within a submitting loop.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theData</em></tt></dt><dd>The data for the camera transform.</dd>
+<dt><tt><em>theView</em></tt></dt><dd>The view currently being submitted to.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MatrixTransform_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MatrixTransform_Get">Q3MatrixTransform_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MatrixTransform_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the matrix of a matrix transform.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>The matrix transform object.</dd>
+<dt><tt><em>matrix</em></tt></dt><dd>Receives the matrix of the transform.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MatrixTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MatrixTransform_New">Q3MatrixTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3MatrixTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new matrix transform.
 <br><br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>matrix</tt></td><td>Initial matrix of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>matrix</em></tt></dt><dd>Initial matrix of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A new transform object, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MatrixTransform_Set"></a>
-<h3><a name="Q3MatrixTransform_Set">Q3MatrixTransform_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MatrixTransform_Set (
-    TQ3TransformObject            transform,
-    const TQ3Matrix4x4            *matrix
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new transform object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MatrixTransform_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MatrixTransform_Set">Q3MatrixTransform_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MatrixTransform_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix
+);</tt><br>
 </pre></blockquote>
-<p>Change the matrix of a matrix transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the matrix of a matrix transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>The matrix transform object.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>The new matrix.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>The matrix transform object.</dd>
+<dt><tt><em>matrix</em></tt></dt><dd>The new matrix.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3MatrixTransform_Submit"></a>
-<h3><a name="Q3MatrixTransform_Submit">Q3MatrixTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3MatrixTransform_Submit (
-    const TQ3Matrix4x4            *matrix,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MatrixTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MatrixTransform_Submit">Q3MatrixTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MatrixTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a matrix transform in immediate mode.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a matrix transform in immediate mode.
 Should only be used within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>matrix</tt></td><td>Matrix of the desired transform.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>matrix</em></tt></dt><dd>Matrix of the desired transform.</dd>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3QuaternionTransform_Get"></a>
-<h3><a name="Q3QuaternionTransform_Get">Q3QuaternionTransform_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3QuaternionTransform_Get (
-    TQ3TransformObject            transform,
-    TQ3Quaternion                 *quaternion
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3QuaternionTransform_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3QuaternionTransform_Get">Q3QuaternionTransform_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3QuaternionTransform_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion
+);</tt><br>
 </pre></blockquote>
-<p>Get the quaternion data of a quaternion transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the quaternion data of a quaternion transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A quaternion transform object.</td></tr>
-<tr valign=top><td><tt>quaternion</tt></td><td>Receives the quaternion data specifying the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A quaternion transform object.</dd>
+<dt><tt><em>quaternion</em></tt></dt><dd>Receives the quaternion data specifying the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3QuaternionTransform_New"></a>
-<h3><a name="Q3QuaternionTransform_New">Q3QuaternionTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
-Q3QuaternionTransform_New (
-    const TQ3Quaternion           *quaternion
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3QuaternionTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3QuaternionTransform_New">Q3QuaternionTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3QuaternionTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion
+);</tt><br>
 </pre></blockquote>
-<p>Create a new quaternion transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new quaternion transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>quaternion</tt></td><td>Quaternion data specifying the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>quaternion</em></tt></dt><dd>Quaternion data specifying the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A new quaternion transform object, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3QuaternionTransform_Set"></a>
-<h3><a name="Q3QuaternionTransform_Set">Q3QuaternionTransform_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3QuaternionTransform_Set (
-    TQ3TransformObject            transform,
-    const TQ3Quaternion           *quaternion
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new quaternion transform object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3QuaternionTransform_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3QuaternionTransform_Set">Q3QuaternionTransform_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3QuaternionTransform_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion
+);</tt><br>
 </pre></blockquote>
-<p>Change the quaternion data of a quaternion transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the quaternion data of a quaternion transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A quaternion transform object.</td></tr>
-<tr valign=top><td><tt>quaternion</tt></td><td>Quaternion data specifying the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A quaternion transform object.</dd>
+<dt><tt><em>quaternion</em></tt></dt><dd>Quaternion data specifying the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3QuaternionTransform_Submit"></a>
-<h3><a name="Q3QuaternionTransform_Submit">Q3QuaternionTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3QuaternionTransform_Submit (
-    const TQ3Quaternion           *quaternion,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3QuaternionTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3QuaternionTransform_Submit">Q3QuaternionTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3QuaternionTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a quaternion transform in immediate mode.  Should only be called
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a quaternion transform in immediate mode.  Should only be called
 within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>quaternion</tt></td><td>Quaternion data specifying the transform.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>quaternion</em></tt></dt><dd>Quaternion data specifying the transform.</dd>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ResetTransform_New"></a>
-<h3><a name="Q3ResetTransform_New">Q3ResetTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
-Q3ResetTransform_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RasterizeCameraTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RasterizeCameraTransform_New">Q3RasterizeCameraTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3RasterizeCameraTransform_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a new reset transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new rasterize camera transform object.
+<br><br>
+A rasterize camera object is a camera transform object which
+adjusts the camera to allow rasterizing to a draw context.
+<br><br>
+When this type of transform is active, x and y vertex coordinates
+reflect pixel (or sub-pixel) coordinates. The z coordinate ranges
+from 0.0 to 1.0 (where 0.0 is the front of the scene, and 1.0 is
+the back).
+<br><br>
+The x/y coordinate system matches that of the draw context being
+rendered to when the transform is submitted. The origin is placed
+at the top left of the draw context, while the dimensions of the
+draw context provide the coordinates of the bottom right "pixel".
+<br><br>
+Any geometry type or rendering state may be submitted while this
+transform is active, however some renderers may require transparent
+objects to be sorted manually to their correct position within
+the scene.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<dl><dt><i>function result</i></dt><dd>A new camera transform object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RasterizeCameraTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RasterizeCameraTransform_Submit">Q3RasterizeCameraTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RasterizeCameraTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject theView
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a rasterize camera transform in immediate mode. Should only
+be called within a submitting loop.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theView</em></tt></dt><dd>The view currently being submitted to.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ResetTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ResetTransform_New">Q3ResetTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3ResetTransform_New (void);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new reset transform.
 <br><br>
 When transforms are submitted, they normally concatenate together, as
 modified by groups or push and pop operations.  Submitting a reset
 transform is a shortcut which sets the current transform to the identity.
 <br><br>
 </p>
-<b>Result:</b> A new reset transform, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ResetTransform_Submit"></a>
-<h3><a name="Q3ResetTransform_Submit">Q3ResetTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ResetTransform_Submit (
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new reset transform, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ResetTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ResetTransform_Submit">Q3ResetTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ResetTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a reset transform in immediate mode.  This should only be called
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a reset transform in immediate mode.  This should only be called
 within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetAngle"></a>
-<h3><a name="Q3RotateAboutAxisTransform_GetAngle">Q3RotateAboutAxisTransform_GetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutAxisTransform_GetAngle (
-    TQ3TransformObject            transform,
-    float                         *radians
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_GetAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_GetAngle">Q3RotateAboutAxisTransform_GetAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_GetAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;float *radians
+);</tt><br>
 </pre></blockquote>
-<p>Get the angle of rotation of a rotate-about-axis transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the angle of rotation of a rotate-about-axis transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>Receives the angle of rotation, in radians.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-axis transform object.</dd>
+<dt><tt><em>radians</em></tt></dt><dd>Receives the angle of rotation, in radians.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetData"></a>
-<h3><a name="Q3RotateAboutAxisTransform_GetData">Q3RotateAboutAxisTransform_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutAxisTransform_GetData (
-    TQ3TransformObject            transform,
-    TQ3RotateAboutAxisTransformData *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_GetData">Q3RotateAboutAxisTransform_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RotateAboutAxisTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>Get the state of a rotate-about-axis transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the state of a rotate-about-axis transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the state of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-axis transform object.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the state of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetOrientation"></a>
-<h3><a name="Q3RotateAboutAxisTransform_GetOrientation">Q3RotateAboutAxisTransform_GetOrientation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutAxisTransform_GetOrientation (
-    TQ3TransformObject            transform,
-    TQ3Vector3D                   *axis
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_GetOrientation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_GetOrientation">Q3RotateAboutAxisTransform_GetOrientation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_GetOrientation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *axis
+);</tt><br>
 </pre></blockquote>
-<p>Get the axis direction of a rotate-about-axis transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the axis direction of a rotate-about-axis transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>Receives the axis direction vector.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-axis transform object.</dd>
+<dt><tt><em>axis</em></tt></dt><dd>Receives the axis direction vector.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_GetOrigin"></a>
-<h3><a name="Q3RotateAboutAxisTransform_GetOrigin">Q3RotateAboutAxisTransform_GetOrigin</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutAxisTransform_GetOrigin (
-    TQ3TransformObject            transform,
-    TQ3Point3D                    *origin
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_GetOrigin"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_GetOrigin">Q3RotateAboutAxisTransform_GetOrigin</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_GetOrigin (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *origin
+);</tt><br>
 </pre></blockquote>
-<p>Get a point lying on the axis of a rotate-about-axis transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a point lying on the axis of a rotate-about-axis transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>origin</tt></td><td>Receives a point on the desired axis of rotation.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-axis transform object.</dd>
+<dt><tt><em>origin</em></tt></dt><dd>Receives a point on the desired axis of rotation.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_New"></a>
-<h3><a name="Q3RotateAboutAxisTransform_New">Q3RotateAboutAxisTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
-Q3RotateAboutAxisTransform_New (
-    const TQ3RotateAboutAxisTransformData *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_New">Q3RotateAboutAxisTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3RotateAboutAxisTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutAxisTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>Create a new transform object for rotation about an arbitrary axis.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new transform object for rotation about an arbitrary axis.
 Note that the orientation vector must be normalized.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Structure specifying the initial state of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>Structure specifying the initial state of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A new rotate-about-axis transform object, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetAngle"></a>
-<h3><a name="Q3RotateAboutAxisTransform_SetAngle">Q3RotateAboutAxisTransform_SetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutAxisTransform_SetAngle (
-    TQ3TransformObject            transform,
-    float                         radians
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new rotate-about-axis transform object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_SetAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_SetAngle">Q3RotateAboutAxisTransform_SetAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_SetAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;float radians
+);</tt><br>
 </pre></blockquote>
-<p>Change the angle of rotation of a rotate-about-axis transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the angle of rotation of a rotate-about-axis transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>New angle of rotation, in radians.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-axis transform object.</dd>
+<dt><tt><em>radians</em></tt></dt><dd>New angle of rotation, in radians.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetData"></a>
-<h3><a name="Q3RotateAboutAxisTransform_SetData">Q3RotateAboutAxisTransform_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutAxisTransform_SetData (
-    TQ3TransformObject            transform,
-    const TQ3RotateAboutAxisTransformData *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_SetData">Q3RotateAboutAxisTransform_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutAxisTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>Set the state of a rotate-about-axis transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the state of a rotate-about-axis transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Structure specifying the new state of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-axis transform object.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Structure specifying the new state of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetOrientation"></a>
-<h3><a name="Q3RotateAboutAxisTransform_SetOrientation">Q3RotateAboutAxisTransform_SetOrientation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutAxisTransform_SetOrientation (
-    TQ3TransformObject            transform,
-    const TQ3Vector3D             *axis
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_SetOrientation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_SetOrientation">Q3RotateAboutAxisTransform_SetOrientation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_SetOrientation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *axis
+);</tt><br>
 </pre></blockquote>
-<p>Set the axis direction of a rotate-about-axis transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the axis direction of a rotate-about-axis transform object.
 You must provide a normalized vector.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>New axis direction vector (normalized).</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-axis transform object.</dd>
+<dt><tt><em>axis</em></tt></dt><dd>New axis direction vector (normalized).</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_SetOrigin"></a>
-<h3><a name="Q3RotateAboutAxisTransform_SetOrigin">Q3RotateAboutAxisTransform_SetOrigin</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutAxisTransform_SetOrigin (
-    TQ3TransformObject            transform,
-    const TQ3Point3D              *origin
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_SetOrigin"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_SetOrigin">Q3RotateAboutAxisTransform_SetOrigin</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_SetOrigin (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *origin
+);</tt><br>
 </pre></blockquote>
-<p>Specify a new point lying on the axis of a rotate-about-axis transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Specify a new point lying on the axis of a rotate-about-axis transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-axis transform object.</td></tr>
-<tr valign=top><td><tt>origin</tt></td><td>A point on the desired axis of rotation.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-axis transform object.</dd>
+<dt><tt><em>origin</em></tt></dt><dd>A point on the desired axis of rotation.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutAxisTransform_Submit"></a>
-<h3><a name="Q3RotateAboutAxisTransform_Submit">Q3RotateAboutAxisTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutAxisTransform_Submit (
-    const TQ3RotateAboutAxisTransformData *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_Submit">Q3RotateAboutAxisTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutAxisTransformData *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a rotate-about-axis transform in immediate mode.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a rotate-about-axis transform in immediate mode.
 Should only be called within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Structure specifying the state of the transform.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>Structure specifying the state of the transform.</dd>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAboutPoint"></a>
-<h3><a name="Q3RotateAboutPointTransform_GetAboutPoint">Q3RotateAboutPointTransform_GetAboutPoint</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutPointTransform_GetAboutPoint (
-    TQ3TransformObject            transform,
-    TQ3Point3D                    *about
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_GetAboutPoint"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_GetAboutPoint">Q3RotateAboutPointTransform_GetAboutPoint</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_GetAboutPoint (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *about
+);</tt><br>
 </pre></blockquote>
-<p>Get a point on the axis of rotation of a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a point on the axis of rotation of a rotate-about-point transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>about</tt></td><td>Receives a point on the axis of rotation.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-point transform object.</dd>
+<dt><tt><em>about</em></tt></dt><dd>Receives a point on the axis of rotation.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAngle"></a>
-<h3><a name="Q3RotateAboutPointTransform_GetAngle">Q3RotateAboutPointTransform_GetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutPointTransform_GetAngle (
-    TQ3TransformObject            transform,
-    float                         *radians
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_GetAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_GetAngle">Q3RotateAboutPointTransform_GetAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_GetAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;float *radians
+);</tt><br>
 </pre></blockquote>
-<p>Get the angle of a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the angle of a rotate-about-point transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>Receives the angle in radians.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-point transform object.</dd>
+<dt><tt><em>radians</em></tt></dt><dd>Receives the angle in radians.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetAxis"></a>
-<h3><a name="Q3RotateAboutPointTransform_GetAxis">Q3RotateAboutPointTransform_GetAxis</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutPointTransform_GetAxis (
-    TQ3TransformObject            transform,
-    TQ3Axis                       *axis
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_GetAxis"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_GetAxis">Q3RotateAboutPointTransform_GetAxis</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_GetAxis (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis *axis
+);</tt><br>
 </pre></blockquote>
-<p>Get the axis of a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the axis of a rotate-about-point transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>Receives the enumerated value specifying the axis.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-point transform object.</dd>
+<dt><tt><em>axis</em></tt></dt><dd>Receives the enumerated value specifying the axis.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_GetData"></a>
-<h3><a name="Q3RotateAboutPointTransform_GetData">Q3RotateAboutPointTransform_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutPointTransform_GetData (
-    TQ3TransformObject            transform,
-    TQ3RotateAboutPointTransformData *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_GetData">Q3RotateAboutPointTransform_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RotateAboutPointTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>Get the state of a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the state of a rotate-about-point transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the state of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-point transform object.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the state of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_New"></a>
-<h3><a name="Q3RotateAboutPointTransform_New">Q3RotateAboutPointTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
-Q3RotateAboutPointTransform_New (
-    const TQ3RotateAboutPointTransformData *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_New">Q3RotateAboutPointTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3RotateAboutPointTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutPointTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>Create a new transform for rotation about an axis that is parallel to
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new transform for rotation about an axis that is parallel to
 the x, y, or z axis.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Structure containing the initial state of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>Structure containing the initial state of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A new rotate-about-point transform, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAboutPoint"></a>
-<h3><a name="Q3RotateAboutPointTransform_SetAboutPoint">Q3RotateAboutPointTransform_SetAboutPoint</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutPointTransform_SetAboutPoint (
-    TQ3TransformObject            transform,
-    const TQ3Point3D              *about
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new rotate-about-point transform, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_SetAboutPoint"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_SetAboutPoint">Q3RotateAboutPointTransform_SetAboutPoint</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_SetAboutPoint (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *about
+);</tt><br>
 </pre></blockquote>
-<p>Change the point on the axis of rotation of a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the point on the axis of rotation of a rotate-about-point transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>about</tt></td><td>A point on the desired axis.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-point transform object.</dd>
+<dt><tt><em>about</em></tt></dt><dd>A point on the desired axis.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAngle"></a>
-<h3><a name="Q3RotateAboutPointTransform_SetAngle">Q3RotateAboutPointTransform_SetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutPointTransform_SetAngle (
-    TQ3TransformObject            transform,
-    float                         radians
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_SetAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_SetAngle">Q3RotateAboutPointTransform_SetAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_SetAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;float radians
+);</tt><br>
 </pre></blockquote>
-<p>Change the angle of a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the angle of a rotate-about-point transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>The new angle in radians.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-point transform object.</dd>
+<dt><tt><em>radians</em></tt></dt><dd>The new angle in radians.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetAxis"></a>
-<h3><a name="Q3RotateAboutPointTransform_SetAxis">Q3RotateAboutPointTransform_SetAxis</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutPointTransform_SetAxis (
-    TQ3TransformObject            transform,
-    TQ3Axis                       axis
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_SetAxis"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_SetAxis">Q3RotateAboutPointTransform_SetAxis</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_SetAxis (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis axis
+);</tt><br>
 </pre></blockquote>
-<p>Change the axis of a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the axis of a rotate-about-point transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>The new axis.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-point transform object.</dd>
+<dt><tt><em>axis</em></tt></dt><dd>The new axis.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_SetData"></a>
-<h3><a name="Q3RotateAboutPointTransform_SetData">Q3RotateAboutPointTransform_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutPointTransform_SetData (
-    TQ3TransformObject            transform,
-    const TQ3RotateAboutPointTransformData *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_SetData">Q3RotateAboutPointTransform_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutPointTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>Change the state of a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the state of a rotate-about-point transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A rotate-about-point transform object.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Structure containing the new state of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A rotate-about-point transform object.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Structure containing the new state of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateAboutPointTransform_Submit"></a>
-<h3><a name="Q3RotateAboutPointTransform_Submit">Q3RotateAboutPointTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateAboutPointTransform_Submit (
-    const TQ3RotateAboutPointTransformData *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_Submit">Q3RotateAboutPointTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutPointTransformData *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a rotate-about-point transform in immediate mode.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a rotate-about-point transform in immediate mode.
 Should only be used within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Structure containing the state of the transform.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>Structure containing the state of the transform.</dd>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateTransform_GetAngle"></a>
-<h3><a name="Q3RotateTransform_GetAngle">Q3RotateTransform_GetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateTransform_GetAngle (
-    TQ3TransformObject            transform,
-    float                         *radians
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateTransform_GetAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_GetAngle">Q3RotateTransform_GetAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_GetAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;float *radians
+);</tt><br>
 </pre></blockquote>
-<p>Get the angle of rotation of a rotate transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the angle of rotation of a rotate transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>Receives the angle in radians.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>The rotate transform object.</dd>
+<dt><tt><em>radians</em></tt></dt><dd>Receives the angle in radians.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateTransform_GetAxis"></a>
-<h3><a name="Q3RotateTransform_GetAxis">Q3RotateTransform_GetAxis</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateTransform_GetAxis (
-    TQ3TransformObject            renderable,
-    TQ3Axis                       *axis
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateTransform_GetAxis"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_GetAxis">Q3RotateTransform_GetAxis</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_GetAxis (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject renderable,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis *axis
+);</tt><br>
 </pre></blockquote>
-<p>Get the axis of a rotate transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the axis of a rotate transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderable</tt></td><td>The rotate transform object.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>Receives the enumerated value specifying the axis.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderable</em></tt></dt><dd>The rotate transform object.</dd>
+<dt><tt><em>axis</em></tt></dt><dd>Receives the enumerated value specifying the axis.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateTransform_GetData"></a>
-<h3><a name="Q3RotateTransform_GetData">Q3RotateTransform_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateTransform_GetData (
-    TQ3TransformObject            transform,
-    TQ3RotateTransformData        *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateTransform_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_GetData">Q3RotateTransform_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RotateTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>Get the state of a rotate transform object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the state of a rotate transform object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data specifying the state of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>The rotate transform object.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the data specifying the state of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateTransform_New"></a>
-<h3><a name="Q3RotateTransform_New">Q3RotateTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
-Q3RotateTransform_New (
-    const TQ3RotateTransformData  *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_New">Q3RotateTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3RotateTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>Create a transform object for rotation about the x, y, or z axis.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a transform object for rotation about the x, y, or z axis.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Data specifying the initial state of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>Data specifying the initial state of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new transform object, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateTransform_SetAngle"></a>
-<h3><a name="Q3RotateTransform_SetAngle">Q3RotateTransform_SetAngle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateTransform_SetAngle (
-    TQ3TransformObject            transform,
-    float                         radians
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new transform object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateTransform_SetAngle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_SetAngle">Q3RotateTransform_SetAngle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_SetAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;float radians
+);</tt><br>
 </pre></blockquote>
-<p>Change the angle of a rotate transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the angle of a rotate transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
-<tr valign=top><td><tt>radians</tt></td><td>New angle of rotation in radians.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>The rotate transform object.</dd>
+<dt><tt><em>radians</em></tt></dt><dd>New angle of rotation in radians.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateTransform_SetAxis"></a>
-<h3><a name="Q3RotateTransform_SetAxis">Q3RotateTransform_SetAxis</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateTransform_SetAxis (
-    TQ3TransformObject            transform,
-    TQ3Axis                       axis
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateTransform_SetAxis"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_SetAxis">Q3RotateTransform_SetAxis</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_SetAxis (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis axis
+);</tt><br>
 </pre></blockquote>
-<p>Change the axis of a rotate transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the axis of a rotate transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
-<tr valign=top><td><tt>axis</tt></td><td>New axis of rotation.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>The rotate transform object.</dd>
+<dt><tt><em>axis</em></tt></dt><dd>New axis of rotation.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateTransform_SetData"></a>
-<h3><a name="Q3RotateTransform_SetData">Q3RotateTransform_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateTransform_SetData (
-    TQ3TransformObject            transform,
-    const TQ3RotateTransformData  *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateTransform_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_SetData">Q3RotateTransform_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateTransformData *data
+);</tt><br>
 </pre></blockquote>
-<p>Change the data of a rotate transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the data of a rotate transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>The rotate transform object.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Data specifying the new state of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>The rotate transform object.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Data specifying the new state of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RotateTransform_Submit"></a>
-<h3><a name="Q3RotateTransform_Submit">Q3RotateTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RotateTransform_Submit (
-    const TQ3RotateTransformData  *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RotateTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_Submit">Q3RotateTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateTransformData *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a rotate transform in immediate mode.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a rotate transform in immediate mode.
 Should only be used within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>Data specifying the transform.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>Data specifying the transform.</dd>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ScaleTransform_Get"></a>
-<h3><a name="Q3ScaleTransform_Get">Q3ScaleTransform_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ScaleTransform_Get (
-    TQ3TransformObject            transform,
-    TQ3Vector3D                   *scale
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ScaleTransform_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ScaleTransform_Get">Q3ScaleTransform_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ScaleTransform_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *scale
+);</tt><br>
 </pre></blockquote>
-<p>Get the scale factors of a scale transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the scale factors of a scale transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A scale transform object.</td></tr>
-<tr valign=top><td><tt>scale</tt></td><td>Receives the vector containing the 3 scale factors.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A scale transform object.</dd>
+<dt><tt><em>scale</em></tt></dt><dd>Receives the vector containing the 3 scale factors.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ScaleTransform_New"></a>
-<h3><a name="Q3ScaleTransform_New">Q3ScaleTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
-Q3ScaleTransform_New (
-    const TQ3Vector3D             *scale
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ScaleTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ScaleTransform_New">Q3ScaleTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3ScaleTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *scale
+);</tt><br>
 </pre></blockquote>
-<p>Create a new scale transform.  It multiplies the x, y, and z coordinates by
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new scale transform.  It multiplies the x, y, and z coordinates by
 the components of a given vector.  Most commonly, the 3 scale factors are
 identical positive numbers.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>scale</tt></td><td>Vector specifying scale factors for each coordinate.</td></tr>
-</table>
+<dl>
+<dt><tt><em>scale</em></tt></dt><dd>Vector specifying scale factors for each coordinate.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A new scale transform object, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ScaleTransform_Set"></a>
-<h3><a name="Q3ScaleTransform_Set">Q3ScaleTransform_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ScaleTransform_Set (
-    TQ3TransformObject            transform,
-    const TQ3Vector3D             *scale
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new scale transform object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ScaleTransform_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ScaleTransform_Set">Q3ScaleTransform_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ScaleTransform_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *scale
+);</tt><br>
 </pre></blockquote>
-<p>Change the scale factors of a scale transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the scale factors of a scale transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A scale transform object.</td></tr>
-<tr valign=top><td><tt>scale</tt></td><td>Vector containing the 3 scale factors.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A scale transform object.</dd>
+<dt><tt><em>scale</em></tt></dt><dd>Vector containing the 3 scale factors.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ScaleTransform_Submit"></a>
-<h3><a name="Q3ScaleTransform_Submit">Q3ScaleTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ScaleTransform_Submit (
-    const TQ3Vector3D             *scale,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ScaleTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ScaleTransform_Submit">Q3ScaleTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ScaleTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *scale,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a scale transform in immediate mode.  This should only be called
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a scale transform in immediate mode.  This should only be called
 within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>scale</tt></td><td>Vector containing the 3 scale factors.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>scale</em></tt></dt><dd>Vector containing the 3 scale factors.</dd>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Transform_GetMatrix"></a>
-<h3><a name="Q3Transform_GetMatrix">Q3Transform_GetMatrix</a></h3>
-<blockquote><pre><tt>TQ3Matrix4x4 * 
-Q3Transform_GetMatrix (
-    TQ3TransformObject            transform,
-    TQ3Matrix4x4                  *matrix
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Transform_GetMatrix"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Transform_GetMatrix">Q3Transform_GetMatrix</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Transform_GetMatrix (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix
+);</tt><br>
 </pre></blockquote>
-<p>Get the 4&#215;4 matrix of a transform object.
-<br><br><br>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the 4&#215;4 matrix of a transform object.
+<br><br>
+Non-geometrical transform objects (e.g., camera transforms) can not be
+expressed as a single 4&#215;4 matrix. These transforms will return the
+identity matrix.
+<br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A transform object.</td></tr>
-<tr valign=top><td><tt>matrix</tt></td><td>Receives the matrix of the transform.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A transform object.</dd>
+<dt><tt><em>matrix</em></tt></dt><dd>Receives the matrix of the transform.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Address of the resulting matrix, for convenience.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Transform_GetType"></a>
-<h3><a name="Q3Transform_GetType">Q3Transform_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Transform_GetType (
-    TQ3TransformObject            transform
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Address of the resulting matrix, for convenience.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Transform_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Transform_GetType">Q3Transform_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Transform_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform
+);</tt><br>
 </pre></blockquote>
-<p>Get the subtype of a transform object.  Returns <code>kQ3TransformTypeMatrix</code>,
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the subtype of a transform object.  Returns <code>kQ3TransformTypeMatrix</code>,
 <code>kQ3TransformTypeScale</code>, <code>kQ3TransformTypeTranslate</code>,
 <code>kQ3TransformTypeRotate</code>, <code>kQ3TransformTypeRotateAboutPoint</code>,
 <code>kQ3TransformTypeRotateAboutAxis</code>, <code>kQ3TransformTypeQuaternion</code>,
 <code>kQ3TransformTypeReset</code>, or <code>kQ3ObjectTypeInvalid</code>.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A transform object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A transform object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A transform object type or <code>kQ3ObjectTypeInvalid</code>.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Transform_Submit"></a>
-<h3><a name="Q3Transform_Submit">Q3Transform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Transform_Submit (
-    TQ3TransformObject            transform,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A transform object type or <code>kQ3ObjectTypeInvalid</code>.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Transform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Transform_Submit">Q3Transform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Transform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a transform object.  Should only be used within a submitting loop.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a transform object.  Should only be used within a submitting loop.
 <br><br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A transform object.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A transform object.</dd>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3TranslateTransform_Get"></a>
-<h3><a name="Q3TranslateTransform_Get">Q3TranslateTransform_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3TranslateTransform_Get (
-    TQ3TransformObject            transform,
-    TQ3Vector3D                   *translate
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TranslateTransform_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TranslateTransform_Get">Q3TranslateTransform_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TranslateTransform_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *translate
+);</tt><br>
 </pre></blockquote>
-<p>Get the translation vector of a translate transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the translation vector of a translate transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A translate transform object.</td></tr>
-<tr valign=top><td><tt>translate</tt></td><td>Receives the vector by which the transform translates.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A translate transform object.</dd>
+<dt><tt><em>translate</em></tt></dt><dd>Receives the vector by which the transform translates.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3TranslateTransform_New"></a>
-<h3><a name="Q3TranslateTransform_New">Q3TranslateTransform_New</a></h3>
-<blockquote><pre><tt>TQ3TransformObject  
-Q3TranslateTransform_New (
-    const TQ3Vector3D             *translate
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TranslateTransform_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TranslateTransform_New">Q3TranslateTransform_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3TranslateTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *translate
+);</tt><br>
 </pre></blockquote>
-<p>Create a new translation transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new translation transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>translate</tt></td><td>Vector by which to translate.</td></tr>
-</table>
+<dl>
+<dt><tt><em>translate</em></tt></dt><dd>Vector by which to translate.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A new transform object, or NULL on failure.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3TranslateTransform_Set"></a>
-<h3><a name="Q3TranslateTransform_Set">Q3TranslateTransform_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3TranslateTransform_Set (
-    TQ3TransformObject            transform,
-    const TQ3Vector3D             *translate
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A new transform object, or NULL on failure.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TranslateTransform_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TranslateTransform_Set">Q3TranslateTransform_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TranslateTransform_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *translate
+);</tt><br>
 </pre></blockquote>
-<p>Change the translation vector of a translate transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the translation vector of a translate transform.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>transform</tt></td><td>A translate transform object.</td></tr>
-<tr valign=top><td><tt>translate</tt></td><td>New vector by which to translate.</td></tr>
-</table>
+<dl>
+<dt><tt><em>transform</em></tt></dt><dd>A translate transform object.</dd>
+<dt><tt><em>translate</em></tt></dt><dd>New vector by which to translate.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3TranslateTransform_Submit"></a>
-<h3><a name="Q3TranslateTransform_Submit">Q3TranslateTransform_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3TranslateTransform_Submit (
-    const TQ3Vector3D             *translate,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TranslateTransform_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TranslateTransform_Submit">Q3TranslateTransform_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TranslateTransform_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *translate,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a translate transform in immediate mode.  Should only be
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a translate transform in immediate mode.  Should only be
 called within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>translate</tt></td><td>Vector by which to translate.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>A view object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>translate</em></tt></dt><dd>Vector by which to translate.</dd>
+<dt><tt><em>view</em></tt></dt><dd>A view object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
 <h2>Structs</h2>
-<a name="//apple_ref/c/tag/TQ3RotateAboutAxisTransformData"></a>
-<h3><a name="TQ3RotateAboutAxisTransformData">TQ3RotateAboutAxisTransformData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3CameraTransformData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CameraTransformData">TQ3CameraTransformData</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef struct TQ3CameraTransformData {
+    TQ3Matrix4x4                                localToWorld;
+    TQ3Matrix4x4                                worldToCamera;
+    TQ3Matrix4x4                                cameraToFrustum;
+} TQ3CameraTransformData;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>State data for a transform object that manipulates the camera matrix state.
+<br><br>
+Vertices are passed through three transforms to convert them from local
+coordinates to the canonical viewing frustum.
+<br><br>
+The localToWorld transform converts local coordinates to the world coordinate
+system.
+<br><br>
+The worldToCamera transform converts world coordinates to the camera's
+coordinate system, which places the camera at the origin and establishes
+the camera's view of the world.
+<br><br>
+The cameraToFrustum converts the camera's coordinate system to the canonical
+viewing frustum. This frustum is a box centered on the origin, ranging from
+-1 to +1 in x and y. In z the frustum ranges from 0 at the near clipping plane
+to -1 at the far clipping plane.
+<br><br>
+Once vertices have been transformed to the canonical frustum, a portion of
+the frustum is then selected using the current camera's viewPort and that
+portion mapped to the draw context's pane. These two steps are controlled by
+the current camera and draw context, and are not affected by a camera transform
+object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>localToWorld</tt></dt><dd>The local-to-world matrix.</dd>
+<dt><tt>worldToCamera</tt></dt><dd>The world-to-camera matrix.</dd>
+<dt><tt>cameraToFrustum</tt></dt><dd>The camera-to-frustum matrix.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3RotateAboutAxisTransformData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RotateAboutAxisTransformData">TQ3RotateAboutAxisTransformData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3RotateAboutAxisTransformData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
@@ -1134,22 +1121,21 @@ typedef struct TQ3RotateAboutAxisTransformData {
 } TQ3RotateAboutAxisTransformData;
 </pre>
 </blockquote>
-<p>State data for a transform object that rotates about an arbitrary axis.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>State data for a transform object that rotates about an arbitrary axis.
 Note that the orientation vector must be normalized.
+<br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>origin</tt></td><td>A point on the axis of rotation.</td><tr>
-<tr valign=top><td><tt>orientation</tt></td><td>A normal vector determining the direction of the axis.</td><tr>
-<tr valign=top><td><tt>radians</tt></td><td>Number of radians to rotate about the axis.</td><tr>
-</table>
+<dl>
+<dt><tt>origin</tt></dt><dd>A point on the axis of rotation.</dd>
+<dt><tt>orientation</tt></dt><dd>A normal vector determining the direction of the axis.</dd>
+<dt><tt>radians</tt></dt><dd>Number of radians to rotate about the axis.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3RotateAboutPointTransformData"></a>
-<h3><a name="TQ3RotateAboutPointTransformData">TQ3RotateAboutPointTransformData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3RotateAboutPointTransformData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RotateAboutPointTransformData">TQ3RotateAboutPointTransformData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3RotateAboutPointTransformData {
     TQ3Axis                                     axis;
     TQ3Float32                                  radians;
@@ -1157,37 +1143,35 @@ typedef struct TQ3RotateAboutPointTransformData {
 } TQ3RotateAboutPointTransformData;
 </pre>
 </blockquote>
-<p>State data for a rotate-about-point transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>State data for a rotate-about-point transform.
+<br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>axis</tt></td><td>Enumerated value specifying the x, y, or z axis.</td><tr>
-<tr valign=top><td><tt>radians</tt></td><td>Number of radians to rotate about the axis.</td><tr>
-<tr valign=top><td><tt>about</tt></td><td>A point on the desired axis of rotation.</td><tr>
-</table>
+<dl>
+<dt><tt>axis</tt></dt><dd>Enumerated value specifying the x, y, or z axis.</dd>
+<dt><tt>radians</tt></dt><dd>Number of radians to rotate about the axis.</dd>
+<dt><tt>about</tt></dt><dd>A point on the desired axis of rotation.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3RotateTransformData"></a>
-<h3><a name="TQ3RotateTransformData">TQ3RotateTransformData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3RotateTransformData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RotateTransformData">TQ3RotateTransformData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3RotateTransformData {
     TQ3Axis                                     axis;
     TQ3Float32                                  radians;
 } TQ3RotateTransformData;
 </pre>
 </blockquote>
-<p>State data for a rotate transform.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>State data for a rotate transform.
+<br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>axis</tt></td><td>Enumerated value specifying the x, y, or z axis.</td><tr>
-<tr valign=top><td><tt>radians</tt></td><td>Number of radians to rotate about the axis.</td><tr>
-</table>
+<dl>
+<dt><tt>axis</tt></dt><dd>Enumerated value specifying the x, y, or z axis.</dd>
+<dt><tt>radians</tt></dt><dd>Number of radians to rotate about the axis.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

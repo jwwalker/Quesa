@@ -1,7 +1,13 @@
-<html><head><title>Structs</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Structs</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3ControllerData"></a>
-<h3><a name="TQ3ControllerData">TQ3ControllerData</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Structs</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3ControllerData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ControllerData">TQ3ControllerData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3ControllerData {
     char                                        *signature;
     TQ3Uns32                                    valueCount;
@@ -11,25 +17,23 @@ typedef struct TQ3ControllerData {
 } TQ3ControllerData;
 </pre>
 </blockquote>
-<p>State used to create new controller objects.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>State used to create new controller objects.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>signature</tt></td><td>A C string which uniquely identifies the manufacturer
-and model of the controller.</td><tr>
-<tr valign=top><td><tt>valueCount</tt></td><td>The number of values supported by the controller.</td><tr>
-<tr valign=top><td><tt>channelCount</tt></td><td>The number of channels supported by the controller.</td><tr>
-<tr valign=top><td><tt>channelGetMethod</tt></td><td>The channel-getting method for the controller. This
+<dl>
+<dt><tt>signature</tt></dt><dd>A C string which uniquely identifies the manufacturer
+and model of the controller.</dd>
+<dt><tt>valueCount</tt></dt><dd>The number of values supported by the controller.</dd>
+<dt><tt>channelCount</tt></dt><dd>The number of channels supported by the controller.</dd>
+<dt><tt>channelGetMethod</tt></dt><dd>The channel-getting method for the controller. This
 field is only valid if channelCount is non-zero, and
-may be NULL if the controller can not support this.</td><tr>
-<tr valign=top><td><tt>channelSetMethod</tt></td><td>The channel-setting method for the controller. This
+may be NULL if the controller can not support this.</dd>
+<dt><tt>channelSetMethod</tt></dt><dd>The channel-setting method for the controller. This
 field is only valid if channelCount is non-zero, and
-may be NULL if the controller can not support this.</td><tr>
-</table>
+may be NULL if the controller can not support this.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

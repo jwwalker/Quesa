@@ -1,25 +1,30 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3DisplayGroupStateMasks"></a>
-<h3><a name="TQ3DisplayGroupStateMasks">TQ3DisplayGroupStateMasks</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3DisplayGroupStateMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DisplayGroupStateMasks">TQ3DisplayGroupStateMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3DisplayGroupStateNone                    = 0,
-    kQ3DisplayGroupStateMaskIsDrawn             = (1 << 0),
-    kQ3DisplayGroupStateMaskIsInline            = (1 << 1),
-    kQ3DisplayGroupStateMaskUseBoundingBox      = (1 << 2),
-    kQ3DisplayGroupStateMaskUseBoundingSphere   = (1 << 3),
-    kQ3DisplayGroupStateMaskIsPicked            = (1 << 4),
-    kQ3DisplayGroupStateMaskIsWritten           = (1 << 5),
+    kQ3DisplayGroupStateMaskIsDrawn             = (1 &lt;&lt; 0),
+    kQ3DisplayGroupStateMaskIsInline            = (1 &lt;&lt; 1),
+    kQ3DisplayGroupStateMaskUseBoundingBox      = (1 &lt;&lt; 2),
+    kQ3DisplayGroupStateMaskUseBoundingSphere   = (1 &lt;&lt; 3),
+    kQ3DisplayGroupStateMaskIsPicked            = (1 &lt;&lt; 4),
+    kQ3DisplayGroupStateMaskIsWritten           = (1 &lt;&lt; 5),
     
-#if QUESA_ALLOW_QD3D_EXTENSIONS
-    kQ3DisplayGroupStateMaskIsNotForBounding	= (1 << 6),
+    kQ3DisplayGroupStateMaskIsNotForBounding  = (1 &lt;&lt; 6),
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3DisplayGroupStateMaskSize32              = 0xFFFFFFFF
 } TQ3DisplayGroupStateMasks;
 </pre>
 </blockquote>
-<p>Group traversal state.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Group traversal state.
 <br><br>
 A group's traversal state is set with Q3DisplayGroup_SetState, and
 controls how the group is processed when submitted for rendering,
@@ -28,20 +33,18 @@ picking, bounding, or writing.
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DisplayGroupStateNone"><tt>kQ3DisplayGroupStateNone</tt></a></td><td>No value.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DisplayGroupStateMaskIsDrawn"><tt>kQ3DisplayGroupStateMaskIsDrawn</tt></a></td><td>The group will be submitted during rendering or picking.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DisplayGroupStateMaskIsInline"><tt>kQ3DisplayGroupStateMaskIsInline</tt></a></td><td>The group will be submited without pushing/popping the
-view state stack around the group contents.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DisplayGroupStateMaskUseBoundingBox"><tt>kQ3DisplayGroupStateMaskUseBoundingBox</tt></a></td><td>The bounding box is used for culling when rendering.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DisplayGroupStateMaskUseBoundingSphere"><tt>kQ3DisplayGroupStateMaskUseBoundingSphere</tt></a></td><td>The bounding sphere is used for culling when rendering.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DisplayGroupStateMaskIsPicked"><tt>kQ3DisplayGroupStateMaskIsPicked</tt></a></td><td>The group will be eligible for returning during picking.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DisplayGroupStateMaskIsWritten"><tt>kQ3DisplayGroupStateMaskIsWritten</tt></a></td><td>The group will be submitted during writing.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DisplayGroupStateMaskIsNotForBounding"><tt>kQ3DisplayGroupStateMaskIsNotForBounding</tt></a></td><td>The group will not be submitted during bounding.
-(Not in QD3D.)</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateNone"><tt>kQ3DisplayGroupStateNone</tt></a></dt><dd>No value.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsDrawn"><tt>kQ3DisplayGroupStateMaskIsDrawn</tt></a></dt><dd>The group will be submitted during rendering or picking.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsInline"><tt>kQ3DisplayGroupStateMaskIsInline</tt></a></dt><dd>The group will be submited without pushing/popping the
+view state stack around the group contents.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskUseBoundingBox"><tt>kQ3DisplayGroupStateMaskUseBoundingBox</tt></a></dt><dd>The bounding box is used for culling when rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskUseBoundingSphere"><tt>kQ3DisplayGroupStateMaskUseBoundingSphere</tt></a></dt><dd>The bounding sphere is used for culling when rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsPicked"><tt>kQ3DisplayGroupStateMaskIsPicked</tt></a></dt><dd>The group will be eligible for returning during picking.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsWritten"><tt>kQ3DisplayGroupStateMaskIsWritten</tt></a></dt><dd>The group will be submitted during writing.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsNotForBounding"><tt>kQ3DisplayGroupStateMaskIsNotForBounding</tt></a></dt><dd>The group will not be submitted during bounding.
+(Not in QD3D.)</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

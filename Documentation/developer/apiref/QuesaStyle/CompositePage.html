@@ -1,1060 +1,966 @@
-<html><head><title>QuesaStyle.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaStyle.h</h1></font><hr><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>QuesaStyle.h</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">QuesaStyle.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa style objects.
  <hr><br><h2>Functions</h2>
-<a name="//apple_ref/c/func/Q3AntiAliasStyle_GetData"></a>
-<h3><a name="Q3AntiAliasStyle_GetData">Q3AntiAliasStyle_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AntiAliasStyle_GetData (
-    TQ3StyleObject                styleObject,
-    TQ3AntiAliasStyleData         *data
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3AntiAliasStyle_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AntiAliasStyle_GetData">Q3AntiAliasStyle_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AntiAliasStyle_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AntiAliasStyleData *data
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from an anti-alias style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from an anti-alias style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>styleObject</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AntiAliasStyle_New"></a>
-<h3><a name="Q3AntiAliasStyle_New">Q3AntiAliasStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3AntiAliasStyle_New (
-    const TQ3AntiAliasStyleData   *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AntiAliasStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AntiAliasStyle_New">Q3AntiAliasStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3AntiAliasStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3AntiAliasStyleData *data
+);</tt><br>
 </pre></blockquote>
-<p>Create an anti-alias style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create an anti-alias style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>The anti-alias style data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>The anti-alias style data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new anti-alias style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AntiAliasStyle_SetData"></a>
-<h3><a name="Q3AntiAliasStyle_SetData">Q3AntiAliasStyle_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AntiAliasStyle_SetData (
-    TQ3StyleObject                styleObject,
-    const TQ3AntiAliasStyleData   *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new anti-alias style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AntiAliasStyle_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AntiAliasStyle_SetData">Q3AntiAliasStyle_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AntiAliasStyle_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3AntiAliasStyleData *data
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for an anti-alias style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for an anti-alias style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>styleObject</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>data</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3AntiAliasStyle_Submit"></a>
-<h3><a name="Q3AntiAliasStyle_Submit">Q3AntiAliasStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3AntiAliasStyle_Submit (
-    const TQ3AntiAliasStyleData   *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3AntiAliasStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AntiAliasStyle_Submit">Q3AntiAliasStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AntiAliasStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3AntiAliasStyleData *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit an anti-alias style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an anti-alias style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>The anti-alias style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>The anti-alias style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3BackfacingStyle_Get"></a>
-<h3><a name="Q3BackfacingStyle_Get">Q3BackfacingStyle_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3BackfacingStyle_Get (
-    TQ3StyleObject                backfacingObject,
-    TQ3BackfacingStyle            *backfacingStyle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3BackfacingStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BackfacingStyle_Get">Q3BackfacingStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BackfacingStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject backfacingObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle *backfacingStyle
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from a backfacing style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a backfacing style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>backfacingObject</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>backfacingStyle</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>backfacingObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>backfacingStyle</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3BackfacingStyle_New"></a>
-<h3><a name="Q3BackfacingStyle_New">Q3BackfacingStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3BackfacingStyle_New (
-    TQ3BackfacingStyle            backfacingStyle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3BackfacingStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BackfacingStyle_New">Q3BackfacingStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3BackfacingStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle backfacingStyle
+);</tt><br>
 </pre></blockquote>
-<p>Create a backfacing style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a backfacing style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>backfacingStyle</tt></td><td>The backfacing style data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>backfacingStyle</em></tt></dt><dd>The backfacing style data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new backfacing style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3BackfacingStyle_Set"></a>
-<h3><a name="Q3BackfacingStyle_Set">Q3BackfacingStyle_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3BackfacingStyle_Set (
-    TQ3StyleObject                backfacingObject,
-    TQ3BackfacingStyle            backfacingStyle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new backfacing style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3BackfacingStyle_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BackfacingStyle_Set">Q3BackfacingStyle_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BackfacingStyle_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject backfacingObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle backfacingStyle
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a backfacing style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a backfacing style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>backfacingObject</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>backfacingStyle</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>backfacingObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>backfacingStyle</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3BackfacingStyle_Submit"></a>
-<h3><a name="Q3BackfacingStyle_Submit">Q3BackfacingStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3BackfacingStyle_Submit (
-    TQ3BackfacingStyle            backfacingStyle,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3BackfacingStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BackfacingStyle_Submit">Q3BackfacingStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BackfacingStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle backfacingStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a backfacing style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a backfacing style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>backfacingStyle</tt></td><td>The backfacing style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>backfacingStyle</em></tt></dt><dd>The backfacing style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FillStyle_Get"></a>
-<h3><a name="Q3FillStyle_Get">Q3FillStyle_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3FillStyle_Get (
-    TQ3StyleObject                styleObject,
-    TQ3FillStyle                  *fillStyle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CastShadowsStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CastShadowsStyle_Get">Q3CastShadowsStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CastShadowsStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *castShadows
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from a fill style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a cast shadows style.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>styleObject</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>filLStyle</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>castShadows</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FillStyle_New"></a>
-<h3><a name="Q3FillStyle_New">Q3FillStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3FillStyle_New (
-    TQ3FillStyle                  fillStyle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CastShadowsStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CastShadowsStyle_New">Q3CastShadowsStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3CastShadowsStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castsShadows
+);</tt><br>
 </pre></blockquote>
-<p>Create a fill style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a cast shadows style.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>fillStyle</tt></td><td>The fill style data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>castShadows</em></tt></dt><dd>The cast shadows style data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new fill style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FillStyle_Set"></a>
-<h3><a name="Q3FillStyle_Set">Q3FillStyle_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3FillStyle_Set (
-    TQ3StyleObject                styleObject,
-    TQ3FillStyle                  fillStyle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new cast shadows style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CastShadowsStyle_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CastShadowsStyle_Set">Q3CastShadowsStyle_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CastShadowsStyle_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castShadows
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a fill style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a cast shadows style.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>styleObject</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>fillStyle</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>castShadows</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FillStyle_Submit"></a>
-<h3><a name="Q3FillStyle_Submit">Q3FillStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3FillStyle_Submit (
-    TQ3FillStyle                  fillStyle,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CastShadowsStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CastShadowsStyle_Submit">Q3CastShadowsStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CastShadowsStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castShadows,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a fill style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a cast shadows style to a view.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>fillStyle</tt></td><td>The fill style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>castShadows</em></tt></dt><dd>The cast shadows style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FogStyle_GetData"></a>
-<h3><a name="Q3FogStyle_GetData">Q3FogStyle_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3FogStyle_GetData (
-    TQ3StyleObject                styleObject,
-    TQ3FogStyleData               *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FillStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FillStyle_Get">Q3FillStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FillStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle *fillStyle
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from a fog style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a fill style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>styleObject</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>filLStyle</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FogStyle_New"></a>
-<h3><a name="Q3FogStyle_New">Q3FogStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3FogStyle_New (
-    const TQ3FogStyleData         *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FillStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FillStyle_New">Q3FillStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3FillStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle fillStyle
+);</tt><br>
 </pre></blockquote>
-<p>Create a fog style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a fill style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>The fog style data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>fillStyle</em></tt></dt><dd>The fill style data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new fog style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FogStyle_SetData"></a>
-<h3><a name="Q3FogStyle_SetData">Q3FogStyle_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3FogStyle_SetData (
-    TQ3StyleObject                styleObject,
-    const TQ3FogStyleData         *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new fill style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FillStyle_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FillStyle_Set">Q3FillStyle_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FillStyle_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle fillStyle
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a fog style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a fill style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>styleObject</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>fillStyle</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3FogStyle_Submit"></a>
-<h3><a name="Q3FogStyle_Submit">Q3FogStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3FogStyle_Submit (
-    const TQ3FogStyleData         *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FillStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FillStyle_Submit">Q3FillStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FillStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle fillStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a fog style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a fill style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>The fog style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>fillStyle</em></tt></dt><dd>The fill style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3HighlightStyle_Get"></a>
-<h3><a name="Q3HighlightStyle_Get">Q3HighlightStyle_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3HighlightStyle_Get (
-    TQ3StyleObject                highlight,
-    TQ3AttributeSet               *highlightAttribute
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FogStyle_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FogStyle_GetData">Q3FogStyle_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FogStyle_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FogStyleData *data
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from a highlight style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a fog style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>highlight</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>highlightAttribute</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3HighlightStyle_New"></a>
-<h3><a name="Q3HighlightStyle_New">Q3HighlightStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3HighlightStyle_New (
-    TQ3AttributeSet               highlightAttribute
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FogStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FogStyle_New">Q3FogStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3FogStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FogStyleData *data
+);</tt><br>
 </pre></blockquote>
-<p>Create a highlight style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a fog style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>highlightAttribute</tt></td><td>The highlight style set.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>The fog style data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new highlight style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3HighlightStyle_Set"></a>
-<h3><a name="Q3HighlightStyle_Set">Q3HighlightStyle_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3HighlightStyle_Set (
-    TQ3StyleObject                highlight,
-    TQ3AttributeSet               highlightAttribute
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new fog style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FogStyle_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FogStyle_SetData">Q3FogStyle_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FogStyle_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FogStyleData *data
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a highlight style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a fog style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>highlight</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>highlightAttribute</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>data</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3HighlightStyle_Submit"></a>
-<h3><a name="Q3HighlightStyle_Submit">Q3HighlightStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3HighlightStyle_Submit (
-    TQ3AttributeSet               highlightAttribute,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FogStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FogStyle_Submit">Q3FogStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FogStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FogStyleData *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a highlight style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a fog style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>highlightAttribute</tt></td><td>The highlight style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>The fog style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InterpolationStyle_Get"></a>
-<h3><a name="Q3InterpolationStyle_Get">Q3InterpolationStyle_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InterpolationStyle_Get (
-    TQ3StyleObject                interpolationObject,
-    TQ3InterpolationStyle         *interpolationStyle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3HighlightStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HighlightStyle_Get">Q3HighlightStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HighlightStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject highlight,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet *highlightAttribute
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from an interpolation style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a highlight style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>interpolationObject</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>interpolationStyle</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>highlight</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>highlightAttribute</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InterpolationStyle_New"></a>
-<h3><a name="Q3InterpolationStyle_New">Q3InterpolationStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3InterpolationStyle_New (
-    TQ3InterpolationStyle         interpolationStyle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3HighlightStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HighlightStyle_New">Q3HighlightStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3HighlightStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet highlightAttribute
+);</tt><br>
 </pre></blockquote>
-<p>Create an interpolation style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a highlight style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>interpolationStyle</tt></td><td>The interpolation style data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>highlightAttribute</em></tt></dt><dd>The highlight style set.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new interpolation style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InterpolationStyle_Set"></a>
-<h3><a name="Q3InterpolationStyle_Set">Q3InterpolationStyle_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InterpolationStyle_Set (
-    TQ3StyleObject                interpolationObject,
-    TQ3InterpolationStyle         interpolationStyle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new highlight style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3HighlightStyle_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HighlightStyle_Set">Q3HighlightStyle_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HighlightStyle_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject highlight,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet highlightAttribute
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for an interpolation style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a highlight style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>interpolationObject</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>interpolationStyle</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>highlight</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>highlightAttribute</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InterpolationStyle_Submit"></a>
-<h3><a name="Q3InterpolationStyle_Submit">Q3InterpolationStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InterpolationStyle_Submit (
-    TQ3InterpolationStyle         interpolationStyle,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3HighlightStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HighlightStyle_Submit">Q3HighlightStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HighlightStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet highlightAttribute,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit an interpolation style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a highlight style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>interpolationStyle</tt></td><td>The interpolation style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>highlightAttribute</em></tt></dt><dd>The highlight style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrientationStyle_Get"></a>
-<h3><a name="Q3OrientationStyle_Get">Q3OrientationStyle_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrientationStyle_Get (
-    TQ3StyleObject                frontFacingDirectionObject,
-    TQ3OrientationStyle           *frontFacingDirection
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InterpolationStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InterpolationStyle_Get">Q3InterpolationStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InterpolationStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject interpolationObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle *interpolationStyle
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from an orientation style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from an interpolation style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>frontFacingDirectionObject</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>frontFacingDirection</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>interpolationObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>interpolationStyle</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrientationStyle_New"></a>
-<h3><a name="Q3OrientationStyle_New">Q3OrientationStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3OrientationStyle_New (
-    TQ3OrientationStyle           frontFacingDirection
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InterpolationStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InterpolationStyle_New">Q3InterpolationStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3InterpolationStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle interpolationStyle
+);</tt><br>
 </pre></blockquote>
-<p>Create an orientation style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create an interpolation style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>frontFacingDirection</tt></td><td>The orientation style data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>interpolationStyle</em></tt></dt><dd>The interpolation style data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new orientation style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrientationStyle_Set"></a>
-<h3><a name="Q3OrientationStyle_Set">Q3OrientationStyle_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrientationStyle_Set (
-    TQ3StyleObject                frontFacingDirectionObject,
-    TQ3OrientationStyle           frontFacingDirection
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new interpolation style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InterpolationStyle_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InterpolationStyle_Set">Q3InterpolationStyle_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InterpolationStyle_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject interpolationObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle interpolationStyle
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for an orientation style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for an interpolation style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>frontFacingDirectionObject</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>frontFacingDirection</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>interpolationObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>interpolationStyle</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrientationStyle_Submit"></a>
-<h3><a name="Q3OrientationStyle_Submit">Q3OrientationStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrientationStyle_Submit (
-    TQ3OrientationStyle           frontFacingDirection,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InterpolationStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InterpolationStyle_Submit">Q3InterpolationStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InterpolationStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle interpolationStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit an orientation style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an interpolation style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>frontFacingDirection</tt></td><td>The orientation style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>interpolationStyle</em></tt></dt><dd>The interpolation style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PickIDStyle_Get"></a>
-<h3><a name="Q3PickIDStyle_Get">Q3PickIDStyle_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PickIDStyle_Get (
-    TQ3StyleObject                pickIDObject,
-    TQ3Uns32                      *id
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrientationStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrientationStyle_Get">Q3OrientationStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrientationStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject frontFacingDirectionObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle *frontFacingDirection
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from a pick ID style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from an orientation style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>styleObject</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>id</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>frontFacingDirectionObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>frontFacingDirection</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PickIDStyle_New"></a>
-<h3><a name="Q3PickIDStyle_New">Q3PickIDStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3PickIDStyle_New (
-    TQ3Uns32                      id
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrientationStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrientationStyle_New">Q3OrientationStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3OrientationStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle frontFacingDirection
+);</tt><br>
 </pre></blockquote>
-<p>Create a pick ID style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create an orientation style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>id</tt></td><td>The pick ID.</td></tr>
-</table>
+<dl>
+<dt><tt><em>frontFacingDirection</em></tt></dt><dd>The orientation style data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new pick ID style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PickIDStyle_Set"></a>
-<h3><a name="Q3PickIDStyle_Set">Q3PickIDStyle_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PickIDStyle_Set (
-    TQ3StyleObject                pickIDObject,
-    TQ3Uns32                      id
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new orientation style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrientationStyle_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrientationStyle_Set">Q3OrientationStyle_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrientationStyle_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject frontFacingDirectionObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle frontFacingDirection
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a pick ID style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for an orientation style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pickIDObject</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>id</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>frontFacingDirectionObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>frontFacingDirection</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PickIDStyle_Submit"></a>
-<h3><a name="Q3PickIDStyle_Submit">Q3PickIDStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PickIDStyle_Submit (
-    TQ3Uns32                      id,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrientationStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrientationStyle_Submit">Q3OrientationStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrientationStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle frontFacingDirection,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a pick ID style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an orientation style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>id</tt></td><td>The pick ID.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>frontFacingDirection</em></tt></dt><dd>The orientation style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PickPartsStyle_Get"></a>
-<h3><a name="Q3PickPartsStyle_Get">Q3PickPartsStyle_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PickPartsStyle_Get (
-    TQ3StyleObject                pickPartsObject,
-    TQ3PickParts                  *parts
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PickIDStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickIDStyle_Get">Q3PickIDStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickIDStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject pickIDObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *id
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from a pick parts style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a pick ID style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pickPartsObject</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>parts</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>id</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PickPartsStyle_New"></a>
-<h3><a name="Q3PickPartsStyle_New">Q3PickPartsStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3PickPartsStyle_New (
-    TQ3PickParts                  parts
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PickIDStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickIDStyle_New">Q3PickIDStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3PickIDStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 id
+);</tt><br>
 </pre></blockquote>
-<p>Create a pick parts style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a pick ID style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>parts</tt></td><td>The pick parts.</td></tr>
-</table>
+<dl>
+<dt><tt><em>id</em></tt></dt><dd>The pick ID.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new pick parts style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PickPartsStyle_Set"></a>
-<h3><a name="Q3PickPartsStyle_Set">Q3PickPartsStyle_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PickPartsStyle_Set (
-    TQ3StyleObject                pickPartsObject,
-    TQ3PickParts                  parts
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new pick ID style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PickIDStyle_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickIDStyle_Set">Q3PickIDStyle_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickIDStyle_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject pickIDObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 id
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a pick parts style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a pick ID style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>pickPartsObject</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>parts</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>pickIDObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>id</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3PickPartsStyle_Submit"></a>
-<h3><a name="Q3PickPartsStyle_Submit">Q3PickPartsStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3PickPartsStyle_Submit (
-    TQ3PickParts                  parts,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PickIDStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickIDStyle_Submit">Q3PickIDStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickIDStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 id,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a pick parts style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a pick ID style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>parts</tt></td><td>The pick parts style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>id</em></tt></dt><dd>The pick ID.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ReceiveShadowsStyle_Get"></a>
-<h3><a name="Q3ReceiveShadowsStyle_Get">Q3ReceiveShadowsStyle_Get</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ReceiveShadowsStyle_Get (
-    TQ3StyleObject                styleObject,
-    TQ3Boolean                    *receives
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PickPartsStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickPartsStyle_Get">Q3PickPartsStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickPartsStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject pickPartsObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts *parts
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from a receive shadows style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a pick parts style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>styleObject</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>receives</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>pickPartsObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>parts</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ReceiveShadowsStyle_New"></a>
-<h3><a name="Q3ReceiveShadowsStyle_New">Q3ReceiveShadowsStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3ReceiveShadowsStyle_New (
-    TQ3Boolean                    receives
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PickPartsStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickPartsStyle_New">Q3PickPartsStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3PickPartsStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts parts
+);</tt><br>
 </pre></blockquote>
-<p>Create a receive shadows style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a pick parts style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>receives</tt></td><td>The receive shadows style data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>parts</em></tt></dt><dd>The pick parts.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new receive shadows style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ReceiveShadowsStyle_Set"></a>
-<h3><a name="Q3ReceiveShadowsStyle_Set">Q3ReceiveShadowsStyle_Set</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ReceiveShadowsStyle_Set (
-    TQ3StyleObject                styleObject,
-    TQ3Boolean                    receives
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new pick parts style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PickPartsStyle_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickPartsStyle_Set">Q3PickPartsStyle_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickPartsStyle_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject pickPartsObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts parts
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a receive shadows style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a pick parts style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>styleObject</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>receives</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>pickPartsObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>parts</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ReceiveShadowsStyle_Submit"></a>
-<h3><a name="Q3ReceiveShadowsStyle_Submit">Q3ReceiveShadowsStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ReceiveShadowsStyle_Submit (
-    TQ3Boolean                    receives,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PickPartsStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickPartsStyle_Submit">Q3PickPartsStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickPartsStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts parts,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a receive shadows style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a pick parts style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>receives</tt></td><td>The receive shadows style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>parts</em></tt></dt><dd>The pick parts style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Style_GetType"></a>
-<h3><a name="Q3Style_GetType">Q3Style_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Style_GetType (
-    TQ3StyleObject                style
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ReceiveShadowsStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ReceiveShadowsStyle_Get">Q3ReceiveShadowsStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ReceiveShadowsStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *receiveShadows
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a style object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a receive shadows style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>style</tt></td><td>The style to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>receiveShadows</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Style_Submit"></a>
-<h3><a name="Q3Style_Submit">Q3Style_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Style_Submit (
-    TQ3StyleObject                style,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ReceiveShadowsStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ReceiveShadowsStyle_New">Q3ReceiveShadowsStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3ReceiveShadowsStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean receiveShadows
+);</tt><br>
 </pre></blockquote>
-<p>Submit a style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a receive shadows style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>style</tt></td><td>The style to submit.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>receiveShadows</em></tt></dt><dd>The receive shadows style data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SubdivisionStyle_GetData"></a>
-<h3><a name="Q3SubdivisionStyle_GetData">Q3SubdivisionStyle_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SubdivisionStyle_GetData (
-    TQ3StyleObject                subdiv,
-    TQ3SubdivisionStyleData       *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new receive shadows style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ReceiveShadowsStyle_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ReceiveShadowsStyle_Set">Q3ReceiveShadowsStyle_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ReceiveShadowsStyle_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean receiveShadows
+);</tt><br>
 </pre></blockquote>
-<p>Get the data from a subdivision style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a receive shadows style.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>subdiv</tt></td><td>The style to query.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>Receives the data from the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>receiveShadows</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SubdivisionStyle_New"></a>
-<h3><a name="Q3SubdivisionStyle_New">Q3SubdivisionStyle_New</a></h3>
-<blockquote><pre><tt>TQ3StyleObject  
-Q3SubdivisionStyle_New (
-    const TQ3SubdivisionStyleData *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ReceiveShadowsStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ReceiveShadowsStyle_Submit">Q3ReceiveShadowsStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ReceiveShadowsStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean receiveShadows,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Create a subdivision style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a receive shadows style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>The subdivision style data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>receiveShadows</em></tt></dt><dd>The receive shadows style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new subdivision style.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SubdivisionStyle_SetData"></a>
-<h3><a name="Q3SubdivisionStyle_SetData">Q3SubdivisionStyle_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SubdivisionStyle_SetData (
-    TQ3StyleObject                subdiv,
-    const TQ3SubdivisionStyleData *data
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Style_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Style_GetType">Q3Style_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Style_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject style
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a subdivision style.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a style object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>subdiv</tt></td><td>The style to update.</td></tr>
-<tr valign=top><td><tt>data</tt></td><td>The new data for the style.</td></tr>
-</table>
+<dl>
+<dt><tt><em>style</em></tt></dt><dd>The style to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SubdivisionStyle_Submit"></a>
-<h3><a name="Q3SubdivisionStyle_Submit">Q3SubdivisionStyle_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3SubdivisionStyle_Submit (
-    const TQ3SubdivisionStyleData *data,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Style_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Style_Submit">Q3Style_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Style_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject style,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a subdivision style to a view.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a style to a view.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>data</tt></td><td>The subdivision style data.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>The view to submit the style to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>style</em></tt></dt><dd>The style to submit.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SubdivisionStyle_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SubdivisionStyle_GetData">Q3SubdivisionStyle_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SubdivisionStyle_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject subdiv,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SubdivisionStyleData *data
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a subdivision style.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>subdiv</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SubdivisionStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SubdivisionStyle_New">Q3SubdivisionStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3SubdivisionStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SubdivisionStyleData *data
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a subdivision style.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>The subdivision style data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new subdivision style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SubdivisionStyle_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SubdivisionStyle_SetData">Q3SubdivisionStyle_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SubdivisionStyle_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject subdiv,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SubdivisionStyleData *data
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a subdivision style.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>subdiv</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>data</em></tt></dt><dd>The new data for the style.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SubdivisionStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SubdivisionStyle_Submit">Q3SubdivisionStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SubdivisionStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SubdivisionStyleData *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a subdivision style to a view.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>data</em></tt></dt><dd>The subdivision style data.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
 <h2>Typedefs</h2>
-<a name="//apple_ref/c/tdef/TQ3AntiAliasMode"></a>
-<h3><a name="TQ3AntiAliasMode">TQ3AntiAliasMode</a></h3>
-<blockquote><tt>typedef TQ3Uns32 <b>TQ3AntiAliasMode;</b>();</tt><br>
+<hr><a name="//Quesa/c/tdef/TQ3AntiAliasMode"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AntiAliasMode">TQ3AntiAliasMode</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef TQ3Uns32                                TQ3AntiAliasMode;
+</pre>
 </blockquote>
-<p>Holds one or more TQ3AntiAliasModeMasks values.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Holds one or more TQ3AntiAliasModeMasks values.
  </p>
-<hr>
-<a name="//apple_ref/c/tdef/TQ3PickParts"></a>
-<h3><a name="TQ3PickParts">TQ3PickParts</a></h3>
-<blockquote><tt>typedef TQ3Uns32 <b>TQ3PickParts;</b>();</tt><br>
+<hr><a name="//Quesa/c/tdef/TQ3PickParts"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PickParts">TQ3PickParts</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef TQ3Uns32                                TQ3PickParts;
+</pre>
 </blockquote>
-<p>Holds TQ3PickPartsMasks values.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Holds TQ3PickPartsMasks values.
  </p>
-<hr>
 <h2>Structs</h2>
-<a name="//apple_ref/c/tag/TQ3AntiAliasStyleData"></a>
-<h3><a name="TQ3AntiAliasStyleData">TQ3AntiAliasStyleData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3AntiAliasStyleData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AntiAliasStyleData">TQ3AntiAliasStyleData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3AntiAliasStyleData {
     TQ3Switch                                   state;
     TQ3AntiAliasMode                            mode;
@@ -1062,7 +968,7 @@ typedef struct TQ3AntiAliasStyleData {
 } TQ3AntiAliasStyleData;
 </pre>
 </blockquote>
-<p>Anti-alias style data.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Anti-alias style data.
 <br><br>
 Anti-aliasing may be toggled on and off using the state switch. To
 guarantee that no anti-aliasing is performed, the state must be set
@@ -1075,19 +981,17 @@ field, which can range from 0.0 (minimum) to 1.0 (maximum). Values
 outside this range are undefined.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>state</tt></td><td>Is anti-aliasing active?</td><tr>
-<tr valign=top><td><tt>mode</tt></td><td>The anti-aliasing mode.</td><tr>
-<tr valign=top><td><tt>quality</tt></td><td>The anti-aliasing quality.</td><tr>
-</table>
+<dl>
+<dt><tt>state</tt></dt><dd>Is anti-aliasing active?</dd>
+<dt><tt>mode</tt></dt><dd>The anti-aliasing mode.</dd>
+<dt><tt>quality</tt></dt><dd>The anti-aliasing quality.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3FogStyleData"></a>
-<h3><a name="TQ3FogStyleData">TQ3FogStyleData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3FogStyleData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FogStyleData">TQ3FogStyleData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3FogStyleData {
     TQ3Switch                                   state;
     TQ3FogMode                                  mode;
@@ -1098,7 +1002,7 @@ typedef struct TQ3FogStyleData {
 } TQ3FogStyleData;
 </pre>
 </blockquote>
-<p>Fog style data.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fog style data.
 <br><br>
 Fog may be toggled on and off using the state switch. To guarantee that
 no fogging is performed, the state must be set to kQ3Off.
@@ -1106,22 +1010,20 @@ no fogging is performed, the state must be set to kQ3Off.
 The type of fogging performed is controlled by the mode switch.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>state</tt></td><td>Is fog active?</td><tr>
-<tr valign=top><td><tt>mode</tt></td><td>The fog mode.</td><tr>
-<tr valign=top><td><tt>fogStart</tt></td><td>The start point for fog.</td><tr>
-<tr valign=top><td><tt>fogEnd</tt></td><td>The end point for fog.</td><tr>
-<tr valign=top><td><tt>density</tt></td><td>The maximum density for fog.</td><tr>
-<tr valign=top><td><tt>color</tt></td><td>The fog color.</td><tr>
-</table>
+<dl>
+<dt><tt>state</tt></dt><dd>Is fog active?</dd>
+<dt><tt>mode</tt></dt><dd>The fog mode.</dd>
+<dt><tt>fogStart</tt></dt><dd>The start point for fog.</dd>
+<dt><tt>fogEnd</tt></dt><dd>The end point for fog.</dd>
+<dt><tt>density</tt></dt><dd>The maximum density for fog.</dd>
+<dt><tt>color</tt></dt><dd>The fog color.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3SubdivisionStyleData"></a>
-<h3><a name="TQ3SubdivisionStyleData">TQ3SubdivisionStyleData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3SubdivisionStyleData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3SubdivisionStyleData">TQ3SubdivisionStyleData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3SubdivisionStyleData {
     TQ3SubdivisionMethod                        method;
     float                                       c1;
@@ -1129,7 +1031,7 @@ typedef struct TQ3SubdivisionStyleData {
 } TQ3SubdivisionStyleData;
 </pre>
 </blockquote>
-<p>Subdivision style data.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subdivision style data.
 <br><br>
 The c1 parameter is used as the "size" for all subdivision methods. Its
 meaning and units depends on the subdivision method.
@@ -1139,15 +1041,202 @@ kQ3SubdivisionMethodConstant method, to allow control over subdivision
 in both horizontal and vertical dimensions.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>method</tt></td><td>The subdivision method.</td><tr>
-<tr valign=top><td><tt>c1</tt></td><td>The first parameter for the subdivision method.</td><tr>
-<tr valign=top><td><tt>c2</tt></td><td>The second parameter for the subdivision method.</td><tr>
-</table>
+<dl>
+<dt><tt>method</tt></dt><dd>The subdivision method.</dd>
+<dt><tt>c1</tt></dt><dd>The first parameter for the subdivision method.</dd>
+<dt><tt>c2</tt></dt><dd>The second parameter for the subdivision method.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/TQ3AntiAliasModeMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AntiAliasModeMasks">TQ3AntiAliasModeMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum TQ3AntiAliasModeMasks {
+    kQ3AntiAliasModeMaskEdges                   = (1 &lt;&lt; 0),
+    kQ3AntiAliasModeMaskFilled                  = (1 &lt;&lt; 1),
+    kQ3AntiAliasModeMaskFullScreen              = (1 &lt;&lt; 2),
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+    kQ3AntiAliasModeSize32                      = 0xFFFFFFFF
+} TQ3AntiAliasModeMasks;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Anti-alias style selectors.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3AntiAliasModeMaskEdges"><tt>kQ3AntiAliasModeMaskEdges</tt></a></dt><dd>Apply anti-aliasing to wireframe objects.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AntiAliasModeMaskFilled"><tt>kQ3AntiAliasModeMaskFilled</tt></a></dt><dd>Apply anti-aliasing to filled objects.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AntiAliasModeMaskFullScreen"><tt>kQ3AntiAliasModeMaskFullScreen</tt></a></dt><dd>Apply global anti-aliasing (e.g., FSAA).
+<em>This feature is not available in QD3D.</em></dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3BackfacingStyle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3BackfacingStyle">TQ3BackfacingStyle</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum TQ3BackfacingStyle {
+    kQ3BackfacingStyleBoth                      = 0,
+    kQ3BackfacingStyleRemove                    = 1,
+    kQ3BackfacingStyleFlip                      = 2,
+    kQ3BackfacingStyleSize32                    = 0xFFFFFFFF
+} TQ3BackfacingStyle;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Backfacing styles.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3BackfacingStyleBoth"><tt>kQ3BackfacingStyleBoth</tt></a></dt><dd>Both backfacing and front facing surfaces
+are rendered.</dd>
+<dt><a name="//Quesa/c/econst/kQ3BackfacingStyleRemove"><tt>kQ3BackfacingStyleRemove</tt></a></dt><dd>Backfacing surfaces are removed before rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3BackfacingStyleFlip"><tt>kQ3BackfacingStyleFlip</tt></a></dt><dd>Both backfacing and front facing surfaces are
+rendered, and the surface normals of backfacing
+surfaces are inverted before rendering.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3FillStyle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FillStyle">TQ3FillStyle</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum TQ3FillStyle {
+    kQ3FillStyleFilled                          = 0,
+    kQ3FillStyleEdges                           = 1,
+    kQ3FillStylePoints                          = 2,
+    kQ3FillStyleSize32                          = 0xFFFFFFFF
+} TQ3FillStyle;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fill styles.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FillStyleFilled"><tt>kQ3FillStyleFilled</tt></a></dt><dd>Shapes are rendered as filled surfaces.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FillStyleEdges"><tt>kQ3FillStyleEdges</tt></a></dt><dd>Shapes are rendered as sets of lines.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FillStylePoints"><tt>kQ3FillStylePoints</tt></a></dt><dd>Shapes are rendered as sets of points.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3FogMode"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FogMode">TQ3FogMode</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum TQ3FogMode {
+    kQ3FogModeLinear                            = 0,
+    kQ3FogModeExponential                       = 1,
+    kQ3FogModeExponentialSquared                = 2,
+    kQ3FogModeAlpha                             = 3,
+    kQ3FogModeSize32                            = 0xFFFFFFFF
+} TQ3FogMode;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Indicates how fog increases in density with distance.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FogModeLinear"><tt>kQ3FogModeLinear</tt></a></dt><dd>Fog == (End - Z) / (End - Start)</dd>
+<dt><a name="//Quesa/c/econst/kQ3FogModeExponential"><tt>kQ3FogModeExponential</tt></a></dt><dd>Fog == exp(-Density * z)</dd>
+<dt><a name="//Quesa/c/econst/kQ3FogModeExponentialSquared"><tt>kQ3FogModeExponentialSquared</tt></a></dt><dd>Fog == exp(-Density * z * Density * Z).</dd>
+<dt><a name="//Quesa/c/econst/kQ3FogModeAlpha"><tt>kQ3FogModeAlpha</tt></a></dt><dd>Fog == Vertex Alpha</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3InterpolationStyle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3InterpolationStyle">TQ3InterpolationStyle</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum TQ3InterpolationStyle {
+    kQ3InterpolationStyleNone                   = 0,
+    kQ3InterpolationStyleVertex                 = 1,
+    kQ3InterpolationStylePixel                  = 2,
+    kQ3InterpolationSize32                      = 0xFFFFFFFF
+} TQ3InterpolationStyle;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Interpolation styles.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3InterpolationStyleNone"><tt>kQ3InterpolationStyleNone</tt></a></dt><dd>Faces are rendered with a uniform illumination.</dd>
+<dt><a name="//Quesa/c/econst/kQ3InterpolationStyleVertex"><tt>kQ3InterpolationStyleVertex</tt></a></dt><dd>Individual vertices are shaded, and their values
+are interpolated across each face.</dd>
+<dt><a name="//Quesa/c/econst/kQ3InterpolationStylePixel"><tt>kQ3InterpolationStylePixel</tt></a></dt><dd>Individual pixels are shaded. Is not typically
+supported by interactive renderers.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3OrientationStyle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3OrientationStyle">TQ3OrientationStyle</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum TQ3OrientationStyle {
+    kQ3OrientationStyleCounterClockwise         = 0,
+    kQ3OrientationStyleClockwise                = 1,
+    kQ3OrientationStyleSize32                   = 0xFFFFFFFF
+} TQ3OrientationStyle;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Defines the "front facing" side of polygons.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3OrientationStyleCounterClockwise"><tt>kQ3OrientationStyleCounterClockwise</tt></a></dt><dd>The front face is defined as CCW order.</dd>
+<dt><a name="//Quesa/c/econst/kQ3OrientationStyleClockwise"><tt>kQ3OrientationStyleClockwise</tt></a></dt><dd>The front face is defined as CW order.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3PickPartsMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PickPartsMasks">TQ3PickPartsMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum TQ3PickPartsMasks {
+    kQ3PickPartsObject                          = 0,
+    kQ3PickPartsMaskFace                        = (1 &lt;&lt; 0),
+    kQ3PickPartsMaskEdge                        = (1 &lt;&lt; 1),
+    kQ3PickPartsMaskVertex                      = (1 &lt;&lt; 2),
+    kQ3PickPartsMaskSize32                      = 0xFFFFFFFF
+} TQ3PickPartsMasks;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Indicates the kind of objects placed in a hit list.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3PickPartsObject"><tt>kQ3PickPartsObject</tt></a></dt><dd>The hit list contains whole objects.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickPartsMaskFace"><tt>kQ3PickPartsMaskFace</tt></a></dt><dd>The hit list contains faces.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickPartsMaskEdge"><tt>kQ3PickPartsMaskEdge</tt></a></dt><dd>The hit list contains edges.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickPartsMaskVertex"><tt>kQ3PickPartsMaskVertex</tt></a></dt><dd>The hit list contains vertices.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3SubdivisionMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3SubdivisionMethod">TQ3SubdivisionMethod</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum TQ3SubdivisionMethod {
+    kQ3SubdivisionMethodConstant                = 0,
+    kQ3SubdivisionMethodWorldSpace              = 1,
+    kQ3SubdivisionMethodScreenSpace             = 2,
+    kQ3SubdivisionMethodSize32                  = 0xFFFFFFFF
+} TQ3SubdivisionMethod;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subdivision methods.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3SubdivisionMethodConstant"><tt>kQ3SubdivisionMethodConstant</tt></a></dt><dd>Surfaces are divided into the specified
+number of segments.</dd>
+<dt><a name="//Quesa/c/econst/kQ3SubdivisionMethodWorldSpace"><tt>kQ3SubdivisionMethodWorldSpace</tt></a></dt><dd>Surfaces are divided into segments smaller
+than the specified size in world-space.</dd>
+<dt><a name="//Quesa/c/econst/kQ3SubdivisionMethodScreenSpace"><tt>kQ3SubdivisionMethodScreenSpace</tt></a></dt><dd>Surfaces are divided into segments smaller
+than the specified size in pixels.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

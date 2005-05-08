@@ -1,7 +1,13 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3AttenuationType"></a>
-<h3><a name="TQ3AttenuationType">TQ3AttenuationType</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3AttenuationType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AttenuationType">TQ3AttenuationType</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3AttenuationTypeNone                      = 0,
     kQ3AttenuationTypeInverseDistance           = 1,
@@ -10,7 +16,7 @@ typedef enum {
 } TQ3AttenuationType;
 </pre>
 </blockquote>
-<p>Light attenuation methods.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Light attenuation methods.
 <br><br>
 The attenuation of a light controls how the intensity of the light
 is diminished over distance. In the real world, the itensity of a
@@ -19,17 +25,15 @@ light source is attenuated as 1/(d*d).
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttenuationTypeNone"><tt>kQ3AttenuationTypeNone</tt></a></td><td>Intensity is not attenuated.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttenuationTypeInverseDistance"><tt>kQ3AttenuationTypeInverseDistance</tt></a></td><td>Intensity is attenuated as 1/d.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttenuationTypeInverseDistanceSquared"><tt>kQ3AttenuationTypeInverseDistanceSquared</tt></a></td><td>Intensity is attenuated as 1/(d*d).</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3AttenuationTypeNone"><tt>kQ3AttenuationTypeNone</tt></a></dt><dd>Intensity is not attenuated.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttenuationTypeInverseDistance"><tt>kQ3AttenuationTypeInverseDistance</tt></a></dt><dd>Intensity is attenuated as 1/d.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttenuationTypeInverseDistanceSquared"><tt>kQ3AttenuationTypeInverseDistanceSquared</tt></a></dt><dd>Intensity is attenuated as 1/(d*d).</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3FallOffType"></a>
-<h3><a name="TQ3FallOffType">TQ3FallOffType</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3FallOffType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FallOffType">TQ3FallOffType</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3FallOffTypeNone                          = 0,
     kQ3FallOffTypeLinear                        = 1,
@@ -39,7 +43,7 @@ typedef enum {
 } TQ3FallOffType;
 </pre>
 </blockquote>
-<p>Light fall-off methods.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Light fall-off methods.
 <br><br>
 The fall-off value of a light controls how the intensity of the light
 varies from the edge of the hot angle (where the light is at full intensity)
@@ -48,14 +52,12 @@ to the outer angle (where the light intensity falls to zero).
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FallOffTypeNone"><tt>kQ3FallOffTypeNone</tt></a></td><td>Intensity does not fall off.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FallOffTypeLinear"><tt>kQ3FallOffTypeLinear</tt></a></td><td>Intensity falls off linearly.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FallOffTypeExponential"><tt>kQ3FallOffTypeExponential</tt></a></td><td>Intensity falls off exponentially.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3FallOffTypeCosine"><tt>kQ3FallOffTypeCosine</tt></a></td><td>Intensity falls off as the cosine of the angle.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeNone"><tt>kQ3FallOffTypeNone</tt></a></dt><dd>Intensity does not fall off.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeLinear"><tt>kQ3FallOffTypeLinear</tt></a></dt><dd>Intensity falls off linearly.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeExponential"><tt>kQ3FallOffTypeExponential</tt></a></dt><dd>Intensity falls off exponentially.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeCosine"><tt>kQ3FallOffTypeCosine</tt></a></dt><dd>Intensity falls off as the cosine of the angle.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

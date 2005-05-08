@@ -1,7 +1,13 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/Attribute&nbsp;method&nbsp;types"></a>
-<h3><a name="Attribute&nbsp;method&nbsp;types">Attribute&nbsp;method&nbsp;types</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/Attribute&nbsp;method&nbsp;types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Attribute&nbsp;method&nbsp;types">Attribute&nbsp;method&nbsp;types</a></h2>
+</td></tr></table><hr><blockquote><pre>
 enum {
     kQ3XMethodTypeAttributeInherit              = Q3_METHOD_TYPE('i', 'n', 'h', 't'),
     kQ3XMethodTypeAttributeCopyInherit          = Q3_METHOD_TYPE('a', 'c', 'p', 'i'),
@@ -10,25 +16,23 @@ enum {
 };
 </pre>
 </blockquote>
-<p>These are method types that apply particularly to custom attributes. Note that
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>These are method types that apply particularly to custom attributes. Note that
 a custom element may also need to provide more general custom element or custom class methods,
 such as <code>kQ3XMethodTypeObjectTraverse</code>.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeInherit"><tt>kQ3XMethodTypeAttributeInherit</tt></a></td><td>See <code>TQ3XAttributeInheritMethod</code>.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeCopyInherit"><tt>kQ3XMethodTypeAttributeCopyInherit</tt></a></td><td>See <code>TQ3XAttributeCopyInheritMethod</code>.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeDefault"><tt>kQ3XMethodTypeAttributeDefault</tt></a></td><td>See <code>TQ3XAttributeDefaultMethod</code>.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeAttributeIsDefault"><tt>kQ3XMethodTypeAttributeIsDefault</tt></a></td><td>See <code>TQ3XAttributeIsDefaultMethod</code>.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeAttributeInherit"><tt>kQ3XMethodTypeAttributeInherit</tt></a></dt><dd>See <code>TQ3XAttributeInheritMethod</code>.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeAttributeCopyInherit"><tt>kQ3XMethodTypeAttributeCopyInherit</tt></a></dt><dd>See <code>TQ3XAttributeCopyInheritMethod</code>.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeAttributeDefault"><tt>kQ3XMethodTypeAttributeDefault</tt></a></dt><dd>See <code>TQ3XAttributeDefaultMethod</code>.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeAttributeIsDefault"><tt>kQ3XMethodTypeAttributeIsDefault</tt></a></dt><dd>See <code>TQ3XAttributeIsDefaultMethod</code>.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/Element&nbsp;method&nbsp;types"></a>
-<h3><a name="Element&nbsp;method&nbsp;types">Element&nbsp;method&nbsp;types</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/Element&nbsp;method&nbsp;types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Element&nbsp;method&nbsp;types">Element&nbsp;method&nbsp;types</a></h2>
+</td></tr></table><hr><blockquote><pre>
 enum {
     kQ3XMethodTypeElementCopyAdd                = Q3_METHOD_TYPE('e', 'c', 'p', 'a'),
     kQ3XMethodTypeElementCopyReplace            = Q3_METHOD_TYPE('e', 'c', 'p', 'r'),
@@ -38,26 +42,24 @@ enum {
 };
 </pre>
 </blockquote>
-<p>These are method types that apply particularly to custom elements. Note that
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>These are method types that apply particularly to custom elements. Note that
 a custom element may also need to provide more general custom class methods,
 such as <code>kQ3XMethodTypeObjectTraverse</code>.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyAdd"><tt>kQ3XMethodTypeElementCopyAdd</tt></a></td><td>See <code>TQ3XElementCopyAddMethod</code>.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyReplace"><tt>kQ3XMethodTypeElementCopyReplace</tt></a></td><td>See <code>TQ3XElementCopyReplaceMethod</code>.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyGet"><tt>kQ3XMethodTypeElementCopyGet</tt></a></td><td>See <code>TQ3XElementCopyGetMethod</code>.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementCopyDuplicate"><tt>kQ3XMethodTypeElementCopyDuplicate</tt></a></td><td>See <code>TQ3XElementCopyDuplicateMethod</code>.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XMethodTypeElementDelete"><tt>kQ3XMethodTypeElementDelete</tt></a></td><td>See <code>TQ3XElementDeleteMethod</code>.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeElementCopyAdd"><tt>kQ3XMethodTypeElementCopyAdd</tt></a></dt><dd>See <code>TQ3XElementCopyAddMethod</code>.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeElementCopyReplace"><tt>kQ3XMethodTypeElementCopyReplace</tt></a></dt><dd>See <code>TQ3XElementCopyReplaceMethod</code>.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeElementCopyGet"><tt>kQ3XMethodTypeElementCopyGet</tt></a></dt><dd>See <code>TQ3XElementCopyGetMethod</code>.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeElementCopyDuplicate"><tt>kQ3XMethodTypeElementCopyDuplicate</tt></a></dt><dd>See <code>TQ3XElementCopyDuplicateMethod</code>.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeElementDelete"><tt>kQ3XMethodTypeElementDelete</tt></a></dt><dd>See <code>TQ3XElementDeleteMethod</code>.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3AttributeTypes"></a>
-<h3><a name="TQ3AttributeTypes">TQ3AttributeTypes</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3AttributeTypes"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AttributeTypes">TQ3AttributeTypes</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum TQ3AttributeTypes {
     kQ3AttributeTypeNone                        = 0,            // N/A
     kQ3AttributeTypeSurfaceUV                   = 1,            // TQ3Param2D
@@ -76,54 +78,52 @@ typedef enum TQ3AttributeTypes {
 } TQ3AttributeTypes;
 </pre>
 </blockquote>
-<p>Type numbers for standard attributes. See QuesaView.h for default values of some
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Type numbers for standard attributes. See QuesaView.h for default values of some
 of these attributes.  For instance you will find that if you do not specify
 any attributes, an object will be white, opaque, and somewhat shiny.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeNone"><tt>kQ3AttributeTypeNone</tt></a></td><td>No type.  See
-<code>Q3AttributeSet_GetNextAttributeType</code>.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSurfaceUV"><tt>kQ3AttributeTypeSurfaceUV</tt></a></td><td>Surface UV coordinates (<code>TQ3Param2D</code>)
-for texture mapping.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeShadingUV"><tt>kQ3AttributeTypeShadingUV</tt></a></td><td>Shading UV coordinates (<code>TQ3Param2D</code>)
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeNone"><tt>kQ3AttributeTypeNone</tt></a></dt><dd>No type.  See
+<code>Q3AttributeSet_GetNextAttributeType</code>.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeSurfaceUV"><tt>kQ3AttributeTypeSurfaceUV</tt></a></dt><dd>Surface UV coordinates (<code>TQ3Param2D</code>)
+for texture mapping.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeShadingUV"><tt>kQ3AttributeTypeShadingUV</tt></a></dt><dd>Shading UV coordinates (<code>TQ3Param2D</code>)
 (originally intended for procedural shaders, but
-effectively interchangable with surface UV).</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeNormal"><tt>kQ3AttributeTypeNormal</tt></a></td><td>Normal vector (<code>TQ3Vector3D</code>)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeAmbientCoefficient"><tt>kQ3AttributeTypeAmbientCoefficient</tt></a></td><td>Ambient coefficient (<code>float</code>)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeDiffuseColor"><tt>kQ3AttributeTypeDiffuseColor</tt></a></td><td>Diffuse color (<code>TQ3ColorRGB</code>)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSpecularColor"><tt>kQ3AttributeTypeSpecularColor</tt></a></td><td>Specular color (<code>TQ3ColorRGB</code>)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSpecularControl"><tt>kQ3AttributeTypeSpecularControl</tt></a></td><td>Specular control (<code>float</code>).
-Larger values make smaller specular highlights.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeTransparencyColor"><tt>kQ3AttributeTypeTransparencyColor</tt></a></td><td>Transparency color (<code>TQ3ColorRGB</code>).
+effectively interchangable with surface UV).</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeNormal"><tt>kQ3AttributeTypeNormal</tt></a></dt><dd>Normal vector (<code>TQ3Vector3D</code>)</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeAmbientCoefficient"><tt>kQ3AttributeTypeAmbientCoefficient</tt></a></dt><dd>Ambient coefficient (<code>float</code>)</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeDiffuseColor"><tt>kQ3AttributeTypeDiffuseColor</tt></a></dt><dd>Diffuse color (<code>TQ3ColorRGB</code>)</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeSpecularColor"><tt>kQ3AttributeTypeSpecularColor</tt></a></dt><dd>Specular color (<code>TQ3ColorRGB</code>)</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeSpecularControl"><tt>kQ3AttributeTypeSpecularControl</tt></a></dt><dd>Specular control (<code>float</code>).
+Larger values make smaller specular highlights.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeTransparencyColor"><tt>kQ3AttributeTypeTransparencyColor</tt></a></dt><dd>Transparency color (<code>TQ3ColorRGB</code>).
 { 0, 0, 0 } is completely transparent, and
-{ 1, 1, 1 } is completely opaque.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSurfaceTangent"><tt>kQ3AttributeTypeSurfaceTangent</tt></a></td><td>Surface tangent (<code>TQ3Tangent2D</code>)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeHighlightState"><tt>kQ3AttributeTypeHighlightState</tt></a></td><td>Highlight state (<code>TQ3Switch</code>)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeSurfaceShader"><tt>kQ3AttributeTypeSurfaceShader</tt></a></td><td>Surface shader (<code>TQ3SurfaceShaderObject</code>)</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3AttributeTypeNumTypes"><tt>kQ3AttributeTypeNumTypes</tt></a></td><td>Number of standard attribute types.</td><tr>
-</table>
+{ 1, 1, 1 } is completely opaque.</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeSurfaceTangent"><tt>kQ3AttributeTypeSurfaceTangent</tt></a></dt><dd>Surface tangent (<code>TQ3Tangent2D</code>)</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeHighlightState"><tt>kQ3AttributeTypeHighlightState</tt></a></dt><dd>Highlight state (<code>TQ3Switch</code>)</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeSurfaceShader"><tt>kQ3AttributeTypeSurfaceShader</tt></a></dt><dd>Surface shader (<code>TQ3SurfaceShaderObject</code>)</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeNumTypes"><tt>kQ3AttributeTypeNumTypes</tt></a></dt><dd>Number of standard attribute types.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3XAttributeMask"></a>
-<h3><a name="TQ3XAttributeMask">TQ3XAttributeMask</a></h3>
-<blockquote><pre>
-typedef enum TQ3XAttributeMask {
+<hr><a name="//Quesa/c/tag/TQ3XAttributeMask"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XAttributeMask">TQ3XAttributeMask</a></h2>
+</td></tr></table><hr><blockquote><pre>
+enum {
     kQ3XAttributeMaskNone                       = 0,
-    kQ3XAttributeMaskSurfaceUV                  = (1 << (kQ3AttributeTypeSurfaceUV          - 1)),
-    kQ3XAttributeMaskShadingUV                  = (1 << (kQ3AttributeTypeShadingUV          - 1)),
-    kQ3XAttributeMaskNormal                     = (1 << (kQ3AttributeTypeNormal             - 1)),
-    kQ3XAttributeMaskAmbientCoefficient         = (1 << (kQ3AttributeTypeAmbientCoefficient - 1)),
-    kQ3XAttributeMaskDiffuseColor               = (1 << (kQ3AttributeTypeDiffuseColor       - 1)),
-    kQ3XAttributeMaskSpecularColor              = (1 << (kQ3AttributeTypeSpecularColor      - 1)),
-    kQ3XAttributeMaskSpecularControl            = (1 << (kQ3AttributeTypeSpecularControl    - 1)),
-    kQ3XAttributeMaskTransparencyColor          = (1 << (kQ3AttributeTypeTransparencyColor  - 1)),
-    kQ3XAttributeMaskSurfaceTangent             = (1 << (kQ3AttributeTypeSurfaceTangent     - 1)),
-    kQ3XAttributeMaskHighlightState             = (1 << (kQ3AttributeTypeHighlightState     - 1)),
-    kQ3XAttributeMaskSurfaceShader              = (1 << (kQ3AttributeTypeSurfaceShader      - 1)),
+    kQ3XAttributeMaskSurfaceUV                  = (1 &lt;&lt; (kQ3AttributeTypeSurfaceUV          - 1)),
+    kQ3XAttributeMaskShadingUV                  = (1 &lt;&lt; (kQ3AttributeTypeShadingUV          - 1)),
+    kQ3XAttributeMaskNormal                     = (1 &lt;&lt; (kQ3AttributeTypeNormal             - 1)),
+    kQ3XAttributeMaskAmbientCoefficient         = (1 &lt;&lt; (kQ3AttributeTypeAmbientCoefficient - 1)),
+    kQ3XAttributeMaskDiffuseColor               = (1 &lt;&lt; (kQ3AttributeTypeDiffuseColor       - 1)),
+    kQ3XAttributeMaskSpecularColor              = (1 &lt;&lt; (kQ3AttributeTypeSpecularColor      - 1)),
+    kQ3XAttributeMaskSpecularControl            = (1 &lt;&lt; (kQ3AttributeTypeSpecularControl    - 1)),
+    kQ3XAttributeMaskTransparencyColor          = (1 &lt;&lt; (kQ3AttributeTypeTransparencyColor  - 1)),
+    kQ3XAttributeMaskSurfaceTangent             = (1 &lt;&lt; (kQ3AttributeTypeSurfaceTangent     - 1)),
+    kQ3XAttributeMaskHighlightState             = (1 &lt;&lt; (kQ3AttributeTypeHighlightState     - 1)),
+    kQ3XAttributeMaskSurfaceShader              = (1 &lt;&lt; (kQ3AttributeTypeSurfaceShader      - 1)),
     kQ3XAttributeMaskCustomAttribute            = 0x80000000,
     kQ3XAttributeMaskAll                        = 0x800007FF,
     kQ3XAttributeMaskInherited                  = 0x000003FF,
@@ -136,34 +136,32 @@ typedef enum TQ3XAttributeMask {
                                                   kQ3XAttributeMaskTransparencyColor  |
                                                   kQ3XAttributeMaskSurfaceTangent,
     kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
-} TQ3XAttributeMask;
+};
 </pre>
 </blockquote>
-<p>Attribute mask flags.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Attribute mask flags.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskNone"><tt>kQ3XAttributeMaskNone</tt></a></td><td>No attributes.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSurfaceUV"><tt>kQ3XAttributeMaskSurfaceUV</tt></a></td><td>Surface UV attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskShadingUV"><tt>kQ3XAttributeMaskShadingUV</tt></a></td><td>Shading UV attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskNormal"><tt>kQ3XAttributeMaskNormal</tt></a></td><td>Normal attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskAmbientCoefficient"><tt>kQ3XAttributeMaskAmbientCoefficient</tt></a></td><td>Ambient coefficent attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskDiffuseColor"><tt>kQ3XAttributeMaskDiffuseColor</tt></a></td><td>Diffuse color attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSpecularColor"><tt>kQ3XAttributeMaskSpecularColor</tt></a></td><td>Specular color attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSpecularControl"><tt>kQ3XAttributeMaskSpecularControl</tt></a></td><td>Specular control attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskTransparencyColor"><tt>kQ3XAttributeMaskTransparencyColor</tt></a></td><td>Transparency color attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSurfaceTangent"><tt>kQ3XAttributeMaskSurfaceTangent</tt></a></td><td>Surface tangent attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskHighlightState"><tt>kQ3XAttributeMaskHighlightState</tt></a></td><td>Highlight state attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskSurfaceShader"><tt>kQ3XAttributeMaskSurfaceShader</tt></a></td><td>Surface shader attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskCustomAttribute"><tt>kQ3XAttributeMaskCustomAttribute</tt></a></td><td>Custom attribute mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskAll"><tt>kQ3XAttributeMaskAll</tt></a></td><td>All attributes.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskInherited"><tt>kQ3XAttributeMaskInherited</tt></a></td><td>Inherited attributes mask.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3XAttributeMaskInterpolated"><tt>kQ3XAttributeMaskInterpolated</tt></a></td><td>Interpolated attributes mask.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskNone"><tt>kQ3XAttributeMaskNone</tt></a></dt><dd>No attributes.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskSurfaceUV"><tt>kQ3XAttributeMaskSurfaceUV</tt></a></dt><dd>Surface UV attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskShadingUV"><tt>kQ3XAttributeMaskShadingUV</tt></a></dt><dd>Shading UV attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskNormal"><tt>kQ3XAttributeMaskNormal</tt></a></dt><dd>Normal attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskAmbientCoefficient"><tt>kQ3XAttributeMaskAmbientCoefficient</tt></a></dt><dd>Ambient coefficent attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskDiffuseColor"><tt>kQ3XAttributeMaskDiffuseColor</tt></a></dt><dd>Diffuse color attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskSpecularColor"><tt>kQ3XAttributeMaskSpecularColor</tt></a></dt><dd>Specular color attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskSpecularControl"><tt>kQ3XAttributeMaskSpecularControl</tt></a></dt><dd>Specular control attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskTransparencyColor"><tt>kQ3XAttributeMaskTransparencyColor</tt></a></dt><dd>Transparency color attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskSurfaceTangent"><tt>kQ3XAttributeMaskSurfaceTangent</tt></a></dt><dd>Surface tangent attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskHighlightState"><tt>kQ3XAttributeMaskHighlightState</tt></a></dt><dd>Highlight state attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskSurfaceShader"><tt>kQ3XAttributeMaskSurfaceShader</tt></a></dt><dd>Surface shader attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskCustomAttribute"><tt>kQ3XAttributeMaskCustomAttribute</tt></a></dt><dd>Custom attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskAll"><tt>kQ3XAttributeMaskAll</tt></a></dt><dd>All attributes.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskInherited"><tt>kQ3XAttributeMaskInherited</tt></a></dt><dd>Inherited attributes mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskInterpolated"><tt>kQ3XAttributeMaskInterpolated</tt></a></dt><dd>Interpolated attributes mask.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

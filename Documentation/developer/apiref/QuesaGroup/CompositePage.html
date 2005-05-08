@@ -1,18 +1,22 @@
-<html><head><title>QuesaGroup.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaGroup.h</h1></font><hr><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>QuesaGroup.h</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">QuesaGroup.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa group objects.
  <hr><br><h2>Functions</h2>
-<a name="//apple_ref/c/func/Q3DisplayGroup_CalcAndUseBoundingBox"></a>
-<h3><a name="Q3DisplayGroup_CalcAndUseBoundingBox">Q3DisplayGroup_CalcAndUseBoundingBox</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DisplayGroup_CalcAndUseBoundingBox (
-    TQ3GroupObject                group,
-    TQ3ComputeBounds              computeBounds,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3DisplayGroup_CalcAndUseBoundingBox"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_CalcAndUseBoundingBox">Q3DisplayGroup_CalcAndUseBoundingBox</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_CalcAndUseBoundingBox (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ComputeBounds computeBounds,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Calculate and use a bounding box on the given group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Calculate and use a bounding box on the given group.
 <br><br>
 This function computes a bounding box that contains all the geometry
 in the group.  It then stores this box on the group, and sets the
@@ -28,55 +32,47 @@ again or otherwise update the bounding box when the group changes.
 This function must not be called within a submitting loop.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group for which a bounding box is to be calculated.</td></tr>
-<tr valign=top><td><tt>computeBounds</tt></td><td>Either <code>kQ3ComputeBoundsExact</code> (precise) or
-<code>kQ3ComputeBoundsApproximate</code> (faster).</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>View in which the group will ultimately be rendered.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group for which a bounding box is to be calculated.</dd>
+<dt><tt><em>computeBounds</em></tt></dt><dd>Either <code>kQ3ComputeBoundsExact</code> (precise) or
+<code>kQ3ComputeBoundsApproximate</code> (faster).</dd>
+<dt><tt><em>view</em></tt></dt><dd>View in which the group will ultimately be rendered.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DisplayGroup_GetBoundingBox"></a>
-<h3><a name="Q3DisplayGroup_GetBoundingBox">Q3DisplayGroup_GetBoundingBox</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DisplayGroup_GetBoundingBox (
-    TQ3GroupObject                group,
-    TQ3BoundingBox                *bBox
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DisplayGroup_GetBoundingBox"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_GetBoundingBox">Q3DisplayGroup_GetBoundingBox</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_GetBoundingBox (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *bBox
+);</tt><br>
 </pre></blockquote>
-<p>Get the bounding box of a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the bounding box of a group.
 <br><br>
 This function retrieves the bounding box of a group, if one has
 been set or calculated.  If not, kQ3Failure is returned.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>bBox</tt></td><td>Address of bounding box to set with group's bounding box.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>bBox</em></tt></dt><dd>Address of bounding box to set with group's bounding box.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DisplayGroup_GetState"></a>
-<h3><a name="Q3DisplayGroup_GetState">Q3DisplayGroup_GetState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DisplayGroup_GetState (
-    TQ3GroupObject                group,
-    TQ3DisplayGroupState          *state
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DisplayGroup_GetState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_GetState">Q3DisplayGroup_GetState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_GetState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DisplayGroupState *state
+);</tt><br>
 </pre></blockquote>
-<p>Get the state flags of a display group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the state flags of a display group.
 <br><br>
 The display group state flags affect its behavior with regard to
 rendering, picking, and computation of a bounding box or sphere.
@@ -99,26 +95,22 @@ The default state has the IsDrawn, IsPicked, and IsWritten flags set;
 other flags are clear.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>state</tt></td><td>Receives the group's state flags.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>state</em></tt></dt><dd>Receives the group's state flags.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DisplayGroup_GetType"></a>
-<h3><a name="Q3DisplayGroup_GetType">Q3DisplayGroup_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3DisplayGroup_GetType (
-    TQ3GroupObject                group
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DisplayGroup_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_GetType">Q3DisplayGroup_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3DisplayGroup_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group
+);</tt><br>
 </pre></blockquote>
-<p>Get the specific type of a display group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the specific type of a display group.
 <br><br>
 The result will be <code>kQ3DisplayGroupTypeOrdered</code> for an ordered display
 group, <code>kQ3DisplayGroupTypeIOProxy</code> for an I/O Proxy group, and 
@@ -126,25 +118,19 @@ group, <code>kQ3DisplayGroupTypeIOProxy</code> for an I/O Proxy group, and
 <code>kQ3ObjectTypeInvalid</code> is returned if there is some error.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>The group to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>The group to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the group.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DisplayGroup_New"></a>
-<h3><a name="Q3DisplayGroup_New">Q3DisplayGroup_New</a></h3>
-<blockquote><pre><tt>TQ3GroupObject  
-Q3DisplayGroup_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the group.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DisplayGroup_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_New">Q3DisplayGroup_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3DisplayGroup_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a new display group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new display group.
 <br><br>
 A display group contains objects that are drawable: geometry, styles,
 transforms, attributes and attribute sets, and other display groups.
@@ -157,44 +143,37 @@ If some error occurs during creation, this returns NULL.
 See also <code>Q3OrderedDisplayGroup_New</code> and <code>Q3IOProxyDisplayGroup_New</code>.
 <br><br>
 </p>
-<b>Result:</b> Newly created group, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DisplayGroup_RemoveBoundingBox"></a>
-<h3><a name="Q3DisplayGroup_RemoveBoundingBox">Q3DisplayGroup_RemoveBoundingBox</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DisplayGroup_RemoveBoundingBox (
-    TQ3GroupObject                group
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Newly created group, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DisplayGroup_RemoveBoundingBox"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_RemoveBoundingBox">Q3DisplayGroup_RemoveBoundingBox</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_RemoveBoundingBox (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group
+);</tt><br>
 </pre></blockquote>
-<p>Remove the bounding box from a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove the bounding box from a group.
 <br><br>
 If the given group had an assigned or calculated bounding box,
 this function removes it and clears the <code>kQ3DisplayGroupStateMaskUseBoundingBox</code>
 flag.  If not, it does nothing (and returns <code>kQ3Success</code> anyway).
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to remove the bounding box of.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to remove the bounding box of.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DisplayGroup_SetAndUseBoundingBox"></a>
-<h3><a name="Q3DisplayGroup_SetAndUseBoundingBox">Q3DisplayGroup_SetAndUseBoundingBox</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DisplayGroup_SetAndUseBoundingBox (
-    TQ3GroupObject                group,
-    TQ3BoundingBox                *bBox
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DisplayGroup_SetAndUseBoundingBox"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_SetAndUseBoundingBox">Q3DisplayGroup_SetAndUseBoundingBox</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_SetAndUseBoundingBox (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *bBox
+);</tt><br>
 </pre></blockquote>
-<p>Sets a bounding box for a display group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Sets a bounding box for a display group.
 <br><br>
 This function assigns the given bounding box to the display group.  It
 also sets the <code>kQ3DisplayGroupStateMaskUseBoundingBox</code> flag
@@ -202,27 +181,23 @@ on the group state, telling Quesa that the bounding box should be used
 for culling.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group on which to set a bounding box.</td></tr>
-<tr valign=top><td><tt>bBox</tt></td><td>Bounding box to use (must be non-empty).</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group on which to set a bounding box.</dd>
+<dt><tt><em>bBox</em></tt></dt><dd>Bounding box to use (must be non-empty).</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DisplayGroup_SetState"></a>
-<h3><a name="Q3DisplayGroup_SetState">Q3DisplayGroup_SetState</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DisplayGroup_SetState (
-    TQ3GroupObject                group,
-    TQ3DisplayGroupState          state
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DisplayGroup_SetState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_SetState">Q3DisplayGroup_SetState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_SetState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DisplayGroupState state
+);</tt><br>
 </pre></blockquote>
-<p>Set the state flags of a display group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the state flags of a display group.
 <br><br>
 The display group state flags affect its behavior with regard to
 rendering, picking, and computation of a bounding box or sphere.
@@ -245,27 +220,23 @@ The default state has the IsDrawn, IsPicked, and IsWritten flags set;
 other flags are clear.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group on which to adjust state flags.</td></tr>
-<tr valign=top><td><tt>state</tt></td><td>Desired state flags.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group on which to adjust state flags.</dd>
+<dt><tt><em>state</em></tt></dt><dd>Desired state flags.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3DisplayGroup_Submit"></a>
-<h3><a name="Q3DisplayGroup_Submit">Q3DisplayGroup_Submit</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3DisplayGroup_Submit (
-    TQ3GroupObject                group,
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DisplayGroup_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_Submit">Q3DisplayGroup_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Submit a display group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a display group.
 <br><br>
 This group is used within an appropriate submitting loop on a view
 to render, pick, bound, or write the contents of the group.
@@ -277,27 +248,23 @@ is less lenient in this regard, so you should collect your drawable
 objects in a display group, and submit them with this function.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Display group to submit.</td></tr>
-<tr valign=top><td><tt>view</tt></td><td>View (which must be in a submitting loop).</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Display group to submit.</dd>
+<dt><tt><em>view</em></tt></dt><dd>View (which must be in a submitting loop).</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_AddObject"></a>
-<h3><a name="Q3Group_AddObject">Q3Group_AddObject</a></h3>
-<blockquote><pre><tt>TQ3GroupPosition  
-Q3Group_AddObject (
-    TQ3GroupObject                group,
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_AddObject"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_AddObject">Q3Group_AddObject</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition ) Q3Group_AddObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Append an object to a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Append an object to a group.
 <br><br>
 If the group is unordered (which really means unsorted), the
 object is appended to the end of the group.  If it is ordered
@@ -311,28 +278,24 @@ If for some reason the object cannot be appended, this function
 returns NULL.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to add an object to.</td></tr>
-<tr valign=top><td><tt>object</tt></td><td>Object to be added.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to add an object to.</dd>
+<dt><tt><em>object</em></tt></dt><dd>Object to be added.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Resulting position of <code>object</code> in <code>group</code>.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_AddObjectAfter"></a>
-<h3><a name="Q3Group_AddObjectAfter">Q3Group_AddObjectAfter</a></h3>
-<blockquote><pre><tt>TQ3GroupPosition  
-Q3Group_AddObjectAfter (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position,
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Resulting position of <code>object</code> in <code>group</code>.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_AddObjectAfter"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_AddObjectAfter">Q3Group_AddObjectAfter</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition ) Q3Group_AddObjectAfter (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Insert an object into a group after a specified position.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Insert an object into a group after a specified position.
 <br><br>
 This function adds an object to a group, just after the object at the
 specified position.
@@ -344,28 +307,24 @@ If for some reason the object cannot be appended, this function
 returns NULL.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to add an object to.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Position after which to add the object.</td></tr>
-<tr valign=top><td><tt>object</tt></td><td>Object to be added.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to add an object to.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Position after which to add the object.</dd>
+<dt><tt><em>object</em></tt></dt><dd>Object to be added.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Resulting position of <code>object</code> in <code>group</code>.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_AddObjectAndDispose"></a>
-<h3><a name="Q3Group_AddObjectAndDispose">Q3Group_AddObjectAndDispose</a></h3>
-<blockquote><pre><tt>TQ3GroupPosition  
-Q3Group_AddObjectAndDispose (
-    TQ3GroupObject                theGroup,
-    TQ3Object                     *theObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Resulting position of <code>object</code> in <code>group</code>.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_AddObjectAndDispose"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_AddObjectAndDispose">Q3Group_AddObjectAndDispose</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition ) Q3Group_AddObjectAndDispose (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject theGroup,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object *theObject
+);</tt><br>
 </pre></blockquote>
-<p>Add an object to a group, and then dispose of it.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add an object to a group, and then dispose of it.
 <br><br>
 If theObject is not NULL, invokes Q3Group_AddObject to add the object to
 the group, disposes of the object, then clears the supplied pointer to
@@ -383,28 +342,24 @@ theObject = NULL;
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theGroup</tt></td><td>The group to add the object to.</td></tr>
-<tr valign=top><td><tt>theObject</tt></td><td>The object to add (may be NULL).</td></tr>
-</table>
+<dl>
+<dt><tt><em>theGroup</em></tt></dt><dd>The group to add the object to.</dd>
+<dt><tt><em>theObject</em></tt></dt><dd>The object to add (may be NULL).</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_AddObjectBefore"></a>
-<h3><a name="Q3Group_AddObjectBefore">Q3Group_AddObjectBefore</a></h3>
-<blockquote><pre><tt>TQ3GroupPosition  
-Q3Group_AddObjectBefore (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position,
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_AddObjectBefore"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_AddObjectBefore">Q3Group_AddObjectBefore</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition ) Q3Group_AddObjectBefore (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Insert an object into a group before a specified position.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Insert an object into a group before a specified position.
 <br><br>
 This function adds an object to a group, before the object at the
 specified position.
@@ -416,136 +371,116 @@ If for some reason the object cannot be appended, this function
 returns NULL.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to add an object to.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Position before which to add the object.</td></tr>
-<tr valign=top><td><tt>object</tt></td><td>Object to be added.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to add an object to.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Position before which to add the object.</dd>
+<dt><tt><em>object</em></tt></dt><dd>Object to be added.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Resulting position of <code>object</code> in <code>group</code>.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_CountObjects"></a>
-<h3><a name="Q3Group_CountObjects">Q3Group_CountObjects</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_CountObjects (
-    TQ3GroupObject                group,
-    TQ3Uns32                      *nObjects
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Resulting position of <code>object</code> in <code>group</code>.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_CountObjects"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_CountObjects">Q3Group_CountObjects</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_CountObjects (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *nObjects
+);</tt><br>
 </pre></blockquote>
-<p>Determine how many objects are in a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine how many objects are in a group.
 <br><br>
 Note that subgroups (groups within the given group) count as
 only one object each; this function does not recurse into them
 to get the total number of objects in the hierarchy.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>nObjects</tt></td><td>Address of integer to receive the object count.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>nObjects</em></tt></dt><dd>Address of integer to receive the object count.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_CountObjectsOfType"></a>
-<h3><a name="Q3Group_CountObjectsOfType">Q3Group_CountObjectsOfType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_CountObjectsOfType (
-    TQ3GroupObject                group,
-    TQ3ObjectType                 isType,
-    TQ3Uns32                      *nObjects
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_CountObjectsOfType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_CountObjectsOfType">Q3Group_CountObjectsOfType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_CountObjectsOfType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *nObjects
+);</tt><br>
 </pre></blockquote>
-<p>Determine how many objects of a certain type are in a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine how many objects of a certain type are in a group.
 <br><br>
 Note that subgroups (groups within the given group) count as
 only one object each; this function does not recurse into them
 to consider the entire hierarchy.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>isType</tt></td><td>Object type.</td></tr>
-<tr valign=top><td><tt>nObjects</tt></td><td>Address of integer to receive the object count.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>isType</em></tt></dt><dd>Object type.</dd>
+<dt><tt><em>nObjects</em></tt></dt><dd>Address of integer to receive the object count.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_EmptyObjects"></a>
-<h3><a name="Q3Group_EmptyObjects">Q3Group_EmptyObjects</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_EmptyObjects (
-    TQ3GroupObject                group
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_EmptyObjects"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_EmptyObjects">Q3Group_EmptyObjects</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_EmptyObjects (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group
+);</tt><br>
 </pre></blockquote>
-<p>Remove all object references from the group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove all object references from the group.
 <br><br>
 Call this function to dispose of all object references in the given
 group.  (The group itself is not disposed of.)
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to empty.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to empty.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_EmptyObjectsOfType"></a>
-<h3><a name="Q3Group_EmptyObjectsOfType">Q3Group_EmptyObjectsOfType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_EmptyObjectsOfType (
-    TQ3GroupObject                group,
-    TQ3ObjectType                 isType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_EmptyObjectsOfType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_EmptyObjectsOfType">Q3Group_EmptyObjectsOfType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_EmptyObjectsOfType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType
+);</tt><br>
 </pre></blockquote>
-<p>Remove all objects of a particular type from a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove all objects of a particular type from a group.
 <br><br>
 Call this function to dispose of all object references of a certain
 type in the given group.  (The group itself is not disposed of,
 even if this call leaves it empty.)
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to operate on.</td></tr>
-<tr valign=top><td><tt>isType</tt></td><td>Type of objects to dispose.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to operate on.</dd>
+<dt><tt><em>isType</em></tt></dt><dd>Type of objects to dispose.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetFirstObjectPosition"></a>
-<h3><a name="Q3Group_GetFirstObjectPosition">Q3Group_GetFirstObjectPosition</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetFirstObjectPosition (
-    TQ3GroupObject                group,
-    TQ3Object                     object,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetFirstObjectPosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetFirstObjectPosition">Q3Group_GetFirstObjectPosition</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetFirstObjectPosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Get the first position of an object within a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the first position of an object within a group.
 <br><br>
 An object may be referenced a group multiple times.  Use this function
 to find the first position of the first reference to the given object.
@@ -553,83 +488,71 @@ You could then use <code>Q3Group_GetNextObjectPosition</code> to
 iterate over all other references to the same object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>object</tt></td><td>Desired object.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Receives first position of <code>object</code> in <code>group</code>.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>object</em></tt></dt><dd>Desired object.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives first position of <code>object</code> in <code>group</code>.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetFirstPosition"></a>
-<h3><a name="Q3Group_GetFirstPosition">Q3Group_GetFirstPosition</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetFirstPosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetFirstPosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetFirstPosition">Q3Group_GetFirstPosition</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetFirstPosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Get the first position in a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the first position in a group.
 <br><br>
 This can be used in conjunction with <code>Q3Group_GetNextPosition</code>
 to iterate over all members of a group.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group of interest.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Receives the position of the first object in <code>group</code>.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives the position of the first object in <code>group</code>.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetFirstPositionOfType"></a>
-<h3><a name="Q3Group_GetFirstPositionOfType">Q3Group_GetFirstPositionOfType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetFirstPositionOfType (
-    TQ3GroupObject                group,
-    TQ3ObjectType                 isType,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetFirstPositionOfType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetFirstPositionOfType">Q3Group_GetFirstPositionOfType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetFirstPositionOfType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Get the position of the first object of a given type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the position of the first object of a given type.
 <br><br>
 This can be used in conjunction with <code>Q3Group_GetNextPositionOfType</code>
 to iterate over all group members of a certain type.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group of interest.</td></tr>
-<tr valign=top><td><tt>isType</tt></td><td>Desired object type.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Receives the position of the first object of that type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
+<dt><tt><em>isType</em></tt></dt><dd>Desired object type.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives the position of the first object of that type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetLastObjectPosition"></a>
-<h3><a name="Q3Group_GetLastObjectPosition">Q3Group_GetLastObjectPosition</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetLastObjectPosition (
-    TQ3GroupObject                group,
-    TQ3Object                     object,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetLastObjectPosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetLastObjectPosition">Q3Group_GetLastObjectPosition</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetLastObjectPosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Get the last position of an object within a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the last position of an object within a group.
 <br><br>
 An object may be referenced a group multiple times.  Use this function
 to find the last position of the first reference to the given object.
@@ -637,83 +560,71 @@ You could then use <code>Q3Group_GetPreviousObjectPosition</code> to
 iterate backwards over all other references to the same object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>object</tt></td><td>Desired object.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Receives last position of <code>object</code> in <code>group</code>.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>object</em></tt></dt><dd>Desired object.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives last position of <code>object</code> in <code>group</code>.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetLastPosition"></a>
-<h3><a name="Q3Group_GetLastPosition">Q3Group_GetLastPosition</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetLastPosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetLastPosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetLastPosition">Q3Group_GetLastPosition</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetLastPosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Get the last position in a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the last position in a group.
 <br><br>
 This can be used in conjunction with <code>Q3Group_GetPreviousPosition</code>
 to iterate backwards over all members of a group.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group of interest.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Receives the position of the last object in <code>group</code>.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives the position of the last object in <code>group</code>.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetLastPositionOfType"></a>
-<h3><a name="Q3Group_GetLastPositionOfType">Q3Group_GetLastPositionOfType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetLastPositionOfType (
-    TQ3GroupObject                group,
-    TQ3ObjectType                 isType,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetLastPositionOfType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetLastPositionOfType">Q3Group_GetLastPositionOfType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetLastPositionOfType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Get the position of the last object of a given type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the position of the last object of a given type.
 <br><br>
 This can be used in conjunction with <code>Q3Group_GetPreviousPositionOfType</code>
 to iterate backwards over all group members of a certain type.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group of interest.</td></tr>
-<tr valign=top><td><tt>isType</tt></td><td>Desired object type.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Receives the position of the last object of that type.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
+<dt><tt><em>isType</em></tt></dt><dd>Desired object type.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives the position of the last object of that type.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetNextObjectPosition"></a>
-<h3><a name="Q3Group_GetNextObjectPosition">Q3Group_GetNextObjectPosition</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetNextObjectPosition (
-    TQ3GroupObject                group,
-    TQ3Object                     object,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetNextObjectPosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetNextObjectPosition">Q3Group_GetNextObjectPosition</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetNextObjectPosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Advance to the position of the next reference to a given object
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Advance to the position of the next reference to a given object
 within a group.  If the given object does not occur again within
 the group, <code>*position</code> is set to NULL.
 <br><br>
@@ -721,56 +632,48 @@ Use this in conjunction with <code>Q3Group_GetFirstObjectPosition</code>
 to iterate over all occurrences of an object within a group.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>object</tt></td><td>Desired object.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Position to advance to the next occurrence of <code>object</code>.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>object</em></tt></dt><dd>Desired object.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Position to advance to the next occurrence of <code>object</code>.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetNextPosition"></a>
-<h3><a name="Q3Group_GetNextPosition">Q3Group_GetNextPosition</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetNextPosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetNextPosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetNextPosition">Q3Group_GetNextPosition</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetNextPosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Advance to the next position in a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Advance to the next position in a group.
 <br><br>
 This function updates <code>position</code> to refer to the
 next position in the group.  If there are no further objects
 in the group, <code>*position</code> is set to NULL.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group of interest.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Address of position to advance.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Address of position to advance.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetNextPositionOfType"></a>
-<h3><a name="Q3Group_GetNextPositionOfType">Q3Group_GetNextPositionOfType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetNextPositionOfType (
-    TQ3GroupObject                group,
-    TQ3ObjectType                 isType,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetNextPositionOfType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetNextPositionOfType">Q3Group_GetNextPositionOfType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetNextPositionOfType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Advance to the position of the next object of a certain type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Advance to the position of the next object of a certain type.
 <br><br>
 This function updates <code>position</code> to refer to the
 next position in the group of an object of the given type.
@@ -778,29 +681,25 @@ If there are no further objects of that type
 in the group, <code>*position</code> is set to NULL.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group of interest.</td></tr>
-<tr valign=top><td><tt>isType</tt></td><td>Desired object type.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Address of position to advance.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
+<dt><tt><em>isType</em></tt></dt><dd>Desired object type.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Address of position to advance.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetPositionObject"></a>
-<h3><a name="Q3Group_GetPositionObject">Q3Group_GetPositionObject</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetPositionObject (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position,
-    TQ3Object                     *object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetPositionObject"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetPositionObject">Q3Group_GetPositionObject</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetPositionObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object *object
+);</tt><br>
 </pre></blockquote>
-<p>Get the object located at a certain position in a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the object located at a certain position in a group.
 <br><br>
 This function obtains a reference to the group member at a 
 specified position.  Note that the reference count of the
@@ -810,29 +709,25 @@ when you no longer need it.
 Sets *object to NULL if there is no object at the given position.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Position of desired object.</td></tr>
-<tr valign=top><td><tt>object</tt></td><td>Receives a reference to the indicated object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Position of desired object.</dd>
+<dt><tt><em>object</em></tt></dt><dd>Receives a reference to the indicated object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetPreviousObjectPosition"></a>
-<h3><a name="Q3Group_GetPreviousObjectPosition">Q3Group_GetPreviousObjectPosition</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetPreviousObjectPosition (
-    TQ3GroupObject                group,
-    TQ3Object                     object,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetPreviousObjectPosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetPreviousObjectPosition">Q3Group_GetPreviousObjectPosition</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetPreviousObjectPosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Step back to the position of the previous reference to a given object
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Step back to the position of the previous reference to a given object
 within a group.  If there is no previous reference to that object within
 the group, <code>*position</code> is set to NULL.
 <br><br>
@@ -840,28 +735,24 @@ Use this in conjunction with <code>Q3Group_GetLastObjectPosition</code>
 to iterate in reverse over all occurrences of an object within a group.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>object</tt></td><td>Desired object.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Position to step back to the previous occurrence of <code>object</code>.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>object</em></tt></dt><dd>Desired object.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Position to step back to the previous occurrence of <code>object</code>.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetPreviousPosition"></a>
-<h3><a name="Q3Group_GetPreviousPosition">Q3Group_GetPreviousPosition</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetPreviousPosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetPreviousPosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetPreviousPosition">Q3Group_GetPreviousPosition</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetPreviousPosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Step back to the previous position in a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Step back to the previous position in a group.
 <br><br>
 This function updates <code>position</code> to refer to the
 previous position in the group.  If the given position was
@@ -869,28 +760,24 @@ already on the first object in the group, <code>*position</code>
 is set to NULL.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group of interest.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Address of position to step back.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Address of position to step back.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetPreviousPositionOfType"></a>
-<h3><a name="Q3Group_GetPreviousPositionOfType">Q3Group_GetPreviousPositionOfType</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_GetPreviousPositionOfType (
-    TQ3GroupObject                group,
-    TQ3ObjectType                 isType,
-    TQ3GroupPosition              *position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetPreviousPositionOfType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetPreviousPositionOfType">Q3Group_GetPreviousPositionOfType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetPreviousPositionOfType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+);</tt><br>
 </pre></blockquote>
-<p>Step back to the position of the previous object of a certain type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Step back to the position of the previous object of a certain type.
 <br><br>
 This function updates <code>position</code> to refer to the
 previous position in the group of an object of the given type.
@@ -898,70 +785,57 @@ If there are no previous objects of that type
 in the group, <code>*position</code> is set to NULL.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group of interest.</td></tr>
-<tr valign=top><td><tt>isType</tt></td><td>Desired object type.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Address of position to step back.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
+<dt><tt><em>isType</em></tt></dt><dd>Desired object type.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Address of position to step back.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_GetType"></a>
-<h3><a name="Q3Group_GetType">Q3Group_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Group_GetType (
-    TQ3GroupObject                group
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetType">Q3Group_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Group_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group
+);</tt><br>
 </pre></blockquote>
-<p>Return the type of a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the type of a group.
 <br><br>
 This function returns the group type, as an enum such as 
 kQ3GroupTypeDisplay, kQ3GroupTypeInfo, or kQ3GroupTypeLight.
 (Returns kQ3ObjectTypeInvalid if the type cannot be determined.)
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Type of that group.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_New"></a>
-<h3><a name="Q3Group_New">Q3Group_New</a></h3>
-<blockquote><pre><tt>TQ3GroupObject  
-Q3Group_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Type of that group.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_New">Q3Group_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3Group_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a new generic group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new generic group.
 <br><br>
 This function returns a newly created, empty Group object.  If
 some error occurs during creation, this returns NULL.
 <br><br>
 </p>
-<b>Result:</b> Newly created group, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_RemovePosition"></a>
-<h3><a name="Q3Group_RemovePosition">Q3Group_RemovePosition</a></h3>
-<blockquote><pre><tt>TQ3Object  
-Q3Group_RemovePosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Newly created group, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_RemovePosition"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_RemovePosition">Q3Group_RemovePosition</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Object ) Q3Group_RemovePosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position
+);</tt><br>
 </pre></blockquote>
-<p>Remove an object from a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove an object from a group.
 <br><br>
 This function deletes an object reference from a group, returning it to
 the caller.  Note that if you don't need the object, you must dispose
@@ -971,28 +845,24 @@ After this function successfully completes, <code>position</code>
 is invalid.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to remove an object from.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Position of object to remove.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to remove an object from.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Position of object to remove.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Object that was removed.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Group_SetPositionObject"></a>
-<h3><a name="Q3Group_SetPositionObject">Q3Group_SetPositionObject</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Group_SetPositionObject (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position,
-    TQ3Object                     object
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Object that was removed.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Group_SetPositionObject"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_SetPositionObject">Q3Group_SetPositionObject</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_SetPositionObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+);</tt><br>
 </pre></blockquote>
-<p>Sets the object at a specified position in a group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Sets the object at a specified position in a group.
 <br><br>
 This function replaces a member of a group.  The reference to 
 the object previously at the specified position is disposed of,
@@ -1005,27 +875,21 @@ If for some reason the object cannot be appended, this function
 returns NULL.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to replace an object in.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Position of object to replace.</td></tr>
-<tr valign=top><td><tt>object</tt></td><td>Object to be stored.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to replace an object in.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Position of object to replace.</dd>
+<dt><tt><em>object</em></tt></dt><dd>Object to be stored.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3IOProxyDisplayGroup_New"></a>
-<h3><a name="Q3IOProxyDisplayGroup_New">Q3IOProxyDisplayGroup_New</a></h3>
-<blockquote><pre><tt>TQ3GroupObject  
-Q3IOProxyDisplayGroup_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3IOProxyDisplayGroup_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3IOProxyDisplayGroup_New">Q3IOProxyDisplayGroup_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3IOProxyDisplayGroup_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a new generic group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new generic group.
 <br><br>
 An I/O proxy display group is a group that contains several alternate
 representations of the same object, used for file input and output.
@@ -1040,35 +904,25 @@ This function returns a newly created, empty Group object.  If
 some error occurs during creation, this returns NULL.
 <br><br>
 </p>
-<b>Result:</b> Newly created proxy display group, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InfoGroup_New"></a>
-<h3><a name="Q3InfoGroup_New">Q3InfoGroup_New</a></h3>
-<blockquote><pre><tt>TQ3GroupObject  
-Q3InfoGroup_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Newly created proxy display group, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InfoGroup_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InfoGroup_New">Q3InfoGroup_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3InfoGroup_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a new information group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new information group.
 <br><br>
 This function returns a newly created, empty information group
 object.  If some error occurs during creation, this returns NULL.
 <br><br>
 </p>
-<b>Result:</b> Newly created information group, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3LightGroup_New"></a>
-<h3><a name="Q3LightGroup_New">Q3LightGroup_New</a></h3>
-<blockquote><pre><tt>TQ3GroupObject  
-Q3LightGroup_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Newly created information group, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3LightGroup_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LightGroup_New">Q3LightGroup_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3LightGroup_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a new light group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new light group.
 <br><br>
 A light group is a group that contains only lights.  These can then
 be attached to a view by <code>Q3View_SetLightGroup</code>.
@@ -1077,18 +931,13 @@ This function returns a newly created, empty light group object.  If
 some error occurs during creation, this returns NULL.
 <br><br>
 </p>
-<b>Result:</b> Newly created light group, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrderedDisplayGroup_New"></a>
-<h3><a name="Q3OrderedDisplayGroup_New">Q3OrderedDisplayGroup_New</a></h3>
-<blockquote><pre><tt>TQ3GroupObject  
-Q3OrderedDisplayGroup_New (
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Newly created light group, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrderedDisplayGroup_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrderedDisplayGroup_New">Q3OrderedDisplayGroup_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3OrderedDisplayGroup_New (void);</tt><br>
 </pre></blockquote>
-<p>Create a new ordered display group.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new ordered display group.
 <br><br>
 An ordered display group contains drawable objects (geometry,
 transforms, attributes, etc.), and keeps them always sorted by
@@ -1110,34 +959,71 @@ This function returns a newly created, empty ordered display group.
 If some error occurs during creation, this returns NULL.
 <br><br>
 </p>
-<b>Result:</b> Newly created ordered display group, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XGroup_GetPositionPrivate"></a>
-<h3><a name="Q3XGroup_GetPositionPrivate">Q3XGroup_GetPositionPrivate</a></h3>
-<blockquote><pre><tt>void * 
-Q3XGroup_GetPositionPrivate (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Newly created ordered display group, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XGroup_GetPositionPrivate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XGroup_GetPositionPrivate">Q3XGroup_GetPositionPrivate</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3XGroup_GetPositionPrivate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position
+);</tt><br>
 </pre></blockquote>
-<p>Get the private data stored in a group at the given position.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the private data stored in a group at the given position.
 <br><br>
 This function returns private data, in the form of an untyped
 pointer, which is stored in a group at the given position.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>group</tt></td><td>Group to inspect.</td></tr>
-<tr valign=top><td><tt>position</tt></td><td>Position of desired data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Position of desired data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Pointer to private data, or NULL.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>Pointer to private data, or NULL.
+ </dd></dl>
+<h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/TQ3DisplayGroupStateMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DisplayGroupStateMasks">TQ3DisplayGroupStateMasks</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum {
+    kQ3DisplayGroupStateNone                    = 0,
+    kQ3DisplayGroupStateMaskIsDrawn             = (1 &lt;&lt; 0),
+    kQ3DisplayGroupStateMaskIsInline            = (1 &lt;&lt; 1),
+    kQ3DisplayGroupStateMaskUseBoundingBox      = (1 &lt;&lt; 2),
+    kQ3DisplayGroupStateMaskUseBoundingSphere   = (1 &lt;&lt; 3),
+    kQ3DisplayGroupStateMaskIsPicked            = (1 &lt;&lt; 4),
+    kQ3DisplayGroupStateMaskIsWritten           = (1 &lt;&lt; 5),
+    
+    kQ3DisplayGroupStateMaskIsNotForBounding  = (1 &lt;&lt; 6),
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+    kQ3DisplayGroupStateMaskSize32              = 0xFFFFFFFF
+} TQ3DisplayGroupStateMasks;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Group traversal state.
+<br><br>
+A group's traversal state is set with Q3DisplayGroup_SetState, and
+controls how the group is processed when submitted for rendering,
+picking, bounding, or writing.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateNone"><tt>kQ3DisplayGroupStateNone</tt></a></dt><dd>No value.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsDrawn"><tt>kQ3DisplayGroupStateMaskIsDrawn</tt></a></dt><dd>The group will be submitted during rendering or picking.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsInline"><tt>kQ3DisplayGroupStateMaskIsInline</tt></a></dt><dd>The group will be submited without pushing/popping the
+view state stack around the group contents.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskUseBoundingBox"><tt>kQ3DisplayGroupStateMaskUseBoundingBox</tt></a></dt><dd>The bounding box is used for culling when rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskUseBoundingSphere"><tt>kQ3DisplayGroupStateMaskUseBoundingSphere</tt></a></dt><dd>The bounding sphere is used for culling when rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsPicked"><tt>kQ3DisplayGroupStateMaskIsPicked</tt></a></dt><dd>The group will be eligible for returning during picking.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsWritten"><tt>kQ3DisplayGroupStateMaskIsWritten</tt></a></dt><dd>The group will be submitted during writing.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DisplayGroupStateMaskIsNotForBounding"><tt>kQ3DisplayGroupStateMaskIsNotForBounding</tt></a></dt><dd>The group will not be submitted during bounding.
+(Not in QD3D.)</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

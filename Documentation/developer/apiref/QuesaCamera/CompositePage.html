@@ -1,134 +1,118 @@
-<html><head><title>QuesaCamera.h</title></head><body background="../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>QuesaCamera.h</h1></font><hr><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>QuesaCamera.h</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">QuesaCamera.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa camera objects.
  <hr><br><h2>Functions</h2>
-<a name="//apple_ref/c/func/Q3Camera_GetData"></a>
-<h3><a name="Q3Camera_GetData">Q3Camera_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_GetData (
-    TQ3CameraObject               camera,
-    TQ3CameraData                 *cameraData
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3Camera_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetData">Q3Camera_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Get the common state of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the common state of a camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Receives the common state of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>Receives the common state of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_GetPlacement"></a>
-<h3><a name="Q3Camera_GetPlacement">Q3Camera_GetPlacement</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_GetPlacement (
-    TQ3CameraObject               camera,
-    TQ3CameraPlacement            *placement
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_GetPlacement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetPlacement">Q3Camera_GetPlacement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetPlacement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraPlacement *placement
+);</tt><br>
 </pre></blockquote>
-<p>Get the placement of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the placement of a camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>placement</tt></td><td>Receives the placement of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>placement</em></tt></dt><dd>Receives the placement of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_GetRange"></a>
-<h3><a name="Q3Camera_GetRange">Q3Camera_GetRange</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_GetRange (
-    TQ3CameraObject               camera,
-    TQ3CameraRange                *range
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_GetRange"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetRange">Q3Camera_GetRange</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetRange (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraRange *range
+);</tt><br>
 </pre></blockquote>
-<p>Get the range of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the range of a camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>range</tt></td><td>Receives the range of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>range</em></tt></dt><dd>Receives the range of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_GetType"></a>
-<h3><a name="Q3Camera_GetType">Q3Camera_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Camera_GetType (
-    TQ3CameraObject               camera
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetType">Q3Camera_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Camera_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera
+);</tt><br>
 </pre></blockquote>
-<p>Get the type of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a camera.
 <br><br>
 Returns kQ3CameraTypeOrthographic, kQ3CameraTypeViewAngleAspect, or
 kQ3CameraTypeViewPlane. Returns kQ3ObjectTypeInvalid if the camera type
 is unknown.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the camera object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_GetViewPort"></a>
-<h3><a name="Q3Camera_GetViewPort">Q3Camera_GetViewPort</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_GetViewPort (
-    TQ3CameraObject               camera,
-    TQ3CameraViewPort             *viewPort
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the camera object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_GetViewPort"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetViewPort">Q3Camera_GetViewPort</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetViewPort (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraViewPort *viewPort
+);</tt><br>
 </pre></blockquote>
-<p>Get the view port of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the view port of a camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>viewPort</tt></td><td>Receives the view port of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>viewPort</em></tt></dt><dd>Receives the view port of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_GetViewToFrustum"></a>
-<h3><a name="Q3Camera_GetViewToFrustum">Q3Camera_GetViewToFrustum</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_GetViewToFrustum (
-    TQ3CameraObject               camera,
-    TQ3Matrix4x4                  *viewToFrustum
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_GetViewToFrustum"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetViewToFrustum">Q3Camera_GetViewToFrustum</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetViewToFrustum (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *viewToFrustum
+);</tt><br>
 </pre></blockquote>
-<p>Get the view-to-frustum matrix of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the view-to-frustum matrix of a camera.
 <br><br>
 The view-to-frustum matrix transforms the camera coordinate system
 (as returned by Q3Camera_GetWorldToView) to the viewing frustum
@@ -138,27 +122,23 @@ The frustum coordinate system ranges from 0.0 to -1.0 in z, and from
 -1.0 to +1.0 in both x and y.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>viewToFrustum</tt></td><td>Receives the view-to-frustum matrix of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>viewToFrustum</em></tt></dt><dd>Receives the view-to-frustum matrix of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_GetWorldToFrustum"></a>
-<h3><a name="Q3Camera_GetWorldToFrustum">Q3Camera_GetWorldToFrustum</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_GetWorldToFrustum (
-    TQ3CameraObject               camera,
-    TQ3Matrix4x4                  *worldToFrustum
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_GetWorldToFrustum"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetWorldToFrustum">Q3Camera_GetWorldToFrustum</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetWorldToFrustum (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *worldToFrustum
+);</tt><br>
 </pre></blockquote>
-<p>Get the world-to-frustum matrix of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the world-to-frustum matrix of a camera.
 <br><br>
 The world-to-frustum matrix transforms world coordinates to the viewing
 frustum coordinate system. It is equivalent to multiplying the matrices
@@ -167,27 +147,23 @@ See the documentation of Q3View_GetWorldToFrustumMatrixState for more
 information.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>worldToFrustum</tt></td><td>Receives the world-to-frustum matrix of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>worldToFrustum</em></tt></dt><dd>Receives the world-to-frustum matrix of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_GetWorldToView"></a>
-<h3><a name="Q3Camera_GetWorldToView">Q3Camera_GetWorldToView</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_GetWorldToView (
-    TQ3CameraObject               camera,
-    TQ3Matrix4x4                  *worldToView
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_GetWorldToView"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetWorldToView">Q3Camera_GetWorldToView</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetWorldToView (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *worldToView
+);</tt><br>
 </pre></blockquote>
-<p>Get the world-to-view matrix of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the world-to-view matrix of a camera.
 <br><br>
 The world-to-view matrix transforms world coordinates to a coordinate
 system relative to the camera. The origin of this coordinate system is
@@ -195,862 +171,720 @@ the camera location, with the camera view pointing down the -z axis
 and the camera up vector placed along the +y axis.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>worldToView</tt></td><td>Receives the world-to-view matrix of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>worldToView</em></tt></dt><dd>Receives the world-to-view matrix of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_SetData"></a>
-<h3><a name="Q3Camera_SetData">Q3Camera_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_SetData (
-    TQ3CameraObject               camera,
-    const TQ3CameraData           *cameraData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_SetData">Q3Camera_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Set the common state for a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the common state for a camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>The new common state for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>The new common state for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_SetPlacement"></a>
-<h3><a name="Q3Camera_SetPlacement">Q3Camera_SetPlacement</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_SetPlacement (
-    TQ3CameraObject               camera,
-    const TQ3CameraPlacement      *placement
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_SetPlacement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_SetPlacement">Q3Camera_SetPlacement</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_SetPlacement (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraPlacement *placement
+);</tt><br>
 </pre></blockquote>
-<p>Set the placement for a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the placement for a camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>placement</tt></td><td>The new placement for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>placement</em></tt></dt><dd>The new placement for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_SetRange"></a>
-<h3><a name="Q3Camera_SetRange">Q3Camera_SetRange</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_SetRange (
-    TQ3CameraObject               camera,
-    const TQ3CameraRange          *range
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_SetRange"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_SetRange">Q3Camera_SetRange</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_SetRange (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraRange *range
+);</tt><br>
 </pre></blockquote>
-<p>Set the range for a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the range for a camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>range</tt></td><td>The new range for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>range</em></tt></dt><dd>The new range for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Camera_SetViewPort"></a>
-<h3><a name="Q3Camera_SetViewPort">Q3Camera_SetViewPort</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Camera_SetViewPort (
-    TQ3CameraObject               camera,
-    const TQ3CameraViewPort       *viewPort
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_SetViewPort"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_SetViewPort">Q3Camera_SetViewPort</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_SetViewPort (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraViewPort *viewPort
+);</tt><br>
 </pre></blockquote>
-<p>Set the view port for a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the view port for a camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>viewPort</tt></td><td>The new view port for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>viewPort</em></tt></dt><dd>The new view port for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_GetBottom"></a>
-<h3><a name="Q3OrthographicCamera_GetBottom">Q3OrthographicCamera_GetBottom</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_GetBottom (
-    TQ3CameraObject               camera,
-    float                         *bottom
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetBottom"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetBottom">Q3OrthographicCamera_GetBottom</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetBottom (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *bottom
+);</tt><br>
 </pre></blockquote>
-<p>Get the bottom side of the viewing frustum of an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the bottom side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>bottom</tt></td><td>Receives the bottom side of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>bottom</em></tt></dt><dd>Receives the bottom side of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_GetData"></a>
-<h3><a name="Q3OrthographicCamera_GetData">Q3OrthographicCamera_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_GetData (
-    TQ3CameraObject               camera,
-    TQ3OrthographicCameraData     *cameraData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetData">Q3OrthographicCamera_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrthographicCameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Get the data for an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Receives the data of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>Receives the data of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_GetLeft"></a>
-<h3><a name="Q3OrthographicCamera_GetLeft">Q3OrthographicCamera_GetLeft</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_GetLeft (
-    TQ3CameraObject               camera,
-    float                         *left
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetLeft"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetLeft">Q3OrthographicCamera_GetLeft</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetLeft (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *left
+);</tt><br>
 </pre></blockquote>
-<p>Get the left side of the viewing frustum of an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the left side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>left</tt></td><td>Receives the left side of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>left</em></tt></dt><dd>Receives the left side of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_GetRight"></a>
-<h3><a name="Q3OrthographicCamera_GetRight">Q3OrthographicCamera_GetRight</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_GetRight (
-    TQ3CameraObject               camera,
-    float                         *right
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetRight"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetRight">Q3OrthographicCamera_GetRight</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetRight (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *right
+);</tt><br>
 </pre></blockquote>
-<p>Get the right side of the viewing frustum of an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the right side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>right</tt></td><td>Receives the right side of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>right</em></tt></dt><dd>Receives the right side of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_GetTop"></a>
-<h3><a name="Q3OrthographicCamera_GetTop">Q3OrthographicCamera_GetTop</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_GetTop (
-    TQ3CameraObject               camera,
-    float                         *top
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetTop"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetTop">Q3OrthographicCamera_GetTop</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetTop (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *top
+);</tt><br>
 </pre></blockquote>
-<p>Get the top side of the viewing frustum of an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the top side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>top</tt></td><td>Receives the top side of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>top</em></tt></dt><dd>Receives the top side of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_New"></a>
-<h3><a name="Q3OrthographicCamera_New">Q3OrthographicCamera_New</a></h3>
-<blockquote><pre><tt>TQ3CameraObject  
-Q3OrthographicCamera_New (
-    const TQ3OrthographicCameraData *orthographicData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_New">Q3OrthographicCamera_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject ) Q3OrthographicCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3OrthographicCameraData *orthographicData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new orthographic camera object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new orthographic camera object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>orthographicData</tt></td><td>The data for the camera object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>orthographicData</em></tt></dt><dd>The data for the camera object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new camera object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_SetBottom"></a>
-<h3><a name="Q3OrthographicCamera_SetBottom">Q3OrthographicCamera_SetBottom</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_SetBottom (
-    TQ3CameraObject               camera,
-    float                         bottom
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new camera object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetBottom"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetBottom">Q3OrthographicCamera_SetBottom</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetBottom (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float bottom
+);</tt><br>
 </pre></blockquote>
-<p>Set the bottom side of the viewing frustum of an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the bottom side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>bottom</tt></td><td>The new bottom side for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>bottom</em></tt></dt><dd>The new bottom side for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_SetData"></a>
-<h3><a name="Q3OrthographicCamera_SetData">Q3OrthographicCamera_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_SetData (
-    TQ3CameraObject                  camera,
-    const TQ3OrthographicCameraData *cameraData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetData">Q3OrthographicCamera_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3OrthographicCameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>The new data for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>The new data for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_SetLeft"></a>
-<h3><a name="Q3OrthographicCamera_SetLeft">Q3OrthographicCamera_SetLeft</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_SetLeft (
-    TQ3CameraObject               camera,
-    float                         left
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetLeft"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetLeft">Q3OrthographicCamera_SetLeft</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetLeft (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float left
+);</tt><br>
 </pre></blockquote>
-<p>Set the left side of the viewing frustum of an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the left side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>left</tt></td><td>The new left side for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>left</em></tt></dt><dd>The new left side for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_SetRight"></a>
-<h3><a name="Q3OrthographicCamera_SetRight">Q3OrthographicCamera_SetRight</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_SetRight (
-    TQ3CameraObject               camera,
-    float                         right
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetRight"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetRight">Q3OrthographicCamera_SetRight</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetRight (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float right
+);</tt><br>
 </pre></blockquote>
-<p>Set the right side of the viewing frustum of an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the right side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>right</tt></td><td>The new right side for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>right</em></tt></dt><dd>The new right side for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3OrthographicCamera_SetTop"></a>
-<h3><a name="Q3OrthographicCamera_SetTop">Q3OrthographicCamera_SetTop</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3OrthographicCamera_SetTop (
-    TQ3CameraObject               camera,
-    float                         top
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetTop"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetTop">Q3OrthographicCamera_SetTop</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetTop (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float top
+);</tt><br>
 </pre></blockquote>
-<p>Set the top side of the viewing frustum of an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the top side of the viewing frustum of an orthographic camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>top</tt></td><td>The new top side for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>top</em></tt></dt><dd>The new top side for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_GetAspectRatio"></a>
-<h3><a name="Q3ViewAngleAspectCamera_GetAspectRatio">Q3ViewAngleAspectCamera_GetAspectRatio</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewAngleAspectCamera_GetAspectRatio (
-    TQ3CameraObject               camera,
-    float                         *aspectRatioXToY
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_GetAspectRatio"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_GetAspectRatio">Q3ViewAngleAspectCamera_GetAspectRatio</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_GetAspectRatio (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *aspectRatioXToY
+);</tt><br>
 </pre></blockquote>
-<p>Get the aspect ratio of a view angle aspect camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the aspect ratio of a view angle aspect camera.
 <br><br>
 If the aspect ratio is greater than 1.0, the field of view of the
 camera is vertical. If it is less than 1.0, the field of view is
 horizontal.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>aspectRatioXToY</tt></td><td>Receives the horizontal-to-vertical aspect ratio of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>aspectRatioXToY</em></tt></dt><dd>Receives the horizontal-to-vertical aspect ratio of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_GetData"></a>
-<h3><a name="Q3ViewAngleAspectCamera_GetData">Q3ViewAngleAspectCamera_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewAngleAspectCamera_GetData (
-    TQ3CameraObject               camera,
-    TQ3ViewAngleAspectCameraData  *cameraData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_GetData">Q3ViewAngleAspectCamera_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewAngleAspectCameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Get the data for a view angle aspect camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a view angle aspect camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Receives the data of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>Receives the data of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_GetFOV"></a>
-<h3><a name="Q3ViewAngleAspectCamera_GetFOV">Q3ViewAngleAspectCamera_GetFOV</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewAngleAspectCamera_GetFOV (
-    TQ3CameraObject               camera,
-    float                         *fov
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_GetFOV"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_GetFOV">Q3ViewAngleAspectCamera_GetFOV</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_GetFOV (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *fov
+);</tt><br>
 </pre></blockquote>
-<p>Get the field of view of a view angle aspect camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the field of view of a view angle aspect camera.
 <br><br>
 The field of view is specified in radians.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>fov</tt></td><td>Receives the field of view of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>fov</em></tt></dt><dd>Receives the field of view of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_New"></a>
-<h3><a name="Q3ViewAngleAspectCamera_New">Q3ViewAngleAspectCamera_New</a></h3>
-<blockquote><pre><tt>TQ3CameraObject  
-Q3ViewAngleAspectCamera_New (
-    const TQ3ViewAngleAspectCameraData *cameraData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_New">Q3ViewAngleAspectCamera_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject ) Q3ViewAngleAspectCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewAngleAspectCameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new view angle aspect camera object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new view angle aspect camera object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cameraData</tt></td><td>The data for the camera object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>cameraData</em></tt></dt><dd>The data for the camera object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new camera object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_SetAspectRatio"></a>
-<h3><a name="Q3ViewAngleAspectCamera_SetAspectRatio">Q3ViewAngleAspectCamera_SetAspectRatio</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewAngleAspectCamera_SetAspectRatio (
-    TQ3CameraObject               camera,
-    float                         aspectRatioXToY
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new camera object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_SetAspectRatio"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_SetAspectRatio">Q3ViewAngleAspectCamera_SetAspectRatio</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_SetAspectRatio (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float aspectRatioXToY
+);</tt><br>
 </pre></blockquote>
-<p>Set the aspect ratio for a view angle aspect camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the aspect ratio for a view angle aspect camera.
 <br><br>
 If the aspect ratio is greater than 1.0, the field of view of the
 camera is vertical. If it is less than 1.0, the field of view is
 horizontal.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>aspectRatioXToY</tt></td><td>The new horizontal-to-vertical aspect ratio of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>aspectRatioXToY</em></tt></dt><dd>The new horizontal-to-vertical aspect ratio of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_SetData"></a>
-<h3><a name="Q3ViewAngleAspectCamera_SetData">Q3ViewAngleAspectCamera_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewAngleAspectCamera_SetData (
-    TQ3CameraObject                     camera,
-    const TQ3ViewAngleAspectCameraData *cameraData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_SetData">Q3ViewAngleAspectCamera_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewAngleAspectCameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a view angle aspect camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a view angle aspect camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>The new data for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>The new data for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewAngleAspectCamera_SetFOV"></a>
-<h3><a name="Q3ViewAngleAspectCamera_SetFOV">Q3ViewAngleAspectCamera_SetFOV</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewAngleAspectCamera_SetFOV (
-    TQ3CameraObject               camera,
-    float                         fov
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_SetFOV"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_SetFOV">Q3ViewAngleAspectCamera_SetFOV</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_SetFOV (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float fov
+);</tt><br>
 </pre></blockquote>
-<p>Set the field of view for a view angle aspect camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the field of view for a view angle aspect camera.
 <br><br>
 The field of view is specified in radians.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>fov</tt></td><td>The new field of view for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>fov</em></tt></dt><dd>The new field of view for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetCenterX"></a>
-<h3><a name="Q3ViewPlaneCamera_GetCenterX">Q3ViewPlaneCamera_GetCenterX</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_GetCenterX (
-    TQ3CameraObject               camera,
-    float                         *centerXOnViewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetCenterX"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetCenterX">Q3ViewPlaneCamera_GetCenterX</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetCenterX (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *centerXOnViewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Get the x coordinate of the view rectangle center of a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the x coordinate of the view rectangle center of a view plane camera.
 <br><br>
 The area of the view plane which will be rendered is a rectangle, whose
 origin in x is at the returned coordinate.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>centerXOnViewPlane</tt></td><td>Receives the x coordinate of the center of the view rectangle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>centerXOnViewPlane</em></tt></dt><dd>Receives the x coordinate of the center of the view rectangle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetCenterY"></a>
-<h3><a name="Q3ViewPlaneCamera_GetCenterY">Q3ViewPlaneCamera_GetCenterY</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_GetCenterY (
-    TQ3CameraObject               camera,
-    float                         *centerYOnViewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetCenterY"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetCenterY">Q3ViewPlaneCamera_GetCenterY</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetCenterY (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *centerYOnViewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Get the y coordinate of the view rectangle center of a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the y coordinate of the view rectangle center of a view plane camera.
 <br><br>
 The area of the view plane which will be rendered is a rectangle, whose
 origin in y is at the returned coordinate.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>centerYOnViewPlane</tt></td><td>Receives the y coordinate of the center of the view rectangle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>centerYOnViewPlane</em></tt></dt><dd>Receives the y coordinate of the center of the view rectangle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetData"></a>
-<h3><a name="Q3ViewPlaneCamera_GetData">Q3ViewPlaneCamera_GetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_GetData (
-    TQ3CameraObject               camera,
-    TQ3ViewPlaneCameraData        *cameraData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetData">Q3ViewPlaneCamera_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewPlaneCameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Get the data for a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a view plane camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>Receives the data of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>Receives the data of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetHalfHeight"></a>
-<h3><a name="Q3ViewPlaneCamera_GetHalfHeight">Q3ViewPlaneCamera_GetHalfHeight</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_GetHalfHeight (
-    TQ3CameraObject               camera,
-    float                         *halfHeightAtViewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetHalfHeight"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetHalfHeight">Q3ViewPlaneCamera_GetHalfHeight</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetHalfHeight (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *halfHeightAtViewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Get the half-height of the view rectangle of a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the half-height of the view rectangle of a view plane camera.
 <br><br>
 The area of the view plane which will be rendered is a rectangle,
 whose height is twice the returned half-height.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>halfHeightAtViewPlane</tt></td><td>Receives the half-height of the view rectangle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>halfHeightAtViewPlane</em></tt></dt><dd>Receives the half-height of the view rectangle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetHalfWidth"></a>
-<h3><a name="Q3ViewPlaneCamera_GetHalfWidth">Q3ViewPlaneCamera_GetHalfWidth</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_GetHalfWidth (
-    TQ3CameraObject               camera,
-    float                         *halfWidthAtViewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetHalfWidth"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetHalfWidth">Q3ViewPlaneCamera_GetHalfWidth</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetHalfWidth (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *halfWidthAtViewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Get the half-width of the view rectangle of a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the half-width of the view rectangle of a view plane camera.
 <br><br>
 The area of the view plane which will be rendered is a rectangle,
 whose width is twice the returned half-width.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>halfWidthAtViewPlane</tt></td><td>Receives the half-width of the view rectangle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>halfWidthAtViewPlane</em></tt></dt><dd>Receives the half-width of the view rectangle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_GetViewPlane"></a>
-<h3><a name="Q3ViewPlaneCamera_GetViewPlane">Q3ViewPlaneCamera_GetViewPlane</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_GetViewPlane (
-    TQ3CameraObject               camera,
-    float                         *viewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetViewPlane"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetViewPlane">Q3ViewPlaneCamera_GetViewPlane</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetViewPlane (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float *viewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Get the view plane distance of a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the view plane distance of a view plane camera.
 <br><br>
 The view plane distance is the distance along the camera view vector
 from the camera location.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to query.</td></tr>
-<tr valign=top><td><tt>viewPlane</tt></td><td>Receives the view plane distance of the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to query.</dd>
+<dt><tt><em>viewPlane</em></tt></dt><dd>Receives the view plane distance of the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_New"></a>
-<h3><a name="Q3ViewPlaneCamera_New">Q3ViewPlaneCamera_New</a></h3>
-<blockquote><pre><tt>TQ3CameraObject  
-Q3ViewPlaneCamera_New (
-    const TQ3ViewPlaneCameraData  *cameraData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_New">Q3ViewPlaneCamera_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject ) Q3ViewPlaneCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewPlaneCameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new view plane camera object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new view plane camera object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cameraData</tt></td><td>The data for the camera object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>cameraData</em></tt></dt><dd>The data for the camera object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new camera object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetCenterX"></a>
-<h3><a name="Q3ViewPlaneCamera_SetCenterX">Q3ViewPlaneCamera_SetCenterX</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_SetCenterX (
-    TQ3CameraObject               camera,
-    float                         centerXOnViewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new camera object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetCenterX"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetCenterX">Q3ViewPlaneCamera_SetCenterX</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetCenterX (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float centerXOnViewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Set the x coordinate of the view rectangle center of a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the x coordinate of the view rectangle center of a view plane camera.
 <br><br>
 The area of the view plane which will be rendered is a rectangle, whose
 origin in x is at the specified coordinate.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>centerXOnViewPlane</tt></td><td>The new x coordinate for the center of the view rectangle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>centerXOnViewPlane</em></tt></dt><dd>The new x coordinate for the center of the view rectangle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetCenterY"></a>
-<h3><a name="Q3ViewPlaneCamera_SetCenterY">Q3ViewPlaneCamera_SetCenterY</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_SetCenterY (
-    TQ3CameraObject               camera,
-    float                         centerYOnViewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetCenterY"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetCenterY">Q3ViewPlaneCamera_SetCenterY</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetCenterY (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float centerYOnViewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Set the y coordinate of the view rectangle center of a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the y coordinate of the view rectangle center of a view plane camera.
 <br><br>
 The area of the view plane which will be rendered is a rectangle, whose
 origin in y is at the specified coordinate.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>centerYOnViewPlane</tt></td><td>The new y coordinate for the center of the view rectangle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>centerYOnViewPlane</em></tt></dt><dd>The new y coordinate for the center of the view rectangle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetData"></a>
-<h3><a name="Q3ViewPlaneCamera_SetData">Q3ViewPlaneCamera_SetData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_SetData (
-    TQ3CameraObject               camera,
-    const TQ3ViewPlaneCameraData  *cameraData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetData">Q3ViewPlaneCamera_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewPlaneCameraData *cameraData
+);</tt><br>
 </pre></blockquote>
-<p>Set the data for a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a view plane camera.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>cameraData</tt></td><td>The new data for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>The new data for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetHalfHeight"></a>
-<h3><a name="Q3ViewPlaneCamera_SetHalfHeight">Q3ViewPlaneCamera_SetHalfHeight</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_SetHalfHeight (
-    TQ3CameraObject               camera,
-    float                         halfHeightAtViewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetHalfHeight"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetHalfHeight">Q3ViewPlaneCamera_SetHalfHeight</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetHalfHeight (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float halfHeightAtViewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Set the half-height of the view rectangle of a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the half-height of the view rectangle of a view plane camera.
 <br><br>
 The area of the view plane which will be rendered is a rectangle,
 whose height is twice the specified half-height.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>halfHeightAtViewPlane</tt></td><td>The new half-height of the view rectangle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>halfHeightAtViewPlane</em></tt></dt><dd>The new half-height of the view rectangle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetHalfWidth"></a>
-<h3><a name="Q3ViewPlaneCamera_SetHalfWidth">Q3ViewPlaneCamera_SetHalfWidth</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_SetHalfWidth (
-    TQ3CameraObject               camera,
-    float                         halfWidthAtViewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetHalfWidth"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetHalfWidth">Q3ViewPlaneCamera_SetHalfWidth</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetHalfWidth (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float halfWidthAtViewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Set the half-width of the view rectangle of a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the half-width of the view rectangle of a view plane camera.
 <br><br>
 The area of the view plane which will be rendered is a rectangle,
 whose width is twice the specified half-width.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>halfWidthAtViewPlane</tt></td><td>The new half-width of the view rectangle.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>halfWidthAtViewPlane</em></tt></dt><dd>The new half-width of the view rectangle.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3ViewPlaneCamera_SetViewPlane"></a>
-<h3><a name="Q3ViewPlaneCamera_SetViewPlane">Q3ViewPlaneCamera_SetViewPlane</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3ViewPlaneCamera_SetViewPlane (
-    TQ3CameraObject               camera,
-    float                         viewPlane
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetViewPlane"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetViewPlane">Q3ViewPlaneCamera_SetViewPlane</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetViewPlane (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float viewPlane
+);</tt><br>
 </pre></blockquote>
-<p>Set the view plane distance for a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the view plane distance for a view plane camera.
 <br><br>
 The view plane distance is the distance along the camera view vector
 from the camera location.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>camera</tt></td><td>The camera to update.</td></tr>
-<tr valign=top><td><tt>viewPlane</tt></td><td>The new view plane distance for the camera.</td></tr>
-</table>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera to update.</dd>
+<dt><tt><em>viewPlane</em></tt></dt><dd>The new view plane distance for the camera.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
 <h2>Structs</h2>
-<a name="//apple_ref/c/tag/TQ3CameraData"></a>
-<h3><a name="TQ3CameraData">TQ3CameraData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3CameraData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CameraData">TQ3CameraData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3CameraData {
     TQ3CameraPlacement                          placement;
     TQ3CameraRange                              range;
@@ -1058,26 +892,24 @@ typedef struct TQ3CameraData {
 } TQ3CameraData;
 </pre>
 </blockquote>
-<p>Describes the common state for a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the common state for a camera.
 <br><br>
 The common camera state includes its position and orientation within
 the world (placement), the near and far clipping planes (range), and
 the current viewport.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>placement</tt></td><td>The position and orientation of the camera.</td><tr>
-<tr valign=top><td><tt>range</tt></td><td>The near and far clipping planes of the camera.</td><tr>
-<tr valign=top><td><tt>viewPort</tt></td><td>The viewport for the camera.</td><tr>
-</table>
+<dl>
+<dt><tt>placement</tt></dt><dd>The position and orientation of the camera.</dd>
+<dt><tt>range</tt></dt><dd>The near and far clipping planes of the camera.</dd>
+<dt><tt>viewPort</tt></dt><dd>The viewport for the camera.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3CameraPlacement"></a>
-<h3><a name="TQ3CameraPlacement">TQ3CameraPlacement</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3CameraPlacement"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CameraPlacement">TQ3CameraPlacement</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3CameraPlacement {
     TQ3Point3D                                  cameraLocation;
     TQ3Point3D                                  pointOfInterest;
@@ -1085,51 +917,47 @@ typedef struct TQ3CameraPlacement {
 } TQ3CameraPlacement;
 </pre>
 </blockquote>
-<p>Describes the location and orientation of a camera. All points are
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the location and orientation of a camera. All points are
 in world-space coordinates.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cameraLocation</tt></td><td>The location of the camera.</td><tr>
-<tr valign=top><td><tt>pointOfInterest</tt></td><td>The point at which the camera is aimed.</td><tr>
-<tr valign=top><td><tt>upVector</tt></td><td>The up vector for the camera. This vector must be
+<dl>
+<dt><tt>cameraLocation</tt></dt><dd>The location of the camera.</dd>
+<dt><tt>pointOfInterest</tt></dt><dd>The point at which the camera is aimed.</dd>
+<dt><tt>upVector</tt></dt><dd>The up vector for the camera. This vector must be
 normalised and perpendicular to the viewing direction
 of the camera. This vector is transformed to the y
-axis of the viewing plane.</td><tr>
-</table>
+axis of the viewing plane.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3CameraRange"></a>
-<h3><a name="TQ3CameraRange">TQ3CameraRange</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3CameraRange"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CameraRange">TQ3CameraRange</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3CameraRange {
     float                                       hither;
     float                                       yon;
 } TQ3CameraRange;
 </pre>
 </blockquote>
-<p>Describes the hither and yon clipping planes of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the hither and yon clipping planes of a camera.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>hither</tt></td><td>The distance from the camera to the near clipping plane.
-This value must always be more than 0.</td><tr>
-<tr valign=top><td><tt>yon</tt></td><td>The distance from the camera to the far clipping plane.
+<dl>
+<dt><tt>hither</tt></dt><dd>The distance from the camera to the near clipping plane.
+This value must always be more than 0.</dd>
+<dt><tt>yon</tt></dt><dd>The distance from the camera to the far clipping plane.
 This value must always be more than the hither field,
 although if it is too large then artifacts may be visible
-during rendering.</td><tr>
-</table>
+during rendering.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3CameraViewPort"></a>
-<h3><a name="TQ3CameraViewPort">TQ3CameraViewPort</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3CameraViewPort"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CameraViewPort">TQ3CameraViewPort</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3CameraViewPort {
     TQ3Point2D                                  origin;
     float                                       width;
@@ -1137,7 +965,7 @@ typedef struct TQ3CameraViewPort {
 } TQ3CameraViewPort;
 </pre>
 </blockquote>
-<p>Describes the viewport for a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the viewport for a camera.
 <br><br>
 The camera viewport is the rectangular area of the view plane which is
 mapped to the rendered area of the current draw context. The default
@@ -1149,19 +977,17 @@ camera's view is rendered (e.g., to divide an image into a series of
 horizontal strips for printing).
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>origin</tt></td><td>The origin for the viewport.</td><tr>
-<tr valign=top><td><tt>width</tt></td><td>The width of the viewport.</td><tr>
-<tr valign=top><td><tt>height</tt></td><td>The width of the viewport.</td><tr>
-</table>
+<dl>
+<dt><tt>origin</tt></dt><dd>The origin for the viewport.</dd>
+<dt><tt>width</tt></dt><dd>The width of the viewport.</dd>
+<dt><tt>height</tt></dt><dd>The width of the viewport.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3OrthographicCameraData"></a>
-<h3><a name="TQ3OrthographicCameraData">TQ3OrthographicCameraData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3OrthographicCameraData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3OrthographicCameraData">TQ3OrthographicCameraData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3OrthographicCameraData {
     TQ3CameraData                               cameraData;
     float                                       left;
@@ -1171,7 +997,7 @@ typedef struct TQ3OrthographicCameraData {
 } TQ3OrthographicCameraData;
 </pre>
 </blockquote>
-<p>Describes the state for an orthographic camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for an orthographic camera.
 <br><br>
 An orthographic camera is defined by four view planes, which form a
 box aligned with the camera view direction. These planes are defined
@@ -1179,21 +1005,19 @@ by distances relative to the coordinate system formed by the camera
 location and its view direction.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cameraData</tt></td><td>The common state for the camera.</td><tr>
-<tr valign=top><td><tt>left</tt></td><td>The left side of the view volume.</td><tr>
-<tr valign=top><td><tt>top</tt></td><td>The top side of the view volume.</td><tr>
-<tr valign=top><td><tt>right</tt></td><td>The right side of the view volume.</td><tr>
-<tr valign=top><td><tt>bottom</tt></td><td>The bottom side of the view volume.</td><tr>
-</table>
+<dl>
+<dt><tt>cameraData</tt></dt><dd>The common state for the camera.</dd>
+<dt><tt>left</tt></dt><dd>The left side of the view volume.</dd>
+<dt><tt>top</tt></dt><dd>The top side of the view volume.</dd>
+<dt><tt>right</tt></dt><dd>The right side of the view volume.</dd>
+<dt><tt>bottom</tt></dt><dd>The bottom side of the view volume.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3ViewAngleAspectCameraData"></a>
-<h3><a name="TQ3ViewAngleAspectCameraData">TQ3ViewAngleAspectCameraData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3ViewAngleAspectCameraData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ViewAngleAspectCameraData">TQ3ViewAngleAspectCameraData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3ViewAngleAspectCameraData {
     TQ3CameraData                               cameraData;
     float                                       fov;
@@ -1201,29 +1025,29 @@ typedef struct TQ3ViewAngleAspectCameraData {
 } TQ3ViewAngleAspectCameraData;
 </pre>
 </blockquote>
-<p>Describes the state for a traditional perspective camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a traditional perspective camera.
 <br><br>
 A view angle aspect camera is a perspective camera defined by a field of
 view angle and an aspect ratio.
 <br><br>
-The field of view angle must be a positive angle in radians. The aspect
-ratio should be greater than 1.0 if the field of view is vertical, and
-less than 1.0 if the field of view is horizontal.
+The field of view angle must be a positive angle in radians.  If the
+aspect ratio is greater than 1.0, the field of view represents the
+vertical range of visibility, and if the aspect ratio is less than 1.0,
+the field of view is horizontal.  In other words, the field of view is
+the smaller of the two angles.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cameraData</tt></td><td>The common state for the camera.</td><tr>
-<tr valign=top><td><tt>fov</tt></td><td>The field of view of the camera, in radians.</td><tr>
-<tr valign=top><td><tt>aspectRatioXToY</tt></td><td>The horizontal-to-vertical aspect ratio of the camera.</td><tr>
-</table>
+<dl>
+<dt><tt>cameraData</tt></dt><dd>The common state for the camera.</dd>
+<dt><tt>fov</tt></dt><dd>The field of view of the camera, in radians.</dd>
+<dt><tt>aspectRatioXToY</tt></dt><dd>The horizontal-to-vertical aspect ratio of the camera.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3ViewPlaneCameraData"></a>
-<h3><a name="TQ3ViewPlaneCameraData">TQ3ViewPlaneCameraData</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3ViewPlaneCameraData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ViewPlaneCameraData">TQ3ViewPlaneCameraData</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef struct TQ3ViewPlaneCameraData {
     TQ3CameraData                               cameraData;
     float                                       viewPlane;
@@ -1234,7 +1058,7 @@ typedef struct TQ3ViewPlaneCameraData {
 } TQ3ViewPlaneCameraData;
 </pre>
 </blockquote>
-<p>Describes the state for a view plane camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a view plane camera.
 <br><br>
 A view plane camera is a perspective camera which allows the specification
 of an off-center viewing frustum.
@@ -1244,18 +1068,16 @@ distance, then taking the specified rectangle on that plane. The frustum
 extends from the camera position through the four edges of this rectangle.
 <br><br>
 </p>
-<h4>Fields</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>cameraData</tt></td><td>The common state for the camera.</td><tr>
-<tr valign=top><td><tt>viewPlane</tt></td><td>The distance from the camera to the view plane.</td><tr>
-<tr valign=top><td><tt>halfWidthAtViewPlane</tt></td><td>The half-width of the rectangle on the view plane.</td><tr>
-<tr valign=top><td><tt>halfHeightAtViewPlane</tt></td><td>The half-height of the rectangle on the view plane.</td><tr>
-<tr valign=top><td><tt>centerXOnViewPlane</tt></td><td>The x-center of the rectangle on the view plane.</td><tr>
-<tr valign=top><td><tt>centerYOnViewPlane</tt></td><td>The y-center of the rectangle on the view plane.</td><tr>
-</table>
+<dl>
+<dt><tt>cameraData</tt></dt><dd>The common state for the camera.</dd>
+<dt><tt>viewPlane</tt></dt><dd>The distance from the camera to the view plane.</dd>
+<dt><tt>halfWidthAtViewPlane</tt></dt><dd>The half-width of the rectangle on the view plane.</dd>
+<dt><tt>halfHeightAtViewPlane</tt></dt><dd>The half-height of the rectangle on the view plane.</dd>
+<dt><tt>centerXOnViewPlane</tt></dt><dd>The x-center of the rectangle on the view plane.</dd>
+<dt><tt>centerYOnViewPlane</tt></dt><dd>The y-center of the rectangle on the view plane.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

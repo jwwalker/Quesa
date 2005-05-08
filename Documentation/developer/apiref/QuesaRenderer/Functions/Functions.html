@@ -1,352 +1,304 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_CountRAVEDrawContexts"></a>
-<h3><a name="Q3InteractiveRenderer_CountRAVEDrawContexts">Q3InteractiveRenderer_CountRAVEDrawContexts</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_CountRAVEDrawContexts (
-    TQ3RendererObject             renderer,
-    TQ3Uns32                      *numRAVEContexts
-);
-</tt><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Functions</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_CountRAVEDrawContexts"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_CountRAVEDrawContexts">Q3InteractiveRenderer_CountRAVEDrawContexts</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_CountRAVEDrawContexts (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *numRAVEContexts
+);</tt><br>
 </pre></blockquote>
-<p>Count the RAVE contexts for the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Count the RAVE contexts for the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-<tr valign=top><td><tt>numRAVEContexts</tt></td><td>Receives the number of RAVE contexts.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+<dt><tt><em>numRAVEContexts</em></tt></dt><dd>Receives the number of RAVE contexts.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_GetCSGEquation"></a>
-<h3><a name="Q3InteractiveRenderer_GetCSGEquation">Q3InteractiveRenderer_GetCSGEquation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_GetCSGEquation (
-    TQ3RendererObject             renderer,
-    TQ3CSGEquation                *equation
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetCSGEquation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetCSGEquation">Q3InteractiveRenderer_GetCSGEquation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetCSGEquation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CSGEquation *equation
+);</tt><br>
 </pre></blockquote>
-<p>Get the CSG equation from the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the CSG equation from the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-<tr valign=top><td><tt>equation</tt></td><td>Receives the CSG equation.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+<dt><tt><em>equation</em></tt></dt><dd>Receives the CSG equation.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_GetDoubleBufferBypass"></a>
-<h3><a name="Q3InteractiveRenderer_GetDoubleBufferBypass">Q3InteractiveRenderer_GetDoubleBufferBypass</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_GetDoubleBufferBypass (
-    TQ3RendererObject             renderer,
-    TQ3Boolean                    *bypass
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetDoubleBufferBypass"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetDoubleBufferBypass">Q3InteractiveRenderer_GetDoubleBufferBypass</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetDoubleBufferBypass (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *bypass
+);</tt><br>
 </pre></blockquote>
-<p>Get the double-buffer bypass hint from the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the double-buffer bypass hint from the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-<tr valign=top><td><tt>bypass</tt></td><td>Receives the double-buffer bypass hint.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+<dt><tt><em>bypass</em></tt></dt><dd>Receives the double-buffer bypass hint.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_GetPreferences"></a>
-<h3><a name="Q3InteractiveRenderer_GetPreferences">Q3InteractiveRenderer_GetPreferences</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_GetPreferences (
-    TQ3RendererObject             renderer,
-    TQ3RaveVendorID               *vendorID,
-    TQ3RaveEngineID               *engineID
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetPreferences"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetPreferences">Q3InteractiveRenderer_GetPreferences</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetPreferences (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveVendorID *vendorID,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveEngineID *engineID
+);</tt><br>
 </pre></blockquote>
-<p>Get the RAVE preferences from the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE preferences from the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-<tr valign=top><td><tt>vendorID</tt></td><td>Receives the RAVE vendor ID.</td></tr>
-<tr valign=top><td><tt>engineID</tt></td><td>Receives the RAVE engine ID.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+<dt><tt><em>vendorID</em></tt></dt><dd>Receives the RAVE vendor ID.</dd>
+<dt><tt><em>engineID</em></tt></dt><dd>Receives the RAVE engine ID.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_GetRAVEContextHints"></a>
-<h3><a name="Q3InteractiveRenderer_GetRAVEContextHints">Q3InteractiveRenderer_GetRAVEContextHints</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_GetRAVEContextHints (
-    TQ3RendererObject             renderer,
-    TQ3Uns32                      *RAVEContextHints
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetRAVEContextHints"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetRAVEContextHints">Q3InteractiveRenderer_GetRAVEContextHints</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetRAVEContextHints (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *RAVEContextHints
+);</tt><br>
 </pre></blockquote>
-<p>Get the RAVE context hints from the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE context hints from the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-<tr valign=top><td><tt>RAVEContextHints</tt></td><td>Receives the RAVE context hints.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+<dt><tt><em>RAVEContextHints</em></tt></dt><dd>Receives the RAVE context hints.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_GetRAVEDrawContexts"></a>
-<h3><a name="Q3InteractiveRenderer_GetRAVEDrawContexts">Q3InteractiveRenderer_GetRAVEDrawContexts</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_GetRAVEDrawContexts (
-    TQ3RendererObject             renderer,
-    TQADrawContext                **raveDrawContextList,
-    TQAEngine                     **raveDrawingEnginesList,
-    TQ3Uns32                      *numRAVEContexts,
-    TQ3RaveDestroyCallback        raveDestroyCallback
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetRAVEDrawContexts"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetRAVEDrawContexts">Q3InteractiveRenderer_GetRAVEDrawContexts</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetRAVEDrawContexts (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQADrawContext **raveDrawContextList,
+&nbsp;&nbsp;&nbsp;&nbsp;TQAEngine **raveDrawingEnginesList,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *numRAVEContexts,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveDestroyCallback raveDestroyCallback
+);</tt><br>
 </pre></blockquote>
-<p>Get the RAVE contexts for the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE contexts for the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-<tr valign=top><td><tt>raveDrawContextList</tt></td><td>Receives the RAVE context list.</td></tr>
-<tr valign=top><td><tt>raveDrawingEnginesList</tt></td><td>Receives the RAVE engine list.</td></tr>
-<tr valign=top><td><tt>numRAVEContexts</tt></td><td>Receives the number of RAVE contexts.</td></tr>
-<tr valign=top><td><tt>raveDestroyCallback</tt></td><td>The RAVE destroy callback.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+<dt><tt><em>raveDrawContextList</em></tt></dt><dd>Receives the RAVE context list.</dd>
+<dt><tt><em>raveDrawingEnginesList</em></tt></dt><dd>Receives the RAVE engine list.</dd>
+<dt><tt><em>numRAVEContexts</em></tt></dt><dd>Receives the number of RAVE contexts.</dd>
+<dt><tt><em>raveDestroyCallback</em></tt></dt><dd>The RAVE destroy callback.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_GetRAVETextureFilter"></a>
-<h3><a name="Q3InteractiveRenderer_GetRAVETextureFilter">Q3InteractiveRenderer_GetRAVETextureFilter</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_GetRAVETextureFilter (
-    TQ3RendererObject             renderer,
-    TQ3TextureFilter              *raveTextureFilterValue
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetRAVETextureFilter"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetRAVETextureFilter">Q3InteractiveRenderer_GetRAVETextureFilter</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetRAVETextureFilter (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureFilter *raveTextureFilterValue
+);</tt><br>
 </pre></blockquote>
-<p>Get the RAVE texture filter from the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE texture filter from the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-<tr valign=top><td><tt>raveTextureFilterValue</tt></td><td>Receives the RAVE texture filter.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+<dt><tt><em>raveTextureFilterValue</em></tt></dt><dd>Receives the RAVE texture filter.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_SetCSGEquation"></a>
-<h3><a name="Q3InteractiveRenderer_SetCSGEquation">Q3InteractiveRenderer_SetCSGEquation</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_SetCSGEquation (
-    TQ3RendererObject             renderer,
-    TQ3CSGEquation                equation
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetCSGEquation"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetCSGEquation">Q3InteractiveRenderer_SetCSGEquation</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetCSGEquation (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CSGEquation equation
+);</tt><br>
 </pre></blockquote>
-<p>Set the CSG equation for the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the CSG equation for the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to update.</td></tr>
-<tr valign=top><td><tt>equation</tt></td><td>The new CSG equation.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to update.</dd>
+<dt><tt><em>equation</em></tt></dt><dd>The new CSG equation.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_SetDoubleBufferBypass"></a>
-<h3><a name="Q3InteractiveRenderer_SetDoubleBufferBypass">Q3InteractiveRenderer_SetDoubleBufferBypass</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_SetDoubleBufferBypass (
-    TQ3RendererObject             renderer,
-    TQ3Boolean                    bypass
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetDoubleBufferBypass"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetDoubleBufferBypass">Q3InteractiveRenderer_SetDoubleBufferBypass</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetDoubleBufferBypass (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean bypass
+);</tt><br>
 </pre></blockquote>
-<p>Set the double-buffer bypass hint for the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the double-buffer bypass hint for the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to update.</td></tr>
-<tr valign=top><td><tt>bypass</tt></td><td>The double-buffer bypass hint.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to update.</dd>
+<dt><tt><em>bypass</em></tt></dt><dd>The double-buffer bypass hint.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_SetPreferences"></a>
-<h3><a name="Q3InteractiveRenderer_SetPreferences">Q3InteractiveRenderer_SetPreferences</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_SetPreferences (
-    TQ3RendererObject             renderer,
-    TQ3RaveVendorID               vendorID,
-    TQ3RaveEngineID               engineID
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetPreferences"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetPreferences">Q3InteractiveRenderer_SetPreferences</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetPreferences (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveVendorID vendorID,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveEngineID engineID
+);</tt><br>
 </pre></blockquote>
-<p>Set the RAVE preferences for the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the RAVE preferences for the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to update.</td></tr>
-<tr valign=top><td><tt>vendorID</tt></td><td>The new RAVE vendor ID.</td></tr>
-<tr valign=top><td><tt>engineID</tt></td><td>The new RAVE engine ID.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to update.</dd>
+<dt><tt><em>vendorID</em></tt></dt><dd>The new RAVE vendor ID.</dd>
+<dt><tt><em>engineID</em></tt></dt><dd>The new RAVE engine ID.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_SetRAVEContextHints"></a>
-<h3><a name="Q3InteractiveRenderer_SetRAVEContextHints">Q3InteractiveRenderer_SetRAVEContextHints</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_SetRAVEContextHints (
-    TQ3RendererObject             renderer,
-    TQ3Uns32                      RAVEContextHints
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetRAVEContextHints"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetRAVEContextHints">Q3InteractiveRenderer_SetRAVEContextHints</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetRAVEContextHints (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 RAVEContextHints
+);</tt><br>
 </pre></blockquote>
-<p>Set the RAVE context hints for the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the RAVE context hints for the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to update.</td></tr>
-<tr valign=top><td><tt>RAVEContextHints</tt></td><td>The RAVE context hints.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to update.</dd>
+<dt><tt><em>RAVEContextHints</em></tt></dt><dd>The RAVE context hints.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3InteractiveRenderer_SetRAVETextureFilter"></a>
-<h3><a name="Q3InteractiveRenderer_SetRAVETextureFilter">Q3InteractiveRenderer_SetRAVETextureFilter</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3InteractiveRenderer_SetRAVETextureFilter (
-    TQ3RendererObject             renderer,
-    TQ3TextureFilter              raveTextureFilterValue
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetRAVETextureFilter"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetRAVETextureFilter">Q3InteractiveRenderer_SetRAVETextureFilter</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetRAVETextureFilter (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureFilter raveTextureFilterValue
+);</tt><br>
 </pre></blockquote>
-<p>Set the RAVE texture filter for the interactive renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the RAVE texture filter for the interactive renderer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to update.</td></tr>
-<tr valign=top><td><tt>raveTextureFilterValue</tt></td><td>The RAVE texture filter.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to update.</dd>
+<dt><tt><em>raveTextureFilterValue</em></tt></dt><dd>The RAVE texture filter.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3RendererClass_GetNickNameString"></a>
-<h3><a name="Q3RendererClass_GetNickNameString">Q3RendererClass_GetNickNameString</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3RendererClass_GetNickNameString (
-    TQ3ObjectType                 rendererClassType,
-    TQ3ObjectClassNameString      rendererClassString
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3RendererClass_GetNickNameString"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RendererClass_GetNickNameString">Q3RendererClass_GetNickNameString</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RendererClass_GetNickNameString (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType rendererClassType,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectClassNameString rendererClassString
+);</tt><br>
 </pre></blockquote>
-<p>Get the "nick name" of a renderer class.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the "nick name" of a renderer class.
 <br><br>
 The "nick name" is the user-visible name for the renderer, and is
 suitable for display in a menu or window.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>rendererClassType</tt></td><td>The class type of the renderer to query.</td></tr>
-<tr valign=top><td><tt>rendererClassString</tt></td><td>Receives the nick name of the renderer.</td></tr>
-</table>
+<dl>
+<dt><tt><em>rendererClassType</em></tt></dt><dd>The class type of the renderer to query.</dd>
+<dt><tt><em>rendererClassString</em></tt></dt><dd>Receives the nick name of the renderer.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Renderer_GetConfigurationData"></a>
-<h3><a name="Q3Renderer_GetConfigurationData">Q3Renderer_GetConfigurationData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Renderer_GetConfigurationData (
-    TQ3RendererObject             renderer,
-    unsigned char                 *dataBuffer,
-    TQ3Uns32                      bufferSize,
-    TQ3Uns32                      *actualDataSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Renderer_GetConfigurationData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_GetConfigurationData">Q3Renderer_GetConfigurationData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Renderer_GetConfigurationData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *dataBuffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *actualDataSize
+);</tt><br>
 </pre></blockquote>
-<p>Get the configuration data for a renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the configuration data for a renderer.
 <br><br>
 Configuration data should be saved by the application in a manner appropriate
 for the current platform (e.g., the Registry on Windows or a .plist file on
@@ -360,70 +312,58 @@ dataBuffer, and actualDataSize will receive the number of bytes written to
 dataBuffer.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-<tr valign=top><td><tt>dataBuffer</tt></td><td>Receives the renderer configuration data. May be NULL.</td></tr>
-<tr valign=top><td><tt>bufferSize</tt></td><td>The number of bytes pointed to by dataBuffer. May be 0.</td></tr>
-<tr valign=top><td><tt>actualDataSize</tt></td><td>Receives the number of bytes required for, or written to, dataBuffer.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+<dt><tt><em>dataBuffer</em></tt></dt><dd>Receives the renderer configuration data. May be NULL.</dd>
+<dt><tt><em>bufferSize</em></tt></dt><dd>The number of bytes pointed to by dataBuffer. May be 0.</dd>
+<dt><tt><em>actualDataSize</em></tt></dt><dd>Receives the number of bytes required for, or written to, dataBuffer.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Renderer_GetType"></a>
-<h3><a name="Q3Renderer_GetType">Q3Renderer_GetType</a></h3>
-<blockquote><pre><tt>TQ3ObjectType  
-Q3Renderer_GetType (
-    TQ3RendererObject             renderer
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Renderer_GetType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_GetType">Q3Renderer_GetType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Renderer_GetType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+);</tt><br>
 </pre></blockquote>
-<p>Get the class type of a renderer object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the class type of a renderer object.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The type of the renderer.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Renderer_HasModalConfigure"></a>
-<h3><a name="Q3Renderer_HasModalConfigure">Q3Renderer_HasModalConfigure</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Renderer_HasModalConfigure (
-    TQ3RendererObject             renderer
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The type of the renderer.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Renderer_HasModalConfigure"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_HasModalConfigure">Q3Renderer_HasModalConfigure</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Renderer_HasModalConfigure (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+);</tt><br>
 </pre></blockquote>
-<p>Does a renderer have a modal configure dialog?
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Does a renderer have a modal configure dialog?
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Does the renderer have a modal configure dialog?
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Renderer_IsInteractive"></a>
-<h3><a name="Q3Renderer_IsInteractive">Q3Renderer_IsInteractive</a></h3>
-<blockquote><pre><tt>TQ3Boolean  
-Q3Renderer_IsInteractive (
-    TQ3RendererObject             renderer
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Does the renderer have a modal configure dialog?
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Renderer_IsInteractive"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_IsInteractive">Q3Renderer_IsInteractive</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Renderer_IsInteractive (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+);</tt><br>
 </pre></blockquote>
-<p>Is a renderer "interactive"?
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Is a renderer "interactive"?
 <br><br>
 An interactive renderer should be able to render frames at a more or less
 interactive rate, allowing the user to manipulate the renderer in real-time.
@@ -432,27 +372,23 @@ Typically, renderers using hardware-acceleration would report as interactive
 while software-based renderers (e.g., ray-tracers) would not.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Is the renderer interactive?
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Renderer_ModalConfigure"></a>
-<h3><a name="Q3Renderer_ModalConfigure">Q3Renderer_ModalConfigure</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Renderer_ModalConfigure (
-    TQ3RendererObject             renderer,
-    TQ3DialogAnchor               dialogAnchor,
-    TQ3Boolean                    *cancelled
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Is the renderer interactive?
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Renderer_ModalConfigure"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_ModalConfigure">Q3Renderer_ModalConfigure</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Renderer_ModalConfigure (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DialogAnchor dialogAnchor,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *cancelled
+);</tt><br>
 </pre></blockquote>
-<p>Invoke a renderer's modal configure dialog.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoke a renderer's modal configure dialog.
 <br><br>
 If the renderer provides a user interface for adjusting its preferences,
 a modal configure dialog can be displayed by this function.
@@ -465,733 +401,617 @@ should be retrieved with Q3Renderer_GetConfigurationData and stored by
 the application for later recall.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theRenderer</tt></td><td>The renderer whose configure dialog is to be displayed.</td></tr>
-<tr valign=top><td><tt>dialogAnchor</tt></td><td>Platform-specific dialog data.</td></tr>
-<tr valign=top><td><tt>cancelled</tt></td><td>Receives the OK/Cancel state of the dialog.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theRenderer</em></tt></dt><dd>The renderer whose configure dialog is to be displayed.</dd>
+<dt><tt><em>dialogAnchor</em></tt></dt><dd>Platform-specific dialog data.</dd>
+<dt><tt><em>cancelled</em></tt></dt><dd>Receives the OK/Cancel state of the dialog.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Renderer_NewFromType"></a>
-<h3><a name="Q3Renderer_NewFromType">Q3Renderer_NewFromType</a></h3>
-<blockquote><pre><tt>TQ3RendererObject  
-Q3Renderer_NewFromType (
-    TQ3ObjectType                 rendererObjectType
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Renderer_NewFromType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_NewFromType">Q3Renderer_NewFromType</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RendererObject ) Q3Renderer_NewFromType (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType rendererObjectType
+);</tt><br>
 </pre></blockquote>
-<p>Instantiate a new renderer by type.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Instantiate a new renderer by type.
 <br><br>
 Built-in renderer types include kQ3RendererTypeInteractive for a shaded
 renderer, and kQ3RendererTypeWireFrame for a wire-frame renderer.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>rendererObjectType</tt></td><td>The class type of the renderer to create.</td></tr>
-</table>
+<dl>
+<dt><tt><em>rendererObjectType</em></tt></dt><dd>The class type of the renderer to create.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new renderer object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Renderer_SetConfigurationData"></a>
-<h3><a name="Q3Renderer_SetConfigurationData">Q3Renderer_SetConfigurationData</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Renderer_SetConfigurationData (
-    TQ3RendererObject             renderer,
-    unsigned char                 *dataBuffer,
-    TQ3Uns32                      bufferSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new renderer object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Renderer_SetConfigurationData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_SetConfigurationData">Q3Renderer_SetConfigurationData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Renderer_SetConfigurationData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *dataBuffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
+);</tt><br>
 </pre></blockquote>
-<p>Set the configuration data for a renderer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the configuration data for a renderer.
 <br><br>
 The configuration must have been obtained with a previous call to
 Q3Renderer_GetConfigurationData.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>renderer</tt></td><td>The renderer to update.</td></tr>
-<tr valign=top><td><tt>dataBuffer</tt></td><td>The configuration data for the renderer.</td></tr>
-<tr valign=top><td><tt>bufferSize</tt></td><td>The number of bytes pointed to by dataBuffer.</td></tr>
-</table>
+<dl>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer to update.</dd>
+<dt><tt><em>dataBuffer</em></tt></dt><dd>The configuration data for the renderer.</dd>
+<dt><tt><em>bufferSize</em></tt></dt><dd>The number of bytes pointed to by dataBuffer.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_ClearValidationFlags"></a>
-<h3><a name="Q3XDrawContext_ClearValidationFlags">Q3XDrawContext_ClearValidationFlags</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_ClearValidationFlags (
-    TQ3DrawContextObject          drawContext
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_ClearValidationFlags"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_ClearValidationFlags">Q3XDrawContext_ClearValidationFlags</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_ClearValidationFlags (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext
+);</tt><br>
 </pre></blockquote>
-<p>Clear the validation flags for a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clear the validation flags for a draw context.
 <br><br>
 This function should only be called from renderer plug-ins.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to update.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_GetDrawRegion"></a>
-<h3><a name="Q3XDrawContext_GetDrawRegion">Q3XDrawContext_GetDrawRegion</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_GetDrawRegion (
-    TQ3DrawContextObject          drawContext,
-    TQ3XDrawRegion                *drawRegion
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_GetDrawRegion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetDrawRegion">Q3XDrawContext_GetDrawRegion</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetDrawRegion (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion *drawRegion
+);</tt><br>
 </pre></blockquote>
-<p>Get the draw region for a draw context object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the draw region for a draw context object.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>drawRegion</tt></td><td>Receives the draw region for the draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>drawRegion</em></tt></dt><dd>Receives the draw region for the draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawContext_GetValidationFlags"></a>
-<h3><a name="Q3XDrawContext_GetValidationFlags">Q3XDrawContext_GetValidationFlags</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawContext_GetValidationFlags (
-    TQ3DrawContextObject          drawContext,
-    TQ3XDrawContextValidation     *validationFlags
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawContext_GetValidationFlags"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetValidationFlags">Q3XDrawContext_GetValidationFlags</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetValidationFlags (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawContextValidation *validationFlags
+);</tt><br>
 </pre></blockquote>
-<p>Get the validation flags for a draw context.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the validation flags for a draw context.
 <br><br>
 This function should only be called from renderer plug-ins.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawContext</tt></td><td>The draw context to query.</td></tr>
-<tr valign=top><td><tt>validationFlags</tt></td><td>Receives the validation flags for a draw context.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
+<dt><tt><em>validationFlags</em></tt></dt><dd>Receives the validation flags for a draw context.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_End"></a>
-<h3><a name="Q3XDrawRegion_End">Q3XDrawRegion_End</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_End (
-    TQ3XDrawRegion                drawRegion
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_End"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_End">Q3XDrawRegion_End</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_End (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion
+);</tt><br>
 </pre></blockquote>
-<p>End access to a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>End access to a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to unlock.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to unlock.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetClipFlags"></a>
-<h3><a name="Q3XDrawRegion_GetClipFlags">Q3XDrawRegion_GetClipFlags</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetClipFlags (
-    TQ3XDrawRegion                drawRegion,
-    TQ3XClipMaskState             *clipMaskState
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetClipFlags"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetClipFlags">Q3XDrawRegion_GetClipFlags</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetClipFlags (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XClipMaskState *clipMaskState
+);</tt><br>
 </pre></blockquote>
-<p>Get the clip flags for a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clip flags for a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>clipMaskState</tt></td><td>Receives the clip flags for the draw region.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>clipMaskState</em></tt></dt><dd>Receives the clip flags for the draw region.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetClipMask"></a>
-<h3><a name="Q3XDrawRegion_GetClipMask">Q3XDrawRegion_GetClipMask</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetClipMask (
-    TQ3XDrawRegion                drawRegion,
-    TQ3Bitmap                     **clipMask
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetClipMask"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetClipMask">Q3XDrawRegion_GetClipMask</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetClipMask (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Bitmap **clipMask
+);</tt><br>
 </pre></blockquote>
-<p>Get the clip mask for a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clip mask for a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>clipMask</tt></td><td>Receives the clip mask for the draw region.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>clipMask</em></tt></dt><dd>Receives the clip mask for the draw region.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetClipRegion"></a>
-<h3><a name="Q3XDrawRegion_GetClipRegion">Q3XDrawRegion_GetClipRegion</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetClipRegion (
-    TQ3XDrawRegion                drawRegion,
-    RgnHandle                     *rgnHandle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetClipRegion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetClipRegion">Q3XDrawRegion_GetClipRegion</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetClipRegion (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;RgnHandle *rgnHandle
+);</tt><br>
 </pre></blockquote>
-<p>Get the clip region for a draw region on Mac OS.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clip region for a draw region on Mac OS.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>rgnHandle</tt></td><td>Receives the clip region for the draw region.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>rgnHandle</em></tt></dt><dd>Receives the clip region for the draw region.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetDeviceOffsetX"></a>
-<h3><a name="Q3XDrawRegion_GetDeviceOffsetX">Q3XDrawRegion_GetDeviceOffsetX</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetDeviceOffsetX (
-    TQ3XDrawRegion                drawRegion,
-    float                         *deviceOffsetX
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceOffsetX"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceOffsetX">Q3XDrawRegion_GetDeviceOffsetX</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceOffsetX (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;float *deviceOffsetX
+);</tt><br>
 </pre></blockquote>
-<p>Get the horizontal device offset of a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the horizontal device offset of a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>deviceOffsetX</tt></td><td>Receives the horizontal device offset.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>deviceOffsetX</em></tt></dt><dd>Receives the horizontal device offset.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetDeviceOffsetY"></a>
-<h3><a name="Q3XDrawRegion_GetDeviceOffsetY">Q3XDrawRegion_GetDeviceOffsetY</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetDeviceOffsetY (
-    TQ3XDrawRegion                drawRegion,
-    float                         *deviceOffsetX
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceOffsetY"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceOffsetY">Q3XDrawRegion_GetDeviceOffsetY</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceOffsetY (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;float *deviceOffsetX
+);</tt><br>
 </pre></blockquote>
-<p>Get the vertical device offset of a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the vertical device offset of a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>deviceOffsetX</tt></td><td>Receives the vertical device offset.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>deviceOffsetX</em></tt></dt><dd>Receives the vertical device offset.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetDeviceScaleX"></a>
-<h3><a name="Q3XDrawRegion_GetDeviceScaleX">Q3XDrawRegion_GetDeviceScaleX</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetDeviceScaleX (
-    TQ3XDrawRegion                drawRegion,
-    float                         *deviceScaleX
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceScaleX"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceScaleX">Q3XDrawRegion_GetDeviceScaleX</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceScaleX (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;float *deviceScaleX
+);</tt><br>
 </pre></blockquote>
-<p>Get the horizontal device size of a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the horizontal device size of a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>deviceScaleX</tt></td><td>Receives the horizontal device size.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>deviceScaleX</em></tt></dt><dd>Receives the horizontal device size.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetDeviceScaleY"></a>
-<h3><a name="Q3XDrawRegion_GetDeviceScaleY">Q3XDrawRegion_GetDeviceScaleY</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetDeviceScaleY (
-    TQ3XDrawRegion                drawRegion,
-    float                         *deviceScaleY
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceScaleY"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceScaleY">Q3XDrawRegion_GetDeviceScaleY</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceScaleY (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;float *deviceScaleY
+);</tt><br>
 </pre></blockquote>
-<p>Get the vertical device size of a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the vertical device size of a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>deviceScaleY</tt></td><td>Receives the vertical device size.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>deviceScaleY</em></tt></dt><dd>Receives the vertical device size.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetDeviceTransform"></a>
-<h3><a name="Q3XDrawRegion_GetDeviceTransform">Q3XDrawRegion_GetDeviceTransform</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetDeviceTransform (
-    TQ3XDrawRegion                drawRegion,
-    TQ3Matrix4x4                  **deviceTransform
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceTransform"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceTransform">Q3XDrawRegion_GetDeviceTransform</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceTransform (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 **deviceTransform
+);</tt><br>
 </pre></blockquote>
-<p>Get the device transform for a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the device transform for a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>deviceTransform</tt></td><td>Receives the device transform for the draw region.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>deviceTransform</em></tt></dt><dd>Receives the device transform for the draw region.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetGDHandle"></a>
-<h3><a name="Q3XDrawRegion_GetGDHandle">Q3XDrawRegion_GetGDHandle</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetGDHandle (
-    TQ3XDrawRegion                drawRegion,
-    GDHandle                      *gdHandle
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetGDHandle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetGDHandle">Q3XDrawRegion_GetGDHandle</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetGDHandle (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;GDHandle *gdHandle
+);</tt><br>
 </pre></blockquote>
-<p>Get the GDHandle for a draw region on Mac OS.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the GDHandle for a draw region on Mac OS.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>gdHandle</tt></td><td>Receives the GDHandle for the draw region.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>gdHandle</em></tt></dt><dd>Receives the GDHandle for the draw region.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetNextRegion"></a>
-<h3><a name="Q3XDrawRegion_GetNextRegion">Q3XDrawRegion_GetNextRegion</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetNextRegion (
-    TQ3XDrawRegion                drawRegion,
-    TQ3XDrawRegion                *nextDrawRegion
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetNextRegion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetNextRegion">Q3XDrawRegion_GetNextRegion</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetNextRegion (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion *nextDrawRegion
+);</tt><br>
 </pre></blockquote>
-<p>Get the next draw region from a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the next draw region from a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>nextDrawRegion</tt></td><td>Receives the next draw region.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>nextDrawRegion</em></tt></dt><dd>Receives the next draw region.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetRendererPrivate"></a>
-<h3><a name="Q3XDrawRegion_GetRendererPrivate">Q3XDrawRegion_GetRendererPrivate</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetRendererPrivate (
-    TQ3XDrawRegion                drawRegion,
-    void                          **rendererPrivate
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetRendererPrivate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetRendererPrivate">Q3XDrawRegion_GetRendererPrivate</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetRendererPrivate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;void **rendererPrivate
+);</tt><br>
 </pre></blockquote>
-<p>Get the private renderer data for a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the private renderer data for a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>rendererPrivate</tt></td><td>Receives the renderer private data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>rendererPrivate</em></tt></dt><dd>Receives the renderer private data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetUseDefaultRendererFlag"></a>
-<h3><a name="Q3XDrawRegion_GetUseDefaultRendererFlag">Q3XDrawRegion_GetUseDefaultRendererFlag</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetUseDefaultRendererFlag (
-    TQ3XDrawRegion                drawRegion,
-    TQ3Boolean                    *useDefaultRenderingFlag
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetUseDefaultRendererFlag"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetUseDefaultRendererFlag">Q3XDrawRegion_GetUseDefaultRendererFlag</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetUseDefaultRendererFlag (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *useDefaultRenderingFlag
+);</tt><br>
 </pre></blockquote>
-<p>Get the use-default-renderer flag for a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the use-default-renderer flag for a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>useDefaultRenderingFlag</tt></td><td>Receives the use-default-renderer state.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>useDefaultRenderingFlag</em></tt></dt><dd>Receives the use-default-renderer state.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetWindowOffsetX"></a>
-<h3><a name="Q3XDrawRegion_GetWindowOffsetX">Q3XDrawRegion_GetWindowOffsetX</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetWindowOffsetX (
-    TQ3XDrawRegion                drawRegion,
-    float                         *windowOffsetX
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetWindowOffsetX"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetWindowOffsetX">Q3XDrawRegion_GetWindowOffsetX</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetWindowOffsetX (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;float *windowOffsetX
+);</tt><br>
 </pre></blockquote>
-<p>Get the horizontal window offset of a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the horizontal window offset of a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>windowOffsetX</tt></td><td>Receives the horizontal window offset.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>windowOffsetX</em></tt></dt><dd>Receives the horizontal window offset.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetWindowOffsetY"></a>
-<h3><a name="Q3XDrawRegion_GetWindowOffsetY">Q3XDrawRegion_GetWindowOffsetY</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetWindowOffsetY (
-    TQ3XDrawRegion                drawRegion,
-    float                         *windowOffsetY
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetWindowOffsetY"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetWindowOffsetY">Q3XDrawRegion_GetWindowOffsetY</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetWindowOffsetY (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;float *windowOffsetY
+);</tt><br>
 </pre></blockquote>
-<p>Get the vertical window offset of a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the vertical window offset of a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>windowOffsetY</tt></td><td>Receives the vertical window offset.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>windowOffsetY</em></tt></dt><dd>Receives the vertical window offset.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetWindowScaleX"></a>
-<h3><a name="Q3XDrawRegion_GetWindowScaleX">Q3XDrawRegion_GetWindowScaleX</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetWindowScaleX (
-    TQ3XDrawRegion                drawRegion,
-    float                         *windowScaleX
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetWindowScaleX"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetWindowScaleX">Q3XDrawRegion_GetWindowScaleX</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetWindowScaleX (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;float *windowScaleX
+);</tt><br>
 </pre></blockquote>
-<p>Get the horizontal window size of a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the horizontal window size of a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>windowScaleX</tt></td><td>Receives the horizontal window size.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>windowScaleX</em></tt></dt><dd>Receives the horizontal window size.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_GetWindowScaleY"></a>
-<h3><a name="Q3XDrawRegion_GetWindowScaleY">Q3XDrawRegion_GetWindowScaleY</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_GetWindowScaleY (
-    TQ3XDrawRegion                drawRegion,
-    float                         *windowScaleY
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetWindowScaleY"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetWindowScaleY">Q3XDrawRegion_GetWindowScaleY</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetWindowScaleY (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;float *windowScaleY
+);</tt><br>
 </pre></blockquote>
-<p>Get the vertical window size of a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the vertical window size of a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>windowScaleY</tt></td><td>Receives the vertical window size.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>windowScaleY</em></tt></dt><dd>Receives the vertical window size.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_IsActive"></a>
-<h3><a name="Q3XDrawRegion_IsActive">Q3XDrawRegion_IsActive</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_IsActive (
-    TQ3XDrawRegion                drawRegion,
-    TQ3Boolean                    *isActive
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_IsActive"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_IsActive">Q3XDrawRegion_IsActive</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_IsActive (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *isActive
+);</tt><br>
 </pre></blockquote>
-<p>Is a draw region active?
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Is a draw region active?
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to query.</td></tr>
-<tr valign=top><td><tt>isActive</tt></td><td>Receives the active status.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
+<dt><tt><em>isActive</em></tt></dt><dd>Receives the active status.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_SetRendererPrivate"></a>
-<h3><a name="Q3XDrawRegion_SetRendererPrivate">Q3XDrawRegion_SetRendererPrivate</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_SetRendererPrivate (
-    TQ3XDrawRegion                drawRegion,
-    const void                    *rendererPrivate,
-    TQ3XDrawRegionRendererPrivateDeleteMethod deleteMethod
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_SetRendererPrivate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_SetRendererPrivate">Q3XDrawRegion_SetRendererPrivate</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_SetRendererPrivate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;const void *rendererPrivate,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionRendererPrivateDeleteMethod deleteMethod
+);</tt><br>
 </pre></blockquote>
-<p>Set the private renderer data for a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the private renderer data for a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to update.</td></tr>
-<tr valign=top><td><tt>rendererPrivate</tt></td><td>The private renderer data for the draw region.</td></tr>
-<tr valign=top><td><tt>deleteMethod</tt></td><td>The delete method to dispose of the renderer data.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to update.</dd>
+<dt><tt><em>rendererPrivate</em></tt></dt><dd>The private renderer data for the draw region.</dd>
+<dt><tt><em>deleteMethod</em></tt></dt><dd>The delete method to dispose of the renderer data.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_SetUseDefaultRendererFlag"></a>
-<h3><a name="Q3XDrawRegion_SetUseDefaultRendererFlag">Q3XDrawRegion_SetUseDefaultRendererFlag</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_SetUseDefaultRendererFlag (
-    TQ3XDrawRegion                drawRegion,
-    TQ3Boolean                    flag
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_SetUseDefaultRendererFlag"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_SetUseDefaultRendererFlag">Q3XDrawRegion_SetUseDefaultRendererFlag</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_SetUseDefaultRendererFlag (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean flag
+);</tt><br>
 </pre></blockquote>
-<p>Set the use-default-renderer flag for a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the use-default-renderer flag for a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to update.</td></tr>
-<tr valign=top><td><tt>flag</tt></td><td>The use-default-renderer state.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to update.</dd>
+<dt><tt><em>flag</em></tt></dt><dd>The use-default-renderer state.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_Start"></a>
-<h3><a name="Q3XDrawRegion_Start">Q3XDrawRegion_Start</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_Start (
-    TQ3XDrawRegion                drawRegion,
-    TQ3XDrawRegionServices        services,
-    TQ3XDrawRegionDescriptor      **descriptor
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_Start"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_Start">Q3XDrawRegion_Start</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_Start (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionServices services,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionDescriptor **descriptor
+);</tt><br>
 </pre></blockquote>
-<p>Start access to a draw region.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Start access to a draw region.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to lock for access.</td></tr>
-<tr valign=top><td><tt>services</tt></td><td>The draw region services.</td></tr>
-<tr valign=top><td><tt>descriptor</tt></td><td>Receives the draw region descriptor.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to lock for access.</dd>
+<dt><tt><em>services</em></tt></dt><dd>The draw region services.</dd>
+<dt><tt><em>descriptor</em></tt></dt><dd>Receives the draw region descriptor.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XDrawRegion_StartAccessToImageBuffer"></a>
-<h3><a name="Q3XDrawRegion_StartAccessToImageBuffer">Q3XDrawRegion_StartAccessToImageBuffer</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XDrawRegion_StartAccessToImageBuffer (
-    TQ3XDrawRegion                drawRegion,
-    TQ3XDrawRegionServices        services,
-    TQ3XDrawRegionDescriptor      **descriptor,
-    void                          **image
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XDrawRegion_StartAccessToImageBuffer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_StartAccessToImageBuffer">Q3XDrawRegion_StartAccessToImageBuffer</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_StartAccessToImageBuffer (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionServices services,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionDescriptor **descriptor,
+&nbsp;&nbsp;&nbsp;&nbsp;void **image
+);</tt><br>
 </pre></blockquote>
-<p>Start access to a draw region image buffer.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Start access to a draw region image buffer.
 <br><br>
 Note - this function is deprecated, and is not fully supported in Quesa.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>drawRegion</tt></td><td>The draw region to lock for access.</td></tr>
-<tr valign=top><td><tt>services</tt></td><td>The draw region services.</td></tr>
-<tr valign=top><td><tt>descriptor</tt></td><td>Receives the draw region descriptor.</td></tr>
-<tr valign=top><td><tt>image</tt></td><td>Receives the draw region image buffer.</td></tr>
-</table>
+<dl>
+<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to lock for access.</dd>
+<dt><tt><em>services</em></tt></dt><dd>The draw region services.</dd>
+<dt><tt><em>descriptor</em></tt></dt><dd>Receives the draw region descriptor.</dd>
+<dt><tt><em>image</em></tt></dt><dd>Receives the draw region image buffer.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XView_EndFrame"></a>
-<h3><a name="Q3XView_EndFrame">Q3XView_EndFrame</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XView_EndFrame (
-    TQ3ViewObject                 view
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XView_EndFrame"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XView_EndFrame">Q3XView_EndFrame</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XView_EndFrame (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
 </pre></blockquote>
-<p>Indicate to a view that a frame has completed.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Indicate to a view that a frame has completed.
 <br><br>
 This function should only be called from asynchronou renderer plug-ins.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>The view to notify.</td></tr>
-</table>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>The view to notify.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3XView_IdleProgress"></a>
-<h3><a name="Q3XView_IdleProgress">Q3XView_IdleProgress</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3XView_IdleProgress (
-    TQ3ViewObject                 view,
-    TQ3Uns32                      current,
-    TQ3Uns32                      completed
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3XView_IdleProgress"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XView_IdleProgress">Q3XView_IdleProgress</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XView_IdleProgress (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 current,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 completed
+);</tt><br>
 </pre></blockquote>
-<p>Update the view's idle state while rendering.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Update the view's idle state while rendering.
 <br><br>
 Allows non-interactive renderers to update the view with their progress.
 Progress should be passed as:
@@ -1206,17 +1026,15 @@ Q3View_SetIdleMethod or Q3View_SetIdleProgressMethod.
 This function should only be called from renderer plug-ins.
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>view</tt></td><td>The view to notify.</td></tr>
-<tr valign=top><td><tt>current</tt></td><td>The amount of work performed so far.</td></tr>
-<tr valign=top><td><tt>completed</tt></td><td>The total amount of work which will be performed.</td></tr>
-</table>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>The view to notify.</dd>
+<dt><tt><em>current</em></tt></dt><dd>The amount of work performed so far.</dd>
+<dt><tt><em>completed</em></tt></dt><dd>The total amount of work which will be performed.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

@@ -1,7 +1,64 @@
-<html><head><title>Enumerations</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Enumerations</h1></font><hr><br>
-<a name="//apple_ref/c/tag/TQ3DirectDrawObjectSelector"></a>
-<h3><a name="TQ3DirectDrawObjectSelector">TQ3DirectDrawObjectSelector</a></h3>
-<blockquote><pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/Draw context property types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Draw context property types">Draw context property types</a></h2>
+</td></tr></table><hr><blockquote><pre>
+enum {
+  kQ3DrawContextPropertyClearDepthBufferFlag    = Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
+  kQ3DrawContextPropertyClearDepthBufferValue    = Q3_METHOD_TYPE('c', 'l', 'd', 'v'),
+  kQ3DrawContextPropertyWritableDepthBuffer    = Q3_METHOD_TYPE('w', 'r', 'd', 'b'),
+  kQ3DrawContextPropertyGLDepthFunc        = Q3_METHOD_TYPE('g', 'l', 'd', 'f'),
+  kQ3DrawContextPropertyGLTextureSharing      = Q3_METHOD_TYPE('g', 'l', 't', 's'),
+  kQ3DrawContextPropertySwapBufferInEndPass    = Q3_METHOD_TYPE('s', 'b', 'e', 'p'),
+  kQ3DrawContextPropertyTypeSize32        = 0xFFFFFFFF
+};
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Property types that may be assigned to a draw context, for instance to
+request special rendering behavior.  Such requests may be ignored by some
+renderers.  If a particular property has not been set, it will be treated
+as having the default value.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyClearDepthBufferFlag"><tt>kQ3DrawContextPropertyClearDepthBufferFlag</tt></a></dt><dd>Whether to clear the depth buffer before
+rendering.
+Data type: TQ3Boolean.
+Default: kQ3True</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyClearDepthBufferValue"><tt>kQ3DrawContextPropertyClearDepthBufferValue</tt></a></dt><dd>Value to fill the depth buffer with if
+it is cleared.
+Data type: TQ3Float64
+Default: 1.0</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyWritableDepthBuffer"><tt>kQ3DrawContextPropertyWritableDepthBuffer</tt></a></dt><dd>Whether the depth buffer is initially
+writable.  (See glDepthMask)
+Data type: TQ3Boolean
+Default: kQ3True</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLDepthFunc"><tt>kQ3DrawContextPropertyGLDepthFunc</tt></a></dt><dd>Initial value for glDepthFunc.
+Data type: TQ3Uns32
+Default: GL_LESS</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLTextureSharing"><tt>kQ3DrawContextPropertyGLTextureSharing</tt></a></dt><dd>If true, requests that an OpenGL
+context should share textures with a
+previously-created OpenGL context, if
+possible.
+Data type: TQ3Boolean.
+Default: kQ3True</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertySwapBufferInEndPass"><tt>kQ3DrawContextPropertySwapBufferInEndPass</tt></a></dt><dd>If true, requests that the renderer
+swap buffers in its EndPass method.
+Only relevant to double-buffered contexts.
+Data type: TQ3Boolean.
+Default: kQ3True.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DirectDrawObjectSelector"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DirectDrawObjectSelector">TQ3DirectDrawObjectSelector</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3DirectDrawObject                         = 1,
     kQ3DirectDrawObject2                        = 2,
@@ -9,21 +66,19 @@ typedef enum {
 } TQ3DirectDrawObjectSelector;
 </pre>
 </blockquote>
-<p>Windows DirectDraw interface selectors.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Windows DirectDraw interface selectors.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DirectDrawObject"><tt>kQ3DirectDrawObject</tt></a></td><td>A DIRECTDRAW  interface has been supplied.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DirectDrawObject2"><tt>kQ3DirectDrawObject2</tt></a></td><td>A DIRECTDRAW2 interface has been supplied.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3DirectDrawObject"><tt>kQ3DirectDrawObject</tt></a></dt><dd>A DIRECTDRAW  interface has been supplied.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DirectDrawObject2"><tt>kQ3DirectDrawObject2</tt></a></dt><dd>A DIRECTDRAW2 interface has been supplied.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3DirectDrawObjectSelector"></a>
-<h3><a name="TQ3DirectDrawObjectSelector">TQ3DirectDrawObjectSelector</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3DirectDrawObjectSelector"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DirectDrawObjectSelector">TQ3DirectDrawObjectSelector</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3DirectDrawSurface                        = 1,
     kQ3DirectDrawSurface2                       = 2,
@@ -31,21 +86,19 @@ typedef enum {
 } TQ3DirectDrawSurfaceSelector;
 </pre>
 </blockquote>
-<p>Windows DirectDraw surface selectors.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Windows DirectDraw surface selectors.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DirectDrawSurface"><tt>kQ3DirectDrawSurface</tt></a></td><td>A DIRECTDRAWSURFACE  interface has been supplied.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3DirectDrawSurface2"><tt>kQ3DirectDrawSurface2</tt></a></td><td>A DIRECTDRAWSURFACE2 interface has been supplied.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3DirectDrawSurface"><tt>kQ3DirectDrawSurface</tt></a></dt><dd>A DIRECTDRAWSURFACE  interface has been supplied.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DirectDrawSurface2"><tt>kQ3DirectDrawSurface2</tt></a></dt><dd>A DIRECTDRAWSURFACE2 interface has been supplied.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3DrawContextClearImageMethod"></a>
-<h3><a name="TQ3DrawContextClearImageMethod">TQ3DrawContextClearImageMethod</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3DrawContextClearImageMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DrawContextClearImageMethod">TQ3DrawContextClearImageMethod</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3ClearMethodNone                          = 0,
     kQ3ClearMethodWithColor                     = 1,
@@ -53,21 +106,19 @@ typedef enum {
 } TQ3DrawContextClearImageMethod;
 </pre>
 </blockquote>
-<p>Clear method.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clear method.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ClearMethodNone"><tt>kQ3ClearMethodNone</tt></a></td><td>Do not clear the draw context before rendering.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3ClearMethodWithColor"><tt>kQ3ClearMethodWithColor</tt></a></td><td>Clear the draw context to the clear colour before rendering.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ClearMethodNone"><tt>kQ3ClearMethodNone</tt></a></dt><dd>Do not clear the draw context before rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ClearMethodWithColor"><tt>kQ3ClearMethodWithColor</tt></a></dt><dd>Clear the draw context to the clear colour before rendering.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/tag/TQ3MacDrawContext2DLibrary"></a>
-<h3><a name="TQ3MacDrawContext2DLibrary">TQ3MacDrawContext2DLibrary</a></h3>
-<blockquote><pre>
+<hr><a name="//Quesa/c/tag/TQ3MacDrawContext2DLibrary"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MacDrawContext2DLibrary">TQ3MacDrawContext2DLibrary</a></h2>
+</td></tr></table><hr><blockquote><pre>
 typedef enum {
     kQ3Mac2DLibraryNone                         = 0,
     kQ3Mac2DLibraryQuickDraw                    = 1,
@@ -76,19 +127,17 @@ typedef enum {
 } TQ3MacDrawContext2DLibrary;
 </pre>
 </blockquote>
-<p>Mac draw context variants. These are legacy constants from QD3D, and for Quesa
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mac draw context variants. These are legacy constants from QD3D, and for Quesa
 the library field should be set to kQ3Mac2DLibraryNone.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
-<table bgcolor="#F0F0FF" border=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3Mac2DLibraryNone"><tt>kQ3Mac2DLibraryNone</tt></a></td><td>Unspecified method should be used.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3Mac2DLibraryQuickDraw"><tt>kQ3Mac2DLibraryQuickDraw</tt></a></td><td>Renderers should use QuickDraw in the final stage of rendering.</td><tr>
-<tr valign=top><td><a name="//apple_ref/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></td><td>Renderers should use QuickDraw GX in the final stage of rendering.</td><tr>
-</table>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryNone"><tt>kQ3Mac2DLibraryNone</tt></a></dt><dd>Unspecified method should be used.</dd>
+<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDraw"><tt>kQ3Mac2DLibraryQuickDraw</tt></a></dt><dd>Renderers should use QuickDraw in the final stage of rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
+</dl>
 </blockquote>
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>

@@ -1,13 +1,17 @@
-<html><head><title>Functions</title></head><body background="../../../../images/logo_gray.gif" bgcolor="#ffffff"><font face="Geneva,Arial,Helvtica"><h1>Functions</h1></font><hr><br>
-<a name="//apple_ref/c/func/Q3Memory_Allocate"></a>
-<h3><a name="Q3Memory_Allocate">Q3Memory_Allocate</a></h3>
-<blockquote><pre><tt>void * 
-Q3Memory_Allocate (
-    TQ3Uns32                      theSize
-);
-</tt><br>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Functions</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/Q3Memory_Allocate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Allocate">Q3Memory_Allocate</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3Memory_Allocate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize
+);</tt><br>
 </pre></blockquote>
-<p>Allocates a block of memory of the specified size.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Allocates a block of memory of the specified size.
 <br><br>
 The pointer returned must be disposed of with Q3Memory_Free.
 The initial contents of the block are undefined.
@@ -15,77 +19,65 @@ The initial contents of the block are undefined.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSize</tt></td><td>The size in bytes of the block to allocate.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSize</em></tt></dt><dd>The size in bytes of the block to allocate.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A pointer to the block.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_AllocateClear"></a>
-<h3><a name="Q3Memory_AllocateClear">Q3Memory_AllocateClear</a></h3>
-<blockquote><pre><tt>void * 
-Q3Memory_AllocateClear (
-    TQ3Uns32                      theSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A pointer to the block.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Memory_AllocateClear"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_AllocateClear">Q3Memory_AllocateClear</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3Memory_AllocateClear (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize
+);</tt><br>
 </pre></blockquote>
-<p>Allocates a zero-filled block of memory of the specified size.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Allocates a zero-filled block of memory of the specified size.
 <br><br>
 The pointer returned must be disposed of with Q3Memory_Free.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSize</tt></td><td>The size in bytes of the block to allocate.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSize</em></tt></dt><dd>The size in bytes of the block to allocate.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A pointer to the block.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_Clear"></a>
-<h3><a name="Q3Memory_Clear">Q3Memory_Clear</a></h3>
-<blockquote><pre><tt>void  
-Q3Memory_Clear (
-    void                          *thePtr,
-    TQ3Uns32                      theSize
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A pointer to the block.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Memory_Clear"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Clear">Q3Memory_Clear</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3Memory_Clear (
+&nbsp;&nbsp;&nbsp;&nbsp;void *thePtr,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize
+);</tt><br>
 </pre></blockquote>
-<p>Clears a block of memory.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clears a block of memory.
 <br><br>
 Sets theSize bytes from thePtr to 0.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>thePtr</tt></td><td>A pointer to the memory to set.</td></tr>
-<tr valign=top><td><tt>theSize</tt></td><td>The number of bytes to set.</td></tr>
-</table>
+<dl>
+<dt><tt><em>thePtr</em></tt></dt><dd>A pointer to the memory to set.</dd>
+<dt><tt><em>theSize</em></tt></dt><dd>The number of bytes to set.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_Copy"></a>
-<h3><a name="Q3Memory_Copy">Q3Memory_Copy</a></h3>
-<blockquote><pre><tt>void  
-Q3Memory_Copy (
-    const void                    *srcPtr,
-    void                          *dstPtr,
-    TQ3Uns32                      theSize
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3Memory_Copy"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Copy">Q3Memory_Copy</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3Memory_Copy (
+&nbsp;&nbsp;&nbsp;&nbsp;const void *srcPtr,
+&nbsp;&nbsp;&nbsp;&nbsp;void *dstPtr,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize
+);</tt><br>
 </pre></blockquote>
-<p>Copies a block of memory.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copies a block of memory.
 <br><br>
 Copies theSize bytes from srcPtr to dstPtr. The memory pointed to by
 srcPtr and dstPtr is allowed to overlap, although this may reduce
@@ -94,44 +86,35 @@ performance.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>srcPtr</tt></td><td>A pointer to the block to copy.</td></tr>
-<tr valign=top><td><tt>dstPtr</tt></td><td>A pointer to the memory to copy to.</td></tr>
-<tr valign=top><td><tt>theSize</tt></td><td>The number of bytes to copy.</td></tr>
-</table>
+<dl>
+<dt><tt><em>srcPtr</em></tt></dt><dd>A pointer to the block to copy.</dd>
+<dt><tt><em>dstPtr</em></tt></dt><dd>A pointer to the memory to copy to.</dd>
+<dt><tt><em>theSize</em></tt></dt><dd>The number of bytes to copy.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_CountRecords"></a>
-<h3><a name="Q3Memory_CountRecords">Q3Memory_CountRecords</a></h3>
-<blockquote><pre><tt>TQ3Uns32 
-Q3Memory_CountRecords(
-    void
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3Memory_CountRecords <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_CountRecords <br><br>">Q3Memory_CountRecords <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3Memory_CountRecords (void);</tt><br>
 </pre></blockquote>
-<p>Return the number of recorded allocations of Quesa objects.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the number of recorded allocations of Quesa objects.
 <br><br>
 In non-debug builds, this function returns 0.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_DumpRecording"></a>
-<h3><a name="Q3Memory_DumpRecording">Q3Memory_DumpRecording</a></h3>
-<blockquote><pre><tt>TQ3Status 
-Q3Memory_DumpRecording(
-    const char                    *fileName,
-    const char                    *memo
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Memory_DumpRecording <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_DumpRecording <br><br>">Q3Memory_DumpRecording <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Memory_DumpRecording (
+&nbsp;&nbsp;&nbsp;&nbsp;const char *fileName,
+&nbsp;&nbsp;&nbsp;&nbsp;const char *memo
+);</tt><br>
 </pre></blockquote>
-<p>Write a text file listing Quesa objects that were created when
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a text file listing Quesa objects that were created when
 recording was turned on and still exist.  If there is already a
 file in the default directory with the specified name, new text
 is appended to it.
@@ -144,44 +127,36 @@ will be called for you.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>fileName</tt></td><td>Name of memory dump file.</td></tr>
-<tr valign=top><td><tt>memo</tt></td><td>Text written at start of dump for identification. May be NULL.</td></tr>
-</table>
+<dl>
+<dt><tt><em>fileName</em></tt></dt><dd>Name of memory dump file.</dd>
+<dt><tt><em>memo</em></tt></dt><dd>Text written at start of dump for identification. May be NULL.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_ForgetRecording"></a>
-<h3><a name="Q3Memory_ForgetRecording">Q3Memory_ForgetRecording</a></h3>
-<blockquote><pre><tt>TQ3Status 
-Q3Memory_ForgetRecording(
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Memory_ForgetRecording <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_ForgetRecording <br><br>">Q3Memory_ForgetRecording <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Memory_ForgetRecording (void);</tt><br>
 </pre></blockquote>
-<p>Forget any previously recorded allocations of Quesa objects.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Forget any previously recorded allocations of Quesa objects.
 <br><br>
 In non-debug builds, this function does nothing.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_Free"></a>
-<h3><a name="Q3Memory_Free">Q3Memory_Free</a></h3>
-<blockquote><pre><tt>void 
-Q3Memory_Free (
-    void                          **thePtr
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Memory_Free"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Free">Q3Memory_Free</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>#undef Q3Memory_Free #define Q3Memory_Free Q3Memory_Free_ (void)&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;Q3Memory_Free ( void **thePtr
 );
 </tt><br>
 </pre></blockquote>
-<p>Frees a previously allocated block of memory.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Frees a previously allocated block of memory.
 <br><br>
 Takes a pointer to a pointer, which points to a block of previously
 allocated memory.
@@ -197,66 +172,53 @@ after disposal.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>thePtr</tt></td><td>A pointer to the pointer to free.</td></tr>
-</table>
+<dl>
+<dt><tt><em>thePtr</em></tt></dt><dd>A pointer to the pointer to free.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_Initialize"></a>
-<h3><a name="Q3Memory_Initialize">Q3Memory_Initialize</a></h3>
-<blockquote><pre><tt>void  
-Q3Memory_Initialize (
-    void                          *thePtr,
-    TQ3Uns32                      theSize,
-    TQ3Uns8                       theValue
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3Memory_Initialize"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Initialize">Q3Memory_Initialize</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3Memory_Initialize (
+&nbsp;&nbsp;&nbsp;&nbsp;void *thePtr,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns8 theValue
+);</tt><br>
 </pre></blockquote>
-<p>Initialises a block of memory.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Initialises a block of memory.
 <br><br>
 Sets theSize bytes from thePtr to theValue.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>thePtr</tt></td><td>A pointer to the memory to set.</td></tr>
-<tr valign=top><td><tt>theSize</tt></td><td>The number of bytes to set.</td></tr>
-<tr valign=top><td><tt>theValue</tt></td><td>The value to set at each byte.</td></tr>
-</table>
+<dl>
+<dt><tt><em>thePtr</em></tt></dt><dd>A pointer to the memory to set.</dd>
+<dt><tt><em>theSize</em></tt></dt><dd>The number of bytes to set.</dd>
+<dt><tt><em>theValue</em></tt></dt><dd>The value to set at each byte.</dd>
+</dl>
 </blockquote>
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_IsRecording"></a>
-<h3><a name="Q3Memory_IsRecording">Q3Memory_IsRecording</a></h3>
-<blockquote><pre><tt>TQ3Boolean 
-Q3Memory_IsRecording(
-    void
-);
-</tt><br>
+<hr><a name="//Quesa/c/func/Q3Memory_IsRecording <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_IsRecording <br><br>">Q3Memory_IsRecording <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Memory_IsRecording (void);</tt><br>
 </pre></blockquote>
-<p>Determine whether object allocations are being recorded.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine whether object allocations are being recorded.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<b>Result:</b> kQ3True if allocation recording is on.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_NextRecordedObject"></a>
-<h3><a name="Q3Memory_NextRecordedObject">Q3Memory_NextRecordedObject</a></h3>
-<blockquote><pre><tt>TQ3Object 
-Q3Memory_NextRecordedObject(
-    TQ3Object                     inObject
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>kQ3True if allocation recording is on.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Memory_NextRecordedObject <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_NextRecordedObject <br><br>">Q3Memory_NextRecordedObject <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Object ) Q3Memory_NextRecordedObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object inObject
+);</tt><br>
 </pre></blockquote>
-<p>This function can be used to iterate through the list
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This function can be used to iterate through the list
 of Quesa objects that were created while recording was
 turned on.  Pass NULL to get the first object in the list.
 When it returns NULL, you have reached the end.
@@ -276,26 +238,25 @@ In non-debug builds, this function always returns NULL.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>inObject</tt></td><td>NULL or a recorded object.</td></tr>
-</table>
+<dl>
+<dt><tt><em>inObject</em></tt></dt><dd>NULL or a recorded object.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Next recorded object, or NULL.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_Reallocate"></a>
-<h3><a name="Q3Memory_Reallocate">Q3Memory_Reallocate</a></h3>
-<blockquote><pre><tt>TQ3Status  
-Q3Memory_Reallocate (
-    void                          **thePtr,
-    TQ3Uns32                      newSize
+<dl><dt><i>function result</i></dt><dd>Next recorded object, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Memory_Reallocate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Reallocate">Q3Memory_Reallocate</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>#undef Q3Memory_Reallocate #define Q3Memory_Reallocate Q3Memory_Reallocate_ (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Status
+)&nbsp;(
+&nbsp;&nbsp;&nbsp;&nbsp;Q3Memory_Reallocate ( void **thePtr,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 newSize
 );
 </tt><br>
 </pre></blockquote>
-<p>Attempts to reallocate a previously allocated block of memory.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Attempts to reallocate a previously allocated block of memory.
 <br><br>
 Implements the same behaviour as realloc, allowing memory to
 be allocated, freed, or resized with a single call. See the
@@ -310,64 +271,50 @@ allow it to be changed when resized.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>thePtr</tt></td><td>A pointer to the pointer to reallocate.</td></tr>
-<tr valign=top><td><tt>newSize</tt></td><td>The size in bytes to reallocate the block to.</td></tr>
-</table>
+<dl>
+<dt><tt><em>thePtr</em></tt></dt><dd>A pointer to the pointer to reallocate.</dd>
+<dt><tt><em>newSize</em></tt></dt><dd>The size in bytes to reallocate the block to.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_StartRecording"></a>
-<h3><a name="Q3Memory_StartRecording">Q3Memory_StartRecording</a></h3>
-<blockquote><pre><tt>TQ3Status 
-Q3Memory_StartRecording(
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Memory_StartRecording <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_StartRecording <br><br>">Q3Memory_StartRecording <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Memory_StartRecording (void);</tt><br>
 </pre></blockquote>
-<p>Begin recording allocations of Quesa objects.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Begin recording allocations of Quesa objects.
 <br><br>
 In non-debug builds, this function does nothing.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3Memory_StopRecording"></a>
-<h3><a name="Q3Memory_StopRecording">Q3Memory_StopRecording</a></h3>
-<blockquote><pre><tt>TQ3Status 
-Q3Memory_StopRecording(
-    void
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Memory_StopRecording <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_StopRecording <br><br>">Q3Memory_StopRecording <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Memory_StopRecording (void);</tt><br>
 </pre></blockquote>
-<p>Stop recording allocations of Quesa objects.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Stop recording allocations of Quesa objects.
 <br><br>
 In non-debug builds, this function does nothing.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SlabMemory_AppendData"></a>
-<h3><a name="Q3SlabMemory_AppendData">Q3SlabMemory_AppendData</a></h3>
-<blockquote><pre><tt>void * 
-Q3SlabMemory_AppendData(
-    TQ3SlabObject                 theSlab,
-    TQ3Uns32                      numItems,
-    const void                    *itemData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_AppendData <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_AppendData <br><br>">Q3SlabMemory_AppendData <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3SlabMemory_AppendData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numItems,
+&nbsp;&nbsp;&nbsp;&nbsp;const void *itemData
+);</tt><br>
 </pre></blockquote>
-<p>Append items to the end of a slab.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Append items to the end of a slab.
 <br><br>
 The slab will be grown as required, and the specified number of items
 will be appended to the end of the slab. A pointer to the newly-added
@@ -386,51 +333,43 @@ be left uninitialised.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSlab</tt></td><td>The slab to update.</td></tr>
-<tr valign=top><td><tt>numItems</tt></td><td>The number of items to append.</td></tr>
-<tr valign=top><td><tt>itemData</tt></td><td>The data to initialise the new items, or NULL.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSlab</em></tt></dt><dd>The slab to update.</dd>
+<dt><tt><em>numItems</em></tt></dt><dd>The number of items to append.</dd>
+<dt><tt><em>itemData</em></tt></dt><dd>The data to initialise the new items, or NULL.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A pointer to the first newly-added item within the slab.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SlabMemory_GetCount"></a>
-<h3><a name="Q3SlabMemory_GetCount">Q3SlabMemory_GetCount</a></h3>
-<blockquote><pre><tt>TQ3Uns32 
-Q3SlabMemory_GetCount(
-    TQ3SlabObject                 theSlab
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A pointer to the first newly-added item within the slab.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_GetCount <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_GetCount <br><br>">Q3SlabMemory_GetCount <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3SlabMemory_GetCount (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab
+);</tt><br>
 </pre></blockquote>
-<p>Get the number of items within a slab.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the number of items within a slab.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSlab</tt></td><td>The slab to query.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSlab</em></tt></dt><dd>The slab to query.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The number of items within the slab.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SlabMemory_GetData"></a>
-<h3><a name="Q3SlabMemory_GetData">Q3SlabMemory_GetData</a></h3>
-<blockquote><pre><tt>void * 
-Q3SlabMemory_GetData(
-    TQ3SlabObject                 theSlab,
-    TQ3Uns32                      itemIndex
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The number of items within the slab.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_GetData <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_GetData <br><br>">Q3SlabMemory_GetData <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3SlabMemory_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 itemIndex
+);</tt><br>
 </pre></blockquote>
-<p>Get a pointer to the data for an item within a slab.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a pointer to the data for an item within a slab.
 <br><br>
 Items are stored contiguously within a slab, and are indexed from 0.
 <br><br>
@@ -440,28 +379,24 @@ which can be obtained with Q3SlabMemory_GetCount.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSlab</tt></td><td>The slab to query.</td></tr>
-<tr valign=top><td><tt>itemIndex</tt></td><td>The index of the item within the slab.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSlab</em></tt></dt><dd>The slab to query.</dd>
+<dt><tt><em>itemIndex</em></tt></dt><dd>The index of the item within the slab.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> A pointer to the specified item within the slab.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SlabMemory_New"></a>
-<h3><a name="Q3SlabMemory_New">Q3SlabMemory_New</a></h3>
-<blockquote><pre><tt>TQ3SlabObject 
-Q3SlabMemory_New(
-    TQ3Uns32                      itemSize,
-    TQ3Uns32                      numItems,
-    const void                    *itemData
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>A pointer to the specified item within the slab.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_New <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_New <br><br>">Q3SlabMemory_New <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3SlabObject ) Q3SlabMemory_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 itemSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numItems,
+&nbsp;&nbsp;&nbsp;&nbsp;const void *itemData
+);</tt><br>
 </pre></blockquote>
-<p>Create a new memory slab object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new memory slab object.
 <br><br>
 A slab may be created with an initial number of allocated items, which can
 be optionally initialised with supplied data.
@@ -474,28 +409,24 @@ The itemSize parameter must be non-zero.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>itemSize</tt></td><td>The size of each item within the slab.</td></tr>
-<tr valign=top><td><tt>numitems</tt></td><td>The initial number of items in the slab.</td></tr>
-<tr valign=top><td><tt>itemData</tt></td><td>The data to initialise the new items, or NULL.</td></tr>
-</table>
+<dl>
+<dt><tt><em>itemSize</em></tt></dt><dd>The size of each item within the slab.</dd>
+<dt><tt><em>numitems</em></tt></dt><dd>The initial number of items in the slab.</dd>
+<dt><tt><em>itemData</em></tt></dt><dd>The data to initialise the new items, or NULL.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> The new slab object.
- 
-<hr>
-<a name="//apple_ref/c/func/Q3SlabMemory_SetCount"></a>
-<h3><a name="Q3SlabMemory_SetCount">Q3SlabMemory_SetCount</a></h3>
-<blockquote><pre><tt>TQ3Status 
-Q3SlabMemory_SetCount(
-    TQ3SlabObject                 theSlab,
-    TQ3Uns32                      numItems
-);
-</tt><br>
+<dl><dt><i>function result</i></dt><dd>The new slab object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_SetCount <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_SetCount <br><br>">Q3SlabMemory_SetCount <br><br></a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SlabMemory_SetCount (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numItems
+);</tt><br>
 </pre></blockquote>
-<p>Set the number of items within a slab.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the number of items within a slab.
 <br><br>
 Existing items within the slab will be preserved when the slab is
 grown, and lost when the slab is shrunk.
@@ -506,16 +437,14 @@ into the slab should be invalidated.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<h4>Parameters</h4>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<table bgcolor="#F0F0FF" border=1 bordercolor=white cellpadding=0 cellspacing=0 width = "90%">
-<thead><tr valign=top bgcolor="#C8C8FF"><th align=left>Name</th><th align=left>Description</th></tr></thead>
-<tr valign=top><td><tt>theSlab</tt></td><td>The slab to update.</td></tr>
-<tr valign=top><td><tt>numItems</tt></td><td>The number of items required in the slab.</td></tr>
-</table>
+<dl>
+<dt><tt><em>theSlab</em></tt></dt><dd>The slab to update.</dd>
+<dt><tt><em>numItems</em></tt></dt><dd>The number of items required in the slab.</dd>
+</dl>
 </blockquote>
-<b>Result:</b> Success or failure of the operation.
- 
-<hr>
-<p align=center><font size="-1"><a href="http://www.quesa.org/">Copyright &#169; 1999-2003 Quesa Developers &#151; last updated on 8/10/2003 </a></font></p>
-</body></html>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+</p></body></html>
