@@ -134,11 +134,11 @@ Q3Storage_GetSize (
  *  @function
  *      Q3Storage_GetData
  *  @discussion
- *      Get private data from a storage object.
+ *      Read some data from a storage object.
  *
  *      Returns some or all of the private data associated with a storage
  *      object.  If the storage is associated with a file object, then
- *		the file must be closed.
+ *		the file must be open.
  *
  *  @param storage          The storage object.
  *  @param offset           Starting offset of the data to be retrieved.
@@ -165,7 +165,8 @@ Q3Storage_GetData (
  *      Write some data to a storage object.
  *
  *		Write some data to a storage object, possibly extending the storage
- *		to accommodate the new data.
+ *		to accommodate the new data.  If the storage is associated with a file object, then
+ *		the file must be open.
  *
  *  @param storage          The storage object.
  *  @param offset           The offset at which to begin writing new data.
