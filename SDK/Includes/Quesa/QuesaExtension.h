@@ -216,7 +216,7 @@ Q3_EXTERN_API_C ( TQ3XObjectClass  )
 Q3XObjectHierarchy_RegisterClass (
     TQ3ObjectType                 parentType,
     TQ3ObjectType                 *objectType,
-    char                          *objectName,
+    const char                    *objectName,
     TQ3XMetaHandler               metaHandler,
     TQ3XMetaHandler               virtualMetaHandler,
     TQ3Uns32                      methodsSize,
