@@ -66,7 +66,9 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Cross platform
-TQ3XObjectClass			E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType, char *objectName, TQ3XMetaHandler metaHandler, TQ3XMetaHandler virtualMetaHandler, TQ3Uns32 methodsSize, TQ3Uns32 instanceSize);
+TQ3XObjectClass			E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType,
+								const char *objectName, TQ3XMetaHandler metaHandler, TQ3XMetaHandler virtualMetaHandler,
+								TQ3Uns32 methodsSize, TQ3Uns32 instanceSize);
 TQ3Status				E3XObjectHierarchy_UnregisterClass(TQ3XObjectClass objectClass);
 TQ3Object				E3XObjectHierarchy_NewObject(TQ3XObjectClass objectClass, void *parameters);
 TQ3Status				E3XObjectHierarchy_GetClassVersion(TQ3ObjectType objectClassType, TQ3XObjectClassVersion *version);

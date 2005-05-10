@@ -84,7 +84,9 @@
 //      Q3XObjectHierarchy_RegisterClass : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3XObjectClass
-Q3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType, char *objectName, TQ3XMetaHandler metaHandler, TQ3XMetaHandler virtualMetaHandler, TQ3Uns32 methodsSize, TQ3Uns32 instanceSize)
+Q3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *objectType,
+								const char *objectName, TQ3XMetaHandler metaHandler,
+								TQ3XMetaHandler virtualMetaHandler, TQ3Uns32 methodsSize, TQ3Uns32 instanceSize)
 {
 
 
@@ -126,7 +128,8 @@ Q3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *object
 
 
 	// Call our implementation
-	return(E3XObjectHierarchy_RegisterClass(parentType, objectType, objectName, metaHandler, virtualMetaHandler, methodsSize, instanceSize));
+	return(E3XObjectHierarchy_RegisterClass(parentType, objectType, objectName,
+		metaHandler, virtualMetaHandler, methodsSize, instanceSize));
 }
 
 
