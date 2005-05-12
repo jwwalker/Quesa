@@ -824,6 +824,8 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 		glDisable(GL_ALPHA_TEST);
 		glDisable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, 0);
+		glMatrixMode(GL_TEXTURE);
+		glLoadIdentity();
 		}
 
 
