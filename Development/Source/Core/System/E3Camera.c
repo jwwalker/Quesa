@@ -194,6 +194,15 @@ e3camera_orthographic_read ( TQ3FileObject theFile )
 					memcpy( &cameraData.cameraData.viewPort, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraViewPort ) ) ;
 					break ;
 					}
+				case kQ3SharedTypeSet :
+					{
+					// Set must be at end so we know we've finished
+					
+					TQ3CameraObject result = Q3OrthographicCamera_New ( &cameraData ) ;
+					result->SetSet ( childObject ) ;
+					Q3Object_Dispose ( childObject ) ;
+					return result ;
+					}
 				}
 				
 			Q3Object_Dispose ( childObject ) ;
@@ -204,6 +213,42 @@ e3camera_orthographic_read ( TQ3FileObject theFile )
 
 	// Create the camera
 	return Q3OrthographicCamera_New ( &cameraData ) ;
+	}
+
+
+//=============================================================================
+//      e3camera_orthographic_traverse : traverse an orthographic camera.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3camera_orthographic_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
+	{
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3Float32 ) * 4, theObject, NULL ) ;
+
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraPlacment ), sizeof ( TQ3CameraPlacement ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraRange ), sizeof ( TQ3CameraRange ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraViewPort ), sizeof ( TQ3CameraViewPort ), theObject, NULL ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+//=============================================================================
+//      e3camera_orthographic_write : write an orthographic camera.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3camera_orthographic_write ( TQ3ViewObject theObject, TQ3FileObject theFile )
+	{
+	TQ3OrthographicCameraData cameraData ;
+	Q3OrthographicCamera_GetData ( theObject , &cameraData ) ;
+	
+	TQ3Uns32 result = kQ3Success ;
+
+	result &= Q3Float32_Write ( cameraData.left, theFile ) ;
+	result &= Q3Float32_Write ( cameraData.top, theFile ) ;
+	result &= Q3Float32_Write ( cameraData.right, theFile ) ;
+	result &= Q3Float32_Write ( cameraData.bottom, theFile ) ;
+
+	return (TQ3Status) result ;
 	}
 
 
@@ -223,6 +268,12 @@ e3camera_orthographic_metahandler ( TQ3XMethodType methodType )
 			
 		case kQ3XMethodTypeObjectRead :
 			return (TQ3XFunctionPointer) e3camera_orthographic_read ;
+			
+		case kQ3XMethodTypeObjectTraverse :
+			return (TQ3XFunctionPointer) e3camera_orthographic_traverse ;
+			
+		case kQ3XMethodTypeObjectWrite :
+			return (TQ3XFunctionPointer) e3camera_orthographic_write ;
 		}
 	
 	return NULL ;
@@ -315,6 +366,15 @@ e3camera_viewplane_read ( TQ3FileObject theFile )
 					memcpy( &cameraData.cameraData.viewPort, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraViewPort ) ) ;
 					break ;
 					}
+				case kQ3SharedTypeSet :
+					{
+					// Set must be at end so we know we've finished
+					
+					TQ3CameraObject result = Q3ViewPlaneCamera_New ( &cameraData ) ;
+					result->SetSet ( childObject ) ;
+					Q3Object_Dispose ( childObject ) ;
+					return result ;
+					}
 				}
 				
 			Q3Object_Dispose ( childObject ) ;
@@ -325,6 +385,48 @@ e3camera_viewplane_read ( TQ3FileObject theFile )
 
 	// Create the camera
 	return Q3ViewPlaneCamera_New ( &cameraData ) ;
+	}
+
+
+
+
+
+
+
+//=============================================================================
+//      e3camera_viewplane_traverse : traverse a view plane camera.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3camera_viewplane_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
+	{
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3Float32 ) * 5, theObject, NULL ) ;
+
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraPlacment ), sizeof ( TQ3CameraPlacement ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraRange ), sizeof ( TQ3CameraRange ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraViewPort ), sizeof ( TQ3CameraViewPort ), theObject, NULL ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+//=============================================================================
+//      e3camera_viewplane_write : write a view plane camera.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3camera_viewplane_write ( TQ3ViewObject theObject, TQ3FileObject theFile )
+	{
+	TQ3ViewPlaneCameraData cameraData ;
+	Q3ViewPlaneCamera_GetData ( theObject , &cameraData ) ;
+	
+	TQ3Uns32 result = kQ3Success ;
+
+	result &= Q3Float32_Write ( cameraData.viewPlane, theFile ) ;
+	result &= Q3Float32_Write ( cameraData.halfWidthAtViewPlane, theFile ) ;
+	result &= Q3Float32_Write ( cameraData.halfHeightAtViewPlane, theFile ) ;
+	result &= Q3Float32_Write ( cameraData.centerXOnViewPlane, theFile ) ;
+	result &= Q3Float32_Write ( cameraData.centerYOnViewPlane, theFile ) ;
+
+	return (TQ3Status) result ;
 	}
 
 
@@ -345,6 +447,12 @@ e3camera_viewplane_metahandler ( TQ3XMethodType methodType )
 			
 		case kQ3XMethodTypeObjectRead :
 			return (TQ3XFunctionPointer) e3camera_viewplane_read ;
+			
+		case kQ3XMethodTypeObjectTraverse :
+			return (TQ3XFunctionPointer) e3camera_viewplane_traverse ;
+			
+		case kQ3XMethodTypeObjectWrite :
+			return (TQ3XFunctionPointer) e3camera_viewplane_write ;
 		}
 	
 	return NULL ;
@@ -439,6 +547,15 @@ e3camera_viewangle_read ( TQ3FileObject theFile )
 					memcpy( &cameraData.cameraData.viewPort, childObject->FindLeafInstanceData () ,  sizeof ( TQ3CameraViewPort ) ) ;
 					break ;
 					}
+				case kQ3SharedTypeSet :
+					{
+					// Set must be at end so we know we've finished
+					
+					TQ3CameraObject result = Q3ViewAngleAspectCamera_New ( &cameraData ) ;
+					result->SetSet ( childObject ) ;
+					Q3Object_Dispose ( childObject ) ;
+					return result ;
+					}
 				}
 				
 			Q3Object_Dispose ( childObject ) ;
@@ -472,6 +589,38 @@ e3camera_viewangle_new(TQ3Object theObject, void *privateData, const void *param
 
 
 
+//=============================================================================
+//      e3camera_viewangle_traverse : traverse a view angle aspect camera.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3camera_viewangle_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
+	{
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3Float32 ) * 2, theObject, NULL ) ;
+
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraPlacment ), sizeof ( TQ3CameraPlacement ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraRange ), sizeof ( TQ3CameraRange ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraViewPort ), sizeof ( TQ3CameraViewPort ), theObject, NULL ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+//=============================================================================
+//      e3camera_viewangle_write : write a view angle aspect camera.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3camera_viewangle_write ( TQ3ViewObject theObject, TQ3FileObject theFile )
+	{
+	TQ3ViewAngleAspectCameraData cameraData ;
+	Q3ViewAngleAspectCamera_GetData ( theObject , &cameraData ) ;
+	
+	TQ3Uns32 result = kQ3Success ;
+
+	result &= Q3Float32_Write ( cameraData.fov, theFile ) ;
+	result &= Q3Float32_Write ( cameraData.aspectRatioXToY, theFile ) ;
+
+	return (TQ3Status) result ;
+	}
 
 
 //=============================================================================
@@ -491,6 +640,12 @@ e3camera_viewangle_metahandler(TQ3XMethodType methodType)
 			
 		case kQ3XMethodTypeObjectRead :
 			return (TQ3XFunctionPointer) e3camera_viewangle_read ;
+			
+		case kQ3XMethodTypeObjectTraverse :
+			return (TQ3XFunctionPointer) e3camera_viewangle_traverse ;
+			
+		case kQ3XMethodTypeObjectWrite :
+			return (TQ3XFunctionPointer) e3camera_viewangle_write ;
 		}
 	
 	return NULL ;

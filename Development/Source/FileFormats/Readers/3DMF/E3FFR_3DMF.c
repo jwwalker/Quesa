@@ -56,6 +56,7 @@
 #include "E3FFW_3DMFBin_Geometry.h"
 #include "E3FFW_3DMFBin_Register.h"
 #include "E3FFW_3DMFBin_Writer.h"
+#include "E3Camera.h"
 
 
 
@@ -2100,6 +2101,26 @@ e3fformat_3dmf_cameraplacement_read  ( TQ3FileObject theFile )
 
 
 //=============================================================================
+//      e3fformat_3dmf_cameraplacement_write : write a camera placement.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_cameraplacement_write ( E3Camera* theObject, TQ3FileObject theFile )
+	{
+	TQ3Uns32 result = kQ3Success ;
+
+	TQ3CameraPlacement placement ;
+	theObject->GetPlacement ( &placement ) ;
+	result &= Q3Point3D_Write ( &placement.cameraLocation, theFile ) ;
+	result &= Q3Point3D_Write ( &placement.pointOfInterest, theFile ) ;
+	result &= Q3Vector3D_Write ( &placement.upVector, theFile ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_cameraplacemnt_metahandler : Camera placement metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -2111,8 +2132,8 @@ e3fformat_3dmf_cameraplacement_metahandler ( TQ3XMethodType methodType )
 		case kQ3XMethodTypeObjectRead:
 			return (TQ3XFunctionPointer) e3fformat_3dmf_cameraplacement_read ;
 
-//		case kQ3XMethodTypeObjectTraverse:
-//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		case kQ3XMethodTypeObjectWrite:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_cameraplacement_write ;
 		}
 
 	return NULL ;
@@ -2139,6 +2160,25 @@ e3fformat_3dmf_camerarange_read  ( TQ3FileObject theFile )
 
 
 //=============================================================================
+//      e3fformat_3dmf_camerarange_write : write a camera range.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_camerarange_write ( E3Camera* theObject, TQ3FileObject theFile )
+	{
+	TQ3Uns32 result = kQ3Success ;
+
+	TQ3CameraRange range ;
+	theObject->GetRange ( &range ) ;
+	result &= Q3Float32_Write ( range.hither, theFile ) ;
+	result &= Q3Float32_Write ( range.yon, theFile ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_camerarange_metahandler : Camera range metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -2150,8 +2190,8 @@ e3fformat_3dmf_camerarange_metahandler ( TQ3XMethodType methodType )
 		case kQ3XMethodTypeObjectRead:
 			return (TQ3XFunctionPointer) e3fformat_3dmf_camerarange_read ;
 
-//		case kQ3XMethodTypeObjectTraverse:
-//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		case kQ3XMethodTypeObjectWrite:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_camerarange_write ;
 		}
 
 	return NULL ;
@@ -2179,6 +2219,26 @@ e3fformat_3dmf_cameraviewport_read  ( TQ3FileObject theFile )
 
 
 //=============================================================================
+//      e3fformat_3dmf_cameraviewport_write : write a camera view port.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_cameraviewport_write ( E3Camera* theObject, TQ3FileObject theFile )
+	{
+	TQ3Uns32 result = kQ3Success ;
+
+	TQ3CameraViewPort viewPort ;
+	theObject->GetViewPort ( &viewPort ) ;
+	result &= Q3Point2D_Write ( &viewPort.origin, theFile ) ;
+	result &= Q3Float32_Write ( viewPort.width, theFile ) ;
+	result &= Q3Float32_Write ( viewPort.height, theFile ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_camerarange_metahandler : Camera range metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -2190,8 +2250,8 @@ e3fformat_3dmf_cameraviewport_metahandler ( TQ3XMethodType methodType )
 		case kQ3XMethodTypeObjectRead:
 			return (TQ3XFunctionPointer) e3fformat_3dmf_cameraviewport_read ;
 
-//		case kQ3XMethodTypeObjectTraverse:
-//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		case kQ3XMethodTypeObjectWrite:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_cameraviewport_write ;
 		}
 
 	return NULL ;
@@ -2220,6 +2280,27 @@ e3fformat_3dmf_imageclearcolour_read  ( TQ3FileObject theFile )
 
 
 //=============================================================================
+//      e3fformat_3dmf_imageclearcolour_write : write an image clear colour.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_imageclearcolour_write ( E3ViewHints* theObject, TQ3FileObject theFile )
+	{
+	TQ3Uns32 result = kQ3Success ;
+
+	TQ3ColorARGB colour ;
+	theObject->GetClearImageColor ( &colour ) ;
+	result &= Q3Float32_Write ( colour.a, theFile ) ;
+	result &= Q3Float32_Write ( colour.r, theFile ) ;
+	result &= Q3Float32_Write ( colour.g, theFile ) ;
+	result &= Q3Float32_Write ( colour.b, theFile ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_imageclearcolour_metahandler : Light data metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -2231,8 +2312,8 @@ e3fformat_3dmf_imageclearcolour_metahandler ( TQ3XMethodType methodType )
 		case kQ3XMethodTypeObjectRead:
 			return (TQ3XFunctionPointer) e3fformat_3dmf_imageclearcolour_read ;
 
-//		case kQ3XMethodTypeObjectTraverse:
-//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		case kQ3XMethodTypeObjectWrite:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_imageclearcolour_write ;
 		}
 
 	return NULL ;
@@ -2265,6 +2346,26 @@ e3fformat_3dmf_imagedimensions_read  ( TQ3FileObject theFile )
 
 
 //=============================================================================
+//      e3fformat_3dmf_imagedimensions_write : write an image dimensions.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_imagedimensions_write ( E3ViewHints* theObject, TQ3FileObject theFile )
+	{
+	TQ3Uns32 result = kQ3Success ;
+
+	TQ3Uns32 width ;
+	TQ3Uns32 height ;
+	theObject->GetDimensions ( &width, &height ) ;
+	result &= Q3Uns32_Write ( width, theFile ) ;
+	result &= Q3Uns32_Write ( height, theFile ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_imagedimensions_metahandler : Light data metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -2276,8 +2377,8 @@ e3fformat_3dmf_imagedimensions_metahandler ( TQ3XMethodType methodType )
 		case kQ3XMethodTypeObjectRead:
 			return (TQ3XFunctionPointer) e3fformat_3dmf_imagedimensions_read ;
 
-//		case kQ3XMethodTypeObjectTraverse:
-//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		case kQ3XMethodTypeObjectWrite:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_imagedimensions_write ;
 		}
 
 	return NULL ;
@@ -2307,6 +2408,28 @@ e3fformat_3dmf_lightdata_read  ( TQ3FileObject theFile )
 
 
 //=============================================================================
+//      e3fformat_3dmf_lightdata_write : write light data.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_lightdata_write ( TQ3LightObject theObject, TQ3FileObject theFile )
+	{
+	TQ3Uns32 result = kQ3Success ;
+
+	TQ3LightData lightData ;
+	Q3Light_GetData ( theObject , &lightData ) ;
+	result &= Q3Int32_Write ( lightData.isOn, theFile ) ;
+	result &= Q3Float32_Write ( lightData.brightness, theFile ) ;
+	result &= Q3Float32_Write ( lightData.color.r, theFile ) ;
+	result &= Q3Float32_Write ( lightData.color.g, theFile ) ;
+	result &= Q3Float32_Write ( lightData.color.b, theFile ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_camerarange_metahandler : Light data metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -2318,8 +2441,8 @@ e3fformat_3dmf_lightdata_metahandler ( TQ3XMethodType methodType )
 		case kQ3XMethodTypeObjectRead:
 			return (TQ3XFunctionPointer) e3fformat_3dmf_lightdata_read ;
 
-//		case kQ3XMethodTypeObjectTraverse:
-//			return (TQ3XFunctionPointer) E3FFW_3DMF_Void_Traverse ;
+		case kQ3XMethodTypeObjectWrite:
+			return (TQ3XFunctionPointer) e3fformat_3dmf_lightdata_write ;
 		}
 
 	return NULL ;
