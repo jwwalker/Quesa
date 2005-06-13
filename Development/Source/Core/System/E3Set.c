@@ -2587,20 +2587,58 @@ TQ3Status
 E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet result)
 	{
 	TQ3AttributeSetInheritParamInfo		paramInfo ;
-
-
-
-	// Empty the final attribute set
-	TQ3Status qd3dStatus = ( (E3Set*) result )->Empty () ;
-	if ( qd3dStatus == kQ3Failure )
-		return qd3dStatus ;
-
-
+	TQ3Status qd3dStatus = kQ3Success ;
 
 	// Find the instance data
 	E3Set* resultSet = (E3Set*) result ;
 	E3Set* parentSet = (E3Set*) parent ;
 	E3Set* childSet  = (E3Set*) child ;
+	
+	if ( parentSet == NULL || resultSet == NULL || childSet == NULL )
+		return kQ3Failure ;
+
+	if ( result == parent )
+		{
+		E3Set* temp = (E3Set*) E3AttributeSet_New () ;
+		if ( temp == NULL )
+			return kQ3Failure ;
+
+		qd3dStatus = E3AttributeSet_Inherit ( parent , child , temp ) ;
+
+		// Need to clear the result and copy the intermediate result into the result
+		if ( qd3dStatus != kQ3Failure )
+			qd3dStatus = resultSet->Empty () ;
+		
+		if ( qd3dStatus != kQ3Failure )
+			{
+			// Copy the mask and attributes directly
+			resultSet->setData.theMask = temp->setData.theMask ;
+			resultSet->setData.attributes = temp->setData.attributes ;
+			if ( resultSet->setData.attributes.surfaceShader != NULL )
+				resultSet->setData.attributes.surfaceShader = Q3Shared_GetReference ( temp->setData.attributes.surfaceShader ) ;
+
+			// Iterate over any additional elements
+			if ( resultSet->setData.theTable != NULL )
+				{
+				paramInfo.theResult = parent ;
+				paramInfo.isChild   = kQ3True ;
+				qd3dStatus = e3set_iterate_elements ( &temp->setData , e3attributeset_iterator_inherit , &paramInfo ) ;
+				}
+			}
+		
+		// Now just need to destroy the intermediate result
+		Q3Object_Dispose ( temp ) ; 
+			
+		return qd3dStatus ;
+		}
+
+	if ( result != child )
+		{
+		// Empty the final attribute set
+		if ( resultSet->Empty () == kQ3Failure )
+			return kQ3Failure ;
+		}
+
 
 	// Process the child
 	if ( qd3dStatus == kQ3Success )
