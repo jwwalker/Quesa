@@ -191,6 +191,15 @@ e3light_ambient_read ( TQ3FileObject theFile )
 					memcpy( &lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
 					break ;
 					}
+				case kQ3SharedTypeSet :
+					{
+					// Set must be at end so we know we've finished
+					
+					TQ3LightObject result = Q3AmbientLight_New ( &lightData ) ;
+					result->SetSet ( childObject ) ;
+					Q3Object_Dispose ( childObject ) ;
+					return result ;
+					}
 				}
 				
 			Q3Object_Dispose ( childObject ) ;
@@ -199,6 +208,20 @@ e3light_ambient_read ( TQ3FileObject theFile )
 
 	// Create the camera
 	return Q3AmbientLight_New ( &lightData ) ;
+	}
+
+
+//=============================================================================
+//      e3light_ambient_traverse : traverse an ambient light.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3light_ambient_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
+	{
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, 0 , theObject, NULL ) ;
+
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, NULL ) ;
+
+	return (TQ3Status) result ;
 	}
 
 
@@ -216,6 +239,9 @@ e3light_ambient_metahandler ( TQ3XMethodType methodType )
 			
 		case kQ3XMethodTypeObjectRead :
 			return (TQ3XFunctionPointer) e3light_ambient_read ;
+			
+		case kQ3XMethodTypeObjectTraverse :
+			return (TQ3XFunctionPointer) e3light_ambient_traverse ;
 		}
 	
 	return NULL ;
@@ -276,6 +302,15 @@ e3light_directional_read ( TQ3FileObject theFile )
 					memcpy( &lightData.lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
 					break ;
 					}
+				case kQ3SharedTypeSet :
+					{
+					// Set must be at end so we know we've finished
+					
+					TQ3LightObject result = Q3DirectionalLight_New ( &lightData ) ;
+					result->SetSet ( childObject ) ;
+					Q3Object_Dispose ( childObject ) ;
+					return result ;
+					}
 				}
 				
 			Q3Object_Dispose ( childObject ) ;
@@ -284,6 +319,38 @@ e3light_directional_read ( TQ3FileObject theFile )
 
 	// Create the camera
 	return Q3DirectionalLight_New ( &lightData ) ;
+	}
+
+
+//=============================================================================
+//      e3light_directional_traverse : traverse a directional light.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3light_directional_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
+	{
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3DirectionalLightData ) - sizeof ( TQ3LightData ), theObject, NULL ) ;
+
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, NULL ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+//=============================================================================
+//      e3light_directional_write : write a directional light.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3light_directional_write ( TQ3LightObject theObject, TQ3FileObject theFile )
+	{
+	TQ3DirectionalLightData lightData ;
+	Q3DirectionalLight_GetData ( theObject , &lightData ) ;
+	
+	TQ3Uns32 result = kQ3Success ;
+
+	result &= Q3Vector3D_Write ( &lightData.direction, theFile ) ;
+	result &= Q3Uns32_Write ( lightData.castsShadows, theFile ) ;
+
+	return (TQ3Status) result ;
 	}
 
 
@@ -301,6 +368,12 @@ e3light_directional_metahandler ( TQ3XMethodType methodType )
 
 		case kQ3XMethodTypeObjectRead :
 			return (TQ3XFunctionPointer) e3light_directional_read ;
+
+		case kQ3XMethodTypeObjectTraverse :
+			return (TQ3XFunctionPointer) e3light_directional_traverse ;
+			
+		case kQ3XMethodTypeObjectWrite :
+			return (TQ3XFunctionPointer) e3light_directional_write ;
 		}
 	
 	return NULL ;
@@ -362,6 +435,15 @@ e3light_point_read ( TQ3FileObject theFile )
 					memcpy( &lightData.lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
 					break ;
 					}
+				case kQ3SharedTypeSet :
+					{
+					// Set must be at end so we know we've finished
+					
+					TQ3LightObject result = Q3PointLight_New ( &lightData ) ;
+					result->SetSet ( childObject ) ;
+					Q3Object_Dispose ( childObject ) ;
+					return result ;
+					}
 				}
 				
 			Q3Object_Dispose ( childObject ) ;
@@ -370,6 +452,39 @@ e3light_point_read ( TQ3FileObject theFile )
 
 	// Create the camera
 	return Q3PointLight_New ( &lightData ) ;
+	}
+
+
+//=============================================================================
+//      e3light_point_traverse : traverse a point light.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3light_point_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
+	{
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3PointLightData ) - sizeof ( TQ3LightData ), theObject, NULL ) ;
+
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, NULL ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+//=============================================================================
+//      e3light_point_write : write a point light.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3light_point_write ( TQ3LightObject theObject, TQ3FileObject theFile )
+	{
+	TQ3PointLightData lightData ;
+	Q3PointLight_GetData ( theObject , &lightData ) ;
+	
+	TQ3Uns32 result = kQ3Success ;
+
+	result &= Q3Point3D_Write ( &lightData.location, theFile ) ;
+	result &= Q3Uns32_Write ( lightData.castsShadows, theFile ) ;
+	result &= Q3Uns32_Write ( lightData.attenuation, theFile ) ;
+
+	return (TQ3Status) result ;
 	}
 
 
@@ -387,6 +502,12 @@ e3light_point_metahandler ( TQ3XMethodType methodType )
 
 		case kQ3XMethodTypeObjectRead :
 			return (TQ3XFunctionPointer) e3light_point_read ;
+
+		case kQ3XMethodTypeObjectTraverse :
+			return (TQ3XFunctionPointer) e3light_point_traverse ;
+			
+		case kQ3XMethodTypeObjectWrite :
+			return (TQ3XFunctionPointer) e3light_point_write ;
 		}
 	
 	return NULL ;
@@ -457,6 +578,15 @@ e3light_spot_read ( TQ3FileObject theFile )
 					memcpy( &lightData.lightData, childObject->FindLeafInstanceData(), sizeof ( TQ3LightData ) );
 					break ;
 					}
+				case kQ3SharedTypeSet :
+					{
+					// Set must be at end so we know we've finished
+					
+					TQ3LightObject result = Q3SpotLight_New ( &lightData ) ;
+					result->SetSet ( childObject ) ;
+					Q3Object_Dispose ( childObject ) ;
+					return result ;
+					}
 				}
 				
 			Q3Object_Dispose ( childObject ) ;
@@ -465,6 +595,45 @@ e3light_spot_read ( TQ3FileObject theFile )
 
 	// Create the camera
 	return Q3SpotLight_New ( &lightData ) ;
+	}
+
+
+
+
+//=============================================================================
+//      e3light_spot_traverse : traverse a spot light.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3light_spot_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
+	{
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3SpotLightData ) - sizeof ( TQ3LightData ), theObject, NULL ) ;
+
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, NULL ) ;
+
+	return (TQ3Status) result ;
+	}
+
+
+//=============================================================================
+//      e3light_spot_write : write a spot light.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3light_spot_write ( TQ3LightObject theObject, TQ3FileObject theFile )
+	{
+	TQ3SpotLightData lightData ;
+	Q3SpotLight_GetData ( theObject , &lightData ) ;
+	
+	TQ3Uns32 result = kQ3Success ;
+
+	result &= Q3Point3D_Write ( &lightData.location, theFile ) ;
+	result &= Q3Vector3D_Write ( &lightData.direction, theFile ) ;
+	result &= Q3Uns32_Write ( lightData.castsShadows, theFile ) ;
+	result &= Q3Uns32_Write ( lightData.attenuation, theFile ) ;
+	result &= Q3Float32_Write ( lightData.hotAngle, theFile ) ;
+	result &= Q3Float32_Write ( lightData.outerAngle, theFile ) ;
+	result &= Q3Uns32_Write ( lightData.fallOff, theFile ) ;
+
+	return (TQ3Status) result ;
 	}
 
 
@@ -482,6 +651,12 @@ e3light_spot_metahandler ( TQ3XMethodType methodType )
 
 		case kQ3XMethodTypeObjectRead :
 			return (TQ3XFunctionPointer) e3light_spot_read ;
+
+		case kQ3XMethodTypeObjectTraverse :
+			return (TQ3XFunctionPointer) e3light_spot_traverse ;
+			
+		case kQ3XMethodTypeObjectWrite :
+			return (TQ3XFunctionPointer) e3light_spot_write ;
 		}
 	
 	return NULL ;

@@ -484,11 +484,14 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 				case kQ3GroupTypeDisplay:
 				case kQ3DisplayGroupTypeOrdered:
 				case kQ3DisplayGroupTypeIOProxy:
-				case kQ3GroupTypeLight:
 				case kQ3GroupTypeInfo:
 				case kQ3ShapeTypeGroup:
 					container = 0x62676E67; /* bgng - BeginGroup */
 					Q3_ASSERT(instanceData->stack[i].level == 0);
+					break;
+				case kQ3GroupTypeLight:
+					container = 0x62676E67; /* bgng - BeginGroup */
+					Q3_ASSERT(instanceData->stack[i].level == 1); // always seems to be 1 for a light group inside a view hints object
 					break;
 				default:
 					if(i < instanceData->stackCount-1)

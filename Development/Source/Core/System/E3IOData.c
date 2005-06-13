@@ -47,6 +47,7 @@
 #include "E3IOData.h"
 #include "E3IO.h"
 #include "E3Main.h"
+#include "E3View.h"
 
 
 
@@ -1959,17 +1960,18 @@ e3viewhints_new ( E3ViewHints* theObject, void *privateData, const void *paramDa
 
 		Q3View_GetRenderer ( theView , &theObject->renderer ) ;
 		Q3View_GetCamera ( theView , &theObject->camera ) ;
+		Q3View_GetLightGroup ( theView , &theObject->lightGroup ) ;
 		Q3View_GetAttributeSetState ( theView , &theObject->attributeSet ) ;
 		}
 	else
 		{
 		theObject->renderer = NULL ;
 		theObject->camera = NULL ;
+		theObject->lightGroup = NULL ;
 		theObject->attributeSet = NULL ;
 		}
 
 	
-	theObject->lightGroup = NULL ;
 	theObject->isValidSetDimensions = kQ3False ;
 	theObject->widthDimensions = 0 ;
 	theObject->heightDimensions = 0 ;
@@ -2024,7 +2026,6 @@ e3viewhints_read ( TQ3FileObject theFile )
 	
 	if ( theObject )
 		{
-		TQ3GroupObject lightGroup = NULL ;
 		while ( ! Q3File_IsEndOfContainer ( theFile, NULL ) )
 			{
 			if ( TQ3Object childObject = Q3File_ReadObject ( theFile ) )
@@ -2035,13 +2036,8 @@ e3viewhints_read ( TQ3FileObject theFile )
 				if ( Q3Object_IsType ( childObject , kQ3ShapeTypeCamera )  )
 					theObject->SetCamera ( childObject ) ;
 				else
-				if ( Q3Object_IsType ( childObject , kQ3ShapeTypeLight )  )
-					{
-					if ( lightGroup == NULL )
-						lightGroup = Q3LightGroup_New () ;
-					if ( lightGroup != NULL )
-						Q3Group_AddObject ( lightGroup , childObject ) ;
-					}
+				if ( Q3Object_IsType ( childObject , kQ3GroupTypeLight )  )
+					theObject->SetLightGroup ( childObject ) ;
 				else
 				if ( Q3Object_IsType ( childObject , kQ3SetTypeAttribute )  )
 					theObject->SetAttributeSet ( childObject ) ;
@@ -2058,9 +2054,9 @@ e3viewhints_read ( TQ3FileObject theFile )
 					TQ3Uns32* p = (TQ3Uns32*) childObject->FindLeafInstanceData () ;
 					theObject->SetDimensions ( p [ 0 ] , p [ 1 ] ) ;
 					}
+				else
 /*
 To be written:
-				else
 				if ( Q3Object_IsType ( childObject , ? ) )
 					{
 					theObject->SetMaskState ( kQ3True ) ;
@@ -2069,13 +2065,6 @@ To be written:
 */				
 				Q3Object_Dispose ( childObject ) ; // decrement reference count
 				}
-			}
-
-//				result = Q3Float32_Read(&instanceData->value[i][j],theFile);
-		if ( lightGroup )
-			{
-			theObject->SetLightGroup ( lightGroup ) ;
-			Q3Object_Dispose ( lightGroup ) ; // decrement reference count
 			}
 
 		if ( result != kQ3Success )
@@ -2091,21 +2080,58 @@ To be written:
 
 
 
-
 //=============================================================================
-//      e3fformat_3dmf_shaderuvtransform_write : Shader UV Transform read method.
+//      e3viewhints_traverse : View Hints traverse method.
 //-----------------------------------------------------------------------------
+
 static TQ3Status
-e3viewhints_write(TQ3Matrix3x3 *object,TQ3FileObject theFile) //I know this is wrong but it is just a place marker at the moment. Peter Michelsen
-{
-	TQ3Status						result = kQ3Success;
-	//TQ3Uns32						i,j;
+e3viewhints_traverse ( E3ViewHints* theObject, void *data, TQ3ViewObject theView )
+	{
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, 0, NULL, NULL ) ;
 
-	//	for( i = 0; ((i< 3) && (result == kQ3Success)); i++)
-	//		for( j = 0; ((j< 3) && (result == kQ3Success)); j++)
-	//			result = Q3Float32_Write(object->value[i][j],theFile);
-
-	return(result);
+	TQ3RendererObject renderer ;
+	if ( theObject->GetRenderer ( &renderer ) == kQ3Success )
+		{
+		result &= Q3Object_Submit ( renderer , theView ) ;
+		Q3Object_Dispose ( renderer ) ;
+		}
+		
+	TQ3CameraObject camera ;
+	if ( theObject->GetCamera ( &camera ) == kQ3Success )
+		{
+		result &= Q3Object_Submit ( camera , theView ) ;
+		Q3Object_Dispose ( camera ) ;
+		}
+	
+	TQ3GroupObject lightGroup ;
+	if ( theObject->GetLightGroup ( &lightGroup ) == kQ3Success )
+		{
+		result &= Q3Object_Submit ( lightGroup , theView ) ;
+		Q3Object_Dispose ( lightGroup ) ;
+		}
+		
+	TQ3AttributeSet attributeSet ;
+	if ( theObject->GetAttributeSet ( &attributeSet ) == kQ3Success )
+		{
+		result &= Q3Object_Submit ( attributeSet , theView ) ;
+		Q3Object_Dispose ( attributeSet ) ;
+		}
+		
+	TQ3DrawContextClearImageMethod clearMethod ;
+	if ( theObject->GetClearImageMethod ( &clearMethod ) == kQ3Success
+	&& clearMethod == kQ3ClearMethodWithColor )
+		{
+		result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3ImageClearColour ), sizeof ( TQ3ColorARGB ), theObject, NULL ) ;
+		}
+		
+	TQ3Boolean isValidSetDimensions ;
+	if ( theObject->GetDimensionsState ( &isValidSetDimensions ) == kQ3Success
+	&& isValidSetDimensions == kQ3True )
+		{
+		result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3ImageDimensions ), sizeof ( TQ3Uns32 ) * 2, theObject, NULL ) ;
+		}
+		
+	return (TQ3Status) result ;
 }
 
 
@@ -2120,16 +2146,17 @@ viewhints_metahandler ( TQ3XMethodType methodType )
 	switch ( methodType )
 		{
 		case kQ3XMethodTypeObjectNew:
-			return (TQ3XFunctionPointer) e3viewhints_new;
+			return (TQ3XFunctionPointer) e3viewhints_new ;
 
 		case kQ3XMethodTypeObjectDelete:
-			return (TQ3XFunctionPointer) e3viewhints_delete;
+			return (TQ3XFunctionPointer) e3viewhints_delete ;
 
 		case kQ3XMethodTypeObjectRead:
-			return (TQ3XFunctionPointer) e3viewhints_read;
+			return (TQ3XFunctionPointer) e3viewhints_read ;
 		
-		case kQ3XMethodTypeObjectSubmitWrite:
-			return (TQ3XFunctionPointer) e3viewhints_write;
+		case kQ3XMethodTypeObjectTraverse :
+			return (TQ3XFunctionPointer) e3viewhints_traverse ;
+				
 		}
 
 	return NULL ;
