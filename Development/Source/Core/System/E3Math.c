@@ -1071,7 +1071,7 @@ E3Vector3D_DotArray(
 	{
 		for (i = 0; i < numVectors; ++i)
 		{
-			dotProduct           = Q3Vector3D_Dot(inFirstVectors3D, inSecondVectors3D);
+			dotProduct           = Q3FastVector3D_Dot(inFirstVectors3D, inSecondVectors3D);
 			*outDotProducts      = dotProduct;	
 			*outDotLessThanZeros = (TQ3Boolean) (dotProduct < 0.0f);
 
