@@ -2030,25 +2030,38 @@ e3viewhints_read ( TQ3FileObject theFile )
 			{
 			if ( TQ3Object childObject = Q3File_ReadObject ( theFile ) )
 				{
-				if ( Q3Object_IsType ( childObject , kQ3SharedTypeRenderer )  )
+				if ( Q3Object_IsType ( childObject , kQ3SharedTypeRenderer ) )
 					theObject->SetRenderer ( childObject ) ;
 				else
-				if ( Q3Object_IsType ( childObject , kQ3ShapeTypeCamera )  )
+				if ( Q3Object_IsType ( childObject , kQ3ShapeTypeCamera ) )
 					theObject->SetCamera ( childObject ) ;
 				else
-				if ( Q3Object_IsType ( childObject , kQ3GroupTypeLight )  )
+				if ( Q3Object_IsType ( childObject , kQ3GroupTypeLight ) ) // Allow reading of files with lights in a group
 					theObject->SetLightGroup ( childObject ) ;
 				else
-				if ( Q3Object_IsType ( childObject , kQ3SetTypeAttribute )  )
+ 				if ( Q3Object_IsType ( childObject , kQ3ShapeTypeLight ) ) // or the lights loose, not in a group
+ 					{
+ 					TQ3GroupObject lightGroup ;
+ 					theObject->GetLightGroup ( &lightGroup ) ;
+					if ( lightGroup == NULL )
+ 						{
+ 						lightGroup = Q3LightGroup_New () ;
+  						theObject->SetLightGroup ( lightGroup ) ;
+  						}
+					Q3Group_AddObject ( lightGroup , childObject ) ;
+					Q3Object_Dispose ( lightGroup ) ;
+ 					}
+ 				else
+				if ( Q3Object_IsType ( childObject , kQ3SetTypeAttribute ) )
 					theObject->SetAttributeSet ( childObject ) ;
 				else
-				if ( Q3Object_IsType ( childObject , kQ3ImageClearColour )  )
+				if ( Q3Object_IsType ( childObject , kQ3ImageClearColour ) )
 					{
 					theObject->SetClearImageMethod ( kQ3ClearMethodWithColor ) ;
 					theObject->SetClearImageColor ( (TQ3ColorARGB*) childObject->FindLeafInstanceData () ) ;
 					}
 				else
-				if ( Q3Object_IsType ( childObject , kQ3ImageDimensions )  )
+				if ( Q3Object_IsType ( childObject , kQ3ImageDimensions ) )
 					{		
 					theObject->SetDimensionsState ( kQ3True ) ;
 					TQ3Uns32* p = (TQ3Uns32*) childObject->FindLeafInstanceData () ;
@@ -2106,7 +2119,14 @@ e3viewhints_traverse ( E3ViewHints* theObject, void *data, TQ3ViewObject theView
 	TQ3GroupObject lightGroup ;
 	if ( theObject->GetLightGroup ( &lightGroup ) == kQ3Success )
 		{
-		result &= Q3Object_Submit ( lightGroup , theView ) ;
+		TQ3GroupPosition pos ;
+		for ( Q3Group_GetFirstPosition ( lightGroup, &pos ) ; pos ; Q3Group_GetNextPosition ( lightGroup, &pos ) )
+			{
+			TQ3Object object ;
+			Q3Group_GetPositionObject ( lightGroup, pos, &object ) ;
+			result &= Q3Object_Submit ( object, theView ) ;
+			Q3Object_Dispose ( object ) ;
+			}
 		Q3Object_Dispose ( lightGroup ) ;
 		}
 		
