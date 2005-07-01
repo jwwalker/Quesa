@@ -250,6 +250,7 @@ static TQ3Status
 e3propertyelement_copy_one( E3HashTablePtr theTable, TQ3ObjectType theKey,
 	void *theItem, void *userData)
 {
+#pragma unused( theTable )
 	E3HashTablePtr	destTable = (E3HashTablePtr)userData;
 	TQ3Status	status;
 	TQ3Uns32	itemDataSize;
@@ -722,7 +723,7 @@ e3urlelement_metahandler(TQ3XMethodType methodType)
 static TQ3Status
 e3wireelement_traverse (TQ3Object object, QTAtomContainer *atom, TQ3ViewObject view)
 {
-#pragma unused(object)
+#pragma unused(object, atom, view)
 
 
 
@@ -740,6 +741,7 @@ e3wireelement_traverse (TQ3Object object, QTAtomContainer *atom, TQ3ViewObject v
 static TQ3Status
 e3wireelement_write (QTAtomContainer *urlData, TQ3FileObject file)
 {
+#pragma unused( urlData, file )
 
 	// To be implemented...
 	return kQ3Failure;
@@ -755,6 +757,7 @@ e3wireelement_write (QTAtomContainer *urlData, TQ3FileObject file)
 static TQ3Status
 e3wireelement_readdata (TQ3Object object, TQ3FileObject file)
 {
+#pragma unused( object, file )
 
 	// To be implemented...
 	return kQ3Failure;
@@ -806,6 +809,7 @@ e3wireelement_copyreplace(QTAtomContainer *source, QTAtomContainer *dest)
 static TQ3Status
 e3wireelement_delete(QTAtomContainer *atom)
 {
+#pragma unused( atom )
 
 
 	// We don't currently copy the atom container, so nothing to do
@@ -1043,7 +1047,9 @@ E3Object_RemoveProperty( TQ3Object object, TQ3ObjectType propType )
 		{
 			Q3Memory_Free( &theItem );
 			E3HashTable_Remove( theData.table, propType );
-			E3Shared_Edited( object );
+	
+			if (E3Shared_IsOfMyClass( object ))
+				E3Shared_Edited( object );
 		}
 	}
 	return status;
@@ -1109,7 +1115,7 @@ E3Object_SetProperty( TQ3Object object, TQ3ObjectType propType,
 			{
 				Q3Memory_Free( &itemContainer );
 			}
-			else
+			else if (E3Shared_IsOfMyClass( object ))
 			{
 				E3Shared_Edited( object );
 			}
