@@ -83,7 +83,62 @@ enum {
 };
 
 
-// Class method types
+/*!
+ *	@enum	 	Class method types
+ *	@abstract	Codes identifying methods of Quesa objects.
+ *	@discussion	These values should be considered to be of type TQ3XMethodType.
+ *
+ *	@constant	kQ3XMethodTypeObjectClassVersion
+ *						This is the type of a pseudo-method, really just a value of
+ *						type TQ3XObjectClassVersion rather than a function pointer.
+ *	@constant	kQ3XMethodTypeObjectClassRegister
+ *						Currently unused by Quesa.
+ *	@constant	kQ3XMethodTypeObjectClassReplace
+ *						Currently unused by Quesa.
+ *	@constant	kQ3XMethodTypeObjectClassUnregister
+ *						Currently unused by Quesa.
+ *	@constant	kQ3XMethodTypeObjectNew
+ *						Method of type TQ3XObjectNewMethod that is called when
+ *						an object is created.
+ *	@constant	kQ3XMethodTypeObjectDelete
+ *						Method of type TQ3XObjectDeleteMethod that is called
+ *						when an object is deleted.
+ *	@constant	kQ3XMethodTypeObjectDuplicate
+ *						Method of type TQ3XObjectDuplicateMethod that is called
+ *						when an object is duplicated.
+ *	@constant	kQ3XMethodTypeViewSubmitRetainedRender
+ *						Method of type TQ3XViewSubmitRetainedMethod belonging to a
+ *						View object that is called when a retained object is
+ *						submitted to the View for rendering.
+ *	@constant	kQ3XMethodTypeViewSubmitRetainedPick
+ *						Method of type TQ3XViewSubmitRetainedMethod belonging to a
+ *						View object that is called when a retained object is
+ *						submitted to the View for picking.
+ *	@constant	kQ3XMethodTypeViewSubmitRetainedBound
+ *						Method of type TQ3XViewSubmitRetainedMethod belonging to a
+ *						View object that is called when a retained object is
+ *						submitted to the View for bounding.
+ *	@constant	kQ3XMethodTypeViewSubmitRetainedWrite
+ *						Method of type TQ3XViewSubmitRetainedMethod belonging to a
+ *						View object that is called when a retained object is
+ *						submitted to the View for writing.
+ *	@constant	kQ3XMethodTypeViewSubmitImmediateRender
+ *						Method of type TQ3XViewSubmitImmediateMethod belonging to a
+ *						View object that is called when an immediate object is
+ *						submitted to the View for rendering.
+ *	@constant	kQ3XMethodTypeViewSubmitImmediatePick
+ *						Method of type TQ3XViewSubmitImmediateMethod belonging to a
+ *						View object that is called when an immediate object is
+ *						submitted to the View for picking.
+ *	@constant	kQ3XMethodTypeViewSubmitImmediateBound
+ *						Method of type TQ3XViewSubmitImmediateMethod belonging to a
+ *						View object that is called when an immediate object is
+ *						submitted to the View for bounding.
+ *	@constant	kQ3XMethodTypeViewSubmitImmediateWrite
+ *						Method of type TQ3XViewSubmitImmediateMethod belonging to a
+ *						View object that is called when an immediate object is
+ *						submitted to the View for writing.
+*/
 enum {
     kQ3XMethodTypeObjectClassVersion            = Q3_METHOD_TYPE('v', 'r', 's', 'n'),
     kQ3XMethodTypeObjectClassRegister           = Q3_METHOD_TYPE('r', 'g', 's', 't'),
@@ -91,7 +146,15 @@ enum {
     kQ3XMethodTypeObjectClassUnregister         = Q3_METHOD_TYPE('u', 'n', 'r', 'g'),
     kQ3XMethodTypeObjectNew                     = Q3_METHOD_TYPE('n', 'e', 'w', 'o'),
     kQ3XMethodTypeObjectDelete                  = Q3_METHOD_TYPE('d', 'l', 't', 'e'),
-    kQ3XMethodTypeObjectDuplicate               = Q3_METHOD_TYPE('d', 'u', 'p', 'l')
+    kQ3XMethodTypeObjectDuplicate               = Q3_METHOD_TYPE('d', 'u', 'p', 'l'),
+    kQ3XMethodTypeViewSubmitRetainedRender      = Q3_METHOD_TYPE('s', 'v', 'r', 'r'),
+    kQ3XMethodTypeViewSubmitRetainedPick        = Q3_METHOD_TYPE('s', 'v', 'r', 'p'),
+    kQ3XMethodTypeViewSubmitRetainedBound       = Q3_METHOD_TYPE('s', 'v', 'r', 'b'),
+    kQ3XMethodTypeViewSubmitRetainedWrite       = Q3_METHOD_TYPE('s', 'v', 'r', 'w'),
+    kQ3XMethodTypeViewSubmitImmediateRender     = Q3_METHOD_TYPE('s', 'v', 'i', 'r'),
+    kQ3XMethodTypeViewSubmitImmediatePick       = Q3_METHOD_TYPE('s', 'v', 'i', 'p'),
+    kQ3XMethodTypeViewSubmitImmediateBound      = Q3_METHOD_TYPE('s', 'v', 'i', 'b'),
+    kQ3XMethodTypeViewSubmitImmediateWrite      = Q3_METHOD_TYPE('s', 'v', 'i', 'w')
 };
 
 
@@ -102,6 +165,12 @@ enum {
 //      Types
 //-----------------------------------------------------------------------------
 // Version type
+/*!
+ *	@typedef
+ *		TQ3XObjectClassVersion
+ *	@abstract
+ *		Pseudo-method that returns the version of a class.
+*/
 typedef TQ3Uns32 TQ3XObjectClassVersion;
 
 
@@ -137,6 +206,35 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XObjectDuplicateMethod)(
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XSharedLibraryRegister)(
                             void);
+
+
+/*!
+ *	@typedef
+ *		TQ3XViewSubmitRetainedMethod
+ *	@abstract
+ *		Method type that a view object uses when a retained object is submitted.
+ *	@param	theView			A view object.
+ *	@param	theObject		An object.
+ *	@result                 Success or failure of the operation.
+*/
+typedef Q3_CALLBACK_API_C(TQ3Status,	TQ3XViewSubmitRetainedMethod)(
+							TQ3ViewObject		theView,
+							TQ3Object			theObject);
+
+/*!
+ *	@typedef
+ *		TQ3XViewSubmitImmediateMethod
+ *	@abstract
+ *		Method type that a view object uses when an immediate object is submitted.
+ *	@param	theView			A view object.
+ *	@param	objectType		An object type.
+ *	@param	objectData		The data of the object.
+ *	@result                 Success or failure of the operation.
+*/
+typedef Q3_CALLBACK_API_C(TQ3Status,	TQ3XViewSubmitImmediateMethod)(
+							TQ3ViewObject		theView,
+							TQ3ObjectType		objectType,
+							const void			*objectData);
 
 
 /*!
