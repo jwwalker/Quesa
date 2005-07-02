@@ -111,12 +111,6 @@ typedef TQ3Uns32 TQ3ViewStackState;
 //-----------------------------------------------------------------------------
 class E3View ;
 
-// Method types
-typedef Q3_CALLBACK_API_C(TQ3Status,	E3ObjectSubmitRetained)( E3View*			theView,
-																TQ3Object			theObject) ;
-typedef Q3_CALLBACK_API_C(TQ3Status,	E3ObjectSubmitImmediate)( E3View*			theView,
-																TQ3ObjectType		objectType,
-																const void			*objectData) ;
 
 
 
@@ -166,8 +160,8 @@ typedef struct TQ3ViewData {
 	TQ3ViewMode					viewMode;
 	TQ3ViewState				viewState;
 	TQ3Uns32					viewPass;
-	E3ObjectSubmitRetained		submitRetainedMethod;
-	E3ObjectSubmitImmediate		submitImmediateMethod;
+	TQ3XViewSubmitRetainedMethod		submitRetainedMethod;
+	TQ3XViewSubmitImmediateMethod		submitImmediateMethod;
 	TQ3AttributeSet				viewAttributes;
 	TQ3Boolean					allowGroupCulling;
 
@@ -1270,28 +1264,38 @@ e3view_submit_begin ( E3View* view, TQ3ViewMode viewMode )
 		switch ( viewMode )
 			{
 			case kQ3ViewModeDrawing:
-				view->instanceData.submitRetainedMethod  = e3view_submit_retained_render ;
-				view->instanceData.submitImmediateMethod = e3view_submit_immediate_render ;
+				view->instanceData.submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod)
+					view->GetMethod( kQ3XMethodTypeViewSubmitRetainedRender );
+				view->instanceData.submitImmediateMethod = (TQ3XViewSubmitImmediateMethod)
+					view->GetMethod( kQ3XMethodTypeViewSubmitImmediateRender );
 				break;
 
 			case kQ3ViewModePicking:
-				view->instanceData.submitRetainedMethod  = e3view_submit_retained_pick ;
-				view->instanceData.submitImmediateMethod = e3view_submit_immediate_pick ;
+				view->instanceData.submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod)
+					view->GetMethod( kQ3XMethodTypeViewSubmitRetainedPick );
+				view->instanceData.submitImmediateMethod = (TQ3XViewSubmitImmediateMethod)
+					view->GetMethod( kQ3XMethodTypeViewSubmitImmediatePick );
 				break;
 
 			case kQ3ViewModeWriting:
-				view->instanceData.submitRetainedMethod  = e3view_submit_retained_write ;
-				view->instanceData.submitImmediateMethod = e3view_submit_immediate_write ;
+				view->instanceData.submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod)
+					view->GetMethod( kQ3XMethodTypeViewSubmitRetainedWrite );
+				view->instanceData.submitImmediateMethod = (TQ3XViewSubmitImmediateMethod)
+					view->GetMethod( kQ3XMethodTypeViewSubmitImmediateWrite );
 				break;
 
 			case kQ3ViewModeCalcBounds:
-				view->instanceData.submitRetainedMethod  = e3view_submit_retained_bounds ;
-				view->instanceData.submitImmediateMethod = e3view_submit_immediate_bounds ;
+				view->instanceData.submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod)
+					view->GetMethod( kQ3XMethodTypeViewSubmitRetainedBound );
+				view->instanceData.submitImmediateMethod = (TQ3XViewSubmitImmediateMethod)
+					view->GetMethod( kQ3XMethodTypeViewSubmitImmediateBound );
 				break;
 
 			default:
-				view->instanceData.submitRetainedMethod  = e3view_submit_retained_bad_mode ;
-				view->instanceData.submitImmediateMethod = e3view_submit_immediate_bad_mode ;
+				view->instanceData.submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod)
+					e3view_submit_retained_bad_mode ;
+				view->instanceData.submitImmediateMethod = (TQ3XViewSubmitImmediateMethod)
+					e3view_submit_immediate_bad_mode ;
 				break;
 			}
 
@@ -1320,8 +1324,8 @@ e3view_submit_begin ( E3View* view, TQ3ViewMode viewMode )
 		view->instanceData.viewMode              = kQ3ViewModeInactive ;
 		view->instanceData.viewState             = kQ3ViewStateInactive ;
 		view->instanceData.viewPass              = 0 ;
-		view->instanceData.submitRetainedMethod  = e3view_submit_retained_error ;
-		view->instanceData.submitImmediateMethod = e3view_submit_immediate_error ;
+		view->instanceData.submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod) e3view_submit_retained_error ;
+		view->instanceData.submitImmediateMethod = (TQ3XViewSubmitImmediateMethod) e3view_submit_immediate_error ;
 		e3view_stack_pop_clean ( view ) ;
 		}
 
@@ -1424,8 +1428,8 @@ e3view_submit_end ( E3View* view, TQ3ViewStatus submitStatus )
 		{
 		view->instanceData.viewState             = kQ3ViewStateInactive ;
 		view->instanceData.viewPass              = 0 ;
-		view->instanceData.submitRetainedMethod  = e3view_submit_retained_error ;
-		view->instanceData.submitImmediateMethod = e3view_submit_immediate_error ;
+		view->instanceData.submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod) e3view_submit_retained_error ;
+		view->instanceData.submitImmediateMethod = (TQ3XViewSubmitImmediateMethod) e3view_submit_immediate_error ;
 		}
 
 
@@ -1666,8 +1670,8 @@ e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	instanceData->submitRetainedMethod  = e3view_submit_retained_error;
-	instanceData->submitImmediateMethod = e3view_submit_immediate_error;
+	instanceData->submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod) e3view_submit_retained_error;
+	instanceData->submitImmediateMethod = (TQ3XViewSubmitImmediateMethod) e3view_submit_immediate_error;
 	
 	instanceData->viewAttributes = Q3AttributeSet_New();
 	if (instanceData->viewAttributes != NULL)
@@ -1748,6 +1752,39 @@ e3view_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) e3view_delete;
 			break;
+		
+		case kQ3XMethodTypeViewSubmitRetainedRender:
+			theMethod = (TQ3XFunctionPointer) e3view_submit_retained_render;
+			break;
+		
+		case kQ3XMethodTypeViewSubmitRetainedPick:
+			theMethod = (TQ3XFunctionPointer) e3view_submit_retained_pick;
+			break;
+		
+		case kQ3XMethodTypeViewSubmitRetainedBound:
+			theMethod = (TQ3XFunctionPointer) e3view_submit_retained_bounds;
+			break;
+		
+		case kQ3XMethodTypeViewSubmitRetainedWrite:
+			theMethod = (TQ3XFunctionPointer) e3view_submit_retained_write;
+			break;
+		
+		case kQ3XMethodTypeViewSubmitImmediateRender:
+			theMethod = (TQ3XFunctionPointer) e3view_submit_immediate_render;
+			break;
+		
+		case kQ3XMethodTypeViewSubmitImmediatePick:
+			theMethod = (TQ3XFunctionPointer) e3view_submit_immediate_pick;
+			break;
+		
+		case kQ3XMethodTypeViewSubmitImmediateBound:
+			theMethod = (TQ3XFunctionPointer) e3view_submit_immediate_bounds;
+			break;
+		
+		case kQ3XMethodTypeViewSubmitImmediateWrite:
+			theMethod = (TQ3XFunctionPointer) e3view_submit_immediate_write;
+			break;
+		
 		}
 	
 	return(theMethod);
@@ -3357,8 +3394,10 @@ E3View_Cancel(TQ3ViewObject theView)
 		return kQ3Failure ;
 
 	( (E3View*) theView )->instanceData.viewState             = kQ3ViewStateCancelled ;
-	( (E3View*) theView )->instanceData.submitRetainedMethod  = e3view_submit_retained_error ;
-	( (E3View*) theView )->instanceData.submitImmediateMethod = e3view_submit_immediate_error ;
+	( (E3View*) theView )->instanceData.submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod)
+		e3view_submit_retained_error ;
+	( (E3View*) theView )->instanceData.submitImmediateMethod = (TQ3XViewSubmitImmediateMethod)
+		e3view_submit_immediate_error ;
 	return kQ3Success ;
 	}
 
