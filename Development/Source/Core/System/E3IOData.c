@@ -1962,27 +1962,34 @@ e3viewhints_new ( E3ViewHints* theObject, void *privateData, const void *paramDa
 		Q3View_GetCamera ( theView , &theObject->camera ) ;
 		Q3View_GetLightGroup ( theView , &theObject->lightGroup ) ;
 		Q3View_GetAttributeSetState ( theView , &theObject->attributeSet ) ;
+		
+		TQ3DrawContextObject drawContext ;
+		if ( Q3View_GetDrawContext ( theView , &drawContext ) != kQ3Failure )
+			{
+			Q3DrawContext_GetClearImageMethod ( drawContext , &theObject->clearMethod ) ;
+			Q3DrawContext_GetClearImageColor ( drawContext , &theObject->clearImageColor ) ;
+			theObject->isValidSetMaskState = ( Q3DrawContext_GetMask ( drawContext , &theObject->mask ) != kQ3Failure ) ? kQ3True : kQ3False ;
+			}
 		}
 	else
 		{
-		theObject->renderer = NULL ;
+		theObject->renderer = Q3Renderer_NewFromType ( kQ3RendererTypeInteractive ) ;
 		theObject->camera = NULL ;
 		theObject->lightGroup = NULL ;
 		theObject->attributeSet = NULL ;
+		theObject->clearMethod = kQ3ClearMethodNone  ;
+		Q3ColorARGB_Set ( &theObject->clearImageColor, 1.0f, 1.0f, 1.0f, 1.0f ) ;
+		theObject->mask.image = NULL ;
+		theObject->mask.width = 0 ;
+		theObject->mask.height = 0 ;
+		theObject->mask.rowBytes = 0 ;
+		theObject->mask.bitOrder = kQ3EndianBig ;
 		}
 
 	
 	theObject->isValidSetDimensions = kQ3False ;
-	theObject->widthDimensions = 0 ;
+	theObject->widthDimensions = 0 ; // These don't seem to be in the View or the Draw Context, unless they should be max - min.
 	theObject->heightDimensions = 0 ;
-	theObject->isValidSetMaskState = kQ3False ;
-	theObject->mask.image = NULL ;
-	theObject->mask.width = 0 ;
-	theObject->mask.height = 0 ;
-	theObject->mask.rowBytes = 0 ;
-	theObject->mask.bitOrder = kQ3EndianBig ;
-	theObject->clearMethod = kQ3ClearMethodNone  ;
-	Q3ColorARGB_Set ( &theObject->clearImageColor, 1.0f, 1.0f, 1.0f, 1.0f ) ;
 
 	return kQ3Success ;
 	}
@@ -2119,6 +2126,7 @@ e3viewhints_traverse ( E3ViewHints* theObject, void *data, TQ3ViewObject theView
 	TQ3GroupObject lightGroup ;
 	if ( theObject->GetLightGroup ( &lightGroup ) == kQ3Success )
 		{
+#if 1
 		TQ3GroupPosition pos ;
 		for ( Q3Group_GetFirstPosition ( lightGroup, &pos ) ; pos ; Q3Group_GetNextPosition ( lightGroup, &pos ) )
 			{
@@ -2127,6 +2135,9 @@ e3viewhints_traverse ( E3ViewHints* theObject, void *data, TQ3ViewObject theView
 			result &= Q3Object_Submit ( object, theView ) ;
 			Q3Object_Dispose ( object ) ;
 			}
+#else
+		result &= Q3Object_Submit ( lightGroup, theView ) ;
+#endif
 		Q3Object_Dispose ( lightGroup ) ;
 		}
 		
