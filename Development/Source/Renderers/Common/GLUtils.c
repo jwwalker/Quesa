@@ -294,6 +294,11 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		{
 			featureFlags->clampToEdge = kQ3True;
 		}
+		
+		if (isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_multitexture" ))
+		{
+			featureFlags->multitexture = kQ3True;
+		}
 	}
 }
 
