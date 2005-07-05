@@ -106,6 +106,7 @@ typedef struct TQ3GLExtensions
 {
 	TQ3Boolean				separateSpecularColor;
 	TQ3Boolean				clampToEdge;
+	TQ3Boolean				multitexture;
 } TQ3GLExtensions;
 
 
