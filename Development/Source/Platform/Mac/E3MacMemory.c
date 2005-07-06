@@ -79,12 +79,15 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3MacMemory.h"
+
 
 #if QUESA_UH_IN_FRAMEWORKS
     #include <Carbon/Carbon.h>
 #else
 	#include <Memory.h>
 	#include <MacTypes.h>
+	#include <Folders.h>
 	#include <Gestalt.h>
 #endif
 
@@ -94,7 +97,6 @@
 	#if !QUESA_UH_IN_FRAMEWORKS
 		#include <CFBundle.h>
 		#include <CFURL.h>
-		#include <Folders.h>
 	#endif
 #endif
 
@@ -159,8 +161,7 @@
 //----------------------------------------------------------------------------
 //	Get a bundle reference for one of the system frameworks by name.
 //----------------------------------------------------------------------------
-#ifdef Q3_DEBUG_WITH_MMAP
-static OSStatus LoadFrameworkBundle(CFStringRef framework, CFBundleRef *bundlePtr)
+OSStatus LoadFrameworkBundle(CFStringRef framework, CFBundleRef *bundlePtr)
 {
 	OSStatus 	err;
 	FSRef 		frameworksFolderRef;
@@ -209,7 +210,6 @@ static OSStatus LoadFrameworkBundle(CFStringRef framework, CFBundleRef *bundlePt
 	
 	return err;
 }
-#endif
 
 
 
