@@ -168,7 +168,7 @@ E3System_LoadPlugins(void)
 	qd3dStatus = WFRenderer_Register();
 	qd3dStatus = IRRenderer_Register();
 
-#if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+#if (QUESA_OS_MACINTOSH && !TARGET_API_MAC_OS8) || QUESA_OS_WIN32
 	qd3dStatus = CartoonRenderer_Register();
 #endif
 #endif
@@ -201,7 +201,7 @@ E3System_UnloadPlugins(void)
 	WFRenderer_Unregister();
 	IRRenderer_Unregister();
 
-#if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+#if (QUESA_OS_MACINTOSH && !TARGET_API_MAC_OS8) || QUESA_OS_WIN32
 	CartoonRenderer_Unregister();
 #endif
 #endif
