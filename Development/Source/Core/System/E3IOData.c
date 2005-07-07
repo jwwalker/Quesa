@@ -2074,9 +2074,9 @@ e3viewhints_read ( TQ3FileObject theFile )
 					TQ3Uns32* p = (TQ3Uns32*) childObject->FindLeafInstanceData () ;
 					theObject->SetDimensions ( p [ 0 ] , p [ 1 ] ) ;
 					}
-				else
 /*
 To be written:
+				else
 				if ( Q3Object_IsType ( childObject , ? ) )
 					{
 					theObject->SetMaskState ( kQ3True ) ;
