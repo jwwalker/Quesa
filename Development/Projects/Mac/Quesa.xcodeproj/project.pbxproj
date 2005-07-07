@@ -1,0 +1,2125 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D07F2C40486CC7A007CD1D0 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB77AAFE841565C02AAC07 /* Carbon.framework */; };
+		AB3A7CA4055E63B200CA83BE /* E3Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B85055E63B100CA83BE /* E3Geometry.c */; };
+		AB3A7CA5055E63B200CA83BE /* E3Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B86055E63B100CA83BE /* E3Geometry.h */; };
+		AB3A7CA6055E63B200CA83BE /* E3GeometryBox.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B87055E63B100CA83BE /* E3GeometryBox.c */; };
+		AB3A7CA7055E63B200CA83BE /* E3GeometryBox.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B88055E63B100CA83BE /* E3GeometryBox.h */; };
+		AB3A7CA8055E63B200CA83BE /* E3GeometryCone.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B89055E63B100CA83BE /* E3GeometryCone.c */; };
+		AB3A7CA9055E63B200CA83BE /* E3GeometryCone.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B8A055E63B100CA83BE /* E3GeometryCone.h */; };
+		AB3A7CAA055E63B200CA83BE /* E3GeometryCylinder.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B8B055E63B100CA83BE /* E3GeometryCylinder.c */; };
+		AB3A7CAB055E63B200CA83BE /* E3GeometryCylinder.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B8C055E63B100CA83BE /* E3GeometryCylinder.h */; };
+		AB3A7CAC055E63B200CA83BE /* E3GeometryDisk.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B8D055E63B100CA83BE /* E3GeometryDisk.c */; };
+		AB3A7CAD055E63B200CA83BE /* E3GeometryDisk.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B8E055E63B100CA83BE /* E3GeometryDisk.h */; };
+		AB3A7CAE055E63B200CA83BE /* E3GeometryEllipse.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B8F055E63B100CA83BE /* E3GeometryEllipse.c */; };
+		AB3A7CAF055E63B200CA83BE /* E3GeometryEllipse.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B90055E63B100CA83BE /* E3GeometryEllipse.h */; };
+		AB3A7CB0055E63B200CA83BE /* E3GeometryEllipsoid.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B91055E63B100CA83BE /* E3GeometryEllipsoid.c */; };
+		AB3A7CB1055E63B200CA83BE /* E3GeometryEllipsoid.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B92055E63B100CA83BE /* E3GeometryEllipsoid.h */; };
+		AB3A7CB2055E63B200CA83BE /* E3GeometryGeneralPolygon.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B93055E63B100CA83BE /* E3GeometryGeneralPolygon.c */; };
+		AB3A7CB3055E63B200CA83BE /* E3GeometryGeneralPolygon.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B94055E63B100CA83BE /* E3GeometryGeneralPolygon.h */; };
+		AB3A7CB4055E63B200CA83BE /* E3GeometryLine.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B95055E63B100CA83BE /* E3GeometryLine.c */; };
+		AB3A7CB5055E63B200CA83BE /* E3GeometryLine.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B96055E63B100CA83BE /* E3GeometryLine.h */; };
+		AB3A7CB6055E63B200CA83BE /* E3GeometryMarker.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B97055E63B100CA83BE /* E3GeometryMarker.c */; };
+		AB3A7CB7055E63B200CA83BE /* E3GeometryMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B98055E63B100CA83BE /* E3GeometryMarker.h */; };
+		AB3A7CB8055E63B200CA83BE /* E3GeometryMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B99055E63B100CA83BE /* E3GeometryMesh.c */; };
+		AB3A7CB9055E63B200CA83BE /* E3GeometryMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B9A055E63B100CA83BE /* E3GeometryMesh.h */; };
+		AB3A7CBA055E63B200CA83BE /* E3GeometryNURBCurve.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B9B055E63B100CA83BE /* E3GeometryNURBCurve.c */; };
+		AB3A7CBB055E63B200CA83BE /* E3GeometryNURBCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B9C055E63B100CA83BE /* E3GeometryNURBCurve.h */; };
+		AB3A7CBC055E63B200CA83BE /* E3GeometryNURBPatch.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B9D055E63B100CA83BE /* E3GeometryNURBPatch.c */; };
+		AB3A7CBD055E63B200CA83BE /* E3GeometryNURBPatch.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B9E055E63B100CA83BE /* E3GeometryNURBPatch.h */; };
+		AB3A7CBE055E63B200CA83BE /* E3GeometryPixmapMarker.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B9F055E63B100CA83BE /* E3GeometryPixmapMarker.c */; };
+		AB3A7CBF055E63B200CA83BE /* E3GeometryPixmapMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA0055E63B100CA83BE /* E3GeometryPixmapMarker.h */; };
+		AB3A7CC0055E63B200CA83BE /* E3GeometryPoint.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA1055E63B100CA83BE /* E3GeometryPoint.c */; };
+		AB3A7CC1055E63B200CA83BE /* E3GeometryPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA2055E63B100CA83BE /* E3GeometryPoint.h */; };
+		AB3A7CC2055E63B200CA83BE /* E3GeometryPolygon.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA3055E63B100CA83BE /* E3GeometryPolygon.c */; };
+		AB3A7CC3055E63B200CA83BE /* E3GeometryPolygon.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA4055E63B100CA83BE /* E3GeometryPolygon.h */; };
+		AB3A7CC4055E63B200CA83BE /* E3GeometryPolyhedron.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA5055E63B100CA83BE /* E3GeometryPolyhedron.c */; };
+		AB3A7CC5055E63B200CA83BE /* E3GeometryPolyhedron.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA6055E63B100CA83BE /* E3GeometryPolyhedron.h */; };
+		AB3A7CC6055E63B200CA83BE /* E3GeometryPolyLine.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA7055E63B100CA83BE /* E3GeometryPolyLine.c */; };
+		AB3A7CC7055E63B200CA83BE /* E3GeometryPolyLine.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA8055E63B100CA83BE /* E3GeometryPolyLine.h */; };
+		AB3A7CC8055E63B200CA83BE /* E3GeometryTorus.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA9055E63B100CA83BE /* E3GeometryTorus.c */; };
+		AB3A7CC9055E63B200CA83BE /* E3GeometryTorus.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BAA055E63B100CA83BE /* E3GeometryTorus.h */; };
+		AB3A7CCA055E63B200CA83BE /* E3GeometryTriangle.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BAB055E63B100CA83BE /* E3GeometryTriangle.c */; };
+		AB3A7CCB055E63B200CA83BE /* E3GeometryTriangle.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BAC055E63B100CA83BE /* E3GeometryTriangle.h */; };
+		AB3A7CCC055E63B200CA83BE /* E3GeometryTriGrid.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BAD055E63B100CA83BE /* E3GeometryTriGrid.c */; };
+		AB3A7CCD055E63B200CA83BE /* E3GeometryTriGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BAE055E63B100CA83BE /* E3GeometryTriGrid.h */; };
+		AB3A7CCE055E63B200CA83BE /* E3GeometryTriMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BAF055E63B100CA83BE /* E3GeometryTriMesh.c */; };
+		AB3A7CCF055E63B200CA83BE /* E3GeometryTriMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BB0055E63B100CA83BE /* E3GeometryTriMesh.h */; };
+		AB3A7CD0055E63B200CA83BE /* QD3DCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB2055E63B100CA83BE /* QD3DCamera.c */; };
+		AB3A7CD1055E63B200CA83BE /* QD3DController.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB3055E63B100CA83BE /* QD3DController.c */; };
+		AB3A7CD2055E63B200CA83BE /* QD3DCustomElements.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB4055E63B100CA83BE /* QD3DCustomElements.c */; };
+		AB3A7CD3055E63B200CA83BE /* QD3DDrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB5055E63B100CA83BE /* QD3DDrawContext.c */; };
+		AB3A7CD4055E63B200CA83BE /* QD3DErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB6055E63B100CA83BE /* QD3DErrors.c */; };
+		AB3A7CD5055E63B200CA83BE /* QD3DExtension.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB7055E63B100CA83BE /* QD3DExtension.c */; };
+		AB3A7CD6055E63B200CA83BE /* QD3DGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB8055E63B100CA83BE /* QD3DGeometry.c */; };
+		AB3A7CD7055E63B200CA83BE /* QD3DGroup.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB9055E63B100CA83BE /* QD3DGroup.c */; };
+		AB3A7CD8055E63B200CA83BE /* QD3DIO.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBA055E63B100CA83BE /* QD3DIO.c */; };
+		AB3A7CD9055E63B200CA83BE /* QD3DLight.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBB055E63B100CA83BE /* QD3DLight.c */; };
+		AB3A7CDA055E63B200CA83BE /* QD3DMain.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBC055E63B100CA83BE /* QD3DMain.c */; };
+		AB3A7CDB055E63B200CA83BE /* QD3DMath.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBD055E63B100CA83BE /* QD3DMath.c */; };
+		AB3A7CDC055E63B200CA83BE /* QD3DMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBE055E63B100CA83BE /* QD3DMemory.c */; };
+		AB3A7CDD055E63B200CA83BE /* QD3DPick.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBF055E63B100CA83BE /* QD3DPick.c */; };
+		AB3A7CDE055E63B200CA83BE /* QD3DRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC0055E63B100CA83BE /* QD3DRenderer.c */; };
+		AB3A7CDF055E63B200CA83BE /* QD3DSet.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC1055E63B100CA83BE /* QD3DSet.c */; };
+		AB3A7CE0055E63B200CA83BE /* QD3DShader.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC2055E63B100CA83BE /* QD3DShader.c */; };
+		AB3A7CE1055E63B200CA83BE /* QD3DStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC3055E63B100CA83BE /* QD3DStorage.c */; };
+		AB3A7CE2055E63B200CA83BE /* QD3DString.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC4055E63B100CA83BE /* QD3DString.c */; };
+		AB3A7CE3055E63B200CA83BE /* QD3DStyle.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC5055E63B100CA83BE /* QD3DStyle.c */; };
+		AB3A7CE4055E63B200CA83BE /* QD3DTransform.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC6055E63B100CA83BE /* QD3DTransform.c */; };
+		AB3A7CE5055E63B200CA83BE /* QD3DView.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC7055E63B100CA83BE /* QD3DView.c */; };
+		AB3A7CE6055E63B200CA83BE /* QD3DViewer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC8055E63B100CA83BE /* QD3DViewer.c */; };
+		AB3A7CE7055E63B200CA83BE /* E3ArrayOrList.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCA055E63B100CA83BE /* E3ArrayOrList.c */; };
+		AB3A7CE8055E63B200CA83BE /* E3ArrayOrList.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BCB055E63B100CA83BE /* E3ArrayOrList.h */; };
+		AB3A7CE9055E63B200CA83BE /* E3ClassTree.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCC055E63B100CA83BE /* E3ClassTree.c */; };
+		AB3A7CEA055E63B200CA83BE /* E3ClassTree.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BCD055E63B100CA83BE /* E3ClassTree.h */; };
+		AB3A7CEB055E63B200CA83BE /* E3Compatibility.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCE055E63B100CA83BE /* E3Compatibility.c */; };
+		AB3A7CEC055E63B200CA83BE /* E3Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BCF055E63B100CA83BE /* E3Compatibility.h */; };
+		AB3A7CED055E63B200CA83BE /* E3Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD0055E63B100CA83BE /* E3Debug.h */; };
+		AB3A7CEE055E63B200CA83BE /* E3ErrorManager.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD1055E63B100CA83BE /* E3ErrorManager.c */; };
+		AB3A7CEF055E63B200CA83BE /* E3ErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD2055E63B100CA83BE /* E3ErrorManager.h */; };
+		AB3A7CF0055E63B200CA83BE /* E3Globals.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD3055E63B100CA83BE /* E3Globals.c */; };
+		AB3A7CF1055E63B200CA83BE /* E3Globals.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD4055E63B100CA83BE /* E3Globals.h */; };
+		AB3A7CF2055E63B200CA83BE /* E3HashTable.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD5055E63B100CA83BE /* E3HashTable.c */; };
+		AB3A7CF3055E63B200CA83BE /* E3HashTable.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD6055E63B100CA83BE /* E3HashTable.h */; };
+		AB3A7CF4055E63B200CA83BE /* E3Pool.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD7055E63B100CA83BE /* E3Pool.c */; };
+		AB3A7CF5055E63B200CA83BE /* E3Pool.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD8055E63B100CA83BE /* E3Pool.h */; };
+		AB3A7CF6055E63B200CA83BE /* E3Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD9055E63B100CA83BE /* E3Prefix.h */; };
+		AB3A7CF7055E63B200CA83BE /* E3StackCrawl.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BDA055E63B100CA83BE /* E3StackCrawl.h */; };
+		AB3A7CF8055E63B200CA83BE /* E3System.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BDB055E63B100CA83BE /* E3System.c */; };
+		AB3A7CF9055E63B200CA83BE /* E3System.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BDC055E63B100CA83BE /* E3System.h */; };
+		AB3A7CFA055E63B200CA83BE /* E3Tessellate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BDD055E63B100CA83BE /* E3Tessellate.c */; };
+		AB3A7CFB055E63B200CA83BE /* E3Tessellate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BDE055E63B100CA83BE /* E3Tessellate.h */; };
+		AB3A7CFC055E63B200CA83BE /* E3Utils.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BDF055E63B100CA83BE /* E3Utils.c */; };
+		AB3A7CFD055E63B200CA83BE /* E3Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE0055E63B100CA83BE /* E3Utils.h */; };
+		AB3A7CFE055E63B200CA83BE /* E3Version.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE1055E63B100CA83BE /* E3Version.h */; };
+		AB3A7CFF055E63B200CA83BE /* E3Camera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BE3055E63B100CA83BE /* E3Camera.c */; };
+		AB3A7D00055E63B200CA83BE /* E3Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE4055E63B100CA83BE /* E3Camera.h */; };
+		AB3A7D01055E63B200CA83BE /* E3Controller.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BE5055E63B100CA83BE /* E3Controller.c */; };
+		AB3A7D02055E63B200CA83BE /* E3Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE6055E63B100CA83BE /* E3Controller.h */; };
+		AB3A7D03055E63B200CA83BE /* E3CustomElements.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BE7055E63B100CA83BE /* E3CustomElements.c */; };
+		AB3A7D04055E63B200CA83BE /* E3CustomElements.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE8055E63B100CA83BE /* E3CustomElements.h */; };
+		AB3A7D05055E63B200CA83BE /* E3DrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BE9055E63B100CA83BE /* E3DrawContext.c */; };
+		AB3A7D06055E63B200CA83BE /* E3DrawContext.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BEA055E63B100CA83BE /* E3DrawContext.h */; };
+		AB3A7D07055E63B200CA83BE /* E3Errors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BEB055E63B100CA83BE /* E3Errors.c */; };
+		AB3A7D08055E63B200CA83BE /* E3Errors.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BEC055E63B100CA83BE /* E3Errors.h */; };
+		AB3A7D09055E63B200CA83BE /* E3Extension.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BED055E63B100CA83BE /* E3Extension.c */; };
+		AB3A7D0A055E63B200CA83BE /* E3Extension.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BEE055E63B100CA83BE /* E3Extension.h */; };
+		AB3A7D0B055E63B200CA83BE /* E3Group.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BEF055E63B100CA83BE /* E3Group.c */; };
+		AB3A7D0C055E63B200CA83BE /* E3Group.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF0055E63B100CA83BE /* E3Group.h */; };
+		AB3A7D0D055E63B200CA83BE /* E3IO.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF1055E63B100CA83BE /* E3IO.c */; };
+		AB3A7D0E055E63B200CA83BE /* E3IO.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF2055E63B100CA83BE /* E3IO.h */; };
+		AB3A7D0F055E63B200CA83BE /* E3IOData.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF3055E63B100CA83BE /* E3IOData.c */; };
+		AB3A7D10055E63B200CA83BE /* E3IOData.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF4055E63B100CA83BE /* E3IOData.h */; };
+		AB3A7D11055E63B200CA83BE /* E3Light.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF5055E63B100CA83BE /* E3Light.c */; };
+		AB3A7D12055E63B200CA83BE /* E3Light.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF6055E63B100CA83BE /* E3Light.h */; };
+		AB3A7D13055E63B200CA83BE /* E3Main.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF7055E63B100CA83BE /* E3Main.c */; };
+		AB3A7D14055E63B200CA83BE /* E3Main.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF8055E63B100CA83BE /* E3Main.h */; };
+		AB3A7D15055E63B200CA83BE /* E3Math.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF9055E63B100CA83BE /* E3Math.c */; };
+		AB3A7D16055E63B200CA83BE /* E3Math.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BFA055E63B100CA83BE /* E3Math.h */; };
+		AB3A7D17055E63B200CA83BE /* E3Memory.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BFB055E63B100CA83BE /* E3Memory.c */; };
+		AB3A7D18055E63B200CA83BE /* E3Memory.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BFC055E63B100CA83BE /* E3Memory.h */; };
+		AB3A7D19055E63B200CA83BE /* E3Pick.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BFD055E63B100CA83BE /* E3Pick.c */; };
+		AB3A7D1A055E63B200CA83BE /* E3Pick.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BFE055E63B100CA83BE /* E3Pick.h */; };
+		AB3A7D1B055E63B200CA83BE /* E3Renderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BFF055E63B100CA83BE /* E3Renderer.c */; };
+		AB3A7D1C055E63B200CA83BE /* E3Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C00055E63B100CA83BE /* E3Renderer.h */; };
+		AB3A7D1D055E63B200CA83BE /* E3Set.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C01055E63B100CA83BE /* E3Set.c */; };
+		AB3A7D1E055E63B200CA83BE /* E3Set.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C02055E63B100CA83BE /* E3Set.h */; };
+		AB3A7D1F055E63B200CA83BE /* E3Shader.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C03055E63B100CA83BE /* E3Shader.c */; };
+		AB3A7D20055E63B200CA83BE /* E3Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C04055E63B100CA83BE /* E3Shader.h */; };
+		AB3A7D21055E63B200CA83BE /* E3Storage.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C05055E63B100CA83BE /* E3Storage.c */; };
+		AB3A7D22055E63B200CA83BE /* E3Storage.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C06055E63B100CA83BE /* E3Storage.h */; };
+		AB3A7D23055E63B200CA83BE /* E3String.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C07055E63B100CA83BE /* E3String.c */; };
+		AB3A7D24055E63B200CA83BE /* E3String.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C08055E63B100CA83BE /* E3String.h */; };
+		AB3A7D25055E63B200CA83BE /* E3Style.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C09055E63B100CA83BE /* E3Style.c */; };
+		AB3A7D26055E63B200CA83BE /* E3Style.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C0A055E63B100CA83BE /* E3Style.h */; };
+		AB3A7D27055E63B200CA83BE /* E3Texture.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C0B055E63B100CA83BE /* E3Texture.c */; };
+		AB3A7D28055E63B200CA83BE /* E3Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C0C055E63B100CA83BE /* E3Texture.h */; };
+		AB3A7D29055E63B200CA83BE /* E3Transform.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C0D055E63B100CA83BE /* E3Transform.c */; };
+		AB3A7D2A055E63B200CA83BE /* E3Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C0E055E63B100CA83BE /* E3Transform.h */; };
+		AB3A7D2B055E63B200CA83BE /* E3View.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C0F055E63B100CA83BE /* E3View.c */; };
+		AB3A7D2C055E63B200CA83BE /* E3View.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C10055E63B100CA83BE /* E3View.h */; };
+		AB3A7D2D055E63B200CA83BE /* E3Viewer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C12055E63B100CA83BE /* E3Viewer.c */; };
+		AB3A7D2E055E63B200CA83BE /* E3Viewer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C13055E63B100CA83BE /* E3Viewer.h */; };
+		AB3A7D2F055E63B200CA83BE /* E3ViewerOldAPIs.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C14055E63B100CA83BE /* E3ViewerOldAPIs.c */; };
+		AB3A7D32055E63B200CA83BE /* GLCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C19055E63B100CA83BE /* GLCamera.c */; };
+		AB3A7D33055E63B200CA83BE /* GLCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C1A055E63B100CA83BE /* GLCamera.h */; };
+		AB3A7D36055E63B200CA83BE /* GLDrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C1D055E63B100CA83BE /* GLDrawContext.c */; };
+		AB3A7D37055E63B200CA83BE /* GLDrawContext.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C1E055E63B100CA83BE /* GLDrawContext.h */; };
+		AB3A7D38055E63B200CA83BE /* GLPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C1F055E63B100CA83BE /* GLPrefix.h */; };
+		AB3A7D39055E63B200CA83BE /* GLUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C20055E63B100CA83BE /* GLUtils.c */; };
+		AB3A7D3A055E63B200CA83BE /* GLUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C21055E63B100CA83BE /* GLUtils.h */; };
+		AB3A7D3B055E63B200CA83BE /* GNGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C23055E63B100CA83BE /* GNGeometry.c */; };
+		AB3A7D3C055E63B200CA83BE /* GNGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C24055E63B100CA83BE /* GNGeometry.h */; };
+		AB3A7D3D055E63B200CA83BE /* GNPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C25055E63B100CA83BE /* GNPrefix.h */; };
+		AB3A7D3E055E63B200CA83BE /* GNRegister.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C26055E63B100CA83BE /* GNRegister.c */; };
+		AB3A7D3F055E63B200CA83BE /* GNRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C27055E63B100CA83BE /* GNRegister.h */; };
+		AB3A7D40055E63B200CA83BE /* GNRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C28055E63B100CA83BE /* GNRenderer.c */; };
+		AB3A7D41055E63B200CA83BE /* GNRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C29055E63B100CA83BE /* GNRenderer.h */; };
+		AB3A7D42055E63B200CA83BE /* IRGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C2B055E63B100CA83BE /* IRGeometry.c */; };
+		AB3A7D43055E63B200CA83BE /* IRGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C2C055E63B100CA83BE /* IRGeometry.h */; };
+		AB3A7D44055E63B200CA83BE /* IRGeometryTriMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C2D055E63B100CA83BE /* IRGeometryTriMesh.c */; };
+		AB3A7D45055E63B200CA83BE /* IRGeometryTriMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C2E055E63B100CA83BE /* IRGeometryTriMesh.h */; };
+		AB3A7D46055E63B200CA83BE /* IRLights.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C2F055E63B100CA83BE /* IRLights.c */; };
+		AB3A7D47055E63B200CA83BE /* IRLights.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C30055E63B100CA83BE /* IRLights.h */; };
+		AB3A7D48055E63B200CA83BE /* IRPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C31055E63B100CA83BE /* IRPrefix.h */; };
+		AB3A7D49055E63B200CA83BE /* IRRegister.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C32055E63B100CA83BE /* IRRegister.c */; };
+		AB3A7D4A055E63B200CA83BE /* IRRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C33055E63B100CA83BE /* IRRegister.h */; };
+		AB3A7D4B055E63B200CA83BE /* IRRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C34055E63B100CA83BE /* IRRenderer.c */; };
+		AB3A7D4C055E63B200CA83BE /* IRRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C35055E63B100CA83BE /* IRRenderer.h */; };
+		AB3A7D4D055E63B200CA83BE /* IRTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C36055E63B100CA83BE /* IRTexture.c */; };
+		AB3A7D4E055E63B200CA83BE /* IRTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C37055E63B100CA83BE /* IRTexture.h */; };
+		AB3A7D4F055E63B200CA83BE /* IRTransparent.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C38055E63B100CA83BE /* IRTransparent.c */; };
+		AB3A7D50055E63B200CA83BE /* IRTransparent.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C39055E63B100CA83BE /* IRTransparent.h */; };
+		AB3A7D51055E63B200CA83BE /* IRTriBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C3A055E63B100CA83BE /* IRTriBuffer.c */; };
+		AB3A7D52055E63B200CA83BE /* IRTriBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C3B055E63B100CA83BE /* IRTriBuffer.h */; };
+		AB3A7D53055E63B200CA83BE /* IRUpdate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C3C055E63B100CA83BE /* IRUpdate.c */; };
+		AB3A7D54055E63B200CA83BE /* IRUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C3D055E63B100CA83BE /* IRUpdate.h */; };
+		AB3A7D55055E63B200CA83BE /* WFGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C3F055E63B100CA83BE /* WFGeometry.c */; };
+		AB3A7D56055E63B200CA83BE /* WFGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C40055E63B100CA83BE /* WFGeometry.h */; };
+		AB3A7D57055E63B200CA83BE /* WFPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C41055E63B100CA83BE /* WFPrefix.h */; };
+		AB3A7D58055E63B200CA83BE /* WFRegister.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C42055E63B100CA83BE /* WFRegister.c */; };
+		AB3A7D59055E63B200CA83BE /* WFRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C43055E63B100CA83BE /* WFRegister.h */; };
+		AB3A7D5A055E63B200CA83BE /* WFRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C44055E63B100CA83BE /* WFRenderer.c */; };
+		AB3A7D5B055E63B200CA83BE /* WFRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C45055E63B100CA83BE /* WFRenderer.h */; };
+		AB3A7D5C055E63B200CA83BE /* WFUpdate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C46055E63B100CA83BE /* WFUpdate.c */; };
+		AB3A7D5D055E63B200CA83BE /* WFUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C47055E63B100CA83BE /* WFUpdate.h */; };
+		AB3A7D5E055E63B200CA83BE /* E3IOFileFormat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C49055E63B100CA83BE /* E3IOFileFormat.c */; };
+		AB3A7D5F055E63B200CA83BE /* E3IOFileFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C4A055E63B100CA83BE /* E3IOFileFormat.h */; };
+		AB3A7D60055E63B200CA83BE /* E3FFR_3DMF.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C4D055E63B100CA83BE /* E3FFR_3DMF.c */; };
+		AB3A7D61055E63B200CA83BE /* E3FFR_3DMF.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C4E055E63B100CA83BE /* E3FFR_3DMF.h */; };
+		AB3A7D62055E63B200CA83BE /* E3FFR_3DMF_Bin.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C4F055E63B100CA83BE /* E3FFR_3DMF_Bin.c */; };
+		AB3A7D63055E63B200CA83BE /* E3FFR_3DMF_Bin.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C50055E63B100CA83BE /* E3FFR_3DMF_Bin.h */; };
+		AB3A7D64055E63B200CA83BE /* E3FFR_3DMF_Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C51055E63B100CA83BE /* E3FFR_3DMF_Geometry.c */; };
+		AB3A7D65055E63B200CA83BE /* E3FFR_3DMF_Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C52055E63B100CA83BE /* E3FFR_3DMF_Geometry.h */; };
+		AB3A7D66055E63B200CA83BE /* E3FFR_3DMF_Text.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C53055E63B100CA83BE /* E3FFR_3DMF_Text.c */; };
+		AB3A7D67055E63B200CA83BE /* E3FFR_3DMF_Text.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C54055E63B100CA83BE /* E3FFR_3DMF_Text.h */; };
+		AB3A7D68055E63B200CA83BE /* E3FFW_3DMFBin_Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C57055E63B100CA83BE /* E3FFW_3DMFBin_Geometry.c */; };
+		AB3A7D69055E63B200CA83BE /* E3FFW_3DMFBin_Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C58055E63B100CA83BE /* E3FFW_3DMFBin_Geometry.h */; };
+		AB3A7D6A055E63B200CA83BE /* E3FFW_3DMFBin_Register.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C59055E63B100CA83BE /* E3FFW_3DMFBin_Register.c */; };
+		AB3A7D6B055E63B200CA83BE /* E3FFW_3DMFBin_Register.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C5A055E63B100CA83BE /* E3FFW_3DMFBin_Register.h */; };
+		AB3A7D6C055E63B200CA83BE /* E3FFW_3DMFBin_Writer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C5B055E63B100CA83BE /* E3FFW_3DMFBin_Writer.c */; };
+		AB3A7D6D055E63B200CA83BE /* E3FFW_3DMFBin_Writer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C5C055E63B100CA83BE /* E3FFW_3DMFBin_Writer.h */; };
+		AB3A7E34055E691D00CA83BE /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E33055E691D00CA83BE /* OpenGL.framework */; };
+		AB3A7E67055E698900CA83BE /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E66055E698900CA83BE /* QuickTime.framework */; };
+		AB3A7E6D055E6A0800CA83BE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */; };
+		AB83B5F0055E72B90034F56A /* Quesa.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5D8055E72B90034F56A /* Quesa.h */; };
+		AB83B5F1055E72B90034F56A /* QuesaCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5D9055E72B90034F56A /* QuesaCamera.h */; };
+		AB83B5F2055E72B90034F56A /* QuesaController.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DA055E72B90034F56A /* QuesaController.h */; };
+		AB83B5F3055E72B90034F56A /* QuesaCustomElements.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DB055E72B90034F56A /* QuesaCustomElements.h */; };
+		AB83B5F4055E72B90034F56A /* QuesaDrawContext.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DC055E72B90034F56A /* QuesaDrawContext.h */; };
+		AB83B5F5055E72B90034F56A /* QuesaErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DD055E72B90034F56A /* QuesaErrors.h */; };
+		AB83B5F6055E72B90034F56A /* QuesaExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DE055E72B90034F56A /* QuesaExtension.h */; };
+		AB83B5F7055E72B90034F56A /* QuesaGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DF055E72B90034F56A /* QuesaGeometry.h */; };
+		AB83B5F8055E72B90034F56A /* QuesaGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E0055E72B90034F56A /* QuesaGroup.h */; };
+		AB83B5F9055E72B90034F56A /* QuesaIO.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E1055E72B90034F56A /* QuesaIO.h */; };
+		AB83B5FA055E72B90034F56A /* QuesaLight.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E2055E72B90034F56A /* QuesaLight.h */; };
+		AB83B5FB055E72B90034F56A /* QuesaMath.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E3055E72B90034F56A /* QuesaMath.h */; };
+		AB83B5FC055E72B90034F56A /* QuesaMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E4055E72B90034F56A /* QuesaMemory.h */; };
+		AB83B5FD055E72B90034F56A /* QuesaPick.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E5055E72B90034F56A /* QuesaPick.h */; };
+		AB83B5FE055E72B90034F56A /* QuesaRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E6055E72B90034F56A /* QuesaRenderer.h */; };
+		AB83B5FF055E72B90034F56A /* QuesaSet.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E7055E72B90034F56A /* QuesaSet.h */; };
+		AB83B600055E72B90034F56A /* QuesaShader.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E8055E72B90034F56A /* QuesaShader.h */; };
+		AB83B601055E72B90034F56A /* QuesaStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E9055E72B90034F56A /* QuesaStorage.h */; };
+		AB83B602055E72B90034F56A /* QuesaString.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EA055E72B90034F56A /* QuesaString.h */; };
+		AB83B603055E72B90034F56A /* QuesaStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EB055E72B90034F56A /* QuesaStyle.h */; };
+		AB83B604055E72B90034F56A /* QuesaTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EC055E72B90034F56A /* QuesaTransform.h */; };
+		AB83B605055E72B90034F56A /* QuesaView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5ED055E72B90034F56A /* QuesaView.h */; };
+		AB83B606055E72B90034F56A /* QuesaViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EE055E72B90034F56A /* QuesaViewer.h */; };
+		AB83B99E055E77880034F56A /* E3MacDebug.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95B055E77870034F56A /* E3MacDebug.c */; };
+		AB83B99F055E77880034F56A /* E3MacDrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95C055E77870034F56A /* E3MacDrawContext.c */; };
+		AB83B9A0055E77880034F56A /* E3MacErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95D055E77870034F56A /* E3MacErrors.c */; };
+		AB83B9A2055E77880034F56A /* E3MacPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B95F055E77870034F56A /* E3MacPrefix.h */; };
+		AB83B9A7055E77880034F56A /* E3MacStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B964055E77870034F56A /* E3MacStorage.c */; };
+		AB83B9A8055E77880034F56A /* E3MacSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B965055E77870034F56A /* E3MacSystem.c */; };
+		AB83B9FD055E79B20034F56A /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB83B9FC055E79B20034F56A /* AGL.framework */; };
+		B1756B2D080A73A40056134C /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB83B9FC055E79B20034F56A /* AGL.framework */; };
+		B1756B2E080A73A40056134C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E33055E691D00CA83BE /* OpenGL.framework */; };
+		B1756B2F080A73A40056134C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB77AAFE841565C02AAC07 /* Carbon.framework */; };
+		B1756B30080A73A40056134C /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E66055E698900CA83BE /* QuickTime.framework */; };
+		B1756B3D080A73C00056134C /* QD3DSet.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC1055E63B100CA83BE /* QD3DSet.c */; };
+		B1756B3E080A73C00056134C /* E3GeometryMarker.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B97055E63B100CA83BE /* E3GeometryMarker.c */; };
+		B1756B3F080A73C00056134C /* E3Utils.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BDF055E63B100CA83BE /* E3Utils.c */; };
+		B1756B40080A73C00056134C /* E3GeometryTriMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BAF055E63B100CA83BE /* E3GeometryTriMesh.c */; };
+		B1756B41080A73C00056134C /* E3GeometryPolyhedron.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA5055E63B100CA83BE /* E3GeometryPolyhedron.c */; };
+		B1756B42080A73C00056134C /* QD3DPick.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBF055E63B100CA83BE /* QD3DPick.c */; };
+		B1756B43080A73C00056134C /* WFUpdate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C46055E63B100CA83BE /* WFUpdate.c */; };
+		B1756B44080A73C00056134C /* IRLights.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C2F055E63B100CA83BE /* IRLights.c */; };
+		B1756B45080A73C00056134C /* E3Controller.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BE5055E63B100CA83BE /* E3Controller.c */; };
+		B1756B46080A73C00056134C /* E3GeometryCone.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B89055E63B100CA83BE /* E3GeometryCone.c */; };
+		B1756B47080A73C00056134C /* IRGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C2B055E63B100CA83BE /* IRGeometry.c */; };
+		B1756B48080A73C00056134C /* E3Light.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF5055E63B100CA83BE /* E3Light.c */; };
+		B1756B49080A73C00056134C /* E3Transform.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C0D055E63B100CA83BE /* E3Transform.c */; };
+		B1756B4A080A73C00056134C /* QD3DIO.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBA055E63B100CA83BE /* QD3DIO.c */; };
+		B1756B4B080A73C00056134C /* E3IO.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF1055E63B100CA83BE /* E3IO.c */; };
+		B1756B4C080A73C00056134C /* E3GeometryTorus.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA9055E63B100CA83BE /* E3GeometryTorus.c */; };
+		B1756B4D080A73C00056134C /* E3FFR_3DMF_Bin.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C4F055E63B100CA83BE /* E3FFR_3DMF_Bin.c */; };
+		B1756B4E080A73C00056134C /* QD3DString.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC4055E63B100CA83BE /* QD3DString.c */; };
+		B1756B4F080A73C00056134C /* IRRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C34055E63B100CA83BE /* IRRenderer.c */; };
+		B1756B50080A73C00056134C /* IRTransparent.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C38055E63B100CA83BE /* IRTransparent.c */; };
+		B1756B51080A73C00056134C /* E3Texture.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C0B055E63B100CA83BE /* E3Texture.c */; };
+		B1756B52080A73C00056134C /* E3MacErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95D055E77870034F56A /* E3MacErrors.c */; };
+		B1756B53080A73C00056134C /* E3GeometryEllipse.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B8F055E63B100CA83BE /* E3GeometryEllipse.c */; };
+		B1756B54080A73C00056134C /* GLUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C20055E63B100CA83BE /* GLUtils.c */; };
+		B1756B55080A73C00056134C /* GNGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C23055E63B100CA83BE /* GNGeometry.c */; };
+		B1756B56080A73C00056134C /* E3Memory.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BFB055E63B100CA83BE /* E3Memory.c */; };
+		B1756B57080A73C00056134C /* QD3DViewer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC8055E63B100CA83BE /* QD3DViewer.c */; };
+		B1756B58080A73C00056134C /* E3Extension.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BED055E63B100CA83BE /* E3Extension.c */; };
+		B1756B59080A73C00056134C /* QD3DLight.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBB055E63B100CA83BE /* QD3DLight.c */; };
+		B1756B5A080A73C00056134C /* QD3DCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB2055E63B100CA83BE /* QD3DCamera.c */; };
+		B1756B5B080A73C00056134C /* E3Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B85055E63B100CA83BE /* E3Geometry.c */; };
+		B1756B5C080A73C00056134C /* E3GeometryLine.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B95055E63B100CA83BE /* E3GeometryLine.c */; };
+		B1756B5D080A73C00056134C /* E3FFR_3DMF_Text.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C53055E63B100CA83BE /* E3FFR_3DMF_Text.c */; };
+		B1756B5E080A73C00056134C /* QD3DGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB8055E63B100CA83BE /* QD3DGeometry.c */; };
+		B1756B5F080A73C00056134C /* QD3DRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC0055E63B100CA83BE /* QD3DRenderer.c */; };
+		B1756B60080A73C00056134C /* E3Tessellate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BDD055E63B100CA83BE /* E3Tessellate.c */; };
+		B1756B61080A73C00056134C /* E3Storage.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C05055E63B100CA83BE /* E3Storage.c */; };
+		B1756B62080A73C00056134C /* WFRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C44055E63B100CA83BE /* WFRenderer.c */; };
+		B1756B63080A73C00056134C /* E3GeometryPoint.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA1055E63B100CA83BE /* E3GeometryPoint.c */; };
+		B1756B64080A73C00056134C /* E3ViewerOldAPIs.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C14055E63B100CA83BE /* E3ViewerOldAPIs.c */; };
+		B1756B65080A73C00056134C /* E3Pool.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD7055E63B100CA83BE /* E3Pool.c */; };
+		B1756B66080A73C00056134C /* E3FFW_3DMFBin_Register.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C59055E63B100CA83BE /* E3FFW_3DMFBin_Register.c */; };
+		B1756B67080A73C00056134C /* E3GeometryGeneralPolygon.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B93055E63B100CA83BE /* E3GeometryGeneralPolygon.c */; };
+		B1756B68080A73C00056134C /* QD3DStyle.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC5055E63B100CA83BE /* QD3DStyle.c */; };
+		B1756B69080A73C00056134C /* E3GeometryPolyLine.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA7055E63B100CA83BE /* E3GeometryPolyLine.c */; };
+		B1756B6A080A73C00056134C /* E3FFR_3DMF.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C4D055E63B100CA83BE /* E3FFR_3DMF.c */; };
+		B1756B6B080A73C00056134C /* E3MacDebug.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95B055E77870034F56A /* E3MacDebug.c */; };
+		B1756B6C080A73C00056134C /* E3Compatibility.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCE055E63B100CA83BE /* E3Compatibility.c */; };
+		B1756B6D080A73C00056134C /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
+		B1756B6E080A73C00056134C /* E3Group.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BEF055E63B100CA83BE /* E3Group.c */; };
+		B1756B6F080A73C00056134C /* QD3DShader.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC2055E63B100CA83BE /* QD3DShader.c */; };
+		B1756B70080A73C00056134C /* E3DrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BE9055E63B100CA83BE /* E3DrawContext.c */; };
+		B1756B71080A73C00056134C /* E3View.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C0F055E63B100CA83BE /* E3View.c */; };
+		B1756B72080A73C00056134C /* QD3DMain.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBC055E63B100CA83BE /* QD3DMain.c */; };
+		B1756B73080A73C00056134C /* E3Camera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BE3055E63B100CA83BE /* E3Camera.c */; };
+		B1756B74080A73C00056134C /* GNRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C28055E63B100CA83BE /* GNRenderer.c */; };
+		B1756B75080A73C00056134C /* IRRegister.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C32055E63B100CA83BE /* IRRegister.c */; };
+		B1756B76080A73C00056134C /* E3GeometryCylinder.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B8B055E63B100CA83BE /* E3GeometryCylinder.c */; };
+		B1756B77080A73C00056134C /* GLDrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C1D055E63B100CA83BE /* GLDrawContext.c */; };
+		B1756B78080A73C00056134C /* E3GeometryMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B99055E63B100CA83BE /* E3GeometryMesh.c */; };
+		B1756B79080A73C00056134C /* QD3DController.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB3055E63B100CA83BE /* QD3DController.c */; };
+		B1756B7A080A73C00056134C /* E3Style.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C09055E63B100CA83BE /* E3Style.c */; };
+		B1756B7B080A73C00056134C /* E3GeometryDisk.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B8D055E63B100CA83BE /* E3GeometryDisk.c */; };
+		B1756B7C080A73C00056134C /* WFGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C3F055E63B100CA83BE /* WFGeometry.c */; };
+		B1756B7D080A73C00056134C /* E3ErrorManager.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD1055E63B100CA83BE /* E3ErrorManager.c */; };
+		B1756B7E080A73C00056134C /* E3IOData.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF3055E63B100CA83BE /* E3IOData.c */; };
+		B1756B7F080A73C00056134C /* E3GeometryBox.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B87055E63B100CA83BE /* E3GeometryBox.c */; };
+		B1756B80080A73C00056134C /* E3Renderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BFF055E63B100CA83BE /* E3Renderer.c */; };
+		B1756B81080A73C00056134C /* E3Math.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF9055E63B100CA83BE /* E3Math.c */; };
+		B1756B82080A73C00056134C /* QD3DTransform.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC6055E63B100CA83BE /* QD3DTransform.c */; };
+		B1756B83080A73C00056134C /* E3FFR_3DMF_Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C51055E63B100CA83BE /* E3FFR_3DMF_Geometry.c */; };
+		B1756B84080A73C00056134C /* E3GeometryTriangle.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BAB055E63B100CA83BE /* E3GeometryTriangle.c */; };
+		B1756B85080A73C00056134C /* IRTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C36055E63B100CA83BE /* IRTexture.c */; };
+		B1756B86080A73C00056134C /* E3MacStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B964055E77870034F56A /* E3MacStorage.c */; };
+		B1756B87080A73C00056134C /* QD3DErrors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB6055E63B100CA83BE /* QD3DErrors.c */; };
+		B1756B88080A73C00056134C /* E3Pick.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BFD055E63B100CA83BE /* E3Pick.c */; };
+		B1756B89080A73C00056134C /* QD3DGroup.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB9055E63B100CA83BE /* QD3DGroup.c */; };
+		B1756B8A080A73C00056134C /* QD3DExtension.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB7055E63B100CA83BE /* QD3DExtension.c */; };
+		B1756B8B080A73C00056134C /* E3GeometryEllipsoid.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B91055E63B100CA83BE /* E3GeometryEllipsoid.c */; };
+		B1756B8C080A73C00056134C /* IRGeometryTriMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C2D055E63B100CA83BE /* IRGeometryTriMesh.c */; };
+		B1756B8D080A73C00056134C /* QD3DMath.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBD055E63B100CA83BE /* QD3DMath.c */; };
+		B1756B8E080A73C00056134C /* E3GeometryNURBPatch.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B9D055E63B100CA83BE /* E3GeometryNURBPatch.c */; };
+		B1756B8F080A73C00056134C /* E3System.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BDB055E63B100CA83BE /* E3System.c */; };
+		B1756B90080A73C00056134C /* E3GeometryPixmapMarker.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B9F055E63B100CA83BE /* E3GeometryPixmapMarker.c */; };
+		B1756B91080A73C00056134C /* E3FFW_3DMFBin_Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C57055E63B100CA83BE /* E3FFW_3DMFBin_Geometry.c */; };
+		B1756B92080A73C00056134C /* QD3DCustomElements.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB4055E63B100CA83BE /* QD3DCustomElements.c */; };
+		B1756B93080A73C00056134C /* E3String.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C07055E63B100CA83BE /* E3String.c */; };
+		B1756B94080A73C00056134C /* E3Shader.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C03055E63B100CA83BE /* E3Shader.c */; };
+		B1756B95080A73C00056134C /* E3Main.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BF7055E63B100CA83BE /* E3Main.c */; };
+		B1756B96080A73C00056134C /* IRUpdate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C3C055E63B100CA83BE /* IRUpdate.c */; };
+		B1756B97080A73C00056134C /* E3GeometryTriGrid.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BAD055E63B100CA83BE /* E3GeometryTriGrid.c */; };
+		B1756B98080A73C00056134C /* E3GeometryPolygon.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA3055E63B100CA83BE /* E3GeometryPolygon.c */; };
+		B1756B99080A73C00056134C /* E3HashTable.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD5055E63B100CA83BE /* E3HashTable.c */; };
+		B1756B9A080A73C00056134C /* QD3DView.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC7055E63B100CA83BE /* QD3DView.c */; };
+		B1756B9B080A73C00056134C /* E3FFW_3DMFBin_Writer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C5B055E63B100CA83BE /* E3FFW_3DMFBin_Writer.c */; };
+		B1756B9C080A73C00056134C /* WFRegister.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C42055E63B100CA83BE /* WFRegister.c */; };
+		B1756B9D080A73C00056134C /* QD3DStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC3055E63B100CA83BE /* QD3DStorage.c */; };
+		B1756B9E080A73C00056134C /* E3Set.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C01055E63B100CA83BE /* E3Set.c */; };
+		B1756B9F080A73C00056134C /* E3MacSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B965055E77870034F56A /* E3MacSystem.c */; };
+		B1756BA0080A73C00056134C /* E3MacDrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95C055E77870034F56A /* E3MacDrawContext.c */; };
+		B1756BA1080A73C00056134C /* E3Errors.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BEB055E63B100CA83BE /* E3Errors.c */; };
+		B1756BA2080A73C00056134C /* IRTriBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C3A055E63B100CA83BE /* IRTriBuffer.c */; };
+		B1756BA3080A73C00056134C /* E3ArrayOrList.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCA055E63B100CA83BE /* E3ArrayOrList.c */; };
+		B1756BA4080A73C00056134C /* E3IOFileFormat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C49055E63B100CA83BE /* E3IOFileFormat.c */; };
+		B1756BA5080A73C00056134C /* QD3DMemory.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBE055E63B100CA83BE /* QD3DMemory.c */; };
+		B1756BA6080A73C00056134C /* E3CustomElements.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BE7055E63B100CA83BE /* E3CustomElements.c */; };
+		B1756BA7080A73C00056134C /* E3ClassTree.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCC055E63B100CA83BE /* E3ClassTree.c */; };
+		B1756BA8080A73C00056134C /* GNRegister.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C26055E63B100CA83BE /* GNRegister.c */; };
+		B1756BA9080A73C00056134C /* E3GeometryNURBCurve.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B9B055E63B100CA83BE /* E3GeometryNURBCurve.c */; };
+		B1756BAA080A73C00056134C /* E3Globals.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD3055E63B100CA83BE /* E3Globals.c */; };
+		B1756BAB080A73C00056134C /* QD3DDrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB5055E63B100CA83BE /* QD3DDrawContext.c */; };
+		B1756BAC080A73C00056134C /* GLCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C19055E63B100CA83BE /* GLCamera.c */; };
+		B1756BAD080A73C00056134C /* E3Viewer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C12055E63B100CA83BE /* E3Viewer.c */; };
+		B1756BB0080A73C80056134C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */; };
+		B1756BB6080A73DB0056134C /* E3Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE0055E63B100CA83BE /* E3Utils.h */; };
+		B1756BB7080A73DB0056134C /* WFPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C41055E63B100CA83BE /* WFPrefix.h */; };
+		B1756BB8080A73DB0056134C /* E3FFW_3DMFBin_Writer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C5C055E63B100CA83BE /* E3FFW_3DMFBin_Writer.h */; };
+		B1756BB9080A73DB0056134C /* E3Errors.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BEC055E63B100CA83BE /* E3Errors.h */; };
+		B1756BBA080A73DB0056134C /* E3IOFileFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C4A055E63B100CA83BE /* E3IOFileFormat.h */; };
+		B1756BBB080A73DB0056134C /* QuesaShader.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E8055E72B90034F56A /* QuesaShader.h */; };
+		B1756BBC080A73DB0056134C /* GNRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C27055E63B100CA83BE /* GNRegister.h */; };
+		B1756BBD080A73DB0056134C /* E3GeometryCone.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B8A055E63B100CA83BE /* E3GeometryCone.h */; };
+		B1756BBE080A73DB0056134C /* E3GeometryNURBCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B9C055E63B100CA83BE /* E3GeometryNURBCurve.h */; };
+		B1756BBF080A73DB0056134C /* QuesaGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DF055E72B90034F56A /* QuesaGeometry.h */; };
+		B1756BC0080A73DB0056134C /* E3Light.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF6055E63B100CA83BE /* E3Light.h */; };
+		B1756BC1080A73DB0056134C /* E3Renderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C00055E63B100CA83BE /* E3Renderer.h */; };
+		B1756BC2080A73DB0056134C /* IRTransparent.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C39055E63B100CA83BE /* IRTransparent.h */; };
+		B1756BC3080A73DB0056134C /* E3ErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD2055E63B100CA83BE /* E3ErrorManager.h */; };
+		B1756BC4080A73DB0056134C /* E3FFR_3DMF_Text.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C54055E63B100CA83BE /* E3FFR_3DMF_Text.h */; };
+		B1756BC5080A73DB0056134C /* E3GeometryTriGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BAE055E63B100CA83BE /* E3GeometryTriGrid.h */; };
+		B1756BC6080A73DB0056134C /* IRLights.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C30055E63B100CA83BE /* IRLights.h */; };
+		B1756BC7080A73DB0056134C /* QuesaStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E9055E72B90034F56A /* QuesaStorage.h */; };
+		B1756BC8080A73DB0056134C /* E3Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE4055E63B100CA83BE /* E3Camera.h */; };
+		B1756BC9080A73DB0056134C /* E3GeometryGeneralPolygon.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B94055E63B100CA83BE /* E3GeometryGeneralPolygon.h */; };
+		B1756BCA080A73DB0056134C /* E3Style.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C0A055E63B100CA83BE /* E3Style.h */; };
+		B1756BCB080A73DB0056134C /* GLPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C1F055E63B100CA83BE /* GLPrefix.h */; };
+		B1756BCC080A73DB0056134C /* QuesaGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E0055E72B90034F56A /* QuesaGroup.h */; };
+		B1756BCD080A73DB0056134C /* E3System.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BDC055E63B100CA83BE /* E3System.h */; };
+		B1756BCE080A73DB0056134C /* WFRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C43055E63B100CA83BE /* WFRegister.h */; };
+		B1756BCF080A73DB0056134C /* E3GeometryPolyhedron.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA6055E63B100CA83BE /* E3GeometryPolyhedron.h */; };
+		B1756BD0080A73DB0056134C /* E3Extension.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BEE055E63B100CA83BE /* E3Extension.h */; };
+		B1756BD1080A73DB0056134C /* IRPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C31055E63B100CA83BE /* IRPrefix.h */; };
+		B1756BD2080A73DB0056134C /* GNRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C29055E63B100CA83BE /* GNRenderer.h */; };
+		B1756BD3080A73DB0056134C /* QuesaString.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EA055E72B90034F56A /* QuesaString.h */; };
+		B1756BD4080A73DB0056134C /* E3GeometryCylinder.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B8C055E63B100CA83BE /* E3GeometryCylinder.h */; };
+		B1756BD5080A73DB0056134C /* Quesa.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5D8055E72B90034F56A /* Quesa.h */; };
+		B1756BD6080A73DB0056134C /* QuesaIO.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E1055E72B90034F56A /* QuesaIO.h */; };
+		B1756BD7080A73DB0056134C /* E3Main.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF8055E63B100CA83BE /* E3Main.h */; };
+		B1756BD8080A73DB0056134C /* E3GeometryNURBPatch.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B9E055E63B100CA83BE /* E3GeometryNURBPatch.h */; };
+		B1756BD9080A73DB0056134C /* E3Set.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C02055E63B100CA83BE /* E3Set.h */; };
+		B1756BDA080A73DB0056134C /* IRTriBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C3B055E63B100CA83BE /* IRTriBuffer.h */; };
+		B1756BDB080A73DB0056134C /* E3Globals.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD4055E63B100CA83BE /* E3Globals.h */; };
+		B1756BDC080A73DB0056134C /* QuesaStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EB055E72B90034F56A /* QuesaStyle.h */; };
+		B1756BDD080A73DB0056134C /* E3Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE6055E63B100CA83BE /* E3Controller.h */; };
+		B1756BDE080A73DB0056134C /* E3ArrayOrList.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BCB055E63B100CA83BE /* E3ArrayOrList.h */; };
+		B1756BDF080A73DB0056134C /* E3GeometryTriMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BB0055E63B100CA83BE /* E3GeometryTriMesh.h */; };
+		B1756BE0080A73DB0056134C /* E3Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C0C055E63B100CA83BE /* E3Texture.h */; };
+		B1756BE1080A73DB0056134C /* GLUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C21055E63B100CA83BE /* GLUtils.h */; };
+		B1756BE2080A73DB0056134C /* QuesaLight.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E2055E72B90034F56A /* QuesaLight.h */; };
+		B1756BE3080A73DB0056134C /* E3GeometryLine.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B96055E63B100CA83BE /* E3GeometryLine.h */; };
+		B1756BE4080A73DB0056134C /* QuesaCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5D9055E72B90034F56A /* QuesaCamera.h */; };
+		B1756BE5080A73DB0056134C /* E3Tessellate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BDE055E63B100CA83BE /* E3Tessellate.h */; };
+		B1756BE6080A73DB0056134C /* WFRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C45055E63B100CA83BE /* WFRenderer.h */; };
+		B1756BE7080A73DB0056134C /* E3GeometryPolyLine.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA8055E63B100CA83BE /* E3GeometryPolyLine.h */; };
+		B1756BE8080A73DB0056134C /* E3Group.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF0055E63B100CA83BE /* E3Group.h */; };
+		B1756BE9080A73DB0056134C /* E3FFR_3DMF.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C4E055E63B100CA83BE /* E3FFR_3DMF.h */; };
+		B1756BEA080A73DB0056134C /* IRRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C33055E63B100CA83BE /* IRRegister.h */; };
+		B1756BEB080A73DB0056134C /* QuesaTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EC055E72B90034F56A /* QuesaTransform.h */; };
+		B1756BEC080A73DB0056134C /* E3GeometryDisk.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B8E055E63B100CA83BE /* E3GeometryDisk.h */; };
+		B1756BED080A73DB0056134C /* E3Math.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BFA055E63B100CA83BE /* E3Math.h */; };
+		B1756BEE080A73DB0056134C /* QuesaMath.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E3055E72B90034F56A /* QuesaMath.h */; };
+		B1756BEF080A73DB0056134C /* QuesaController.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DA055E72B90034F56A /* QuesaController.h */; };
+		B1756BF0080A73DB0056134C /* E3GeometryPixmapMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA0055E63B100CA83BE /* E3GeometryPixmapMarker.h */; };
+		B1756BF1080A73DB0056134C /* E3Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C04055E63B100CA83BE /* E3Shader.h */; };
+		B1756BF2080A73DB0056134C /* IRUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C3D055E63B100CA83BE /* IRUpdate.h */; };
+		B1756BF3080A73DB0056134C /* E3FFW_3DMFBin_Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C58055E63B100CA83BE /* E3FFW_3DMFBin_Geometry.h */; };
+		B1756BF4080A73DB0056134C /* E3HashTable.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD6055E63B100CA83BE /* E3HashTable.h */; };
+		B1756BF5080A73DB0056134C /* QuesaView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5ED055E72B90034F56A /* QuesaView.h */; };
+		B1756BF6080A73DB0056134C /* E3ClassTree.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BCD055E63B100CA83BE /* E3ClassTree.h */; };
+		B1756BF7080A73DB0056134C /* E3CustomElements.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE8055E63B100CA83BE /* E3CustomElements.h */; };
+		B1756BF8080A73DB0056134C /* E3Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B86055E63B100CA83BE /* E3Geometry.h */; };
+		B1756BF9080A73DB0056134C /* E3Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C0E055E63B100CA83BE /* E3Transform.h */; };
+		B1756BFA080A73DB0056134C /* QuesaMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E4055E72B90034F56A /* QuesaMemory.h */; };
+		B1756BFB080A73DB0056134C /* E3GeometryPolygon.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA4055E63B100CA83BE /* E3GeometryPolygon.h */; };
+		B1756BFC080A73DB0056134C /* GLCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C1A055E63B100CA83BE /* GLCamera.h */; };
+		B1756BFD080A73DB0056134C /* E3GeometryMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B98055E63B100CA83BE /* E3GeometryMarker.h */; };
+		B1756BFE080A73DB0056134C /* QuesaCustomElements.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DB055E72B90034F56A /* QuesaCustomElements.h */; };
+		B1756BFF080A73DB0056134C /* WFUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C47055E63B100CA83BE /* WFUpdate.h */; };
+		B1756C00080A73DB0056134C /* E3IO.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF2055E63B100CA83BE /* E3IO.h */; };
+		B1756C01080A73DB0056134C /* E3GeometryTorus.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BAA055E63B100CA83BE /* E3GeometryTorus.h */; };
+		B1756C02080A73DB0056134C /* E3FFR_3DMF_Bin.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C50055E63B100CA83BE /* E3FFR_3DMF_Bin.h */; };
+		B1756C03080A73DB0056134C /* IRRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C35055E63B100CA83BE /* IRRenderer.h */; };
+		B1756C04080A73DB0056134C /* QuesaViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EE055E72B90034F56A /* QuesaViewer.h */; };
+		B1756C05080A73DB0056134C /* E3MacPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B95F055E77870034F56A /* E3MacPrefix.h */; };
+		B1756C06080A73DB0056134C /* E3Memory.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BFC055E63B100CA83BE /* E3Memory.h */; };
+		B1756C07080A73DB0056134C /* E3GeometryEllipse.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B90055E63B100CA83BE /* E3GeometryEllipse.h */; };
+		B1756C08080A73DB0056134C /* IRGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C2C055E63B100CA83BE /* IRGeometry.h */; };
+		B1756C09080A73DB0056134C /* GNGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C24055E63B100CA83BE /* GNGeometry.h */; };
+		B1756C0A080A73DB0056134C /* QuesaPick.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E5055E72B90034F56A /* QuesaPick.h */; };
+		B1756C0B080A73DB0056134C /* E3Version.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE1055E63B100CA83BE /* E3Version.h */; };
+		B1756C0C080A73DB0056134C /* QuesaDrawContext.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DC055E72B90034F56A /* QuesaDrawContext.h */; };
+		B1756C0D080A73DB0056134C /* E3Storage.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C06055E63B100CA83BE /* E3Storage.h */; };
+		B1756C0E080A73DB0056134C /* E3GeometryPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BA2055E63B100CA83BE /* E3GeometryPoint.h */; };
+		B1756C0F080A73DB0056134C /* E3Pool.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD8055E63B100CA83BE /* E3Pool.h */; };
+		B1756C10080A73DB0056134C /* E3FFW_3DMFBin_Register.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C5A055E63B100CA83BE /* E3FFW_3DMFBin_Register.h */; };
+		B1756C11080A73DB0056134C /* E3Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BCF055E63B100CA83BE /* E3Compatibility.h */; };
+		B1756C12080A73DB0056134C /* E3View.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C10055E63B100CA83BE /* E3View.h */; };
+		B1756C13080A73DB0056134C /* E3DrawContext.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BEA055E63B100CA83BE /* E3DrawContext.h */; };
+		B1756C14080A73DB0056134C /* QuesaRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E6055E72B90034F56A /* QuesaRenderer.h */; };
+		B1756C15080A73DB0056134C /* GNPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C25055E63B100CA83BE /* GNPrefix.h */; };
+		B1756C16080A73DB0056134C /* GLDrawContext.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C1E055E63B100CA83BE /* GLDrawContext.h */; };
+		B1756C17080A73DB0056134C /* E3GeometryMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B9A055E63B100CA83BE /* E3GeometryMesh.h */; };
+		B1756C18080A73DB0056134C /* QuesaErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DD055E72B90034F56A /* QuesaErrors.h */; };
+		B1756C19080A73DB0056134C /* E3GeometryBox.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B88055E63B100CA83BE /* E3GeometryBox.h */; };
+		B1756C1A080A73DB0056134C /* E3Prefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD9055E63B100CA83BE /* E3Prefix.h */; };
+		B1756C1B080A73DB0056134C /* E3IOData.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BF4055E63B100CA83BE /* E3IOData.h */; };
+		B1756C1C080A73DB0056134C /* WFGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C40055E63B100CA83BE /* WFGeometry.h */; };
+		B1756C1D080A73DB0056134C /* E3FFR_3DMF_Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C52055E63B100CA83BE /* E3FFR_3DMF_Geometry.h */; };
+		B1756C1E080A73DB0056134C /* IRTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C37055E63B100CA83BE /* IRTexture.h */; };
+		B1756C1F080A73DB0056134C /* E3Pick.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BFE055E63B100CA83BE /* E3Pick.h */; };
+		B1756C20080A73DB0056134C /* E3GeometryTriangle.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BAC055E63B100CA83BE /* E3GeometryTriangle.h */; };
+		B1756C21080A73DB0056134C /* E3Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BD0055E63B100CA83BE /* E3Debug.h */; };
+		B1756C22080A73DB0056134C /* IRGeometryTriMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C2E055E63B100CA83BE /* IRGeometryTriMesh.h */; };
+		B1756C23080A73DB0056134C /* E3GeometryEllipsoid.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B92055E63B100CA83BE /* E3GeometryEllipsoid.h */; };
+		B1756C24080A73DB0056134C /* QuesaSet.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5E7055E72B90034F56A /* QuesaSet.h */; };
+		B1756C25080A73DB0056134C /* GLTextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6FD690076B88A800587852 /* GLTextureManager.h */; };
+		B1756C26080A73DB0056134C /* E3String.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C08055E63B100CA83BE /* E3String.h */; };
+		B1756C27080A73DB0056134C /* E3Viewer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C13055E63B100CA83BE /* E3Viewer.h */; };
+		B1756C28080A73DB0056134C /* QuesaExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DE055E72B90034F56A /* QuesaExtension.h */; };
+		B1756C29080A73DB0056134C /* E3StackCrawl.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BDA055E63B100CA83BE /* E3StackCrawl.h */; };
+		BE5C8A12087D9D4000533C43 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE5C8A10087D9D4000533C43 /* CartoonRenderer.cpp */; };
+		BE5C8A13087D9D4000533C43 /* CartoonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BE5C8A11087D9D4000533C43 /* CartoonRenderer.h */; };
+		BE5C8A14087D9D4000533C43 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE5C8A10087D9D4000533C43 /* CartoonRenderer.cpp */; };
+		BE5C8A15087D9D4000533C43 /* CartoonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BE5C8A11087D9D4000533C43 /* CartoonRenderer.h */; };
+		BE6FD692076B88A800587852 /* GLTextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6FD690076B88A800587852 /* GLTextureManager.h */; };
+		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		4F0BB7EC011F40E904CA0E50 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		4F0BB7ED011F40E904CA0E50 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXFileReference section */
+		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		8D07F2C80486CC7A007CD1D0 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB3A7B85055E63B100CA83BE /* E3Geometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Geometry.c; sourceTree = "<group>"; };
+		AB3A7B86055E63B100CA83BE /* E3Geometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Geometry.h; sourceTree = "<group>"; };
+		AB3A7B87055E63B100CA83BE /* E3GeometryBox.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryBox.c; sourceTree = "<group>"; };
+		AB3A7B88055E63B100CA83BE /* E3GeometryBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryBox.h; sourceTree = "<group>"; };
+		AB3A7B89055E63B100CA83BE /* E3GeometryCone.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryCone.c; sourceTree = "<group>"; };
+		AB3A7B8A055E63B100CA83BE /* E3GeometryCone.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryCone.h; sourceTree = "<group>"; };
+		AB3A7B8B055E63B100CA83BE /* E3GeometryCylinder.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryCylinder.c; sourceTree = "<group>"; };
+		AB3A7B8C055E63B100CA83BE /* E3GeometryCylinder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryCylinder.h; sourceTree = "<group>"; };
+		AB3A7B8D055E63B100CA83BE /* E3GeometryDisk.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryDisk.c; sourceTree = "<group>"; };
+		AB3A7B8E055E63B100CA83BE /* E3GeometryDisk.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryDisk.h; sourceTree = "<group>"; };
+		AB3A7B8F055E63B100CA83BE /* E3GeometryEllipse.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryEllipse.c; sourceTree = "<group>"; };
+		AB3A7B90055E63B100CA83BE /* E3GeometryEllipse.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryEllipse.h; sourceTree = "<group>"; };
+		AB3A7B91055E63B100CA83BE /* E3GeometryEllipsoid.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryEllipsoid.c; sourceTree = "<group>"; };
+		AB3A7B92055E63B100CA83BE /* E3GeometryEllipsoid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryEllipsoid.h; sourceTree = "<group>"; };
+		AB3A7B93055E63B100CA83BE /* E3GeometryGeneralPolygon.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryGeneralPolygon.c; sourceTree = "<group>"; };
+		AB3A7B94055E63B100CA83BE /* E3GeometryGeneralPolygon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryGeneralPolygon.h; sourceTree = "<group>"; };
+		AB3A7B95055E63B100CA83BE /* E3GeometryLine.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryLine.c; sourceTree = "<group>"; };
+		AB3A7B96055E63B100CA83BE /* E3GeometryLine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryLine.h; sourceTree = "<group>"; };
+		AB3A7B97055E63B100CA83BE /* E3GeometryMarker.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryMarker.c; sourceTree = "<group>"; };
+		AB3A7B98055E63B100CA83BE /* E3GeometryMarker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryMarker.h; sourceTree = "<group>"; };
+		AB3A7B99055E63B100CA83BE /* E3GeometryMesh.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryMesh.c; sourceTree = "<group>"; };
+		AB3A7B9A055E63B100CA83BE /* E3GeometryMesh.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryMesh.h; sourceTree = "<group>"; };
+		AB3A7B9B055E63B100CA83BE /* E3GeometryNURBCurve.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryNURBCurve.c; sourceTree = "<group>"; };
+		AB3A7B9C055E63B100CA83BE /* E3GeometryNURBCurve.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryNURBCurve.h; sourceTree = "<group>"; };
+		AB3A7B9D055E63B100CA83BE /* E3GeometryNURBPatch.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryNURBPatch.c; sourceTree = "<group>"; };
+		AB3A7B9E055E63B100CA83BE /* E3GeometryNURBPatch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryNURBPatch.h; sourceTree = "<group>"; };
+		AB3A7B9F055E63B100CA83BE /* E3GeometryPixmapMarker.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryPixmapMarker.c; sourceTree = "<group>"; };
+		AB3A7BA0055E63B100CA83BE /* E3GeometryPixmapMarker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryPixmapMarker.h; sourceTree = "<group>"; };
+		AB3A7BA1055E63B100CA83BE /* E3GeometryPoint.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryPoint.c; sourceTree = "<group>"; };
+		AB3A7BA2055E63B100CA83BE /* E3GeometryPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryPoint.h; sourceTree = "<group>"; };
+		AB3A7BA3055E63B100CA83BE /* E3GeometryPolygon.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryPolygon.c; sourceTree = "<group>"; };
+		AB3A7BA4055E63B100CA83BE /* E3GeometryPolygon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryPolygon.h; sourceTree = "<group>"; };
+		AB3A7BA5055E63B100CA83BE /* E3GeometryPolyhedron.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryPolyhedron.c; sourceTree = "<group>"; };
+		AB3A7BA6055E63B100CA83BE /* E3GeometryPolyhedron.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryPolyhedron.h; sourceTree = "<group>"; };
+		AB3A7BA7055E63B100CA83BE /* E3GeometryPolyLine.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryPolyLine.c; sourceTree = "<group>"; };
+		AB3A7BA8055E63B100CA83BE /* E3GeometryPolyLine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryPolyLine.h; sourceTree = "<group>"; };
+		AB3A7BA9055E63B100CA83BE /* E3GeometryTorus.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryTorus.c; sourceTree = "<group>"; };
+		AB3A7BAA055E63B100CA83BE /* E3GeometryTorus.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTorus.h; sourceTree = "<group>"; };
+		AB3A7BAB055E63B100CA83BE /* E3GeometryTriangle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryTriangle.c; sourceTree = "<group>"; };
+		AB3A7BAC055E63B100CA83BE /* E3GeometryTriangle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriangle.h; sourceTree = "<group>"; };
+		AB3A7BAD055E63B100CA83BE /* E3GeometryTriGrid.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryTriGrid.c; sourceTree = "<group>"; };
+		AB3A7BAE055E63B100CA83BE /* E3GeometryTriGrid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriGrid.h; sourceTree = "<group>"; };
+		AB3A7BAF055E63B100CA83BE /* E3GeometryTriMesh.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryTriMesh.c; sourceTree = "<group>"; };
+		AB3A7BB0055E63B100CA83BE /* E3GeometryTriMesh.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMesh.h; sourceTree = "<group>"; };
+		AB3A7BB2055E63B100CA83BE /* QD3DCamera.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DCamera.c; sourceTree = "<group>"; };
+		AB3A7BB3055E63B100CA83BE /* QD3DController.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DController.c; sourceTree = "<group>"; };
+		AB3A7BB4055E63B100CA83BE /* QD3DCustomElements.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DCustomElements.c; sourceTree = "<group>"; };
+		AB3A7BB5055E63B100CA83BE /* QD3DDrawContext.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DDrawContext.c; sourceTree = "<group>"; };
+		AB3A7BB6055E63B100CA83BE /* QD3DErrors.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DErrors.c; sourceTree = "<group>"; };
+		AB3A7BB7055E63B100CA83BE /* QD3DExtension.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DExtension.c; sourceTree = "<group>"; };
+		AB3A7BB8055E63B100CA83BE /* QD3DGeometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DGeometry.c; sourceTree = "<group>"; };
+		AB3A7BB9055E63B100CA83BE /* QD3DGroup.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DGroup.c; sourceTree = "<group>"; };
+		AB3A7BBA055E63B100CA83BE /* QD3DIO.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DIO.c; sourceTree = "<group>"; };
+		AB3A7BBB055E63B100CA83BE /* QD3DLight.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DLight.c; sourceTree = "<group>"; };
+		AB3A7BBC055E63B100CA83BE /* QD3DMain.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DMain.c; sourceTree = "<group>"; };
+		AB3A7BBD055E63B100CA83BE /* QD3DMath.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DMath.c; sourceTree = "<group>"; };
+		AB3A7BBE055E63B100CA83BE /* QD3DMemory.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DMemory.c; sourceTree = "<group>"; };
+		AB3A7BBF055E63B100CA83BE /* QD3DPick.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DPick.c; sourceTree = "<group>"; };
+		AB3A7BC0055E63B100CA83BE /* QD3DRenderer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DRenderer.c; sourceTree = "<group>"; };
+		AB3A7BC1055E63B100CA83BE /* QD3DSet.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DSet.c; sourceTree = "<group>"; };
+		AB3A7BC2055E63B100CA83BE /* QD3DShader.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DShader.c; sourceTree = "<group>"; };
+		AB3A7BC3055E63B100CA83BE /* QD3DStorage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DStorage.c; sourceTree = "<group>"; };
+		AB3A7BC4055E63B100CA83BE /* QD3DString.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DString.c; sourceTree = "<group>"; };
+		AB3A7BC5055E63B100CA83BE /* QD3DStyle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DStyle.c; sourceTree = "<group>"; };
+		AB3A7BC6055E63B100CA83BE /* QD3DTransform.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DTransform.c; sourceTree = "<group>"; };
+		AB3A7BC7055E63B100CA83BE /* QD3DView.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DView.c; sourceTree = "<group>"; };
+		AB3A7BC8055E63B100CA83BE /* QD3DViewer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = QD3DViewer.c; sourceTree = "<group>"; };
+		AB3A7BCA055E63B100CA83BE /* E3ArrayOrList.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3ArrayOrList.c; sourceTree = "<group>"; };
+		AB3A7BCB055E63B100CA83BE /* E3ArrayOrList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3ArrayOrList.h; sourceTree = "<group>"; };
+		AB3A7BCC055E63B100CA83BE /* E3ClassTree.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3ClassTree.c; sourceTree = "<group>"; };
+		AB3A7BCD055E63B100CA83BE /* E3ClassTree.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3ClassTree.h; sourceTree = "<group>"; };
+		AB3A7BCE055E63B100CA83BE /* E3Compatibility.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Compatibility.c; sourceTree = "<group>"; };
+		AB3A7BCF055E63B100CA83BE /* E3Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Compatibility.h; sourceTree = "<group>"; };
+		AB3A7BD0055E63B100CA83BE /* E3Debug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Debug.h; sourceTree = "<group>"; };
+		AB3A7BD1055E63B100CA83BE /* E3ErrorManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3ErrorManager.c; sourceTree = "<group>"; };
+		AB3A7BD2055E63B100CA83BE /* E3ErrorManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3ErrorManager.h; sourceTree = "<group>"; };
+		AB3A7BD3055E63B100CA83BE /* E3Globals.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Globals.c; sourceTree = "<group>"; };
+		AB3A7BD4055E63B100CA83BE /* E3Globals.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Globals.h; sourceTree = "<group>"; };
+		AB3A7BD5055E63B100CA83BE /* E3HashTable.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3HashTable.c; sourceTree = "<group>"; };
+		AB3A7BD6055E63B100CA83BE /* E3HashTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3HashTable.h; sourceTree = "<group>"; };
+		AB3A7BD7055E63B100CA83BE /* E3Pool.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Pool.c; sourceTree = "<group>"; };
+		AB3A7BD8055E63B100CA83BE /* E3Pool.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Pool.h; sourceTree = "<group>"; };
+		AB3A7BD9055E63B100CA83BE /* E3Prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Prefix.h; sourceTree = "<group>"; };
+		AB3A7BDA055E63B100CA83BE /* E3StackCrawl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3StackCrawl.h; sourceTree = "<group>"; };
+		AB3A7BDB055E63B100CA83BE /* E3System.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3System.c; sourceTree = "<group>"; };
+		AB3A7BDC055E63B100CA83BE /* E3System.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3System.h; sourceTree = "<group>"; };
+		AB3A7BDD055E63B100CA83BE /* E3Tessellate.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Tessellate.c; sourceTree = "<group>"; };
+		AB3A7BDE055E63B100CA83BE /* E3Tessellate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Tessellate.h; sourceTree = "<group>"; };
+		AB3A7BDF055E63B100CA83BE /* E3Utils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Utils.c; sourceTree = "<group>"; };
+		AB3A7BE0055E63B100CA83BE /* E3Utils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Utils.h; sourceTree = "<group>"; };
+		AB3A7BE1055E63B100CA83BE /* E3Version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Version.h; sourceTree = "<group>"; };
+		AB3A7BE3055E63B100CA83BE /* E3Camera.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Camera.c; sourceTree = "<group>"; };
+		AB3A7BE4055E63B100CA83BE /* E3Camera.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Camera.h; sourceTree = "<group>"; };
+		AB3A7BE5055E63B100CA83BE /* E3Controller.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Controller.c; sourceTree = "<group>"; };
+		AB3A7BE6055E63B100CA83BE /* E3Controller.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Controller.h; sourceTree = "<group>"; };
+		AB3A7BE7055E63B100CA83BE /* E3CustomElements.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3CustomElements.c; sourceTree = "<group>"; };
+		AB3A7BE8055E63B100CA83BE /* E3CustomElements.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3CustomElements.h; sourceTree = "<group>"; };
+		AB3A7BE9055E63B100CA83BE /* E3DrawContext.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3DrawContext.c; sourceTree = "<group>"; };
+		AB3A7BEA055E63B100CA83BE /* E3DrawContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3DrawContext.h; sourceTree = "<group>"; };
+		AB3A7BEB055E63B100CA83BE /* E3Errors.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Errors.c; sourceTree = "<group>"; };
+		AB3A7BEC055E63B100CA83BE /* E3Errors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Errors.h; sourceTree = "<group>"; };
+		AB3A7BED055E63B100CA83BE /* E3Extension.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Extension.c; sourceTree = "<group>"; };
+		AB3A7BEE055E63B100CA83BE /* E3Extension.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Extension.h; sourceTree = "<group>"; };
+		AB3A7BEF055E63B100CA83BE /* E3Group.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Group.c; sourceTree = "<group>"; };
+		AB3A7BF0055E63B100CA83BE /* E3Group.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Group.h; sourceTree = "<group>"; };
+		AB3A7BF1055E63B100CA83BE /* E3IO.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3IO.c; sourceTree = "<group>"; };
+		AB3A7BF2055E63B100CA83BE /* E3IO.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3IO.h; sourceTree = "<group>"; };
+		AB3A7BF3055E63B100CA83BE /* E3IOData.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3IOData.c; sourceTree = "<group>"; };
+		AB3A7BF4055E63B100CA83BE /* E3IOData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3IOData.h; sourceTree = "<group>"; };
+		AB3A7BF5055E63B100CA83BE /* E3Light.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Light.c; sourceTree = "<group>"; };
+		AB3A7BF6055E63B100CA83BE /* E3Light.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Light.h; sourceTree = "<group>"; };
+		AB3A7BF7055E63B100CA83BE /* E3Main.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Main.c; sourceTree = "<group>"; };
+		AB3A7BF8055E63B100CA83BE /* E3Main.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Main.h; sourceTree = "<group>"; };
+		AB3A7BF9055E63B100CA83BE /* E3Math.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Math.c; sourceTree = "<group>"; };
+		AB3A7BFA055E63B100CA83BE /* E3Math.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Math.h; sourceTree = "<group>"; };
+		AB3A7BFB055E63B100CA83BE /* E3Memory.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Memory.c; sourceTree = "<group>"; };
+		AB3A7BFC055E63B100CA83BE /* E3Memory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Memory.h; sourceTree = "<group>"; };
+		AB3A7BFD055E63B100CA83BE /* E3Pick.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Pick.c; sourceTree = "<group>"; };
+		AB3A7BFE055E63B100CA83BE /* E3Pick.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Pick.h; sourceTree = "<group>"; };
+		AB3A7BFF055E63B100CA83BE /* E3Renderer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Renderer.c; sourceTree = "<group>"; };
+		AB3A7C00055E63B100CA83BE /* E3Renderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Renderer.h; sourceTree = "<group>"; };
+		AB3A7C01055E63B100CA83BE /* E3Set.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Set.c; sourceTree = "<group>"; };
+		AB3A7C02055E63B100CA83BE /* E3Set.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Set.h; sourceTree = "<group>"; };
+		AB3A7C03055E63B100CA83BE /* E3Shader.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Shader.c; sourceTree = "<group>"; };
+		AB3A7C04055E63B100CA83BE /* E3Shader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Shader.h; sourceTree = "<group>"; };
+		AB3A7C05055E63B100CA83BE /* E3Storage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Storage.c; sourceTree = "<group>"; };
+		AB3A7C06055E63B100CA83BE /* E3Storage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Storage.h; sourceTree = "<group>"; };
+		AB3A7C07055E63B100CA83BE /* E3String.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3String.c; sourceTree = "<group>"; };
+		AB3A7C08055E63B100CA83BE /* E3String.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3String.h; sourceTree = "<group>"; };
+		AB3A7C09055E63B100CA83BE /* E3Style.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Style.c; sourceTree = "<group>"; };
+		AB3A7C0A055E63B100CA83BE /* E3Style.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Style.h; sourceTree = "<group>"; };
+		AB3A7C0B055E63B100CA83BE /* E3Texture.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Texture.c; sourceTree = "<group>"; };
+		AB3A7C0C055E63B100CA83BE /* E3Texture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Texture.h; sourceTree = "<group>"; };
+		AB3A7C0D055E63B100CA83BE /* E3Transform.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Transform.c; sourceTree = "<group>"; };
+		AB3A7C0E055E63B100CA83BE /* E3Transform.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Transform.h; sourceTree = "<group>"; };
+		AB3A7C0F055E63B100CA83BE /* E3View.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3View.c; sourceTree = "<group>"; };
+		AB3A7C10055E63B100CA83BE /* E3View.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3View.h; sourceTree = "<group>"; };
+		AB3A7C12055E63B100CA83BE /* E3Viewer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Viewer.c; sourceTree = "<group>"; };
+		AB3A7C13055E63B100CA83BE /* E3Viewer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Viewer.h; sourceTree = "<group>"; };
+		AB3A7C14055E63B100CA83BE /* E3ViewerOldAPIs.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3ViewerOldAPIs.c; sourceTree = "<group>"; };
+		AB3A7C19055E63B100CA83BE /* GLCamera.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLCamera.c; sourceTree = "<group>"; };
+		AB3A7C1A055E63B100CA83BE /* GLCamera.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLCamera.h; sourceTree = "<group>"; };
+		AB3A7C1D055E63B100CA83BE /* GLDrawContext.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLDrawContext.c; sourceTree = "<group>"; };
+		AB3A7C1E055E63B100CA83BE /* GLDrawContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLDrawContext.h; sourceTree = "<group>"; };
+		AB3A7C1F055E63B100CA83BE /* GLPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLPrefix.h; sourceTree = "<group>"; };
+		AB3A7C20055E63B100CA83BE /* GLUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLUtils.c; sourceTree = "<group>"; };
+		AB3A7C21055E63B100CA83BE /* GLUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLUtils.h; sourceTree = "<group>"; };
+		AB3A7C23055E63B100CA83BE /* GNGeometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GNGeometry.c; sourceTree = "<group>"; };
+		AB3A7C24055E63B100CA83BE /* GNGeometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GNGeometry.h; sourceTree = "<group>"; };
+		AB3A7C25055E63B100CA83BE /* GNPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GNPrefix.h; sourceTree = "<group>"; };
+		AB3A7C26055E63B100CA83BE /* GNRegister.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GNRegister.c; sourceTree = "<group>"; };
+		AB3A7C27055E63B100CA83BE /* GNRegister.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GNRegister.h; sourceTree = "<group>"; };
+		AB3A7C28055E63B100CA83BE /* GNRenderer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GNRenderer.c; sourceTree = "<group>"; };
+		AB3A7C29055E63B100CA83BE /* GNRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GNRenderer.h; sourceTree = "<group>"; };
+		AB3A7C2B055E63B100CA83BE /* IRGeometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRGeometry.c; sourceTree = "<group>"; };
+		AB3A7C2C055E63B100CA83BE /* IRGeometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRGeometry.h; sourceTree = "<group>"; };
+		AB3A7C2D055E63B100CA83BE /* IRGeometryTriMesh.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRGeometryTriMesh.c; sourceTree = "<group>"; };
+		AB3A7C2E055E63B100CA83BE /* IRGeometryTriMesh.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRGeometryTriMesh.h; sourceTree = "<group>"; };
+		AB3A7C2F055E63B100CA83BE /* IRLights.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRLights.c; sourceTree = "<group>"; };
+		AB3A7C30055E63B100CA83BE /* IRLights.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRLights.h; sourceTree = "<group>"; };
+		AB3A7C31055E63B100CA83BE /* IRPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRPrefix.h; sourceTree = "<group>"; };
+		AB3A7C32055E63B100CA83BE /* IRRegister.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRRegister.c; sourceTree = "<group>"; };
+		AB3A7C33055E63B100CA83BE /* IRRegister.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRRegister.h; sourceTree = "<group>"; };
+		AB3A7C34055E63B100CA83BE /* IRRenderer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRRenderer.c; sourceTree = "<group>"; };
+		AB3A7C35055E63B100CA83BE /* IRRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRRenderer.h; sourceTree = "<group>"; };
+		AB3A7C36055E63B100CA83BE /* IRTexture.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRTexture.c; sourceTree = "<group>"; };
+		AB3A7C37055E63B100CA83BE /* IRTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRTexture.h; sourceTree = "<group>"; };
+		AB3A7C38055E63B100CA83BE /* IRTransparent.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRTransparent.c; sourceTree = "<group>"; };
+		AB3A7C39055E63B100CA83BE /* IRTransparent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRTransparent.h; sourceTree = "<group>"; };
+		AB3A7C3A055E63B100CA83BE /* IRTriBuffer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRTriBuffer.c; sourceTree = "<group>"; };
+		AB3A7C3B055E63B100CA83BE /* IRTriBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRTriBuffer.h; sourceTree = "<group>"; };
+		AB3A7C3C055E63B100CA83BE /* IRUpdate.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRUpdate.c; sourceTree = "<group>"; };
+		AB3A7C3D055E63B100CA83BE /* IRUpdate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRUpdate.h; sourceTree = "<group>"; };
+		AB3A7C3F055E63B100CA83BE /* WFGeometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = WFGeometry.c; sourceTree = "<group>"; };
+		AB3A7C40055E63B100CA83BE /* WFGeometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFGeometry.h; sourceTree = "<group>"; };
+		AB3A7C41055E63B100CA83BE /* WFPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFPrefix.h; sourceTree = "<group>"; };
+		AB3A7C42055E63B100CA83BE /* WFRegister.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = WFRegister.c; sourceTree = "<group>"; };
+		AB3A7C43055E63B100CA83BE /* WFRegister.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFRegister.h; sourceTree = "<group>"; };
+		AB3A7C44055E63B100CA83BE /* WFRenderer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = WFRenderer.c; sourceTree = "<group>"; };
+		AB3A7C45055E63B100CA83BE /* WFRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFRenderer.h; sourceTree = "<group>"; };
+		AB3A7C46055E63B100CA83BE /* WFUpdate.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = WFUpdate.c; sourceTree = "<group>"; };
+		AB3A7C47055E63B100CA83BE /* WFUpdate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFUpdate.h; sourceTree = "<group>"; };
+		AB3A7C49055E63B100CA83BE /* E3IOFileFormat.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3IOFileFormat.c; sourceTree = "<group>"; };
+		AB3A7C4A055E63B100CA83BE /* E3IOFileFormat.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3IOFileFormat.h; sourceTree = "<group>"; };
+		AB3A7C4D055E63B100CA83BE /* E3FFR_3DMF.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFR_3DMF.c; sourceTree = "<group>"; };
+		AB3A7C4E055E63B100CA83BE /* E3FFR_3DMF.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFR_3DMF.h; sourceTree = "<group>"; };
+		AB3A7C4F055E63B100CA83BE /* E3FFR_3DMF_Bin.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFR_3DMF_Bin.c; sourceTree = "<group>"; };
+		AB3A7C50055E63B100CA83BE /* E3FFR_3DMF_Bin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFR_3DMF_Bin.h; sourceTree = "<group>"; };
+		AB3A7C51055E63B100CA83BE /* E3FFR_3DMF_Geometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFR_3DMF_Geometry.c; sourceTree = "<group>"; };
+		AB3A7C52055E63B100CA83BE /* E3FFR_3DMF_Geometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFR_3DMF_Geometry.h; sourceTree = "<group>"; };
+		AB3A7C53055E63B100CA83BE /* E3FFR_3DMF_Text.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFR_3DMF_Text.c; sourceTree = "<group>"; };
+		AB3A7C54055E63B100CA83BE /* E3FFR_3DMF_Text.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFR_3DMF_Text.h; sourceTree = "<group>"; };
+		AB3A7C57055E63B100CA83BE /* E3FFW_3DMFBin_Geometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFW_3DMFBin_Geometry.c; sourceTree = "<group>"; };
+		AB3A7C58055E63B100CA83BE /* E3FFW_3DMFBin_Geometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFW_3DMFBin_Geometry.h; sourceTree = "<group>"; };
+		AB3A7C59055E63B100CA83BE /* E3FFW_3DMFBin_Register.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFW_3DMFBin_Register.c; sourceTree = "<group>"; };
+		AB3A7C5A055E63B100CA83BE /* E3FFW_3DMFBin_Register.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFW_3DMFBin_Register.h; sourceTree = "<group>"; };
+		AB3A7C5B055E63B100CA83BE /* E3FFW_3DMFBin_Writer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFW_3DMFBin_Writer.c; sourceTree = "<group>"; };
+		AB3A7C5C055E63B100CA83BE /* E3FFW_3DMFBin_Writer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFW_3DMFBin_Writer.h; sourceTree = "<group>"; };
+		AB3A7E33055E691D00CA83BE /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		AB3A7E66055E698900CA83BE /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = ../../../../../../../../../../../../../System/Library/Frameworks/QuickTime.framework; sourceTree = SOURCE_ROOT; };
+		AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = ../../../../../../../../../../../../../System/Library/Frameworks/Cocoa.framework; sourceTree = SOURCE_ROOT; };
+		AB83B5D8055E72B90034F56A /* Quesa.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Quesa.h; sourceTree = "<group>"; };
+		AB83B5D9055E72B90034F56A /* QuesaCamera.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaCamera.h; sourceTree = "<group>"; };
+		AB83B5DA055E72B90034F56A /* QuesaController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaController.h; sourceTree = "<group>"; };
+		AB83B5DB055E72B90034F56A /* QuesaCustomElements.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaCustomElements.h; sourceTree = "<group>"; };
+		AB83B5DC055E72B90034F56A /* QuesaDrawContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaDrawContext.h; sourceTree = "<group>"; };
+		AB83B5DD055E72B90034F56A /* QuesaErrors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaErrors.h; sourceTree = "<group>"; };
+		AB83B5DE055E72B90034F56A /* QuesaExtension.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaExtension.h; sourceTree = "<group>"; };
+		AB83B5DF055E72B90034F56A /* QuesaGeometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaGeometry.h; sourceTree = "<group>"; };
+		AB83B5E0055E72B90034F56A /* QuesaGroup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaGroup.h; sourceTree = "<group>"; };
+		AB83B5E1055E72B90034F56A /* QuesaIO.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaIO.h; sourceTree = "<group>"; };
+		AB83B5E2055E72B90034F56A /* QuesaLight.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaLight.h; sourceTree = "<group>"; };
+		AB83B5E3055E72B90034F56A /* QuesaMath.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaMath.h; sourceTree = "<group>"; };
+		AB83B5E4055E72B90034F56A /* QuesaMemory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaMemory.h; sourceTree = "<group>"; };
+		AB83B5E5055E72B90034F56A /* QuesaPick.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaPick.h; sourceTree = "<group>"; };
+		AB83B5E6055E72B90034F56A /* QuesaRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaRenderer.h; sourceTree = "<group>"; };
+		AB83B5E7055E72B90034F56A /* QuesaSet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaSet.h; sourceTree = "<group>"; };
+		AB83B5E8055E72B90034F56A /* QuesaShader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaShader.h; sourceTree = "<group>"; };
+		AB83B5E9055E72B90034F56A /* QuesaStorage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaStorage.h; sourceTree = "<group>"; };
+		AB83B5EA055E72B90034F56A /* QuesaString.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaString.h; sourceTree = "<group>"; };
+		AB83B5EB055E72B90034F56A /* QuesaStyle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaStyle.h; sourceTree = "<group>"; };
+		AB83B5EC055E72B90034F56A /* QuesaTransform.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaTransform.h; sourceTree = "<group>"; };
+		AB83B5ED055E72B90034F56A /* QuesaView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaView.h; sourceTree = "<group>"; };
+		AB83B5EE055E72B90034F56A /* QuesaViewer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaViewer.h; sourceTree = "<group>"; };
+		AB83B95B055E77870034F56A /* E3MacDebug.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacDebug.c; sourceTree = "<group>"; };
+		AB83B95C055E77870034F56A /* E3MacDrawContext.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacDrawContext.c; sourceTree = "<group>"; };
+		AB83B95D055E77870034F56A /* E3MacErrors.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacErrors.c; sourceTree = "<group>"; };
+		AB83B95F055E77870034F56A /* E3MacPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3MacPrefix.h; sourceTree = "<group>"; };
+		AB83B964055E77870034F56A /* E3MacStorage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacStorage.c; sourceTree = "<group>"; };
+		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
+		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
+		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE5C8A10087D9D4000533C43 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
+		BE5C8A11087D9D4000533C43 /* CartoonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CartoonRenderer.h; sourceTree = "<group>"; };
+		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
+		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLTextureManager.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D07F2C30486CC7A007CD1D0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D07F2C40486CC7A007CD1D0 /* Carbon.framework in Frameworks */,
+				AB3A7E34055E691D00CA83BE /* OpenGL.framework in Frameworks */,
+				AB3A7E67055E698900CA83BE /* QuickTime.framework in Frameworks */,
+				AB3A7E6D055E6A0800CA83BE /* Cocoa.framework in Frameworks */,
+				AB83B9FD055E79B20034F56A /* AGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B1756AFD080A71C30056134C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1756BB0080A73C80056134C /* Cocoa.framework in Frameworks */,
+				B1756B2D080A73A40056134C /* AGL.framework in Frameworks */,
+				B1756B2E080A73A40056134C /* OpenGL.framework in Frameworks */,
+				B1756B2F080A73A40056134C /* Carbon.framework in Frameworks */,
+				B1756B30080A73A40056134C /* QuickTime.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D07F2C80486CC7A007CD1D0 /* Quesa.framework */,
+				B1756AFF080A71C30056134C /* libQuesa.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* Quesa */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77ACFE841707C02AAC07 /* Source */,
+				AB83B5D5055E72B90034F56A /* Includes */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+			);
+			name = Quesa;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				AB83B9FC055E79B20034F56A /* AGL.framework */,
+				08FB77AAFE841565C02AAC07 /* Carbon.framework */,
+				AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */,
+				AB3A7E33055E691D00CA83BE /* OpenGL.framework */,
+				AB3A7E66055E698900CA83BE /* QuickTime.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		08FB77ACFE841707C02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7B83055E63B100CA83BE /* Core */,
+				AB3A7C17055E63B100CA83BE /* Renderers */,
+				AB3A7C48055E63B100CA83BE /* FileFormats */,
+				AB83B949055E77870034F56A /* Platform */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		AB3A7B83055E63B100CA83BE /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7B84055E63B100CA83BE /* Geometry */,
+				AB3A7BB1055E63B100CA83BE /* Glue */,
+				AB3A7BC9055E63B100CA83BE /* Support */,
+				AB3A7BE2055E63B100CA83BE /* System */,
+				AB3A7C11055E63B100CA83BE /* Viewer */,
+			);
+			name = Core;
+			path = ../../Source/Core;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7B84055E63B100CA83BE /* Geometry */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7B85055E63B100CA83BE /* E3Geometry.c */,
+				AB3A7B86055E63B100CA83BE /* E3Geometry.h */,
+				AB3A7B87055E63B100CA83BE /* E3GeometryBox.c */,
+				AB3A7B88055E63B100CA83BE /* E3GeometryBox.h */,
+				AB3A7B89055E63B100CA83BE /* E3GeometryCone.c */,
+				AB3A7B8A055E63B100CA83BE /* E3GeometryCone.h */,
+				AB3A7B8B055E63B100CA83BE /* E3GeometryCylinder.c */,
+				AB3A7B8C055E63B100CA83BE /* E3GeometryCylinder.h */,
+				AB3A7B8D055E63B100CA83BE /* E3GeometryDisk.c */,
+				AB3A7B8E055E63B100CA83BE /* E3GeometryDisk.h */,
+				AB3A7B8F055E63B100CA83BE /* E3GeometryEllipse.c */,
+				AB3A7B90055E63B100CA83BE /* E3GeometryEllipse.h */,
+				AB3A7B91055E63B100CA83BE /* E3GeometryEllipsoid.c */,
+				AB3A7B92055E63B100CA83BE /* E3GeometryEllipsoid.h */,
+				AB3A7B93055E63B100CA83BE /* E3GeometryGeneralPolygon.c */,
+				AB3A7B94055E63B100CA83BE /* E3GeometryGeneralPolygon.h */,
+				AB3A7B95055E63B100CA83BE /* E3GeometryLine.c */,
+				AB3A7B96055E63B100CA83BE /* E3GeometryLine.h */,
+				AB3A7B97055E63B100CA83BE /* E3GeometryMarker.c */,
+				AB3A7B98055E63B100CA83BE /* E3GeometryMarker.h */,
+				AB3A7B99055E63B100CA83BE /* E3GeometryMesh.c */,
+				AB3A7B9A055E63B100CA83BE /* E3GeometryMesh.h */,
+				AB3A7B9B055E63B100CA83BE /* E3GeometryNURBCurve.c */,
+				AB3A7B9C055E63B100CA83BE /* E3GeometryNURBCurve.h */,
+				AB3A7B9D055E63B100CA83BE /* E3GeometryNURBPatch.c */,
+				AB3A7B9E055E63B100CA83BE /* E3GeometryNURBPatch.h */,
+				AB3A7B9F055E63B100CA83BE /* E3GeometryPixmapMarker.c */,
+				AB3A7BA0055E63B100CA83BE /* E3GeometryPixmapMarker.h */,
+				AB3A7BA1055E63B100CA83BE /* E3GeometryPoint.c */,
+				AB3A7BA2055E63B100CA83BE /* E3GeometryPoint.h */,
+				AB3A7BA3055E63B100CA83BE /* E3GeometryPolygon.c */,
+				AB3A7BA4055E63B100CA83BE /* E3GeometryPolygon.h */,
+				AB3A7BA5055E63B100CA83BE /* E3GeometryPolyhedron.c */,
+				AB3A7BA6055E63B100CA83BE /* E3GeometryPolyhedron.h */,
+				AB3A7BA7055E63B100CA83BE /* E3GeometryPolyLine.c */,
+				AB3A7BA8055E63B100CA83BE /* E3GeometryPolyLine.h */,
+				AB3A7BA9055E63B100CA83BE /* E3GeometryTorus.c */,
+				AB3A7BAA055E63B100CA83BE /* E3GeometryTorus.h */,
+				AB3A7BAB055E63B100CA83BE /* E3GeometryTriangle.c */,
+				AB3A7BAC055E63B100CA83BE /* E3GeometryTriangle.h */,
+				AB3A7BAD055E63B100CA83BE /* E3GeometryTriGrid.c */,
+				AB3A7BAE055E63B100CA83BE /* E3GeometryTriGrid.h */,
+				AB3A7BAF055E63B100CA83BE /* E3GeometryTriMesh.c */,
+				AB3A7BB0055E63B100CA83BE /* E3GeometryTriMesh.h */,
+			);
+			path = Geometry;
+			sourceTree = "<group>";
+		};
+		AB3A7BB1055E63B100CA83BE /* Glue */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7BB2055E63B100CA83BE /* QD3DCamera.c */,
+				AB3A7BB3055E63B100CA83BE /* QD3DController.c */,
+				AB3A7BB4055E63B100CA83BE /* QD3DCustomElements.c */,
+				AB3A7BB5055E63B100CA83BE /* QD3DDrawContext.c */,
+				AB3A7BB6055E63B100CA83BE /* QD3DErrors.c */,
+				AB3A7BB7055E63B100CA83BE /* QD3DExtension.c */,
+				AB3A7BB8055E63B100CA83BE /* QD3DGeometry.c */,
+				AB3A7BB9055E63B100CA83BE /* QD3DGroup.c */,
+				AB3A7BBA055E63B100CA83BE /* QD3DIO.c */,
+				AB3A7BBB055E63B100CA83BE /* QD3DLight.c */,
+				AB3A7BBC055E63B100CA83BE /* QD3DMain.c */,
+				AB3A7BBD055E63B100CA83BE /* QD3DMath.c */,
+				AB3A7BBE055E63B100CA83BE /* QD3DMemory.c */,
+				AB3A7BBF055E63B100CA83BE /* QD3DPick.c */,
+				AB3A7BC0055E63B100CA83BE /* QD3DRenderer.c */,
+				AB3A7BC1055E63B100CA83BE /* QD3DSet.c */,
+				AB3A7BC2055E63B100CA83BE /* QD3DShader.c */,
+				AB3A7BC3055E63B100CA83BE /* QD3DStorage.c */,
+				AB3A7BC4055E63B100CA83BE /* QD3DString.c */,
+				AB3A7BC5055E63B100CA83BE /* QD3DStyle.c */,
+				AB3A7BC6055E63B100CA83BE /* QD3DTransform.c */,
+				AB3A7BC7055E63B100CA83BE /* QD3DView.c */,
+				AB3A7BC8055E63B100CA83BE /* QD3DViewer.c */,
+			);
+			path = Glue;
+			sourceTree = "<group>";
+		};
+		AB3A7BC9055E63B100CA83BE /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7BCA055E63B100CA83BE /* E3ArrayOrList.c */,
+				AB3A7BCB055E63B100CA83BE /* E3ArrayOrList.h */,
+				AB3A7BCC055E63B100CA83BE /* E3ClassTree.c */,
+				AB3A7BCD055E63B100CA83BE /* E3ClassTree.h */,
+				AB3A7BCE055E63B100CA83BE /* E3Compatibility.c */,
+				AB3A7BCF055E63B100CA83BE /* E3Compatibility.h */,
+				AB3A7BD0055E63B100CA83BE /* E3Debug.h */,
+				AB3A7BD1055E63B100CA83BE /* E3ErrorManager.c */,
+				AB3A7BD2055E63B100CA83BE /* E3ErrorManager.h */,
+				AB3A7BD3055E63B100CA83BE /* E3Globals.c */,
+				AB3A7BD4055E63B100CA83BE /* E3Globals.h */,
+				AB3A7BD5055E63B100CA83BE /* E3HashTable.c */,
+				AB3A7BD6055E63B100CA83BE /* E3HashTable.h */,
+				AB3A7BD7055E63B100CA83BE /* E3Pool.c */,
+				AB3A7BD8055E63B100CA83BE /* E3Pool.h */,
+				AB3A7BD9055E63B100CA83BE /* E3Prefix.h */,
+				AB3A7BDA055E63B100CA83BE /* E3StackCrawl.h */,
+				AB3A7BDB055E63B100CA83BE /* E3System.c */,
+				AB3A7BDC055E63B100CA83BE /* E3System.h */,
+				AB3A7BDD055E63B100CA83BE /* E3Tessellate.c */,
+				AB3A7BDE055E63B100CA83BE /* E3Tessellate.h */,
+				AB3A7BDF055E63B100CA83BE /* E3Utils.c */,
+				AB3A7BE0055E63B100CA83BE /* E3Utils.h */,
+				AB3A7BE1055E63B100CA83BE /* E3Version.h */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		AB3A7BE2055E63B100CA83BE /* System */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7BE3055E63B100CA83BE /* E3Camera.c */,
+				AB3A7BE4055E63B100CA83BE /* E3Camera.h */,
+				AB3A7BE5055E63B100CA83BE /* E3Controller.c */,
+				AB3A7BE6055E63B100CA83BE /* E3Controller.h */,
+				AB3A7BE7055E63B100CA83BE /* E3CustomElements.c */,
+				AB3A7BE8055E63B100CA83BE /* E3CustomElements.h */,
+				AB3A7BE9055E63B100CA83BE /* E3DrawContext.c */,
+				AB3A7BEA055E63B100CA83BE /* E3DrawContext.h */,
+				AB3A7BEB055E63B100CA83BE /* E3Errors.c */,
+				AB3A7BEC055E63B100CA83BE /* E3Errors.h */,
+				AB3A7BED055E63B100CA83BE /* E3Extension.c */,
+				AB3A7BEE055E63B100CA83BE /* E3Extension.h */,
+				AB3A7BEF055E63B100CA83BE /* E3Group.c */,
+				AB3A7BF0055E63B100CA83BE /* E3Group.h */,
+				AB3A7BF1055E63B100CA83BE /* E3IO.c */,
+				AB3A7BF2055E63B100CA83BE /* E3IO.h */,
+				AB3A7BF3055E63B100CA83BE /* E3IOData.c */,
+				AB3A7BF4055E63B100CA83BE /* E3IOData.h */,
+				AB3A7BF5055E63B100CA83BE /* E3Light.c */,
+				AB3A7BF6055E63B100CA83BE /* E3Light.h */,
+				AB3A7BF7055E63B100CA83BE /* E3Main.c */,
+				AB3A7BF8055E63B100CA83BE /* E3Main.h */,
+				AB3A7BF9055E63B100CA83BE /* E3Math.c */,
+				AB3A7BFA055E63B100CA83BE /* E3Math.h */,
+				AB3A7BFB055E63B100CA83BE /* E3Memory.c */,
+				AB3A7BFC055E63B100CA83BE /* E3Memory.h */,
+				AB3A7BFD055E63B100CA83BE /* E3Pick.c */,
+				AB3A7BFE055E63B100CA83BE /* E3Pick.h */,
+				AB3A7BFF055E63B100CA83BE /* E3Renderer.c */,
+				AB3A7C00055E63B100CA83BE /* E3Renderer.h */,
+				AB3A7C01055E63B100CA83BE /* E3Set.c */,
+				AB3A7C02055E63B100CA83BE /* E3Set.h */,
+				AB3A7C03055E63B100CA83BE /* E3Shader.c */,
+				AB3A7C04055E63B100CA83BE /* E3Shader.h */,
+				AB3A7C05055E63B100CA83BE /* E3Storage.c */,
+				AB3A7C06055E63B100CA83BE /* E3Storage.h */,
+				AB3A7C07055E63B100CA83BE /* E3String.c */,
+				AB3A7C08055E63B100CA83BE /* E3String.h */,
+				AB3A7C09055E63B100CA83BE /* E3Style.c */,
+				AB3A7C0A055E63B100CA83BE /* E3Style.h */,
+				AB3A7C0B055E63B100CA83BE /* E3Texture.c */,
+				AB3A7C0C055E63B100CA83BE /* E3Texture.h */,
+				AB3A7C0D055E63B100CA83BE /* E3Transform.c */,
+				AB3A7C0E055E63B100CA83BE /* E3Transform.h */,
+				AB3A7C0F055E63B100CA83BE /* E3View.c */,
+				AB3A7C10055E63B100CA83BE /* E3View.h */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		AB3A7C11055E63B100CA83BE /* Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C12055E63B100CA83BE /* E3Viewer.c */,
+				AB3A7C13055E63B100CA83BE /* E3Viewer.h */,
+				AB3A7C14055E63B100CA83BE /* E3ViewerOldAPIs.c */,
+			);
+			path = Viewer;
+			sourceTree = "<group>";
+		};
+		AB3A7C17055E63B100CA83BE /* Renderers */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C18055E63B100CA83BE /* Common */,
+				BE5C8A0F087D9D4000533C43 /* Cartoon */,
+				AB3A7C22055E63B100CA83BE /* Generic */,
+				AB3A7C2A055E63B100CA83BE /* Interactive */,
+				AB3A7C3E055E63B100CA83BE /* Wireframe */,
+			);
+			name = Renderers;
+			path = ../../Source/Renderers;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7C18055E63B100CA83BE /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C19055E63B100CA83BE /* GLCamera.c */,
+				AB3A7C1A055E63B100CA83BE /* GLCamera.h */,
+				AB3A7C1D055E63B100CA83BE /* GLDrawContext.c */,
+				AB3A7C1E055E63B100CA83BE /* GLDrawContext.h */,
+				BE6FD690076B88A800587852 /* GLTextureManager.h */,
+				BE6FD691076B88A800587852 /* GLTextureManager.c */,
+				AB3A7C1F055E63B100CA83BE /* GLPrefix.h */,
+				AB3A7C20055E63B100CA83BE /* GLUtils.c */,
+				AB3A7C21055E63B100CA83BE /* GLUtils.h */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		AB3A7C22055E63B100CA83BE /* Generic */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C23055E63B100CA83BE /* GNGeometry.c */,
+				AB3A7C24055E63B100CA83BE /* GNGeometry.h */,
+				AB3A7C25055E63B100CA83BE /* GNPrefix.h */,
+				AB3A7C26055E63B100CA83BE /* GNRegister.c */,
+				AB3A7C27055E63B100CA83BE /* GNRegister.h */,
+				AB3A7C28055E63B100CA83BE /* GNRenderer.c */,
+				AB3A7C29055E63B100CA83BE /* GNRenderer.h */,
+			);
+			path = Generic;
+			sourceTree = "<group>";
+		};
+		AB3A7C2A055E63B100CA83BE /* Interactive */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C2B055E63B100CA83BE /* IRGeometry.c */,
+				AB3A7C2C055E63B100CA83BE /* IRGeometry.h */,
+				AB3A7C2D055E63B100CA83BE /* IRGeometryTriMesh.c */,
+				AB3A7C2E055E63B100CA83BE /* IRGeometryTriMesh.h */,
+				AB3A7C2F055E63B100CA83BE /* IRLights.c */,
+				AB3A7C30055E63B100CA83BE /* IRLights.h */,
+				AB3A7C31055E63B100CA83BE /* IRPrefix.h */,
+				AB3A7C32055E63B100CA83BE /* IRRegister.c */,
+				AB3A7C33055E63B100CA83BE /* IRRegister.h */,
+				AB3A7C34055E63B100CA83BE /* IRRenderer.c */,
+				AB3A7C35055E63B100CA83BE /* IRRenderer.h */,
+				AB3A7C36055E63B100CA83BE /* IRTexture.c */,
+				AB3A7C37055E63B100CA83BE /* IRTexture.h */,
+				AB3A7C38055E63B100CA83BE /* IRTransparent.c */,
+				AB3A7C39055E63B100CA83BE /* IRTransparent.h */,
+				AB3A7C3A055E63B100CA83BE /* IRTriBuffer.c */,
+				AB3A7C3B055E63B100CA83BE /* IRTriBuffer.h */,
+				AB3A7C3C055E63B100CA83BE /* IRUpdate.c */,
+				AB3A7C3D055E63B100CA83BE /* IRUpdate.h */,
+			);
+			path = Interactive;
+			sourceTree = "<group>";
+		};
+		AB3A7C3E055E63B100CA83BE /* Wireframe */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C3F055E63B100CA83BE /* WFGeometry.c */,
+				AB3A7C40055E63B100CA83BE /* WFGeometry.h */,
+				AB3A7C41055E63B100CA83BE /* WFPrefix.h */,
+				AB3A7C42055E63B100CA83BE /* WFRegister.c */,
+				AB3A7C43055E63B100CA83BE /* WFRegister.h */,
+				AB3A7C44055E63B100CA83BE /* WFRenderer.c */,
+				AB3A7C45055E63B100CA83BE /* WFRenderer.h */,
+				AB3A7C46055E63B100CA83BE /* WFUpdate.c */,
+				AB3A7C47055E63B100CA83BE /* WFUpdate.h */,
+			);
+			path = Wireframe;
+			sourceTree = "<group>";
+		};
+		AB3A7C48055E63B100CA83BE /* FileFormats */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C49055E63B100CA83BE /* E3IOFileFormat.c */,
+				AB3A7C4A055E63B100CA83BE /* E3IOFileFormat.h */,
+				AB3A7C4B055E63B100CA83BE /* Readers */,
+				AB3A7C55055E63B100CA83BE /* Writers */,
+			);
+			name = FileFormats;
+			path = ../../Source/FileFormats;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB3A7C4B055E63B100CA83BE /* Readers */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C4C055E63B100CA83BE /* 3DMF */,
+			);
+			path = Readers;
+			sourceTree = "<group>";
+		};
+		AB3A7C4C055E63B100CA83BE /* 3DMF */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C4D055E63B100CA83BE /* E3FFR_3DMF.c */,
+				AB3A7C4E055E63B100CA83BE /* E3FFR_3DMF.h */,
+				AB3A7C4F055E63B100CA83BE /* E3FFR_3DMF_Bin.c */,
+				AB3A7C50055E63B100CA83BE /* E3FFR_3DMF_Bin.h */,
+				AB3A7C51055E63B100CA83BE /* E3FFR_3DMF_Geometry.c */,
+				AB3A7C52055E63B100CA83BE /* E3FFR_3DMF_Geometry.h */,
+				AB3A7C53055E63B100CA83BE /* E3FFR_3DMF_Text.c */,
+				AB3A7C54055E63B100CA83BE /* E3FFR_3DMF_Text.h */,
+			);
+			path = 3DMF;
+			sourceTree = "<group>";
+		};
+		AB3A7C55055E63B100CA83BE /* Writers */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C56055E63B100CA83BE /* 3DMF */,
+			);
+			path = Writers;
+			sourceTree = "<group>";
+		};
+		AB3A7C56055E63B100CA83BE /* 3DMF */ = {
+			isa = PBXGroup;
+			children = (
+				AB3A7C57055E63B100CA83BE /* E3FFW_3DMFBin_Geometry.c */,
+				AB3A7C58055E63B100CA83BE /* E3FFW_3DMFBin_Geometry.h */,
+				AB3A7C59055E63B100CA83BE /* E3FFW_3DMFBin_Register.c */,
+				AB3A7C5A055E63B100CA83BE /* E3FFW_3DMFBin_Register.h */,
+				AB3A7C5B055E63B100CA83BE /* E3FFW_3DMFBin_Writer.c */,
+				AB3A7C5C055E63B100CA83BE /* E3FFW_3DMFBin_Writer.h */,
+			);
+			path = 3DMF;
+			sourceTree = "<group>";
+		};
+		AB83B5D5055E72B90034F56A /* Includes */ = {
+			isa = PBXGroup;
+			children = (
+				AB83B5D7055E72B90034F56A /* Quesa */,
+			);
+			name = Includes;
+			path = ../../../SDK/Includes;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB83B5D7055E72B90034F56A /* Quesa */ = {
+			isa = PBXGroup;
+			children = (
+				AB83B5D8055E72B90034F56A /* Quesa.h */,
+				AB83B5D9055E72B90034F56A /* QuesaCamera.h */,
+				AB83B5DA055E72B90034F56A /* QuesaController.h */,
+				AB83B5DB055E72B90034F56A /* QuesaCustomElements.h */,
+				AB83B5DC055E72B90034F56A /* QuesaDrawContext.h */,
+				AB83B5DD055E72B90034F56A /* QuesaErrors.h */,
+				AB83B5DE055E72B90034F56A /* QuesaExtension.h */,
+				AB83B5DF055E72B90034F56A /* QuesaGeometry.h */,
+				AB83B5E0055E72B90034F56A /* QuesaGroup.h */,
+				AB83B5E1055E72B90034F56A /* QuesaIO.h */,
+				AB83B5E2055E72B90034F56A /* QuesaLight.h */,
+				AB83B5E3055E72B90034F56A /* QuesaMath.h */,
+				AB83B5E4055E72B90034F56A /* QuesaMemory.h */,
+				AB83B5E5055E72B90034F56A /* QuesaPick.h */,
+				AB83B5E6055E72B90034F56A /* QuesaRenderer.h */,
+				AB83B5E7055E72B90034F56A /* QuesaSet.h */,
+				AB83B5E8055E72B90034F56A /* QuesaShader.h */,
+				AB83B5E9055E72B90034F56A /* QuesaStorage.h */,
+				AB83B5EA055E72B90034F56A /* QuesaString.h */,
+				AB83B5EB055E72B90034F56A /* QuesaStyle.h */,
+				AB83B5EC055E72B90034F56A /* QuesaTransform.h */,
+				AB83B5ED055E72B90034F56A /* QuesaView.h */,
+				AB83B5EE055E72B90034F56A /* QuesaViewer.h */,
+			);
+			path = Quesa;
+			sourceTree = "<group>";
+		};
+		AB83B949055E77870034F56A /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				AB83B959055E77870034F56A /* Mac */,
+			);
+			name = Platform;
+			path = ../../Source/Platform;
+			sourceTree = SOURCE_ROOT;
+		};
+		AB83B959055E77870034F56A /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				AB83B95B055E77870034F56A /* E3MacDebug.c */,
+				AB83B95C055E77870034F56A /* E3MacDrawContext.c */,
+				AB83B95D055E77870034F56A /* E3MacErrors.c */,
+				AB83B95F055E77870034F56A /* E3MacPrefix.h */,
+				AB83B964055E77870034F56A /* E3MacStorage.c */,
+				AB83B965055E77870034F56A /* E3MacSystem.c */,
+			);
+			path = Mac;
+			sourceTree = "<group>";
+		};
+		BE5C8A0F087D9D4000533C43 /* Cartoon */ = {
+			isa = PBXGroup;
+			children = (
+				BE5C8A10087D9D4000533C43 /* CartoonRenderer.cpp */,
+				BE5C8A11087D9D4000533C43 /* CartoonRenderer.h */,
+			);
+			path = Cartoon;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D07F2BD0486CC7A007CD1D0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB3A7CA5055E63B200CA83BE /* E3Geometry.h in Headers */,
+				AB3A7CA7055E63B200CA83BE /* E3GeometryBox.h in Headers */,
+				AB3A7CA9055E63B200CA83BE /* E3GeometryCone.h in Headers */,
+				AB3A7CAB055E63B200CA83BE /* E3GeometryCylinder.h in Headers */,
+				AB3A7CAD055E63B200CA83BE /* E3GeometryDisk.h in Headers */,
+				AB3A7CAF055E63B200CA83BE /* E3GeometryEllipse.h in Headers */,
+				AB3A7CB1055E63B200CA83BE /* E3GeometryEllipsoid.h in Headers */,
+				AB3A7CB3055E63B200CA83BE /* E3GeometryGeneralPolygon.h in Headers */,
+				AB3A7CB5055E63B200CA83BE /* E3GeometryLine.h in Headers */,
+				AB3A7CB7055E63B200CA83BE /* E3GeometryMarker.h in Headers */,
+				AB3A7CB9055E63B200CA83BE /* E3GeometryMesh.h in Headers */,
+				AB3A7CBB055E63B200CA83BE /* E3GeometryNURBCurve.h in Headers */,
+				AB3A7CBD055E63B200CA83BE /* E3GeometryNURBPatch.h in Headers */,
+				AB3A7CBF055E63B200CA83BE /* E3GeometryPixmapMarker.h in Headers */,
+				AB3A7CC1055E63B200CA83BE /* E3GeometryPoint.h in Headers */,
+				AB3A7CC3055E63B200CA83BE /* E3GeometryPolygon.h in Headers */,
+				AB3A7CC5055E63B200CA83BE /* E3GeometryPolyhedron.h in Headers */,
+				AB3A7CC7055E63B200CA83BE /* E3GeometryPolyLine.h in Headers */,
+				AB3A7CC9055E63B200CA83BE /* E3GeometryTorus.h in Headers */,
+				AB3A7CCB055E63B200CA83BE /* E3GeometryTriangle.h in Headers */,
+				AB3A7CCD055E63B200CA83BE /* E3GeometryTriGrid.h in Headers */,
+				AB3A7CCF055E63B200CA83BE /* E3GeometryTriMesh.h in Headers */,
+				AB3A7CE8055E63B200CA83BE /* E3ArrayOrList.h in Headers */,
+				AB3A7CEA055E63B200CA83BE /* E3ClassTree.h in Headers */,
+				AB3A7CEC055E63B200CA83BE /* E3Compatibility.h in Headers */,
+				AB3A7CED055E63B200CA83BE /* E3Debug.h in Headers */,
+				AB3A7CEF055E63B200CA83BE /* E3ErrorManager.h in Headers */,
+				AB3A7CF1055E63B200CA83BE /* E3Globals.h in Headers */,
+				AB3A7CF3055E63B200CA83BE /* E3HashTable.h in Headers */,
+				AB3A7CF5055E63B200CA83BE /* E3Pool.h in Headers */,
+				AB3A7CF6055E63B200CA83BE /* E3Prefix.h in Headers */,
+				AB3A7CF7055E63B200CA83BE /* E3StackCrawl.h in Headers */,
+				AB3A7CF9055E63B200CA83BE /* E3System.h in Headers */,
+				AB3A7CFB055E63B200CA83BE /* E3Tessellate.h in Headers */,
+				AB3A7CFD055E63B200CA83BE /* E3Utils.h in Headers */,
+				AB3A7CFE055E63B200CA83BE /* E3Version.h in Headers */,
+				AB3A7D00055E63B200CA83BE /* E3Camera.h in Headers */,
+				AB3A7D02055E63B200CA83BE /* E3Controller.h in Headers */,
+				AB3A7D04055E63B200CA83BE /* E3CustomElements.h in Headers */,
+				AB3A7D06055E63B200CA83BE /* E3DrawContext.h in Headers */,
+				AB3A7D08055E63B200CA83BE /* E3Errors.h in Headers */,
+				AB3A7D0A055E63B200CA83BE /* E3Extension.h in Headers */,
+				AB3A7D0C055E63B200CA83BE /* E3Group.h in Headers */,
+				AB3A7D0E055E63B200CA83BE /* E3IO.h in Headers */,
+				AB3A7D10055E63B200CA83BE /* E3IOData.h in Headers */,
+				AB3A7D12055E63B200CA83BE /* E3Light.h in Headers */,
+				AB3A7D14055E63B200CA83BE /* E3Main.h in Headers */,
+				AB3A7D16055E63B200CA83BE /* E3Math.h in Headers */,
+				AB3A7D18055E63B200CA83BE /* E3Memory.h in Headers */,
+				AB3A7D1A055E63B200CA83BE /* E3Pick.h in Headers */,
+				AB3A7D1C055E63B200CA83BE /* E3Renderer.h in Headers */,
+				AB3A7D1E055E63B200CA83BE /* E3Set.h in Headers */,
+				AB3A7D20055E63B200CA83BE /* E3Shader.h in Headers */,
+				AB3A7D22055E63B200CA83BE /* E3Storage.h in Headers */,
+				AB3A7D24055E63B200CA83BE /* E3String.h in Headers */,
+				AB3A7D26055E63B200CA83BE /* E3Style.h in Headers */,
+				AB3A7D28055E63B200CA83BE /* E3Texture.h in Headers */,
+				AB3A7D2A055E63B200CA83BE /* E3Transform.h in Headers */,
+				AB3A7D2C055E63B200CA83BE /* E3View.h in Headers */,
+				AB3A7D2E055E63B200CA83BE /* E3Viewer.h in Headers */,
+				AB3A7D33055E63B200CA83BE /* GLCamera.h in Headers */,
+				AB3A7D37055E63B200CA83BE /* GLDrawContext.h in Headers */,
+				AB3A7D38055E63B200CA83BE /* GLPrefix.h in Headers */,
+				AB3A7D3A055E63B200CA83BE /* GLUtils.h in Headers */,
+				AB3A7D3C055E63B200CA83BE /* GNGeometry.h in Headers */,
+				AB3A7D3D055E63B200CA83BE /* GNPrefix.h in Headers */,
+				AB3A7D3F055E63B200CA83BE /* GNRegister.h in Headers */,
+				AB3A7D41055E63B200CA83BE /* GNRenderer.h in Headers */,
+				AB3A7D43055E63B200CA83BE /* IRGeometry.h in Headers */,
+				AB3A7D45055E63B200CA83BE /* IRGeometryTriMesh.h in Headers */,
+				AB3A7D47055E63B200CA83BE /* IRLights.h in Headers */,
+				AB3A7D48055E63B200CA83BE /* IRPrefix.h in Headers */,
+				AB3A7D4A055E63B200CA83BE /* IRRegister.h in Headers */,
+				AB3A7D4C055E63B200CA83BE /* IRRenderer.h in Headers */,
+				AB3A7D4E055E63B200CA83BE /* IRTexture.h in Headers */,
+				AB3A7D50055E63B200CA83BE /* IRTransparent.h in Headers */,
+				AB3A7D52055E63B200CA83BE /* IRTriBuffer.h in Headers */,
+				AB3A7D54055E63B200CA83BE /* IRUpdate.h in Headers */,
+				AB3A7D56055E63B200CA83BE /* WFGeometry.h in Headers */,
+				AB3A7D57055E63B200CA83BE /* WFPrefix.h in Headers */,
+				AB3A7D59055E63B200CA83BE /* WFRegister.h in Headers */,
+				AB3A7D5B055E63B200CA83BE /* WFRenderer.h in Headers */,
+				AB3A7D5D055E63B200CA83BE /* WFUpdate.h in Headers */,
+				AB3A7D5F055E63B200CA83BE /* E3IOFileFormat.h in Headers */,
+				AB3A7D61055E63B200CA83BE /* E3FFR_3DMF.h in Headers */,
+				AB3A7D63055E63B200CA83BE /* E3FFR_3DMF_Bin.h in Headers */,
+				AB3A7D65055E63B200CA83BE /* E3FFR_3DMF_Geometry.h in Headers */,
+				AB3A7D67055E63B200CA83BE /* E3FFR_3DMF_Text.h in Headers */,
+				AB3A7D69055E63B200CA83BE /* E3FFW_3DMFBin_Geometry.h in Headers */,
+				AB3A7D6B055E63B200CA83BE /* E3FFW_3DMFBin_Register.h in Headers */,
+				AB3A7D6D055E63B200CA83BE /* E3FFW_3DMFBin_Writer.h in Headers */,
+				AB83B5F0055E72B90034F56A /* Quesa.h in Headers */,
+				AB83B5F1055E72B90034F56A /* QuesaCamera.h in Headers */,
+				AB83B5F2055E72B90034F56A /* QuesaController.h in Headers */,
+				AB83B5F3055E72B90034F56A /* QuesaCustomElements.h in Headers */,
+				AB83B5F4055E72B90034F56A /* QuesaDrawContext.h in Headers */,
+				AB83B5F5055E72B90034F56A /* QuesaErrors.h in Headers */,
+				AB83B5F6055E72B90034F56A /* QuesaExtension.h in Headers */,
+				AB83B5F7055E72B90034F56A /* QuesaGeometry.h in Headers */,
+				AB83B5F8055E72B90034F56A /* QuesaGroup.h in Headers */,
+				AB83B5F9055E72B90034F56A /* QuesaIO.h in Headers */,
+				AB83B5FA055E72B90034F56A /* QuesaLight.h in Headers */,
+				AB83B5FB055E72B90034F56A /* QuesaMath.h in Headers */,
+				AB83B5FC055E72B90034F56A /* QuesaMemory.h in Headers */,
+				AB83B5FD055E72B90034F56A /* QuesaPick.h in Headers */,
+				AB83B5FE055E72B90034F56A /* QuesaRenderer.h in Headers */,
+				AB83B5FF055E72B90034F56A /* QuesaSet.h in Headers */,
+				AB83B600055E72B90034F56A /* QuesaShader.h in Headers */,
+				AB83B601055E72B90034F56A /* QuesaStorage.h in Headers */,
+				AB83B602055E72B90034F56A /* QuesaString.h in Headers */,
+				AB83B603055E72B90034F56A /* QuesaStyle.h in Headers */,
+				AB83B604055E72B90034F56A /* QuesaTransform.h in Headers */,
+				AB83B605055E72B90034F56A /* QuesaView.h in Headers */,
+				AB83B606055E72B90034F56A /* QuesaViewer.h in Headers */,
+				AB83B9A2055E77880034F56A /* E3MacPrefix.h in Headers */,
+				BE6FD692076B88A800587852 /* GLTextureManager.h in Headers */,
+				BE5C8A13087D9D4000533C43 /* CartoonRenderer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B1756AFB080A71C30056134C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1756BB6080A73DB0056134C /* E3Utils.h in Headers */,
+				B1756BB7080A73DB0056134C /* WFPrefix.h in Headers */,
+				B1756BB8080A73DB0056134C /* E3FFW_3DMFBin_Writer.h in Headers */,
+				B1756BB9080A73DB0056134C /* E3Errors.h in Headers */,
+				B1756BBA080A73DB0056134C /* E3IOFileFormat.h in Headers */,
+				B1756BBB080A73DB0056134C /* QuesaShader.h in Headers */,
+				B1756BBC080A73DB0056134C /* GNRegister.h in Headers */,
+				B1756BBD080A73DB0056134C /* E3GeometryCone.h in Headers */,
+				B1756BBE080A73DB0056134C /* E3GeometryNURBCurve.h in Headers */,
+				B1756BBF080A73DB0056134C /* QuesaGeometry.h in Headers */,
+				B1756BC0080A73DB0056134C /* E3Light.h in Headers */,
+				B1756BC1080A73DB0056134C /* E3Renderer.h in Headers */,
+				B1756BC2080A73DB0056134C /* IRTransparent.h in Headers */,
+				B1756BC3080A73DB0056134C /* E3ErrorManager.h in Headers */,
+				B1756BC4080A73DB0056134C /* E3FFR_3DMF_Text.h in Headers */,
+				B1756BC5080A73DB0056134C /* E3GeometryTriGrid.h in Headers */,
+				B1756BC6080A73DB0056134C /* IRLights.h in Headers */,
+				B1756BC7080A73DB0056134C /* QuesaStorage.h in Headers */,
+				B1756BC8080A73DB0056134C /* E3Camera.h in Headers */,
+				B1756BC9080A73DB0056134C /* E3GeometryGeneralPolygon.h in Headers */,
+				B1756BCA080A73DB0056134C /* E3Style.h in Headers */,
+				B1756BCB080A73DB0056134C /* GLPrefix.h in Headers */,
+				B1756BCC080A73DB0056134C /* QuesaGroup.h in Headers */,
+				B1756BCD080A73DB0056134C /* E3System.h in Headers */,
+				B1756BCE080A73DB0056134C /* WFRegister.h in Headers */,
+				B1756BCF080A73DB0056134C /* E3GeometryPolyhedron.h in Headers */,
+				B1756BD0080A73DB0056134C /* E3Extension.h in Headers */,
+				B1756BD1080A73DB0056134C /* IRPrefix.h in Headers */,
+				B1756BD2080A73DB0056134C /* GNRenderer.h in Headers */,
+				B1756BD3080A73DB0056134C /* QuesaString.h in Headers */,
+				B1756BD4080A73DB0056134C /* E3GeometryCylinder.h in Headers */,
+				B1756BD5080A73DB0056134C /* Quesa.h in Headers */,
+				B1756BD6080A73DB0056134C /* QuesaIO.h in Headers */,
+				B1756BD7080A73DB0056134C /* E3Main.h in Headers */,
+				B1756BD8080A73DB0056134C /* E3GeometryNURBPatch.h in Headers */,
+				B1756BD9080A73DB0056134C /* E3Set.h in Headers */,
+				B1756BDA080A73DB0056134C /* IRTriBuffer.h in Headers */,
+				B1756BDB080A73DB0056134C /* E3Globals.h in Headers */,
+				B1756BDC080A73DB0056134C /* QuesaStyle.h in Headers */,
+				B1756BDD080A73DB0056134C /* E3Controller.h in Headers */,
+				B1756BDE080A73DB0056134C /* E3ArrayOrList.h in Headers */,
+				B1756BDF080A73DB0056134C /* E3GeometryTriMesh.h in Headers */,
+				B1756BE0080A73DB0056134C /* E3Texture.h in Headers */,
+				B1756BE1080A73DB0056134C /* GLUtils.h in Headers */,
+				B1756BE2080A73DB0056134C /* QuesaLight.h in Headers */,
+				B1756BE3080A73DB0056134C /* E3GeometryLine.h in Headers */,
+				B1756BE4080A73DB0056134C /* QuesaCamera.h in Headers */,
+				B1756BE5080A73DB0056134C /* E3Tessellate.h in Headers */,
+				B1756BE6080A73DB0056134C /* WFRenderer.h in Headers */,
+				B1756BE7080A73DB0056134C /* E3GeometryPolyLine.h in Headers */,
+				B1756BE8080A73DB0056134C /* E3Group.h in Headers */,
+				B1756BE9080A73DB0056134C /* E3FFR_3DMF.h in Headers */,
+				B1756BEA080A73DB0056134C /* IRRegister.h in Headers */,
+				B1756BEB080A73DB0056134C /* QuesaTransform.h in Headers */,
+				B1756BEC080A73DB0056134C /* E3GeometryDisk.h in Headers */,
+				B1756BED080A73DB0056134C /* E3Math.h in Headers */,
+				B1756BEE080A73DB0056134C /* QuesaMath.h in Headers */,
+				B1756BEF080A73DB0056134C /* QuesaController.h in Headers */,
+				B1756BF0080A73DB0056134C /* E3GeometryPixmapMarker.h in Headers */,
+				B1756BF1080A73DB0056134C /* E3Shader.h in Headers */,
+				B1756BF2080A73DB0056134C /* IRUpdate.h in Headers */,
+				B1756BF3080A73DB0056134C /* E3FFW_3DMFBin_Geometry.h in Headers */,
+				B1756BF4080A73DB0056134C /* E3HashTable.h in Headers */,
+				B1756BF5080A73DB0056134C /* QuesaView.h in Headers */,
+				B1756BF6080A73DB0056134C /* E3ClassTree.h in Headers */,
+				B1756BF7080A73DB0056134C /* E3CustomElements.h in Headers */,
+				B1756BF8080A73DB0056134C /* E3Geometry.h in Headers */,
+				B1756BF9080A73DB0056134C /* E3Transform.h in Headers */,
+				B1756BFA080A73DB0056134C /* QuesaMemory.h in Headers */,
+				B1756BFB080A73DB0056134C /* E3GeometryPolygon.h in Headers */,
+				B1756BFC080A73DB0056134C /* GLCamera.h in Headers */,
+				B1756BFD080A73DB0056134C /* E3GeometryMarker.h in Headers */,
+				B1756BFE080A73DB0056134C /* QuesaCustomElements.h in Headers */,
+				B1756BFF080A73DB0056134C /* WFUpdate.h in Headers */,
+				B1756C00080A73DB0056134C /* E3IO.h in Headers */,
+				B1756C01080A73DB0056134C /* E3GeometryTorus.h in Headers */,
+				B1756C02080A73DB0056134C /* E3FFR_3DMF_Bin.h in Headers */,
+				B1756C03080A73DB0056134C /* IRRenderer.h in Headers */,
+				B1756C04080A73DB0056134C /* QuesaViewer.h in Headers */,
+				B1756C05080A73DB0056134C /* E3MacPrefix.h in Headers */,
+				B1756C06080A73DB0056134C /* E3Memory.h in Headers */,
+				B1756C07080A73DB0056134C /* E3GeometryEllipse.h in Headers */,
+				B1756C08080A73DB0056134C /* IRGeometry.h in Headers */,
+				B1756C09080A73DB0056134C /* GNGeometry.h in Headers */,
+				B1756C0A080A73DB0056134C /* QuesaPick.h in Headers */,
+				B1756C0B080A73DB0056134C /* E3Version.h in Headers */,
+				B1756C0C080A73DB0056134C /* QuesaDrawContext.h in Headers */,
+				B1756C0D080A73DB0056134C /* E3Storage.h in Headers */,
+				B1756C0E080A73DB0056134C /* E3GeometryPoint.h in Headers */,
+				B1756C0F080A73DB0056134C /* E3Pool.h in Headers */,
+				B1756C10080A73DB0056134C /* E3FFW_3DMFBin_Register.h in Headers */,
+				B1756C11080A73DB0056134C /* E3Compatibility.h in Headers */,
+				B1756C12080A73DB0056134C /* E3View.h in Headers */,
+				B1756C13080A73DB0056134C /* E3DrawContext.h in Headers */,
+				B1756C14080A73DB0056134C /* QuesaRenderer.h in Headers */,
+				B1756C15080A73DB0056134C /* GNPrefix.h in Headers */,
+				B1756C16080A73DB0056134C /* GLDrawContext.h in Headers */,
+				B1756C17080A73DB0056134C /* E3GeometryMesh.h in Headers */,
+				B1756C18080A73DB0056134C /* QuesaErrors.h in Headers */,
+				B1756C19080A73DB0056134C /* E3GeometryBox.h in Headers */,
+				B1756C1A080A73DB0056134C /* E3Prefix.h in Headers */,
+				B1756C1B080A73DB0056134C /* E3IOData.h in Headers */,
+				B1756C1C080A73DB0056134C /* WFGeometry.h in Headers */,
+				B1756C1D080A73DB0056134C /* E3FFR_3DMF_Geometry.h in Headers */,
+				B1756C1E080A73DB0056134C /* IRTexture.h in Headers */,
+				B1756C1F080A73DB0056134C /* E3Pick.h in Headers */,
+				B1756C20080A73DB0056134C /* E3GeometryTriangle.h in Headers */,
+				B1756C21080A73DB0056134C /* E3Debug.h in Headers */,
+				B1756C22080A73DB0056134C /* IRGeometryTriMesh.h in Headers */,
+				B1756C23080A73DB0056134C /* E3GeometryEllipsoid.h in Headers */,
+				B1756C24080A73DB0056134C /* QuesaSet.h in Headers */,
+				B1756C25080A73DB0056134C /* GLTextureManager.h in Headers */,
+				B1756C26080A73DB0056134C /* E3String.h in Headers */,
+				B1756C27080A73DB0056134C /* E3Viewer.h in Headers */,
+				B1756C28080A73DB0056134C /* QuesaExtension.h in Headers */,
+				B1756C29080A73DB0056134C /* E3StackCrawl.h in Headers */,
+				BE5C8A15087D9D4000533C43 /* CartoonRenderer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D07F2BC0486CC7A007CD1D0 /* Quesa (framework) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE5C8A01087D9D2200533C43 /* Build configuration list for PBXNativeTarget "Quesa (framework)" */;
+			buildPhases = (
+				8D07F2BD0486CC7A007CD1D0 /* Headers */,
+				8D07F2BF0486CC7A007CD1D0 /* Resources */,
+				8D07F2C10486CC7A007CD1D0 /* Sources */,
+				8D07F2C30486CC7A007CD1D0 /* Frameworks */,
+				8D07F2C50486CC7A007CD1D0 /* Rez */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Dynamic;
+				OTHER_CFLAGS = (
+					"-DQUESA_OS_MACINTOSH=1",
+					"-DTARGET_API_MAC_CARBON=1",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = Quesa;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			dependencies = (
+			);
+			name = "Quesa (framework)";
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = Quesa;
+			productReference = 8D07F2C80486CC7A007CD1D0 /* Quesa.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B1756AFE080A71C30056134C /* Quesa (static lib) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE5C8A05087D9D2200533C43 /* Build configuration list for PBXNativeTarget "Quesa (static lib)" */;
+			buildPhases = (
+				B1756AFB080A71C30056134C /* Headers */,
+				B1756AFC080A71C30056134C /* Sources */,
+				B1756AFD080A71C30056134C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = STATIC;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = (
+					"-DQUESA_OS_MACINTOSH=1",
+					"-DTARGET_API_MAC_CARBON=1",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Quesa;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+			);
+			name = "Quesa (static lib)";
+			productName = Quesa.lib;
+			productReference = B1756AFF080A71C30056134C /* libQuesa.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = BE5C8A09087D9D2200533C43 /* Build configuration list for PBXProject "Quesa" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				4F0BB7EC011F40E904CA0E50 /* Development */,
+				4F0BB7ED011F40E904CA0E50 /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* Quesa */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			targets = (
+				8D07F2BC0486CC7A007CD1D0 /* Quesa (framework) */,
+				B1756AFE080A71C30056134C /* Quesa (static lib) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D07F2BF0486CC7A007CD1D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D07F2C50486CC7A007CD1D0 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D07F2C10486CC7A007CD1D0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB3A7CA4055E63B200CA83BE /* E3Geometry.c in Sources */,
+				AB3A7CA6055E63B200CA83BE /* E3GeometryBox.c in Sources */,
+				AB3A7CA8055E63B200CA83BE /* E3GeometryCone.c in Sources */,
+				AB3A7CAA055E63B200CA83BE /* E3GeometryCylinder.c in Sources */,
+				AB3A7CAC055E63B200CA83BE /* E3GeometryDisk.c in Sources */,
+				AB3A7CAE055E63B200CA83BE /* E3GeometryEllipse.c in Sources */,
+				AB3A7CB0055E63B200CA83BE /* E3GeometryEllipsoid.c in Sources */,
+				AB3A7CB2055E63B200CA83BE /* E3GeometryGeneralPolygon.c in Sources */,
+				AB3A7CB4055E63B200CA83BE /* E3GeometryLine.c in Sources */,
+				AB3A7CB6055E63B200CA83BE /* E3GeometryMarker.c in Sources */,
+				AB3A7CB8055E63B200CA83BE /* E3GeometryMesh.c in Sources */,
+				AB3A7CBA055E63B200CA83BE /* E3GeometryNURBCurve.c in Sources */,
+				AB3A7CBC055E63B200CA83BE /* E3GeometryNURBPatch.c in Sources */,
+				AB3A7CBE055E63B200CA83BE /* E3GeometryPixmapMarker.c in Sources */,
+				AB3A7CC0055E63B200CA83BE /* E3GeometryPoint.c in Sources */,
+				AB3A7CC2055E63B200CA83BE /* E3GeometryPolygon.c in Sources */,
+				AB3A7CC4055E63B200CA83BE /* E3GeometryPolyhedron.c in Sources */,
+				AB3A7CC6055E63B200CA83BE /* E3GeometryPolyLine.c in Sources */,
+				AB3A7CC8055E63B200CA83BE /* E3GeometryTorus.c in Sources */,
+				AB3A7CCA055E63B200CA83BE /* E3GeometryTriangle.c in Sources */,
+				AB3A7CCC055E63B200CA83BE /* E3GeometryTriGrid.c in Sources */,
+				AB3A7CCE055E63B200CA83BE /* E3GeometryTriMesh.c in Sources */,
+				AB3A7CD0055E63B200CA83BE /* QD3DCamera.c in Sources */,
+				AB3A7CD1055E63B200CA83BE /* QD3DController.c in Sources */,
+				AB3A7CD2055E63B200CA83BE /* QD3DCustomElements.c in Sources */,
+				AB3A7CD3055E63B200CA83BE /* QD3DDrawContext.c in Sources */,
+				AB3A7CD4055E63B200CA83BE /* QD3DErrors.c in Sources */,
+				AB3A7CD5055E63B200CA83BE /* QD3DExtension.c in Sources */,
+				AB3A7CD6055E63B200CA83BE /* QD3DGeometry.c in Sources */,
+				AB3A7CD7055E63B200CA83BE /* QD3DGroup.c in Sources */,
+				AB3A7CD8055E63B200CA83BE /* QD3DIO.c in Sources */,
+				AB3A7CD9055E63B200CA83BE /* QD3DLight.c in Sources */,
+				AB3A7CDA055E63B200CA83BE /* QD3DMain.c in Sources */,
+				AB3A7CDB055E63B200CA83BE /* QD3DMath.c in Sources */,
+				AB3A7CDC055E63B200CA83BE /* QD3DMemory.c in Sources */,
+				AB3A7CDD055E63B200CA83BE /* QD3DPick.c in Sources */,
+				AB3A7CDE055E63B200CA83BE /* QD3DRenderer.c in Sources */,
+				AB3A7CDF055E63B200CA83BE /* QD3DSet.c in Sources */,
+				AB3A7CE0055E63B200CA83BE /* QD3DShader.c in Sources */,
+				AB3A7CE1055E63B200CA83BE /* QD3DStorage.c in Sources */,
+				AB3A7CE2055E63B200CA83BE /* QD3DString.c in Sources */,
+				AB3A7CE3055E63B200CA83BE /* QD3DStyle.c in Sources */,
+				AB3A7CE4055E63B200CA83BE /* QD3DTransform.c in Sources */,
+				AB3A7CE5055E63B200CA83BE /* QD3DView.c in Sources */,
+				AB3A7CE6055E63B200CA83BE /* QD3DViewer.c in Sources */,
+				AB3A7CE7055E63B200CA83BE /* E3ArrayOrList.c in Sources */,
+				AB3A7CE9055E63B200CA83BE /* E3ClassTree.c in Sources */,
+				AB3A7CEB055E63B200CA83BE /* E3Compatibility.c in Sources */,
+				AB3A7CEE055E63B200CA83BE /* E3ErrorManager.c in Sources */,
+				AB3A7CF0055E63B200CA83BE /* E3Globals.c in Sources */,
+				AB3A7CF2055E63B200CA83BE /* E3HashTable.c in Sources */,
+				AB3A7CF4055E63B200CA83BE /* E3Pool.c in Sources */,
+				AB3A7CF8055E63B200CA83BE /* E3System.c in Sources */,
+				AB3A7CFA055E63B200CA83BE /* E3Tessellate.c in Sources */,
+				AB3A7CFC055E63B200CA83BE /* E3Utils.c in Sources */,
+				AB3A7CFF055E63B200CA83BE /* E3Camera.c in Sources */,
+				AB3A7D01055E63B200CA83BE /* E3Controller.c in Sources */,
+				AB3A7D03055E63B200CA83BE /* E3CustomElements.c in Sources */,
+				AB3A7D05055E63B200CA83BE /* E3DrawContext.c in Sources */,
+				AB3A7D07055E63B200CA83BE /* E3Errors.c in Sources */,
+				AB3A7D09055E63B200CA83BE /* E3Extension.c in Sources */,
+				AB3A7D0B055E63B200CA83BE /* E3Group.c in Sources */,
+				AB3A7D0D055E63B200CA83BE /* E3IO.c in Sources */,
+				AB3A7D0F055E63B200CA83BE /* E3IOData.c in Sources */,
+				AB3A7D11055E63B200CA83BE /* E3Light.c in Sources */,
+				AB3A7D13055E63B200CA83BE /* E3Main.c in Sources */,
+				AB3A7D15055E63B200CA83BE /* E3Math.c in Sources */,
+				AB3A7D17055E63B200CA83BE /* E3Memory.c in Sources */,
+				AB3A7D19055E63B200CA83BE /* E3Pick.c in Sources */,
+				AB3A7D1B055E63B200CA83BE /* E3Renderer.c in Sources */,
+				AB3A7D1D055E63B200CA83BE /* E3Set.c in Sources */,
+				AB3A7D1F055E63B200CA83BE /* E3Shader.c in Sources */,
+				AB3A7D21055E63B200CA83BE /* E3Storage.c in Sources */,
+				AB3A7D23055E63B200CA83BE /* E3String.c in Sources */,
+				AB3A7D25055E63B200CA83BE /* E3Style.c in Sources */,
+				AB3A7D27055E63B200CA83BE /* E3Texture.c in Sources */,
+				AB3A7D29055E63B200CA83BE /* E3Transform.c in Sources */,
+				AB3A7D2B055E63B200CA83BE /* E3View.c in Sources */,
+				AB3A7D2D055E63B200CA83BE /* E3Viewer.c in Sources */,
+				AB3A7D2F055E63B200CA83BE /* E3ViewerOldAPIs.c in Sources */,
+				AB3A7D32055E63B200CA83BE /* GLCamera.c in Sources */,
+				AB3A7D36055E63B200CA83BE /* GLDrawContext.c in Sources */,
+				AB3A7D39055E63B200CA83BE /* GLUtils.c in Sources */,
+				AB3A7D3B055E63B200CA83BE /* GNGeometry.c in Sources */,
+				AB3A7D3E055E63B200CA83BE /* GNRegister.c in Sources */,
+				AB3A7D40055E63B200CA83BE /* GNRenderer.c in Sources */,
+				AB3A7D42055E63B200CA83BE /* IRGeometry.c in Sources */,
+				AB3A7D44055E63B200CA83BE /* IRGeometryTriMesh.c in Sources */,
+				AB3A7D46055E63B200CA83BE /* IRLights.c in Sources */,
+				AB3A7D49055E63B200CA83BE /* IRRegister.c in Sources */,
+				AB3A7D4B055E63B200CA83BE /* IRRenderer.c in Sources */,
+				AB3A7D4D055E63B200CA83BE /* IRTexture.c in Sources */,
+				AB3A7D4F055E63B200CA83BE /* IRTransparent.c in Sources */,
+				AB3A7D51055E63B200CA83BE /* IRTriBuffer.c in Sources */,
+				AB3A7D53055E63B200CA83BE /* IRUpdate.c in Sources */,
+				AB3A7D55055E63B200CA83BE /* WFGeometry.c in Sources */,
+				AB3A7D58055E63B200CA83BE /* WFRegister.c in Sources */,
+				AB3A7D5A055E63B200CA83BE /* WFRenderer.c in Sources */,
+				AB3A7D5C055E63B200CA83BE /* WFUpdate.c in Sources */,
+				AB3A7D5E055E63B200CA83BE /* E3IOFileFormat.c in Sources */,
+				AB3A7D60055E63B200CA83BE /* E3FFR_3DMF.c in Sources */,
+				AB3A7D62055E63B200CA83BE /* E3FFR_3DMF_Bin.c in Sources */,
+				AB3A7D64055E63B200CA83BE /* E3FFR_3DMF_Geometry.c in Sources */,
+				AB3A7D66055E63B200CA83BE /* E3FFR_3DMF_Text.c in Sources */,
+				AB3A7D68055E63B200CA83BE /* E3FFW_3DMFBin_Geometry.c in Sources */,
+				AB3A7D6A055E63B200CA83BE /* E3FFW_3DMFBin_Register.c in Sources */,
+				AB3A7D6C055E63B200CA83BE /* E3FFW_3DMFBin_Writer.c in Sources */,
+				AB83B99E055E77880034F56A /* E3MacDebug.c in Sources */,
+				AB83B99F055E77880034F56A /* E3MacDrawContext.c in Sources */,
+				AB83B9A0055E77880034F56A /* E3MacErrors.c in Sources */,
+				AB83B9A7055E77880034F56A /* E3MacStorage.c in Sources */,
+				AB83B9A8055E77880034F56A /* E3MacSystem.c in Sources */,
+				BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */,
+				BE5C8A12087D9D4000533C43 /* CartoonRenderer.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B1756AFC080A71C30056134C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1756B3D080A73C00056134C /* QD3DSet.c in Sources */,
+				B1756B3E080A73C00056134C /* E3GeometryMarker.c in Sources */,
+				B1756B3F080A73C00056134C /* E3Utils.c in Sources */,
+				B1756B40080A73C00056134C /* E3GeometryTriMesh.c in Sources */,
+				B1756B41080A73C00056134C /* E3GeometryPolyhedron.c in Sources */,
+				B1756B42080A73C00056134C /* QD3DPick.c in Sources */,
+				B1756B43080A73C00056134C /* WFUpdate.c in Sources */,
+				B1756B44080A73C00056134C /* IRLights.c in Sources */,
+				B1756B45080A73C00056134C /* E3Controller.c in Sources */,
+				B1756B46080A73C00056134C /* E3GeometryCone.c in Sources */,
+				B1756B47080A73C00056134C /* IRGeometry.c in Sources */,
+				B1756B48080A73C00056134C /* E3Light.c in Sources */,
+				B1756B49080A73C00056134C /* E3Transform.c in Sources */,
+				B1756B4A080A73C00056134C /* QD3DIO.c in Sources */,
+				B1756B4B080A73C00056134C /* E3IO.c in Sources */,
+				B1756B4C080A73C00056134C /* E3GeometryTorus.c in Sources */,
+				B1756B4D080A73C00056134C /* E3FFR_3DMF_Bin.c in Sources */,
+				B1756B4E080A73C00056134C /* QD3DString.c in Sources */,
+				B1756B4F080A73C00056134C /* IRRenderer.c in Sources */,
+				B1756B50080A73C00056134C /* IRTransparent.c in Sources */,
+				B1756B51080A73C00056134C /* E3Texture.c in Sources */,
+				B1756B52080A73C00056134C /* E3MacErrors.c in Sources */,
+				B1756B53080A73C00056134C /* E3GeometryEllipse.c in Sources */,
+				B1756B54080A73C00056134C /* GLUtils.c in Sources */,
+				B1756B55080A73C00056134C /* GNGeometry.c in Sources */,
+				B1756B56080A73C00056134C /* E3Memory.c in Sources */,
+				B1756B57080A73C00056134C /* QD3DViewer.c in Sources */,
+				B1756B58080A73C00056134C /* E3Extension.c in Sources */,
+				B1756B59080A73C00056134C /* QD3DLight.c in Sources */,
+				B1756B5A080A73C00056134C /* QD3DCamera.c in Sources */,
+				B1756B5B080A73C00056134C /* E3Geometry.c in Sources */,
+				B1756B5C080A73C00056134C /* E3GeometryLine.c in Sources */,
+				B1756B5D080A73C00056134C /* E3FFR_3DMF_Text.c in Sources */,
+				B1756B5E080A73C00056134C /* QD3DGeometry.c in Sources */,
+				B1756B5F080A73C00056134C /* QD3DRenderer.c in Sources */,
+				B1756B60080A73C00056134C /* E3Tessellate.c in Sources */,
+				B1756B61080A73C00056134C /* E3Storage.c in Sources */,
+				B1756B62080A73C00056134C /* WFRenderer.c in Sources */,
+				B1756B63080A73C00056134C /* E3GeometryPoint.c in Sources */,
+				B1756B64080A73C00056134C /* E3ViewerOldAPIs.c in Sources */,
+				B1756B65080A73C00056134C /* E3Pool.c in Sources */,
+				B1756B66080A73C00056134C /* E3FFW_3DMFBin_Register.c in Sources */,
+				B1756B67080A73C00056134C /* E3GeometryGeneralPolygon.c in Sources */,
+				B1756B68080A73C00056134C /* QD3DStyle.c in Sources */,
+				B1756B69080A73C00056134C /* E3GeometryPolyLine.c in Sources */,
+				B1756B6A080A73C00056134C /* E3FFR_3DMF.c in Sources */,
+				B1756B6B080A73C00056134C /* E3MacDebug.c in Sources */,
+				B1756B6C080A73C00056134C /* E3Compatibility.c in Sources */,
+				B1756B6D080A73C00056134C /* GLTextureManager.c in Sources */,
+				B1756B6E080A73C00056134C /* E3Group.c in Sources */,
+				B1756B6F080A73C00056134C /* QD3DShader.c in Sources */,
+				B1756B70080A73C00056134C /* E3DrawContext.c in Sources */,
+				B1756B71080A73C00056134C /* E3View.c in Sources */,
+				B1756B72080A73C00056134C /* QD3DMain.c in Sources */,
+				B1756B73080A73C00056134C /* E3Camera.c in Sources */,
+				B1756B74080A73C00056134C /* GNRenderer.c in Sources */,
+				B1756B75080A73C00056134C /* IRRegister.c in Sources */,
+				B1756B76080A73C00056134C /* E3GeometryCylinder.c in Sources */,
+				B1756B77080A73C00056134C /* GLDrawContext.c in Sources */,
+				B1756B78080A73C00056134C /* E3GeometryMesh.c in Sources */,
+				B1756B79080A73C00056134C /* QD3DController.c in Sources */,
+				B1756B7A080A73C00056134C /* E3Style.c in Sources */,
+				B1756B7B080A73C00056134C /* E3GeometryDisk.c in Sources */,
+				B1756B7C080A73C00056134C /* WFGeometry.c in Sources */,
+				B1756B7D080A73C00056134C /* E3ErrorManager.c in Sources */,
+				B1756B7E080A73C00056134C /* E3IOData.c in Sources */,
+				B1756B7F080A73C00056134C /* E3GeometryBox.c in Sources */,
+				B1756B80080A73C00056134C /* E3Renderer.c in Sources */,
+				B1756B81080A73C00056134C /* E3Math.c in Sources */,
+				B1756B82080A73C00056134C /* QD3DTransform.c in Sources */,
+				B1756B83080A73C00056134C /* E3FFR_3DMF_Geometry.c in Sources */,
+				B1756B84080A73C00056134C /* E3GeometryTriangle.c in Sources */,
+				B1756B85080A73C00056134C /* IRTexture.c in Sources */,
+				B1756B86080A73C00056134C /* E3MacStorage.c in Sources */,
+				B1756B87080A73C00056134C /* QD3DErrors.c in Sources */,
+				B1756B88080A73C00056134C /* E3Pick.c in Sources */,
+				B1756B89080A73C00056134C /* QD3DGroup.c in Sources */,
+				B1756B8A080A73C00056134C /* QD3DExtension.c in Sources */,
+				B1756B8B080A73C00056134C /* E3GeometryEllipsoid.c in Sources */,
+				B1756B8C080A73C00056134C /* IRGeometryTriMesh.c in Sources */,
+				B1756B8D080A73C00056134C /* QD3DMath.c in Sources */,
+				B1756B8E080A73C00056134C /* E3GeometryNURBPatch.c in Sources */,
+				B1756B8F080A73C00056134C /* E3System.c in Sources */,
+				B1756B90080A73C00056134C /* E3GeometryPixmapMarker.c in Sources */,
+				B1756B91080A73C00056134C /* E3FFW_3DMFBin_Geometry.c in Sources */,
+				B1756B92080A73C00056134C /* QD3DCustomElements.c in Sources */,
+				B1756B93080A73C00056134C /* E3String.c in Sources */,
+				B1756B94080A73C00056134C /* E3Shader.c in Sources */,
+				B1756B95080A73C00056134C /* E3Main.c in Sources */,
+				B1756B96080A73C00056134C /* IRUpdate.c in Sources */,
+				B1756B97080A73C00056134C /* E3GeometryTriGrid.c in Sources */,
+				B1756B98080A73C00056134C /* E3GeometryPolygon.c in Sources */,
+				B1756B99080A73C00056134C /* E3HashTable.c in Sources */,
+				B1756B9A080A73C00056134C /* QD3DView.c in Sources */,
+				B1756B9B080A73C00056134C /* E3FFW_3DMFBin_Writer.c in Sources */,
+				B1756B9C080A73C00056134C /* WFRegister.c in Sources */,
+				B1756B9D080A73C00056134C /* QD3DStorage.c in Sources */,
+				B1756B9E080A73C00056134C /* E3Set.c in Sources */,
+				B1756B9F080A73C00056134C /* E3MacSystem.c in Sources */,
+				B1756BA0080A73C00056134C /* E3MacDrawContext.c in Sources */,
+				B1756BA1080A73C00056134C /* E3Errors.c in Sources */,
+				B1756BA2080A73C00056134C /* IRTriBuffer.c in Sources */,
+				B1756BA3080A73C00056134C /* E3ArrayOrList.c in Sources */,
+				B1756BA4080A73C00056134C /* E3IOFileFormat.c in Sources */,
+				B1756BA5080A73C00056134C /* QD3DMemory.c in Sources */,
+				B1756BA6080A73C00056134C /* E3CustomElements.c in Sources */,
+				B1756BA7080A73C00056134C /* E3ClassTree.c in Sources */,
+				B1756BA8080A73C00056134C /* GNRegister.c in Sources */,
+				B1756BA9080A73C00056134C /* E3GeometryNURBCurve.c in Sources */,
+				B1756BAA080A73C00056134C /* E3Globals.c in Sources */,
+				B1756BAB080A73C00056134C /* QD3DDrawContext.c in Sources */,
+				B1756BAC080A73C00056134C /* GLCamera.c in Sources */,
+				B1756BAD080A73C00056134C /* E3Viewer.c in Sources */,
+				BE5C8A14087D9D4000533C43 /* CartoonRenderer.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BE5C8A02087D9D2200533C43 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Dynamic;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = (
+					"-DQUESA_OS_MACINTOSH=1",
+					"-DTARGET_API_MAC_CARBON=1",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = Quesa;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		BE5C8A03087D9D2200533C43 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Dynamic;
+				OTHER_CFLAGS = (
+					"-DQUESA_OS_MACINTOSH=1",
+					"-DTARGET_API_MAC_CARBON=1",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = Quesa;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		BE5C8A04087D9D2200533C43 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Dynamic;
+				OTHER_CFLAGS = (
+					"-DQUESA_OS_MACINTOSH=1",
+					"-DTARGET_API_MAC_CARBON=1",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = Quesa;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Default;
+		};
+		BE5C8A06087D9D2200533C43 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = STATIC;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = (
+					"-DQUESA_OS_MACINTOSH=1",
+					"-DTARGET_API_MAC_CARBON=1",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Quesa;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		BE5C8A07087D9D2200533C43 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = (
+					"-DQUESA_OS_MACINTOSH=1",
+					"-DTARGET_API_MAC_CARBON=1",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Quesa;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		BE5C8A08087D9D2200533C43 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = (
+					"-DQUESA_OS_MACINTOSH=1",
+					"-DTARGET_API_MAC_CARBON=1",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Quesa;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			name = Default;
+		};
+		BE5C8A0A087D9D2200533C43 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		BE5C8A0B087D9D2200533C43 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Deployment;
+		};
+		BE5C8A0C087D9D2200533C43 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BE5C8A01087D9D2200533C43 /* Build configuration list for PBXNativeTarget "Quesa (framework)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE5C8A02087D9D2200533C43 /* Development */,
+				BE5C8A03087D9D2200533C43 /* Deployment */,
+				BE5C8A04087D9D2200533C43 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		BE5C8A05087D9D2200533C43 /* Build configuration list for PBXNativeTarget "Quesa (static lib)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE5C8A06087D9D2200533C43 /* Development */,
+				BE5C8A07087D9D2200533C43 /* Deployment */,
+				BE5C8A08087D9D2200533C43 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		BE5C8A09087D9D2200533C43 /* Build configuration list for PBXProject "Quesa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE5C8A0A087D9D2200533C43 /* Development */,
+				BE5C8A0B087D9D2200533C43 /* Deployment */,
+				BE5C8A0C087D9D2200533C43 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
