@@ -53,16 +53,14 @@
 
 	#include <wingdi.h>
 
-#elif QUESA_OS_MACINTOSH
+#elif QUESA_OS_MACINTOSH && !QUESA_UH_IN_FRAMEWORKS
 	
-	#if TARGET_RT_MAC_CFM
-		#include <CFString.h>
-		#include <CFBundle.h>
-	#endif
-
+	#include <CFString.h>
+	#include <CFBundle.h>
+	
 	#include "E3MacMemory.h"
 
-#elif QUESA_OS_COCOA
+#elif QUESA_OS_COCOA || (QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS)
 
 	#include <mach-o/dyld.h>
 	#include <cstring>
@@ -355,7 +353,7 @@ void*	GLGetProcAddress( const char* funcName )
 	return (void*)wglGetProcAddress( funcName );
 }
 
-#elif QUESA_OS_MACINTOSH
+#elif QUESA_OS_MACINTOSH && !QUESA_UH_IN_FRAMEWORKS
 
 
 static CFBundleRef	GetOpenGLBundle()
@@ -391,19 +389,19 @@ void*	GLGetProcAddress( const char* funcName )
 	return thePtr;
 }
 
-#elif QUESA_OS_COCOA
+#elif QUESA_OS_COCOA || (QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS)
 
 // See <http://developer.apple.com/qa/qa2001/qa1188.html>
 void*	GLGetProcAddress( const char* funcName )
 {
 	void*	thePtr = NULL;
-	int		len = std::strlen( funcName );
+	int		len = strlen( funcName );
 	char	nameBuf[1024];
 	
 	if (len + 2 < sizeof(nameBuf))
 	{
 		// Prepend a '_' for the Unix C symbol mangling convention
-		std::strcpy( &nameBuf[1], funcName );
+		strcpy( &nameBuf[1], funcName );
 		nameBuf[0] = '_';
 		NSSymbol symbol = NULL;
 		
