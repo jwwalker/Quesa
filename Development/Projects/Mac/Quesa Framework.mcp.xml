@@ -688,7 +688,7 @@
 
                 <!-- Settings for "Remote Debug" panel -->
                 <SETTING><NAME>Enabled</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>ConnectionName</NAME><VALUE>Mark's old Mac</VALUE></SETTING>
+                <SETTING><NAME>ConnectionName</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>DownloadPath</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>RemoteAppPath</NAME><VALUE></VALUE></SETTING>
@@ -2007,6 +2007,20 @@
                     <FILEKIND>Library</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>CartoonRenderer.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3MacMemory.c</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -2617,6 +2631,16 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>MSL_C++_BSD_C_Mach-O_D.lib</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>CartoonRenderer.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3MacMemory.c</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -3375,7 +3399,7 @@
 
                 <!-- Settings for "Remote Debug" panel -->
                 <SETTING><NAME>Enabled</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>ConnectionName</NAME><VALUE>Mark's old Mac</VALUE></SETTING>
+                <SETTING><NAME>ConnectionName</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>DownloadPath</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>RemoteAppPath</NAME><VALUE></VALUE></SETTING>
@@ -4687,6 +4711,20 @@
                     <FILEKIND>Library</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>CartoonRenderer.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3MacMemory.c</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -5292,6 +5330,16 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>MSL_C++_BSD_C_Mach-O.lib</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>CartoonRenderer.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3MacMemory.c</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -6023,6 +6071,14 @@
                         <PATHFORMAT>Unix</PATHFORMAT>
                     </FILEREF>
                 </GROUP>
+                <GROUP><NAME>Cartoon</NAME>
+                    <FILEREF>
+                        <TARGETNAME>Debug Framework</TARGETNAME>
+                        <PATHTYPE>Name</PATHTYPE>
+                        <PATH>CartoonRenderer.cpp</PATH>
+                        <PATHFORMAT>Unix</PATHFORMAT>
+                    </FILEREF>
+                </GROUP>
                 <GROUP><NAME>Generic</NAME>
                     <FILEREF>
                         <TARGETNAME>Debug Framework</TARGETNAME>
@@ -6150,6 +6206,12 @@
                         <TARGETNAME>Debug Framework</TARGETNAME>
                         <PATHTYPE>Name</PATHTYPE>
                         <PATH>E3MacErrors.c</PATH>
+                        <PATHFORMAT>Unix</PATHFORMAT>
+                    </FILEREF>
+                    <FILEREF>
+                        <TARGETNAME>Debug Framework</TARGETNAME>
+                        <PATHTYPE>Name</PATHTYPE>
+                        <PATH>E3MacMemory.c</PATH>
                         <PATHFORMAT>Unix</PATHFORMAT>
                     </FILEREF>
                     <FILEREF>
