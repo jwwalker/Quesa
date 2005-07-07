@@ -48,6 +48,7 @@
 #include "GNRegister.h"
 #include "WFRegister.h"
 #include "IRRegister.h"
+#include "CartoonRenderer.h"
 
 
 
@@ -166,6 +167,10 @@ E3System_LoadPlugins(void)
 	qd3dStatus = GNRenderer_Register();
 	qd3dStatus = WFRenderer_Register();
 	qd3dStatus = IRRenderer_Register();
+
+#if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+	qd3dStatus = CartoonRenderer_Register();
+#endif
 #endif
 }
 
@@ -195,6 +200,10 @@ E3System_UnloadPlugins(void)
 	GNRenderer_Unregister();
 	WFRenderer_Unregister();
 	IRRenderer_Unregister();
+
+#if QUESA_OS_MACINTOSH || QUESA_OS_WIN32
+	CartoonRenderer_Unregister();
+#endif
 #endif
 
 
