@@ -5,7 +5,7 @@
         Header file for GLUtils.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -87,6 +87,11 @@ void		GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags );
 
 // Enable or disable a client state if it has changed
 void		GLUtils_UpdateClientState( TQ3Boolean enable, TQ3Boolean* stateFlag, GLenum whichArray );
+
+
+// Get a function pointer associated with an OpenGL extension
+void*		GLGetProcAddress( const char* funcName );
+
 
 
 //=============================================================================

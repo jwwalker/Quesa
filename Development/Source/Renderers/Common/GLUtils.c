@@ -5,7 +5,7 @@
         Quesa OpenGL utility functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,7 +49,30 @@
 #include <stdio.h>
 #include <string.h>
 
+#if QUESA_OS_WIN32
 
+	#include <wingdi.h>
+
+#elif QUESA_OS_MACINTOSH
+	
+	#if TARGET_RT_MAC_CFM
+		#include <CFString.h>
+		#include <CFBundle.h>
+	#endif
+
+	#include "E3MacMemory.h"
+
+#elif QUESA_OS_COCOA
+
+	#include <mach-o/dyld.h>
+	#include <cstring>
+	
+#endif
+
+
+//=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
 #ifndef GL_CLAMP_TO_EDGE
 	#define GL_CLAMP_TO_EDGE	0x812F
 #endif
@@ -319,3 +342,83 @@ GLUtils_UpdateClientState( TQ3Boolean enable, TQ3Boolean* stateFlag, GLenum whic
 			glDisableClientState( whichArray );
 	}
 }
+
+
+//=============================================================================
+//      GLGetProcAddress : Get a function pointer associated with an OpenGL extension
+//-----------------------------------------------------------------------------
+
+#if QUESA_OS_WIN32
+
+void*	GLGetProcAddress( const char* funcName )
+{
+	return (void*)wglGetProcAddress( funcName );
+}
+
+#elif QUESA_OS_MACINTOSH
+
+
+static CFBundleRef	GetOpenGLBundle()
+{
+	CFBundleRef	theBundle = CFBundleGetBundleWithIdentifier( CFSTR("com.apple.OpenGL") );
+	
+	if (theBundle == NULL)
+	{
+		LoadFrameworkBundle( CFSTR("OpenGL.framework"), &theBundle );
+	}
+	
+	return theBundle;
+}
+
+// See <http://developer.apple.com/qa/qa2001/qa1188.html>
+void*	GLGetProcAddress( const char* funcName )
+{
+	void*	thePtr = NULL;
+	CFBundleRef		theBundle = GetOpenGLBundle();
+	
+	if (theBundle != NULL)
+	{
+		CFStringRef	nameCF = CFStringCreateWithCString( NULL, funcName,
+			kCFStringEncodingASCII );
+		if (nameCF != NULL)
+		{
+			thePtr = CFBundleGetFunctionPointerForName( theBundle, nameCF );
+			
+			CFRelease( nameCF );
+		}
+	}
+	
+	return thePtr;
+}
+
+#elif QUESA_OS_COCOA
+
+// See <http://developer.apple.com/qa/qa2001/qa1188.html>
+void*	GLGetProcAddress( const char* funcName )
+{
+	void*	thePtr = NULL;
+	int		len = std::strlen( funcName );
+	char	nameBuf[1024];
+	
+	if (len + 2 < sizeof(nameBuf))
+	{
+		// Prepend a '_' for the Unix C symbol mangling convention
+		std::strcpy( &nameBuf[1], funcName );
+		nameBuf[0] = '_';
+		NSSymbol symbol = NULL;
+		
+		if (NSIsSymbolNameDefined( nameBuf ))
+		{
+			symbol = NSLookupAndBindSymbol( nameBuf );
+			
+			if (symbol != NULL)
+			{
+				thePtr = NSAddressOfSymbol( symbol );
+			}
+		}
+	}
+	
+	return thePtr;
+}
+
+#endif
