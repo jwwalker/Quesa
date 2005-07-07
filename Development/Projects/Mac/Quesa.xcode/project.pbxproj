@@ -293,6 +293,7 @@
 				AB83B606055E72B90034F56A,
 				AB83B9A2055E77880034F56A,
 				BE6FD692076B88A800587852,
+				BEC777D2087DA6AD00080AB7,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,6 +421,7 @@
 				AB83B9A7055E77880034F56A,
 				AB83B9A8055E77880034F56A,
 				BE6FD693076B88A800587852,
+				BEC777D1087DA6AD00080AB7,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1784,6 +1786,7 @@
 		AB3A7C17055E63B100CA83BE = {
 			children = (
 				AB3A7C18055E63B100CA83BE,
+				BEC777CE087DA6AD00080AB7,
 				AB3A7C22055E63B100CA83BE,
 				AB3A7C2A055E63B100CA83BE,
 				AB3A7C3E055E63B100CA83BE,
@@ -4239,6 +4242,7 @@
 				B1756C27080A73DB0056134C,
 				B1756C28080A73DB0056134C,
 				B1756C29080A73DB0056134C,
+				BEC777D4087DA6AD00080AB7,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4359,6 +4363,7 @@
 				B1756BAB080A73C00056134C,
 				B1756BAC080A73C00056134C,
 				B1756BAD080A73C00056134C,
+				BEC777D3087DA6AD00080AB7,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4392,7 +4397,6 @@
 				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_STYLE = STATIC;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "-DQUESA_OS_MACINTOSH=1 -DTARGET_API_MAC_CARBON=1";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
@@ -5854,6 +5858,56 @@
 		};
 		BE6FD693076B88A800587852 = {
 			fileRef = BE6FD691076B88A800587852;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		BEC777CE087DA6AD00080AB7 = {
+			children = (
+				BEC777CF087DA6AD00080AB7,
+				BEC777D0087DA6AD00080AB7,
+			);
+			isa = PBXGroup;
+			path = Cartoon;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		BEC777CF087DA6AD00080AB7 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = CartoonRenderer.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		BEC777D0087DA6AD00080AB7 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = CartoonRenderer.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		BEC777D1087DA6AD00080AB7 = {
+			fileRef = BEC777CF087DA6AD00080AB7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		BEC777D2087DA6AD00080AB7 = {
+			fileRef = BEC777D0087DA6AD00080AB7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		BEC777D3087DA6AD00080AB7 = {
+			fileRef = BEC777CF087DA6AD00080AB7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		BEC777D4087DA6AD00080AB7 = {
+			fileRef = BEC777D0087DA6AD00080AB7;
 			isa = PBXBuildFile;
 			settings = {
 			};
