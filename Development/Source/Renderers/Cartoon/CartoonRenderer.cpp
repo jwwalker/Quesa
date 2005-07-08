@@ -127,83 +127,104 @@ const int	kShadingTextureWidth	= 32;
 
 static 	TQ3ObjectType		sRendererType = 0;
 
-class CCartoonRendererQuesa;
-
-static CCartoonRendererQuesa* g_CCartoonRendererQuesa;
 
 #if !QUESA_OS_WIN32
 	typedef void (* PFNGLACTIVETEXTUREARBPROC) (GLenum texture);
 	typedef void (* PFNGLCLIENTACTIVETEXTUREARBPROC) (GLenum texture);
 #endif
 
-static PFNGLACTIVETEXTUREARBPROC g_glActiveTextureARB = 0;
-static PFNGLCLIENTACTIVETEXTUREARBPROC g_glClientActiveTextureARB = 0;
 
-
-
-#pragma mark class CCartoonRendererQuesa
-class CCartoonRendererQuesa
+namespace
 {
-public:
-	CCartoonRendererQuesa(void)
+	class CCartoonRendererQuesa;
+
+	struct CartoonRendererData
 	{
-		SetInited(false);
+		TQ3InteractiveData			irData;
+		CCartoonRendererQuesa*		cartooner;
+	};
 
-		m_nLocalTextureID = 0;
-
-		SetOutLineWidth(1.6f);
-		SetShadeLightness(130);
-		SetShadeWidth(7);
-	}
-
-	~CCartoonRendererQuesa(void)
+	#pragma mark class CCartoonRendererQuesa
+	class CCartoonRendererQuesa
 	{
-	}
+	public:
+		CCartoonRendererQuesa(void);
 
-	void Init( bool inHasMultiTexture );
-	void DrawArrays(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
-		float* pFloatDiffuseColor, bool bAllreadyTextured, TQ3BackfacingStyle inBackfacing );
-	void DrawArraysFakeMultitexture(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
-		float* pFloatDiffuseColor, bool bAllreadyTextured, TQ3BackfacingStyle inBackfacing);
-	void Done();
+		~CCartoonRendererQuesa(void);
+		
+		void	SubmitTriMesh( TQ3ViewObject theView, CartoonRendererData *cartoonInstanceData,
+							TQ3GeometryObject theGeom, TQ3TriMeshData* geomData );
 
-	void SetInited(bool bOnOff = true);
-	bool IsInited();
-	bool m_bInited;
-	void* m_PlatformGLContextSaved;
+		void Init( bool inHasMultiTexture );
+		void DrawArrays(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
+			float* pFloatDiffuseColor, bool bAllreadyTextured, TQ3BackfacingStyle inBackfacing );
+		void DrawArraysFakeMultitexture(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
+			float* pFloatDiffuseColor, bool bAllreadyTextured, TQ3BackfacingStyle inBackfacing);
 
-	void DrawJustLocalTexture();
+		void SetInited(bool bOnOff = true);
+		bool IsInited();
+		bool m_bInited;
+		void* m_PlatformGLContextSaved;
 
-	void DrawContourArrays(int nFaces, float* _pMemVerts);
+		void DrawJustLocalTexture();
 
-	TQ3Param2D* GenShadeTVerts(int nFaces, float* pMemNormals);
+		void DrawContourArrays(int nFaces, float* _pMemVerts);
 
-	std::vector<TQ3Param2D> m_arrShadeTVerts;
+		TQ3Param2D* GenShadeTVerts(int nFaces, float* pMemNormals);
 
-	void RebuildShading();
+		std::vector<TQ3Param2D> m_arrShadeTVerts;
 
-	void SetShadeWidth(int nWidth) { m_nShadeWidth = nWidth; }
-	int GetShadeWidth() const { return m_nShadeWidth; }
-	int m_nShadeWidth;
+		void RebuildShading();
 
-	void SetShadeLightness(int n) { m_nShadeLightness = n; }
-	int GetShadeLightness() const { return m_nShadeLightness; }
-	int m_nShadeLightness;
+		void SetShadeWidth(int nWidth) { m_nShadeWidth = nWidth; }
+		int GetShadeWidth() const { return m_nShadeWidth; }
+		int m_nShadeWidth;
 
-	void SetOutLineWidth(float nWidth){ m_nOutLineWidth = nWidth; }
-	float GetOutLineWidth() const { return m_nOutLineWidth; }
-	float m_nOutLineWidth;
+		void SetShadeLightness(int n) { m_nShadeLightness = n; }
+		int GetShadeLightness() const { return m_nShadeLightness; }
+		int m_nShadeLightness;
 
-	void* GetLocalTextureMemory();
-	void BuildLocalTexture();
-	void DeleteLocalTexture();
-	void DrawLocalTexture(bool bAllreadyTextured);
-	GLuint m_nLocalTextureID;
-};
+		void SetOutLineWidth(float nWidth){ m_nOutLineWidth = nWidth; }
+		float GetOutLineWidth() const { return m_nOutLineWidth; }
+		float m_nOutLineWidth;
 
-static void InitExtensions()
+		void* GetLocalTextureMemory();
+		void BuildLocalTexture();
+		void DeleteLocalTexture();
+		void DrawLocalTexture(bool bAllreadyTextured);
+		GLuint m_nLocalTextureID;
+		
+		void InitExtensions();
+		void SetClientActiveTextureARB(int n);
+		void SetActiveTextureARB(int n);
+		void DisableMultiTexturing();
+
+		PFNGLACTIVETEXTUREARBPROC 		m_glActiveTextureARB;
+		PFNGLCLIENTACTIVETEXTUREARBPROC m_glClientActiveTextureARB;
+	};
+
+}
+
+CCartoonRendererQuesa::CCartoonRendererQuesa()
+	: m_bInited( false )
+	, m_PlatformGLContextSaved( NULL )
+	, m_nLocalTextureID( 0 )
+	, m_glActiveTextureARB( NULL )
+	, m_glClientActiveTextureARB( NULL )
+{
+	SetOutLineWidth(1.6f);
+	SetShadeLightness(130);
+	SetShadeWidth(7);
+}
+
+CCartoonRendererQuesa::~CCartoonRendererQuesa()
+{
+	DeleteLocalTexture();
+}
+
+void CCartoonRendererQuesa::InitExtensions()
 {	
-	void** arrPtrs[] = { (void**)&g_glActiveTextureARB, (void**)&g_glClientActiveTextureARB, 0};
+	void** arrPtrs[] = { (void**)&m_glActiveTextureARB, (void**)&m_glClientActiveTextureARB, 0};
 	char* arrNames[] = { "glActiveTextureARB", "glClientActiveTextureARB", 0};
 	
 	int nIx;
@@ -214,27 +235,23 @@ static void InitExtensions()
 	} // nIx
 }
 
-static void SetClientActiveTextureARB(int n)
+void CCartoonRendererQuesa::SetClientActiveTextureARB(int n)
 {
-	if(0 == g_glClientActiveTextureARB)
+	if (m_glClientActiveTextureARB != NULL)
 	{
-		return;
+		m_glClientActiveTextureARB(GL_TEXTURE0_ARB + n);
 	}
-
-	g_glClientActiveTextureARB(GL_TEXTURE0_ARB + n);
 }
 
-static void SetActiveTextureARB(int n)
+void CCartoonRendererQuesa::SetActiveTextureARB(int n)
 {
-	if(0 == g_glActiveTextureARB)
+	if (m_glActiveTextureARB != NULL)
 	{
-		return;
+		m_glActiveTextureARB(GL_TEXTURE0_ARB + n);
 	}
-
-	g_glActiveTextureARB(GL_TEXTURE0_ARB + n);
 }
 
-static void DisableMultiTexturing()
+void CCartoonRendererQuesa::DisableMultiTexturing()
 {
 	int nIx;
 
@@ -375,12 +392,6 @@ void CCartoonRendererQuesa::Init( bool inHasMultiTexture )
 	RebuildShading();
 }
 
-void CCartoonRendererQuesa::Done()
-{
-	SetInited(false);
-
-	DeleteLocalTexture();
-}
 
 static void* GetCurrentGLContext()
 {
@@ -808,46 +819,17 @@ static TQ3XFunctionPointer GetInteractiveRendererMethod(TQ3XMethodType methodTyp
 }
 
 
-static bool IsGeomMarkedNonCartoon( TQ3Object inObject )
+void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
+							CartoonRendererData *cartoonInstanceData,
+							TQ3GeometryObject theGeom,
+							TQ3TriMeshData* geomData )
 {
-	return (kQ3Success == Q3Object_GetProperty( inObject, kNonCartoonProperty, 0, NULL, NULL ));
-}
-
-static bool IsGeomTransparent( const TQ3InteractiveData* inInstanceData )
-{
-	bool	isTransparent = (inInstanceData->stateGeomTransparencyColour != NULL) and
-		(
-			(inInstanceData->stateGeomTransparencyColour->r < 1.0f) or
-			(inInstanceData->stateGeomTransparencyColour->g < 1.0f) or
-			(inInstanceData->stateGeomTransparencyColour->b < 1.0f)
-		);
-	return isTransparent;
-}
-
-static TQ3Status
-Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject				theView,
-							TQ3InteractiveData		*instanceData,
-							TQ3GeometryObject		theGeom,
-							TQ3TriMeshData			*geomData)
-{
-	// Translucent objects, or objects marked with a special property, will be passed to the
-	// standard OpenGL renderer.
-	if ( IsGeomMarkedNonCartoon( theGeom ) or IsGeomTransparent( instanceData ) )
-	{
-		TQ3XRendererSubmitGeometryMethod	irMethod = (TQ3XRendererSubmitGeometryMethod)
-			GetInteractiveRendererMethod( kQ3GeometryTypeTriMesh );
-		return irMethod( theView, instanceData, theGeom, geomData );
-	}
+	TQ3InteractiveData*		instanceData = &cartoonInstanceData->irData;
 	
 	// Lazy initialization
-	if (g_CCartoonRendererQuesa == NULL)
+	if (not IsInited())
 	{
-		g_CCartoonRendererQuesa = new CCartoonRendererQuesa;
-	}
-
-	if(false == g_CCartoonRendererQuesa->IsInited())
-	{
-		g_CCartoonRendererQuesa->Init( instanceData->glExtensions.multitexture == kQ3True );
+		Init( instanceData->glExtensions.multitexture == kQ3True );
 	}
 
 	SetActiveTextureARB(0);
@@ -897,14 +879,14 @@ Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject				theView,
 	// We will only use normals to compute texture coordinates for shading.
 	glDisableClientState( GL_NORMAL_ARRAY );
 
-	if (g_glActiveTextureARB == NULL)
+	if (m_glActiveTextureARB == NULL)
 	{
-		g_CCartoonRendererQuesa->DrawArraysFakeMultitexture(outNumFaces, pMemVerts, pMemTVerts, pMemNormals,
+		DrawArraysFakeMultitexture(outNumFaces, pMemVerts, pMemTVerts, pMemNormals,
 			pFloatDiffuseColor, bAlreadyTextured, instanceData->stateBackfacing );
 	}
 	else
 	{
-		g_CCartoonRendererQuesa->DrawArrays(outNumFaces, pMemVerts, pMemTVerts, pMemNormals,
+		DrawArrays(outNumFaces, pMemVerts, pMemTVerts, pMemNormals,
 			pFloatDiffuseColor, bAlreadyTextured, instanceData->stateBackfacing);
 	}
 
@@ -914,8 +896,47 @@ Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject				theView,
 	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, (TQ3Boolean) (pMemTVerts != NULL) );
 
 	DisableMultiTexturing();
+}
 
-	return(kQ3Success);
+static bool IsGeomMarkedNonCartoon( TQ3Object inObject )
+{
+	return (kQ3Success == Q3Object_GetProperty( inObject, kNonCartoonProperty, 0, NULL, NULL ));
+}
+
+static bool IsGeomTransparent( const TQ3InteractiveData* inInstanceData )
+{
+	bool	isTransparent = (inInstanceData->stateGeomTransparencyColour != NULL) and
+		(
+			(inInstanceData->stateGeomTransparencyColour->r < 1.0f) or
+			(inInstanceData->stateGeomTransparencyColour->g < 1.0f) or
+			(inInstanceData->stateGeomTransparencyColour->b < 1.0f)
+		);
+	return isTransparent;
+}
+
+static TQ3Status
+Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject				theView,
+							CartoonRendererData		*cartoonInstanceData,
+							TQ3GeometryObject		theGeom,
+							TQ3TriMeshData			*geomData)
+{
+	TQ3InteractiveData*		irInstanceData = &cartoonInstanceData->irData;
+	TQ3Status	theStatus = kQ3Success;
+	
+	// Translucent objects, or objects marked with a special property, will be passed to the
+	// standard OpenGL renderer.
+	if ( IsGeomMarkedNonCartoon( theGeom ) or IsGeomTransparent( irInstanceData ) )
+	{
+		TQ3XRendererSubmitGeometryMethod	irMethod = (TQ3XRendererSubmitGeometryMethod)
+			GetInteractiveRendererMethod( kQ3GeometryTypeTriMesh );
+		theStatus = irMethod( theView, irInstanceData, theGeom, geomData );
+	}
+	else
+	{
+		cartoonInstanceData->cartooner->SubmitTriMesh( theView, cartoonInstanceData, theGeom, geomData );
+	}
+
+	return theStatus;
 }
 
 
@@ -975,6 +996,50 @@ cartoon_interactive_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3
     return(kQ3Success);
 }
 
+static TQ3Status
+cartoon_new_object( TQ3Object theObject, void *privateData, void *paramData )
+{
+#pragma unused(paramData)
+
+	TQ3Status	theStatus;
+	CCartoonRendererQuesa*	newCartooner = new(std::nothrow) CCartoonRendererQuesa;
+	if (newCartooner == NULL)
+	{
+		theStatus = kQ3Failure;
+	}
+	else
+	{
+		TQ3XObjectNewMethod	irNewMethod = (TQ3XObjectNewMethod)
+			GetInteractiveRendererMethod( kQ3XMethodTypeObjectNew );
+		
+		theStatus = irNewMethod( theObject, privateData, paramData );
+		
+		if (theStatus == kQ3Success)
+		{
+			CartoonRendererData*	instanceData = (CartoonRendererData *) privateData;
+			instanceData->cartooner = newCartooner;
+		}
+		else
+		{
+			delete newCartooner;
+		}
+	}
+	
+	return theStatus;
+}
+
+static void
+cartoon_delete_object( TQ3Object theObject, void *privateData )
+{
+	TQ3XObjectDeleteMethod	irDeleteMethod = (TQ3XObjectDeleteMethod)
+		GetInteractiveRendererMethod( kQ3XMethodTypeObjectDelete );
+	
+	irDeleteMethod( theObject, privateData );
+	
+	CartoonRendererData*	instanceData = (CartoonRendererData *) privateData;
+	delete instanceData->cartooner;
+}
+
 static TQ3XFunctionPointer
 ca_cartoon_metahandler(TQ3XMethodType methodType)
 {	
@@ -982,6 +1047,14 @@ ca_cartoon_metahandler(TQ3XMethodType methodType)
 
 	switch(methodType)
 	{
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) cartoon_new_object;
+			break;
+		
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) cartoon_delete_object;
+			break;
+		
 		case kQ3XMethodTypeRendererGetNickNameString:
 			theMethod = (TQ3XFunctionPointer) cartoon_interactive_nickname;
 			break;
@@ -1013,7 +1086,7 @@ TQ3Status CartoonRenderer_Register()
 														ca_cartoon_metahandler,
 														NULL,
 														0,
-														sizeof(TQ3InteractiveData));
+														sizeof(CartoonRendererData));
 
 	return(theClass == NULL ? kQ3Failure : kQ3Success);
 }
@@ -1030,9 +1103,6 @@ void CartoonRenderer_Unregister()
 
 	// Unregister the class
 	qd3dStatus = Q3XObjectHierarchy_UnregisterClass(theClass);
-
-	if (g_CCartoonRendererQuesa != NULL)
-		g_CCartoonRendererQuesa->Done();
 }
 
 
