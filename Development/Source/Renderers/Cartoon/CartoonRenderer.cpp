@@ -110,6 +110,7 @@
 #include "IRGeometry.h"
 #include "IRTexture.h"
 
+#include "GLDrawContext.h"
 #include "GLUtils.h"
 
 #include <vector>
@@ -139,6 +140,8 @@ static 	TQ3ObjectType		sRendererType = 0;
 
 namespace
 {
+	const int kNumLightsToSet	= 8;
+
 	class CCartoonRendererQuesa;
 
 	struct CartoonRendererData
@@ -156,7 +159,7 @@ namespace
 		~CCartoonRendererQuesa(void);
 		
 		void	SubmitTriMesh( TQ3ViewObject theView, CartoonRendererData *cartoonInstanceData,
-							TQ3GeometryObject theGeom, TQ3TriMeshData* geomData );
+							TQ3TriMeshData* geomData, TQ3Boolean hadAttributeTexture );
 
 		void Init( bool inHasMultiTexture );
 		void DrawArrays(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
@@ -168,6 +171,9 @@ namespace
 		bool IsInited();
 		bool m_bInited;
 		void* m_PlatformGLContextSaved;
+		
+		void	SaveLight();
+		void	RestoreLight();
 
 		void DrawJustLocalTexture();
 
@@ -204,6 +210,10 @@ namespace
 
 		PFNGLACTIVETEXTUREARBPROC 		m_glActiveTextureARB;
 		PFNGLCLIENTACTIVETEXTUREARBPROC m_glClientActiveTextureARB;
+		
+		GLboolean	m_savedLightEnabled[ kNumLightsToSet ];
+		GLboolean	m_savedLightingEnabled;
+		GLfloat		m_savedAmbientLight[ 4 ];
 	};
 
 }
@@ -501,9 +511,6 @@ static void SetUpLight( float inAmbientLevel = 1.4f )
 	GLfloat	brightAmbient[] = {
 		inAmbientLevel, inAmbientLevel, inAmbientLevel, 1.0f
 	};
-	GLfloat	noLight[] = {
-		0.0f, 0.0f, 0.0f, 0.0f
-	};
 	glLightModelfv( GL_LIGHT_MODEL_AMBIENT, brightAmbient );
 	glDisable( GL_LIGHT0 );
 	glDisable( GL_LIGHT1 );
@@ -514,6 +521,45 @@ static void SetUpLight( float inAmbientLevel = 1.4f )
 	glDisable( GL_LIGHT6 );
 	glDisable( GL_LIGHT7 );
 }
+
+void	CCartoonRendererQuesa::SaveLight()
+{
+	glGetBooleanv( GL_LIGHTING, &m_savedLightingEnabled );
+	
+	for (int i = 0; i < kNumLightsToSet; ++i)
+	{
+		glGetBooleanv( GL_LIGHT0 + i, &m_savedLightEnabled[i] );
+	}
+	
+	glGetFloatv( GL_LIGHT_MODEL_AMBIENT, m_savedAmbientLight );
+}
+
+void	CCartoonRendererQuesa::RestoreLight()
+{
+	if (m_savedLightingEnabled)
+	{
+		glEnable( GL_LIGHTING );
+	}
+	else
+	{
+		glDisable( GL_LIGHTING );
+	}
+	
+	for (int i = 0; i < kNumLightsToSet; ++i)
+	{
+		if (m_savedLightEnabled[i])
+		{
+			glEnable( GL_LIGHT0 + i );
+		}
+		else
+		{
+			glDisable( GL_LIGHT0 + i );
+		}
+	}
+	
+	glLightModelfv( GL_LIGHT_MODEL_AMBIENT, m_savedAmbientLight );
+}
+
 
 void CCartoonRendererQuesa::DrawContourArrays(int nFaces, float* _pMemVerts)
 {
@@ -824,8 +870,8 @@ static TQ3XFunctionPointer GetInteractiveRendererMethod(TQ3XMethodType methodTyp
 
 void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 							CartoonRendererData *cartoonInstanceData,
-							TQ3GeometryObject theGeom,
-							TQ3TriMeshData* geomData )
+							TQ3TriMeshData* geomData,
+							TQ3Boolean hadAttributeTexture )
 {
 	TQ3InteractiveData*		instanceData = &cartoonInstanceData->irData;
 	
@@ -835,6 +881,7 @@ void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 		Init( instanceData->glExtensions.multitexture == kQ3True );
 	}
 
+	SaveLight();
 	SetActiveTextureARB(0);
 	SetClientActiveTextureARB(0);
 
@@ -860,11 +907,6 @@ void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 	{
 		pMemNormals = NULL;
 	}
-
-	TQ3Boolean			hadAttributeTexture;
-
-	hadAttributeTexture = IRGeometry_Attribute_Handler(theView, geomData->triMeshAttributeSet,
-										instanceData, kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
 
 
 	TQ3ColorRGB		whiteRGBColor = { 1.0f, 1.0f, 1.0f };
@@ -899,6 +941,7 @@ void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, (TQ3Boolean) (pMemTVerts != NULL) );
 
 	DisableMultiTexturing();
+	RestoreLight();
 }
 
 static bool IsGeomMarkedNonCartoon( TQ3Object inObject )
@@ -918,14 +961,22 @@ static bool IsGeomTransparent( const TQ3InteractiveData* inInstanceData )
 }
 
 static TQ3Status
-Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject				theView,
+Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject		theView,
 							CartoonRendererData		*cartoonInstanceData,
 							TQ3GeometryObject		theGeom,
 							TQ3TriMeshData			*geomData)
 {
 	TQ3InteractiveData*		irInstanceData = &cartoonInstanceData->irData;
 	TQ3Status	theStatus = kQ3Success;
+
+	// Activate our context
+	GLDrawContext_SetCurrent(irInstanceData->glContext, kQ3False);
 	
+	// Update our state for this object and the texture mapping
+	TQ3Boolean			hadAttributeTexture;
+	hadAttributeTexture = IRGeometry_Attribute_Handler(theView, geomData->triMeshAttributeSet,
+							irInstanceData, kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
+
 	// Translucent objects, or objects marked with a special property, will be passed to the
 	// standard OpenGL renderer.
 	if ( IsGeomMarkedNonCartoon( theGeom ) || IsGeomTransparent( irInstanceData ) )
@@ -936,7 +987,8 @@ Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject				theView,
 	}
 	else
 	{
-		cartoonInstanceData->cartooner->SubmitTriMesh( theView, cartoonInstanceData, theGeom, geomData );
+		cartoonInstanceData->cartooner->SubmitTriMesh( theView, cartoonInstanceData,
+			geomData, hadAttributeTexture );
 	}
 
 	return theStatus;
