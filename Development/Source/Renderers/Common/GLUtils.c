@@ -352,6 +352,12 @@ void*	GLGetProcAddress( const char* funcName )
 {
 	return (void*)wglGetProcAddress( funcName );
 }
+#elif QUESA_OS_UNIX
+
+void*	GLGetProcAddress( const char* funcName )
+{
+	return (void*)glXGetProcAddressARB( (const GLubyte*)funcName );
+}
 
 #elif QUESA_OS_MACINTOSH && !QUESA_UH_IN_FRAMEWORKS
 
