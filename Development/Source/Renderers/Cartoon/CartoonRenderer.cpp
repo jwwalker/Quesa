@@ -651,7 +651,9 @@ static bool GetArraysFromTriMesh( const TQ3TriMeshData& inData,
 
 		for (int faceNum = 0; faceNum < outNumFaces; ++faceNum)
 		{
-			const TQ3TriMeshTriangleData faceData( inData.triangles[faceNum] );
+			typedef const TQ3TriMeshTriangleData& limitedVS6;
+			// seems that the above declaration is too complex for MS Visual C++ 6.0 :-(
+			limitedVS6 faceData( inData.triangles[faceNum] );
 
 			for (int vertNum = 0; vertNum < 3; ++vertNum)
 			{
