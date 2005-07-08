@@ -25,6 +25,7 @@ QUESAINCLUDES= -I${QUESAAPI}		                \
           -I${SRC}${RENDERER}/Generic              \
           -I${SRC}${RENDERER}/Wireframe            \
           -I${SRC}${RENDERER}/Interactive          \
+          -I${SRC}${RENDERER}/Cartoon              \
           -I${SRC}${PLATFORM}  
 
 
@@ -139,6 +140,7 @@ myIncludes= ${pkginclude_HEADERS} \
              ${SRC}${RENDERER}/Generic/GNGeometry.h       \
              ${SRC}${RENDERER}/Generic/GNRegister.h       \
              ${SRC}${RENDERER}/Generic/GNRenderer.h       \
+             ${SRC}${RENDERER}/Cartoon/CartoonRenderer.h \
              ${SRC}${RENDERER}/Wireframe/WFPrefix.h     \
              ${SRC}${RENDERER}/Wireframe/WFGeometry.h     \
              ${SRC}${RENDERER}/Wireframe/WFRegister.h     \
@@ -251,6 +253,7 @@ libquesa_la_SOURCES=	${myIncludes}            \
              ${SRC}${RENDERER}/Generic/GNGeometry.c       \
              ${SRC}${RENDERER}/Generic/GNRegister.c       \
              ${SRC}${RENDERER}/Generic/GNRenderer.c       \
+             ${SRC}${RENDERER}/Cartoon/CartoonRenderer.cpp \
              ${SRC}${RENDERER}/Wireframe/WFGeometry.c     \
              ${SRC}${RENDERER}/Wireframe/WFRegister.c     \
              ${SRC}${RENDERER}/Wireframe/WFRenderer.c     \
@@ -271,4 +274,5 @@ libquesa_la_SOURCES=	${myIncludes}            \
 
 
 libquesa_la_CFLAGS= -x c++ -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES)
+libquesa_la_CPPFLAGS= -DQUESA_OS_UNIX=1 $(WARN) $(QUESAINCLUDES)
 libquesa_la_LIBADD= -lm -lc -lX11 -lGL -lGLU
