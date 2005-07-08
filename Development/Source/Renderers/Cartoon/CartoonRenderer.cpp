@@ -96,6 +96,9 @@
 #elif QUESA_OS_COCOA
 	#include <OpenGL/glext.h>
 #else
+	// NOTE: this include file is not provided with Win32 sdk
+	// you can get it at <http://oss.sgi.com/projects/ogl-sample/ABI/glext.h>
+	// and put it in your GL directory (search for gl.h to find it)
 	#include <GL/glext.h>
 #endif
 
@@ -602,7 +605,7 @@ static bool GetArraysFromTriMesh( const TQ3TriMeshData& inData,
 
 		for (int faceNum = 0; faceNum < outNumFaces; ++faceNum)
 		{
-			const TQ3TriMeshTriangleData& faceData( inData.triangles[faceNum] );
+			const TQ3TriMeshTriangleData faceData( inData.triangles[faceNum] );
 
 			for (int vertNum = 0; vertNum < 3; ++vertNum)
 			{
@@ -827,7 +830,7 @@ void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 	TQ3InteractiveData*		instanceData = &cartoonInstanceData->irData;
 	
 	// Lazy initialization
-	if (not IsInited())
+	if (! IsInited())
 	{
 		Init( instanceData->glExtensions.multitexture == kQ3True );
 	}
@@ -867,13 +870,13 @@ void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 	TQ3ColorRGB		whiteRGBColor = { 1.0f, 1.0f, 1.0f };
 	float* pFloatDiffuseColor = &whiteRGBColor.r;
 	
-	if ( (instanceData->stateGeomDiffuseColour != NULL) and
-		((not instanceData->stateTextureActive) or (instanceData->stateViewIllumination == kQ3IlluminationTypeNULL)) )
+	if ( (instanceData->stateGeomDiffuseColour != NULL) &&
+		((! instanceData->stateTextureActive) || (instanceData->stateViewIllumination == kQ3IlluminationTypeNULL)) )
 	{
 		pFloatDiffuseColor = &instanceData->stateGeomDiffuseColour->r;
 	}
 
-	bool bAlreadyTextured = (pMemTVerts != NULL) and instanceData->stateTextureActive;
+	bool bAlreadyTextured = (pMemTVerts != NULL) && instanceData->stateTextureActive;
 	
 	// We will use only ambient light, hence we do not need normals for OpenGL.
 	// We will only use normals to compute texture coordinates for shading.
@@ -905,10 +908,10 @@ static bool IsGeomMarkedNonCartoon( TQ3Object inObject )
 
 static bool IsGeomTransparent( const TQ3InteractiveData* inInstanceData )
 {
-	bool	isTransparent = (inInstanceData->stateGeomTransparencyColour != NULL) and
+	bool	isTransparent = (inInstanceData->stateGeomTransparencyColour != NULL) &&
 		(
-			(inInstanceData->stateGeomTransparencyColour->r < 1.0f) or
-			(inInstanceData->stateGeomTransparencyColour->g < 1.0f) or
+			(inInstanceData->stateGeomTransparencyColour->r < 1.0f) ||
+			(inInstanceData->stateGeomTransparencyColour->g < 1.0f) ||
 			(inInstanceData->stateGeomTransparencyColour->b < 1.0f)
 		);
 	return isTransparent;
@@ -925,7 +928,7 @@ Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject				theView,
 	
 	// Translucent objects, or objects marked with a special property, will be passed to the
 	// standard OpenGL renderer.
-	if ( IsGeomMarkedNonCartoon( theGeom ) or IsGeomTransparent( irInstanceData ) )
+	if ( IsGeomMarkedNonCartoon( theGeom ) || IsGeomTransparent( irInstanceData ) )
 	{
 		TQ3XRendererSubmitGeometryMethod	irMethod = (TQ3XRendererSubmitGeometryMethod)
 			GetInteractiveRendererMethod( kQ3GeometryTypeTriMesh );
