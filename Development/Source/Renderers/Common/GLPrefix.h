@@ -69,7 +69,10 @@
     #include <GL/glu.h>
 
 #elif QUESA_OS_UNIX
-	#include <GL/glx.h>
+// for glXGetProcAddressARB
+    #define GLX_GLXEXT_PROTOTYPES 1
+
+    #include <GL/glx.h>
     #include <GL/glu.h>
 
 #elif QUESA_OS_BE
