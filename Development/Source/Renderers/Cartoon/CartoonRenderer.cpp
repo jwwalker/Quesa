@@ -142,6 +142,10 @@ namespace
 {
 	const int kNumLightsToSet	= 8;
 
+	const int		kMinContourSize		= 40;
+	const int		kFullContourSize	= 400;
+	const float		kMaxContourWidth	= 2.5f;
+
 	class CCartoonRendererQuesa;
 
 	struct CartoonRendererData
@@ -163,9 +167,9 @@ namespace
 
 		void Init( bool inHasMultiTexture );
 		void DrawArrays(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
-			float* pFloatDiffuseColor, bool bAllreadyTextured, TQ3BackfacingStyle inBackfacing );
+			float* pFloatDiffuseColor, bool bAllreadyTextured );
 		void DrawArraysFakeMultitexture(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
-			float* pFloatDiffuseColor, bool bAllreadyTextured, TQ3BackfacingStyle inBackfacing);
+			float* pFloatDiffuseColor, bool bAllreadyTextured );
 
 		void SetInited(bool bOnOff = true);
 		bool IsInited();
@@ -177,7 +181,10 @@ namespace
 
 		void DrawJustLocalTexture();
 
-		void DrawContourArrays(int nFaces, float* _pMemVerts);
+		void	DrawContours( TQ3ViewObject theView, TQ3TriMeshData* geomData,
+							int nFaces, float* pMemVerts, TQ3BackfacingStyle inBackfacing );
+		float	CalcContourWidth( TQ3ViewObject theView, TQ3TriMeshData* geomData );
+		void DrawContourArrays(int nFaces, float* pMemVerts, float lineWidth );
 
 		TQ3Param2D* GenShadeTVerts(int nFaces, float* pMemNormals);
 
@@ -192,10 +199,6 @@ namespace
 		void SetShadeLightness(int n) { m_nShadeLightness = n; }
 		int GetShadeLightness() const { return m_nShadeLightness; }
 		int m_nShadeLightness;
-
-		void SetOutLineWidth(float nWidth){ m_nOutLineWidth = nWidth; }
-		float GetOutLineWidth() const { return m_nOutLineWidth; }
-		float m_nOutLineWidth;
 
 		void* GetLocalTextureMemory();
 		void BuildLocalTexture();
@@ -225,7 +228,6 @@ CCartoonRendererQuesa::CCartoonRendererQuesa()
 	, m_glActiveTextureARB( NULL )
 	, m_glClientActiveTextureARB( NULL )
 {
-	SetOutLineWidth(1.6f);
 	SetShadeLightness(130);
 	SetShadeWidth(7);
 }
@@ -307,6 +309,10 @@ void CCartoonRendererQuesa::BuildLocalTexture()
 	glGenTextures(1, &m_nLocalTextureID);
 	CHECK_GL_ERROR;
 	
+	// save the current bound texture, if any
+	GLint	savedTexture = 0;
+	glGetIntegerv( GL_TEXTURE_BINDING_2D, &savedTexture );
+	
 	glBindTexture(GL_TEXTURE_2D, m_nLocalTextureID);
 	CHECK_GL_ERROR;
 
@@ -314,8 +320,12 @@ void CCartoonRendererQuesa::BuildLocalTexture()
 	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 	CHECK_GL_ERROR;
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, kShadingTextureWidth, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, GetLocalTextureMemory());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, kShadingTextureWidth, 1, 0, GL_RGB,
+		GL_UNSIGNED_BYTE, GetLocalTextureMemory());
 	CHECK_GL_ERROR;
+	
+	// restore previous texture
+	glBindTexture( GL_TEXTURE_2D, savedTexture );
 }
 
 void CCartoonRendererQuesa::DrawJustLocalTexture()
@@ -560,10 +570,91 @@ void	CCartoonRendererQuesa::RestoreLight()
 	glLightModelfv( GL_LIGHT_MODEL_AMBIENT, m_savedAmbientLight );
 }
 
-
-void CCartoonRendererQuesa::DrawContourArrays(int nFaces, float* _pMemVerts)
+void	CCartoonRendererQuesa::DrawContours( TQ3ViewObject theView, TQ3TriMeshData* geomData,
+							int nFaces, float* pMemVerts, TQ3BackfacingStyle inBackfacing )
 {
-	if(0 == GetOutLineWidth())
+	if (inBackfacing == kQ3BackfacingStyleRemove)
+	{
+		float	lineWidth = CalcContourWidth( theView, geomData );
+		
+		DrawContourArrays( nFaces, pMemVerts, lineWidth );
+		
+		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+	}
+	else
+	{
+		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glDisable(GL_CULL_FACE);
+	}
+}
+
+
+/*
+	CalcContourWidth
+	
+	If an object is small on screen, it should not be overwhelmed by the contour lines.
+*/
+float	CCartoonRendererQuesa::CalcContourWidth( TQ3ViewObject theView, TQ3TriMeshData* geomData )
+{
+	// Compute local to screen matrix.
+	TQ3Matrix4x4	localToWorld, worldToFrustum, frustumToWindow, localToFrustum, localToWindow;
+	Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
+	Q3View_GetWorldToFrustumMatrixState( theView, &worldToFrustum );
+	Q3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
+	Q3Matrix4x4_Multiply( &localToWorld, &worldToFrustum, &localToFrustum );
+	Q3Matrix4x4_Multiply( &localToFrustum, &frustumToWindow, &localToWindow );
+	
+	// Get the corners of the bounding box.
+	TQ3Point3D	corners[8];
+	corners[0] = corners[1] = corners[2] = corners[3] = geomData->bBox.min;
+	corners[4] = corners[5] = corners[6] = corners[7] = geomData->bBox.max;
+	corners[1].x = corners[7].x;
+	corners[2].y = corners[7].y;
+	corners[3].z = corners[7].z;
+	corners[4].x = corners[0].x;
+	corners[5].y = corners[0].y;
+	corners[6].z = corners[0].z;
+	
+	// Transform the corners to screen coordinates.
+	Q3Point3D_To3DTransformArray( corners, &localToWindow, corners, 8, sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
+	
+	// Find the largest screen distance between two corners.
+	float	maxDistSq = -1.0f;
+	for (int i = 0; i < 7; ++i)
+	{
+		for (int j = i + 1; j < 8; ++j)
+		{
+			float	oneDistSq = Q3FastPoint3D_DistanceSquared( &corners[i], &corners[j] );
+			if (oneDistSq > maxDistSq)
+			{
+				maxDistSq = oneDistSq;
+			}
+		}
+	}
+	float	maxDist = sqrt( maxDistSq );
+	
+	// Compute the line width.
+	float	lineWidth = kMaxContourWidth;
+	
+	if (maxDist < kMinContourSize)
+	{
+		lineWidth = 0.0f;
+	}
+	else if (maxDist < kFullContourSize)
+	{
+		lineWidth *= (maxDist - kMinContourSize) / (kFullContourSize - kMinContourSize);
+	}
+	
+	return lineWidth;
+}
+
+void CCartoonRendererQuesa::DrawContourArrays(int nFaces, float* pMemVerts, float lineWidth)
+{
+	if (lineWidth < FLT_EPSILON)
 	{
 		return;
 	}
@@ -584,18 +675,15 @@ void CCartoonRendererQuesa::DrawContourArrays(int nFaces, float* _pMemVerts)
 
 	glPolygonMode(GL_BACK, GL_LINE);
 
-	glVertexPointer(3, GL_FLOAT, 0, _pMemVerts);
+	glVertexPointer(3, GL_FLOAT, 0, pMemVerts);
 
 	glEnable( GL_LINE_SMOOTH );
-	glLineWidth( GetOutLineWidth() );
+	glLineWidth( lineWidth );
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glDrawArrays(GL_TRIANGLES, 0, nFaces * 3);
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glCullFace(GL_BACK);
 }
 
 
@@ -689,36 +777,10 @@ static bool GetArraysFromTriMesh( const TQ3TriMeshData& inData,
 }
 
 void CCartoonRendererQuesa::DrawArrays(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
-	float* pFloatDiffuseColor, bool bAllreadyTextured, TQ3BackfacingStyle inBackfacing)
+	float* pFloatDiffuseColor, bool bAllreadyTextured)
 {
 	try
 	{
-		if(0 == nFaces)
-		{
-			return;
-		}
-
-		if(0 == pMemNormals)
-		{	
-			return;		
-		}
-
-		SetUpLight();
-
-		if (inBackfacing == kQ3BackfacingStyleRemove)
-		{
-			DrawContourArrays(nFaces, pMemVerts);
-
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_BACK);
-		}
-		else
-		{
-			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			glDisable(GL_CULL_FACE);
-		}
-		
 		if (bAllreadyTextured)
 		{
 			SetActiveTextureARB(0);
@@ -762,40 +824,14 @@ void CCartoonRendererQuesa::DrawArrays(int nFaces, float* pMemVerts, float* pMem
 	}
 	catch(...)
 	{
-
 	}
 }
 
 void CCartoonRendererQuesa::DrawArraysFakeMultitexture(int nFaces, float* pMemVerts, float* pMemTVerts,
-	float* pMemNormals, float* pFloatDiffuseColor, bool bAllreadyTextured, TQ3BackfacingStyle inBackfacing)
+	float* pMemNormals, float* pFloatDiffuseColor, bool bAllreadyTextured )
 {
-	if (0 == nFaces)
-	{
-		return;
-	}
-
-	if (0 == pMemNormals)
-	{	
-		return;		
-	}
-
 	try
 	{
-		if (inBackfacing == kQ3BackfacingStyleRemove)
-		{
-			DrawContourArrays(nFaces, pMemVerts);
-
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_BACK);
-		}
-		else
-		{
-			glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			glDisable(GL_CULL_FACE);
-		}
-		
-		glCullFace(GL_BACK);
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glEnable(GL_TEXTURE_2D);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -820,7 +856,6 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(int nFaces, float* pMemVe
 			glBlendFunc( GL_DST_COLOR, GL_ZERO );
 			glDepthMask( GL_FALSE );
 			glDepthFunc( GL_EQUAL );
-			SetUpLight();
 		}
 
 		DrawJustLocalTexture();
@@ -909,7 +944,11 @@ void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 	{
 		pMemNormals = NULL;
 	}
-
+	
+	if ( (outNumFaces == 0) || (pMemNormals == NULL) )
+	{
+		return;
+	}
 
 	TQ3ColorRGB		whiteRGBColor = { 1.0f, 1.0f, 1.0f };
 	float* pFloatDiffuseColor = &whiteRGBColor.r;
@@ -925,16 +964,18 @@ void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 	// We will use only ambient light, hence we do not need normals for OpenGL.
 	// We will only use normals to compute texture coordinates for shading.
 	glDisableClientState( GL_NORMAL_ARRAY );
+	
+	DrawContours( theView, geomData, outNumFaces, pMemVerts, instanceData->stateBackfacing );
 
 	if (m_glActiveTextureARB == NULL)
 	{
 		DrawArraysFakeMultitexture(outNumFaces, pMemVerts, pMemTVerts, pMemNormals,
-			pFloatDiffuseColor, bAlreadyTextured, instanceData->stateBackfacing );
+			pFloatDiffuseColor, bAlreadyTextured );
 	}
 	else
 	{
 		DrawArrays(outNumFaces, pMemVerts, pMemTVerts, pMemNormals,
-			pFloatDiffuseColor, bAlreadyTextured, instanceData->stateBackfacing);
+			pFloatDiffuseColor, bAlreadyTextured );
 	}
 
 	SetActiveTextureARB(0);
