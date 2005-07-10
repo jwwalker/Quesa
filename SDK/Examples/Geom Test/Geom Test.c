@@ -104,6 +104,10 @@ enum {
 	kMenuItemToggleLocalBoundingSphere,
 	kMenuItemToggleTexture,
 	kMenuItemToggleLights,
+#if !TARGET_API_MAC_OS8
+	kMenuItemToggleVertexNormals,
+	kMenuItemToggleTriangleNormals,
+#endif
 	kMenuItemDivider0,
 	kMenuItemLoadModel,
 	kMenuItemSaveModel,
@@ -165,7 +169,12 @@ TQ3Object			gWorldBounds         = NULL;
 TQ3Uns32			gFlashStep           = 0;
 TQ3Matrix4x4		gMatrixCurrent;
 TQ3ColorARGB		gBackgroundColor;
+TQ3Boolean			gShowVertexNormals	= kQ3False;
+TQ3Boolean			gShowFaceNormals	= kQ3False;
 
+static TQ3XViewSubmitRetainedMethod	sSubRenderStandardMethod = NULL;
+static TQ3ObjectType				sMyViewType = 0;
+static TQ3XObjectClass				sMyViewClass = NULL;
 
 
 
@@ -2459,12 +2468,12 @@ doLoadModel(TQ3ViewObject theView)
 	TQ3Vector3D			translateToOrigin = { 0.0f, 0.0f, 0.0f };
 	TQ3Vector3D			scale     = { 1.0f, 1.0f, 1.0f };
 
-
 	// Get the file
 	storageObj = Qut_SelectMetafileToOpen();
 	if( storageObj == NULL )
 		return NULL;
 	
+
 	// Read the file (note, this disposes of storageObj)
 	theModel = Qut_ReadModel(storageObj);
 		
@@ -2561,6 +2570,349 @@ toggleLights( TQ3ViewObject				theView )
 
 
 
+#if !TARGET_API_MAC_OS8
+//=============================================================================
+//      findVertexNormals : Locate vertex normals in TriMesh data.
+//-----------------------------------------------------------------------------
+static const TQ3Vector3D* findVertexNormals( const TQ3TriMeshData* inTMData )
+{
+	TQ3Vector3D*	theNormals = NULL;
+	int	i;
+	
+	for (i = 0; i < inTMData->numVertexAttributeTypes; ++i)
+	{
+		if (inTMData->vertexAttributeTypes[i].attributeType == kQ3AttributeTypeNormal)
+		{
+			theNormals = inTMData->vertexAttributeTypes[i].data;
+		}
+	}
+	return theNormals;
+}
+
+
+
+
+
+//=============================================================================
+//      findFaceNormals : Locate triangle normals in TriMesh data.
+//-----------------------------------------------------------------------------
+static const TQ3Vector3D* findFaceNormals( const TQ3TriMeshData* inTMData )
+{
+	TQ3Vector3D*	theNormals = NULL;
+	int	i;
+	
+	for (i = 0; i < inTMData->numTriangleAttributeTypes; ++i)
+	{
+		if (inTMData->triangleAttributeTypes[i].attributeType == kQ3AttributeTypeNormal)
+		{
+			theNormals = inTMData->triangleAttributeTypes[i].data;
+		}
+	}
+	return theNormals;
+}
+
+
+
+
+
+//=============================================================================
+//      calcNormalDisplayLength : Choose a length for normal vector lines.
+//-----------------------------------------------------------------------------
+static float calcNormalDisplayLength( const TQ3TriMeshData* inTMData )
+{
+	return Q3Point3D_Distance( &inTMData->bBox.max, &inTMData->bBox.min ) * 0.05f;
+}
+
+
+
+
+
+//=============================================================================
+//      findOverallColor : Find the overall color of a TriMesh.
+//-----------------------------------------------------------------------------
+static TQ3Boolean findOverallColor( const TQ3TriMeshData* inTMData, TQ3ColorRGB* outColor )
+{
+	TQ3Boolean	foundColor = kQ3False;
+	
+	if (inTMData->triMeshAttributeSet != NULL)
+	{
+		if (kQ3Success == Q3AttributeSet_Get( inTMData->triMeshAttributeSet,
+			kQ3AttributeTypeDiffuseColor, outColor ))
+		{
+			foundColor = kQ3True;
+		}
+	}
+	
+	return foundColor;
+}
+
+
+
+
+
+//=============================================================================
+//      chooseNormalDisplayColor : Choose a color for normal vector lines.
+//-----------------------------------------------------------------------------
+static void chooseNormalDisplayColor( const TQ3TriMeshData* inTMData, TQ3ColorRGB* outColor )
+{
+	const TQ3ColorRGB	kYellow = { 1.0f, 1.0f, 0.0f };
+	const TQ3ColorRGB	kMagenta = { 1.0f, 0.0f, 1.0f };
+	const TQ3ColorRGB	kCyan = { 0.0f, 1.0f, 1.0f };
+	TQ3ColorRGB	overallColor;
+	if (findOverallColor( inTMData, &overallColor ))
+	{
+		float	yellowDist = Q3FastPoint3D_DistanceSquared( (TQ3Point3D*)&overallColor,
+			(TQ3Point3D*)&kYellow );
+		float	magentaDist = Q3FastPoint3D_DistanceSquared( (TQ3Point3D*)&overallColor,
+			(TQ3Point3D*)&kMagenta );
+		float	cyanDist = Q3FastPoint3D_DistanceSquared( (TQ3Point3D*)&overallColor,
+			(TQ3Point3D*)&kCyan );
+		if ( (yellowDist > magentaDist) && (yellowDist > cyanDist) )
+		{
+			*outColor = kYellow;
+		}
+		else if (magentaDist > cyanDist)
+		{
+			*outColor = kMagenta;
+		}
+		else
+		{
+			*outColor = kCyan;
+		}
+	}
+	else
+	{
+		*outColor = kYellow;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//      displayVertexNormals : Display vertex normals of a TriMesh as lines.
+//-----------------------------------------------------------------------------
+static void displayVertexNormals( TQ3Object inTriMesh, TQ3ViewObject inView )
+{
+	TQ3TriMeshData*	tmData = NULL;
+	if (kQ3Success == Q3TriMesh_LockData( inTriMesh, kQ3True, &tmData ))
+	{
+		const TQ3Vector3D*	theNormals = findVertexNormals( tmData );
+		
+		if (theNormals != NULL)
+		{
+			int	i;
+			TQ3ColorRGB		displayColor;
+			TQ3LineData		lineData;
+			TQ3Vector3D		normVec;
+			TQ3Object		lineOb, pushOb, popOb, shaderOb;
+			float	displayLen = calcNormalDisplayLength( tmData );
+			chooseNormalDisplayColor( tmData, &displayColor );
+			lineData.lineAttributeSet = Q3AttributeSet_New();
+			Q3AttributeSet_Add( lineData.lineAttributeSet, kQ3AttributeTypeDiffuseColor,
+				&displayColor );
+			lineData.vertices[0].attributeSet = NULL;
+			lineData.vertices[1].attributeSet = NULL;
+			
+			// Make lines unaffected by light
+			pushOb = Q3Push_New();
+			(*sSubRenderStandardMethod)( inView, pushOb );
+			Q3Object_Dispose( pushOb );
+			shaderOb = Q3NULLIllumination_New();
+			(*sSubRenderStandardMethod)( inView, shaderOb );
+			Q3Object_Dispose( shaderOb );
+			
+			
+			for (i = 0; i < tmData->numPoints; ++i)
+			{
+				lineData.vertices[0].point = tmData->points[i];
+				Q3FastVector3D_Scale( &theNormals[i], displayLen, &normVec );
+				Q3FastPoint3D_Vector3D_Add( &tmData->points[i], &normVec,
+					&lineData.vertices[1].point );
+				
+				lineOb = Q3Line_New( &lineData );
+				
+				(*sSubRenderStandardMethod)( inView, lineOb );
+				
+				Q3Object_Dispose( lineOb );
+			}
+			
+			popOb = Q3Pop_New();
+			(*sSubRenderStandardMethod)( inView, popOb );
+			Q3Object_Dispose( popOb );
+			Q3Object_Dispose( lineData.lineAttributeSet );
+		}
+		
+		Q3TriMesh_UnlockData( inTriMesh );
+	}
+}
+
+
+
+
+
+//=============================================================================
+//      calcFaceCenter : Find the center of a face of a TriMesh.
+//-----------------------------------------------------------------------------
+static void calcFaceCenter( const TQ3TriMeshData* inTMData, int inFaceNum, TQ3Point3D* outCenter )
+{
+	Q3Point3D_RRatio( &inTMData->points[ inTMData->triangles[inFaceNum].pointIndices[0] ],
+		&inTMData->points[ inTMData->triangles[inFaceNum].pointIndices[1] ],
+		1.0f, 1.0f, outCenter );
+	Q3Point3D_RRatio( &inTMData->points[ inTMData->triangles[inFaceNum].pointIndices[2] ],
+		outCenter, 1.0f, 2.0f, outCenter );
+}
+
+
+
+
+
+//=============================================================================
+//      displayFaceNormals : Display triangle normals of a TriMesh as lines.
+//-----------------------------------------------------------------------------
+static void displayFaceNormals( TQ3Object inTriMesh, TQ3ViewObject inView )
+{
+	TQ3TriMeshData*	tmData = NULL;
+	if (kQ3Success == Q3TriMesh_LockData( inTriMesh, kQ3True, &tmData ))
+	{
+		const TQ3Vector3D*	theNormals = findFaceNormals( tmData );
+		
+		if (theNormals != NULL)
+		{
+			int	i;
+			TQ3ColorRGB		displayColor;
+			TQ3LineData		lineData;
+			TQ3Vector3D		normVec;
+			TQ3Object		lineOb, pushOb, popOb, shaderOb;
+			float	displayLen = calcNormalDisplayLength( tmData );
+			chooseNormalDisplayColor( tmData, &displayColor );
+			lineData.lineAttributeSet = Q3AttributeSet_New();
+			Q3AttributeSet_Add( lineData.lineAttributeSet, kQ3AttributeTypeDiffuseColor,
+				&displayColor );
+			lineData.vertices[0].attributeSet = NULL;
+			lineData.vertices[1].attributeSet = NULL;
+			
+			// Make lines unaffected by light
+			pushOb = Q3Push_New();
+			(*sSubRenderStandardMethod)( inView, pushOb );
+			Q3Object_Dispose( pushOb );
+			shaderOb = Q3NULLIllumination_New();
+			(*sSubRenderStandardMethod)( inView, shaderOb );
+			Q3Object_Dispose( shaderOb );
+			
+			
+			for (i = 0; i < tmData->numTriangles; ++i)
+			{
+				calcFaceCenter( tmData, i, &lineData.vertices[0].point );
+				Q3FastVector3D_Scale( &theNormals[i], displayLen, &normVec );
+				Q3FastPoint3D_Vector3D_Add( &lineData.vertices[0].point, &normVec,
+					&lineData.vertices[1].point );
+				
+				lineOb = Q3Line_New( &lineData );
+				
+				(*sSubRenderStandardMethod)( inView, lineOb );
+				
+				Q3Object_Dispose( lineOb );
+			}
+			
+			popOb = Q3Pop_New();
+			(*sSubRenderStandardMethod)( inView, popOb );
+			Q3Object_Dispose( popOb );
+			Q3Object_Dispose( lineData.lineAttributeSet );
+		}
+		
+		Q3TriMesh_UnlockData( inTriMesh );
+	}
+}
+
+
+
+
+
+//=============================================================================
+//      submitForRenderMethod : View method for rendering retained objects.
+//-----------------------------------------------------------------------------
+static TQ3Status submitForRenderMethod( TQ3ViewObject inView, TQ3Object theObject )
+{
+	TQ3Status	theStatus = (*sSubRenderStandardMethod)( inView, theObject );
+	
+	if (Q3Object_IsType( theObject, kQ3GeometryTypeTriMesh ))
+	{
+		if (gShowVertexNormals)
+		{
+			displayVertexNormals( theObject, inView );
+		}
+		if (gShowFaceNormals)
+		{
+			displayFaceNormals( theObject, inView );
+		}
+	}
+	
+	return theStatus;
+}
+
+
+
+
+
+//=============================================================================
+//      viewMetaHandler : View subclass metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+viewMetaHandler( TQ3XMethodType      methodType )
+{
+	TQ3XFunctionPointer	theMethod = NULL;
+	
+	switch (methodType)
+	{
+		case kQ3XMethodTypeViewSubmitRetainedRender:
+			theMethod = (TQ3XFunctionPointer) submitForRenderMethod;
+			break;
+	}
+	
+	return theMethod;
+}
+
+#endif
+
+
+
+
+
+//=============================================================================
+//      appCreateView : Create the view, a custom view except Mac Classic.
+//-----------------------------------------------------------------------------
+static TQ3ViewObject
+appCreateView()
+{
+	TQ3ViewObject	theView;
+
+#if TARGET_API_MAC_OS8
+	theView = Q3View_New();
+#else
+
+	if (sMyViewClass == NULL)
+	{
+		TQ3XObjectClass viewClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeView );
+		sSubRenderStandardMethod = (TQ3XViewSubmitRetainedMethod)
+			Q3XObjectClass_GetMethod( viewClass,
+				kQ3XMethodTypeViewSubmitRetainedRender );
+		
+		sMyViewClass = Q3XObjectHierarchy_RegisterClass( kQ3ObjectTypeView,
+			&sMyViewType, "ToggleNormalView", viewMetaHandler, NULL, 0, 0 );
+	}
+	
+	theView = Q3XObjectHierarchy_NewObject( sMyViewClass, NULL );
+#endif
+	
+	return theView;
+}
+
+
+
+
+
 //=============================================================================
 //      appConfigureView : Configure the view.
 //-----------------------------------------------------------------------------
@@ -2642,6 +2994,16 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemToggleTexture:
 			gShowTexture = (TQ3Boolean) !gShowTexture;
 			break;
+	
+	#if !TARGET_API_MAC_OS8
+		case kMenuItemToggleVertexNormals:
+			gShowVertexNormals = (TQ3Boolean) !gShowVertexNormals;
+			break;
+
+		case kMenuItemToggleTriangleNormals:
+			gShowFaceNormals = (TQ3Boolean) !gShowFaceNormals;
+			break;
+	#endif
 		
 		case kMenuItemToggleLights:
 			toggleLights( theView );
@@ -3029,7 +3391,7 @@ App_Initialise(void)
 
 	// Initialise Qut
 	Qut_CreateWindow("Geom Test", 300, 300, kQ3True);
-	Qut_CreateView(appConfigureView);
+	Qut_CreateView(appCreateView, appConfigureView);
 	Qut_SetRenderFunc(appRender);
 	Qut_SetRenderPreFunc(appPreRender);
 	Qut_SetMouseDownFunc(appMouseDown);
@@ -3063,6 +3425,10 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Local Bounding Sphere");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Texture");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Lights");
+#if !TARGET_API_MAC_OS8
+	Qut_CreateMenuItem(kMenuItemLast, "Toggle Vertex Normals");
+	Qut_CreateMenuItem(kMenuItemLast, "Toggle Triangle Normals");
+#endif
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Load Model...");
 	Qut_CreateMenuItem(kMenuItemLast, "Save Model...");
