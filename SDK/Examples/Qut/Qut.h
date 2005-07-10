@@ -170,6 +170,7 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
+typedef TQ3ViewObject (*qutFuncAppCreateView)();
 typedef void (*qutFuncAppConfigureView)(TQ3ViewObject			theView,
 										TQ3DrawContextObject	theDrawContext,
 										TQ3CameraObject			theCamera);
@@ -196,7 +197,8 @@ void	App_Terminate(void);
 
 
 // Qut - Platform independent
-void			Qut_CreateView(qutFuncAppConfigureView appConfigureView);
+void			Qut_CreateView(qutFuncAppCreateView appCreateView,
+								qutFuncAppConfigureView appConfigureView);
 void			Qut_CalcBounds(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingBox *theBounds);
 void			Qut_CalcBoundingSphere(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingSphere *theBoundingSphere);
 void			Qut_SubmitDefaultState(TQ3ViewObject theView);
