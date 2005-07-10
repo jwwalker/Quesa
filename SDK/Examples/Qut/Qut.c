@@ -304,7 +304,7 @@ qut_create_defaults(TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 #pragma mark -
 void
-Qut_CreateView(qutFuncAppConfigureView appConfigureView)
+Qut_CreateView( qutFuncAppCreateView appCreateView, qutFuncAppConfigureView appConfigureView )
 {   TQ3DrawContextObject    theDrawContext;
     TQ3Status               qd3dStatus;
     TQ3CameraObject         theCamera;
@@ -321,7 +321,11 @@ Qut_CreateView(qutFuncAppConfigureView appConfigureView)
     if (theDrawContext != NULL && theCamera != NULL)
         {
         // Create the view
-        gView = Q3View_New();
+        if (appCreateView != NULL)
+        	gView = (*appCreateView)();
+        else
+	        gView = Q3View_New();
+	    
         if (gView != NULL)
             {
             // Configure the view
