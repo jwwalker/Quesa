@@ -87,22 +87,6 @@
 #include "CartoonRenderer.h"
 #include "GLPrefix.h"
 
-#if QUESA_OS_MACINTOSH
-	#if TARGET_RT_MAC_MACHO
-		#include <OpenGL/glext.h>
-	#else
-		#include <glext.h>
-	#endif
-#elif QUESA_OS_COCOA
-	#include <OpenGL/glext.h>
-#else
-	// NOTE: this include file is not provided with Win32 sdk
-	// you can get it at <http://oss.sgi.com/projects/ogl-sample/ABI/glext.h>
-	// and put it in your GL directory (search for gl.h to find it)
-	#include <GL/glext.h>
-#endif
-
-
 #include <cstdlib>
 #include <cmath>
 
@@ -131,11 +115,14 @@ const int	kShadingTextureWidth	= 32;
 
 static 	TQ3ObjectType		sRendererType = 0;
 
-
-#if !QUESA_OS_WIN32
-	typedef void (* PFNGLACTIVETEXTUREARBPROC) (GLenum texture);
-	typedef void (* PFNGLCLIENTACTIVETEXTUREARBPROC) (GLenum texture);
+// In lieu of glext.h
+#ifndef GL_ARB_multitexture
+	#define GL_TEXTURE0_ARB                   0x84C0
+	#define GL_TEXTURE1_ARB                   0x84C1
 #endif
+
+typedef void (* EQ3ActiveTextureARBProcPtr) (GLenum texture);
+typedef void (* EQ3ClientActiveTextureARBProcPtr) (GLenum texture);
 
 
 namespace
@@ -211,8 +198,8 @@ namespace
 		void SetActiveTextureARB(int n);
 		void DisableMultiTexturing();
 
-		PFNGLACTIVETEXTUREARBPROC 		m_glActiveTextureARB;
-		PFNGLCLIENTACTIVETEXTUREARBPROC m_glClientActiveTextureARB;
+		EQ3ActiveTextureARBProcPtr 		m_glActiveTextureARB;
+		EQ3ClientActiveTextureARBProcPtr m_glClientActiveTextureARB;
 		
 		GLboolean	m_savedLightEnabled[ kNumLightsToSet ];
 		GLboolean	m_savedLightingEnabled;
