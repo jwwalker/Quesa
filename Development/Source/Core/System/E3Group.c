@@ -1974,9 +1974,7 @@ TQ3Status
 e3group_display_ordered_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 									TQ3Object toObject,   void  * toPrivateData)
 {
-	E3OrderedDisplayGroup*	toInstanceData = (E3OrderedDisplayGroup*) toPrivateData ;
-	const E3OrderedDisplayGroup*	fromInstanceData =
-		(const E3OrderedDisplayGroup*) fromPrivateData ;
+	const TQ3XGroupPosition*	fromListHeads = (const TQ3XGroupPosition*) fromPrivateData ;
 	TQ3Status	status = kQ3Success;
 	const TQ3XGroupPosition*	pos;
 	TQ3Object	dupObject;
@@ -1990,12 +1988,12 @@ e3group_display_ordered_duplicate(	TQ3Object fromObject, const void *fromPrivate
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData),   kQ3Failure);
 
 	// Initialise our instance data
-	e3group_display_ordered_new( toObject, toInstanceData, NULL );
+	e3group_display_ordered_new( toObject, NULL, NULL );
 	
 	// Loop through the members of the "from" group, duplicating and adding to "to"
 	for (i = 0; i < kQ3XOrderIndex_Count; ++i)
 	{
-		fromListHead = &fromInstanceData->listHeads[i];
+		fromListHead = &fromListHeads[i];
 		
 		for (pos = fromListHead->next; pos != fromListHead;
 			pos = pos->next)
