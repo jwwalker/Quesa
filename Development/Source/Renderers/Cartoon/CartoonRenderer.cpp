@@ -290,15 +290,15 @@ void* CCartoonRendererQuesa::GetLocalTextureMemory()
 
 void CCartoonRendererQuesa::BuildLocalTexture()
 {
+	// save the current bound texture, if any
+	GLint	savedTexture = 0;
+	glGetIntegerv( GL_TEXTURE_BINDING_2D, &savedTexture );
+	
 	CHECK_GL_ERROR;
 	DeleteLocalTexture();
 
 	glGenTextures(1, &m_nLocalTextureID);
 	CHECK_GL_ERROR;
-	
-	// save the current bound texture, if any
-	GLint	savedTexture = 0;
-	glGetIntegerv( GL_TEXTURE_BINDING_2D, &savedTexture );
 	
 	glBindTexture(GL_TEXTURE_2D, m_nLocalTextureID);
 	CHECK_GL_ERROR;
