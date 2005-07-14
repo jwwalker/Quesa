@@ -115,6 +115,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_LDFLAGS = "-seg1addr 0x12000000";
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -155,7 +156,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
 				INFOPLIST_FILE = "";
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@executable_path/../Frameworks/";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Dynamic;
 				OTHER_CFLAGS = "-DQUESA_OS_MACINTOSH=1 -DTARGET_API_MAC_CARBON=1";
@@ -3857,138 +3858,207 @@
 			fileRef = AB83B5D8055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5F1055E72B90034F56A = {
 			fileRef = AB83B5D9055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5F2055E72B90034F56A = {
 			fileRef = AB83B5DA055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5F3055E72B90034F56A = {
 			fileRef = AB83B5DB055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5F4055E72B90034F56A = {
 			fileRef = AB83B5DC055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5F5055E72B90034F56A = {
 			fileRef = AB83B5DD055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5F6055E72B90034F56A = {
 			fileRef = AB83B5DE055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5F7055E72B90034F56A = {
 			fileRef = AB83B5DF055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5F8055E72B90034F56A = {
 			fileRef = AB83B5E0055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5F9055E72B90034F56A = {
 			fileRef = AB83B5E1055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5FA055E72B90034F56A = {
 			fileRef = AB83B5E2055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5FB055E72B90034F56A = {
 			fileRef = AB83B5E3055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5FC055E72B90034F56A = {
 			fileRef = AB83B5E4055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5FD055E72B90034F56A = {
 			fileRef = AB83B5E5055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5FE055E72B90034F56A = {
 			fileRef = AB83B5E6055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B5FF055E72B90034F56A = {
 			fileRef = AB83B5E7055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B600055E72B90034F56A = {
 			fileRef = AB83B5E8055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B601055E72B90034F56A = {
 			fileRef = AB83B5E9055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B602055E72B90034F56A = {
 			fileRef = AB83B5EA055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B603055E72B90034F56A = {
 			fileRef = AB83B5EB055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B604055E72B90034F56A = {
 			fileRef = AB83B5EC055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B605055E72B90034F56A = {
 			fileRef = AB83B5ED055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B606055E72B90034F56A = {
 			fileRef = AB83B5EE055E72B90034F56A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 		AB83B949055E77870034F56A = {
