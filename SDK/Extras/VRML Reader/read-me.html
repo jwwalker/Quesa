@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd"> <html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>VRML Reader Plugin for Quesa</title>
+</head>
+<body>
+
+<h1>About the VRML Reader</h1>
+
+<p>This is a Quesa plug-in file format reader for the VRML file format (virtual
+reality markup language), versions 1 and 2.  This makes it possible to load 3D
+objects in VRML format into Quesa.  Not all VRML features are implemented. In
+particular, VRML nodes relating to interactivity, lights, and viewpoints are
+ignored.</p>
+
+<p>The VRML Reader plug-in was created by James W. Walker, but may have been
+improved later by other Quesa developers.</p>
+
+<h1>License</h1>
+
+<p>Like Quesa itself, the plug-in is free and open source with a BSD-style
+license, as follows:</p>
+
+<blockquote>
+
+<p>Copyright (c) 2005, Quesa Developers. All rights reserved.</p>
+
+<p> For the current release of Quesa, please see: <a
+href="http://www.quesa.org/">&lt;http://www.quesa.org/&gt;</a></p>
+
+<p>  Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li> Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+
+<li> Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation and/or
+other materials provided with the distribution.</li>
+
+<li> Neither the name of Quesa nor the names of its contributors may be used to
+endorse or promote products derived from this software without specific prior
+written permission.</li>
+</ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+
+</blockquote>
+
+<h1>Compiling Sources</h1>
+
+<p>The source code for the plug-in is available by <a
+href="https://sourceforge.net/cvs/?group_id=45158">CVS</a> along with the rest
+of the Quesa source.  At this writing, the plugin source code comes with a
+project file for the CodeWarrior 9 IDE, suitable for building binaries for
+Macintosh and Windows.  If you must support another platform or use another
+compiler, here are some important points:</p>
+
+<ul>
+<li>The plug-in requires a recent version of the <a
+href="http://www.boost.org">Boost</a> sources.  You will need to set up access
+paths so that Boost headers can be found.</li>
+
+<li>The plug-in uses the Spirit parser library within Boost.  This makes heavy
+use of template metaprogramming, so you will need a C++ compiler that supports
+the standards fairly well.</li>
+
+<li>None of the functions in the plug-in need to be exported, but you must
+arrange for the appropriate function in the <code>main.cp</code> file to be
+called when the plug-in is loaded.</li>
+
+<li>The way Quesa recognizes plug-ins is platform-dependent:
+	<ul>
+		<li>On Windows, a plug-in is a DLL with the extension
+		<code>.xq3</code>.</li>
+		
+		<li>On Macintosh, when using the CFM binary format (usually used for
+		older programs that support OS 9), a plug-in is a shared library with
+		the HFS file type 'shlb' and creator code 'Q3XT'.</li>
+		
+		<li>On Macintosh, when using the Mach-O binary format, a plug-in is a
+		bundle package with the extension "<code>.quesaplug</code>".</li>
+	</ul> </li>
+</ul>
+
+<h1>Installing Binaries</h1>
+
+<p>Plug-in binaries can be loaded by Quesa in several locations, which depend
+upon the platform.</p>
+
+<h2>Mac OS X, CFM format</h2>
+
+<p>Quesa plug-ins can be found in the following locations.  These locations may
+not all be distinct.</p>
+
+<ul>
+
+<li>The folder containing Quesa</li>
+<li>The folder containing the application</li>
+<li>/Library/CFMSupport</li>
+<li>~/Library/CFMSupport, where ~ stands for the home folder</li>
+<li>The Contents/PlugIns folder of the application bundle, if the application
+is bundled</li>
+
+</ul>
+
+<h2>Mac OS X, Mach-O format</h2>
+
+<p>Quesa plug-ins can be found in the following locations. </p>
+
+<ul>
+<li>The folder containing the application</li>
+<li>The Contents/PlugIns
+folder of the application bundle, if the application is bundled</li>
+</ul>
+
+<h2>Mac OS 9</h2>
+
+<p>Quesa plug-ins can be found in the following locations. </p>
+
+<ul>
+<li>The folder containing Quesa</li>
+<li>The folder containing the application</li>
+<li>The Extensions folder within the System Folder</li>
+</ul>
+
+<h2>Windows</h2>
+
+<p>Quesa plug-ins can be found in the following locations. </p>
+
+<ul>
+<li>The default directory (typically the one containing Quesa)</li>
+<li>The system directory</li>
+<li>The Windows directory</li>
+</ul>
+
+<h1>Adapting Applications for the VRML Reader</h1>
+
+<p>For the most part, you just drop in the plug-in and it works.  However, there
+are a few ways in which in may be appropriate to change the host
+application.</p>
+
+<p>First, if the application allows 3DMF files to be opened using an Open dialog
+or by drag and drop, it may need to be modified to recognize VRML files by the
+usual <code>.wrl</code> extension.</p>
+
+<p>Second, consider the fact that some VRML files use external texture images. 
+In VRML 2, this looks something like</p>
+
+<blockquote><pre><code>
+ImageTexture {
+    url "skin.jpg"
+}
+</code></pre></blockquote>
+
+<p>while in VRML 1 it would look like:</p>
+
+<blockquote><pre><code>
+Texture2 {
+    filename "skin.png"
+}
+</code></pre></blockquote>
+
+<p>The image may be specified by a simple file name, as shown, or by a relative
+file name or Internet URL.  The VRML plug-in does not know how to find your
+files or how to read any image formats, so you need to provide a callback
+function pointer.  The function pointer should have the type:</p>
+
+<blockquote><pre><code>
+typedef TQ3TextureObject (*LoadTexProcPtr)(
+    const char* inURL,
+    TQ3StorageObject inStorage );
+</code></pre></blockquote>
+
+<p>The application passes the texture callback to the plug-in by setting a
+property on the storage object containing the VRML data:</p>
+
+<blockquote><pre><code>
+LoadTexProcPtr	funcPtr = TextureImportCallback;
+Q3Object_SetProperty( storageObj, 'TxIm', sizeof(LoadTexProcPtr),
+    &amp;funcPtr );
+</code></pre></blockquote>
+
+<p>The first parameter received by the callback, <code>inURL</code>, is simply
+the file name or URL specified in the VRML code, with a NUL terminator.  You
+should assume that its character encoding is UTF-8, though in most cases it will
+be simple ASCII.  The second parameter, the storage object, is passed so that
+information can be passed between the callback and the rest of the application. 
+For instance, at the same time the application sets the object property defining
+the callback, it may want to attach another object property recording the
+directory in which the VRML file was found.</p>
+
+<p>Third and least important, the application can set a property of type 'Debg'
+on the storage object containing the VRML data.  When the import process
+finishes, this property will be replaced by a stream of text telling about what
+went on, and possibly went wrong.</p>
+
+<h1>Feedback and Bug Reporting</h1>
+
+<p>You can ask questions about the VRML Reader on the <a
+href="https://sourceforge.net/mail/?group_id=45158">quesa-develop mailing
+list</a>. To report a bug in the VRML reader, go to the <a
+href="https://sourceforge.net/tracker/?group_id=45158&atid=442052">Quesa bug
+tracker</a>, submit a bug, and assign it the "VRML Reader" category.  It will
+usually be helpful to attach a sample file to the bug report.</p>
+
+</body> </html>
