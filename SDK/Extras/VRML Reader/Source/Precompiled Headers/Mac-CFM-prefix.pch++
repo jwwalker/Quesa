@@ -1,0 +1,19 @@
+#pragma once on
+
+#pragma precompile_target "MacHeadersCarbon++"
+
+#define TARGET_API_MAC_CARBON 1
+
+#define  QUESA_OS_MACINTOSH  1
+
+#define		BOOST_USER_CONFIG	"boost-user-config.h"
+
+
+// Prevent Debugging.h from getting indirectly included
+#define	__DEBUGGING__	1
+
+#include "MacHeaders.c"
+
+#include "VRML-reader-prefix.h"
+
+#undef __DEBUGGING__

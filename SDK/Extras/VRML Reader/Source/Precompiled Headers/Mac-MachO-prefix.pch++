@@ -1,0 +1,22 @@
+#pragma precompile_target "MacHeadersMacOSX++"
+
+
+#pragma once on
+
+#define TARGET_API_MAC_OSX	 1
+
+#define  _MSL_USING_MW_C_HEADERS  0
+
+#define  QUESA_OS_MACINTOSH  1
+
+#define		BOOST_USER_CONFIG	"boost-user-config.h"
+
+
+// Prevent Debugging.h from getting indirectly included
+#define	__DEBUGGING__	1
+
+
+#include "MacHeadersMach-O.c"
+
+
+#undef __DEBUGGING__
