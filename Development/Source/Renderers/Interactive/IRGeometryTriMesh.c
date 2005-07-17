@@ -1310,7 +1310,39 @@ ir_geom_trimesh_render(TQ3InteractiveData *instanceData,TQ3VertexArray *vertexAr
 		}
 
 	else
+		{
 		glDrawElements(GL_TRIANGLES, vertexArray->numIndices, GL_UNSIGNED_INT, vertexArray->theIndices);
+		
+		// If we do not have the separate specular color extension, simulate it.
+		if ( instanceData->stateTextureActive &&
+			(instanceData->glExtensions.separateSpecularColor == kQ3False) &&
+			(instanceData->stateViewIllumination == kQ3IlluminationTypePhong) )
+			{
+			glPushAttrib( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_LIGHTING_BIT );
+			
+			// Set diffuse color to black.
+			const GLfloat	kBlackColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+			glDisable( GL_COLOR_MATERIAL );
+			glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
+			
+			// Turn off writes to the depth buffer, but match on equal depth.
+			glDepthMask(GL_FALSE);
+			glDepthFunc( GL_EQUAL );
+			
+			// Turn off texturing.
+			glDisable(GL_TEXTURE_2D);
+			
+			// Add the specular highlights to the existing image.
+			glEnable(GL_BLEND);
+			glBlendFunc( GL_ONE, GL_ONE );
+			
+			// And draw again.
+			glDrawElements(GL_TRIANGLES, vertexArray->numIndices, GL_UNSIGNED_INT,
+				vertexArray->theIndices);
+			
+			glPopAttrib();
+			}
+		}
 }
 
 
