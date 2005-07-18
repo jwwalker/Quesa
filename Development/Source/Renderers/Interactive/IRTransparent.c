@@ -5,7 +5,7 @@
         Quesa interactive renderer transparency support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -567,6 +567,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 									0.0f, 0.0f, 0.0f, 1.0f
 								};
 	GLboolean					savedDepthMask;
+	TQ3Boolean					shouldLightingBeEnabled, isLightingEnabled;
 
 
 
@@ -605,6 +606,9 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	    glGetBooleanv( GL_DEPTH_WRITEMASK, &savedDepthMask );
 		glDepthMask(GL_FALSE);
 		
+		isLightingEnabled = kQ3True;
+		glEnable(GL_LIGHTING);
+		
 		// The first pass will not include specularity, so we set the specular color black.
 		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, kBlackColor );
 
@@ -631,6 +635,21 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 				cameraTransformData.cameraToFrustum = ptrs[n]->cameraToFrustum;
 				Q3CameraTransform_Submit(&cameraTransformData, theView);
 			}
+			
+			
+			
+			// Update lighting
+			shouldLightingBeEnabled = (TQ3Boolean) (ptrs[n]->illumination != kQ3IlluminationTypeNULL);
+			if ( shouldLightingBeEnabled && !isLightingEnabled )
+			{
+				glEnable(GL_LIGHTING);
+				isLightingEnabled = kQ3True;
+			}
+			else if ( !shouldLightingBeEnabled && isLightingEnabled )
+			{
+				glDisable(GL_LIGHTING);
+				isLightingEnabled = kQ3False;
+			}
 
 
 
@@ -646,6 +665,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 			glBlendFunc( GL_ONE, GL_ONE );
 			glDisable( GL_COLOR_MATERIAL );
 			glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
+			glEnable(GL_LIGHTING);
 		
 			for (n = 0; n < numPrims; ++n)
 				{
