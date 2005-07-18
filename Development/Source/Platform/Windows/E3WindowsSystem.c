@@ -132,13 +132,15 @@ e3windowsystem_loadplugins(LPTSTR dir, LPTSTR ext)
  
 
 	
-	do { 
-		lstrcpy(szFileName, dir); 
-		lstrcat(szFileName, TEXT("\\")); 
-		lstrcat(szFileName, FindFileData.cFileName); 
-		
-		lastLoadedModule = e3windowsystem_load1plugin(szFileName);
-
+	do {
+		if (FindFileData.cFileName[0] != '.')
+		{
+			lstrcpy(szFileName, dir); 
+			lstrcat(szFileName, TEXT("\\")); 
+			lstrcat(szFileName, FindFileData.cFileName); 
+			
+			lastLoadedModule = e3windowsystem_load1plugin(szFileName);
+		}
 	} while (FindNextFile(hFindFile, &FindFileData) 
 						|| (GetLastError() != ERROR_NO_MORE_FILES)); 
  
