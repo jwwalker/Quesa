@@ -4149,7 +4149,7 @@
 
                 <!-- Settings for "Remote Debug" panel -->
                 <SETTING><NAME>Enabled</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>ConnectionName</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>ConnectionName</NAME><VALUE>Dell</VALUE></SETTING>
                 <SETTING><NAME>DownloadPath</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>RemoteAppPath</NAME><VALUE></VALUE></SETTING>
@@ -6088,15 +6088,19 @@
                 <!-- Settings for "PPC Global Optimizer" panel -->
                 <SETTING><NAME>GlobalOptimizer_PPC_optimizationlevel</NAME><VALUE>Level3</VALUE></SETTING>
                 <SETTING><NAME>GlobalOptimizer_PPC_optfor</NAME><VALUE>Speed</VALUE></SETTING>
-                <PANELDATA><NAME>PPC Linker</NAME><VALUE>
-                    00070101000000000143464D5F56524D4C5F5265616465725F456E7472790045
-                    6E74727900000000000000000000000000000000000000000000000000000000
-                    000000005F5F737461005F737461727400000000000000000000000000000000
-                    0000000000000000000000000000000000000000000000000000000000000000
-                    000000005F5F74657243464D5F56524D4C5F5265616465725F45786974005F45
-                    7869740000000000000000000000000000000000000000000000000000000000
-                    00000000
-                </VALUE></PANELDATA>
+
+                <!-- Settings for "PPC Linker" panel -->
+                <SETTING><NAME>MWLinker_PPC_linksym</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_symfullpath</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_linkmap</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_nolinkwarnings</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_dontdeadstripinitcode</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_permitmultdefs</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_linkmode</NAME><VALUE>Fast</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_code_folding</NAME><VALUE>Templates</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_initname</NAME><VALUE>CFM_VRML_Reader_Entry</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_mainname</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>MWLinker_PPC_termname</NAME><VALUE>CFM_VRML_Reader_Exit</VALUE></SETTING>
 
                 <!-- Settings for "PPC Mac OS X Linker" panel -->
                 <SETTING><NAME>MWLinker_MacOSX_linksym</NAME><VALUE>0</VALUE></SETTING>
@@ -7490,7 +7494,7 @@
 
                 <!-- Settings for "Remote Debug" panel -->
                 <SETTING><NAME>Enabled</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>ConnectionName</NAME><VALUE></VALUE></SETTING>
+                <SETTING><NAME>ConnectionName</NAME><VALUE>Dell</VALUE></SETTING>
                 <SETTING><NAME>DownloadPath</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>RemoteAppPath</NAME><VALUE></VALUE></SETTING>
@@ -7922,7 +7926,7 @@
                 </SETTING>
 
                 <!-- Settings for "x86 Global Optimizer" panel -->
-                <SETTING><NAME>GlobalOptimizer_X86_optimizationlevel</NAME><VALUE>Level3</VALUE></SETTING>
+                <SETTING><NAME>GlobalOptimizer_X86_optimizationlevel</NAME><VALUE>Level1</VALUE></SETTING>
                 <SETTING><NAME>GlobalOptimizer_X86_optfor</NAME><VALUE>Speed</VALUE></SETTING>
 
                 <!-- Settings for "x86 Linker" panel -->
