@@ -80,6 +80,7 @@ namespace
 			rule<ScannerT>	arrayValue;
 			rule<ScannerT>	nodeGut, nodeGuts;
 			rule<ScannerT>	sfStringValue;
+			rule<ScannerT>	routeDeclaration;
 		};
 		
 		SParseState&		mState;
@@ -149,6 +150,7 @@ namespace
 	DECLARE_NORMAL_ACTION( FinishField );
 	DECLARE_NORMAL_ACTION( FinishUnbracketedArray );
 	DECLARE_NORMAL_ACTION( AppendQuotedStringToArray );
+	DECLARE_NORMAL_ACTION( FinishRoute );
 	
 	DECLARE_CHAR_ACTION( StartNode );
 	DECLARE_CHAR_ACTION( StartArray );
@@ -432,6 +434,16 @@ void	FinishTopNode::operator()( const char* inStart, const char* inEnd ) const
 	}
 }
 
+void	FinishRoute::operator()( const char* inStart, const char* inEnd ) const
+{
+#pragma unused( inStart, inEnd )
+	// For now we do nothing with ROUTE, just throw away the 4 identifier strings.
+	mState.mProgressStack.pop_back();
+	mState.mProgressStack.pop_back();
+	mState.mProgressStack.pop_back();
+	mState.mProgressStack.pop_back();
+}
+
 void	FinishField::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
@@ -559,9 +571,20 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 	
 	nodeGuts = *nodeGut;
 	
+	routeDeclaration
+		=	str_p("ROUTE")
+			>> identifier
+			>> ch_p('.')
+			>> identifier
+			>> str_p("TO")
+			>> identifier
+			>> ch_p('.')
+			>> identifier;
+	
 	startRule
 		=	*(
-				nodeDeclaration[ FinishTopNode(self.mState) ]
+				routeDeclaration[ FinishRoute(self.mState) ]
+			|	nodeDeclaration[ FinishTopNode(self.mState) ]
 			);
 }
 
