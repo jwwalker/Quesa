@@ -43,6 +43,7 @@
 #include "Texture2V1ToObject.h"
 
 #include "CreatePixelTexture.h"
+#include "CreateTextureFromURL.h"
 #include "CVRMLReader.h"
 #include "IsKeyPresent.h"
 #include "PolyValue.h"
@@ -62,16 +63,7 @@ static CQ3ObjectRef	CreateImageTexture( PolyValue::Dictionary& textureDict,
 		
 		if (not theURL.empty())
 		{
-			TQ3StorageObject	theStorage = inReader.GetStorage();
-			typedef TQ3Object (*TextureGetter)( const char* inURL,
-										TQ3StorageObject inStorage );
-			TextureGetter	getterCallback = NULL;
-			if (kQ3Success == Q3Object_GetProperty( theStorage,
-				kTextureImportCallbackProperty,
-				sizeof(getterCallback), NULL, &getterCallback ))
-			{
-				theTexture = CQ3ObjectRef( getterCallback( theURL.c_str(), theStorage ) );
-			}
+			theTexture = CreateTextureFromURL( theURL.c_str(), inReader );
 		}
 	}
 	

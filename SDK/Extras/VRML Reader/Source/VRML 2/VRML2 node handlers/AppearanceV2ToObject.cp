@@ -44,6 +44,7 @@
 
 #include "CQ3ObjectRef.h"
 #include "CreatePixelTexture.h"
+#include "CreateTextureFromURL.h"
 #include "CVRMLReader.h"
 #include "GetCachedObject.h"
 #include "IsKeyPresent.h"
@@ -166,19 +167,6 @@ static void	MaterialV2ToObject( PolyValue& ioNode, CVRMLReader& inReader,
 	}
 }
 
-static CQ3ObjectRef CreateTextureFromURL( const std::string& inURL, CVRMLReader& inReader )
-{
-	CQ3ObjectRef	theTexture;
-	TQ3StorageObject	theStorage = inReader.GetStorage();
-	typedef TQ3Object (*TextureGetter)( const char* inURL, TQ3StorageObject inStorage );
-	TextureGetter	getterCallback = NULL;
-	if (kQ3Success == Q3Object_GetProperty( theStorage, kTextureImportCallbackProperty,
-		sizeof(getterCallback), NULL, &getterCallback ))
-	{
-		theTexture = CQ3ObjectRef( getterCallback( inURL.c_str(), theStorage ) );
-	}
-	return theTexture;
-}
 
 static CQ3ObjectRef	CreateImageTexture( PolyValue::Dictionary& textureDict,
 										CVRMLReader& inReader )
@@ -188,7 +176,7 @@ static CQ3ObjectRef	CreateImageTexture( PolyValue::Dictionary& textureDict,
 	PolyValue&	urlValue( textureDict["url"] );
 	if (urlValue.GetType() == PolyValue::kDataTypeString)
 	{
-		theTexture = CreateTextureFromURL( urlValue.GetString(), inReader );
+		theTexture = CreateTextureFromURL( urlValue.GetString().c_str(), inReader );
 	}
 	else if (urlValue.GetType() == PolyValue::kDataTypeArray)
 	{
@@ -198,7 +186,7 @@ static CQ3ObjectRef	CreateImageTexture( PolyValue::Dictionary& textureDict,
 			const PolyValue&	firstURL( urlVec[0] );
 			if (firstURL.GetType() == PolyValue::kDataTypeString)
 			{
-				theTexture = CreateTextureFromURL( firstURL.GetString(), inReader );
+				theTexture = CreateTextureFromURL( firstURL.GetString().c_str(), inReader );
 			}
 		}
 	}
