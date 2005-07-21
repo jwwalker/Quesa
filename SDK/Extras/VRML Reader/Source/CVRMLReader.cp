@@ -55,11 +55,14 @@
 #include <cstring>
 #include <string>
 #include <sstream>
+#include <map>
 
 namespace
 {
 	const char*			kVRML1Header			= "#VRML V1.0 ascii";
 	const char*			kVRML2Header			= "#VRML V2.0 utf8";
+	
+	typedef		std::map< std::string, CQ3ObjectRef >	NameToTexture;
 }
 
 #pragma mark struct XVRMLReaderImp;
@@ -79,6 +82,9 @@ struct XVRMLReaderImp
 	SVRML1State&			GetVRML1State();
 	void					PushVRML1State();
 	void					PopVRML1State();
+	
+	void					CacheExternalTexture( const char* inURL, CQ3ObjectRef& inTexture );
+	CQ3ObjectRef			GetCachedExternalTexture( const char* inURL ) const;
 
 	CVRMLReader*			mSelf;
 	TQ3FFormatBaseData*		mBaseData;
@@ -86,6 +92,7 @@ struct XVRMLReaderImp
 	TQ3Uns32				mNextNodeIndex;
 	std::auto_ptr<std::ostringstream>	mDebugStream;
 	std::vector<SVRML1State>	mV1StateStack;
+	NameToTexture			mTextureCache;
 };
 
 XVRMLReaderImp::XVRMLReaderImp(
@@ -315,6 +322,25 @@ void			XVRMLReaderImp::PopVRML1State()
 	mV1StateStack.pop_back();
 }
 
+void		XVRMLReaderImp::CacheExternalTexture( const char* inURL, CQ3ObjectRef& inTexture )
+{
+	mTextureCache.insert( NameToTexture::value_type( inURL, inTexture ) );
+}
+
+CQ3ObjectRef	XVRMLReaderImp::GetCachedExternalTexture( const char* inURL ) const
+{
+	CQ3ObjectRef	theTexture;
+	
+	NameToTexture::const_iterator	found = mTextureCache.find( inURL );
+	
+	if (found != mTextureCache.end())
+	{
+		theTexture = found->second;
+	}
+	
+	return theTexture;
+}
+
 
 #pragma mark -
 
@@ -499,3 +525,28 @@ void			CVRMLReader::PopVRML1State()
 {
 	mImp->PopVRML1State();
 }
+
+/*!
+	@function			CacheExternalTexture
+	@abstract			Cache an external texture so that it need not be loaded again.
+	@param				inURL		The URL or file name given in the ImageTexure or
+									Texture2 node.
+	@param				inTexture	The Quesa texture object to cache.
+*/
+void	CVRMLReader::CacheExternalTexture( const char* inURL, CQ3ObjectRef& inTexture )
+{
+	mImp->CacheExternalTexture( inURL, inTexture );
+}
+
+/*!
+	@function			GetCachedExternalTexture
+	@abstract			Retrieve a Quesa texture object from the cache.
+	@param				inURL		The URL or file name given in the ImageTexure or
+									Texture2 node.
+	@result				A texture object or NULL.
+*/
+CQ3ObjectRef	CVRMLReader::GetCachedExternalTexture( const char* inURL ) const
+{
+	return mImp->GetCachedExternalTexture( inURL );
+}
+

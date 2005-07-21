@@ -44,6 +44,7 @@
 
 #include <Quesa.h>
 #include <QuesaIO.h>
+#include <CQ3ObjectRef.h>
 #include <memory>
 #include <iosfwd>
 
@@ -160,6 +161,24 @@ public:
 		@abstract			Pop the VRML 1 state stack.
 	*/
 	void					PopVRML1State();
+	
+	/*!
+		@function			CacheExternalTexture
+		@abstract			Cache an external texture so that it need not be loaded again.
+		@param				inURL		The URL or file name given in the ImageTexure or
+										Texture2 node.
+		@param				inTexture	The Quesa texture object to cache.
+	*/
+	void					CacheExternalTexture( const char* inURL, CQ3ObjectRef& inTexture );
+	
+	/*!
+		@function			GetCachedExternalTexture
+		@abstract			Retrieve a Quesa texture object from the cache.
+		@param				inURL		The URL or file name given in the ImageTexure or
+										Texture2 node.
+		@result				A texture object or NULL.
+	*/
+	CQ3ObjectRef			GetCachedExternalTexture( const char* inURL ) const;
 	
 private:
 	std::auto_ptr<XVRMLReaderImp>		mImp;
