@@ -44,12 +44,12 @@
 
 #include <Quesa.h>
 #include <QuesaIO.h>
-#include <CQ3ObjectRef.h>
 #include <memory>
 #include <iosfwd>
 
 struct XVRMLReaderImp;
 struct SVRML1State;
+class CQ3ObjectRef;
 
 /*!
 	@class		CVRMLReader
@@ -165,9 +165,11 @@ public:
 	/*!
 		@function			CacheExternalTexture
 		@abstract			Cache an external texture so that it need not be loaded again.
+		@discussion			When the client is unable to provide the texture, we want to
+							put NULL in the cache so that we do not keep pestering it.
 		@param				inURL		The URL or file name given in the ImageTexure or
 										Texture2 node.
-		@param				inTexture	The Quesa texture object to cache.
+		@param				inTexture	The Quesa texture object to cache, or NULL.
 	*/
 	void					CacheExternalTexture( const char* inURL, CQ3ObjectRef& inTexture );
 	
@@ -176,9 +178,12 @@ public:
 		@abstract			Retrieve a Quesa texture object from the cache.
 		@param				inURL		The URL or file name given in the ImageTexure or
 										Texture2 node.
-		@result				A texture object or NULL.
+		@param				outTexture	A texture object or NULL.
+		@result				True if we found the URL in the cache, regardless of whether
+							the associated texture was present or NULL.
 	*/
-	CQ3ObjectRef			GetCachedExternalTexture( const char* inURL ) const;
+	bool					GetCachedExternalTexture( const char* inURL,
+												CQ3ObjectRef& outTexture ) const;
 	
 private:
 	std::auto_ptr<XVRMLReaderImp>		mImp;
