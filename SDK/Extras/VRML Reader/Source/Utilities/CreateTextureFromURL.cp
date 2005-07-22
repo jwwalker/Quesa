@@ -45,6 +45,8 @@
 #include "CVRMLReader.h"
 #include "VRML-reader-prefix.h"
 
+#include <CQ3ObjectRef.h>
+
 /*!
 	@function		CreateTextureFromURL
 	
@@ -58,9 +60,11 @@
 */
 CQ3ObjectRef CreateTextureFromURL( const char* inURL, CVRMLReader& inReader )
 {
-	CQ3ObjectRef	theTexture( inReader.GetCachedExternalTexture( inURL ) );
+	CQ3ObjectRef	theTexture;
 	
-	if (not theTexture.isvalid())
+	bool	foundInCache = inReader.GetCachedExternalTexture( inURL, theTexture );
+	
+	if (not foundInCache)
 	{
 		TQ3StorageObject	theStorage = inReader.GetStorage();
 		typedef TQ3Object (*TextureGetter)( const char* inURL, TQ3StorageObject inStorage );
@@ -70,10 +74,7 @@ CQ3ObjectRef CreateTextureFromURL( const char* inURL, CVRMLReader& inReader )
 		{
 			theTexture = CQ3ObjectRef( getterCallback( inURL, theStorage ) );
 			
-			if (theTexture.isvalid())
-			{
-				inReader.CacheExternalTexture( inURL, theTexture );
-			}
+			inReader.CacheExternalTexture( inURL, theTexture );
 		}
 	}
 	return theTexture;
