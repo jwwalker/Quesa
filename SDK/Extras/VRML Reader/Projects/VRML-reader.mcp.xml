@@ -4245,11 +4245,11 @@
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>1</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -7614,11 +7614,11 @@
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>6</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>1</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>1</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -7635,6 +7635,14 @@
 
 #define QUESA_OS_WIN32 1
 #define		BOOST_USER_CONFIG	"boost-user-config.h"
+
+// Opt. level 2 breaks the code.  These are some specific optimizations
+// present in level 2 but not level 1.
+#pragma opt_common_subs on
+#pragma register_coloring on
+#pragma auto_align_stack on
+#pragma overlap_locals on
+#pragma fast_fp_to_int on
 </VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Warnings" panel -->
@@ -8698,7 +8706,7 @@
             </LINKORDER>
         </TARGET>
         <TARGET>
-            <NAME>Mac Mach-o Bundle R</NAME>
+            <NAME>Mac Mach-O Bundle R</NAME>
             <SETTINGLIST>
 
                 <!-- Settings for "Source Trees" panel -->
@@ -8750,7 +8758,7 @@
                         </SETTING>
                         <SETTING><NAME>Recursive</NAME><VALUE>false</VALUE></SETTING>
                         <SETTING><NAME>FrameworkPath</NAME><VALUE>false</VALUE></SETTING>
-                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
+                        <SETTING><NAME>HostFlags</NAME><VALUE>All - MacOS</VALUE></SETTING>
                     </SETTING>
                     <SETTING>
                         <SETTING><NAME>SearchPath</NAME>
@@ -8848,7 +8856,7 @@
                 <SETTING><NAME>Linker</NAME><VALUE>MacOS X PPC Linker</VALUE></SETTING>
                 <SETTING><NAME>PreLinker</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>PostLinker</NAME><VALUE></VALUE></SETTING>
-                <SETTING><NAME>Targetname</NAME><VALUE>Mac Mach-o Bundle R</VALUE></SETTING>
+                <SETTING><NAME>Targetname</NAME><VALUE>Mac Mach-O Bundle R</VALUE></SETTING>
                 <SETTING><NAME>OutputDirectory</NAME>
                     <SETTING><NAME>Path</NAME><VALUE>Output</VALUE></SETTING>
                     <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
@@ -9924,13 +9932,6 @@
                 </FILE>
                 <FILE>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Mac-MachO-prefix.pch++</PATH>
-                    <PATHFORMAT>Unix</PATHFORMAT>
-                    <FILEKIND>Text</FILEKIND>
-                    <FILEFLAGS>Debug</FILEFLAGS>
-                </FILE>
-                <FILE>
-                    <PATHTYPE>Name</PATHTYPE>
                     <PATH>ConeV2ToObject.cp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                     <FILEKIND>Text</FILEKIND>
@@ -10303,11 +10304,6 @@
                 </FILEREF>
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Mac-MachO-prefix.pch++</PATH>
-                    <PATHFORMAT>Unix</PATHFORMAT>
-                </FILEREF>
-                <FILEREF>
-                    <PATHTYPE>Name</PATHTYPE>
                     <PATH>ConeV2ToObject.cp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
@@ -10586,7 +10582,7 @@
         <ORDEREDTARGET><NAME>Mac CFM Shared Lib D</NAME></ORDEREDTARGET>
         <ORDEREDTARGET><NAME>Mac CFM Shared Lib R</NAME></ORDEREDTARGET>
         <ORDEREDTARGET><NAME>Mac Mach-O Bundle D</NAME></ORDEREDTARGET>
-        <ORDEREDTARGET><NAME>Mac Mach-o Bundle R</NAME></ORDEREDTARGET>
+        <ORDEREDTARGET><NAME>Mac Mach-O Bundle R</NAME></ORDEREDTARGET>
         <ORDEREDTARGET><NAME>Win32 DLL D</NAME></ORDEREDTARGET>
         <ORDEREDTARGET><NAME>Win32 DLL R</NAME></ORDEREDTARGET>
     </TARGETORDER>
