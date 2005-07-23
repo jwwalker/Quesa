@@ -50,9 +50,9 @@
 // Finder version 1 resource
 resource 'vers' (1) {
 	kNumVersionMajor,
-	kNumVersionMinor,
+	(kNumVersionMinor << 4) | kNumVersionBugfix,
 	final,
-	kNumVersionBugfix,
+	0,
 	verUS,
 	kStringVersion,
 	kStringVersion ", Copyright © 2005 Quesa Developers"
