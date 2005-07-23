@@ -661,6 +661,7 @@ enum {
         kQ3SharedTypeStorage                    = Q3_OBJECT_TYPE('s', 't', 'r', 'g'),
             kQ3StorageTypeMemory                = Q3_OBJECT_TYPE('m', 'e', 'm', 's'),
                 kQ3MemoryStorageTypeHandle      = Q3_OBJECT_TYPE('h', 'n', 'd', 'l'),
+            kQ3StorageTypePath                  = Q3_OBJECT_TYPE('Q', 's', 't', 'p'),
             kQ3StorageTypeUnix                  = Q3_OBJECT_TYPE('u', 'x', 's', 't'),
                 kQ3UnixStorageTypePath          = Q3_OBJECT_TYPE('u', 'n', 'i', 'x'),
             kQ3StorageTypeMacintosh             = Q3_OBJECT_TYPE('m', 'a', 'c', 'n'),

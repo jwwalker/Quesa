@@ -280,7 +280,6 @@ extern "C" {
 #define kQ3ObjectTypeCustomElementWire				Q3_OBJECT_TYPE(0xF0, 'e', 'w', 'i')
 #define kQ3ObjectTypeCustomElementProperties		Q3_OBJECT_TYPE(0xF0, 'e', 'p', 'r')
 #define kQ3ObjectTypeSetElement						Q3_OBJECT_TYPE('s', 'e', 't', 'e')
-#define kQ3StorageTypePath							Q3_OBJECT_TYPE('Q', 's', 't', 'p')
 #define kQ3ObjectType3DMF							Q3_OBJECT_TYPE('3', 'D', 'M', 'F')
 
 
