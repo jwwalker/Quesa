@@ -140,6 +140,21 @@ namespace
 		TQ3InteractiveData			irData;
 		CCartoonRendererQuesa*		cartooner;
 	};
+	
+	class StSaveLightingState
+	{
+	public:
+			StSaveLightingState()
+				{
+					glPushAttrib( GL_LIGHTING_BIT );
+				}
+			
+			~StSaveLightingState()
+				{
+					glPopAttrib();
+				}
+	};
+	
 
 	#pragma mark class CCartoonRendererQuesa
 	class CCartoonRendererQuesa
@@ -150,30 +165,36 @@ namespace
 		~CCartoonRendererQuesa(void);
 		
 		void	SubmitTriMesh( TQ3ViewObject theView, CartoonRendererData *cartoonInstanceData,
-							TQ3TriMeshData* geomData, TQ3Boolean hadAttributeTexture );
+							TQ3TriMeshData* geomData, TQ3Boolean hadAttributeTexture,
+							const TQ3Vector3D* vertNormals, const TQ3Param2D* texCoords );
 
 		void Init( bool inHasMultiTexture );
-		void DrawArrays(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
-			float* pFloatDiffuseColor, bool bAllreadyTextured );
-		void DrawArraysFakeMultitexture(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
-			float* pFloatDiffuseColor, bool bAllreadyTextured );
+		void DrawArrays(
+							const TQ3TriMeshData* geomData,
+							const TQ3Vector3D* vertNormals,
+							const TQ3Param2D* texCoords,
+							float* pFloatDiffuseColor,
+							bool bAllreadyTextured );
+		void DrawArraysFakeMultitexture(
+							const TQ3TriMeshData* geomData,
+							const TQ3Vector3D* vertNormals,
+							const TQ3Param2D* texCoords,
+							float* pFloatDiffuseColor,
+							bool bAllreadyTextured );
 
 		void SetInited(bool bOnOff = true);
 		bool IsInited();
 		bool m_bInited;
 		void* m_PlatformGLContextSaved;
 		
-		void	SaveLight();
-		void	RestoreLight();
-
 		void DrawJustLocalTexture();
 
 		void	DrawContours( TQ3ViewObject theView, TQ3TriMeshData* geomData,
-							int nFaces, float* pMemVerts, TQ3BackfacingStyle inBackfacing );
+							TQ3BackfacingStyle inBackfacing );
 		float	CalcContourWidth( TQ3ViewObject theView, TQ3TriMeshData* geomData );
-		void DrawContourArrays(int nFaces, float* pMemVerts, float lineWidth );
+		void DrawContourArrays( float lineWidth, const TQ3TriMeshData* geomData );
 
-		TQ3Param2D* GenShadeTVerts(int nFaces, float* pMemNormals);
+		TQ3Param2D* GenShadeTVerts( int nVerts, const TQ3Vector3D* pMemNormals );
 
 		std::vector<TQ3Param2D> m_arrShadeTVerts;
 
@@ -442,17 +463,15 @@ bool CCartoonRendererQuesa::IsInited()
 	return false;
 }
 
-TQ3Param2D* CCartoonRendererQuesa::GenShadeTVerts(int nFaces, float* _pMemNormals)
+TQ3Param2D* CCartoonRendererQuesa::GenShadeTVerts( int nVerts, const TQ3Vector3D* pMemNormals )
 {
-	TQ3Point3D* pMemNormals = (TQ3Point3D*)_pMemNormals;
-
-	if ((int)m_arrShadeTVerts.size() < (nFaces * 3))
+	if ((int)m_arrShadeTVerts.size() < nVerts)
 	{
-		m_arrShadeTVerts.resize(nFaces * 3);
-		memset(&m_arrShadeTVerts[0], 0, sizeof(TQ3Param2D) * nFaces * 3);
+		m_arrShadeTVerts.resize(nVerts);
+		memset(&m_arrShadeTVerts[0], 0, sizeof(TQ3Param2D) * nVerts);
 	}
 
-	TQ3Param2D* pMemShadeTVerts = (TQ3Param2D*)&m_arrShadeTVerts[0];
+	TQ3Param2D* pMemShadeTVerts = &m_arrShadeTVerts[0];
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);		
 
@@ -461,22 +480,24 @@ TQ3Param2D* CCartoonRendererQuesa::GenShadeTVerts(int nFaces, float* _pMemNormal
 
 	float fDotProd;
 
-	int nSz = nFaces * 3;
-	
-	for (int nIx = 0; nIx < nSz; ++nIx, ++pMemNormals, ++pMemShadeTVerts)
+	for (int nIx = 0; nIx < nVerts; ++nIx, ++pMemNormals, ++pMemShadeTVerts)
 	{
+		float	x =  pMemNormals->x;	// locals for faster access
+		float	y =  pMemNormals->y;
+		float	z =  pMemNormals->z;
+
 		// Transform the normal vector from world to eye coordinates
-		TQ3Vector3D	eyeNormal = 
+		TQ3Vector3D	eyeNormal =
 		{
-			pMemNormals->x * modelViewMatrix.value[0][0] +
-				pMemNormals->y * modelViewMatrix.value[1][0] +
-				pMemNormals->z * modelViewMatrix.value[2][0],
-			pMemNormals->x * modelViewMatrix.value[0][1] +
-				pMemNormals->y * modelViewMatrix.value[1][1] +
-				pMemNormals->z * modelViewMatrix.value[2][1],
-			pMemNormals->x * modelViewMatrix.value[0][2] +
-				pMemNormals->y * modelViewMatrix.value[1][2] +
-				pMemNormals->z * modelViewMatrix.value[2][2]
+			x * modelViewMatrix.value[0][0] +
+				y * modelViewMatrix.value[1][0] +
+				z * modelViewMatrix.value[2][0],
+			x * modelViewMatrix.value[0][1] +
+				y * modelViewMatrix.value[1][1] +
+				z * modelViewMatrix.value[2][1],
+			x * modelViewMatrix.value[0][2] +
+				y * modelViewMatrix.value[1][2] +
+				z * modelViewMatrix.value[2][2]
 		};
 
 		float	eyeNormalLen = Q3FastVector3D_Length( &eyeNormal );
@@ -519,52 +540,15 @@ static void SetUpLight( float inAmbientLevel = 1.4f )
 	glDisable( GL_LIGHT7 );
 }
 
-void	CCartoonRendererQuesa::SaveLight()
-{
-	glGetBooleanv( GL_LIGHTING, &m_savedLightingEnabled );
-	
-	for (int i = 0; i < kNumLightsToSet; ++i)
-	{
-		glGetBooleanv( GL_LIGHT0 + i, &m_savedLightEnabled[i] );
-	}
-	
-	glGetFloatv( GL_LIGHT_MODEL_AMBIENT, m_savedAmbientLight );
-}
-
-void	CCartoonRendererQuesa::RestoreLight()
-{
-	if (m_savedLightingEnabled)
-	{
-		glEnable( GL_LIGHTING );
-	}
-	else
-	{
-		glDisable( GL_LIGHTING );
-	}
-	
-	for (int i = 0; i < kNumLightsToSet; ++i)
-	{
-		if (m_savedLightEnabled[i])
-		{
-			glEnable( GL_LIGHT0 + i );
-		}
-		else
-		{
-			glDisable( GL_LIGHT0 + i );
-		}
-	}
-	
-	glLightModelfv( GL_LIGHT_MODEL_AMBIENT, m_savedAmbientLight );
-}
 
 void	CCartoonRendererQuesa::DrawContours( TQ3ViewObject theView, TQ3TriMeshData* geomData,
-							int nFaces, float* pMemVerts, TQ3BackfacingStyle inBackfacing )
+							TQ3BackfacingStyle inBackfacing )
 {
 	if (inBackfacing == kQ3BackfacingStyleRemove)
 	{
 		float	lineWidth = CalcContourWidth( theView, geomData );
 		
-		DrawContourArrays( nFaces, pMemVerts, lineWidth );
+		DrawContourArrays( lineWidth, geomData );
 		
 		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
 		glPolygonMode(GL_FRONT, GL_FILL);
@@ -639,7 +623,7 @@ float	CCartoonRendererQuesa::CalcContourWidth( TQ3ViewObject theView, TQ3TriMesh
 	return lineWidth;
 }
 
-void CCartoonRendererQuesa::DrawContourArrays(int nFaces, float* pMemVerts, float lineWidth)
+void CCartoonRendererQuesa::DrawContourArrays( float lineWidth, const TQ3TriMeshData* geomData )
 {
 	if (lineWidth < FLT_EPSILON)
 	{
@@ -662,7 +646,7 @@ void CCartoonRendererQuesa::DrawContourArrays(int nFaces, float* pMemVerts, floa
 
 	glPolygonMode(GL_BACK, GL_LINE);
 
-	glVertexPointer(3, GL_FLOAT, 0, pMemVerts);
+	glVertexPointer( 3, GL_FLOAT, 0, geomData->points );
 
 	glEnable( GL_LINE_SMOOTH );
 	glLineWidth( lineWidth );
@@ -670,101 +654,41 @@ void CCartoonRendererQuesa::DrawContourArrays(int nFaces, float* pMemVerts, floa
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	glDrawArrays(GL_TRIANGLES, 0, nFaces * 3);
+	glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, geomData->triangles );
 }
 
 
-static bool GetArraysFromTriMesh( const TQ3TriMeshData& inData,
-	int& outNumFaces,
-	std::vector<float>& outVertices,
-	std::vector<float>& outVertexNormals,
-	std::vector<float>& outTextureCoords )
+static void GetVertexDataFromTriMesh( const TQ3TriMeshData& inData,
+	const TQ3Param2D*& outTextureCoords,
+	const TQ3Vector3D*& outVertexNormals )
 {
-	bool didFindData = false;
-
-	// Look for vertex normals and UV coordinates among vertex attributes
-	const TQ3Vector3D* normalArray = NULL;
-	const TQ3Param2D* uvArray = NULL;
+	outTextureCoords = NULL;
+	outVertexNormals = NULL;
 
 	for (int attNum = 0; attNum < (int)inData.numVertexAttributeTypes; ++attNum)
 	{
 		switch (inData.vertexAttributeTypes[attNum].attributeType)
 		{
 			case kQ3AttributeTypeNormal:
-			normalArray = (const TQ3Vector3D*) 
-			inData.vertexAttributeTypes[attNum].data;
-			break;
+				outVertexNormals = (const TQ3Vector3D*) 
+					inData.vertexAttributeTypes[attNum].data;
+				break;
 
 			case kQ3AttributeTypeSurfaceUV:
 			case kQ3AttributeTypeShadingUV:
-			uvArray = (const TQ3Param2D*) 
-			inData.vertexAttributeTypes[attNum].data;
-			break;
+				outTextureCoords = (const TQ3Param2D*) 
+					inData.vertexAttributeTypes[attNum].data;
+				break;
 		}
 	}
-
-	if ( normalArray != NULL )
-	{
-		didFindData = true;
-		outNumFaces = inData.numTriangles;
-
-		outVertices.resize( outNumFaces * 9 );
-		outVertexNormals.resize( outNumFaces * 9 );
-
-		if (uvArray != NULL)
-		{
-			outTextureCoords.resize( outNumFaces * 6 );
-		}
-		else
-		{
-			outTextureCoords.clear();
-		}
-		
-		float*	resultVerts = &outVertices[0];
-		float*	resultNorms = &outVertexNormals[0];
-		float*	resultUVs = &outTextureCoords[0];
-
-		for (int faceNum = 0; faceNum < outNumFaces; ++faceNum)
-		{
-			typedef const TQ3TriMeshTriangleData& limitedVS6;
-			// seems that the above declaration is too complex for MS Visual C++ 6.0 :-(
-			limitedVS6 faceData( inData.triangles[faceNum] );
-
-			for (int vertNum = 0; vertNum < 3; ++vertNum)
-			{
-				TQ3Uns32 vert = faceData.pointIndices[ vertNum ];
-
-				*resultVerts = inData.points[vert].x;
-				++resultVerts;
-				*resultNorms = normalArray[vert].x;
-				++resultNorms;
-
-				*resultVerts = inData.points[vert].y;
-				++resultVerts;
-				*resultNorms = normalArray[vert].y;
-				++resultNorms;
-
-				*resultVerts = inData.points[vert].z;
-				++resultVerts;
-				*resultNorms = normalArray[vert].z;
-				++resultNorms;
-				
-				if (uvArray != NULL)
-				{
-					*resultUVs = uvArray[vert].u;
-					++resultUVs;
-					*resultUVs = uvArray[vert].v;
-					++resultUVs;
-				}
-			}
-		}
-	}
-
-	return didFindData;
 }
 
-void CCartoonRendererQuesa::DrawArrays(int nFaces, float* pMemVerts, float* pMemTVerts, float* pMemNormals,
-	float* pFloatDiffuseColor, bool bAllreadyTextured)
+void CCartoonRendererQuesa::DrawArrays(
+							const TQ3TriMeshData* geomData,
+							const TQ3Vector3D* vertNormals,
+							const TQ3Param2D* texCoords,
+							float* pFloatDiffuseColor,
+							bool bAllreadyTextured)
 {
 	try
 	{
@@ -776,7 +700,7 @@ void CCartoonRendererQuesa::DrawArrays(int nFaces, float* pMemVerts, float* pMem
 			glEnable(GL_TEXTURE_2D);
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-			glTexCoordPointer(2, GL_FLOAT, 0, pMemTVerts);
+			glTexCoordPointer( 2, GL_FLOAT, 0, texCoords );
 		}
 
 		DrawLocalTexture(bAllreadyTextured);
@@ -794,7 +718,7 @@ void CCartoonRendererQuesa::DrawArrays(int nFaces, float* pMemVerts, float* pMem
 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-		TQ3Param2D*	tCoords = GenShadeTVerts(nFaces, pMemNormals);
+		TQ3Param2D*	tCoords = GenShadeTVerts(geomData->numPoints, vertNormals);
 		
 		glMatrixMode(GL_TEXTURE);
 		glLoadIdentity();
@@ -802,11 +726,12 @@ void CCartoonRendererQuesa::DrawArrays(int nFaces, float* pMemVerts, float* pMem
 
 		glTexCoordPointer(2, GL_FLOAT, 0, tCoords);
 		
-		glVertexPointer(3, GL_FLOAT, 0, pMemVerts);
+		glVertexPointer(3, GL_FLOAT, 0, geomData->points);
 		
 		SetUpLight( bAllreadyTextured? 1.4f : 1.1f );
 
-		glDrawArrays(GL_TRIANGLES, 0, nFaces * 3);
+		glDrawElements( GL_TRIANGLES, geomData->numTriangles * 3,
+			GL_UNSIGNED_INT, geomData->triangles );
 
 	}
 	catch(...)
@@ -814,8 +739,12 @@ void CCartoonRendererQuesa::DrawArrays(int nFaces, float* pMemVerts, float* pMem
 	}
 }
 
-void CCartoonRendererQuesa::DrawArraysFakeMultitexture(int nFaces, float* pMemVerts, float* pMemTVerts,
-	float* pMemNormals, float* pFloatDiffuseColor, bool bAllreadyTextured )
+void CCartoonRendererQuesa::DrawArraysFakeMultitexture(
+							const TQ3TriMeshData* geomData,
+							const TQ3Vector3D* vertNormals,
+							const TQ3Param2D* texCoords,
+							float* pFloatDiffuseColor,
+							bool bAllreadyTextured )
 {
 	try
 	{
@@ -834,10 +763,11 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(int nFaces, float* pMemVe
 		
 		if (bAllreadyTextured)
 		{
-			glTexCoordPointer(2, GL_FLOAT, 0, pMemTVerts);
-			glVertexPointer(3, GL_FLOAT, 0, pMemVerts);
+			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+			glVertexPointer(3, GL_FLOAT, 0, geomData->points);
 			SetUpLight( 2.0f );
-			glDrawArrays(GL_TRIANGLES, 0, nFaces * 3);
+			glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3,
+				GL_UNSIGNED_INT, geomData->triangles );
 			
 			glEnable( GL_BLEND );
 			glBlendFunc( GL_DST_COLOR, GL_ZERO );
@@ -847,7 +777,7 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(int nFaces, float* pMemVe
 
 		DrawJustLocalTexture();
 		
-		TQ3Param2D*	tCoords = GenShadeTVerts(nFaces, pMemNormals);
+		TQ3Param2D*	tCoords = GenShadeTVerts( geomData->numPoints, vertNormals );
 		
 		glMatrixMode(GL_TEXTURE);
 		glLoadIdentity();
@@ -855,11 +785,12 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(int nFaces, float* pMemVe
 
 		glTexCoordPointer(2, GL_FLOAT, 0, tCoords);
 		
-		glVertexPointer(3, GL_FLOAT, 0, pMemVerts);
+		glVertexPointer(3, GL_FLOAT, 0, geomData->points);
 
 		SetUpLight( bAllreadyTextured? 1.4f : 1.1f );
 		
-		glDrawArrays(GL_TRIANGLES, 0, nFaces * 3);
+		glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3,
+				GL_UNSIGNED_INT, geomData->triangles );
 		
 		if (bAllreadyTextured)
 		{
@@ -895,7 +826,9 @@ static TQ3XFunctionPointer GetInteractiveRendererMethod(TQ3XMethodType methodTyp
 void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 							CartoonRendererData *cartoonInstanceData,
 							TQ3TriMeshData* geomData,
-							TQ3Boolean hadAttributeTexture )
+							TQ3Boolean hadAttributeTexture,
+							const TQ3Vector3D* vertNormals,
+							const TQ3Param2D* texCoords )
 {
 	TQ3InteractiveData*		instanceData = &cartoonInstanceData->irData;
 	
@@ -905,34 +838,13 @@ void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 		Init( instanceData->glExtensions.multitexture == kQ3True );
 	}
 
-	SaveLight();
+	StSaveLightingState	saveLight;
+	
 	SetActiveTextureARB(0);
 	SetClientActiveTextureARB(0);
 
-	int outNumFaces = 0;
-	std::vector<float> outVertices;
-	std::vector<float> outVertexNormals;
-	std::vector<float> outTextureCoords;
-
-	bool bRes = GetArraysFromTriMesh(*geomData,
-									outNumFaces,
-									outVertices,
-									outVertexNormals,
-									outTextureCoords);
-
-	float* pMemNormals = &outVertexNormals[0];
-	float* pMemVerts = &outVertices[0];
-	float* pMemTVerts = &outTextureCoords[0];
-	if (outTextureCoords.empty())
-	{
-		pMemTVerts = NULL;
-	}
-	if (outVertexNormals.empty())
-	{
-		pMemNormals = NULL;
-	}
 	
-	if ( (outNumFaces == 0) || (pMemNormals == NULL) )
+	if ( (geomData->numTriangles == 0) || (vertNormals == NULL) )
 	{
 		return;
 	}
@@ -946,32 +858,31 @@ void	CCartoonRendererQuesa::SubmitTriMesh( TQ3ViewObject theView,
 		pFloatDiffuseColor = &instanceData->stateGeomDiffuseColour->r;
 	}
 
-	bool bAlreadyTextured = (pMemTVerts != NULL) && instanceData->stateTextureActive;
+	bool bAlreadyTextured = (texCoords != NULL) && instanceData->stateTextureActive;
 	
 	// We will use only ambient light, hence we do not need normals for OpenGL.
 	// We will only use normals to compute texture coordinates for shading.
 	glDisableClientState( GL_NORMAL_ARRAY );
 	
-	DrawContours( theView, geomData, outNumFaces, pMemVerts, instanceData->stateBackfacing );
+	DrawContours( theView, geomData, instanceData->stateBackfacing );
 
 	if (m_glActiveTextureARB == NULL)
 	{
-		DrawArraysFakeMultitexture(outNumFaces, pMemVerts, pMemTVerts, pMemNormals,
+		DrawArraysFakeMultitexture( geomData, vertNormals, texCoords,
 			pFloatDiffuseColor, bAlreadyTextured );
 	}
 	else
 	{
-		DrawArrays(outNumFaces, pMemVerts, pMemTVerts, pMemNormals,
+		DrawArrays( geomData, vertNormals, texCoords,
 			pFloatDiffuseColor, bAlreadyTextured );
 	}
 
 	SetActiveTextureARB(0);
 	SetClientActiveTextureARB(0);
 
-	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, (TQ3Boolean) (pMemTVerts != NULL) );
+	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, (TQ3Boolean) (texCoords != NULL) );
 
 	DisableMultiTexturing();
-	RestoreLight();
 }
 
 static bool IsGeomMarkedNonCartoon( TQ3Object inObject )
@@ -1006,10 +917,16 @@ Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject		theView,
 	TQ3Boolean			hadAttributeTexture;
 	hadAttributeTexture = IRGeometry_Attribute_Handler(theView, geomData->triMeshAttributeSet,
 							irInstanceData, kQ3XAttributeMaskGeometry | kQ3XAttributeMaskSurfaceShader);
+	
+	// Extract vertex normals and UVs, if any, from trimesh data.
+	const TQ3Param2D*	texCoords;
+	const TQ3Vector3D*	normals;
+	GetVertexDataFromTriMesh( *geomData, texCoords, normals );
 
-	// Translucent objects, or objects marked with a special property, will be passed to the
+	// Translucent objects, objects without vertex normals, or objects marked
+	// with a special property, will be passed to the
 	// standard OpenGL renderer.
-	if ( IsGeomMarkedNonCartoon( theGeom ) || IsGeomTransparent( irInstanceData ) )
+	if ( (normals == NULL) || IsGeomMarkedNonCartoon( theGeom ) || IsGeomTransparent( irInstanceData ) )
 	{
 		TQ3XRendererSubmitGeometryMethod	irMethod = (TQ3XRendererSubmitGeometryMethod)
 			GetInteractiveRendererMethod( kQ3GeometryTypeTriMesh );
@@ -1018,7 +935,7 @@ Cartoon_Geometry_Submit_TriMesh(TQ3ViewObject		theView,
 	else
 	{
 		cartoonInstanceData->cartooner->SubmitTriMesh( theView, cartoonInstanceData,
-			geomData, hadAttributeTexture );
+			geomData, hadAttributeTexture, normals, texCoords );
 	}
 
 	return theStatus;
