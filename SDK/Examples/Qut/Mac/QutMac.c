@@ -865,7 +865,8 @@ qut_filter_file_name_test( AEDesc *theItem )
 	const char*	fileExts[] = {
 		".3dmf",
 		".3dm",
-		".3ds"
+		".3ds",
+		".wrl"
 	};
 	const int kNumExts = sizeof(fileExts) / sizeof(fileExts[0]);
 	
