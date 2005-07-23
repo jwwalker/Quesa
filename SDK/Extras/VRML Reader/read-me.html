@@ -10,7 +10,8 @@
 
 <p>This is a Quesa plug-in file format reader for the VRML file format (virtual
 reality markup language), versions 1 and 2.  This makes it possible to load 3D
-objects in VRML format into Quesa.  Not all VRML features are implemented. In
+objects in VRML format (usually indicated by a <code>.wrl</code> extension)
+into Quesa.  Not all VRML features are implemented. In
 particular, VRML nodes relating to interactivity, lights, and viewpoints are
 ignored.</p>
 
@@ -198,11 +199,12 @@ Q3Object_SetProperty( storageObj, 'TxIm', sizeof(LoadTexProcPtr),
 <p>The first parameter received by the callback, <code>inURL</code>, is simply
 the file name or URL specified in the VRML code, with a NUL terminator.  You
 should assume that its character encoding is UTF-8, though in most cases it will
-be simple ASCII.  The second parameter, the storage object, is passed so that
-information can be passed between the callback and the rest of the application. 
-For instance, at the same time the application sets the object property defining
-the callback, it may want to attach another object property recording the
-directory in which the VRML file was found.</p>
+be simple ASCII.  The second parameter, the storage object, helps your callback
+know where the VRML file is, and hence where the texture file should be relative
+to that.  If the storage object is, say, a path storage or FSSpec storage, you
+can obtain the VRML file location by simple Quesa calls.  If it is a memory
+storage object, you could attach the file location to the storage as an object
+property when you attach the function pointer object property.</p>
 
 <p>Third and least important, the application can set a property of type 'Debg'
 on the storage object containing the VRML data.  When the import process
