@@ -152,7 +152,7 @@ const TQ3ColorARGB kColourARGBBackground = {1.0f, 0.0f, 0.0f, 0.1f};
 const TQ3ColorARGB kColorARGBPickHit = {1.0f, 1.0f, 1.0f, 0.1f};
 const TQ3ColorARGB kColorARGBPickMiss = {1.0f, 0.0f, 0.0f, 1.0f};
 
-
+#define	kTextureImportCallbackPropertyType	Q3_OBJECT_TYPE( 'T', 'x', 'I', 'm' )
 
 
 
@@ -184,6 +184,8 @@ static TQ3XObjectClass				sMyViewClass = NULL;
 //-----------------------------------------------------------------------------
 static void appRender(TQ3ViewObject theView);
 
+typedef TQ3Object (*TextureImporterProcPtr)( const char* inURL,
+					TQ3StorageObject inStorage );
 
 
 
@@ -2455,6 +2457,95 @@ doSaveModel(TQ3ViewObject theView)
 
 
 //=============================================================================
+//      TextureImportCallback : Read textures used in VRML files.
+//-----------------------------------------------------------------------------
+static TQ3Object TextureImportCallback( const char* inURL,
+					TQ3StorageObject inStorage )
+{
+	TQ3Object	theTexture = NULL;
+	
+#if QUESA_OS_MACINTOSH && TARGET_API_MAC_CARBON
+	if (Q3Object_IsType( inStorage, kQ3MacintoshStorageTypeFSSpec ))
+	{
+		FSSpec	baseSpec;
+		if (kQ3Success == Q3FSSpecStorage_Get( inStorage, &baseSpec ))
+		{
+			FSRef	baseRef, parentRef, targetRef;
+			HFSUniStr255	name255;
+			OSErr	err;
+			name255.length = 0;
+			err = FSpMakeFSRef( &baseSpec, &baseRef );
+			if (err == noErr)
+			{
+				err = FSGetCatalogInfo( &baseRef, kFSCatInfoNone,
+					NULL, NULL, NULL, &parentRef );
+			}
+			if (err == noErr)
+			{
+				CFStringRef	nameCF = CFStringCreateWithCString( NULL,
+					inURL, kCFStringEncodingUTF8 );
+				if (nameCF != NULL)
+				{
+					CFIndex	nameLen = CFStringGetLength( nameCF );
+					if (nameLen <= 255)
+					{
+						CFStringGetCharacters( nameCF,
+							CFRangeMake( 0, nameLen ),
+							name255.unicode );
+						name255.length = nameLen;
+					}
+				}
+			}
+			if (name255.length > 0)
+			{
+				err = FSMakeFSRefUnicode( &parentRef, name255.length,
+					name255.unicode, kTextEncodingUnknown,
+					&targetRef );
+				if (err == noErr)
+				{
+					FSSpec	textureSpec;
+					err = FSGetCatalogInfo( &targetRef, kFSCatInfoNone,
+						NULL, NULL, &textureSpec, NULL );
+					
+					if (err == noErr)
+					{
+						theTexture = QutTexture_CreateTextureObjectFromFile(
+							&textureSpec, kQ3PixelTypeRGB32, kQ3True );
+					}
+				}
+			}
+		}
+	}
+#elif QUESA_OS_WIN32
+	if (Q3Object_IsType( inStorage, kQ3StorageTypePath ))
+	{
+		char	thePath[1024];
+		if (kQ3Success == Q3PathStorage_Get( inStorage, thePath ))
+		{
+			long	dirLen, urlLen;
+			char*	lastBackslash = strrchr( thePath, '\\' );
+			lastBackslash[1] = '\0';
+			dirLen = strlen( thePath );
+			urlLen = strlen( inURL );
+			
+			if (dirLen + urlLen + 1 < sizeof(thePath))
+			{
+				strcat( thePath, inURL );
+				
+				theTexture = QutTexture_CreateTextureObjectFromTGAFile( thePath );
+			}
+		}
+	}
+#endif
+	
+	return theTexture;
+}
+
+
+
+
+
+//=============================================================================
 //      doLoadModel : Loads a Model from File
 //-----------------------------------------------------------------------------
 static TQ3Object
@@ -2467,12 +2558,20 @@ doLoadModel(TQ3ViewObject theView)
 	TQ3BoundingBox		theBounds;
 	TQ3Vector3D			translateToOrigin = { 0.0f, 0.0f, 0.0f };
 	TQ3Vector3D			scale     = { 1.0f, 1.0f, 1.0f };
+	TextureImporterProcPtr	funcPtr = TextureImportCallback;
 
 	// Get the file
 	storageObj = Qut_SelectMetafileToOpen();
 	if( storageObj == NULL )
 		return NULL;
 	
+
+	// Attach texture import callback in case this is VRML.
+#if !TARGET_API_MAC_OS8
+	Q3Object_SetProperty( storageObj, kTextureImportCallbackPropertyType,
+		sizeof(TextureImporterProcPtr), &funcPtr );
+#endif
+
 
 	// Read the file (note, this disposes of storageObj)
 	theModel = Qut_ReadModel(storageObj);
