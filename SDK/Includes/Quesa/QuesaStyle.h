@@ -218,9 +218,11 @@ typedef enum TQ3AntiAliasModeMasks {
  *  @discussion
  *      Indicates how fog increases in density with distance.
  *
- *  @constant kQ3FogModeLinear                  Fog == (End - Z) / (End - Start)
+ *		Quesa's interactive renderer does not currently implement alpha fog.
+ *
+ *  @constant kQ3FogModeLinear                  Fog == (End - z) / (End - Start)
  *  @constant kQ3FogModeExponential             Fog == exp(-Density * z)
- *  @constant kQ3FogModeExponentialSquared      Fog == exp(-Density * z * Density * Z).
+ *  @constant kQ3FogModeExponentialSquared      Fog == exp(-Density * z * Density * z).
  *  @constant kQ3FogModeAlpha                   Fog == Vertex Alpha
  */
 typedef enum TQ3FogMode {
@@ -320,9 +322,9 @@ typedef struct TQ3AntiAliasStyleData {
  *
  *  @field state            Is fog active?
  *  @field mode             The fog mode.
- *  @field fogStart         The start point for fog.
- *  @field fogEnd           The end point for fog.
- *  @field density          The maximum density for fog.
+ *  @field fogStart         The start point for fog (only used for linear fog).
+ *  @field fogEnd           The end point for fog (only used for linear fog).
+ *  @field density          The maximum density for fog (ignored in linear fog).
  *  @field color            The fog color.
  */
 typedef struct TQ3FogStyleData {
