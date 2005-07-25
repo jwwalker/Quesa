@@ -320,6 +320,12 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		{
 			featureFlags->multitexture = kQ3True;
 		}
+		
+		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_blend_minmax" ) ||
+			isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_imaging" ) )
+		{
+			featureFlags->blendMinMax = kQ3True;
+		}
 	}
 }
 
