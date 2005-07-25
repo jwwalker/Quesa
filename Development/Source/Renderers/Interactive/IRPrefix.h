@@ -50,7 +50,7 @@
 #include "GLPrefix.h"
 #include "CQ3ObjectRef.h"
 
-
+#include <vector>
 
 
 
@@ -112,6 +112,7 @@ typedef struct TQ3TransparentPrim {
 	TQ3ObjectType			illumination;
 	TQ3Boolean				needsSpecular;
 	TQ3Matrix4x4			cameraToFrustum;
+	TQ3Uns32				fogStyleIndex;
 } TQ3TransparentPrim;
 
 
@@ -136,7 +137,8 @@ typedef struct TQ3CachedTexture {
 	TQ3Boolean				useMipmapping;
 } TQ3CachedTexture;
 
-
+// glBlendEquation type
+typedef void (* TQ3BlendEquationProcPtr) (GLenum blendType);
 
 // Interactive renderer data
 typedef struct TQ3InteractiveData {
@@ -152,6 +154,7 @@ typedef struct TQ3InteractiveData {
 	TQ3Uns32				drawContextEditIndex;
 	TQ3GLExtensions			glExtensions;
 	struct TQ3TextureCache*	textureCache;
+	TQ3BlendEquationProcPtr	glBlendEqProc;
 
 
 	// Light state
@@ -167,6 +170,8 @@ typedef struct TQ3InteractiveData {
 	TQ3Boolean				transNeedSpecular;
 	TQ3SlabObject			transBufferSlab;
 	TQ3SlabObject			transPtrSlab;
+	std::vector<TQ3FogStyleData>	fogStyles;
+	TQ3Uns32				curFogStyleIndex;
 
 
 	// Geometry scratch state
