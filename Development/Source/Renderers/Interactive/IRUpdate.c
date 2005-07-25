@@ -113,6 +113,52 @@ ir_state_reset(TQ3InteractiveData *instanceData)
 	instanceData->stateViewSpecularControl    = kQ3ViewDefaultSpecularControl;
 	instanceData->stateViewHilightState       = kQ3Off;
 	instanceData->stateViewIllumination       = kQ3ObjectTypeInvalid;
+
+
+	instanceData->fogStyles.clear();
+	TQ3FogStyleData	noFog;
+	noFog.state = kQ3Off;
+	instanceData->fogStyles.push_back( noFog );
+	instanceData->curFogStyleIndex = 0;
+	
+}
+
+
+
+
+
+//=============================================================================
+//      operator== : Function object to compare fog style datas.
+//-----------------------------------------------------------------------------
+static	bool operator==( const TQ3FogStyleData& inOne, const TQ3FogStyleData& inTwo )
+{
+	bool	isSameFog = (inOne.state == inTwo.state);
+	
+	if (isSameFog && (inOne.state == kQ3On))
+	{
+		isSameFog = (inOne.mode == inTwo.mode) &&
+			(inOne.color.r == inTwo.color.r) &&
+			(inOne.color.g == inTwo.color.g) &&
+			(inOne.color.b == inTwo.color.b);
+			// Note, alpha is not relevant
+			
+		if (isSameFog)
+		{
+			switch (inOne.mode)
+			{
+				case kQ3FogModeExponential:
+				case kQ3FogModeExponentialSquared:
+					isSameFog = (inOne.density == inTwo.density);
+					break;
+				
+				default:	// linear fog or anything else
+					isSameFog = (inOne.fogStart == inTwo.fogStart) &&
+						(inOne.fogEnd == inTwo.fogEnd);
+					break;
+			}
+		}
+	}
+	return isSameFog;
 }
 
 
@@ -719,7 +765,6 @@ IRRenderer_Update_Style_Fog(TQ3ViewObject		theView,
 							 TQ3InteractiveData	*instanceData,
 							 TQ3FogStyleData	*styleData)
 {	GLfloat		fogColour[4];
-#pragma unused(theView)
 
 
 
@@ -747,30 +792,28 @@ IRRenderer_Update_Style_Fog(TQ3ViewObject		theView,
 
 		// Set up the fog state
 		glEnable(GL_FOG);
-		glFogf(GL_FOG_DENSITY, styleData->density);
-		glFogf(GL_FOG_START,   styleData->fogStart);
-		glFogf(GL_FOG_END,     styleData->fogEnd);
 		glFogfv(GL_FOG_COLOR,  fogColour);
 
 
 
 		// Set the fog mode (alpha fog is not supported in OpenGL)
 		switch (styleData->mode) {
-			case kQ3FogModeLinear:
-				glFogi(GL_FOG_MODE, GL_LINEAR);
-				break;
-				
 			case kQ3FogModeExponential:
 				glFogi(GL_FOG_MODE, GL_EXP);
+				glFogf(GL_FOG_DENSITY, styleData->density);
 				break;
 				
 			case kQ3FogModeExponentialSquared:
 				glFogi(GL_FOG_MODE, GL_EXP2);
+				glFogf(GL_FOG_DENSITY, styleData->density);
 				break;
 				
+			case kQ3FogModeLinear:
 			case kQ3FogModeAlpha:
 			default:
 				glFogi(GL_FOG_MODE, GL_LINEAR);
+				glFogf(GL_FOG_START,   styleData->fogStart);
+				glFogf(GL_FOG_END,     styleData->fogEnd);
 				break;
 			}
 		}
@@ -779,6 +822,28 @@ IRRenderer_Update_Style_Fog(TQ3ViewObject		theView,
 	// Or turn the fog off
 	else
 		glDisable(GL_FOG);
+	
+	
+	// Update current fog in instance data
+	std::vector<TQ3FogStyleData>::iterator foundFog =
+		std::find( instanceData->fogStyles.begin(), instanceData->fogStyles.end(),
+		*styleData );
+	if (foundFog == instanceData->fogStyles.end())
+	{
+		try
+		{
+			instanceData->fogStyles.push_back( *styleData );
+			instanceData->curFogStyleIndex = instanceData->fogStyles.size() - 1;
+		}
+		catch (...)
+		{
+		}
+	}
+	else
+	{
+		instanceData->curFogStyleIndex = foundFog - instanceData->fogStyles.begin();
+	}
+	
 
 	return(kQ3Success);
 }
