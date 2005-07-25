@@ -440,7 +440,7 @@ IRGeometry_Generate_Triangle_Flags(TQ3InteractiveData	*instanceData,
 	else
 		{
 		for (n = 0; n < numTriangles; n++)
-			Q3Point3D_Subtract(&instanceData->stateLocalCameraPosition, &thePoints[theIndices[n * 3]], &triToEye[n]);
+			Q3FastPoint3D_Subtract(&instanceData->stateLocalCameraPosition, &thePoints[theIndices[n * 3]], &triToEye[n]);
 		}
 
 
@@ -635,7 +635,7 @@ IRGeometry_Validate_Triangles(TQ3InteractiveData		*instanceData,
 	for (n = 0; n < numTriangles; n++)
 		{
 		theLength = Q3FastVector3D_LengthSquared(&theNormals[n]);
-		if (fabs( theLength - 1.0f ) > 3.0f * kQ3RealZero)
+		if (fabs( theLength - 1.0f ) > 5.0f * kQ3RealZero)
 			Q3XWarning_Post(kQ3WarningTriangleNotNormalized);
 		}
 
@@ -675,7 +675,7 @@ IRGeometry_Validate_Vertices(TQ3InteractiveData		*instanceData,
 		{
 		theNormal = (const TQ3Vector3D *) (((const TQ3Uns8 *) theNormals) + (vertexStride * n));
 		theLength = Q3FastVector3D_Length(theNormal);
-		if (fabs( theLength - 1.0f ) > 3.0f * kQ3RealZero)
+		if (fabs( theLength - 1.0f ) > 5.0f * kQ3RealZero)
 			Q3XWarning_Post(kQ3WarningVertexNotNormalized);
 		}
 
