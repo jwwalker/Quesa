@@ -177,6 +177,14 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 
 
 			GLUtils_CheckExtensions( &instanceData->glExtensions );
+			
+			
+			instanceData->glBlendEqProc = (TQ3BlendEquationProcPtr) GLGetProcAddress( "glBlendEquation" );
+			
+			if (instanceData->glBlendEqProc == NULL)
+				{
+				instanceData->glBlendEqProc = (TQ3BlendEquationProcPtr) GLGetProcAddress( "glBlendEquationEXT" );
+				}
 			}
 
 
