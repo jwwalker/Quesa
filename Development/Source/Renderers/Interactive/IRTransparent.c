@@ -59,8 +59,13 @@
 const float      kQ3LargeZero								= -1.0e-5f;
 const TQ3Point3D kFrustumOrigin								= { 0.0f, 0.0f, 0.0f };
 
-
-
+// In lieu of glext.h
+#ifndef GL_EXT_blend_minmax
+	#define GL_FUNC_ADD_EXT                   0x8006
+	#define GL_MIN_EXT                        0x8007
+	#define GL_MAX_EXT                        0x8008
+	#define GL_BLEND_EQUATION_EXT             0x8009
+#endif
 
 
 //=============================================================================
@@ -430,6 +435,7 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	thePrim->illumination         = instanceData->stateViewIllumination;
 	thePrim->needsSpecular        = ir_geom_transparent_needs_specular(thePrim);
 	thePrim->cameraToFrustum	  = instanceData->stateMatrixCameraToFrustum;
+	thePrim->fogStyleIndex        = instanceData->curFogStyleIndex;
 
 
 
@@ -472,6 +478,25 @@ static void ir_geom_transparent_update_specular( const TQ3TransparentPrim* inPri
 		glMaterialfv( GL_FRONT_AND_BACK, GL_SHININESS, &shininess );
 	}
 }
+
+
+
+
+
+//=============================================================================
+//      ir_geom_transparent_update_fog : Update fog state if needed.
+//-----------------------------------------------------------------------------
+static void ir_geom_transparent_update_fog( const TQ3TransparentPrim* inPrim,
+											TQ3ViewObject			theView,
+											TQ3InteractiveData		*instanceData )
+{
+	if (inPrim->fogStyleIndex != instanceData->curFogStyleIndex)
+	{
+		IRRenderer_Update_Style_Fog( theView, instanceData,
+			&instanceData->fogStyles[ inPrim->fogStyleIndex ] );
+	}
+}
+
 
 
 
@@ -526,6 +551,7 @@ IRTransBuffer_Initialize(TQ3InteractiveData *instanceData)
 		return(kQ3Failure);
 		}
 	
+	
 	return(kQ3Success);
 }
 
@@ -544,6 +570,7 @@ IRTransBuffer_Terminate(TQ3InteractiveData *instanceData)
 	// Release our state
 	Q3Object_CleanDispose(&instanceData->transBufferSlab);
 	Q3Object_CleanDispose(&instanceData->transPtrSlab);
+	
 }
 
 
@@ -566,7 +593,6 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	const GLfloat				kBlackColor[4] = {
 									0.0f, 0.0f, 0.0f, 1.0f
 								};
-	GLboolean					savedDepthMask;
 	TQ3Boolean					shouldLightingBeEnabled, isLightingEnabled;
 
 
@@ -588,6 +614,9 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 		qsort( ptrs, numPrims, sizeof(TQ3TransparentPrim*), ir_geom_centroid_compare );
 
 
+		// Save some OpenGL state
+		glPushAttrib( GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT );
+
 
 		// Update the OpenGL state
 		//
@@ -603,8 +632,12 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 		Q3CameraTransform_Submit(&cameraTransformData, theView);
 
 	    glEnable(GL_BLEND);
-	    glGetBooleanv( GL_DEPTH_WRITEMASK, &savedDepthMask );
+	    
+	    // The transparent pass does not need to write to the depth buffer, since it
+	    // is done after opaque stuff and is depth-sorted.  We use LEQUAL here because
+	    // we sometimes render a triangle twice to get specular highlights.
 		glDepthMask(GL_FALSE);
+		glDepthFunc(GL_LEQUAL);
 		
 		isLightingEnabled = kQ3True;
 		glEnable(GL_LIGHTING);
@@ -640,58 +673,56 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 			
 			// Update lighting
 			shouldLightingBeEnabled = (TQ3Boolean) (ptrs[n]->illumination != kQ3IlluminationTypeNULL);
-			if ( shouldLightingBeEnabled && !isLightingEnabled )
+			if (shouldLightingBeEnabled != isLightingEnabled)
 			{
-				glEnable(GL_LIGHTING);
-				isLightingEnabled = kQ3True;
+				if ( shouldLightingBeEnabled )
+				{
+					glEnable(GL_LIGHTING);
+				}
+				else
+				{
+					glDisable(GL_LIGHTING);
+				}
+				isLightingEnabled = shouldLightingBeEnabled;
 			}
-			else if ( !shouldLightingBeEnabled && isLightingEnabled )
-			{
-				glDisable(GL_LIGHTING);
-				isLightingEnabled = kQ3False;
-			}
+			
+			
+			
+			// Update fog
+			ir_geom_transparent_update_fog( ptrs[n], theView, instanceData );
 
 
 
 			// Render the primitive
 			ir_geom_transparent_render(ptrs[n]);
-			}
-
-
-
-		// Second pass to add specular highlights
-		if (instanceData->transNeedSpecular)
-			{
-			glBlendFunc( GL_ONE, GL_ONE );
-			glDisable( GL_COLOR_MATERIAL );
-			glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
-			glEnable(GL_LIGHTING);
-		
-			for (n = 0; n < numPrims; ++n)
+			
+			
+			
+			// Add specular highlights if appropriate
+			if (ptrs[n]->needsSpecular)
 				{
-				if (ptrs[n]->needsSpecular)
-					{
-					// Update the camera to frustum matrix if it has changed.
-					if (kQ3False == ir_geom_transparent_equal_matrix4x4( &cameraTransformData.cameraToFrustum,
-						&ptrs[n]->cameraToFrustum ))
-					{
-						cameraTransformData.cameraToFrustum = ptrs[n]->cameraToFrustum;
-						Q3CameraTransform_Submit(&cameraTransformData, theView);
-					}
-
-
-					ir_geom_transparent_update_specular( ptrs[n], specularColor, &specularControl );
-					ir_geom_transparent_specular_render( ptrs[n] );
-					}
+				// Add, not alpha-blend, but use max rather than addition if possible
+				// so that color components do not get too big.
+				glBlendFunc( GL_ONE, GL_ONE );
+				if (instanceData->glBlendEqProc != NULL)
+					(*instanceData->glBlendEqProc)( GL_MAX_EXT );
+				
+				// black ambient and diffuse so we get only specular
+				glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
+				
+				ir_geom_transparent_update_specular( ptrs[n], specularColor, &specularControl );
+				
+				ir_geom_transparent_specular_render( ptrs[n] );
+				
+				if (instanceData->glBlendEqProc != NULL)
+					(*instanceData->glBlendEqProc)( GL_FUNC_ADD_EXT );
 				}
 			}
 
 
 
 		// Reset the OpenGL state
-		glEnable(GL_COLOR_MATERIAL);
-		glDepthMask( savedDepthMask );
-	    glDisable(GL_BLEND);
+		glPopAttrib();
 	    
 
 	    
