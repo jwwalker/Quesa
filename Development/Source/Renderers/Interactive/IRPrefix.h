@@ -167,7 +167,6 @@ typedef struct TQ3InteractiveData {
 
 
 	// Transparency buffer state
-	TQ3Boolean				transNeedSpecular;
 	TQ3SlabObject			transBufferSlab;
 	TQ3SlabObject			transPtrSlab;
 	std::vector<TQ3FogStyleData>	fogStyles;
