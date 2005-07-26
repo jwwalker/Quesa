@@ -158,7 +158,6 @@ ir_geom_transparent_needs_specular( const TQ3TransparentPrim *thePrim )
 static void
 ir_geom_transparent_specular_render(const TQ3TransparentPrim *thePrim)
 {	const TQ3FVertex3D		*theVertex;
-	TQ3FVertexFlags			vertFlags;
 	TQ3Uns32				n;
 
 
@@ -167,22 +166,6 @@ ir_geom_transparent_specular_render(const TQ3TransparentPrim *thePrim)
 	Q3_ASSERT(thePrim->numVerts == 3);
 
 	
-	// Set up the fill style
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-
-
-	// Set up the orientation style for triangles
-	//
-	// Could possibly pre-process all triangles when they're added
-	// to be in CCW order to reduce these state changes?
-	if (thePrim->orientationStyle == kQ3OrientationStyleClockwise)
-		glFrontFace(GL_CW);
-	else
-		glFrontFace(GL_CCW);
-
-
-
 	// Begin the primitive
 	glBegin(GL_TRIANGLES);
 
@@ -190,11 +173,10 @@ ir_geom_transparent_specular_render(const TQ3TransparentPrim *thePrim)
 
 	// Draw the primitive
 	theVertex = thePrim->theVertices;
-	vertFlags = theVertex->theFlags;
 
 	for (n = 0; n < 3; ++n)
 		{
-		if (E3Bit_IsSet(vertFlags, kQ3FVertexHaveNormal))
+		if (E3Bit_IsSet(theVertex->theFlags, kQ3FVertexHaveNormal))
 			glNormal3fv((const GLfloat *) &theVertex->theNormal);
 	
 
@@ -237,39 +219,6 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 		{
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, thePrim->theTexture);
-		}
-
-
-
-	// Set up the fill style
-	switch (thePrim->fillStyle)
-		{
-		case kQ3FillStylePoints:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-			break;
-		
-		case kQ3FillStyleEdges:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			break;
-		
-		case kQ3FillStyleFilled:
-		default:
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			break;
-		}
-
-
-
-	// Set up the orientation style for triangles
-	//
-	// Could possibly pre-process all triangles when they're added
-	// to be in CCW order to reduce these state changes?
-	if (thePrim->numVerts == 3)
-		{
-		if (thePrim->orientationStyle == kQ3OrientationStyleClockwise)
-			glFrontFace(GL_CW);
-		else
-			glFrontFace(GL_CCW);
 		}
 
 
@@ -438,10 +387,6 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	thePrim->fogStyleIndex        = instanceData->curFogStyleIndex;
 
 
-
-	// Update our state
-	if (thePrim->needsSpecular)
-		instanceData->transNeedSpecular = kQ3True;
 	
 	return(kQ3Success);
 }
@@ -475,7 +420,7 @@ static void ir_geom_transparent_update_specular( const TQ3TransparentPrim* inPri
 		specularControl = *ioSpecularControl = inPrim->specularControl;
 
 		shininess = IRRenderer_SpecularControl_to_GLshininess( specularControl );
-		glMaterialfv( GL_FRONT_AND_BACK, GL_SHININESS, &shininess );
+		glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, shininess );
 	}
 }
 
@@ -540,7 +485,6 @@ IRTransBuffer_Initialize(TQ3InteractiveData *instanceData)
 
 
 	// Initialise our state
-	instanceData->transNeedSpecular = kQ3False;
 	instanceData->transBufferSlab   = Q3SlabMemory_New(sizeof(TQ3TransparentPrim ), 0, NULL);
 	instanceData->transPtrSlab      = Q3SlabMemory_New(sizeof(TQ3TransparentPrim*), 0, NULL);
 
@@ -594,7 +538,8 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 									0.0f, 0.0f, 0.0f, 1.0f
 								};
 	TQ3Boolean					shouldLightingBeEnabled, isLightingEnabled;
-
+	TQ3FillStyle				curFillStyle;
+	TQ3OrientationStyle			curOrientation;
 
 
 	// Draw the transparent primitives
@@ -642,6 +587,13 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 		isLightingEnabled = kQ3True;
 		glEnable(GL_LIGHTING);
 		
+		curFillStyle = kQ3FillStyleFilled;
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		
+		curOrientation = kQ3OrientationStyleCounterClockwise;
+		glFrontFace(GL_CCW);
+		
+		
 		// The first pass will not include specularity, so we set the specular color black.
 		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, kBlackColor );
 
@@ -688,6 +640,44 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 			
 			
 			
+			// Update fill style
+			if (ptrs[n]->fillStyle != curFillStyle)
+			{
+				curFillStyle = ptrs[n]->fillStyle;
+				
+				switch (curFillStyle)
+				{
+				case kQ3FillStylePoints:
+					glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+					break;
+				
+				case kQ3FillStyleEdges:
+					glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+					break;
+				
+				case kQ3FillStyleFilled:
+				default:
+					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+					break;
+				}
+			}
+			
+			
+			
+			// Update orientation
+			if ( (ptrs[n]->numVerts == 3) &&
+				(ptrs[n]->orientationStyle != curOrientation) )
+			{
+				curOrientation = ptrs[n]->orientationStyle;
+				
+				if (curOrientation == kQ3OrientationStyleClockwise)
+					glFrontFace(GL_CW);
+				else
+					glFrontFace(GL_CCW);
+			}
+			
+			
+			
 			// Update fog
 			ir_geom_transparent_update_fog( ptrs[n], theView, instanceData );
 
@@ -708,11 +698,14 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 					(*instanceData->glBlendEqProc)( GL_MAX_EXT );
 				
 				// black ambient and diffuse so we get only specular
+				glDisable( GL_COLOR_MATERIAL );
 				glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
 				
 				ir_geom_transparent_update_specular( ptrs[n], specularColor, &specularControl );
 				
 				ir_geom_transparent_specular_render( ptrs[n] );
+				
+				glEnable( GL_COLOR_MATERIAL );
 				
 				if (instanceData->glBlendEqProc != NULL)
 					(*instanceData->glBlendEqProc)( GL_FUNC_ADD_EXT );
