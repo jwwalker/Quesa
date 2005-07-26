@@ -4899,6 +4899,12 @@ E3View_GetAttributeState(TQ3ViewObject theView, TQ3AttributeType attributeType, 
 	// Get a pointer to the data for the attribute
 	*((void **) data) = Q3XAttributeSet_GetPointer(attributeSet, attributeType);
 	
+	
+	// Clean up
+	Q3Object_Dispose( attributeSet );
+	
+	
+	
 	return kQ3Success ;
 }
 
