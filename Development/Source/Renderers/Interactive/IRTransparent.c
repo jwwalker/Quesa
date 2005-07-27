@@ -540,6 +540,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	TQ3Boolean					shouldLightingBeEnabled, isLightingEnabled;
 	TQ3FillStyle				curFillStyle;
 	TQ3OrientationStyle			curOrientation;
+	GLint						depthCompareFunc;
 
 
 	// Draw the transparent primitives
@@ -579,10 +580,12 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	    glEnable(GL_BLEND);
 	    
 	    // The transparent pass does not need to write to the depth buffer, since it
-	    // is done after opaque stuff and is depth-sorted.  We use LEQUAL here because
-	    // we sometimes render a triangle twice to get specular highlights.
+	    // is done after opaque stuff and is depth-sorted, but we will do depth testing.
+	    // When drawing a primitive the first time, we use whatever is the current depth
+	    // function, most likely GL_LESS, but when we draw specular highlights we use
+	    // GL_EQUAL.
 		glDepthMask(GL_FALSE);
-		glDepthFunc(GL_LEQUAL);
+		glGetIntegerv( GL_DEPTH_FUNC, &depthCompareFunc );
 		
 		isLightingEnabled = kQ3True;
 		glEnable(GL_LIGHTING);
@@ -697,6 +700,8 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 				if (instanceData->glBlendEqProc != NULL)
 					(*instanceData->glBlendEqProc)( GL_MAX_EXT );
 				
+				glDepthFunc( GL_EQUAL );
+				
 				// black ambient and diffuse so we get only specular
 				glDisable( GL_COLOR_MATERIAL );
 				glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
@@ -706,6 +711,8 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 				ir_geom_transparent_specular_render( ptrs[n] );
 				
 				glEnable( GL_COLOR_MATERIAL );
+				
+				glDepthFunc( depthCompareFunc );
 				
 				if (instanceData->glBlendEqProc != NULL)
 					(*instanceData->glBlendEqProc)( GL_FUNC_ADD_EXT );
