@@ -138,7 +138,11 @@ typedef struct TQ3CachedTexture {
 } TQ3CachedTexture;
 
 // glBlendEquation type
-typedef void (* TQ3BlendEquationProcPtr) (GLenum blendType);
+#if QUESA_OS_WIN32
+	typedef void __stdcall (* TQ3BlendEquationProcPtr) (GLenum blendType);
+#else
+	typedef void (* TQ3BlendEquationProcPtr) (GLenum blendType);
+#endif
 
 // Interactive renderer data
 typedef struct TQ3InteractiveData {
