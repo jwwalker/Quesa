@@ -121,9 +121,13 @@ static 	TQ3ObjectType		sRendererType = 0;
 	#define GL_TEXTURE1_ARB                   0x84C1
 #endif
 
-typedef void (* EQ3ActiveTextureARBProcPtr) (GLenum texture);
-typedef void (* EQ3ClientActiveTextureARBProcPtr) (GLenum texture);
-
+#if QUESA_OS_WIN32
+	typedef void __stdcall (* EQ3ActiveTextureARBProcPtr) (GLenum texture);
+	typedef void __stdcall (* EQ3ClientActiveTextureARBProcPtr) (GLenum texture);
+#else
+	typedef void (* EQ3ActiveTextureARBProcPtr) (GLenum texture);
+	typedef void (* EQ3ClientActiveTextureARBProcPtr) (GLenum texture);
+#endif
 
 namespace
 {
