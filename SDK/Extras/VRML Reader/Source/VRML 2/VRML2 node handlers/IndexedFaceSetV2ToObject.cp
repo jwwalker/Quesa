@@ -68,6 +68,8 @@
 
 namespace
 {
+	const float		kDegenerateLengthSquared	= 1.0e-11f;
+
 	typedef std::vector<TQ3TriMeshTriangleData>	TriangleVec;
 	
 	#pragma mark struct IndexedFaceMaker
@@ -299,7 +301,7 @@ void	IndexedFaceMaker::ComputeFaceNormals()
 				&mPoints[ mInstanceToPoint[ startIndex + 2 ] ],
 				&theNormal );
 			float	lenSq = Q3FastVector3D_LengthSquared( &theNormal );
-			if (lenSq < FLT_EPSILON * 0.01f)
+			if (lenSq < kDegenerateLengthSquared)
 			{
 				theNormal.x = 1.0f;
 				theNormal.y = theNormal.z = 0.0f;
@@ -350,7 +352,7 @@ void	IndexedFaceMaker::ComputeFaceNormals()
 					}
 				}
 			}
-			if (bestCrossLenSq < FLT_EPSILON * 0.01f)
+			if (bestCrossLenSq < kDegenerateLengthSquared)
 			{
 				theNormal.x = 1.0f;
 				theNormal.y = theNormal.z = 0.0f;
