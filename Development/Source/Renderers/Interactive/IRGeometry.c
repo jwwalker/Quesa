@@ -302,7 +302,8 @@ IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
 	if (theNormal == NULL && defaultNormal != NULL)
 		theNormal = defaultNormal;
 
-	if (instanceData->stateTextureActive && instanceData->stateViewIllumination != kQ3IlluminationTypeNULL)
+	if (instanceData->stateTextureActive && instanceData->stateViewIllumination != kQ3IlluminationTypeNULL &&
+		(theUV != NULL) )
 		colourDiffuse = &white;
 	else
 		{

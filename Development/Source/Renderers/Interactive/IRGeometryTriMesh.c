@@ -1082,6 +1082,23 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 	IRGeometry_Generate_Vertex_State(instanceData, NULL, &tmpVertex, &tmpFVertex);
 	if (!E3Bit_IsSet(tmpFVertex.theFlags, kQ3FVertexHaveTransparency))
 		Q3ColorRGB_Set(&tmpFVertex.colourTransparency, 1.0f, 1.0f, 1.0f);
+	
+	// If there is an active texture, and the illumination is not NULL, and the TriMesh has UVs,
+	// then we want to set tmpFVertex.colourDiffuse to white.  This special case is handled for some
+	// geometries in IRGeometry_Generate_Vertex_State, but a TriMesh is different because the UV is
+	// not in an attribute set.
+	if ( instanceData->stateTextureActive && (instanceData->stateViewIllumination != kQ3IlluminationTypeNULL) )
+		{
+		for (n = 0; n < geomData->numVertexAttributeTypes; ++n)
+			{
+			if ( (geomData->vertexAttributeTypes[n].attributeType == kQ3AttributeTypeShadingUV) ||
+				(geomData->vertexAttributeTypes[n].attributeType == kQ3AttributeTypeSurfaceUV) )
+				{
+				Q3ColorRGB_Set(&tmpFVertex.colourDiffuse, 1.0f, 1.0f, 1.0f);
+				break;
+				}
+			}
+		}
 
 	vertexArray->renderEdges           = renderEdges;
 	vertexArray->geomIsHilighted       = (TQ3Boolean) (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL);
