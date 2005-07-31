@@ -49,6 +49,7 @@
 #include "QuesaMath.h"
 
 #include <vector>
+#include <algorithm>
 
 #define	EQ3ThrowIfMemFail_( x )		do { if ( (x) == NULL ) { \
 										throw std::bad_alloc();	\
@@ -213,8 +214,8 @@ void	TriMeshOptimizer::FindBackLinks()
 
 static bool IsSameColor( const TQ3ColorRGB& inOne, const TQ3ColorRGB& inTwo )
 {
-	return abs(inOne.r - inTwo.r) + abs(inOne.g - inTwo.g) +
-		abs(inOne.b - inTwo.b) < FLT_EPSILON;
+	return fabsf(inOne.r - inTwo.r) + fabsf(inOne.g - inTwo.g) +
+		fabsf(inOne.b - inTwo.b) < FLT_EPSILON;
 }
 
 /*!
