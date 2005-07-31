@@ -2014,6 +2014,20 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3MacMemory.c</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3GeometryTriMeshOptimize.cp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -2629,6 +2643,16 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>CartoonRenderer.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3MacMemory.c</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3GeometryTriMeshOptimize.cp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -4706,6 +4730,20 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3MacMemory.c</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3GeometryTriMeshOptimize.cp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -5316,6 +5354,16 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>CartoonRenderer.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3MacMemory.c</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3GeometryTriMeshOptimize.cp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -5940,6 +5988,12 @@
                         <PATH>E3GeometryTriMesh.c</PATH>
                         <PATHFORMAT>Unix</PATHFORMAT>
                     </FILEREF>
+                    <FILEREF>
+                        <TARGETNAME>Debug Framework</TARGETNAME>
+                        <PATHTYPE>Name</PATHTYPE>
+                        <PATH>E3GeometryTriMeshOptimize.cp</PATH>
+                        <PATHFORMAT>Unix</PATHFORMAT>
+                    </FILEREF>
                 </GROUP>
                 <GROUP><NAME>Viewer</NAME>
                     <FILEREF>
@@ -6021,6 +6075,14 @@
                 </GROUP>
             </GROUP>
             <GROUP><NAME>Renderers</NAME>
+                <GROUP><NAME>Cartoon</NAME>
+                    <FILEREF>
+                        <TARGETNAME>Debug Framework</TARGETNAME>
+                        <PATHTYPE>Name</PATHTYPE>
+                        <PATH>CartoonRenderer.cpp</PATH>
+                        <PATHFORMAT>Unix</PATHFORMAT>
+                    </FILEREF>
+                </GROUP>
                 <GROUP><NAME>Common</NAME>
                     <FILEREF>
                         <TARGETNAME>Debug Framework</TARGETNAME>
@@ -6044,14 +6106,6 @@
                         <TARGETNAME>Debug Framework</TARGETNAME>
                         <PATHTYPE>Name</PATHTYPE>
                         <PATH>GLUtils.c</PATH>
-                        <PATHFORMAT>Unix</PATHFORMAT>
-                    </FILEREF>
-                </GROUP>
-                <GROUP><NAME>Cartoon</NAME>
-                    <FILEREF>
-                        <TARGETNAME>Debug Framework</TARGETNAME>
-                        <PATHTYPE>Name</PATHTYPE>
-                        <PATH>CartoonRenderer.cpp</PATH>
                         <PATHFORMAT>Unix</PATHFORMAT>
                     </FILEREF>
                 </GROUP>
@@ -6182,6 +6236,12 @@
                         <TARGETNAME>Debug Framework</TARGETNAME>
                         <PATHTYPE>Name</PATHTYPE>
                         <PATH>E3MacErrors.c</PATH>
+                        <PATHFORMAT>Unix</PATHFORMAT>
+                    </FILEREF>
+                    <FILEREF>
+                        <TARGETNAME>Debug Framework</TARGETNAME>
+                        <PATHTYPE>Name</PATHTYPE>
+                        <PATH>E3MacMemory.c</PATH>
                         <PATHFORMAT>Unix</PATHFORMAT>
                     </FILEREF>
                     <FILEREF>
