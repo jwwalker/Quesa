@@ -67,6 +67,7 @@
 #include "E3GeometryTriangle.h"
 #include "E3GeometryTriGrid.h"
 #include "E3GeometryTriMesh.h"
+#include "E3GeometryTriMeshOptimize.h"
 #include "E3View.h"
 
 
@@ -12513,3 +12514,54 @@ Q3TriMesh_UnlockData(TQ3GeometryObject triMesh)
 
 
 
+
+
+//=============================================================================
+//      Q3TriMesh_OptimizeData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status Q3TriMesh_OptimizeData( const TQ3TriMeshData* inData,
+								TQ3TriMeshData* outData,
+								TQ3Boolean* outDidChange )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inData), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outData), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outDidChange), kQ3Failure);
+	
+	
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	TQ3Status	theStatus = E3TriMesh_OptimizeData( *inData, *outData, *outDidChange );
+	
+	return theStatus;
+}
+
+
+
+
+
+//=============================================================================
+//      Q3TriMesh_Optimize : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3GeometryObject Q3TriMesh_Optimize( TQ3GeometryObject inTriMesh )
+{
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( inTriMesh ), NULL);
+	
+	
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	TQ3GeometryObject	theGeom = E3TriMesh_Optimize( inTriMesh );
+	
+	return theGeom;
+	
+}
