@@ -52,6 +52,7 @@
 #include "GLCamera.h"
 #include "GLDrawContext.h"
 
+#include <algorithm>
 
 
 
