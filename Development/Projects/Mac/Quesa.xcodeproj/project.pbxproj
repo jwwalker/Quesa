@@ -477,6 +477,10 @@
 		BE5C8A13087D9D4000533C43 /* CartoonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BE5C8A11087D9D4000533C43 /* CartoonRenderer.h */; };
 		BE5C8A14087D9D4000533C43 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE5C8A10087D9D4000533C43 /* CartoonRenderer.cpp */; };
 		BE5C8A15087D9D4000533C43 /* CartoonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BE5C8A11087D9D4000533C43 /* CartoonRenderer.h */; };
+		BE5DEDE1089D5B8500629899 /* E3GeometryTriMeshOptimize.cp in Sources */ = {isa = PBXBuildFile; fileRef = BE5DEDDF089D5B8500629899 /* E3GeometryTriMeshOptimize.cp */; };
+		BE5DEDE2089D5B8500629899 /* E3GeometryTriMeshOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = BE5DEDE0089D5B8500629899 /* E3GeometryTriMeshOptimize.h */; };
+		BE5DEDE3089D5B8500629899 /* E3GeometryTriMeshOptimize.cp in Sources */ = {isa = PBXBuildFile; fileRef = BE5DEDDF089D5B8500629899 /* E3GeometryTriMeshOptimize.cp */; };
+		BE5DEDE4089D5B8500629899 /* E3GeometryTriMeshOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = BE5DEDE0089D5B8500629899 /* E3GeometryTriMeshOptimize.h */; };
 		BE6FD692076B88A800587852 /* GLTextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6FD690076B88A800587852 /* GLTextureManager.h */; };
 		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
 /* End PBXBuildFile section */
@@ -744,6 +748,8 @@
 		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE5C8A10087D9D4000533C43 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
 		BE5C8A11087D9D4000533C43 /* CartoonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CartoonRenderer.h; sourceTree = "<group>"; };
+		BE5DEDDF089D5B8500629899 /* E3GeometryTriMeshOptimize.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cp; sourceTree = "<group>"; };
+		BE5DEDE0089D5B8500629899 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLTextureManager.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -879,6 +885,8 @@
 				AB3A7BAE055E63B100CA83BE /* E3GeometryTriGrid.h */,
 				AB3A7BAF055E63B100CA83BE /* E3GeometryTriMesh.c */,
 				AB3A7BB0055E63B100CA83BE /* E3GeometryTriMesh.h */,
+				BE5DEDDF089D5B8500629899 /* E3GeometryTriMeshOptimize.cp */,
+				BE5DEDE0089D5B8500629899 /* E3GeometryTriMeshOptimize.h */,
 			);
 			path = Geometry;
 			sourceTree = "<group>";
@@ -1342,6 +1350,7 @@
 				AB83B9A2055E77880034F56A /* E3MacPrefix.h in Headers */,
 				BE6FD692076B88A800587852 /* GLTextureManager.h in Headers */,
 				BE5C8A13087D9D4000533C43 /* CartoonRenderer.h in Headers */,
+				BE5DEDE2089D5B8500629899 /* E3GeometryTriMeshOptimize.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1466,6 +1475,7 @@
 				B1756C28080A73DB0056134C /* QuesaExtension.h in Headers */,
 				B1756C29080A73DB0056134C /* E3StackCrawl.h in Headers */,
 				BE5C8A15087D9D4000533C43 /* CartoonRenderer.h in Headers */,
+				BE5DEDE4089D5B8500629899 /* E3GeometryTriMeshOptimize.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1728,6 +1738,7 @@
 				AB83B9A8055E77880034F56A /* E3MacSystem.c in Sources */,
 				BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */,
 				BE5C8A12087D9D4000533C43 /* CartoonRenderer.cpp in Sources */,
+				BE5DEDE1089D5B8500629899 /* E3GeometryTriMeshOptimize.cp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1849,6 +1860,7 @@
 				B1756BAC080A73C00056134C /* GLCamera.c in Sources */,
 				B1756BAD080A73C00056134C /* E3Viewer.c in Sources */,
 				BE5C8A14087D9D4000533C43 /* CartoonRenderer.cpp in Sources */,
+				BE5DEDE3089D5B8500629899 /* E3GeometryTriMeshOptimize.cp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
