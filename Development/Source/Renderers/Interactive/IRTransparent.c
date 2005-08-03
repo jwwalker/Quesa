@@ -292,7 +292,9 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 							TQ3InteractiveData		*instanceData,
 							TQ3Uns32				numVerts,
 							const TQ3FVertex3D		*theVertices)
-{	TQ3Matrix4x4			localToFrustum;
+{
+#pragma unused( theView )
+	TQ3Matrix4x4			localToFrustum;
 	TQ3Point3D				theCameraPoints[3];
 	const TQ3FVertex3D		*theVertex;
 	TQ3FVertexFlags			vertFlags;
@@ -540,7 +542,6 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	TQ3Boolean					shouldLightingBeEnabled, isLightingEnabled;
 	TQ3FillStyle				curFillStyle;
 	TQ3OrientationStyle			curOrientation;
-	GLint						depthCompareFunc;
 
 
 	// Draw the transparent primitives
@@ -581,11 +582,11 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	    
 	    // The transparent pass does not need to write to the depth buffer, since it
 	    // is done after opaque stuff and is depth-sorted, but we will do depth testing.
-	    // When drawing a primitive the first time, we use whatever is the current depth
-	    // function, most likely GL_LESS, but when we draw specular highlights we use
-	    // GL_EQUAL.
+	    // Most likely the current depth comparison function is GL_LESS, and we need not
+	    // change that.  Note that since we are not writing to the depth buffer, we
+	    // can continue to use the same depth comparison function when adding
+	    // specular highlights.
 		glDepthMask(GL_FALSE);
-		glGetIntegerv( GL_DEPTH_FUNC, &depthCompareFunc );
 		
 		isLightingEnabled = kQ3True;
 		glEnable(GL_LIGHTING);
@@ -700,8 +701,6 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 				if (instanceData->glBlendEqProc != NULL)
 					(*instanceData->glBlendEqProc)( GL_MAX_EXT );
 				
-				glDepthFunc( GL_EQUAL );
-				
 				// black ambient and diffuse so we get only specular
 				glDisable( GL_COLOR_MATERIAL );
 				glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
@@ -711,8 +710,6 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 				ir_geom_transparent_specular_render( ptrs[n] );
 				
 				glEnable( GL_COLOR_MATERIAL );
-				
-				glDepthFunc( depthCompareFunc );
 				
 				if (instanceData->glBlendEqProc != NULL)
 					(*instanceData->glBlendEqProc)( GL_FUNC_ADD_EXT );
