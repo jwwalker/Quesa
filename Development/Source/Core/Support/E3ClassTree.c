@@ -715,13 +715,13 @@ E3ClassTree::UnregisterClass ( TQ3ObjectType classType, TQ3Boolean isRequired )
 //				call Q3XObjectHierarchy_NewObject.
 //-----------------------------------------------------------------------------
 TQ3Status
-OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
+OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 											TQ3Boolean		sharedParams,
 											const void		*paramData )
 	{	
 	TQ3Status qd3dStatus = kQ3Success ;
 	TQ3Uns32 parentInstanceSize = 0 ;	
-	E3ClassInfoPtr parentClass = theClass->theParent ;
+	E3ClassInfoPtr parentClass = inClass->theParent ;
 	
 	// If this class has a parent, initialise the parent object
 	if ( parentClass != NULL )
@@ -734,19 +734,19 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 		}
 
 	// If this class has any private data, initialise it
-	if ( theClass->instanceSize != parentInstanceSize )
+	if ( inClass->instanceSize != parentInstanceSize )
 		{
 		// If the object has a new method, call it to initialise the object
-		if ( ( (E3Root*) theClass )->newMethod != NULL )
-			return ( (E3Root*) theClass )->newMethod (	(TQ3Object) this,
+		if ( ( (E3Root*) inClass )->newMethod != NULL )
+			return ( (E3Root*) inClass )->newMethod (	(TQ3Object) this,
 														(void*) ( (TQ3Uns8*) this + parentInstanceSize ),
 														(void *) paramData ) ;
 			
 		// If the object is an element, it might have a copy add method
 		// which we call to initialise the object.
 		TQ3XElementCopyAddMethod elementCopyAddMethod = NULL ;
-		if ( Q3_CLASS_INFO_IS_CLASS ( theClass , E3Element ) )
-			elementCopyAddMethod = ( (E3ElementInfo*) theClass )->elementCopyAddMethod ;
+		if ( Q3_CLASS_INFO_IS_CLASS ( inClass , E3Element ) )
+			elementCopyAddMethod = ( (E3ElementInfo*) inClass )->elementCopyAddMethod ;
 			
 		if ( elementCopyAddMethod != NULL )
 			return elementCopyAddMethod ( paramData, ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
@@ -758,7 +758,7 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	theClass,
 		// with instance data that's initialised to 0s.
 
 		if ( paramData != NULL )
-			Q3Memory_Copy ( paramData, ( (TQ3Uns8*) this ) + parentInstanceSize, theClass->instanceSize - parentInstanceSize ) ;
+			Q3Memory_Copy ( paramData, ( (TQ3Uns8*) this ) + parentInstanceSize, inClass->instanceSize - parentInstanceSize ) ;
 		
 		}
 
@@ -859,16 +859,16 @@ E3ClassInfo::CreateInstance (	TQ3Boolean		sharedParams,
 //      e3ClassTree_DeleteInstanceDataOfClass : Call delete methods on the instance data of a class and its parent classes.
 //-----------------------------------------------------------------------------
 void
-OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr theClass )
+OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr inClass )
 	{
 	TQ3Uns32 parentInstanceSize = 0 ;
 	
-	if ( theClass->theParent != NULL )
-		parentInstanceSize = theClass->theParent->instanceSize ;
+	if ( inClass->theParent != NULL )
+		parentInstanceSize = inClass->theParent->instanceSize ;
 
 	TQ3XElementDeleteMethod elementDeleteMethod = NULL ;
-	if ( Q3_CLASS_INFO_IS_CLASS ( theClass , E3Element ) )
-		elementDeleteMethod = ( (E3ElementInfo*) theClass )->elementDeleteMethod ;
+	if ( Q3_CLASS_INFO_IS_CLASS ( inClass , E3Element ) )
+		elementDeleteMethod = ( (E3ElementInfo*) inClass )->elementDeleteMethod ;
 		
 	// Call the object's delete method
 	if ( elementDeleteMethod != NULL )
@@ -878,15 +878,15 @@ OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr theClass )
 		}	
 	else
 		{
-		if ( ( (E3Root*) theClass )->deleteMethod != NULL )
-			( (E3Root*) theClass )->deleteMethod ( (TQ3Object) this , (void*)  ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
+		if ( ( (E3Root*) inClass )->deleteMethod != NULL )
+			( (E3Root*) inClass )->deleteMethod ( (TQ3Object) this , (void*)  ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
 		}
 
 
 
 	// Dispose of the parent object, if any
-	if ( theClass->theParent != NULL )
-		DeleteInstanceData ( theClass->theParent ) ;
+	if ( inClass->theParent != NULL )
+		DeleteInstanceData ( inClass->theParent ) ;
 
 	}
 
@@ -931,58 +931,58 @@ OpaqueTQ3Object::DestroyInstance ( void )
 //-----------------------------------------------------------------------------
 TQ3Status
 OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
-										E3ClassInfoPtr	theClass )
+										E3ClassInfoPtr	inClass )
 	{
 	TQ3Uns32 parentInstanceSize = 0 ;
 	
 	// If the object has a parent, duplicate the parent object
-	if ( theClass->theParent != NULL )
+	if ( inClass->theParent != NULL )
 		{
-		parentInstanceSize = theClass->theParent->instanceSize ;
-		if ( DuplicateInstanceData ( newObject , theClass->theParent ) == kQ3Failure )
+		parentInstanceSize = inClass->theParent->instanceSize ;
+		if ( DuplicateInstanceData ( newObject , inClass->theParent ) == kQ3Failure )
 			return kQ3Failure ;
 		}
 
 
 
 	// If the object has any private data, allocate and duplicate it
-	if ( theClass->instanceSize != parentInstanceSize )
+	if ( inClass->instanceSize != parentInstanceSize )
 		{
 		// Call the object's duplicate method to initialise it. If the object
 		// does not have duplicate method, we do a bitwise copy.
 
-		if ( ( (E3Root*) theClass )->duplicateMethod != NULL)
+		if ( ( (E3Root*) inClass )->duplicateMethod != NULL)
 			{
-			if ( ( (E3Root*) theClass )->duplicateMethod (
+			if ( ( (E3Root*) inClass )->duplicateMethod (
 					(TQ3Object) this,
 					(void*) ( (TQ3Uns8*) this + parentInstanceSize ),
 					newObject,
 					(void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) == kQ3Failure )
 				{
-				if ( theClass->theParent != NULL )
-					newObject->DeleteInstanceData (	theClass->theParent ) ;
+				if ( inClass->theParent != NULL )
+					newObject->DeleteInstanceData (	inClass->theParent ) ;
 				return kQ3Failure ;
 				}
 			}
 		else
 			{
 			TQ3XElementCopyDuplicateMethod elementDuplicateMethod = NULL ;
-			if ( Q3_CLASS_INFO_IS_CLASS ( theClass , E3Element ) )
-				elementDuplicateMethod = ( (E3ElementInfo*) theClass )->elementCopyDuplicateMethod ;
+			if ( Q3_CLASS_INFO_IS_CLASS ( inClass , E3Element ) )
+				elementDuplicateMethod = ( (E3ElementInfo*) inClass )->elementCopyDuplicateMethod ;
 
 			if ( elementDuplicateMethod != NULL )
 				{
 				TQ3Status qd3dStatus = elementDuplicateMethod ( (void*) ( (TQ3Uns8*) this + parentInstanceSize ) , (void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) ;
 				if ( qd3dStatus == kQ3Failure )
 					{
-					if ( theClass->theParent != NULL )
-						newObject->DeleteInstanceData ( theClass->theParent ) ;
+					if ( inClass->theParent != NULL )
+						newObject->DeleteInstanceData ( inClass->theParent ) ;
 					return kQ3Failure ;
 					}
 				}
 			else
 				Q3Memory_Copy ( (void*) ( (TQ3Uns8*) this + parentInstanceSize ) ,
-								(void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) , theClass->instanceSize - parentInstanceSize ) ;
+								(void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) , inClass->instanceSize - parentInstanceSize ) ;
 			}	
 		}
 	return kQ3Success ;
