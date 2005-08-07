@@ -1622,7 +1622,7 @@ TQ3Status
 E3XDrawRegion_GetClipRegion(TQ3XDrawRegion drawRegion, RgnHandle *rgnHandle)
 	{
 	// Check for no clipping region
-	if ( drawRegion->platformClip == NULL )
+	if ( drawRegion->platformClip == 0 )
 		*rgnHandle = NULL ;
 
 
