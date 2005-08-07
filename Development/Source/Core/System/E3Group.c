@@ -1545,11 +1545,11 @@ E3OrderedDisplayGroup::addobject ( TQ3Object object )
 	if (newGroupPosition)
 		{
 		TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-		TQ3XGroupPosition* listHead = &listHeads [ theIndex ] ;
-		newGroupPosition->prev = listHead->prev ;
-		newGroupPosition->next = listHead ;
-		listHead->prev->next = newGroupPosition ;
-		listHead->prev = newGroupPosition ;
+		TQ3XGroupPosition* theListHead = &listHeads [ theIndex ] ;
+		newGroupPosition->prev = theListHead->prev ;
+		newGroupPosition->next = theListHead ;
+		theListHead->prev->next = newGroupPosition ;
+		theListHead->prev = newGroupPosition ;
 		}
 
 	return ((TQ3GroupPosition) newGroupPosition ) ;
@@ -1641,9 +1641,9 @@ TQ3Status
 E3OrderedDisplayGroup::findfirsttypeonlist (
 	TQ3XOrderIndex inIndex, TQ3ObjectType inType, TQ3GroupPosition* outPosition )
 	{
-	TQ3XGroupPosition* listHead = &listHeads [ inIndex ] ;
+	TQ3XGroupPosition* theListHead = &listHeads [ inIndex ] ;
 	
-	for ( TQ3XGroupPosition* pos = listHead->next ; pos != listHead ; pos = pos->next )
+	for ( TQ3XGroupPosition* pos = theListHead->next ; pos != theListHead ; pos = pos->next )
 		{
 		if ( Q3Object_IsType ( pos->object, inType ) )
 			{
@@ -1667,9 +1667,9 @@ TQ3Status
 E3OrderedDisplayGroup::findlasttypeonlist (
 	TQ3XOrderIndex inIndex, TQ3ObjectType inType, TQ3GroupPosition* outPosition )
 	{
-	TQ3XGroupPosition* listHead = &listHeads [ inIndex ] ;
+	TQ3XGroupPosition* theListHead = &listHeads [ inIndex ] ;
 	
-	for ( TQ3XGroupPosition* pos = listHead->prev ; pos != listHead ; pos = pos->prev )
+	for ( TQ3XGroupPosition* pos = theListHead->prev ; pos != theListHead ; pos = pos->prev )
 		if ( Q3Object_IsType ( pos->object, inType ) )
 			{
 			*outPosition = (TQ3GroupPosition) pos ;
@@ -1787,18 +1787,18 @@ E3OrderedDisplayGroup::getnextposition ( TQ3ObjectType isType, TQ3GroupPosition 
 	{
 		// Is the position in the right linked list?
 		TQ3Int32	startIndex = e3group_display_ordered_getlistindex( pos->object );
-		TQ3XGroupPosition*	listHead;
+		TQ3XGroupPosition*	theListHead;
 		if ( (startIndex == requestIndex) || (requestIndex == kQ3XOrderIndex_All) )
 		{
 			pos = pos->next;
-			listHead = &listHeads[ startIndex ];
+			theListHead = &listHeads[ startIndex ];
 		}
 		else if (startIndex < requestIndex)
 		{
 			// start at the beginning of the list for the requested type
 			startIndex = requestIndex;
-			listHead = &listHeads[ startIndex ];
-			pos = listHead->next;
+			theListHead = &listHeads[ startIndex ];
+			pos = theListHead->next;
 		}
 		else if (startIndex > requestIndex)
 		{
@@ -1806,7 +1806,7 @@ E3OrderedDisplayGroup::getnextposition ( TQ3ObjectType isType, TQ3GroupPosition 
 		}
 		
 		// Search the current list
-		for (; pos != listHead; pos = pos->next)
+		for (; pos != theListHead; pos = pos->next)
 		{
 			if (Q3Object_IsType( pos->object, isType ))
 			{
@@ -1860,19 +1860,19 @@ E3OrderedDisplayGroup::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition 
 		
 	// Is the position in the right linked list?
 	TQ3Int32 startIndex = e3group_display_ordered_getlistindex ( pos->object ) ;
-	TQ3XGroupPosition* listHead ;
+	TQ3XGroupPosition* theListHead ;
 	if ( ( startIndex == requestIndex ) || ( requestIndex == kQ3XOrderIndex_All ) )
 		{
 		pos = pos->prev ;
-		listHead = &listHeads [ startIndex ] ;
+		theListHead = &listHeads [ startIndex ] ;
 		}
 	else
 	if ( startIndex > requestIndex )
 		{
 		// start at the end of the list for the requested type
 		startIndex = requestIndex ;
-		listHead = &listHeads [ startIndex ] ;
-		pos = listHead->prev ;
+		theListHead = &listHeads [ startIndex ] ;
+		pos = theListHead->prev ;
 		}
 	else
 	if ( startIndex < requestIndex )
@@ -1880,7 +1880,7 @@ E3OrderedDisplayGroup::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition 
 	
 	
 	// Search the current list
-	for ( ; pos != listHead ; pos = pos->prev )
+	for ( ; pos != theListHead ; pos = pos->prev )
 		if ( Q3Object_IsType ( pos->object, isType ) )
 			{
 			*position = (TQ3GroupPosition) pos ;
@@ -1893,8 +1893,8 @@ E3OrderedDisplayGroup::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition 
 		for ( startIndex -= 1 ; ( startIndex >= 0 ) && ( theStatus == kQ3Failure ) ;
 			--startIndex )
 			{
-			listHead = &listHeads [ startIndex ] ;
-			for ( pos = listHead->prev ; pos != listHead ; pos = pos->prev )
+			theListHead = &listHeads [ startIndex ] ;
+			for ( pos = theListHead->prev ; pos != theListHead ; pos = pos->prev )
 				if ( Q3Object_IsType ( pos->object, isType ) )
 					{
 					*position = (TQ3GroupPosition) pos ;
@@ -2047,9 +2047,9 @@ E3OrderedDisplayGroup::getfirstobjectposition ( TQ3Object object, TQ3GroupPositi
 	{
 	*position = NULL ;
 	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-	TQ3XGroupPosition* listHead = &listHeads [ theIndex ] ;
+	TQ3XGroupPosition* theListHead = &listHeads [ theIndex ] ;
 	
-	for ( TQ3XGroupPosition* pos = listHead->next ; pos != listHead ; pos = pos->next )
+	for ( TQ3XGroupPosition* pos = theListHead->next ; pos != theListHead ; pos = pos->next )
 		if (pos->object == object)
 			{
 			*position = (TQ3GroupPosition)pos;
@@ -2081,9 +2081,9 @@ E3OrderedDisplayGroup::getlastobjectposition ( TQ3Object object, TQ3GroupPositio
 	{
 	*position = NULL ;
 	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-	TQ3XGroupPosition* listHead = &listHeads [ theIndex ] ;
+	TQ3XGroupPosition* theListHead = &listHeads [ theIndex ] ;
 	
-	for ( TQ3XGroupPosition* pos = listHead->prev ; pos != listHead ; pos = pos->prev )
+	for ( TQ3XGroupPosition* pos = theListHead->prev ; pos != theListHead ; pos = pos->prev )
 		if ( pos->object == object )
 			{
 			*position = (TQ3GroupPosition)pos;
@@ -2120,16 +2120,16 @@ E3OrderedDisplayGroup::getnextobjectposition ( TQ3Object object, TQ3GroupPositio
 	*position = NULL ;
 
 	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-	TQ3XGroupPosition* listHead = &listHeads [ theIndex ] ;
+	TQ3XGroupPosition* theListHead = &listHeads [ theIndex ] ;
 	TQ3XOrderIndex startIndex = e3group_display_ordered_getlistindex ( pos->object ) ;
 	if ( startIndex < theIndex )
-		pos = listHead->next ;	// start at the beginning of this list
+		pos = theListHead->next ;	// start at the beginning of this list
 	else
 	if ( startIndex == theIndex )
 		pos = pos->next ;
 		
 	if ( startIndex <= theIndex )
-		for ( ; pos != listHead ; pos = pos->next )
+		for ( ; pos != theListHead ; pos = pos->next )
 			if ( pos->object == object )
 				{
 				*position = (TQ3GroupPosition) pos ;
@@ -2165,17 +2165,17 @@ E3OrderedDisplayGroup::getprevobjectposition ( TQ3Object object, TQ3GroupPositio
 	*position = NULL  ;
 
 	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-	TQ3XGroupPosition* listHead = & listHeads [ theIndex ] ;
+	TQ3XGroupPosition* theListHead = & listHeads [ theIndex ] ;
 	TQ3XOrderIndex startIndex = e3group_display_ordered_getlistindex ( pos->object ) ;
 	
 	if ( startIndex > theIndex )
-		pos = listHead->prev ;	// start at the end of this list
+		pos = theListHead->prev ;	// start at the end of this list
 	else
 	if ( startIndex == theIndex )
 		pos = pos->prev ;
 	
 	if ( startIndex >= theIndex )
-		for ( ; pos != listHead ; pos = pos->prev )
+		for ( ; pos != theListHead ; pos = pos->prev )
 			if ( pos->object == object )
 				{
 				*position = (TQ3GroupPosition) pos ;
