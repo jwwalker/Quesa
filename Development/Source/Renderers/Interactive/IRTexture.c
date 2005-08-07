@@ -411,7 +411,7 @@ ir_texture_get_storage_edit(TQ3TextureObject theTexture)
 {	TQ3Status			qd3dStatus;
 	TQ3StoragePixmap	thePixmap;
 	TQ3Mipmap			theMipmap;
-	TQ3Uns32			editIndex;
+	TQ3Uns32			editIndex = 0;
 	TQ3ObjectType		theType;
 
 

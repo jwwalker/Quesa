@@ -1075,7 +1075,7 @@ E3Size_Pad(TQ3Size size)
 TQ3Status
 E3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, E3File* theFile)
 {
-	TQ3Status		status;
+	TQ3Status		status = kQ3Failure;
 	TQ3XFFormatStringReadMethod 	stringRead;
 	TQ3Uns32		bufferSize;
 

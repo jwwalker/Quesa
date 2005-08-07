@@ -753,7 +753,7 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 
 
 
-	TQ3Status qd3dstatus;
+	TQ3Status qd3dstatus = kQ3Success;
 	
 	// Write uv Boundaries
 	
@@ -2864,9 +2864,9 @@ e3ffw_3DMF_submit_tm_attarray( TQ3ViewObject view,
 {
 	TQ3Status	status = kQ3Success;
 	TQ3Uns32	size;
-	TQ3TriMeshAttributeData*	theArray;
+	TQ3TriMeshAttributeData*	theArray = NULL;
 	TQ3TriMeshAttributeData*	theAttData;
-	TQ3Uns32	arraySize;
+	TQ3Uns32	arraySize = 0;
 	TQ3Uns32	attrSize;
 	TQ3XObjectClass		attrArrayClass;
 	TE3FFormat3DMF_AttributeArray_Data*	objectData;

@@ -1829,8 +1829,8 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 	TQ3Uns32				positionInArray;
 	TQ3Uns32				attributeUseArrayFlag;
 		
-	TQ3Uns32				i, numElems;
-	TQ3TriMeshAttributeData *theAttribute;
+	TQ3Uns32				i, numElems = 0;
+	TQ3TriMeshAttributeData *theAttribute = NULL;
 	
 	TQ3Int8*				useArray;
 	

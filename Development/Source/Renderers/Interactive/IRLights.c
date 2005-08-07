@@ -226,6 +226,9 @@ ir_light_convert_point(TQ3InteractiveData	*instanceData,
 		case kQ3AttenuationTypeSize32:
 		default:
 			Q3_ASSERT(!"Unknown attenuation");
+			attConstant  = 0.0f;
+			attLinear    = 0.0f;
+			attQuadratic = 0.0f;
 			break;
 		}
 
@@ -312,6 +315,9 @@ ir_light_convert_spot(TQ3InteractiveData	*instanceData,
 		case kQ3AttenuationTypeSize32:
 		default:
 			Q3_ASSERT(!"Unknown attenuation");
+			attConstant  = 0.0f;
+			attLinear    = 0.0f;
+			attQuadratic = 0.0f;
 			break;
 		}
 
