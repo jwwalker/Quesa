@@ -298,10 +298,10 @@ e3drawcontext_mac_createregions(TQ3DrawContextObject theDrawContext, TQ3Uns32 nu
 	// Dispose of any clipping regions that already exist
 	for (n = 0; n < instanceData->numDrawRegions; n++)
 		{
-		if (instanceData->drawRegions[n].platformClip != NULL)
+		if (instanceData->drawRegions[n].platformClip != 0)
 			{
 			DisposeRgn((RgnHandle) instanceData->drawRegions[n].platformClip);
-			instanceData->drawRegions[n].platformClip = NULL;
+			instanceData->drawRegions[n].platformClip = 0;
 			}
 		}
 
