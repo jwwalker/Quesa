@@ -3385,7 +3385,7 @@ E3Matrix3x3_Multiply(const TQ3Matrix3x3 *m1, const TQ3Matrix3x3 *m2, TQ3Matrix3x
 	
 	#undef A
 	#undef B
-	#undef C
+	#undef M
 
 	if (output == &temp)
 		*result = temp;
