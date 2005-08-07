@@ -45,9 +45,11 @@
 //-----------------------------------------------------------------------------
 #include "Qut.h"
 
-#include <time.h>
-
-
+#if QUESA_OS_MACINTOSH && !QUESA_UH_IN_FRAMEWORKS
+	#include <Timer.h>
+#elif QUESA_OS_UNIX
+	#include <sys/time.h>
+#endif
 
 
 
@@ -3276,6 +3278,36 @@ appPreRender(TQ3ViewObject theView)
 
 
 
+//=============================================================================
+//      getAbsoluteTime : Get absolute time (as opposed to process time)
+//-----------------------------------------------------------------------------
+static double
+getAbsoluteTime()
+{
+	double	theSeconds = 0.0;
+	
+#if QUESA_OS_MACINTOSH
+	UnsignedWide	micro;
+	Microseconds( &micro );
+	
+	theSeconds = micro.hi * 4294.967296 + micro.lo * 1e-6;
+	
+#elif QUESA_OS_WIN32
+	DWORD	milliseconds = GetTickCount();
+	theSeconds = milliseconds * 0.001;
+	
+#else
+	struct timeval	secsAndUSecs;
+	gettimeofday( &secsAndNSecs, NULL );
+	theSeconds = secsAndUSecs.tv_sec + secsAndUSecs.tv_nsec * 1e-9;
+#endif
+
+	return theSeconds;
+}
+
+
+
+
 
 //=============================================================================
 //      appRender : Render another frame.
@@ -3283,8 +3315,8 @@ appPreRender(TQ3ViewObject theView)
 static void
 appRender(TQ3ViewObject theView)
 {
-	static clock_t	sPrevRenderTime = 0;
-	clock_t			renderTime;
+	static double	sPrevRenderTime = 0;
+	double			renderTime;
 	float			timeFactor;
 	TQ3Matrix4x4	rotationMatrix;
 	static TQ3Vector3D	sAxis = { 0.6f, 0.8f, 0.0f };
@@ -3340,10 +3372,10 @@ appRender(TQ3ViewObject theView)
 
 	// Update the rotation matrix, in a such a way that the rate of rotation
 	// remains approximately constant in spite of changes in frame rate.
-	renderTime = clock();
+	renderTime = getAbsoluteTime();
 	if (sPrevRenderTime != 0)
 		{
-		timeFactor = (renderTime - sPrevRenderTime) / ((float) CLOCKS_PER_SEC);
+		timeFactor = renderTime - sPrevRenderTime;
 
 		// precession of the axis
 		Q3Matrix4x4_SetRotate_Y( &rotationMatrix, timeFactor * 0.1f );
