@@ -700,7 +700,7 @@ IRGeometry_Submit_Triangle(TQ3ViewObject			theView,
 	TQ3Boolean				hadAttributeTexture;
 	TQ3FVertex3D			theVertices[3];
 	TQ3Point3D				thePoints[3];
-	TQ3FVertexFlags			vertexFlags;
+	TQ3FVertexFlags			vertexFlags = kQ3FVertexFlagNone;
 	TQ3Status				qd3dStatus;
 	TQ3TriFlags				theFlag;
 	TQ3Uns32				n;

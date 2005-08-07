@@ -750,7 +750,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3PolyLineData					polyLineData;
 	TQ3GeometryObject				thePolyLine;
 	TQ3Status						theStatus;
-	TQ3Uns32						numPoints;
+	TQ3Uns32						numPoints = 0;
 #pragma unused(theView)
 
 

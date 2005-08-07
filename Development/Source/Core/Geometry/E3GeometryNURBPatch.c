@@ -574,6 +574,7 @@ e3geom_nurbpatch_recursive_quad_world_subdivide( TQ3Uns32 depth, float subdiv, f
 	TQ3Uns32 recurseDepth, maxRecurseDepth ;
 	
 	depth++ ;
+	maxRecurseDepth = 0 ;
 	
 	#define a Q3Point3D_DistanceSquared( Pfufv, Plufv )
 	#define b Q3Point3D_DistanceSquared( Plufv, Plulv )
@@ -581,7 +582,6 @@ e3geom_nurbpatch_recursive_quad_world_subdivide( TQ3Uns32 depth, float subdiv, f
 	#define d Q3Point3D_DistanceSquared( Pfufv, Pfulv )
 	
 	if( a > subdiv || b > subdiv || c > subdiv || d > subdiv ) {
-		maxRecurseDepth = 0 ;
 		
 		hu = (fu + lu)*0.5f ;
 		hv = (fv + lv)*0.5f ;
@@ -689,6 +689,7 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 	TQ3Uns32 recurseDepth, maxRecurseDepth ;
 	
 	depth++ ;
+	maxRecurseDepth = 0 ;
 	
 	#define a Q3Point2D_DistanceSquared( Pfufv2, Plufv2 )
 	#define b Q3Point2D_DistanceSquared( Plufv2, Plulv2 )
@@ -696,7 +697,6 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 	#define d Q3Point2D_DistanceSquared( Pfufv2, Pfulv2 )
 	
 	if( a > subdiv || b > subdiv || c > subdiv || d > subdiv ) {
-		maxRecurseDepth = 0 ;
 		
 		hu = (fu + lu)*0.5f ;
 		hv = (fv + lv)*0.5f ;
@@ -1168,6 +1168,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3Uns32				numpoints, numtriangles;
 	float					*uBasisValues, *vBasisValues, *uBasisDerivValues, *vBasisDerivValues ;
 	
+	theGroup = NULL;
 	points = NULL ;
 	normals = NULL ;
 	uvs = NULL ;

@@ -64,7 +64,7 @@ static TQ3Status
 e3read_3dmf_addfloats(TQ3Object attributeSet, TQ3AttributeType theType,
 						 TQ3Uns32  numFloats,    TQ3FileObject    theFile)
 {	float		theFloats[6];
-	TQ3Status	qd3dStatus;
+	TQ3Status	qd3dStatus = kQ3Success;
 	TQ3Uns32	n;
 
 
@@ -2368,7 +2368,7 @@ TQ3Object
 E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 {	TQ3Uns32 				i,j,vertexCount;
 	TQ3Object				childObject;
-	TQ3Object 				theObject;
+	TQ3Object 				theObject = NULL;
 	TQ3GeneralPolygonData	geomData;
 	TQ3SetObject			elementSet = NULL;
 
@@ -3276,7 +3276,7 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 {	TQ3Object			childObject;
-	TQ3Object 			theObject;
+	TQ3Object 			theObject = NULL;
 	TQ3PolygonData		geomData;
 	TQ3Uns32 			i;
 	TQ3SetObject			elementSet = NULL;
@@ -3483,7 +3483,7 @@ TQ3Object
 E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 {	TQ3Uns32 			i, numVertices, numFacets;
 	TQ3Object			childObject;
-	TQ3Object 			theObject;
+	TQ3Object 			theObject = NULL;
 	TQ3TriGridData		geomData;
 	TQ3SetObject			elementSet = NULL;
 

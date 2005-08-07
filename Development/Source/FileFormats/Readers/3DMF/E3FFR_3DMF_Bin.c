@@ -174,7 +174,7 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 	
 
 	TQ3XObjectReadDataMethod 	readDataMethod;
-	E3ClassInfoPtr				theClass;
+	E3ClassInfoPtr				theClass = NULL;
 	
 
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
