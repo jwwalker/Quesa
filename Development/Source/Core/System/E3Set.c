@@ -1905,13 +1905,13 @@ E3Set::Add ( TQ3ElementType theType, const void *data )
 			TQ3ElementObject theElement = e3set_find_element ( & setData , theType ) ;
 			if ( theElement != NULL )
 				{
-				E3ElementInfo* theClass = (E3ElementInfo*) theElement->GetClass () ;
+				E3ElementInfo* elementClass = (E3ElementInfo*) theElement->GetClass () ;
 				
-				if ( theClass->elementCopyReplaceMethod != NULL )
-					qd3dStatus = theClass->elementCopyReplaceMethod ( data, theElement->FindLeafInstanceData () ) ;
+				if ( elementClass->elementCopyReplaceMethod != NULL )
+					qd3dStatus = elementClass->elementCopyReplaceMethod ( data, theElement->FindLeafInstanceData () ) ;
 				else
 					{
-					TQ3Uns32 dataSize = theClass->GetInstanceSize () ;
+					TQ3Uns32 dataSize = elementClass->GetInstanceSize () ;
 					if ( dataSize > 0 )
 						Q3Memory_Copy ( data, theElement->FindLeafInstanceData () , dataSize ) ;
 					qd3dStatus = kQ3Success ;
@@ -2002,12 +2002,12 @@ E3Set::Get ( TQ3ElementType theType, void *data )
 			if ( theElement == NULL )
 				return kQ3Failure ;
 				
-			E3ElementInfo* theClass = (E3ElementInfo*) theElement->GetClass () ;
+			E3ElementInfo* elementClass = (E3ElementInfo*) theElement->GetClass () ;
 
-			if ( theClass == NULL )
+			if ( elementClass == NULL )
 				return kQ3Failure ;
 				
-			TQ3Uns32 dataSize = theClass->GetInstanceSize () ;
+			TQ3Uns32 dataSize = elementClass->GetInstanceSize () ;
 
 
 			// If there's nothing to copy, bail. It is OK for dataSize to be 0, as the
@@ -2018,8 +2018,8 @@ E3Set::Get ( TQ3ElementType theType, void *data )
 
 
 			// Copy the element data
-			if ( theClass->elementCopyGetMethod != NULL )
-				qd3dStatus = theClass->elementCopyGetMethod ( theElement->FindLeafInstanceData () , (void*) data ) ;
+			if ( elementClass->elementCopyGetMethod != NULL )
+				qd3dStatus = elementClass->elementCopyGetMethod ( theElement->FindLeafInstanceData () , (void*) data ) ;
 			else
 				{
 				Q3Memory_Copy ( theElement->FindLeafInstanceData () , data, dataSize ) ;
