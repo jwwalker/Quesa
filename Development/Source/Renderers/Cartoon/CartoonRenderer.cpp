@@ -512,7 +512,7 @@ TQ3Param2D* CCartoonRendererQuesa::GenShadeTVerts( int nVerts, const TQ3Vector3D
 		}
 		else
 		{
-			fDotProd = (1.0f - abs(eyeNormal.z) / eyeNormalLen) * 0.5f;
+			fDotProd = (1.0f - fabs(eyeNormal.z) / eyeNormalLen) * 0.5f;
 		}
 
 		if (fDotProd <= 0.0f)
