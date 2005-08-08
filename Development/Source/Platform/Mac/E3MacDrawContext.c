@@ -376,7 +376,7 @@ e3drawcontext_mac_buildregions(TQ3DrawContextObject theDrawContext)
 		thePixMap = (*activeDevices[n])->gdPMap;
 		Q3_ASSERT_VALID_PTR(thePixMap);
 		
-		rowBytes   = (*thePixMap)->rowBytes & 0x7FFF;
+		rowBytes   = GetPixRowBytes(thePixMap);
 		pixelBytes = (*thePixMap)->pixelSize / 8;
 		pixelType  = E3DrawContext_GetDevicePixelTypeFromBPP((*thePixMap)->pixelSize);
 
