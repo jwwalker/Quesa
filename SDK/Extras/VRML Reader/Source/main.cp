@@ -50,6 +50,11 @@
 		extern "C"
 		{
 			__declspec(dllexport) void Macho_VRML_Reader_Entry();
+			__declspec(dllexport) void Macho_VRML_Reader_Exit();
+		
+		#if __MWERKS__
+			extern void __destroy_global_chain(void);
+		#endif
 		}
 	#else
 		pascal OSErr __initialize(const CFragInitBlock *theInitBlock);
@@ -82,6 +87,18 @@ void Macho_VRML_Reader_Entry()
 	sharedLibraryInfo.sharedLibrary 	= NULL;
 												
 	Q3XSharedLibrary_Register(&sharedLibraryInfo);
+}
+
+#pragma CALL_ON_UNLOAD Macho_VRML_Reader_Exit
+void Macho_VRML_Reader_Exit()
+{
+	UnregisterVRMLReaderClass();
+	
+	// It seems to be necessary to do this cleanup when using a CodeWarrior-built plugin
+	// in an Xcode-built app.
+	#if __MWERKS__
+		__destroy_global_chain();
+	#endif
 }
 
 #else	// CFM
