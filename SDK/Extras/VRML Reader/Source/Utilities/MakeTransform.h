@@ -42,7 +42,11 @@
     ___________________________________________________________________________
 */
 
-#include "CQ3ObjectRef.h"
+#if __MACH__
+	#include <Quesa/CQ3ObjectRef.h>
+#else
+	#include <CQ3ObjectRef.h>
+#endif
 #include "PolyValue.h"
 
 /*!

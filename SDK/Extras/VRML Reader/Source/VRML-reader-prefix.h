@@ -2,7 +2,11 @@
 
 #include <stdexcept>
 
-#include <Quesa.h>
+#if __MACH__
+	#include <Quesa/Quesa.h>
+#else
+	#include <Quesa.h>
+#endif
 
 #define		ThrowIfNullQuesaOb_( ob )	do { if (not ob.isvalid()) {		\
 							throw std::runtime_error("nil Quesa object");	\
