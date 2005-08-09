@@ -49,9 +49,15 @@
 #include "SVRML1State.h"
 #include "VRML-reader-prefix.h"
 
-#include <CQ3ObjectRef.h>
-#include <QuesaExtension.h>
-#include <QuesaStorage.h>
+#if __MACH__
+	#include <Quesa/CQ3ObjectRef.h>
+	#include <Quesa/QuesaExtension.h>
+	#include <Quesa/QuesaStorage.h>
+#else
+	#include <CQ3ObjectRef.h>
+	#include <QuesaExtension.h>
+	#include <QuesaStorage.h>
+#endif
 
 #include <cstring>
 #include <string>

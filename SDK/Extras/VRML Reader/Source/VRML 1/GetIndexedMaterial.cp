@@ -46,7 +46,11 @@
 #include "SVRML1State.h"
 #include "VRML-reader-prefix.h"
 
-#include <QuesaSet.h>
+#if __MACH__
+	#include <Quesa/QuesaSet.h>
+#else
+	#include <QuesaSet.h>
+#endif
 
 /*!
 	@function	GetIndexedMaterial

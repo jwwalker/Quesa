@@ -44,9 +44,13 @@
 
 #include "IsKeyPresent.h"
 
-
-#include <QuesaMath.h>
-#include <QuesaTransform.h>
+#if __MACH__
+	#include <Quesa/QuesaMath.h>
+	#include <Quesa/QuesaTransform.h>
+#else
+	#include <QuesaMath.h>
+	#include <QuesaTransform.h>
+#endif
 
 
 static bool	GetVec3Value( PolyValue::Dictionary& inDict, const char* inName,

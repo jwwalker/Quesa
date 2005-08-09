@@ -42,12 +42,18 @@
 */
 #include "CreatePixelTexture.h"
 
-#include "CQ3ObjectRef.h"
 #include "IsKeyPresent.h"
 #include "VRML-reader-prefix.h"
 
-#include <QuesaShader.h>
-#include <QuesaStorage.h>
+#if __MACH__
+	#include <Quesa/CQ3ObjectRef.h>
+	#include <Quesa/QuesaShader.h>
+	#include <Quesa/QuesaStorage.h>
+#else
+	#include <CQ3ObjectRef.h>
+	#include <QuesaShader.h>
+	#include <QuesaStorage.h>
+#endif
 
 /*!
 	@function	CreatePixelTexture

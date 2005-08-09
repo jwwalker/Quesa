@@ -42,8 +42,14 @@
     ___________________________________________________________________________
 */
 
-#include <Quesa.h>
-#include <QuesaIO.h>
+#if __MACH__
+	#include <Quesa/Quesa.h>
+	#include <Quesa/QuesaIO.h>
+#else
+	#include <Quesa.h>
+	#include <QuesaIO.h>
+#endif
+
 #include <memory>
 #include <iosfwd>
 

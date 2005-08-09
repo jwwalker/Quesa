@@ -42,7 +42,11 @@
 */
 #include "SignedAngleBetweenVectors.h"
 
-#include <QuesaMath.h>
+#if __MACH__
+	#include <Quesa/QuesaMath.h>
+#else
+	#include <QuesaMath.h>
+#endif
 
 #include <cmath>
 

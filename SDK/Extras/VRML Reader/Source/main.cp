@@ -42,15 +42,25 @@
 */
 #include "quesa-methods.h"
 
-#include <QuesaExtension.h>
+#if __MACH__
+	#include <Quesa/QuesaExtension.h>
+#else
+	#include <QuesaExtension.h>
+#endif
+
 #include <cstring>
 
 #if QUESA_OS_MACINTOSH
 	#if TARGET_RT_MAC_MACHO
 		extern "C"
 		{
+		#if __MWERKS__
 			__declspec(dllexport) void Macho_VRML_Reader_Entry();
 			__declspec(dllexport) void Macho_VRML_Reader_Exit();
+		#else
+			void __attribute__((visibility("default"))) Macho_VRML_Reader_Entry();
+			void __attribute__((visibility("default"))) Macho_VRML_Reader_Exit();
+		#endif
 		
 		#if __MWERKS__
 			extern void __destroy_global_chain(void);
@@ -84,7 +94,7 @@ void Macho_VRML_Reader_Entry()
 	
 	
 	sharedLibraryInfo.registerFunction 	= RegisterVRMLReaderClass;
-	sharedLibraryInfo.sharedLibrary 	= NULL;
+	sharedLibraryInfo.sharedLibrary 	= 0;
 												
 	Q3XSharedLibrary_Register(&sharedLibraryInfo);
 }
