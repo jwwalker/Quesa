@@ -1,11 +1,3 @@
-#include "RotationV1ToObject.h"
-
-#include "CVRMLReader.h"
-#include "IsKeyPresent.h"
-#include "GetCachedObject.h"
-#include "PolyValue.h"
-
-#include <QuesaMath.h>
 /*  NAME:
         RotationV1ToObject.cp
 
@@ -48,7 +40,20 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
-#include <QuesaTransform.h>
+#include "RotationV1ToObject.h"
+
+#include "CVRMLReader.h"
+#include "IsKeyPresent.h"
+#include "GetCachedObject.h"
+#include "PolyValue.h"
+
+#if __MACH__
+	#include <Quesa/QuesaMath.h>
+	#include <Quesa/QuesaTransform.h>
+#else
+	#include <QuesaMath.h>
+	#include <QuesaTransform.h>
+#endif
 
 #include <ostream>
 

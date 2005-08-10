@@ -47,7 +47,11 @@
 #include "MakeTransform.h"
 #include "PolyValue.h"
 
-#include <QuesaTransform.h>
+#if __MACH__
+	#include <Quesa/QuesaTransform.h>
+#else
+	#include <QuesaTransform.h>
+#endif
 
 /*!
 	@function	TransformV1ToObject

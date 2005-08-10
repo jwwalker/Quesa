@@ -47,7 +47,11 @@
 #include "IsKeyPresent.h"
 #include "PolyValue.h"
 
-#include <QuesaCustomElements.h>
+#if __MACH__
+	#include <Quesa/QuesaCustomElements.h>
+#else
+	#include <QuesaCustomElements.h>
+#endif
 
 /*!
 	@function	GroupV2ToObject

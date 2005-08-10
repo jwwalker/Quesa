@@ -49,7 +49,11 @@
 #include "PolyValue.h"
 #include "VRML-reader-prefix.h"
 
-#include <QuesaShader.h>
+#if __MACH__
+	#include <Quesa/QuesaShader.h>
+#else
+	#include <QuesaShader.h>
+#endif
 
 static CQ3ObjectRef	CreateImageTexture( PolyValue::Dictionary& textureDict,
 										CVRMLReader& inReader )

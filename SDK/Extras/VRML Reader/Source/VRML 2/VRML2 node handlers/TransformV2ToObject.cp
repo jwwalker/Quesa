@@ -50,8 +50,13 @@
 #include "PrependObjectToGroup.h"
 #include "VRML-reader-prefix.h"
 
-#include <QuesaGroup.h>
-#include <QuesaCustomElements.h>
+#if __MACH__
+	#include <Quesa/QuesaCustomElements.h>
+	#include <Quesa/QuesaGroup.h>
+#else
+	#include <QuesaCustomElements.h>
+	#include <QuesaGroup.h>
+#endif
 
 
 /*!

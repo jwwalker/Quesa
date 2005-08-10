@@ -55,11 +55,19 @@
 #include <ostream>
 #include <cmath>
 
-#include <QuesaGeometry.h>
-#include <QuesaGroup.h>
-#include <QuesaMath.h>
-#include <QuesaStyle.h>
-#include <QuesaCustomElements.h>
+#if __MACH__
+	#include <Quesa/QuesaGeometry.h>
+	#include <Quesa/QuesaGroup.h>
+	#include <Quesa/QuesaMath.h>
+	#include <Quesa/QuesaStyle.h>
+	#include <Quesa/QuesaCustomElements.h>
+#else
+	#include <QuesaGeometry.h>
+	#include <QuesaGroup.h>
+	#include <QuesaMath.h>
+	#include <QuesaStyle.h>
+	#include <QuesaCustomElements.h>
+#endif
 
 #if TARGET_API_MAC_CARBON && DEBUG
 	//#define	DEBUG_INTERNAL	1
