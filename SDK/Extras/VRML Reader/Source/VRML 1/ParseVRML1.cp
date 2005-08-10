@@ -138,9 +138,6 @@ namespace
 								SParseState(
 										PolyValue::PolyVec& ioTopNodes,
 										std::ostream* ioStream );
-								
-		template <typename ScannerT>
-		friend struct VRMLParser::definition<ScannerT>;
 		
 		void					ConvertNumericArray( bool inConvertSingleToFloat );
 		
