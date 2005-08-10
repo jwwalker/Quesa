@@ -49,8 +49,11 @@
 #include "SVRML1State.h"
 #include "VRML_1_constants.h"
 
-#include <QuesaGeometry.h>
-
+#if __MACH__
+	#include <Quesa/QuesaGeometry.h>
+#else
+	#include <QuesaGeometry.h>
+#endif
 
 /*!
 	@function	CubeV1ToObject

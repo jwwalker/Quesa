@@ -50,8 +50,13 @@
 #include "VRML_1_constants.h"
 #include "VRML-reader-prefix.h"
 
-#include <QuesaGeometry.h>
-#include <QuesaGroup.h>
+#if __MACH__
+	#include <Quesa/QuesaGeometry.h>
+	#include <Quesa/QuesaGroup.h>
+#else
+	#include <QuesaGeometry.h>
+	#include <QuesaGroup.h>
+#endif
 
 /*!
 	@function	CylinderV1ToObject

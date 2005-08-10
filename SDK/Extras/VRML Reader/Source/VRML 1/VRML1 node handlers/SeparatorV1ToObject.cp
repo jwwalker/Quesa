@@ -1,10 +1,3 @@
-#include "SeparatorV1ToObject.h"
-
-#include "CVRMLReader.h"
-#include "GetCachedObject.h"
-#include "IsKeyPresent.h"
-#include "NodeV1ToObject.h"
-#include "PolyValue.h"
 /*  NAME:
         SeparatorV1ToObject.cp
 
@@ -47,10 +40,22 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
+#include "SeparatorV1ToObject.h"
+
+#include "CVRMLReader.h"
+#include "GetCachedObject.h"
+#include "IsKeyPresent.h"
+#include "NodeV1ToObject.h"
+#include "PolyValue.h"
 #include "VRML-reader-prefix.h"
 
-#include <QuesaGroup.h>
-#include <QuesaCustomElements.h>
+#if __MACH__
+	#include <Quesa/QuesaGroup.h>
+	#include <Quesa/QuesaCustomElements.h>
+#else
+	#include <QuesaGroup.h>
+	#include <QuesaCustomElements.h>
+#endif
 
 
 /*!

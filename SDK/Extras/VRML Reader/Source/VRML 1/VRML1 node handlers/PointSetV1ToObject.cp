@@ -52,10 +52,17 @@
 #include "VRML_1_constants.h"
 #include "VRML-reader-prefix.h"
 
-#include <QuesaGeometry.h>
-#include <QuesaGroup.h>
-#include <QuesaSet.h>
-#include <QuesaShader.h>
+#if __MACH__
+	#include <Quesa/QuesaGeometry.h>
+	#include <Quesa/QuesaGroup.h>
+	#include <Quesa/QuesaSet.h>
+	#include <Quesa/QuesaShader.h>
+#else
+	#include <QuesaGeometry.h>
+	#include <QuesaGroup.h>
+	#include <QuesaSet.h>
+	#include <QuesaShader.h>
+#endif
 
 /*!
 	@function	PointSetV1ToObject

@@ -55,8 +55,13 @@
 #include "PolyValue.h"
 #include "VRML-reader-prefix.h"
 
-#include <QuesaSet.h>
-#include <QuesaShader.h>
+#if __MACH__
+	#include <Quesa/QuesaSet.h>
+	#include <Quesa/QuesaShader.h>
+#else
+	#include <QuesaSet.h>
+	#include <QuesaShader.h>
+#endif
 
 #include <ostream>
 
