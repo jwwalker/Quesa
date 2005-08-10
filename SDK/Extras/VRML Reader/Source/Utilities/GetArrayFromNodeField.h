@@ -45,7 +45,13 @@
 
 #include "IsKeyPresent.h"
 #include "PolyValue.h"
-#include <Quesa.h>
+
+#if __MACH__
+	#include <Quesa/Quesa.h>
+#else
+	#include <Quesa.h>
+#endif
+
 
 namespace GetNumbersFromIterator
 {
@@ -122,7 +128,7 @@ void FloatVecToStructureVec( const PolyValue::FloatVec& inFloats,
 	for (PolyValue::FloatVec::const_iterator i = inFloats.begin();
 		i != inFloats.end(); )	// look Ma, no ++i
 	{
-		typename T thing;
+		T thing;
 		getter( i, thing );
 		outArray.push_back( thing );
 	}
