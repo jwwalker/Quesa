@@ -95,7 +95,8 @@ CQ3ObjectRef	ShapeV2ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 {
 	CQ3ObjectRef	theObject;
 	
-	PolyValue&	theGeom( ioNode.GetDictionary()["geometry"] );
+	PolyValue::Dictionary&	nodeDict( ioNode.GetDictionary() );
+	PolyValue&	theGeom( nodeDict["geometry"] );
 	
 	if (theGeom.GetType() == PolyValue::kDataTypeDictionary)
 	{
@@ -157,7 +158,7 @@ CQ3ObjectRef	ShapeV2ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 		if (geomObject.isvalid())
 		{
 			CQ3ObjectRef	appearanceObject;
-			PolyValue&	theAppearanceNode( ioNode.GetDictionary()["appearance"] );
+			PolyValue&	theAppearanceNode( nodeDict["appearance"] );
 			
 			if (theAppearanceNode.GetType() == PolyValue::kDataTypeDictionary)
 			{
@@ -192,6 +193,14 @@ CQ3ObjectRef	ShapeV2ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 	
 	if (theObject.isvalid())
 	{
+		// If the Shape was named with a DEF, use that as the name ofthe object.
+		if (IsKeyPresent( nodeDict, "[name]" ))
+		{
+			PolyValue&	nameValue( nodeDict["[name]"] );
+			const std::string&	theName( nameValue.GetString() );
+			::CENameElement_SetData( theObject.get(), theName.c_str() );
+		}
+	
 		SetCachedObject( ioNode, theObject );
 	}
 	
