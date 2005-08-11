@@ -44,14 +44,11 @@
 
 #include "ChildrenV2ToObject.h"
 #include "GetCachedObject.h"
+#include "GetObjectName.h"
 #include "IsKeyPresent.h"
 #include "PolyValue.h"
+#include "SetGroupName.h"
 
-#if __MACH__
-	#include <Quesa/QuesaCustomElements.h>
-#else
-	#include <QuesaCustomElements.h>
-#endif
 
 /*!
 	@function	GroupV2ToObject
@@ -70,14 +67,10 @@ CQ3ObjectRef	GroupV2ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 	
 	if (theObject.isvalid())
 	{
-		// If this node was named with DEF, set that as the name of the
-		// Quesa object.
-		if (IsKeyPresent( ioNode.GetDictionary(), "[name]" ))
-		{
-			PolyValue&	nameValue( ioNode.GetDictionary()["[name]"] );
-			const std::string&	theName( nameValue.GetString() );
-			::CENameElement_SetData( theObject.get(), theName.c_str() );
-		}
+		SetGroupName( theObject, ioNode.GetDictionary() );
+		
+		// DEBUG
+		std::string		gpName( GetObjectName( theObject ) );
 
 		SetCachedObject( ioNode, theObject );
 	}
