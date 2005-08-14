@@ -179,8 +179,12 @@
 
 
 	// Export symbols when building a shared library
-    #ifdef Q3_EXPORT_SYMBOLS 
-		#define Q3_EXTERN_API_C(_type)					__declspec(dllexport) _type
+    #ifdef Q3_EXPORT_SYMBOLS
+		#if __MWERKS__
+			#define Q3_EXTERN_API_C(_type)		__declspec(dllexport) _type
+		#elif __GNUC__ >= 4
+			#define	Q3_EXTERN_API_C(_type)		__attribute__((visibility("default"))) _type
+		#endif
     #endif
 #endif // QUESA_OS_MACINTOSH
 
