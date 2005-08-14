@@ -279,22 +279,18 @@
 		BEDC057B08A5B9E800FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../Libraries/Mac/Mach-O/Debug\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Geom Test_Prefix.pch";
 				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = "Geom Test MachO D";
 			};
 			name = Debug;
 		};
 		BEDC057C08A5B9E800FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../Libraries/Mac/Mach-O/Release";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Geom Test_Prefix.pch";
 				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = "Geom Test";
 			};
 			name = Release;
 		};
@@ -304,6 +300,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "../../Libraries/Mac/Mach-O/Debug";
 				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_FAST_MATH = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"QUESA_OS_MACINTOSH=1",
@@ -316,7 +313,7 @@
 					../Qut,
 					../../Includes/Quesa,
 				);
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = "XCode-Info.plist";
 				INFOPLIST_PREPROCESS = YES;
 				PREBINDING = NO;
 				PRODUCT_NAME = "Geom Test MachO D";
@@ -326,11 +323,27 @@
 		BEDC058008A5B9E800FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEPLOYMENT_POSTPROCESSING = YES;
+				FRAMEWORK_SEARCH_PATHS = "../../Libraries/Mac/Mach-O/Release";
+				GCC_DEBUGGING_SYMBOLS = used;
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_FAST_MATH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"QUESA_OS_MACINTOSH=1",
 					"TARGET_API_MAC_CARBON=1",
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				HEADER_SEARCH_PATHS = (
+					../Qut/Mac,
+					../Qut,
+					../../Includes/Quesa,
+				);
+				INFOPLIST_FILE = "XCode-Info.plist";
+				INFOPLIST_PREPROCESS = YES;
+				PREBINDING = NO;
+				PRODUCT_NAME = "Geom Test MachO";
 			};
 			name = Release;
 		};
