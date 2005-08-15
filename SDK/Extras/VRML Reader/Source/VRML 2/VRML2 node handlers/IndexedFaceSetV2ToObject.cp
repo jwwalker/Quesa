@@ -56,11 +56,13 @@
 	#include <Quesa/QuesaGroup.h>
 	#include <Quesa/QuesaMath.h>
 	#include <Quesa/QuesaStyle.h>
+	#include <Quesa/QuesaCustomElements.h>
 #else
 	#include <QuesaGeometry.h>
 	#include <QuesaGroup.h>
 	#include <QuesaMath.h>
 	#include <QuesaStyle.h>
+	#include <QuesaCustomElements.h>
 #endif
 
 #if TARGET_API_MAC_CARBON && DEBUG
@@ -1133,6 +1135,14 @@ CQ3ObjectRef	IndexedFaceMaker::CreateObject()
 		
 		Q3Group_AddObject( resultShape.get(), theStyle.get() );
 		Q3Group_AddObject( resultShape.get(), theTriMesh.get() );
+	}
+
+	// If the IndexedFaceSet was named with a DEF, use that as the name of the object.
+	if (IsKeyPresent( mNodeDict, "[name]" ))
+	{
+		PolyValue&	nameValue( mNodeDict["[name]"] );
+		const std::string&	theName( nameValue.GetString() );
+		::CENameElement_SetData( theTriMesh.get(), theName.c_str() );
 	}
 	
 	return resultShape;
