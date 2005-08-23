@@ -57,7 +57,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=xcopy       /Y       ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll       c:\windows\system\ 
+PostBuild_Cmds=xcopy        /Y        ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll        c:\windows\system\ 
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Quesa - Win32 Debug"
@@ -88,7 +88,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=xcopy       /Y       ..\..\..\SDK\Libraries\Windows\Debug\Quesa.dll       c:\windows\system\ 
+PostBuild_Cmds=xcopy        /Y        ..\..\..\SDK\Libraries\Windows\Debug\Quesa.dll        c:\windows\system\ 
 # End Special Build Tool
 
 !ENDIF 
@@ -193,6 +193,10 @@ SOURCE=..\..\Source\Core\Geometry\E3GeometryTriGrid.c
 # Begin Source File
 
 SOURCE=..\..\Source\Core\Geometry\E3GeometryTriMesh.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\Source\Core\Geometry\E3GeometryTriMeshOptimize.cpp
 # End Source File
 # End Group
 # Begin Group "Glue"
