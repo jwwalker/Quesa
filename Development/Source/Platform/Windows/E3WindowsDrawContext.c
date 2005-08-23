@@ -319,6 +319,7 @@ e3drawcontext_win32dc_metahandler(TQ3XMethodType methodType)
 
 
 
+#if !defined(QD3D_NO_DIRECTDRAW)
 
 //=============================================================================
 //      e3drawcontext_ddsurface_new : DD surface draw context new method.
@@ -383,6 +384,7 @@ e3drawcontext_ddsurface_metahandler(TQ3XMethodType methodType)
 	return(theMethod);
 }
 
+#endif // QD3D_NO_DIRECTDRAW
 
 
 
@@ -532,6 +534,7 @@ E3Win32DCDrawContext_GetDC(TQ3DrawContextObject drawContext, HDC *curHDC)
 
 
 
+#if !defined(QD3D_NO_DIRECTDRAW)
 
 //=============================================================================
 //      E3DDSurfaceDrawContext_RegisterClass : Register the class.
@@ -626,6 +629,7 @@ E3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ
 	return(kQ3Success);
 }
 
+#endif // QD3D_NO_DIRECTDRAW
 
 
 

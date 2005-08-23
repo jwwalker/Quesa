@@ -1809,6 +1809,7 @@ Q3Win32DCDrawContext_GetDC(TQ3DrawContextObject drawContext, HDC *curHDC)
 
 
 
+#if !defined(QD3D_NO_DIRECTDRAW)
 
 //=============================================================================
 //      Q3DDSurfaceDrawContext_New : Quesa API entry point.
@@ -1915,6 +1916,7 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ
 	// Call our implementation
 	return(E3DDSurfaceDrawContext_GetDirectDrawSurface(drawContext, ddSurfaceDescriptor));
 }
+#endif // QD3D_NO_DIRECTDRAW
 #endif // QUESA_OS_WIN32
 
 

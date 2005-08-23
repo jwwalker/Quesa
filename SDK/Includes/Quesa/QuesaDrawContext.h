@@ -1406,6 +1406,7 @@ Q3Win32DCDrawContext_GetDC (
 );
 
 
+#if !defined(QD3D_NO_DIRECTDRAW)
 
 /*!
 	@functiongroup	 Windows DirectDraw Draw Context
@@ -1460,6 +1461,7 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
     TQ3DDSurfaceDescriptor        *ddSurfaceDescriptor
 );
 
+#endif // QD3D_NO_DIRECTDRAW
 #endif // QUESA_OS_WIN32
 
 
