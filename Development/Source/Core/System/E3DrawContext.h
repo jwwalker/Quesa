@@ -140,10 +140,13 @@ typedef struct TQ3Win32DCDrawContextState {
 	TQ3Area							windowRect;
 } TQ3Win32DCDrawContextState;
 
+#if !defined(QD3D_NO_DIRECTDRAW)
+
 typedef struct TQ3DDSurfaceDrawContextState {
 	TQ3DDSurfaceDrawContextData		theData;
 } TQ3DDSurfaceDrawContextState;
 
+#endif
 
 #elif QUESA_OS_BE
 typedef struct TQ3BeDrawContextState {
@@ -183,7 +186,9 @@ typedef struct TQ3DrawContextUnionData {
 
 #elif QUESA_OS_WIN32
 		TQ3Win32DCDrawContextState		win32Data;
+#if !defined(QD3D_NO_DIRECTDRAW)
 		TQ3DDSurfaceDrawContextState	winDDData;
+#endif
 
 #elif QUESA_OS_BE
 		TQ3BeDrawContextState			beData;
@@ -319,12 +324,15 @@ TQ3DrawContextObject	E3Win32DCDrawContext_NewWithWindow(TQ3ObjectType drawContex
 TQ3Status				E3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC);
 TQ3Status				E3Win32DCDrawContext_GetDC(TQ3DrawContextObject drawContext, HDC *curHDC);
 
+#if !defined(QD3D_NO_DIRECTDRAW)
+
 TQ3Status				E3DDSurfaceDrawContext_RegisterClass(void);
 TQ3Status				E3DDSurfaceDrawContext_UnregisterClass(void);
 
 TQ3DrawContextObject	E3DDSurfaceDrawContext_New(const TQ3DDSurfaceDrawContextData *drawContextData);
 TQ3Status				E3DDSurfaceDrawContext_SetDirectDrawSurface(TQ3DrawContextObject drawContext, const TQ3DDSurfaceDescriptor *ddSurfaceDescriptor);
 TQ3Status				E3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ3DDSurfaceDescriptor *ddSurfaceDescriptor);
+#endif
 #endif
 
 

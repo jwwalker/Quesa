@@ -388,8 +388,10 @@ E3DrawContext_RegisterClass(void)
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3Win32DCDrawContext_RegisterClass();
 
+#if !defined(QD3D_NO_DIRECTDRAW)
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3DDSurfaceDrawContext_RegisterClass();
+#endif // QD3D_NO_DIRECTDRAW
 
 #elif QUESA_OS_BE
 	if (qd3dStatus == kQ3Success)
@@ -427,7 +429,9 @@ E3DrawContext_UnregisterClass(void)
 
 #elif QUESA_OS_WIN32
 	qd3dStatus = E3Win32DCDrawContext_UnregisterClass();
+#if !defined(QD3D_NO_DIRECTDRAW)
 	qd3dStatus = E3DDSurfaceDrawContext_UnregisterClass();
+#endif // QD3D_NO_DIRECTDRAW
 
 #elif QUESA_OS_BE
 	qd3dStatus = E3BeDrawContext_UnregisterClass();
