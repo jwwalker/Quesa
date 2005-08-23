@@ -938,7 +938,7 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 	Q3Memory_Free( &interestingU ) ;
 	Q3Memory_Free( &interestingV ) ;
 	
-	subdiv = (float)pow( 2.0, maxdepth -1 ) ;
+	subdiv = (float)pow( 2.0, (int)maxdepth -1 ) ;
 	
 	
 	// I am not sure what causes subdiv to become infinite or what the value should really be,
