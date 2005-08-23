@@ -1,5 +1,5 @@
 /*  NAME:
-        E3GeometryTriMeshOptimize.cp
+        E3GeometryTriMeshOptimize.cpp
 
     DESCRIPTION:
         Functions to optimize a TriMesh for use by the interactive renderer.
@@ -663,7 +663,10 @@ void	TriMeshOptimizer::EnsureFaceNormals()
 		
 		for (i = 0; i < mOrigData.numTriangles; ++i)
 		{
-			TQ3TriMeshTriangleData&	aFace( mOrigData.triangles[i] );
+			typedef TQ3TriMeshTriangleData&	TQ3TriMeshTriangleDataRef; // limited VC++ 6.0
+
+			TQ3TriMeshTriangleDataRef	aFace( mOrigData.triangles[i] );
+
 			Q3FastPoint3D_CrossProductTri(
 				&mOrigData.points[ aFace.pointIndices[0] ],
 				&mOrigData.points[ aFace.pointIndices[1] ],
