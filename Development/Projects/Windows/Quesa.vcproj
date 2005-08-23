@@ -5,7 +5,6 @@
 	Name="Quesa"
 	ProjectGUID="{25F3021A-048D-4B4B-843E-BA55392457F9}"
 	SccLocalPath="Desktop"
-	SignManifests="true"
 	>
 	<Platforms>
 		<Platform
@@ -776,7 +775,7 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\Source\Core\Geometry\E3GeometryTriMeshOptimize.cp"
+						RelativePath="..\..\Source\Core\Geometry\E3GeometryTriMeshOptimize.cpp"
 						>
 					</File>
 				</Filter>
