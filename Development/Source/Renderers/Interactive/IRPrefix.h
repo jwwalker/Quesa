@@ -139,7 +139,7 @@ typedef struct TQ3CachedTexture {
 
 // glBlendEquation type
 #if QUESA_OS_WIN32
-	typedef void __stdcall (* TQ3BlendEquationProcPtr) (GLenum blendType);
+	typedef void (__stdcall * TQ3BlendEquationProcPtr) (GLenum blendType);
 #else
 	typedef void (* TQ3BlendEquationProcPtr) (GLenum blendType);
 #endif
