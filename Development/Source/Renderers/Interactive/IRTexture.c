@@ -735,10 +735,12 @@ ir_texture_flush_cache(TQ3InteractiveData *instanceData )
 			Q3_ASSERT( cachedTexture->cachedTextureObject.isvalid() );
 			Q3_ASSERT(glIsTexture((GLuint) cachedTexture ));
 
-
-			// If we hold the last reference to this texture, release it
+			// If we hold the last reference to this texture or shader, release it
 			if (cachedTexture->cachedTextureObject.isvalid() &&
-				!Q3Shared_IsReferenced(cachedTexture->cachedTextureObject.get()))
+				!( Q3Shared_IsReferenced(cachedTexture->cachedTextureObject.get()) &&
+					Q3Shared_IsReferenced(cachedTexture->cachedTextureShader.get())
+				)
+			)
 				ir_texture_cache_remove(instanceData,
 					cachedTexture->cachedTextureShader.get(),
 					cachedTexture->cachedTextureObject.get());
