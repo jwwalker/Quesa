@@ -2023,7 +2023,7 @@
                 </FILE>
                 <FILE>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>E3GeometryTriMeshOptimize.cp</PATH>
+                    <PATH>E3GeometryTriMeshOptimize.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
@@ -2652,7 +2652,7 @@
                 </FILEREF>
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>E3GeometryTriMeshOptimize.cp</PATH>
+                    <PATH>E3GeometryTriMeshOptimize.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -3675,7 +3675,7 @@
                 <SETTING><NAME>MWProject_MacOSX_dont_prebind</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWProject_MacOSX_flat_namespace</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWProject_MacOSX_frameworkversion</NAME><VALUE>A</VALUE></SETTING>
-                <SETTING><NAME>MWProject_MacOSX_currentversion</NAME><VALUE>67072</VALUE></SETTING>
+                <SETTING><NAME>MWProject_MacOSX_currentversion</NAME><VALUE>67328</VALUE></SETTING>
                 <SETTING><NAME>MWProject_MacOSX_flat_oldimpversion</NAME><VALUE>67072</VALUE></SETTING>
                 <SETTING><NAME>MWProject_MacOSX_AddrMode</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWProject_MacOSX_SingleModule</NAME><VALUE>1</VALUE></SETTING>
@@ -4739,7 +4739,7 @@
                 </FILE>
                 <FILE>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>E3GeometryTriMeshOptimize.cp</PATH>
+                    <PATH>E3GeometryTriMeshOptimize.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
@@ -5363,7 +5363,7 @@
                 </FILEREF>
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>E3GeometryTriMeshOptimize.cp</PATH>
+                    <PATH>E3GeometryTriMeshOptimize.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -5991,7 +5991,7 @@
                     <FILEREF>
                         <TARGETNAME>Debug Framework</TARGETNAME>
                         <PATHTYPE>Name</PATHTYPE>
-                        <PATH>E3GeometryTriMeshOptimize.cp</PATH>
+                        <PATH>E3GeometryTriMeshOptimize.cpp</PATH>
                         <PATHFORMAT>Unix</PATHFORMAT>
                     </FILEREF>
                 </GROUP>
