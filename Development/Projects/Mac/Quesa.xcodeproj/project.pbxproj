@@ -481,9 +481,9 @@
 		BEC777D4087DA6AD00080AB7 /* CartoonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */; };
 		BEDC045808A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */; };
 		BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp */; };
+		BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
 		BEDC045D08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */; };
-		BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp */; };
+		BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
 		BEDC045F08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */; };
 		BEDC063108A6812D00FB3A82 /* E3Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B86055E63B100CA83BE /* E3Geometry.h */; };
 		BEDC063208A6812D00FB3A82 /* E3GeometryBox.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B88055E63B100CA83BE /* E3GeometryBox.h */; };
@@ -718,7 +718,7 @@
 		BEDC071908A6812D00FB3A82 /* E3MacSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B965055E77870034F56A /* E3MacSystem.c */; };
 		BEDC071A08A6812D00FB3A82 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
 		BEDC071B08A6812D00FB3A82 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
-		BEDC071C08A6812D00FB3A82 /* E3GeometryTriMeshOptimize.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp */; };
+		BEDC071C08A6812D00FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
 		BEDC071E08A6812D00FB3A82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB77AAFE841565C02AAC07 /* Carbon.framework */; };
 		BEDC071F08A6812D00FB3A82 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E33055E691D00CA83BE /* OpenGL.framework */; };
 		BEDC072008A6812D00FB3A82 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E66055E698900CA83BE /* QuickTime.framework */; };
@@ -957,7 +957,7 @@
 		BEDC08C308A6B24A00FB3A82 /* GLCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C19055E63B100CA83BE /* GLCamera.c */; };
 		BEDC08C408A6B24A00FB3A82 /* E3Viewer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C12055E63B100CA83BE /* E3Viewer.c */; };
 		BEDC08C508A6B24A00FB3A82 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
-		BEDC08C608A6B24A00FB3A82 /* E3GeometryTriMeshOptimize.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp */; };
+		BEDC08C608A6B24A00FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
 		BEDC08C808A6B24A00FB3A82 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */; };
 		BEDC08C908A6B24A00FB3A82 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB83B9FC055E79B20034F56A /* AGL.framework */; };
 		BEDC08CA08A6B24A00FB3A82 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E33055E691D00CA83BE /* OpenGL.framework */; };
@@ -1036,7 +1036,7 @@
 
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		8D07F2C80486CC7A007CD1D0 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D07F2C80486CC7A007CD1D0 /* Quesa D.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Quesa D.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB3A7B85055E63B100CA83BE /* E3Geometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Geometry.c; sourceTree = "<group>"; };
 		AB3A7B86055E63B100CA83BE /* E3Geometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Geometry.h; sourceTree = "<group>"; };
 		AB3A7B87055E63B100CA83BE /* E3GeometryBox.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryBox.c; sourceTree = "<group>"; };
@@ -1268,16 +1268,16 @@
 		AB83B964055E77870034F56A /* E3MacStorage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacStorage.c; sourceTree = "<group>"; };
 		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
 		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
-		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1756AFF080A71C30056134C /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLTextureManager.c; sourceTree = "<group>"; };
 		BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
 		BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CartoonRenderer.h; sourceTree = "<group>"; };
 		BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef.h; sourceTree = "<group>"; };
-		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cp; sourceTree = "<group>"; };
+		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cpp; sourceTree = "<group>"; };
 		BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
-		BEDC072708A6812D00FB3A82 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEDC08D008A6B24A00FB3A82 /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEDC072708A6812D00FB3A82 /* Quesa D.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Quesa D.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDC08D308A6B74200FB3A82 /* Info.plist */ = {isa = PBXFileReference; comments = "This file is for use with Xcode 2.1.  It must be preprocessed in order to\nconvert the symbol kQ3UnquotedStringVersion into an actual version string."; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = Quesa.rsrc; path = Resources/Quesa.rsrc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1337,10 +1337,10 @@
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D07F2C80486CC7A007CD1D0 /* Quesa.framework */,
-				B1756AFF080A71C30056134C /* libQuesa.a */,
-				BEDC072708A6812D00FB3A82 /* Quesa.framework */,
-				BEDC08D008A6B24A00FB3A82 /* libQuesa.a */,
+				8D07F2C80486CC7A007CD1D0 /* Quesa D.framework */,
+				B1756AFF080A71C30056134C /* libQuesaD.a */,
+				BEDC072708A6812D00FB3A82 /* Quesa D.framework */,
+				BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1439,7 +1439,7 @@
 				AB3A7BAE055E63B100CA83BE /* E3GeometryTriGrid.h */,
 				AB3A7BAF055E63B100CA83BE /* E3GeometryTriMesh.c */,
 				AB3A7BB0055E63B100CA83BE /* E3GeometryTriMesh.h */,
-				BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp */,
+				BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */,
 				BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */,
 			);
 			path = Geometry;
@@ -2342,7 +2342,7 @@
 			name = "Framework (sys GCC)";
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = Quesa;
-			productReference = 8D07F2C80486CC7A007CD1D0 /* Quesa.framework */;
+			productReference = 8D07F2C80486CC7A007CD1D0 /* Quesa D.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B1756AFE080A71C30056134C /* Static Lib (sys GCC) */ = {
@@ -2383,7 +2383,7 @@
 			);
 			name = "Static Lib (sys GCC)";
 			productName = Quesa.lib;
-			productReference = B1756AFF080A71C30056134C /* libQuesa.a */;
+			productReference = B1756AFF080A71C30056134C /* libQuesaD.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		BEDC062F08A6812D00FB3A82 /* Framework (GCC 3.3) */ = {
@@ -2437,7 +2437,7 @@
 			name = "Framework (GCC 3.3)";
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = Quesa;
-			productReference = BEDC072708A6812D00FB3A82 /* Quesa.framework */;
+			productReference = BEDC072708A6812D00FB3A82 /* Quesa D.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		BEDC07DA08A6B24A00FB3A82 /* Static Lib (GCC 3.3) */ = {
@@ -2480,7 +2480,7 @@
 			);
 			name = "Static Lib (GCC 3.3)";
 			productName = Quesa.lib;
-			productReference = BEDC08D008A6B24A00FB3A82 /* libQuesa.a */;
+			productReference = BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -2665,7 +2665,7 @@
 				AB83B9A8055E77880034F56A /* E3MacSystem.c in Sources */,
 				BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */,
 				BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */,
-				BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp in Sources */,
+				BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2787,7 +2787,7 @@
 				B1756BAC080A73C00056134C /* GLCamera.c in Sources */,
 				B1756BAD080A73C00056134C /* E3Viewer.c in Sources */,
 				BEC777D3087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */,
-				BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cp in Sources */,
+				BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2909,7 +2909,7 @@
 				BEDC071908A6812D00FB3A82 /* E3MacSystem.c in Sources */,
 				BEDC071A08A6812D00FB3A82 /* GLTextureManager.c in Sources */,
 				BEDC071B08A6812D00FB3A82 /* CartoonRenderer.cpp in Sources */,
-				BEDC071C08A6812D00FB3A82 /* E3GeometryTriMeshOptimize.cp in Sources */,
+				BEDC071C08A6812D00FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3031,7 +3031,7 @@
 				BEDC08C308A6B24A00FB3A82 /* GLCamera.c in Sources */,
 				BEDC08C408A6B24A00FB3A82 /* E3Viewer.c in Sources */,
 				BEDC08C508A6B24A00FB3A82 /* CartoonRenderer.cpp in Sources */,
-				BEDC08C608A6B24A00FB3A82 /* E3GeometryTriMeshOptimize.cp in Sources */,
+				BEDC08C608A6B24A00FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
