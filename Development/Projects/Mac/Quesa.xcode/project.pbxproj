@@ -295,6 +295,7 @@
 				AB83B9A2055E77880034F56A,
 				BE6FD692076B88A800587852,
 				BEC777D2087DA6AD00080AB7,
+				B131842D08BC682600BD7BFB,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,6 +424,7 @@
 				AB83B9A8055E77880034F56A,
 				BE6FD693076B88A800587852,
 				BEC777D1087DA6AD00080AB7,
+				B131842C08BC682600BD7BFB,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -530,6 +532,8 @@
 				AB3A7BAE055E63B100CA83BE,
 				AB3A7BAF055E63B100CA83BE,
 				AB3A7BB0055E63B100CA83BE,
+				B131842A08BC682600BD7BFB,
+				B131842B08BC682600BD7BFB,
 			);
 			isa = PBXGroup;
 			path = Geometry;
@@ -4193,6 +4197,46 @@
 //B12
 //B13
 //B14
+		B131842A08BC682600BD7BFB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			path = E3GeometryTriMeshOptimize.cpp;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		B131842B08BC682600BD7BFB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = E3GeometryTriMeshOptimize.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		B131842C08BC682600BD7BFB = {
+			fileRef = B131842A08BC682600BD7BFB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B131842D08BC682600BD7BFB = {
+			fileRef = B131842B08BC682600BD7BFB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B131842E08BC682600BD7BFB = {
+			fileRef = B131842A08BC682600BD7BFB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B131842F08BC682600BD7BFB = {
+			fileRef = B131842B08BC682600BD7BFB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		B1756AFB080A71C30056134C = {
 			buildActionMask = 2147483647;
 			files = (
@@ -4313,6 +4357,7 @@
 				B1756C28080A73DB0056134C,
 				B1756C29080A73DB0056134C,
 				BEC777D4087DA6AD00080AB7,
+				B131842F08BC682600BD7BFB,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4434,6 +4479,7 @@
 				B1756BAC080A73C00056134C,
 				B1756BAD080A73C00056134C,
 				BEC777D3087DA6AD00080AB7,
+				B131842E08BC682600BD7BFB,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
