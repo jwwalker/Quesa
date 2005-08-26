@@ -478,16 +478,23 @@ void	TriMeshOptimizer::BuildEdgeAttributes()
 {
 	mResultData.numEdgeAttributeTypes = mOrigData.numEdgeAttributeTypes;
 	
-	mResultData.edgeAttributeTypes = static_cast<TQ3TriMeshAttributeData*>(
-		E3Memory_AllocateClear( mResultData.numEdgeAttributeTypes *
-			sizeof(TQ3TriMeshAttributeData) ) );
-	EQ3ThrowIfMemFail_( mResultData.edgeAttributeTypes );
-	
-	for (TQ3Uns32 i = 0; i < mOrigData.numEdgeAttributeTypes; ++i)
+	if (mResultData.numEdgeAttributeTypes == 0)
 	{
-		CopyAttributeData( mOrigData.numEdges,
-			mOrigData.edgeAttributeTypes[i],
-			mResultData.edgeAttributeTypes[i] );
+		mResultData.edgeAttributeTypes = NULL;
+	}
+	else
+	{
+		mResultData.edgeAttributeTypes = static_cast<TQ3TriMeshAttributeData*>(
+			E3Memory_AllocateClear( mResultData.numEdgeAttributeTypes *
+				sizeof(TQ3TriMeshAttributeData) ) );
+		EQ3ThrowIfMemFail_( mResultData.edgeAttributeTypes );
+		
+		for (TQ3Uns32 i = 0; i < mOrigData.numEdgeAttributeTypes; ++i)
+		{
+			CopyAttributeData( mOrigData.numEdges,
+				mOrigData.edgeAttributeTypes[i],
+				mResultData.edgeAttributeTypes[i] );
+		}
 	}
 }
 
@@ -495,13 +502,20 @@ void	TriMeshOptimizer::BuildPoints()
 {
 	mResultData.numPoints = mVertexToPoint.size();
 	
-	mResultData.points = static_cast<TQ3Point3D*>(
-		E3Memory_AllocateClear( mResultData.numPoints * sizeof(TQ3Point3D) ) );
-	EQ3ThrowIfMemFail_( mResultData.points );
-	
-	for (TQ3Uns32 i = 0; i < mResultData.numPoints; ++i)
+	if (mResultData.numPoints == 0)
 	{
-		mResultData.points[i] = mOrigData.points[ mVertexToPoint[i] ];
+		mResultData.points = NULL;
+	}
+	else
+	{
+		mResultData.points = static_cast<TQ3Point3D*>(
+			E3Memory_AllocateClear( mResultData.numPoints * sizeof(TQ3Point3D) ) );
+		EQ3ThrowIfMemFail_( mResultData.points );
+		
+		for (TQ3Uns32 i = 0; i < mResultData.numPoints; ++i)
+		{
+			mResultData.points[i] = mOrigData.points[ mVertexToPoint[i] ];
+		}
 	}
 }
 
