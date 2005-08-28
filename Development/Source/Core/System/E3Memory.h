@@ -93,6 +93,7 @@ TQ3Uns32	E3Memory_CountRecords(void);
 TQ3Object	E3Memory_NextRecordedObject( TQ3Object inObject );
 TQ3Status	E3Memory_DumpRecording( const char* fileName, const char* memo );
 TQ3Boolean	E3Memory_IsValidBlock( void *thePtr );
+TQ3Status	E3Memory_GetStatistics( TQ3MemoryStatistics* info );
 #endif
 
 TQ3SlabObject E3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData);
