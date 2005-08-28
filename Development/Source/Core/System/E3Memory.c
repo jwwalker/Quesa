@@ -126,6 +126,18 @@ public :
 
 
 //=============================================================================
+//      Internal static variables
+//-----------------------------------------------------------------------------
+static TQ3Int32		sActiveAllocCount = 0;
+static TQ3Int32		sMaxAllocCount    = 0;
+static TQ3Int64		sActiveAllocBytes = { 0, 0 };
+static TQ3Int64		sMaxAllocBytes	  = { 0, 0 };
+
+
+
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
 //      e3slab_new : Slab class new method.
@@ -179,7 +191,7 @@ e3slab_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
-//      e3sab_metahandler : Slab class metahandler.
+//      e3slab_metahandler : Slab class metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3slab_metahandler(TQ3XMethodType methodType)
@@ -199,6 +211,29 @@ e3slab_metahandler(TQ3XMethodType methodType)
 		}
 	
 	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3Int64_Max : Maximum of 64-bit signed integers.
+//-----------------------------------------------------------------------------
+static TQ3Int64
+e3Int64_Max( const TQ3Int64& a, const TQ3Int64& b )
+{
+	if ( a.hi < b.hi )
+		return b;
+	else if (a.hi == b.hi)
+	{
+		if (a.lo < b.lo)
+			return b;
+		else
+			return a;
+	}
+	else
+		return a;
 }
 
 
@@ -277,6 +312,13 @@ E3Memory_Allocate(TQ3Uns32 theSize)
 
 		// Fill the block with rubbish
 		Q3Memory_Initialize(thePtr, theSize + Q3_MEMORY_TRAILER, kMemoryUninitialised);
+		
+		
+		// Update statistics
+		sActiveAllocCount += 1;
+		sMaxAllocCount = E3Num_Max( sMaxAllocCount, sActiveAllocCount );
+		Q3Int64_Uns32_Add( sActiveAllocBytes, theSize, sActiveAllocBytes );
+		sMaxAllocBytes = e3Int64_Max( sMaxAllocBytes, sActiveAllocBytes );
 		}
 #endif
 
@@ -321,6 +363,14 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 		
 		// Fill the trailer with rubbish
 		Q3Memory_Initialize(((TQ3Uns8 *) thePtr) + theSize, Q3_MEMORY_TRAILER, kMemoryUninitialised);
+
+
+
+		// Update statistics
+		sActiveAllocCount += 1;
+		sMaxAllocCount = E3Num_Max( sMaxAllocCount, sActiveAllocCount );
+		Q3Int64_Uns32_Add( sActiveAllocBytes, theSize, sActiveAllocBytes );
+		sMaxAllocBytes = e3Int64_Max( sMaxAllocBytes, sActiveAllocBytes );
 		}
 #endif
 
@@ -371,6 +421,13 @@ E3Memory_Free(void **thePtr)
 		// Free the pointer
 		free(realPtr);
 		*thePtr = NULL;
+		
+		
+#if Q3_MEMORY_DEBUG
+		// Update statistics
+		sActiveAllocCount -= 1;
+		Q3Int64_Uns32_Subtract( sActiveAllocBytes, theSize, sActiveAllocBytes );
+#endif
 		}
 }
 
@@ -879,6 +936,40 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 	}
 	
 	return kQ3Success;
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      E3Memory_GetStatistics : Retrieve memory usage statistics.
+//-----------------------------------------------------------------------------
+#if Q3_DEBUG
+TQ3Status		E3Memory_GetStatistics( TQ3MemoryStatistics* info )
+{
+	#if Q3_MEMORY_DEBUG
+		TQ3Status	theResult;
+
+		if (info->structureVersion == kQ3MemoryStatisticsStructureVersion)
+		{
+			info->currentAllocations = sActiveAllocCount;
+			info->currentBytes = sActiveAllocBytes;
+			info->maxBytes = sMaxAllocBytes;
+			info->maxAllocations = sMaxAllocCount;
+			
+			theResult = kQ3Success;
+		}
+		else
+		{
+			theResult = kQ3Failure;
+		}
+		
+		return theResult;
+	#else
+		 return kQ3Failure;
+	#endif
 }
 #endif
 
