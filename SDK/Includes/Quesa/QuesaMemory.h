@@ -66,6 +66,46 @@ extern "C" {
 
 
 //=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+/*!
+	@constant	kQ3MemoryStatisticsStructureVersion
+	@abstract	Current version of TQ3MemoryStatistics structure.
+*/
+#define	kQ3MemoryStatisticsStructureVersion	1
+
+
+
+
+
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+/*!
+	@struct		TQ3MemoryStatistics
+	@abstract	Parameter structure for Q3Memory_GetStatistics.
+	@field		structureVersion	Version of this structure.
+									Initialize to kQ3MemoryStatisticsStructureVersion.
+	@field		currentAllocations	Current number of memory blocks allocated by Quesa.
+	@field		maxAllocations		Maximum number of memory blocks allocated by Quesa.
+	@field		currentBytes		Current number of memory bytes allocated by Quesa.
+	@field		maxBytes			Maximum number of memory bytes allocated by Quesa
+									("high-water mark").
+*/
+typedef struct TQ3MemoryStatistics
+{
+	TQ3Uns32	structureVersion;
+	TQ3Uns32	currentAllocations;
+	TQ3Uns32	maxAllocations;
+	TQ3Int64	currentBytes;
+	TQ3Int64	maxBytes;
+} TQ3MemoryStatistics;
+
+
+
+
+
+//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 /*!
@@ -279,8 +319,7 @@ Q3Memory_Copy (
 /*!
  *	@function
  *      Q3Memory_StartRecording
- *	
- *	@discussion
+  *	@discussion
  *      Begin recording allocations of Quesa objects.
  *
  *      In non-debug builds, this function does nothing.
@@ -303,7 +342,6 @@ Q3Memory_StartRecording(
 /*!
  *	@function
  *      Q3Memory_StopRecording
- *	
  *	@discussion
  *      Stop recording allocations of Quesa objects.
  *
@@ -327,7 +365,6 @@ Q3Memory_StopRecording(
 /*!
  *	@function
  *      Q3Memory_IsRecording
- *	
  *	@discussion
  *      Determine whether object allocations are being recorded.
  *
@@ -349,7 +386,6 @@ Q3Memory_IsRecording(
 /*!
  *	@function
  *      Q3Memory_ForgetRecording
- *	
  *	@discussion
  *      Forget any previously recorded allocations of Quesa objects.
  *
@@ -373,7 +409,6 @@ Q3Memory_ForgetRecording(
 /*!
  *	@function
  *      Q3Memory_CountRecords
- *	
  *	@discussion
  *      Return the number of recorded allocations of Quesa objects.
  *
@@ -397,7 +432,6 @@ Q3Memory_CountRecords(
 /*!
  *	@function
  *      Q3Memory_NextRecordedObject
- *	
  *	@discussion
  *      This function can be used to iterate through the list
  *      of Quesa objects that were created while recording was
@@ -435,7 +469,6 @@ Q3Memory_NextRecordedObject(
 /*!
  *	@function
  *      Q3Memory_DumpRecording
- *	
  *	@discussion
  *      Write a text file listing Quesa objects that were created when
  *      recording was turned on and still exist.  If there is already a
@@ -466,9 +499,37 @@ Q3Memory_DumpRecording(
 
 
 /*!
+ *	@function
+ *		Q3Memory_GetStatistics
+ *	@abstract
+ *		Get information about Quesa memory usage.
+ *
+ *	@discussion
+ *		Retrieve debugging statistics about memory allocations by Quesa.
+ *		
+ *		In non-debug builds (compiled with Q3_DEBUG or Q3_MEMORY_DEBUG set to 0)
+ *		this function returns kQ3Failure.
+ *
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *	@param		info		Structure to receive memory statistics.  You must initialize
+ *							the structureVersion field to kQ3MemoryStatisticsStructureVersion.
+ *	@result		Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status )
+Q3Memory_GetStatistics(
+	TQ3MemoryStatistics*	info
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
  *  @function
  *      Q3SlabMemory_New
- *  
  *  @discussion
  *      Create a new memory slab object.
  *
@@ -503,7 +564,6 @@ Q3SlabMemory_New(
 /*!
  *  @function
  *      Q3SlabMemory_GetData
- *  
  *  @discussion
  *      Get a pointer to the data for an item within a slab.
  *
@@ -532,7 +592,6 @@ Q3SlabMemory_GetData(
 /*!
  *  @function
  *      Q3SlabMemory_AppendData
- *  
  *  @discussion
  *      Append items to the end of a slab.
  *
@@ -574,7 +633,6 @@ Q3SlabMemory_AppendData(
 /*!
  *  @function
  *      Q3SlabMemory_GetCount
- *  
  *  @discussion
  *      Get the number of items within a slab.
  *
@@ -597,7 +655,6 @@ Q3SlabMemory_GetCount(
 /*!
  *  @function
  *      Q3SlabMemory_SetCount
- *  
  *  @discussion
  *      Set the number of items within a slab.
  *
