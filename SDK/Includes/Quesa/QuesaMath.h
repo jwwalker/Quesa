@@ -114,6 +114,15 @@ extern "C" {
 #define Q3Math_Max(_x,_y)                       ((_x) >= (_y) ? (_x) : (_y))
 
 
+#ifndef	QUESA_LONGLONG64_SUPPORT
+	#if defined(__MWERKS__) || defined(__GNUC__)
+		#define	QUESA_LONGLONG64_SUPPORT	1
+	#else
+		#define	QUESA_LONGLONG64_SUPPORT	0
+	#endif
+#endif
+
+
 
 
 
@@ -4583,6 +4592,86 @@ Q3Math_InvSquareRoot (
 		}																	\
 	while (0)
 
+#if QUESA_LONGLONG64_SUPPORT
+	#define 	Q3Int64_ToLongLong( _n )	((((long long)_n.hi) << 32) | _n.lo)
+	#define		Q3LongLong_ToInt64( _longlong, _n )							\
+	do {																	\
+		_n.hi = _longlong >> 32;											\
+		_n.lo = _longlong & 0xFFFFFFFFULL;									\
+	} while (0)
+#endif
+
+#if QUESA_LONGLONG64_SUPPORT
+#define __Q3Int64_Add( _n1, _n2, _result )									\
+	do {																	\
+		long long num1 = Q3Int64_ToLongLong( _n1 );							\
+		long long num2 = Q3Int64_ToLongLong( _n2 );							\
+		num1 += num2;														\
+		Q3LongLong_ToInt64( num1, _result );								\
+	} while (0)
+#else
+#define __Q3Int64_Add( _n1, _n2, _result )									\
+	do {																	\
+		long	_n1_0 = _n1.lo & 0x0FFFFL;									\
+		long	_n1_1 = (_n1.lo >> 16) & 0x0FFFFL;							\
+		long	_n1_2 = _n1.hi & 0x0FFFFL;									\
+		long	_n1_3 = _n1.hi >> 16;										\
+		long	_n2_0 = _n2.lo & 0x0FFFFL;									\
+		long	_n2_1 = (_n2.lo >> 16) & 0x0FFFFL;							\
+		long	_n2_2 = _n2.hi & 0x0FFFFL;									\
+		long	_n2_3 = _n2.hi >> 16;										\
+		long	_res_0 = _n1_0 + _n2_0;										\
+		long	carry = _res_0 >> 16;										\
+		_res_0 &= 0x0FFFFL;													\
+		long	_res_1 = _n1_1 + _n2_1 + carry;								\
+		carry = _res_1 >> 16;												\
+		_res_1 &= 0x0FFFFL;													\
+		long	_res_2 = _n1_2 + _n2_2 + carry;								\
+		carry = _res_2 >> 16;												\
+		_res_2 &= 0x0FFFFL;													\
+		long	_res3 = _n1_3 + _n2_3 + carry;								\
+		_result.lo = (_res_1 << 16) | _res_0;								\
+		_result.hi = (_res3 << 16) | _res_2;								\
+	} while (0)
+#endif
+
+#define	__Q3Int64_Uns32_Add( _n1, _n2, _result )							\
+	do {																	\
+		TQ3Int64	n2;														\
+		n2.hi = 0;															\
+		n2.lo = _n2;														\
+		__Q3Int64_Add( _n1, n2, _result );									\
+	} while (0)
+
+#if QUESA_LONGLONG64_SUPPORT
+#define __Q3Int64_Subtract( _n1, _n2, _result )								\
+	do {																	\
+		long long num1 = Q3Int64_ToLongLong( _n1 );							\
+		long long num2 = Q3Int64_ToLongLong( _n2 );							\
+		num1 -= num2;														\
+		Q3LongLong_ToInt64( num1, _result );								\
+	} while (0)
+#else
+#define __Q3Int64_Subtract( _n1, _n2, _result )								\
+	do {																	\
+		TQ3Int64	neg_n2, one;											\
+		neg_n2.hi = ~_n2.hi;												\
+		neg_n2.lo = ~_n2.lo;												\
+		one.hi = 0;															\
+		one.lo = 1;															\
+		__Q3Int64_Add( neg_n2, one, neg_n2 );								\
+		__Q3Int64_Add( _n1, neg_n2, _result );								\
+	} while (0)
+#endif
+
+#define	__Q3Int64_Uns32_Subtract( _n1, _n2, _result )						\
+	do {																	\
+		TQ3Int64	n2;														\
+		n2.hi = 0;															\
+		n2.lo = _n2;														\
+		__Q3Int64_Subtract( _n1, n2, _result );								\
+	} while (0)
+
 
 
 // Wrappers
@@ -5018,6 +5107,26 @@ Q3Math_InvSquareRoot (
 		__Q3FastBoundingSphere_Copy(bSphere, result);
 		return(result);
 	}
+	
+	inline void Q3Int64_Add( const TQ3Int64& a, const TQ3Int64& b, TQ3Int64& c )
+	{
+		__Q3Int64_Add( a, b, c );
+	}
+
+	inline void Q3Int64_Subtract( const TQ3Int64& a, const TQ3Int64& b, TQ3Int64& c )
+	{
+		__Q3Int64_Subtract( a, b, c );
+	}
+	
+	inline void Q3Int64_Uns32_Add( const TQ3Int64& a, TQ3Uns32 b, TQ3Int64& c )
+	{
+		__Q3Int64_Uns32_Add( a, b, c );
+	}
+
+	inline void Q3Int64_Uns32_Subtract( const TQ3Int64& a, TQ3Uns32 b, TQ3Int64& c )
+	{
+		__Q3Int64_Uns32_Subtract( a, b, c );
+	}
 
 #else
 	#define Q3FastVector2D_Set							__Q3FastVector2D_Set
@@ -5095,6 +5204,10 @@ Q3Math_InvSquareRoot (
 	#define Q3FastBoundingSphere_Reset					__Q3FastBoundingSphere_Reset
 	#define Q3FastBoundingSphere_Set					__Q3FastBoundingSphere_Set
 	#define Q3FastBoundingSphere_Copy					__Q3FastBoundingSphere_Copy
+	#define	Q3Int64_Add									__Q3Int64_Add
+	#define	Q3Int64_Subtract							__Q3Int64_Subtract
+	#define	Q3Int64_Uns32_Add							__Q3Int64_Uns32_Add
+	#define Q3Int64_Uns32_Subtract						__Q3Int64_Uns32_Subtract
 #endif
 
 
