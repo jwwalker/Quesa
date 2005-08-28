@@ -440,7 +440,7 @@ Q3Memory_ForgetRecording(void)
 
 
 //=============================================================================
-//      Q3Memory_DumpRecording : Quesa API entry point.
+//      Q3Memory_CountRecords : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Uns32
 Q3Memory_CountRecords(void)
@@ -512,6 +512,29 @@ Q3Memory_DumpRecording( const char* fileName, const char* memo )
 		#pragma unused( fileName, memo )
 		return kQ3Failure;
 	#endif
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Memory_GetStatistics : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Memory_GetStatistics(
+	TQ3MemoryStatistics*	info
+)
+{
+#if Q3_DEBUG
+	TQ3Status	result = E3Memory_GetStatistics( info );
+
+#else
+	#pragma unused( info )
+	TQ3Status	result = kQ3Failure;
+#endif
+	
+	return result;
 }
 
 
