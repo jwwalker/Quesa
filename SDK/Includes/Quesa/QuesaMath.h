@@ -4612,26 +4612,13 @@ Q3Math_InvSquareRoot (
 #else
 #define __Q3Int64_Add( _n1, _n2, _result )									\
 	do {																	\
-		long	_n1_0 = _n1.lo & 0x0FFFFL;									\
-		long	_n1_1 = (_n1.lo >> 16) & 0x0FFFFL;							\
-		long	_n1_2 = _n1.hi & 0x0FFFFL;									\
-		long	_n1_3 = _n1.hi >> 16;										\
-		long	_n2_0 = _n2.lo & 0x0FFFFL;									\
-		long	_n2_1 = (_n2.lo >> 16) & 0x0FFFFL;							\
-		long	_n2_2 = _n2.hi & 0x0FFFFL;									\
-		long	_n2_3 = _n2.hi >> 16;										\
-		long	_res_0 = _n1_0 + _n2_0;										\
-		long	carry = _res_0 >> 16;										\
-		_res_0 &= 0x0FFFFL;													\
-		long	_res_1 = _n1_1 + _n2_1 + carry;								\
-		carry = _res_1 >> 16;												\
-		_res_1 &= 0x0FFFFL;													\
-		long	_res_2 = _n1_2 + _n2_2 + carry;								\
-		carry = _res_2 >> 16;												\
-		_res_2 &= 0x0FFFFL;													\
-		long	_res3 = _n1_3 + _n2_3 + carry;								\
-		_result.lo = (_res_1 << 16) | _res_0;								\
-		_result.hi = (_res3 << 16) | _res_2;								\
+		int	highBit1 = (_n1.lo & 0x80000000L) != 0;							\
+		int	highBit2 = (_n2.lo & 0x80000000L) != 0;							\
+		_result.lo = _n1.lo + _n2.lo;										\
+		int	highBit_sum = (_result.lo & 0x80000000L) != 0;					\
+		int	carry = ((highBit1 == 1) && (highBit2 == 1)) ||					\
+			((highBit1 != highBit2) && (highBit_sum == 0));					\
+		_result.hi = _n1.hi + _n2.hi + carry;								\
 	} while (0)
 #endif
 
