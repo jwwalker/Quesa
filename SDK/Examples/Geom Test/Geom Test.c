@@ -60,10 +60,15 @@
 #define		QUESA_PATH_STYLE_MAC_HFS	1
 #define		QUESA_PATH_STYLE_UNIX		2
 #define		QUESA_PATH_STYLE_WINDOWS	3
+#define		QUESA_PATH_STYLE_MACBUNDLE	4
 
 #ifndef	QUESA_PATH_STYLE
 	#if QUESA_OS_MACINTOSH
-		#define		QUESA_PATH_STYLE	QUESA_PATH_STYLE_MAC_HFS
+		#if __MACH__
+			#define		QUESA_PATH_STYLE	QUESA_PATH_STYLE_MACBUNDLE
+		#else
+			#define		QUESA_PATH_STYLE	QUESA_PATH_STYLE_MAC_HFS
+		#endif
 	#elif QUESA_OS_WIN32
 		#define		QUESA_PATH_STYLE	QUESA_PATH_STYLE_WINDOWS
 	#else
@@ -79,6 +84,14 @@
 	#define		QUESA_FACE4_PATH	"::Support Files:Images:4.tga"
 	#define		QUESA_FACE5_PATH	"::Support Files:Images:5.tga"
 	#define		QUESA_FACE6_PATH	"::Support Files:Images:6.tga"
+#elif QUESA_PATH_STYLE == QUESA_PATH_STYLE_MACBUNDLE
+	#define		QUESA_LOGO_PATH		"Quesa.tga"
+	#define		QUESA_FACE1_PATH	"1.tga"
+	#define		QUESA_FACE2_PATH	"2.tga"
+	#define		QUESA_FACE3_PATH	"3.tga"
+	#define		QUESA_FACE4_PATH	"4.tga"
+	#define		QUESA_FACE5_PATH	"5.tga"
+	#define		QUESA_FACE6_PATH	"6.tga"
 #elif QUESA_PATH_STYLE == QUESA_PATH_STYLE_WINDOWS
 	#define		QUESA_LOGO_PATH		"..\\Support Files\\Images\\Quesa.tga"
 	#define		QUESA_FACE1_PATH	"..\\Support Files\\Images\\1.tga"
@@ -607,6 +620,33 @@ createGeomBox(void)
 
 
 //=============================================================================
+//      loadTextureFromSupportFile : Load a standard TGA texture.
+//-----------------------------------------------------------------------------
+static TQ3Object
+loadTextureFromSupportFile( const char* inPath )
+{
+#if QUESA_PATH_STYLE == QUESA_PATH_STYLE_MACBUNDLE
+	CFStringRef	nameCF = CFStringCreateWithCString( NULL, inPath, kCFStringEncodingUTF8 );
+	CFURLRef	theURL = CFBundleCopyResourceURL( CFBundleGetMainBundle(),
+		nameCF, NULL, NULL );
+	CFStringRef	pathCF = CFURLCopyFileSystemPath( theURL, kCFURLPOSIXPathStyle );
+	char	pathC[1024];
+	CFStringGetCString( pathCF, pathC, sizeof(pathC), kCFStringEncodingUTF8 );
+	CFRelease( nameCF );
+	CFRelease( theURL );
+	CFRelease( pathCF );
+
+	return QutTexture_CreateTextureFromTGAFile( pathC );
+#else
+	return QutTexture_CreateTextureFromTGAFile( inPath );
+#endif
+}
+
+
+
+
+
+//=============================================================================
 //      createGeomTexturedBox : Create a Box object with a texture on each face.
 //-----------------------------------------------------------------------------
 static TQ3GeometryObject
@@ -634,7 +674,7 @@ createGeomTexturedBox(void)
 		faceAttributes[n] = Q3AttributeSet_New();
 		if (faceAttributes[n] != NULL)
 		{
-			texShader = QutTexture_CreateTextureFromTGAFile( textureNames[n] );
+			texShader = loadTextureFromSupportFile( textureNames[n] );
 			
 			if (texShader != NULL)
 			{
@@ -3535,7 +3575,7 @@ App_Initialise(void)
 
 
 	// Try to load a texture
-	gSceneTexture = QutTexture_CreateTextureFromTGAFile( QUESA_LOGO_PATH );
+	gSceneTexture = loadTextureFromSupportFile( QUESA_LOGO_PATH );
 	if (gSceneTexture == NULL)
 	{
 		gSceneTexture = QutTexture_CreateTextureFromTGAFile( QUESA_LOGO_FALLBACK_PATH );
