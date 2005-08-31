@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		BE06F70F08C5593A003DD37B /* XCode-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE06F70E08C5593A003DD37B /* XCode-Info.plist */; };
+		BE06F71808C5597C003DD37B /* 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71108C5597C003DD37B /* 2.tga */; };
+		BE06F71908C5597C003DD37B /* 1.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71208C5597C003DD37B /* 1.tga */; };
+		BE06F71A08C5597C003DD37B /* 4.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71308C5597C003DD37B /* 4.tga */; };
+		BE06F71B08C5597C003DD37B /* 3.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71408C5597C003DD37B /* 3.tga */; };
+		BE06F71C08C5597C003DD37B /* 6.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71508C5597C003DD37B /* 6.tga */; };
+		BE06F71D08C5597C003DD37B /* 5.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71608C5597C003DD37B /* 5.tga */; };
+		BE06F74A08C55CD4003DD37B /* Quesa.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F74908C55CD4003DD37B /* Quesa.tga */; };
 		BEDC058908A5BD1700FB3A82 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDC058808A5BD1700FB3A82 /* Quesa.framework */; };
 		BEDC05AD08A5C05D00FB3A82 /* QutCarbon.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = BEDC05AC08A5C05D00FB3A82 /* QutCarbon.rsrc */; };
 		BEDC05B308A5C0DC00FB3A82 /* Geom Test.c in Sources */ = {isa = PBXBuildFile; fileRef = BEDC05B208A5C0DC00FB3A82 /* Geom Test.c */; };
@@ -75,8 +83,15 @@
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		32DBCF6D0370B57F00C91783 /* Geom Test_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Geom Test_Prefix.pch"; sourceTree = "<group>"; };
-		8D0C4E960486CD37000505A6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D0C4E970486CD37000505A6 /* Geom Test MachO D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Geom Test MachO D.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE06F70E08C5593A003DD37B /* XCode-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "XCode-Info.plist"; sourceTree = "<group>"; };
+		BE06F71108C5597C003DD37B /* 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 2.tga; path = "../Support Files/Images/2.tga"; sourceTree = SOURCE_ROOT; };
+		BE06F71208C5597C003DD37B /* 1.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 1.tga; path = "../Support Files/Images/1.tga"; sourceTree = SOURCE_ROOT; };
+		BE06F71308C5597C003DD37B /* 4.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 4.tga; path = "../Support Files/Images/4.tga"; sourceTree = SOURCE_ROOT; };
+		BE06F71408C5597C003DD37B /* 3.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 3.tga; path = "../Support Files/Images/3.tga"; sourceTree = SOURCE_ROOT; };
+		BE06F71508C5597C003DD37B /* 6.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 6.tga; path = "../Support Files/Images/6.tga"; sourceTree = SOURCE_ROOT; };
+		BE06F71608C5597C003DD37B /* 5.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 5.tga; path = "../Support Files/Images/5.tga"; sourceTree = SOURCE_ROOT; };
+		BE06F74908C55CD4003DD37B /* Quesa.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = Quesa.tga; path = "../Support Files/Images/Quesa.tga"; sourceTree = SOURCE_ROOT; };
 		BEDC058808A5BD1700FB3A82 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quesa.framework; path = "../../Libraries/Mac/Mach-O/Debug/Quesa.framework"; sourceTree = SOURCE_ROOT; };
 		BEDC05AC08A5C05D00FB3A82 /* QutCarbon.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = QutCarbon.rsrc; path = ../Qut/Mac/QutCarbon.rsrc; sourceTree = SOURCE_ROOT; };
 		BEDC05B208A5C0DC00FB3A82 /* Geom Test.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = "Geom Test.c"; sourceTree = "<group>"; };
@@ -144,8 +159,15 @@
 			children = (
 				BEDC05D408A5C54600FB3A82 /* main.nib */,
 				BEDC05AC08A5C05D00FB3A82 /* QutCarbon.rsrc */,
-				8D0C4E960486CD37000505A6 /* Info.plist */,
 				BEDC090E08A6CBF200FB3A82 /* GeomTest.icns */,
+				BE06F70E08C5593A003DD37B /* XCode-Info.plist */,
+				BE06F71108C5597C003DD37B /* 2.tga */,
+				BE06F71208C5597C003DD37B /* 1.tga */,
+				BE06F71308C5597C003DD37B /* 4.tga */,
+				BE06F71408C5597C003DD37B /* 3.tga */,
+				BE06F71508C5597C003DD37B /* 6.tga */,
+				BE06F71608C5597C003DD37B /* 5.tga */,
+				BE06F74908C55CD4003DD37B /* Quesa.tga */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -245,6 +267,14 @@
 				BEDC05D508A5C54600FB3A82 /* main.nib in Resources */,
 				BEDC090F08A6CBF200FB3A82 /* GeomTest.icns in Resources */,
 				BEDC094E08A6D10C00FB3A82 /* VRML-reader.quesaplug in Resources */,
+				BE06F70F08C5593A003DD37B /* XCode-Info.plist in Resources */,
+				BE06F71808C5597C003DD37B /* 2.tga in Resources */,
+				BE06F71908C5597C003DD37B /* 1.tga in Resources */,
+				BE06F71A08C5597C003DD37B /* 4.tga in Resources */,
+				BE06F71B08C5597C003DD37B /* 3.tga in Resources */,
+				BE06F71C08C5597C003DD37B /* 6.tga in Resources */,
+				BE06F71D08C5597C003DD37B /* 5.tga in Resources */,
+				BE06F74A08C55CD4003DD37B /* Quesa.tga in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
