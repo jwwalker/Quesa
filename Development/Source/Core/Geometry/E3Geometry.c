@@ -160,6 +160,21 @@ e3geometry_get_attributes( E3Geometry* theGeom)
 
 
 //=============================================================================
+//      e3geometry_new : Geometry new method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geometry_new ( TQ3Object, void*, const void* )
+	{
+	// No need to do anything as data block filled with zeros when created, but do need
+	// this routine otherwise a custom geometry gets its cache data corrupted on creation. 
+	return kQ3Success ;
+	}
+
+
+
+
+
+//=============================================================================
 //      e3geometry_delete : Geometry delete method.
 //-----------------------------------------------------------------------------
 void
@@ -651,6 +666,10 @@ e3geometry_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) kQ3True;
 			break;
 
+		case kQ3XMethodTypeObjectNew :
+			theMethod = (TQ3XFunctionPointer) e3geometry_new ;
+			break;
+		
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) e3geometry_delete;
 			break;
