@@ -2454,15 +2454,19 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 cleanup:
 	if (geomData.generalPolygonAttributeSet != NULL)
 		Q3Object_Dispose(geomData.generalPolygonAttributeSet);
-		
-	for(j = 0; j < geomData.numContours; j++){
-		for(i = 0; i< geomData.contours[j].numVertices; i++){
-			if (geomData.contours[j].vertices[i].attributeSet != NULL)
-				Q3Object_Dispose(geomData.contours[j].vertices[i].attributeSet);
+			
+	if(geomData.contours != NULL){
+		for(j = 0; j < geomData.numContours; j++){
+			if(geomData.contours[j].vertices != NULL){
+				for(i = 0; i< geomData.contours[j].numVertices; i++){
+					if (geomData.contours[j].vertices[i].attributeSet != NULL)
+						Q3Object_Dispose(geomData.contours[j].vertices[i].attributeSet);
+					}
+				Q3Memory_Free(&geomData.contours[j].vertices);
+				}
 			}
-		Q3Memory_Free(&geomData.contours[j].vertices);
+		Q3Memory_Free(&geomData.contours);
 		}
-	Q3Memory_Free(&geomData.contours);
 	
 	return theObject;
 }
