@@ -320,7 +320,7 @@ e3geom_point_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 
 
 	// Update the bounds
-	E3View_UpdateBounds(theView, 1, 0, &instanceData->point);
+	E3View_UpdateBounds(theView, 1, sizeof ( TQ3Point3D ), &instanceData->point);
 
 	return(kQ3Success);
 }
