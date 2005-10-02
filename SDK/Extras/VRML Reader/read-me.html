@@ -68,13 +68,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 href="https://sourceforge.net/cvs/?group_id=45158">CVS</a> along with the rest
 of the Quesa source.  At this writing, the plugin source code comes with a
 project file for the CodeWarrior 9 IDE, suitable for building binaries for
-Macintosh and Windows.  If you must support another platform or use another
+Macintosh and Windows, and a project file for the Xcode 2.1 IDE, suitable for
+building binaries for Mac OS X.  If you must support another platform or use another
 compiler, here are some important points:</p>
 
 <ul>
 <li>The plug-in requires a recent version of the <a
 href="http://www.boost.org">Boost</a> sources.  You will need to set up access
-paths so that Boost headers can be found.</li>
+paths so that Boost headers can be found.  Be warned that Boost 1.33.0 has a
+serious bug in its shared_ptr code, which is fixed in current Boost CVS sources.</li>
 
 <li>The plug-in uses the Spirit parser library within Boost.  This makes heavy
 use of template metaprogramming, so you will need a C++ compiler that supports
