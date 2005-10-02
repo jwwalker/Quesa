@@ -45,22 +45,18 @@
 #include "CVRMLReader.h"
 #include "GetArrayFromNodeField.h"
 #include "GetIntVecFromField.h"
+#include "IndexedFaceSet.h"
 #include "PolyValue.h"
-#include "SignedAngleBetweenVectors.h"
 #include "VRML-reader-prefix.h"
 
 #include <ostream>
 
 #if __MACH__
-	#include <Quesa/QuesaGeometry.h>
 	#include <Quesa/QuesaGroup.h>
-	#include <Quesa/QuesaMath.h>
 	#include <Quesa/QuesaStyle.h>
 	#include <Quesa/QuesaCustomElements.h>
 #else
-	#include <QuesaGeometry.h>
 	#include <QuesaGroup.h>
-	#include <QuesaMath.h>
 	#include <QuesaStyle.h>
 	#include <QuesaCustomElements.h>
 #endif
@@ -75,12 +71,9 @@
 	#define debug_string( cstring )
 #endif
 
+
 namespace
 {
-	const float		kDegenerateLengthSquared	= 1.0e-11f;
-
-	typedef std::vector<TQ3TriMeshTriangleData>	TriangleVec;
-	
 	#pragma mark struct IndexedFaceMaker
 	struct	IndexedFaceMaker
 	{
@@ -89,25 +82,11 @@ namespace
 											CVRMLReader& inReader );
 
 		bool						HasEnoughData() const;
-		void						FindDictinctVertices();
-		void						ComputeFaceNormals();
-		void						FindFaces();
-		void						FindBackLinks();
-		int							FindPrevSimilarPoint( int inPtInstanceIndex );
-		bool						ArePointsSimilar( int inPt1, int inPt2 );
-		void						ComputeVertices();
-		void						ComputeTriangles();
-		void						ConvexFaceToTriangles( int inFaceIndex );
-		void						NonConvexFaceToTriangles( int inFaceIndex );
-		void						ComputeTriMeshVertexNormals();
-		void						ComputeTriMeshFaceNormals();
-		void						ComputeTriMeshVertexColors();
-		void						ComputeTriMeshFaceColors();
-		void						ComputeTriMeshVertexUVs();
-		void						ComputeTriMeshBounds();
-		void						ComputeTriMeshArrays();
+		
+		void						GatherFacesAndVertices();
+
 		CQ3ObjectRef				CreateObject();
-					
+
 		PolyValue&					mNode;
 		CVRMLReader&				mReader;
 		PolyValue::Dictionary&		mNodeDict;
@@ -118,32 +97,13 @@ namespace
 		bool						mIsNormalPerVertex;
 		float						mCreaseAngle;
 		float						mCreaseAngleCosine;
-		std::vector<TQ3Point3D>		mPoints;
-		std::vector<TQ3Vector3D>	mNormals;
-		std::vector<TQ3ColorRGB>	mColors;
-		std::vector<TQ3Param2D>		mUVs;
-		PolyValue::IntVec			mInstanceToPoint;
+		
+		PolyValue::IntVec			mCoordIndex;
 		PolyValue::IntVec			mColorIndex;
 		PolyValue::IntVec			mNormalIndex;
 		PolyValue::IntVec			mUVIndex;
-		PolyValue::IntVec			mVertexToPoint;
-		PolyValue::IntVec			mInstanceToVertex;
-		PolyValue::IntVec			mVertexToInstance;
-		std::vector<TQ3Vector3D>	mComputedFaceNormals;
-		PolyValue::IntVec			mFaceStarts;
-		PolyValue::IntVec			mFaceSizes;
-		std::vector<bool>			mIsFaceConvex;
-		std::vector<bool>			mIsFaceDegenerate;
-		PolyValue::IntVec			mInstanceToFace;
-		PolyValue::IntVec			mPrevPointInstance;
-		std::vector<TQ3Point3D>		mTriMeshPoints;
-		TriangleVec					mTriMeshFaces;
-		std::vector<TQ3Vector3D>	mTriMeshVertexNormals;
-		std::vector<TQ3Vector3D>	mTriMeshFaceNormals;
-		std::vector<TQ3ColorRGB>	mTriMeshVertexColors;
-		std::vector<TQ3ColorRGB>	mTriMeshFaceColors;
-		std::vector<TQ3Param2D>		mTriMeshVertexUVs;
-		TQ3BoundingBox				mTriMeshBounds;
+		
+		CIndexedFaceSet				mFaceSet;
 	};
 }
 
@@ -204,15 +164,25 @@ IndexedFaceMaker::IndexedFaceMaker(
 	, mCreaseAngle( GetCreaseAngle( mNodeDict ) )
 	, mCreaseAngleCosine( cos(mCreaseAngle) )
 {
-	GetNodeArray( mNodeDict, "coord", "Coordinate", "point", mPoints );
-	GetNodeArray( mNodeDict, "normal", "Normal", "vector", mNormals );
-	GetNodeArray( mNodeDict, "color", "Color", "color", mColors );
-	GetNodeArray( mNodeDict, "texCoord", "TextureCoordinate", "point", mUVs );
-	GetIntVecFromField( mNodeDict, "coordIndex", mInstanceToPoint );
+	GetNodeArray( mNodeDict, "coord", "Coordinate", "point", mFaceSet.GetPositions() );
+	GetNodeArray( mNodeDict, "texCoord", "TextureCoordinate", "point", mFaceSet.GetTexCoords() );
+	GetNodeArray( mNodeDict, "color", "Color", "color", mFaceSet.GetColors() );
+	
+	if (mIsNormalPerVertex)
+	{
+		GetNodeArray( mNodeDict, "normal", "Normal", "vector", mFaceSet.GetVertexNormals() );
+	}
+	else
+	{
+		GetNodeArray( mNodeDict, "normal", "Normal", "vector", mFaceSet.GetFaceNormals() );
+	}
+
+	// Index vectors
+	GetIntVecFromField( mNodeDict, "coordIndex", mCoordIndex );
 	GetIntVecFromField( mNodeDict, "colorIndex", mColorIndex );
 	GetIntVecFromField( mNodeDict, "normalIndex", mNormalIndex );
 	GetIntVecFromField( mNodeDict, "texCoordIndex", mUVIndex );
-	StandardizeIndexVector( mInstanceToPoint );
+	StandardizeIndexVector( mCoordIndex );
 	StandardizeIndexVector( mColorIndex );
 	StandardizeIndexVector( mNormalIndex );
 	StandardizeIndexVector( mUVIndex );
@@ -222,7 +192,7 @@ bool	IndexedFaceMaker::HasEnoughData() const
 {
 	bool	hasEnough = true;
 	
-	if (mPoints.empty())
+	if (mFaceSet.GetPositions().empty())
 	{
 		hasEnough = false;
 		if (mReader.GetDebugStream() != NULL)
@@ -230,7 +200,7 @@ bool	IndexedFaceMaker::HasEnoughData() const
 			*mReader.GetDebugStream() << "No points in IndexedFaceSet." << std::endl;
 		}
 	}
-	else if (mInstanceToPoint.empty())
+	else if (mCoordIndex.empty())
 	{
 		hasEnough = false;
 		if (mReader.GetDebugStream() != NULL)
@@ -243,811 +213,97 @@ bool	IndexedFaceMaker::HasEnoughData() const
 }
 
 /*!
-	@function	FindFaces
-	@abstract	Find indices into mInstanceToPoint where faces start.
-				We will ignore any face with fewer than 3 points.
-				Also we compute an array that maps each position of
-				mInstanceToPoint to a face number or -1.
+	@function	GatherFacesAndVertices
+	@abstract	Initialize the GetFaces() and GetVertices() fields of the CIndexedFaceSet.
 */
-void	IndexedFaceMaker::FindFaces()
+void	IndexedFaceMaker::GatherFacesAndVertices()
 {
-	const int kNumIndices = mInstanceToPoint.size();
-	int	nextFaceStart = 0;
-	int	i;
-	for (i = 0; i < kNumIndices; ++i)
-	{
-		if ( (mInstanceToPoint[i] < 0) and (i - nextFaceStart > 2) )
-		{
-			mFaceStarts.push_back( nextFaceStart );
-			mFaceSizes.push_back( i - nextFaceStart );
-			nextFaceStart = i + 1;
-		}
-	}
+	mFaceSet.GetVertices().reserve( mFaceSet.GetPositions().size() );
+	mFaceSet.GetFaces().reserve( mCoordIndex.size() / 4 );
 	
-	// The last face need not be followed by -1.
-	if ( (nextFaceStart < kNumIndices) and (kNumIndices - nextFaceStart > 2) )
+	CIndexedFaceSet::SFace	curFace;
+	CIndexedFaceSet::SVertex	curVertex;
+	CIndexedFaceSet::FaceIndex	curFaceIndex = 0;
+	const long int	kNumIndices = mCoordIndex.size();
+	for (long int i = 0; i < kNumIndices; ++i)
 	{
-		mFaceStarts.push_back( nextFaceStart );
-		mFaceSizes.push_back( i - nextFaceStart );
-	}
-	
-	// Compute mInstanceToFace
-	mInstanceToFace.resize( mInstanceToPoint.size(), -1 );
-	for (int j = 0; j < mFaceStarts.size(); ++j)
-	{
-		for (i = mFaceStarts[j]; i < kNumIndices; ++i)
+		if (mCoordIndex[i] == -1)	// end of a face
 		{
-			if (mInstanceToPoint[i] < 0)
+			curFace.mNormal = CIndexedFaceSet::kNoIndex;
+			curFace.mColor = CIndexedFaceSet::kNoIndex;
+			curFace.mIsConvex = true;
+			if ( (not mIsNormalPerVertex) and (not mFaceSet.GetFaceNormals().empty()) )
 			{
-				break;
-			}
-			mInstanceToFace[i] = j;
-		}
-	}
-}
-
-/*!
-	@function	ComputeFaceNormals
-	@abstract	Compute outward-facing face normals.
-*/
-void	IndexedFaceMaker::ComputeFaceNormals()
-{
-	const int kNumFaces = mFaceStarts.size();
-	mIsFaceConvex.resize( kNumFaces, true );
-	mIsFaceDegenerate.resize( kNumFaces, false );
-	std::vector<TQ3Vector3D>	edges;
-	
-	for (int i = 0; i < kNumFaces; ++i)
-	{
-		int	startIndex = mFaceStarts[i];
-		int	faceSize = mFaceSizes[i];
-		TQ3Vector3D	theNormal;
-		
-		if (faceSize == 3)
-		{
-			Q3FastPoint3D_CrossProductTri( &mPoints[ mInstanceToPoint[ startIndex ] ],
-				&mPoints[ mInstanceToPoint[ startIndex + 1 ] ],
-				&mPoints[ mInstanceToPoint[ startIndex + 2 ] ],
-				&theNormal );
-			float	lenSq = Q3FastVector3D_LengthSquared( &theNormal );
-			if (lenSq < kDegenerateLengthSquared)
-			{
-				theNormal.x = 1.0f;
-				theNormal.y = theNormal.z = 0.0f;
-				mIsFaceDegenerate[ i ] = true;
-			}
-			else
-			{
-				float	len = sqrt( lenSq );
-				if (not mIsCcw)
+				if (mNormalIndex.empty())
 				{
-					len = -len;
-				}
-				Q3FastVector3D_Scale( &theNormal, 1.0f/len, &theNormal );
-			}
-		}
-		else
-		{
-			// Even assuming that each face is convex, it is possible that if
-			// we choose two edges at random, their cross product may be zero.
-			// So, I will find the longest of all edge cross products.
-			
-			// Compute edges.
-			edges.clear();
-			TQ3Vector3D	edgeVec;
-			int	j, k;
-			for (j = 0; j < faceSize; ++j)
-			{
-				Q3FastPoint3D_Subtract(
-					&mPoints[ mInstanceToPoint[ startIndex + j ] ],
-					&mPoints[ mInstanceToPoint[ startIndex + ((j + 1) % faceSize) ] ],
-					&edgeVec );
-				edges.push_back( edgeVec );
-			}
-			
-			// Find longest cross product.
-			TQ3Vector3D	bestCross, oneCross;
-			float		bestCrossLenSq = -1.0f;
-			for (j = 0; j < faceSize - 1; ++j)
-			{
-				for (k = j + 1; k < faceSize; ++k)
-				{
-					Q3FastVector3D_Cross( &edges[j], &edges[k], &oneCross );
-					float	oneLenSq = Q3FastVector3D_LengthSquared( &oneCross );
-					if (oneLenSq > bestCrossLenSq)
-					{
-						bestCrossLenSq = oneLenSq;
-						bestCross = oneCross;
-					}
-				}
-			}
-			if (bestCrossLenSq < kDegenerateLengthSquared)
-			{
-				theNormal.x = 1.0f;
-				theNormal.y = theNormal.z = 0.0f;
-				mIsFaceDegenerate[ i ] = true;
-			}
-			else
-			{
-				float	bestLen = sqrt( bestCrossLenSq );
-				// We do not know whether the cross product we found was
-				// outward or inward facing.  If we sum the angles between
-				// adjacent edges relative to the cross product, we
-				// should get a positive number if the cross product is
-				// the right sign and if mIsCcw is true.
-				
-				// If the angles are not all the same sign, we know that the
-				// face is not convex.
-				bool	isSomeAnglePositive = false;
-				bool	isSomeAngleNegative = false;
-				
-				float	angleSum = 0.0f;
-				for (j = 0; j < faceSize; ++j)
-				{
-					float	oneAngle = SignedAngleBetweenVectors(
-						edges[ j ],
-						edges[ (j + 1) % faceSize ],
-						bestCross );
-					angleSum += oneAngle;
-					if (oneAngle > FLT_EPSILON)
-					{
-						isSomeAnglePositive = true;
-					}
-					else if (oneAngle < -FLT_EPSILON)
-					{
-						isSomeAngleNegative = true;
-					}
-				}
-
-				if ( (angleSum > 0.0f) != mIsCcw )
-				{
-					bestLen = -bestLen;
-				}
-				Q3FastVector3D_Scale( &bestCross, 1.0f/bestLen, &theNormal );
-				
-				if (isSomeAnglePositive and isSomeAngleNegative)
-				{
-					mIsFaceConvex[i] = false;
-				}
-			}
-		}
-		mComputedFaceNormals.push_back( theNormal );
-	}
-}
-
-/*!
-	@function	FindBackLinks
-	@abstract	For each point instance in mInstanceToPoint, find the previous instance
-				of the same point and record its index within mInstanceToPoint in an
-				array mPrevPointInstance.
-*/
-void	IndexedFaceMaker::FindBackLinks()
-{
-	mPrevPointInstance.resize( mInstanceToPoint.size(), -1 );
-	PolyValue::IntVec	mostRecentPointInstance( mPoints.size(), -1 );
-	const int kNumCoordIndices = mInstanceToPoint.size();
-	for (int i = 0; i < kNumCoordIndices; ++i)
-	{
-		int	pointIndex = mInstanceToPoint[i];
-		if (pointIndex >= 0)
-		{
-			if (mostRecentPointInstance[ pointIndex ] >= 0)
-			{
-				mPrevPointInstance[i] = mostRecentPointInstance[ pointIndex ];
-			}
-			mostRecentPointInstance[ pointIndex ] = i;
-		}
-	}
-}
-
-/*!
-	@function	FindPrevSimilarPoint
-	
-	@abstract	Given a point instance index (index into mInstanceToPoint), find a
-				previous instance of the same point that can be considered to
-				be the same vertex.
-*/
-int		IndexedFaceMaker::FindPrevSimilarPoint( int inPtInstanceIndex )
-{
-	int	prevSimilarIndex = -1;
-	int	prevIndex;
-	for (prevIndex = mPrevPointInstance[inPtInstanceIndex];
-		prevIndex >= 0;
-		prevIndex = mPrevPointInstance[prevIndex])
-	{
-		if (ArePointsSimilar( inPtInstanceIndex, prevIndex ))
-		{
-			prevSimilarIndex = prevIndex;
-			break;
-		}
-	}
-	return prevSimilarIndex;
-}
-
-/*!
-	@function	ArePointsSimilar
-	@abstract	Determine whether two instances of the same point should be
-				treated as the same vertex.
-*/
-bool	IndexedFaceMaker::ArePointsSimilar( int inPt1, int inPt2 )
-{
-	bool	isSame = true;
-	int		face1, face2;
-	
-	if (mNormals.empty())	// no normals
-	{
-		// test angle between faces versus crease angle
-		face1 = mInstanceToFace[ inPt1 ];
-		face2 = mInstanceToFace[ inPt2 ];
-		if ( (face1 >= 0) and (face2 >= 0) and (face1 != face2) )
-		{
-			float	dotProd = Q3FastVector3D_Dot( &mComputedFaceNormals[face1],
-				&mComputedFaceNormals[face2] );
-			if (dotProd < mCreaseAngleCosine)
-			{
-				isSame = false;
-			}
-		}
-	}
-	else if (mIsNormalPerVertex and (not mNormalIndex.empty()) )
-	{
-		if (mNormalIndex[inPt1] != mNormalIndex[inPt2])
-		{
-			isSame = false;
-		}
-	}
-	else if (not mIsNormalPerVertex)	// per-face normals
-	{
-		if (mNormalIndex.empty())
-		{
-			isSame = false;
-		}
-		else	// indexed per-face normals
-		{
-			face1 = mInstanceToFace[ inPt1 ];
-			face2 = mInstanceToFace[ inPt2 ];
-			if (mNormalIndex[face1] != mNormalIndex[face2])
-			{
-				isSame = false;
-			}
-		}
-	}
-	
-	// If the instances seem the same so far, colors may distinguish them.
-	if ( isSame and (not mColors.empty()) )
-	{
-		if (mIsColorPerVertex and (not mColorIndex.empty()))
-		{
-			if (mColorIndex[inPt1] != mColorIndex[inPt2])
-			{
-				isSame = false;
-			}
-		}
-		else if (not mIsColorPerVertex)		// per-face colors
-		{
-			if (mColorIndex.empty())
-			{
-				isSame = false;
-			}
-			else	// indexed per-face colors
-			{
-				face1 = mInstanceToFace[ inPt1 ];
-				face2 = mInstanceToFace[ inPt2 ];
-				if (mColorIndex[face1] != mColorIndex[face2])
-				{
-					isSame = false;
-				}
-			}
-		}
-	}
-	
-	// If the instances are the same so far, texture coordinates may distinguish them.
-	if ( isSame and (not mUVs.empty()) and (not mUVIndex.empty()) )
-	{
-		if (mUVIndex[inPt1] != mUVIndex[inPt2])
-		{
-			isSame = false;
-		}
-	}
-	
-	return isSame;
-}
-
-/*!
-	@function	FindDictinctVertices
-	
-	@abstract	When a point P belongs to two faces A and B, we sometimes want
-				to consider P-in-A and P-in-B to be different vertices.
-				We will construct a vector mVertexToPoint holding indices into
-				mPoints, and change mInstanceToPoint so that it contains indices
-				into mVertexToPoint rather than indices into mPoints.
-*/
-void	IndexedFaceMaker::FindDictinctVertices()
-{
-	if (mNormals.empty() or mIsNormalPerVertex)
-	{
-		ComputeFaceNormals();
-	}
-	FindBackLinks();
-	
-	const int kNumCoordIndices = mInstanceToPoint.size();
-	mInstanceToVertex.resize( kNumCoordIndices );
-	int	i;
-	
-	for (i = 0; i < kNumCoordIndices; ++i)
-	{
-		if (mInstanceToPoint[i] < 0)
-		{
-			mInstanceToVertex[i] = -1;
-		}
-		else
-		{
-			int	prevSimilar = FindPrevSimilarPoint( i );
-			
-			if (prevSimilar < 0)
-			{
-				mVertexToPoint.push_back( mInstanceToPoint[i] );
-				mVertexToInstance.push_back( i );
-				mInstanceToVertex[i] = mVertexToPoint.size() - 1;
-			}
-			else
-			{
-				mInstanceToVertex[i] = mInstanceToVertex[ prevSimilar ];
-			}
-		}
-	}
-
-#if DEBUG
-	// Verify that we have factored mInstanceToPoint into
-	// mInstanceToVertex and mVertexToPoint.
-	for (i = 0; i < kNumCoordIndices; ++i)
-	{
-		check( ((mInstanceToPoint[i] < 0) and (mInstanceToVertex[i] < 0)) or
-			(
-				(mInstanceToPoint[i] >= 0) and (mInstanceToVertex[i] >= 0) and
-				(mVertexToPoint[ mInstanceToVertex[i] ] == mInstanceToPoint[i])
-			)
-		);
-	}
-#endif
-}
-
-/*!
-	@function	ComputeVertices
-	@abstract	Compute the vector of points that will go into the TriMesh.
-*/
-void	IndexedFaceMaker::ComputeVertices()
-{
-	const int kNumVert = mVertexToPoint.size();
-	mTriMeshPoints.resize( kNumVert );
-	
-	for (int i = 0; i < kNumVert; ++i)
-	{
-		mTriMeshPoints[i] = mPoints[ mVertexToPoint[i] ];
-	}
-}
-
-/*!
-	@function	ComputeTriangles
-	@abstract	Compute the vector of triangles that will go into the TriMesh,
-				bearing in mind that a face with k vertices will be split into
-				k-2 triangles.
-*/
-void	IndexedFaceMaker::ComputeTriangles()
-{
-	const int kNumFace = mFaceStarts.size();
-	mTriMeshFaces.reserve( mInstanceToPoint.size() - 3 * kNumFace );
-	int	f;
-	
-	for (f = 0; f < kNumFace; ++f)
-	{
-		if (not mIsFaceDegenerate[ f ])
-		{
-			if (mIsFaceConvex[ f ])
-			{
-				ConvexFaceToTriangles( f );
-			}
-			else
-			{
-				NonConvexFaceToTriangles( f );
-			}
-		}
-	}
-}
-
-/*!
-	@function	ConvexFaceToTriangles
-	@abstract	Split a convex face into triangles.
-*/
-void	IndexedFaceMaker::ConvexFaceToTriangles( int inFaceIndex )
-{
-	int	faceStart = mFaceStarts[ inFaceIndex ];
-	for (int i = faceStart + 2; mInstanceToVertex[i] >= 0; ++i)
-	{
-		// Make a triangle from the instances faceStart, i-1, and i
-		TQ3TriMeshTriangleData	aTri;
-		aTri.pointIndices[0] = mInstanceToVertex[faceStart];
-		if (mIsCcw)
-		{
-			aTri.pointIndices[1] = mInstanceToVertex[i - 1];
-			aTri.pointIndices[2] = mInstanceToVertex[i];
-		}
-		else
-		{
-			aTri.pointIndices[1] = mInstanceToVertex[i];
-			aTri.pointIndices[2] = mInstanceToVertex[i - 1];
-		}
-		mTriMeshFaces.push_back( aTri );
-	}
-}
-
-/*!
-	@function	NonConvexFaceToTriangles
-	@abstract	Split a non-convex face into triangles.
-*/
-void	IndexedFaceMaker::NonConvexFaceToTriangles( int inFaceIndex )
-{
-	// We will need to have the face normal handy.
-	TQ3Vector3D	faceNormal = mComputedFaceNormals[ inFaceIndex ];
-	
-	// Copy the vertex indices of the face to a vector we can play with.
-	const int kNumVerts = mFaceSizes[ inFaceIndex ];
-	PolyValue::IntVec	verts( kNumVerts );
-	const int	faceStart = mFaceStarts[ inFaceIndex ];
-	int	i;
-	for (i = 0; i < kNumVerts; ++i)
-	{
-		verts[ i ] = mInstanceToVertex[ faceStart + i ];
-	}
-	
-	// If the face is clockwise, flip the normal and the face for
-	// simplicity.
-	if (not mIsCcw)
-	{
-		Q3FastVector3D_Scale( &faceNormal, -1.0f, &faceNormal );
-		std::reverse( verts.begin(), verts.end() );
-	}
-	
-	// As long as there are more than 3 vertices, we find a convex corner
-	// and split off a triangle there.
-	while (verts.size() > 3)
-	{
-		int	numVerts = verts.size();
-		for (i = 0; i < numVerts; ++i)
-		{
-			TQ3Vector3D		cornerCross;
-			Q3FastPoint3D_CrossProductTri(
-				&mPoints[ mVertexToPoint[ verts[i] ] ],
-				&mPoints[ mVertexToPoint[ verts[ (i+1) % numVerts ] ] ],
-				&mPoints[ mVertexToPoint[ verts[ (i+2) % numVerts ] ] ],
-				&cornerCross );
-			float	crossDot = Q3FastVector3D_Dot( &cornerCross, &faceNormal );
-			if (crossDot > FLT_EPSILON)
-			{
-				// Oops, not good enough, we must make sure that no other
-				// vertices are inside the triangle.
-				bool	isSomethingInside = false;
-				TQ3Ray3D	hitRay;
-				TQ3Param3D	hitParam;
-				hitRay.direction = faceNormal;
-				for (int j = 0; j < numVerts; ++j)
-				{
-					if ( (j != i) and (j != ((i+1) % numVerts)) and (j != ((i+2) % numVerts)) )
-					{
-						hitRay.origin = mPoints[ mVertexToPoint[ verts[j] ] ];
-						if (Q3Ray3D_IntersectTriangle( &hitRay,
-							&mPoints[ mVertexToPoint[ verts[i] ] ],
-							&mPoints[ mVertexToPoint[ verts[ (i+1) % numVerts ] ] ],
-							&mPoints[ mVertexToPoint[ verts[ (i+2) % numVerts ] ] ],
-							kQ3False, &hitParam ))
-						{
-							isSomethingInside = true;
-							break;
-						}
-					}
-				}
-				
-				if (not isSomethingInside)
-				{
-					TQ3TriMeshTriangleData	aTri = {
-						verts[i], verts[ (i+1) % numVerts ], verts[ (i+2) % numVerts ]
-					};
-					mTriMeshFaces.push_back( aTri );
-					
-					verts.erase( verts.begin() + ((i+1) % numVerts) );
-					break;
-				}
-			}
-		}
-		if (i == numVerts)
-		{
-			break;	// bad, this should not happen
-		}
-	}
-	
-	if (verts.size() == 3)
-	{
-		TQ3TriMeshTriangleData	lastTri = {
-			verts[0], verts[ 1 ], verts[ 2 ]
-		};
-		mTriMeshFaces.push_back( lastTri );
-	}
-}
-
-
-/*!
-	@function	ComputeTriMeshVertexNormals
-	@abstract	Compute the vector of vertex normals for the TriMesh.
-*/
-void	IndexedFaceMaker::ComputeTriMeshVertexNormals()
-{
-	const int kNumVert = mVertexToPoint.size();
-	mTriMeshVertexNormals.resize( kNumVert );
-	
-	for (int v = 0; v < kNumVert; ++v)
-	{
-		if (mNormals.empty())	// no normals provided
-		{
-			mTriMeshVertexNormals[v] = mComputedFaceNormals[ mInstanceToFace[
-				mVertexToInstance[v] ] ];
-		}
-		else if (mIsNormalPerVertex)
-		{
-			if (mNormalIndex.empty())	// direct vertex normals
-			{
-				mTriMeshVertexNormals[v] = mNormals[ mVertexToPoint[v] ];
-			}
-			else						// indexed vertex normals
-			{
-				mTriMeshVertexNormals[v] = mNormals[ mNormalIndex[ mVertexToInstance[v] ] ];
-			}
-		}
-		else	// per-face normals
-		{
-			if (mNormalIndex.empty())	// direct face normals
-			{
-				mTriMeshVertexNormals[v] = mNormals[ mInstanceToFace[ mVertexToInstance[v] ] ];
-			}
-			else						// indexed face normals
-			{
-				mTriMeshVertexNormals[v] = mNormals[ mNormalIndex[ mInstanceToFace[
-					mVertexToInstance[v] ] ] ];
-			}
-		}
-	}
-}
-
-/*!
-	@function	ComputeTriMeshFaceNormals
-	@abstract	Compute the vector of triangle normals for the TriMesh,
-				bearing in mind that a face with k vertices will be split into
-				k-2 triangles.
-*/
-void	IndexedFaceMaker::ComputeTriMeshFaceNormals()
-{
-	const int kNumFace = mFaceStarts.size();
-	const int kNumTri = mTriMeshFaces.size();
-	
-	mTriMeshFaceNormals.reserve( kNumTri );
-	int	f, i;
-	
-	if (mNormals.empty() or mIsNormalPerVertex)	// no face normals provided
-	{
-		for (f = 0; f < kNumFace; ++f)
-		{
-			if (not mIsFaceDegenerate[ f ])
-			{
-				for (i = 0; i < mFaceSizes[f]-2; ++i)
-				{
-					mTriMeshFaceNormals.push_back( mComputedFaceNormals[f] );
-				}
-			}
-		}
-	}
-	else if (mNormalIndex.empty())	// direct face normals
-	{
-		for (f = 0; f < kNumFace; ++f)
-		{
-			for (i = 0; i < mFaceSizes[f]-2; ++i)
-			{
-				mTriMeshFaceNormals.push_back( mNormals[f] );
-			}
-		}
-	}
-	else	// indexed face normals
-	{
-		for (f = 0; f < kNumFace; ++f)
-		{
-			for (i = 0; i < mFaceSizes[f]-2; ++i)
-			{
-				mTriMeshFaceNormals.push_back( mNormals[ mNormalIndex[ f ] ] );
-			}
-		}
-	}
-}
-
-
-/*!
-	@function	ComputeTriMeshVertexColors
-	@abstract	Compute an array of vertex colors, if we have vertex colors.
-*/
-void	IndexedFaceMaker::ComputeTriMeshVertexColors()
-{
-	if ( (not mColors.empty()) and mIsColorPerVertex )
-	{
-		const int kNumVert = mVertexToPoint.size();
-		mTriMeshVertexColors.resize( kNumVert );
-		int	v;
-		
-		if (mColorIndex.empty())
-		{
-			for (v = 0; v < kNumVert; ++v)
-			{
-				mTriMeshVertexColors[v] = mColors[ mVertexToPoint[v] ];
-			}
-		}
-		else	// indexed vertex colors
-		{
-			for (v = 0; v < kNumVert; ++v)
-			{
-				mTriMeshVertexColors[v] = mColors[ mColorIndex[ mVertexToInstance[v] ] ];
-			}
-		}
-	}
-}
-
-/*!
-	@function	ComputeTriMeshFaceColors
-	@abstract	Compute an array of face colors, if we have face colors.
-*/
-void	IndexedFaceMaker::ComputeTriMeshFaceColors()
-{
-	if ( (not mColors.empty()) and not mIsColorPerVertex )
-	{
-		const int kNumFace = mFaceStarts.size();
-		mTriMeshFaceColors.reserve( mTriMeshFaces.size() );
-		int	f, i;
-		
-		if (mColorIndex.empty())
-		{
-			for (f = 0; f < kNumFace; ++f)
-			{
-				for (i = 0; i < mFaceSizes[f]-2; ++i)
-				{
-					mTriMeshFaceColors.push_back( mColors[f] );
-				}
-			}
-		}
-		else	// indexed face colors
-		{
-			for (f = 0; f < kNumFace; ++f)
-			{
-				for (i = 0; i < mFaceSizes[f]-2; ++i)
-				{
-					mTriMeshFaceColors.push_back( mColors[ mColorIndex[ f ] ] );
-				}
-			}
-		}
-	}
-}
-
-/*!
-	@function	ComputeTriMeshBounds
-	@abstract	Compute the bounding box of the points.
-*/
-void	IndexedFaceMaker::ComputeTriMeshBounds()
-{
-	Q3BoundingBox_SetFromPoints3D( &mTriMeshBounds, &mPoints[0], mPoints.size(),
-		sizeof(TQ3Point3D) );
-}
-
-/*!
-	@function	ComputeTriMeshVertexUVs
-	@abstract	Compute an array of texture coordinates.
-	@discussion	ComputeTriMeshBounds must have been called earlier.
-*/
-void	IndexedFaceMaker::ComputeTriMeshVertexUVs()
-{
-	const int kNumVert = mVertexToPoint.size();
-	mTriMeshVertexUVs.resize( kNumVert );
-	int	v;
-
-	if (not mUVs.empty())
-	{
-		if (mUVIndex.empty())
-		{
-			for (v = 0; v < kNumVert; ++v)
-			{
-				mTriMeshVertexUVs[v] = mUVs[ mVertexToPoint[v] ];
-			}
-		}
-		else
-		{
-			for (v = 0; v < kNumVert; ++v)
-			{
-				mTriMeshVertexUVs[v] = mUVs[ mUVIndex[ mVertexToInstance[v] ] ];
-			}
-		}
-	}
-	else	// must synthesize some UVs
-	{
-		// Find the largest and second largest axes of the bounds
-		float	extents[3] = {
-			mTriMeshBounds.max.x - mTriMeshBounds.min.x,
-			mTriMeshBounds.max.y - mTriMeshBounds.min.y,
-			mTriMeshBounds.max.z - mTriMeshBounds.min.z
-		};
-		int	majorAxis, minorAxis;
-		if (extents[0] > extents[1])
-		{
-			if (extents[1] > extents[2])
-			{
-				majorAxis = 0;
-				minorAxis = 1;
-			}
-			else	// extents[2] >= extents[1]
-			{
-				if (extents[0] > extents[2])
-				{
-					majorAxis = 0;
-					minorAxis = 2;
-				}
-				else	// extents[2] >= extents[0]
-				{
-					majorAxis = 2;
-					minorAxis = 0;
-				}
-			}
-		}
-		else	// extents[1] >= extents[0]
-		{
-			if (extents[1] > extents[2])
-			{
-				majorAxis = 1;
-				if (extents[0] > extents[2])
-				{
-					minorAxis = 0;
+					curFace.mNormal = curFaceIndex;
 				}
 				else
 				{
-					minorAxis = 2;
+					curFace.mNormal = mNormalIndex[ curFaceIndex ];
 				}
 			}
-			else	// extents[2] >= extents[1]
+			if ( (not mIsColorPerVertex) and (not mFaceSet.GetColors().empty()) )
 			{
-				majorAxis = 2;
-				minorAxis = 1;
+				if (mColorIndex.empty())
+				{
+					curFace.mColor = curFaceIndex;
+				}
+				else
+				{
+					curFace.mColor = mColorIndex[ curFaceIndex ];
+				}
 			}
+			
+			mFaceSet.GetFaces().push_back( curFace );
+			curFace.mVertices.clear();
+			curFaceIndex += 1;
 		}
-		
-		float*	minBounds = &mTriMeshBounds.min.x;
-		float	majorAxisMin = minBounds[majorAxis];
-		float	minorAxisMin = minBounds[minorAxis];
-		float	majorExtent = extents[majorAxis];
-		
-		for (v = 0; v < kNumVert; ++v)
+		else
 		{
-			float*	coords = &mTriMeshPoints[v].x;
-			mTriMeshVertexUVs[v].u = (coords[majorAxis] - majorAxisMin) / majorExtent;
-			mTriMeshVertexUVs[v].v = (coords[minorAxis] - minorAxisMin) / majorExtent;
+			curVertex.mPosition = mCoordIndex[i];
+			curVertex.mFace = curFaceIndex;
+			curVertex.mNormal = CIndexedFaceSet::kNoIndex;
+			curVertex.mColor = CIndexedFaceSet::kNoIndex;
+			curVertex.mTexCoord = CIndexedFaceSet::kNoIndex;
+			if (mIsNormalPerVertex and (not mFaceSet.GetVertexNormals().empty()))
+			{
+				if (mNormalIndex.empty())
+				{
+					curVertex.mNormal = mCoordIndex[i];
+				}
+				else
+				{
+					curVertex.mNormal = mNormalIndex[i];
+				}
+			}
+			if (mIsColorPerVertex and (not mFaceSet.GetColors().empty()))
+			{
+				if (mColorIndex.empty())
+				{
+					curVertex.mColor = mCoordIndex[i];
+				}
+				else
+				{
+					curVertex.mColor = mColorIndex[i];
+				}
+			}
+			if (not mFaceSet.GetTexCoords().empty())
+			{
+				if (mUVIndex.empty())
+				{
+					curVertex.mTexCoord = mCoordIndex[i];
+				}
+				else
+				{
+					curVertex.mTexCoord = mUVIndex[i];
+				}
+			}
+			
+			curFace.mVertices.push_back( mFaceSet.GetVertices().size() );
+			mFaceSet.GetVertices().push_back( curVertex );
 		}
 	}
-}
-
-/*!
-	@function	ComputeTriMeshArrays
-	@abstract	Compute various arrays we will need to build a TriMesh.
-*/
-void	IndexedFaceMaker::ComputeTriMeshArrays()
-{
-	ComputeVertices();
-	ComputeTriangles();
-	ComputeTriMeshVertexNormals();
-	ComputeTriMeshFaceNormals();
-	ComputeTriMeshVertexColors();
-	ComputeTriMeshFaceColors();
-	ComputeTriMeshBounds();
-	ComputeTriMeshVertexUVs();
 }
 
 /*!
@@ -1060,67 +316,18 @@ void	IndexedFaceMaker::ComputeTriMeshArrays()
 */
 CQ3ObjectRef	IndexedFaceMaker::CreateObject()
 {
-	// Set up vertex attributes
-	TQ3TriMeshAttributeData		vertAtts[3];
-	int	vertAttNum = 0;
-	// Vertex normal, always present
-	vertAtts[ vertAttNum ].attributeType = kQ3AttributeTypeNormal;
-	vertAtts[ vertAttNum ].data = &mTriMeshVertexNormals[0];
-	vertAtts[ vertAttNum ].attributeUseArray = NULL;
-	// texture coordinates
-	if (not mTriMeshVertexUVs.empty())
-	{
-		vertAttNum += 1;
-		vertAtts[ vertAttNum ].attributeType = kQ3AttributeTypeSurfaceUV;
-		vertAtts[ vertAttNum ].data = &mTriMeshVertexUVs[0];
-		vertAtts[ vertAttNum ].attributeUseArray = NULL;
-	}
-	// vertex colors
-	if (not mTriMeshVertexColors.empty())
-	{
-		vertAttNum += 1;
-		vertAtts[ vertAttNum ].attributeType = kQ3AttributeTypeDiffuseColor;
-		vertAtts[ vertAttNum ].data = &mTriMeshVertexColors[0];
-		vertAtts[ vertAttNum ].attributeUseArray = NULL;
-	}
-	
-	// Set up face attributes
-	TQ3TriMeshAttributeData		faceAtts[3];
-	int	faceAttNum = 0;
-	// face normal, always present
-	faceAtts[ faceAttNum ].attributeType = kQ3AttributeTypeNormal;
-	faceAtts[ faceAttNum ].data = &mTriMeshFaceNormals[0];
-	faceAtts[ faceAttNum ].attributeUseArray = NULL;
-	// face colors
-	if (not mTriMeshFaceColors.empty())
-	{
-		faceAttNum += 1;
-		faceAtts[ faceAttNum ].attributeType = kQ3AttributeTypeDiffuseColor;
-		faceAtts[ faceAttNum ].data = &mTriMeshFaceColors[0];
-		faceAtts[ faceAttNum ].attributeUseArray = NULL;
-	}
-	
-	// Create TriMesh
-	TQ3TriMeshData		triMeshData =
-	{
-		NULL,					// triMeshAttributeSet
-		mTriMeshFaces.size(),	// numTriangles
-		&mTriMeshFaces[0],		// triangles
-		faceAttNum + 1,			// numTriangleAttributeTypes
-		faceAtts,				// triangleAttributeTypes
-		0,						// numEdges
-		NULL,					// edges
-		0,						// numEdgeAttributeTypes
-		NULL,					// edgeAttributeTypes
-		mTriMeshPoints.size(),	// numPoints
-		&mTriMeshPoints[0],		// points
-		vertAttNum + 1,			// numVertexAttributeTypes
-		vertAtts,				// vertexAttributeTypes
-		mTriMeshBounds			// bBox
-	};
-	CQ3ObjectRef	theTriMesh( Q3TriMesh_New( &triMeshData ) );
-	ThrowIfNullQuesaOb_( theTriMesh );
 	CQ3ObjectRef	resultShape;
+	
+	if (not mIsCcw)
+	{
+		mFaceSet.ReverseFaceOrientations();
+	}
+	mFaceSet.CalcFaceNormals();
+	mFaceSet.FindVerticesAtPosition();
+	mFaceSet.CalcVertexNormals( mCreaseAngleCosine );
+	mFaceSet.IdentifyDistinctPoints();
+	CQ3ObjectRef	theTriMesh( mFaceSet.CreateTriMesh() );
+	ThrowIfNullQuesaOb_( theTriMesh );
 	
 	if (mIsSolid)
 	{
@@ -1166,9 +373,8 @@ CQ3ObjectRef	IndexedFaceSetV2ToObject( PolyValue& ioNode, CVRMLReader& inReader 
 	
 	if (maker.HasEnoughData())
 	{
-		maker.FindFaces();
-		maker.FindDictinctVertices();
-		maker.ComputeTriMeshArrays();
+		maker.GatherFacesAndVertices();
+		
 		theObject = maker.CreateObject();
 	}
 	
