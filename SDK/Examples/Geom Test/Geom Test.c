@@ -626,17 +626,23 @@ static TQ3Object
 loadTextureFromSupportFile( const char* inPath )
 {
 #if QUESA_PATH_STYLE == QUESA_PATH_STYLE_MACBUNDLE
+	TQ3Object result = NULL;
+
 	CFStringRef	nameCF = CFStringCreateWithCString( NULL, inPath, kCFStringEncodingUTF8 );
 	CFURLRef	theURL = CFBundleCopyResourceURL( CFBundleGetMainBundle(),
 		nameCF, NULL, NULL );
-	CFStringRef	pathCF = CFURLCopyFileSystemPath( theURL, kCFURLPOSIXPathStyle );
-	char	pathC[1024];
-	CFStringGetCString( pathCF, pathC, sizeof(pathC), kCFStringEncodingUTF8 );
-	CFRelease( nameCF );
-	CFRelease( theURL );
-	CFRelease( pathCF );
+	if(theURL != NULL)
+		{
+		CFStringRef	pathCF = CFURLCopyFileSystemPath( theURL, kCFURLPOSIXPathStyle );
+		char	pathC[1024];
+		CFStringGetCString( pathCF, pathC, sizeof(pathC), kCFStringEncodingUTF8 );
+		CFRelease( nameCF );
+		CFRelease( theURL );
+		CFRelease( pathCF );
 
-	return QutTexture_CreateTextureFromTGAFile( pathC );
+		result = QutTexture_CreateTextureFromTGAFile( pathC );
+		}
+	return result;
 #else
 	return QutTexture_CreateTextureFromTGAFile( inPath );
 #endif
