@@ -208,6 +208,10 @@ void	TriMeshOptimizer::FindBackLinks()
 		{
 			mPrevPointInstance[i] = mostRecentPointInstance[ pointIndex ];
 		}
+		else
+		{
+			mPrevPointInstance[i] = -1;
+		}
 		mostRecentPointInstance[ pointIndex ] = i;
 	}
 }
@@ -283,7 +287,15 @@ TQ3Int32	TriMeshOptimizer::FindPrevSimilarPoint( TQ3Int32 inPtInstanceIndex )
 		prevIndex >= 0;
 		prevIndex = mPrevPointInstance[ prevIndex ])
 	{
-		if (ArePointsSimilar( inPtInstanceIndex, prevIndex ))
+		if (prevIndex >= mInstanceToPoint.size())
+		{
+			break;
+		}
+		else if (prevIndex < 0)
+		{
+			break;
+		}
+		else if(ArePointsSimilar( inPtInstanceIndex, prevIndex ))
 		{
 			prevSimilarIndex = prevIndex;
 			break;
