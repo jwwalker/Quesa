@@ -42,7 +42,7 @@
 */
 #define		kNumVersionMajor	1
 #define		kNumVersionMinor	0
-#define		kNumVersionBugfix	2
+#define		kNumVersionBugfix	3
 
-#define		kStringVersion		"1.0.2"
-#define		kUnquotedVersion	1.0.2
+#define		kStringVersion		"1.0.3"
+#define		kUnquotedVersion	1.0.3
