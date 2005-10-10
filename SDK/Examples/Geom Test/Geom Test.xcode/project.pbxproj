@@ -27,7 +27,6 @@
 //104
 		1058C7A0FEA54F0111CA2CBB = {
 			children = (
-				1058C7A1FEA54F0111CA2CBB,
 				AB3A7EFE055E6BAC00CA83BE,
 				AB83B653055E766A0034F56A,
 				AB83B6ED055E76770034F56A,
@@ -36,15 +35,6 @@
 			name = "Linked Frameworks";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		1058C7A1FEA54F0111CA2CBB = {
-			expectedFileType = wrapper.framework;
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
-			name = Cocoa.framework;
-			path = /System/Library/Frameworks/Cocoa.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
 		};
 		1058C7A2FEA54F0111CA2CBB = {
 			children = (
@@ -115,6 +105,13 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				B181884408FA5763006706FE,
+				B181884508FA5763006706FE,
+				B181884608FA5763006706FE,
+				B181884708FA5763006706FE,
+				B181884808FA5763006706FE,
+				B181884908FA5763006706FE,
+				B181884A08FA5763006706FE,
 				AB3A7F0B055E6BD100CA83BE,
 			);
 			isa = PBXGroup;
@@ -135,18 +132,16 @@
 			sourceTree = "<group>";
 		};
 		29B97324FDCFA39411CA2CEA = {
-			expectedFileType = wrapper.framework;
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = AppKit.framework;
 			path = /System/Library/Frameworks/AppKit.framework;
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
 		29B97325FDCFA39411CA2CEA = {
-			expectedFileType = wrapper.framework;
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = Foundation.framework;
 			path = /System/Library/Frameworks/Foundation.framework;
 			refType = 0;
@@ -163,8 +158,6 @@
 //4A3
 //4A4
 		4A9504CCFFE6A4B311CA0CBA = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -179,8 +172,6 @@
 			name = Development;
 		};
 		4A9504CDFFE6A4B311CA0CBA = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -254,6 +245,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB3A7F0C055E6BD100CA83BE,
+				B181884B08FA5763006706FE,
+				B181884C08FA5763006706FE,
+				B181884D08FA5763006706FE,
+				B181884E08FA5763006706FE,
+				B181884F08FA5763006706FE,
+				B181885008FA5763006706FE,
+				B181885108FA5763006706FE,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,7 +270,6 @@
 		8D11072E0486CEB800E47090 = {
 			buildActionMask = 2147483647;
 			files = (
-				8D11072F0486CEB800E47090,
 				AB3A7EFF055E6BAC00CA83BE,
 				AB83B654055E766A0034F56A,
 				AB83B6EE055E76770034F56A,
@@ -280,14 +277,8 @@
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8D11072F0486CEB800E47090 = {
-			fileRef = 1058C7A1FEA54F0111CA2CBB;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		8D1107320486CEB800E47090 = {
-			expectedFileType = wrapper.application;
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
 			path = "Geom Test.app";
@@ -305,8 +296,8 @@
 //AB3
 //AB4
 		AB3A7EFE055E6BAC00CA83BE = {
-			expectedFileType = wrapper.framework;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = Quesa.framework;
 			path = ../../../Development/Projects/Mac/build/Quesa.framework;
 			refType = 2;
@@ -319,8 +310,8 @@
 			};
 		};
 		AB3A7F0B055E6BD100CA83BE = {
-			expectedFileType = wrapper.nib;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
 			name = main.nib;
 			path = ../Qut/Mac/main.nib;
 			refType = 2;
@@ -333,9 +324,9 @@
 			};
 		};
 		AB3A7F0F055E6BE200CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			path = "Geom Test.c";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
@@ -347,63 +338,63 @@
 			};
 		};
 		AB3A7F11055E6BEE00CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			name = QutMac.h;
 			path = ../Qut/Mac/QutMac.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
 		AB3A7F12055E6BEE00CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			name = QutMac.c;
 			path = ../Qut/Mac/QutMac.c;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
 		AB3A7F13055E6BEE00CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			name = Qut.c;
 			path = ../Qut/Qut.c;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
 		AB3A7F14055E6BEE00CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			name = Qut.h;
 			path = ../Qut/Qut.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
 		AB3A7F15055E6BEE00CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			name = QutInternal.h;
 			path = ../Qut/QutInternal.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
 		AB3A7F16055E6BEE00CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			name = QutTexture.h;
 			path = ../Qut/QutTexture.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
 		AB3A7F17055E6BEE00CA83BE = {
-			expectedFileType = sourcecode.c.c;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
 			name = QutTexture.c;
 			path = ../Qut/QutTexture.c;
 			refType = 2;
@@ -468,9 +459,9 @@
 			sourceTree = "<group>";
 		};
 		AB3A7F4A055E6E4B00CA83BE = {
-			expectedFileType = sourcecode.c.h;
 			fileEncoding = 30;
 			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
 			name = "Qut Prefix Carbon.h";
 			path = "../Qut/Mac/Qut Prefix Carbon.h";
 			refType = 2;
@@ -483,8 +474,8 @@
 			};
 		};
 		AB83B653055E766A0034F56A = {
-			expectedFileType = wrapper.framework;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = Carbon.framework;
 			path = /System/Library/Frameworks/Carbon.framework;
 			refType = 0;
@@ -497,8 +488,8 @@
 			};
 		};
 		AB83B6ED055E76770034F56A = {
-			expectedFileType = wrapper.framework;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
 			name = QuickTime.framework;
 			path = /System/Library/Frameworks/QuickTime.framework;
 			refType = 0;
@@ -506,6 +497,114 @@
 		};
 		AB83B6EE055E76770034F56A = {
 			fileRef = AB83B6ED055E76770034F56A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//AB0
+//AB1
+//AB2
+//AB3
+//AB4
+//B10
+//B11
+//B12
+//B13
+//B14
+		B181884408FA5763006706FE = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = 1.tga;
+			path = "../Support Files/Images/1.tga";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		B181884508FA5763006706FE = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = 2.tga;
+			path = "../Support Files/Images/2.tga";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		B181884608FA5763006706FE = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = 3.tga;
+			path = "../Support Files/Images/3.tga";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		B181884708FA5763006706FE = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = 4.tga;
+			path = "../Support Files/Images/4.tga";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		B181884808FA5763006706FE = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = 5.tga;
+			path = "../Support Files/Images/5.tga";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		B181884908FA5763006706FE = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = 6.tga;
+			path = "../Support Files/Images/6.tga";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		B181884A08FA5763006706FE = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = Quesa.tga;
+			path = "../Support Files/Images/Quesa.tga";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		B181884B08FA5763006706FE = {
+			fileRef = B181884408FA5763006706FE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B181884C08FA5763006706FE = {
+			fileRef = B181884508FA5763006706FE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B181884D08FA5763006706FE = {
+			fileRef = B181884608FA5763006706FE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B181884E08FA5763006706FE = {
+			fileRef = B181884708FA5763006706FE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B181884F08FA5763006706FE = {
+			fileRef = B181884808FA5763006706FE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B181885008FA5763006706FE = {
+			fileRef = B181884908FA5763006706FE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B181885108FA5763006706FE = {
+			fileRef = B181884A08FA5763006706FE;
 			isa = PBXBuildFile;
 			settings = {
 			};
