@@ -522,7 +522,9 @@ void	CIndexedFaceSet::TriangulateNonconvexFace( const SFace& inFace,
 				if (not isSomethingInside)
 				{
 					TQ3TriMeshTriangleData	aTri = {
-						verts[i], verts[ (i+1) % kNumVerts ], verts[ (i+2) % kNumVerts ]
+						mVertToPoint[ verts[i] ],
+						mVertToPoint[ verts[ (i+1) % kNumVerts ] ],
+						mVertToPoint[ verts[ (i+2) % kNumVerts ] ]
 					};
 					outTriangles.push_back( aTri );
 					
@@ -540,7 +542,9 @@ void	CIndexedFaceSet::TriangulateNonconvexFace( const SFace& inFace,
 	if (verts.size() == 3)
 	{
 		TQ3TriMeshTriangleData	lastTri = {
-			verts[0], verts[ 1 ], verts[ 2 ]
+			mVertToPoint[ verts[0] ],
+			mVertToPoint[ verts[ 1 ] ],
+			mVertToPoint[ verts[ 2 ] ]
 		};
 		outTriangles.push_back( lastTri );
 	}
