@@ -963,8 +963,6 @@
 		BEDC08CA08A6B24A00FB3A82 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E33055E691D00CA83BE /* OpenGL.framework */; };
 		BEDC08CB08A6B24A00FB3A82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB77AAFE841565C02AAC07 /* Carbon.framework */; };
 		BEDC08CC08A6B24A00FB3A82 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E66055E698900CA83BE /* QuickTime.framework */; };
-		BEDC08D408A6B74200FB3A82 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEDC08D308A6B74200FB3A82 /* Info.plist */; };
-		BEDC08D508A6B74200FB3A82 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEDC08D308A6B74200FB3A82 /* Info.plist */; };
 		BEDC08DC08A6B96E00FB3A82 /* Quesa.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */; };
 		BEDC08DD08A6B96E00FB3A82 /* Quesa.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */; };
 /* End PBXBuildFile section */
@@ -1036,7 +1034,7 @@
 
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		8D07F2C80486CC7A007CD1D0 /* Quesa D.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Quesa D.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D07F2C80486CC7A007CD1D0 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB3A7B85055E63B100CA83BE /* E3Geometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3Geometry.c; sourceTree = "<group>"; };
 		AB3A7B86055E63B100CA83BE /* E3Geometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Geometry.h; sourceTree = "<group>"; };
 		AB3A7B87055E63B100CA83BE /* E3GeometryBox.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3GeometryBox.c; sourceTree = "<group>"; };
@@ -1276,7 +1274,7 @@
 		BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef.h; sourceTree = "<group>"; };
 		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cpp; sourceTree = "<group>"; };
 		BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
-		BEDC072708A6812D00FB3A82 /* Quesa D.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Quesa D.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEDC072708A6812D00FB3A82 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDC08D308A6B74200FB3A82 /* Info.plist */ = {isa = PBXFileReference; comments = "This file is for use with Xcode 2.1.  It must be preprocessed in order to\nconvert the symbol kQ3UnquotedStringVersion into an actual version string."; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = Quesa.rsrc; path = Resources/Quesa.rsrc; sourceTree = "<group>"; };
@@ -1337,9 +1335,9 @@
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D07F2C80486CC7A007CD1D0 /* Quesa D.framework */,
+				8D07F2C80486CC7A007CD1D0 /* Quesa.framework */,
 				B1756AFF080A71C30056134C /* libQuesaD.a */,
-				BEDC072708A6812D00FB3A82 /* Quesa D.framework */,
+				BEDC072708A6812D00FB3A82 /* Quesa.framework */,
 				BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */,
 			);
 			name = Products;
@@ -2298,7 +2296,6 @@
 			buildConfigurationList = BEDC044708A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Framework (sys GCC)" */;
 			buildPhases = (
 				8D07F2BD0486CC7A007CD1D0 /* Headers */,
-				8D07F2BF0486CC7A007CD1D0 /* Resources */,
 				8D07F2C10486CC7A007CD1D0 /* Sources */,
 				8D07F2C30486CC7A007CD1D0 /* Frameworks */,
 				8D07F2C50486CC7A007CD1D0 /* Rez */,
@@ -2342,7 +2339,7 @@
 			name = "Framework (sys GCC)";
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = Quesa;
-			productReference = 8D07F2C80486CC7A007CD1D0 /* Quesa D.framework */;
+			productReference = 8D07F2C80486CC7A007CD1D0 /* Quesa.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B1756AFE080A71C30056134C /* Static Lib (sys GCC) */ = {
@@ -2391,7 +2388,6 @@
 			buildConfigurationList = BEDC072408A6812D00FB3A82 /* Build configuration list for PBXNativeTarget "Framework (GCC 3.3)" */;
 			buildPhases = (
 				BEDC063008A6812D00FB3A82 /* Headers */,
-				BEDC06A808A6812D00FB3A82 /* Resources */,
 				BEDC06A908A6812D00FB3A82 /* Sources */,
 				BEDC071D08A6812D00FB3A82 /* Frameworks */,
 				BEDC072308A6812D00FB3A82 /* Rez */,
@@ -2437,7 +2433,7 @@
 			name = "Framework (GCC 3.3)";
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = Quesa;
-			productReference = BEDC072708A6812D00FB3A82 /* Quesa D.framework */;
+			productReference = BEDC072708A6812D00FB3A82 /* Quesa.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		BEDC07DA08A6B24A00FB3A82 /* Static Lib (GCC 3.3) */ = {
@@ -2507,25 +2503,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		8D07F2BF0486CC7A007CD1D0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BEDC08D408A6B74200FB3A82 /* Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BEDC06A808A6812D00FB3A82 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BEDC08D508A6B74200FB3A82 /* Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXRezBuildPhase section */
 		8D07F2C50486CC7A007CD1D0 /* Rez */ = {
@@ -3051,7 +3028,7 @@
 					"-seg1addr",
 					0x12000000,
 				);
-				PRODUCT_NAME = "Quesa D";
+				PRODUCT_NAME = Quesa;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -3146,7 +3123,7 @@
 					"-seg1addr",
 					0x12000000,
 				);
-				PRODUCT_NAME = "Quesa D";
+				PRODUCT_NAME = Quesa;
 				SYMROOT = "build-GCC3.3";
 				WRAPPER_EXTENSION = framework;
 			};
