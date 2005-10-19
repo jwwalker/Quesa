@@ -721,7 +721,7 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 	// use the ARB_multisample extension if present.
 	//
 	// http://cvs.designcommunity.com/bugzilla/show_bug.cgi?id=69
-	#if QUESA_OS_MACINTOSH
+	#if QUESA_OS_MACINTOSH && ! QUESA_OS_COCOA
 
 	if (!instanceData->glATICheckedFSAA)
 		{

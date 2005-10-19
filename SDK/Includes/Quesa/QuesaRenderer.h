@@ -1123,7 +1123,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(
 //=============================================================================
 //      Mac OS types
 //-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_MACINTOSH && ! QUESA_OS_COCOA
 
 /*!
  *  @typedef

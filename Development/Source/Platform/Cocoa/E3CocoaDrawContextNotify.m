@@ -143,12 +143,12 @@ void e3cocoa_nsview_register(void *nsView, TQ3DrawContextObject theDrawContext)
 	[[NSNotificationCenter defaultCenter]addObserver:watcher
 											selector:@selector(viewDidResize:)
 											name:NSViewFrameDidChangeNotification
-											object:nsView];
+											object:(NSObject*)nsView];
 
 	[[NSNotificationCenter defaultCenter]addObserver:watcher
 											selector:@selector(drawContextWillClose:)
 											name:CocoaDrawContextWillCloseNotification
-											object:nsView];
+											object:(NSObject*)nsView];
 }
 
 
@@ -161,5 +161,5 @@ void e3cocoa_nsview_register(void *nsView, TQ3DrawContextObject theDrawContext)
 void e3cocoa_nsview_unregister(void *nsView)
 {
 	[[NSNotificationCenter defaultCenter]postNotificationName:CocoaDrawContextWillCloseNotification
-											object:nsView];
+											object:(NSObject*)nsView];
 }

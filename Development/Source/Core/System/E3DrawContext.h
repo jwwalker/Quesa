@@ -121,6 +121,13 @@ typedef struct TQ3MacDrawContextState {
 	RgnHandle						visRgn;
 } TQ3MacDrawContextState;
 
+	#if QUESA_OS_COCOA
+	typedef struct TQ3CocoaDrawContextState {
+		TQ3CocoaDrawContextData			theData;
+	} TQ3CocoaDrawContextState;
+
+	#endif
+
 
 #elif QUESA_OS_UNIX
 typedef struct OpaqueTQ3XBufferObject {
@@ -154,11 +161,6 @@ typedef struct TQ3BeDrawContextState {
 } TQ3BeDrawContextState;
 
 
-#elif QUESA_OS_COCOA
-typedef struct TQ3CocoaDrawContextState {
-	TQ3CocoaDrawContextData			theData;
-} TQ3CocoaDrawContextState;
-
 #endif
 
 
@@ -181,6 +183,10 @@ typedef struct TQ3DrawContextUnionData {
 #if QUESA_OS_MACINTOSH
 		TQ3MacDrawContextState			macData;
 
+#if QUESA_OS_COCOA
+		TQ3CocoaDrawContextState		cocoaData;
+#endif
+
 #elif QUESA_OS_UNIX
 		TQ3XDrawContextState			x11Data;
 
@@ -193,8 +199,6 @@ typedef struct TQ3DrawContextUnionData {
 #elif QUESA_OS_BE
 		TQ3BeDrawContextState			beData;
 
-#elif QUESA_OS_COCOA
-		TQ3CocoaDrawContextState		cocoaData;
 #endif
 	} data;
 } TQ3DrawContextUnionData;

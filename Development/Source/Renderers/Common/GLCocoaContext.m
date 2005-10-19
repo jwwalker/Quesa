@@ -79,7 +79,7 @@
 //-----------------------------------------------------------------------------
 void * 
 gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
-{    NSOpenGLPixelFormatAttribute	glAttributes[] = { NSOpenGLPFADepthSize, 24, 0 };
+{   TQ3Int32						glAttributes[] = { NSOpenGLPFADepthSize, 24, 0 };
 	TQ3ObjectType					drawContextType;
 	TQ3DrawContextData				drawContextData;
     NSOpenGLPixelFormat				*pixelFormat;
@@ -87,7 +87,7 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 	TQ3Status						qd3dStatus;
     NSRect							viewFrame;
     TQ3Uns32						glRect[4];
-    TQ3Uns32						enable;
+    TQ3Int32						enable;
 
 
 
@@ -108,7 +108,7 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 
 
 			// Set up and create the NSOpenGLContext
-			pixelFormat           = [[NSOpenGLPixelFormat alloc] initWithAttributes:glAttributes];
+			pixelFormat           = [[NSOpenGLPixelFormat alloc] initWithAttributes:(NSOpenGLPixelFormatAttribute*)glAttributes];
 			theContext->glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
 			[pixelFormat release];
 

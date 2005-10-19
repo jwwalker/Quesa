@@ -380,6 +380,11 @@ E3DrawContext_RegisterClass(void)
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3MacDrawContext_RegisterClass();
 
+	#if QUESA_OS_COCOA
+		if (qd3dStatus == kQ3Success)
+			qd3dStatus = E3CocoaDrawContext_RegisterClass();
+	#endif
+	
 #elif QUESA_OS_UNIX
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3XDrawContext_RegisterClass();
@@ -397,9 +402,6 @@ E3DrawContext_RegisterClass(void)
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = E3BeDrawContext_RegisterClass();
 
-#elif QUESA_OS_COCOA
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3CocoaDrawContext_RegisterClass();
 #endif
 
 	return(qd3dStatus);
@@ -424,6 +426,10 @@ E3DrawContext_UnregisterClass(void)
 #if QUESA_OS_MACINTOSH
 	qd3dStatus = E3MacDrawContext_UnregisterClass();
 
+	#if QUESA_OS_COCOA
+		qd3dStatus = E3CocoaDrawContext_UnregisterClass();
+	#endif
+
 #elif QUESA_OS_UNIX
 	qd3dStatus = E3XDrawContext_UnregisterClass();
 
@@ -436,8 +442,6 @@ E3DrawContext_UnregisterClass(void)
 #elif QUESA_OS_BE
 	qd3dStatus = E3BeDrawContext_UnregisterClass();
 
-#elif QUESA_OS_COCOA
-    qd3dStatus = E3CocoaDrawContext_UnregisterClass();
 #endif
 
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeDrawContext, kQ3True);
@@ -488,7 +492,10 @@ E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
 
 
 	// Create the draw context object
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_COCOA
+    drawContext = E3CocoaDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+
+#elif QUESA_OS_MACINTOSH
 	drawContext = E3MacDrawContext_NewWithWindow(drawContextType, drawContextTarget);
 
 #elif QUESA_OS_UNIX
@@ -499,9 +506,6 @@ E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
 
 #elif QUESA_OS_BE
 	drawContext = E3BeDrawContext_NewWithWindow(drawContextType, drawContextTarget);
-
-#elif QUESA_OS_COCOA
-    drawContext = E3CocoaDrawContext_NewWithWindow(drawContextType, drawContextTarget);
 
 #else
 	drawContext = NULL;
