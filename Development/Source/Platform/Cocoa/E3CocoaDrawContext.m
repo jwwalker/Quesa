@@ -45,9 +45,9 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#import <Cocoa/Cocoa.h>
 #include "E3DrawContext.h"
 #include "E3CocoaDrawContextNotify.h"
-#import <Cocoa/Cocoa.h>
 
 
 
@@ -170,7 +170,7 @@ e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
 	instanceData->drawRegions[0].theDescriptor.height	 = cy;
 	instanceData->drawRegions[0].theDescriptor.rowBytes  = 0;
 	instanceData->drawRegions[0].theDescriptor.pixelSize = 32;
-	instanceData->drawRegions[0].theDescriptor.pixelType = kQ3PixelTypeRGB32;
+	instanceData->drawRegions[0].theDescriptor.pixelType = kQ3XDevicePixelTypeRGB32;
 	instanceData->drawRegions[0].theDescriptor.colorDescriptor.redShift	  = 0;
 	instanceData->drawRegions[0].theDescriptor.colorDescriptor.redMask	  = 0;
 	instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenShift = 0;
@@ -367,7 +367,7 @@ E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContex
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
@@ -391,7 +391,7 @@ E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CocoaDrawContext_GetNSView(TQ3DrawContextObject drawContext, void **nsView)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 

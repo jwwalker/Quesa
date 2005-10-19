@@ -128,14 +128,6 @@ void		E3BeSystem_UnloadPlugins(void);
 #endif
 
 
-// Cocoa specific
-#if QUESA_OS_COCOA
-TQ3Status	E3CocoaSystem_Initialise(void);
-void		E3CocoaSystem_Terminate(void);
-void		E3CocoaSystem_LoadPlugins(void);
-void		E3CocoaSystem_UnloadPlugins(void);
-#endif
-
 
 
 

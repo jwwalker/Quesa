@@ -78,8 +78,6 @@ E3System_Initialise(void)
 #elif QUESA_OS_BE
 	qd3dStatus = E3BeSystem_Initialise();
 
-#elif QUESA_OS_COCOA
-	qd3dStatus = E3CocoaSystem_Initialise();
 #endif
 
 	return(qd3dStatus);
@@ -110,8 +108,6 @@ E3System_Terminate(void)
 #elif QUESA_OS_BE
 	E3BeSystem_Terminate();
 
-#elif QUESA_OS_COCOA
-	E3CocoaSystem_Terminate();
 #endif
 }
 
@@ -147,8 +143,6 @@ E3System_LoadPlugins(void)
 #elif QUESA_OS_BE
 	E3BeSystem_LoadPlugins();
 
-#elif QUESA_OS_COCOA
-	E3CocoaSystem_LoadPlugins();
 #endif
 
 
@@ -220,8 +214,6 @@ E3System_UnloadPlugins(void)
 #elif QUESA_OS_BE
 	E3BeSystem_UnloadPlugins();
 
-#elif QUESA_OS_COCOA
-	E3CocoaSystem_UnloadPlugins();
 #endif
 
 }

@@ -93,6 +93,14 @@
 //
 //              The other platform values are then set to 0 here.
 //-----------------------------------------------------------------------------
+#ifdef QUESA_OS_COCOA
+    #undef  QUESA_OS_COCOA
+    #define QUESA_OS_COCOA                      		1
+    #define QUESA_OS_MACINTOSH                  		1
+#else
+    #define QUESA_OS_COCOA                      		0
+#endif
+
 #ifdef QUESA_OS_MACINTOSH
     #undef  QUESA_OS_MACINTOSH
     #define QUESA_OS_MACINTOSH                  		1
@@ -121,26 +129,17 @@
     #define QUESA_OS_BE                         		0
 #endif
 
-#ifdef QUESA_OS_COCOA
-    #undef  QUESA_OS_COCOA
-    #define QUESA_OS_COCOA                      		1
-#else
-    #define QUESA_OS_COCOA                      		0
-#endif
-
 #if (!QUESA_OS_MACINTOSH && \
      !QUESA_OS_WIN32     && \
      !QUESA_OS_UNIX      && \
-     !QUESA_OS_BE        && \
-     !QUESA_OS_COCOA)
+     !QUESA_OS_BE)
     #error Target OS not selected!
 #endif
 
-#if ( (QUESA_OS_MACINTOSH && (QUESA_OS_WIN32     || QUESA_OS_UNIX  || QUESA_OS_BE   || QUESA_OS_COCOA)) || \
-	  (QUESA_OS_WIN32     && (QUESA_OS_MACINTOSH || QUESA_OS_UNIX  || QUESA_OS_BE   || QUESA_OS_COCOA)) || \
-	  (QUESA_OS_UNIX      && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_BE   || QUESA_OS_COCOA)) || \
-	  (QUESA_OS_BE        && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_UNIX || QUESA_OS_COCOA)) || \
-	  (QUESA_OS_COCOA     && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_UNIX || QUESA_OS_BE))    )
+#if ( (QUESA_OS_MACINTOSH && (QUESA_OS_WIN32     || QUESA_OS_UNIX  || QUESA_OS_BE   )) || \
+	  (QUESA_OS_WIN32     && (QUESA_OS_MACINTOSH || QUESA_OS_UNIX  || QUESA_OS_BE   )) || \
+	  (QUESA_OS_UNIX      && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_BE   )) || \
+	  (QUESA_OS_BE        && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_UNIX )) )
     #error More than one target OS has been selected!
 #endif
 
@@ -152,7 +151,7 @@
 //      Platform specific pre-amble
 //-----------------------------------------------------------------------------
 // Mac specific
-#if (QUESA_OS_MACINTOSH || QUESA_OS_COCOA)
+#if (QUESA_OS_MACINTOSH)
     // Build constants
     #define QUESA_SUPPORT_QUICKTIME						1
 

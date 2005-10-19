@@ -77,7 +77,12 @@
 
 // Quesa (private, platform specific)
 #if QUESA_OS_MACINTOSH
+
 	#include "E3MacPrefix.h"
+	
+	#if QUESA_OS_COCOA
+		#include "E3CocoaPrefix.h"
+	#endif
 
 #elif QUESA_OS_WIN32
 	#include "E3WindowsPrefix.h"
@@ -88,8 +93,6 @@
 #elif QUESA_OS_BE
 	#include "E3BePrefix.h"
 
-#elif QUESA_OS_COCOA
-	#include "E3CocoaPrefix.h"
 #endif
 
 

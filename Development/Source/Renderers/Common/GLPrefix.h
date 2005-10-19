@@ -80,9 +80,6 @@
     #include <GL/glu.h>
 	#include <be/opengl/GLView.h>
 
-#elif QUESA_OS_COCOA
-	#include <OpenGL/gl.h>
-	#include <OpenGL/glu.h>
 #endif
 
 

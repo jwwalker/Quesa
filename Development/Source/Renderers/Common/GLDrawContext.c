@@ -1335,7 +1335,10 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 
 
 	// Create the context
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_COCOA
+	glContext = gldrawcontext_cocoa_new(theDrawContext);
+	
+#elif QUESA_OS_MACINTOSH
 	glContext = gldrawcontext_mac_new(theDrawContext, preferredDepthBits, shareTextures);
 
 #elif QUESA_OS_UNIX
@@ -1346,9 +1349,6 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 
 #elif QUESA_OS_BE
 	glContext = gldrawcontext_be_new(theDrawContext);
-
-#elif QUESA_OS_COCOA
-	glContext = gldrawcontext_cocoa_new(theDrawContext);
 
 #else
 	glContext = NULL;
@@ -1397,7 +1397,10 @@ GLDrawContext_Destroy(void **glContext)
 
 
 	// Destroy the context
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_COCOA
+	gldrawcontext_cocoa_destroy(*glContext);
+
+#elif QUESA_OS_MACINTOSH
 	gldrawcontext_mac_destroy(*glContext);
 
 #elif QUESA_OS_UNIX
@@ -1409,8 +1412,6 @@ GLDrawContext_Destroy(void **glContext)
 #elif QUESA_OS_BE
 	gldrawcontext_be_destroy(*glContext);
 
-#elif QUESA_OS_COCOA
-	gldrawcontext_cocoa_destroy(*glContext);
 #endif
 
 
@@ -1439,7 +1440,10 @@ GLDrawContext_SwapBuffers(void *glContext)
 
 
 	// Swap the buffers on the context
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_COCOA
+	gldrawcontext_cocoa_swapbuffers(glContext);
+
+#elif QUESA_OS_MACINTOSH
 	gldrawcontext_mac_swapbuffers(glContext);
 
 #elif QUESA_OS_UNIX
@@ -1451,8 +1455,6 @@ GLDrawContext_SwapBuffers(void *glContext)
 #elif QUESA_OS_BE
 	gldrawcontext_be_swapbuffers(glContext);
 
-#elif QUESA_OS_COCOA
-	gldrawcontext_cocoa_swapbuffers(glContext);
 #endif
 }
 
@@ -1474,7 +1476,10 @@ GLDrawContext_SetCurrent(void *glContext, TQ3Boolean forceSet)
 
 
 	// Activate the context
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_COCOA
+	gldrawcontext_cocoa_setcurrent(glContext, forceSet);
+
+#elif QUESA_OS_MACINTOSH
 	gldrawcontext_mac_setcurrent(glContext, forceSet);
 
 #elif QUESA_OS_UNIX
@@ -1486,8 +1491,6 @@ GLDrawContext_SetCurrent(void *glContext, TQ3Boolean forceSet)
 #elif QUESA_OS_BE
 	gldrawcontext_be_setcurrent(glContext, forceSet);
 
-#elif QUESA_OS_COCOA
-	gldrawcontext_cocoa_setcurrent(glContext, forceSet);
 #endif
 }
 
@@ -1633,7 +1636,10 @@ GLDrawContext_UpdateWindowClip(void *glContext)
 
 
 	// Update the context
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_COCOA
+	wasUpdated = gldrawcontext_cocoa_updateclip(glContext);
+
+#elif QUESA_OS_MACINTOSH
 	wasUpdated = gldrawcontext_mac_updateclip(glContext);
 
 #elif QUESA_OS_UNIX
@@ -1645,8 +1651,6 @@ GLDrawContext_UpdateWindowClip(void *glContext)
 #elif QUESA_OS_BE
 	wasUpdated = gldrawcontext_be_updateclip(glContext);
 
-#elif QUESA_OS_COCOA
-	wasUpdated = gldrawcontext_cocoa_updateclip(glContext);
 #endif
 
 	return(wasUpdated);
@@ -1669,9 +1673,11 @@ GLDrawContext_UpdateWindowPosition(void *glContext)
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glContext), kQ3False);
 
 
-
 	// Update the context
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_COCOA
+	wasUpdated = gldrawcontext_cocoa_updatepos(glContext);
+
+#elif QUESA_OS_MACINTOSH
 	wasUpdated = gldrawcontext_mac_updatepos(glContext);
 
 #elif QUESA_OS_UNIX
@@ -1683,8 +1689,6 @@ GLDrawContext_UpdateWindowPosition(void *glContext)
 #elif QUESA_OS_BE
 	wasUpdated = gldrawcontext_be_updatepos(glContext);
 
-#elif QUESA_OS_COCOA
-	wasUpdated = gldrawcontext_cocoa_updatepos(glContext);
 #endif
 
 	return(wasUpdated);
