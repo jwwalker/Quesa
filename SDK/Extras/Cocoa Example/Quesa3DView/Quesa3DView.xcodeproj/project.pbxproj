@@ -22,7 +22,7 @@
 					/Library/Frameworks,
 					"$(HOME)/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ""; 
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
