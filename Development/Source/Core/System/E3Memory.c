@@ -634,27 +634,32 @@ E3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
 				break;
 
 			case 8:
-				((double   *) dstPtr)[0] = ((const double   *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
 				break;
 	
 			case 9:
-				((double   *) dstPtr)[0] = ((const double   *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
 				((TQ3Uns8  *) dstPtr)[8] = ((const TQ3Uns8  *) srcPtr)[8];
 				break;
 	
 			case 10:
-				((double   *) dstPtr)[0] = ((const double   *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
 				((TQ3Uns16 *) dstPtr)[4] = ((const TQ3Uns16 *) srcPtr)[4];
 				break;
 	
 			case 11:
-				((double   *) dstPtr)[ 0] = ((const double   *) srcPtr)[ 0];
+				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
 				((TQ3Uns16 *) dstPtr)[ 4] = ((const TQ3Uns16 *) srcPtr)[ 4];
 				((TQ3Uns8  *) dstPtr)[10] = ((const TQ3Uns8  *) srcPtr)[10];
 				break;
 	
 			case 12:
-				((double   *) dstPtr)[0] = ((const double   *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
+				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
 				((TQ3Uns32 *) dstPtr)[2] = ((const TQ3Uns32 *) srcPtr)[2];
 				break;
 	
