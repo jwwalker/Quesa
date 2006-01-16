@@ -442,8 +442,8 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		// uvs come from the surface parameterisation
 		uvs[i].u         = i / (float) sides;
 		uvs[i].v         = 0.0f;
-		uvs[i + sides].u = uvs[i].u;
-		uvs[i + sides].v = 1.0f;
+		uvs[i + sides + 1].u = uvs[i].u;
+		uvs[i + sides + 1].v = 1.0f;
 
 		if (i<sides)
 		{
