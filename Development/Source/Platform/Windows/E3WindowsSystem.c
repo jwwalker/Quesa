@@ -46,6 +46,7 @@
 #include "E3Prefix.h"
 #include "E3System.h"
 
+#include <string.h>
 
 
 
@@ -195,15 +196,23 @@ E3WindowsSystem_LoadPlugins(void)
 {	TCHAR thePath[MAX_PATH];
 
 
-
 	// Register Quesa plug-ins
-	if(GetCurrentDirectory(MAX_PATH * sizeof(thePath[0]), thePath) > 0)
+	
+	// Look in the application directory
+	if (GetModuleFileName( 0, thePath, MAX_PATH ) > 0)
+	{
+		char*	backslashLoc = strrchr( thePath, '\\' );
+		if (backslashLoc != NULL)
+		{
+			*backslashLoc = '\0';
+			e3windowsystem_loadplugins(thePath, TEXT("xq3"));
+		}
+	}
+	
+	if(GetSystemDirectory(thePath, MAX_PATH) > 0)
 		e3windowsystem_loadplugins(thePath, TEXT("xq3"));
 
-	if(GetSystemDirectory(thePath, MAX_PATH * sizeof(thePath[0])) > 0)
-		e3windowsystem_loadplugins(thePath, TEXT("xq3"));
-
-	if(GetWindowsDirectory(thePath, MAX_PATH * sizeof(thePath[0])) > 0)
+	if(GetWindowsDirectory(thePath, MAX_PATH) > 0)
 		e3windowsystem_loadplugins(thePath, TEXT("xq3"));
 }
 
