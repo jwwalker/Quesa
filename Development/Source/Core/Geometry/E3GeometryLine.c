@@ -349,10 +349,16 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 	// Calculate the distance d along the line to its closest point to the pick point.
 	// If it's outside the range 0-1 then the closest point is before or after the
 	// bounds of the line and so we know we can't possibly have a hit.
-	Q3Point2D_Subtract(&pickData.point,  &windowPoints[0], &windowStartToPick);
-	Q3Point2D_Subtract(&windowPoints[1], &windowPoints[0], &windowStartToEnd);
+	Q3FastPoint2D_Subtract(&pickData.point,  &windowPoints[0], &windowStartToPick);
+	Q3FastPoint2D_Subtract(&windowPoints[1], &windowPoints[0], &windowStartToEnd);
 
-	d = Q3Vector2D_Dot(&windowStartToPick, &windowStartToEnd) / Q3Vector2D_LengthSquared(&windowStartToEnd);
+	float	windowLineLenSq = Q3FastVector2D_LengthSquared(&windowStartToEnd);
+	if (windowLineLenSq < kQ3RealZero)
+	{
+		// Line is edge-on; we do not want to divide by 0, let's say there is no hit.
+		return(kQ3Success);
+	}
+	d = Q3FastVector2D_Dot(&windowStartToPick, &windowStartToEnd) / windowLineLenSq;
 	if (d < 0.0f || d > 1.0f)
 		return(kQ3Success);
 
