@@ -135,6 +135,7 @@ typedef struct TQ3CachedTexture {
 	TQ3ShaderUVBoundary		boundaryU;
 	TQ3ShaderUVBoundary		boundaryV;
 	TQ3Boolean				useMipmapping;
+	GLuint					glTextureName;
 } TQ3CachedTexture;
 
 // glBlendEquation type
