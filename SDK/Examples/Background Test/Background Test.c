@@ -345,7 +345,7 @@ App_Initialise(void)
 
 	// Initialise Qut
 	Qut_CreateWindow("Background Test", 300, 300, kQ3False);
-	Qut_CreateView(appConfigureView);
+	Qut_CreateView( NULL, appConfigureView );
 	Qut_SetRenderPreFunc(appRenderPre);
 	Qut_SetRenderFunc(appRender);
 	Qut_SetRenderPostFunc(appRenderPost);
