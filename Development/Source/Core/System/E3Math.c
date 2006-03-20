@@ -169,7 +169,8 @@ e3matrix3x3_determinant(TQ3Matrix3x3* a)
         }
         
         // If largest element is 0, the matrix is singular
-        if (big == 0.0f)
+        // (It could still be -1 if the matrix contained "nan" values.)
+        if (big <= 0.0f)
             return(0.0f);
         
         // If necessary, put pivot element on diagonal at (k,k)
@@ -391,7 +392,8 @@ e3matrix4x4_determinant(TQ3Matrix4x4* a)
         }
         
         // If largest element is 0, the matrix is singular
-        if (big == 0.0f)
+        // (It could still be -1 if the matrix contained "nan" values.)
+        if (big <= 0.0f)
             return(0.0f);
         
         // If necessary, put pivot element on diagonal at (k,k)
