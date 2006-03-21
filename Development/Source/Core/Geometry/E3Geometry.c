@@ -484,6 +484,7 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 						const void   *geomData,   TQ3Object         cachedGeom)
 	{
 	TQ3Matrix4x4			localToWorld ;
+	TQ3Boolean		isValid = kQ3True;
 
 
 
@@ -516,22 +517,7 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 		{
 		instanceData->cachedEditIndex = editIndex;
 		
-		// If the geometry uses subdivision and appears to be a new object, let's
-		// update some other cached values now, to avoid re-caching the object
-		// several times as these fields are updated one at a time.
-		if ( (instanceData->cachedDeterminant == 0.0f) && usesSubdivision )
-			{
-			Q3Memory_Copy(E3View_State_GetStyleSubdivision(theView),
-							&instanceData->styleSubdivision,
-							sizeof(TQ3SubdivisionStyleData));
-			
-			instanceData->cameraEditIndex = Q3Shared_GetEditIndex(E3View_AccessCamera(theView));
-			
-			Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
-			instanceData->cachedDeterminant = Q3Matrix4x4_Determinant( &localToWorld );
-			}
-		
-		return(kQ3False);
+		isValid = kQ3False;
 		}
 
 
@@ -547,19 +533,20 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 			Q3Memory_Copy(E3View_State_GetStyleSubdivision(theView),
 							&instanceData->styleSubdivision,
 							sizeof(TQ3SubdivisionStyleData));
-			return(kQ3False);
+		
+			isValid = kQ3False;
 			}
 
 
 
 		// If the subdivision style is screen space, check to see if the camera has changed
-		if (instanceData->styleSubdivision.method == kQ3SubdivisionMethodScreenSpace)
+		if ( instanceData->styleSubdivision.method == kQ3SubdivisionMethodScreenSpace )
 			{
 			editIndex = Q3Shared_GetEditIndex(E3View_AccessCamera(theView));
 			if (editIndex > instanceData->cameraEditIndex)
 				{
 				instanceData->cameraEditIndex = editIndex;
-				return(kQ3False);
+				isValid = kQ3False;
 				}
 			}
 
@@ -574,7 +561,7 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 			if (E3Float_Abs( 1.0f - detRatio ) > kWorldSpaceTolerance)
 				{
 				instanceData->cachedDeterminant = theDet;
-				return kQ3False;
+				isValid = kQ3False;
 				}
 			}
 		}
@@ -588,14 +575,13 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 		if (instanceData->styleOrientation != theOrientation)
 			{
 			instanceData->styleOrientation = theOrientation;
-			return(kQ3False);
+			isValid = kQ3False;
 			}
 		}
 
 
 
-	// If we're still here, the cached object is valid
-	return(kQ3True);
+	return isValid;
 }
 
 
