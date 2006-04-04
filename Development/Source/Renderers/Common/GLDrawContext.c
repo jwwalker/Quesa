@@ -305,8 +305,20 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		
 		// If that fails, just create an unshared context.
 		if (glContext == NULL)
-			glContext = aglCreateContext(pixelFormat, NULL);	
+			{
+			glContext = aglCreateContext(pixelFormat, NULL);
+			
+			if (glContext == NULL)
+				{
+				// Workaround for Rosetta bug:  try again with a fresh pixel format
+				aglDestroyPixelFormat(pixelFormat);
+				pixelFormat = aglChoosePixelFormat(NULL, 0, glAttributes);
+				glContext = aglCreateContext(pixelFormat, NULL);
+				}
+			}
 		}
+	
+	Q3_ASSERT_MESSAGE( (glContext != NULL), (const char*)aglErrorString(aglGetError()) );
 
 	if (glContext != NULL)
 		{
