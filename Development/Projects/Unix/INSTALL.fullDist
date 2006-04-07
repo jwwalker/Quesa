@@ -33,7 +33,7 @@ now we can create the unix build system, the Quesa library and examples
 in order the buildUnix.sh script to work, you ought to have installed in your system 
 version 1.6 or later of the GNU build system (automake, autoconf, ecc),
 also be sure to have installed in your system the X11, GTK, OpenGL and glut headers and libraries.
-	(on debian you have to install the packages 'libxt-dev','xlibmesa-gl-dev','xlibmesa-gl-dev')
+	(on debian you have to install the packages 'libxt-dev','xlibmesa-gl-dev','xlibmesa-glu-dev')
 
 it uses also the mdl_have_opengl.m4 file from the GNU autoconf archive that
 you have to get too. (on debian you have to install the package 'autoconf-archive')
