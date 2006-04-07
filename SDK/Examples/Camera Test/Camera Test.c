@@ -498,7 +498,7 @@ App_Initialise(void)
 
 	// Initialise Qut
 	Qut_CreateWindow("Camera Test", 300, 300, kQ3True);
-	Qut_CreateView(appConfigureView);
+	Qut_CreateView(Q3View_New,appConfigureView);
 	Qut_SetRenderFunc(appRender);
 	Qut_SetMouseTrackFunc(appMouseTrack);
 
