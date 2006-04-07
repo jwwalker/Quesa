@@ -3344,8 +3344,8 @@ getAbsoluteTime()
 	
 #else
 	struct timeval	secsAndUSecs;
-	gettimeofday( &secsAndNSecs, NULL );
-	theSeconds = secsAndUSecs.tv_sec + secsAndUSecs.tv_nsec * 1e-9;
+	gettimeofday( &secsAndUSecs, NULL );
+	theSeconds = secsAndUSecs.tv_sec + secsAndUSecs.tv_usec * 1e-6;
 #endif
 
 	return theSeconds;
