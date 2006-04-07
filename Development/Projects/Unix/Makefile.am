@@ -33,7 +33,6 @@ lib_LTLIBRARIES= libquesa.la
 
 # Flags
 WARN= -Wall -Wpointer-arith -Wno-cast-qual -Waggregate-return         \
-       -Wstrict-prototypes -Wmissing-prototypes \
        -Wredundant-decls -Wno-multichar -Wno-conversion                \
        -Wno-unknown-pragmas -Wno-unused
 					 
@@ -122,6 +121,7 @@ myIncludes= ${pkginclude_HEADERS} \
              ${SRC}${GEOMETRY}/E3GeometryTriangle.h       \
              ${SRC}${GEOMETRY}/E3GeometryTriGrid.h        \
              ${SRC}${GEOMETRY}/E3GeometryTriMesh.h        \
+             ${SRC}${GEOMETRY}/E3GeometryTriMeshOptimize.h        \
              ${SRC}${GEOMETRY}/E3GeometryTorus.h          \
              ${SRC}${FFORMAT}/E3IOFileFormat.h            \
              ${SRC}${FFORMATR}/3DMF/E3FFR_3DMF.h          \
@@ -237,6 +237,7 @@ libquesa_la_SOURCES=	${myIncludes}            \
              ${SRC}${GEOMETRY}/E3GeometryTriangle.c       \
              ${SRC}${GEOMETRY}/E3GeometryTriGrid.c        \
              ${SRC}${GEOMETRY}/E3GeometryTriMesh.c        \
+             ${SRC}${GEOMETRY}/E3GeometryTriMeshOptimize.cpp        \
              ${SRC}${GEOMETRY}/E3GeometryTorus.c          \
              ${SRC}${FFORMAT}/E3IOFileFormat.c            \
              ${SRC}${FFORMATR}/3DMF/E3FFR_3DMF.c          \
