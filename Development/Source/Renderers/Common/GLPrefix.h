@@ -116,7 +116,7 @@ typedef struct TQ3GLExtensions
 	#define CALLBACK
 #endif
 
-#if defined(__GNUC__) && (__GNUC__ >= 4)
+#if defined(__GNUC__) && (__GNUC__ >= 4) && QUESA_OS_MACINTOSH
 
 	typedef GLvoid (CALLBACK *GLcallback)(...);
 #else
