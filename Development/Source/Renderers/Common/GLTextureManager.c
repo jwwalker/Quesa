@@ -111,19 +111,17 @@ namespace
 	class MatchTexture	// function object for use with find_if and CachedTextureList
 	{
 	public:
-							MatchTexture( TQ3ShaderObject inShader, TQ3TextureObject inTexture )
-									: mShaderToMatch( inShader ),
-									mTextureToMatch( inTexture ) {}
+							MatchTexture( TQ3TextureObject inTexture )
+									: mTextureToMatch( inTexture ) {}
+							MatchTexture( const MatchTexture& inOther )
+									: mTextureToMatch( inOther.mTextureToMatch ) {}
 
 		bool				operator()( const TQ3CachedTexture& inCachedTexture ) const
 									{
 										return (inCachedTexture.cachedTextureObject.get() ==
-											mTextureToMatch) &&
-											(inCachedTexture.cachedTextureShader.get() ==
-											mShaderToMatch);
+											mTextureToMatch);
 									}
 	private:
-		TQ3ShaderObject		mShaderToMatch;
 		TQ3TextureObject	mTextureToMatch;
 	};
 
@@ -388,7 +386,6 @@ TQ3Boolean			GLTextureMgr_IsValidTextureCache( TQ3TextureCachePtr txCache )
 	@result			Pointer to a cached texture record, or NULL if not found.
 */
 TQ3CachedTexture*	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
-								TQ3ShaderObject inShader,
 								TQ3TextureObject texture )
 {
 	TQ3CachedTexture*	theRecord = NULL;
@@ -396,7 +393,7 @@ TQ3CachedTexture*	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
 	TRY
 	{
 		CachedTextureList::iterator	foundIt = std::find_if( txCache->cachedTextures.begin(),
-			txCache->cachedTextures.end(), MatchTexture( inShader, texture ) );
+			txCache->cachedTextures.end(), MatchTexture( texture ) );
 		
 		if (foundIt != txCache->cachedTextures.end())
 		{
