@@ -141,7 +141,6 @@ void				GLTextureMgr_RemoveContext( TQ3GLContext deadGLContext );
 	@result			Pointer to a cached texture record, or NULL if not found.
 */
 TQ3CachedTexture* GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
-								TQ3ShaderObject inShader,
 								TQ3TextureObject texture );
 
 /*!
