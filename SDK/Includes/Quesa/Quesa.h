@@ -153,6 +153,12 @@
 // Mac specific
 #if (QUESA_OS_MACINTOSH)
     // Build constants
+    #ifdef __LITTLE_ENDIAN__
+    	#define		QUESA_HOST_IS_BIG_ENDIAN			0
+    #else
+    	#define		QUESA_HOST_IS_BIG_ENDIAN			1
+    #endif
+    
     #define QUESA_SUPPORT_QUICKTIME						1
 
     #if defined(__GNUC__) && (defined(__APPLE_CPP__) || defined(__APPLE_CC__) || defined(__NEXT_CPP__))
