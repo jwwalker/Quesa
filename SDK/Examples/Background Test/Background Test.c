@@ -148,8 +148,13 @@ setGWorldDrawContext(TQ3ViewObject theView, GWorldPtr theGWorld)
 	pixmapDrawContextData.pixmap.rowBytes  = (*thePixMap)->rowBytes & 0x7FFF;
 	pixmapDrawContextData.pixmap.pixelSize = 32;
 	pixmapDrawContextData.pixmap.pixelType = kQ3PixelTypeARGB32;
+#if QUESA_HOST_IS_BIG_ENDIAN
 	pixmapDrawContextData.pixmap.bitOrder  = kQ3EndianBig;
 	pixmapDrawContextData.pixmap.byteOrder = kQ3EndianBig;
+#else
+	pixmapDrawContextData.pixmap.bitOrder  = kQ3EndianLittle;
+	pixmapDrawContextData.pixmap.byteOrder = kQ3EndianLittle;
+#endif
 	pixmapDrawContextData.pixmap.image     = GetPixBaseAddr(thePixMap);
 
 
