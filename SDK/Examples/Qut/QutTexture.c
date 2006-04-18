@@ -344,7 +344,8 @@ QutTexture_CreateGWorldFromPICT(PicHandle thePicture, TQ3PixelType pixelType)
 
 
 	// Create a GWorld to hold the image data
-	theErr = NewGWorld(&theGWorld, theDepth, &(*thePicture)->picFrame, NULL, NULL, useTempMem);
+	theErr = NewGWorld(&theGWorld, theDepth, &(*thePicture)->picFrame, NULL, NULL,
+		useTempMem | kNativeEndianPixMap );
 	if (theErr != noErr || theGWorld == NULL)
 		return(NULL);
 
@@ -352,7 +353,8 @@ QutTexture_CreateGWorldFromPICT(PicHandle thePicture, TQ3PixelType pixelType)
 
 	// If we should dither, create a deep GWorld
 	if (theDepth == 16 && shouldDither)
-		theErr = NewGWorld(&deepGWorld, 32, &(*thePicture)->picFrame, NULL, NULL, useTempMem);
+		theErr = NewGWorld(&deepGWorld, 32, &(*thePicture)->picFrame, NULL, NULL,
+			useTempMem | kNativeEndianPixMap );
 	else
 		deepGWorld = NULL;
 		
@@ -457,7 +459,8 @@ QutTexture_CreateGWorldFromFile(const FSSpec *theFSSpec, TQ3PixelType pixelType)
 
 	// Create the GWorld
 	if (theErr == noErr)
-		theErr = NewGWorld(&theGWorld, theDepth, &theRect, colourTableHnd, NULL, useTempMem);
+		theErr = NewGWorld(&theGWorld, theDepth, &theRect, colourTableHnd, NULL,
+			useTempMem | kNativeEndianPixMap );
 
 
 
