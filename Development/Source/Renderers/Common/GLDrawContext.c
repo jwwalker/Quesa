@@ -181,6 +181,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	GLint					paneWidth, paneHeight;
 	char*					paneImage;
 	TQ3GLContext			sharingContext = NULL;
+	TQ3Endian				nativeByteOrder;
 
 
 	// Get the type specific draw context data
@@ -210,6 +211,15 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 
 			// Grab its dimensions
 			SetRect(&theRect, 0, 0, (short)thePixmap.width, (short)thePixmap.height);
+			
+			
+			// Check byte order
+			#if QUESA_HOST_IS_BIG_ENDIAN
+				nativeByteOrder = kQ3EndianBig;
+			#else
+				nativeByteOrder = kQ3EndianLittle;
+			#endif
+			Q3_ASSERT( thePixmap.byteOrder == nativeByteOrder );
 			break;
 		
 		
