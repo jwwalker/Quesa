@@ -79,7 +79,7 @@
 #define kMenuBarQut										128
 #define kDialogAbout									128
 
-#define kQutMacUpdateSeconds							0.02f
+#define kQutMacUpdateSeconds							0.005f
 #define kQutMacUpdateSecondsFPS							0.001f
 #define kSleepTicksDefault								1
 #define kSleepTicksFPS									0
@@ -886,6 +886,10 @@ qut_filter_file_name_test( AEDesc *theItem )
 			err = AEGetDescData( &someDesc, &fileRef, sizeof(fileRef) );
 			AEDisposeDesc( &someDesc );
 		}
+	}
+	else	// what else could it be?
+	{
+		err = paramErr;
 	}
 	
 	if (err == noErr)
