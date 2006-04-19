@@ -98,6 +98,13 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 			kQ3XDrawContextValidationDepthState;
 	}
 	
+#if QUESA_OS_MACINTOSH
+	// On the Mac, rendering with OpenGL, we do not care about changes of device or
+	// window clipping.
+	drawContextFlags &= ~kQ3XDrawContextValidationDevice;
+	drawContextFlags &= ~kQ3XDrawContextValidationWindowClip;
+#endif
+	
 	if (qd3dStatus == kQ3Success && drawContextFlags != kQ3XDrawContextValidationClearFlags)
 		{
 		// If we don't have a draw context, rebuild everything
