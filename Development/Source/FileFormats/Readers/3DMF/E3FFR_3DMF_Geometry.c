@@ -144,9 +144,9 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 	if(pixmapImage == NULL)
 		return (kQ3Failure);
 	
-	qd3dStatus = Q3RawData_Read (pixmapImage, imageSize, theFile);
+	qd3dStatus = Q3RawData_Read ((unsigned char*)pixmapImage, imageSize, theFile);
 	if(qd3dStatus == kQ3Success)
-		pixmap->image = Q3MemoryStorage_New(pixmapImage, imageSize);
+		pixmap->image = Q3MemoryStorage_New((unsigned char*)pixmapImage, imageSize);
 
 	Q3Memory_Free(&pixmapImage);
 	
@@ -855,9 +855,9 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 	if(mipmapImage == NULL)
 		return (NULL);
 	
-	qd3dStatus = Q3RawData_Read (mipmapImage, imageSize, theFile);
+	qd3dStatus = Q3RawData_Read ((unsigned char*)mipmapImage, imageSize, theFile);
 	if(qd3dStatus == kQ3Success)
-		mipmap.image = Q3MemoryStorage_New(mipmapImage, imageSize);
+		mipmap.image = Q3MemoryStorage_New((unsigned char*)mipmapImage, imageSize);
 
 	Q3Memory_Free(&mipmapImage);
 	
@@ -2586,9 +2586,9 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 	// Allocate and read bitmap
 	imageSize = geomData.bitmap.height * geomData.bitmap.rowBytes;
 	imageSize = Q3Size_Pad(imageSize);
-	geomData.bitmap.image = (unsigned char *)Q3Memory_Allocate (imageSize);
+	geomData.bitmap.image = (TQ3Uns8 *)Q3Memory_Allocate (imageSize);
 	
-	Q3RawData_Read (geomData.bitmap.image, imageSize, theFile);
+	Q3RawData_Read ((unsigned char*)geomData.bitmap.image, imageSize, theFile);
 
 
 

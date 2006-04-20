@@ -836,7 +836,7 @@ E3Storage::GetSize ( TQ3Uns32* size )
 TQ3Status
 E3Storage::GetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char* data, TQ3Uns32* sizeRead )
 	{
-	return GetClass ()->getData_Method ( this, offset, dataSize, data, sizeRead ) ;
+	return GetClass ()->getData_Method ( this, offset, dataSize, (TQ3Uns8*) data, sizeRead ) ;
 	}
 
 
@@ -852,7 +852,7 @@ E3Storage::GetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char* data, TQ
 TQ3Status
 E3Storage::SetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char* data, TQ3Uns32* sizeWritten )
 	{
-	TQ3Status result = GetClass ()->setData_Method ( this, offset, dataSize, data, sizeWritten ) ;
+	TQ3Status result = GetClass ()->setData_Method ( this, offset, dataSize, (TQ3Uns8*) data, sizeWritten ) ;
 
 	Edited () ;
 	
@@ -959,7 +959,7 @@ E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bu
 	{
 	TE3_MemoryStorageData	objectData ;
 	
-	objectData.buffer = buffer ;
+	objectData.buffer = (TQ3Uns8*) buffer ;
 	objectData.ownBuffer = kQ3False ;
 	objectData.bufferSize = bufferSize ;
 	objectData.validSize = validSize ;
@@ -1001,7 +1001,7 @@ E3MemoryStorage::SetBuffer ( unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32
 			// release it. If the buffer is the same, we don't want to do anything - we're
 			// just being called because the app has touched the contents and is calling
 			// us for the side effect of calling Q3Shared_Edited).
-			if ( memoryDetails.buffer != buffer )
+			if ( memoryDetails.buffer != (TQ3Uns8*) buffer )
 				{
 				// Make sure the app isn't trying to change anything they shouldn't: since
 				// we own the buffer, the app shouldn't be trying to resize it on us.
@@ -1020,7 +1020,7 @@ E3MemoryStorage::SetBuffer ( unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32
 		// Update our state. Note that we leave ownBuffer unchanged: we either reset
 		// it to false above (in which case the new buffer is owned by the app), or
 		// the previous owner still owns it.
-		memoryDetails.buffer     = buffer ;
+		memoryDetails.buffer     = (TQ3Uns8*) buffer ;
 		memoryDetails.bufferSize = bufferSize ;
 		memoryDetails.validSize  = validSize ;
 		memoryDetails.growSize   = kE3MemoryStorageDefaultGrowSize ;
@@ -1047,7 +1047,7 @@ TQ3Status
 E3MemoryStorage::GetBuffer ( unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize )
 	{
 	if ( buffer != NULL )
-		*buffer = memoryDetails.buffer ;
+		*buffer = (unsigned char *) memoryDetails.buffer ;
 	if ( validSize != NULL )
 		*validSize = memoryDetails.validSize ;
 	if ( bufferSize != NULL )

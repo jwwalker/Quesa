@@ -931,7 +931,7 @@ IRRenderer_Texture_GetData(TQ3StorageObject theStorage, TQ3Boolean *wasCopied)
 	theType    = Q3Storage_GetType(theStorage);
 	switch (theType) {
 		case kQ3StorageTypeMemory:
-			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, &basePtr, &validSize, &bufferSize);
+			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, (unsigned char **) &basePtr, &validSize, &bufferSize);
 			break;
 
 #if QUESA_OS_MACINTOSH
@@ -956,7 +956,7 @@ IRRenderer_Texture_GetData(TQ3StorageObject theStorage, TQ3Boolean *wasCopied)
 			
 			if (basePtr != NULL)
 				{
-				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, basePtr, &validSize);
+				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, (unsigned char*) basePtr, &validSize);
 				*wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
 				
 				if (qd3dStatus != kQ3Success)

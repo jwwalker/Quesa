@@ -203,11 +203,8 @@
     // Includes for VC++ (Win CW builds should use the Win32Headers prefix)
     #if _MSC_VER
 	    #include <Windows.h>
-	#endif
-
 
     // Disable unknown #pragma warning for VC++
-    #if _MSC_VER
         #pragma warning(disable:4068)
     #endif
 
@@ -279,8 +276,19 @@
 #define __QD3D__
 
 #include <stdio.h>
-#include <inttypes.h>
 
+#if _MSC_VER
+typedef unsigned __int8 uint8_t;
+typedef unsigned __int16 uint16_t;
+typedef unsigned __int32 uint32_t;
+
+typedef signed __int8 int8_t;
+typedef signed __int16 int16_t;
+typedef signed __int32 int32_t;
+
+#else
+	#include <inttypes.h>
+#endif
 //=============================================================================
 //      C++ preamble
 //-----------------------------------------------------------------------------

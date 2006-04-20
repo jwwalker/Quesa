@@ -288,11 +288,11 @@ e3fformat_3dmf_bin_canread(TQ3StorageObject storage, TQ3ObjectType* theFileForma
 	
 	if(readMethod != NULL){
 		// read 4 bytes, search for 3DMF or FMD3 (if swapped)
-		readMethod(storage,0, 4,(unsigned char*)&label, &sizeRead);
+		readMethod(storage,0, 4,(TQ3Uns8*)&label, &sizeRead);
 		if (sizeRead != 4)
 			return kQ3False;
 			
-		readMethod(storage,12, 4,(unsigned char*)&flags, &sizeRead);
+		readMethod(storage,12, 4,(TQ3Uns8*)&flags, &sizeRead);
 		if (sizeRead != 4)
 			return kQ3False;
 			
@@ -576,7 +576,7 @@ e3fformat_3dmf_bin_newunknown(TQ3FileFormatObject format,TQ3Int32 objectType,TQ3
 		if(unknownData.contents == NULL)
 			return NULL;
 		TQ3XFFormatRawReadMethod rawRead = (TQ3XFFormatRawReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatRawRead ) ;
-		if(rawRead(format,(TQ3Uns8*)unknownData.contents,objectSize) != kQ3Success)
+		if(rawRead(format,(unsigned char*)unknownData.contents,objectSize) != kQ3Success)
 			{
 			Q3Memory_Free(&unknownData.contents);
 			return NULL;
