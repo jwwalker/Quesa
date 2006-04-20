@@ -1053,7 +1053,7 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 
 	// If we support QuickTime, compress the image
 	ImageDescriptionHandle	imageDescH 			= NULL;
-	TQ3Int32				maxCompressedSize	= 0;
+	long					maxCompressedSize	= 0;
 	Handle					compressedDataH		= NULL;
 	Ptr						compressedDataP		= NULL;
 	OSErr					theErr				= noErr;

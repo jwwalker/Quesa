@@ -146,8 +146,8 @@ TQ3Status								E3Viewer_SetCallbackResizeNotify(TQ3ViewerObject theViewer, TQ3
 
 #if QUESA_OS_MACINTOSH
 
-OSErr			E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision);
-OSErr			E3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision);
+OSErr			E3ViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision);
+OSErr			E3ViewerGetReleaseVersion(unsigned long *releaseRevision);
 TQ3ViewerObject	E3ViewerNew(CGrafPtr port, Rect *rect, TQ3Uns32 flags);
 OSErr			E3ViewerDispose(TQ3ViewerObject theViewer);
 OSErr			E3ViewerUseFile(TQ3ViewerObject theViewer, TQ3Int32 refNum);
@@ -172,9 +172,9 @@ OSErr			E3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags);
 TQ3Uns32		E3ViewerGetFlags(TQ3ViewerObject theViewer);
 OSErr			E3ViewerSetBounds(TQ3ViewerObject theViewer, Rect *bounds);
 OSErr			E3ViewerGetBounds(TQ3ViewerObject theViewer, Rect *bounds);
-OSErr			E3ViewerSetDimension(TQ3ViewerObject theViewer, TQ3Uns32 width, TQ3Uns32 height);
-OSErr			E3ViewerGetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height);
-OSErr			E3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height);
+OSErr			E3ViewerSetDimension(TQ3ViewerObject theViewer, unsigned long width, unsigned long height);
+OSErr			E3ViewerGetDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height);
+OSErr			E3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height);
 OSErr			E3ViewerSetPort(TQ3ViewerObject theViewer, CGrafPtr port);
 CGrafPtr		E3ViewerGetPort(TQ3ViewerObject theViewer);
 Boolean			E3ViewerAdjustCursor(TQ3ViewerObject theViewer, Point *pt);
@@ -192,8 +192,8 @@ OSErr			E3ViewerSetDrawingCallbackMethod(TQ3ViewerObject theViewer, TQ3ViewerDra
 OSErr			E3ViewerSetWindowResizeCallback(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallbackMethod windowResizeCallbackMethod, const void *data);
 OSErr			E3ViewerSetPaneResizeNotifyCallback(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod paneResizeNotifyCallbackMethod, const void *data);
 OSErr			E3ViewerUndo(TQ3ViewerObject theViewer);
-Boolean			E3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, TQ3Uns32 *cnt);
-OSErr			E3ViewerGetCameraCount(TQ3ViewerObject theViewer, TQ3Uns32 *cnt);
+Boolean			E3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, unsigned long *cnt);
+OSErr			E3ViewerGetCameraCount(TQ3ViewerObject theViewer, unsigned long *cnt);
 OSErr			E3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, TQ3Uns32 cameraNo);
 OSErr			E3ViewerSetCameraByView(TQ3ViewerObject theViewer, TQ3ViewerCameraView viewType);
 OSErr			E3ViewerSetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType);
