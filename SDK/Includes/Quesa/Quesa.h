@@ -279,10 +279,7 @@
 #define __QD3D__
 
 #include <stdio.h>
-
-
-
-
+#include <inttypes.h>
 
 //=============================================================================
 //      C++ preamble
@@ -299,16 +296,18 @@ extern "C" {
 //      Bootstrap types/macros
 //-----------------------------------------------------------------------------
 // Types
+
+
 /*!
 	@typedef	TQ3Uns32
 	@abstract	Unsigned 32-bit integer.
 */
-typedef unsigned long                           TQ3Uns32;
+typedef uint32_t                           TQ3Uns32;
 /*!
 	@typedef	TQ3Int32
 	@abstract	Signed 32-bit integer.
 */
-typedef signed long                             TQ3Int32;
+typedef int32_t                            TQ3Int32;
 /*!
 	@typedef	TQ3ObjectType
 	@abstract	Numeric type code for a class of Quesa objects.
@@ -702,22 +701,22 @@ enum {
 	@typedef		TQ3Uns8
 	@abstract		Unsigned 8-bit integer.
 */
-typedef unsigned char                           TQ3Uns8;
+typedef uint8_t                           TQ3Uns8;
 /*!
 	@typedef		TQ3Int8
 	@abstract		Signed 8-bit integer.
 */
-typedef signed char                             TQ3Int8;
+typedef int8_t                                  TQ3Int8;
 /*!
 	@typedef		TQ3Uns16
 	@abstract		Unsigned 16-bit integer.
 */
-typedef unsigned short                          TQ3Uns16;
+typedef uint16_t                                TQ3Uns16;
 /*!
 	@typedef		TQ3Int16
 	@abstract		Signed 16-bit integer.
 */
-typedef signed short                            TQ3Int16;
+typedef int16_t                                 TQ3Int16;
 /*!
 	@typedef		TQ3Float32
 	@abstract		32-bit floating-point number.
