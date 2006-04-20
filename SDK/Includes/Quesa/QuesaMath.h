@@ -3964,6 +3964,12 @@ Q3Math_InvSquareRoot (
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 // Implementation
+    #if _MSC_VER
+     // Disable conditional expression is constant warning for VC++
+       #pragma warning(disable:4127)
+    #endif
+
+
 #define __Q3FastVector2D_Set(_v, _x, _y)									\
 	do																		\
 		{																	\

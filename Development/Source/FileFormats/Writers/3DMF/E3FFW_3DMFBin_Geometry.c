@@ -76,7 +76,7 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 	theType    = Q3Storage_GetType(theStorage);
 	switch (theType) {
 		case kQ3StorageTypeMemory:
-			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, &basePtr, &validSize, &bufferSize);
+			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, (unsigned char**)&basePtr, &validSize, &bufferSize);
 			break;
 
 #if QUESA_OS_MACINTOSH
@@ -101,7 +101,7 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 			
 			if (basePtr != NULL)
 				{
-				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, basePtr, &validSize);
+				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, (unsigned char*)basePtr, &validSize);
 				wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
 				
 				if (qd3dStatus != kQ3Success)
@@ -120,7 +120,7 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 	Q3_ASSERT(validSize>=expectedSize);
 	
 
-	qd3dStatus = Q3RawData_Write (basePtr, expectedSize, theFile);
+	qd3dStatus = Q3RawData_Write ((unsigned char*)basePtr, expectedSize, theFile);
 	
 #if QUESA_OS_MACINTOSH
 	// If this is a Mac handle object, unlock the handle
@@ -1541,7 +1541,7 @@ e3ffw_3DMF_marker_write (	const TQ3MarkerData* data ,
 		writeStatus = Q3Uns32_Write ( data->bitmap.bitOrder , theFile ) ;
 	
 	if ( writeStatus != kQ3Failure )
-		writeStatus = Q3RawData_Write ( data->bitmap.image ,
+		writeStatus = Q3RawData_Write ( (unsigned char*)data->bitmap.image ,
 			Q3Size_Pad ( data->bitmap.rowBytes * data->bitmap.height ) , theFile ) ;
 	
 	return writeStatus ;

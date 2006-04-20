@@ -807,7 +807,7 @@ e3fformat_3dmf_text_canread(TQ3StorageObject storage, TQ3ObjectType* theFileForm
 	
 	if(readMethod != NULL){
 		// read 10 bytes, search for "3DMetafile"
-		readMethod(storage,0, 10,(unsigned char*)&label, &sizeRead);
+		readMethod(storage,0, 10,(TQ3Uns8*)&label, &sizeRead);
 		label[10] = 0;
 		if (sizeRead != 10)
 			return kQ3False;

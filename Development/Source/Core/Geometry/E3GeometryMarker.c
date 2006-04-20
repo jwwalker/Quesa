@@ -271,7 +271,7 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 
 
 	// Create the storage object for the image
-	theStorage = Q3MemoryStorage_New(theBuffer, theSize);
+	theStorage = Q3MemoryStorage_New((unsigned char*)theBuffer, theSize);
 	if (theStorage == NULL)
 		{
 		Q3Memory_Free(&theBuffer);

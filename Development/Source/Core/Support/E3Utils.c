@@ -223,7 +223,7 @@ TQ3Status E3Bitmap_Replace(const TQ3Bitmap *original, TQ3Bitmap *copy, TQ3Boolea
 		}
 		
 		Q3Memory_Copy(original->image, originalData, originalSize );
-		copy->image = (unsigned char *) originalData;
+		copy->image = (TQ3Uns8 *) originalData;
 	}
 			
 	return(kQ3Success);

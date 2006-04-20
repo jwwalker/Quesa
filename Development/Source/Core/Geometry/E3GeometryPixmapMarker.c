@@ -104,7 +104,7 @@ e3geom_pixmapmarker_get_data(const TQ3PixmapMarkerData *instanceData, TQ3Boolean
 	theType    = Q3Storage_GetType(theStorage);
 	switch (theType) {
 		case kQ3StorageTypeMemory:
-			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, &basePtr, &validSize, &bufferSize);
+			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, (unsigned char**)&basePtr, &validSize, &bufferSize);
 			break;
 
 #if QUESA_OS_MACINTOSH
@@ -129,7 +129,7 @@ e3geom_pixmapmarker_get_data(const TQ3PixmapMarkerData *instanceData, TQ3Boolean
 			
 			if (basePtr != NULL)
 				{
-				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, basePtr, &validSize);
+				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, (unsigned char*)basePtr, &validSize);
 				*wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
 				
 				if (qd3dStatus != kQ3Success)

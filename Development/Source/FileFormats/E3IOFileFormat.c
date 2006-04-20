@@ -349,7 +349,7 @@ E3FileFormat_GenericReadBinary_StringPadded(TQ3FileFormatObject format, char* da
 		do{
 			result = dataRead( instanceData->storage,
 								instanceData->currentStoragePosition,
-								1, (unsigned char *)&lastChar, &sizeRead );
+								1, (TQ3Uns8 *)&lastChar, &sizeRead );
 								
 			instanceData->currentStoragePosition++;
 			*ioLength += 1;
@@ -407,7 +407,7 @@ E3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char* da
 	if( dataRead != NULL)
 		result = dataRead(instanceData->storage,
 							instanceData->currentStoragePosition,
-							length, data, &sizeRead);
+							length, (TQ3Uns8*)data, &sizeRead);
 
 	Q3_ASSERT(sizeRead == length);
 	instanceData->currentStoragePosition += length;
@@ -753,7 +753,7 @@ E3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format,const unsigned ch
 	if( dataWrite != NULL)
 		result = dataWrite(instanceData->storage,
 							instanceData->currentStoragePosition,
-							length, data, &sizeWrite);
+							length, (TQ3Uns8*)data, &sizeWrite);
 
 	Q3_ASSERT(sizeWrite == length);
 	instanceData->currentStoragePosition += length;
