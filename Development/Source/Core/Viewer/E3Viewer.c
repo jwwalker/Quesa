@@ -628,8 +628,8 @@ static TQ3Int32 e3viewer_popupMenu (TQ3Area* r, TQ3Int32 menuID, TQ3Int32 *outMe
 			{
 			TQ3Int32 menuSelection;
 			Point pt;
-			pt.h = r->max.x;
-			pt.v = r->min.y + 1;
+			pt.h = (short) r->max.x;
+			pt.v = (short) r->min.y + 1;
 			LocalToGlobal (&pt);
 			InsertMenu (menu, hierMenu);
 			menuSelection = PopUpMenuSelect (menu, pt.v, pt.h, 0);
@@ -808,9 +808,9 @@ static TQ3Status e3viewer_askBackgroundColor(TQ3ColorARGB *inOutColor)
 	#if QUESA_OS_MACINTOSH
 		RGBColor rgb;
 		Point where = {0, 0}; // centers the dialog
-		rgb.red = inOutColor->r * 65535L;
-		rgb.green = inOutColor->g * 65535L;
-		rgb.blue = inOutColor->b * 65535L;
+		rgb.red = (unsigned short) inOutColor->r * 65535L;
+		rgb.green = (unsigned short) inOutColor->g * 65535L;
+		rgb.blue = (unsigned short) inOutColor->b * 65535L;
 		if (GetColor( where, "\pThis belongs in the resource fork!", &rgb, &rgb ))
 			{
 			inOutColor->r = (float)rgb.red / 65535.0f;
@@ -1028,7 +1028,7 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 		InsertMenu( lightsMenu, hierMenu );
 		if (E3Viewer_GetBrightness(theViewer, &brightness) == kQ3Success)
 			{
-			TQ3Int32 item = brightness * 10.0f;
+			TQ3Int32 item = (TQ3Int32) (brightness * 10.0f);
 			if (item <= 0) item = 1;
 			else if (item > 10) item = 10;
 			SetItemMark (lightsMenu, item, checkMark);
@@ -1093,8 +1093,8 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 		{
 		Point pt;
 		unsigned long menuSelection;
-		pt.h = rect.max.x;
-		pt.v = rect.min.y + 1;
+		pt.h = (short) rect.max.x;
+		pt.v = (short) rect.min.y + 1;
 		LocalToGlobal (&pt);
 		menuSelection = PopUpMenuSelect (optionsMenu, pt.v, pt.h, 0);
 		selection = menuSelection & 0xFFFF;
@@ -2634,8 +2634,8 @@ E3Viewer_GetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *theWidth, TQ3Uns32 *t
 {
 	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 
-	if (theWidth) *theWidth = instanceData->mArea.max.x - instanceData->mArea.min.x;
-	if (theHeight) *theHeight = instanceData->mArea.max.y - instanceData->mArea.min.y;
+	if (theWidth) *theWidth = (TQ3Uns32) (instanceData->mArea.max.x - instanceData->mArea.min.x);
+	if (theHeight) *theHeight = (TQ3Uns32) (instanceData->mArea.max.y - instanceData->mArea.min.y);
 	
 	return kQ3Success;
 }

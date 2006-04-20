@@ -318,7 +318,7 @@ e3storage_mac_read ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 data
 	
 	if ( offset >= storage->macStorageData.fileEOF )
 		{
-		E3ErrorManager_PostPlatformError ( eofErr ) ;
+		E3ErrorManager_PostPlatformError ( (TQ3Uns32) eofErr ) ;
 		return kQ3Failure ;
 		}
 

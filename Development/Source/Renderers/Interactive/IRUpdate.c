@@ -655,7 +655,7 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 	
 	const TQ3Uns32		ATI_FSAA_SAMPLES = 510;
 	char				theBuffer[512];
-	TQ3Int32			fsaaLevel;
+	GLint				fsaaLevel;
 	
 	#endif
 

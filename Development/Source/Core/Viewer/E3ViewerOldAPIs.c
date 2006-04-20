@@ -134,10 +134,10 @@ static void e3viewer_rect_area(Rect *inRect, TQ3Area *outArea)
 //-----------------------------------------------------------------------------
 static void e3viewer_area_rect(TQ3Area *inArea, Rect *outRect)
 {
-	outRect->left = inArea->min.x;
-	outRect->top = inArea->min.y;
-	outRect->right = inArea->max.x;
-	outRect->bottom = inArea->max.y;
+	outRect->left = (short)inArea->min.x;
+	outRect->top = (short)inArea->min.y;
+	outRect->right = (short)inArea->max.x;
+	outRect->bottom = (short)inArea->max.y;
 }
 
 //-----------------------------------------------------------------------------
@@ -212,16 +212,30 @@ static TQ3Uns32 e3viewer_newFlagsToOld(TQ3Uns32 newFlags)
 //      Public functions
 //-----------------------------------------------------------------------------
 OSErr		
-E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
+E3ViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision)
 {
-	return e3viewer_q3status_oserr( Q3Viewer_GetVersion(majorRevision, minorRevision) );
+	TQ3Uns32 major = 0;
+	TQ3Uns32 minor = 0;
+	
+	TQ3Status status = Q3Viewer_GetVersion(&major, &minor);
+	
+	*majorRevision = major;
+	*minorRevision = minor;
+	
+	return e3viewer_q3status_oserr(status);
 }
 
 
 OSErr		
-E3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
+E3ViewerGetReleaseVersion(unsigned long *releaseRevision)
 {
-	return e3viewer_q3status_oserr( Q3Viewer_GetReleaseVersion(releaseRevision) );
+	TQ3Uns32 vers = 0;
+	
+	TQ3Status status = Q3Viewer_GetReleaseVersion(&vers);
+	
+	*releaseRevision = vers;
+	
+	return e3viewer_q3status_oserr(status);
 }
 
 
@@ -451,23 +465,39 @@ E3ViewerGetBounds(TQ3ViewerObject theViewer, Rect *bounds)
 
 
 OSErr		
-E3ViewerSetDimension(TQ3ViewerObject theViewer, TQ3Uns32 width, TQ3Uns32 height)
+E3ViewerSetDimension(TQ3ViewerObject theViewer, unsigned long width, unsigned long height)
 {
 	return e3viewer_q3status_oserr( Q3Viewer_SetDimension(theViewer, width, height) );
 }
 
 
 OSErr		
-E3ViewerGetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height)
+E3ViewerGetDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height)
 {
-	return e3viewer_q3status_oserr( Q3Viewer_GetDimension(theViewer, width, height) );
+	TQ3Uns32 width_ = 0;
+	TQ3Uns32 height_ = 0;
+	
+	TQ3Status status = Q3Viewer_GetDimension(theViewer, &width_, &height_);
+	
+	*width = width_;
+	*height = height_;
+	
+	return e3viewer_q3status_oserr(status);
 }
 
 
 OSErr		
-E3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height)
+E3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, unsigned long *width, unsigned long *height)
 {
-	return e3viewer_q3status_oserr( Q3Viewer_GetMinimumDimension(theViewer, width, height) );
+	TQ3Uns32 width_ = 0;
+	TQ3Uns32 height_ = 0;
+	
+	TQ3Status status = Q3Viewer_GetMinimumDimension(theViewer, &width_, &height_);
+	
+	*width = width_;
+	*height = height_;
+	
+	return e3viewer_q3status_oserr(status);
 }
 
 
@@ -593,16 +623,28 @@ E3ViewerUndo(TQ3ViewerObject theViewer)
 
 
 Boolean		
-E3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, TQ3Uns32 *cnt)
+E3ViewerGetUndoString(TQ3ViewerObject theViewer, char *str, unsigned long *cnt)
 {
-	return kQ3True == Q3Viewer_GetUndoString(theViewer, str, cnt);
+	TQ3Uns32 count = 0;
+	
+	TQ3Boolean result = Q3Viewer_GetUndoString(theViewer, str, &count);
+	
+	*cnt = count;
+	
+	return result == kQ3True;
 }
 
 
 OSErr		
-E3ViewerGetCameraCount(TQ3ViewerObject theViewer, TQ3Uns32 *cnt)
+E3ViewerGetCameraCount(TQ3ViewerObject theViewer, unsigned long *cnt)
 {
-	return e3viewer_q3status_oserr( Q3Viewer_GetCameraCount(theViewer, cnt) );
+	TQ3Uns32 count = 0;
+	
+	TQ3Status status = Q3Viewer_GetCameraCount(theViewer, &count);
+	
+	*cnt = count;
+	
+	return e3viewer_q3status_oserr(status);
 }
 
 

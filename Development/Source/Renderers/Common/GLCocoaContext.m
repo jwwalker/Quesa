@@ -87,7 +87,7 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 	TQ3Status						qd3dStatus;
     NSRect							viewFrame;
     TQ3Uns32						glRect[4];
-    TQ3Int32						enable;
+    long int						enable;
 
 
 
@@ -153,11 +153,11 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 
 
 	// Set the viewport
-	glRect[0] = drawContextData.pane.min.x;
-	glRect[1] = (viewFrame.origin.y+viewFrame.size.height)            
-                                      - drawContextData.pane.max.y;
-	glRect[2] = drawContextData.pane.max.x - drawContextData.pane.min.x;
-	glRect[3] = drawContextData.pane.max.y - drawContextData.pane.min.y;
+	glRect[0] = (TQ3Uns32) drawContextData.pane.min.x;
+	glRect[1] = (TQ3Uns32) ((viewFrame.origin.y+viewFrame.size.height)            
+                                      - drawContextData.pane.max.y);
+	glRect[2] = (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x);
+	glRect[3] = (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y);
 
 	glViewport(0, 0, glRect[2], glRect[3]);
 
