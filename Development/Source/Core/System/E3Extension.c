@@ -187,7 +187,7 @@ E3XObjectHierarchy_GetClassVersion(TQ3ObjectType objectClassType, TQ3XObjectClas
 
 
 	// Get the version for the class
-	*version = (TQ3XObjectClassVersion) theClass->GetMethod ( kQ3XMethodTypeObjectClassVersion ) ;
+	*version = (TQ3XObjectClassVersion) (long)theClass->GetMethod ( kQ3XMethodTypeObjectClassVersion );
 
 	return kQ3Success ;
 	}
