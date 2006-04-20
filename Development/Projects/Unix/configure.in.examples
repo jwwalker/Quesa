@@ -13,7 +13,7 @@ AC_C_BIGENDIAN_QUESA
 
 dnl Checks for X.
 
-AM_PATH_GTK
+AM_PATH_GTK_2_0
 if test $no_gtk != no; then
 	AC_MSG_ERROR([Fatal - can't find GTK libs - Stopping here.])
 fi
