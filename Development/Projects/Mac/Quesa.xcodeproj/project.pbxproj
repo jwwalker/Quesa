@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D07F2C40486CC7A007CD1D0 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB77AAFE841565C02AAC07 /* Carbon.framework */; };
 		AB3A7CA4055E63B200CA83BE /* E3Geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B85055E63B100CA83BE /* E3Geometry.c */; };
 		AB3A7CA5055E63B200CA83BE /* E3Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7B86055E63B100CA83BE /* E3Geometry.h */; };
 		AB3A7CA6055E63B200CA83BE /* E3GeometryBox.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B87055E63B100CA83BE /* E3GeometryBox.c */; };
@@ -206,9 +205,6 @@
 		AB3A7D6B055E63B200CA83BE /* E3FFW_3DMFBin_Register.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C5A055E63B100CA83BE /* E3FFW_3DMFBin_Register.h */; };
 		AB3A7D6C055E63B200CA83BE /* E3FFW_3DMFBin_Writer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C5B055E63B100CA83BE /* E3FFW_3DMFBin_Writer.c */; };
 		AB3A7D6D055E63B200CA83BE /* E3FFW_3DMFBin_Writer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C5C055E63B100CA83BE /* E3FFW_3DMFBin_Writer.h */; };
-		AB3A7E34055E691D00CA83BE /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E33055E691D00CA83BE /* OpenGL.framework */; };
-		AB3A7E67055E698900CA83BE /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E66055E698900CA83BE /* QuickTime.framework */; };
-		AB3A7E6D055E6A0800CA83BE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */; };
 		AB83B5F0055E72B90034F56A /* Quesa.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5D8055E72B90034F56A /* Quesa.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB83B5F1055E72B90034F56A /* QuesaCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5D9055E72B90034F56A /* QuesaCamera.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB83B5F2055E72B90034F56A /* QuesaController.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5DA055E72B90034F56A /* QuesaController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -238,11 +234,6 @@
 		AB83B9A2055E77880034F56A /* E3MacPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B95F055E77870034F56A /* E3MacPrefix.h */; };
 		AB83B9A7055E77880034F56A /* E3MacStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B964055E77870034F56A /* E3MacStorage.c */; };
 		AB83B9A8055E77880034F56A /* E3MacSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B965055E77870034F56A /* E3MacSystem.c */; };
-		AB83B9FD055E79B20034F56A /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB83B9FC055E79B20034F56A /* AGL.framework */; };
-		B1756B2D080A73A40056134C /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB83B9FC055E79B20034F56A /* AGL.framework */; };
-		B1756B2E080A73A40056134C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E33055E691D00CA83BE /* OpenGL.framework */; };
-		B1756B2F080A73A40056134C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB77AAFE841565C02AAC07 /* Carbon.framework */; };
-		B1756B30080A73A40056134C /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E66055E698900CA83BE /* QuickTime.framework */; };
 		B1756B3D080A73C00056134C /* QD3DSet.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC1055E63B100CA83BE /* QD3DSet.c */; };
 		B1756B3E080A73C00056134C /* E3GeometryMarker.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B97055E63B100CA83BE /* E3GeometryMarker.c */; };
 		B1756B3F080A73C00056134C /* E3Utils.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BDF055E63B100CA83BE /* E3Utils.c */; };
@@ -356,7 +347,6 @@
 		B1756BAB080A73C00056134C /* QD3DDrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB5055E63B100CA83BE /* QD3DDrawContext.c */; };
 		B1756BAC080A73C00056134C /* GLCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C19055E63B100CA83BE /* GLCamera.c */; };
 		B1756BAD080A73C00056134C /* E3Viewer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C12055E63B100CA83BE /* E3Viewer.c */; };
-		B1756BB0080A73C80056134C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */; };
 		B1756BB6080A73DB0056134C /* E3Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BE0055E63B100CA83BE /* E3Utils.h */; };
 		B1756BB7080A73DB0056134C /* WFPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C41055E63B100CA83BE /* WFPrefix.h */; };
 		B1756BB8080A73DB0056134C /* E3FFW_3DMFBin_Writer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C5C055E63B100CA83BE /* E3FFW_3DMFBin_Writer.h */; };
@@ -475,6 +465,20 @@
 		B1756C29080A73DB0056134C /* E3StackCrawl.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7BDA055E63B100CA83BE /* E3StackCrawl.h */; };
 		BE6FD692076B88A800587852 /* GLTextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6FD690076B88A800587852 /* GLTextureManager.h */; };
 		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
+		BE98E72309F763AC0040CE1B /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71E09F763AC0040CE1B /* AGL.framework */; };
+		BE98E72409F763AC0040CE1B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71F09F763AC0040CE1B /* Carbon.framework */; };
+		BE98E72509F763AC0040CE1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72009F763AC0040CE1B /* Cocoa.framework */; };
+		BE98E72609F763AC0040CE1B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72109F763AC0040CE1B /* OpenGL.framework */; };
+		BE98E72709F763AC0040CE1B /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72209F763AC0040CE1B /* QuickTime.framework */; };
+		BE98E73B09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */ = {isa = PBXBuildFile; fileRef = BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */; };
+		BE98E73C09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */ = {isa = PBXBuildFile; fileRef = BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */; };
+		BE98E73D09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */ = {isa = PBXBuildFile; fileRef = BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */; };
+		BE98E73E09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */ = {isa = PBXBuildFile; fileRef = BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */; };
+		BE98E76B09F7EB050040CE1B /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71E09F763AC0040CE1B /* AGL.framework */; };
+		BE98E76C09F7EB050040CE1B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71F09F763AC0040CE1B /* Carbon.framework */; };
+		BE98E76D09F7EB050040CE1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72009F763AC0040CE1B /* Cocoa.framework */; };
+		BE98E76E09F7EB050040CE1B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72109F763AC0040CE1B /* OpenGL.framework */; };
+		BE98E76F09F7EB050040CE1B /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72209F763AC0040CE1B /* QuickTime.framework */; };
 		BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
 		BEC777D2087DA6AD00080AB7 /* CartoonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */; };
 		BEC777D3087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
@@ -1234,8 +1238,8 @@
 		AB3A7C5B055E63B100CA83BE /* E3FFW_3DMFBin_Writer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFW_3DMFBin_Writer.c; sourceTree = "<group>"; };
 		AB3A7C5C055E63B100CA83BE /* E3FFW_3DMFBin_Writer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFW_3DMFBin_Writer.h; sourceTree = "<group>"; };
 		AB3A7E33055E691D00CA83BE /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		AB3A7E66055E698900CA83BE /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = ../../../../../../../../../../../../../System/Library/Frameworks/QuickTime.framework; sourceTree = SOURCE_ROOT; };
-		AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = ../../../../../../../../../../../../../System/Library/Frameworks/Cocoa.framework; sourceTree = SOURCE_ROOT; };
+		AB3A7E66055E698900CA83BE /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
+		AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		AB83B5D8055E72B90034F56A /* Quesa.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Quesa.h; sourceTree = "<group>"; };
 		AB83B5D9055E72B90034F56A /* QuesaCamera.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaCamera.h; sourceTree = "<group>"; };
 		AB83B5DA055E72B90034F56A /* QuesaController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaController.h; sourceTree = "<group>"; };
@@ -1269,6 +1273,12 @@
 		B1756AFF080A71C30056134C /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLTextureManager.c; sourceTree = "<group>"; };
+		BE98E71E09F763AC0040CE1B /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
+		BE98E71F09F763AC0040CE1B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		BE98E72009F763AC0040CE1B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		BE98E72109F763AC0040CE1B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		BE98E72209F763AC0040CE1B /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
+		BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = E3CocoaStackCrawl.c; path = ../../Source/Platform/Cocoa/E3CocoaStackCrawl.c; sourceTree = SOURCE_ROOT; };
 		BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
 		BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CartoonRenderer.h; sourceTree = "<group>"; };
 		BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef.h; sourceTree = "<group>"; };
@@ -1285,11 +1295,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D07F2C40486CC7A007CD1D0 /* Carbon.framework in Frameworks */,
-				AB3A7E34055E691D00CA83BE /* OpenGL.framework in Frameworks */,
-				AB3A7E67055E698900CA83BE /* QuickTime.framework in Frameworks */,
-				AB3A7E6D055E6A0800CA83BE /* Cocoa.framework in Frameworks */,
-				AB83B9FD055E79B20034F56A /* AGL.framework in Frameworks */,
+				BE98E72309F763AC0040CE1B /* AGL.framework in Frameworks */,
+				BE98E72409F763AC0040CE1B /* Carbon.framework in Frameworks */,
+				BE98E72509F763AC0040CE1B /* Cocoa.framework in Frameworks */,
+				BE98E72609F763AC0040CE1B /* OpenGL.framework in Frameworks */,
+				BE98E72709F763AC0040CE1B /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1297,11 +1307,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1756BB0080A73C80056134C /* Cocoa.framework in Frameworks */,
-				B1756B2D080A73A40056134C /* AGL.framework in Frameworks */,
-				B1756B2E080A73A40056134C /* OpenGL.framework in Frameworks */,
-				B1756B2F080A73A40056134C /* Carbon.framework in Frameworks */,
-				B1756B30080A73A40056134C /* QuickTime.framework in Frameworks */,
+				BE98E76B09F7EB050040CE1B /* AGL.framework in Frameworks */,
+				BE98E76C09F7EB050040CE1B /* Carbon.framework in Frameworks */,
+				BE98E76D09F7EB050040CE1B /* Cocoa.framework in Frameworks */,
+				BE98E76E09F7EB050040CE1B /* OpenGL.framework in Frameworks */,
+				BE98E76F09F7EB050040CE1B /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1348,22 +1358,19 @@
 			children = (
 				08FB77ACFE841707C02AAC07 /* Source */,
 				AB83B5D5055E72B90034F56A /* Includes */,
-				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks */,
 				034768DDFF38A45A11DB9C8B /* Products */,
 			);
 			name = Quesa;
 			sourceTree = "<group>";
 		};
-		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+		0867D69AFE84028FC02AAC07 /* External Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AB83B9FC055E79B20034F56A /* AGL.framework */,
-				08FB77AAFE841565C02AAC07 /* Carbon.framework */,
-				AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */,
-				AB3A7E33055E691D00CA83BE /* OpenGL.framework */,
-				AB3A7E66055E698900CA83BE /* QuickTime.framework */,
+				BE98E71D09F763610040CE1B /* 10.4u SDK */,
+				BE98E71109F763440040CE1B /* Current System */,
 			);
-			name = "External Frameworks and Libraries";
+			name = "External Frameworks";
 			sourceTree = "<group>";
 		};
 		08FB77ACFE841707C02AAC07 /* Source */ = {
@@ -1766,10 +1773,35 @@
 				AB83B95F055E77870034F56A /* E3MacPrefix.h */,
 				AB83B964055E77870034F56A /* E3MacStorage.c */,
 				AB83B965055E77870034F56A /* E3MacSystem.c */,
+				BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */,
 				BEDC08D308A6B74200FB3A82 /* Info.plist */,
 				BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */,
 			);
 			path = Mac;
+			sourceTree = "<group>";
+		};
+		BE98E71109F763440040CE1B /* Current System */ = {
+			isa = PBXGroup;
+			children = (
+				AB83B9FC055E79B20034F56A /* AGL.framework */,
+				08FB77AAFE841565C02AAC07 /* Carbon.framework */,
+				AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */,
+				AB3A7E33055E691D00CA83BE /* OpenGL.framework */,
+				AB3A7E66055E698900CA83BE /* QuickTime.framework */,
+			);
+			name = "Current System";
+			sourceTree = "<group>";
+		};
+		BE98E71D09F763610040CE1B /* 10.4u SDK */ = {
+			isa = PBXGroup;
+			children = (
+				BE98E71E09F763AC0040CE1B /* AGL.framework */,
+				BE98E71F09F763AC0040CE1B /* Carbon.framework */,
+				BE98E72009F763AC0040CE1B /* Cocoa.framework */,
+				BE98E72109F763AC0040CE1B /* OpenGL.framework */,
+				BE98E72209F763AC0040CE1B /* QuickTime.framework */,
+			);
+			name = "10.4u SDK";
 			sourceTree = "<group>";
 		};
 		BEC777CE087DA6AD00080AB7 /* Cartoon */ = {
@@ -2291,9 +2323,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D07F2BC0486CC7A007CD1D0 /* Framework (sys GCC) */ = {
+		8D07F2BC0486CC7A007CD1D0 /* Fmwk Univ */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BEDC044708A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Framework (sys GCC)" */;
+			buildConfigurationList = BEDC044708A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Fmwk Univ" */;
 			buildPhases = (
 				8D07F2BD0486CC7A007CD1D0 /* Headers */,
 				8D07F2C10486CC7A007CD1D0 /* Sources */,
@@ -2336,15 +2368,15 @@
 			};
 			dependencies = (
 			);
-			name = "Framework (sys GCC)";
+			name = "Fmwk Univ";
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = Quesa;
 			productReference = 8D07F2C80486CC7A007CD1D0 /* Quesa.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B1756AFE080A71C30056134C /* Static Lib (sys GCC) */ = {
+		B1756AFE080A71C30056134C /* Static Lib (Univ) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BEDC044B08A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Static Lib (sys GCC)" */;
+			buildConfigurationList = BEDC044B08A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Static Lib (Univ)" */;
 			buildPhases = (
 				B1756AFB080A71C30056134C /* Headers */,
 				B1756AFC080A71C30056134C /* Sources */,
@@ -2378,14 +2410,14 @@
 			};
 			dependencies = (
 			);
-			name = "Static Lib (sys GCC)";
+			name = "Static Lib (Univ)";
 			productName = Quesa.lib;
 			productReference = B1756AFF080A71C30056134C /* libQuesaD.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		BEDC062F08A6812D00FB3A82 /* Framework (GCC 3.3) */ = {
+		BEDC062F08A6812D00FB3A82 /* Fmwk (GCC 3.3) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BEDC072408A6812D00FB3A82 /* Build configuration list for PBXNativeTarget "Framework (GCC 3.3)" */;
+			buildConfigurationList = BEDC072408A6812D00FB3A82 /* Build configuration list for PBXNativeTarget "Fmwk (GCC 3.3)" */;
 			buildPhases = (
 				BEDC063008A6812D00FB3A82 /* Headers */,
 				BEDC06A908A6812D00FB3A82 /* Sources */,
@@ -2430,7 +2462,7 @@
 			};
 			dependencies = (
 			);
-			name = "Framework (GCC 3.3)";
+			name = "Fmwk (GCC 3.3)";
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = Quesa;
 			productReference = BEDC072708A6812D00FB3A82 /* Quesa.framework */;
@@ -2496,9 +2528,9 @@
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
 			projectDirPath = "";
 			targets = (
-				8D07F2BC0486CC7A007CD1D0 /* Framework (sys GCC) */,
-				BEDC062F08A6812D00FB3A82 /* Framework (GCC 3.3) */,
-				B1756AFE080A71C30056134C /* Static Lib (sys GCC) */,
+				8D07F2BC0486CC7A007CD1D0 /* Fmwk Univ */,
+				BEDC062F08A6812D00FB3A82 /* Fmwk (GCC 3.3) */,
+				B1756AFE080A71C30056134C /* Static Lib (Univ) */,
 				BEDC07DA08A6B24A00FB3A82 /* Static Lib (GCC 3.3) */,
 			);
 		};
@@ -2643,6 +2675,7 @@
 				BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */,
 				BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */,
 				BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
+				BE98E73B09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2765,6 +2798,7 @@
 				B1756BAD080A73C00056134C /* E3Viewer.c in Sources */,
 				BEC777D3087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */,
 				BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
+				BE98E73D09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2887,6 +2921,7 @@
 				BEDC071A08A6812D00FB3A82 /* GLTextureManager.c in Sources */,
 				BEDC071B08A6812D00FB3A82 /* CartoonRenderer.cpp in Sources */,
 				BEDC071C08A6812D00FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
+				BE98E73C09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3009,6 +3044,7 @@
 				BEDC08C408A6B24A00FB3A82 /* E3Viewer.c in Sources */,
 				BEDC08C508A6B24A00FB3A82 /* CartoonRenderer.cpp in Sources */,
 				BEDC08C608A6B24A00FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
+				BE98E73E09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3018,17 +3054,31 @@
 		BEDC044808A57B3000FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Universal/$(CONFIGURATION)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"Q3_EXPORT_SYMBOLS=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
 				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks/";
 				LIBRARY_STYLE = DYNAMIC;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x12000000,
-				);
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
 				PRODUCT_NAME = Quesa;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SYMROOT = "build-univ";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -3036,16 +3086,30 @@
 		BEDC044908A57B3000FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Universal/$(CONFIGURATION)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"Q3_EXPORT_SYMBOLS=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
 				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks/";
 				LIBRARY_STYLE = DYNAMIC;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x12000000,
-				);
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
 				PRODUCT_NAME = Quesa;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SYMROOT = "build-univ";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -3053,17 +3117,33 @@
 		BEDC044C08A57B3000FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Static-Universal/$(CONFIGURATION)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				LIBRARY_STYLE = STATIC;
 				PRODUCT_NAME = QuesaD;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Debug;
 		};
 		BEDC044D08A57B3000FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Static-Universal/$(CONFIGURATION)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+				);
 				LIBRARY_STYLE = STATIC;
 				PRODUCT_NAME = Quesa;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WARNING_CFLAGS = "-Wmost";
 			};
 			name = Release;
@@ -3082,6 +3162,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"QUESA_OS_MACINTOSH=1",
 					"TARGET_API_MAC_CARBON=1",
+					"Q3_DEBUG=1",
 				);
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -3113,12 +3194,15 @@
 		BEDC072508A6812D00FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework-GCC3/$(CONFIGURATION)";
+				EXPORTED_SYMBOLS_FILE = "quesa-export-gcc3.txt";
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
 				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks/";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x12000000,
@@ -3132,11 +3216,14 @@
 		BEDC072608A6812D00FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework-GCC3/$(CONFIGURATION)";
+				EXPORTED_SYMBOLS_FILE = "quesa-export-gcc3.txt";
 				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
 				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks/";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x12000000,
@@ -3150,6 +3237,7 @@
 		BEDC08CE08A6B24A00FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Static-GCC3/$(CONFIGURATION)";
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				LIBRARY_STYLE = STATIC;
 				PRODUCT_NAME = QuesaD;
@@ -3160,6 +3248,7 @@
 		BEDC08CF08A6B24A00FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Static-GCC3/$(CONFIGURATION)";
 				LIBRARY_STYLE = STATIC;
 				PRODUCT_NAME = Quesa;
 				SYMROOT = "build-GCC3.3";
@@ -3170,7 +3259,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BEDC044708A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Framework (sys GCC)" */ = {
+		BEDC044708A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Fmwk Univ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEDC044808A57B3000FB3A82 /* Debug */,
@@ -3179,7 +3268,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		BEDC044B08A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Static Lib (sys GCC)" */ = {
+		BEDC044B08A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Static Lib (Univ)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEDC044C08A57B3000FB3A82 /* Debug */,
@@ -3197,7 +3286,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		BEDC072408A6812D00FB3A82 /* Build configuration list for PBXNativeTarget "Framework (GCC 3.3)" */ = {
+		BEDC072408A6812D00FB3A82 /* Build configuration list for PBXNativeTarget "Fmwk (GCC 3.3)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEDC072508A6812D00FB3A82 /* Debug */,
