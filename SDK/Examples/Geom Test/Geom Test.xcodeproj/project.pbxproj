@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		BE06F71808C5597C003DD37B /* 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71108C5597C003DD37B /* 2.tga */; };
 		BE06F71908C5597C003DD37B /* 1.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71208C5597C003DD37B /* 1.tga */; };
 		BE06F71A08C5597C003DD37B /* 4.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71308C5597C003DD37B /* 4.tga */; };
@@ -15,8 +14,11 @@
 		BE06F71C08C5597C003DD37B /* 6.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71508C5597C003DD37B /* 6.tga */; };
 		BE06F71D08C5597C003DD37B /* 5.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71608C5597C003DD37B /* 5.tga */; };
 		BE06F74A08C55CD4003DD37B /* Quesa.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F74908C55CD4003DD37B /* Quesa.tga */; };
-		BE7126C908FB86D600508713 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7126C808FB86D600508713 /* Quesa.framework */; };
-		BE7126EA08FB893500508713 /* Quesa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE7126C808FB86D600508713 /* Quesa.framework */; };
+		BE7019AF09F6DC1C00940AA2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7019AD09F6DC1C00940AA2 /* Carbon.framework */; };
+		BE7019B009F6DC1C00940AA2 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7019AE09F6DC1C00940AA2 /* QuickTime.framework */; };
+		BE7019C409F6DE6A00940AA2 /* VRML-Reader.quesaplug in CopyFiles */ = {isa = PBXBuildFile; fileRef = BEDC094308A6D10C00FB3A82 /* VRML-Reader.quesaplug */; };
+		BE775A0A09F80939006C1ED3 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE775A0909F80939006C1ED3 /* Quesa.framework */; };
+		BE775A9C09F810B2006C1ED3 /* Quesa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE775A0909F80939006C1ED3 /* Quesa.framework */; };
 		BEDC05AD08A5C05D00FB3A82 /* QutCarbon.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = BEDC05AC08A5C05D00FB3A82 /* QutCarbon.rsrc */; };
 		BEDC05B308A5C0DC00FB3A82 /* Geom Test.c in Sources */ = {isa = PBXBuildFile; fileRef = BEDC05B208A5C0DC00FB3A82 /* Geom Test.c */; };
 		BEDC05BB08A5C0FB00FB3A82 /* Qut.c in Sources */ = {isa = PBXBuildFile; fileRef = BEDC05B408A5C0FB00FB3A82 /* Qut.c */; };
@@ -24,7 +26,6 @@
 		BEDC05C008A5C0FB00FB3A82 /* QutMac.c in Sources */ = {isa = PBXBuildFile; fileRef = BEDC05B908A5C0FB00FB3A82 /* QutMac.c */; };
 		BEDC05D508A5C54600FB3A82 /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = BEDC05D408A5C54600FB3A82 /* main.nib */; };
 		BEDC090F08A6CBF200FB3A82 /* GeomTest.icns in Resources */ = {isa = PBXBuildFile; fileRef = BEDC090E08A6CBF200FB3A82 /* GeomTest.icns */; };
-		BEDC096008A6D21000FB3A82 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEDC095F08A6D21000FB3A82 /* QuickTime.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -55,22 +56,31 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		BE7019C209F6DE5400940AA2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BE7019C409F6DE6A00940AA2 /* VRML-Reader.quesaplug in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BEDC05A508A5BD5B00FB3A82 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BE7126EA08FB893500508713 /* Quesa.framework in CopyFiles */,
+				BE775A9C09F810B2006C1ED3 /* Quesa.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		32DBCF6D0370B57F00C91783 /* Geom Test_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Geom Test_Prefix.pch"; sourceTree = "<group>"; };
-		8D0C4E970486CD37000505A6 /* Geom Test MachO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Geom Test MachO.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D0C4E970486CD37000505A6 /* Geom Test Univ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Geom Test Univ.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE06F70E08C5593A003DD37B /* XCode-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "XCode-Info.plist"; sourceTree = "<group>"; };
 		BE06F71108C5597C003DD37B /* 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 2.tga; path = "../Support Files/Images/2.tga"; sourceTree = SOURCE_ROOT; };
 		BE06F71208C5597C003DD37B /* 1.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 1.tga; path = "../Support Files/Images/1.tga"; sourceTree = SOURCE_ROOT; };
@@ -79,7 +89,9 @@
 		BE06F71508C5597C003DD37B /* 6.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 6.tga; path = "../Support Files/Images/6.tga"; sourceTree = SOURCE_ROOT; };
 		BE06F71608C5597C003DD37B /* 5.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 5.tga; path = "../Support Files/Images/5.tga"; sourceTree = SOURCE_ROOT; };
 		BE06F74908C55CD4003DD37B /* Quesa.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = Quesa.tga; path = "../Support Files/Images/Quesa.tga"; sourceTree = SOURCE_ROOT; };
-		BE7126C808FB86D600508713 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quesa.framework; path = ../../../Development/Projects/Mac/build/Debug/Quesa.framework; sourceTree = SOURCE_ROOT; };
+		BE7019AD09F6DC1C00940AA2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		BE7019AE09F6DC1C00940AA2 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
+		BE775A0909F80939006C1ED3 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quesa.framework; path = ../../Libraries/Mac/Framework_Universal/Release/Quesa.framework; sourceTree = SOURCE_ROOT; };
 		BEDC05AC08A5C05D00FB3A82 /* QutCarbon.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = QutCarbon.rsrc; path = ../Qut/Mac/QutCarbon.rsrc; sourceTree = SOURCE_ROOT; };
 		BEDC05B208A5C0DC00FB3A82 /* Geom Test.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = "Geom Test.c"; sourceTree = "<group>"; };
 		BEDC05B408A5C0FB00FB3A82 /* Qut.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = Qut.c; path = ../Qut/Qut.c; sourceTree = SOURCE_ROOT; };
@@ -91,8 +103,7 @@
 		BEDC05BA08A5C0FB00FB3A82 /* QutMac.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QutMac.h; path = ../Qut/Mac/QutMac.h; sourceTree = SOURCE_ROOT; };
 		BEDC05D408A5C54600FB3A82 /* main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = main.nib; path = ../Qut/Mac/main.nib; sourceTree = SOURCE_ROOT; };
 		BEDC090E08A6CBF200FB3A82 /* GeomTest.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GeomTest.icns; sourceTree = "<group>"; };
-		BEDC094308A6D10C00FB3A82 /* VRML-reader.quesaplug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "VRML-reader.quesaplug"; path = "../../Extras/VRML Reader/Projects/Output/VRML-reader.quesaplug"; sourceTree = SOURCE_ROOT; };
-		BEDC095F08A6D21000FB3A82 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
+		BEDC094308A6D10C00FB3A82 /* VRML-Reader.quesaplug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "VRML-Reader.quesaplug"; path = "../../Extras/VRML Reader/Projects/build/Release/VRML-Reader.quesaplug"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,9 +111,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */,
-				BEDC096008A6D21000FB3A82 /* QuickTime.framework in Frameworks */,
-				BE7126C908FB86D600508713 /* Quesa.framework in Frameworks */,
+				BE7019AF09F6DC1C00940AA2 /* Carbon.framework in Frameworks */,
+				BE7019B009F6DC1C00940AA2 /* QuickTime.framework in Frameworks */,
+				BE775A0A09F80939006C1ED3 /* Quesa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +123,7 @@
 		195DF8CFFE9D517E11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D0C4E970486CD37000505A6 /* Geom Test MachO.app */,
+				8D0C4E970486CD37000505A6 /* Geom Test Univ.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,9 +173,9 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				BE7126C808FB86D600508713 /* Quesa.framework */,
-				BEDC095F08A6D21000FB3A82 /* QuickTime.framework */,
-				20286C33FDCF999611CA2CEA /* Carbon.framework */,
+				BE775A0909F80939006C1ED3 /* Quesa.framework */,
+				BE7019AD09F6DC1C00940AA2 /* Carbon.framework */,
+				BE7019AE09F6DC1C00940AA2 /* QuickTime.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -184,7 +195,7 @@
 		BEDC095408A6D15600FB3A82 /* Plug-ins */ = {
 			isa = PBXGroup;
 			children = (
-				BEDC094308A6D10C00FB3A82 /* VRML-reader.quesaplug */,
+				BEDC094308A6D10C00FB3A82 /* VRML-Reader.quesaplug */,
 			);
 			name = "Plug-ins";
 			sourceTree = "<group>";
@@ -199,8 +210,9 @@
 				8D0C4E8C0486CD37000505A6 /* Resources */,
 				BEDC05A908A5BDBE00FB3A82 /* Rez */,
 				8D0C4E8F0486CD37000505A6 /* Sources */,
-				BEDC05A508A5BD5B00FB3A82 /* CopyFiles */,
 				8D0C4E910486CD37000505A6 /* Frameworks */,
+				BEDC05A508A5BD5B00FB3A82 /* CopyFiles */,
+				BE7019C209F6DE5400940AA2 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -221,7 +233,7 @@
 			name = "Geom Test";
 			productInstallPath = "$(HOME)/Applications";
 			productName = "Geom Test";
-			productReference = 8D0C4E970486CD37000505A6 /* Geom Test MachO.app */;
+			productReference = 8D0C4E970486CD37000505A6 /* Geom Test Univ.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -293,20 +305,34 @@
 		BEDC057B08A5B9E800FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../Development/Projects/Mac/build/Debug\"";
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+					"$(SRCROOT)/../../Libraries/Mac/Framework_Universal/Release",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Geom Test_Prefix.pch";
-				INSTALL_PATH = "$(HOME)/Applications";
 			};
 			name = Debug;
 		};
 		BEDC057C08A5B9E800FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../Development/Projects/Mac/build/Debug\"";
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+					"$(SRCROOT)/../../Libraries/Mac/Framework_Universal/Release",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Geom Test_Prefix.pch";
-				INSTALL_PATH = "$(HOME)/Applications";
 			};
 			name = Release;
 		};
@@ -314,14 +340,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = ../../../Development/Projects/Mac/build/Debug;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_FAST_MATH = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"QUESA_OS_MACINTOSH=1",
 					"TARGET_API_MAC_CARBON=1",
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -331,19 +358,21 @@
 				INFOPLIST_FILE = "XCode-Info.plist";
 				INFOPLIST_PREPROCESS = YES;
 				PREBINDING = NO;
-				PRODUCT_NAME = "Geom Test MachO D";
+				PRODUCT_NAME = "Geom Test Univ D";
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Debug;
 		};
 		BEDC058008A5B9E800FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = ../../../Development/Projects/Mac/build/Debug;
 				GCC_DEBUGGING_SYMBOLS = used;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_FAST_MATH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"QUESA_OS_MACINTOSH=1",
 					"TARGET_API_MAC_CARBON=1",
@@ -357,7 +386,8 @@
 				INFOPLIST_FILE = "XCode-Info.plist";
 				INFOPLIST_PREPROCESS = YES;
 				PREBINDING = NO;
-				PRODUCT_NAME = "Geom Test MachO";
+				PRODUCT_NAME = "Geom Test Univ";
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Release;
 		};
