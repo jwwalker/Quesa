@@ -5,6 +5,14 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Defined Types</font></h1><br>
+<hr><a name="//Quesa/c/tdef/TQ3XObjectClassVersion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectClassVersion">TQ3XObjectClassVersion</a></h2>
+</td></tr></table><hr>Pseudo-method that returns the version of a class.
+
+<blockquote><pre>
+typedef TQ3Uns32 TQ3XObjectClassVersion;
+</pre>
+</blockquote>
 <hr><a name="//Quesa/c/tdef/TQ3XSharedLibraryInfo"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XSharedLibraryInfo">TQ3XSharedLibraryInfo</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -28,5 +36,39 @@ with the appropriate call to Q3XSharedLibrary_Register.
 <dt><tt>sharedLibrary</tt></dt><dd>Platform-specific shared library reference.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+<hr><a name="//Quesa/c/tdef/TQ3XViewSubmitImmediateMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XViewSubmitImmediateMethod">TQ3XViewSubmitImmediateMethod</a></h2>
+</td></tr></table><hr>Method type that a view object uses when an immediate object is submitted.
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,	TQ3XViewSubmitImmediateMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject		theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType		objectType,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void			*objectData<BR>);</tt><br>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl><dt><tt>theView</tt></dt><dd>A view object.</dd>
+<dt><tt>objectType</tt></dt><dd>An object type.</dd>
+<dt><tt>objectData</tt></dt><dd>The data of the object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XViewSubmitRetainedMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XViewSubmitRetainedMethod">TQ3XViewSubmitRetainedMethod</a></h2>
+</td></tr></table><hr>Method type that a view object uses when a retained object is submitted.
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,	TQ3XViewSubmitRetainedMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject		theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object			theObject<BR>);</tt><br>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl><dt><tt>theView</tt></dt><dd>A view object.</dd>
+<dt><tt>theObject</tt></dt><dd>An object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
 </p></body></html>

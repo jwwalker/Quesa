@@ -6519,6 +6519,80 @@ and Quesa will compute the bounding box.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Reference to a new TriMesh geometry object, or NULL on failure.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TriMesh_Optimize"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_Optimize">Q3TriMesh_Optimize</a></h2>
+</td></tr></table><hr>Modify a TriMesh, if needed, for efficient use by the interactive renderer.
+<br><br>
+
+<blockquote><pre><tt>( TQ3GeometryObject ) Q3TriMesh_Optimize (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject inTriMesh
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>See discussion of E3TriMesh_OptimizeData for the optimizations
+that are performed.  If no optimizations are needed, NULL is returned.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inTriMesh</em></tt></dt><dd>A TriMesh geometry.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>A TriMesh or NULL.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3TriMesh_OptimizeData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_OptimizeData">Q3TriMesh_OptimizeData</a></h2>
+</td></tr></table><hr>Modify TriMesh data, if needed, for efficient use by the
+interactive renderer.
+<br><br>
+
+<blockquote><pre><tt>( TQ3Status ) Q3TriMesh_OptimizeData (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3TriMeshData* inData,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TriMeshData* outData,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean* outDidChange
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This operation modifies TriMesh data so that:
+<ol>
+<li>Face normals exist.</li>
+<li>Vertex normals exist.</li>
+<li>If Face colors exist, then vertex colors exist.</li>
+</ol>
+If face normals do not already exist, they will be computed
+by cross products of edges.  The orientation will be assumed
+to be counterclockwise.
+<br><br>
+If vertex normals do not already exist, they will be derived
+from face normals.  When a vertex belongs to faces with
+different normals, the vertex will be duplicated.
+<br><br>
+If a color attribute (diffuse, transparent, or specular) exists
+on faces but not vertices, it will be converted to a vertex
+attribute, duplicating vertices when needed.
+<br><br>
+If no optimization is needed, outDidChange will return kQ3False
+and outData will be cleared to zero.  If optimization was
+performed, indicated by outDidChange being kQ3True, then you
+are responsible for calling Q3TriMesh_EmptyData on the outData
+structure when you are done with it.
+<br><br>
+The time it takes to perform the optimization depends on the numbers
+of vertices, faces, edges, and attributes in the TriMesh.  However,
+determining whether optimization is <em>needed</em> is quick, as it
+depends only on the number of attribute types.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inData</em></tt></dt><dd>TriMesh data.</dd>
+<dt><tt><em>outData</em></tt></dt><dd>Receives new TriMesh data, if outDidChange is true.</dd>
+<dt><tt><em>outDidChange</em></tt></dt><dd>Receives a flag indicating whether new data
+was created.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3TriMesh_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_SetData">Q3TriMesh_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TriMesh_SetData (
@@ -7992,5 +8066,5 @@ rendered.
 <dt><a name="//Quesa/c/econst/kQ3PolyhedronEdgeAll"><tt>kQ3PolyhedronEdgeAll</tt></a></dt><dd>Render all the edges.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
 </p></body></html>

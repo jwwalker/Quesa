@@ -90,13 +90,15 @@ typedef enum TQ3FogMode {
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Indicates how fog increases in density with distance.
 <br><br>
+Quesa's interactive renderer does not currently implement alpha fog.
+<br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
 <dl>
-<dt><a name="//Quesa/c/econst/kQ3FogModeLinear"><tt>kQ3FogModeLinear</tt></a></dt><dd>Fog == (End - Z) / (End - Start)</dd>
+<dt><a name="//Quesa/c/econst/kQ3FogModeLinear"><tt>kQ3FogModeLinear</tt></a></dt><dd>Fog == (End - z) / (End - Start)</dd>
 <dt><a name="//Quesa/c/econst/kQ3FogModeExponential"><tt>kQ3FogModeExponential</tt></a></dt><dd>Fog == exp(-Density * z)</dd>
-<dt><a name="//Quesa/c/econst/kQ3FogModeExponentialSquared"><tt>kQ3FogModeExponentialSquared</tt></a></dt><dd>Fog == exp(-Density * z * Density * Z).</dd>
+<dt><a name="//Quesa/c/econst/kQ3FogModeExponentialSquared"><tt>kQ3FogModeExponentialSquared</tt></a></dt><dd>Fog == exp(-Density * z * Density * z).</dd>
 <dt><a name="//Quesa/c/econst/kQ3FogModeAlpha"><tt>kQ3FogModeAlpha</tt></a></dt><dd>Fog == Vertex Alpha</dd>
 </dl>
 </blockquote>
@@ -193,5 +195,5 @@ than the specified size in world-space.</dd>
 than the specified size in pixels.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
 </p></body></html>
