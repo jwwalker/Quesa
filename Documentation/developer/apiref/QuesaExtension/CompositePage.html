@@ -207,7 +207,7 @@ The class version is returned by the class ClassVersion method.
 </td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XObjectHierarchy_RegisterClass (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType parentType,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType *objectType,
-&nbsp;&nbsp;&nbsp;&nbsp;char *objectName,
+&nbsp;&nbsp;&nbsp;&nbsp;const char *objectName,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler metaHandler,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler virtualMetaHandler,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 methodsSize,
@@ -345,6 +345,14 @@ is also available to general application clients in Quesa.
 </dl>
 </blockquote>
 <h2>Typedefs</h2>
+<hr><a name="//Quesa/c/tdef/TQ3XObjectClassVersion"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectClassVersion">TQ3XObjectClassVersion</a></h2>
+</td></tr></table><hr>Pseudo-method that returns the version of a class.
+
+<blockquote><pre>
+typedef TQ3Uns32 TQ3XObjectClassVersion;
+</pre>
+</blockquote>
 <hr><a name="//Quesa/c/tdef/TQ3XSharedLibraryInfo"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XSharedLibraryInfo">TQ3XSharedLibraryInfo</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -368,5 +376,107 @@ with the appropriate call to Q3XSharedLibrary_Register.
 <dt><tt>sharedLibrary</tt></dt><dd>Platform-specific shared library reference.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+<hr><a name="//Quesa/c/tdef/TQ3XViewSubmitImmediateMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XViewSubmitImmediateMethod">TQ3XViewSubmitImmediateMethod</a></h2>
+</td></tr></table><hr>Method type that a view object uses when an immediate object is submitted.
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,	TQ3XViewSubmitImmediateMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject		theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType		objectType,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void			*objectData<BR>);</tt><br>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl><dt><tt>theView</tt></dt><dd>A view object.</dd>
+<dt><tt>objectType</tt></dt><dd>An object type.</dd>
+<dt><tt>objectData</tt></dt><dd>The data of the object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/tdef/TQ3XViewSubmitRetainedMethod"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XViewSubmitRetainedMethod">TQ3XViewSubmitRetainedMethod</a></h2>
+</td></tr></table><hr>Method type that a view object uses when a retained object is submitted.
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,	TQ3XViewSubmitRetainedMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject		theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object			theObject<BR>);</tt><br>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl><dt><tt>theView</tt></dt><dd>A view object.</dd>
+<dt><tt>theObject</tt></dt><dd>An object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/Class method types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Class method types">Class method types</a></h2>
+</td></tr></table><hr>Codes identifying methods of Quesa objects.
+<br>
+<blockquote><pre>
+enum {
+    kQ3XMethodTypeObjectClassVersion            = Q3_METHOD_TYPE('v', 'r', 's', 'n'),
+    kQ3XMethodTypeObjectClassRegister           = Q3_METHOD_TYPE('r', 'g', 's', 't'),
+    kQ3XMethodTypeObjectClassReplace            = Q3_METHOD_TYPE('r', 'g', 'r', 'p'),
+    kQ3XMethodTypeObjectClassUnregister         = Q3_METHOD_TYPE('u', 'n', 'r', 'g'),
+    kQ3XMethodTypeObjectNew                     = Q3_METHOD_TYPE('n', 'e', 'w', 'o'),
+    kQ3XMethodTypeObjectDelete                  = Q3_METHOD_TYPE('d', 'l', 't', 'e'),
+    kQ3XMethodTypeObjectDuplicate               = Q3_METHOD_TYPE('d', 'u', 'p', 'l'),
+    kQ3XMethodTypeViewSubmitRetainedRender      = Q3_METHOD_TYPE('s', 'v', 'r', 'r'),
+    kQ3XMethodTypeViewSubmitRetainedPick        = Q3_METHOD_TYPE('s', 'v', 'r', 'p'),
+    kQ3XMethodTypeViewSubmitRetainedBound       = Q3_METHOD_TYPE('s', 'v', 'r', 'b'),
+    kQ3XMethodTypeViewSubmitRetainedWrite       = Q3_METHOD_TYPE('s', 'v', 'r', 'w'),
+    kQ3XMethodTypeViewSubmitImmediateRender     = Q3_METHOD_TYPE('s', 'v', 'i', 'r'),
+    kQ3XMethodTypeViewSubmitImmediatePick       = Q3_METHOD_TYPE('s', 'v', 'i', 'p'),
+    kQ3XMethodTypeViewSubmitImmediateBound      = Q3_METHOD_TYPE('s', 'v', 'i', 'b'),
+    kQ3XMethodTypeViewSubmitImmediateWrite      = Q3_METHOD_TYPE('s', 'v', 'i', 'w')
+};
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>These values should be considered to be of type TQ3XMethodType.
+<br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeObjectClassVersion"><tt>kQ3XMethodTypeObjectClassVersion</tt></a></dt><dd>This is the type of a pseudo-method, really just a value of
+type TQ3XObjectClassVersion rather than a function pointer.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeObjectClassRegister"><tt>kQ3XMethodTypeObjectClassRegister</tt></a></dt><dd>Currently unused by Quesa.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeObjectClassReplace"><tt>kQ3XMethodTypeObjectClassReplace</tt></a></dt><dd>Currently unused by Quesa.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeObjectClassUnregister"><tt>kQ3XMethodTypeObjectClassUnregister</tt></a></dt><dd>Currently unused by Quesa.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeObjectNew"><tt>kQ3XMethodTypeObjectNew</tt></a></dt><dd>Method of type TQ3XObjectNewMethod that is called when
+an object is created.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeObjectDelete"><tt>kQ3XMethodTypeObjectDelete</tt></a></dt><dd>Method of type TQ3XObjectDeleteMethod that is called
+when an object is deleted.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeObjectDuplicate"><tt>kQ3XMethodTypeObjectDuplicate</tt></a></dt><dd>Method of type TQ3XObjectDuplicateMethod that is called
+when an object is duplicated.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeViewSubmitRetainedRender"><tt>kQ3XMethodTypeViewSubmitRetainedRender</tt></a></dt><dd>Method of type TQ3XViewSubmitRetainedMethod belonging to a
+View object that is called when a retained object is
+submitted to the View for rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeViewSubmitRetainedPick"><tt>kQ3XMethodTypeViewSubmitRetainedPick</tt></a></dt><dd>Method of type TQ3XViewSubmitRetainedMethod belonging to a
+View object that is called when a retained object is
+submitted to the View for picking.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeViewSubmitRetainedBound"><tt>kQ3XMethodTypeViewSubmitRetainedBound</tt></a></dt><dd>Method of type TQ3XViewSubmitRetainedMethod belonging to a
+View object that is called when a retained object is
+submitted to the View for bounding.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeViewSubmitRetainedWrite"><tt>kQ3XMethodTypeViewSubmitRetainedWrite</tt></a></dt><dd>Method of type TQ3XViewSubmitRetainedMethod belonging to a
+View object that is called when a retained object is
+submitted to the View for writing.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeViewSubmitImmediateRender"><tt>kQ3XMethodTypeViewSubmitImmediateRender</tt></a></dt><dd>Method of type TQ3XViewSubmitImmediateMethod belonging to a
+View object that is called when an immediate object is
+submitted to the View for rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeViewSubmitImmediatePick"><tt>kQ3XMethodTypeViewSubmitImmediatePick</tt></a></dt><dd>Method of type TQ3XViewSubmitImmediateMethod belonging to a
+View object that is called when an immediate object is
+submitted to the View for picking.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeViewSubmitImmediateBound"><tt>kQ3XMethodTypeViewSubmitImmediateBound</tt></a></dt><dd>Method of type TQ3XViewSubmitImmediateMethod belonging to a
+View object that is called when an immediate object is
+submitted to the View for bounding.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XMethodTypeViewSubmitImmediateWrite"><tt>kQ3XMethodTypeViewSubmitImmediateWrite</tt></a></dt><dd>Method of type TQ3XViewSubmitImmediateMethod belonging to a
+View object that is called when an immediate object is
+submitted to the View for writing.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
 </p></body></html>

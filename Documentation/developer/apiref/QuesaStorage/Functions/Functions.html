@@ -520,11 +520,11 @@ the path is colon-separated and assumed to be in the system encoding.
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *sizeRead
 );</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get private data from a storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read some data from a storage object.
 <br><br>
 Returns some or all of the private data associated with a storage
 object.  If the storage is associated with a file object, then
-the file must be closed.
+the file must be open.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -595,7 +595,8 @@ or kQ3StorageTypeWin32, provided that the object is a storage object.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write some data to a storage object.
 <br><br>
 Write some data to a storage object, possibly extending the storage
-to accommodate the new data.
+to accommodate the new data.  If the storage is associated with a file object, then
+the file must be open.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -729,5 +730,5 @@ object, and it is your responsibility to close the file later.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
 </p></body></html>

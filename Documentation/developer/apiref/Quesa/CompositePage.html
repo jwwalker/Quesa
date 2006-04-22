@@ -1148,7 +1148,7 @@ typedef struct OpaqueTQ3GroupPosition           *TQ3GroupPosition;
 </td></tr></table><hr>Signed 16-bit integer.
 
 <blockquote><pre>
-typedef signed short                            TQ3Int16;
+typedef int16_t                                 TQ3Int16;
 </pre>
 </blockquote>
 <hr><a name="//Quesa/c/tdef/TQ3Int32"></a>
@@ -1156,7 +1156,7 @@ typedef signed short                            TQ3Int16;
 </td></tr></table><hr>Signed 32-bit integer.
 
 <blockquote><pre>
-typedef signed long                             TQ3Int32;
+typedef int32_t                            TQ3Int32;
 </pre>
 </blockquote>
 <hr><a name="//Quesa/c/tdef/TQ3Int64"></a>
@@ -1175,7 +1175,7 @@ typedef signed long                             TQ3Int32;
 </td></tr></table><hr>Signed 8-bit integer.
 
 <blockquote><pre>
-typedef signed char                             TQ3Int8;
+typedef int8_t                                  TQ3Int8;
 </pre>
 </blockquote>
 <hr><a name="//Quesa/c/tdef/TQ3Object"></a>
@@ -1215,7 +1215,7 @@ typedef TQ3Uns32                                TQ3Size;
 </td></tr></table><hr>Unsigned 16-bit integer.
 
 <blockquote><pre>
-typedef unsigned short                          TQ3Uns16;
+typedef uint16_t                                TQ3Uns16;
 </pre>
 </blockquote>
 <hr><a name="//Quesa/c/tdef/TQ3Uns32"></a>
@@ -1223,7 +1223,7 @@ typedef unsigned short                          TQ3Uns16;
 </td></tr></table><hr>Unsigned 32-bit integer.
 
 <blockquote><pre>
-typedef unsigned long                           TQ3Uns32;
+typedef uint32_t                           TQ3Uns32;
 </pre>
 </blockquote>
 <hr><a name="//Quesa/c/tdef/TQ3Uns64"></a>
@@ -1242,7 +1242,7 @@ typedef unsigned long                           TQ3Uns32;
 </td></tr></table><hr>Unsigned 8-bit integer.
 
 <blockquote><pre>
-typedef unsigned char                           TQ3Uns8;
+typedef uint8_t                           TQ3Uns8;
 </pre>
 </blockquote>
 <hr><a name="//Quesa/c/tdef/TQ3XMethodType"></a>
@@ -2101,6 +2101,7 @@ enum {
         kQ3SharedTypeStorage                    = Q3_OBJECT_TYPE('s', 't', 'r', 'g'),
             kQ3StorageTypeMemory                = Q3_OBJECT_TYPE('m', 'e', 'm', 's'),
                 kQ3MemoryStorageTypeHandle      = Q3_OBJECT_TYPE('h', 'n', 'd', 'l'),
+            kQ3StorageTypePath                  = Q3_OBJECT_TYPE('Q', 's', 't', 'p'),
             kQ3StorageTypeUnix                  = Q3_OBJECT_TYPE('u', 'x', 's', 't'),
                 kQ3UnixStorageTypePath          = Q3_OBJECT_TYPE('u', 'n', 'i', 'x'),
             kQ3StorageTypeMacintosh             = Q3_OBJECT_TYPE('m', 'a', 'c', 'n'),
@@ -2345,5 +2346,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kQ3On"><tt>kQ3On</tt></a></dt><dd>On.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
 </p></body></html>

@@ -5,25 +5,30 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
-<hr><a name="//Quesa/c/tag/TCEUrlData"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEUrlData">TCEUrlData</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TCEUrlData {
-    char                                        *url;
-    char                                        *description;
-    TCEUrlOptions                               options;
-} TCEUrlData;
+<hr><a name="//Quesa/c/tag/TQ3MemoryStatistics"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MemoryStatistics">TQ3MemoryStatistics</a></h2>
+</td></tr></table><hr>Parameter structure for Q3Memory_GetStatistics.
+
+<blockquote><pre>
+typedef struct TQ3MemoryStatistics {
+    TQ3Uns32  structureVersion;
+    TQ3Uns32  currentAllocations;
+    TQ3Uns32  maxAllocations;
+    TQ3Int64  currentBytes;
+    TQ3Int64  maxBytes;
+} TQ3MemoryStatistics;
 </pre>
 </blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the data for a URL.
-<br><br>
-</p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt>url</tt></dt><dd>C string containing the full (scheme + path) URL.</dd>
-<dt><tt>description</tt></dt><dd>Human readable description of the URL.</dd>
-<dt><tt>options</tt></dt><dd>Options for the URL.</dd>
+<dt><tt>structureVersion</tt></dt><dd>Version of this structure.
+Initialize to kQ3MemoryStatisticsStructureVersion.</dd>
+<dt><tt>currentAllocations</tt></dt><dd>Current number of memory blocks allocated by Quesa.</dd>
+<dt><tt>maxAllocations</tt></dt><dd>Maximum number of memory blocks allocated by Quesa.</dd>
+<dt><tt>currentBytes</tt></dt><dd>Current number of memory bytes allocated by Quesa.</dd>
+<dt><tt>maxBytes</tt></dt><dd>Maximum number of memory bytes allocated by Quesa
+("high-water mark").</dd>
 </dl>
 </blockquote>
 <p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)

@@ -94,8 +94,8 @@ performance.
 <dt><tt><em>theSize</em></tt></dt><dd>The number of bytes to copy.</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/func/Q3Memory_CountRecords <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_CountRecords <br><br>">Q3Memory_CountRecords <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3Memory_CountRecords"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_CountRecords">Q3Memory_CountRecords</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3Memory_CountRecords (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the number of recorded allocations of Quesa objects.
@@ -107,8 +107,8 @@ In non-debug builds, this function returns 0.
 </p>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3Memory_DumpRecording <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_DumpRecording <br><br>">Q3Memory_DumpRecording <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3Memory_DumpRecording"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_DumpRecording">Q3Memory_DumpRecording</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Memory_DumpRecording (
 &nbsp;&nbsp;&nbsp;&nbsp;const char *fileName,
 &nbsp;&nbsp;&nbsp;&nbsp;const char *memo
@@ -136,8 +136,8 @@ will be called for you.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3Memory_ForgetRecording <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_ForgetRecording <br><br>">Q3Memory_ForgetRecording <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3Memory_ForgetRecording"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_ForgetRecording">Q3Memory_ForgetRecording</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Memory_ForgetRecording (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Forget any previously recorded allocations of Quesa objects.
@@ -178,6 +178,32 @@ after disposal.
 <dt><tt><em>thePtr</em></tt></dt><dd>A pointer to the pointer to free.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/func/Q3Memory_GetStatistics"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_GetStatistics">Q3Memory_GetStatistics</a></h2>
+</td></tr></table><hr>Get information about Quesa memory usage.
+<br><br>
+
+<blockquote><pre><tt>( TQ3Status ) Q3Memory_GetStatistics (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MemoryStatistics* info
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve debugging statistics about memory allocations by Quesa.
+<br><br>
+In non-debug builds (compiled with Q3_DEBUG or Q3_MEMORY_DEBUG set to 0)
+this function returns kQ3Failure.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>info</em></tt></dt><dd>Structure to receive memory statistics.  You must initialize
+the structureVersion field to kQ3MemoryStatisticsStructureVersion.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Memory_Initialize"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Initialize">Q3Memory_Initialize</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( void ) Q3Memory_Initialize (
@@ -201,8 +227,8 @@ Sets theSize bytes from thePtr to theValue.
 <dt><tt><em>theValue</em></tt></dt><dd>The value to set at each byte.</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/func/Q3Memory_IsRecording <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_IsRecording <br><br>">Q3Memory_IsRecording <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3Memory_IsRecording"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_IsRecording">Q3Memory_IsRecording</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Memory_IsRecording (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine whether object allocations are being recorded.
@@ -212,8 +238,8 @@ Sets theSize bytes from thePtr to theValue.
 </p>
 <dl><dt><i>function result</i></dt><dd>kQ3True if allocation recording is on.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3Memory_NextRecordedObject <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_NextRecordedObject <br><br>">Q3Memory_NextRecordedObject <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3Memory_NextRecordedObject"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_NextRecordedObject">Q3Memory_NextRecordedObject</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Object ) Q3Memory_NextRecordedObject (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Object inObject
 );</tt><br>
@@ -280,8 +306,8 @@ allow it to be changed when resized.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3Memory_StartRecording <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_StartRecording <br><br>">Q3Memory_StartRecording <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3Memory_StartRecording"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_StartRecording">Q3Memory_StartRecording</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Memory_StartRecording (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Begin recording allocations of Quesa objects.
@@ -293,8 +319,8 @@ In non-debug builds, this function does nothing.
 </p>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3Memory_StopRecording <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_StopRecording <br><br>">Q3Memory_StopRecording <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3Memory_StopRecording"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_StopRecording">Q3Memory_StopRecording</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Memory_StopRecording (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Stop recording allocations of Quesa objects.
@@ -306,8 +332,8 @@ In non-debug builds, this function does nothing.
 </p>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3SlabMemory_AppendData <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_AppendData <br><br>">Q3SlabMemory_AppendData <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_AppendData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_AppendData">Q3SlabMemory_AppendData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( void * ) Q3SlabMemory_AppendData (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numItems,
@@ -343,8 +369,8 @@ be left uninitialised.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>A pointer to the first newly-added item within the slab.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3SlabMemory_GetCount <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_GetCount <br><br>">Q3SlabMemory_GetCount <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_GetCount"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_GetCount">Q3SlabMemory_GetCount</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3SlabMemory_GetCount (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab
 );</tt><br>
@@ -362,8 +388,8 @@ be left uninitialised.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The number of items within the slab.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3SlabMemory_GetData <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_GetData <br><br>">Q3SlabMemory_GetData <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_GetData">Q3SlabMemory_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( void * ) Q3SlabMemory_GetData (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 itemIndex
@@ -388,8 +414,8 @@ which can be obtained with Q3SlabMemory_GetCount.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>A pointer to the specified item within the slab.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3SlabMemory_New <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_New <br><br>">Q3SlabMemory_New <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_New">Q3SlabMemory_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3SlabObject ) Q3SlabMemory_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 itemSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numItems,
@@ -419,8 +445,8 @@ The itemSize parameter must be non-zero.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The new slab object.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3SlabMemory_SetCount <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_SetCount <br><br>">Q3SlabMemory_SetCount <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3SlabMemory_SetCount"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_SetCount">Q3SlabMemory_SetCount</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SlabMemory_SetCount (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numItems
@@ -446,5 +472,5 @@ into the slab should be invalidated.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2005 Quesa Developers (Last Updated 4/30/2005)
+<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
 </p></body></html>
