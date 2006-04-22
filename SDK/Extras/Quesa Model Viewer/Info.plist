@@ -19,5 +19,7 @@
    <string>http://www.quesa.org</string>
    <key>CFBundleIconFile</key>
    <string>128</string>
+   <key>LSPrefersCarbon</key>
+   <true/>
 </dict>
 </plist>
