@@ -2266,6 +2266,10 @@
 		BEDC044D08A57B3000FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Static_Universal/$(CONFIGURATION)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -2282,7 +2286,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1.6;
-				DYLIB_CURRENT_VERSION = 1.7;
+				DYLIB_CURRENT_VERSION = 1.8;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_FAST_MATH = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
