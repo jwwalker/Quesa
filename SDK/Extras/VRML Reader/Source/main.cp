@@ -57,6 +57,11 @@
 		#if __MWERKS__
 			__declspec(dllexport) void Macho_VRML_Reader_Entry();
 			__declspec(dllexport) void Macho_VRML_Reader_Exit();
+		#elif __GNUC__ >= 4
+			void __attribute__((visibility("default"))) Macho_VRML_Reader_Entry()
+				__attribute__ ((constructor));
+			void __attribute__((visibility("default"))) Macho_VRML_Reader_Exit()
+				__attribute__ ((destructor));
 		#else
 			void __attribute__((visibility("default"))) Macho_VRML_Reader_Entry();
 			void __attribute__((visibility("default"))) Macho_VRML_Reader_Exit();
@@ -87,8 +92,14 @@
 
 #if TARGET_RT_MAC_MACHO
 
+#if __MWERKS__
 #pragma CALL_ON_LOAD Macho_VRML_Reader_Entry
 void Macho_VRML_Reader_Entry()
+#elif __GNUC__ >= 4
+void Macho_VRML_Reader_Entry()
+#else
+void Macho_VRML_Reader_Entry() __attribute__ ((constructor))
+#endif
 {
 	TQ3XSharedLibraryInfo	sharedLibraryInfo;
 	
@@ -99,8 +110,14 @@ void Macho_VRML_Reader_Entry()
 	Q3XSharedLibrary_Register(&sharedLibraryInfo);
 }
 
+#if __MWERKS__
 #pragma CALL_ON_UNLOAD Macho_VRML_Reader_Exit
 void Macho_VRML_Reader_Exit()
+#elif __GNUC__ >= 4
+void Macho_VRML_Reader_Exit()
+#else
+void Macho_VRML_Reader_Exit() __attribute__ ((destructor))
+#endif
 {
 	UnregisterVRMLReaderClass();
 	
