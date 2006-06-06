@@ -50,6 +50,15 @@
 #include <ostream>
 #include <cctype>
 
+#ifdef _GLIBCXX_IOSTREAM
+	#warning modify Spirit not to include <iostream>
+	// Currently, boost/spirit/iterator/multi_pass.hpp includes <iostream>.
+	// This can cause a crash on quit in Mac OS X 10.3.9 involving the
+	// destructor of the static std::ios_base::Init object.  See
+	// http://gcc.gnu.org/onlinedocs/libstdc++/27_io/howto.html#10 for reasons
+	// why one should avoid including iostream when possible.
+#endif
+
 using namespace boost::spirit;
 
 	const char*	kEnumJustification_LEFT					= "LEFT";
