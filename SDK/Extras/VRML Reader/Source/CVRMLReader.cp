@@ -180,15 +180,22 @@ bool	XVRMLReaderImp::ReadHeader()
 	
 	if (mBaseData->fileVersion > 0)
 	{
-		std::string	theData;
-		ReadStorageIntoString( mBaseData->storage, theData );
-		
 		// If the 'Debg' property exists, start a debug stream.
 		TQ3Status	propStat = Q3Object_GetProperty( mBaseData->storage,
 			kDebugTextProperty, 0, NULL, NULL );
 		if (propStat == kQ3Success)
 		{
 			mDebugStream.reset( new std::ostringstream );
+			*mDebugStream << std::endl << "VRML ReadHeader starting." <<
+				std::endl << "===========" << std::endl;
+		}
+		
+		std::string	theData;
+		ReadStorageIntoString( mBaseData->storage, theData );
+		
+		if (mDebugStream.get() != NULL)
+		{
+			*mDebugStream << "After ReadStorageIntoString." << std::endl;
 		}
 		
 		if (mBaseData->fileVersion == 1)
