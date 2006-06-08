@@ -91,7 +91,7 @@ rs_GetStorageData(
 		case kQ3StorageTypeMemory:
 			theStatus = Q3MemoryStorage_GetBuffer(
 								theStorage,
-								&result,
+								(unsigned char**) &result,
 								&validSize,
 								&bufferSize);
 			break;
@@ -117,7 +117,7 @@ rs_GetStorageData(
 			
 			if (result != NULL)
 			{
-				theStatus = Q3Storage_GetData(theStorage, 0, bufferSize, result, &validSize);
+				theStatus = Q3Storage_GetData(theStorage, 0, bufferSize, (unsigned char*) result, &validSize);
 				*outWasCopied = (TQ3Boolean) (theStatus == kQ3Success);
 				if (theStatus != kQ3Success)
 				{
@@ -229,7 +229,7 @@ rs_TextureConvertMemory(
 	
 	int	srcPixelFormat = srcPixelType;
 	
-	if (not srcBigEndian)
+	if (! srcBigEndian)
 	{
 		srcPixelFormat += kLittleEndianOffset;
 	}

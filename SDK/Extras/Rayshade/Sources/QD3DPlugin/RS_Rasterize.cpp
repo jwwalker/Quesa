@@ -82,7 +82,7 @@ typedef TQ3Status (*TRGBSpanRasterizerFunction)(
 							const int					x,
 							const int					y,
 							const int					width,
-							const unsigned char			rgbPixels[][3]);
+							const TQ3Uns8				rgbPixels[][3]);
 				
 
 typedef struct TRSRasterizer {
@@ -113,7 +113,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_Nop(
 					const int					x,
 					const int					y,
 					const int					width,
-					const unsigned char			rgbPixels[][3]);
+					const TQ3Uns8				rgbPixels[][3]);
 #if defined(macintosh)
 static
 TQ3Status		RSRasterizer_Rasterize_RGB_Span_QD(
@@ -121,7 +121,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_QD(
 					const int					x,
 					const int					y,
 					const int					width,
-					const unsigned char			rgbPixels[][3]);
+					const TQ3Uns8				rgbPixels[][3]);
 #endif
 #if defined(WIN32)
 static
@@ -130,7 +130,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_Win32DC(
 					const int					x,
 					const int					y,
 					const int					width,
-					const unsigned char			rgbPixels[][3]);
+					const TQ3Uns8				rgbPixels[][3]);
 #endif
 static
 TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
@@ -138,7 +138,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 					const int					x,
 					const int					y,
 					const int					width,
-					const unsigned char			rgbPixels[][3]);
+					const TQ3Uns8				rgbPixels[][3]);
 					
 /******************************************************************************
  **																			 **
@@ -367,7 +367,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_Nop(
 					const int					/*x*/,
 					const int					/*y*/,
 					const int					/*width*/,
-					const unsigned char			/*rgbPixels*/[][3])
+					const TQ3Uns8				/*rgbPixels*/[][3])
 {
 	if (inRasterizer == NULL)
 		return kQ3Failure;
@@ -381,7 +381,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 					const int					x,
 					const int					y,
 					const int					width,
-					const unsigned char			rgbPixels[][3])
+					const TQ3Uns8				rgbPixels[][3])
 {
 	unsigned char* 	rowAddr;
 	int			   	pixelSize = (int)inRasterizer->pixmap.pixelSize / 8;	/* This is pixel size in bytes */
@@ -459,7 +459,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_QD(
 					const int					x,
 					const int					y,
 					const int					width,
-					const unsigned char			rgbPixels[][3])
+					const TQ3Uns8				rgbPixels[][3])
 {
 	if (inRasterizer == NULL)
 		return kQ3Failure;
@@ -486,7 +486,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_Win32DC(
 					const int					x,
 					const int					y,
 					const int					width,
-					const unsigned char			rgbPixels[][3])
+					const TQ3Uns8				rgbPixels[][3])
 {
 	if (inRasterizer == NULL)
 		return kQ3Failure;
@@ -511,7 +511,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span(
 					const int					x,
 					const int					y,
 					const int					width,
-					const unsigned char			rgbPixels[][3])
+					const TQ3Uns8				rgbPixels[][3])
 {
 	return (inRasterizer->rgbSpanRasterize)(inRasterizer,x,y,width,rgbPixels);
 }
@@ -524,7 +524,7 @@ TQ3Status SRScanline_Rasterize(
 					const int					x,
 					const int					y,
 					const int					width, 
-					const unsigned char			*data[][3])
+					const TQ3Uns8				*data[][3])
 {
 	tTargetPixel		*cBuffer;
 
