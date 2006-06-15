@@ -642,14 +642,14 @@ E3Group::emptyobjects ( TQ3ObjectType isType )
 		{
 		if ( Q3Object_IsType ( pos->object, isType ) )
 			{
-			TQ3XGroupPosition* next = pos->next ;
+			TQ3XGroupPosition* nextPos = pos->next ;
 			
 			// disconnect the position from the group
-			next->prev = pos->prev ;
+			nextPos->prev = pos->prev ;
 			pos->prev->next = pos->next ;
 
 			GetClass ()->positionDeleteMethod ( pos ) ;
-			pos = next ;
+			pos = nextPos ;
 			}
 		else
 			pos = pos->next ;
