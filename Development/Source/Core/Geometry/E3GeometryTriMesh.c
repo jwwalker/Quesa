@@ -461,14 +461,14 @@ e3geom_trimesh_optimize_normals(TQ3Uns32 numNormals, TQ3TriMeshAttributeData *at
 		for (n = 0; n < numNormals; n++)
 			{
 			if (attributeData->attributeUseArray[n])
-				Q3Vector3D_Normalize(&theNormals[n], &theNormals[n]);
+				Q3FastVector3D_Normalize(&theNormals[n], &theNormals[n]);
 			}
 		}
 	else
 		{
 		// Process every normal
 		for (n = 0; n < numNormals; n++)
-			Q3Vector3D_Normalize(&theNormals[n], &theNormals[n]);
+			Q3FastVector3D_Normalize(&theNormals[n], &theNormals[n]);
 		}
 }
 
@@ -1195,7 +1195,7 @@ e3geom_trimesh_record_any_xyz( TQ3ViewObject theView, TQ3PickObject thePick,
 static TQ3Status
 e3geom_trimesh_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, const TQ3TriMeshData *geomData)
 {	TQ3Area						windowBounds;
-	TQ3Status					qd3dStatus;
+	TQ3Status					qd3dStatus = kQ3Success;
 	TQ3WindowRectPickData		pickData;
 
 
@@ -1216,9 +1216,6 @@ e3geom_trimesh_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, co
 
 	else if (E3Rect_IntersectRect(&windowBounds, &pickData.rect))
 		qd3dStatus = e3geom_trimesh_pick_with_rect(theView, thePick, &pickData.rect, geomData);
-
-	else
-		qd3dStatus = kQ3Success;
 
 	return(qd3dStatus);
 }
