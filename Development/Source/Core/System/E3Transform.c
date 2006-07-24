@@ -983,30 +983,24 @@ e3transform_camera_rasterize_submit(TQ3ViewObject theView, TQ3ObjectType objectT
 	//
 	// A rasterize transform causes vertex x and y coordinates to be treated as
 	// pixel coordinates within the draw context pane, and z to range from 0 to 1.
-	//
-	// The QD3D frustum ranges from -1 to +1 in x and y, and 0 to -1 in z: we
-	// therefore need to set the local->world and world->camera matrices to the
-	// identity matrix and create a projection matrix which will map from the
-	// rasterize coordinates to the QD3D frustum.
+	// We treat this coordinate system as both local and world, so the local to
+	// world matrix is the identity.
 	Q3Matrix4x4_SetIdentity(&localToWorld);
-	Q3Matrix4x4_SetIdentity(&worldToCamera);
-	Q3Matrix4x4_SetIdentity(&cameraToFrustum);
-
-
-	// Scale the draw context to 0..2 in each dimension, and reverse the sign
-	// of z so that we take ranges from 0..1 and convert them to 0..-1.
-	// also reverse the sign of y since we want the origin to be in the top
-	// left of the draw context
+	
+	// The camera coordinate system is supposed to have visible stuff along the
+	// negative z axis, so we need to negate z.  In order to make camera
+	// coordinates still be a right-handed coordinate system, let us also flip
+	// the y axis, so that the value at the bottom of the screen is -height
+	// instead of height.
+	Q3Matrix4x4_SetScale( &worldToCamera, 1.0f, -1.0f, -1.0f );
+	
+	// The QD3D frustum ranges from -1 to +1 in x and y, and 0 to -1 in z.
+	// The z coordinate is fine as is, but x and y must be scaled and translated.
 	scaleWidth  = 2.0f / theWidth;
 	scaleHeight = 2.0f / theHeight;
-	
-	Q3Matrix4x4_SetScale(&tmpMatrix, scaleWidth, -scaleHeight, -1.0f);
-	Q3Matrix4x4_Multiply(&cameraToFrustum, &tmpMatrix, &cameraToFrustum);
-
-
-	// Translate x and y from 0..2 to -1..+1.
-	Q3Matrix4x4_SetTranslate(&tmpMatrix, -1.0f, 1.0f, 0.0f);
-	Q3Matrix4x4_Multiply(&cameraToFrustum, &tmpMatrix, &cameraToFrustum);
+	Q3Matrix4x4_SetScale( &cameraToFrustum, scaleWidth, scaleHeight, 1.0f );
+	Q3Matrix4x4_SetTranslate( &tmpMatrix, -1.0f, 1.0f, 0.0f );
+	Q3Matrix4x4_Multiply( &cameraToFrustum, &tmpMatrix, &cameraToFrustum );
 
 
 
