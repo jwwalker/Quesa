@@ -87,32 +87,8 @@
 		};
 /* End PBXBuildRule section */
 
-/* Begin PBXBuildStyle section */
-		4F9091AC011F3BD104CA0E50 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		4F9091AD011F3BD104CA0E50 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXFileReference section */
-		8D01CCD20486CAD60068D4B7 /* VRML-Reader.quesaplug */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VRML-Reader.quesaplug"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D01CCD20486CAD60068D4B7 /* VRML-Reader-D.quesaplug */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VRML-Reader-D.quesaplug"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE61011E08EFA04E0020A13D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../Resources/version.h; sourceTree = SOURCE_ROOT; };
 		BE70167209F6AA5500940AA2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		BE775A3109F809A5006C1ED3 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quesa.framework; path = ../../../Libraries/Mac/Framework_Universal/Release/Quesa.framework; sourceTree = SOURCE_ROOT; };
@@ -120,6 +96,8 @@
 		BE7C47E708AEC56600559F64 /* GetObjectName.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetObjectName.h; sourceTree = "<group>"; };
 		BE7C47E808AEC56600559F64 /* GetObjectName.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GetObjectName.cp; sourceTree = "<group>"; };
 		BE7C47E908AEC56600559F64 /* SetGroupName.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SetGroupName.cp; sourceTree = "<group>"; };
+		BE90C99F0AFBCC0F00976226 /* VRML-reader-prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "VRML-reader-prefix.h"; path = "../Source/VRML-reader-prefix.h"; sourceTree = SOURCE_ROOT; };
+		BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "VRML-reader.xcconfig"; sourceTree = "<group>"; };
 		BEB01A2608EF72B000A982F8 /* IndexedFaceSet.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedFaceSet.cpp; sourceTree = "<group>"; };
 		BEB01A2708EF72B000A982F8 /* IndexedFaceSet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IndexedFaceSet.h; sourceTree = "<group>"; };
 		BEC95CBA08A86BD2001E16B9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ../Resources/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -257,6 +235,7 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
+				BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */,
 			);
 			name = "VRML-Reader";
 			sourceTree = "<group>";
@@ -283,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				BEC95D6D08A86FDD001E16B9 /* VRML-Reader_Prefix.pch */,
+				BE90C99F0AFBCC0F00976226 /* VRML-reader-prefix.h */,
 				BEC95CC708A86F87001E16B9 /* main.cp */,
 				BEC95CC308A86F87001E16B9 /* boost-user-config.h */,
 				BEC95CC608A86F87001E16B9 /* quesa-methods.h */,
@@ -299,7 +279,7 @@
 		19C28FB4FE9D528D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D01CCD20486CAD60068D4B7 /* VRML-Reader.quesaplug */,
+				8D01CCD20486CAD60068D4B7 /* VRML-Reader-D.quesaplug */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -470,21 +450,12 @@
 				BEC95E7008A87E6F001E16B9 /* PBXBuildRule */,
 				BEC95E6F08A87E66001E16B9 /* PBXBuildRule */,
 			);
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "VRML-Reader_Prefix.pch";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				PRODUCT_NAME = "VRML-Reader";
-				WRAPPER_EXTENSION = bundle;
-			};
 			dependencies = (
 			);
 			name = "VRML-Reader";
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = "VRML-Reader";
-			productReference = 8D01CCD20486CAD60068D4B7 /* VRML-Reader.quesaplug */;
+			productReference = 8D01CCD20486CAD60068D4B7 /* VRML-Reader-D.quesaplug */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -493,12 +464,6 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = BEC95CB308A86B3C001E16B9 /* Build configuration list for PBXProject "VRML-Reader" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4F9091AC011F3BD104CA0E50 /* Development */,
-				4F9091AD011F3BD104CA0E50 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* VRML-Reader */;
 			projectDirPath = "";
@@ -594,41 +559,11 @@
 		};
 		BE7C488308AF202E00559F64 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				DEAD_CODE_STRIPPING = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/../../../Libraries/Mac/Framework_Universal/Release\"";
-				GCC_FAST_MATH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "../Source/Precompiled Headers/VRML-Reader_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"QUESA_OS_MACINTOSH=1",
-					"TARGET_API_MAC_OSX=1",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(Boost)",
-					"$(PROJECT_DIR)/../Resources",
-				);
-				INFOPLIST_FILE = ../Resources/Info.plist;
-				INFOPLIST_PREFIX_HEADER = ../Resources/version.h;
-				INFOPLIST_PREPROCESS = YES;
-				PREBINDING = NO;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				PRODUCT_NAME = "VRML-Reader";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = quesaplug;
 			};
 			name = Release;
 		};
@@ -640,39 +575,14 @@
 		};
 		BEC95CB408A86B3C001E16B9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				DEAD_CODE_STRIPPING = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(PROJECT_DIR)/../../../Libraries/Mac/Framework_Universal/Release\"";
-				GCC_FAST_MATH = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PFE_FILE_C_DIALECTS = "c++";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "../Source/Precompiled Headers/VRML-Reader_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"QUESA_OS_MACINTOSH=1",
-					"TARGET_API_MAC_OSX=1",
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+					"DEBUG=1",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(Boost)",
-					"$(PROJECT_DIR)/../Resources",
-				);
-				INFOPLIST_FILE = ../Resources/Info.plist;
-				INFOPLIST_PREFIX_HEADER = ../Resources/version.h;
-				INFOPLIST_PREPROCESS = YES;
-				PREBINDING = NO;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = "VRML-Reader-D";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = quesaplug;
 			};
 			name = Debug;
 		};
