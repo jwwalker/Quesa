@@ -2,4 +2,10 @@
 // Prefix header for all source files of the 'VRML-Reader' target in the 'VRML-Reader' project.
 //
 
+// Settings for Debugging.h.  These only take effect if DEBUG is 1.
+#define DEBUG_BREAK_ONLY	1
+#define	kComponentSignatureString	"VRML-Reader"
+
 #include <Carbon/Carbon.h>
+
+#include "VRML-reader-prefix.h"
