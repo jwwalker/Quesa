@@ -61,17 +61,6 @@
 	#include <QuesaCustomElements.h>
 #endif
 
-#if TARGET_API_MAC_CARBON && DEBUG
-	#define	DEBUG_INTERNAL	1
-	#define	kComponentSignatureString	"VRML-Reader"
-	
-	#include <Debugging.h>
-#else
-	#define check(assertion)
-	#define debug_string( cstring )
-#endif
-
-
 namespace
 {
 	#pragma mark struct IndexedFaceMaker
