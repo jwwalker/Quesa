@@ -80,7 +80,7 @@ namespace
 			rule<ScannerT>	arrayValue;
 			rule<ScannerT>	nodeGut, nodeGuts;
 			rule<ScannerT>	sfStringValue;
-			rule<ScannerT>	routeDeclaration;
+			rule<ScannerT>	routeDeclaration, protoDeclaration, interfaceDeclaration;
 		};
 		
 		SParseState&		mState;
@@ -95,12 +95,17 @@ namespace
 								
 		void					ConvertNumericArray( bool inConvertSingleToFloat );
 		
+		void					StartIgnoring();
+		void					StopIgnoring();
+		bool					IsIgnoring() const;
+		
 		VRMLParser				mGrammar;
 		symbols<int>			mBools;
 		std::ostream*			mStream;
 		PolyValue::PolyVec		mProgressStack;
 		PolyValue::PolyVec&		mCompleteTopNodes;
 		PolyValue::Dictionary	mNamedNodes;
+		long					mIsIgnoringDepth;
 	};
 
 	#pragma mark === Action declarations ===
@@ -148,6 +153,8 @@ namespace
 	DECLARE_NORMAL_ACTION( FinishUnbracketedArray );
 	DECLARE_NORMAL_ACTION( AppendQuotedStringToArray );
 	DECLARE_NORMAL_ACTION( FinishRoute );
+	DECLARE_NORMAL_ACTION( StartIgnoring );
+	DECLARE_NORMAL_ACTION( FinishIgnoring );
 	
 	DECLARE_CHAR_ACTION( StartNode );
 	DECLARE_CHAR_ACTION( StartArray );
@@ -163,7 +170,8 @@ namespace
 SParseState::SParseState( PolyValue::PolyVec& ioTopNodes, std::ostream* ioStream )
 	: mGrammar( *this ),
 	mStream( ioStream ),
-	mCompleteTopNodes( ioTopNodes )
+	mCompleteTopNodes( ioTopNodes ),
+	mIsIgnoringDepth( 0 )
 {
 	mBools.add
 		( "FALSE", 0 )
@@ -176,9 +184,28 @@ void	SParseState::ConvertNumericArray( bool inConvertSingleToFloat )
 	::ConvertNumericArray( mProgressStack.back(), inConvertSingleToFloat, mStream );
 }
 
+void	SParseState::StartIgnoring()
+{
+	mIsIgnoringDepth += 1;
+}
+
+void	SParseState::StopIgnoring()
+{
+	mIsIgnoringDepth -= 1;
+}
+
+bool	SParseState::IsIgnoring() const
+{
+	return (mIsIgnoringDepth > 0);
+}
+
 #pragma mark === Action definitions ===
 void	PushString::operator()( const char* inStart, const char* inEnd ) const
 {
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	std::string	theMatch( inStart, inEnd );
 	PolyValue	strValue( theMatch );
 	mState.mProgressStack.push_back( strValue );
@@ -192,6 +219,10 @@ void	PushString::operator()( const char* inStart, const char* inEnd ) const
 
 void	PushQuotedString::operator()( const char* inStart, const char* inEnd ) const
 {
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	std::string	theMatch( inStart+1, inEnd-1 );
 	UnBackslashEscape( theMatch );
 	PolyValue	strValue( theMatch );
@@ -206,6 +237,10 @@ void	PushQuotedString::operator()( const char* inStart, const char* inEnd ) cons
 
 void	PushBool::operator()( int inValue ) const
 {
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	PolyValue	boolValue( inValue != 0 );
 	mState.mProgressStack.push_back( boolValue );
 
@@ -219,6 +254,10 @@ void	PushBool::operator()( int inValue ) const
 void	PushNULL::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	mState.mProgressStack.push_back( PolyValue() );
 
 	if ( mState.mStream != NULL )
@@ -230,6 +269,10 @@ void	PushNULL::operator()( const char* inStart, const char* inEnd ) const
 void	StartNode::operator()( char inChar ) const
 {
 #pragma unused( inChar )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	PolyValue	nodeTypeValue = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
 	PolyValue	theNode;
@@ -247,6 +290,10 @@ void	StartNode::operator()( char inChar ) const
 void	StartArray::operator()( char inChar ) const
 {
 #pragma unused( inChar )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	PolyValue	theArray;
 	theArray.SetType( PolyValue::kDataTypeArray );
 	mState.mProgressStack.push_back( theArray );
@@ -260,18 +307,30 @@ void	StartArray::operator()( char inChar ) const
 void	FinishArray::operator()( char inChar ) const
 {
 #pragma unused( inChar )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	mState.ConvertNumericArray( false );
 }
 
 void	FinishUnbracketedArray::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	mState.ConvertNumericArray( true );
 }
 
 
 void	AppendFloatToPolyArray::operator()( double inValue ) const
 {
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	if (mState.mProgressStack.back().GetType() != PolyValue::kDataTypeArray)
 	{
 		PolyValue	newArray;
@@ -296,6 +355,10 @@ void	AppendFloatToPolyArray::operator()( double inValue ) const
 
 void	AppendIntToPolyArray::operator()( int inValue ) const
 {
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	if (mState.mProgressStack.back().GetType() != PolyValue::kDataTypeArray)
 	{
 		PolyValue	newArray;
@@ -320,6 +383,10 @@ void	AppendIntToPolyArray::operator()( int inValue ) const
 
 void	AppendIntToIntArray::operator()( int inValue ) const
 {
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	if (mState.mProgressStack.back().GetType() != PolyValue::kDataTypeArrayOfInt)
 	{
 		PolyValue	newArray;
@@ -339,6 +406,10 @@ void	AppendIntToIntArray::operator()( int inValue ) const
 void	AppendNodeToArray::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	// Pop the node
 	PolyValue	theNode = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -355,6 +426,10 @@ void	AppendNodeToArray::operator()( const char* inStart, const char* inEnd ) con
 
 void	AppendQuotedStringToArray::operator()( const char* inStart, const char* inEnd ) const
 {
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	std::string	theMatch( inStart+1, inEnd-1 );
 	UnBackslashEscape( theMatch );
 	PolyValue	strValue( theMatch );
@@ -367,6 +442,10 @@ void	AppendQuotedStringToArray::operator()( const char* inStart, const char* inE
 void	FinishDEF::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	// Pop the node name and node
 	PolyValue	theNode = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -391,6 +470,10 @@ void	FinishDEF::operator()( const char* inStart, const char* inEnd ) const
 void	FinishUSE::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	// Pop the node name
 	PolyValue	nodeNameValue = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -419,6 +502,10 @@ void	FinishUSE::operator()( const char* inStart, const char* inEnd ) const
 void	FinishTopNode::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	// Pop the node.
 	PolyValue	theNode = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -434,6 +521,10 @@ void	FinishTopNode::operator()( const char* inStart, const char* inEnd ) const
 void	FinishRoute::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	// For now we do nothing with ROUTE, just throw away the 4 identifier strings.
 	mState.mProgressStack.pop_back();
 	mState.mProgressStack.pop_back();
@@ -441,9 +532,25 @@ void	FinishRoute::operator()( const char* inStart, const char* inEnd ) const
 	mState.mProgressStack.pop_back();
 }
 
+void	StartIgnoring::operator()( const char* inStart, const char* inEnd ) const
+{
+#pragma unused( inStart, inEnd )
+	mState.StartIgnoring();
+}
+
+void	FinishIgnoring::operator()( const char* inStart, const char* inEnd ) const
+{
+#pragma unused( inStart, inEnd )
+	mState.StopIgnoring();
+}
+
 void	FinishField::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
 	// Pop the value.
 	PolyValue	theValue = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -577,10 +684,29 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 			>> identifier
 			>> ch_p('.')
 			>> identifier;
+
+	interfaceDeclaration
+		=	(
+				(str_p("eventIn") >> identifier >> identifier)
+			|	(str_p("eventOut") >> identifier >> identifier)
+			|	(str_p("field") >> identifier >> identifier >> fieldValue)
+			|	(str_p("exposedField") >> identifier >> identifier >> fieldValue)
+			);
+
+	protoDeclaration
+		=	str_p("PROTO") [ StartIgnoring(self.mState) ]
+			>> identifier
+			>> ch_p('[')
+			>>	*(interfaceDeclaration)
+			>> ch_p(']')
+			>> ch_p('{')
+			>> *node
+			>> ch_p('}');
 	
 	startRule
 		=	*(
 				routeDeclaration[ FinishRoute(self.mState) ]
+			|	protoDeclaration[ FinishIgnoring(self.mState) ]
 			|	nodeDeclaration[ FinishTopNode(self.mState) ]
 			);
 }
