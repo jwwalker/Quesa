@@ -89,7 +89,7 @@ CQ3ObjectRef	NodeV2ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 			{
 				theObject = TransformV2ToObject( ioNode, inReader );
 			}
-			else if (nodeType == "Group")
+			else if ( (nodeType == "Group") or (nodeType == "Anchor") )
 			{
 				theObject = GroupV2ToObject( ioNode, inReader );
 			}
