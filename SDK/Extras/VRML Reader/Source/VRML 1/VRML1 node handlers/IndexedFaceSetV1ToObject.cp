@@ -70,23 +70,8 @@
 	#include <QuesaCustomElements.h>
 #endif
 
-#if TARGET_API_MAC_CARBON && DEBUG
-	//#define	DEBUG_INTERNAL	1
-	#define DEBUG_BREAK_ONLY	1
-	#define	kComponentSignatureString	"VRML-Reader"
-	
-	#include <Debugging.h>
-#else
-	#define check(assertion)
-	#define debug_string( cstring )
-#endif
-
 namespace
 {
-	const float		kDegenerateLengthSquared	= 1.0e-11f;
-
-	typedef std::vector<TQ3TriMeshTriangleData>	TriangleVec;
-	
 	#pragma mark struct IndexedFaceMaker
 	struct	IndexedFaceMaker
 	{
