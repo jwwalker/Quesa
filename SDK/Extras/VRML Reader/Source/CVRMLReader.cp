@@ -153,6 +153,9 @@ CQ3ObjectRef	XVRMLReaderImp::NodeToObject()
 	CQ3ObjectRef	theObject;
 	PolyValue&	nextNode( mNodes[ mNextNodeIndex ] );
 	
+	// increment the counter now in case of exception
+	mNextNodeIndex += 1;
+	
 	if (mBaseData->fileVersion == 2)
 	{
 		theObject = NodeV2ToObject( nextNode, *mSelf );
@@ -224,7 +227,6 @@ TQ3Object		XVRMLReaderImp::ReadObject()
 	while (mNextNodeIndex < mNodes.size())
 	{
 		CQ3ObjectRef	obRef( NodeToObject() );
-		mNextNodeIndex += 1;
 		if (obRef.isvalid())
 		{
 			theObject = Q3Shared_GetReference( obRef.get() );
@@ -253,7 +255,6 @@ bool			XVRMLReaderImp::SkipObject()
 	while (mNextNodeIndex < mNodes.size())
 	{
 		CQ3ObjectRef	obRef( NodeToObject() );
-		mNextNodeIndex += 1;
 		if (obRef.isvalid())
 		{
 			didSkip = true;
@@ -283,7 +284,6 @@ TQ3ObjectType	XVRMLReaderImp::GetNextType()
 	while (mNextNodeIndex < mNodes.size())
 	{
 		CQ3ObjectRef	obRef( NodeToObject() );
-		mNextNodeIndex += 1;
 		if (obRef.isvalid())
 		{
 			theType = Q3Object_GetLeafType( obRef.get() );
