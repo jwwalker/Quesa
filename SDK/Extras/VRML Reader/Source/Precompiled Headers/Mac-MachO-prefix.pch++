@@ -11,12 +11,12 @@
 
 #define		BOOST_USER_CONFIG	"boost-user-config.h"
 
-
-// Prevent Debugging.h from getting indirectly included
-#define	__DEBUGGING__	1
+// Settings for Debugging.h.  These only take effect if DEBUG is 1.
+#define DEBUG_BREAK_ONLY	1
+#define	kComponentSignatureString	"VRML-Reader"
+#include <Debugging.h>
 
 
 #include "MacHeadersMach-O.c"
 
-
-#undef __DEBUGGING__
+#include "VRML-reader-prefix.h"
