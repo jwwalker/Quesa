@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<?codewarrior exportversion="1.0.1" ideversion="5.0" ?>
+<?codewarrior exportversion="2.0" ideversion="5.8" ?>
 
 <!DOCTYPE PROJECT [
 <!ELEMENT PROJECT (TARGETLIST, TARGETORDER, GROUPLIST, DESIGNLIST?)>
@@ -32,7 +32,11 @@
 <!ELEMENT BASEADDRESS (#PCDATA)>
 <!ELEMENT OVERLAY (NAME, FILEREF*)>
 <!ELEMENT SUBTARGETLIST (SUBTARGET+)>
-<!ELEMENT SUBTARGET (TARGETNAME, ATTRIBUTES?, FILEREF?)>
+<!ELEMENT TARGETOUTPUTNAME (#PCDATA)>
+<!ELEMENT TARGETOUTPUTDISPLAYNAME (#PCDATA)>
+<!ELEMENT TARGETOUTPUTPATHFORMAT (#PCDATA)>
+<!ELEMENT TARGETOUTPUTACCESSTYPE (#PCDATA)>
+<!ELEMENT SUBTARGET (TARGETNAME, ATTRIBUTES?, TARGETOUTPUTNAME?, TARGETOUTPUTDISPLAYNAME?, TARGETOUTPUTPATHFORMAT?, TARGETOUTPUTACCESSTYPE?, FILEREF?)>
 <!ELEMENT SUBPROJECTLIST (SUBPROJECT+)>
 <!ELEMENT SUBPROJECT (FILEREF, SUBPROJECTTARGETLIST)>
 <!ELEMENT SUBPROJECTTARGETLIST (SUBPROJECTTARGET*)>
@@ -155,16 +159,6 @@
                             <SETTING><NAME>Path</NAME><VALUE>Includes</VALUE></SETTING>
                             <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
                             <SETTING><NAME>PathRoot</NAME><VALUE>Quesa-SDK</VALUE></SETTING>
-                        </SETTING>
-                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
-                        <SETTING><NAME>FrameworkPath</NAME><VALUE>false</VALUE></SETTING>
-                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
-                    </SETTING>
-                    <SETTING>
-                        <SETTING><NAME>SearchPath</NAME>
-                            <SETTING><NAME>Path</NAME><VALUE>MacOS Support/Libraries/Runtime/(Common Sources)</VALUE></SETTING>
-                            <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
-                            <SETTING><NAME>PathRoot</NAME><VALUE>CodeWarrior</VALUE></SETTING>
                         </SETTING>
                         <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
                         <SETTING><NAME>FrameworkPath</NAME><VALUE>false</VALUE></SETTING>
@@ -612,7 +606,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -717,12 +711,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -2500,7 +2494,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -2588,12 +2582,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -2610,6 +2604,7 @@
 #endif
 
 #define BOOST_NO_CWCTYPE 1
+#define	DEBUG			1
 </VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Warnings" panel -->
@@ -3882,7 +3877,7 @@
                     </SETTING>
                     <SETTING>
                         <SETTING><NAME>SearchPath</NAME>
-                            <SETTING><NAME>Path</NAME><VALUE>MSL</VALUE></SETTING>
+                            <SETTING><NAME>Path</NAME><VALUE>MSL_x86</VALUE></SETTING>
                             <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
                             <SETTING><NAME>PathRoot</NAME><VALUE>CodeWarrior</VALUE></SETTING>
                         </SETTING>
@@ -4240,7 +4235,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -4257,7 +4252,7 @@
 
                 <!-- Settings for "Remote Debug" panel -->
                 <SETTING><NAME>Enabled</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>ConnectionName</NAME><VALUE>Dell</VALUE></SETTING>
+                <SETTING><NAME>ConnectionName</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>DownloadPath</NAME><VALUE>C:\Program Files\FrameForge 3D Studio</VALUE></SETTING>
                 <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>RemoteAppPath</NAME><VALUE>C:\Program Files\FrameForge 3D Studio\FrameForge 3D Studio V2.exe</VALUE></SETTING>
@@ -4328,12 +4323,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -5555,16 +5550,6 @@
                         <SETTING><NAME>FrameworkPath</NAME><VALUE>false</VALUE></SETTING>
                         <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
                     </SETTING>
-                    <SETTING>
-                        <SETTING><NAME>SearchPath</NAME>
-                            <SETTING><NAME>Path</NAME><VALUE>MacOS Support/Libraries/Runtime/(Common Sources)</VALUE></SETTING>
-                            <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
-                            <SETTING><NAME>PathRoot</NAME><VALUE>CodeWarrior</VALUE></SETTING>
-                        </SETTING>
-                        <SETTING><NAME>Recursive</NAME><VALUE>true</VALUE></SETTING>
-                        <SETTING><NAME>FrameworkPath</NAME><VALUE>false</VALUE></SETTING>
-                        <SETTING><NAME>HostFlags</NAME><VALUE>All</VALUE></SETTING>
-                    </SETTING>
                 </SETTING>
 
                 <!-- Settings for "Debugger Runtime" panel -->
@@ -5999,7 +5984,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -6104,12 +6089,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>6</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -7323,7 +7308,7 @@
                     </SETTING>
                     <SETTING>
                         <SETTING><NAME>SearchPath</NAME>
-                            <SETTING><NAME>Path</NAME><VALUE>MSL</VALUE></SETTING>
+                            <SETTING><NAME>Path</NAME><VALUE>MSL_x86</VALUE></SETTING>
                             <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
                             <SETTING><NAME>PathRoot</NAME><VALUE>CodeWarrior</VALUE></SETTING>
                         </SETTING>
@@ -7681,7 +7666,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -7698,7 +7683,7 @@
 
                 <!-- Settings for "Remote Debug" panel -->
                 <SETTING><NAME>Enabled</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>ConnectionName</NAME><VALUE>Dell</VALUE></SETTING>
+                <SETTING><NAME>ConnectionName</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>DownloadPath</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>RemoteAppPath</NAME><VALUE></VALUE></SETTING>
@@ -7769,12 +7754,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>6</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -8052,7 +8037,7 @@
                 <SETTING><NAME>MWWinRC_prefixname</NAME><VALUE></VALUE></SETTING>
 
                 <!-- Settings for "x86 CodeGen" panel -->
-                <SETTING><NAME>MWCodeGen_X86_processor</NAME><VALUE>Pentium</VALUE></SETTING>
+                <SETTING><NAME>MWCodeGen_X86_processor</NAME><VALUE>Generic</VALUE></SETTING>
                 <SETTING><NAME>MWCodeGen_X86_alignment</NAME><VALUE>bytes8</VALUE></SETTING>
                 <SETTING><NAME>MWCodeGen_X86_exceptions</NAME><VALUE>ZeroOverhead</VALUE></SETTING>
                 <SETTING><NAME>MWCodeGen_X86_name_mangling</NAME><VALUE>MWWin32</VALUE></SETTING>
@@ -8159,7 +8144,7 @@
                 <SETTING><NAME>MWLinker_X86_nowarnings</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>MWLinker_X86_verbose</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>MWLinker_X86_linkformem</NAME><VALUE>false</VALUE></SETTING>
-                <SETTING><NAME>MWLinker_X86_codefolding</NAME><VALUE>None</VALUE></SETTING>
+                <SETTING><NAME>MWLinker_X86_codefolding</NAME><VALUE>Templates</VALUE></SETTING>
                 <SETTING><NAME>MWLinker_X86_debuginline</NAME><VALUE>false</VALUE></SETTING>
 
                 <!-- Settings for "x86 Project" panel -->
@@ -9523,7 +9508,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -9611,12 +9596,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>7</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>1</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
