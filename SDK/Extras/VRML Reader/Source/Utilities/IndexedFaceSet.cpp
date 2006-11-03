@@ -61,7 +61,7 @@
 
 namespace
 {
-	const float		kDegenerateLengthSquared	= 1.0e-11f;
+	const float		kDegenerateLengthSquared	= 1.0e-13f;
 	
 }
 
@@ -773,6 +773,10 @@ CQ3ObjectRef	CIndexedFaceSet::CreateTriMesh() const
 	ComputeTriMeshFaceNormals( faceNormals );
 	ComputeTriMeshFaceColors( faceColors );
 	ComputeTriMeshPositions( thePoints );
+	if (thePoints.empty())
+	{
+		throw std::runtime_error("IndexedFaceSet with no points");
+	}
 	ComputeTriMeshVertexNormals( vertexNormals );
 	ComputeTriMeshVertexColors( vertexColors );
 	Q3BoundingBox_SetFromPoints3D( &bounds, &thePoints[0], thePoints.size(),
