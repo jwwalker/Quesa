@@ -49,6 +49,7 @@
 #include "E3Prefix.h"
 #include "GLPrefix.h"
 #include "CQ3ObjectRef.h"
+#include "E3Shader.h"
 
 #include <vector>
 
@@ -104,6 +105,7 @@ typedef struct TQ3TransparentPrim {
 	// State
 	GLuint					theTexture;
 	TQ3Boolean				textureIsTransparent;
+	TQ3ShaderData			textureShaderData;
 	TQ3OrientationStyle		orientationStyle;
 	TQ3FillStyle			fillStyle;
 	TQ3BackfacingStyle		backfacingStyle;
@@ -204,6 +206,7 @@ typedef struct TQ3InteractiveData {
 	TQ3Boolean				stateTextureActive;
 	GLuint					stateTextureObject;
 	TQ3Boolean				stateTextureIsTransparent;
+	TQ3ShaderData			stateTextureShaderData;
 
 	TQ3ColorRGB				*stateGeomDiffuseColour;
 	TQ3ColorRGB				*stateGeomSpecularColour;
