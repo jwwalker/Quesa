@@ -509,6 +509,13 @@ ir_texture_set_params( TQ3InteractiveData *instanceData, TQ3ViewObject inView,
 
 	glMatrixMode( GL_TEXTURE );
 	glLoadMatrixf( glMatrix );
+	
+	
+	
+	// record UV data in TQ3InteractiveData
+	instanceData->stateTextureShaderData.uBoundary = boundaryU;
+	instanceData->stateTextureShaderData.vBoundary = boundaryV;
+	instanceData->stateTextureShaderData.uvTransform = theTransformMtx;
 }
 
 
