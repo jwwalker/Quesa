@@ -47,6 +47,8 @@
 #include "IRTransparent.h"
 #include "IRUpdate.h"
 
+#include "GLUtils.h"
+
 #include <stdlib.h>
 
 
@@ -194,11 +196,67 @@ ir_geom_transparent_specular_render(const TQ3TransparentPrim *thePrim)
 
 
 
+
+//=============================================================================
+//      ir_geom_transparent_init_texture : Set up texturing state.
+//-----------------------------------------------------------------------------
+static void ir_geom_transparent_init_texture( const TQ3TransparentPrim *thePrim,
+											TQ3InteractiveData *instanceData )
+{
+	// The OpenGL texture object will still exist in the texture cache, and so
+	// we can bind to it immediately without needing the original QD3D object.
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, thePrim->theTexture);
+	
+	
+	
+	// Set up UV boundary behavior
+	GLint		glBoundsU, glBoundsV;
+	GLUtils_ConvertUVBoundary( thePrim->textureShaderData.uBoundary,
+		&glBoundsU, instanceData->glExtensions.clampToEdge );
+	GLUtils_ConvertUVBoundary( thePrim->textureShaderData.vBoundary,
+		&glBoundsV, instanceData->glExtensions.clampToEdge );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, glBoundsU );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, glBoundsV );
+	
+	
+	
+	// Set up the UV transform
+	TQ3Matrix3x3	theTransformMtx = thePrim->textureShaderData.uvTransform;
+	GLfloat		glMatrix[16];
+	glMatrix[0]  = theTransformMtx.value[0][0];
+	glMatrix[1]  = theTransformMtx.value[0][1];
+	glMatrix[2]  = theTransformMtx.value[0][2];
+	glMatrix[3]  = 0.0f;
+
+	glMatrix[4]  = theTransformMtx.value[1][0];
+	glMatrix[5]  = theTransformMtx.value[1][1];
+	glMatrix[6]  = theTransformMtx.value[1][2];
+	glMatrix[7]  = 0.0f;
+
+	glMatrix[8]  = 0.0f;
+	glMatrix[9]  = 0.0f;
+	glMatrix[10] = 0.0f;
+	glMatrix[11] = 0.0f;
+
+	glMatrix[12] = theTransformMtx.value[2][0];
+	glMatrix[13] = theTransformMtx.value[2][1];
+	glMatrix[14] = theTransformMtx.value[2][2];
+	glMatrix[15] = 1.0f;
+
+	glMatrixMode( GL_TEXTURE );
+	glLoadMatrixf( glMatrix );
+}
+
+
+
+
+
 //=============================================================================
 //      ir_geom_transparent_render : Render a cached primitive.
 //-----------------------------------------------------------------------------
 static void
-ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
+ir_geom_transparent_render(const TQ3TransparentPrim *thePrim, TQ3InteractiveData *instanceData)
 {	const TQ3FVertex3D		*theVertex;
 	TQ3FVertexFlags			vertFlags;
 	float					vertAlpha;
@@ -217,8 +275,7 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 	// we can bind to it immediately without needing the original QD3D object.
 	if (thePrim->theTexture != 0)
 		{
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, thePrim->theTexture);
+		ir_geom_transparent_init_texture( thePrim, instanceData );
 		}
 
 
@@ -277,6 +334,8 @@ ir_geom_transparent_render(const TQ3TransparentPrim *thePrim)
 		{
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glDisable(GL_TEXTURE_2D);
+		glMatrixMode(GL_TEXTURE);
+		glLoadIdentity();
 		}
 }
 
@@ -387,6 +446,7 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	thePrim->needsSpecular        = ir_geom_transparent_needs_specular(thePrim);
 	thePrim->cameraToFrustum	  = instanceData->stateMatrixCameraToFrustum;
 	thePrim->fogStyleIndex        = instanceData->curFogStyleIndex;
+	thePrim->textureShaderData    = instanceData->stateTextureShaderData;
 
 
 	
@@ -688,7 +748,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 
 
 			// Render the primitive
-			ir_geom_transparent_render(ptrs[n]);
+			ir_geom_transparent_render( ptrs[n], instanceData );
 			
 			
 			
