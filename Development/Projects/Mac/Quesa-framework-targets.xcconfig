@@ -1,0 +1,10 @@
+MACH_O_TYPE = mh_dylib
+INIT_ROUTINE = _E3MacMachoFrameworkInit
+DEAD_CODE_STRIPPING = YES
+PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES
+WRAPPER_EXTENSION = framework
+INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist
+INFOPLIST_PREPROCESS = YES
+INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h
+INSTALL_PATH = @executable_path/../Frameworks/
+LIBRARY_STYLE = DYNAMIC
