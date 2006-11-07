@@ -812,7 +812,9 @@
 		AB83B964055E77870034F56A /* E3MacStorage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacStorage.c; sourceTree = "<group>"; };
 		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
 		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
-		B1756AFF080A71C30056134C /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE5FCA270AFFED730080C922 /* Quesa-project-config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Quesa-project-config.xcconfig"; sourceTree = "<group>"; };
+		BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Quesa-framework-targets.xcconfig"; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLTextureManager.c; sourceTree = "<group>"; };
 		BE7759D909F7F88D006C1ED3 /* quesa-export-gcc3.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = "quesa-export-gcc3.txt"; sourceTree = SOURCE_ROOT; };
@@ -828,7 +830,7 @@
 		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cpp; sourceTree = "<group>"; };
 		BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
 		BEDC072708A6812D00FB3A82 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEDC08D008A6B24A00FB3A82 /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDC08D308A6B74200FB3A82 /* Info.plist */ = {isa = PBXFileReference; comments = "This file is for use with Xcode 2.1.  It must be preprocessed in order to\nconvert the symbol kQ3UnquotedStringVersion into an actual version string."; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = Quesa.rsrc; path = Resources/Quesa.rsrc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -889,9 +891,9 @@
 			isa = PBXGroup;
 			children = (
 				8D07F2C80486CC7A007CD1D0 /* Quesa.framework */,
-				B1756AFF080A71C30056134C /* libQuesaD.a */,
+				B1756AFF080A71C30056134C /* libQuesa.a */,
 				BEDC072708A6812D00FB3A82 /* Quesa.framework */,
-				BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */,
+				BEDC08D008A6B24A00FB3A82 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -900,6 +902,8 @@
 			isa = PBXGroup;
 			children = (
 				BE7759D909F7F88D006C1ED3 /* quesa-export-gcc3.txt */,
+				BE5FCA270AFFED730080C922 /* Quesa-project-config.xcconfig */,
+				BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				AB83B5D5055E72B90034F56A /* Includes */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks */,
@@ -1457,7 +1461,7 @@
 			);
 			name = "Static Lib (Univ)";
 			productName = Quesa.lib;
-			productReference = B1756AFF080A71C30056134C /* libQuesaD.a */;
+			productReference = B1756AFF080A71C30056134C /* libQuesa.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		BEDC062F08A6812D00FB3A82 /* Fmwk (GCC 3.3) */ = {
@@ -1496,7 +1500,7 @@
 			);
 			name = "Static Lib (GCC 3.3)";
 			productName = Quesa.lib;
-			productReference = BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */;
+			productReference = BEDC08D008A6B24A00FB3A82 /* libQuesa.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -2035,44 +2039,33 @@
 /* Begin XCBuildConfiguration section */
 		BEDC044808A57B3000FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */;
 			buildSettings = {
 				ARCHS = (
 					ppc,
 					i386,
 				);
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_Universal/$(CONFIGURATION)";
-				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"Q3_EXPORT_SYMBOLS=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
-				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
-				INFOPLIST_PREPROCESS = YES;
-				INIT_ROUTINE = _E3MacMachoFrameworkInit;
-				INSTALL_PATH = "@executable_path/../Frameworks/";
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
-				PRODUCT_NAME = Quesa;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SYMROOT = "build-univ";
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
 		};
 		BEDC044908A57B3000FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_Universal/$(CONFIGURATION)";
-				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
@@ -2082,19 +2075,9 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
-				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
-				INFOPLIST_PREPROCESS = YES;
-				INIT_ROUTINE = _E3MacMachoFrameworkInit;
-				INSTALL_PATH = "@executable_path/../Frameworks/";
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
-				PRODUCT_NAME = Quesa;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SYMROOT = "build-univ";
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
 		};
@@ -2130,7 +2113,6 @@
 					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
 				);
 				LIBRARY_STYLE = STATIC;
-				PRODUCT_NAME = Quesa;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WARNING_CFLAGS = "-Wmost";
 			};
@@ -2138,33 +2120,24 @@
 		};
 		BEDC045008A57B3000FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE5FCA270AFFED730080C922 /* Quesa-project-config.xcconfig */;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DYLIB_COMPATIBILITY_VERSION = 1.6;
-				DYLIB_CURRENT_VERSION = 1.8;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_SYMBOL_SEPARATION = NO;
-				GCC_FAST_MATH = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"QUESA_OS_MACINTOSH=1",
-					"TARGET_API_MAC_CARBON=1",
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 					"Q3_DEBUG=1",
 				);
-				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_SHADOW = YES;
-				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 			};
 			name = Debug;
 		};
 		BEDC045108A57B3000FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE5FCA270AFFED730080C922 /* Quesa-project-config.xcconfig */;
 			buildSettings = {
 				ARCHS = (
 					ppc,
@@ -2172,75 +2145,40 @@
 				);
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1.6;
-				DYLIB_CURRENT_VERSION = 1.8;
-				GCC_ENABLE_SYMBOL_SEPARATION = NO;
-				GCC_FAST_MATH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"QUESA_OS_MACINTOSH=1",
-					"TARGET_API_MAC_CARBON=1",
-				);
-				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 			};
 			name = Release;
 		};
 		BEDC072508A6812D00FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */;
 			buildSettings = {
 				ARCHS = ppc;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_GCC3/$(CONFIGURATION)";
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = stabs;
 				EXPORTED_SYMBOLS_FILE = "quesa-export-gcc3.txt";
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
-				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
-				INFOPLIST_PREPROCESS = YES;
-				INIT_ROUTINE = _E3MacMachoFrameworkInit;
-				INSTALL_PATH = "@executable_path/../Frameworks/";
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x12000000,
 				);
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
-				PRODUCT_NAME = Quesa;
 				SYMROOT = "build-GCC3.3";
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
 		};
 		BEDC072608A6812D00FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */;
 			buildSettings = {
 				ARCHS = ppc;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_GCC3/$(CONFIGURATION)";
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = stabs;
 				EXPORTED_SYMBOLS_FILE = "quesa-export-gcc3.txt";
-				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
-				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
-				INFOPLIST_PREPROCESS = YES;
-				INIT_ROUTINE = _E3MacMachoFrameworkInit;
-				INSTALL_PATH = "@executable_path/../Frameworks/";
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x12000000,
 				);
-				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
-				PRODUCT_NAME = Quesa;
 				SYMROOT = "build-GCC3.3";
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
 		};
@@ -2264,7 +2202,6 @@
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Static_GCC3/$(CONFIGURATION)";
 				DEBUG_INFORMATION_FORMAT = stabs;
 				LIBRARY_STYLE = STATIC;
-				PRODUCT_NAME = Quesa;
 				SYMROOT = "build-GCC3.3";
 				WARNING_CFLAGS = "-Wmost";
 			};
