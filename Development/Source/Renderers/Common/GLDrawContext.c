@@ -165,7 +165,8 @@ gldrawcontext_mac_calc_window_origin( CGrafPtr inPort )
 //-----------------------------------------------------------------------------
 static void *
 gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
-						TQ3Boolean shareTextures )
+						TQ3Boolean shareTextures,
+						TQ3Uns32 stencilBits )
 {	GLint					glAttributes[kMaxGLAttributes];
 	TQ3Uns32				numAttributes;
 	TQ3Uns32				sysVersion = 0;
@@ -256,6 +257,8 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	glAttributes[numAttributes++] = AGL_RGBA;
 	glAttributes[numAttributes++] = AGL_DEPTH_SIZE;
 	glAttributes[numAttributes++] = (GLint)depthBits;
+	glAttributes[numAttributes++] = AGL_STENCIL_SIZE;
+	glAttributes[numAttributes++] = (GLint)stencilBits;
 	
 	if (drawContextData.doubleBufferState)
 		glAttributes[numAttributes++] = AGL_DOUBLEBUFFER;
@@ -786,7 +789,7 @@ gldrawcontext_x11_updatepos(void *glContext)
 #if QUESA_OS_WIN32
 static void *
 gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
-						TQ3Boolean shareTextures )
+						TQ3Boolean shareTextures, TQ3Uns32 stencilBits )
 {	TQ3ObjectType			drawContextType;
 	TQ3DrawContextData		drawContextData;
     PIXELFORMATDESCRIPTOR	pixelFormatDesc;
@@ -897,6 +900,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
     pixelFormatDesc.dwFlags    = pfdFlags;
     pixelFormatDesc.cColorBits = colorBits;
     pixelFormatDesc.cDepthBits = (TQ3Uns8)depthBits;
+    pixelFormatDesc.cStencilBits = stencilBits;
     pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
 
 	if (drawContextData.doubleBufferState)
@@ -1326,6 +1330,7 @@ gldrawcontext_be_updatepos(void *glContext)
 void *
 GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags)
 {	TQ3Uns32			preferredDepthBits = 32;
+	TQ3Uns32			preferredStencilBits = 0;
 	void				*glContext;
 	TQ3RendererObject	theRenderer;
 	TQ3Boolean			shareTextures;
@@ -1347,6 +1352,16 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 	
 	
 	
+	// Check for scissor depth preference.
+	if (kQ3Failure == Q3Object_GetProperty( theDrawContext,
+		kQ3DrawContextPropertyGLStencilBufferDepth,
+		sizeof(preferredStencilBits), NULL, &preferredStencilBits ) )
+	{
+		preferredStencilBits = 0;	// default value
+	}
+	
+	
+	
 	// Check for the texture sharing preference.
 	if (kQ3Failure == Q3Object_GetProperty( theDrawContext, kQ3DrawContextPropertyGLTextureSharing,
 		sizeof(shareTextures), NULL, &shareTextures ) )
@@ -1361,13 +1376,15 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 	glContext = gldrawcontext_cocoa_new(theDrawContext);
 	
 #elif QUESA_OS_MACINTOSH
-	glContext = gldrawcontext_mac_new(theDrawContext, preferredDepthBits, shareTextures);
+	glContext = gldrawcontext_mac_new( theDrawContext, preferredDepthBits,
+		shareTextures, preferredStencilBits );
 
 #elif QUESA_OS_UNIX
 	glContext = gldrawcontext_x11_new(theDrawContext);
 
 #elif QUESA_OS_WIN32
-	glContext = gldrawcontext_win_new(theDrawContext, preferredDepthBits, shareTextures);
+	glContext = gldrawcontext_win_new( theDrawContext, preferredDepthBits,
+		shareTextures, preferredStencilBits );
 
 #elif QUESA_OS_BE
 	glContext = gldrawcontext_be_new(theDrawContext);
