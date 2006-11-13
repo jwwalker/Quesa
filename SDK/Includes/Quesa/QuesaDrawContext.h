@@ -134,6 +134,10 @@ extern "C" {
  *															possible.
  *															Data type: TQ3Boolean.
  *															Default: kQ3True
+ *	@constant	kQ3DrawContextPropertyGLStencilBufferDepth	Desired bit depth of OpenGL stencil
+ *															buffer.
+ *															Data type: TQ3Uns32.
+ *															Default: 0 (no stencil buffer)
  *	@constant	kQ3DrawContextPropertySwapBufferInEndPass	If true, requests that the renderer
  *															swap buffers in its EndPass method.
  *															Only relevant to double-buffered contexts.
@@ -146,6 +150,7 @@ enum {
 	kQ3DrawContextPropertyWritableDepthBuffer		= Q3_METHOD_TYPE('w', 'r', 'd', 'b'),
 	kQ3DrawContextPropertyGLDepthFunc				= Q3_METHOD_TYPE('g', 'l', 'd', 'f'),
 	kQ3DrawContextPropertyGLTextureSharing			= Q3_METHOD_TYPE('g', 'l', 't', 's'),
+	kQ3DrawContextPropertyGLStencilBufferDepth		= Q3_METHOD_TYPE('g', 'l', 's', 'd'),
 	kQ3DrawContextPropertySwapBufferInEndPass		= Q3_METHOD_TYPE('s', 'b', 'e', 'p'),
 	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
 };
