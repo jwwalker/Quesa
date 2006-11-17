@@ -412,6 +412,20 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	// in a fixed coordinate system.  However we use camera coordinates for rendering.
 	thePrim->numVerts = numVerts;
 	Q3Memory_Copy(theVertices, thePrim->theVertices, numVerts * sizeof(TQ3FVertex3D));
+	
+	
+	
+	// To transform the normal vectors, we need the inverse transpose of the
+	// local to camera matrix.
+	if (instanceData->stateMatrixLocalToCameraInvTrValid == kQ3False)
+	{
+		TQ3Matrix4x4	theInv;
+		Q3Matrix4x4_Invert( &instanceData->stateMatrixLocalToCamera, &theInv );
+		Q3Matrix4x4_Transpose( &theInv, &instanceData->stateMatrixLocalToCameraInvTr );
+		instanceData->stateMatrixLocalToCameraInvTrValid = kQ3True;
+	}
+
+
 
 	vertFlags = thePrim->theVertices[0].theFlags;
 	
@@ -425,9 +439,9 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 		if (E3Bit_IsSet(vertFlags, kQ3FVertexHaveNormal))
 			{
 			Q3Vector3D_Transform(&thePrim->theVertices[n].theNormal,
-				&instanceData->stateMatrixLocalToCamera,
+				&instanceData->stateMatrixLocalToCameraInvTr,
 				&thePrim->theVertices[n].theNormal);
-			Q3Vector3D_Normalize(&thePrim->theVertices[n].theNormal,
+			Q3FastVector3D_Normalize(&thePrim->theVertices[n].theNormal,
 				&thePrim->theVertices[n].theNormal);
 			}
 		}
