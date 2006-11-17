@@ -197,6 +197,8 @@ typedef struct TQ3InteractiveData {
 	TQ3Point3D				stateLocalCameraPosition;
 	TQ3Vector3D				stateLocalCameraViewVector;
 	TQ3Matrix4x4			stateMatrixLocalToCamera;
+	TQ3Matrix4x4			stateMatrixLocalToCameraInvTr;
+	TQ3Boolean				stateMatrixLocalToCameraInvTrValid;
 	TQ3Matrix4x4			stateMatrixCameraToFrustum;
 	TQ3ColorRGB				stateDefaultDiffuseColour;
 	TQ3ColorRGB				stateDefaultSpecularColour;

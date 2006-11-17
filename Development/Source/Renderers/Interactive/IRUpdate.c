@@ -88,6 +88,7 @@ ir_state_reset(TQ3InteractiveData *instanceData)
     Q3Point3D_Set( &instanceData->stateLocalCameraPosition,       0.0f, 0.0f,  0.0f);
     Q3Vector3D_Set(&instanceData->stateLocalCameraViewVector,     0.0f, 0.0f, -1.0f);
     Q3Matrix4x4_SetIdentity(&instanceData->stateMatrixLocalToCamera);
+	instanceData->stateMatrixLocalToCameraInvTrValid = kQ3False;
     Q3Matrix4x4_SetIdentity(&instanceData->stateMatrixCameraToFrustum);
     Q3ColorRGB_Set(&instanceData->stateDefaultDiffuseColour,      kQ3ViewDefaultDiffuseColor);
     Q3ColorRGB_Set(&instanceData->stateDefaultSpecularColour,     kQ3ViewDefaultSpecularColor);
@@ -328,6 +329,7 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 
 	// Update our state
 	instanceData->stateMatrixLocalToCamera = *theMatrix;
+	instanceData->stateMatrixLocalToCameraInvTrValid = kQ3False;
 
 
 
