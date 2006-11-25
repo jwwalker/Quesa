@@ -1,0 +1,46 @@
+// Architectures
+ARCHS = ppc i386
+
+// Build Locations
+SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk
+
+// Search Paths
+HEADER_SEARCH_PATHS = ../Qut/Mac ../Qut
+FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "$(SRCROOT)/../../Libraries/Mac/Framework_Universal/Release"
+FRAMEWORK_SEARCH_PATHS = $(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks $(FRAMEWORK_SEARCH_PATHS_QUOTED_1)
+
+// Build Options
+DEBUG_INFORMATION_FORMAT = dwarf
+PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO
+
+// Linking
+PREBINDING = NO
+ZERO_LINK = NO
+
+// Packaging
+INFOPLIST_FILE = XCode-Info.plist
+INFOPLIST_PREPROCESS = YES
+
+// Deployment
+COPY_PHASE_STRIP = NO					// Strip Debug Symbols During Copy
+
+// Language
+GCC_PREFIX_HEADER = Geom Test_Prefix.pch
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+
+// Code Generation
+GCC_DEBUGGING_SYMBOLS = full			// Level of Debug Symbols
+GCC_ENABLE_SYMBOL_SEPARATION = NO		// Separate PCH Symbols (incompatible
+										// with DWARF)
+GCC_FAST_MATH = YES						// Relax IEEE Compliance
+GCC_SYMBOLS_PRIVATE_EXTERN = YES		// Symbols Hidden by Default
+GCC_INLINES_ARE_PRIVATE_EXTERN = YES	// Inline Functions Hidden
+
+// Warnings
+GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES	// Missing Function Prototypes
+GCC_WARN_ABOUT_RETURN_TYPE = YES		// Mismatched Return Type
+GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO
+
+// Preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = QUESA_OS_MACINTOSH=1 TARGET_API_MAC_CARBON=1
+
