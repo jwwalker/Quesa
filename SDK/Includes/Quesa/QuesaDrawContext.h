@@ -143,6 +143,11 @@ extern "C" {
  *															Only relevant to double-buffered contexts.
  *															Data type: TQ3Boolean.
  *															Default: kQ3True.
+ *	@constant	kQ3DrawContextPropertySyncToRefresh			If true, requests that the renderer
+ *															synchronize drawing with the screen
+ *															refresh rate.
+ *															Data type: TQ3Boolean.
+ *															Default: kQ3False.
  */
 enum {
 	kQ3DrawContextPropertyClearDepthBufferFlag		= Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
@@ -152,6 +157,7 @@ enum {
 	kQ3DrawContextPropertyGLTextureSharing			= Q3_METHOD_TYPE('g', 'l', 't', 's'),
 	kQ3DrawContextPropertyGLStencilBufferDepth		= Q3_METHOD_TYPE('g', 'l', 's', 'd'),
 	kQ3DrawContextPropertySwapBufferInEndPass		= Q3_METHOD_TYPE('s', 'b', 'e', 'p'),
+	kQ3DrawContextPropertySyncToRefresh				= Q3_METHOD_TYPE('g', 'l', 's', 'r'),
 	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
 };
 
