@@ -221,7 +221,8 @@ QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath )
 					case 3:
 						pixelType = kQ3PixelTypeRGB24;
 						break;
-						
+					
+					default:	// quiet an uninitialized-variable warning
 					case 4:
 						pixelType = kQ3PixelTypeARGB32;
 						break;
@@ -648,7 +649,7 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 									TQ3PixelType	pixelType,
 									TQ3Boolean		wantMipMaps)
 {	TQ3Uns32				x, y, theWidth, theHeight, rowBytes, pixelBytes;
-	TQ3TextureObject		qd3dTextureObject;
+	TQ3TextureObject		qd3dTextureObject = NULL;
 	TQ3StorageObject		qd3dMemoryStorage;
 	TQ3StoragePixmap		qd3dPixMap;
 	TQ3Mipmap				qd3dMipMap;
