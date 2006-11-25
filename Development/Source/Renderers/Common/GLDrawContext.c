@@ -407,6 +407,20 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	// perhaps due to the CFM loading order?), so we now defer it until this
 	// point.
 	aglConfigure(AGL_RETAIN_RENDERERS, GL_TRUE);
+	
+	
+	
+	// Maybe do VBL Sync
+	TQ3Boolean	doSync;
+	if ( (kQ3Success == Q3Object_GetProperty( theDrawContext,
+		kQ3DrawContextPropertySyncToRefresh, sizeof(doSync), NULL, &doSync ))
+		&&
+		doSync
+	)
+	{
+		GLint swapInt = 1;
+		aglSetInteger( glContext, AGL_SWAP_INTERVAL, &swapInt );
+	}
 
 
 
