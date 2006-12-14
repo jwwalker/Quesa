@@ -42,6 +42,7 @@
 */
 #include "MakeTransform.h"
 
+#include "CVRMLReader.h"
 #include "IsKeyPresent.h"
 
 #if __MACH__
@@ -52,6 +53,12 @@
 	#include <QuesaTransform.h>
 #endif
 
+#include <ostream>
+
+namespace
+{
+	const float	kMinScale	= 0.00001f;
+}
 
 static bool	GetVec3Value( PolyValue::Dictionary& inDict, const char* inName,
 							TQ3Vector3D& outVec )
@@ -77,6 +84,7 @@ static bool	GetVec3Value( PolyValue::Dictionary& inDict, const char* inName,
 }
 
 static bool GetRotationValue( PolyValue::Dictionary& inDict, const char* inName,
+								CVRMLReader& inReader,
 								TQ3Matrix4x4& outMatrix )
 {
 	bool	gotVec = false;
@@ -101,10 +109,15 @@ static bool GetRotationValue( PolyValue::Dictionary& inDict, const char* inName,
 				if (axisLen > FLT_EPSILON)
 				{
 					Q3FastVector3D_Scale( &theAxis, 1.0f/axisLen, &theAxis );
+					Q3Matrix4x4_SetRotateAboutAxis( &outMatrix, &theOrigin,
+						&theAxis, theAngle );
+					gotVec = true;
 				}
-				Q3Matrix4x4_SetRotateAboutAxis( &outMatrix, &theOrigin,
-					&theAxis, theAngle );
-				gotVec = true;
+				else if (inReader.GetDebugStream() != NULL)
+				{
+					*inReader.GetDebugStream() <<
+						"Skipping rotation about zero axis." << std::endl;
+				}
 			}
 		}
 	}
@@ -119,10 +132,12 @@ static bool GetRotationValue( PolyValue::Dictionary& inDict, const char* inName,
 				a VRML 1 or 2 Transform node.
 	
 	@param		inTransformDict		Field dictionary of the node.
+	@param		inReader			The reader object.
 	
 	@result		A transform object.
 */
-CQ3ObjectRef	MakeTransform( PolyValue::Dictionary& inTransformDict )
+CQ3ObjectRef	MakeTransform( PolyValue::Dictionary& inTransformDict,
+							CVRMLReader& inReader )
 {
 	CQ3ObjectRef	theTransform;
 	TQ3Matrix4x4	theMatrix;
@@ -132,11 +147,35 @@ CQ3ObjectRef	MakeTransform( PolyValue::Dictionary& inTransformDict )
 	
 	if (GetVec3Value( inTransformDict, "scale", scaleVec ))
 	{
+		bool	fudgedScale = false;
+		
+		if (fabsf(scaleVec.x) < kMinScale)
+		{
+			scaleVec.x = kMinScale;
+			fudgedScale = true;
+		}
+		if (fabsf(scaleVec.y) < kMinScale)
+		{
+			scaleVec.y = kMinScale;
+			fudgedScale = true;
+		}
+		if (fabsf(scaleVec.z) < kMinScale)
+		{
+			scaleVec.z = kMinScale;
+			fudgedScale = true;
+		}
+		if (fudgedScale and (inReader.GetDebugStream() != NULL))
+		{
+			*inReader.GetDebugStream() << "Fudging zero scale factor." <<
+				std::endl;
+		}
 		Q3Matrix4x4_SetScale( &theMatrix, scaleVec.x, scaleVec.y, scaleVec.z );
 		haveTransform = true;
+		
 		TQ3Matrix4x4	scaleOrient;
 		
-		if (GetRotationValue( inTransformDict, "scaleOrientation", scaleOrient ))
+		if (GetRotationValue( inTransformDict, "scaleOrientation", inReader,
+			scaleOrient ))
 		{
 			TQ3Matrix4x4	orientInv;
 			Q3Matrix4x4_Invert( &scaleOrient, &orientInv );
@@ -146,7 +185,7 @@ CQ3ObjectRef	MakeTransform( PolyValue::Dictionary& inTransformDict )
 	}
 	
 	TQ3Matrix4x4	rotMtx;
-	if (GetRotationValue( inTransformDict, "rotation", rotMtx ))
+	if (GetRotationValue( inTransformDict, "rotation", inReader, rotMtx ))
 	{
 		Q3Matrix4x4_Multiply( &theMatrix, &rotMtx, &theMatrix );
 		haveTransform = true;
