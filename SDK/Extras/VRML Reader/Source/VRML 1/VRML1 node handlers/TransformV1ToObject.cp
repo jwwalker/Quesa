@@ -68,7 +68,7 @@ CQ3ObjectRef	TransformV1ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 #pragma unused( inReader )
 	PolyValue::Dictionary&	theDict( ioNode.GetDictionary() );
 	
-	CQ3ObjectRef	theTransform( MakeTransform( theDict ) );
+	CQ3ObjectRef	theTransform( MakeTransform( theDict, inReader ) );
 
 	if (theTransform.isvalid())
 	{

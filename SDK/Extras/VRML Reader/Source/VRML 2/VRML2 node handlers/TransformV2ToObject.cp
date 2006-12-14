@@ -74,7 +74,7 @@ CQ3ObjectRef	TransformV2ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 		
 	if (theObject.isvalid())
 	{
-		CQ3ObjectRef	theTransform = MakeTransform( ioNode.GetDictionary() );
+		CQ3ObjectRef	theTransform = MakeTransform( ioNode.GetDictionary(), inReader );
 		if (theTransform.isvalid())
 		{
 			// ChildrenV2ToObject may have produced a single child object

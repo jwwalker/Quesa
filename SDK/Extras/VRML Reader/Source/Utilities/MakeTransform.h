@@ -48,6 +48,7 @@
 	#include <CQ3ObjectRef.h>
 #endif
 #include "PolyValue.h"
+class CVRMLReader;
 
 /*!
 	@function	MakeTransform
@@ -56,7 +57,8 @@
 				a VRML 1 or 2 Transform node.
 	
 	@param		inTransformDict		Field dictionary of the node.
+	@param		inReader			The reader object.
 	
 	@result		A transform object.
 */
-CQ3ObjectRef	MakeTransform( PolyValue::Dictionary& inTransformDict );
+CQ3ObjectRef	MakeTransform( PolyValue::Dictionary& inTransformDict, CVRMLReader& inReader );
