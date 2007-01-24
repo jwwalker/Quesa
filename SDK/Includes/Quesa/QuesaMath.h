@@ -4322,16 +4322,18 @@ Q3Math_InvSquareRoot (
 #define __Q3FastVector2D_Normalize(_v1, _v2)								\
 	do																		\
 		{																	\
-		float invLength = 1.0f / __Q3FastVector2D_Length(_v1);				\
-		__Q3FastVector2D_Scale(_v1, invLength, _v2);						\
+		float theLength = __Q3FastVector2D_Length(_v1);						\
+		if (theLength != 0.0f)												\
+			__Q3FastVector2D_Scale(_v1, 1.0f / theLength, _v2);				\
 		}																	\
 	while (0)
 
 #define __Q3FastVector3D_Normalize(_v1, _v2)								\
 	do																		\
 		{																	\
-		float invLength = 1.0f / __Q3FastVector3D_Length(_v1);				\
-		__Q3FastVector3D_Scale(_v1, invLength, _v2);						\
+		float theLength = __Q3FastVector3D_Length(_v1);						\
+		if (theLength != 0.0f)												\
+			__Q3FastVector3D_Scale(_v1, 1.0f / theLength, _v2);				\
 		}																	\
 	while (0)
 
