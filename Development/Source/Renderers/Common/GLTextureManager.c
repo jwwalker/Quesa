@@ -53,7 +53,6 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "GLTextureManager.h"
-#include "IRPrefix.h"
 
 #ifndef __cplusplus
 	#error This file must be compiled as C++.
