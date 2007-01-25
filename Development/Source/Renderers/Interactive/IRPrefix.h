@@ -125,14 +125,6 @@ typedef struct TQ3QualityFilter {
 } TQ3QualityFilter;
 
 
-// Cached texture data
-typedef struct TQ3CachedTexture {
-	CQ3ObjectRef			cachedTextureObject;
-	TQ3Uns32				editIndexTexture;
-	TQ3Uns32				editIndexStorage;
-	GLuint					glTextureName;
-} TQ3CachedTexture;
-
 // glBlendEquation type
 #if QUESA_OS_WIN32
 	typedef void (__stdcall * TQ3BlendEquationProcPtr) (GLenum blendType);
