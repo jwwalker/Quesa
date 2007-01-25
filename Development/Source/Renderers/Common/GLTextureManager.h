@@ -46,7 +46,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
-
+#include "CQ3ObjectRef.h"
 
 
 
@@ -65,7 +65,16 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-struct TQ3CachedTexture;
+
+// Cached texture data
+struct TQ3CachedTexture
+{
+	CQ3ObjectRef			cachedTextureObject;
+	TQ3Uns32				editIndexTexture;
+	TQ3Uns32				editIndexStorage;
+	GLuint					glTextureName;
+};
+
 
 // Texture cache opaque pointer
 typedef struct TQ3TextureCache*	TQ3TextureCachePtr;
