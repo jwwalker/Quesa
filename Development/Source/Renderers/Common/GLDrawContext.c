@@ -338,7 +338,22 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		GLTextureMgr_AddContext( glContext, sharingContext );
 		
 		if (drawContextType == kQ3DrawContextTypeMacintosh)
+			{
 			aglSetDrawable(glContext, (AGLDrawable) thePort);
+			
+			TQ3Boolean	putBehind;
+			if ( (kQ3Success == Q3Object_GetProperty( theDrawContext,
+				kQ3DrawContextPropertySurfaceBehindWindow, sizeof(putBehind),
+				NULL, &putBehind ))
+				&&
+				putBehind
+			)
+				{
+				GLint	backOrder = -1;
+				aglSetInteger( glContext, AGL_SURFACE_ORDER, &backOrder );
+				}
+			
+			}
 
 		else if (drawContextType == kQ3DrawContextTypePixmap)
 			{

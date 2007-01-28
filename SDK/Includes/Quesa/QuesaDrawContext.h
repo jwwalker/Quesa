@@ -148,6 +148,11 @@ extern "C" {
  *															refresh rate.
  *															Data type: TQ3Boolean.
  *															Default: kQ3False.
+ *  @constant	kQ3DrawContextPropertySurfaceBehindWindow	If true, requests that drawing occur on
+ *															a surface behind the window.  Only
+ *															applies to Mac window contexts.
+ *															Data type: TQ3Boolean.
+ *															Default: kQ3False.
  */
 enum {
 	kQ3DrawContextPropertyClearDepthBufferFlag		= Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
@@ -158,6 +163,7 @@ enum {
 	kQ3DrawContextPropertyGLStencilBufferDepth		= Q3_METHOD_TYPE('g', 'l', 's', 'd'),
 	kQ3DrawContextPropertySwapBufferInEndPass		= Q3_METHOD_TYPE('s', 'b', 'e', 'p'),
 	kQ3DrawContextPropertySyncToRefresh				= Q3_METHOD_TYPE('g', 'l', 's', 'r'),
+	kQ3DrawContextPropertySurfaceBehindWindow		= Q3_METHOD_TYPE('s', 'u', 'b', 'w'),
 	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
 };
 
