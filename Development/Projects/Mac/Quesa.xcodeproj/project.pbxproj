@@ -255,6 +255,8 @@
 		B1756BAB080A73C00056134C /* QD3DDrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB5055E63B100CA83BE /* QD3DDrawContext.c */; };
 		B1756BAC080A73C00056134C /* GLCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C19055E63B100CA83BE /* GLCamera.c */; };
 		B1756BAD080A73C00056134C /* E3Viewer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C12055E63B100CA83BE /* E3Viewer.c */; };
+		BE392D080B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
 		BE98E72309F763AC0040CE1B /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71E09F763AC0040CE1B /* AGL.framework */; };
 		BE98E72409F763AC0040CE1B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71F09F763AC0040CE1B /* Carbon.framework */; };
@@ -813,6 +815,7 @@
 		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
 		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef_Gets.h; sourceTree = "<group>"; };
 		BE5FCA270AFFED730080C922 /* Quesa-project-config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Quesa-project-config.xcconfig"; sourceTree = "<group>"; };
 		BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Quesa-framework-targets.xcconfig"; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
@@ -1275,6 +1278,7 @@
 		AB83B5D7055E72B90034F56A /* Quesa */ = {
 			isa = PBXGroup;
 			children = (
+				BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */,
 				BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */,
 				AB83B5D8055E72B90034F56A /* Quesa.h */,
 				AB83B5D9055E72B90034F56A /* QuesaCamera.h */,
@@ -1392,6 +1396,7 @@
 				AB83B605055E72B90034F56A /* QuesaView.h in Headers */,
 				AB83B606055E72B90034F56A /* QuesaViewer.h in Headers */,
 				BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */,
+				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1423,6 +1428,7 @@
 				BEDC06A108A6812D00FB3A82 /* QuesaView.h in Headers */,
 				BEDC06A208A6812D00FB3A82 /* QuesaViewer.h in Headers */,
 				BEDC06A608A6812D00FB3A82 /* CQ3ObjectRef.h in Headers */,
+				BE392D080B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
