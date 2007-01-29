@@ -1,0 +1,9 @@
+//
+// Prefix header for all source files of the 'HIQuesaView' target in the 'HIQuesaView' project.
+//
+
+#include <Carbon/Carbon.h>
+#include <Quesa/Quesa.h>
+#include "HIFramework.h"
+#include "TApplication.h"
+#include "TWindow.h"

@@ -1,0 +1,14 @@
+This sample program is for Mac OS X only.  It illustrates the use of Quesa as a
+custom control in a compositing Carbon window.
+
+In compositing windows (which are preferred over non-compositing windows),
+controls are drawn from back to front so that controls in front can draw over
+controls in back.  In can be tricky to reconcile this scheme with Quesa's
+OpenGL-based renderers, which normally drawn in an OpenGL drawing surface that
+is in front of the rest of the window.  This sample solves that problem by
+putting the OpenGL surface behind the window, and cutting holes in the window to
+let the OpenGL drawing show through.
+
+See comments in HIQuesaView.h for more information on how to use this custom
+control.
+
