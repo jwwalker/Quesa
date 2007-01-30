@@ -486,29 +486,7 @@ ir_texture_set_params( TQ3InteractiveData *instanceData, TQ3ViewObject inView,
 	// Set up the UV transform
 	TQ3Matrix3x3	theTransformMtx;
 	Q3Shader_GetUVTransform( inShader, &theTransformMtx );
-	GLfloat		glMatrix[16];
-	glMatrix[0]  = theTransformMtx.value[0][0];
-	glMatrix[1]  = theTransformMtx.value[0][1];
-	glMatrix[2]  = theTransformMtx.value[0][2];
-	glMatrix[3]  = 0.0f;
-
-	glMatrix[4]  = theTransformMtx.value[1][0];
-	glMatrix[5]  = theTransformMtx.value[1][1];
-	glMatrix[6]  = theTransformMtx.value[1][2];
-	glMatrix[7]  = 0.0f;
-
-	glMatrix[8]  = 0.0f;
-	glMatrix[9]  = 0.0f;
-	glMatrix[10] = 0.0f;
-	glMatrix[11] = 0.0f;
-
-	glMatrix[12] = theTransformMtx.value[2][0];
-	glMatrix[13] = theTransformMtx.value[2][1];
-	glMatrix[14] = theTransformMtx.value[2][2];
-	glMatrix[15] = 1.0f;
-
-	glMatrixMode( GL_TEXTURE );
-	glLoadMatrixf( glMatrix );
+	GLUtils_LoadShaderUVTransform( &theTransformMtx );
 	
 	
 	
