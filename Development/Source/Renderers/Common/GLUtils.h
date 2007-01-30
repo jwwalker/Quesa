@@ -93,6 +93,9 @@ void		GLUtils_UpdateClientState( TQ3Boolean enable, TQ3Boolean* stateFlag, GLenu
 void*		GLGetProcAddress( const char* funcName );
 
 
+// Load the OpenGL texture matrix with a Quesa UV transform matrix
+void		GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix );
+
 
 //=============================================================================
 //		C++ postamble
