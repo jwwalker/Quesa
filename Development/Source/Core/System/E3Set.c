@@ -2632,31 +2632,32 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 		return qd3dStatus ;
 		}
 
+
 	if ( result != child )
 		{
 		// Empty the final attribute set
 		if ( resultSet->Empty () == kQ3Failure )
 			return kQ3Failure ;
-		}
 
 
-	// Process the child
-	if ( qd3dStatus == kQ3Success )
-		{
-		// Copy the mask and attributes directly
-		resultSet->setData.theMask    = childSet->setData.theMask ;
-		resultSet->setData.attributes = childSet->setData.attributes ;
-		if ( resultSet->setData.attributes.surfaceShader != NULL )
-			resultSet->setData.attributes.surfaceShader = Q3Shared_GetReference ( childSet->setData.attributes.surfaceShader ) ;
-
-
-
-		// Iterate over any additional elements
-		if ( childSet->setData.theTable != NULL )
+		// Process the child
+		if ( qd3dStatus == kQ3Success )
 			{
-			paramInfo.theResult = result ;
-			paramInfo.isChild   = kQ3True ;
-			qd3dStatus = e3set_iterate_elements ( & childSet->setData, e3attributeset_iterator_inherit, &paramInfo ) ;
+			// Copy the mask and attributes directly
+			resultSet->setData.theMask    = childSet->setData.theMask ;
+			resultSet->setData.attributes = childSet->setData.attributes ;
+			if ( resultSet->setData.attributes.surfaceShader != NULL )
+				resultSet->setData.attributes.surfaceShader = Q3Shared_GetReference ( childSet->setData.attributes.surfaceShader ) ;
+
+
+
+			// Iterate over any additional elements
+			if ( childSet->setData.theTable != NULL )
+				{
+				paramInfo.theResult = result ;
+				paramInfo.isChild   = kQ3True ;
+				qd3dStatus = e3set_iterate_elements ( & childSet->setData, e3attributeset_iterator_inherit, &paramInfo ) ;
+				}
 			}
 		}
 
