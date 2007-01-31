@@ -614,13 +614,16 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 	//
 	// We always create an attribute set, since our triangles will always have at least
 	// a triangle normal for better performance when backface culling is on.
-	if (theTriMesh->triMeshAttributeSet == NULL)
-		theTriangle->triangleAttributeSet = Q3AttributeSet_New();
-	else
-		theTriangle->triangleAttributeSet = Q3Object_Duplicate(theTriMesh->triMeshAttributeSet);
+	theTriangle->triangleAttributeSet = Q3AttributeSet_New();
 
 	if (theTriangle->triangleAttributeSet != NULL)
 		{
+		// Copy overall TriMesh attributes to the triangle.
+		// If the TriMesh has a texture shader, the triangle will get a
+		// reference to that, not a duplicate.
+		Q3AttributeSet_Inherit( theTriMesh->triMeshAttributeSet,
+			theTriangle->triangleAttributeSet, theTriangle->triangleAttributeSet );
+		
 		// Add the attributes
 		for (n = 0; n < theTriMesh->numTriangleAttributeTypes; n++)
 			{
