@@ -621,8 +621,12 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 		// Copy overall TriMesh attributes to the triangle.
 		// If the TriMesh has a texture shader, the triangle will get a
 		// reference to that, not a duplicate.
-		Q3AttributeSet_Inherit( theTriMesh->triMeshAttributeSet,
-			theTriangle->triangleAttributeSet, theTriangle->triangleAttributeSet );
+		if (theTriMesh->triMeshAttributeSet != NULL)
+			{
+			Q3AttributeSet_Inherit( theTriMesh->triMeshAttributeSet,
+				theTriangle->triangleAttributeSet,
+				theTriangle->triangleAttributeSet );
+			}
 		
 		// Add the attributes
 		for (n = 0; n < theTriMesh->numTriangleAttributeTypes; n++)
