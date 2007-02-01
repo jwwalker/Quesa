@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -92,7 +92,6 @@ enum {
 	kQ3ViewStateAttributeTransparencyColour = 1 << 24,		// Transparency colour attribute changed
 	kQ3ViewStateAttributeSurfaceTangent		= 1 << 25,		// Surface tangent attribute changed
 	kQ3ViewStateAttributeHighlightState		= 1 << 26,		// Highlight switch attribute changed
-	kQ3ViewStateAttributeSurfaceShader		= 1 << 27,		// Surface shader attribute changed
 	kQ3ViewStateNone						= 0,			// Nothing changed
 	kQ3ViewStateAll							= 0xFFFFFFFF,	// Everything changed
 	kQ3ViewStateMatrixAny					= kQ3ViewStateMatrixLocalToWorld  |	// Any matrix changed
@@ -150,7 +149,6 @@ typedef struct TQ3ViewStackItem {
 	TQ3ColorRGB					attributeTransparencyColor;
 	TQ3Tangent2D				attributeSurfaceTangent;
 	TQ3Switch					attributeHighlightState;
-	TQ3SurfaceShaderObject		attributeSurfaceShader;
 } TQ3ViewStackItem;
 
 
@@ -315,7 +313,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	theItem->attributeAmbientCoefficient = kQ3ViewDefaultAmbientCoefficient;
 	theItem->attributeSpecularControl    = kQ3ViewDefaultSpecularControl;
 	theItem->attributeHighlightState     = kQ3ViewDefaultHighlightState;
-	theItem->attributeSurfaceShader      = NULL;
+
 	Q3Param2D_Set(&theItem->attributeSurfaceUV, 0.0f, 0.0f);
 	Q3Param2D_Set(&theItem->attributeShadingUV, 0.0f, 0.0f);
 	Q3Vector3D_Set(&theItem->attributeNormal,   0.0f, 1.0f, 0.0f);
@@ -507,9 +505,6 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 
 		if ( ( stateChange & kQ3ViewStateAttributeHighlightState ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeHighlightState, &theItem->attributeHighlightState ) ;
-
-		if ( ( stateChange & kQ3ViewStateAttributeSurfaceShader ) && qd3dStatus != kQ3Failure )
-			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeSurfaceShader, &theItem->attributeSurfaceShader ) ;
 		}
 	
 	
@@ -590,7 +585,6 @@ e3view_stack_push ( E3View* view )
 		E3Shared_Acquire ( &newTop->shaderIllumination,     oldTop->shaderIllumination ) ;
 		E3Shared_Acquire ( &newTop->shaderSurface,          oldTop->shaderSurface ) ;
 		E3Shared_Acquire ( &newTop->styleHighlight,         oldTop->styleHighlight ) ;
-		E3Shared_Acquire ( &newTop->attributeSurfaceShader, oldTop->attributeSurfaceShader ) ;
 		}
 
 
@@ -624,7 +618,6 @@ e3view_stack_pop ( E3View* view )
 	Q3Object_CleanDispose ( & view->instanceData.viewStack->shaderIllumination ) ;
 	Q3Object_CleanDispose ( & view->instanceData.viewStack->shaderSurface ) ;
 	Q3Object_CleanDispose ( & view->instanceData.viewStack->styleHighlight ) ;
-	Q3Object_CleanDispose ( & view->instanceData.viewStack->attributeSurfaceShader ) ;
 
 
 
@@ -3299,12 +3292,12 @@ E3View_State_SetAttributeSurfaceShader(TQ3ViewObject theView, const TQ3SurfaceSh
 
 
 	// Set the value
-	E3Shared_Replace ( & ( (E3View*) theView )->instanceData.viewStack->attributeSurfaceShader, *theData ) ;
+	E3Shared_Replace ( & ( (E3View*) theView )->instanceData.viewStack->shaderSurface, *theData ) ;
 
 
 
 	// Update the renderer
-	e3view_stack_update ( (E3View*) theView, kQ3ViewStateAttributeSurfaceShader ) ;
+	e3view_stack_update ( (E3View*) theView, kQ3ViewStateShaderSurface ) ;
 	}
 
 
