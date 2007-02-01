@@ -182,7 +182,8 @@ GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds, TQ3Bo
 //=============================================================================
 //      GLUtils_ConvertPixelType : Convert a QD3D pixel type.
 //-----------------------------------------------------------------------------
-//		Note :	Given a QD3D pixel type return the closest OpenGL texture type.
+//		Note :	Given a QD3D pixel type return the closest OpenGL texture type
+//				(internal format).
 //
 //				Although we always pass 32bpp RGBA pixel data to OpenGL, we use
 //				the QD3D pixel type as a hint to conserve VRAM by picking a
@@ -212,7 +213,10 @@ GLUtils_ConvertPixelType(TQ3PixelType pixelType)
 			break;
 
 		case kQ3PixelTypeARGB16:
-			glPixelType = GL_RGB5_A1;
+			glPixelType = GL_RGBA;
+			// Bug workaround: when we had GL_RGB5_A1 here, part of the area
+			// that should have been transparent was opaque, on a PowerMac with
+			// an nVIDIA card.
 			break;
 
 		case kQ3PixelTypeRGB16:
