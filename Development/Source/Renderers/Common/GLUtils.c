@@ -384,6 +384,31 @@ GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix )
 }
 
 
+
+//=============================================================================
+//      GLUtils_SpecularControlToGLShininess :
+//					Map Quesa specular control to OpenGL shininess.
+//-----------------------------------------------------------------------------
+//		This function was arrived at heuristically, but notice several properties:
+//		1. as long as specularControl >= 0, shininess >= 0.
+//		2. as specularControl increases, shininess increases.
+//		3. as specularControl tends to infinity, shininess approaches 128 (the maximum
+//		allowed by OpenGL).
+GLfloat		GLUtils_SpecularControlToGLShininess( float inSpecControl )
+{
+	GLfloat		shininess;
+	
+	if (inSpecControl < 0.0f)
+		inSpecControl = 0.0f;
+
+
+	shininess = 128.0f - (20.0f * 128.0f)/(inSpecControl + 20.0f);
+	
+	return shininess;
+}
+
+
+
 //=============================================================================
 //      GLGetProcAddress : Get a function pointer associated with an OpenGL extension
 //-----------------------------------------------------------------------------

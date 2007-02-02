@@ -97,6 +97,10 @@ void*		GLGetProcAddress( const char* funcName );
 void		GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix );
 
 
+// Map Quesa specular control to OpenGL shininess
+GLfloat		GLUtils_SpecularControlToGLShininess( float inSpecControl );
+
+
 //=============================================================================
 //		C++ postamble
 //-----------------------------------------------------------------------------
