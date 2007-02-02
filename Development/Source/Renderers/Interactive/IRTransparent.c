@@ -473,7 +473,7 @@ static void ir_geom_transparent_update_specular( const TQ3TransparentPrim* inPri
 		
 		specularControl = *ioSpecularControl = inPrim->specularControl;
 
-		shininess = IRRenderer_SpecularControl_to_GLshininess( specularControl );
+		shininess = GLUtils_SpecularControlToGLShininess( specularControl );
 		glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, shininess );
 	}
 }
