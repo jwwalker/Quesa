@@ -51,6 +51,7 @@
 #include "GLPrefix.h"
 #include "GLCamera.h"
 #include "GLDrawContext.h"
+#include "GLUtils.h"
 
 #include <algorithm>
 
@@ -176,7 +177,7 @@ static	bool operator==( const TQ3FogStyleData& inOne, const TQ3FogStyleData& inT
 void
 IRRenderer_State_StartPass(TQ3InteractiveData *instanceData, TQ3ViewObject theView)
 {
-
+#pragma unused( theView )
 
 	// Reset the state
 	ir_state_reset(instanceData);
@@ -216,32 +217,6 @@ IRRenderer_State_EndPass(TQ3InteractiveData *instanceData)
 
 	// Reset the state
 	ir_state_reset(instanceData);
-}
-
-
-
-
-
-//=============================================================================
-//      IRRenderer_SpecularControl_to_GLshininess : Map Quesa specular control to OpenGL shininess.
-//-----------------------------------------------------------------------------
-//		This function was arrived at heuristically, but notice several properties:
-//		1. as long as specularControl >= 0, shininess >= 0.
-//		2. as specularControl increases, shininess increases.
-//		3. as specularControl tends to infinity, shininess approaches 128 (the maximum
-//		allowed by OpenGL).
-GLfloat
-IRRenderer_SpecularControl_to_GLshininess( float specularControl )
-{
-	GLfloat		shininess;
-	
-	if (specularControl < 0.0f)
-		specularControl = 0.0f;
-
-
-	shininess = 128.0f - (20.0f * 128.0f)/(specularControl + 20.0f);
-	
-	return shininess;
 }
 
 
@@ -292,7 +267,7 @@ IRRenderer_State_AdjustGL(TQ3InteractiveData *instanceData)
 			instanceData->stateCurrentSpecularControl = instanceData->stateGeomSpecularControl;
 			specularControl                           = instanceData->stateCurrentSpecularControl;
 			
-			shininess = IRRenderer_SpecularControl_to_GLshininess( specularControl );
+			shininess = GLUtils_SpecularControlToGLShininess( specularControl );
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shininess);
 			}
 		}
@@ -740,7 +715,7 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 		if (styleData->state == kQ3On && (styleData->mode & kQ3AntiAliasModeMaskFullScreen))
 			fsaaLevel = (styleData->quality > 0.5f) ? 4 : 2;
 		else
-			fsaaLevel = 0;
+			fsaaLevel = 1;
 
 		if (!aglSetInteger((AGLContext) instanceData->glContext, ATI_FSAA_SAMPLES, &fsaaLevel))
 			{
@@ -863,6 +838,7 @@ IRRenderer_Update_Attribute_DiffuseColour(TQ3ViewObject			theView,
 							 			  TQ3InteractiveData	*instanceData,
 							 			  TQ3ColorRGB			*attributeData)
 {
+#pragma unused( theView )
 
 
 	// Update our state
@@ -883,6 +859,7 @@ IRRenderer_Update_Attribute_SpecularColour(TQ3ViewObject		theView,
 							 			  	TQ3InteractiveData	*instanceData,
 							 			  	TQ3ColorRGB			*attributeData)
 {
+#pragma unused( theView )
 
 
 	// Update our state
@@ -903,6 +880,7 @@ IRRenderer_Update_Attribute_SpecularControl(TQ3ViewObject		theView,
 							 			  	TQ3InteractiveData	*instanceData,
 							 			  	float				*attributeData)
 {
+#pragma unused( theView )
 
 
 	// Update our state
@@ -923,6 +901,7 @@ IRRenderer_Update_Attribute_HilightState(TQ3ViewObject			theView,
 							 			 TQ3InteractiveData		*instanceData,
 							 			 TQ3Switch				*attributeData)
 {
+#pragma unused( theView )
 
 
 	// Update our state
@@ -943,6 +922,7 @@ IRRenderer_Update_Attribute_TransparencyColour(TQ3ViewObject		theView,
 							 					TQ3InteractiveData	*instanceData,
 							 					TQ3ColorRGB			*attributeData)
 {
+#pragma unused( theView )
 
 
 	// Update our state
@@ -1003,7 +983,8 @@ IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 		case kQ3IlluminationTypePhong:
 			glEnable(GL_LIGHTING);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, instanceData->stateCurrentSpecularColour);
-			specularControl[0] = IRRenderer_SpecularControl_to_GLshininess( instanceData->stateCurrentSpecularControl );
+			specularControl[0] =
+				GLUtils_SpecularControlToGLShininess( instanceData->stateCurrentSpecularControl );
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, specularControl);
 			break;
 		}
