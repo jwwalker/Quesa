@@ -1,0 +1,179 @@
+3DMetafile ( 1 5 Normal tableofcontents0> ) 
+
+#   NAME:
+#      TriMesh-fancy.3dmf
+#
+#   DESCRIPTION:
+#       Test model that uses some rarely used features such as per-face texture
+#       shaders and explicit edges.
+#		    
+#   COPYRIGHT:
+#       Copyright (c) 2007, Quesa Developers. All rights reserved.
+#
+#       For the current release of Quesa, please see:
+#
+#           <http://quesa.sourceforge.net/>
+#       
+#       Redistribution and use in source and binary forms, with or without
+#       modification, are permitted provided that the following conditions
+#       are met:
+#       
+#           o Redistributions of source code must retain the above copyright
+#             notice, this list of conditions and the following disclaimer.
+#       
+#           o Redistributions in binary form must reproduce the above
+#             copyright notice, this list of conditions and the following
+#             disclaimer in the documentation and/or other materials provided
+#             with the distribution.
+#       
+#           o Neither the name of Quesa nor the names of its contributors
+#             may be used to endorse or promote products derived from this
+#             software without specific prior written permission.
+#       
+#       THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+#       "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+#       LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+#       A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+#       OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#       SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+#       TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+#       PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+#       LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+#       NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+#       SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+trimesh2: 
+Container ( 
+	TriMesh ( 
+		4 2 3 1 6 2 # numTriangles 
+		# numTriangleAttributeTypes 
+		# numEdges 
+		# numEdgeAttributeTypes 
+		# numPoints 
+		# numVertexAttributeTypes 
+		0 3 1 # faces
+		0 2 3 
+		2 4 3 
+		4 5 3 
+		0 3 0 1 # edges
+		2 3 1 2 
+		3 4 2 3 
+		-20 -20 0 # points
+		-20 10 0
+		0 0 0
+		0 30 0
+		20 -20 0 
+		20 10 0 
+		-20 -20 -1 20 30 1 False # bounding box
+	) 
+	AttributeArray ( # specular color for triangles
+		6 0 0 0 0 
+		0.2 0.6 0.8 
+		1 0 0 
+		0 1 0.5 
+		0 0.2 1 
+	) # specular color for triangles
+	Container ( # surface shaders for triangles
+		AttributeArray (
+			11 0 0 1 0 
+		) 
+		textureshader3: 
+		Container ( 
+			TextureShader ( ) 
+			pixmaptexture4: 
+			PixmapTexture ( 
+				8 8 36 32 RGB32 BigEndian BigEndian
+				0x000000FF000000FF0000FF000000FF00
+				0x0000FF000000FF000000FF000000FF00
+				0x01909860000000FF000000FF0000FF00
+				0x0000FF000000FF000000FF000000FF00
+				0x0000FF00047F00000000FF000000FF00
+				0x0000FF000000FF000000FF000000FF00
+				0x0000FF000000FF00000000000000FF00
+				0x0000FF000000FF000000FF000000FF00
+				0x0000FF000000FF000000FF00B7A401E6
+				0x0000FF000000FF000000FF000000FF00
+				0x0000FF000000FF000000FF000000FF00
+				0x000000500000FF000000FF000000FF00
+				0x0000FF000000FF000000FF000000FF00
+				0x0000FF00000000000000FF000000FF00
+				0x0000FF000000FF000000FF000000FF00
+				0x0000FF000000FF0001E856400000FF00
+				0x0000FF000000FF000000FF000000FF00
+				0x0000FF000000FF000000FF0000000000
+			) 
+		) 
+		textureshader5: 
+		Container (
+			TextureShader ( ) 
+			pixmaptexture6: 
+			PixmapTexture ( 
+				8 8 36 32 RGB32 BigEndian BigEndian 
+				0x00FFFF0000FFFF0000FFFF0000FFFF00 
+				0x00FFFF0000FFFF0000FF000000FF0000 
+				0x0012602000FFFF0000FFFF0000FFFF00 
+				0x00FFFF0000FFFF0000FFFF0000FF0000 
+				0x00FF000001E857B000FFFF0000FFFF00 
+				0x00FFFF0000FFFF0000FFFF0000FFFF00 
+				0x00FF000000FF0000AB00001400FFFF00 
+				0x00FFFF0000FFFF0000FFFF0000FFFF00 
+				0x00FFFF0000FF000000FF000000000030 
+				0x00FFFF0000FFFF0000FFFF0000FFFF00 
+				0x00FFFF0000FFFF0000FF000000FF0000 
+				0x0000000000FFFF0000FFFF0000FFFF00 
+				0x00FFFF0000FFFF0000FFFF0000FF0000 
+				0x00FF000001E6B75C00FF000000FF0000 
+				0x00FF000000FF000000FF000000FF0000 
+				0x00FF000000FF00000001000000FF0000 
+				0x00FF000000FF000000FF000000FF0000 
+				0x00FF000000FF000000FF0000000001E6 
+			) 
+		) 
+		Reference ( 1 ) 
+		Reference ( 2 ) 
+	) # surface shaders for triangles
+	AttributeArray ( # diffuse color for edges
+		5 0 1 0 0
+		1 0 1
+		1 1 0
+		0 1 1
+	) # diffuse color for edges
+	AttributeArray ( # shading UV coordinates for points
+		2 0 2 0 0
+		0 0
+		0 1
+		1 0
+		1 1
+		0 0
+		0 1
+	) # shading UV coordinates for points
+	AttributeArray ( # normal vectors for points
+		3 0 2 1 0
+		0 0 1
+		0 0 1
+		0 0 1
+		0 0 1
+		0 0 1
+		0 0 1
+	) # normal vectors for points
+	attributeset7: 
+	Container ( # overall attributes
+		AttributeSet ( ) 
+		AmbientCoefficient ( 0.5 ) 
+		DiffuseColor ( 1 0 0 ) 
+	) # overall attributes
+) 
+
+tableofcontents0: 
+TableOfContents ( 
+	tableofcontents1> # next TOC 
+	3 # reference seed 
+	-1 # typeSeed 
+	1 # tocEntryType 
+	16 # tocEntrySize 
+	2 # nEntries 
+	1 textureshader3> 
+	TextureShader 
+	2 textureshader5> 
+	TextureShader 
+)
