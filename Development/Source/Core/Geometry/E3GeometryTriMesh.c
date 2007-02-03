@@ -156,14 +156,25 @@ e3geom_trimesh_attribute_find(TQ3Uns32						numAttributeTypes,
 //-----------------------------------------------------------------------------
 static void
 e3geom_trimesh_disposeattributes(TQ3Uns32						numAttributeTypes,
+								TQ3Uns32						numArrayMembers,
 									TQ3TriMeshAttributeData		**attributeTypes)
 {
-	TQ3Uns32 i;
+	TQ3Uns32 i, j;
 	
 	if (*attributeTypes != NULL)
 		{
 		for (i=0; i<numAttributeTypes; i++)
 			{
+			if ((*attributeTypes)[i].attributeType == kQ3AttributeTypeSurfaceShader)
+				{
+				TQ3Object*	obArray = (TQ3Object*) (*attributeTypes)[i].data;
+				
+				for (j = 0; j < numArrayMembers; ++j)
+					{
+					Q3Object_CleanDispose( &obArray[j] );
+					}
+				}
+			
 			Q3Memory_Free( &((*attributeTypes)[i].data) );
 			Q3Memory_Free( &((*attributeTypes)[i].attributeUseArray) );
 			}
@@ -180,7 +191,7 @@ e3geom_trimesh_disposeattributes(TQ3Uns32						numAttributeTypes,
 //      e3geom_trimesh_copyattributes : Copy a TQ3TriMeshAttributeData array.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_trimesh_copyattributes(TQ3Uns32						numAttributeTypes,
+e3geom_trimesh_copyattributes(  TQ3Uns32					numAttributeTypes,
 								TQ3Uns32					numElements,
 								TQ3TriMeshAttributeData		*srcAttributeTypes,
 								TQ3TriMeshAttributeData		**destAttributeTypes)
@@ -202,29 +213,47 @@ e3geom_trimesh_copyattributes(TQ3Uns32						numAttributeTypes,
 		// We must make a copy of the data elements; but first, we must figure
 		// out how big they are (depends on the attribute type)
 		TQ3AttributeType attrType = srcAttributeTypes[i].attributeType;
-		attrType = E3Attribute_AttributeToClassType(attrType);
-		E3ClassInfoPtr theClass = E3ClassTree::GetClass ( attrType ) ;
-		if ( theClass != NULL )
+		
+		if (attrType == kQ3AttributeTypeSurfaceShader)
 			{
-			// Copy the attribute data
-			TQ3Uns32 attrSize = theClass->GetInstanceSize () ;
-			TQ3Uns32 bytes    = numElements * attrSize ;
-			if ( bytes != 0 )
-				qd3dStatus = e3geom_trimesh_clone(srcAttributeTypes[i].data,
-												  &(*destAttributeTypes)[i].data,
-												  bytes);
-			else
-				(*destAttributeTypes)[i].data = NULL;
+			(*destAttributeTypes)[i].data = Q3Memory_Allocate( numElements * sizeof(TQ3Object) );
+			TQ3Object*	dstObArray = (TQ3Object*) (*destAttributeTypes)[i].data;
+			if (dstObArray != NULL)
+				{
+				TQ3Object*	srcObArray = (TQ3Object*) srcAttributeTypes[i].data;
+				
+				for (TQ3Uns32 j = 0; j < numElements; ++j)
+					{
+					E3Shared_Acquire( &dstObArray[j], srcObArray[j] );
+					}
+				}
+			}
+		else
+			{
+			attrType = E3Attribute_AttributeToClassType(attrType);
+			E3ClassInfoPtr theClass = E3ClassTree::GetClass ( attrType ) ;
+			if ( theClass != NULL )
+				{
+				// Copy the attribute data
+				TQ3Uns32 attrSize = theClass->GetInstanceSize () ;
+				TQ3Uns32 bytes    = numElements * attrSize ;
+				if ( bytes != 0 )
+					qd3dStatus = e3geom_trimesh_clone(srcAttributeTypes[i].data,
+													  &(*destAttributeTypes)[i].data,
+													  bytes);
+				else
+					(*destAttributeTypes)[i].data = NULL;
 
 
-			// Copy the custom attribute useage flags
-			bytes = numElements * sizeof(char);
-			if (bytes != 0 && srcAttributeTypes[i].attributeUseArray != NULL)
-				qd3dStatus = e3geom_trimesh_clone(srcAttributeTypes[i].attributeUseArray,
-												  (void **) &(*destAttributeTypes)[i].attributeUseArray,
-												  bytes);
-			else
-				(*destAttributeTypes)[i].attributeUseArray = NULL;
+				// Copy the custom attribute useage flags
+				bytes = numElements * sizeof(char);
+				if (bytes != 0 && srcAttributeTypes[i].attributeUseArray != NULL)
+					qd3dStatus = e3geom_trimesh_clone(srcAttributeTypes[i].attributeUseArray,
+													  (void **) &(*destAttributeTypes)[i].attributeUseArray,
+													  bytes);
+				else
+					(*destAttributeTypes)[i].attributeUseArray = NULL;
+				}
 			}
 		}
 	
@@ -248,14 +277,17 @@ e3geom_trimesh_disposedata(TQ3TriMeshData *theTriMesh)
 
 	Q3Memory_Free( &theTriMesh->triangles );
 	e3geom_trimesh_disposeattributes( theTriMesh->numTriangleAttributeTypes,
+									  theTriMesh->numTriangles,
 									  &theTriMesh->triangleAttributeTypes );
 
 	Q3Memory_Free( &theTriMesh->edges );
 	e3geom_trimesh_disposeattributes( theTriMesh->numEdgeAttributeTypes,
+									  theTriMesh->numEdges,
 									  &theTriMesh->edgeAttributeTypes );
 
 	Q3Memory_Free( &theTriMesh->points );
 	e3geom_trimesh_disposeattributes( theTriMesh->numVertexAttributeTypes,
+									  theTriMesh->numPoints,
 									  &theTriMesh->vertexAttributeTypes );
 }
 
