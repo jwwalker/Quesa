@@ -409,6 +409,19 @@ static void CopyAttributeData(
 		outDest.data = E3Memory_Allocate( bytes );
 		EQ3ThrowIfMemFail_( outDest.data );
 		E3Memory_Copy( inSrc.data, outDest.data, bytes );
+		
+		if (inSrc.attributeType == kQ3AttributeTypeSurfaceShader)
+		{
+			TQ3Object*	obArray = (TQ3Object*) outDest.data;
+			
+			for (TQ3Uns32 i = 0; i < inNumElements; ++i)
+			{
+				if (obArray[i] != NULL)
+				{
+					Q3Shared_GetReference( obArray[i] );
+				}
+			}
+		}
 	}
 	
 	if ( (inSrc.attributeUseArray == NULL) || (inNumElements == 0) )
