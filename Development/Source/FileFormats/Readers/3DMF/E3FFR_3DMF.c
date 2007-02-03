@@ -1965,7 +1965,17 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 			break;
 			
 		case kQ3AttributeTypeSurfaceShader:
-			// drop down to read the child objects
+			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Object) * numElems);
+			// Read in the objects
+			elemObject = (TQ3AttributeSet *)theAttribute->data;
+			i = 0;
+			while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False && i < numElems)
+				{
+				*elemObject = Q3File_ReadObject(theFile);
+				elemObject++;
+				i++;
+				}
+			break;
 			
 		default: // custom elements
 		
