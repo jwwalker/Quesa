@@ -60,7 +60,9 @@
 //-----------------------------------------------------------------------------
 #define kMaxGLAttributes								50
 
-
+#ifndef AGL_SURFACE_ORDER
+	#define AGL_SURFACE_ORDER        235
+#endif
 
 
 
