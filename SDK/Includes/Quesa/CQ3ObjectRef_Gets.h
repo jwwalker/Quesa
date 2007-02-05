@@ -51,23 +51,13 @@
     ___________________________________________________________________________
 */
 
-#if QUESA_OS_MACINTOSH && TARGET_RT_MAC_MACHO
-	#include <Quesa/Quesa.h>
-	#include <Quesa/QuesaGeometry.h>
-	#include <Quesa/QuesaGroup.h>
-	#include <Quesa/QuesaIO.h>
-	#include <Quesa/QuesaShader.h>
-	#include <Quesa/QuesaStyle.h>
-	#include <Quesa/QuesaView.h>
-#else
-	#include "Quesa.h"
-	#include "QuesaGeometry.h"
-	#include "QuesaGroup.h"
-	#include "QuesaIO.h"
-	#include "QuesaShader.h"
-	#include "QuesaStyle.h"
-	#include "QuesaView.h"
-#endif
+#include "Quesa.h"
+#include "QuesaGeometry.h"
+#include "QuesaGroup.h"
+#include "QuesaIO.h"
+#include "QuesaShader.h"
+#include "QuesaStyle.h"
+#include "QuesaView.h"
 
 #pragma mark Functions from Quesa.h
 /*!
