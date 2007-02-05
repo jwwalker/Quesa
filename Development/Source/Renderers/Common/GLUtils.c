@@ -330,6 +330,12 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		{
 			featureFlags->blendMinMax = kQ3True;
 		}
+
+		if ( (glVersion >= 0x0150) ||
+			 isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_vertex_buffer_object" ) )
+		{
+			featureFlags->vertexBufferObjects = kQ3True;
+		}
 	}
 }
 
