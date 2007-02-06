@@ -5,7 +5,7 @@
         Global prefix file for OpenGL.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -110,6 +110,14 @@ typedef struct TQ3GLExtensions
 	TQ3Boolean				blendMinMax;
 	TQ3Boolean				vertexBufferObjects;
 } TQ3GLExtensions;
+
+
+/*!
+	@typedef		TQ3GLContext
+	@abstract		Opaque pointer to a GL context.  What it points to is
+					platform-dependent.
+*/
+typedef	void*		TQ3GLContext;
 
 
 // GLU callback

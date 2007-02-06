@@ -5,7 +5,7 @@
         Header file for GLTextureManager.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -78,10 +78,6 @@ struct TQ3CachedTexture
 
 // Texture cache opaque pointer
 typedef struct TQ3TextureCache*	TQ3TextureCachePtr;
-
-
-// Opaque pointer to a GL context.  What it points to is platform-dependent.
-typedef	void*				TQ3GLContext;
 
 
 
