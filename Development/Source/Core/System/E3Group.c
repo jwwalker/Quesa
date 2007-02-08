@@ -1296,10 +1296,11 @@ e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType,
 		// If the group isn't inline, push the view state and reset the matrix
 		TQ3Boolean isInline = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsInline);
 		if ( ! isInline )
-			Q3Push_Submit ( theView ) ;
+			qd3dStatus = Q3Push_Submit ( theView ) ;
 
 
-
+		if ( qd3dStatus == kQ3Failure ) return qd3dStatus;
+		
 		// Submit the group, using the generic group submit method
 		if ( theMode == kQ3ViewModeWriting )
 			qd3dStatus = e3group_submit_write ( theView, objectType, theObject, objectData ) ;
