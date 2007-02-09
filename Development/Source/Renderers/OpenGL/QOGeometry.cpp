@@ -51,6 +51,7 @@
 #include "GLVBOManager.h"
 #include "GLDisplayListManager.h"
 #include "MakeStrip.h"
+#include "OptimizedTriMeshElement.h"
 
 
 
@@ -83,6 +84,42 @@ namespace
 	
 	const TQ3ObjectType	kCachedStripPropertyType =
 		Q3_OBJECT_TYPE( 's', 't', 'r', 'p' );
+}
+
+
+//=============================================================================
+//      Local classes
+//-----------------------------------------------------------------------------
+
+namespace
+{
+	class CLockTriMeshData
+	{
+	public:
+								CLockTriMeshData()
+									: mTriMeshObject( NULL ) {}
+									
+								~CLockTriMeshData()
+								{
+									if (mTriMeshObject != NULL)
+									{
+										Q3TriMesh_UnlockData( mTriMeshObject );
+									}
+								}
+								
+		const TQ3TriMeshData*	Lock( TQ3GeometryObject inTriMesh )
+								{
+									Q3_ASSERT( mTriMeshObject == NULL );
+									Q3_ASSERT( inTriMesh != NULL );
+									mTriMeshObject = inTriMesh;
+									TQ3TriMeshData*	dataAddr = NULL;
+									Q3TriMesh_LockData( mTriMeshObject,
+										kQ3True, &dataAddr );
+									return dataAddr;
+								}
+	private:
+		TQ3GeometryObject	mTriMeshObject;
+	};
 }
 
 //=============================================================================
@@ -440,7 +477,7 @@ bool	QORenderer::Renderer::PassBuckOnTriMesh(
 				colors (unless vertex diffuse colors also exist),
 				triangle transparency colors, triangle surface shaders.
 */
-bool	QORenderer::Renderer::FindTriMeshData(
+QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 								const TQ3TriMeshData& inData,
 								const TQ3Vector3D*& outVertNormals,
 								const TQ3Param2D*& outVertUVs,
@@ -451,6 +488,13 @@ bool	QORenderer::Renderer::FindTriMeshData(
 	outVertUVs = NULL;
 	outVertColors = NULL;
 	outEdgeColors = NULL;
+	
+	SlowPathMask	slowMask = kSlowPathMask_FastPath;
+	
+	if (mTextures.IsTextureTransparent())
+	{
+		slowMask |= kSlowPathMask_TransparentTexture;
+	}
 	
 	bool	haveVertexTransparency = false;
 	bool	haveVertexDiffuse = false;
@@ -516,11 +560,38 @@ bool	QORenderer::Renderer::FindTriMeshData(
 		}
 	}
 	
-	return (outVertNormals != NULL) &&
-		(not haveVertexTransparency) &&
-		(not haveTriangleTransparency) &&
-		(not haveTriangleShaders) &&
-		((not haveTriangleDiffuse) || (outVertColors != NULL));
+	if (outVertNormals == NULL)
+	{
+		slowMask |= kSlowPathMask_NoVertexNormals;
+	}
+	
+	if (haveVertexTransparency)
+	{
+		slowMask |= kSlowPathMask_TransparentVertex;
+	}
+	
+	if (haveTriangleTransparency)
+	{
+		slowMask |= kSlowPathMask_TransparentFace;
+	}
+	
+	if ( haveTriangleDiffuse && (outVertColors == NULL) )
+	{
+		slowMask |= kSlowPathMask_FaceColors;
+	}
+	
+	if (haveTriangleShaders)
+	{
+		slowMask |= kSlowPathMask_FaceTextures;
+	}
+	
+	if ( ((1.0f - mGeomState.alpha) > kAlphaThreshold) &&
+		(outVertColors == NULL) )
+	{
+		slowMask |= kSlowPathMask_TransparentOverall;
+	}
+	
+	return slowMask;
 }
 
 static void ImmediateRenderTriangles(
@@ -668,7 +739,8 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		glColor3fv( &mGeomState.diffuseColor->r );
 	}
 	
-	if (inGeomData.numTriangles >= kMinTrianglesToCache)
+	if ( (inTriMesh != NULL) &&
+		(inGeomData.numTriangles >= kMinTrianglesToCache) )
 	{
 		std::vector<TQ3Uns32>	triangleStrip;
 		
@@ -725,7 +797,7 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 			}
 		}
 	}
-	else // small geometry, draw immediately
+	else // small geometry or immediate mode, draw immediately
 	{
 		ImmediateRenderTriangles( inGeomData, inVertNormals, inVertUVs,
 			inVertColors );
@@ -904,24 +976,55 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	// update color and texture from geometry attribute set
 	HandleGeometryAttributes( inGeomData->triMeshAttributeSet, inView,
 		true );
-
-	const TQ3Vector3D*	vertNormals;
-	const TQ3Param2D*	vertUVs;
-	const TQ3ColorRGB*	vertColors;
-	const TQ3ColorRGB*	edgeColors;
-	
-	if ( (inGeomData != NULL) &&
-		(not mTextures.IsTextureTransparent()) )
-	{
-		bool isOnFastPath = FindTriMeshData( *inGeomData, vertNormals, vertUVs,
-			vertColors, edgeColors );
 		
-		if ( (vertColors == NULL) &&
-			((1.0f - mGeomState.alpha) > kAlphaThreshold) )
+
+	if ( (inGeomData != NULL) &&
+		(! mTextures.IsTextureTransparent()) )
+	{
+		// Look for a cached optimized geometry.
+		CQ3ObjectRef	cachedGeom( GetCachedOptimizedTriMesh( inTriMesh ) );
+		
+		// If we found an optimized version, get its data.
+		CLockTriMeshData	locker;
+		if (cachedGeom.isvalid())
 		{
-			isOnFastPath = false;
+			inGeomData = locker.Lock( cachedGeom.get() );
+			inTriMesh = cachedGeom.get();
 		}
 		
+		// Find data and test for fast path.
+		const TQ3Vector3D*	vertNormals;
+		const TQ3Param2D*	vertUVs;
+		const TQ3ColorRGB*	vertColors;
+		const TQ3ColorRGB*	edgeColors;
+		
+		SlowPathMask whyNotFastPath = FindTriMeshData( *inGeomData,
+			vertNormals, vertUVs, vertColors, edgeColors );
+	
+		// Of the various conditions that can knock us off the fast path,
+		// Q3TriMesh_Optimize can fix two of them: lack of vertex normals,
+		// and face colors but not vertex colors.
+		const SlowPathMask kFixableMask = kSlowPathMask_NoVertexNormals |
+			kSlowPathMask_FaceColors;
+		
+		if ( (whyNotFastPath != kSlowPathMask_FastPath) &&
+			((whyNotFastPath & ~kFixableMask) == kSlowPathMask_FastPath) &&
+			(! cachedGeom.isvalid()) &&
+			(inTriMesh != NULL) )
+		{
+			cachedGeom = CQ3ObjectRef( Q3TriMesh_Optimize( inTriMesh ) );
+			
+			if (cachedGeom.isvalid())
+			{
+				SetCachedOptimizedTriMesh( inTriMesh, cachedGeom.get() );
+				inGeomData = locker.Lock( cachedGeom.get() );
+				inTriMesh = cachedGeom.get();
+				
+				whyNotFastPath = FindTriMeshData( *inGeomData,
+					vertNormals, vertUVs, vertColors, edgeColors );
+			}
+		}
+
 		// If we are in edge-fill mode and explicit edges have been provided,
 		// we may want to handle them here.
 		if ( (mStyleFill == kQ3FillStyleEdges) &&
@@ -932,7 +1035,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 			didHandle = true;
 		}
 	
-		if ( isOnFastPath && (not didHandle) )
+		if ( (whyNotFastPath == kSlowPathMask_FastPath) && (not didHandle) )
 		{
 			RenderFastPathTriMesh( inTriMesh, *inGeomData, vertNormals,
 				vertUVs, vertColors );
