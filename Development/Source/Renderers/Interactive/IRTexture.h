@@ -83,49 +83,6 @@ void				IRRenderer_Texture_Postamble(
 								TQ3Boolean				hadAttributeTexture,
 								TQ3Boolean				couldTexture);
 
-TQ3Uns8				*IRRenderer_Texture_GetData(
-								TQ3StorageObject		theStorage,
-								TQ3Boolean				*wasCopied);
-
-void				IRRenderer_Texture_ReleaseData(
-								TQ3StorageObject		theStorage,
-								TQ3Uns8					*basePtr,
-								TQ3Boolean				wasCopied);
-
-TQ3Uns8				*IRRenderer_Texture_ConvertDepthAndFlip(
-								TQ3Uns32				theWidth,
-								TQ3Uns32				theHeight,
-								TQ3Uns32				srcRowBytes,
-								TQ3Uns8					*srcBasePtr,
-								TQ3PixelType			srcPixelType,
-								TQ3Endian 				srcByteOrder,
-								TQ3Boolean				doVerticalFlip,
-								GLint					*glPixelType);
-
-TQ3Uns8				*IRRenderer_Texture_ConvertSize(
-								TQ3Uns32				srcWidth,
-								TQ3Uns32				srcHeight,
-								TQ3Uns32				srcRowBytes,
-								TQ3Uns8					*srcBasePtr,
-								TQ3Uns32				*dstWidth,
-								TQ3Uns32				*dstHeight,
-								TQ3Uns32				*dstRowBytes);
-
-TQ3Uns8				*IRRenderer_Texture_ConvertImage(
-								TQ3StorageObject		theStorage,
-								TQ3Uns32				storageOffset,
-								TQ3PixelType			srcPixelType,
-								TQ3Uns32				srcWidth,
-								TQ3Uns32				srcHeight,
-								TQ3Uns32				srcRowBytes,
-								TQ3Endian 				srcByteOrder,
-								TQ3Uns32				*dstWidth,
-								TQ3Uns32				*dstHeight,
-								TQ3Uns32				*dstRowBytes,
-								GLint					*glPixelType);
-
-
-
 
 
 //=============================================================================
