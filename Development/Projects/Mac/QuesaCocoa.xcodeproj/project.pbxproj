@@ -239,6 +239,43 @@
 		AB83B9A7055E77880034F56A /* E3MacStorage.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B964055E77870034F56A /* E3MacStorage.c */; };
 		AB83B9A8055E77880034F56A /* E3MacSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = AB83B965055E77870034F56A /* E3MacSystem.c */; };
 		AB83B9FD055E79B20034F56A /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB83B9FC055E79B20034F56A /* AGL.framework */; };
+		B112DA300B7D276F000F36EF /* MakeStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA290B7D276F000F36EF /* MakeStrip.cpp */; };
+		B112DA310B7D276F000F36EF /* MakeStrip.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA2A0B7D276F000F36EF /* MakeStrip.h */; };
+		B112DA320B7D276F000F36EF /* StripMaker.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA2B0B7D276F000F36EF /* StripMaker.h */; };
+		B112DA330B7D276F000F36EF /* StripMaker_FindAdjacencies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA2C0B7D276F000F36EF /* StripMaker_FindAdjacencies.cpp */; };
+		B112DA340B7D276F000F36EF /* StripMaker_InitFaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA2D0B7D276F000F36EF /* StripMaker_InitFaces.cpp */; };
+		B112DA350B7D276F000F36EF /* StripMaker_JoinStrips.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA2E0B7D276F000F36EF /* StripMaker_JoinStrips.cpp */; };
+		B112DA360B7D276F000F36EF /* StripMaker_MakeSimpleStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA2F0B7D276F000F36EF /* StripMaker_MakeSimpleStrip.cpp */; };
+		B112DA4E0B7D277E000F36EF /* QOClientStates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA380B7D277E000F36EF /* QOClientStates.cpp */; };
+		B112DA4F0B7D277E000F36EF /* QOClientStates.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA390B7D277E000F36EF /* QOClientStates.h */; };
+		B112DA500B7D277E000F36EF /* QOGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA3A0B7D277E000F36EF /* QOGeometry.cpp */; };
+		B112DA510B7D277E000F36EF /* QOLights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA3B0B7D277E000F36EF /* QOLights.cpp */; };
+		B112DA520B7D277E000F36EF /* QOLights.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA3C0B7D277E000F36EF /* QOLights.h */; };
+		B112DA530B7D277E000F36EF /* QOMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA3D0B7D277E000F36EF /* QOMatrix.cpp */; };
+		B112DA540B7D277E000F36EF /* QOMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA3E0B7D277E000F36EF /* QOMatrix.h */; };
+		B112DA550B7D277E000F36EF /* QOOpaqueTriBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA3F0B7D277E000F36EF /* QOOpaqueTriBuffer.cpp */; };
+		B112DA560B7D277E000F36EF /* QOOpaqueTriBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA400B7D277E000F36EF /* QOOpaqueTriBuffer.h */; };
+		B112DA570B7D277E000F36EF /* QOPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA410B7D277E000F36EF /* QOPrefix.h */; };
+		B112DA580B7D277E000F36EF /* QORegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA420B7D277E000F36EF /* QORegister.cpp */; };
+		B112DA590B7D277E000F36EF /* QORegister.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA430B7D277E000F36EF /* QORegister.h */; };
+		B112DA5A0B7D277E000F36EF /* QORenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA440B7D277E000F36EF /* QORenderer.cpp */; };
+		B112DA5B0B7D277E000F36EF /* QORenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA450B7D277E000F36EF /* QORenderer.h */; };
+		B112DA5C0B7D277E000F36EF /* QOStartAndEnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA460B7D277E000F36EF /* QOStartAndEnd.cpp */; };
+		B112DA5D0B7D277E000F36EF /* QOStatics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA470B7D277E000F36EF /* QOStatics.cpp */; };
+		B112DA5E0B7D277E000F36EF /* QOStatics.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA480B7D277E000F36EF /* QOStatics.h */; };
+		B112DA5F0B7D277E000F36EF /* QOTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA490B7D277E000F36EF /* QOTexture.cpp */; };
+		B112DA600B7D277E000F36EF /* QOTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA4A0B7D277E000F36EF /* QOTexture.h */; };
+		B112DA610B7D277E000F36EF /* QOTransBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA4B0B7D277E000F36EF /* QOTransBuffer.cpp */; };
+		B112DA620B7D277E000F36EF /* QOTransBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA4C0B7D277E000F36EF /* QOTransBuffer.h */; };
+		B112DA630B7D277E000F36EF /* QOUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA4D0B7D277E000F36EF /* QOUpdate.cpp */; };
+		B112DA840B7D2A48000F36EF /* GLDisplayListManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA820B7D2A48000F36EF /* GLDisplayListManager.cpp */; };
+		B112DA850B7D2A48000F36EF /* GLDisplayListManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA830B7D2A48000F36EF /* GLDisplayListManager.h */; };
+		B112DA880B7D2A52000F36EF /* GLGPUSharing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA860B7D2A52000F36EF /* GLGPUSharing.cpp */; };
+		B112DA890B7D2A52000F36EF /* GLGPUSharing.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA870B7D2A52000F36EF /* GLGPUSharing.h */; };
+		B112DA8C0B7D2A5C000F36EF /* GLTextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA8A0B7D2A5C000F36EF /* GLTextureLoader.cpp */; };
+		B112DA8D0B7D2A5C000F36EF /* GLTextureLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA8B0B7D2A5C000F36EF /* GLTextureLoader.h */; };
+		B112DA900B7D2A6B000F36EF /* GLVBOManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA8E0B7D2A6B000F36EF /* GLVBOManager.cpp */; };
+		B112DA910B7D2A6B000F36EF /* GLVBOManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA8F0B7D2A6B000F36EF /* GLVBOManager.h */; };
 		B1AC884F0906E76700ACE358 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B1AC884A0906E76700ACE358 /* E3CocoaDrawContext.m */; };
 		B1AC88500906E76700ACE358 /* E3CocoaDrawContextNotify.h in Headers */ = {isa = PBXBuildFile; fileRef = B1AC884B0906E76700ACE358 /* E3CocoaDrawContextNotify.h */; };
 		B1AC88510906E76700ACE358 /* E3CocoaDrawContextNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = B1AC884C0906E76700ACE358 /* E3CocoaDrawContextNotify.m */; };
@@ -519,6 +556,43 @@
 		AB83B964055E77870034F56A /* E3MacStorage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacStorage.c; sourceTree = "<group>"; };
 		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
 		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
+		B112DA290B7D276F000F36EF /* MakeStrip.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MakeStrip.cpp; sourceTree = "<group>"; };
+		B112DA2A0B7D276F000F36EF /* MakeStrip.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MakeStrip.h; sourceTree = "<group>"; };
+		B112DA2B0B7D276F000F36EF /* StripMaker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StripMaker.h; sourceTree = "<group>"; };
+		B112DA2C0B7D276F000F36EF /* StripMaker_FindAdjacencies.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = StripMaker_FindAdjacencies.cpp; sourceTree = "<group>"; };
+		B112DA2D0B7D276F000F36EF /* StripMaker_InitFaces.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = StripMaker_InitFaces.cpp; sourceTree = "<group>"; };
+		B112DA2E0B7D276F000F36EF /* StripMaker_JoinStrips.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = StripMaker_JoinStrips.cpp; sourceTree = "<group>"; };
+		B112DA2F0B7D276F000F36EF /* StripMaker_MakeSimpleStrip.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = StripMaker_MakeSimpleStrip.cpp; sourceTree = "<group>"; };
+		B112DA380B7D277E000F36EF /* QOClientStates.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOClientStates.cpp; sourceTree = "<group>"; };
+		B112DA390B7D277E000F36EF /* QOClientStates.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOClientStates.h; sourceTree = "<group>"; };
+		B112DA3A0B7D277E000F36EF /* QOGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOGeometry.cpp; sourceTree = "<group>"; };
+		B112DA3B0B7D277E000F36EF /* QOLights.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOLights.cpp; sourceTree = "<group>"; };
+		B112DA3C0B7D277E000F36EF /* QOLights.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOLights.h; sourceTree = "<group>"; };
+		B112DA3D0B7D277E000F36EF /* QOMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOMatrix.cpp; sourceTree = "<group>"; };
+		B112DA3E0B7D277E000F36EF /* QOMatrix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOMatrix.h; sourceTree = "<group>"; };
+		B112DA3F0B7D277E000F36EF /* QOOpaqueTriBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOOpaqueTriBuffer.cpp; sourceTree = "<group>"; };
+		B112DA400B7D277E000F36EF /* QOOpaqueTriBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOOpaqueTriBuffer.h; sourceTree = "<group>"; };
+		B112DA410B7D277E000F36EF /* QOPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOPrefix.h; sourceTree = "<group>"; };
+		B112DA420B7D277E000F36EF /* QORegister.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QORegister.cpp; sourceTree = "<group>"; };
+		B112DA430B7D277E000F36EF /* QORegister.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QORegister.h; sourceTree = "<group>"; };
+		B112DA440B7D277E000F36EF /* QORenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QORenderer.cpp; sourceTree = "<group>"; };
+		B112DA450B7D277E000F36EF /* QORenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QORenderer.h; sourceTree = "<group>"; };
+		B112DA460B7D277E000F36EF /* QOStartAndEnd.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOStartAndEnd.cpp; sourceTree = "<group>"; };
+		B112DA470B7D277E000F36EF /* QOStatics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOStatics.cpp; sourceTree = "<group>"; };
+		B112DA480B7D277E000F36EF /* QOStatics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOStatics.h; sourceTree = "<group>"; };
+		B112DA490B7D277E000F36EF /* QOTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOTexture.cpp; sourceTree = "<group>"; };
+		B112DA4A0B7D277E000F36EF /* QOTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOTexture.h; sourceTree = "<group>"; };
+		B112DA4B0B7D277E000F36EF /* QOTransBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOTransBuffer.cpp; sourceTree = "<group>"; };
+		B112DA4C0B7D277E000F36EF /* QOTransBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOTransBuffer.h; sourceTree = "<group>"; };
+		B112DA4D0B7D277E000F36EF /* QOUpdate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOUpdate.cpp; sourceTree = "<group>"; };
+		B112DA820B7D2A48000F36EF /* GLDisplayListManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLDisplayListManager.cpp; sourceTree = "<group>"; };
+		B112DA830B7D2A48000F36EF /* GLDisplayListManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLDisplayListManager.h; sourceTree = "<group>"; };
+		B112DA860B7D2A52000F36EF /* GLGPUSharing.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLGPUSharing.cpp; sourceTree = "<group>"; };
+		B112DA870B7D2A52000F36EF /* GLGPUSharing.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLGPUSharing.h; sourceTree = "<group>"; };
+		B112DA8A0B7D2A5C000F36EF /* GLTextureLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLTextureLoader.cpp; sourceTree = "<group>"; };
+		B112DA8B0B7D2A5C000F36EF /* GLTextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureLoader.h; sourceTree = "<group>"; };
+		B112DA8E0B7D2A6B000F36EF /* GLVBOManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLVBOManager.cpp; sourceTree = "<group>"; };
+		B112DA8F0B7D2A6B000F36EF /* GLVBOManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLVBOManager.h; sourceTree = "<group>"; };
 		B1AC884A0906E76700ACE358 /* E3CocoaDrawContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = E3CocoaDrawContext.m; path = Cocoa/E3CocoaDrawContext.m; sourceTree = "<group>"; };
 		B1AC884B0906E76700ACE358 /* E3CocoaDrawContextNotify.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = E3CocoaDrawContextNotify.h; path = Cocoa/E3CocoaDrawContextNotify.h; sourceTree = "<group>"; };
 		B1AC884C0906E76700ACE358 /* E3CocoaDrawContextNotify.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = E3CocoaDrawContextNotify.m; path = Cocoa/E3CocoaDrawContextNotify.m; sourceTree = "<group>"; };
@@ -789,8 +863,10 @@
 			children = (
 				AB3A7C18055E63B100CA83BE /* Common */,
 				BEC777CE087DA6AD00080AB7 /* Cartoon */,
+				B112DA280B7D276F000F36EF /* MakeStrip */,
 				AB3A7C22055E63B100CA83BE /* Generic */,
 				AB3A7C2A055E63B100CA83BE /* Interactive */,
+				B112DA370B7D277E000F36EF /* OpenGL */,
 				AB3A7C3E055E63B100CA83BE /* Wireframe */,
 			);
 			name = Renderers;
@@ -802,13 +878,21 @@
 			children = (
 				AB3A7C19055E63B100CA83BE /* GLCamera.c */,
 				AB3A7C1A055E63B100CA83BE /* GLCamera.h */,
+				B112DA820B7D2A48000F36EF /* GLDisplayListManager.cpp */,
+				B112DA830B7D2A48000F36EF /* GLDisplayListManager.h */,
 				AB3A7C1D055E63B100CA83BE /* GLDrawContext.c */,
 				AB3A7C1E055E63B100CA83BE /* GLDrawContext.h */,
+				B112DA860B7D2A52000F36EF /* GLGPUSharing.cpp */,
+				B112DA870B7D2A52000F36EF /* GLGPUSharing.h */,
+				B112DA8A0B7D2A5C000F36EF /* GLTextureLoader.cpp */,
+				B112DA8B0B7D2A5C000F36EF /* GLTextureLoader.h */,
 				BE6FD690076B88A800587852 /* GLTextureManager.h */,
 				BE6FD691076B88A800587852 /* GLTextureManager.c */,
 				AB3A7C1F055E63B100CA83BE /* GLPrefix.h */,
 				AB3A7C20055E63B100CA83BE /* GLUtils.c */,
 				AB3A7C21055E63B100CA83BE /* GLUtils.h */,
+				B112DA8E0B7D2A6B000F36EF /* GLVBOManager.cpp */,
+				B112DA8F0B7D2A6B000F36EF /* GLVBOManager.h */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -990,6 +1074,49 @@
 			path = Mac;
 			sourceTree = "<group>";
 		};
+		B112DA280B7D276F000F36EF /* MakeStrip */ = {
+			isa = PBXGroup;
+			children = (
+				B112DA290B7D276F000F36EF /* MakeStrip.cpp */,
+				B112DA2A0B7D276F000F36EF /* MakeStrip.h */,
+				B112DA2B0B7D276F000F36EF /* StripMaker.h */,
+				B112DA2C0B7D276F000F36EF /* StripMaker_FindAdjacencies.cpp */,
+				B112DA2D0B7D276F000F36EF /* StripMaker_InitFaces.cpp */,
+				B112DA2E0B7D276F000F36EF /* StripMaker_JoinStrips.cpp */,
+				B112DA2F0B7D276F000F36EF /* StripMaker_MakeSimpleStrip.cpp */,
+			);
+			path = MakeStrip;
+			sourceTree = "<group>";
+		};
+		B112DA370B7D277E000F36EF /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				B112DA380B7D277E000F36EF /* QOClientStates.cpp */,
+				B112DA390B7D277E000F36EF /* QOClientStates.h */,
+				B112DA3A0B7D277E000F36EF /* QOGeometry.cpp */,
+				B112DA3B0B7D277E000F36EF /* QOLights.cpp */,
+				B112DA3C0B7D277E000F36EF /* QOLights.h */,
+				B112DA3D0B7D277E000F36EF /* QOMatrix.cpp */,
+				B112DA3E0B7D277E000F36EF /* QOMatrix.h */,
+				B112DA3F0B7D277E000F36EF /* QOOpaqueTriBuffer.cpp */,
+				B112DA400B7D277E000F36EF /* QOOpaqueTriBuffer.h */,
+				B112DA410B7D277E000F36EF /* QOPrefix.h */,
+				B112DA420B7D277E000F36EF /* QORegister.cpp */,
+				B112DA430B7D277E000F36EF /* QORegister.h */,
+				B112DA440B7D277E000F36EF /* QORenderer.cpp */,
+				B112DA450B7D277E000F36EF /* QORenderer.h */,
+				B112DA460B7D277E000F36EF /* QOStartAndEnd.cpp */,
+				B112DA470B7D277E000F36EF /* QOStatics.cpp */,
+				B112DA480B7D277E000F36EF /* QOStatics.h */,
+				B112DA490B7D277E000F36EF /* QOTexture.cpp */,
+				B112DA4A0B7D277E000F36EF /* QOTexture.h */,
+				B112DA4B0B7D277E000F36EF /* QOTransBuffer.cpp */,
+				B112DA4C0B7D277E000F36EF /* QOTransBuffer.h */,
+				B112DA4D0B7D277E000F36EF /* QOUpdate.cpp */,
+			);
+			path = OpenGL;
+			sourceTree = "<group>";
+		};
 		B1AC88460906E71C00ACE358 /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
@@ -1141,6 +1268,22 @@
 				B1AC88500906E76700ACE358 /* E3CocoaDrawContextNotify.h in Headers */,
 				B1AC88520906E76700ACE358 /* E3CocoaPrefix.h in Headers */,
 				B1AC88600906EA4000ACE358 /* GLCocoaContext.h in Headers */,
+				B112DA310B7D276F000F36EF /* MakeStrip.h in Headers */,
+				B112DA320B7D276F000F36EF /* StripMaker.h in Headers */,
+				B112DA4F0B7D277E000F36EF /* QOClientStates.h in Headers */,
+				B112DA520B7D277E000F36EF /* QOLights.h in Headers */,
+				B112DA540B7D277E000F36EF /* QOMatrix.h in Headers */,
+				B112DA560B7D277E000F36EF /* QOOpaqueTriBuffer.h in Headers */,
+				B112DA570B7D277E000F36EF /* QOPrefix.h in Headers */,
+				B112DA590B7D277E000F36EF /* QORegister.h in Headers */,
+				B112DA5B0B7D277E000F36EF /* QORenderer.h in Headers */,
+				B112DA5E0B7D277E000F36EF /* QOStatics.h in Headers */,
+				B112DA600B7D277E000F36EF /* QOTexture.h in Headers */,
+				B112DA620B7D277E000F36EF /* QOTransBuffer.h in Headers */,
+				B112DA850B7D2A48000F36EF /* GLDisplayListManager.h in Headers */,
+				B112DA890B7D2A52000F36EF /* GLGPUSharing.h in Headers */,
+				B112DA8D0B7D2A5C000F36EF /* GLTextureLoader.h in Headers */,
+				B112DA910B7D2A6B000F36EF /* GLVBOManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1354,6 +1497,27 @@
 				B1AC884F0906E76700ACE358 /* E3CocoaDrawContext.m in Sources */,
 				B1AC88510906E76700ACE358 /* E3CocoaDrawContextNotify.m in Sources */,
 				B1AC88610906EA4000ACE358 /* GLCocoaContext.m in Sources */,
+				B112DA300B7D276F000F36EF /* MakeStrip.cpp in Sources */,
+				B112DA330B7D276F000F36EF /* StripMaker_FindAdjacencies.cpp in Sources */,
+				B112DA340B7D276F000F36EF /* StripMaker_InitFaces.cpp in Sources */,
+				B112DA350B7D276F000F36EF /* StripMaker_JoinStrips.cpp in Sources */,
+				B112DA360B7D276F000F36EF /* StripMaker_MakeSimpleStrip.cpp in Sources */,
+				B112DA4E0B7D277E000F36EF /* QOClientStates.cpp in Sources */,
+				B112DA500B7D277E000F36EF /* QOGeometry.cpp in Sources */,
+				B112DA510B7D277E000F36EF /* QOLights.cpp in Sources */,
+				B112DA530B7D277E000F36EF /* QOMatrix.cpp in Sources */,
+				B112DA550B7D277E000F36EF /* QOOpaqueTriBuffer.cpp in Sources */,
+				B112DA580B7D277E000F36EF /* QORegister.cpp in Sources */,
+				B112DA5A0B7D277E000F36EF /* QORenderer.cpp in Sources */,
+				B112DA5C0B7D277E000F36EF /* QOStartAndEnd.cpp in Sources */,
+				B112DA5D0B7D277E000F36EF /* QOStatics.cpp in Sources */,
+				B112DA5F0B7D277E000F36EF /* QOTexture.cpp in Sources */,
+				B112DA610B7D277E000F36EF /* QOTransBuffer.cpp in Sources */,
+				B112DA630B7D277E000F36EF /* QOUpdate.cpp in Sources */,
+				B112DA840B7D2A48000F36EF /* GLDisplayListManager.cpp in Sources */,
+				B112DA880B7D2A52000F36EF /* GLGPUSharing.cpp in Sources */,
+				B112DA8C0B7D2A5C000F36EF /* GLTextureLoader.cpp in Sources */,
+				B112DA900B7D2A6B000F36EF /* GLVBOManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1369,6 +1533,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks/";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x12000000,
@@ -1383,11 +1548,16 @@
 		BEDC044908A57B3000FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
 				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks/";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"-seg1addr",
 					0x12000000,

@@ -22,7 +22,7 @@
 					/Library/Frameworks,
 					"$(HOME)/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = ""; 
+				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
@@ -88,7 +88,7 @@
 		29B9732CFDCFA39411CA2CEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		2D6A02D5FF1986E17F000001 /* QuesaCocoaUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6A02D3FF1986E17F000001 /* QuesaCocoaUtil.h */; };
 		2D6A02D6FF1986E17F000001 /* QuesaCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */; settings = {ATTRIBUTES = (); }; };
-		B1AC88940906ECD000ACE358 /* QuesaCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1AC88930906ECD000ACE358 /* QuesaCocoa.framework */; };
+		B112DB280B7D2C9C000F36EF /* QuesaCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B112DB270B7D2C9C000F36EF /* QuesaCocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -130,7 +130,7 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2D6A02D3FF1986E17F000001 /* QuesaCocoaUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuesaCocoaUtil.h; sourceTree = "<group>"; };
 		2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuesaCocoaUtil.m; sourceTree = "<group>"; };
-		B1AC88930906ECD000ACE358 /* QuesaCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuesaCocoa.framework; path = ../../../../Development/Projects/Mac/buildCocoa/Development/QuesaCocoa.framework; sourceTree = SOURCE_ROOT; };
+		B112DB270B7D2C9C000F36EF /* QuesaCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuesaCocoa.framework; path = ../../../../Development/Projects/Mac/buildCocoa/Debug/QuesaCocoa.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,7 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1058C7A3FEA54F0111CA2CBB /* Cocoa.framework in Frameworks */,
-				B1AC88940906ECD000ACE358 /* QuesaCocoa.framework in Frameworks */,
+				B112DB280B7D2C9C000F36EF /* QuesaCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +204,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B1AC88930906ECD000ACE358 /* QuesaCocoa.framework */,
+				B112DB270B7D2C9C000F36EF /* QuesaCocoa.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 			);
 			name = Frameworks;
