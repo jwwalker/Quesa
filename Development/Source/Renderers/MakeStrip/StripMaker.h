@@ -50,6 +50,8 @@
 //      Include files
 //-----------------------------------------------------------------------------
 
+#include "E3Prefix.h"
+
 #include <vector>
 
 namespace StripMaker
