@@ -45,7 +45,7 @@
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
 #include "GLDrawContext.h"
-#include "GLTextureManager.h"
+#include "GLGPUSharing.h"
 
 #if QUESA_OS_COCOA
 #include "GLCocoaContext.h"
@@ -310,7 +310,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		// contexts before loading any textures.)
 		if ((shareTextures == kQ3True) && (sysVersion >= 0x00001020))
 			{
-			while ((sharingContext = GLTextureMgr_GetNextSharingBase( sharingContext )) != NULL)
+			while ((sharingContext = GLGPUSharing_GetNextSharingBase( sharingContext )) != NULL)
 				{
 				glContext = aglCreateContext(pixelFormat, (AGLContext) sharingContext);
 				if (glContext != NULL)
@@ -337,7 +337,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 
 	if (glContext != NULL)
 		{
-		GLTextureMgr_AddContext( glContext, sharingContext );
+		GLGPUSharing_AddContext( glContext, sharingContext );
 		
 		if (drawContextType == kQ3DrawContextTypeMacintosh)
 			{
@@ -966,7 +966,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
     if (shareTextures)
     {
 	    // Attempt to share textures with a previously created context.
-	    while ( (sharingContext = GLTextureMgr_GetNextSharingBase( sharingContext )) != NULL )
+	    while ( (sharingContext = GLGPUSharing_GetNextSharingBase( sharingContext )) != NULL )
 	    {
 	    	if (wglShareLists( ((WinGLContext*)sharingContext)->glContext, theContext->glContext ))
 	    		break;
@@ -976,7 +976,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	
 	
 	// Tell the texture manager about the new context.
-	GLTextureMgr_AddContext( theContext, sharingContext );
+	GLGPUSharing_AddContext( theContext, sharingContext );
 
 
 
@@ -1426,8 +1426,8 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 
 	// If platform-specific code has not already recorded the GL context with the
 	// texture cache, do it now.
-	if ( (glContext != NULL) && (GLTextureMgr_GetTextureCache( glContext ) == NULL) )
-		GLTextureMgr_AddContext( glContext, NULL );
+	if ( (glContext != NULL) && (! GLGPUSharing_IsContextKnown( glContext )) )
+		GLGPUSharing_AddContext( glContext, NULL );
 
 
 	// Set up the default state
@@ -1485,7 +1485,7 @@ GLDrawContext_Destroy(void **glContext)
 #endif
 
 
-	GLTextureMgr_RemoveContext( *glContext );
+	GLGPUSharing_RemoveContext( *glContext );
 
 
 	// Reset the pointer
