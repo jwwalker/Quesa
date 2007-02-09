@@ -229,6 +229,7 @@ void	TransBuffer::AddPrim(
 	if (not textureState.mIsTextureActive)
 	{
 		thePrim.mTextureName = 0;
+		thePrim.mIsTextureTransparent = false;
 	}
 	else
 	{
