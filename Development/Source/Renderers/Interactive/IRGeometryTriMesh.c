@@ -52,6 +52,7 @@
 
 #include "GLDrawContext.h"
 #include "GLUtils.h"
+#include "OptimizedTriMeshElement.h"
 
 
 
@@ -62,10 +63,6 @@
 namespace {
 	const TQ3Uns32 kVAUnknownParent									= 0xFFFFFFFF;
 	const TQ3Uns32 kVAUnknownParentByte								= 0xFF;
-
-	const char*		kCacheOptimizedTriMeshElementClassName			= "Quesa:IR:OptTriMeshCache";
-
-	TQ3ElementType	sCacheOptimizedTriMeshElementType				= 0;
 }
 
 
@@ -162,15 +159,6 @@ typedef struct TQ3VertexArray {
 
 
 
-struct TQ3CacheOptimizedTriMeshElementData
-{
-	TQ3GeometryObject	optimizedGeom;
-	TQ3Uns32			editIndex;
-};
-
-
-
-
 // Helper class to ensure that TriMesh data gets unlocked regardless of early returns
 // or exceptions.
 class CLockTriMeshData
@@ -203,219 +191,6 @@ private:
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      ir_geom_trimesh_element_copy_add : CopyAdd method for cache element.
-//-----------------------------------------------------------------------------
-static TQ3Status
-ir_geom_trimesh_element_copy_add( const TQ3CacheOptimizedTriMeshElementData* inFromAPIElement,
-						TQ3CacheOptimizedTriMeshElementData* ioToInternal )
-{
-	if (inFromAPIElement->optimizedGeom == NULL)
-	{
-		ioToInternal->optimizedGeom = NULL;
-	}
-	else
-	{
-		ioToInternal->optimizedGeom = Q3Shared_GetReference( inFromAPIElement->optimizedGeom );
-	}
-	ioToInternal->editIndex = inFromAPIElement->editIndex;
-
-	return kQ3Success;
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_trimesh_element_copy_replace : CopyReplace method for cache element.
-//-----------------------------------------------------------------------------
-static TQ3Status
-ir_geom_trimesh_element_copy_replace( const TQ3CacheOptimizedTriMeshElementData* inFromAPIElement,
-						TQ3CacheOptimizedTriMeshElementData* ioToInternal )
-{
-	if (ioToInternal->optimizedGeom != NULL)
-	{
-		Q3Object_Dispose( ioToInternal->optimizedGeom );
-	}
-
-	if (inFromAPIElement->optimizedGeom == NULL)
-	{
-		ioToInternal->optimizedGeom = NULL;
-	}
-	else
-	{
-		ioToInternal->optimizedGeom = Q3Shared_GetReference( inFromAPIElement->optimizedGeom );
-	}
-	ioToInternal->editIndex = inFromAPIElement->editIndex;
-
-	return kQ3Success;
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_trimesh_element_copy_duplicate : Duplicate method for cache element.
-//-----------------------------------------------------------------------------
-static TQ3Status
-ir_geom_trimesh_element_copy_duplicate( const TQ3CacheOptimizedTriMeshElementData* inFromInternal,
-						TQ3CacheOptimizedTriMeshElementData* ioToInternal )
-{
-	// If we duplicate an object, just clear the cache.
-	ioToInternal->optimizedGeom = NULL;
-	ioToInternal->editIndex = 0;
-
-	return kQ3Success;
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_trimesh_element_delete : Delete method for cache element.
-//-----------------------------------------------------------------------------
-static TQ3Status
-ir_geom_trimesh_element_delete( TQ3CacheOptimizedTriMeshElementData* ioInternal )
-{
-	if (ioInternal->optimizedGeom != NULL)
-	{
-		Q3Object_Dispose( ioInternal->optimizedGeom );
-		ioInternal->optimizedGeom = NULL;
-	}
-
-	return kQ3Success;
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_trimesh_element_metahandler : Metahandler for cache element.
-//-----------------------------------------------------------------------------
-static TQ3XFunctionPointer
-ir_geom_trimesh_element_metahandler( TQ3XMethodType methodType )
-{
-	TQ3XFunctionPointer		theMethod = NULL;
-	
-	switch (methodType)
-	{
-		case kQ3XMethodTypeElementCopyAdd:
-		case kQ3XMethodTypeElementCopyGet:
-			theMethod = (TQ3XFunctionPointer) ir_geom_trimesh_element_copy_add;
-			break;
-
-		case kQ3XMethodTypeElementCopyReplace:
-			theMethod = (TQ3XFunctionPointer) ir_geom_trimesh_element_copy_replace;
-			break;
-
-		case kQ3XMethodTypeElementCopyDuplicate:
-			theMethod = (TQ3XFunctionPointer) ir_geom_trimesh_element_copy_duplicate;
-			break;
-
-		case kQ3XMethodTypeElementDelete:
-			theMethod = (TQ3XFunctionPointer) ir_geom_trimesh_element_delete;
-			break;
-
-		case kQ3XMethodTypeObjectClassVersion:
-			theMethod = (TQ3XFunctionPointer)0x01008000;
-			break;
-		
-		// We deliberately do not support reading/writing methods, as this element
-		// should not be stored in 3DMF.
-	}
-	
-	return theMethod;
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_trimesh_register_element : Register function for cache element.
-//-----------------------------------------------------------------------------
-static void
-ir_geom_trimesh_register_element()
-{
-	Q3XElementClass_Register(
-			&sCacheOptimizedTriMeshElementType,
-			kCacheOptimizedTriMeshElementClassName,
-			sizeof(TQ3CacheOptimizedTriMeshElementData),
-			ir_geom_trimesh_element_metahandler );
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_trimesh_cache_get : Get cached optimized TriMesh.
-//-----------------------------------------------------------------------------
-static TQ3Status
-ir_geom_trimesh_cache_get( TQ3Object inTriMesh, CQ3ObjectRef& outOptTriMesh )
-{
-	if (sCacheOptimizedTriMeshElementType == 0)
-	{
-		ir_geom_trimesh_register_element();
-	}
-	
-	outOptTriMesh = CQ3ObjectRef();	// make sure it starts as NULL
-	
-	TQ3CacheOptimizedTriMeshElementData	theData;
-	TQ3Status	theStatus = Q3Shape_GetElement( inTriMesh, sCacheOptimizedTriMeshElementType, &theData );
-	
-	if (theStatus == kQ3Success)
-	{
-		if (theData.editIndex == Q3Shared_GetEditIndex( inTriMesh ))	// cache up to date?
-		{
-			outOptTriMesh = CQ3ObjectRef( theData.optimizedGeom );
-		}
-		else // stale cache
-		{
-			if (theData.optimizedGeom != NULL)
-			{
-				Q3Object_Dispose( theData.optimizedGeom );
-			}
-			theStatus = kQ3Failure;
-		}
-	}
-	
-	return theStatus;
-}
-
-
-
-
-
-//=============================================================================
-//      ir_geom_trimesh_cache_set : Set cached optimized TriMesh.
-//-----------------------------------------------------------------------------
-static TQ3Status
-ir_geom_trimesh_cache_set( TQ3Object ioTriMesh, TQ3Object inOptTriMesh )
-{
-	if (sCacheOptimizedTriMeshElementType == 0)
-	{
-		ir_geom_trimesh_register_element();
-	}
-	
-	TQ3CacheOptimizedTriMeshElementData	theData = {
-		inOptTriMesh,
-		Q3Shared_GetEditIndex( ioTriMesh ) + 1	// +1 because adding the element will bump edit index
-	};
-	
-	TQ3Status	theStatus = Q3Shape_AddElement( ioTriMesh, sCacheOptimizedTriMeshElementType, &theData );
-	
-	return theStatus;
-}
-
-
-
-
-
-//=============================================================================
 //      ir_geom_trimesh_calc_edge_colour : Calculate edge colours.
 //-----------------------------------------------------------------------------
 static void
@@ -1671,11 +1446,12 @@ IRGeometry_Submit_TriMesh(TQ3ViewObject				theView,
 
 	
 	// Look for a cached optimized geometry.
-	if ( kQ3Failure == ir_geom_trimesh_cache_get( theGeom, cachedGeom ) )
+	cachedGeom = GetCachedOptimizedTriMesh( theGeom );
+	if ( ! cachedGeom.isvalid() )
 	{
 		// no cached data or stale cache
 		cachedGeom = CQ3ObjectRef( Q3TriMesh_Optimize( theGeom ) );
-		ir_geom_trimesh_cache_set( theGeom, cachedGeom.get() );
+		SetCachedOptimizedTriMesh( theGeom, cachedGeom.get() );
 	}
 	
 	if (cachedGeom.isvalid())
