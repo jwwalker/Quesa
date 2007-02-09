@@ -64,11 +64,36 @@
 
 #include <vector>
 
+
+
 namespace QORenderer
 {
 //=============================================================================
+//    Constants
+//-----------------------------------------------------------------------------
+
+/*!
+	@enum		ESlowPathMask
+	@abstract	Bit masks indicating possible reasons why a TriMesh is not on
+				the fast path.
+*/
+enum ESlowPathMask
+{
+	kSlowPathMask_FastPath				= 0,
+	kSlowPathMask_NoVertexNormals		= (1 << 0),
+	kSlowPathMask_FaceColors			= (1 << 1),
+	kSlowPathMask_TransparentTexture	= (1 << 2),
+	kSlowPathMask_TransparentOverall	= (1 << 3),
+	kSlowPathMask_TransparentFace		= (1 << 4),
+	kSlowPathMask_TransparentVertex		= (1 << 5),
+	kSlowPathMask_FaceTextures			= (1 << 6)
+};
+
+//=============================================================================
 //     Subsidiary Types
 //-----------------------------------------------------------------------------
+
+typedef TQ3Uns32	SlowPathMask;
 
 // glBlendEquation type
 #if QUESA_OS_WIN32
@@ -219,7 +244,7 @@ private:
 									TQ3ViewObject inView,
 									TQ3GeometryObject inTriMesh,
 									const TQ3TriMeshData* inGeomData );
-	bool					FindTriMeshData(
+	SlowPathMask			FindTriMeshData(
 									const TQ3TriMeshData& inGeomData,
 									const TQ3Vector3D*& outVertNormals,
 									const TQ3Param2D*& outVertUVs,
