@@ -258,6 +258,92 @@
 		BE392D080B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
+		BE7F26510B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */; };
+		BE7F26540B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264C0B7BB87F00933ED1 /* GLTextureLoader.cpp */; };
+		BE7F26550B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264D0B7BB87F00933ED1 /* GLDisplayListManager.cpp */; };
+		BE7F26560B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264E0B7BB87F00933ED1 /* GLVBOManager.cpp */; };
+		BE7F26590B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */; };
+		BE7F265C0B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264C0B7BB87F00933ED1 /* GLTextureLoader.cpp */; };
+		BE7F265D0B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264D0B7BB87F00933ED1 /* GLDisplayListManager.cpp */; };
+		BE7F265E0B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264E0B7BB87F00933ED1 /* GLVBOManager.cpp */; };
+		BE7F26610B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */; };
+		BE7F26620B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264C0B7BB87F00933ED1 /* GLTextureLoader.cpp */; };
+		BE7F26630B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264D0B7BB87F00933ED1 /* GLDisplayListManager.cpp */; };
+		BE7F26640B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264E0B7BB87F00933ED1 /* GLVBOManager.cpp */; };
+		BE7F26650B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */; };
+		BE7F26660B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264C0B7BB87F00933ED1 /* GLTextureLoader.cpp */; };
+		BE7F26670B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264D0B7BB87F00933ED1 /* GLDisplayListManager.cpp */; };
+		BE7F26680B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264E0B7BB87F00933ED1 /* GLVBOManager.cpp */; };
+		BE7F26710B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266A0B7BB8AD00933ED1 /* MakeStrip.cpp */; };
+		BE7F26740B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266D0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp */; };
+		BE7F26750B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266E0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp */; };
+		BE7F26760B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266F0B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp */; };
+		BE7F26770B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26700B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp */; };
+		BE7F26780B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266A0B7BB8AD00933ED1 /* MakeStrip.cpp */; };
+		BE7F267B0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266D0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp */; };
+		BE7F267C0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266E0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp */; };
+		BE7F267D0B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266F0B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp */; };
+		BE7F267E0B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26700B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp */; };
+		BE7F267F0B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266A0B7BB8AD00933ED1 /* MakeStrip.cpp */; };
+		BE7F26800B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266D0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp */; };
+		BE7F26810B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266E0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp */; };
+		BE7F26820B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266F0B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp */; };
+		BE7F26830B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26700B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp */; };
+		BE7F26840B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266A0B7BB8AD00933ED1 /* MakeStrip.cpp */; };
+		BE7F26850B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266D0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp */; };
+		BE7F26860B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266E0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp */; };
+		BE7F26870B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266F0B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp */; };
+		BE7F26880B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26700B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp */; };
+		BE7F26B30B7BB92C00933ED1 /* QOClientStates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F269D0B7BB92C00933ED1 /* QOClientStates.cpp */; };
+		BE7F26B50B7BB92C00933ED1 /* QOGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F269F0B7BB92C00933ED1 /* QOGeometry.cpp */; };
+		BE7F26B60B7BB92C00933ED1 /* QOLights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A00B7BB92C00933ED1 /* QOLights.cpp */; };
+		BE7F26B80B7BB92C00933ED1 /* QOMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A20B7BB92C00933ED1 /* QOMatrix.cpp */; };
+		BE7F26BA0B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A40B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp */; };
+		BE7F26BD0B7BB92C00933ED1 /* QORegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A70B7BB92C00933ED1 /* QORegister.cpp */; };
+		BE7F26BF0B7BB92C00933ED1 /* QORenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A90B7BB92C00933ED1 /* QORenderer.cpp */; };
+		BE7F26C10B7BB92C00933ED1 /* QOStartAndEnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AB0B7BB92C00933ED1 /* QOStartAndEnd.cpp */; };
+		BE7F26C20B7BB92C00933ED1 /* QOStatics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AC0B7BB92C00933ED1 /* QOStatics.cpp */; };
+		BE7F26C40B7BB92C00933ED1 /* QOTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AE0B7BB92C00933ED1 /* QOTexture.cpp */; };
+		BE7F26C60B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B00B7BB92C00933ED1 /* QOTransBuffer.cpp */; };
+		BE7F26C80B7BB92C00933ED1 /* QOUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */; };
+		BE7F26C90B7BB92C00933ED1 /* QOClientStates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F269D0B7BB92C00933ED1 /* QOClientStates.cpp */; };
+		BE7F26CB0B7BB92C00933ED1 /* QOGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F269F0B7BB92C00933ED1 /* QOGeometry.cpp */; };
+		BE7F26CC0B7BB92C00933ED1 /* QOLights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A00B7BB92C00933ED1 /* QOLights.cpp */; };
+		BE7F26CE0B7BB92C00933ED1 /* QOMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A20B7BB92C00933ED1 /* QOMatrix.cpp */; };
+		BE7F26D00B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A40B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp */; };
+		BE7F26D30B7BB92C00933ED1 /* QORegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A70B7BB92C00933ED1 /* QORegister.cpp */; };
+		BE7F26D50B7BB92C00933ED1 /* QORenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A90B7BB92C00933ED1 /* QORenderer.cpp */; };
+		BE7F26D70B7BB92C00933ED1 /* QOStartAndEnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AB0B7BB92C00933ED1 /* QOStartAndEnd.cpp */; };
+		BE7F26D80B7BB92C00933ED1 /* QOStatics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AC0B7BB92C00933ED1 /* QOStatics.cpp */; };
+		BE7F26DA0B7BB92C00933ED1 /* QOTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AE0B7BB92C00933ED1 /* QOTexture.cpp */; };
+		BE7F26DC0B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B00B7BB92C00933ED1 /* QOTransBuffer.cpp */; };
+		BE7F26DE0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */; };
+		BE7F26DF0B7BB92C00933ED1 /* QOClientStates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F269D0B7BB92C00933ED1 /* QOClientStates.cpp */; };
+		BE7F26E00B7BB92C00933ED1 /* QOGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F269F0B7BB92C00933ED1 /* QOGeometry.cpp */; };
+		BE7F26E10B7BB92C00933ED1 /* QOLights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A00B7BB92C00933ED1 /* QOLights.cpp */; };
+		BE7F26E20B7BB92C00933ED1 /* QOMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A20B7BB92C00933ED1 /* QOMatrix.cpp */; };
+		BE7F26E30B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A40B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp */; };
+		BE7F26E40B7BB92C00933ED1 /* QORegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A70B7BB92C00933ED1 /* QORegister.cpp */; };
+		BE7F26E50B7BB92C00933ED1 /* QORenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A90B7BB92C00933ED1 /* QORenderer.cpp */; };
+		BE7F26E60B7BB92C00933ED1 /* QOStartAndEnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AB0B7BB92C00933ED1 /* QOStartAndEnd.cpp */; };
+		BE7F26E70B7BB92C00933ED1 /* QOStatics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AC0B7BB92C00933ED1 /* QOStatics.cpp */; };
+		BE7F26E80B7BB92C00933ED1 /* QOTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AE0B7BB92C00933ED1 /* QOTexture.cpp */; };
+		BE7F26E90B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B00B7BB92C00933ED1 /* QOTransBuffer.cpp */; };
+		BE7F26EA0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */; };
+		BE7F26EB0B7BB92C00933ED1 /* QOClientStates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F269D0B7BB92C00933ED1 /* QOClientStates.cpp */; };
+		BE7F26EC0B7BB92C00933ED1 /* QOGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F269F0B7BB92C00933ED1 /* QOGeometry.cpp */; };
+		BE7F26ED0B7BB92C00933ED1 /* QOLights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A00B7BB92C00933ED1 /* QOLights.cpp */; };
+		BE7F26EE0B7BB92C00933ED1 /* QOMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A20B7BB92C00933ED1 /* QOMatrix.cpp */; };
+		BE7F26EF0B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A40B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp */; };
+		BE7F26F00B7BB92C00933ED1 /* QORegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A70B7BB92C00933ED1 /* QORegister.cpp */; };
+		BE7F26F10B7BB92C00933ED1 /* QORenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26A90B7BB92C00933ED1 /* QORenderer.cpp */; };
+		BE7F26F20B7BB92C00933ED1 /* QOStartAndEnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AB0B7BB92C00933ED1 /* QOStartAndEnd.cpp */; };
+		BE7F26F30B7BB92C00933ED1 /* QOStatics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AC0B7BB92C00933ED1 /* QOStatics.cpp */; };
+		BE7F26F40B7BB92C00933ED1 /* QOTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26AE0B7BB92C00933ED1 /* QOTexture.cpp */; };
+		BE7F26F50B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B00B7BB92C00933ED1 /* QOTransBuffer.cpp */; };
+		BE7F26F60B7BB92C00933ED1 /* QOUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */; };
+		BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE7F276F0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE98E72309F763AC0040CE1B /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71E09F763AC0040CE1B /* AGL.framework */; };
 		BE98E72409F763AC0040CE1B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71F09F763AC0040CE1B /* Carbon.framework */; };
 		BE98E72509F763AC0040CE1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72009F763AC0040CE1B /* Cocoa.framework */; };
@@ -814,13 +900,51 @@
 		AB83B964055E77870034F56A /* E3MacStorage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacStorage.c; sourceTree = "<group>"; };
 		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
 		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
-		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1756AFF080A71C30056134C /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef_Gets.h; sourceTree = "<group>"; };
 		BE5FCA270AFFED730080C922 /* Quesa-project-config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Quesa-project-config.xcconfig"; sourceTree = "<group>"; };
 		BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Quesa-framework-targets.xcconfig"; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLTextureManager.c; sourceTree = "<group>"; };
 		BE7759D909F7F88D006C1ED3 /* quesa-export-gcc3.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = "quesa-export-gcc3.txt"; sourceTree = SOURCE_ROOT; };
+		BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLGPUSharing.cpp; sourceTree = "<group>"; };
+		BE7F264A0B7BB87F00933ED1 /* GLDisplayListManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLDisplayListManager.h; sourceTree = "<group>"; };
+		BE7F264B0B7BB87F00933ED1 /* GLTextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureLoader.h; sourceTree = "<group>"; };
+		BE7F264C0B7BB87F00933ED1 /* GLTextureLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLTextureLoader.cpp; sourceTree = "<group>"; };
+		BE7F264D0B7BB87F00933ED1 /* GLDisplayListManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLDisplayListManager.cpp; sourceTree = "<group>"; };
+		BE7F264E0B7BB87F00933ED1 /* GLVBOManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLVBOManager.cpp; sourceTree = "<group>"; };
+		BE7F264F0B7BB87F00933ED1 /* GLGPUSharing.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLGPUSharing.h; sourceTree = "<group>"; };
+		BE7F26500B7BB87F00933ED1 /* GLVBOManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLVBOManager.h; sourceTree = "<group>"; };
+		BE7F266A0B7BB8AD00933ED1 /* MakeStrip.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MakeStrip.cpp; sourceTree = "<group>"; };
+		BE7F266B0B7BB8AD00933ED1 /* MakeStrip.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MakeStrip.h; sourceTree = "<group>"; };
+		BE7F266C0B7BB8AD00933ED1 /* StripMaker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StripMaker.h; sourceTree = "<group>"; };
+		BE7F266D0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = StripMaker_FindAdjacencies.cpp; sourceTree = "<group>"; };
+		BE7F266E0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = StripMaker_InitFaces.cpp; sourceTree = "<group>"; };
+		BE7F266F0B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = StripMaker_JoinStrips.cpp; sourceTree = "<group>"; };
+		BE7F26700B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = StripMaker_MakeSimpleStrip.cpp; sourceTree = "<group>"; };
+		BE7F269D0B7BB92C00933ED1 /* QOClientStates.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOClientStates.cpp; sourceTree = "<group>"; };
+		BE7F269E0B7BB92C00933ED1 /* QOClientStates.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOClientStates.h; sourceTree = "<group>"; };
+		BE7F269F0B7BB92C00933ED1 /* QOGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOGeometry.cpp; sourceTree = "<group>"; };
+		BE7F26A00B7BB92C00933ED1 /* QOLights.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOLights.cpp; sourceTree = "<group>"; };
+		BE7F26A10B7BB92C00933ED1 /* QOLights.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOLights.h; sourceTree = "<group>"; };
+		BE7F26A20B7BB92C00933ED1 /* QOMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOMatrix.cpp; sourceTree = "<group>"; };
+		BE7F26A30B7BB92C00933ED1 /* QOMatrix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOMatrix.h; sourceTree = "<group>"; };
+		BE7F26A40B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOOpaqueTriBuffer.cpp; sourceTree = "<group>"; };
+		BE7F26A50B7BB92C00933ED1 /* QOOpaqueTriBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOOpaqueTriBuffer.h; sourceTree = "<group>"; };
+		BE7F26A60B7BB92C00933ED1 /* QOPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOPrefix.h; sourceTree = "<group>"; };
+		BE7F26A70B7BB92C00933ED1 /* QORegister.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QORegister.cpp; sourceTree = "<group>"; };
+		BE7F26A80B7BB92C00933ED1 /* QORegister.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QORegister.h; sourceTree = "<group>"; };
+		BE7F26A90B7BB92C00933ED1 /* QORenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QORenderer.cpp; sourceTree = "<group>"; };
+		BE7F26AA0B7BB92C00933ED1 /* QORenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QORenderer.h; sourceTree = "<group>"; };
+		BE7F26AB0B7BB92C00933ED1 /* QOStartAndEnd.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOStartAndEnd.cpp; sourceTree = "<group>"; };
+		BE7F26AC0B7BB92C00933ED1 /* QOStatics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOStatics.cpp; sourceTree = "<group>"; };
+		BE7F26AD0B7BB92C00933ED1 /* QOStatics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOStatics.h; sourceTree = "<group>"; };
+		BE7F26AE0B7BB92C00933ED1 /* QOTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOTexture.cpp; sourceTree = "<group>"; };
+		BE7F26AF0B7BB92C00933ED1 /* QOTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOTexture.h; sourceTree = "<group>"; };
+		BE7F26B00B7BB92C00933ED1 /* QOTransBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOTransBuffer.cpp; sourceTree = "<group>"; };
+		BE7F26B10B7BB92C00933ED1 /* QOTransBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOTransBuffer.h; sourceTree = "<group>"; };
+		BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOUpdate.cpp; sourceTree = "<group>"; };
+		BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Q3GroupIterator.h; sourceTree = "<group>"; };
 		BE98E71E09F763AC0040CE1B /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		BE98E71F09F763AC0040CE1B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		BE98E72009F763AC0040CE1B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -833,7 +957,7 @@
 		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cpp; sourceTree = "<group>"; };
 		BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
 		BEDC072708A6812D00FB3A82 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEDC08D008A6B24A00FB3A82 /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDC08D308A6B74200FB3A82 /* Info.plist */ = {isa = PBXFileReference; comments = "This file is for use with Xcode 2.1.  It must be preprocessed in order to\nconvert the symbol kQ3UnquotedStringVersion into an actual version string."; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = Quesa.rsrc; path = Resources/Quesa.rsrc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -894,9 +1018,9 @@
 			isa = PBXGroup;
 			children = (
 				8D07F2C80486CC7A007CD1D0 /* Quesa.framework */,
-				B1756AFF080A71C30056134C /* libQuesa.a */,
+				B1756AFF080A71C30056134C /* libQuesaD.a */,
 				BEDC072708A6812D00FB3A82 /* Quesa.framework */,
-				BEDC08D008A6B24A00FB3A82 /* libQuesa.a */,
+				BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1130,8 +1254,10 @@
 			children = (
 				AB3A7C18055E63B100CA83BE /* Common */,
 				BEC777CE087DA6AD00080AB7 /* Cartoon */,
+				BE7F26690B7BB8AD00933ED1 /* MakeStrip */,
 				AB3A7C22055E63B100CA83BE /* Generic */,
 				AB3A7C2A055E63B100CA83BE /* Interactive */,
+				BE7F269C0B7BB92C00933ED1 /* OpenGL */,
 				AB3A7C3E055E63B100CA83BE /* Wireframe */,
 			);
 			name = Renderers;
@@ -1143,13 +1269,21 @@
 			children = (
 				AB3A7C19055E63B100CA83BE /* GLCamera.c */,
 				AB3A7C1A055E63B100CA83BE /* GLCamera.h */,
+				BE7F264D0B7BB87F00933ED1 /* GLDisplayListManager.cpp */,
+				BE7F264A0B7BB87F00933ED1 /* GLDisplayListManager.h */,
 				AB3A7C1D055E63B100CA83BE /* GLDrawContext.c */,
 				AB3A7C1E055E63B100CA83BE /* GLDrawContext.h */,
-				BE6FD690076B88A800587852 /* GLTextureManager.h */,
-				BE6FD691076B88A800587852 /* GLTextureManager.c */,
+				BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */,
+				BE7F264F0B7BB87F00933ED1 /* GLGPUSharing.h */,
 				AB3A7C1F055E63B100CA83BE /* GLPrefix.h */,
+				BE7F264C0B7BB87F00933ED1 /* GLTextureLoader.cpp */,
+				BE7F264B0B7BB87F00933ED1 /* GLTextureLoader.h */,
+				BE6FD691076B88A800587852 /* GLTextureManager.c */,
+				BE6FD690076B88A800587852 /* GLTextureManager.h */,
 				AB3A7C20055E63B100CA83BE /* GLUtils.c */,
 				AB3A7C21055E63B100CA83BE /* GLUtils.h */,
+				BE7F264E0B7BB87F00933ED1 /* GLVBOManager.cpp */,
+				BE7F26500B7BB87F00933ED1 /* GLVBOManager.h */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1280,6 +1414,7 @@
 			children = (
 				BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */,
 				BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */,
+				BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */,
 				AB83B5D8055E72B90034F56A /* Quesa.h */,
 				AB83B5D9055E72B90034F56A /* QuesaCamera.h */,
 				AB83B5DA055E72B90034F56A /* QuesaController.h */,
@@ -1330,6 +1465,49 @@
 				BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */,
 			);
 			path = Mac;
+			sourceTree = "<group>";
+		};
+		BE7F26690B7BB8AD00933ED1 /* MakeStrip */ = {
+			isa = PBXGroup;
+			children = (
+				BE7F266A0B7BB8AD00933ED1 /* MakeStrip.cpp */,
+				BE7F266B0B7BB8AD00933ED1 /* MakeStrip.h */,
+				BE7F266C0B7BB8AD00933ED1 /* StripMaker.h */,
+				BE7F266D0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp */,
+				BE7F266E0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp */,
+				BE7F266F0B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp */,
+				BE7F26700B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp */,
+			);
+			path = MakeStrip;
+			sourceTree = "<group>";
+		};
+		BE7F269C0B7BB92C00933ED1 /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				BE7F269D0B7BB92C00933ED1 /* QOClientStates.cpp */,
+				BE7F269E0B7BB92C00933ED1 /* QOClientStates.h */,
+				BE7F269F0B7BB92C00933ED1 /* QOGeometry.cpp */,
+				BE7F26A00B7BB92C00933ED1 /* QOLights.cpp */,
+				BE7F26A10B7BB92C00933ED1 /* QOLights.h */,
+				BE7F26A20B7BB92C00933ED1 /* QOMatrix.cpp */,
+				BE7F26A30B7BB92C00933ED1 /* QOMatrix.h */,
+				BE7F26A40B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp */,
+				BE7F26A50B7BB92C00933ED1 /* QOOpaqueTriBuffer.h */,
+				BE7F26A60B7BB92C00933ED1 /* QOPrefix.h */,
+				BE7F26A70B7BB92C00933ED1 /* QORegister.cpp */,
+				BE7F26A80B7BB92C00933ED1 /* QORegister.h */,
+				BE7F26A90B7BB92C00933ED1 /* QORenderer.cpp */,
+				BE7F26AA0B7BB92C00933ED1 /* QORenderer.h */,
+				BE7F26AB0B7BB92C00933ED1 /* QOStartAndEnd.cpp */,
+				BE7F26AC0B7BB92C00933ED1 /* QOStatics.cpp */,
+				BE7F26AD0B7BB92C00933ED1 /* QOStatics.h */,
+				BE7F26AE0B7BB92C00933ED1 /* QOTexture.cpp */,
+				BE7F26AF0B7BB92C00933ED1 /* QOTexture.h */,
+				BE7F26B00B7BB92C00933ED1 /* QOTransBuffer.cpp */,
+				BE7F26B10B7BB92C00933ED1 /* QOTransBuffer.h */,
+				BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */,
+			);
+			path = OpenGL;
 			sourceTree = "<group>";
 		};
 		BE98E71109F763440040CE1B /* Current System */ = {
@@ -1397,6 +1575,7 @@
 				AB83B606055E72B90034F56A /* QuesaViewer.h in Headers */,
 				BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */,
 				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
+				BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1429,6 +1608,7 @@
 				BEDC06A208A6812D00FB3A82 /* QuesaViewer.h in Headers */,
 				BEDC06A608A6812D00FB3A82 /* CQ3ObjectRef.h in Headers */,
 				BE392D080B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
+				BE7F276F0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,7 +1647,7 @@
 			);
 			name = "Static Lib (Univ)";
 			productName = Quesa.lib;
-			productReference = B1756AFF080A71C30056134C /* libQuesa.a */;
+			productReference = B1756AFF080A71C30056134C /* libQuesaD.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		BEDC062F08A6812D00FB3A82 /* Fmwk (GCC 3.3) */ = {
@@ -1506,7 +1686,7 @@
 			);
 			name = "Static Lib (GCC 3.3)";
 			productName = Quesa.lib;
-			productReference = BEDC08D008A6B24A00FB3A82 /* libQuesa.a */;
+			productReference = BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -1668,6 +1848,27 @@
 				BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */,
 				BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 				BE98E73B09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */,
+				BE7F26510B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */,
+				BE7F26540B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */,
+				BE7F26550B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */,
+				BE7F26560B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */,
+				BE7F26710B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */,
+				BE7F26740B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */,
+				BE7F26750B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */,
+				BE7F26760B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp in Sources */,
+				BE7F26770B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp in Sources */,
+				BE7F26B30B7BB92C00933ED1 /* QOClientStates.cpp in Sources */,
+				BE7F26B50B7BB92C00933ED1 /* QOGeometry.cpp in Sources */,
+				BE7F26B60B7BB92C00933ED1 /* QOLights.cpp in Sources */,
+				BE7F26B80B7BB92C00933ED1 /* QOMatrix.cpp in Sources */,
+				BE7F26BA0B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp in Sources */,
+				BE7F26BD0B7BB92C00933ED1 /* QORegister.cpp in Sources */,
+				BE7F26BF0B7BB92C00933ED1 /* QORenderer.cpp in Sources */,
+				BE7F26C10B7BB92C00933ED1 /* QOStartAndEnd.cpp in Sources */,
+				BE7F26C20B7BB92C00933ED1 /* QOStatics.cpp in Sources */,
+				BE7F26C40B7BB92C00933ED1 /* QOTexture.cpp in Sources */,
+				BE7F26C60B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
+				BE7F26C80B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1791,6 +1992,27 @@
 				BEC777D3087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */,
 				BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 				BE98E73D09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */,
+				BE7F26610B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */,
+				BE7F26620B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */,
+				BE7F26630B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */,
+				BE7F26640B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */,
+				BE7F267F0B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */,
+				BE7F26800B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */,
+				BE7F26810B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */,
+				BE7F26820B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp in Sources */,
+				BE7F26830B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp in Sources */,
+				BE7F26DF0B7BB92C00933ED1 /* QOClientStates.cpp in Sources */,
+				BE7F26E00B7BB92C00933ED1 /* QOGeometry.cpp in Sources */,
+				BE7F26E10B7BB92C00933ED1 /* QOLights.cpp in Sources */,
+				BE7F26E20B7BB92C00933ED1 /* QOMatrix.cpp in Sources */,
+				BE7F26E30B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp in Sources */,
+				BE7F26E40B7BB92C00933ED1 /* QORegister.cpp in Sources */,
+				BE7F26E50B7BB92C00933ED1 /* QORenderer.cpp in Sources */,
+				BE7F26E60B7BB92C00933ED1 /* QOStartAndEnd.cpp in Sources */,
+				BE7F26E70B7BB92C00933ED1 /* QOStatics.cpp in Sources */,
+				BE7F26E80B7BB92C00933ED1 /* QOTexture.cpp in Sources */,
+				BE7F26E90B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
+				BE7F26EA0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1914,6 +2136,27 @@
 				BEDC071B08A6812D00FB3A82 /* CartoonRenderer.cpp in Sources */,
 				BEDC071C08A6812D00FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 				BE98E73C09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */,
+				BE7F26590B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */,
+				BE7F265C0B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */,
+				BE7F265D0B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */,
+				BE7F265E0B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */,
+				BE7F26780B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */,
+				BE7F267B0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */,
+				BE7F267C0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */,
+				BE7F267D0B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp in Sources */,
+				BE7F267E0B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp in Sources */,
+				BE7F26C90B7BB92C00933ED1 /* QOClientStates.cpp in Sources */,
+				BE7F26CB0B7BB92C00933ED1 /* QOGeometry.cpp in Sources */,
+				BE7F26CC0B7BB92C00933ED1 /* QOLights.cpp in Sources */,
+				BE7F26CE0B7BB92C00933ED1 /* QOMatrix.cpp in Sources */,
+				BE7F26D00B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp in Sources */,
+				BE7F26D30B7BB92C00933ED1 /* QORegister.cpp in Sources */,
+				BE7F26D50B7BB92C00933ED1 /* QORenderer.cpp in Sources */,
+				BE7F26D70B7BB92C00933ED1 /* QOStartAndEnd.cpp in Sources */,
+				BE7F26D80B7BB92C00933ED1 /* QOStatics.cpp in Sources */,
+				BE7F26DA0B7BB92C00933ED1 /* QOTexture.cpp in Sources */,
+				BE7F26DC0B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
+				BE7F26DE0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2037,6 +2280,27 @@
 				BEDC08C508A6B24A00FB3A82 /* CartoonRenderer.cpp in Sources */,
 				BEDC08C608A6B24A00FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 				BE98E73E09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */,
+				BE7F26650B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */,
+				BE7F26660B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */,
+				BE7F26670B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */,
+				BE7F26680B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */,
+				BE7F26840B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */,
+				BE7F26850B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */,
+				BE7F26860B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */,
+				BE7F26870B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp in Sources */,
+				BE7F26880B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp in Sources */,
+				BE7F26EB0B7BB92C00933ED1 /* QOClientStates.cpp in Sources */,
+				BE7F26EC0B7BB92C00933ED1 /* QOGeometry.cpp in Sources */,
+				BE7F26ED0B7BB92C00933ED1 /* QOLights.cpp in Sources */,
+				BE7F26EE0B7BB92C00933ED1 /* QOMatrix.cpp in Sources */,
+				BE7F26EF0B7BB92C00933ED1 /* QOOpaqueTriBuffer.cpp in Sources */,
+				BE7F26F00B7BB92C00933ED1 /* QORegister.cpp in Sources */,
+				BE7F26F10B7BB92C00933ED1 /* QORenderer.cpp in Sources */,
+				BE7F26F20B7BB92C00933ED1 /* QOStartAndEnd.cpp in Sources */,
+				BE7F26F30B7BB92C00933ED1 /* QOStatics.cpp in Sources */,
+				BE7F26F40B7BB92C00933ED1 /* QOTexture.cpp in Sources */,
+				BE7F26F50B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
+				BE7F26F60B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
