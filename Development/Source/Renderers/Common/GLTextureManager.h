@@ -50,7 +50,6 @@
 
 
 
-
 //=============================================================================
 //		C++ preamble
 //-----------------------------------------------------------------------------
@@ -60,20 +59,13 @@ extern "C" {
 
 
 
-
-
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
 
-// Cached texture data
-struct TQ3CachedTexture
-{
-	CQ3ObjectRef			cachedTextureObject;
-	TQ3Uns32				editIndexTexture;
-	TQ3Uns32				editIndexStorage;
-	GLuint					glTextureName;
-};
+
+// Cached texture record opaque pointer
+typedef const struct TQ3CachedTexture*	TQ3CachedTexturePtr;
 
 
 // Texture cache opaque pointer
@@ -86,35 +78,6 @@ typedef struct TQ3TextureCache*	TQ3TextureCachePtr;
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-/*!
-	@function		GLTextureMgr_GetNextSharingBase
-	@abstract		Get the next GL sharing context base.
-	@discussion		When a GL context is being created, we usually want to
-					make it share textures with previously created GL contexts.
-					The texture manager maintains a list of existing GL contexts
-					grouped by sharing.  This function can be used to find one
-					context in each sharing group.
-	@param			glBase			NULL to begin iteration, or a value returned
-									by a previous call to this function.
-	@result			Next GL sharing context, or NULL when there are no more.
-*/
-TQ3GLContext		GLTextureMgr_GetNextSharingBase( TQ3GLContext glBase );
-
-
-/*!
-	@function		GLTextureMgr_AddContext
-	@abstract		After successfully creating a new context, call this function
-					to inform the texture manager.
-	@discussion		If the new context shares with a previous context, the texture
-					manager records the context and returns the texture cache.
-					If there was no shared context, the texture manager creates
-					a new texture cache.
-	@param			newGLContext		The newly created context.
-	@param			sharingBase			The existing context with which the new one
-										shares textures, or NULL.
-*/
-void				GLTextureMgr_AddContext( TQ3GLContext newGLContext,
-								TQ3GLContext sharingBase );
 
 
 /*!
@@ -128,24 +91,14 @@ void				GLTextureMgr_AddContext( TQ3GLContext newGLContext,
 TQ3TextureCachePtr	GLTextureMgr_GetTextureCache( TQ3GLContext glContext );
 
 /*!
-	@function		GLTextureMgr_RemoveContext
-	@abstract		Inform the texture manager that a GL context has been destroyed.
-	@discussion		The given GL context will be forgotten from its texture cache.
-					If there are no more contexts associated with the texture cache,
-					then the texture cache will be disposed.
-	@param			deadGLContext		A former GL context.
-*/
-void				GLTextureMgr_RemoveContext( TQ3GLContext deadGLContext );
-
-
-/*!
 	@function		GLTextureMgr_FindCachedTexture
 	@abstract		Access a texture cache record by matching the texture object.
 	@param			txCache			A texture cache.
 	@param			texture			Reference to a texture object.
 	@result			Pointer to a cached texture record, or NULL if not found.
 */
-TQ3CachedTexture* GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
+TQ3CachedTexturePtr	GLTextureMgr_FindCachedTexture(
+								TQ3TextureCachePtr txCache,
 								TQ3TextureObject texture );
 
 /*!
@@ -155,7 +108,8 @@ TQ3CachedTexture* GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
 	@param			memberIndex		Zero-based index of a cached texture.
 	@result			Pointer to a cached texture record, or NULL if not found.
 */
-TQ3CachedTexture*	GLTextureMgr_GetCachedTextureByIndex( TQ3TextureCachePtr txCache,
+TQ3CachedTexturePtr	GLTextureMgr_GetCachedTextureByIndex(
+								TQ3TextureCachePtr txCache,
 								TQ3Uns32 memberIndex );
 
 /*!
@@ -164,19 +118,34 @@ TQ3CachedTexture*	GLTextureMgr_GetCachedTextureByIndex( TQ3TextureCachePtr txCac
 	@param			txCache			A texture cache.
 	@param			textureRec		Texture cache record to remove.
 */
-void				GLTextureMgr_RemoveCachedTexture( TQ3TextureCachePtr txCache,
-								TQ3CachedTexture* textureRec );
+void				GLTextureMgr_RemoveCachedTexture(
+								TQ3TextureCachePtr txCache,
+								TQ3CachedTexturePtr textureRec );
+
 
 /*!
-	@function		GLTextureMgr_AddCachedTexture
-	@abstract		Append a texture record to the texture cache.
+	@function		GLTextureMgr_CacheTexture
+	@abstract		Add a texture to the cache.
 	@param			txCache			A texture cache.
-	@param			textureRec		A new texture record to cache.
-	@result			Success or failure of the operation.
+	@param			inTexture		A Quesa texture object.
+	@param			inGLTextureName	An OpenGL texture object name.
 */
-TQ3Status			GLTextureMgr_AddCachedTexture( TQ3TextureCachePtr txCache,
-								struct TQ3CachedTexture* textureRec );
+void				GLTextureMgr_CacheTexture(
+								TQ3TextureCachePtr txCache,
+								TQ3TextureObject inTexture,
+								GLuint inGLTextureName );
 
+/*!
+	@function		GLTextureMgr_IsCachedTextureStale
+	@abstract		Determine whether the texture cache contains this texture,
+					but the texture has been modified since it was cached.
+	@param			txCache			A texture cache.
+	@param			inTexture		A texture object.
+	@result			True if the texture is in the cache but stale.
+*/
+TQ3Boolean				GLTextureMgr_IsCachedTextureStale(
+								TQ3TextureCachePtr txCache,
+								TQ3TextureObject inTexture );
 
 #if Q3_DEBUG
 /*!
@@ -189,13 +158,30 @@ TQ3Boolean			GLTextureMgr_IsValidTextureCache( TQ3TextureCachePtr txCache );
 #endif
 
 
+/*!
+	@function		GetQuesaTexture
+	@abstract		Access the Quesa texture object from a cached texture.
+	@param			inCachedTexture		A cached texture record.
+	@result			A texture object.
+*/
+TQ3TextureObject	GLTextureMgr_GetQuesaTexture( TQ3CachedTexturePtr inCachedTexture );
+	
+/*!
+	@function		GetOpenGLTexture
+	@abstract		Access the OpenGL texture name from a cached texture.
+	@param			inCachedTexture		A cached texture record.
+	@result			An OpenGL texture name.
+*/
+GLuint		GLTextureMgr_GetOpenGLTexture( TQ3CachedTexturePtr inCachedTexture );
+
+
+
 //=============================================================================
 //		C++ postamble
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }
 #endif
-
 
 
 #endif
