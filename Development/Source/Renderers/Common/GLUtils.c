@@ -451,6 +451,9 @@ static CFBundleRef	GetOpenGLBundle()
 void*	GLGetProcAddress( const char* funcName )
 {
 	void*	thePtr = NULL;
+
+	// Currently we always return NULL in Classic mode...
+	#if TARGET_API_MAC_CARBON
 	CFBundleRef		theBundle = GetOpenGLBundle();
 	
 	if (theBundle != NULL)
@@ -464,6 +467,7 @@ void*	GLGetProcAddress( const char* funcName )
 			CFRelease( nameCF );
 		}
 	}
+	#endif
 	
 	return thePtr;
 }
