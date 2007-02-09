@@ -916,6 +916,12 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		bool isOnFastPath = FindTriMeshData( *inGeomData, vertNormals, vertUVs,
 			vertColors, edgeColors );
 		
+		if ( (vertColors == NULL) &&
+			((1.0f - mGeomState.alpha) > kAlphaThreshold) )
+		{
+			isOnFastPath = false;
+		}
+		
 		// If we are in edge-fill mode and explicit edges have been provided,
 		// we may want to handle them here.
 		if ( (mStyleFill == kQ3FillStyleEdges) &&
