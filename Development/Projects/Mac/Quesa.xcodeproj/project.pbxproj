@@ -344,6 +344,12 @@
 		BE7F26F60B7BB92C00933ED1 /* QOUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */; };
 		BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE7F276F0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
+		BE8D58CB0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h in Headers */ = {isa = PBXBuildFile; fileRef = BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */; };
+		BE8D58CC0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
+		BE8D58CD0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h in Headers */ = {isa = PBXBuildFile; fileRef = BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */; };
+		BE8D58CE0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
+		BE8D58CF0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
 		BE98E72309F763AC0040CE1B /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71E09F763AC0040CE1B /* AGL.framework */; };
 		BE98E72409F763AC0040CE1B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71F09F763AC0040CE1B /* Carbon.framework */; };
 		BE98E72509F763AC0040CE1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72009F763AC0040CE1B /* Cocoa.framework */; };
@@ -945,6 +951,8 @@
 		BE7F26B10B7BB92C00933ED1 /* QOTransBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOTransBuffer.h; sourceTree = "<group>"; };
 		BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOUpdate.cpp; sourceTree = "<group>"; };
 		BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Q3GroupIterator.h; sourceTree = "<group>"; };
+		BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OptimizedTriMeshElement.cpp; sourceTree = "<group>"; };
+		BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OptimizedTriMeshElement.h; sourceTree = "<group>"; };
 		BE98E71E09F763AC0040CE1B /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		BE98E71F09F763AC0040CE1B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		BE98E72009F763AC0040CE1B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -1284,6 +1292,8 @@
 				AB3A7C21055E63B100CA83BE /* GLUtils.h */,
 				BE7F264E0B7BB87F00933ED1 /* GLVBOManager.cpp */,
 				BE7F26500B7BB87F00933ED1 /* GLVBOManager.h */,
+				BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */,
+				BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1576,6 +1586,7 @@
 				BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */,
 				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
+				BE8D58CB0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1609,6 +1620,7 @@
 				BEDC06A608A6812D00FB3A82 /* CQ3ObjectRef.h in Headers */,
 				BE392D080B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE7F276F0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
+				BE8D58CD0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1869,6 +1881,7 @@
 				BE7F26C40B7BB92C00933ED1 /* QOTexture.cpp in Sources */,
 				BE7F26C60B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
 				BE7F26C80B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
+				BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2013,6 +2026,7 @@
 				BE7F26E80B7BB92C00933ED1 /* QOTexture.cpp in Sources */,
 				BE7F26E90B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
 				BE7F26EA0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
+				BE8D58CE0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2157,6 +2171,7 @@
 				BE7F26DA0B7BB92C00933ED1 /* QOTexture.cpp in Sources */,
 				BE7F26DC0B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
 				BE7F26DE0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
+				BE8D58CC0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2301,6 +2316,7 @@
 				BE7F26F40B7BB92C00933ED1 /* QOTexture.cpp in Sources */,
 				BE7F26F50B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
 				BE7F26F60B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
+				BE8D58CF0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
