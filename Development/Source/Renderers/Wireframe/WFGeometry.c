@@ -49,6 +49,7 @@
 #include "GLPrefix.h"
 #include "GLDrawContext.h"
 
+#include "CQ3ObjectRef.h"
 
 
 
@@ -74,6 +75,62 @@ wf_geom_set_colour(TQ3WireframeData *instanceData, TQ3AttributeSet attributeSet)
 		glColor3fv((const GLfloat *) &theColour);
 }
 
+
+
+
+
+static bool HasSegmentAtts( const TQ3PolyLineData* inGeomData )
+{
+	bool	hasSegAtts = false;
+	
+	if (inGeomData->segmentAttributeSet != NULL)
+	{
+		for (int i = 0; i < inGeomData->numVertices - 1; ++i)
+		{
+			if (inGeomData->segmentAttributeSet[i] != NULL)
+			{
+				hasSegAtts = true;
+				break;
+			}
+		}
+	}
+	
+	return hasSegAtts;
+}
+
+
+
+
+
+/*!
+	@function	PassBuckOnPolyLine
+	@abstract	When a PolyLine is not the kind we can handle in our fast path,
+				decompose it into lines and resubmit it.
+*/
+static void	PassBuckOnPolyLine(
+									TQ3ViewObject inView,
+									TQ3GeometryObject inPolyLine,
+									const TQ3PolyLineData* inGeomData )
+{
+	CQ3ObjectRef	tempGeom;
+	if (inPolyLine == NULL)
+	{
+		// Immediate mode.
+		inPolyLine = Q3PolyLine_New( inGeomData );
+		tempGeom = CQ3ObjectRef( inPolyLine );
+	}
+	
+	if (inPolyLine != NULL)
+	{
+		CQ3ObjectRef	decomposed( Q3Geometry_GetDecomposed( inPolyLine,
+			inView ) );
+		
+		if (decomposed.isvalid())
+		{
+			Q3Object_Submit( decomposed.get(), inView );
+		}
+	}
+}
 
 
 
@@ -251,8 +308,13 @@ WFGeometry_PolyLine(TQ3ViewObject			theView,
 					TQ3GeometryObject		theGeom,
 					TQ3PolyLineData			*geomData)
 {	TQ3Uns32	n;
-#pragma unused(theView)
-#pragma unused(theGeom)
+
+
+	if (HasSegmentAtts( geomData ))
+	{
+		PassBuckOnPolyLine( theView, theGeom, geomData );
+		return kQ3Success;
+	}
 
 
 
