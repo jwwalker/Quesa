@@ -189,6 +189,8 @@ private:
 	void					SubmitLine(
 									const TQ3LineData* inGeomData );
 	void					SubmitPolyLine(
+									TQ3ViewObject inView,
+									TQ3GeometryObject inPolyLine,
 									const TQ3PolyLineData* inGeomData );
 	
 	TQ3Status				UpdateLocalToCamera(
@@ -240,10 +242,6 @@ private:
 									TQ3ViewObject inView,
 									bool inIsTextureRelevant );
 	void					UpdateSpecularMaterial();
-	bool					PassBuckOnTriMesh(
-									TQ3ViewObject inView,
-									TQ3GeometryObject inTriMesh,
-									const TQ3TriMeshData* inGeomData );
 	SlowPathMask			FindTriMeshData(
 									const TQ3TriMeshData& inGeomData,
 									const TQ3Vector3D*& outVertNormals,
@@ -264,14 +262,6 @@ private:
 	void					SimulateSeparateSpecularColor(
 									TQ3Uns32 inNumIndices,
 									const TQ3Uns32* inIndices );
-	void					ImmediateModePush(
-									TQ3ViewObject inView,
-									TQ3GeometryObject inGeom,
-									TQ3AttributeSet inGeomAtts );
-	void					ImmediateModePop(
-									TQ3ViewObject inView,
-									TQ3GeometryObject inGeom,
-									TQ3AttributeSet inGeomAtts );
 	bool					IsFakeSeparateSpecularColorNeeded() const;
 	
 	TQ3RendererObject		mRendererObject;
