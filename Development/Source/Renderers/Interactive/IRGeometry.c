@@ -101,6 +101,63 @@ ir_geom_adjust_state(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttrib
 
 
 
+static bool HasSegmentAtts( const TQ3PolyLineData* inGeomData )
+{
+	bool	hasSegAtts = false;
+	
+	if (inGeomData->segmentAttributeSet != NULL)
+	{
+		for (int i = 0; i < inGeomData->numVertices - 1; ++i)
+		{
+			if (inGeomData->segmentAttributeSet[i] != NULL)
+			{
+				hasSegAtts = true;
+				break;
+			}
+		}
+	}
+	
+	return hasSegAtts;
+}
+
+
+
+
+
+/*!
+	@function	PassBuckOnPolyLine
+	@abstract	When a PolyLine is not the kind we can handle in our fast path,
+				decompose it into lines and resubmit it.
+*/
+void	PassBuckOnPolyLine(
+									TQ3ViewObject inView,
+									TQ3GeometryObject inPolyLine,
+									const TQ3PolyLineData* inGeomData )
+{
+	CQ3ObjectRef	tempGeom;
+	if (inPolyLine == NULL)
+	{
+		// Immediate mode.
+		inPolyLine = Q3PolyLine_New( inGeomData );
+		tempGeom = CQ3ObjectRef( inPolyLine );
+	}
+	
+	if (inPolyLine != NULL)
+	{
+		CQ3ObjectRef	decomposed( Q3Geometry_GetDecomposed( inPolyLine,
+			inView ) );
+		
+		if (decomposed.isvalid())
+		{
+			Q3Object_Submit( decomposed.get(), inView );
+		}
+	}
+}
+
+
+
+
+
 //=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
@@ -920,7 +977,14 @@ IRGeometry_Submit_PolyLine(TQ3ViewObject			theView,
 	TQ3FVertexFlags		vertexFlags;
 	TQ3Status			qd3dStatus;
 	TQ3Uns32			n, m;
-#pragma unused(theGeom)
+
+
+	if (HasSegmentAtts( geomData ))
+	{
+		PassBuckOnPolyLine( theView, theGeom, geomData );
+		return kQ3Success;
+	}
+
 
 
 
