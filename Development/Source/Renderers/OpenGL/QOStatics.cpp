@@ -289,13 +289,12 @@ TQ3Status	QORenderer::Statics::SubmitPolyLineMethod(
 							TQ3GeometryObject inGeomObject,
 							const void* inGeomData )
 {
-#pragma unused( inView, inGeomObject )
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
 	TQ3Status	result = kQ3Success;
 	
 	try
 	{
-		me->SubmitPolyLine(
+		me->SubmitPolyLine( inView, inGeomObject,
 			reinterpret_cast<const TQ3PolyLineData*>(inGeomData) );
 	}
 	catch (...)
