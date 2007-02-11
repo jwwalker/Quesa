@@ -129,7 +129,7 @@ static bool HasSegmentAtts( const TQ3PolyLineData* inGeomData )
 	@abstract	When a PolyLine is not the kind we can handle in our fast path,
 				decompose it into lines and resubmit it.
 */
-void	PassBuckOnPolyLine(
+static void	PassBuckOnPolyLine(
 									TQ3ViewObject inView,
 									TQ3GeometryObject inPolyLine,
 									const TQ3PolyLineData* inGeomData )
