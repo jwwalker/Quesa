@@ -430,7 +430,7 @@ void	QORenderer::Renderer::CalcVertexState(
 	@abstract	When a TriMesh is not the kind we can handle in our fast path,
 				decompose it into triangles and resubmit it.
 */
-bool	QORenderer::Renderer::PassBuckOnTriMesh(
+static bool	PassBuckOnTriMesh(
 								TQ3ViewObject inView,
 								TQ3GeometryObject inTriMesh,
 								const TQ3TriMeshData* inGeomData )
@@ -907,7 +907,7 @@ void	QORenderer::Renderer::SimulateSeparateSpecularColor(
 				have to special-case each kind of geometry to get the
 				attribute set.  Therefore, the renderer needs to do this.
 */
-void	QORenderer::Renderer::ImmediateModePush(
+static void	ImmediateModePush(
 								TQ3ViewObject inView,
 								TQ3GeometryObject inGeom,
 								TQ3AttributeSet inGeomAtts )
@@ -928,7 +928,7 @@ void	QORenderer::Renderer::ImmediateModePush(
 				have to special-case each kind of geometry to get the
 				attribute set.  Therefore, the renderer needs to do this.
 */
-void	QORenderer::Renderer::ImmediateModePop(
+static void	ImmediateModePop(
 								TQ3ViewObject inView,
 								TQ3GeometryObject inGeom,
 								TQ3AttributeSet inGeomAtts )
@@ -1261,6 +1261,55 @@ void	QORenderer::Renderer::SubmitLine(
 	}
 }
 
+static bool HasSegmentAtts( const TQ3PolyLineData* inGeomData )
+{
+	bool	hasSegAtts = false;
+	
+	if (inGeomData->segmentAttributeSet != NULL)
+	{
+		for (int i = 0; i < inGeomData->numVertices - 1; ++i)
+		{
+			if (inGeomData->segmentAttributeSet[i] != NULL)
+			{
+				hasSegAtts = true;
+				break;
+			}
+		}
+	}
+	
+	return hasSegAtts;
+}
+
+/*!
+	@function	PassBuckOnPolyLine
+	@abstract	When a PolyLine is not the kind we can handle in our fast path,
+				decompose it into lines and resubmit it.
+*/
+static void	PassBuckOnPolyLine(
+									TQ3ViewObject inView,
+									TQ3GeometryObject inPolyLine,
+									const TQ3PolyLineData* inGeomData )
+{
+	CQ3ObjectRef	tempGeom;
+	if (inPolyLine == NULL)
+	{
+		// Immediate mode.
+		inPolyLine = Q3PolyLine_New( inGeomData );
+		tempGeom = CQ3ObjectRef( inPolyLine );
+	}
+	
+	if (inPolyLine != NULL)
+	{
+		CQ3ObjectRef	decomposed( Q3Geometry_GetDecomposed( inPolyLine,
+			inView ) );
+		
+		if (decomposed.isvalid())
+		{
+			Q3Object_Submit( decomposed.get(), inView );
+		}
+	}
+}
+
 /*!
 	@function	SubmitLine
 	
@@ -1270,8 +1319,16 @@ void	QORenderer::Renderer::SubmitLine(
 				Interactive Renderer.
 */
 void	QORenderer::Renderer::SubmitPolyLine(
+								TQ3ViewObject inView,
+								TQ3GeometryObject inPolyLine,
 								const TQ3PolyLineData* inGeomData )
 {
+	if (HasSegmentAtts( inGeomData ))
+	{
+		PassBuckOnPolyLine( inView, inPolyLine, inGeomData );
+		return;
+	}
+
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
