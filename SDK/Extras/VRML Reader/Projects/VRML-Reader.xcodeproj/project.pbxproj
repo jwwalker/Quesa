@@ -231,11 +231,11 @@
 		089C166AFE841209C02AAC07 /* VRML-Reader */ = {
 			isa = PBXGroup;
 			children = (
+				BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */,
 				08FB77ADFE841716C02AAC07 /* Source */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
-				BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */,
 			);
 			name = "VRML-Reader";
 			sourceTree = "<group>";
@@ -599,7 +599,6 @@
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 					"DEBUG=1",
 				);
-				PRODUCT_NAME = "VRML-Reader-D";
 			};
 			name = Debug;
 		};
