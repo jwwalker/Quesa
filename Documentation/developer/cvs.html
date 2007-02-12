@@ -1,250 +1,1 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<!--=========================================================================-->
-<!-- Page Header                                                             -->
-<!--=========================================================================-->
-<html>
-<head>
-	<title>Quesa - CVS Server</title>
-	<link rel="stylesheet" type="text/css" href="../site-styles.css">
-</head>
-<body bgcolor="white" text="black" background="../images/logo_gray.gif">
-
-<div class="sflogo">
-<a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=45158&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a>
-</div>
-
-<div class="qlogo">
-<a href="../index.html">
-<img src="../images/logo_text.jpg" alt="Quesa" width="311" height="105" border="0"></a>
-</div>
-
-
-
-<!--=========================================================================-->
-<!-- Page Content                                                            -->
-<!--=========================================================================-->
-<table border="0">
-<tr>
-<td class="navbar">
-	<table class="navtable" cellspacing="0">
-	
-	<tr><td class="navhead">Info</td></tr>
-	<tr><td class="navlinks">
-	<a href="../info/status.html">Status</a><br>
-	<a href="../info/screenshots.html">Screenshots</a>
-	<a href="../info/download.html">Download</a><br>
-	<a href="../info/list.html">Mailing List</a><br>
-	<a href="../info/list_archive.html">List Archive</a><br>
-	</td></tr>
-
-	<tr><td class="navhead">Developer</td></tr>
-	<tr><td class="navlinks">
-	<a href="../developer/todo.html">Todo</a><br>
-	<a href="../developer/bugs.html">Bug List</a><br>
-	<a href="../developer/cvs.html">CVS Server</a><br>
-	<a href="../developer/apiref/MasterTOC.html">API Reference</a>
-	</td></tr>
-	
-	<tr><td class="navhead">Reference</td></tr>
-	<tr><td class="navlinks">
-	<a href="../reference/docs.html">Documentation</a><br>
-	<a href="../reference/build.html">Building Quesa</a><br>
-	<a href="../reference/licence.html">License</a>
-	</td></tr>
-
-	<tr><td class="navhead">Other</td></tr>
-	<tr><td class="navlinks">
-	<a href="../other/contributors.html">Contributors</a><br>
-	<a href="../other/logo.html">Quesa Logo</a><br>
-	<a href="../other/links.html">Links</a>
-	</td></tr>
-
-	</table>
-</td>
-<!--=========================================================================-->
-<td width="10">&nbsp;</td>
-<td valign="top">
-
-
-<h3>CVS Server</h3>
-<p>
-Complete and compact source code packages for Macintosh, Windows, and Unix
-developers are currently available from the
-<a href="../info/download.html">Download</a> page.  These code packages
-provide a good way to get started with Quesa, especially for anyone who
-hasn't used a CVS server before.
-</p>
-
-<p>
-However, the most up-to-date Quesa source code is always available through
-our CVS server (for general information about CVS, see the <a href="https://www.cvshome.org/">CVS home site</a>).
-</p>
-
-<p>
-No personal account is necessary to check out code from the Quesa CVS
-server - anyone can check out the latest source, provided you have a
-CVS client for your development machine.
-</p>
-
-<p>
-To check code in to the Quesa CVS server, a Quesa editor-level account
-is required. These accounts are currently for steering committee members, and are granted to additional developers as necessary. When you have
-updated source code to submit, please send it by email to the appropriate
-<a href="../other/contributors.html">steering committee member</a>.
-</p>
-
-<p>
-This is the model used by many large open source projects, and ensures that
-code added to the source tree will be reviewed before it becomes active.
-</p>
-
-
-<h3>Server Details</h3>
-<p>
-No personal account is necessary to check out code from the Quesa CVS
-server - anyone can check out the latest source, provided you have a
-CVS client for your development machine.
-</p>
-
-<p>
-Once you have a CVS client, you should set your cvsroot to:
-</p>
-
-<pre>   anonymous@cvs.sourceforge.net:/cvsroot/quesa</pre>
-
-<p>
-You should set your user name to "anonymous", and your password "".
-</p>
-
-<p>
-The module name to fetch is "quesa", and you should have at least 30Mb free
-disk space to fetch the complete project.
-</p>
-
-
-
-<h3>Client Details</h3>
-<p>
-The following clients are available for Mac OS:
-</p>
-
-<ul>
-	<li><a href="http://sourceforge.net/projects/maccvspro/">MacCVS Pro</a> (recommended)</li>
-	<li><a href="http://www.wincvs.org/download.html">MacCVS</a></li>
-	<li><a href="http://www.glink.net.hk/~jb/MacCVSClient/">MacCVSClient</a></li>
-</ul>
-
-
-<p>
-The following clients are available for Windows:
-</p>
-
-<ul>
-	<li><a href="http://www.wincvs.org/download.html">WinCVS</a></li>
-</ul>
-
-
-<p>
-Unix clients can be obtained from:
-</p>
-
-<ul>
-	<li><a href="http://www.sourcegear.com/CVS/Dev/code">Source Gear</a></li>
-</ul>
-
-
-<h3>Mac OS Client Details</h3>
-<p>
-MacCVS Pro users can obtain a pre-configured CVS session file
-<a href="http://quesa.sourceforge.net/info/files/quesa.cvs.sit">here</a>. Open this session file, select "Session
-Settings..." from the Edit menu, and click the "Local Tree Directory" button to
-select where you want the source to be downloaded to.
-</p>
-
-<p>
-To bring yourself up to date with the latest source, select "Check Out Default
-Module" from the Action menu.
-</p>
-
-<hr width="20%" align="center">
-
-<p>
-MacCVS users (i.e., <em>not</em> "Mac CVS <em>Pro</em>" users) can fetch the
-current source by connecting using the Login command, and then selecting Checkout
-Module from the Cvs Admin menu.
-</p>
-
-<p>
-With this client, you may also need to specify some file mappings on top of your
-Internet Config settings - with Mac CVS Pro, these file mappings are set up for
-you in the session file.
-</p>
-
-
-
-<h3>Windows Client Details</h3>
-<p>
-To set up the server details, select "Preferences" from the Admin menu (this
-dialog will also be displayed the first time you start WinCVS). Enter the
-CVSROOT value on the first tab, and select "passwd" authentication. Select the
-Globals tab, and check the "Use TCP/IP compression" checkbox.
-</p>
-
-<p>
-Next, you need to select the browser's root folder: select "Change browse location"
-from the View menu, and select your development folder.
-</p>
-
-<p>
-Log in to the server by selecting "Login" from the Admin menu, and check out
-the source by selecting "Checkout module" from the Create menu.
-</p>
-
-<p>
-To update your source in the future, select your local development source
-folder in the browser pane and select "Update selection" from the Modify menu.
-</p>
-
-
-
-<h3>Unix Client Details</h3>
-<p>
-An example session showing how to log in to the CVS server and extract the
-latest source is:
-</p>
-
-<pre>   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/quesa login
-   (Logging in to anonymous@cvs.sourceforge.net)
-   CVS password:
-
-   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/quesa -z 9 co quesa</pre>
-
-<p>
-To check out updates to the source, you should only need to run the second
-command again - the login details should be saved automatically.
-</p>
-
-
-
-</td>
-</tr>
-</table>
-
-
-
-
-
-<!--=========================================================================-->
-<!-- Page Footer                                                             -->
-<!--=========================================================================-->
-<br>
-<br>
-<hr width="90%">
-
-<div class="footer">
-Quesa Web Site hosted by <a href="http://sourceforge.net">SourceForge</a>
-</div>
-
-</body>
-</html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"        "http://www.w3.org/TR/html4/loose.dtd"><!--=========================================================================--><!-- Page Header                                                             --><!--=========================================================================--><html><head>	<title>Quesa - CVS Server</title>	<link rel="stylesheet" type="text/css" href="../site-styles.css"></head><body bgcolor="white" text="black" background="../images/logo_gray.gif"><div class="sflogo"><a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=45158&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo"></a></div><div class="qlogo"><a href="../index.html"><img src="../images/logo_text.jpg" alt="Quesa" width="311" height="105" border="0"></a></div><!--=========================================================================--><!-- Page Content                                                            --><!--=========================================================================--><table border="0"><tr><td class="navbar">	<table class="navtable" cellspacing="0">		<tr><td class="navhead">Info</td></tr>	<tr><td class="navlinks">	<a href="../info/status.html">Status</a><br>	<a href="../info/screenshots.html">Screenshots</a>	<a href="../info/download.html">Download</a><br>	<a href="../info/list.html">Mailing List</a><br>	<a href="../info/list_archive.html">List Archive</a><br>	</td></tr>	<tr><td class="navhead">Developer</td></tr>	<tr><td class="navlinks">	<a href="../developer/todo.html">Todo</a><br>	<a href="../developer/bugs.html">Bug List</a><br>	<a href="../developer/cvs.html">CVS Server</a><br>	<a href="../developer/apiref/MasterTOC.html">API Reference</a>	</td></tr>		<tr><td class="navhead">Reference</td></tr>	<tr><td class="navlinks">	<a href="../reference/docs.html">Documentation</a><br>	<a href="../reference/build.html">Building Quesa</a><br>	<a href="../reference/licence.html">License</a>	</td></tr>	<tr><td class="navhead">Other</td></tr>	<tr><td class="navlinks">	<a href="../other/contributors.html">Contributors</a><br>	<a href="../other/logo.html">Quesa Logo</a><br>	<a href="../other/links.html">Links</a>	</td></tr>	</table></td><!--=========================================================================--><td width="10">&nbsp;</td><td valign="top"><h3>CVS Server</h3><p>Complete and compact source code packages for Macintosh, Windows, and Unixdevelopers are currently available from the<a href="../info/download.html">Download</a> page.  These code packagesprovide a good way to get started with Quesa, especially for anyone whohasn't used a CVS server before.</p><p>However, the most up-to-date Quesa source code is always available throughour CVS server (for general information about CVS, see the <a href="https://www.cvshome.org/">CVS home site</a>).</p><p>No personal account is necessary to check out code from the Quesa CVSserver - anyone can check out the latest source, provided you have aCVS client for your development machine.</p><p>To check code in to the Quesa CVS server, a Quesa editor-level accountis required. These accounts are currently for steering committee members, and are granted to additional developers as necessary. When you haveupdated source code to submit, please send it by email to the appropriate<a href="../other/contributors.html">steering committee member</a>.</p><p>This is the model used by many large open source projects, and ensures thatcode added to the source tree will be reviewed before it becomes active.</p><h3>Server Details</h3><p>No personal account is necessary to check out code from the Quesa CVSserver - anyone can check out the latest source, provided you have aCVS client for your development machine.</p><p>Once you have a CVS client, you should set your cvsroot to:</p><pre>   anonymous@quesa.cvs.sourceforge.net:/cvsroot/quesa</pre><p>You should set your user name to "anonymous", and your password "".</p><p>The module name to fetch is "quesa", and you should have at least 30Mb freedisk space to fetch the complete project.</p><h3>Client Details</h3><p>The following clients are available for Mac OS:</p><ul>	<li><a href="http://sourceforge.net/projects/maccvspro/">MacCVS Pro</a> (recommended)</li>	<li><a href="http://cvsgui.sourceforge.net/download.html">MacCVS</a></li>	<li><a href="http://www.glink.net.hk/~jb/MacCVSClient/">MacCVSClient</a></li></ul><p>The following clients are available for Windows:</p><ul>	<li><a href="http://cvsgui.sourceforge.net/download.html">WinCVS</a></li></ul><p>Unix clients can be obtained from:</p><ul>	<li><a href="http://www.sourcegear.com/CVS/Dev/code">Source Gear</a></li></ul><h3>Mac OS Client Details</h3><p>MacCVS Pro users can obtain a pre-configured CVS session file<a href="http://quesa.sourceforge.net/info/files/quesa.cvs.sit">here</a>. Open this session file, select "SessionSettings..." from the Edit menu, and click the "Local Tree Directory" button toselect where you want the source to be downloaded to.</p><p>To bring yourself up to date with the latest source, select "Check Out DefaultModule" from the Action menu.</p><hr width="20%" align="center"><p>MacCVS users (i.e., <em>not</em> "Mac CVS <em>Pro</em>" users) can fetch thecurrent source by connecting using the Login command, and then selecting CheckoutModule from the Cvs Admin menu.</p><p>With this client, you may also need to specify some file mappings on top of yourInternet Config settings - with Mac CVS Pro, these file mappings are set up foryou in the session file.</p><h3>Windows Client Details</h3><p>To set up the server details, select "Preferences" from the Admin menu (thisdialog will also be displayed the first time you start WinCVS). Enter theCVSROOT value on the first tab, and select "passwd" authentication. Select theGlobals tab, and check the "Use TCP/IP compression" checkbox.</p><p>Next, you need to select the browser's root folder: select "Change browse location"from the View menu, and select your development folder.</p><p>Log in to the server by selecting "Login" from the Admin menu, and check outthe source by selecting "Checkout module" from the Create menu.</p><p>To update your source in the future, select your local development sourcefolder in the browser pane and select "Update selection" from the Modify menu.</p><h3>Unix Client Details</h3><p>An example session showing how to log in to the CVS server and extract thelatest source is:</p><pre>   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/quesa login   (Logging in to anonymous@cvs.sourceforge.net)   CVS password:   [dair@zoidberg]$ cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/quesa -z 9 co quesa</pre><p>To check out updates to the source, you should only need to run the secondcommand again - the login details should be saved automatically.</p></td></tr></table><!--=========================================================================--><!-- Page Footer                                                             --><!--=========================================================================--><br><br><hr width="90%"><div class="footer">Quesa Web Site hosted by <a href="http://sourceforge.net">SourceForge</a></div></body></html>
