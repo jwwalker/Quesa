@@ -87,11 +87,50 @@
 		};
 /* End PBXBuildRule section */
 
+/* Begin PBXContainerItemProxy section */
+		BE0404A40B7FDC8200CC26D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
+			remoteInfo = "Fmwk Univ";
+		};
+		BE0404A60B7FDC8200CC26D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC072708A6812D00FB3A82;
+			remoteInfo = "Fmwk (GCC 3.3)";
+		};
+		BE0404A80B7FDC8200CC26D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B1756AFF080A71C30056134C;
+			remoteInfo = "Static Lib (Univ)";
+		};
+		BE0404AA0B7FDC8200CC26D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC08D008A6B24A00FB3A82;
+			remoteInfo = "Static Lib (GCC 3.3)";
+		};
+		BE0404AC0B7FDC9C00CC26D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D07F2BC0486CC7A007CD1D0;
+			remoteInfo = "Fmwk Univ";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		8D01CCD20486CAD60068D4B7 /* VRML-Reader.quesaplug */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VRML-Reader.quesaplug"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BE61011E08EFA04E0020A13D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../Resources/version.h; sourceTree = SOURCE_ROOT; };
 		BE70167209F6AA5500940AA2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		BE775A3109F809A5006C1ED3 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quesa.framework; path = ../../../Libraries/Mac/Framework_Universal/Release/Quesa.framework; sourceTree = SOURCE_ROOT; };
+		BE775A3109F809A5006C1ED3 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE7C47E608AEC56600559F64 /* SetGroupName.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SetGroupName.h; sourceTree = "<group>"; };
 		BE7C47E708AEC56600559F64 /* GetObjectName.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetObjectName.h; sourceTree = "<group>"; };
 		BE7C47E808AEC56600559F64 /* GetObjectName.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GetObjectName.cp; sourceTree = "<group>"; };
@@ -235,6 +274,7 @@
 				08FB77ADFE841716C02AAC07 /* Source */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
+				BE04049C0B7FDC6300CC26D5 /* Projects */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
 			);
 			name = "VRML-Reader";
@@ -280,6 +320,25 @@
 			isa = PBXGroup;
 			children = (
 				8D01CCD20486CAD60068D4B7 /* VRML-Reader.quesaplug */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BE04049C0B7FDC6300CC26D5 /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */,
+			);
+			name = Projects;
+			sourceTree = "<group>";
+		};
+		BE04049E0B7FDC8200CC26D5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BE0404A50B7FDC8200CC26D5 /* Quesa.framework */,
+				BE0404A70B7FDC8200CC26D5 /* Quesa.framework */,
+				BE0404A90B7FDC8200CC26D5 /* libQuesaD.a */,
+				BE0404AB0B7FDC8200CC26D5 /* libQuesaD.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -442,16 +501,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BEC95CAF08A86B3C001E16B9 /* Build configuration list for PBXNativeTarget "VRML-Reader" */;
 			buildPhases = (
+				BE0403A50B7FDAA100CC26D5 /* Make Symbolic Link */,
 				8D01CCC90486CAD60068D4B7 /* Resources */,
 				8D01CCCB0486CAD60068D4B7 /* Sources */,
 				8D01CCCD0486CAD60068D4B7 /* Frameworks */,
-				BE90C9EC0AFBD99500976226 /* ShellScript */,
 			);
 			buildRules = (
 				BEC95E7008A87E6F001E16B9 /* PBXBuildRule */,
 				BEC95E6F08A87E66001E16B9 /* PBXBuildRule */,
 			);
 			dependencies = (
+				BE0404AD0B7FDC9C00CC26D5 /* PBXTargetDependency */,
 			);
 			name = "VRML-Reader";
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -468,11 +528,48 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* VRML-Reader */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BE04049E0B7FDC8200CC26D5 /* Products */;
+					ProjectRef = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
+				},
+			);
 			targets = (
 				8D01CCC60486CAD60068D4B7 /* VRML-Reader */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BE0404A50B7FDC8200CC26D5 /* Quesa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quesa.framework;
+			remoteRef = BE0404A40B7FDC8200CC26D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE0404A70B7FDC8200CC26D5 /* Quesa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quesa.framework;
+			remoteRef = BE0404A60B7FDC8200CC26D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE0404A90B7FDC8200CC26D5 /* libQuesaD.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuesaD.a;
+			remoteRef = BE0404A80B7FDC8200CC26D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE0404AB0B7FDC8200CC26D5 /* libQuesaD.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuesaD.a;
+			remoteRef = BE0404AA0B7FDC8200CC26D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D01CCC90486CAD60068D4B7 /* Resources */ = {
@@ -485,18 +582,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		BE90C9EC0AFBD99500976226 /* ShellScript */ = {
+		BE0403A50B7FDAA100CC26D5 /* Make Symbolic Link */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Make Symbolic Link";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"setting package flag on $CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n/Developer/Tools/SetFile -a B \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
+			shellScript = "# Go into the configuration directory\ncd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make symbolic link to Quesa\nln -h -f -s \"../../../../../Libraries/Mac/Framework_Universal/$CONFIGURATION/Quesa.framework\" Quesa.framework\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -566,6 +664,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BE0404AD0B7FDC9C00CC26D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Fmwk Univ";
+			targetProxy = BE0404AC0B7FDC9C00CC26D5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		BE7C488208AF202E00559F64 /* Release */ = {
