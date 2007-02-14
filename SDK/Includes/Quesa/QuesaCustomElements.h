@@ -1,5 +1,5 @@
 /*! @header QuesaCustomElements.h
-        Declares the Quesa custom elements inherited from QD3D.
+        Declares the standard Quesa custom elements, most inherited from QD3D.
  */
 /*  NAME:
         QuesaCustomElements.h
@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -104,11 +104,19 @@ extern "C" {
 	
 				Ordinarily you will not need to use the class name, because you
 				can manipulate name elements using the functions
-				CEWireElement_SetData, CEWireElement_SetData, and
+				CEWireElement_SetData, CEWireElement_GetData, and
 				CEWireElement_EmptyData.
 */
 #define CEcWireElementName                      "Apple Computer, Inc.:WireElement"
 
+/*!
+	@constant	kQ3ClassNameCustomElementTriangleStrip
+	@abstract	Class name of the triangle strip custom element.
+	@discussion	Ordinarily you will not need to use the class name, because you
+				can manipulate triangle strip elements using the functions
+				CETriangleStripElement_SetData, CETriangleStripElement_GetData.
+*/
+#define	kQ3ClassNameCustomElementTriangleStrip	"Quesa:TriangleStripElement"
 
 /*!
  *  @enum
@@ -237,6 +245,11 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3ObjectEventCallback)(
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+
+/*!
+	@functiongroup	Name element
+*/
+
 /*!
  *  @function
  *      CENameElement_SetData
@@ -323,6 +336,9 @@ CENameElement_EmptyData (
 );
 
 
+/*!
+	@functiongroup	URL element
+*/
 
 /*!
  *  @function
@@ -381,6 +397,9 @@ CEUrlElement_EmptyData (
 );
 
 
+/*!
+	@functiongroup	Wire element
+*/
 
 #if QUESA_SUPPORT_QUICKTIME
 
@@ -440,9 +459,83 @@ CEWireElement_EmptyData (
 
 #endif // QUESA_SUPPORT_QUICKTIME
 
+/*!
+	@functiongroup	Triangle strip element
+*/
+
+/*!
+	@function	CETriangleStripElement_SetData
+	@abstract	Set a triangle strip for the object.
+	@discussion	Triangle strips are used by the OpenGL renderer as a speed
+				optimization for rendering TriMesh objects.  If you have not
+				already provided a triangle strip for a TriMesh, the renderer
+				will compute one, but this can take a little time.
+				
+				When you assign a triangle strip, the element also records the
+				current edit index of the object.
+				
+				You can pass 0 for inNumIndices and NULL for inIndices to
+				indicate that you want to avoid using a triangle strip, perhaps
+				because there is no efficient strip for this geometry.
+				
+				<em>This function is not available in QD3D.</em>
+	@param		ioObject		An object, normally a TriMesh.
+	@param		inNumIndices	Count of indices in the following array.
+	@param		inIndices		Array of vertex indices making the strip.
+	@result		Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status )
+CETriangleStripElement_SetData(
+	TQ3Object ioObject,
+	TQ3Uns32 inNumIndices,
+	const TQ3Uns32* inIndices
+);
 
 
 
+/*!
+	@function	CETriangleStripElement_GetData
+	@abstract	Get a triangle strip for the object.
+	@discussion	Triangle strips are used by the OpenGL renderer as a speed
+				optimization for rendering TriMesh objects.
+				
+				If the current edit index of the object is not the same as
+				when a strip was assigned, the strip will be considered stale
+				and this function will return kQ3Failure.
+				
+				This function returns the actual triangle strip data within
+				the element, not a copy.  The data should be considered
+				read-only and temporary.
+				
+				<em>This function is not available in QD3D.</em>
+	@param		inObject		An object, normally a TriMesh.
+	@param		outNumIndices	Receives count of indices.
+	@param		outIndices		Receives address of array of vertex indices.
+	@result		Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status )
+CETriangleStripElement_GetData(
+	TQ3Object inObject,
+	TQ3Uns32* outNumIndices,
+	const TQ3Uns32** outIndices
+);
+
+
+
+/*!
+	@function	CETriangleStripElement_Remove
+	@abstract	Remove a triangle strip element if it exists.
+	@param		ioObject		An object, normally a TriMesh.
+*/
+Q3_EXTERN_API_C (void)
+CETriangleStripElement_Remove(
+	TQ3Object ioObject
+);
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 //=============================================================================
 //      C++ postamble
