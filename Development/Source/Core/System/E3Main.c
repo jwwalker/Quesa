@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1567,6 +1567,19 @@ E3Shared::GetEditIndex ( void )
 
 
 //=============================================================================
+//      E3Shared::SetEditIndex : Set the edit index of a shared object.
+//-----------------------------------------------------------------------------
+void
+E3Shared::SetEditIndex( TQ3Uns32 inIndex )
+{
+	editIndex = inIndex;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Shared_Edited : Increase the edit index of an object.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -1661,6 +1674,7 @@ OpaqueTQ3Object::SubmitElements ( TQ3ViewObject inView )
 	// Use the shape's set, if any.
 	if ( theSet == NULL )
 		return kQ3Success ;
+	
 	
 	return ( (E3Set*) theSet )->SubmitElements ( inView ) ;
 	}

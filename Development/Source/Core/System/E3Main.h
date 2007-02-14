@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -266,6 +266,7 @@ public :
 	TQ3Boolean			IsReferenced ( void ) ;
 	TQ3Uns32			GetReferenceCount ( void ) ;	
 	TQ3Uns32			GetEditIndex ( void ) ;
+	void				SetEditIndex( TQ3Uns32 inIndex );
 	TQ3Status			Edited ( void ) ;
 	} ;
 
