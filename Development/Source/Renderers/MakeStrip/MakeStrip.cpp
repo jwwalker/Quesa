@@ -80,13 +80,12 @@ static bool	NextFreeFace( const FaceSet& inFreeSet, TQ3Uns32& ioFaceIndex )
 {
 	bool	foundFree = false;
 	
-	TQ3Uns32	faceIndex = kInvalidIndex;
 	FaceSet::const_iterator i = std::find( inFreeSet.begin() + ioFaceIndex,
 		inFreeSet.end(), 1 );
 	if (i != inFreeSet.end())
 	{
 		ioFaceIndex = i - inFreeSet.begin();
-		foundFree= true;
+		foundFree = true;
 	}
 	return foundFree;
 }
