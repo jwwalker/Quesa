@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2285,6 +2285,30 @@ Q3Shared_GetReferenceCount (
 Q3_EXTERN_API_C ( TQ3Uns32  )
 Q3Shared_GetEditIndex (
     TQ3SharedObject               sharedObject
+);
+
+
+
+/*!
+	@function
+		Q3Shared_SetEditIndex
+	
+	@abstract	Set the edit index of a shared object.
+	
+	@discussion	This function should be used even more rarely than
+				Q3Shared_Edited.  It was added to solve a specific problem:
+				Caching information in a custom element attached to an object
+				without changing the edit index of the object.
+				
+				 <em>This function is not available in QD3D.</em>
+	
+	@param		inObject		A shared object to update.
+	@param		inEditIndex		New edit index.
+*/
+Q3_EXTERN_API_C( void )
+Q3Shared_SetEditIndex(
+	TQ3SharedObject inObject,
+	TQ3Uns32 inEditIndex
 );
 
 

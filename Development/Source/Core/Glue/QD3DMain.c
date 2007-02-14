@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1308,6 +1308,45 @@ Q3Shared_GetEditIndex(TQ3SharedObject sharedObject)
 	return ( (E3Shared*) sharedObject )->GetEditIndex () ;
 }
 
+
+
+
+/*!
+	@function
+		Q3Shared_SetEditIndex
+	
+	@abstract	Set the edit index of a shared object.
+	
+	@discussion	This function should be used even more rarely than
+				Q3Shared_Edited.  It was added to solve a specific problem:
+				Caching information in a custom element attached to an object
+				without changing the edit index of the object.
+				
+				 <em>This function is not available in QD3D.</em>
+	
+	@param		inObject		A shared object to update.
+	@param		inEditIndex		New edit index.
+*/
+void
+Q3Shared_SetEditIndex(
+	TQ3SharedObject inObject,
+	TQ3Uns32 inEditIndex
+)
+{
+	// Release build checks
+	Q3_REQUIRE( E3Shared_IsOfMyClass ( inObject ) );
+	
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	( (E3Shared*) inObject )->SetEditIndex( inEditIndex );
+}
 
 
 
