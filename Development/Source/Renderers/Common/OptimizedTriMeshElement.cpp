@@ -239,10 +239,23 @@ static void RegisterElement()
 	@function	GetCachedOptimizedTriMesh
 	@abstract	Get a reference to the optimized TriMesh attached to another
 				TriMesh.
+	@discussion	There are several possible states:
+	
+				1. We have never recorded an optimized TriMesh on this TriMesh.
+				2. An optimized TriMesh has been set but is stale.
+				3. We recorded NULL as the optimized TriMesh, meaning that
+					the TriMesh was already optimized.
+				4. We recorded a non-NULL optimized TriMesh and it is up to
+					date.
+				
+				The output parameter outWasValid is true in cases (3) and (4).
 	@param		inTriMesh		A TriMesh object.
+	@param		outWasValid		Receives true if the cache was set and is not
+								stale.
 	@result		A reference to an optimized TriMesh, or NULL.
 */
-CQ3ObjectRef	GetCachedOptimizedTriMesh( TQ3GeometryObject inTriMesh )
+CQ3ObjectRef	GetCachedOptimizedTriMesh( TQ3GeometryObject inTriMesh,
+											bool& outWasValid )
 {
 	CQ3ObjectRef	resultRef;
 	
@@ -250,6 +263,8 @@ CQ3ObjectRef	GetCachedOptimizedTriMesh( TQ3GeometryObject inTriMesh )
 	{
 		RegisterElement();
 	}
+	
+	outWasValid = false;
 	
 	if (inTriMesh != NULL)
 	{
@@ -261,10 +276,12 @@ CQ3ObjectRef	GetCachedOptimizedTriMesh( TQ3GeometryObject inTriMesh )
 		if (theStatus == kQ3Success)
 		{
 			CQ3ObjectRef	geomRef( theData.optimizedGeom );
+			TQ3Uns32	curIndex = Q3Shared_GetEditIndex( inTriMesh );
 			
-			if (theData.editIndex == Q3Shared_GetEditIndex( inTriMesh )) // cache up to date?
+			if (theData.editIndex == curIndex) // cache up to date?
 			{
 				resultRef = geomRef;
+				outWasValid = true;
 			}
 		}
 	}
@@ -287,14 +304,18 @@ void			SetCachedOptimizedTriMesh( TQ3GeometryObject ioTriMesh,
 		RegisterElement();
 	}
 
+	TQ3Uns32	editIndex = Q3Shared_GetEditIndex( ioTriMesh );
 	TQ3CacheOptimizedTriMeshElementData	theData = {
 		inOptimized,
-		Q3Shared_GetEditIndex( ioTriMesh ) + 1	// +1 because adding the element will bump edit index
+		editIndex
 	};
 	
 #if Q3_DEBUG
 	TQ3Status	theStatus =
 #endif
-	Q3Shape_AddElement( ioTriMesh, sCacheOptimizedTriMeshElementType, &theData );
+	Q3Object_AddElement( ioTriMesh, sCacheOptimizedTriMeshElementType, &theData );
 	Q3_ASSERT( theStatus == kQ3Success );
+	
+	// Adding an element bumps the edit index, set it back.
+	Q3Shared_SetEditIndex( ioTriMesh, editIndex );
 }
