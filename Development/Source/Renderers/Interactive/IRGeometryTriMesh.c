@@ -5,7 +5,7 @@
         Quesa interactive renderer TriMesh implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1443,11 +1443,12 @@ IRGeometry_Submit_TriMesh(TQ3ViewObject				theView,
 	TQ3Status			qd3dStatus;
 	CQ3ObjectRef		cachedGeom;
 	CLockTriMeshData	locker;
+	bool				wasValid;
 
 	
 	// Look for a cached optimized geometry.
-	cachedGeom = GetCachedOptimizedTriMesh( theGeom );
-	if ( ! cachedGeom.isvalid() )
+	cachedGeom = GetCachedOptimizedTriMesh( theGeom, wasValid );
+	if ( ! wasValid )
 	{
 		// no cached data or stale cache
 		cachedGeom = CQ3ObjectRef( Q3TriMesh_Optimize( theGeom ) );
