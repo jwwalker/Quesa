@@ -81,9 +81,6 @@ namespace
 		an arbitrary lower bound on the size of meshes to cache.
 	*/
 	const TQ3Uns32	kMinTrianglesToCache	= 500;
-	
-	const TQ3ObjectType	kCachedStripPropertyType =
-		Q3_OBJECT_TYPE( 's', 't', 'r', 'p' );
 }
 
 
@@ -658,33 +655,23 @@ static void GetCachedTriangleStrip(
 								std::vector<TQ3Uns32>& outStrip )
 {
 	bool	isStripComputeNeeded = false;
-	TQ3Uns32	curEditIndex = Q3Shared_GetEditIndex( inTriMesh );
-	TQ3Uns32	propSize;
-	TQ3Status	propStatus = Q3Object_GetProperty( inTriMesh,
-		kCachedStripPropertyType, 0, &propSize, NULL );
-	if ( (propStatus == kQ3Success) && (propSize >= sizeof(TQ3Uns32)) )
+	
+	TQ3Uns32	arraySize;
+	const TQ3Uns32*	theArray = NULL;
+	
+	if (kQ3Success == CETriangleStripElement_GetData( inTriMesh, &arraySize,
+		&theArray ))
 	{
-		outStrip.resize( (propSize + sizeof(TQ3Uns32) - 1) / sizeof(TQ3Uns32) );
-		Q3Object_GetProperty( inTriMesh, kCachedStripPropertyType,
-			outStrip.size() * sizeof(TQ3Uns32), &propSize, &outStrip[0] );
-		TQ3Uns32	cacheEditIndex = outStrip.back();
-		if (cacheEditIndex == curEditIndex)	// cache is valid
-		{
-			outStrip.resize( outStrip.size() - 1 );
-		}
-		else	// cache is stale
-		{
-			isStripComputeNeeded = true;
-		}
+		// cache is valid
+		outStrip.insert( outStrip.begin(), theArray, theArray + arraySize );
 	}
-	else	// no cached data
+	else
 	{
 		isStripComputeNeeded = true;
 	}
-	
+		
 	if (isStripComputeNeeded)
 	{
-		
 		MakeStrip( inGeomData.numTriangles,
 			&inGeomData.triangles[0].pointIndices[0], outStrip );
 		
@@ -692,15 +679,12 @@ static void GetCachedTriangleStrip(
 		// more than twice the number of triangles.
 		if (outStrip.size() <= 2 * inGeomData.numTriangles)
 		{
-			outStrip.push_back( curEditIndex );
-			Q3Object_SetProperty( inTriMesh, kCachedStripPropertyType,
-				outStrip.size() * sizeof(TQ3Uns32), &outStrip[0] );
-			outStrip.resize( outStrip.size() - 1 );
+			CETriangleStripElement_SetData( inTriMesh, outStrip.size(),
+				&outStrip[0] );
 		}
 		else // not worthwhile
 		{
-			Q3Object_SetProperty( inTriMesh, kCachedStripPropertyType,
-				sizeof(TQ3Uns32), &curEditIndex );
+			CETriangleStripElement_SetData( inTriMesh, 0, NULL );
 			outStrip.clear();
 		}
 	}
@@ -982,7 +966,9 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		(! mTextures.IsTextureTransparent()) )
 	{
 		// Look for a cached optimized geometry.
-		CQ3ObjectRef	cachedGeom( GetCachedOptimizedTriMesh( inTriMesh ) );
+		bool	wasValid;
+		CQ3ObjectRef	cachedGeom( GetCachedOptimizedTriMesh( inTriMesh,
+			wasValid ) );
 		
 		// If we found an optimized version, get its data.
 		CLockTriMeshData	locker;
@@ -1009,7 +995,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		
 		if ( (whyNotFastPath != kSlowPathMask_FastPath) &&
 			((whyNotFastPath & ~kFixableMask) == kSlowPathMask_FastPath) &&
-			(! cachedGeom.isvalid()) &&
+			(! wasValid) &&
 			(inTriMesh != NULL) )
 		{
 			cachedGeom = CQ3ObjectRef( Q3TriMesh_Optimize( inTriMesh ) );
