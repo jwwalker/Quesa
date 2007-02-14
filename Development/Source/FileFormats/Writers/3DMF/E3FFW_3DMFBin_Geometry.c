@@ -5,7 +5,7 @@
         Quesa 3DMFBin writer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,6 +47,7 @@
 #include "E3FFW_3DMFBin_Geometry.h"
 #include "E3FFW_3DMFBin_Writer.h"
 #include "E3Set.h"
+#include "E3CustomElements.h"
 
 
 
@@ -900,6 +901,7 @@ e3ffw_3DMF_pixmap_traverse(TQ3Object object,
 					 TQ3StoragePixmap *data,
 					 TQ3ViewObject view)
 {
+#pragma unused( object )
 	TQ3Status       qd3dstatus = kQ3Success;
 
 	TQ3Size size;
@@ -988,6 +990,7 @@ e3ffw_3DMF_mipmap_traverse(TQ3Object object,
 					 TQ3Mipmap *data,
 					 TQ3ViewObject view)
 {
+#pragma unused( object )
 	TQ3Status       qd3dstatus = kQ3Success;
 
 	TQ3Size size;
@@ -1085,6 +1088,7 @@ e3ffw_3DMF_subdivision_traverse( TQ3Object object,
 					 void *data,
 					 TQ3ViewObject view)
 {
+#pragma unused( object )
 	const TQ3SubdivisionStyleData*		styleData = (const TQ3SubdivisionStyleData*) data;
 	TQ3Status	status;
 	
@@ -1139,6 +1143,7 @@ e3ffw_3DMF_antialias_traverse( TQ3Object object,
 					 void *data,
 					 TQ3ViewObject view)
 {
+#pragma unused( object )
 	TQ3Status	status;
 
 	status = Q3XView_SubmitWriteData( view, 12, data, NULL );
@@ -1185,6 +1190,7 @@ e3ffw_3DMF_fog_traverse( TQ3Object object,
 					 void *data,
 					 TQ3ViewObject view)
 {
+#pragma unused( object )
 	TQ3Status	status;
 
 	status = Q3XView_SubmitWriteData( view, 36, data, NULL );
@@ -1244,6 +1250,7 @@ e3ffw_3DMF_simplestyle_traverse( TQ3Object object,
 					 void *data,
 					 TQ3ViewObject view)
 {
+#pragma unused( object )
 	TQ3Status	status;
 	
 	status = Q3XView_SubmitWriteData( view, 4, data, NULL );
@@ -1279,6 +1286,7 @@ e3ffw_3DMF_highlight_traverse( TQ3Object object,
 					 TQ3AttributeSet *data,
 					 TQ3ViewObject view)
 {
+#pragma unused( object )
 	TQ3Status	status;
 	
 	status = Q3XView_SubmitWriteData( view, 0, data, NULL );
@@ -1616,6 +1624,7 @@ e3ffw_3DMF_box_traverse( TQ3Object object,
 					 TQ3BoxData *data,
 					 TQ3ViewObject view )
 {
+#pragma unused( object )
 	TQ3Status	status;
 	TQ3Uns32 i;
 	TQ3Object attributeList = NULL;
@@ -1690,6 +1699,7 @@ e3ffw_3DMF_generalpolygon_traverse( TQ3Object object,
 					 TQ3GeneralPolygonData *data,
 					 TQ3ViewObject view )
 {
+#pragma unused( object )
 	TQ3Status			status;
 	TQ3Uns32 			i, j, totalVertices = 0;
 	TQ3Object 			attributeList = NULL;
@@ -1797,6 +1807,7 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 					 void *data,
 					 TQ3ViewObject view )
 {
+#pragma unused( data )
 	TQ3MeshData*		meshData;
 	TQ3Uns32 			meshSize;
 	TQ3Uns32 			i,j;
@@ -2254,6 +2265,7 @@ e3ffw_3DMF_trigrid_traverse( TQ3Object object,
 					 TQ3TriGridData *data,
 					 TQ3ViewObject view )
 {
+#pragma unused( object )
 	TQ3Status	status;
 	TQ3Uns32 i;
 	TQ3Object attributeList = NULL;
@@ -2362,6 +2374,7 @@ e3ffw_3DMF_cone_traverse( TQ3Object object,
 					 TQ3ConeData *data,
 					 TQ3ViewObject view )
 {
+#pragma unused( object )
 	TQ3Status	status;
 	TQ3XObjectClass	theClass;
 	TQ3Uns32*	capData;
@@ -2461,6 +2474,7 @@ e3ffw_3DMF_cylinder_traverse( TQ3Object object,
 					 TQ3CylinderData *data,
 					 TQ3ViewObject view )
 {
+#pragma unused( object )
 	TQ3Status	status;
 	TQ3XObjectClass	theClass;
 	TQ3Uns32*	capData;
@@ -2566,6 +2580,7 @@ e3ffw_3DMF_disk_traverse( TQ3Object object,
 					 TQ3DiskData *data,
 					 TQ3ViewObject view )
 {
+#pragma unused( object )
 	TQ3Status	status;
 	
 	status = Q3XView_SubmitWriteData( view, 52, (void*)data, NULL );
@@ -2684,6 +2699,7 @@ e3ffw_3DMF_ellipsoid_traverse( TQ3Object object,
 					 TQ3EllipsoidData *data,
 					 TQ3ViewObject view )
 {
+#pragma unused( object )
 	TQ3Status	status;
 	
 	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
@@ -2754,6 +2770,7 @@ e3ffw_3DMF_torus_traverse( TQ3Object object,
 					 TQ3TorusData *data,
 					 TQ3ViewObject view )
 {
+#pragma unused( object )
 	TQ3Status	status;
 	
 	status = Q3XView_SubmitWriteData( view, 68, (void*)data, NULL );
@@ -2966,6 +2983,21 @@ e3ffw_3DMF_trimesh_traverse(TQ3Object object,
 	TQ3AttributeType	attrType = kQ3AttributeTypeNone;
 	TQ3Uns32	size, pointIndexBytes, triIndexBytes, i;
 	
+
+	// We don't want to write a stale cached triangle strip, but the triangle
+	// strip element's traverse method has no way of knowing what object it
+	// belongs to.
+	TQ3Uns32	numIndices;
+	const TQ3Uns32*	theIndices;
+	if ( kQ3Failure == E3TriangleStripElement_GetData( object, &numIndices,
+		&theIndices ) )
+	{
+		// a result of kQ3Failure may mean that the element does not exist, or
+		// may mean that it exists but is stale, so remove it to be safe.
+		E3TriangleStripElement_Remove( object );
+	}
+
+
 	// Compute size of data
 	size = 6 * sizeof(TQ3Uns32);
 		// array of triangles
