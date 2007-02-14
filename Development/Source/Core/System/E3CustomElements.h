@@ -5,7 +5,7 @@
         Header file for E3CustomElements.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -75,6 +75,19 @@ TQ3Status	E3NameElement_EmptyData(char **name);
 TQ3Status	E3UrlElement_SetData(TQ3Object object, TCEUrlData *urlData);
 TQ3Status	E3UrlElement_GetData(TQ3Object object, TCEUrlData **urlData);
 TQ3Status	E3UrlElement_EmptyData(TCEUrlData **urlData);
+
+TQ3Status	E3TriangleStripElement_SetData(
+	TQ3Object ioObject,
+	TQ3Uns32 inNumIndices,
+	const TQ3Uns32* inIndices
+);
+TQ3Status	E3TriangleStripElement_GetData(
+	TQ3Object inObject,
+	TQ3Uns32* outNumIndices,
+	const TQ3Uns32** outIndices
+);
+void		E3TriangleStripElement_Remove( TQ3Object ioObject );
+
 
 #if QUESA_SUPPORT_QUICKTIME
 TQ3Status	E3WireElement_SetData(TQ3Object object, QTAtomContainer wireData);

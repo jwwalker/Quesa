@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,7 @@
 #include "E3Set.h"
 #include "E3String.h"
 
+#include <vector>
 
 
 
@@ -66,7 +67,14 @@ typedef struct TCEUrlDataPrivate {
 typedef struct TCEPropertyPrivate {
 	E3HashTablePtr	table;
 } TCEPropertyPrivate;
-	
+
+
+struct TCETriangleStripPrivate
+{
+	TQ3Uns32		indexCount;
+	TQ3Uns32		editIndex;
+	const TQ3Uns32*	indexArray;
+};
 
 
 class E3PropertyElement : public E3Element  // This is a leaf class so no other classes use this,
@@ -200,6 +208,15 @@ public :
 #define kQ3ClassNameCustomElementAfterPick		"Quesa:AfterPickCallback"
 
 #define	kPropertyHashTableSize					16
+
+
+
+
+
+//=============================================================================
+//      Static variables
+//-----------------------------------------------------------------------------
+static TQ3ElementType	sTriangleStripElementType = 0;
 
 
 
@@ -865,6 +882,191 @@ e3wireelement_metahandler(TQ3XMethodType methodType)
 
 
 
+#pragma mark -
+
+//=============================================================================
+//      strip_element_copyadd : Copy add/duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+strip_element_copyadd( const TCETriangleStripPrivate* fromAPIElement,
+						TCETriangleStripPrivate* toInternalElement )
+{
+	TQ3Status	status = kQ3Failure;
+	toInternalElement->indexCount = fromAPIElement->indexCount;
+	toInternalElement->editIndex = fromAPIElement->editIndex;
+	
+	if (toInternalElement->indexCount == 0)
+	{
+		toInternalElement->indexArray = NULL;
+		status = kQ3Success;
+	}
+	else
+	{
+		toInternalElement->indexArray = static_cast<TQ3Uns32*>( Q3Memory_Allocate(
+			toInternalElement->indexCount * sizeof(TQ3Uns32) ) );
+		if (toInternalElement->indexArray != NULL)
+		{
+			Q3Memory_Copy( fromAPIElement->indexArray,
+				const_cast<TQ3Uns32*>( toInternalElement->indexArray ),
+				toInternalElement->indexCount * sizeof(TQ3Uns32) );
+			status = kQ3Success;
+		}
+	}
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      strip_element_delete : Delete method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+strip_element_delete( TCETriangleStripPrivate* internalElement )
+{
+	if (internalElement->indexArray != NULL)
+	{
+		Q3Memory_Free( &internalElement->indexArray );
+	}
+	return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
+//      strip_element_copyreplace : Copy replace method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+strip_element_copyreplace( const TCETriangleStripPrivate* fromAPIElement,
+						TCETriangleStripPrivate* toInternalElement )
+{
+	strip_element_delete( toInternalElement );
+	return strip_element_copyadd( fromAPIElement, toInternalElement );
+}
+
+
+
+
+
+//=============================================================================
+//      strip_element_traverse : Traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+strip_element_traverse( TQ3Object object, TCETriangleStripPrivate *data,
+						TQ3ViewObject view )
+{
+#pragma unused(object)
+	TQ3Status	status = Q3XView_SubmitWriteData( view,
+		(data->indexCount + 1) * sizeof(TQ3Uns32), data, NULL );
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      strip_element_write : Write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+strip_element_write( const void *data, TQ3FileObject theFile )
+{
+	const TCETriangleStripPrivate*	theData =
+		reinterpret_cast<const TCETriangleStripPrivate*>(data);
+	
+	TQ3Status status = Q3Uns32_Write( theData->indexCount, theFile );
+	
+	for (TQ3Uns32 i = 0; (i < theData->indexCount) && (status == kQ3Success); ++i)
+	{
+		status = Q3Uns32_Write( theData->indexArray[i], theFile );
+	}
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      strip_element_readdata : Read data method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+strip_element_readdata( TQ3Object parentObject, TQ3FileObject theFile )
+{
+	TQ3Uns32	numIndices;
+	TQ3Status	status = Q3Uns32_Read( &numIndices, theFile );
+	
+	if (status == kQ3Success)
+	{
+		std::vector<TQ3Uns32>	theArray( numIndices );
+		
+		if (numIndices > 0)
+		{
+			status = Q3Uns32_ReadArray( numIndices, &theArray[0], theFile );
+		}
+		
+		if (status == kQ3Success)
+		{
+			status = E3TriangleStripElement_SetData( parentObject,
+				numIndices, &theArray[0] );
+		}
+	}
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      strip_element_metahandler : Strip element metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+strip_element_metahandler(TQ3XMethodType methodType)
+{
+	TQ3XFunctionPointer		theMethod = NULL;
+
+	switch (methodType)
+	{
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) strip_element_traverse;
+			break;
+
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) strip_element_write;
+			break;
+
+		case kQ3XMethodTypeObjectReadData:
+			theMethod = (TQ3XFunctionPointer) strip_element_readdata;
+			break;
+
+		case kQ3XMethodTypeElementCopyGet:
+			// a straight memory copy will do
+			break;
+
+		case kQ3XMethodTypeElementCopyAdd:
+		case kQ3XMethodTypeElementCopyDuplicate:
+			theMethod = (TQ3XFunctionPointer) strip_element_copyadd;
+			break;
+
+		case kQ3XMethodTypeElementCopyReplace:
+			theMethod = (TQ3XFunctionPointer) strip_element_copyreplace;
+			break;
+
+		case kQ3XMethodTypeElementDelete:
+			theMethod = (TQ3XFunctionPointer) strip_element_delete;
+			break;
+	}
+	
+	return theMethod;
+}
+
+
 
 //=============================================================================
 //      Public functions
@@ -894,6 +1096,17 @@ E3CustomElements_RegisterClass(void)
 					kQ3ClassNameCustomElementUrl,
 					e3urlelement_metahandler,
 					E3URLElement ) ;
+	
+	if (qd3dStatus == kQ3Success)
+	{
+		if (NULL == Q3XElementClass_Register( &sTriangleStripElementType,
+			kQ3ClassNameCustomElementTriangleStrip,
+			sizeof(TCETriangleStripPrivate),
+			strip_element_metahandler ))
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
 
 #if QUESA_SUPPORT_QUICKTIME
 	if (qd3dStatus == kQ3Success)
@@ -1432,3 +1645,110 @@ E3WireElement_EmptyData(QTAtomContainer *wireData)
 	return(kQ3Success);
 }
 #endif // QUESA_SUPPORT_QUICKTIME
+
+#pragma mark -
+
+
+
+/*!
+	@function	E3TriangleStripElement_SetData
+	@abstract	Set a triangle strip for the object.
+	@discussion	Triangle strips are used by the OpenGL renderer as a speed
+				optimization for rendering TriMesh objects.  If you have not
+				already provided a triangle strip for a TriMesh, the renderer
+				will compute one, but this can take a little time.
+				
+				You can pass 0 for inNumIndices and NULL for inIndices to
+				indicate that you want to avoid using a triangle strip, perhaps
+				because there is no efficient strip for this geometry.
+				
+				When you assign a triangle strip, the element also records the
+				current edit index of the object.
+				
+				<em>This function is not available in QD3D.</em>
+	@param		ioObject		An object, normally a TriMesh.
+	@param		inNumIndices	Count of indices in the following array.
+	@param		inIndices		Array of vertex indices making the strip.
+	@result		Success or failure of the operation.
+*/
+TQ3Status	E3TriangleStripElement_SetData(
+	TQ3Object ioObject,
+	TQ3Uns32 inNumIndices,
+	const TQ3Uns32* inIndices
+)
+{
+	TQ3Uns32	editIndex = Q3Shared_GetEditIndex( ioObject );
+	
+	TCETriangleStripPrivate	theData = {
+		inNumIndices,
+		 editIndex,
+		inIndices
+	};
+	TQ3Status status = Q3Object_AddElement( ioObject, sTriangleStripElementType,
+		&theData );
+	
+	
+	// Adding the element bumped the edit index, set it back.
+	Q3Shared_SetEditIndex( ioObject, editIndex );
+
+
+	return status;
+}
+
+/*!
+	@function	E3TriangleStripElement_GetData
+	@abstract	Get a triangle strip for the object.
+	@discussion	Triangle strips are used by the OpenGL renderer as a speed
+				optimization for rendering TriMesh objects.
+				
+				If the current edit index of the object is not the same as
+				when a strip was assigned, the strip will be considered stale
+				and this function will return kQ3Failure.
+				
+				This function returns the actual triangle strip data within
+				the element, not a copy.  The data should be considered
+				read-only and temporary.
+				
+				<em>This function is not available in QD3D.</em>
+	@param		inObject		An object, normally a TriMesh.
+	@param		outNumIndices	Receives count of indices.
+	@param		outIndices		Receives address of array of vertex indices.
+	@result		Success or failure of the operation.
+*/
+TQ3Status	E3TriangleStripElement_GetData(
+	TQ3Object inObject,
+	TQ3Uns32* outNumIndices,
+	const TQ3Uns32** outIndices
+)
+{
+	TCETriangleStripPrivate	theData;
+	TQ3Status	status = Q3Object_GetElement( inObject,
+		sTriangleStripElementType, &theData );
+	if (status == kQ3Success)
+	{
+		TQ3Uns32	curIndex = Q3Shared_GetEditIndex( inObject );
+		
+		if (curIndex == theData.editIndex)
+		{
+			*outNumIndices = theData.indexCount;
+			*outIndices = theData.indexArray;
+		}
+		else
+		{
+			status = kQ3Failure;	// stale cache
+		}
+	}
+	return status;
+}
+
+
+
+/*!
+	@function	E3TriangleStripElement_Remove
+	@abstract	Remove a triangle strip element if it exists.
+	@param		ioObject		An object, normally a TriMesh.
+*/
+void		E3TriangleStripElement_Remove( TQ3Object ioObject )
+{
+	Q3Object_ClearElement( ioObject, sTriangleStripElementType );
+}
