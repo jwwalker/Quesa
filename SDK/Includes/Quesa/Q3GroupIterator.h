@@ -40,16 +40,14 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
-#include <Quesa.h>
-#include <CQ3ObjectRef.h>
-#include <QuesaGroup.h>
+#include "Quesa.h"
+#include "CQ3ObjectRef.h"
+#include "QuesaGroup.h"
 
 
 /*!
 	@class		Q3GroupIterator
-	
 	@abstract	Class to simplify iterating through a Quesa group.
-	
 	@discussion	Example:
 	
 				<blockquote><pre><code>
@@ -64,42 +62,63 @@
 class Q3GroupIterator
 {
 public:
+	/*!
+		@function	Q3GroupIterator
+		@abstract	Constructor.
+		@param		inGroup		A group object.
+		@param		inType		A type of object to iterate over.
+								Optional, defaults to kQ3ObjectTypeShared.
+	*/
 						Q3GroupIterator(
 								TQ3GroupObject inGroup,
-								TQ3ObjectType inType = kQ3ObjectTypeShared )
-							: mGroup( inGroup )
-							, mType( inType )
-							, mPos( NULL ) {}
+								TQ3ObjectType inType = kQ3ObjectTypeShared );
 	
-	CQ3ObjectRef		NextObject()
-							{
-								TQ3Status	theStatus;
-								if (mPos == NULL)
-								{
-									theStatus = Q3Group_GetFirstPositionOfType(
-										mGroup, mType, &mPos );
-								}
-								else
-								{
-									theStatus = Q3Group_GetNextPositionOfType(
-										mGroup, mType, &mPos );
-								}
-								if (theStatus == kQ3Failure)
-								{
-									mPos = NULL;
-								}
-								TQ3Object	theObject = NULL;
-								if (mPos != NULL)
-								{
-									Q3Group_GetPositionObject( mGroup, mPos,
-										&theObject );
-								}
-								return CQ3ObjectRef( theObject );
-							}
+	/*!
+		@function	NextObject
+		@abstract	Get a reference to the next member of the group.
+		@result		A reference to a member object, or NULL if done.
+	*/
+	CQ3ObjectRef		NextObject();
 	
 private:
 	TQ3GroupObject		mGroup;
 	TQ3ObjectType		mType;
 	TQ3GroupPosition	mPos;
 };
+
+inline Q3GroupIterator::Q3GroupIterator(
+								TQ3GroupObject inGroup,
+								TQ3ObjectType inType )
+	: mGroup( inGroup )
+	, mType( inType )
+	, mPos( NULL )
+{
+}
+
+inline 	CQ3ObjectRef	Q3GroupIterator::NextObject()
+{
+	TQ3Status	theStatus;
+	if (mPos == NULL)
+	{
+		theStatus = Q3Group_GetFirstPositionOfType(
+			mGroup, mType, &mPos );
+	}
+	else
+	{
+		theStatus = Q3Group_GetNextPositionOfType(
+			mGroup, mType, &mPos );
+	}
+	if (theStatus == kQ3Failure)
+	{
+		mPos = NULL;
+	}
+	TQ3Object	theObject = NULL;
+	if (mPos != NULL)
+	{
+		Q3Group_GetPositionObject( mGroup, mPos,
+			&theObject );
+	}
+	return CQ3ObjectRef( theObject );
+}
+
 
