@@ -40,6 +40,9 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
+#ifndef Q3GROUPITERATOR_HDR
+#define Q3GROUPITERATOR_HDR
+
 #include "Quesa.h"
 #include "CQ3ObjectRef.h"
 #include "QuesaGroup.h"
@@ -121,4 +124,5 @@ inline 	CQ3ObjectRef	Q3GroupIterator::NextObject()
 	return CQ3ObjectRef( theObject );
 }
 
+#endif
 
