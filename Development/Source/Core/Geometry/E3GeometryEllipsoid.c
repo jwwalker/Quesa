@@ -48,6 +48,9 @@
 #include "E3Geometry.h"
 #include "E3GeometryTriMesh.h"
 #include "E3GeometryEllipsoid.h"
+#include "CQ3ObjectRef.h"
+
+#include <vector>
 
 
 
@@ -205,52 +208,718 @@ e3geom_ellipsoid_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
-//      e3geom_ellipsoid_cache_new : Ellipsoid cache new method.
+//      e3geom_ellipsoid_create_disk_cap : Create a top or bottom cap
 //-----------------------------------------------------------------------------
-static TQ3Object
-e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3EllipsoidData *geomData)
-{	float						uMin, uMax, vMin, vMax, uDiff, vDiff;
+static void
+e3geom_ellipsoid_create_disk_cap(
+							const TQ3Point3D& origin,
+							const TQ3Vector3D& major,
+							const TQ3Vector3D& minor,
+							bool isRightHanded,
+							float uMin, float uMax,
+							TQ3Uns32 uSegments,
+							std::vector<TQ3Point3D>& points,
+							std::vector<TQ3Vector3D>& vertNormals,
+							std::vector<TQ3Param2D>& uvs,
+							std::vector<TQ3TriMeshTriangleData>& triangles,
+							std::vector<TQ3Vector3D>& faceNormals )
+{
+	// The face and vertex normal is major x minor if right handed.
+	TQ3Vector3D	theNormal;
+	Q3FastVector3D_Cross( &major, &minor, &theNormal );
+	Q3FastVector3D_Normalize( &theNormal, &theNormal );
+	if (! isRightHanded)
+	{
+		Q3FastVector3D_Negate( &theNormal, &theNormal );
+	}
+	
+	TQ3Uns32	prevPoints = points.size();
+	TQ3Uns32	prevFaces = triangles.size();
+	
+	TQ3Uns32	numPoints = uSegments + 2;
+	TQ3Uns32	numFaces = uSegments;
+	
+	points.resize( prevPoints + numPoints );
+	vertNormals.resize( prevPoints + numPoints );
+	uvs.resize( prevPoints + numPoints );
+	triangles.resize( prevFaces + numFaces );
+	faceNormals.resize( prevFaces + numFaces );
+	
+	const float uDiff = uMax - uMin;
+	const float	uDelta = uDiff / uSegments;
+	const float uDeltaAngle = kQ32Pi * uDelta;
+	
+	// The origin is the point with index prevPoints.
+	points[ prevPoints ] = origin;
+	vertNormals[ prevPoints ] = theNormal;
+	uvs[ prevPoints ].u = uvs[ prevPoints ].v = 0.5f;
+	
+	float	uAngle;
+	TQ3Uns32	u;
+	TQ3Uns32	pNum = prevPoints + 1;
+	TQ3Uns32	fNum = prevFaces;
+	TQ3Point3D	thePoint;
+	TQ3Vector3D	vec;
+	
+	for (u = 0, uAngle = uMin * kQ32Pi; u <= uSegments; ++u, uAngle += uDeltaAngle)
+	{
+		float	cosUAngle = cos(uAngle);
+		float	sinUAngle = sin(uAngle);
+		Q3FastVector3D_Scale( &major, cosUAngle, &vec );
+		Q3FastPoint3D_Vector3D_Add( &origin, &vec, &thePoint );
+		Q3FastVector3D_Scale( &minor, sinUAngle, &vec );
+		Q3FastPoint3D_Vector3D_Add( &thePoint, &vec, &thePoint );
+		points[ pNum ] = thePoint;
+		vertNormals[ pNum ] = theNormal;
+		uvs[ pNum ].u = 0.5f * (cosUAngle + 1.0f);
+		uvs[ pNum ].v = 0.5f * (sinUAngle + 1.0f);
+		
+		if (u > 0)
+		{
+			// Handle triangle with this point, the previous one, and the origin.
+			TQ3TriMeshTriangleData	theFace;
+			if (isRightHanded)
+			{
+				theFace.pointIndices[0] = prevPoints;
+				theFace.pointIndices[1] = pNum - 1;
+				theFace.pointIndices[2] = pNum;
+			}
+			else
+			{
+				theFace.pointIndices[0] = prevPoints;
+				theFace.pointIndices[1] = pNum;
+				theFace.pointIndices[2] = pNum - 1;
+			}
+			triangles[ fNum ] = theFace;
+			faceNormals[ fNum ] = theNormal;
+			++fNum;
+		}
+		
+		++pNum;
+	}
+
+	
+	Q3_ASSERT( pNum == prevPoints + numPoints );
+	Q3_ASSERT( fNum == prevFaces + numFaces );
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_ellipsoid_create_interior_cap : Create one face of interior cap
+//-----------------------------------------------------------------------------
+static void
+e3geom_ellipsoid_create_interior_cap(
+							const TQ3Point3D& origin,
+							const TQ3Vector3D& orientation,
+							const TQ3Vector3D& radius,
+							float vMin, float vMax,
+							TQ3Uns32 vSegments,
+							bool isUMin,
+							std::vector<TQ3Point3D>& points,
+							std::vector<TQ3Vector3D>& vertNormals,
+							std::vector<TQ3Param2D>& uvs,
+							std::vector<TQ3TriMeshTriangleData>& triangles,
+							std::vector<TQ3Vector3D>& faceNormals )
+{
+	// The face and vertex normal is radius x orientation if this is the uMin case.
+	TQ3Vector3D	theNormal;
+	Q3FastVector3D_Cross( &radius, &orientation, &theNormal );
+	Q3FastVector3D_Normalize( &theNormal, &theNormal );
+	if (! isUMin)
+	{
+		Q3FastVector3D_Negate( &theNormal, &theNormal );
+	}
+	
+	TQ3Uns32	prevPoints = points.size();
+	TQ3Uns32	prevFaces = triangles.size();
+	
+	bool isSouthCut = (vMin > kQ3RealZero);
+	bool isNorthCut = (vMax < 1.0f - kQ3RealZero);
+	
+	TQ3Uns32	numPoints = vSegments + 2;
+	TQ3Uns32	numFaces = vSegments;
+	if (isSouthCut)
+	{
+		numPoints += 1;
+		numFaces += 1;
+	}
+	if (isNorthCut)
+	{
+		numPoints += 1;
+		numFaces += 1;
+	}
+
+	points.resize( prevPoints + numPoints );
+	vertNormals.resize( prevPoints + numPoints );
+	uvs.resize( prevPoints + numPoints );
+	triangles.resize( prevFaces + numFaces );
+	faceNormals.resize( prevFaces + numFaces );
+	
+	TQ3Uns32	pNum = prevPoints;
+	TQ3Uns32	fNum = prevFaces;
+
+	// The origin is the point with index prevPoints.
+	points[ pNum ] = origin;
+	vertNormals[ pNum ] = theNormal;
+	uvs[ pNum ].u = uvs[ pNum ].v = 0.5f;
+	++pNum;
+	
+	// If the north pole is cut off, we have an extra point between the north
+	// pole and the origin.
+	TQ3Point3D	thePoint;
+	TQ3Vector3D	vec;
+	TQ3Uns32	northExtra, southExtra;
+	if (isNorthCut)
+	{
+		Q3FastVector3D_Scale( &orientation, -cos( kQ3Pi * vMax ), &vec );
+		Q3FastPoint3D_Vector3D_Add( &origin, &vec, &thePoint );
+		northExtra = pNum;
+		points[ pNum ] = thePoint;
+		vertNormals[ pNum ] = theNormal;
+		uvs[ pNum ].u = 0.5f;
+		uvs[ pNum ].v = 0.5f * (1.0f - cos( kQ3Pi * vMax ));
+		++pNum;
+	}
+	
+	if (isSouthCut)
+	{
+		Q3FastVector3D_Scale( &orientation, -cos( kQ3Pi * vMin ), &vec );
+		Q3FastPoint3D_Vector3D_Add( &origin, &vec, &thePoint );
+		southExtra = pNum;
+		points[ pNum ] = thePoint;
+		vertNormals[ pNum ] = theNormal;
+		uvs[ pNum ].u = 0.5f;
+		uvs[ pNum ].v = 0.5f * (1.0f - cos( kQ3Pi * vMin ));
+		++pNum;
+	}
+	
+	const float vDiff = vMax - vMin;
+	const float	vDelta = vDiff / vSegments;
+	const float vDeltaAngle = kQ3Pi * vDelta;
+	
+	float		vAngle;
+	TQ3Uns32	v;
+	TQ3TriMeshTriangleData	theFace;
+	theFace.pointIndices[0] = prevPoints;
+
+	for (v = 0, vAngle = vMin * kQ3Pi; v <= vSegments; ++v, vAngle += vDeltaAngle)
+	{
+		float	cosVAngle = cos(vAngle);
+		float	sinVAngle = sin(vAngle);
+		Q3FastVector3D_Scale( &orientation, -cosVAngle, &vec );
+		Q3FastPoint3D_Vector3D_Add( &origin, &vec, &thePoint );
+		Q3FastVector3D_Scale( &radius, sinVAngle, &vec );
+		Q3FastPoint3D_Vector3D_Add( &thePoint, &vec, &thePoint );
+		points[ pNum ] = thePoint;
+		vertNormals[ pNum ] = theNormal;
+		TQ3Param2D	theUV;
+		if (isUMin)
+		{
+			theUV.u = 0.5f * (sinVAngle + 1.0f);
+		}
+		else
+		{
+			theUV.u = 0.5f * (-sinVAngle + 1.0f);
+		}
+		theUV.v = 0.5f * (1.0f - cosVAngle);
+		uvs[ pNum ] = theUV;
+		
+		if (v > 0)
+		{
+			if (isUMin)
+			{
+				theFace.pointIndices[1] = pNum - 1;
+				theFace.pointIndices[2] = pNum;
+			}
+			else
+			{
+				theFace.pointIndices[1] = pNum;
+				theFace.pointIndices[2] = pNum - 1;
+			}
+			triangles[ fNum ] = theFace;
+			faceNormals[ fNum ] = theNormal;
+			++fNum;
+		}
+		++pNum;
+	}
+	
+	if (isNorthCut)
+	{
+		if (isUMin)
+		{
+			theFace.pointIndices[1] = pNum - 1;
+			theFace.pointIndices[2] = northExtra;
+		}
+		else
+		{
+			theFace.pointIndices[1] = northExtra;
+			theFace.pointIndices[2] = pNum - 1;
+		}
+		triangles[ fNum ] = theFace;
+		faceNormals[ fNum ] = theNormal;
+		++fNum;
+	}
+	
+	if (isSouthCut)
+	{
+		if (isUMin)
+		{
+			theFace.pointIndices[1] = southExtra;
+			theFace.pointIndices[2] = southExtra + 1;
+		}
+		else
+		{
+			theFace.pointIndices[1] = southExtra + 1;
+			theFace.pointIndices[2] = southExtra;
+		}
+		triangles[ fNum ] = theFace;
+		faceNormals[ fNum ] = theNormal;
+		++fNum;
+	}
+	
+	Q3_ASSERT( pNum == prevPoints + numPoints );
+	Q3_ASSERT( fNum == prevFaces + numFaces );
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_ellipsoid_create_caps : Create caps
+//-----------------------------------------------------------------------------
+static CQ3ObjectRef
+e3geom_ellipsoid_create_caps(
+							const TQ3EllipsoidData& geomData,
+							float uMin, float uMax,
+							float vMin, float vMax,
+							TQ3Uns32 uSegments,
+							TQ3Uns32 vSegments,
+							bool isTopCapNeeded,
+							bool isBottomCapNeeded,
+							bool isInteriorCapNeeded )
+{
+	// Test whether the system is right-handed.
+	TQ3Vector3D	majxMin;
+	Q3FastVector3D_Cross( &geomData.majorRadius, &geomData.minorRadius, &majxMin );
+	bool	isRightHanded = (Q3FastVector3D_Dot( &majxMin, &geomData.orientation ) > 0.0f);
+
+	// We will put all 3 caps in the same TriMesh.
+	std::vector<TQ3Point3D>					points;
+	std::vector<TQ3Vector3D>				vertNormals;
+	std::vector<TQ3Param2D>					uvs;
+	std::vector<TQ3TriMeshTriangleData>		triangles;
+	std::vector<TQ3Vector3D>				faceNormals;
+	
+	TQ3Vector3D	major, minor, vec, radius;
+	TQ3Point3D	origin;
+	
+	if (isTopCapNeeded)
+	{
+		Q3FastVector3D_Scale( &geomData.orientation, -cos(kQ3Pi * vMax), &vec );
+		Q3FastPoint3D_Vector3D_Add( &geomData.origin, &vec, &origin );
+		
+		float	sinVMax = sin( kQ3Pi * vMax );
+		Q3FastVector3D_Scale( &geomData.majorRadius, sinVMax, &major );
+		Q3FastVector3D_Scale( &geomData.minorRadius, sinVMax, &minor );
+		
+		e3geom_ellipsoid_create_disk_cap( origin, major, minor, isRightHanded,
+			uMin, uMax, uSegments,
+			points, vertNormals, uvs, triangles, faceNormals );
+	}
+	
+	if (isBottomCapNeeded)
+	{
+		Q3FastVector3D_Scale( &geomData.orientation, -cos(kQ3Pi * vMin), &vec );
+		Q3FastPoint3D_Vector3D_Add( &geomData.origin, &vec, &origin );
+		
+		float	sinVMin = sin( kQ3Pi * vMin );
+		Q3FastVector3D_Scale( &geomData.majorRadius, sinVMin, &major );
+		Q3FastVector3D_Scale( &geomData.minorRadius, sinVMin, &minor );
+		
+		e3geom_ellipsoid_create_disk_cap( origin, major, minor, ! isRightHanded,
+			uMin, uMax, uSegments,
+			points, vertNormals, uvs, triangles, faceNormals );
+	}
+	
+	if (isInteriorCapNeeded)
+	{
+		// uMin interior part
+		Q3FastVector3D_Scale( &geomData.majorRadius, cos( kQ32Pi * uMin ), &radius );
+		Q3FastVector3D_Scale( &geomData.minorRadius, sin( kQ32Pi * uMin ), &vec );
+		Q3FastVector3D_Add( &radius, &vec, &radius );
+		
+		e3geom_ellipsoid_create_interior_cap( geomData.origin, geomData.orientation, radius,
+			vMin, vMax, vSegments, true,
+			points, vertNormals, uvs, triangles, faceNormals );
+
+		// uMax interior part
+		Q3FastVector3D_Scale( &geomData.majorRadius, cos( kQ32Pi * uMax ), &radius );
+		Q3FastVector3D_Scale( &geomData.minorRadius, sin( kQ32Pi * uMax ), &vec );
+		Q3FastVector3D_Add( &radius, &vec, &radius );
+		
+		e3geom_ellipsoid_create_interior_cap( geomData.origin, geomData.orientation, radius,
+			vMin, vMax, vSegments, false,
+			points, vertNormals, uvs, triangles, faceNormals );
+	}
+	
+	TQ3TriMeshAttributeData	vertAtts[] =
+	{
+		{ kQ3AttributeTypeNormal, &vertNormals[0], NULL },
+		{ kQ3AttributeTypeSurfaceUV, &uvs[0], NULL }
+	};
+	TQ3TriMeshAttributeData faceAtts[] =
+	{
+		{ kQ3AttributeTypeNormal, &faceNormals[0], NULL },
+	};
+	TQ3TriMeshData	tmData =
+	{
+		geomData.interiorAttributeSet,			// triMeshAttributeSet
+		triangles.size(),						// numTriangles
+		&triangles[0],							// triangles
+		sizeof(faceAtts)/sizeof(faceAtts[0]),	// numTriangleAttributeTypes
+		faceAtts,								// triangleAttributeTypes
+		0,										// numEdges
+		NULL,									// edges
+		0,										// numEdgeAttributeTypes,
+		NULL,									// edgeAttributeTypes
+		points.size(),							// numPoints
+		&points[0],								// points
+		sizeof(vertAtts)/sizeof(vertAtts[0]),	// numVertexAttributeTypes
+		vertAtts								// vertexAttributeTypes
+	};
+	Q3BoundingBox_SetFromPoints3D( &tmData.bBox,
+									tmData.points,
+									tmData.numPoints,
+									sizeof(TQ3Point3D) );
+	
+	
+	return  CQ3ObjectRef( Q3TriMesh_New( &tmData ) );
+}
+
+
+
+//=============================================================================
+//      e3geom_ellipsoid_create_face : Create main surface
+//-----------------------------------------------------------------------------
+static CQ3ObjectRef
+e3geom_ellipsoid_create_face( const TQ3EllipsoidData& geomData,
+							float uMin, float uMax,
+							float vMin, float vMax,
+							bool isNorthPresent,
+							bool isSouthPresent,
+							TQ3Uns32 uSegments,
+							TQ3Uns32 vSegments )
+{
 	TQ3TriMeshData				triMeshData;
-	TQ3GeometryObject			theTriMesh;
-	TQ3GroupObject				theGroup;
-	TQ3Param2D					*uvs;
 	TQ3Uns32 u,v;
-	float uang=0.0f, duang, vang, dvang, uvalue;
-	TQ3Point3D *points;
-	TQ3Vector3D *normals;
-	TQ3TriMeshTriangleData *triangles;
+	float uang=0.0f, vang;
 	TQ3Vector3D vec, vec2, axis;	// (just temporaries used for intermediate results)
-	TQ3Uns32 upts=16;		// how many points we have around the ellipsoid the long way
-	TQ3Uns32 vpts=8;		// how many points around one elliptical cross-section
 	TQ3Uns32 pnum = 0, tnum = 0;
-	TQ3Uns32 numpoints, numtriangles;
-	TQ3SubdivisionStyleData subdivisionData;
-	TQ3TriMeshAttributeData vertexAttributes[2];
 	TQ3Vector3D		majXOrient, minXOrient, majXMinor;
-	TQ3Point3D		pole0, polePi;
-	TQ3Vector3D		normPole0, normPolePi;
 	float			sinUAngle, cosUAngle, sinVAngle, cosVAngle;
-	TQ3Boolean		isRightHanded;
 
 
 	
-	// Test whether the geometry is degenerate.
+	// In order to have proper texture coordinates, we will use extra points
+	// along the longitudinal seam and at the poles.
+	// 
+	// We'll construct the ellipsoid out of vSegments - 1 latitude circles, each
+	// containing uSegments + 1 points at equally spaced longitudes (the first and
+	// last of these being at the same physical location), plus north and
+	// south pole points.
+
+	TQ3Uns32	numPoints = (uSegments + 1) * (vSegments + 1);
+	TQ3Uns32	numTriangles = uSegments * vSegments * 2;
+	if (isNorthPresent)
+	{
+		numTriangles -= uSegments;
+	}
+	if (isSouthPresent)
+	{
+		numTriangles -= uSegments;
+	}
+
+
+
+	// Allocate some memory for the TriMesh
+	std::vector<TQ3Point3D>					points( numPoints );
+	std::vector<TQ3Vector3D>				normals( numPoints );
+	std::vector<TQ3Param2D>					uvs( numPoints );
+	std::vector<TQ3TriMeshTriangleData>		triangles( numTriangles );
+	std::vector<TQ3Vector3D>				faceNormals( numTriangles );
+
+
+
+	// Get the UV ranges
+	const float uDiff = uMax - uMin;
+	const float vDiff = vMax - vMin;
+	const float	uDelta = uDiff / uSegments;
+	const float vDelta = vDiff / vSegments;
+
+
+
+	const float uDeltaAngle = kQ32Pi * uDelta;
+	const float vDeltaAngle = kQ3Pi * vDelta;
+
+	// Normal vector computations:
+	// The ellipsoid has a parametric equation
+	// f(u,v) = origin - cos(v)orientation + sin(v)(cos(u)majorRadius + sin(u)minorRadius)
+	// where u ranges from 0 to 2¹ and v ranges from 0 to ¹.
+	// If you consider the case where (majorRadius, minorRadius, orientation) form a
+	// right-handed system, with orientation pointing "up", then u increases in a
+	// counterclockwise direction and v increases from bottom to top.
+	// A normal vector can be computed as the cross product of the two partials,
+	// (-sin(u)sin(v)majorRadius + cos(u)sin(v)minorRadius) x
+	// (sin(v)orientation + cos(u)cos(v)majorRadius + sin(u)cos(v)minorRadius)
+	// = sin(v)[ -sin(u)sin(v)majorRadius x orientation
+	//			- sin(u)sin(u)cos(v)majorRadius x minorRadius
+	//			+ cos(u)sin(v)minorRadius x orientation
+	//			+ cos(u)cos(u)cos(v)minorRadius x majorRadius ]
+	// In the right-handed case, this gives us an inward-pointing normal, and in the
+	// left-handed case it's outward-pointing.
+	// Since we're going to normalize the vector anyway, we can forget the outer scalar
+	// factor of sin(v).  The rest simplifies to
+	// - sin(u)sin(v)majorRadius x orientation
+	// + cos(u)sin(v)minorRadius x orientation
+	//  - cos(v)majorRadius x minorRadius .
+	// Best to compute those 3 cross products outside of any loops.
+	Q3Vector3D_Cross( &geomData.majorRadius, &geomData.orientation, &majXOrient );
+	Q3Vector3D_Cross( &geomData.minorRadius, &geomData.orientation, &minXOrient );
+	Q3Vector3D_Cross( &geomData.majorRadius, &geomData.minorRadius, &majXMinor );
+	
+	// Right or left handed?
+	bool isRightHanded = (Q3Vector3D_Dot( &majXMinor, &geomData.orientation ) > 0.0);
+	
+	// At the v = 0 (south) pole, our normal vector formula boils down to -majXMinor, and
+	// at the v = ¹ (north) pole it becomes majXMinor.  When the system is left-handed,
+	// the normals need to be negated to point outward.
+	TQ3Point3D		pole0, polePi;
+	Q3Point3D_Vector3D_Add( &geomData.origin, &geomData.orientation, &polePi );
+	Q3Point3D_Vector3D_Subtract( &geomData.origin, &geomData.orientation, &pole0 );
+	TQ3Vector3D		normPole0, normPolePi;
+	if (isRightHanded)
+	{
+		normPolePi = majXMinor;
+	}
+	else
+	{
+		Q3Vector3D_Negate( &majXMinor, &normPolePi );
+	}
+	Q3Vector3D_Normalize( &normPolePi, &normPolePi );
+	Q3Vector3D_Negate( &normPolePi, &normPole0 );
+
+
+	// Start filling in points, normals, uvs
+	pnum = 0;		// what point we're working on
+
+	
+	for (v = 0, vang = kQ3Pi * vMin;
+		v <= vSegments;
+		++v, vang += vDeltaAngle)
+	{
+		// for row v... find the points around the circle (by u)
+		sinVAngle = (float)sin(vang);
+		cosVAngle = (float)cos(vang);
+		
+		for (u = 0, uang = kQ32Pi * uMin; u <= uSegments; ++u, uang += uDeltaAngle)
+		{
+			sinUAngle = (float)sin(uang);
+			cosUAngle = (float)cos(uang);
+			
+			// start with point on equator around <0,0,0>: cos(major) + sin(minor)
+			Q3FastVector3D_Scale( &geomData.majorRadius, cosUAngle, &vec );
+			Q3FastVector3D_Scale( &geomData.minorRadius, sinUAngle, &vec2 );
+			Q3FastVector3D_Add( &vec2, &vec, &vec );
+			
+			// then, scale this and shift it into the proper row
+			Q3FastVector3D_Scale( &vec, sinVAngle, &vec );
+			Q3FastVector3D_Scale( &geomData.orientation, cosVAngle, &axis );
+			Q3FastVector3D_Subtract( &vec, &axis, &vec );
+			Q3FastPoint3D_Vector3D_Add( &geomData.origin, &vec, &points[pnum] );
+			
+			// Compute the vertex normal vector
+			Q3FastVector3D_Scale( &majXOrient, - sinUAngle * sinVAngle, &normals[pnum] );
+			Q3FastVector3D_Scale( &minXOrient, cosUAngle * sinVAngle, &vec );
+			Q3FastVector3D_Add( &vec, &normals[pnum], &normals[pnum] );
+			Q3FastVector3D_Scale( &majXMinor, - cosVAngle, &vec );
+			Q3FastVector3D_Add( &vec, &normals[pnum], &normals[pnum] );
+			if (! isRightHanded)
+				Q3FastVector3D_Negate( &normals[pnum], &normals[pnum] );
+			Q3FastVector3D_Normalize( &normals[pnum], &normals[pnum] );
+
+			
+			// Set up the UVs
+			uvs[pnum].u = uDelta * u;
+			uvs[pnum].v = vDelta * v;
+
+
+			// Set up triangles for u, u+1 and v, v+1
+			if ( (u < uSegments) && (v < vSegments) )
+			{
+				// end caps
+				if ( isSouthPresent && (v==0) )
+				{
+					triangles[tnum].pointIndices[0] = uSegments + 1 + pnum + 1;
+					triangles[tnum].pointIndices[1] = uSegments + 1 + pnum;
+					triangles[tnum].pointIndices[2] = pnum;
+					tnum++;
+				}
+				else if ( isNorthPresent && (v == vSegments-1) )
+				{
+					triangles[tnum].pointIndices[0] = pnum;
+					triangles[tnum].pointIndices[1] = pnum + 1;
+					triangles[tnum].pointIndices[2] = uSegments + 1 + pnum;
+					tnum++;
+				}
+				else
+				{
+					triangles[tnum].pointIndices[0] = pnum;
+					triangles[tnum].pointIndices[1] = pnum + 1;
+					triangles[tnum].pointIndices[2] = pnum + uSegments + 1;
+					tnum++;
+					triangles[tnum].pointIndices[0] = pnum + 1;
+					triangles[tnum].pointIndices[1] = pnum + uSegments + 1 + 1;
+					triangles[tnum].pointIndices[2] = pnum + uSegments + 1;
+					tnum++;
+				}
+			}
+
+			pnum++;
+		}
+	}
+	
+	
+	
+	// Compute face normals
+	Q3Triangle_CrossProductArray( numTriangles, NULL,
+		&triangles[0].pointIndices[0], &points[0], &faceNormals[0] );
+
+
+
+	// set up remaining trimesh data
+	TQ3TriMeshAttributeData vertexAttributes[2] =
+	{
+		{ kQ3AttributeTypeNormal, &normals[0], NULL },
+		{ kQ3AttributeTypeSurfaceUV, &uvs[0], NULL }
+	};
+	TQ3TriMeshAttributeData	faceAttributes[1] =
+	{
+		{ kQ3AttributeTypeNormal, &faceNormals[0], NULL },
+	};
+
+	triMeshData.triMeshAttributeSet		= NULL;
+	triMeshData.numPoints                 = numPoints;
+	triMeshData.points                    = &points[0];
+	triMeshData.numTriangles              = numTriangles;
+	triMeshData.triangles                 = &triangles[0];
+	triMeshData.numTriangleAttributeTypes = 1;
+	triMeshData.triangleAttributeTypes    = faceAttributes;
+	triMeshData.numEdges                  = 0;
+	triMeshData.edges                     = NULL;
+	triMeshData.numEdgeAttributeTypes     = 0;
+	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.numVertexAttributeTypes   = 2;
+	triMeshData.vertexAttributeTypes      = vertexAttributes;
+
+	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox,
+									triMeshData.points,
+									numPoints,
+									sizeof(TQ3Point3D));
+
+
+
+	// Create the TriMesh
+	return CQ3ObjectRef( Q3TriMesh_New(&triMeshData) );
+}
+
+
+
+//=============================================================================
+//      e3geom_ellipsoid_cache_new : Ellipsoid cache new method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
+							const TQ3EllipsoidData *geomData )
+{
+	// Check for coplanar axes.
 	if (E3Geometry_IsDegenerateTriple( &geomData->orientation, &geomData->majorRadius,
 		&geomData->minorRadius ))
 	{
 		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
 		return NULL;
 	}
-
-
-
-	// Get the subdivision style, to figure out how many sides we should have.
-	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
+	
+	
+	
+	// Validate u and v bounds.
+	
+	//   Clamp to interval [0, 1].
+	float uMin  = E3Num_Clamp(geomData->uMin, 0.0f, 1.0f);
+	float uMax  = E3Num_Clamp(geomData->uMax, 0.0f, 1.0f);
+	float vMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
+	float vMax  = E3Num_Clamp(geomData->vMax, 0.0f, 1.0f);
+	//   Do not allow upper and lower bound to be the same.
+	if ( (E3Float_Abs( uMin - uMax ) <= kQ3RealZero) ||
+		(E3Float_Abs( vMin - vMax ) <= kQ3RealZero) )
+	{
+		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+		return NULL;
+	}
+	//   Do not allow vMin to be greater than vMax.
+	if (vMin > vMax)
+	{
+		E3Float_Swap( vMin, vMax );
+	}
+	//   It might make sense for uMin to be greater than uMax, to indicate
+	//   going the other way around the circle.  But we prefer to enforce
+	//   uMin < uMax, at the expense of allowing uMax to be greater than 1.
+	if (uMin > uMax)
+	{
+		uMax += 1.0f;
+	}
+	
+	
+	
+	// Determine whether the surface is missing either pole or the u seam.
+	bool	isNorthPolePresent = (1.0f - vMax) < kQ3RealZero;
+	bool	isSouthPolePresent = vMin < kQ3RealZero;
+	bool	isCircleComplete = E3Float_Abs( uMax - uMin - 1.0f ) < kQ3RealZero;
+	
+	
+	
+	// Make a group and add an orientation style.
+	CQ3ObjectRef	resultGroup( Q3DisplayGroup_New() );
+	CQ3ObjectRef	orientationStyle( Q3OrientationStyle_New(
+		kQ3OrientationStyleCounterClockwise ) );
+	Q3Group_AddObject( resultGroup.get(), orientationStyle.get() );
+	
+	
+	// If there is an ellipsoidAttributeSet, add it to the group.  It is
+	// necessary to do this, instead of putting it in the main TriMesh, so
+	// that these attributes can be inherited by caps even if there is also
+	// an interiorAttributeSet.
+	if (geomData->ellipsoidAttributeSet != NULL)
+	{
+		Q3Group_AddObject( resultGroup.get(), geomData->ellipsoidAttributeSet );
+	}
+	
+	
+	// Determine the number of divisions in the u and v directions using the
+	// subdivision style.
+	TQ3Uns32 uSegments = 16;		// how many longitude lines
+	TQ3Uns32 vSegments = 8;		// how many latitude lines
+	TQ3SubdivisionStyleData subdivisionData;
+	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success)
+	{
 		switch (subdivisionData.method) {
 			case kQ3SubdivisionMethodConstant:
-				// upts and vpts are given directly
-				upts = (TQ3Uns32) subdivisionData.c1;
-				vpts = (TQ3Uns32) subdivisionData.c2;
+				// uSegments and vSegments are given directly
+				uSegments = (TQ3Uns32) subdivisionData.c1;
+				vSegments = (TQ3Uns32) subdivisionData.c2;
 				break;
 			
 			case kQ3SubdivisionMethodWorldSpace:
@@ -259,6 +928,7 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				{
 					TQ3Matrix4x4	localToWorld;
 					float			majLen, minLen, orientLen, bigLen;
+					TQ3Vector3D		vec;
 					
 					// Find the lengths of the vectors, in world space.
 					Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
@@ -271,269 +941,58 @@ e3geom_ellipsoid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 					
 					// The u direction depends only on the major and minor axes
 					bigLen = E3Num_Max( majLen, minLen );
-					upts = (TQ3Uns32) ((kQ32Pi * bigLen) / subdivisionData.c1);
+					uSegments = (TQ3Uns32) ((kQ32Pi * bigLen) / subdivisionData.c1);
 					
 					// In the v direction, the orientation acts as one of the radii.
 					// Here we use pi rather than 2pi, since v goes half way around.
 					bigLen = E3Num_Max( bigLen, orientLen );
-					vpts = (TQ3Uns32) ((kQ3Pi * bigLen) / subdivisionData.c1);
+					vSegments = (TQ3Uns32) ((kQ3Pi * bigLen) / subdivisionData.c1);
 				}
 				break;
 
 			case kQ3SubdivisionMethodScreenSpace:
 				// Not implemented
+				E3ErrorManager_PostWarning( kQ3WarningUnsupportedSubdivisionStyle );
 				break;
 			
-			case kQ3SubdivisionMethodSize32:
 			default:
 				Q3_ASSERT(!"Unknown subdivision method");
+				E3ErrorManager_PostWarning( kQ3WarningUnsupportedSubdivisionStyle );
 				break;
 		}
 
 		// sanity checking -- important in case the user screws up the subdivisionData
-		if (upts < 3) upts = 3;
-		if (vpts < 3) vpts = 3;
-	}
-
-
-
-	// We'll construct the ellipsoid out of "vpts" circles,
-	// each containing "upts" points, plus a north and south pole point.
-	//
-	// In order to have proper uv parameterization we need an extra set of vertices
-	// for the closing triangle (since it is not easy to convince any renderer to
-	// have multiple uvs for a vertex)
-	//
-	numpoints = ((upts + 1) * 2) +			// poles
-				((upts + 1) * (vpts + 1));	// sides
-	numtriangles = upts * (vpts-1) * 2 		// rows between circles
-				 + upts * 2;				// north and south caps
-
-
-
-	// Get the UV limits
-	uMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
-	uMax  = E3Num_Clamp(geomData->uMax, 0.0f, 1.0f);
-	vMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
-	vMax  = E3Num_Clamp(geomData->vMax, 0.0f, 1.0f);
-	uDiff = uMax - uMin;
-	vDiff = vMax - vMin;
-
-
-
-	// Allocate some memory for the TriMesh
-	points    = (TQ3Point3D *)             Q3Memory_Allocate(numpoints    * sizeof(TQ3Point3D));
-	normals   = (TQ3Vector3D *)            Q3Memory_Allocate(numpoints    * sizeof(TQ3Vector3D));
-	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate(numpoints    * sizeof(TQ3Param2D));
-	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numtriangles * sizeof(TQ3TriMeshTriangleData));
-
-	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL)
-		{
-		Q3Memory_Free(&points);
-		Q3Memory_Free(&normals);
-		Q3Memory_Free(&uvs);
-		Q3Memory_Free(&triangles);
-		
-		return(NULL);
-		}
-
-	duang = kQ32Pi / (float) upts;
-	dvang = kQ3Pi  / (float) (vpts+1);
-	vang = dvang;
-
-	// Normal vector computations:
-	// The ellipsoid has a parametric equation
-	// f(u,v) = origin + cos(v)orientation + sin(v)(cos(u)majorRadius + sin(u)minorRadius)
-	// where u ranges from 0 to 2¹ and v ranges from 0 to ¹.
-	// If you consider the case where (majorRadius, minorRadius, orientation) form a
-	// right-handed system, with orientation pointing "up", then u increases in a
-	// counterclockwise direction and v increases from top to bottom.
-	// A normal vector can be computed as the cross product of the two partials,
-	// (-sin(u)sin(v)majorRadius + cos(u)sin(v)minorRadius) x
-	// (-sin(v)orientation + cos(u)cos(v)majorRadius + sin(u)cos(v)minorRadius)
-	// = sin(v)[ sin(u)sin(v)majorRadius x orientation
-	//			- sin(u)sin(u)cos(v)majorRadius x minorRadius
-	//			- cos(u)sin(v)minorRadius x orientation
-	//			+ cos(u)cos(u)cos(v)minorRadius x majorRadius ]
-	// In the right-handed case, this gives us an inward-pointing normal, and in the
-	// left-handed case it's outward-pointing.
-	// Since we're going to normalize the vector anyway, we can forget the outer scalar
-	// factor of sin(v).  The rest simplifies to
-	// sin(u)sin(v)majorRadius x orientation - cos(u)sin(v)minorRadius x orientation
-	//  - cos(v)majorRadius x minorRadius .
-	// Best to compute those 3 cross products outside of any loops.
-	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->orientation, &majXOrient );
-	Q3Vector3D_Cross( &geomData->minorRadius, &geomData->orientation, &minXOrient );
-	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
-	
-	// Right or left handed?
-	if (Q3Vector3D_Dot( &majXMinor, &geomData->orientation ) > 0.0)
-	{
-		isRightHanded = kQ3True;
-	}
-	else
-	{
-		isRightHanded = kQ3False;
+		if (uSegments < 3) uSegments = 3;
+		if (vSegments < 3) vSegments = 3;
 	}
 	
-	// At the v = 0 pole, our normal vector formula boils down to -majXMinor, and
-	// at the v = ¹ pole it becomes majXMinor.  When the system is right-handed,
-	// it needs to be negated to point outward.
-	Q3Point3D_Vector3D_Add( &geomData->origin, &geomData->orientation, &pole0 );
-	Q3Point3D_Vector3D_Subtract( &geomData->origin, &geomData->orientation, &polePi );
-	if (isRightHanded == kQ3True)
-	{
-		normPole0 = majXMinor;
-	}
-	else
-	{
-		Q3Vector3D_Negate( &majXMinor, &normPole0 );
-	}
-	Q3Vector3D_Normalize( &normPole0, &normPole0 );
-	Q3Vector3D_Negate( &normPole0, &normPolePi );
-
-	// poles
-	pnum = 0;		// what point we're working on
-	for (u = 0; u <= upts; u++) {
-		uvalue = uMin + ((uDiff / (float) upts) * u);
-		
-		points[pnum] = pole0;
-		normals[pnum] = normPole0;
-		uvs[pnum].u = uvalue;
-		uvs[pnum].v = vMax;
-		pnum++;
-
-		points[pnum] = polePi;
-		normals[pnum] = normPolePi;
-		uvs[pnum].u = uvalue;
-		uvs[pnum].v = vMin;
-		pnum++;
-	}
-
 	
-	// sides
-	for (v=0; v<=vpts; v++) {
-		// for row v... find the points around the circle (by u)
-		uang = 0;
-		sinVAngle = (float)sin(vang);
-		cosVAngle = (float)cos(vang);
-		
-		for (u=0; u<=upts; u++) {
-			sinUAngle = (float)sin(uang);
-			cosUAngle = (float)cos(uang);
-			
-			// start with point on equator around <0,0,0>: cos(major) + sin(minor)
-			Q3Vector3D_Scale( &geomData->majorRadius, cosUAngle, &vec );
-			Q3Vector3D_Scale( &geomData->minorRadius, sinUAngle, &vec2 );
-			Q3Vector3D_Add( &vec2, &vec, &vec );
-			
-			// then, scale this and shift it into the proper row
-			Q3Vector3D_Scale( &vec, sinVAngle, &vec );
-			Q3Vector3D_Scale( &geomData->orientation, cosVAngle, &axis );
-			Q3Vector3D_Add( &vec, &axis, &vec );
-			Q3Point3D_Vector3D_Add( &geomData->origin, &vec, &points[pnum] );
-			
-			// Compute the normal vector
-			Q3Vector3D_Scale( &majXOrient, sinUAngle * sinVAngle, &normals[pnum] );
-			Q3Vector3D_Scale( &minXOrient, - cosUAngle * sinVAngle, &vec );
-			Q3Vector3D_Add( &vec, &normals[pnum], &normals[pnum] );
-			Q3Vector3D_Scale( &majXMinor, - cosVAngle, &vec );
-			Q3Vector3D_Add( &vec, &normals[pnum], &normals[pnum] );
-			if (isRightHanded == kQ3True)
-				Q3Vector3D_Negate( &normals[pnum], &normals[pnum] );
-
-			
-			// Set up the UVs
-			uvs[pnum].u = uMin + ((uDiff / (float) upts) * u);
-			uvs[pnum].v = vMax - ((vDiff / (float) vpts) * v);
-
-
-			// if we're not on a pole...
-			if (u < upts) {
-				// end caps
-				if (v==0) {
-					triangles[tnum].pointIndices[0] = pnum;
-					triangles[tnum].pointIndices[1] = pnum + 1;
-					triangles[tnum].pointIndices[2] = (u * 2);
-					tnum++;
-				} else if (v == vpts-1) {
-					triangles[tnum].pointIndices[2] = pnum;
-					triangles[tnum].pointIndices[1] = pnum + 1;
-					triangles[tnum].pointIndices[0] = (u * 2) + 1;
-					tnum++;
-				}
-
-				// and make some sides
-				if (v < vpts-1) {
-					triangles[tnum].pointIndices[2] = pnum;
-					triangles[tnum].pointIndices[1] = pnum + 1;
-					triangles[tnum].pointIndices[0] = pnum + upts + 1;
-					tnum++;
-					triangles[tnum].pointIndices[2] = pnum + 1;
-					triangles[tnum].pointIndices[1] = pnum + upts + 1 + 1;
-					triangles[tnum].pointIndices[0] = pnum + upts + 1;
-					tnum++;
-				}
-			}
-
-			pnum++;
-			uang += duang;
-		}
-		vang += dvang;
-	}
-
-
-
-	// set up the attributes (may be a combination of ellipsoid & face attributes)	
-	E3AttributeSet_Combine( geomData->ellipsoidAttributeSet, NULL,
-					&triMeshData.triMeshAttributeSet );
 	
-	// set up remaining trimesh data
-	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
-	vertexAttributes[0].data              = normals;
-	vertexAttributes[0].attributeUseArray = NULL;
-
-	vertexAttributes[1].attributeType     = kQ3AttributeTypeSurfaceUV;
-	vertexAttributes[1].data              = uvs;
-	vertexAttributes[1].attributeUseArray = NULL;
-
-	triMeshData.numPoints                 = numpoints;
-	triMeshData.points                    = points;
-	triMeshData.numTriangles              = numtriangles;
-	triMeshData.triangles                 = triangles;
-	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
-	triMeshData.numEdges                  = 0;
-	triMeshData.edges                     = NULL;
-	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
-	triMeshData.numVertexAttributeTypes   = 2;
-	triMeshData.vertexAttributeTypes      = vertexAttributes;
-
-	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox,
-									triMeshData.points,
-									numpoints,
-									sizeof(TQ3Point3D));
+	// Make the main surface geometry
+	CQ3ObjectRef	theTriMesh( e3geom_ellipsoid_create_face( *geomData,
+		uMin, uMax, vMin, vMax, isNorthPolePresent, isSouthPolePresent,
+		uSegments, vSegments ) );
+	Q3Group_AddObject( resultGroup.get(), theTriMesh.get() );
 
 
-
-	// Create the TriMesh
-	theTriMesh = Q3TriMesh_New(&triMeshData);
-	theGroup   = E3TriMesh_BuildOrientationGroup(theTriMesh, kQ3OrientationStyleCounterClockwise);
-
-
-
-	// Clean up
-	Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
-	Q3Memory_Free(&points);
-	Q3Memory_Free(&normals);
-	Q3Memory_Free(&uvs);
-	Q3Memory_Free(&triangles);
-
+	// Do we need to add caps?
+	bool	isTopCapNeeded = (! isNorthPolePresent) &&
+		((geomData->caps & kQ3EndCapMaskTop) != 0);
+	bool	isBottomCapNeeded = (! isSouthPolePresent) &&
+		((geomData->caps & kQ3EndCapMaskBottom) != 0);
+	bool	isInteriarCapNeeded = (! isCircleComplete) &&
+		((geomData->caps & kQ3EndCapMaskInterior) != 0);
+	if (isTopCapNeeded || isBottomCapNeeded || isInteriarCapNeeded)
+	{
+		CQ3ObjectRef	theCaps( e3geom_ellipsoid_create_caps( *geomData,
+			uMin, uMax, vMin, vMax, uSegments, vSegments,
+			isTopCapNeeded, isBottomCapNeeded, isInteriarCapNeeded ) );
+		Q3Group_AddObject( resultGroup.get(), theCaps.get() );
+	}
 
 
 	// Return the cached geometry
-	return(theGroup);
+	return Q3Shared_GetReference( resultGroup.get() );
 }
 
 
