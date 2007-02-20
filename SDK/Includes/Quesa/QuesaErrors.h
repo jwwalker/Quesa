@@ -394,6 +394,7 @@ typedef enum {
  *	@constant kQ3WarningReadBadNormalVector                A supposed normal vector has components so
  *                                                         large or small that it cannot be normalized.
  *                                                         Not available in QD3D.
+ *	@constant kQ3WarningUnsupportedSubdivisionStyle		   A geometry does not support the current subdivision style.
  */
 typedef enum {
     kQ3WarningNone                              = 0,
