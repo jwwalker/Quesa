@@ -273,6 +273,7 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 	{ kQ3WarningVertexNotNormalized,				"Quesa Warning: " "Vertex normal is not normalized" },
 	{ kQ3WarningReadInfiniteFloatingPointNumber,	"Quesa Warning: " "Read infinite floating-point number" },
 	{ kQ3WarningReadBadNormalVector,				"Quesa Warning: " "Read bad (unnormalizable) normal vector" },
+	{ kQ3WarningUnsupportedSubdivisionStyle,		"Quesa Warning: " "Unsupported subdivision style" },
 	{ kQ3WarningNone, NULL } };
 
 
