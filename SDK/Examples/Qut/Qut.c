@@ -375,6 +375,7 @@ void Qut_CalcBounds(TQ3ViewObject theView, TQ3Object theObject, TQ3BoundingBox *
         {
         do
             {
+            Qut_SubmitDefaultState( theView );
             Q3Object_Submit(theObject, theView);
             }
         while (Q3View_EndBoundingBox(theView, theBounds) == kQ3ViewStatusRetraverse);
@@ -422,6 +423,7 @@ void Qut_CalcBoundingSphere(TQ3ViewObject theView, TQ3Object theObject, TQ3Bound
         {
         do
             {
+            Qut_SubmitDefaultState( theView );
             Q3Object_Submit(theObject, theView);
             }
         while (Q3View_EndBoundingSphere(theView, theBoundingSphere) == kQ3ViewStatusRetraverse);
