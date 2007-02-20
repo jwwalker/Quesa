@@ -946,12 +946,14 @@ createGeomEllipse(void)
 static TQ3GeometryObject
 createGeomEllipsoid(void)
 {	TQ3ColorRGB			ellipsoidColour = { 1.0f, 0.0f, 0.0f };
+	TQ3ColorRGB			capColor = { 1.0f, 1.0f, 0.0f };
 	TQ3EllipsoidData	ellipsoidData   = { { 0.0f, 0.0f, 0.0f },
 										    { 0.0f, 0.0f, 0.5f },
 										    { 1.0f, 0.0f, 0.0f },
 										    { 0.0f, 1.5f, 0.0f },
-										    0.0f, 1.0f, 0.0f, 1.0f,
-										    kQ3EndCapNone, NULL, NULL };
+										    0.0f, 0.75f, 0.1f, 0.8f,
+										    kQ3EndCapMaskTop | kQ3EndCapMaskBottom | kQ3EndCapMaskInterior,
+										    NULL, NULL };
 	TQ3GeometryObject	theEllipsoid;
 
 
@@ -961,6 +963,9 @@ createGeomEllipsoid(void)
 	if (ellipsoidData.ellipsoidAttributeSet != NULL)
 		Q3AttributeSet_Add(ellipsoidData.ellipsoidAttributeSet, kQ3AttributeTypeDiffuseColor, &ellipsoidColour);
 
+	ellipsoidData.interiorAttributeSet = Q3AttributeSet_New();
+	if (ellipsoidData.interiorAttributeSet != NULL)
+		Q3AttributeSet_Add( ellipsoidData.interiorAttributeSet, kQ3AttributeTypeDiffuseColor, &capColor );
 
 
 	// Create the geometry
@@ -971,6 +976,8 @@ createGeomEllipsoid(void)
 	// Clean up
 	if (ellipsoidData.ellipsoidAttributeSet != NULL)
 		Q3Object_Dispose(ellipsoidData.ellipsoidAttributeSet);
+	if (ellipsoidData.interiorAttributeSet != NULL)
+		Q3Object_Dispose(ellipsoidData.interiorAttributeSet);
 		
 	return(theEllipsoid);
 }
