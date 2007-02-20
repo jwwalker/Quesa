@@ -151,7 +151,7 @@ private:
 */
 class Renderer
 {
-private:
+protected:
 							Renderer( TQ3RendererObject inRenderer );
 							~Renderer();
 	
