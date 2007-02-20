@@ -626,7 +626,21 @@ e3geometry_cache_update(TQ3ViewObject theView,
 
 	// If we can create a cached geometry, create it
 	if ( theClass->cacheNew != NULL )
-		*cachedGeom = theClass->cacheNew ( theView, theGeom, geomData ) ;
+	{
+		try
+		{
+			*cachedGeom = theClass->cacheNew( theView, theGeom, geomData );
+		}
+		catch (std::bad_alloc&)
+		{
+			*cachedGeom = NULL;
+			E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
+		}
+		catch (...)
+		{
+			*cachedGeom = NULL;
+		}
+	}
 	}
 
 
