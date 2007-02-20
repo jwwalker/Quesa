@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -182,7 +182,7 @@ typedef struct TQ3BoxData {
  *		allow partial cones, e.g., a cone with a wedge cut out of it or with its tip cut off.
  *		This feature was not implemented in QuickDraw 3D.  See the discussion of
  *		<code>TQ3EllipseData</code> for notes on the interpretation of <code>uMin</code> and
- *		code>uMax</code>.
+ *		<code>uMax</code>.
  *
  *		If <code>vMax</code> < 1, so that the tip is cut off, the top disk is considered part of
  *		an interior face, rather than a top cap.
@@ -241,7 +241,7 @@ typedef struct TQ3ConeData {
  *		allow partial cylinders, e.g., a cylinder with a wedge cut out of it.
  *		This feature was not implemented in QuickDraw 3D.  See the discussion of
  *		<code>TQ3EllipseData</code> for notes on the interpretation of <code>uMin</code> and
- *		code>uMax</code>.
+ *		<code>uMax</code>.
  *
  *	@field		origin					The center of the base of the cylinder.
  *	@field		orientation				Vector from the origin to the center of the opposite end.
@@ -296,7 +296,7 @@ typedef struct TQ3CylinderData {
  *		allow partial disks, e.g., a slice of pie (partial range of u values) or a washer
  *		(partial range of v values).  This feature was never implemented in QuickDraw 3D,
  *		although it was planned.  See the discussion of <code>TQ3EllipseData</code> for notes
- *		on the interpretation of <code>uMin</code> and code>uMax</code>.
+ *		on the interpretation of <code>uMin</code> and <code>uMax</code>.
  *
  *		The u and v limits here do not have anything to do with the uv parametrization used by
  *		shaders.
@@ -368,19 +368,19 @@ typedef struct TQ3EllipseData {
  *      TQ3EllipsoidData
  *	@discussion
  *		Data describing the state of an ellipsoid.  The major axis, minor axis, and
- *		orientation vectors need not be orthogonal, but should be independent.
+ *		orientation vectors need not be orthogonal, but should be independent, i.e.,
+ *		not coplanar.
+ *
  *		The ellipsoid can be expressed by a parametric equation
  *
- *		f(u,v) = origin + cos(&pi;v)orientation + sin(&pi;v)(cos(2&pi;u)majorRadius + sin(2&pi;u)minorRadius)
+ *		f(u,v) = origin - cos(&pi;v)orientation + sin(&pi;v)(cos(2&pi;u)majorRadius + sin(2&pi;u)minorRadius)
  *
  *		where u and v range from 0 to 1.
  *
  *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
- *		were apparently intended to allow partial ellipsoids, e.g., an ellipsoid with a wedge
- *		cut out of it.
- *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
- *		ever did either.
- *
+ *		allow partial ellipsoids, e.g., an ellipsoid with a wedge cut out of it.
+ *		Partial ellipsoids were not implemented in QuickDraw 3D.
+  *
  *	@field		origin					Center of the ellipsoid.
  *	@field		orientation				A vector from the origin to a point on the ellipsoid.
  *	@field		majorRadius				A vector from the origin to a point on the ellipsoid.
@@ -394,9 +394,8 @@ typedef struct TQ3EllipseData {
  *										(origin + orientation).  Typically 0.
  *	@field		vMax					Minimum value of the v parameter.  Typically 1.
  *	@field		caps					Style of caps to be used on partial ellipsoids.
- *										Currently ignored by Quesa.
- *	@field		interiorAttributeSet	Interior attributes.  Currently unused by Quesa
- *										rendering, so leave it NULL.
+ *	@field		interiorAttributeSet	Interior attributes, used for end or interior caps.
+ *										May be NULL.
  *	@field		ellipsoidAttributeSet	Attributes for the ellipsoid surface.  May be NULL.
  */
 typedef struct TQ3EllipsoidData {
