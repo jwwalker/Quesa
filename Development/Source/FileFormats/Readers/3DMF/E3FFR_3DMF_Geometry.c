@@ -2314,9 +2314,17 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.ellipsoidAttributeSet = childObject;
+			else if(Q3Object_IsType (childObject, kQ3AttributeSetTypeInteriorCap)){
+				geomData.interiorAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
+				Q3Object_Dispose(childObject);
+				}
 			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
 				e3read_3dmf_merge_element_set( &elementSet, childObject );
-
+			else if (Q3Object_IsType (childObject, kQ3ObjectTypeGeometryCaps))
+				{
+					geomData.caps = E3FFormat_3DMF_GeometryCapsMask_Get(childObject);
+					Q3Object_Dispose(childObject);
+				}
 			else{
 				Q3Object_Dispose(childObject);
 				}
@@ -2336,6 +2344,8 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 	// Clean up
 	if (geomData.ellipsoidAttributeSet != NULL)
 		Q3Object_Dispose(geomData.ellipsoidAttributeSet);
+	if (geomData.interiorAttributeSet != NULL)
+		Q3Object_Dispose(geomData.interiorAttributeSet);
 		
 	return theObject;
 }
