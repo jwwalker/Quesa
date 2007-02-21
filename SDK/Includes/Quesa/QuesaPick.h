@@ -286,6 +286,12 @@ typedef struct TQ3HitPath {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+
+/*!
+	@functiongroup	General Picking
+*/
+
+
 /*!
  *  @function
  *      Q3Pick_GetType
@@ -512,6 +518,9 @@ Q3HitPath_EmptyData (
 );
 
 
+/*!
+	@functiongroup	Window Point Picking
+*/
 
 /*!
  *  @function
@@ -600,6 +609,9 @@ Q3WindowPointPick_SetData (
 );
 
 
+/*!
+	@functiongroup	Window Rectangle Picking
+*/
 
 /*!
  *  @function
@@ -688,6 +700,9 @@ Q3WindowRectPick_SetData (
 );
 
 
+/*!
+	@functiongroup	World Ray Picking
+*/
 
 /*!
  *  @function
@@ -775,6 +790,9 @@ Q3WorldRayPick_SetData (
     const TQ3WorldRayPickData     *data
 );
 
+/*!
+	@functiongroup	Object Parts
+*/
 
 
 /*!
@@ -903,6 +921,10 @@ Q3MeshVertexPart_GetVertex (
 
 
 
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 //=============================================================================
