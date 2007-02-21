@@ -233,9 +233,10 @@ e3shared_dispose ( E3Shared* theObject )
 TQ3Status
 e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 						 TQ3Object toObject, void *toPrivateData)
-{	E3Shared		*instanceData = (E3Shared *) toObject ;
-#pragma unused(fromObject)
-#pragma unused(toPrivateData)
+{
+	E3Shared		*instanceData = (E3Shared *) toObject ;
+	E3Shared		*fromInstanceData = (E3Shared *) fromObject ;
+#pragma unused(fromPrivateData, toPrivateData)
 
 
 
@@ -249,7 +250,7 @@ e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 
 	// Initialise the instance data of the new object
 	instanceData->refCount  = 1;
-	instanceData->editIndex = 1;
+	instanceData->editIndex = fromInstanceData->editIndex;
 
 	return(kQ3Success);
 }
