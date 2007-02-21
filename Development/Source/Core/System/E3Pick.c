@@ -47,6 +47,11 @@
 #include "E3View.h"
 #include "E3Group.h"
 #include "E3Pick.h"
+#include "CQ3ObjectRef.h"
+
+#include <algorithm>
+#include <vector>
+#include <memory>
 
 
 
@@ -56,10 +61,13 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 // Pick hit result
-typedef struct TQ3PickHit {
-	// Next hit in the list
-	struct TQ3PickHit			*nextHit;
-
+struct TQ3PickHit
+{
+								TQ3PickHit() : validMask(kQ3PickDetailNone) {}
+								
+								~TQ3PickHit();
+								
+								
 	// Mask indicating valid fields for this hit
 	TQ3PickDetail				validMask;
 
@@ -67,21 +75,22 @@ typedef struct TQ3PickHit {
 	TQ3Uns32					pickedID;
 	TQ3HitPath					pickedPath;
 	TQ3PickParts				pickedPart;
-	TQ3SharedObject				pickedObject;
-	TQ3ShapePartObject			pickedShape;
+	CQ3ObjectRef				pickedObject;
+	CQ3ObjectRef				pickedShape;
 	TQ3Point3D					hitXYZ;
 	TQ3Param2D					hitUV;
 	TQ3Vector3D					hitNormal;
 	float						hitDistance;
 	TQ3Matrix4x4				localToWorld;
-} TQ3PickHit;
+};
 
 
 // Pick object instance data
-typedef struct TQ3PickUnionData {
+struct TQ3PickUnionData
+{
 	// Common data
-	TQ3Uns32							numHits;
-	TQ3PickHit							*pickHits;
+	std::vector<TQ3PickHit*>			pickHits;
+	bool								isSorted;
 
 
 	// Pick specific. Note that we assume that a TQ3PickData structure
@@ -93,10 +102,20 @@ typedef struct TQ3PickUnionData {
 		TQ3WindowRectPickData			windowRectData;
 		TQ3WorldRayPickData				worldRayData;
 	} data;
-} TQ3PickUnionData;
+};
 
 
 
+struct CompPickNearToFar
+{
+	bool operator()( TQ3PickHit* inOne, TQ3PickHit* inTwo ) const;
+};
+
+
+struct CompPickFarToNear
+{
+	bool operator()( TQ3PickHit* inOne, TQ3PickHit* inTwo ) const;
+};
 
 
 class E3Pick : public OpaqueTQ3Object // This is not a leaf class, but only classes in this,
@@ -222,6 +241,36 @@ public :
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+
+TQ3PickHit::~TQ3PickHit()
+{
+	if ((validMask & kQ3PickDetailMaskPath) != 0)
+	{
+		Q3HitPath_EmptyData( &pickedPath );
+	}
+}
+
+static float e3pick_hit_distance( TQ3PickHit* inHit )
+{
+	float	theDistance = 0.0f;
+	if ( (inHit->validMask & kQ3PickDetailMaskDistance) != 0 )
+	{
+		theDistance = inHit->hitDistance;
+	}
+	return theDistance;
+}
+
+bool CompPickNearToFar::operator()( TQ3PickHit* inOne, TQ3PickHit* inTwo ) const
+{
+	return e3pick_hit_distance( inOne ) < e3pick_hit_distance( inTwo );
+}
+
+bool CompPickFarToNear::operator()( TQ3PickHit* inOne, TQ3PickHit* inTwo ) const
+{
+	return e3pick_hit_distance( inOne ) < e3pick_hit_distance( inTwo );
+}
+
+//-----------------------------------------------------------------------------
 //      e3pick_hit_duplicate_path : Duplicate a TQ3HitPath.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -319,8 +368,8 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	// Save the hit object
 	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskObject))
 		{
-		theHit->pickedObject = E3View_PickStack_GetPickedObject(theView);
-		if (theHit->pickedObject != NULL)
+		theHit->pickedObject = CQ3ObjectRef( E3View_PickStack_GetPickedObject(theView) );
+		if (theHit->pickedObject.isvalid())
 			theHit->validMask |= kQ3PickDetailMaskObject;
 		}
 
@@ -382,7 +431,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	// Save the shape part
 	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskShapePart) && (hitShape != NULL))
 		{
-		theHit->pickedShape = Q3Shared_GetReference(hitShape);
+		theHit->pickedShape = CQ3ObjectRef( Q3Shared_GetReference(hitShape) );
 		theHit->validMask  |= kQ3PickDetailMaskShapePart;
 		}
 
@@ -450,30 +499,39 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 //-----------------------------------------------------------------------------
 static TQ3PickHit *
 e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
-{	TQ3PickHit		*currentHit = pickInstanceData->pickHits;
-
-
-
+{
 	// Check we're not out of range
-	if (n > pickInstanceData->numHits)
+	if (n >= pickInstanceData->pickHits.size())
 		return(NULL);
 	
 	if (pickInstanceData->data.common.numHitsToReturn != kQ3ReturnAllHits)
 		{
-		if (n > pickInstanceData->data.common.numHitsToReturn)
+		if (n >= pickInstanceData->data.common.numHitsToReturn)
 			return(NULL);
 		}
 
 
-
-	// Walk through the list to find the right item
-	while (currentHit != NULL && n != 0)
+	// just in time sort
+	if (!pickInstanceData->isSorted)
+	{
+		switch (pickInstanceData->data.common.sort)
 		{
-		n--;
-		currentHit = currentHit->nextHit;
+			case kQ3PickSortNearToFar:
+				std::sort( pickInstanceData->pickHits.begin(),
+					pickInstanceData->pickHits.end(), CompPickNearToFar() );
+				break;
+			
+			case kQ3PickSortFarToNear:
+				std::sort( pickInstanceData->pickHits.begin(),
+					pickInstanceData->pickHits.end(), CompPickFarToNear() );
+				break;
 		}
+		pickInstanceData->isSorted = true;
+	}
 
-	return(currentHit);
+
+	// Return the one we want
+	return pickInstanceData->pickHits[ n ];
 }
 
 
@@ -1234,7 +1292,7 @@ E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
 
 
 	// Get the field, clamping it if a limit was supplied
-	*numHits = instanceData->numHits;
+	*numHits = instanceData->pickHits.size();
 	
 	if (instanceData->data.common.numHitsToReturn != kQ3ReturnAllHits)
 		{
@@ -1254,42 +1312,19 @@ E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_EmptyHitList(TQ3PickObject thePick)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
-	TQ3PickHit			*currentHit;
-	TQ3PickHit			*nextHit;
+{
+	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
 
 
 
 	// Dispose of the hit list
-	currentHit = instanceData->pickHits;
-	while (currentHit != NULL)
-		{
-		// Grab the next item in the list
-		nextHit = currentHit->nextHit;
-		
-		
-		// Dispose of the item
-		if (E3Bit_IsSet(currentHit->validMask, kQ3PickDetailMaskPath))
-			Q3HitPath_EmptyData(&currentHit->pickedPath);
-
-		if (E3Bit_IsSet(currentHit->validMask, kQ3PickDetailMaskObject))
-			Q3Object_Dispose(currentHit->pickedObject);
-
-		if (E3Bit_IsSet(currentHit->validMask, kQ3PickDetailMaskShapePart))
-			Q3Object_Dispose(currentHit->pickedShape);
-
-		Q3Memory_Free(&currentHit);
-
-
-		// Move on to the next item in the list
-		currentHit = nextHit;
-		}
-
-
-
-	// Reset our state
-	instanceData->numHits  = 0;
-	instanceData->pickHits = NULL;
+	for (std::vector<TQ3PickHit*>::iterator i = instanceData->pickHits.begin();
+		i != instanceData->pickHits.end(); ++i)
+	{
+		delete *i;
+	}
+	
+	instanceData->pickHits.clear();
 
 	return(kQ3Success);
 }
@@ -1362,7 +1397,7 @@ E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pi
 			qd3dStatus = e3pick_hit_duplicate_path(&theHit->pickedPath, (TQ3HitPath *) detailData);
 			break;
 		case kQ3PickDetailMaskObject:
-			*((TQ3SharedObject*)(detailData)) = Q3Shared_GetReference(theHit->pickedObject);
+			*((TQ3SharedObject*)(detailData)) = Q3Shared_GetReference(theHit->pickedObject.get());
 			break;
 		case kQ3PickDetailMaskLocalToWorldMatrix:
 			*((TQ3Matrix4x4*)(detailData)) = theHit->localToWorld;
@@ -1377,7 +1412,7 @@ E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pi
 			*((TQ3Vector3D*)(detailData)) = theHit->hitNormal;
 			break;
 		case kQ3PickDetailMaskShapePart:
-			*((TQ3ShapePartObject*)(detailData)) = Q3Shared_GetReference(theHit->pickedShape);
+			*((TQ3ShapePartObject*)(detailData)) = Q3Shared_GetReference(theHit->pickedShape.get());
 			break;
 		case kQ3PickDetailMaskPickPart:
 			*((TQ3PickParts*)(detailData)) = theHit->pickedPart;
@@ -1410,10 +1445,9 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 					const TQ3Vector3D		*hitNormal,
 					const TQ3Param2D		*hitUV,
 					TQ3ShapePartObject		hitShape)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
-	TQ3PickHit			*theHit, *currentHit, *previousHit;
-	TQ3Boolean			savedHit, foundHit;
-	TQ3PickSort			sortType;
+{
+	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+	TQ3Status	theStatus = kQ3Success;
 
 
 
@@ -1421,117 +1455,39 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(thePick),   kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theView),   kQ3Failure);
 
-
-
-	// Allocate another hit record (groan :-)
-	theHit = (TQ3PickHit*)Q3Memory_AllocateClear(sizeof(TQ3PickHit));
-	if (theHit == NULL)
-		return(kQ3Failure);
-
-
-
-	// Fill out the data for the hit
-	e3pick_hit_initialise(theHit, thePick, theView, hitXYZ, hitNormal, hitUV, hitShape);
-
-
-
-	// Decide what kind of sorting is in effect. We try and sort if asked to, unless
-	// we couldn't establish a distance for the hit. In that case (e.g., it's window
-	// rect pick and the user has incorrectly asked for the results to be sorted)
-	// we simply fall back to unsorted.
-	//
-	// To simplify the code below, we also revert to unsorted if the list is empty.
-	sortType = instanceData->data.common.sort;
-
-	if (E3Bit_IsNotSet(theHit->validMask, kQ3PickDetailMaskDistance))
-		sortType = kQ3PickSortNone;
-
-	if (instanceData->pickHits == NULL)
-		sortType = kQ3PickSortNone;
+	
+	// picks are not sorted until e3pick_hit_find is called.
+	instanceData->isSorted = false;
+	
+	
+	try
+	{
+		// Allocate another hit record
+		std::auto_ptr<TQ3PickHit>	theHit( new TQ3PickHit );
 
 
 
-	// Save the hit into the correct position within the list
-	switch (sortType) {
-		case kQ3PickSortNone:
-			// Add it to the head of the list
-			theHit->nextHit        = instanceData->pickHits;
-			instanceData->pickHits = theHit;
-			break;
-
-
-		case kQ3PickSortNearToFar:
-		case kQ3PickSortFarToNear:
-			// We assume the list is non-empty. We walk through the list until we find
-			// the hit that is closer/further than the current hit, and save ourselves
-			// immediately before it to preserve the sorting order.
-			//
-			// Note that pick hits which don't have a distance will always come to the
-			// front of the list, although this shouldn't cause problems.
-			Q3_ASSERT(instanceData->pickHits != NULL);
-			currentHit  = instanceData->pickHits;
-			previousHit = NULL;
-			savedHit    = kQ3False;
-
-
-			// Search the list
-			while (currentHit != NULL && !savedHit)
-				{
-				// Check this node
-				foundHit = E3Bit_IsSet(currentHit->validMask, kQ3PickDetailMaskDistance);
-				if (foundHit)
-					{
-					// Stop when we find a node further away
-					if (sortType == kQ3PickSortNearToFar)
-						foundHit = (TQ3Boolean)(currentHit->hitDistance > theHit->hitDistance);
-
-					// Or stop when we find a node that's closer
-					else
-						foundHit = (TQ3Boolean)(currentHit->hitDistance < theHit->hitDistance);
-					}
-
-
-				// If we found the right place, save ourselves before it
-				if (foundHit)
-					{
-					// Point the previous node at this node
-					if (previousHit != NULL)
-						previousHit->nextHit = theHit;
-					else
-						instanceData->pickHits = theHit;
-
-					// Point this node at the next node
-					theHit->nextHit = currentHit;
-
-					// We're done
-					savedHit = kQ3True;
-					}
-
-
-				// Move on to the next node
-				previousHit = currentHit;
-				currentHit  = currentHit->nextHit;
-				}
-
-
-			// If we didn't save it yet, append it to the end
-			if (!savedHit)
-				previousHit->nextHit = theHit;
-			break;
-
-
-		default:
-			Q3_ASSERT(!"Unknown sort type");
-			Q3Memory_Free(&theHit);
-			return(kQ3Failure);
-		}
+		// Fill out the data for the hit
+		e3pick_hit_initialise( theHit.get(), thePick, theView, hitXYZ,
+			hitNormal, hitUV, hitShape);
 
 
 
-	// Increment the hit count
-	instanceData->numHits++;
+		// Save the hit at the end of the list
+		instanceData->pickHits.push_back( theHit.get() );
+		
+		
+		
+		// The hit is now owned by pickHits
+		theHit.release();
+	}
+	catch (...)
+	{
+		theStatus = kQ3Failure;
+	}
 
-	return(kQ3Success);
+
+	return theStatus;
 }
 
 
