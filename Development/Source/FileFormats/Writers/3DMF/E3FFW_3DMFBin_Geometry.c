@@ -2797,6 +2797,27 @@ e3ffw_3DMF_torus_traverse( TQ3Object object,
 	status = Q3XView_SubmitWriteData( view, 68, (void*)data, NULL );
 	
 
+	// Optional caps flag
+	if ( (status == kQ3Success) && (data->caps != kQ3EndCapNone) )
+	{
+		TQ3Uns32*	capData = (TQ3Uns32*)Q3Memory_Allocate( sizeof(TQ3Uns32) );
+		Q3_REQUIRE_OR_RESULT( capData != NULL, kQ3Failure );
+		*capData = data->caps;
+		TQ3XObjectClass	theClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeGeometryCaps );
+		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		
+		status = Q3XView_SubmitSubObjectData( view, theClass, 4, capData,
+			E3FFW_3DMF_Default_Delete );
+	}
+
+	// optional interior cap attribute set
+	if ( (status == kQ3Success) && (data->interiorAttributeSet != NULL) &&
+		(data->caps != 0) )
+	{
+		status = E3FileFormat_Method_SubmitObject( view, NULL,
+			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
+	}
+
 	// Overall attribute set
 	if ( (data->torusAttributeSet != NULL) && (status == kQ3Success) )
 		status = Q3Object_Submit( data->torusAttributeSet, view );
