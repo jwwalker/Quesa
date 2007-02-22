@@ -94,6 +94,7 @@
 
 #include "GLDrawContext.h"
 #include "GLUtils.h"
+#include "E3Compatibility.h"
 
 #include <vector>
 
@@ -111,7 +112,6 @@ const int	kShadingTextureWidth	= 32;
 	#define		CHECK_GL_ERROR
 #endif
 
-static 	TQ3ObjectType		sRendererType = 0;
 
 // In lieu of glext.h
 #ifndef GL_ARB_multitexture
@@ -1068,9 +1068,9 @@ TQ3Status CartoonRenderer_Register()
 {
 	// Register the class
 	//
-	TQ3XObjectClass		theClass = Q3XObjectHierarchy_RegisterClass(
+	TQ3XObjectClass		theClass = EiObjectHierarchy_RegisterClassByType(
 														kQ3SharedTypeRenderer,
-														&sRendererType,
+														kQ3RendererTypeCartoon,
 														kQ3ClassNameRendererCartoon,
 														ca_cartoon_metahandler,
 														NULL,
@@ -1086,7 +1086,7 @@ void CartoonRenderer_Unregister()
 	TQ3XObjectClass		theClass;
 
 	// Find the renderer class
-	theClass = Q3XObjectHierarchy_FindClassByType(sRendererType);
+	theClass = Q3XObjectHierarchy_FindClassByType( kQ3RendererTypeCartoon );
 	if (theClass == NULL)
 		return;
 
