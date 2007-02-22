@@ -579,6 +579,7 @@ enum {
             kQ3RendererTypeGeneric              = Q3_OBJECT_TYPE('g', 'n', 'r', 'r'),
             kQ3RendererTypeInteractive          = Q3_OBJECT_TYPE('c', 't', 'w', 'n'),
             kQ3RendererTypeOpenGL               = Q3_OBJECT_TYPE('o', 'g', 'l', 'r'),
+            kQ3RendererTypeCartoon              = Q3_OBJECT_TYPE('t', 'o', 'o', 'n'),
         kQ3SharedTypeShape                      = Q3_OBJECT_TYPE('s', 'h', 'a', 'p'),
             kQ3ShapeTypeGeometry                = Q3_OBJECT_TYPE('g', 'm', 't', 'r'),
                 kQ3GeometryTypeBox              = Q3_OBJECT_TYPE('b', 'o', 'x', ' '),
