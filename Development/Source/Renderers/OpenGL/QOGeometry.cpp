@@ -643,13 +643,14 @@ static void ImmediateRenderTriangleStrip(
 /*!
 	@function	GetCachedTriangleStrip
 	@abstract	Retrieve or compute a triangle strip for a TriMesh.
-	@discussion	Triangle strip data is stored as an object property attached to
-				the geometry.  The property consists of an array of point
-				indices followed by an edit index.  If the triangle strip we
-				compute is not compact enough to be worthwhile, we just record
-				the edit index.
+	@discussion	Triangle strip data is stored as an element attached to the
+				geometry.  If no triangle strip has been recorded already, we
+				can optionally compute one and cache it now.  If the triangle
+				strip we compute is not compact enough to be worthwhile, we
+				just record an empty strip.
 */
 static void GetCachedTriangleStrip(
+								TQ3RendererObject inRenderer,
 								TQ3GeometryObject inTriMesh,
 								const TQ3TriMeshData& inGeomData,
 								std::vector<TQ3Uns32>& outStrip )
@@ -665,27 +666,32 @@ static void GetCachedTriangleStrip(
 		// cache is valid
 		outStrip.insert( outStrip.begin(), theArray, theArray + arraySize );
 	}
-	else
+	else	// no strip recorded
 	{
-		isStripComputeNeeded = true;
-	}
+		// Check whether we should automatically compute a triangle strip.
+		// If no preference has been set, default to true.
+		TQ3Boolean	isAutoStripPreferred = kQ3True;
+		Q3Object_GetProperty( inRenderer,
+			kQ3RendererPropertyAutomaticTriangleStrips, sizeof(TQ3Boolean),
+			NULL, &isAutoStripPreferred );
 		
-	if (isStripComputeNeeded)
-	{
-		MakeStrip( inGeomData.numTriangles,
-			&inGeomData.triangles[0].pointIndices[0], outStrip );
-		
-		// We consider the strip worthwhile if the number of indices is no
-		// more than twice the number of triangles.
-		if (outStrip.size() <= 2 * inGeomData.numTriangles)
+		if (isAutoStripPreferred == kQ3True)
 		{
-			CETriangleStripElement_SetData( inTriMesh, outStrip.size(),
-				&outStrip[0] );
-		}
-		else // not worthwhile
-		{
-			CETriangleStripElement_SetData( inTriMesh, 0, NULL );
-			outStrip.clear();
+			MakeStrip( inGeomData.numTriangles,
+				&inGeomData.triangles[0].pointIndices[0], outStrip );
+			
+			// We consider the strip worthwhile if the number of indices is no
+			// more than twice the number of triangles.
+			if (outStrip.size() <= 2 * inGeomData.numTriangles)
+			{
+				CETriangleStripElement_SetData( inTriMesh, outStrip.size(),
+					&outStrip[0] );
+			}
+			else // not worthwhile
+			{
+				CETriangleStripElement_SetData( inTriMesh, 0, NULL );
+				outStrip.clear();
+			}
 		}
 	}
 }
@@ -733,7 +739,8 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		{
 			if (kQ3False == RenderCachedVBO( mGLContext, inTriMesh ))
 			{
-				GetCachedTriangleStrip( inTriMesh, inGeomData, triangleStrip );
+				GetCachedTriangleStrip( mRendererObject, inTriMesh, inGeomData,
+					triangleStrip );
 				
 				if (triangleStrip.empty())
 				{
@@ -757,7 +764,8 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		{
 			if (kQ3False == RenderCachedDisplayList( mGLContext, inTriMesh ))
 			{
-				GetCachedTriangleStrip( inTriMesh, inGeomData, triangleStrip );
+				GetCachedTriangleStrip( mRendererObject, inTriMesh, inGeomData,
+					triangleStrip );
 				
 				GLuint	displayListID = glGenLists( 1 );
 				glNewList( displayListID, GL_COMPILE );
