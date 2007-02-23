@@ -1,5 +1,7 @@
 /*! @header QuesaRenderer.h
-        Declares the Quesa renderer objects.
+        Declares the Quesa renderer objects.  It would not be unusual for a
+        Quesa client program to use no function from this header except for
+        <code>Q3Renderer_NewFromType</code>.
  */
 /*  NAME:
         QuesaRenderer.h
@@ -8,7 +10,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -104,6 +106,22 @@ extern "C" {
 enum
 {
 	kQ3ElementTypeDepthBits					=	Q3_OBJECT_TYPE(0xF0, 'd', 'b', 'i')
+};
+
+/*!
+	@enum		Renderer&nbsp;Property&nbsp;Types
+	
+	@abstract	Object properties that may be set on renderers to indicate
+				preferences.
+	
+	@constant	kQ3RendererPropertyAutomaticTriangleStrips
+					Whether a triangle strip should be automatically computed
+					for a TriMesh that lacks one.  Only used by the OpenGL
+					renderer.  Data type: TQ3Boolean.  Default value: kQ3True.
+*/
+enum
+{
+	kQ3RendererPropertyAutomaticTriangleStrips = Q3_OBJECT_TYPE('a', 't', 'r', 's')
 };
 #endif
 
@@ -1305,13 +1323,28 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererModalConfigureMethod)
 //      Function prototypes
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup	Any Renderer
+*/
+
+/*!
  *  @function
  *      Q3Renderer_NewFromType
  *  @discussion
  *      Instantiate a new renderer by type.
  *
- *      Built-in renderer types include kQ3RendererTypeInteractive for a shaded
- *      renderer, and kQ3RendererTypeWireFrame for a wire-frame renderer.
+ *      The built-in renderer types include:
+ *
+ *		<ul>
+ *			<li>kQ3RendererTypeOpenGL, new OpenGL</li>
+ *			<li>kQ3RendererTypeInteractive, legacy OpenGL</li>
+ *			<li>kQ3RendererTypeWireFrame, wire frame</li>
+ *			<li>kQ3RendererTypeCartoon, cartoon style</li>
+ *		</ul>
+ *
+ *		One can also get a complete list of installed renderer types by calling
+ *		<code>Q3ObjectHierarchy_GetSubClassData</code> for the class
+ *		kQ3SharedTypeRenderer, and get the human-readable names of the renderer
+ *		types using <code>Q3RendererClass_GetNickNameString</code>.
  *
  *  @param rendererObjectType    The class type of the renderer to create.
  *  @result                      The new renderer object.
@@ -1483,6 +1516,9 @@ Q3Renderer_SetConfigurationData (
 );
 
 
+/*!
+	@functiongroup	Interactive Renderer
+*/
 
 /*!
  *  @function
@@ -1654,7 +1690,8 @@ Q3InteractiveRenderer_GetRAVEContextHints (
  *  @discussion
  *      Set the RAVE texture filter for the interactive renderer.
  *
- *		Note - this function is deprecated, and is not fully supported in Quesa.
+ *		Although Quesa does not actually use RAVE, the Interactive and OpenGL
+ *		renderers do use this filter to choose OpenGL texture filtering settings.
  *
  *  @param renderer                  The renderer to update.
  *  @param raveTextureFilterValue    The RAVE texture filter.
@@ -1674,7 +1711,8 @@ Q3InteractiveRenderer_SetRAVETextureFilter (
  *  @discussion
  *      Get the RAVE texture filter from the interactive renderer.
  *
- *		Note - this function is deprecated, and is not fully supported in Quesa.
+ *		Although Quesa does not actually use RAVE, the Interactive and OpenGL
+ *		renderers do use this filter to choose OpenGL texture filtering settings.
  *
  *  @param renderer                  The renderer to query.
  *  @param raveTextureFilterValue    Receives the RAVE texture filter.
@@ -1732,6 +1770,9 @@ Q3InteractiveRenderer_GetRAVEDrawContexts (
     TQ3RaveDestroyCallback        raveDestroyCallback
 );
 
+/*!
+	@functiongroup	Functions to be called by renderers
+*/
 
 
 /*!
@@ -1772,7 +1813,7 @@ Q3XView_IdleProgress (
  *  @discussion
  *      Indicate to a view that a frame has completed.
  *
- *      This function should only be called from asynchronou renderer plug-ins.
+ *      This function should only be called from asynchronous renderer plug-ins.
  *
  *  @param view             The view to notify.
  *  @result                 Success or failure of the operation.
@@ -2296,6 +2337,11 @@ Q3XDrawRegion_GetGDHandle (
 #endif // QUESA_OS_MACINTOSH
 
 
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 
