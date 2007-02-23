@@ -69,6 +69,7 @@
 #include "E3GeometryTriMesh.h"
 #include "E3GeometryTriMeshOptimize.h"
 #include "E3View.h"
+#include "MakeStrip.h"
 
 
 
@@ -12564,4 +12565,82 @@ TQ3GeometryObject Q3TriMesh_Optimize( TQ3GeometryObject inTriMesh )
 	
 	return theGeom;
 	
+}
+
+
+
+
+
+//=============================================================================
+//      Q3TriMesh_MakeTriangleStrip : Quesa API entry point.
+//-----------------------------------------------------------------------------
+/*!
+	@function		Q3TriMesh_MakeTriangleStrip
+	@abstract		Compute a triangle strip.
+	@discussion		Although this function does not take a TriMesh as a
+					parameter, it is grouped with TriMesh functions because
+					Quesa's OpenGL renderer currently only uses triangle strips
+					with TriMeshes.
+					
+					Also see the triangle strip element functions in
+					QuesaCustomElements.h.
+					
+					When you are finished with the data returned in the
+					outStrip parameter, free it using Q3Memory_Free. 
+					
+ 					<em>This function is not available in QD3D.</em>
+ 	@param	inNumTriangles	Number of triangles.
+ 	@param	inTriangles		Point indices for the triangles.  The length of
+ 							this array should be 3 * inNumTriangles.
+ 	@param	outStripLength	Receives number of indices in outStrip.
+ 	@param	outStrip		Receives pointer to array of point indices in the
+ 							strip.  You are responsible for freeing this
+ 							memory with Q3Memory_Free.
+ 	@result	Success or failure of the operation.
+*/
+TQ3Status
+Q3TriMesh_MakeTriangleStrip(
+	TQ3Uns32 inNumTriangles,
+	const TQ3Uns32* inTriangles,
+	TQ3Uns32* outStripLength,
+	TQ3Uns32** outStrip
+)
+{
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inTriangles), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outStripLength), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outStrip), kQ3Failure);
+	
+	
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	TQ3Status	theStatus = kQ3Success;
+	*outStrip = NULL;
+	try
+	{
+		std::vector<TQ3Uns32>	theStrip;
+		MakeStrip( inNumTriangles, inTriangles, theStrip );
+		*outStripLength = theStrip.size();
+		*outStrip = reinterpret_cast<TQ3Uns32*>(
+			Q3Memory_Allocate( *outStripLength * sizeof(TQ3Uns32) ) );
+		if (*outStrip == NULL)
+		{
+			theStatus = kQ3Failure;
+		}
+		else
+		{
+			Q3Memory_Copy( &theStrip[0], *outStrip,
+				*outStripLength * sizeof(TQ3Uns32) );
+		}
+	}
+	catch (...)
+	{
+		theStatus = kQ3Failure;
+	}
+	
+	return theStatus;
 }

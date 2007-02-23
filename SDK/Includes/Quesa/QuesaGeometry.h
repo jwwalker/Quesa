@@ -7795,6 +7795,8 @@ Q3TriMesh_UnlockData (
  *		determining whether optimization is <em>needed</em> is quick, as it
  *		depends only on the number of attribute types.
  *	
+ *      <em>This function is not available in QD3D.</em>
+ *
  *	@param		inData			TriMesh data.
  *	@param		outData			Receives new TriMesh data, if outDidChange is true.
  *	@param		outDidChange	Receives a flag indicating whether new data
@@ -7820,9 +7822,11 @@ Q3TriMesh_OptimizeData( const TQ3TriMeshData* inData,
  *		Modify a TriMesh, if needed, for efficient use by the interactive renderer.
  *	
  *	@discussion
- *		See discussion of E3TriMesh_OptimizeData for the optimizations
+ *		See discussion of Q3TriMesh_OptimizeData for the optimizations
  *		that are performed.  If no optimizations are needed, NULL is returned.
  *	
+ *      <em>This function is not available in QD3D.</em>
+ *
  *	@param		inTriMesh		A TriMesh geometry.
  *	@result		A TriMesh or NULL.
 */
@@ -7836,6 +7840,42 @@ Q3TriMesh_Optimize(
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+
+/*!
+	@function		Q3TriMesh_MakeTriangleStrip
+	@abstract		Compute a triangle strip.
+	@discussion		Although this function does not take a TriMesh as a
+					parameter, it is grouped with TriMesh functions because
+					Quesa's OpenGL renderer currently only uses triangle strips
+					with TriMeshes.
+					
+					Also see the triangle strip element functions in
+					QuesaCustomElements.h.
+					
+					When you are finished with the data returned in the
+					outStrip parameter, free it using Q3Memory_Free. 
+					
+ 					<em>This function is not available in QD3D.</em>
+ 	@param	inNumTriangles	Number of triangles.
+ 	@param	inTriangles		Point indices for the triangles.  The length of
+ 							this array should be 3 * inNumTriangles.
+ 	@param	outStripLength	Receives number of indices in outStrip.
+ 	@param	outStrip		Receives pointer to array of point indices in the
+ 							strip.  You are responsible for freeing this
+ 							memory with Q3Memory_Free.
+ 	@result	Success or failure of the operation.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C( TQ3Status )
+Q3TriMesh_MakeTriangleStrip(
+	TQ3Uns32 inNumTriangles,
+	const TQ3Uns32* inTriangles,
+	TQ3Uns32* outStripLength,
+	TQ3Uns32** outStrip
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 // Work around a HeaderDoc bug
 /*!
