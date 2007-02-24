@@ -1019,7 +1019,7 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, E3Group
 
 
 			// Submit the object, ignore errors
-			Q3Object_Submit ( subObject, theView ) ;
+			E3View_SubmitRetained( theView, subObject );
 
 
 
