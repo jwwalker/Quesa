@@ -955,36 +955,55 @@ typedef struct TQ3PolyLineData {
  *		ellipse about an axis that is in the same plane as the ellipse but does not pass
  *		through the ellipse.
  *
+ *		To express the torus as a parametric equation, we first define the
+ *		elliptical central axis by the equation
+ *
+ *		axis(u) = cos(2&pi;u) majorRadius + sin(2&pi;u) minorRadius
+ *
+ *		where majorRadius and minorRadius are independent vectors, and u varies
+ *		from 0 to 1.  Then we define the torus surface by
+ *
+ *		f(u,v) = origin + axis(u) - sin(2&pi;v) orientation -
+ *				(cos(2&pi;v) * ratio * |orientation| / |axis(u)|) axis(u)
+ *
+ *		where v also varies from 0 to 1 and vertical bars indicate length of a
+ *		vector.
+ *
  *		The kind of torus usually encountered in elementary mathematics, with circular
  *		cross sections, would be one where the <code>orientation</code>, <code>majorRadius</code>,
  *		and <code>minorRadius</code> vectors are mutually orthogonal, where
  *		<code>majorRadius</code> and <code>minorRadius</code> have the same length, and where
  *		<code>ratio</code> is 1.
  *
- *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
- *		were apparently intended to allow partial tori, e.g., a torus with a wedge
- *		cut out of it.
- *		But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
- *		ever did either.
+ *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and
+ *		<code>vMax</code> allow one to create partial tori, e.g., a torus with
+ *		a wedge cut out of it.  QuickDraw 3D did not implement this feature.
  *
  *	@field		origin					Center of rotation.
  *	@field		orientation				Vector whose direction is the axis of rotation, and
- *										whose length is the length of the radius of the ellipse
+ *										whose length is the length of the
+ *										radius of the cross-sectional ellipse
  *										in the direction of the axis of rotation.
  *	@field		majorRadius				Vector from the origin to the center of the ellipse.
  *	@field		minorRadius				Vector from the origin to the center of a different
  *										cross-sectional ellipse.
- *	@field		ratio					The ratio between the radius of the ellipse in the direction
- *										of <code>majorRadius</code>, and the length of
+ *	@field		ratio					The ratio between the radius of the
+ *										cross-sectional ellipse in the
+ *										direction of <code>majorRadius</code>,
+ *										and the length of
  *										<code>orientation</code>.
- *	@field		uMin					Minimum value in the u parametric direction (the long way
- *										around.)  Normally 0.
- *	@field		uMax					Maximum value in the u parametric direction (the long way
- *										around.)  Normally 1.
- *	@field		vMin					Minimum value in the v parametric direction (the short way
- *										around.)  Normally 0.
- *	@field		vMax					Maximum value in the v parametric direction (the short way
- *										around.)  Normally 1.
+ *	@field		uMin					Minimum value in the u parametric
+ *										direction (the long way around.)
+ *										Normally 0, must be in interval [0, 1].
+ *	@field		uMax					Maximum value in the u parametric
+ *										direction (the long way around.)
+ *										Normally 1, must be in interval [0, 1].
+ *	@field		vMin					Minimum value in the v parametric
+ *										direction (the short way around.)
+ *										Normally 0, must be in interval [0, 1].
+ *	@field		vMax					Maximum value in the v parametric
+ *										direction (the short way around.)
+ *										Normally 1, must be in interval [0, 1].
  *	@field		caps					Cap style.  Should be kQ3EndCapNone.
  *
  *	@field		interiorAttributeSet	Interior attribute set.  Not currently used.
