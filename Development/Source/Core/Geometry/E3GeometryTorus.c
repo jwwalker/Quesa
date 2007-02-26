@@ -5,7 +5,7 @@
         Implementation of Quesa Torus geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,6 +48,9 @@
 #include "E3Geometry.h"
 #include "E3GeometryTriMesh.h"
 #include "E3GeometryTorus.h"
+#include "CQ3ObjectRef.h"
+
+#include <vector>
 
 
 
@@ -205,128 +208,148 @@ e3geom_torus_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 //=============================================================================
-//      e3geom_torus_cache_new : Torus cache new method.
+//      e3geom_torus_calc_sides : Find number of subdivisions each way.
 //-----------------------------------------------------------------------------
-//		Note : For a definition of the torus geometry, with helpful diagrams,
-//			   see:
-//
-//					http://developer.apple.com/techpubs/quicktime/qtdevdocs/
-//													QD3D/qd3dgeometry.34.htm
-//-----------------------------------------------------------------------------
-static TQ3Object
-e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3TorusData *geomData)
-{	TQ3TriMeshData				triMeshData;
-	TQ3GeometryObject			theTriMesh;
-	TQ3GroupObject				theGroup;
-	TQ3Uns32 u,v;
-	float uang=0.0f, duang, vang, dvang;
-	TQ3Point3D *points;
-	TQ3Vector3D *normals;
-	float uDiff, vDiff;
-	float uMin, uMax, vMin, vMax;
-	TQ3Param2D *uvs;
-	TQ3TriMeshTriangleData *triangles;
-	TQ3Vector3D vec, axis;	// (just temporaries used for intermediate results)
-	TQ3Point3D center;
-	TQ3Uns32 upts=16;		// how many points we have around the torus the long way
-	TQ3Uns32 vpts=8;		// how many points around one elliptical cross-section
-	TQ3Uns32 pnum = 0, tnum = 0;
-	TQ3Uns32 numpoints, numtriangles;
+static void
+e3geom_torus_calc_sides( TQ3ViewObject theView, const TQ3TorusData& geomData,
+						TQ3Uns32& outUSegments, TQ3Uns32& outVSegments )
+{
+	// Set defaults
+	outUSegments = 20;	// the long way around
+	outVSegments = 20;	// around a cross section
+	
+	
 	TQ3SubdivisionStyleData subdivisionData;
-	TQ3TriMeshAttributeData vertexAttributes[2];
-	float	sinUAngle, cosUAngle, sinVAngle, cosVAngle;
-	float	orientLength, axisLength, ratioTimesOrient, axisDotAxisPrime;
-	TQ3Vector3D	majXMinor;
-	TQ3Vector3D	axisXOrient, axisPrime, axisPrimeXOrient;
-	TQ3Boolean	isRightHanded;
 
-
-	// Get the subdivision style, to figure out how many sides we should have.
-	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success) {
-		switch (subdivisionData.method) {
+	if (Q3View_GetSubdivisionStyleState( theView, &subdivisionData ) == kQ3Success)
+	{
+		switch (subdivisionData.method)
+		{
 			case kQ3SubdivisionMethodConstant:
-				// upts and vpts are given directly
-				upts = (TQ3Uns32) subdivisionData.c1;
-				vpts = (TQ3Uns32) subdivisionData.c2;
+				outUSegments = static_cast<TQ3Uns32>( subdivisionData.c1 );
+				outVSegments = static_cast<TQ3Uns32>( subdivisionData.c2 );
 				break;
 			
 			case kQ3SubdivisionMethodWorldSpace:
 				{
 					TQ3Matrix4x4	localToWorld;
 					float majorLen, minorLen, orientLen;
+					TQ3Vector3D	vec;
 					
 					// Find the lengths of the vectors, in world space.
 					Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
-					Q3Vector3D_Transform( &geomData->majorRadius, &localToWorld, &vec );
-					majorLen = Q3Vector3D_Length( &vec );
-					Q3Vector3D_Transform( &geomData->minorRadius, &localToWorld, &vec );
-					minorLen = Q3Vector3D_Length( &vec );
-					Q3Vector3D_Transform( &geomData->orientation, &localToWorld, &vec );
-					orientLen = Q3Vector3D_Length( &vec );
+					Q3Vector3D_Transform( &geomData.majorRadius, &localToWorld, &vec );
+					majorLen = Q3FastVector3D_Length( &vec );
+					Q3Vector3D_Transform( &geomData.minorRadius, &localToWorld, &vec );
+					minorLen = Q3FastVector3D_Length( &vec );
+					Q3Vector3D_Transform( &geomData.orientation, &localToWorld, &vec );
+					orientLen = Q3FastVector3D_Length( &vec );
 
 					// keep the length of any side less than or equal to c1;
 					// so divide the circumference by c1
-					upts = (TQ3Uns32) (kQ32Pi * ( E3Num_Max(majorLen, minorLen) +
-						orientLen * geomData->ratio ) / subdivisionData.c1);
+					outUSegments = (TQ3Uns32) (kQ32Pi * ( E3Num_Max(majorLen, minorLen) +
+						orientLen * geomData.ratio ) / subdivisionData.c1);
 					// similarly for vpts and c1, but this time use the circumference
 					// around a single section of the torus
-					vpts = (TQ3Uns32) (kQ32Pi * orientLen * E3Num_Max(geomData->ratio, 1.0f)
-						/ subdivisionData.c1);
+					outVSegments = (TQ3Uns32) (kQ32Pi * orientLen *
+						E3Num_Max(geomData.ratio, 1.0f) / subdivisionData.c1);
 				}
 				break;
 
 			case kQ3SubdivisionMethodScreenSpace:
-				// Not implemented
+				E3ErrorManager_PostWarning( kQ3WarningUnsupportedSubdivisionStyle );
 				break;
 			
-			case kQ3SubdivisionMethodSize32:
 			default:
 				Q3_ASSERT(!"Unknown subdivision method");
+				E3ErrorManager_PostWarning( kQ3WarningUnsupportedSubdivisionStyle );
 				break;
 		}
 
-		// sanity checking -- important in case the user screws up the subdivisionData
-		if (upts < 3) upts = 3;
-		if (vpts < 3) vpts = 3;
-	}
 
+		// sanity checking -- important in case the user screws up the subdivisionData
+		if (outUSegments < 4)
+			outUSegments = 4;
+		
+		if (outVSegments < 4)
+			outVSegments = 4;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_torus_validate_parameter_bounds : Check u, v bounds.
+//-----------------------------------------------------------------------------
+static bool
+e3geom_torus_validate_parameter_bounds( const TQ3TorusData& geomData,
+										float& outUMin, float& outUMax,
+										float& outVMin, float& outVMax )
+{
+	bool	isValid = true;
+	
+	// Clamp to interval [0, 1].
+	outUMin  = E3Num_Clamp( geomData.uMin, 0.0f, 1.0f );
+	outUMax  = E3Num_Clamp( geomData.uMax, 0.0f, 1.0f );
+	outVMin  = E3Num_Clamp( geomData.vMin, 0.0f, 1.0f );
+	outVMax  = E3Num_Clamp( geomData.vMax, 0.0f, 1.0f );
+
+	//   It might make sense for outUMin to be greater than outUMax, to indicate
+	//   going the other way around the circle.  But we prefer to enforce
+	//   outUMin < outUMax, at the expense of allowing outUMax to be greater than 1.
+	if (outUMin > outUMax)
+	{
+		outUMax += 1.0f;
+	}
+	
+	// And similarly for v.
+	if (outVMin > outVMax)
+	{
+		outVMax += 1.0f;
+	}
+	
+	// We consider the bounds valid as long as the upper and lower bounds are
+	// not the same.
+	
+	return (E3Float_Abs( outUMin - outUMax ) > kQ3RealZero) &&
+		(E3Float_Abs( outVMin - outVMax ) > kQ3RealZero);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_torus_create_surface : Create main surface
+//-----------------------------------------------------------------------------
+static CQ3ObjectRef
+e3geom_torus_create_surface( const TQ3TorusData& geomData,
+							float uMin, float uMax,
+							float vMin, float vMax,
+							TQ3Uns32 uSegments,
+							TQ3Uns32 vSegments )
+{
 	// In order to have proper uv parameterization we need an extra set of vertices
 	// for the closing triangle (since it is not easy to convince any renderer to
 	// have multiple uvs for a vertex)
 	//
-	numpoints    = (upts + 1) * (vpts + 1);	
-	numtriangles = upts * vpts * 2;
-
-
-
-	// Get the UV limits
-	uMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
-	uMax  = E3Num_Clamp(geomData->uMax, 0.0f, 1.0f);
-	vMin  = E3Num_Clamp(geomData->vMin, 0.0f, 1.0f);
-	vMax  = E3Num_Clamp(geomData->vMax, 0.0f, 1.0f);
-	uDiff = uMax - uMin;
-	vDiff = vMax - vMin;
+	TQ3Uns32 numpoints    = (uSegments + 1) * (vSegments + 1);	
+	TQ3Uns32 numtriangles = uSegments * vSegments * 2;
 
 
 	// Allocate some memory for the TriMesh
-	points    = (TQ3Point3D *)            Q3Memory_Allocate( numpoints    * sizeof(TQ3Point3D) );
-	normals   = (TQ3Vector3D *)           Q3Memory_Allocate( numpoints    * sizeof(TQ3Vector3D) );
-	uvs       = (TQ3Param2D *)            Q3Memory_Allocate( numpoints    * sizeof(TQ3Param2D));
-	triangles = (TQ3TriMeshTriangleData*) Q3Memory_Allocate( numtriangles * sizeof(TQ3TriMeshTriangleData) );
-
-	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL)
-		{
-		Q3Memory_Free(&points);
-		Q3Memory_Free(&normals);
-		Q3Memory_Free(&uvs);
-		Q3Memory_Free(&triangles);
-		
-		return(NULL);
-		}
+	std::vector<TQ3Point3D>		points( numpoints );
+	std::vector<TQ3Vector3D>	normals( numpoints );
+	std::vector<TQ3Param2D>		uvs( numpoints );
+	
+	std::vector<TQ3TriMeshTriangleData>	triangles( numtriangles );
+	std::vector<TQ3Vector3D>			faceNormals( numtriangles );
 
 	// The torus has a parametric equation
-	// f(u,v) = origin + axis(u) + cos(v) orientation +
-	//			(sin(v) * ratio * |orientation| / |axis(u)|) axis(u)
+	// f(u,v) = origin + axis(u) - sin(v) orientation -
+	//			(cos(v) * ratio * |orientation| / |axis(u)|) axis(u)
 	// where
 	// 		axis(u) = cos(u) majorRadius + sin(u) minorRadius .
 	// The parameter u goes from 0 to 2pi the long way around the torus, and
@@ -334,79 +357,86 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 	// One can compute a normal vector as the cross product of the partial
 	// derivatives, but the math gets pretty ugly.
 
-	orientLength = Q3Vector3D_Length(&geomData->orientation);
-	ratioTimesOrient = orientLength * geomData->ratio;
-	Q3Vector3D_Cross( &geomData->majorRadius, &geomData->minorRadius, &majXMinor );
+	float orientLength = Q3FastVector3D_Length( &geomData.orientation );
+	float ratioTimesOrient = orientLength * geomData.ratio;
+	TQ3Vector3D	majXMinor;
+	Q3FastVector3D_Cross( &geomData.majorRadius, &geomData.minorRadius, &majXMinor );
 
 	// Right or left handed?
-	if (Q3Vector3D_Dot( &majXMinor, &geomData->orientation ) > 0.0)
-		{
-		isRightHanded = kQ3True;
-		}
-	else
-		{
-		isRightHanded = kQ3False;
-		}
+	bool isRightHanded = (Q3FastVector3D_Dot( &majXMinor, &geomData.orientation ) > 0.0);
 
 	// first create the points...
-	duang = kQ32Pi / (float) upts;
-	dvang = kQ32Pi / (float) vpts;
-	for (u=0; u<=upts; u++) {
-		sinUAngle = (float)sin(uang);
-		cosUAngle = (float)cos(uang);
+	float duang = kQ32Pi * (uMax - uMin) / (float) uSegments;
+	float dvang = kQ32Pi * (vMax - vMin) / (float) vSegments;
+	float uang = kQ32Pi * uMin;
+	TQ3Uns32	u, v;
+	TQ3Vector3D	vec;
+	TQ3Uns32	pnum = 0;
+	
+	for (u=0; u <= uSegments; ++u)
+	{
+		float sinUAngle = (float)sin(uang);
+		float cosUAngle = (float)cos(uang);
 		
-		// for a given u, find the center...
-		Q3Vector3D_Scale( &geomData->majorRadius, cosUAngle, &vec );
-		Q3Point3D_Vector3D_Add( &geomData->origin, &vec, &center );
-		Q3Vector3D_Scale( &geomData->minorRadius, sinUAngle, &vec );
-		Q3Point3D_Vector3D_Add( &center, &vec, &center );
-		
-		// "axis" is the vector from the origin to the center
-		Q3Point3D_Subtract( &center, &geomData->origin, &axis );
-		axisLength = Q3Vector3D_Length(&axis);
-		
-		Q3Vector3D_Cross( &axis, &geomData->orientation, &axisXOrient );
+		// Find axis(u)
+		TQ3Vector3D	axis;
+		Q3FastVector3D_Scale( &geomData.majorRadius, cosUAngle, &axis );
+		Q3FastVector3D_Scale( &geomData.minorRadius, sinUAngle, &vec );
+		Q3FastVector3D_Add( &vec, &axis, &axis );
+		float axisLength = Q3FastVector3D_Length( &axis );
+
 		// Axis is a function of u.  Compute its derivative.
-		Q3Vector3D_Scale( &geomData->majorRadius, - sinUAngle, &axisPrime );
-		Q3Vector3D_Scale( &geomData->minorRadius, cosUAngle, &vec );
-		Q3Vector3D_Add( &axisPrime, &vec, &axisPrime );
+		TQ3Vector3D	axisPrime;
+		Q3FastVector3D_Scale( &geomData.majorRadius, - sinUAngle, &axisPrime );
+		Q3FastVector3D_Scale( &geomData.minorRadius, cosUAngle, &vec );
+		Q3FastVector3D_Add( &axisPrime, &vec, &axisPrime );
+		
+		// Find the center...
+		TQ3Point3D	center;
+		Q3FastPoint3D_Vector3D_Add( &geomData.origin, &axis, &center );
+		
+		// Compute some values needed to find normal vectors.
+		TQ3Vector3D	axisXOrient, axisPrimeXOrient;
+		Q3FastVector3D_Cross( &axis, &geomData.orientation, &axisXOrient );
 		// We will also need the cross product of axisPrime and orientation,
 		// and the dot product of axis and axisPrime.
-		Q3Vector3D_Cross( &axisPrime, &geomData->orientation, &axisPrimeXOrient );
-		axisDotAxisPrime = Q3Vector3D_Dot( &axis, &axisPrime );
+		Q3FastVector3D_Cross( &axisPrime, &geomData.orientation, &axisPrimeXOrient );
+		float axisDotAxisPrime = Q3FastVector3D_Dot( &axis, &axisPrime );
 		
 		// now, iterate v around the center point
 		
-		vang = 0.0f;
-		for (v=0; v<=vpts; v++) {
-			sinVAngle = (float)sin(vang);
-			cosVAngle = (float)cos(vang);
+		float vang = kQ32Pi * vMin;
+		for (v=0; v <= vSegments; ++v)
+		{
+			float sinVAngle = (float)sin(vang);
+			float cosVAngle = (float)cos(vang);
 			
-			Q3Vector3D_Scale( &geomData->orientation, cosVAngle, &vec );
-			Q3Point3D_Vector3D_Add( &center, &vec, &points[pnum] );
-			Q3Vector3D_Scale( &axis, sinVAngle * ratioTimesOrient / axisLength, &vec );
-			Q3Point3D_Vector3D_Add( &points[pnum], &vec, &points[pnum] );
+			// Compute a vertex location
+			TQ3Point3D	thePoint;
+			Q3FastVector3D_Scale( &geomData.orientation, -sinVAngle, &vec );
+			Q3FastPoint3D_Vector3D_Add( &center, &vec, &thePoint );
+			Q3FastVector3D_Scale( &axis, -cosVAngle * ratioTimesOrient / axisLength, &vec );
+			Q3FastPoint3D_Vector3D_Add( &thePoint, &vec, &thePoint );
+			points[pnum] = thePoint;
 
 			// Compute normal
-			Q3Vector3D_Scale( &axisPrimeXOrient, - sinVAngle * axisLength *
-				(axisLength + sinVAngle * ratioTimesOrient), &normals[pnum] );
-			Q3Vector3D_Scale( &axisXOrient, sinVAngle * sinVAngle *
+			TQ3Vector3D	theNormal;
+			Q3FastVector3D_Scale( &axisPrimeXOrient, + cosVAngle * axisLength *
+				(axisLength - cosVAngle * ratioTimesOrient), &theNormal );
+			Q3FastVector3D_Scale( &axisXOrient, cosVAngle * cosVAngle *
 				ratioTimesOrient * axisDotAxisPrime / axisLength, &vec );
-			Q3Vector3D_Add( &normals[pnum], &vec, &normals[pnum] );
-			Q3Vector3D_Scale( &majXMinor, - cosVAngle * ratioTimesOrient *
-				(axisLength + sinVAngle * ratioTimesOrient), &vec );
-			Q3Vector3D_Add( &normals[pnum], &vec, &normals[pnum] );
-			if (isRightHanded == kQ3True)
-				Q3Vector3D_Negate( &normals[pnum], &normals[pnum] );
+			Q3FastVector3D_Add( &theNormal, &vec, &theNormal );
+			Q3FastVector3D_Scale( &majXMinor, sinVAngle * ratioTimesOrient *
+				(axisLength - cosVAngle * ratioTimesOrient), &vec );
+			Q3FastVector3D_Add( &theNormal, &vec, &theNormal );
+			if (isRightHanded)
+				Q3FastVector3D_Negate( &theNormal, &theNormal );
+			Q3FastVector3D_Normalize( &theNormal, &theNormal );
+			normals[pnum] = theNormal;
 
 			// uvs come from the surface parameterisation
-			uvs[pnum].u = uMin + (((uDiff / (float) upts)) * u);
-			uvs[pnum].v = vMin + (((vDiff / (float) vpts)) * v);
-
-			// bump the v coordinate to get the same mapping as QD3D: we want to
-			// reverse the texture in v and start it from the center of the ring
-			uvs[pnum].v += (vDiff / 4.0f);
-			uvs[pnum].v = -uvs[pnum].v;
+			uvs[pnum].u = u / ((float) uSegments);
+			uvs[pnum].v = v / ((float) vSegments);
 
 			pnum++;
 			vang += dvang;
@@ -418,41 +448,50 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 
 	// then, create the triangles
 	pnum = 0;
-	for (u=0; u<upts; u++) {
-		for (v=0; v<vpts; v++) {
+	TQ3Uns32	tnum = 0;
+	for (u=0; u < uSegments; u++)
+	{
+		for (v=0; v < vSegments; v++)
+		{
 			triangles[tnum].pointIndices[0] = pnum + v;
-			triangles[tnum].pointIndices[1] = pnum + v + 1;
-			triangles[tnum].pointIndices[2] = pnum + vpts + 1 + v;
+			triangles[tnum].pointIndices[1] = pnum + vSegments + v + 1;
+			triangles[tnum].pointIndices[2] = pnum + 1 + v;
 			tnum++;
 			triangles[tnum].pointIndices[0] = pnum + v + 1;
-			triangles[tnum].pointIndices[1] = pnum + vpts + 1 + v + 1;
-			triangles[tnum].pointIndices[2] = pnum + vpts + 1 + v;
+			triangles[tnum].pointIndices[1] = pnum + vSegments + 1 + v;
+			triangles[tnum].pointIndices[2] = pnum + vSegments + 1 + v + 1;
 			tnum++;
 		}
-		pnum += (vpts + 1);
+		pnum += (vSegments + 1);
 	}
 
 
 
-	// set up the attributes (may be a combination of torus & face attributes)	
-	E3AttributeSet_Combine( geomData->torusAttributeSet, NULL,
-					&triMeshData.triMeshAttributeSet );
-	
+	// Compute face normals
+	Q3Triangle_CrossProductArray( numtriangles, NULL,
+		&triangles[0].pointIndices[0], &points[0], &faceNormals[0] );
+
+
+
 	// set up remaining trimesh data
-	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
-	vertexAttributes[0].data              = normals;
-	vertexAttributes[0].attributeUseArray = NULL;
+	TQ3TriMeshAttributeData vertexAttributes[2] =
+	{
+		{ kQ3AttributeTypeNormal, &normals[0], NULL },
+		{ kQ3AttributeTypeSurfaceUV, &uvs[0], NULL }
+	};
+	TQ3TriMeshAttributeData	faceAttributes[1] =
+	{
+		{ kQ3AttributeTypeNormal, &faceNormals[0], NULL },
+	};
 
-	vertexAttributes[1].attributeType     = kQ3AttributeTypeSurfaceUV;
-	vertexAttributes[1].data              = uvs;
-	vertexAttributes[1].attributeUseArray = NULL;
-
+	TQ3TriMeshData	triMeshData;
+	triMeshData.triMeshAttributeSet 	  = NULL;
 	triMeshData.numPoints                 = numpoints;
-	triMeshData.points                    = points;
+	triMeshData.points                    = &points[0];
 	triMeshData.numTriangles              = numtriangles;
-	triMeshData.triangles                 = triangles;
-	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.triangles                 = &triangles[0];
+	triMeshData.numTriangleAttributeTypes = 1;
+	triMeshData.triangleAttributeTypes    = faceAttributes;
 	triMeshData.numEdges                  = 0;
 	triMeshData.edges                     = NULL;
 	triMeshData.numEdgeAttributeTypes     = 0;
@@ -468,19 +507,75 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const T
 
 
 	// Create the TriMesh
-	theTriMesh = Q3TriMesh_New(&triMeshData);
-	theGroup   = E3TriMesh_BuildOrientationGroup(theTriMesh, kQ3OrientationStyleCounterClockwise);
+	CQ3ObjectRef theTriMesh( Q3TriMesh_New(&triMeshData) );
+	
+	return theTriMesh;
+}
 
 
 
-	// Clean up
-	Q3Object_CleanDispose(&triMeshData.triMeshAttributeSet);
-	Q3Memory_Free(&points);
-	Q3Memory_Free(&normals);
-	Q3Memory_Free(&uvs);
-	Q3Memory_Free(&triangles);
 
-	return(theGroup);
+
+//=============================================================================
+//      e3geom_torus_cache_new : Torus cache new method.
+//-----------------------------------------------------------------------------
+//		Note : For a definition of the torus geometry, with helpful diagrams,
+//			   see:
+//
+//					http://developer.apple.com/techpubs/quicktime/qtdevdocs/
+//													QD3D/qd3dgeometry.34.htm
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
+						const TQ3TorusData *geomData)
+{
+	float uMin, uMax, vMin, vMax;
+	TQ3Uns32 upts=16;		// how many points we have around the torus the long way
+	TQ3Uns32 vpts=8;		// how many points around one elliptical cross-section
+
+
+	// Figure out how many sides we should have.
+	e3geom_torus_calc_sides( theView, *geomData, upts, vpts );
+	
+	
+	// Validate bounds on parameters.
+	if (! e3geom_torus_validate_parameter_bounds( *geomData, uMin, uMax,
+		vMin, vMax ))
+	{
+		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
+		return NULL;
+	}
+
+
+	// Make a group and add an orientation style.
+	CQ3ObjectRef	resultGroup( Q3DisplayGroup_New() );
+	CQ3ObjectRef	orientationStyle( Q3OrientationStyle_New(
+		kQ3OrientationStyleCounterClockwise ) );
+	Q3Group_AddObject( resultGroup.get(), orientationStyle.get() );
+	
+	
+	// If there is an overall attribute set, add it to the group.
+	if (geomData->torusAttributeSet != NULL)
+	{
+		Q3Group_AddObject( resultGroup.get(), geomData->torusAttributeSet );
+	}
+	
+
+	CQ3ObjectRef	theTriMesh( e3geom_torus_create_surface( *geomData,
+		uMin, uMax, vMin, vMax, upts, vpts ) );
+	if (theTriMesh.isvalid())
+	{
+		Q3Group_AddObject( resultGroup.get(), theTriMesh.get() );
+	}
+
+
+	if (geomData->caps != kQ3EndCapNone)
+	{
+		// TODO create and add cap geometry
+	}
+
+
+	return Q3Shared_GetReference( resultGroup.get() );
 }
 
 
