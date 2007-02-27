@@ -500,10 +500,13 @@ QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 	bool	haveTriangleShaders = false;
 	
 	TQ3Uns32 j;
+	const TQ3TriMeshAttributeData*	attData;
+	
+	attData = inData.triangleAttributeTypes;
 	
 	for (j = 0; j < inData.numTriangleAttributeTypes; ++j)
 	{
-		switch (inData.triangleAttributeTypes[j].attributeType)
+		switch (attData[j].attributeType)
 		{
 			case kQ3AttributeTypeDiffuseColor:
 				haveTriangleDiffuse = true;
@@ -519,24 +522,26 @@ QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 		}
 	}
 	
+	attData = inData.vertexAttributeTypes;
+	
 	for (j = 0; j < inData.numVertexAttributeTypes; ++j)
 	{
-		switch (inData.vertexAttributeTypes[j].attributeType)
+		switch (attData[j].attributeType)
 		{
 			case kQ3AttributeTypeNormal:
 				outVertNormals = static_cast<const TQ3Vector3D*>(
-					inData.vertexAttributeTypes[j].data );
+					attData[j].data );
 				break;
 			
 			case kQ3AttributeTypeSurfaceUV:
 			case kQ3AttributeTypeShadingUV:
 				outVertUVs = static_cast<const TQ3Param2D*>(
-					inData.vertexAttributeTypes[j].data );
+					attData[j].data );
 				break;
 			
 			case kQ3AttributeTypeDiffuseColor:
 				outVertColors = static_cast<const TQ3ColorRGB*>(
-					inData.vertexAttributeTypes[j].data );
+					attData[j].data );
 				haveVertexDiffuse = true;
 				break;
 			
