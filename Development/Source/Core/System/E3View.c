@@ -121,7 +121,6 @@ typedef struct TQ3ViewStackItem {
 	
 	// Stack item state
 	TQ3ViewStackState			stackState;
-	TQ3AttributeSet				attributeSet;
 	TQ3Matrix4x4				matrixLocalToWorld;
 	TQ3Matrix4x4				matrixWorldToCamera;
 	TQ3Matrix4x4				matrixCameraToFrustum;
@@ -285,7 +284,6 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 
 	theItem->next					 = NULL;
 	theItem->stackState				 = kQ3ViewStateNone;
-	theItem->attributeSet            = Q3AttributeSet_New();
 	theItem->shaderIllumination		 = Q3NULLIllumination_New();
 	theItem->shaderSurface			 = NULL;
 	theItem->styleBackfacing         = kQ3BackfacingStyleBoth;
@@ -349,33 +347,38 @@ e3view_stack_update_attribute(TQ3ViewObject				theView,
 
 
 
-	// Update the current attribute set.
-	//
-	// We need to special case surface shaders, since these are real TQ3Objects
-	// rather than flat data (and so we can't just add a NULL value - if we need
-	// to get rid of it, we have to clear it by hand).
-	if (attributeType == kQ3AttributeTypeSurfaceShader)
-		{
-		qd3dStatus = kQ3Success;
-
-		if (Q3AttributeSet_Contains(topItem->attributeSet, attributeType))
-			qd3dStatus = Q3AttributeSet_Clear(topItem->attributeSet, attributeType);
-		
-		if (*((const TQ3ShaderObject *) paramData) != NULL)
-			qd3dStatus = Q3AttributeSet_Add(topItem->attributeSet, attributeType, paramData);
-		}
-	else
-		qd3dStatus = Q3AttributeSet_Add(topItem->attributeSet, attributeType, paramData);
-	
-	
-	
 	// Update the renderer
-	if (qd3dStatus != kQ3Failure)
-		qd3dStatus = E3Renderer_Method_UpdateAttribute(theView, attributeType, paramData);
+	qd3dStatus = E3Renderer_Method_UpdateAttribute(theView, attributeType, paramData);
 	
 	return qd3dStatus ;
 }
 
+
+
+
+
+//=============================================================================
+//      e3view_stack_set_attributes : Put current attribute values in a set.
+//-----------------------------------------------------------------------------
+static void
+e3view_stack_set_attributes( TQ3AttributeSet atts,
+							TQ3ViewStackItem* topItem )
+{
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceUV, &topItem->attributeSurfaceUV );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeShadingUV, &topItem->attributeShadingUV );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeNormal, &topItem->attributeNormal );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeAmbientCoefficient, &topItem->attributeAmbientCoefficient );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeDiffuseColor, &topItem->attributeDiffuseColor );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeSpecularColor, &topItem->attributeSpecularColor );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeSpecularControl, &topItem->attributeSpecularControl );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeTransparencyColor, &topItem->attributeTransparencyColor );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceTangent, &topItem->attributeSurfaceTangent );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeHighlightState, &topItem->attributeHighlightState );
+	if (topItem->shaderSurface != NULL)
+	{
+		Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceShader, &topItem->shaderSurface );
+	}
+}
 
 
 
@@ -568,19 +571,6 @@ e3view_stack_push ( E3View* view )
 
 		// Adjust the reference counts of the shared objects. The Q3Memory_Copy will have
 		// have copied them without adjusting the reference counts, which is incorrect.
-		//
-		// Note that for the attributeSet, we need to duplicate the object rather than
-		// simply increment the reference count. The other shared objects can be replaced
-		// with E3Shared_Replace when new values are submitted, but the attributeSet is
-		// special.
-		//
-		// This item is updated as new attributes are submitted, which means that the
-		// set on each level of the stack must be a distinct object. This is because an
-		// attribute set can only hold one value of each type, so if we just incremented
-		// the reference count we would overwrite the previously top set's value whenever
-		// we changed the value for the new top set's value.
-		if ( oldTop->attributeSet != NULL )
-			newTop->attributeSet = Q3Object_Duplicate ( oldTop->attributeSet ) ;
 		
 		E3Shared_Acquire ( &newTop->shaderIllumination,     oldTop->shaderIllumination ) ;
 		E3Shared_Acquire ( &newTop->shaderSurface,          oldTop->shaderSurface ) ;
@@ -614,7 +604,6 @@ e3view_stack_pop ( E3View* view )
 
 
 	// Dispose of the shared objects in the topmost item
-	Q3Object_CleanDispose ( & view->instanceData.viewStack->attributeSet ) ;
 	Q3Object_CleanDispose ( & view->instanceData.viewStack->shaderIllumination ) ;
 	Q3Object_CleanDispose ( & view->instanceData.viewStack->shaderSurface ) ;
 	Q3Object_CleanDispose ( & view->instanceData.viewStack->styleHighlight ) ;
@@ -4846,10 +4835,14 @@ E3View_GetAttributeSetState(TQ3ViewObject theView, TQ3AttributeSet *attributeSet
 	if ( ( (E3View*) theView )->instanceData.viewStack != NULL )
 		{
 		Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
-		if ( ( (E3View*) theView )->instanceData.viewStack->attributeSet != NULL )
-			*attributeSet = Q3Shared_GetReference ( ( (E3View*) theView )->instanceData.viewStack->attributeSet ) ;
-		else
-			Q3View_GetDefaultAttributeSet ( theView, attributeSet ) ;
+		
+		// Start with the view's default attribute set, in case it contains any
+		// custom attributes that were not set in the view state stack.
+		*attributeSet = Q3Object_Duplicate(
+			( (E3View*) theView )->instanceData.viewAttributes );
+
+		e3view_stack_set_attributes( *attributeSet,
+			( (E3View*) theView )->instanceData.viewStack );
 		}
 
 	return kQ3Success ;
