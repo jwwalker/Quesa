@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -987,20 +987,58 @@ e3group_enditerate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object *
 //=============================================================================
 //      e3group_submit_contents : Group general submit method.
 //-----------------------------------------------------------------------------
-//		Note :	Used to submit a group for rendering, picking, or bounding. A
-//				separate routine is used for writing.
+//		Note :	Used to submit a group for rendering or bounding. Separate
+//				routines are used for picking and writing.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, E3Group* theObject, const void *objectData)
-	{
+{
+#pragma unused( objectType, objectData )
 	E3GroupInfo* groupClass = theObject->GetClass () ;
 
 
-	// Grab the view mode. If we're picking, push the group onto the view stack
-	TQ3ViewMode viewMode = E3View_GetViewMode ( theView ) ;
-	if ( viewMode == kQ3ViewModePicking )
-		if ( E3View_PickStack_PushGroup ( theView, theObject ) == kQ3Failure )
-			return kQ3Failure ;
+	// Submit the contents of the group
+	TQ3GroupPosition thePosition ;
+	TQ3Object subObject ;
+	TQ3Status qd3dStatus = groupClass->startIterateMethod ( theObject, &thePosition, &subObject, theView ) ;
+	if ( qd3dStatus != kQ3Failure )
+	{
+		while ( subObject != NULL ) // If that was the last object, stop
+		{
+			// Submit the object, ignore errors
+			E3View_SubmitRetained( theView, subObject );
+
+
+
+			// Get the next object	
+			qd3dStatus = groupClass->endIterateMethod ( theObject, &thePosition, &subObject, theView ) ;
+			if ( qd3dStatus == kQ3Failure )
+				return kQ3Failure ;
+
+		}
+	}
+
+	return qd3dStatus ;
+}
+
+
+
+
+
+//=============================================================================
+//      e3group_submit_pick : Group submit method for picking.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3group_submit_pick(TQ3ViewObject theView, TQ3ObjectType objectType,
+					E3Group* theObject, const void *objectData)
+{
+#pragma unused( objectType, objectData )
+	E3GroupInfo* groupClass = theObject->GetClass () ;
+
+
+	// Push the group onto the view stack
+	if ( E3View_PickStack_PushGroup ( theView, theObject ) == kQ3Failure )
+		return kQ3Failure ;
 
 
 
@@ -1009,12 +1047,11 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, E3Group
 	TQ3Object subObject ;
 	TQ3Status qd3dStatus = groupClass->startIterateMethod ( theObject, &thePosition, &subObject, theView ) ;
 	if ( qd3dStatus != kQ3Failure )
-		{
+	{
 		while ( subObject != NULL ) // If that was the last object, stop
-			{
-			// If we're picking, update the view
-			if ( viewMode == kQ3ViewModePicking )
-				E3View_PickStack_SavePosition ( theView, thePosition ) ;
+		{
+			// We're picking, update the view
+			E3View_PickStack_SavePosition ( theView, thePosition ) ;
 
 
 
@@ -1028,17 +1065,17 @@ e3group_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, E3Group
 			if ( qd3dStatus == kQ3Failure )
 				return kQ3Failure ;
 
-			}
 		}
-
-
-
-	// If we're picking, pop the view off the view stack
-	if (viewMode == kQ3ViewModePicking)
-		E3View_PickStack_PopGroup(theView);
-
-	return qd3dStatus ;
 	}
+
+
+
+	// Pop the view off the view stack
+	E3View_PickStack_PopGroup(theView);
+
+
+	return qd3dStatus;
+}
 
 
 
@@ -1068,7 +1105,7 @@ e3group_submit_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 static TQ3Status
 e3group_endread(TQ3GroupObject group)
 {
-
+#pragma unused( group )
 	return kQ3Success ;
 }
 
@@ -1190,8 +1227,11 @@ e3group_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3group_endread;
 			break;
 
-		case kQ3XMethodTypeObjectSubmitBounds:
 		case kQ3XMethodTypeObjectSubmitPick:
+			theMethod = (TQ3XFunctionPointer) e3group_submit_pick;
+			break;
+
+		case kQ3XMethodTypeObjectSubmitBounds:
 		case kQ3XMethodTypeObjectSubmitRender:
 			theMethod = (TQ3XFunctionPointer) e3group_submit_contents;
 			break;
@@ -1242,80 +1282,191 @@ e3group_display_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 //=============================================================================
-//      e3group_display_submit_contents : Display group submit method.
+//      e3group_display_submit_render : Display group submit for render method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3group_display_submit_contents(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
-	{
-#pragma unused(objectType)
-#pragma unused(objectData)
-
-
-
-	// Validate our state
-	Q3_REQUIRE_OR_RESULT(E3View_GetViewState(theView) == kQ3ViewStateSubmitting,  kQ3Failure);
-
+e3group_display_submit_render(TQ3ViewObject theView, TQ3ObjectType objectType,
+								TQ3Object theObject, const void *objectData)
+{
+#pragma unused( objectType, objectData )
 
 
 	// Find out if we need to submit ourselves
-	TQ3Boolean shouldSubmit = kQ3False ;
-	TQ3ViewMode theMode = E3View_GetViewMode ( theView ) ;
-	TQ3DisplayGroupState theState ;
-	TQ3Status qd3dStatus = Q3DisplayGroup_GetState ( theObject, &theState ) ;
-	if ( qd3dStatus != kQ3Failure )
-		{
-		switch (theMode) {
-			case kQ3ViewModeDrawing:
-				shouldSubmit = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsDrawn);
-				break;
-			
-			case kQ3ViewModePicking:
-				shouldSubmit = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsPicked);
-				break;
-
-			case kQ3ViewModeWriting:
-				shouldSubmit = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsWritten);
-				break;
-			
-			case kQ3ViewModeCalcBounds:
-				shouldSubmit = E3Bit_IsNotSet(theState, kQ3DisplayGroupStateMaskIsNotForBounding);
-				break;
-
-			default:
-				Q3_ASSERT(!"Unknown view state in e3group_display_submit_contents");
-				shouldSubmit = kQ3False;
-				break;
-			}
-		}
+	TQ3Boolean shouldSubmit = kQ3False;
+	TQ3DisplayGroupState theState;
+	TQ3Status qd3dStatus = Q3DisplayGroup_GetState( theObject, &theState );
+	shouldSubmit = E3Bit_AnySet( theState, kQ3DisplayGroupStateMaskIsDrawn );
 
 
 
 	// If we need to submit the group, do so
 	if ( shouldSubmit )
-		{
+	{
 		// If the group isn't inline, push the view state and reset the matrix
-		TQ3Boolean isInline = E3Bit_IsSet(theState, kQ3DisplayGroupStateMaskIsInline);
+		TQ3Boolean isInline = E3Bit_AnySet( theState, kQ3DisplayGroupStateMaskIsInline );
 		if ( ! isInline )
-			qd3dStatus = Q3Push_Submit ( theView ) ;
+			qd3dStatus = E3Push_Submit ( theView ) ;
 
 
 		if ( qd3dStatus == kQ3Failure ) return qd3dStatus;
 		
+		
 		// Submit the group, using the generic group submit method
-		if ( theMode == kQ3ViewModeWriting )
-			qd3dStatus = e3group_submit_write ( theView, objectType, theObject, objectData ) ;
-		else
-			qd3dStatus = e3group_submit_contents ( theView, objectType, (E3Group*) theObject, objectData ) ;
+		qd3dStatus = e3group_submit_contents ( theView, objectType, (E3Group*) theObject, objectData ) ;
 
 
 
 		// If the group isn't inline, pop the view state
 		if ( ! isInline )
-			Q3Pop_Submit ( theView ) ;
-		}
+			E3Pop_Submit ( theView ) ;
+	}
 	
 	return qd3dStatus ;
+}
+
+
+
+
+
+//=============================================================================
+//      e3group_display_submit_bounds : Display group submit for bounding method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3group_display_submit_bounds(TQ3ViewObject theView, TQ3ObjectType objectType,
+								TQ3Object theObject, const void *objectData)
+{
+#pragma unused( objectType, objectData )
+
+
+
+	// Find out if we need to submit ourselves
+	bool shouldSubmit = false;
+	TQ3DisplayGroupState theState;
+	TQ3Status qd3dStatus = Q3DisplayGroup_GetState( theObject, &theState );
+	shouldSubmit = ! E3Bit_AnySet( theState, kQ3DisplayGroupStateMaskIsNotForBounding );
+
+
+
+	// If we need to submit the group, do so
+	if ( shouldSubmit )
+	{
+		// If the group isn't inline, push the view state and reset the matrix
+		TQ3Boolean isInline = E3Bit_AnySet(theState, kQ3DisplayGroupStateMaskIsInline);
+		if ( ! isInline )
+			qd3dStatus = E3Push_Submit ( theView ) ;
+
+
+		if ( qd3dStatus == kQ3Failure ) return qd3dStatus;
+		
+		// Submit the group, using the generic group submit method
+		qd3dStatus = e3group_submit_contents ( theView, objectType, (E3Group*) theObject, objectData ) ;
+
+
+
+		// If the group isn't inline, pop the view state
+		if ( ! isInline )
+			E3Pop_Submit ( theView ) ;
 	}
+	
+	return qd3dStatus ;
+}
+
+
+
+
+
+//=============================================================================
+//      e3group_display_submit_pick : Display group pick method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3group_display_submit_pick(TQ3ViewObject theView, TQ3ObjectType objectType,
+								TQ3Object theObject, const void *objectData)
+{
+#pragma unused( objectType, objectData )
+
+
+
+	// Find out if we need to submit ourselves
+	TQ3Boolean shouldSubmit = kQ3False ;
+	TQ3DisplayGroupState theState ;
+	TQ3Status qd3dStatus = Q3DisplayGroup_GetState ( theObject, &theState ) ;
+	shouldSubmit = E3Bit_AnySet(theState, kQ3DisplayGroupStateMaskIsPicked);
+
+
+
+	// If we need to submit the group, do so
+	if ( shouldSubmit )
+	{
+		// If the group isn't inline, push the view state and reset the matrix
+		TQ3Boolean isInline = E3Bit_AnySet(theState, kQ3DisplayGroupStateMaskIsInline);
+		if ( ! isInline )
+			qd3dStatus = E3Push_Submit ( theView ) ;
+
+
+		if ( qd3dStatus == kQ3Failure ) return qd3dStatus;
+		
+		
+		// Submit the group, using the generic group submit method
+		qd3dStatus = e3group_submit_pick ( theView, objectType, (E3Group*) theObject, objectData ) ;
+
+
+
+		// If the group isn't inline, pop the view state
+		if ( ! isInline )
+			E3Pop_Submit ( theView ) ;
+	}
+	
+	return qd3dStatus ;
+}
+
+
+
+
+
+//=============================================================================
+//      e3group_display_submit_write : Display group submit for writing method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3group_display_submit_write(TQ3ViewObject theView, TQ3ObjectType objectType,
+								TQ3Object theObject, const void *objectData)
+{
+#pragma unused( objectType, objectData )
+
+
+
+	// Find out if we need to submit ourselves
+	TQ3Boolean shouldSubmit = kQ3False ;
+	TQ3DisplayGroupState theState ;
+	TQ3Status qd3dStatus = Q3DisplayGroup_GetState ( theObject, &theState ) ;
+	shouldSubmit = E3Bit_AnySet(theState, kQ3DisplayGroupStateMaskIsWritten);
+
+
+
+	// If we need to submit the group, do so
+	if ( shouldSubmit )
+	{
+		// If the group isn't inline, push the view state and reset the matrix
+		TQ3Boolean isInline = E3Bit_AnySet(theState, kQ3DisplayGroupStateMaskIsInline);
+		if ( ! isInline )
+			qd3dStatus = E3Push_Submit ( theView ) ;
+
+
+		if ( qd3dStatus == kQ3Failure ) return qd3dStatus;
+		
+		
+		
+		// Submit the group, using the generic group submit method
+		qd3dStatus = e3group_submit_write ( theView, objectType, theObject, objectData ) ;
+
+
+
+		// If the group isn't inline, pop the view state
+		if ( ! isInline )
+			E3Pop_Submit ( theView ) ;
+	}
+	
+	return qd3dStatus ;
+}
 
 
 
@@ -1354,10 +1505,19 @@ e3group_display_metahandler(TQ3XMethodType methodType)
 			break;
 
 		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3group_display_submit_bounds;
+			break;
+
 		case kQ3XMethodTypeObjectSubmitPick:
+			theMethod = (TQ3XFunctionPointer) e3group_display_submit_pick;
+			break;
+
 		case kQ3XMethodTypeObjectSubmitRender:
+			theMethod = (TQ3XFunctionPointer) e3group_display_submit_render;
+			break;
+
 		case kQ3XMethodTypeObjectSubmitWrite:
-			theMethod = (TQ3XFunctionPointer) e3group_display_submit_contents;
+			theMethod = (TQ3XFunctionPointer) e3group_display_submit_write;
 			break;
 
 		case kQ3XMethodTypeObjectIsDrawable:
@@ -1788,7 +1948,7 @@ E3OrderedDisplayGroup::getnextposition ( TQ3ObjectType isType, TQ3GroupPosition 
 	{
 		// Is the position in the right linked list?
 		TQ3Int32	startIndex = e3group_display_ordered_getlistindex( pos->object );
-		TQ3XGroupPosition*	theListHead;
+		TQ3XGroupPosition*	theListHead = NULL;
 		if ( (startIndex == requestIndex) || (requestIndex == kQ3XOrderIndex_All) )
 		{
 			pos = pos->next;
@@ -1861,7 +2021,7 @@ E3OrderedDisplayGroup::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition 
 		
 	// Is the position in the right linked list?
 	TQ3Int32 startIndex = e3group_display_ordered_getlistindex ( pos->object ) ;
-	TQ3XGroupPosition* theListHead ;
+	TQ3XGroupPosition* theListHead = NULL;
 	if ( ( startIndex == requestIndex ) || ( requestIndex == kQ3XOrderIndex_All ) )
 		{
 		pos = pos->prev ;
@@ -2323,6 +2483,8 @@ e3group_display_ioproxy_startiterate(TQ3GroupObject group, TQ3GroupPosition *ite
 				
 			if (Q3Object_IsType (theObject, kQ3ShapeTypeUnknown) == kQ3False)
 				break ; // this is usable so use this one
+
+			Q3Object_CleanDispose( &theObject );
 				
 			err = Q3Group_GetNextPosition (group, &thePosition);
 			if (err != kQ3Success)
