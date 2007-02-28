@@ -144,55 +144,6 @@ public :
 	
 
 
-class E3BeforeRenderElement : public E3Element  // This is a leaf class so no other classes use this,
-								// so it can be here in the .c file rather than in
-								// the .h file, hence all the fields can be public
-								// as nobody should be including this file
-	{
-Q3_CLASS_ENUMS ( kQ3CallbackElementTypeBeforeRender, E3BeforeRenderElement, E3Element )
-public :
-
-	TQ3ObjectEventCallback					instanceData ;
-	} ;
-	
-
-
-class E3AfterRenderElement : public E3Element  // This is a leaf class so no other classes use this,
-								// so it can be here in the .c file rather than in
-								// the .h file, hence all the fields can be public
-								// as nobody should be including this file
-	{
-Q3_CLASS_ENUMS ( kQ3CallbackElementTypeAfterRender, E3AfterRenderElement, E3Element )
-public :
-
-	TQ3ObjectEventCallback					instanceData ;
-	} ;
-	
-
-
-class E3BeforePickElement : public E3Element  // This is a leaf class so no other classes use this,
-								// so it can be here in the .c file rather than in
-								// the .h file, hence all the fields can be public
-								// as nobody should be including this file
-	{
-Q3_CLASS_ENUMS ( kQ3CallbackElementTypeBeforePick, E3BeforePickElement, E3Element )
-public :
-
-	TQ3ObjectEventCallback					instanceData ;
-	} ;
-	
-
-
-class E3AfterPickElement : public E3Element  // This is a leaf class so no other classes use this,
-								// so it can be here in the .c file rather than in
-								// the .h file, hence all the fields can be public
-								// as nobody should be including this file
-	{
-Q3_CLASS_ENUMS ( kQ3CallbackElementTypeAfterPick, E3AfterPickElement, E3Element )
-public :
-
-	TQ3ObjectEventCallback					instanceData ;
-	} ;
 
 
 
@@ -1125,29 +1076,6 @@ E3CustomElements_RegisterClass(void)
 					NULL,
 					E3BitDepthElement ) ;
 
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	
-					kQ3ClassNameCustomElementBeforeRender,
-					NULL,
-					E3BeforeRenderElement ) ;
-
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	
-					kQ3ClassNameCustomElementAfterRender,
-					NULL,
-					E3AfterRenderElement ) ;
-
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	
-					kQ3ClassNameCustomElementBeforePick,
-					NULL,
-					E3BeforePickElement ) ;
-
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	
-					kQ3ClassNameCustomElementAfterPick,
-					NULL,
-					E3AfterPickElement ) ;
 
 	return(qd3dStatus);
 }
