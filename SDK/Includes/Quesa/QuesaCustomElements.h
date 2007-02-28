@@ -134,56 +134,6 @@ typedef enum {
 } TCEUrlOptions;
 
 
-#if QUESA_ALLOW_QD3D_EXTENSIONS
-/*!
- *	@enum
- *		TQ3EventCallbackElementTypes
- *	@discussion
- *		Custom elements containing callback functions can be attached to objects,
- *		in order that client code can be notified by Quesa of certain events.
- *		The callback function has the type TQ3ObjectEventCallback.
- *
- *		<em>This functionality is not available in QD3D.</em>
- *
- *		Example of installing an event callback:
- *
- *		<blockquote><pre><code>
- *		TQ3ObjectEventCallback	callback = MyCallback;
- *		Q3Object_AddElement( theView,
- *		&nbsp;		kQ3CallbackElementTypeBeforeRender,
- *		&nbsp;		&amp;callback );
- *		</code></pre></blockquote>
- *
- *		The before and after rendering callbacks should be attached to the view
- *		object.  They are called not only for retained objects that you explicitly submit
- *		for rendering, but also for each object in the hierarchy of a group that
- *		you submit.
- *
- *	@constant	kQ3CallbackElementTypeBeforeRender
- *						The callback will be called just before each retained object
- *						is passed to the renderer.  If the callback returns
- *						kQ3Failure, then the object will not be passed to the renderer.
- *	@constant	kQ3CallbackElementTypeAfterRender
- *						The callback will be called just after each retained object
- *						is passed to the renderer.  The callback's status result
- *						is ignored.
- *	@constant	kQ3CallbackElementTypeBeforePick
- *						The callback will be called just before each retained object
- *						is submitted for picking.  If the callback returns
- *						kQ3Failure, then the object will not be submitted.
- *	@constant	kQ3CallbackElementTypeAfterPick
- *						The callback will be called just after each retained object
- *						is submitted for picking.  The callback's status result
- *						is ignored.
- */
-typedef enum {
-	kQ3CallbackElementTypeBeforeRender			=	Q3_OBJECT_TYPE(0xF0, 'b', 'r', 'e'),
-	kQ3CallbackElementTypeAfterRender			=	Q3_OBJECT_TYPE(0xF0, 'a', 'r', 'e'),
-	kQ3CallbackElementTypeBeforePick			=	Q3_OBJECT_TYPE(0xF0, 'b', 'p', 'k'),
-	kQ3CallbackElementTypeAfterPick				=	Q3_OBJECT_TYPE(0xF0, 'a', 'p', 'k')
-} TQ3EventCallbackElementTypes;
-
-#endif
 
 
 
@@ -207,38 +157,6 @@ typedef struct TCEUrlData {
 } TCEUrlData;
 
 
-#if QUESA_ALLOW_QD3D_EXTENSIONS
-
-/*!
-  *	@typedef
-  *		TQ3ObjectEventCallback
-  *	@discussion
-  *		Applications can obtain callbacks as objects are processed
-  *		by Quesa.  Callbacks are installed as custom elements.  In some cases,
-  *		it may be necessary to attach the element to each object of interest,
-  *		while in other cases the element may be attached to another object
-  *		such as a view.  See the discussions of element types such as
-  *		kQ3ElementTypeBeforeRender for details about specific callbacks.
-  *
-  *		Callbacks should return kQ3Success to continue processing the
-  *		object, or kQ3Failure to cancel the operation (if possible).
-  *		Some events, e.g., those which indicate the completion of an
-  *		event, can not be cancelled and the result will be ignored.
-  *
-  *		Event callbacks are only available for retained mode objects.
-  *
-  *		<em>This functionality is not available in QD3D.</em>
-  *
-  *    @param    theObject        The object being processed.
-  *    @param    theEventType     The event occurring to the object.
-  *    @param    theHost          The object to which the callback element is attached.
-  *    @result                    Whether to continue with the event.
-*/
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3ObjectEventCallback)(
-                            TQ3Object       theObject,
-                            TQ3ElementType  theEventType,
-                            TQ3Object   	theHost );
-#endif
 
 
 
