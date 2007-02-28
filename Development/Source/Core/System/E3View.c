@@ -871,6 +871,7 @@ e3view_bounds_sphere_approx ( E3View* view, TQ3Uns32 numPoints, TQ3Uns32 pointSt
 static TQ3Status
 e3view_submit_retained_error ( E3View* view, TQ3Object theObject )
 	{
+	#pragma unused( theObject )
 	TQ3Error theError ;
 	
  	// We get called is app writer tries to submit when viewState != kQ3ViewStateSubmitting
@@ -913,19 +914,14 @@ e3view_submit_retained_pick ( E3View* view, TQ3Object theObject )
 	{
 	E3Root* theClass = (E3Root*) theObject->GetClass () ;
 
-	// Call a presubmit callback, if appropriate
-	TQ3ObjectEventCallback eventCallback ;
-	if ( Q3Object_GetElement ( view, kQ3CallbackElementTypeBeforePick, &eventCallback ) != kQ3Failure )
-		if ( eventCallback ( theObject, kQ3CallbackElementTypeBeforePick, view ) == kQ3Failure )
-			return kQ3Failure ;
-
 	// Update the current hit target. We only do this if we are not
 	// within a decomposed object, as we want to track the object submitted by the
 	// application and not any sub-objects which are submitted to calculate the pick
 	// for that top-level object.
 	if ( view->instanceData.pickDecomposeCount == 0 )
 		E3View_PickStack_SaveObject ( view, theObject ) ;
-		
+	
+	
 	// Call the method
 	TQ3Status qd3dStatus = kQ3Success ;
 	if ( theClass->submitPickMethod != NULL )
@@ -940,12 +936,6 @@ e3view_submit_retained_pick ( E3View* view, TQ3Object theObject )
 		E3View_PickStack_SaveObject ( view, NULL ) ;
 
 
-	// Call a postsubmit callback, if appropriate
-	if ( ( qd3dStatus != kQ3Failure )
-	&&	( Q3Object_GetElement ( view, kQ3CallbackElementTypeAfterPick, &eventCallback ) != kQ3Failure ) )
-		{
-		(void) eventCallback ( theObject, kQ3CallbackElementTypeAfterPick, view ) ;
-		}
 	
 	return qd3dStatus ;
 	}
@@ -1002,6 +992,7 @@ e3view_submit_retained_bounds ( E3View* theView, TQ3Object theObject )
 static TQ3Status
 e3view_submit_retained_bad_mode ( E3View* theView, TQ3Object theObject )
 {
+#pragma unused( theView, theObject )
 	Q3_ASSERT(!"Unrecognised view mode");
 	E3ErrorManager_PostError(kQ3ErrorUnsupportedFunctionality, kQ3False);
 	return kQ3Failure ;
@@ -1022,22 +1013,10 @@ e3view_submit_retained_render ( E3View* theView, TQ3Object theObject)
 
 
 
-	// Invoke the pre-render callback
-	TQ3ObjectEventCallback	eventCallback ;
-	if ( Q3Object_GetElement ( theView, kQ3CallbackElementTypeBeforeRender, &eventCallback) != kQ3Failure )
-		qd3dStatus = eventCallback ( theObject, kQ3CallbackElementTypeBeforeRender, theView ) ;
-
-
-
 	// Submit the object
-	if (qd3dStatus != kQ3Failure && theClass->submitRenderMethod != NULL)
+	if (theClass->submitRenderMethod != NULL)
 		qd3dStatus = theClass->submitRenderMethod ( theView, theClass->GetType (), theObject, theObject->FindLeafInstanceData () ) ;
 
-
-
-	// Invoke the post-render callback
-	if (qd3dStatus != kQ3Failure && Q3Object_GetElement ( theView, kQ3CallbackElementTypeAfterRender, &eventCallback ) != kQ3Failure )
-		qd3dStatus = eventCallback(theObject, kQ3CallbackElementTypeAfterRender, theView ) ;
 
 	return qd3dStatus ;
 	}
@@ -1055,6 +1034,7 @@ e3view_submit_retained_render ( E3View* theView, TQ3Object theObject)
 static TQ3Status
 e3view_submit_immediate_error ( E3View* view , TQ3ObjectType objectType , const void* objectData )
 	{
+	#pragma unused( objectType, objectData )
 	TQ3Error theError ;
 	
  	// We get called is app writer tries to submit when viewState != kQ3ViewStateSubmitting
@@ -1215,6 +1195,7 @@ e3view_submit_immediate_bounds ( E3View* theView , TQ3ObjectType objectType , co
 static TQ3Status
 e3view_submit_immediate_bad_mode ( E3View* theView , TQ3ObjectType objectType , const void* objectData )
 {
+#pragma unused( theView, objectType, objectData )
 	Q3_ASSERT(!"Unrecognised view mode");
 	E3ErrorManager_PostError(kQ3ErrorUnsupportedFunctionality, kQ3False);
 	return kQ3Failure ;
