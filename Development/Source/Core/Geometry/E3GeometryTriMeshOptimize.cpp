@@ -287,7 +287,7 @@ TQ3Int32	TriMeshOptimizer::FindPrevSimilarPoint( TQ3Int32 inPtInstanceIndex )
 		prevIndex >= 0;
 		prevIndex = mPrevPointInstance[ prevIndex ])
 	{
-		if (prevIndex >= mInstanceToPoint.size())
+		if (prevIndex >= (TQ3Int32)mInstanceToPoint.size())
 		{
 			break;
 		}
