@@ -226,7 +226,7 @@ void	TransBuffer::AddPrim(
 	// Record texture state
 	const Texture::TextureState&	textureState(
 		mRenderer.mTextures.GetTextureState() );
-	if (not textureState.mIsTextureActive)
+	if (! textureState.mIsTextureActive)
 	{
 		thePrim.mTextureName = 0;
 		thePrim.mIsTextureTransparent = false;
@@ -479,7 +479,7 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 			break;
 	}
 	
-	for (int i = 0; i < inPrim.mNumVerts; ++i)
+	for (TQ3Uns32 i = 0; i < inPrim.mNumVerts; ++i)
 	{
 		Vertex	theVert( inPrim.mVerts[i] );
 		
@@ -510,7 +510,7 @@ void	TransBuffer::RenderSpecular( const TransparentPrim& inPrim )
 {
 	glBegin( GL_TRIANGLES );
 	
-	for (int i = 0; i < inPrim.mNumVerts; ++i)
+	for (TQ3Uns32 i = 0; i < inPrim.mNumVerts; ++i)
 	{
 		Vertex	theVert( inPrim.mVerts[i] );
 		
@@ -581,7 +581,7 @@ void	TransBuffer::AddSpecularHighlights(
 
 void	TransBuffer::Flush( TQ3ViewObject inView )
 {
-	if (not mTransBuffer.empty())
+	if (! mTransBuffer.empty())
 	{
 		SortIndices();
 

@@ -150,7 +150,7 @@ const TQ3Matrix4x4&	QORenderer::MatrixState::GetCameraToFrustum() const
 */
 const TQ3Matrix4x4&	QORenderer::MatrixState::GetLocalToCameraInverseTranspose() const
 {
-	if (not mIsLocalToCameraInvTrValid)
+	if (! mIsLocalToCameraInvTrValid)
 	{
 		TQ3Matrix4x4	theInv;
 		Q3Matrix4x4_Invert( &mLocalToCamera, &theInv );

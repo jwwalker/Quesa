@@ -286,7 +286,7 @@ void	QORenderer::Renderer::HandleGeometryAttributes(
 			}
 			
 			// If that failed, try the geometry attributes.
-			if ( (not theShader.isvalid()) &&
+			if ( (! theShader.isvalid()) &&
 				(inGeomAttSet != NULL) )
 			{
 				theShader = CQ3AttributeSet_GetTextureShader( inGeomAttSet );
@@ -1034,7 +1034,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 			didHandle = true;
 		}
 	
-		if ( (whyNotFastPath == kSlowPathMask_FastPath) && (not didHandle) )
+		if ( (whyNotFastPath == kSlowPathMask_FastPath) && (! didHandle) )
 		{
 			RenderFastPathTriMesh( inTriMesh, *inGeomData, vertNormals,
 				vertUVs, vertColors );
@@ -1052,7 +1052,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	
 	ImmediateModePop( inView, inTriMesh, inGeomData->triMeshAttributeSet );
 
-	if ( not didHandle )
+	if ( ! didHandle )
 	{
 		didHandle = PassBuckOnTriMesh( inView, inTriMesh, inGeomData );
 	}

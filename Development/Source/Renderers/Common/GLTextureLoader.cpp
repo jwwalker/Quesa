@@ -120,12 +120,12 @@ static void ConstrainTextureSize(
 		outDstHeight = NextPowerOf2( outDstHeight );
 	}
 	
-	while (outDstWidth > maxGLSize)
+	while (outDstWidth > (TQ3Uns32)maxGLSize)
 	{
 		outDstWidth /= 2;
 	}
 	
-	while (outDstHeight > maxGLSize)
+	while (outDstHeight > (TQ3Uns32)maxGLSize)
 	{
 		outDstHeight /= 2;
 	}
@@ -237,7 +237,7 @@ static int	CountImagesInMipmap( const TQ3Mipmap& inMipmapData )
 	{
 		// The mipmap images have their dimensions repeatedly halved, until
 		// it is down to size (1, 1).
-		int n = std::max( inMipmapData.mipmaps[0].width,
+		int n = E3Num_Max( inMipmapData.mipmaps[0].width,
 			inMipmapData.mipmaps[0].height );
 		
 		while (n > 1)
