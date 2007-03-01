@@ -49,7 +49,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories="../../Source/Core/Geometry,../../Source/Core/Glue,../../Source/Core/Support,../../Source/Core/System,../../Source/Platform/Windows,../../Source/Renderers/Common,../../Source/Renderers/Generic,../../Source/Renderers/Interactive,../../Source/Renderers/Wireframe,../../Source/Renderers/Cartoon,../../Source/FileFormats,../../Source/FileFormats/Readers/3dmf,../../Source/FileFormats/Writers/3dmf,../../Source/StackCrawl,../../../SDK/Includes/Quesa"
+				AdditionalIncludeDirectories="../../../SDK/Includes/Apple;../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa"
 				PreprocessorDefinitions="QUESA_OS_WIN32;NDEBUG;WIN32;_WINDOWS;_USRDLL;Q3_EXPORT_SYMBOLS;QD3D_NO_DIRECTDRAW"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -146,11 +146,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../SDK/Includes/Apple,../../Source/Core/Geometry,../../Source/Core/Glue,../../Source/Core/Support,../../Source/Core/System,../../Source/Platform/Windows,../../Source/Renderers/Common,../../Source/Renderers/Generic,../../Source/Renderers/Interactive,../../Source/Renderers/Wireframe,../../Source/Renderers/Cartoon,../../Source/FileFormats,../../Source/FileFormats/Readers/3dmf,../../Source/FileFormats/Writers/3dmf,../../Source/StackCrawl,../../../SDK/Includes/Quesa"
+				AdditionalIncludeDirectories="../../../SDK/Includes/Apple;../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa"
 				PreprocessorDefinitions="QUESA_OS_WIN32;Q3_DEBUG;_DEBUG;WIN32;_WINDOWS;_USRDLL;Q3_EXPORT_SYMBOLS;QD3D_NO_DIRECTDRAW"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				DisableLanguageExtensions="false"
 				PrecompiledHeaderFile=".\Debug/Quesa.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
@@ -2267,6 +2268,18 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath="..\..\Source\Renderers\Common\GLCamera.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLDisplayListManager.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLDisplayListManager.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\Source\Renderers\Common\GLDrawContext.c"
 						>
 						<FileConfiguration
@@ -2289,6 +2302,30 @@
 								CompileAs="2"
 							/>
 						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLDrawContext.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLGPUSharing.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLGPUSharing.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLPrefix.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLTextureLoader.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLTextureLoader.h"
+						>
 					</File>
 					<File
 						RelativePath="..\..\Source\Renderers\Common\GLTextureManager.c"
@@ -2315,6 +2352,10 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath="..\..\Source\Renderers\Common\GLTextureManager.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\Source\Renderers\Common\GLUtils.c"
 						>
 						<FileConfiguration
@@ -2337,6 +2378,26 @@
 								CompileAs="2"
 							/>
 						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLUtils.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLVBOManager.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\GLVBOManager.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\OptimizedTriMeshElement.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\Common\OptimizedTriMeshElement.h"
+						>
 					</File>
 				</Filter>
 				<Filter
@@ -2762,6 +2823,130 @@
 								PreprocessorDefinitions=""
 							/>
 						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="MakeStrip"
+					>
+					<File
+						RelativePath="..\..\Source\Renderers\MakeStrip\MakeStrip.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\MakeStrip\MakeStrip.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\MakeStrip\StripMaker.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\MakeStrip\StripMaker_FindAdjacencies.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\MakeStrip\StripMaker_InitFaces.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\MakeStrip\StripMaker_JoinStrips.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\MakeStrip\StripMaker_MakeSimpleStrip.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="OpenGL"
+					>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOClientStates.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOClientStates.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOGeometry.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOLights.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOLights.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOMatrix.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOMatrix.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOOpaqueTriBuffer.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOOpaqueTriBuffer.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOPrefix.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QORegister.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QORegister.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QORenderer.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QORenderer.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOStartAndEnd.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOStatics.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOStatics.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOTexture.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOTexture.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOTransBuffer.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOTransBuffer.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOUpdate.cpp"
+						>
 					</File>
 				</Filter>
 			</Filter>

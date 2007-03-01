@@ -69,7 +69,7 @@ QORenderer::OpaqueTriBuffer::OpaqueTriBuffer(
 */
 void	QORenderer::OpaqueTriBuffer::Flush()
 {
-	if (not mTriBuffer.empty())
+	if (! mTriBuffer.empty())
 	{
 		// Allow usual lighting
 		mRenderer.mLights.SetOnlyAmbient( false );
