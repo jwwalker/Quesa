@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -485,6 +485,10 @@ Q3Camera_GetViewToFrustum (
 );
 
 
+/*!
+	@functiongroup Orthographic
+*/
+
 
 /*!
  *  @function
@@ -681,6 +685,9 @@ Q3OrthographicCamera_GetBottom (
 );
 
 
+/*!
+	@functiongroup View Plane (unimplemented)
+*/
 
 /*!
  *  @function
@@ -945,6 +952,11 @@ Q3ViewPlaneCamera_GetCenterY (
 
 
 /*!
+	@functiongroup View Angle
+*/
+
+
+/*!
  *  @function
  *      Q3ViewAngleAspectCamera_New
  *  @discussion
@@ -1079,6 +1091,11 @@ Q3ViewAngleAspectCamera_GetAspectRatio (
 );
 
 
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 

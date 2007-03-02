@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -131,6 +131,10 @@ extern "C" {
 //-----------------------------------------------------------------------------
 //      Point and Vector creation
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Point and Vector creation
+*/
+
 /*!
  *  @function
  *      Q3Vector2D_Set
@@ -345,6 +349,10 @@ Q3SphericalPoint_Set (
 //=============================================================================
 //      Point and Vector dimension conversion
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Point and Vector dimension conversion
+*/
+
 /*!
  *  @function
  *      Q3Vector2D_To3D
@@ -591,6 +599,10 @@ Q3RationalPoint4D_To3D (
 //      Point conversion from cartesian to polar/spherical
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup Point conversion from cartesian to polar/spherical
+*/
+
+/*!
  *  @function
  *      Q3Point2D_ToPolar
  *  @discussion
@@ -673,6 +685,9 @@ Q3SphericalPoint_ToPoint3D (
 //=============================================================================
 //      Dot product
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Dot product
+*/
 /*!
  *  @function
  *      Q3Vector2D_Dot
@@ -761,6 +776,10 @@ Q3Vector3D_DotArray(
 //=============================================================================
 //      Cross product
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Cross product
+*/
+
 /*!
  *  @function
  *      Q3Vector2D_Cross
@@ -908,6 +927,10 @@ Q3Triangle_CrossProductArray(
 //      Vector length
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup Vector length
+*/
+
+/*!
  *  @function
  *      Q3Vector2D_Length
  *  @discussion
@@ -1008,6 +1031,10 @@ Q3Vector3D_LengthSquared (
 //=============================================================================
 //      Point distance
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Point distance
+*/
+
 /*!
  *  @function
  *      Q3Point2D_Distance
@@ -1230,6 +1257,10 @@ Q3RationalPoint4D_DistanceSquared (
 //      Vector negation
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup Vector negation
+*/
+
+/*!
  *  @function
  *      Q3Vector2D_Negate
  *  @discussion
@@ -1274,6 +1305,10 @@ Q3Vector3D_Negate (
 //=============================================================================
 //      Vector scale
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Vector scale
+*/
+
 /*!
  *  @function
  *      Q3Vector2D_Scale
@@ -1324,6 +1359,10 @@ Q3Vector3D_Scale (
 //      Vector normalize
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup Vector normalize
+*/
+
+/*!
  *  @function
  *      Q3Vector2D_Normalize
  *  @discussion
@@ -1372,6 +1411,10 @@ Q3Vector3D_Normalize (
 //=============================================================================
 //      Vector-vector addition/subtraction
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Vector-vector addition/subtraction
+*/
+
 /*!
  *  @function
  *      Q3Vector2D_Add
@@ -1465,6 +1508,10 @@ Q3Vector3D_Subtract (
 //=============================================================================
 //      Point and Vector addition/subtraction
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Point and Vector addition/subtraction
+*/
+
 /*!
  *  @function
  *      Q3Point2D_Vector2D_Add
@@ -1603,6 +1650,10 @@ Q3Point3D_Vector3D_Subtract (
 //      Point subtraction
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup Point subtraction
+*/
+
+/*!
  *  @function
  *      Q3Point2D_Subtract
  *  @discussion
@@ -1673,6 +1724,10 @@ Q3Point3D_Subtract (
 //=============================================================================
 //      Point relative ratio
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Point relative ratio
+*/
+
 /*!
  *  @function
  *      Q3Point2D_RRatio
@@ -1820,6 +1875,10 @@ Q3RationalPoint4D_RRatio (
 //=============================================================================
 //      Point affine combinations
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Point affine combinations
+*/
+
 /*!
  *  @function
  *      Q3Point2D_AffineComb
@@ -1970,6 +2029,10 @@ Q3RationalPoint4D_AffineComb (
 //=============================================================================
 //      Point and vector transformation
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Point and vector transformation
+*/
+
 /*!
  *  @function
  *      Q3Vector2D_Transform
@@ -2395,6 +2458,10 @@ Q3RationalPoint4D_To4DTransformArray (
 //=============================================================================
 //      Matrix functions
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Matrix functions
+*/
+
 /*!
  *  @function
  *      Q3Matrix3x3_SetIdentity
@@ -2941,6 +3008,10 @@ Q3Matrix4x4_Multiply (
 //      Quaternion functions
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup Quaternion functions
+*/
+
+/*!
  *  @function
  *      Q3Quaternion_Set
  *  @discussion
@@ -3435,6 +3506,10 @@ Q3Point3D_TransformQuaternion (
 //      Bounding box functions
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup Bounding box functions
+*/
+
+/*!
  *  @function
  *      Q3BoundingBox_Reset
  *  @discussion
@@ -3611,6 +3686,10 @@ Q3BoundingBox_UnionRationalPoint4D (
 //=============================================================================
 //      Bounding sphere functions
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Bounding sphere functions
+*/
+
 /*!
  *  @function
  *      Q3BoundingSphere_Reset
@@ -3789,6 +3868,10 @@ Q3BoundingSphere_UnionRationalPoint4D (
 //      Intersection functions
 //-----------------------------------------------------------------------------
 /*!
+	@functiongroup Intersection functions
+*/
+
+/*!
  *  @function
  *      Q3Ray3D_IntersectSphere
  *  @discussion
@@ -3902,6 +3985,10 @@ Q3Ray3D_IntersectTriangle (
 //=============================================================================
 //      General math functions
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup General math functions
+*/
+
 /*!
  *  @function
  *      Q3Math_SquareRoot
@@ -5289,6 +5376,11 @@ Q3Math_InvSquareRoot (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 

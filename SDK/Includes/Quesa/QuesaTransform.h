@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -228,6 +228,10 @@ Q3Transform_Submit (
 );
 
 
+/*!
+	@functiongroup Matrix
+*/
+
 
 /*!
  *  @function
@@ -299,6 +303,10 @@ Q3MatrixTransform_Get (
     TQ3Matrix4x4                  *matrix
 );
 
+
+/*!
+	@functiongroup Rotate
+*/
 
 
 /*!
@@ -442,6 +450,10 @@ Q3RotateTransform_GetAngle (
     float                         *radians
 );
 
+
+/*!
+	@functiongroup Rotate About Point
+*/
 
 
 /*!
@@ -622,6 +634,10 @@ Q3RotateAboutPointTransform_GetAboutPoint (
     TQ3Point3D                    *about
 );
 
+
+/*!
+	@functiongroup Rotate About Axis
+*/
 
 
 /*!
@@ -804,6 +820,10 @@ Q3RotateAboutAxisTransform_GetOrigin (
 );
 
 
+/*!
+	@functiongroup Scale
+*/
+
 
 /*!
  *  @function
@@ -877,6 +897,10 @@ Q3ScaleTransform_Get (
 );
 
 
+/*!
+	@functiongroup Translate
+*/
+
 
 /*!
  *  @function
@@ -947,6 +971,10 @@ Q3TranslateTransform_Get (
     TQ3Vector3D                   *translate
 );
 
+
+/*!
+	@functiongroup Quaternion
+*/
 
 
 /*!
@@ -1019,6 +1047,10 @@ Q3QuaternionTransform_Get (
 );
 
 
+/*!
+	@functiongroup Reset
+*/
+
 
 /*!
  *  @function
@@ -1054,6 +1086,10 @@ Q3ResetTransform_Submit (
     TQ3ViewObject                 view
 );
 
+
+/*!
+	@functiongroup Camera
+*/
 
 
 /*!
@@ -1150,6 +1186,9 @@ Q3CameraTransform_Get (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+/*!
+	@functiongroup Rasterize
+*/
 
 /*!
  *  @function
@@ -1211,6 +1250,11 @@ Q3RasterizeCameraTransform_Submit (
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 
