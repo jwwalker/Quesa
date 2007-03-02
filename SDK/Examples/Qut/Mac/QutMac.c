@@ -1390,7 +1390,7 @@ Qut_CreateWindow(const char		*windowTitle,
 Boolean
 QutMac_SelectMetafileToOpen(FSSpec* theFSSpec)
 {	Str255				thePrompt = "\pSelect a model:";
-	OSType				fileTypes[] = { '3DMF', 'TEXT', '3DS ', 'BINA' };
+	OSType				fileTypes[] = { '3DMF', 'TEXT', '3DS ', 'BINA','****' };
 	UInt32				numTypes  = sizeof(fileTypes) / sizeof(OSType);
 	/*
 		Jose'
