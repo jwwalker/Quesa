@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2653,10 +2653,10 @@ Q3ViewerWriteData(TQ3ViewerObject theViewer, Handle data)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(0);
 
 	if (0) // Further checks on data
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -2898,7 +2898,7 @@ Q3ViewerGetCurrentButton(TQ3ViewerObject theViewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -3213,7 +3213,7 @@ Q3ViewerGetFlags(TQ3ViewerObject theViewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(0);
 #endif
 
 
@@ -3581,7 +3581,7 @@ Q3ViewerGetState(TQ3ViewerObject theViewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(0);
 #endif
 
 
