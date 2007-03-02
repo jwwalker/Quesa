@@ -5,7 +5,7 @@
         Header file for E3Utils.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -42,12 +42,6 @@
 */
 #ifndef E3UTILS_HDR
 #define E3UTILS_HDR
-//=============================================================================
-//		C++ preamble
-//-----------------------------------------------------------------------------
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
 
@@ -63,8 +57,40 @@ typedef TQ3AttributeSet (*E3GetSetForGatherProc)(const void *userData, TQ3Uns32 
 
 
 //=============================================================================
-//      Macros
+//      Macros and template
 //-----------------------------------------------------------------------------
+
+#ifdef __cplusplus
+
+template<typename T> inline
+const T& E3Num_Max(const T& a, const T& b)
+{
+	return ( (a < b) ? b : a);
+}
+
+template<typename T> inline
+const T& E3Num_Min(const T& a, const T& b)
+{
+	return ( (a < b) ? a : b);
+}
+
+template <typename T, typename Tmin, typename Tmax> inline
+T E3Num_Clamp( const T& _n, const Tmin& _min, const Tmax& _max )
+{
+	return E3Num_Max( E3Num_Min( _n, static_cast<T>(_max) ), static_cast<T>(_min) );
+}
+
+#else // pure C
+
+#define E3Num_Min(_a, _b)					((_a) < (_b) ? (_a) : (_b))
+
+#define E3Num_Max(_a, _b)					((_a) > (_b) ? (_a) : (_b))
+
+#define E3Num_Clamp(_n, _min, _max)			E3Num_Max(E3Num_Min((_n), (_max)), (_min))
+
+#endif
+
+
 #define E3Rect_GetWidth(_r)					(TQ3Uns32) ((_r)->right  - (_r)->left)
 
 #define E3Rect_GetHeight(_r)				(TQ3Uns32) ((_r)->bottom - (_r)->top)
@@ -112,7 +138,6 @@ typedef TQ3AttributeSet (*E3GetSetForGatherProc)(const void *userData, TQ3Uns32 
 				while (0)
 
 
-#define E3Num_Clamp(_n, _min, _max)			E3Num_Max(E3Num_Min((_n), (_max)), (_min))
 
 #define E3Integer_Abs(_a)					((_a) > 0 ? (_a) : -(_a))
 
@@ -187,30 +212,4 @@ TQ3GroupObject	E3TriMesh_BuildOrientationGroup(TQ3GeometryObject theTriMesh, TQ3
 
 
 
-//=============================================================================
-//		C++ postamble
-//-----------------------------------------------------------------------------
-#ifdef __cplusplus
-}
-
-template<class Ta, class Tb> inline
-	const Ta& E3Num_Max(const Ta& a, const Tb& b)
-	{
-	return ( (a > (const Ta&)b) ? a : (const Ta&)b);
-	}
-
-template<class Ta, class Tb> inline
-	const Ta& E3Num_Min(const Ta& a, const Tb& b)
-	{
-	return ( (a < (const Ta&)b) ? a : (const Ta&)b);
-	}
-#else // pure C
-
-#define E3Num_Min(_a, _b)					((_a) < (_b) ? (_a) : (_b))
-
-#define E3Num_Max(_a, _b)					((_a) > (_b) ? (_a) : (_b))
-
 #endif
-
-#endif
-
