@@ -48,7 +48,9 @@
 #include <stdio.h>
 
 
-
+#ifndef kNativeEndianPixMap
+	#define kNativeEndianPixMap 0 // allow classic compilation
+#endif
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
