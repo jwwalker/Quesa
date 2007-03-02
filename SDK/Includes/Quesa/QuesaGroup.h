@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -879,42 +879,8 @@ Q3Group_GetPreviousObjectPosition (
 
 
 /*!
- *  @function
- *      Q3LightGroup_New
- *  @discussion
- *      Create a new light group.
- *
- *		A light group is a group that contains only lights.  These can then
- *		be attached to a view by <code>Q3View_SetLightGroup</code>.
- *
- *      This function returns a newly created, empty light group object.  If
- *		some error occurs during creation, this returns NULL.
- *
- *  @result                 Newly created light group, or NULL.
- */
-Q3_EXTERN_API_C ( TQ3GroupObject  )
-Q3LightGroup_New (
-    void
-);
-
-
-
-/*!
- *  @function
- *      Q3InfoGroup_New
- *  @discussion
- *      Create a new information group.
- *
- *      This function returns a newly created, empty information group
- *		object.  If some error occurs during creation, this returns NULL.
- *
- *  @result                 Newly created information group, or NULL.
- */
-Q3_EXTERN_API_C ( TQ3GroupObject  )
-Q3InfoGroup_New (
-    void
-);
-
+	@functiongroup Display Groups
+*/
 
 
 /*!
@@ -1163,6 +1129,10 @@ Q3DisplayGroup_CalcAndUseBoundingBox (
 );
 
 
+/*!
+	@functiongroup Other Groups
+*/
+
 
 /*!
  *  @function
@@ -1227,6 +1197,52 @@ Q3IOProxyDisplayGroup_New (
 
 /*!
  *  @function
+ *      Q3LightGroup_New
+ *  @discussion
+ *      Create a new light group.
+ *
+ *		A light group is a group that contains only lights.  These can then
+ *		be attached to a view by <code>Q3View_SetLightGroup</code>.
+ *
+ *      This function returns a newly created, empty light group object.  If
+ *		some error occurs during creation, this returns NULL.
+ *
+ *  @result                 Newly created light group, or NULL.
+ */
+Q3_EXTERN_API_C ( TQ3GroupObject  )
+Q3LightGroup_New (
+    void
+);
+
+
+
+/*!
+ *  @function
+ *      Q3InfoGroup_New
+ *  @discussion
+ *      Create a new information group.
+ *
+ *      This function returns a newly created, empty information group
+ *		object.  If some error occurs during creation, this returns NULL.
+ *
+ *  @result                 Newly created information group, or NULL.
+ */
+Q3_EXTERN_API_C ( TQ3GroupObject  )
+Q3InfoGroup_New (
+    void
+);
+
+
+
+
+
+/*!
+	@functiongroup Extension
+*/
+
+
+/*!
+ *  @function
  *      Q3XGroup_GetPositionPrivate
  *  @discussion
  *      Get the private data stored in a group at the given position.
@@ -1245,6 +1261,11 @@ Q3XGroup_GetPositionPrivate (
 );
 
 
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 

@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -825,6 +825,11 @@ typedef struct TQ3UnknownBinaryData {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+
+/*!
+	@functiongroup Extension
+*/
+
 /*!
  *  @function
  *      Q3XView_SubmitWriteData
@@ -869,6 +874,10 @@ Q3XView_SubmitSubObjectData (
     TQ3XDataDeleteMethod          deleteData
 );
 
+
+/*!
+	@functiongroup File Objects
+*/
 
 
 /*!
@@ -1334,6 +1343,10 @@ Q3File_SetIdleMethod (
     const void                    *idleData
 );
 
+
+/*!
+	@functiongroup Low Level I/O
+*/
 
 
 /*!
@@ -2386,386 +2399,6 @@ Q3UnknownBinary_EmptyTypeString (
 
 /*!
  *  @function
- *      Q3ViewHints_New
- *  @discussion
- *      Create a new view hints object.
- *
- *  @param view             The view the view hints should be based on.
- *  @result                 The new view hints object.
- */
-Q3_EXTERN_API_C ( TQ3ViewHintsObject  )
-Q3ViewHints_New (
-    TQ3ViewObject                 view
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetRenderer
- *  @discussion
- *      Set the renderer for a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param renderer         The new renderer for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetRenderer (
-    TQ3ViewHintsObject            viewHints,
-    TQ3RendererObject             renderer
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetRenderer
- *  @discussion
- *      Get the renderer from a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param renderer         Receives the renderer from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetRenderer (
-    TQ3ViewHintsObject            viewHints,
-    TQ3RendererObject             *renderer
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetCamera
- *  @discussion
- *      Set the camera for a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param camera           The new camera for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetCamera (
-    TQ3ViewHintsObject            viewHints,
-    TQ3CameraObject               camera
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetCamera
- *  @discussion
- *      Get the camera from a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param camera           Receives the camera from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetCamera (
-    TQ3ViewHintsObject            viewHints,
-    TQ3CameraObject               *camera
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetLightGroup
- *  @discussion
- *      Set the light group for a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param lightGroup       The new light group for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetLightGroup (
-    TQ3ViewHintsObject            viewHints,
-    TQ3GroupObject                lightGroup
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetLightGroup
- *  @discussion
- *      Get the light group from a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param lightGroup       Receives the light group from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetLightGroup (
-    TQ3ViewHintsObject            viewHints,
-    TQ3GroupObject                *lightGroup
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetAttributeSet
- *  @discussion
- *      Set the attribute set for a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param attributeSet     The new attribute set for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetAttributeSet (
-    TQ3ViewHintsObject            viewHints,
-    TQ3AttributeSet               attributeSet
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetAttributeSet
- *  @discussion
- *      Get the attribute set from a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param attributeSet     Receives the attribute set from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetAttributeSet (
-    TQ3ViewHintsObject            viewHints,
-    TQ3AttributeSet               *attributeSet
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetDimensionsState
- *  @discussion
- *      Set the dimension state of a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param isValid          The new dimension state for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetDimensionsState (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Boolean                    isValid
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetDimensionsState
- *  @discussion
- *      Get the dimension state of a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param isValid          Receives the dimension state from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetDimensionsState (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Boolean                    *isValid
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetDimensions
- *  @discussion
- *      Set the dimensions of a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param width            The new width for the view hints.
- *  @param height           The new height for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetDimensions (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Uns32                      width,
-    TQ3Uns32                      height
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetDimensions
- *  @discussion
- *      Get the dimensions of a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param width            Receives the width from the view hints.
- *  @param height           Receives the height from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetDimensions (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Uns32                      *width,
-    TQ3Uns32                      *height
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetMaskState
- *  @discussion
- *      Set the mask state of a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param isValid          The new mask state for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetMaskState (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Boolean                    isValid
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetMaskState
- *  @discussion
- *      Get the mask state from a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param isValid          Receives the mask state from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetMaskState (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Boolean                    *isValid
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetMask
- *  @discussion
- *      Set the mask of a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param mask             The new mask for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetMask (
-    TQ3ViewHintsObject            viewHints,
-    const TQ3Bitmap               *mask
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetMask
- *  @discussion
- *      Get the mask from a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param mask             Receives the mask from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetMask (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Bitmap                     *mask
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetClearImageMethod
- *  @discussion
- *      Set the clear image method of a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param clearMethod      The new clear image method for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetClearImageMethod (
-    TQ3ViewHintsObject            viewHints,
-    TQ3DrawContextClearImageMethod clearMethod
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetClearImageMethod
- *  @discussion
- *      Get the clear image method from a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param clearMethod      Receives the clear image method from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetClearImageMethod (
-    TQ3ViewHintsObject            viewHints,
-    TQ3DrawContextClearImageMethod *clearMethod
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_SetClearImageColor
- *  @discussion
- *      Set the clear image color of a view hints object.
- *
- *  @param viewHints        The view hints to update.
- *  @param color            The new clear image color for the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_SetClearImageColor (
-    TQ3ViewHintsObject            viewHints,
-    const TQ3ColorARGB            *color
-);
-
-
-
-/*!
- *  @function
- *      Q3ViewHints_GetClearImageColor
- *  @discussion
- *      Get the clear image color from a view hints object.
- *
- *  @param viewHints        The view hints to query.
- *  @param color            Receives the clear image color from the view hints.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3ViewHints_GetClearImageColor (
-    TQ3ViewHintsObject            viewHints,
-    TQ3ColorARGB                  *color
-);
-
-
-
-/*!
- *  @function
  *      Q3File_GetFileFormat
  *  @discussion
  *      Get the file format used to process a file.
@@ -3619,6 +3252,394 @@ Q3Uns8_ReadArray (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+/*!
+	@functiongroup View Hints
+*/
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_New
+ *  @discussion
+ *      Create a new view hints object.
+ *
+ *  @param view             The view the view hints should be based on.
+ *  @result                 The new view hints object.
+ */
+Q3_EXTERN_API_C ( TQ3ViewHintsObject  )
+Q3ViewHints_New (
+    TQ3ViewObject                 view
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetRenderer
+ *  @discussion
+ *      Set the renderer for a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param renderer         The new renderer for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetRenderer (
+    TQ3ViewHintsObject            viewHints,
+    TQ3RendererObject             renderer
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetRenderer
+ *  @discussion
+ *      Get the renderer from a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param renderer         Receives the renderer from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetRenderer (
+    TQ3ViewHintsObject            viewHints,
+    TQ3RendererObject             *renderer
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetCamera
+ *  @discussion
+ *      Set the camera for a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param camera           The new camera for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetCamera (
+    TQ3ViewHintsObject            viewHints,
+    TQ3CameraObject               camera
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetCamera
+ *  @discussion
+ *      Get the camera from a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param camera           Receives the camera from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetCamera (
+    TQ3ViewHintsObject            viewHints,
+    TQ3CameraObject               *camera
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetLightGroup
+ *  @discussion
+ *      Set the light group for a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param lightGroup       The new light group for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetLightGroup (
+    TQ3ViewHintsObject            viewHints,
+    TQ3GroupObject                lightGroup
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetLightGroup
+ *  @discussion
+ *      Get the light group from a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param lightGroup       Receives the light group from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetLightGroup (
+    TQ3ViewHintsObject            viewHints,
+    TQ3GroupObject                *lightGroup
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetAttributeSet
+ *  @discussion
+ *      Set the attribute set for a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param attributeSet     The new attribute set for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetAttributeSet (
+    TQ3ViewHintsObject            viewHints,
+    TQ3AttributeSet               attributeSet
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetAttributeSet
+ *  @discussion
+ *      Get the attribute set from a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param attributeSet     Receives the attribute set from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetAttributeSet (
+    TQ3ViewHintsObject            viewHints,
+    TQ3AttributeSet               *attributeSet
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetDimensionsState
+ *  @discussion
+ *      Set the dimension state of a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param isValid          The new dimension state for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetDimensionsState (
+    TQ3ViewHintsObject            viewHints,
+    TQ3Boolean                    isValid
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetDimensionsState
+ *  @discussion
+ *      Get the dimension state of a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param isValid          Receives the dimension state from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetDimensionsState (
+    TQ3ViewHintsObject            viewHints,
+    TQ3Boolean                    *isValid
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetDimensions
+ *  @discussion
+ *      Set the dimensions of a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param width            The new width for the view hints.
+ *  @param height           The new height for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetDimensions (
+    TQ3ViewHintsObject            viewHints,
+    TQ3Uns32                      width,
+    TQ3Uns32                      height
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetDimensions
+ *  @discussion
+ *      Get the dimensions of a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param width            Receives the width from the view hints.
+ *  @param height           Receives the height from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetDimensions (
+    TQ3ViewHintsObject            viewHints,
+    TQ3Uns32                      *width,
+    TQ3Uns32                      *height
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetMaskState
+ *  @discussion
+ *      Set the mask state of a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param isValid          The new mask state for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetMaskState (
+    TQ3ViewHintsObject            viewHints,
+    TQ3Boolean                    isValid
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetMaskState
+ *  @discussion
+ *      Get the mask state from a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param isValid          Receives the mask state from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetMaskState (
+    TQ3ViewHintsObject            viewHints,
+    TQ3Boolean                    *isValid
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetMask
+ *  @discussion
+ *      Set the mask of a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param mask             The new mask for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetMask (
+    TQ3ViewHintsObject            viewHints,
+    const TQ3Bitmap               *mask
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetMask
+ *  @discussion
+ *      Get the mask from a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param mask             Receives the mask from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetMask (
+    TQ3ViewHintsObject            viewHints,
+    TQ3Bitmap                     *mask
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetClearImageMethod
+ *  @discussion
+ *      Set the clear image method of a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param clearMethod      The new clear image method for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetClearImageMethod (
+    TQ3ViewHintsObject            viewHints,
+    TQ3DrawContextClearImageMethod clearMethod
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetClearImageMethod
+ *  @discussion
+ *      Get the clear image method from a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param clearMethod      Receives the clear image method from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetClearImageMethod (
+    TQ3ViewHintsObject            viewHints,
+    TQ3DrawContextClearImageMethod *clearMethod
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_SetClearImageColor
+ *  @discussion
+ *      Set the clear image color of a view hints object.
+ *
+ *  @param viewHints        The view hints to update.
+ *  @param color            The new clear image color for the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_SetClearImageColor (
+    TQ3ViewHintsObject            viewHints,
+    const TQ3ColorARGB            *color
+);
+
+
+
+/*!
+ *  @function
+ *      Q3ViewHints_GetClearImageColor
+ *  @discussion
+ *      Get the clear image color from a view hints object.
+ *
+ *  @param viewHints        The view hints to query.
+ *  @param color            Receives the clear image color from the view hints.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3ViewHints_GetClearImageColor (
+    TQ3ViewHintsObject            viewHints,
+    TQ3ColorARGB                  *color
+);
+
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 

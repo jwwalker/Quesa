@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -376,6 +376,10 @@ Q3Style_Submit (
 );
 
 
+/*!
+	@functiongroup Subdivision
+*/
+
 
 /*!
  *  @function
@@ -445,6 +449,10 @@ Q3SubdivisionStyle_GetData (
     TQ3SubdivisionStyleData       *data
 );
 
+
+/*!
+	@functiongroup Pick ID
+*/
 
 
 /*!
@@ -516,6 +524,10 @@ Q3PickIDStyle_Set (
 );
 
 
+/*!
+	@functiongroup Pick Parts
+*/
+
 
 /*!
  *  @function
@@ -585,6 +597,9 @@ Q3PickPartsStyle_Set (
     TQ3PickParts                  parts
 );
 
+/*!
+	@functiongroup Cast Shadows
+*/
 
 
 /*!
@@ -679,6 +694,9 @@ Q3CastShadowsStyle_Set (
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+/*!
+	@functiongroup Receive Shadows
+*/
 
 
 /*!
@@ -748,6 +766,11 @@ Q3ReceiveShadowsStyle_Set (
     TQ3StyleObject                styleObject,
     TQ3Boolean                    receiveShadows
 );
+
+
+/*!
+	@functiongroup Fill
+*/
 
 
 
@@ -820,6 +843,9 @@ Q3FillStyle_Set (
 );
 
 
+/*!
+	@functiongroup Backfacing
+*/
 
 /*!
  *  @function
@@ -890,6 +916,10 @@ Q3BackfacingStyle_Set (
 );
 
 
+/*!
+	@functiongroup Interpolation
+*/
+
 
 /*!
  *  @function
@@ -959,6 +989,9 @@ Q3InterpolationStyle_Set (
     TQ3InterpolationStyle         interpolationStyle
 );
 
+/*!
+	@functiongroup Highlight
+*/
 
 
 /*!
@@ -1029,6 +1062,9 @@ Q3HighlightStyle_Set (
     TQ3AttributeSet               highlightAttribute
 );
 
+/*!
+	@functiongroup Orientation
+*/
 
 
 /*!
@@ -1100,6 +1136,10 @@ Q3OrientationStyle_Set (
 );
 
 
+/*!
+	@functiongroup Antialias
+*/
+
 
 /*!
  *  @function
@@ -1169,6 +1209,10 @@ Q3AntiAliasStyle_SetData (
     const TQ3AntiAliasStyleData   *data
 );
 
+
+/*!
+	@functiongroup Fog
+*/
 
 
 /*!
@@ -1240,6 +1284,11 @@ Q3FogStyle_SetData (
 );
 
 
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 

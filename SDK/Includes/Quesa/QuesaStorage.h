@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -186,6 +186,10 @@ Q3Storage_SetData (
 );
 
 
+/*!
+	@functiongroup Memory Storage
+*/
+
 
 /*!
  *  @function
@@ -338,6 +342,9 @@ Q3MemoryStorage_GetBuffer (
     TQ3Uns32                      *bufferSize
 );
 
+/*!
+	@functiongroup Multiplatform Path Storage
+*/
 
 
 /*!
@@ -424,6 +431,10 @@ Q3PathStorage_Get (
 //=============================================================================
 //      Mac OS function prototypes
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Mac Handle Storage
+*/
+
 #if QUESA_OS_MACINTOSH
 
 /*!
@@ -494,6 +505,9 @@ Q3HandleStorage_Get (
     TQ3Uns32                      *validSize
 );
 
+/*!
+	@functiongroup Mac Refnum Storage
+*/
 
 
 /*!
@@ -575,6 +589,9 @@ Q3MacintoshStorage_GetType (
     TQ3StorageObject              storage
 );
 
+/*!
+	@functiongroup Mac FSSpec Storage
+*/
 
 
 /*!
@@ -641,6 +658,10 @@ Q3FSSpecStorage_Get (
 //=============================================================================
 //      Windows function prototypes
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Windows Storage
+*/
+
 #if QUESA_OS_WIN32
 
 /*!
@@ -705,6 +726,10 @@ Q3Win32Storage_Get (
 //=============================================================================
 //      Unix function prototypes
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup Unix Path Storage
+*/
+
 #if QUESA_OS_UNIX
 
 /*!
@@ -770,6 +795,10 @@ Q3UnixPathStorage_Get (
 //=============================================================================
 //      Be function prototypes
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup BeOS Storage
+*/
+
 #if QUESA_OS_BE
 
 /*!
@@ -830,6 +859,11 @@ Q3BeStorage_Get (
 
 #endif // QUESA_OS_BE
 
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 

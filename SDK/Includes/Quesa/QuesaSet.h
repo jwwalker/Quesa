@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -549,6 +549,10 @@ Q3Set_CopyElement(
 #endif
 
 
+/*!
+	@functiongroup Attribute Sets
+*/
+
 
 /*!
  *  @function
@@ -759,6 +763,9 @@ Q3AttributeSet_Inherit (
     TQ3AttributeSet               result
 );
 
+/*!
+	@functiongroup Extension
+*/
 
 
 /*!
@@ -882,6 +889,11 @@ Q3XAttributeSet_GetMask (
     TQ3AttributeSet               attributeSet
 );
 
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 

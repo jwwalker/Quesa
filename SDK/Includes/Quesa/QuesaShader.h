@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -97,6 +97,10 @@ typedef enum TQ3ShaderUVBoundary {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+/*!
+	@functiongroup ARGB Color
+*/
+
 /*!
  *  @function
  *      Q3ColorARGB_Set
@@ -290,6 +294,9 @@ Q3ColorARGB_Accumulate (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+/*!
+	@functiongroup RGB Color
+*/
 
 /*!
  *  @function
@@ -472,6 +479,9 @@ Q3ColorRGB_Luminance (
 );
 
 
+/*!
+	@functiongroup Shaders
+*/
 
 /*!
  *  @function
@@ -618,6 +628,9 @@ Q3Shader_GetVBoundary (
 );
 
 
+/*!
+	@functiongroup Illumination Shaders
+*/
 
 /*!
  *  @function
@@ -679,6 +692,9 @@ Q3NULLIllumination_New (
 );
 
 
+/*!
+	@functiongroup Surface Shaders
+*/
 
 /*!
  *  @function
@@ -749,6 +765,9 @@ Q3TextureShader_SetTexture (
     TQ3TextureObject              texture
 );
 
+/*!
+	@functiongroup Textures
+*/
 
 
 /*!
@@ -801,6 +820,9 @@ Q3Texture_GetHeight (
     TQ3Uns32                      *height
 );
 
+/*!
+	@functiongroup Pixmap Textures
+*/
 
 
 /*!
@@ -853,6 +875,9 @@ Q3PixmapTexture_SetPixmap (
     const TQ3StoragePixmap        *pixmap
 );
 
+/*!
+	@functiongroup Mipmap Textures
+*/
 
 
 /*!
@@ -904,6 +929,10 @@ Q3MipmapTexture_SetMipmap (
     TQ3TextureObject              texture,
     const TQ3Mipmap               *mipmap
 );
+
+/*!
+	@functiongroup Compressed Pixmap Textures
+*/
 
 
 #if QUESA_SUPPORT_QUICKTIME
@@ -1308,6 +1337,11 @@ Q3CompressedPixmapTexture_CompressImage (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 

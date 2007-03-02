@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -410,6 +410,10 @@ Q3Light_SetData (
 );
 
 
+/*!
+	@functiongroup Ambient Lights
+*/
+
 
 /*!
  *  @function
@@ -460,6 +464,11 @@ Q3AmbientLight_SetData (
     TQ3LightObject                light,
     const TQ3LightData            *lightData
 );
+
+
+/*!
+	@functiongroup Directional Lights
+*/
 
 
 
@@ -584,6 +593,11 @@ Q3DirectionalLight_SetData (
     TQ3LightObject                light,
     const TQ3DirectionalLightData *directionalLightData
 );
+
+
+/*!
+	@functiongroup Point Lights
+*/
 
 
 
@@ -744,6 +758,11 @@ Q3PointLight_SetData (
     TQ3LightObject                light,
     const TQ3PointLightData       *pointLightData
 );
+
+
+/*!
+	@functiongroup Spot Lights
+*/
 
 
 
@@ -1049,6 +1068,12 @@ Q3SpotLight_SetData (
     const TQ3SpotLightData        *spotLightData
 );
 
+
+
+// Work around a HeaderDoc bug
+/*!
+	@functiongroup
+*/
 
 
 
