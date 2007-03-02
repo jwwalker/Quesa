@@ -48,9 +48,6 @@
 #include <stdio.h>
 
 
-#ifndef kNativeEndianPixMap
-	#define kNativeEndianPixMap 0 // allow classic compilation
-#endif
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
@@ -58,6 +55,16 @@
 #define	kTGATypeColorRLE						10
 #define	kTGADescTopToBottom						0x20
 
+#if QUESA_OS_MACINTOSH && TARGET_RT_MAC_CFM
+// The constant kNativeEndianPixMap is defined in the framework versions of
+// QDOffscreen.h but not in the CFM (universal interfaces) versions.  We only
+// need this flag when building natively for Intel, in which case we will be
+// using framework headers.  Hence we can use 0 in other cases.
+enum
+{
+	kNativeEndianPixMap           = 0
+};
+#endif
 
 
 //=============================================================================
@@ -162,7 +169,7 @@ QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath )
 			bytesPerPixel = theHeader.bitsPerPixel / 8;
 			numPixels = theHeader.width * theHeader.height;
 			bufferSize = numPixels * bytesPerPixel;
-			theBuffer = malloc( bufferSize );
+			theBuffer = (unsigned char*) malloc( bufferSize );
 			if (theBuffer != NULL)
 			{
 				// Read the image.
