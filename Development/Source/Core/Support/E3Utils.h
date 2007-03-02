@@ -111,9 +111,6 @@ typedef TQ3AttributeSet (*E3GetSetForGatherProc)(const void *userData, TQ3Uns32 
 					}															\
 				while (0)
 
-#define E3Num_Min(_a, _b)					((_a) < (_b) ? (_a) : (_b))
-
-#define E3Num_Max(_a, _b)					((_a) > (_b) ? (_a) : (_b))
 
 #define E3Num_Clamp(_n, _min, _max)			E3Num_Max(E3Num_Min((_n), (_max)), (_min))
 
@@ -195,6 +192,24 @@ TQ3GroupObject	E3TriMesh_BuildOrientationGroup(TQ3GeometryObject theTriMesh, TQ3
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }
+
+template<class Ta, class Tb> inline
+	const Ta& E3Num_Max(const Ta& a, const Tb& b)
+	{
+	return ( (a > (const Ta&)b) ? a : (const Ta&)b);
+	}
+
+template<class Ta, class Tb> inline
+	const Ta& E3Num_Min(const Ta& a, const Tb& b)
+	{
+	return ( (a < (const Ta&)b) ? a : (const Ta&)b);
+	}
+#else // pure C
+
+#define E3Num_Min(_a, _b)					((_a) < (_b) ? (_a) : (_b))
+
+#define E3Num_Max(_a, _b)					((_a) > (_b) ? (_a) : (_b))
+
 #endif
 
 #endif
