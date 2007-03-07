@@ -48,6 +48,7 @@
 #include <stdio.h>
 
 
+
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
@@ -55,15 +56,22 @@
 #define	kTGATypeColorRLE						10
 #define	kTGADescTopToBottom						0x20
 
-#if QUESA_OS_MACINTOSH && TARGET_RT_MAC_CFM
+#if QUESA_OS_MACINTOSH
 // The constant kNativeEndianPixMap is defined in the framework versions of
 // QDOffscreen.h but not in the CFM (universal interfaces) versions.  We only
 // need this flag when building natively for Intel, in which case we will be
 // using framework headers.  Hence we can use 0 in other cases.
-enum
-{
-	kNativeEndianPixMap           = 0
-};
+	#if TARGET_RT_MAC_CFM
+		enum
+		{
+			kQ3NativeEndianPixMap           = 0
+		};
+	#else
+		enum
+		{
+			kQ3NativeEndianPixMap           = kNativeEndianPixMap
+		};
+	#endif
 #endif
 
 
@@ -355,7 +363,7 @@ QutTexture_CreateGWorldFromPICT(PicHandle thePicture, TQ3PixelType pixelType)
 
 	// Create a GWorld to hold the image data
 	theErr = NewGWorld(&theGWorld, theDepth, &(*thePicture)->picFrame, NULL, NULL,
-		useTempMem | kNativeEndianPixMap );
+		useTempMem | kQ3NativeEndianPixMap );
 	if (theErr != noErr || theGWorld == NULL)
 		return(NULL);
 
@@ -364,7 +372,7 @@ QutTexture_CreateGWorldFromPICT(PicHandle thePicture, TQ3PixelType pixelType)
 	// If we should dither, create a deep GWorld
 	if (theDepth == 16 && shouldDither)
 		theErr = NewGWorld(&deepGWorld, 32, &(*thePicture)->picFrame, NULL, NULL,
-			useTempMem | kNativeEndianPixMap );
+			useTempMem | kQ3NativeEndianPixMap );
 	else
 		deepGWorld = NULL;
 		
@@ -470,7 +478,7 @@ QutTexture_CreateGWorldFromFile(const FSSpec *theFSSpec, TQ3PixelType pixelType)
 	// Create the GWorld
 	if (theErr == noErr)
 		theErr = NewGWorld(&theGWorld, theDepth, &theRect, colourTableHnd, NULL,
-			useTempMem | kNativeEndianPixMap );
+			useTempMem | kQ3NativeEndianPixMap );
 
 
 
