@@ -5,7 +5,7 @@
         Quesa interactive renderer lighting.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -241,6 +241,7 @@ ir_light_convert_point(TQ3InteractiveData	*instanceData,
 	glLightf (lightIndex, GL_CONSTANT_ATTENUATION,  attConstant);
 	glLightf (lightIndex, GL_LINEAR_ATTENUATION,    attLinear);
 	glLightf (lightIndex, GL_QUADRATIC_ATTENUATION, attQuadratic);
+	glLighti (lightIndex, GL_SPOT_CUTOFF,           180);
 	glEnable (lightIndex);
 }
 

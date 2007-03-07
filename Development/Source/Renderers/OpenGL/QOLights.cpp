@@ -230,6 +230,7 @@ static void AddPointLight( TQ3LightObject inLight,
 	glLightf( lightIndex, GL_CONSTANT_ATTENUATION, attConstant );
 	glLightf( lightIndex, GL_LINEAR_ATTENUATION, attLinear );
 	glLightf( lightIndex, GL_QUADRATIC_ATTENUATION, attQuadratic );
+	glLighti( lightIndex, GL_SPOT_CUTOFF, 180 );
 	glEnable( lightIndex );
 }
 
