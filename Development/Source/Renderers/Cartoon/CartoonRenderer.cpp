@@ -5,7 +5,7 @@
         Cartoon-style renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1005,6 +1005,19 @@ static TQ3Status
 cartoon_new_object( TQ3Object theObject, void *privateData, void *paramData )
 {
 #pragma unused(paramData)
+	
+	// Since we are deriving from the Quesa OpenGL renderer, make sure that its
+	// methods have been cached.  This happens the first time such a renderer
+	// is instantiated.
+	E3ClassInfoPtr	qoClass = E3ClassTree::GetClass( kQ3RendererTypeOpenGL );
+	Q3_ASSERT( qoClass != NULL );
+	if ( qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == NULL )
+	{
+		TQ3Object	dummyRenderer = Q3Renderer_NewFromType( kQ3RendererTypeOpenGL );
+		Q3Object_CleanDispose( &dummyRenderer );
+		Q3_ASSERT( qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) != NULL );
+	}
+
 
 	TQ3Status	theStatus;
 	CCartoonRendererQuesa*	newCartooner = new(std::nothrow) CCartoonRendererQuesa( theObject );
