@@ -201,6 +201,11 @@ private:
 									void* privateData,
 									const TQ3ColorRGB* inAttColor );
 
+	static TQ3Status		UpdateEmissiveColorMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const TQ3ColorRGB* inAttColor );
+
 	static TQ3Status		UpdateHiliteStateMethod(
 									TQ3ViewObject inView,
 									void* privateData,

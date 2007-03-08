@@ -435,6 +435,17 @@ TQ3Status	QORenderer::Statics::UpdateTransparencyColorMethod(
 	return kQ3Success;
 }
 
+TQ3Status	QORenderer::Statics::UpdateEmissiveColorMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const TQ3ColorRGB* inAttColor )
+{
+#pragma unused( inView )
+	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
+	me->UpdateEmissiveColor( inAttColor );
+	return kQ3Success;
+}
+
 TQ3Status	QORenderer::Statics::UpdateHiliteStateMethod(
 									TQ3ViewObject inView,
 									void* privateData,
@@ -514,6 +525,11 @@ TQ3XRendererUpdateAttributeMethod
 		case kQ3AttributeTypeTransparencyColor:
 			theMethod = (TQ3XRendererUpdateAttributeMethod)
 				&QORenderer::Statics::UpdateTransparencyColorMethod;
+			break;
+		
+		case kQ3AttributeTypeEmissiveColor:
+			theMethod = (TQ3XRendererUpdateAttributeMethod)
+				&QORenderer::Statics::UpdateEmissiveColorMethod;
 			break;
 		
 		case kQ3AttributeTypeHighlightState:
