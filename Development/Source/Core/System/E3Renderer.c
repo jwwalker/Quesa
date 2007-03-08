@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -161,7 +161,8 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 														kQ3AttributeTypeTransparencyColor,
 														kQ3AttributeTypeSurfaceTangent,
 														kQ3AttributeTypeHighlightState,
-														kQ3AttributeTypeSurfaceShader };
+														kQ3AttributeTypeSurfaceShader,
+														kQ3AttributeTypeEmissiveColor };
 
 	TQ3XMethodType									shaderMethods[] = {
 														kQ3ShaderTypeSurface,
