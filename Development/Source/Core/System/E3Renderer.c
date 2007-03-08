@@ -50,6 +50,7 @@
 #include "E3Renderer.h"
 #include "E3Main.h"
 #include "E3Geometry.h"
+#include "CQ3ObjectRef_Gets.h"
 
 
 
@@ -752,10 +753,8 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 								 TQ3Boolean			*geomSupported,
 								 TQ3GeometryObject	theGeom,
 								 const void			*geomData)
-	{
+{
 	TQ3Status								qd3dStatus  = kQ3Failure ;
-	TQ3AttributeSet							attSet = NULL ;
-	TQ3Boolean								hasSurfaceShader = kQ3False ;
 
 
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;
@@ -772,31 +771,38 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 
 
 
-	// Test whether the geometry's attribute set contains a surface shader.
-	// (How do we do this in immediate mode?)
-	if ( ( theGeom != NULL ) && ( kQ3Success == E3Geometry_GetAttributeSet ( theGeom, &attSet ) )
-	&& ( attSet != NULL ) )
+	if (*geomSupported)
+	{
+		// Test whether the geometry's attribute set contains a surface shader.
+		// (How do we do this in immediate mode?)
+		TQ3Boolean	hasSurfaceShader = kQ3False;
+		
+		if (theGeom != NULL)
 		{
-		hasSurfaceShader = Q3AttributeSet_Contains ( attSet, kQ3AttributeTypeSurfaceShader ) ;
-		Q3Object_Dispose ( attSet ) ;
+			CQ3ObjectRef	attSet( CQ3Geometry_GetAttributeSet( theGeom ) );
+			if (attSet.isvalid())
+			{
+				hasSurfaceShader = Q3AttributeSet_Contains( attSet.get(), kQ3AttributeTypeSurfaceShader );
+			}
 		}
-	
-	
-	// If there is a shader, we must push the view state
-	if ( hasSurfaceShader )
-		Q3Push_Submit ( theView ) ;
+		
+		
+		// If there is a shader, we must push the view state
+		if ( hasSurfaceShader )
+			E3Push_Submit ( theView ) ;
 
 
-	// Call the method
-	if ( submitGeom != NULL )
+		// Call the method
 		qd3dStatus = submitGeom ( theView, theRenderer->FindLeafInstanceData (), theGeom, geomData ) ;
 
 
-	if (hasSurfaceShader)
-		Q3Pop_Submit( theView );
+		if (hasSurfaceShader)
+			E3Pop_Submit( theView );
+	}
+
 
 	return qd3dStatus ;
-	}
+}
 
 
 
