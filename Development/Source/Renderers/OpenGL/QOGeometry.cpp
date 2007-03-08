@@ -71,8 +71,9 @@ namespace
 {
 	const float		kAlphaThreshold		= 0.01f;
 	
-	const GLfloat		kBlackColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	const GLfloat		kGLBlackColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	const TQ3ColorRGB	kWhiteColor = { 1.0f, 1.0f, 1.0f };
+	const TQ3ColorRGB	kBlackColor = { 0.0f, 0.0f, 0.0f };
 	
 	/*
 		If there is a large number of small TriMeshes, as in the Multi-box
@@ -184,6 +185,13 @@ static void AdjustGeomState( TQ3AttributeSet inAttSet,
 			0.3333333f;
 	}
 	
+	if ( (attMask & kQ3XAttributeMaskEmissiveColor) != 0 )
+	{
+		ioGeomState.emissiveColor = (const TQ3ColorRGB*) 
+			Q3XAttributeSet_GetPointer( inAttSet,
+				kQ3AttributeTypeEmissiveColor );
+	}
+	
 	if ( (attMask & kQ3XAttributeMaskSpecularControl) != 0 )
 	{
 		ioGeomState.specularControl = * (const float *)
@@ -232,6 +240,37 @@ void	QORenderer::Renderer::UpdateSpecularMaterial()
 				GLUtils_SpecularControlToGLShininess( mCurrentSpecularControl ) );
 		}
 	}
+}
+
+/*!
+	@function	UpdateEmissiveMaterial
+	@abstract	Update the emissive material properties to match mGeomState.
+*/
+void	QORenderer::Renderer::UpdateEmissiveMaterial()
+{
+	if (
+		(mGeomState.emissiveColor->r != mCurrentEmissiveColor.r) or
+		(mGeomState.emissiveColor->g != mCurrentEmissiveColor.g) or
+		(mGeomState.emissiveColor->b != mCurrentEmissiveColor.b) )
+	{
+		SetEmissiveMaterial( *mGeomState.emissiveColor );
+	}
+}
+
+
+void	QORenderer::Renderer::SetEmissiveMaterial( const TQ3ColorRGB& inColor )
+{
+	GLfloat		theColor[4] =
+	{
+		inColor.r,
+		inColor.g,
+		inColor.b,
+		1.0f
+	};
+	
+	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, theColor );
+	
+	mCurrentEmissiveColor = inColor;
 }
 
 /*!
@@ -311,8 +350,9 @@ void	QORenderer::Renderer::HandleGeometryAttributes(
 		}
 	}
 	
-	// update specular color/control in OpenGL
+	// update specular and emissive materials in OpenGL
 	UpdateSpecularMaterial();
+	UpdateEmissiveMaterial();
 }
 
 /*!
@@ -331,6 +371,7 @@ void	QORenderer::Renderer::CalcVertexState(
 	// fill in colors, normal, UV
 	const TQ3ColorRGB*	diffuseColor = NULL;
 	const TQ3ColorRGB*	transparentColor = NULL;
+	const TQ3ColorRGB*	emissiveColor = NULL;
 	const TQ3Vector3D*	normalVector = NULL;
 	const TQ3Param2D*	uvParam = NULL;
 	
@@ -358,6 +399,12 @@ void	QORenderer::Renderer::CalcVertexState(
 				inSrcVertex.attributeSet, kQ3AttributeTypeTransparencyColor );
 		}
 		
+		if ( (theMask & kQ3XAttributeMaskEmissiveColor) != 0 )
+		{
+			emissiveColor = (const TQ3ColorRGB*) Q3XAttributeSet_GetPointer(
+				inSrcVertex.attributeSet, kQ3AttributeTypeEmissiveColor );
+		}
+		
 		if ( (theMask & kQ3XAttributeMaskSurfaceUV) != 0 )
 		{
 			uvParam = (const TQ3Param2D*) Q3XAttributeSet_GetPointer(
@@ -381,12 +428,21 @@ void	QORenderer::Renderer::CalcVertexState(
 		(uvParam != NULL) )
 	{
 		diffuseColor = &kWhiteColor;
+		emissiveColor = NULL;
 	}
 	
 	// if no color or if highlighting is on, get geom state color
-	else if ( (diffuseColor == NULL) || (mGeomState.highlightState == kQ3On) )
+	else
 	{
-		diffuseColor = mGeomState.diffuseColor;
+		if ( (diffuseColor == NULL) || (mGeomState.highlightState == kQ3On) )
+		{
+			diffuseColor = mGeomState.diffuseColor;
+		}
+		
+		if ( (emissiveColor == NULL) || (mGeomState.highlightState == kQ3On) )
+		{
+			emissiveColor = mGeomState.emissiveColor;
+		}
 	}
 	
 	if (normalVector != NULL)
@@ -399,6 +455,12 @@ void	QORenderer::Renderer::CalcVertexState(
 	{
 		outVertex.diffuseColor = *diffuseColor;
 		outVertex.flags |= kVertexHaveDiffuse;
+	}
+	
+	if (emissiveColor != NULL)
+	{
+		outVertex.emissiveColor = *emissiveColor;
+		outVertex.flags |= kVertexHaveEmissive;
 	}
 	
 	if (transparentColor != NULL)
@@ -869,7 +931,7 @@ void	QORenderer::Renderer::SimulateSeparateSpecularColor(
 	// Set diffuse color to black.
 	mGLClientStates.DisableColorArray();
 	glDisable( GL_COLOR_MATERIAL );
-	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
+	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kGLBlackColor );
 	
 	// Turn off writes to the depth buffer, but match on equal depth.
 	glDepthMask( GL_FALSE );
@@ -1193,6 +1255,11 @@ void	QORenderer::Renderer::SubmitPoint(
 			glColor3fv( (const GLfloat *) &dstVertex.diffuseColor );
 		}
 		
+		if ( (dstVertex.flags & kVertexHaveEmissive) != 0 )
+		{
+			SetEmissiveMaterial( dstVertex.emissiveColor );
+		}
+		
 		glVertex3fv( (const GLfloat *) &dstVertex.point );
 		
 		glEnd();
@@ -1251,6 +1318,11 @@ void	QORenderer::Renderer::SubmitLine(
 			if ( (theVertices[i].flags & kVertexHaveDiffuse) != 0 )
 			{
 				glColor3fv( (const GLfloat *) &theVertices[i].diffuseColor );
+			}
+			
+			if ( (theVertices[i].flags & kVertexHaveEmissive) != 0 )
+			{
+				SetEmissiveMaterial( theVertices[i].emissiveColor );
 			}
 			
 			glVertex3fv( (const GLfloat *) &theVertices[i].point );
@@ -1377,6 +1449,11 @@ void	QORenderer::Renderer::SubmitPolyLine(
 					glColor3fv( (const GLfloat *) &theVertices[i+j].diffuseColor );
 				}
 				
+				if ( (theVertices[i].flags & kVertexHaveEmissive) != 0 )
+				{
+					SetEmissiveMaterial( theVertices[i+j].emissiveColor );
+				}
+
 				glVertex3fv( (const GLfloat *) &theVertices[i+j].point );
 			}
 		}
