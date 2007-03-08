@@ -47,6 +47,54 @@
 #include "QORenderer.h"
 
 
+
+//=============================================================================
+//      Local functions
+//-----------------------------------------------------------------------------
+using namespace QORenderer;
+
+static bool operator==( const TQ3ColorRGB& inOne, const TQ3ColorRGB& inTwo )
+{
+	return fabsf( inOne.r - inTwo.r ) +
+		fabsf( inOne.g - inTwo.g ) +
+		fabsf( inOne.b - inTwo.b ) < kQ3RealZero;
+}
+
+static bool operator!=( const TQ3ColorRGB& inOne, const TQ3ColorRGB& inTwo )
+{
+	return not (inOne == inTwo);
+}
+
+static bool IsEmissivityVarying( const QORenderer::Vertex* inVertices )
+{
+	bool	isVarying = false;
+	
+	if (
+		(
+			(inVertices[0].flags & kVertexHaveEmissive) !=
+			(inVertices[1].flags & kVertexHaveEmissive)
+		)
+		or
+		(
+			(inVertices[0].flags & kVertexHaveEmissive) !=
+			(inVertices[2].flags & kVertexHaveEmissive)
+		)
+	)
+	{
+		isVarying = true;
+	}
+	else if ( (inVertices[0].flags & kVertexHaveEmissive) != 0 )
+	{
+		if ( (inVertices[0].emissiveColor != inVertices[1].emissiveColor) or
+			(inVertices[0].emissiveColor != inVertices[2].emissiveColor) )
+		{
+			isVarying = true;
+		}
+	}
+	return isVarying;
+}
+
+
 //=============================================================================
 //      Class Implementation
 //-----------------------------------------------------------------------------
@@ -64,6 +112,42 @@ QORenderer::OpaqueTriBuffer::OpaqueTriBuffer(
 
 
 /*!
+	@function	RenderOneTriangle
+	@abstract	Draw a single triangle that cannot be done using
+				glDrawElements.
+*/
+void	QORenderer::OpaqueTriBuffer::RenderOneTriangle( const Vertex* inVertices )
+{
+	// Allow usual lighting
+	mRenderer.mLights.SetOnlyAmbient( false );
+	
+	glBegin( GL_TRIANGLES );
+	
+	for (int i = 0; i < 3; ++i)
+	{
+		if ( (inVertices[i].flags & kVertexHaveNormal) != 0 )
+		{
+			glNormal3fv( (const GLfloat *) &inVertices[i].normal );
+		}
+		
+		if ( (inVertices[i].flags & kVertexHaveDiffuse) != 0 )
+		{
+			glColor3fv( (const GLfloat *) &inVertices[i].diffuseColor );
+		}
+		
+		if ( (inVertices[i].flags & kVertexHaveEmissive) != 0 )
+		{
+			mRenderer.SetEmissiveMaterial( inVertices[i].emissiveColor );
+		}
+		
+		glVertex3fv( (const GLfloat *) &inVertices[i].point );
+	}
+	
+	glEnd();
+}
+
+
+/*!
 	@function	Flush
 	@abstract	Draw and empty the buffer.
 */
@@ -73,6 +157,12 @@ void	QORenderer::OpaqueTriBuffer::Flush()
 	{
 		// Allow usual lighting
 		mRenderer.mLights.SetOnlyAmbient( false );
+		
+		// Maybe emissive material
+		if ( (mTriBufferFlags & kVertexHaveEmissive) != 0 )
+		{
+			mRenderer.SetEmissiveMaterial( mTriBuffer.back().emissiveColor );
+		}
 
 		// Set up indices, one for each vertex
 		const int kNumVertices = mTriBuffer.size();
@@ -141,13 +231,29 @@ void	QORenderer::OpaqueTriBuffer::Flush()
 */
 void	QORenderer::OpaqueTriBuffer::AddTriangle( const Vertex* inVertices )
 {
-	// Flush the buffer if the vertex format has changed
-	if (inVertices[0].flags != mTriBufferFlags)
+	if (IsEmissivityVarying( inVertices ))
 	{
-		Flush();
-		mTriBufferFlags = inVertices[0].flags;
+		RenderOneTriangle( inVertices );
 	}
-	
-	// Append the vertices to the buffer
-	mTriBuffer.insert( mTriBuffer.end(), inVertices, inVertices+3 );
+	else
+	{
+		// Flush the buffer if the vertex format has changed
+		if (inVertices[0].flags != mTriBufferFlags)
+		{
+			Flush();
+			mTriBufferFlags = inVertices[0].flags;
+		}
+		
+		// Flush the buffer if the emissive color has changed
+		if ( (not mTriBuffer.empty()) and
+			((mTriBufferFlags & kVertexHaveEmissive) != 0) and
+			(inVertices[0].emissiveColor != mTriBuffer.back().emissiveColor)
+		)
+		{
+			Flush();
+		}
+		
+		// Append the vertices to the buffer
+		mTriBuffer.insert( mTriBuffer.end(), inVertices, inVertices+3 );
+	}
 }
