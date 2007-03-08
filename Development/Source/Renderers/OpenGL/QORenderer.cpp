@@ -58,6 +58,7 @@ namespace
 	const TQ3ColorRGB	kDefaultSpecularColor = { 0.5f, 0.5f, 0.5f };
 	const float			kDefaultSpecularControl = 4.0f;
 	const float			kDefaultAlpha = 1.0f;
+	const TQ3ColorRGB	kDefaultEmissiveColor = { 0.0f, 0.0, 0.0f };
 	
 	const TQ3Uns32		kDefaultDepthBits	= 32;
 }
@@ -70,6 +71,7 @@ void	QORenderer::ColorState::Reset()
 	diffuseColor = &kDefaultDiffuseColor;
 	specularColor = &kDefaultSpecularColor;
 	specularControl = kDefaultSpecularControl;
+	emissiveColor = &kDefaultEmissiveColor;
 	alpha = kDefaultAlpha;
 	highlightState = kQ3Off;
 }
