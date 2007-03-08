@@ -74,6 +74,8 @@ public:
 	void					Flush();
 	
 	void					AddTriangle( const Vertex* inVertices );
+	
+	void					RenderOneTriangle( const Vertex* inVertices );
 
 private:
 	Renderer&				mRenderer;
