@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2685,6 +2685,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SpecularColor);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularControl,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SpecularControl);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeTransparencyColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_TransparencyColor);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeEmissiveColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_EmissiveColor);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSurfaceTangent,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceTangent);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeHighlightState,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_HighlightState);
 	E3ClassTree::AddMethod(kQ3AttributeTypeConstructiveSolidGeometryID,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_CSGID);
