@@ -102,6 +102,9 @@ extern "C" {
  *	@constant	kQ3AttributeTypeSurfaceTangent		Surface tangent (<code>TQ3Tangent2D</code>)
  *	@constant	kQ3AttributeTypeHighlightState		Highlight state (<code>TQ3Switch</code>)
  *	@constant	kQ3AttributeTypeSurfaceShader		Surface shader (<code>TQ3SurfaceShaderObject</code>)
+ *	@constant	kQ3AttributeTypeEmissiveColor		Emissive color (<code>TQ3ColorRGB</code>)
+ *													(<em>This attribute did not exist in QuickDraw
+ *													3D, and may not be recognized by all renderers.</em>)
  *	@constant	kQ3AttributeTypeNumTypes			Number of standard attribute types.
 */
 typedef enum TQ3AttributeTypes {
@@ -117,7 +120,8 @@ typedef enum TQ3AttributeTypes {
     kQ3AttributeTypeSurfaceTangent              = 9,            // TQ3Tangent2D
     kQ3AttributeTypeHighlightState              = 10,           // TQ3Switch
     kQ3AttributeTypeSurfaceShader               = 11,           // TQ3SurfaceShaderObject
-    kQ3AttributeTypeNumTypes                    = 12,           // N/A
+    kQ3AttributeTypeEmissiveColor               = 12,           // TQ3ColorRGB
+    kQ3AttributeTypeNumTypes                    = 13,           // N/A
     kQ3AttributeTypeSize32                      = 0xFFFFFFFF
 } TQ3AttributeTypes;
 
@@ -140,6 +144,7 @@ typedef enum TQ3AttributeTypes {
  *  @constant kQ3XAttributeMaskSurfaceTangent       Surface tangent attribute mask.
  *  @constant kQ3XAttributeMaskHighlightState       Highlight state attribute mask.
  *  @constant kQ3XAttributeMaskSurfaceShader        Surface shader attribute mask.
+ *	@constant kQ3XAttributeMaskEmissiveColor		Emissive color attribute mask.
  *  @constant kQ3XAttributeMaskCustomAttribute      Custom attribute mask.
  *  @constant kQ3XAttributeMaskAll                  All attributes.
  *  @constant kQ3XAttributeMaskInherited            Inherited attributes mask.
@@ -158,6 +163,7 @@ enum {
     kQ3XAttributeMaskSurfaceTangent             = (1 << (kQ3AttributeTypeSurfaceTangent     - 1)),
     kQ3XAttributeMaskHighlightState             = (1 << (kQ3AttributeTypeHighlightState     - 1)),
     kQ3XAttributeMaskSurfaceShader              = (1 << (kQ3AttributeTypeSurfaceShader      - 1)),
+    kQ3XAttributeMaskEmissiveColor              = (1 << (kQ3AttributeTypeEmissiveColor      - 1)),
     kQ3XAttributeMaskCustomAttribute            = 0x80000000,
     kQ3XAttributeMaskAll                        = 0x800007FF,
     kQ3XAttributeMaskInherited                  = 0x000003FF,
@@ -168,6 +174,7 @@ enum {
                                                   kQ3XAttributeMaskDiffuseColor       |
                                                   kQ3XAttributeMaskSpecularControl    |
                                                   kQ3XAttributeMaskTransparencyColor  |
+                                                  kQ3XAttributeMaskEmissiveColor      |
                                                   kQ3XAttributeMaskSurfaceTangent,
     kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
 };
