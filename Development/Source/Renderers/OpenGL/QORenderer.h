@@ -112,6 +112,7 @@ struct ColorState
 
 	const TQ3ColorRGB*	diffuseColor;
 	const TQ3ColorRGB*	specularColor;
+	const TQ3ColorRGB*	emissiveColor;
 	float				specularControl;
 	float				alpha;
 	TQ3Switch			highlightState;
@@ -206,6 +207,8 @@ protected:
 									const TQ3ColorRGB* inAttColor );
 	void					UpdateTransparencyColor(
 									const TQ3ColorRGB* inAttColor );
+	void					UpdateEmissiveColor(
+									const TQ3ColorRGB* inAttColor );
 	void					UpdateSpecularControl(
 									const float* inAttValue );
 	void					UpdateHiliteState(
@@ -242,6 +245,8 @@ protected:
 									TQ3ViewObject inView,
 									bool inIsTextureRelevant );
 	void					UpdateSpecularMaterial();
+	void					UpdateEmissiveMaterial();
+	void					SetEmissiveMaterial( const TQ3ColorRGB& inColor );
 	SlowPathMask			FindTriMeshData(
 									const TQ3TriMeshData& inGeomData,
 									const TQ3Vector3D*& outVertNormals,
@@ -280,6 +285,7 @@ protected:
 	ColorState				mGeomState;
 	GLfloat					mCurrentSpecularColor[4];
 	float					mCurrentSpecularControl;
+	TQ3ColorRGB				mCurrentEmissiveColor;
 	
 	// style states
 	TQ3InterpolationStyle	mStyleInterpolation;
