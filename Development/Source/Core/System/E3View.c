@@ -92,6 +92,7 @@ enum {
 	kQ3ViewStateAttributeTransparencyColour = 1 << 24,		// Transparency colour attribute changed
 	kQ3ViewStateAttributeSurfaceTangent		= 1 << 25,		// Surface tangent attribute changed
 	kQ3ViewStateAttributeHighlightState		= 1 << 26,		// Highlight switch attribute changed
+	kQ3ViewStateAttributeEmissiveColor		= 1 << 27,		// Emissive color attribute changed
 	kQ3ViewStateNone						= 0,			// Nothing changed
 	kQ3ViewStateAll							= 0xFFFFFFFF,	// Everything changed
 	kQ3ViewStateMatrixAny					= kQ3ViewStateMatrixLocalToWorld  |	// Any matrix changed
@@ -146,6 +147,7 @@ typedef struct TQ3ViewStackItem {
 	TQ3ColorRGB					attributeSpecularColor;
 	float						attributeSpecularControl;
 	TQ3ColorRGB					attributeTransparencyColor;
+	TQ3ColorRGB					attributeEmissiveColor;
 	TQ3Tangent2D				attributeSurfaceTangent;
 	TQ3Switch					attributeHighlightState;
 } TQ3ViewStackItem;
@@ -318,6 +320,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	Q3ColorRGB_Set(&theItem->attributeDiffuseColor,      kQ3ViewDefaultDiffuseColor);
 	Q3ColorRGB_Set(&theItem->attributeSpecularColor,     kQ3ViewDefaultSpecularColor);
 	Q3ColorRGB_Set(&theItem->attributeTransparencyColor, kQ3ViewDefaultTransparency);
+	Q3ColorRGB_Set(&theItem->attributeEmissiveColor, 0.0f, 0.0f, 0.0f);
 	Q3Vector3D_Set(&theItem->attributeSurfaceTangent.uTangent, 1.0f, 1.0f, 1.0f);
 	Q3Vector3D_Set(&theItem->attributeSurfaceTangent.vTangent, 1.0f, 1.0f, 1.0f);
 }
@@ -372,6 +375,7 @@ e3view_stack_set_attributes( TQ3AttributeSet atts,
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeSpecularColor, &topItem->attributeSpecularColor );
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeSpecularControl, &topItem->attributeSpecularControl );
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeTransparencyColor, &topItem->attributeTransparencyColor );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeEmissiveColor, &topItem->attributeEmissiveColor );
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceTangent, &topItem->attributeSurfaceTangent );
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeHighlightState, &topItem->attributeHighlightState );
 	if (topItem->shaderSurface != NULL)
@@ -502,6 +506,9 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 
 		if ( ( stateChange & kQ3ViewStateAttributeTransparencyColour ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeTransparencyColor, &theItem->attributeTransparencyColor ) ;
+
+		if ( ( stateChange & kQ3ViewStateAttributeEmissiveColor ) && qd3dStatus != kQ3Failure )
+			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeEmissiveColor, &theItem->attributeEmissiveColor ) ;
 
 		if ( ( stateChange & kQ3ViewStateAttributeSurfaceTangent ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeSurfaceTangent, &theItem->attributeSurfaceTangent ) ;
@@ -3196,6 +3203,30 @@ E3View_State_SetAttributeTransparencyColor(TQ3ViewObject theView, const TQ3Color
 
 	// Update the renderer
 	e3view_stack_update ( (E3View*) theView, kQ3ViewStateAttributeTransparencyColour ) ;
+	}
+
+
+
+
+
+//=============================================================================
+//      E3View_State_SetAttributeEmissiveColor : Set the emissive color.
+//-----------------------------------------------------------------------------
+void
+E3View_State_SetAttributeEmissiveColor(TQ3ViewObject theView, const TQ3ColorRGB *theData)
+	{
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+
+
+
+	// Set the value
+	( (E3View*) theView )->instanceData.viewStack->attributeEmissiveColor = *theData ;
+
+
+
+	// Update the renderer
+	e3view_stack_update ( (E3View*) theView, kQ3ViewStateAttributeEmissiveColor ) ;
 	}
 
 
