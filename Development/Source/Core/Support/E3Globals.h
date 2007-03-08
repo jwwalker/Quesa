@@ -5,7 +5,7 @@
         Header file for E3Globals.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -89,6 +89,7 @@ extern "C" {
 #define kQ3ClassNameAttributeSurfaceTangent			"SurfaceTangent"
 #define kQ3ClassNameAttributeSurfaceUV				"SurfaceUV"	
 #define kQ3ClassNameAttributeTransparencyColor		"TransparencyColor"
+#define kQ3ClassNameAttributeEmissiveColor			"Quesa:EmissiveColor"
 #define kQ3ClassNameCamera							"Camera"
 #define kQ3ClassNameCameraOrthographic				"OrthographicCamera"
 #define kQ3ClassNameCameraViewAngle					"ViewAngleCamera"
@@ -275,6 +276,7 @@ extern "C" {
 #define kQ3ObjectTypeAttributeSurfaceTangent		Q3_OBJECT_TYPE('s', 'r', 't', 'n')
 #define kQ3ObjectTypeAttributeHighlightState		Q3_OBJECT_TYPE('h', 'l', 's', 't')
 #define kQ3ObjectTypeAttributeSurfaceShader			Q3_OBJECT_TYPE('s', 's', 'a', 't')
+#define kQ3ObjectTypeAttributeEmissiveColor			Q3_OBJECT_TYPE('k', 'e', 'm', 'i')
 #define kQ3ObjectTypeCustomElementName				Q3_OBJECT_TYPE(0xF0, 'e', 'n', 'a')
 #define kQ3ObjectTypeCustomElementUrl				Q3_OBJECT_TYPE(0xF0, 'e', 'u', 'r')
 #define kQ3ObjectTypeCustomElementWire				Q3_OBJECT_TYPE(0xF0, 'e', 'w', 'i')
