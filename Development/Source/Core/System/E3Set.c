@@ -22,7 +22,7 @@
         routines on an attribute set - so this implementation would be OK.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -150,7 +150,9 @@ class E3SurfaceUVAttribute : public E3Attribute // This is a leaf class so no ot
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSurfaceUV, E3SurfaceUVAttribute, E3Attribute )
 public :
 
-	TQ3Param2D				instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	TQ3Param2D				instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -163,7 +165,9 @@ class E3ShadingUVAttribute : public E3Attribute // This is a leaf class so no ot
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeShadingUV, E3ShadingUVAttribute, E3Attribute )
 public :
 
-	TQ3Param2D				instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	TQ3Param2D				instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -176,7 +180,9 @@ class E3NormalAttribute : public E3Attribute // This is a leaf class so no other
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeNormal, E3NormalAttribute, E3Attribute )
 public :
 
-	TQ3Vector3D				instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	TQ3Vector3D				instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -189,7 +195,9 @@ class E3AmbientCoefficientAttribute : public E3Attribute // This is a leaf class
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeAmbientCoefficient, E3AmbientCoefficientAttribute, E3Attribute )
 public :
 
-	float					instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	float					instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -202,7 +210,9 @@ class E3DiffuseColorAttribute : public E3Attribute // This is a leaf class so no
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeDiffuseColor, E3DiffuseColorAttribute, E3Attribute )
 public :
 
-	TQ3ColorRGB				instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	TQ3ColorRGB				instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -215,7 +225,9 @@ class E3SpecularColorAttribute : public E3Attribute // This is a leaf class so n
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSpecularColor, E3SpecularColorAttribute, E3Attribute )
 public :
 
-	TQ3ColorRGB				instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	TQ3ColorRGB				instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -228,7 +240,9 @@ class E3SpecularControlAttribute : public E3Attribute // This is a leaf class so
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSpecularControl, E3SpecularControlAttribute, E3Attribute )
 public :
 
-	float					instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	float					instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -241,8 +255,26 @@ class E3TransparencyColorAttribute : public E3Attribute // This is a leaf class 
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeTransparencyColor, E3TransparencyColorAttribute, E3Attribute )
 public :
 
-	TQ3ColorRGB				instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	TQ3ColorRGB				instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
+
+
+
+class E3EmissiveColorAttribute : public E3Attribute // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeEmissiveColor, E3EmissiveColorAttribute, E3Attribute )
+public :
+
+	TQ3ColorRGB				instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
+	} ;
+	
 	
 
 
@@ -254,7 +286,9 @@ class E3SurfaceTangentAttribute : public E3Attribute // This is a leaf class so 
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSurfaceTangent, E3SurfaceTangentAttribute, E3Attribute )
 public :
 
-	TQ3Tangent2D			instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	TQ3Tangent2D			instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -267,7 +301,9 @@ class E3HighlightStateAttribute : public E3Attribute // This is a leaf class so 
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeHighlightState, E3HighlightStateAttribute, E3Attribute )
 public :
 
-	TQ3Switch				instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	TQ3Switch				instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -280,7 +316,9 @@ class E3SurfaceShaderAttribute : public E3Attribute // This is a leaf class so n
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSurfaceShader, E3SurfaceShaderAttribute, E3Attribute )
 public :
 
-	TQ3SurfaceShaderObject	instanceData ; // This appears to be redundant but I will not risk removing it yet.
+	TQ3SurfaceShaderObject	instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
 	} ;
 	
 
@@ -1195,6 +1233,53 @@ e3attribute_transparencycolor_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3attribute_emissivecolor_submit : Emissive submit method.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static TQ3Status
+e3attribute_emissivecolor_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{
+#pragma unused(objectType)
+#pragma unused(theObject)
+
+
+
+	// Submit the attribute
+	E3View_State_SetAttributeEmissiveColor(theView, (const TQ3ColorRGB *) objectData);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3attribute_emissivecolor_metahandler : Emissive metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3attribute_emissivecolor_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectSubmitRender:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_emissivecolor_submit;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
 //      e3attribute_surfacetangent_submit : Surface tangent submit method.
 //-----------------------------------------------------------------------------
 #pragma mark -
@@ -1741,6 +1826,11 @@ E3Set_RegisterClass(void)
 											E3TransparencyColorAttribute ) ;
 
 	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameAttributeEmissiveColor,
+											e3attribute_emissivecolor_metahandler,
+											E3EmissiveColorAttribute ) ;
+
+	if ( qd3dStatus != kQ3Failure )
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameAttributeSurfaceTangent,
 											e3attribute_surfacetangent_metahandler,
 											E3SurfaceTangentAttribute ) ;
@@ -1778,6 +1868,7 @@ E3Set_UnregisterClass(void)
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeTransparencyColor,  kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSpecularControl,    kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSpecularColor,      kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeEmissiveColor,      kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeDiffuseColor,       kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeAmbientCoefficient, kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeNormal,             kQ3True);
@@ -1881,13 +1972,16 @@ E3Set::Add ( TQ3ElementType theType, const void *data )
 			setData.attributes.specularControl = * ( (float*) data ) ;
 			break;
 		case kQ3AttributeTypeTransparencyColor:
-			setData.attributes.trasparencyColor = * ( (TQ3ColorRGB*) data ) ;
+			setData.attributes.transparencyColor = * ( (TQ3ColorRGB*) data ) ;
 			break;
 		case kQ3AttributeTypeSurfaceTangent:
 			setData.attributes.surfaceTangent = * ( (TQ3Tangent2D*) data ) ;
 			break;
 		case kQ3AttributeTypeHighlightState:
 			setData.attributes.highlightState = * ( (TQ3Switch*) data ) ;
+			break;
+		case kQ3AttributeTypeEmissiveColor:
+			setData.attributes.emissiveColor = * ( (TQ3ColorRGB*) data ) ;
 			break;
 			
 		case kQ3AttributeTypeSurfaceShader:
@@ -1984,7 +2078,10 @@ E3Set::Get ( TQ3ElementType theType, void *data )
 			* ( (float*) data ) = setData.attributes.specularControl ;
 			break;
 		case kQ3AttributeTypeTransparencyColor:
-			* ( (TQ3ColorRGB*) data ) = setData.attributes.trasparencyColor ;
+			* ( (TQ3ColorRGB*) data ) = setData.attributes.transparencyColor ;
+			break;
+		case kQ3AttributeTypeEmissiveColor:
+			* ( (TQ3ColorRGB*) data ) = setData.attributes.emissiveColor ;
 			break;
 		case kQ3AttributeTypeSurfaceTangent:
 			* ( (TQ3Tangent2D*) data ) = setData.attributes.surfaceTangent ;
@@ -2077,7 +2174,10 @@ E3Set::CopyElement ( TQ3ElementType theType, TQ3SetObject destSet )
 			dstSet->setData.attributes.specularControl = srcSet->setData.attributes.specularControl ;
 			break;
 		case kQ3AttributeTypeTransparencyColor:
-			dstSet->setData.attributes.trasparencyColor = srcSet->setData.attributes.trasparencyColor ;
+			dstSet->setData.attributes.transparencyColor = srcSet->setData.attributes.transparencyColor ;
+			break;
+		case kQ3AttributeTypeEmissiveColor:
+			dstSet->setData.attributes.emissiveColor = srcSet->setData.attributes.emissiveColor ;
 			break;
 		case kQ3AttributeTypeSurfaceTangent:
 			dstSet->setData.attributes.surfaceTangent = srcSet->setData.attributes.surfaceTangent ;
@@ -2281,7 +2381,10 @@ E3Set::SubmitElements ( TQ3ViewObject inView )
 			qd3dStatus = E3View_SubmitImmediate ( inView, kQ3ObjectTypeAttributeSpecularControl, &setData.attributes.specularControl ) ;
 
 		if ( ( ( mask & kQ3XAttributeMaskTransparencyColor ) != 0 ) && ( qd3dStatus == kQ3Success ) )
-			qd3dStatus = E3View_SubmitImmediate ( inView, kQ3ObjectTypeAttributeTransparencyColor, &setData.attributes.trasparencyColor ) ;
+			qd3dStatus = E3View_SubmitImmediate ( inView, kQ3ObjectTypeAttributeTransparencyColor, &setData.attributes.transparencyColor ) ;
+
+		if ( ( ( mask & kQ3XAttributeMaskEmissiveColor ) != 0 ) && ( qd3dStatus == kQ3Success ) )
+			qd3dStatus = E3View_SubmitImmediate ( inView, kQ3ObjectTypeAttributeEmissiveColor, &setData.attributes.emissiveColor ) ;
 
 		if ( ( ( mask & kQ3XAttributeMaskSurfaceTangent ) != 0 ) && ( qd3dStatus == kQ3Success ) )
 			qd3dStatus = E3View_SubmitImmediate ( inView, kQ3ObjectTypeAttributeSurfaceTangent, &setData.attributes.surfaceTangent ) ;
@@ -2350,6 +2453,9 @@ E3Attribute_ClassToAttributeType(TQ3ObjectType theType)
 		case kQ3ObjectTypeAttributeSurfaceShader:
 			theType = kQ3AttributeTypeSurfaceShader;
 			break;
+		case kQ3ObjectTypeAttributeEmissiveColor:
+			theType = kQ3AttributeTypeEmissiveColor;
+			break;
 		default:
 			break;
 		}
@@ -2381,7 +2487,8 @@ E3Attribute_AttributeToClassType(TQ3AttributeType theType)
 									  kQ3ObjectTypeAttributeTransparencyColor,
 									  kQ3ObjectTypeAttributeSurfaceTangent,
 									  kQ3ObjectTypeAttributeHighlightState,
-									  kQ3ObjectTypeAttributeSurfaceShader };
+									  kQ3ObjectTypeAttributeSurfaceShader,
+									  kQ3ObjectTypeAttributeEmissiveColor };
 
 
 
@@ -2469,6 +2576,9 @@ E3AttributeSet_GetNextAttributeType(TQ3AttributeSet theSet, TQ3AttributeType *th
 
 			if ( ( mask & kQ3XAttributeMaskSurfaceShader ) != 0 )
 				e3set_iterator_scan_types ( & set->setData , kQ3AttributeTypeSurfaceShader, NULL, NULL ) ;
+
+			if ( ( mask & kQ3XAttributeMaskEmissiveColor ) != 0 )
+				e3set_iterator_scan_types ( & set->setData , kQ3AttributeTypeEmissiveColor, NULL, NULL ) ;
 
 			}
 
@@ -2698,7 +2808,7 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 				resultSet->setData.attributes.specularControl = parentSet->setData.attributes.specularControl ;
 
 			if ( E3Bit_IsSet(theMask, kQ3XAttributeMaskTransparencyColor) )
-				resultSet->setData.attributes.trasparencyColor = parentSet->setData.attributes.trasparencyColor ;
+				resultSet->setData.attributes.transparencyColor = parentSet->setData.attributes.transparencyColor ;
 
 			if ( E3Bit_IsSet(theMask, kQ3XAttributeMaskSurfaceTangent) )
 				resultSet->setData.attributes.surfaceTangent = parentSet->setData.attributes.surfaceTangent ;
@@ -2708,6 +2818,9 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 
 			if ( E3Bit_IsSet(theMask, kQ3XAttributeMaskSurfaceShader) )
 				resultSet->setData.attributes.surfaceShader = Q3Shared_GetReference(parentSet->setData.attributes.surfaceShader ) ;
+
+			if ( E3Bit_IsSet(theMask, kQ3XAttributeMaskEmissiveColor) )
+				resultSet->setData.attributes.emissiveColor = parentSet->setData.attributes.emissiveColor ;
 
 
 			// Update the mask in the result
@@ -2889,7 +3002,7 @@ E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attrib
 			break;
 		case kQ3AttributeTypeTransparencyColor:
 			return ( set->setData.theMask & kQ3XAttributeMaskTransparencyColor ) == 0 ?
-					NULL : &set->setData.attributes.trasparencyColor ;
+					NULL : &set->setData.attributes.transparencyColor ;
 			break;
 		case kQ3AttributeTypeSurfaceTangent:
 			return ( set->setData.theMask & kQ3XAttributeMaskSurfaceTangent ) == 0 ?
@@ -2902,6 +3015,10 @@ E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attrib
 		case kQ3AttributeTypeSurfaceShader:
 			return ( set->setData.theMask & kQ3XAttributeMaskSurfaceShader ) == 0 ?
 					NULL : &set->setData.attributes.surfaceShader  ;
+			break;
+		case kQ3AttributeTypeEmissiveColor:
+			return ( set->setData.theMask & kQ3XAttributeMaskEmissiveColor ) == 0 ?
+					NULL : &set->setData.attributes.emissiveColor ;
 			break;
 		}
 		
