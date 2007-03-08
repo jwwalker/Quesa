@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -539,6 +539,22 @@ E3Read_3DMF_Attribute_TransparencyColor(TQ3Object parentObject, TQ3FileObject th
 
 	// Read the attribute
 	return(e3read_3dmf_addfloats(parentObject, kQ3AttributeTypeTransparencyColor, 3, theFile));
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Attribute_EmissiveColor : Emissive read method.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Read_3DMF_Attribute_EmissiveColor(TQ3Object parentObject, TQ3FileObject theFile)
+{
+
+
+	// Read the attribute
+	return(e3read_3dmf_addfloats(parentObject, kQ3AttributeTypeEmissiveColor, 3, theFile));
 }
 
 
