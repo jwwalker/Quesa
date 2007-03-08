@@ -458,6 +458,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 				case kQ3ObjectTypeAttributeDiffuseColor:
 				case kQ3ObjectTypeAttributeSpecularColor:
 				case kQ3ObjectTypeAttributeTransparencyColor:
+				case kQ3ObjectTypeAttributeEmissiveColor:
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3ColorRGB));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
@@ -620,35 +621,11 @@ e3ffw_3DMF_attribute_ambientcoefficient_write(const TQ3Float32 *object,
 
 
 //=============================================================================
-//      e3ffw_3DMF_attribute_diffusecolor_write : Diffuse color attribute write method.
+//      e3ffw_3DMF_attribute_rgbcolor_write : RGB color attribute write method.
 //-----------------------------------------------------------------------------
 
 static TQ3Status
-e3ffw_3DMF_attribute_diffusecolor_write(const TQ3ColorRGB *object,
-				TQ3FileObject theFile)
-{
-
-	TQ3Status writeStatus;
-	
-	writeStatus = Q3Float32_Write(object->r,theFile);
-	if(writeStatus == kQ3Success)
-		writeStatus = Q3Float32_Write(object->g,theFile);
-	if(writeStatus == kQ3Success)
-		writeStatus = Q3Float32_Write(object->b,theFile);
-	
-	
-	return(writeStatus);
-}
-
-
-
-
-//=============================================================================
-//      e3ffw_3DMF_attribute_specularcolor_write : Specular color attribute write method.
-//-----------------------------------------------------------------------------
-
-static TQ3Status
-e3ffw_3DMF_attribute_specularcolor_write(const TQ3ColorRGB *object,
+e3ffw_3DMF_attribute_rgbcolor_write(const TQ3ColorRGB *object,
 				TQ3FileObject theFile)
 {
 
@@ -683,31 +660,6 @@ e3ffw_3DMF_attribute_specularcontrol_write(const TQ3Float32 *object,
 	
 	return(writeStatus);
 }
-
-
-
-
-//=============================================================================
-//      e3ffw_3DMF_attribute_transparencycolor_write : Transparency color attribute write method.
-//-----------------------------------------------------------------------------
-
-static TQ3Status
-e3ffw_3DMF_attribute_transparencycolor_write(const TQ3ColorRGB *object,
-				TQ3FileObject theFile)
-{
-
-	TQ3Status writeStatus;
-	
-	writeStatus = Q3Float32_Write(object->r,theFile);
-	if(writeStatus == kQ3Success)
-		writeStatus = Q3Float32_Write(object->g,theFile);
-	if(writeStatus == kQ3Success)
-		writeStatus = Q3Float32_Write(object->b,theFile);
-	
-	
-	return(writeStatus);
-}
-
 
 
 
@@ -3571,10 +3523,11 @@ E3FFW_3DMF_RegisterGeom(void)
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeShadingUV,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_shadinguv_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeNormal,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_normal_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeAmbientCoefficient,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_ambientcoefficient_write);
-	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeDiffuseColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_diffusecolor_write);
-	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_specularcolor_write);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeDiffuseColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_rgbcolor_write);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_rgbcolor_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularControl,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_specularcontrol_write);
-	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeTransparencyColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_transparencycolor_write);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeTransparencyColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_rgbcolor_write);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeEmissiveColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_rgbcolor_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSurfaceTangent,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_surfacetangent_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeHighlightState,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_32_Write);
 	
