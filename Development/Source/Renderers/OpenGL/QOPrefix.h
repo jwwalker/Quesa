@@ -65,7 +65,8 @@ namespace QORenderer
 		kVertexHaveNormal						= (1 << 0),
 		kVertexHaveUV							= (1 << 1),
 		kVertexHaveDiffuse						= (1 << 2),
-		kVertexHaveTransparency					= (1 << 3)
+		kVertexHaveTransparency					= (1 << 3),
+		kVertexHaveEmissive						= (1 << 4)
 	};
 	
 	typedef TQ3Uns32			VertexFlags;
@@ -77,6 +78,7 @@ namespace QORenderer
 		TQ3Param2D		uv;
 		TQ3ColorRGB		diffuseColor;
 		float			vertAlpha;
+		TQ3ColorRGB		emissiveColor;
 		VertexFlags		flags;
 	};
 	
