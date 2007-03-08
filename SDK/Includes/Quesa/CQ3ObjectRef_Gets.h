@@ -58,6 +58,7 @@
 #include "QuesaShader.h"
 #include "QuesaStyle.h"
 #include "QuesaView.h"
+#include "CQ3ObjectRef.h"
 
 #pragma mark Functions from Quesa.h
 /*!
