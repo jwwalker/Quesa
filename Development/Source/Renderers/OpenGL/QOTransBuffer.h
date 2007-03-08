@@ -118,6 +118,7 @@ private:
 	void							InitGLState(
 											TQ3ViewObject inView );
 	void							Cleanup();
+	void							SetEmissiveColor( const TQ3ColorRGB& inColor );
 	
 	void							UpdateBlendFunc(
 											const TransparentPrim& inPrim );
@@ -159,6 +160,7 @@ private:
 	TQ3ShaderUVBoundary				mCurVBoundary;
 	GLfloat							mCurSpecularColor[3];
 	float							mCurSpecularControl;
+	TQ3ColorRGB						mCurEmissiveColor;
 };
 
 }

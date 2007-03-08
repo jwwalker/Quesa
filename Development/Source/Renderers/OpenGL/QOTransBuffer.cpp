@@ -66,7 +66,9 @@ using namespace QORenderer;
 
 namespace
 {
-	const GLfloat				kBlackColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	const GLfloat				kGLBlackColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	
+	const TQ3ColorRGB			kBlackColor = { 0.0f, 0.0f, 0.0f };
 
 	struct IndexCompare
 	{
@@ -342,7 +344,7 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	mCurBlendFunc = GL_SRC_ALPHA;
 
 	// The first pass will not include specularity, so we set the specular color black.
-	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, kBlackColor );
+	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, kGLBlackColor );
 	
 	glDisable( GL_TEXTURE_2D );
 	mCurTexture = 0;
@@ -353,6 +355,9 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	// specular: set to illegal values to force initial update
 	mCurSpecularControl = -1.0f;
 	mCurSpecularColor[0] = -1.0f;
+	
+	mCurEmissiveColor = kBlackColor;
+	mRenderer.SetEmissiveMaterial( mCurEmissiveColor );
 }
 
 void	TransBuffer::UpdateBlendFunc(
@@ -458,6 +463,16 @@ void	TransBuffer::UpdateFog( const TransparentPrim& inPrim )
 	}
 }
 
+void	TransBuffer::SetEmissiveColor( const TQ3ColorRGB& inColor )
+{
+	if ( (inColor.r != mCurEmissiveColor.r) or
+		(inColor.g != mCurEmissiveColor.g) or
+		(inColor.b != mCurEmissiveColor.b) )
+	{
+		mRenderer.SetEmissiveMaterial( inColor );
+		mCurEmissiveColor = inColor;
+	}
+}
 
 void	TransBuffer::Render( const TransparentPrim& inPrim )
 {
@@ -497,6 +512,15 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 		{
 			glColor4f( theVert.diffuseColor.r, theVert.diffuseColor.g,
 				theVert.diffuseColor.b, theVert.vertAlpha );
+		}
+		
+		if ((theVert.flags & kVertexHaveEmissive) != 0)
+		{
+			SetEmissiveColor( theVert.emissiveColor );
+		}
+		else
+		{
+			SetEmissiveColor( kBlackColor );
 		}
 		
 		glVertex3fv( (const GLfloat *) &theVert.point );
@@ -563,7 +587,7 @@ void	TransBuffer::AddSpecularHighlights(
 
 		// black ambient and diffuse so we get only specular
 		glDisable( GL_COLOR_MATERIAL );
-		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kBlackColor );
+		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kGLBlackColor );
 		
 		UpdateSpecular( inPrim );
 		
