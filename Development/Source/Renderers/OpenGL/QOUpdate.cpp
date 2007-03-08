@@ -111,6 +111,12 @@ void	QORenderer::Renderer::UpdateTransparencyColor(
 		0.3333333f;
 }
 
+void	QORenderer::Renderer::UpdateEmissiveColor(
+								const TQ3ColorRGB* inAttColor )
+{
+	mViewState.emissiveColor = inAttColor;
+}
+
 void	QORenderer::Renderer::UpdateSpecularControl(
 								const float* inAttValue )
 {
