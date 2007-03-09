@@ -15,7 +15,7 @@
         for every sub-class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -267,7 +267,7 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 		// Submit the cached object (or we fail)
 		if (instanceData->cachedObject != NULL)
-			qd3dStatus = Q3Object_Submit(instanceData->cachedObject, theView);
+			qd3dStatus = E3View_SubmitRetained(theView, instanceData->cachedObject);
 		}
 
 
