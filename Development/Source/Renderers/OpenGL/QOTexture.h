@@ -108,13 +108,21 @@ public:
 		@function			IsTextureActive
 		@abstract			Tell whether a texture is active.
 	*/
-	bool					IsTextureActive() const;
+	inline
+	bool					IsTextureActive() const
+							{
+								return mIsTopActive;
+							}
 
 	/*!
 		@function			IsTextureTransparent
 		@abstract			Tell whether a transparent texture is active.
 	*/
-	bool					IsTextureTransparent() const;
+	inline
+	bool					IsTextureTransparent() const
+							{
+								return mIsTopTransparent && mIsTopActive;
+							}
 	
 	/*!
 		@function			GetTextureState
@@ -161,6 +169,8 @@ private:
 	std::vector<TextureState>	mStates;
 	std::vector<TQ3Uns8>	mSrcImageData;
 	std::vector<GLubyte>	mGLFormatWork;
+	bool					mIsTopActive;
+	bool					mIsTopTransparent;
 };
-	
+
 }
