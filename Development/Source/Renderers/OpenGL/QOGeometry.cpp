@@ -741,7 +741,7 @@ void QORenderer::Renderer::CalcTriMeshVertState(
 	outVertex.point = inData.vertPosition[ inVertNum ];
 	
 	outVertex.flags = kVertexFlagNone;
-	TQ3ColorRGB	transparentColor;
+	TQ3ColorRGB	transparentColor = kWhiteColor;
 	bool	haveTransparentColor = false;
 	
 	// Look for per-vertex attributes.
