@@ -467,6 +467,31 @@ void	TransBuffer::UpdateFog( const TransparentPrim& inPrim )
 	}
 }
 
+void	TransBuffer::UpdateFill( const TransparentPrim& inPrim )
+{
+	if (inPrim.mFillStyle != mRenderer.mStyleFill)
+	{
+		mRenderer.UpdateFillStyle( &inPrim.mFillStyle );
+	}
+}
+
+void	TransBuffer::UpdateOrientation( const TransparentPrim& inPrim )
+{
+	if (inPrim.mOrientationStyle != mRenderer.mStyleOrientation)
+	{
+		mRenderer.UpdateOrientationStyle( &inPrim.mOrientationStyle );
+	}
+}
+
+void	TransBuffer::UpdateBackfacing( const TransparentPrim& inPrim )
+{
+	if (inPrim.mBackfacingStyle != mRenderer.mStyleBackfacing)
+	{
+		mRenderer.UpdateBackfacingStyle( &inPrim.mBackfacingStyle );
+	}
+}
+
+
 void	TransBuffer::SetEmissiveColor( const TQ3ColorRGB& inColor )
 {
 	if ( (inColor.r != mCurEmissiveColor.r) or
@@ -500,22 +525,24 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 	
 	for (TQ3Uns32 i = 0; i < inPrim.mNumVerts; ++i)
 	{
-		Vertex	theVert( inPrim.mVerts[i] );
+		const Vertex&	theVert( inPrim.mVerts[i] );
 		
 		if ((theVert.flags & kVertexHaveNormal) != 0)
 		{
 			glNormal3fv( (const GLfloat *) &theVert.normal );
 		}
 		
-		if ((theVert.flags & kVertexHaveUV) != 0)
+		if ( (mCurTexture != 0) and ((theVert.flags & kVertexHaveUV) != 0) )
 		{
 			glTexCoord2fv( (const GLfloat *) &theVert.uv );
 		}
 		
 		if ((theVert.flags & kVertexHaveDiffuse) != 0)
 		{
-			glColor4f( theVert.diffuseColor.r, theVert.diffuseColor.g,
-				theVert.diffuseColor.b, theVert.vertAlpha );
+			// This assumes that in the Vertex structure, the vertAlpha member
+			// immediately follows diffuseColor, and structure alignment does
+			// not put any filler between.
+			glColor4fv( (const GLfloat*) &theVert.diffuseColor );
 		}
 		
 		if ((theVert.flags & kVertexHaveEmissive) != 0)
@@ -538,9 +565,9 @@ void	TransBuffer::RenderSpecular( const TransparentPrim& inPrim )
 {
 	glBegin( GL_TRIANGLES );
 	
-	for (TQ3Uns32 i = 0; i < inPrim.mNumVerts; ++i)
+	for (TQ3Uns32 i = 0; i < 3; ++i)
 	{
-		Vertex	theVert( inPrim.mVerts[i] );
+		const Vertex&	theVert( inPrim.mVerts[i] );
 		
 		if ((theVert.flags & kVertexHaveNormal) != 0)
 		{
@@ -630,9 +657,9 @@ void	TransBuffer::Flush( TQ3ViewObject inView )
 			UpdateTexture( thePrim );
 			UpdateFog( thePrim );
 			
-			mRenderer.UpdateFillStyle( &thePrim.mFillStyle );
-			mRenderer.UpdateOrientationStyle( &thePrim.mOrientationStyle );
-			mRenderer.UpdateBackfacingStyle( &thePrim.mBackfacingStyle );
+			UpdateFill( thePrim );
+			UpdateOrientation( thePrim );
+			UpdateBackfacing( thePrim );
 			
 			Render( thePrim );
 			
