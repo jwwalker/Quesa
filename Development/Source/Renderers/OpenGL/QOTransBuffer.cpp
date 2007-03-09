@@ -47,6 +47,7 @@
 
 #include "QORenderer.h"
 #include "GLUtils.h"
+#include "E3Math.h"
 
 #include <algorithm>
 
@@ -64,6 +65,7 @@ using namespace QORenderer;
 	#define GL_BLEND_EQUATION_EXT             0x8009
 #endif
 
+
 namespace
 {
 	const GLfloat				kGLBlackColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -72,12 +74,13 @@ namespace
 
 	struct IndexCompare
 	{
-				IndexCompare( const std::vector<TransparentPrim>& inPrims )
+				IndexCompare( const TransparentPrim* inPrims )
 					: mPrims( inPrims ) {}
 				
 				IndexCompare( const IndexCompare& inOther )
 					: mPrims( inOther.mPrims ) {}
 		
+		inline
 		bool	operator()( TQ3Uns32 inOne, TQ3Uns32 inTwo ) const
 					{
 						return mPrims[inOne].mFrustumDepth <
@@ -85,9 +88,10 @@ namespace
 					}
 	
 	private:
-		const std::vector<TransparentPrim>&	mPrims;
+		const TransparentPrim*	mPrims;
 	};
 }
+
 
 //=============================================================================
 //      Local Functions
@@ -186,7 +190,7 @@ void	TransBuffer::AddPrim(
 	bool	isBehindCamera = true;
 	for (i = 0; i < inNumVerts; ++i)
 	{
-		Q3Point3D_Transform( &thePrim.mVerts[i].point, &localToCamera,
+		E3Point3D_Transform( &thePrim.mVerts[i].point, &localToCamera,
 			&thePrim.mVerts[i].point );
 		if (thePrim.mVerts[i].point.z <= 0.0f)
 		{
@@ -212,7 +216,7 @@ void	TransBuffer::AddPrim(
 	{
 		if ( (thePrim.mVerts[i].flags & kVertexHaveNormal) != 0 )
 		{
-			Q3Vector3D_Transform( &thePrim.mVerts[i].normal,
+			E3Vector3D_Transform( &thePrim.mVerts[i].normal,
 				&localToCameraInverseTranspose,
 				&thePrim.mVerts[i].normal );
 			
@@ -220,7 +224,7 @@ void	TransBuffer::AddPrim(
 				&thePrim.mVerts[i].normal );
 		}
 		
-		Q3Point3D_Transform( &thePrim.mVerts[i].point, &cameraToFrustum,
+		E3Point3D_Transform( &thePrim.mVerts[i].point, &cameraToFrustum,
 			&frustumPoint[i] );
 	}
 	thePrim.mFrustumDepth = CalcPrimDepth( inNumVerts, frustumPoint );
@@ -294,7 +298,7 @@ void	TransBuffer::SortIndices()
 		mPrimIndices[i] = i;
 	}
 	
-	IndexCompare	comparator( mTransBuffer );
+	IndexCompare	comparator( &mTransBuffer[0] );
 	std::sort( mPrimIndices.begin(), mPrimIndices.end(), comparator );
 }
 
