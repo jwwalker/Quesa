@@ -133,6 +133,12 @@ private:
 											const TransparentPrim& inPrim );
 	void							UpdateFog(
 											const TransparentPrim& inPrim );
+	void							UpdateFill(
+											const TransparentPrim& inPrim );
+	void							UpdateOrientation(
+											const TransparentPrim& inPrim );
+	void							UpdateBackfacing(
+											const TransparentPrim& inPrim );
 
 	void							Render(
 											const TransparentPrim& inPrim );
