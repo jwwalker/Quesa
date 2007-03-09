@@ -82,11 +82,9 @@ enum ESlowPathMask
 	kSlowPathMask_FastPath				= 0,
 	kSlowPathMask_NoVertexNormals		= (1 << 0),
 	kSlowPathMask_FaceColors			= (1 << 1),
-	kSlowPathMask_TransparentTexture	= (1 << 2),
-	kSlowPathMask_TransparentOverall	= (1 << 3),
-	kSlowPathMask_TransparentFace		= (1 << 4),
-	kSlowPathMask_TransparentVertex		= (1 << 5),
-	kSlowPathMask_FaceTextures			= (1 << 6)
+	kSlowPathMask_Transparency			= (1 << 2),
+	kSlowPathMask_EmissiveColor			= (1 << 3),
+	kSlowPathMask_FaceTextures			= (1 << 4)
 };
 
 //=============================================================================
@@ -135,7 +133,27 @@ private:
 	TQ3GLContext&	mContext;
 };
 
+/*!
+	@struct		MeshArrays
+	@abstract	Data arrays extracted from TQ3TriMeshData.
+*/
+struct MeshArrays
+{
+	const TQ3Point3D*	vertPosition;
+	const TQ3Vector3D*	vertNormal;
+	const TQ3Param2D*	vertUV;
+	const TQ3ColorRGB*	vertColor;
+	const TQ3ColorRGB*	vertTransparency;
+	const TQ3ColorRGB*	vertEmissive;
 
+	const TQ3Vector3D*	faceNormal;
+	const TQ3ColorRGB*	faceColor;
+	const TQ3ColorRGB*	faceTransparency;
+	const TQ3ColorRGB*	faceEmissive;
+	TQ3Object*			faceSurfaceShader;
+	
+	const TQ3ColorRGB*	edgeColor;
+};
 
 //=============================================================================
 //     Main Class
@@ -240,6 +258,11 @@ protected:
 	void					CalcVertexState(
 									const TQ3Vertex3D& inSrcVertex,
 									Vertex& outVertex );
+	void					CalcTriMeshVertState(
+									TQ3Uns32 inVertNum,
+									TQ3Uns32 inFaceNum,
+									const MeshArrays& inData,
+									Vertex& outVertex );
 	void					HandleGeometryAttributes(
 									TQ3AttributeSet inGeomAttSet,
 									TQ3ViewObject inView,
@@ -249,16 +272,17 @@ protected:
 	void					SetEmissiveMaterial( const TQ3ColorRGB& inColor );
 	SlowPathMask			FindTriMeshData(
 									const TQ3TriMeshData& inGeomData,
-									const TQ3Vector3D*& outVertNormals,
-									const TQ3Param2D*& outVertUVs,
-									const TQ3ColorRGB*& outVertColors,
-									const TQ3ColorRGB*& outEdgeColors );
+									MeshArrays& outArrays );
 	void					RenderFastPathTriMesh(
 									TQ3GeometryObject inTriMesh,
 									const TQ3TriMeshData& inGeomData,
 									const TQ3Vector3D* inVertNormals,
 									const TQ3Param2D* inVertUVs,
 									const TQ3ColorRGB* inVertColors );
+	void					RenderSlowPathTriMesh(
+									TQ3ViewObject inView,
+									const TQ3TriMeshData& inGeomData,
+									const MeshArrays& inData );
 	void					RenderExplicitEdges(
 									const TQ3TriMeshData& inGeomData,
 									const TQ3Vector3D* inVertNormals,

@@ -52,6 +52,8 @@
 #include "GLDisplayListManager.h"
 #include "MakeStrip.h"
 #include "OptimizedTriMeshElement.h"
+#include "E3Memory.h"
+#include "E3View.h"
 
 
 
@@ -70,6 +72,8 @@
 namespace
 {
 	const float		kAlphaThreshold		= 0.01f;
+	
+	const float		kOneThird			= 0.3333333f;
 	
 	const GLfloat		kGLBlackColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	const TQ3ColorRGB	kWhiteColor = { 1.0f, 1.0f, 1.0f };
@@ -182,7 +186,7 @@ static void AdjustGeomState( TQ3AttributeSet inAttSet,
 			Q3XAttributeSet_GetPointer( inAttSet,
 				kQ3AttributeTypeTransparencyColor );
 		ioGeomState.alpha = (theColor->r + theColor->g + theColor->b) *
-			0.3333333f;
+			kOneThird;
 	}
 	
 	if ( (attMask & kQ3XAttributeMaskEmissiveColor) != 0 )
@@ -428,7 +432,6 @@ void	QORenderer::Renderer::CalcVertexState(
 		(uvParam != NULL) )
 	{
 		diffuseColor = &kWhiteColor;
-		emissiveColor = NULL;
 	}
 	
 	// if no color or if highlighting is on, get geom state color
@@ -438,11 +441,11 @@ void	QORenderer::Renderer::CalcVertexState(
 		{
 			diffuseColor = mGeomState.diffuseColor;
 		}
-		
-		if ( (emissiveColor == NULL) || (mGeomState.highlightState == kQ3On) )
-		{
-			emissiveColor = mGeomState.emissiveColor;
-		}
+	}
+	
+	if ( (emissiveColor == NULL) || (mGeomState.highlightState == kQ3On) )
+	{
+		emissiveColor = mGeomState.emissiveColor;
 	}
 	
 	if (normalVector != NULL)
@@ -466,7 +469,7 @@ void	QORenderer::Renderer::CalcVertexState(
 	if (transparentColor != NULL)
 	{
 		outVertex.vertAlpha = (transparentColor->r + transparentColor->g +
-			transparentColor->b) * 0.3333333f;
+			transparentColor->b) * kOneThird;
 	}
 	else
 	{
@@ -482,42 +485,6 @@ void	QORenderer::Renderer::CalcVertexState(
 		outVertex.uv = *uvParam;
 		outVertex.flags |= kVertexHaveUV;
 	}
-}
-
-/*!
-	@function	PassBuckOnTriMesh
-	@abstract	When a TriMesh is not the kind we can handle in our fast path,
-				decompose it into triangles and resubmit it.
-*/
-static bool	PassBuckOnTriMesh(
-								TQ3ViewObject inView,
-								TQ3GeometryObject inTriMesh,
-								const TQ3TriMeshData* inGeomData )
-{
-	bool didHandle = false;
-	
-	CQ3ObjectRef	tempTriMesh;
-	if (inTriMesh == NULL)
-	{
-		// Immediate mode.
-		inTriMesh = Q3TriMesh_New( inGeomData );
-		tempTriMesh = CQ3ObjectRef( inTriMesh );
-	}
-	
-	if (inTriMesh != NULL)
-	{
-		CQ3ObjectRef	decomposed( Q3Geometry_GetDecomposed( inTriMesh,
-			inView ) );
-		
-		if (decomposed.isvalid())
-		{
-			TQ3Status	theStatus = Q3Object_Submit( decomposed.get(),
-				inView );
-			didHandle = (theStatus == kQ3Success);
-		}
-	}
-	
-	return didHandle;
 }
 
 /*!
@@ -538,28 +505,17 @@ static bool	PassBuckOnTriMesh(
 */
 QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 								const TQ3TriMeshData& inData,
-								const TQ3Vector3D*& outVertNormals,
-								const TQ3Param2D*& outVertUVs,
-								const TQ3ColorRGB*& outVertColors,
-								const TQ3ColorRGB*& outEdgeColors )
+								MeshArrays& outArrays )
 {
-	outVertNormals = NULL;
-	outVertUVs = NULL;
-	outVertColors = NULL;
-	outEdgeColors = NULL;
+	E3Memory_Clear( &outArrays, sizeof(outArrays) );
+	outArrays.vertPosition = inData.points;
 	
 	SlowPathMask	slowMask = kSlowPathMask_FastPath;
 	
 	if (mTextures.IsTextureTransparent())
 	{
-		slowMask |= kSlowPathMask_TransparentTexture;
+		slowMask |= kSlowPathMask_Transparency;
 	}
-	
-	bool	haveVertexTransparency = false;
-	bool	haveVertexDiffuse = false;
-	bool	haveTriangleDiffuse = false;
-	bool	haveTriangleTransparency = false;
-	bool	haveTriangleShaders = false;
 	
 	TQ3Uns32 j;
 	const TQ3TriMeshAttributeData*	attData;
@@ -570,16 +526,32 @@ QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 	{
 		switch (attData[j].attributeType)
 		{
+			case kQ3AttributeTypeNormal:
+				outArrays.faceNormal = static_cast<const TQ3Vector3D*>(
+					attData[j].data );
+				break;
+
 			case kQ3AttributeTypeDiffuseColor:
-				haveTriangleDiffuse = true;
+				outArrays.faceColor = static_cast<const TQ3ColorRGB*>(
+					attData[j].data );
 				break;
 				
 			case kQ3AttributeTypeTransparencyColor:
-				haveTriangleTransparency = true;
+				outArrays.faceTransparency = static_cast<const TQ3ColorRGB*>(
+					attData[j].data );
+				slowMask |= kSlowPathMask_Transparency;
+				break;
+			
+			case kQ3AttributeTypeEmissiveColor:
+				outArrays.faceEmissive = static_cast<const TQ3ColorRGB*>(
+					attData[j].data );
+				slowMask |= kSlowPathMask_EmissiveColor;
 				break;
 			
 			case kQ3AttributeTypeSurfaceShader:
-				haveTriangleShaders = true;
+				outArrays.faceSurfaceShader = static_cast<TQ3Object*>(
+					attData[j].data );
+				slowMask |= kSlowPathMask_FaceTextures;
 				break;
 		}
 	}
@@ -591,24 +563,31 @@ QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 		switch (attData[j].attributeType)
 		{
 			case kQ3AttributeTypeNormal:
-				outVertNormals = static_cast<const TQ3Vector3D*>(
+				outArrays.vertNormal = static_cast<const TQ3Vector3D*>(
 					attData[j].data );
 				break;
 			
 			case kQ3AttributeTypeSurfaceUV:
 			case kQ3AttributeTypeShadingUV:
-				outVertUVs = static_cast<const TQ3Param2D*>(
+				outArrays.vertUV = static_cast<const TQ3Param2D*>(
 					attData[j].data );
 				break;
 			
 			case kQ3AttributeTypeDiffuseColor:
-				outVertColors = static_cast<const TQ3ColorRGB*>(
+				outArrays.vertColor = static_cast<const TQ3ColorRGB*>(
 					attData[j].data );
-				haveVertexDiffuse = true;
 				break;
 			
 			case kQ3AttributeTypeTransparencyColor:
-				haveVertexTransparency = true;
+				outArrays.vertTransparency = static_cast<const TQ3ColorRGB*>(
+					attData[j].data );
+				slowMask |= kSlowPathMask_Transparency;
+				break;
+
+			case kQ3AttributeTypeEmissiveColor:
+				outArrays.vertEmissive = static_cast<const TQ3ColorRGB*>(
+					attData[j].data );
+				slowMask |= kSlowPathMask_EmissiveColor;
 				break;
 		}
 	}
@@ -618,41 +597,26 @@ QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 		switch (inData.edgeAttributeTypes[j].attributeType)
 		{
 			case kQ3AttributeTypeDiffuseColor:
-				outEdgeColors = static_cast<const TQ3ColorRGB*>(
+				outArrays.edgeColor = static_cast<const TQ3ColorRGB*>(
 					inData.edgeAttributeTypes[j].data );
 				break;
 		}
 	}
 	
-	if (outVertNormals == NULL)
+	if (outArrays.vertNormal == NULL)
 	{
 		slowMask |= kSlowPathMask_NoVertexNormals;
 	}
 	
-	if (haveVertexTransparency)
-	{
-		slowMask |= kSlowPathMask_TransparentVertex;
-	}
-	
-	if (haveTriangleTransparency)
-	{
-		slowMask |= kSlowPathMask_TransparentFace;
-	}
-	
-	if ( haveTriangleDiffuse && (outVertColors == NULL) )
+	if ( (outArrays.faceColor != NULL) && (outArrays.vertColor == NULL) )
 	{
 		slowMask |= kSlowPathMask_FaceColors;
 	}
 	
-	if (haveTriangleShaders)
-	{
-		slowMask |= kSlowPathMask_FaceTextures;
-	}
-	
 	if ( ((1.0f - mGeomState.alpha) > kAlphaThreshold) &&
-		(outVertColors == NULL) )
+		(outArrays.vertColor == NULL) )
 	{
-		slowMask |= kSlowPathMask_TransparentOverall;
+		slowMask |= kSlowPathMask_Transparency;
 	}
 	
 	return slowMask;
@@ -759,6 +723,220 @@ static void GetCachedTriangleStrip(
 				CETriangleStripElement_SetData( inTriMesh, 0, NULL );
 				outStrip.clear();
 			}
+		}
+	}
+}
+
+
+/*!
+	@function	CalcTriMeshVertState
+	@abstract	Fill in attribute data for a vertex of a decomposed TriMesh.
+*/
+void QORenderer::Renderer::CalcTriMeshVertState(
+							TQ3Uns32 inVertNum,
+							TQ3Uns32 inFaceNum,
+							const QORenderer::MeshArrays& inData,
+							QORenderer::Vertex& outVertex )
+{
+	outVertex.point = inData.vertPosition[ inVertNum ];
+	
+	outVertex.flags = kVertexFlagNone;
+	TQ3ColorRGB	transparentColor;
+	bool	haveTransparentColor = false;
+	
+	// Look for per-vertex attributes.
+	if (inData.vertNormal != NULL)
+	{
+		outVertex.normal = inData.vertNormal[ inVertNum ];
+		outVertex.flags |= kVertexHaveNormal;
+	}
+	
+	if (inData.vertUV != NULL)
+	{
+		outVertex.uv = inData.vertUV[ inVertNum ];
+		outVertex.flags |= kVertexHaveUV;
+	}
+	
+	if (inData.vertColor != NULL)
+	{
+		outVertex.diffuseColor = inData.vertColor[ inVertNum ];
+		outVertex.flags |= kVertexHaveDiffuse;
+	}
+	
+	if (inData.vertEmissive != NULL)
+	{
+		outVertex.emissiveColor = inData.vertEmissive[ inVertNum ];
+		outVertex.flags |= kVertexHaveEmissive;
+	}
+	
+	if (inData.vertTransparency != NULL)
+	{
+		transparentColor = inData.vertTransparency[ inVertNum ];
+		haveTransparentColor = true;
+	}
+	
+	
+	// Inherit attributes from faces.
+	if ( (inData.vertNormal == NULL) and (inData.faceNormal != NULL) )
+	{
+		outVertex.normal = inData.faceNormal[ inFaceNum ];
+		outVertex.flags |= kVertexHaveNormal;
+	}
+	
+	if ( (inData.vertColor == NULL) and (inData.faceColor != NULL) )
+	{
+		outVertex.diffuseColor = inData.faceColor[ inFaceNum ];
+		outVertex.flags |= kVertexHaveDiffuse;
+	}
+	
+	if ( (inData.vertEmissive == NULL) and (inData.faceEmissive != NULL) )
+	{
+		outVertex.emissiveColor = inData.faceEmissive[ inFaceNum ];
+		outVertex.flags |= kVertexHaveEmissive;
+	}
+	
+	if ( (inData.vertTransparency == NULL) and (inData.faceTransparency != NULL) )
+	{
+		transparentColor = inData.faceTransparency[ inFaceNum ];
+		haveTransparentColor = true;
+	}
+
+	/*
+		The legacy behavior is that unless the illumination is NULL, a texture
+		replaces the underlying color.
+	*/
+	if ( mTextures.IsTextureActive() &&
+		(mViewIllumination != kQ3IlluminationTypeNULL) &&
+		(inData.vertUV != NULL) )
+	{
+		outVertex.diffuseColor = kWhiteColor;
+		outVertex.flags |= kVertexHaveDiffuse;
+	}
+	
+	// if no color or if highlighting is on, get geom state color
+	else
+	{
+		if (
+			(mGeomState.diffuseColor != NULL) and
+			(
+				((outVertex.flags & kVertexHaveDiffuse) == 0) or
+				(mGeomState.highlightState == kQ3On) )
+			) 
+		{
+			outVertex.diffuseColor = *mGeomState.diffuseColor;
+			outVertex.flags |= kVertexHaveDiffuse;
+		}
+	}
+	
+	
+	// Convert transparency color to alpha.
+	if ( haveTransparentColor )
+	{
+		outVertex.vertAlpha = (transparentColor.r + transparentColor.g +
+			transparentColor.b) * kOneThird;
+	}
+	else
+	{
+		outVertex.vertAlpha = mGeomState.alpha;
+	}
+	if (1.0f - outVertex.vertAlpha > kAlphaThreshold)
+	{
+		outVertex.flags |= kVertexHaveTransparency;
+	}
+	
+	
+	// Emissive color from geom state?
+	if (
+		(mGeomState.emissiveColor != NULL) and
+		(
+			((outVertex.flags & kVertexHaveEmissive) == 0) or
+			(mGeomState.highlightState == kQ3On) )
+		) 
+	{
+		outVertex.emissiveColor = *mGeomState.emissiveColor;
+		outVertex.flags |= kVertexHaveEmissive;
+	}
+}
+
+/*!
+	@function	RenderSlowPathTriMesh
+	@abstract	When a TriMesh cannot be rendered on the fast path, break it up
+				into triangles to be rendered individually.
+	@discussion	Originally we handled this case by decomposing the TriMesh into
+				a group of triangles and submitting that, but there was too
+				much overhead from creating and destroying all the Triangle and
+				AttributeSet objects.
+*/
+void	QORenderer::Renderer::RenderSlowPathTriMesh(
+									TQ3ViewObject inView,
+									const TQ3TriMeshData& inGeomData,
+									const MeshArrays& inData )
+{
+	Vertex		theVertices[3];
+	int	faceNum;
+	VertexFlags	flagUnion, flagIntersection;
+	
+	for (faceNum = 0; faceNum < inGeomData.numTriangles; ++faceNum)
+	{
+		TQ3Object	faceShader = NULL;
+		if (inData.faceSurfaceShader != NULL)
+		{
+			faceShader = inData.faceSurfaceShader[ faceNum ];
+		}
+		if (faceShader != NULL)
+		{
+			E3Push_Submit( inView );
+			Q3Object_Submit( faceShader, inView );
+		}
+	
+		const TQ3Uns32* vertIndices = inGeomData.triangles[ faceNum ].pointIndices;
+		
+		CalcTriMeshVertState( vertIndices[0], faceNum, inData, theVertices[0] );
+		CalcTriMeshVertState( vertIndices[1], faceNum, inData, theVertices[1] );
+		CalcTriMeshVertState( vertIndices[2], faceNum, inData, theVertices[2] );
+		
+		flagUnion = theVertices[0].flags | theVertices[1].flags |
+			theVertices[2].flags;
+		flagIntersection = theVertices[0].flags & theVertices[1].flags &
+			theVertices[2].flags;
+		
+		// if we lack normals, calculate one.
+		if ( (flagIntersection & kVertexHaveNormal) == 0 )
+		{
+			TQ3Vector3D	triNormal;
+			Q3FastPoint3D_CrossProductTri( &theVertices[0].point,
+				&theVertices[1].point,
+				&theVertices[2].point,
+				&triNormal );
+			Q3FastVector3D_Normalize( &triNormal, &triNormal );
+			
+			if (mStyleOrientation == kQ3OrientationStyleClockwise)
+			{
+				Q3FastVector3D_Negate( &triNormal, &triNormal );
+			}
+			theVertices[0].normal = theVertices[1].normal =
+				theVertices[2].normal = triNormal;
+			theVertices[0].flags |= kVertexHaveNormal;
+			theVertices[1].flags |= kVertexHaveNormal;
+			theVertices[2].flags |= kVertexHaveNormal;
+		}
+		
+		// if the color or texture is translucent, add the triangle to a
+		// buffer of transparent stuff, otherwise add it to a buffer of opaque
+		// triangles.
+		if ( ((flagUnion & kVertexHaveTransparency) != 0) or
+			mTextures.IsTextureTransparent() )
+		{
+			mTransBuffer.AddTriangle( theVertices );
+		}
+		else
+		{
+			mTriBuffer.AddTriangle( theVertices );
+		}
+		
+		if (faceShader != NULL)
+		{
+			E3Pop_Submit( inView );
 		}
 	}
 }
@@ -974,7 +1152,7 @@ static void	ImmediateModePush(
 	if ( (inGeom == NULL) && (inGeomAtts != NULL) &&
 		CQ3AttributeSet_GetTextureShader( inGeomAtts ).isvalid() )
 	{
-		Q3Push_Submit( inView );
+		E3Push_Submit( inView );
 	}
 }
 
@@ -995,7 +1173,7 @@ static void	ImmediateModePop(
 	if ( (inGeom == NULL) && (inGeomAtts != NULL) &&
 		CQ3AttributeSet_GetTextureShader( inGeomAtts ).isvalid() )
 	{
-		Q3Pop_Submit( inView );
+		E3Pop_Submit( inView );
 	}
 }
 
@@ -1021,6 +1199,10 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 								TQ3GeometryObject inTriMesh,
 								const TQ3TriMeshData* inGeomData )
 {
+	if (inGeomData == NULL)
+	{
+		return false;	// theoretically impossible
+	}
 	bool didHandle = false;
 	
 	ImmediateModePush( inView, inTriMesh, inGeomData->triMeshAttributeSet );
@@ -1037,87 +1219,78 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		true );
 		
 
-	if ( (inGeomData != NULL) &&
-		(! mTextures.IsTextureTransparent()) )
+	// Look for a cached optimized geometry.
+	bool	wasValid;
+	CQ3ObjectRef	cachedGeom( GetCachedOptimizedTriMesh( inTriMesh,
+		wasValid ) );
+	
+	// If we found an optimized version, get its data.
+	CLockTriMeshData	locker;
+	if (cachedGeom.isvalid())
 	{
-		// Look for a cached optimized geometry.
-		bool	wasValid;
-		CQ3ObjectRef	cachedGeom( GetCachedOptimizedTriMesh( inTriMesh,
-			wasValid ) );
+		inGeomData = locker.Lock( cachedGeom.get() );
+		inTriMesh = cachedGeom.get();
+	}
+	
+	// Find data and test for fast path.
+	MeshArrays	dataArrays;
+	
+	SlowPathMask whyNotFastPath = FindTriMeshData( *inGeomData, dataArrays );
+	
+	// Of the various conditions that can knock us off the fast path,
+	// Q3TriMesh_Optimize can fix two of them: lack of vertex normals,
+	// and face colors but not vertex colors.
+	const SlowPathMask kFixableMask = kSlowPathMask_NoVertexNormals |
+		kSlowPathMask_FaceColors;
+	
+	if ( (whyNotFastPath != kSlowPathMask_FastPath) &&
+		((whyNotFastPath & ~kFixableMask) == kSlowPathMask_FastPath) &&
+		(! wasValid) &&
+		(inTriMesh != NULL) )
+	{
+		cachedGeom = CQ3ObjectRef( Q3TriMesh_Optimize( inTriMesh ) );
 		
-		// If we found an optimized version, get its data.
-		CLockTriMeshData	locker;
 		if (cachedGeom.isvalid())
 		{
+			SetCachedOptimizedTriMesh( inTriMesh, cachedGeom.get() );
 			inGeomData = locker.Lock( cachedGeom.get() );
 			inTriMesh = cachedGeom.get();
-		}
-		
-		// Find data and test for fast path.
-		const TQ3Vector3D*	vertNormals;
-		const TQ3Param2D*	vertUVs;
-		const TQ3ColorRGB*	vertColors;
-		const TQ3ColorRGB*	edgeColors;
-		
-		SlowPathMask whyNotFastPath = FindTriMeshData( *inGeomData,
-			vertNormals, vertUVs, vertColors, edgeColors );
-	
-		// Of the various conditions that can knock us off the fast path,
-		// Q3TriMesh_Optimize can fix two of them: lack of vertex normals,
-		// and face colors but not vertex colors.
-		const SlowPathMask kFixableMask = kSlowPathMask_NoVertexNormals |
-			kSlowPathMask_FaceColors;
-		
-		if ( (whyNotFastPath != kSlowPathMask_FastPath) &&
-			((whyNotFastPath & ~kFixableMask) == kSlowPathMask_FastPath) &&
-			(! wasValid) &&
-			(inTriMesh != NULL) )
-		{
-			cachedGeom = CQ3ObjectRef( Q3TriMesh_Optimize( inTriMesh ) );
 			
-			if (cachedGeom.isvalid())
-			{
-				SetCachedOptimizedTriMesh( inTriMesh, cachedGeom.get() );
-				inGeomData = locker.Lock( cachedGeom.get() );
-				inTriMesh = cachedGeom.get();
-				
-				whyNotFastPath = FindTriMeshData( *inGeomData,
-					vertNormals, vertUVs, vertColors, edgeColors );
-			}
+			whyNotFastPath = FindTriMeshData( *inGeomData, dataArrays );
 		}
+	}
 
-		// If we are in edge-fill mode and explicit edges have been provided,
-		// we may want to handle them here.
-		if ( (mStyleFill == kQ3FillStyleEdges) &&
-			(inGeomData->numEdges > 0) )
+	// If we are in edge-fill mode and explicit edges have been provided,
+	// we may want to handle them here.
+	if ( (mStyleFill == kQ3FillStyleEdges) &&
+		(inGeomData->numEdges > 0) )
+	{
+		RenderExplicitEdges( *inGeomData, dataArrays.vertNormal,
+			dataArrays.vertColor, dataArrays.edgeColor );
+		didHandle = true;
+	}
+
+	if ( (whyNotFastPath == kSlowPathMask_FastPath) && (! didHandle) )
+	{
+		RenderFastPathTriMesh( inTriMesh, *inGeomData, dataArrays.vertNormal,
+			dataArrays.vertUV, dataArrays.vertColor );
+		
+		didHandle = true;
+		
+		if ( IsFakeSeparateSpecularColorNeeded() )
 		{
-			RenderExplicitEdges( *inGeomData, vertNormals, vertColors,
-				edgeColors );
-			didHandle = true;
-		}
-	
-		if ( (whyNotFastPath == kSlowPathMask_FastPath) && (! didHandle) )
-		{
-			RenderFastPathTriMesh( inTriMesh, *inGeomData, vertNormals,
-				vertUVs, vertColors );
-			
-			didHandle = true;
-			
-			if ( IsFakeSeparateSpecularColorNeeded() )
-			{
-				SimulateSeparateSpecularColor( 3 * inGeomData->numTriangles,
-					 inGeomData->triangles[0].pointIndices );
-			}
+			SimulateSeparateSpecularColor( 3 * inGeomData->numTriangles,
+				 inGeomData->triangles[0].pointIndices );
 		}
 	}
 	
+	if (not didHandle)
+	{
+		RenderSlowPathTriMesh( inView, *inGeomData, dataArrays );
+		didHandle = true;
+	}
 	
 	ImmediateModePop( inView, inTriMesh, inGeomData->triMeshAttributeSet );
-
-	if ( ! didHandle )
-	{
-		didHandle = PassBuckOnTriMesh( inView, inTriMesh, inGeomData );
-	}
 	
 	return didHandle;
 }
