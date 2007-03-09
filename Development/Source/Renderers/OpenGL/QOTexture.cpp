@@ -173,6 +173,8 @@ Texture::Texture(
 	, mGLContext( inGLContext )
 	, mGLExtensions( inExtensions )
 	, mTextureCache( NULL )
+	, mIsTopActive( false )
+	, mIsTopTransparent( false )
 {
 	TextureState	startState;
 	startState.Reset();
@@ -310,23 +312,6 @@ void	Texture::UpdateTextureCache()
 	Q3_ASSERT( GLTextureMgr_IsValidTextureCache( mTextureCache ) );
 }
 
-/*!
-	@function			IsTextureActive
-	@abstract			Tell whether a texture is active.
-*/
-bool	Texture::IsTextureActive() const
-{
-	return mStates.back().mIsTextureActive;
-}
-
-/*!
-	@function			IsTextureTransparent
-	@abstract			Tell whether a transparent texture is active.
-*/
-bool	Texture::IsTextureTransparent() const
-{
-	return mStates.back().mIsTextureTransparent && IsTextureActive();
-}
 
 /*!
 	@function			GetTextureState
@@ -349,6 +334,8 @@ void	Texture::PopState()
 	if (mStates.size() > 1)
 	{
 		mStates.pop_back();
+		mIsTopActive = mStates.back().mIsTextureActive;
+		mIsTopTransparent = mStates.back().mIsTextureTransparent;
 		
 		TextureState&	curState( mStates.back() );
 		
@@ -380,6 +367,7 @@ void	Texture::StartPass()
 	startState.Reset();
 	mStates.clear();
 	mStates.push_back( startState );
+	mIsTopActive = mIsTopTransparent = false;
 }
 
 
@@ -467,7 +455,7 @@ void	Texture::SetCurrentTexture(
 		glMatrixMode( GL_TEXTURE );
 		glLoadIdentity();
 		
-		mStates.back().mIsTextureActive = false;
+		mStates.back().mIsTextureActive = mIsTopActive = false;
 	}
 	else	// enable texturing
 	{
@@ -488,13 +476,14 @@ void	Texture::SetCurrentTexture(
 		if (cachedTexture != NULL)
 		{
 			TextureState&	curState( mStates.back() );
-			curState.mIsTextureActive = true;
+			curState.mIsTextureActive = mIsTopActive = true;
 			curState.mGLTextureObject = GLTextureMgr_GetOpenGLTexture(
 				cachedTexture );
 			TQ3PixelType	pixelType = GetTexturePixelType( inTexture );
 			curState.mIsTextureTransparent =
 				(pixelType == kQ3PixelTypeARGB32) ||
 				(pixelType == kQ3PixelTypeARGB16);
+			mIsTopTransparent = curState.mIsTextureTransparent;
 			curState.mIsTextureMipmapped = IsTextureMipmapped( inTexture );
 			
 			glEnable( GL_TEXTURE_2D );
