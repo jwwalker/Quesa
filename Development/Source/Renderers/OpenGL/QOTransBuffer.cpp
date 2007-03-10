@@ -72,23 +72,14 @@ namespace
 	
 	const TQ3ColorRGB			kBlackColor = { 0.0f, 0.0f, 0.0f };
 
-	struct IndexCompare
+	struct PtrCompare
 	{
-				IndexCompare( const TransparentPrim* inPrims )
-					: mPrims( inPrims ) {}
-				
-				IndexCompare( const IndexCompare& inOther )
-					: mPrims( inOther.mPrims ) {}
-		
 		inline
-		bool	operator()( TQ3Uns32 inOne, TQ3Uns32 inTwo ) const
+		bool	operator()( const TransparentPrim* inOne,
+							const TransparentPrim* inTwo ) const
 					{
-						return mPrims[inOne].mFrustumDepth <
-							mPrims[inTwo].mFrustumDepth;
+						return inOne->mFrustumDepth < inTwo->mFrustumDepth;
 					}
-	
-	private:
-		const TransparentPrim*	mPrims;
 	};
 }
 
@@ -290,22 +281,23 @@ void	TransBuffer::AddPoint( const Vertex& inVertex )
 void	TransBuffer::SortIndices()
 {
 	const TQ3Uns32 kNumPrims = mTransBuffer.size();
-	mPrimIndices.resize( kNumPrims );
+	mPrimPtrs.resize( kNumPrims );
 	TQ3Uns32	i;
+	const TransparentPrim**	ptrArray = &mPrimPtrs[0];
 	
 	for (i = 0; i < kNumPrims; ++i)
 	{
-		mPrimIndices[i] = i;
+		mPrimPtrs[i] = &mTransBuffer[i];
 	}
 	
-	IndexCompare	comparator( &mTransBuffer[0] );
-	std::sort( mPrimIndices.begin(), mPrimIndices.end(), comparator );
+	PtrCompare	comparator;
+	std::sort( ptrArray, ptrArray + kNumPrims, comparator );
 }
 
 void	TransBuffer::Cleanup()
 {
 	mTransBuffer.clear();
-	mPrimIndices.clear();
+	mPrimPtrs.clear();
 	mCameraToFrustumMatrices.clear();
 	mUVTransforms.clear();
 }
@@ -359,6 +351,9 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	// specular: set to illegal values to force initial update
 	mCurSpecularControl = -1.0f;
 	mCurSpecularColor[0] = -1.0f;
+	
+	// similar for diffuse color
+	mCurDiffuseColor[3] = -1.0f;
 	
 	mCurEmissiveColor = kBlackColor;
 	mRenderer.SetEmissiveMaterial( mCurEmissiveColor );
@@ -503,6 +498,34 @@ void	TransBuffer::SetEmissiveColor( const TQ3ColorRGB& inColor )
 	}
 }
 
+void	TransBuffer::SetDiffuseColor( const QORenderer::Vertex& inVert )
+{
+	GLfloat	color4[4] = {
+		inVert.diffuseColor.r,
+		inVert.diffuseColor.g,
+		inVert.diffuseColor.b,
+		inVert.vertAlpha
+	};
+	
+	SetDiffuseColor( color4 );
+}
+
+void	TransBuffer::SetDiffuseColor( const GLfloat* inColor4 )
+{
+	if ( (inColor4[3] != mCurDiffuseColor[3]) or
+		(inColor4[0] != mCurDiffuseColor[0]) or
+		(inColor4[1] != mCurDiffuseColor[1]) or
+		(inColor4[2] != mCurDiffuseColor[2]) )
+	{
+		mCurDiffuseColor[0] = inColor4[0];
+		mCurDiffuseColor[1] = inColor4[1];
+		mCurDiffuseColor[2] = inColor4[2];
+		mCurDiffuseColor[3] = inColor4[3];
+
+		glColor4fv( mCurDiffuseColor );
+	}
+}
+
 void	TransBuffer::Render( const TransparentPrim& inPrim )
 {
 	switch (inPrim.mNumVerts)
@@ -539,10 +562,7 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 		
 		if ((theVert.flags & kVertexHaveDiffuse) != 0)
 		{
-			// This assumes that in the Vertex structure, the vertAlpha member
-			// immediately follows diffuseColor, and structure alignment does
-			// not put any filler between.
-			glColor4fv( (const GLfloat*) &theVert.diffuseColor );
+			SetDiffuseColor( theVert );
 		}
 		
 		if ((theVert.flags & kVertexHaveEmissive) != 0)
@@ -617,15 +637,11 @@ void	TransBuffer::AddSpecularHighlights(
 			(*mRenderer.mGLBlendEqProc)( GL_MAX_EXT );
 
 		// black ambient and diffuse so we get only specular
-		glDisable( GL_COLOR_MATERIAL );
-		glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kGLBlackColor );
+		SetDiffuseColor( kGLBlackColor );
 		
 		UpdateSpecular( inPrim );
 		
 		RenderSpecular( inPrim );
-		
-		// Reset color material
-		glEnable( GL_COLOR_MATERIAL );
 		
 		// Reset blend func
 		glBlendFunc( mCurBlendFunc, GL_ONE_MINUS_SRC_ALPHA );
@@ -647,16 +663,16 @@ void	TransBuffer::Flush( TQ3ViewObject inView )
 		InitGLState( inView );
 		
 		const TQ3Uns32 kNumPrims = mTransBuffer.size();
+		
 		for (TQ3Uns32 i = 0; i < kNumPrims; ++i)
 		{
-			const TransparentPrim& thePrim( mTransBuffer[ mPrimIndices[i] ] );
+			const TransparentPrim& thePrim( *mPrimPtrs[i] );
 			
 			UpdateBlendFunc( thePrim );
 			UpdateCameraToFrustum( thePrim, inView );
 			UpdateLightingEnable( thePrim );
 			UpdateTexture( thePrim );
 			UpdateFog( thePrim );
-			
 			UpdateFill( thePrim );
 			UpdateOrientation( thePrim );
 			UpdateBackfacing( thePrim );
