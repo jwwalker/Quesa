@@ -282,6 +282,8 @@
 		B1AC88520906E76700ACE358 /* E3CocoaPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = B1AC884D0906E76700ACE358 /* E3CocoaPrefix.h */; };
 		B1AC88600906EA4000ACE358 /* GLCocoaContext.h in Headers */ = {isa = PBXBuildFile; fileRef = B1AC885E0906EA4000ACE358 /* GLCocoaContext.h */; };
 		B1AC88610906EA4000ACE358 /* GLCocoaContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B1AC885F0906EA4000ACE358 /* GLCocoaContext.m */; };
+		BE6E850D0BA295E50000BA89 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE6E850B0BA295E50000BA89 /* OptimizedTriMeshElement.cpp */; };
+		BE6E850E0BA295E50000BA89 /* OptimizedTriMeshElement.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6E850C0BA295E50000BA89 /* OptimizedTriMeshElement.h */; };
 		BE6FD692076B88A800587852 /* GLTextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6FD690076B88A800587852 /* GLTextureManager.h */; };
 		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
 		BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
@@ -291,36 +293,6 @@
 		BEDC045F08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */; };
 		BEDC08DC08A6B96E00FB3A82 /* Quesa.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildStyle section */
-		4F0BB7EC011F40E904CA0E50 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		4F0BB7ED011F40E904CA0E50 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x12000000,
-				);
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -599,6 +571,8 @@
 		B1AC884D0906E76700ACE358 /* E3CocoaPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = E3CocoaPrefix.h; path = Cocoa/E3CocoaPrefix.h; sourceTree = "<group>"; };
 		B1AC885E0906EA4000ACE358 /* GLCocoaContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLCocoaContext.h; path = ../../Source/Renderers/Common/GLCocoaContext.h; sourceTree = SOURCE_ROOT; };
 		B1AC885F0906EA4000ACE358 /* GLCocoaContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GLCocoaContext.m; path = ../../Source/Renderers/Common/GLCocoaContext.m; sourceTree = SOURCE_ROOT; };
+		BE6E850B0BA295E50000BA89 /* OptimizedTriMeshElement.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OptimizedTriMeshElement.cpp; sourceTree = "<group>"; };
+		BE6E850C0BA295E50000BA89 /* OptimizedTriMeshElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OptimizedTriMeshElement.h; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLTextureManager.c; sourceTree = "<group>"; };
 		BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
@@ -893,6 +867,8 @@
 				AB3A7C21055E63B100CA83BE /* GLUtils.h */,
 				B112DA8E0B7D2A6B000F36EF /* GLVBOManager.cpp */,
 				B112DA8F0B7D2A6B000F36EF /* GLVBOManager.h */,
+				BE6E850B0BA295E50000BA89 /* OptimizedTriMeshElement.cpp */,
+				BE6E850C0BA295E50000BA89 /* OptimizedTriMeshElement.h */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1284,6 +1260,7 @@
 				B112DA890B7D2A52000F36EF /* GLGPUSharing.h in Headers */,
 				B112DA8D0B7D2A5C000F36EF /* GLTextureLoader.h in Headers */,
 				B112DA910B7D2A6B000F36EF /* GLVBOManager.h in Headers */,
+				BE6E850E0BA295E50000BA89 /* OptimizedTriMeshElement.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1301,38 +1278,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "";
-				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
-				INFOPLIST_FILE = "";
-				INSTALL_PATH = "@executable_path/../Frameworks/";
-				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_STYLE = Dynamic;
-				OTHER_CFLAGS = (
-					"-DQUESA_OS_MACINTOSH=1",
-					"-DTARGET_API_MAC_CARBON=1",
-				);
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = Quesa;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = framework;
-			};
 			dependencies = (
 			);
 			name = "Framework (sys GCC)";
@@ -1347,12 +1292,6 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "QuesaCocoa" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4F0BB7EC011F40E904CA0E50 /* Development */,
-				4F0BB7ED011F40E904CA0E50 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* Quesa */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
@@ -1518,6 +1457,7 @@
 				B112DA880B7D2A52000F36EF /* GLGPUSharing.cpp in Sources */,
 				B112DA8C0B7D2A5C000F36EF /* GLTextureLoader.cpp in Sources */,
 				B112DA900B7D2A6B000F36EF /* GLVBOManager.cpp in Sources */,
+				BE6E850D0BA295E50000BA89 /* OptimizedTriMeshElement.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
