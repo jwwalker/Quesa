@@ -119,6 +119,10 @@ private:
 											TQ3ViewObject inView );
 	void							Cleanup();
 	void							SetEmissiveColor( const TQ3ColorRGB& inColor );
+	void							SetDiffuseColor(
+											const QORenderer::Vertex& inVert );
+	void							SetDiffuseColor(
+											const GLfloat* inColor4 );
 	
 	void							UpdateBlendFunc(
 											const TransparentPrim& inPrim );
@@ -155,7 +159,7 @@ private:
 	std::vector<TQ3Matrix3x3>		mUVTransforms;
 	
 	// State used when flushing (drawing) primitives
-	std::vector<TQ3Uns32>			mPrimIndices;
+	std::vector<const TransparentPrim*>		mPrimPtrs;
 	bool							mIsLightingEnabled;
 	TQ3Uns32						mCurCameraToFrustumIndex;
 	TQ3CameraTransformData			mCurCameraTransform;
@@ -167,6 +171,7 @@ private:
 	GLfloat							mCurSpecularColor[3];
 	float							mCurSpecularControl;
 	TQ3ColorRGB						mCurEmissiveColor;
+	GLfloat							mCurDiffuseColor[4];
 };
 
 }
