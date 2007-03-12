@@ -5,7 +5,7 @@
        Utility function.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -97,6 +97,20 @@ CQ3ObjectRef	GetIndexedMaterial( CVRMLReader& inReader, int inIndex )
 		{
 			Q3AttributeSet_Add( attSet.get(), kQ3AttributeTypeSpecularColor,
 				&curState.specularColor[0] );
+		}
+	}
+	
+	if (not curState.emissiveColor.empty())
+	{
+		if (inIndex < curState.emissiveColor.size())
+		{
+			Q3AttributeSet_Add( attSet.get(), kQ3AttributeTypeEmissiveColor,
+				&curState.emissiveColor[inIndex] );
+		}
+		else
+		{
+			Q3AttributeSet_Add( attSet.get(), kQ3AttributeTypeEmissiveColor,
+				&curState.emissiveColor[0] );
 		}
 	}
 	
