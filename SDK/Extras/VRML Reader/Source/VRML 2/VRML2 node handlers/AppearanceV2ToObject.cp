@@ -5,7 +5,7 @@
         VRML 2 node handler.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -109,9 +109,10 @@ static void	MaterialV2ToObject( PolyValue& ioNode, CVRMLReader& inReader,
 	PolyValue::Dictionary&	materialDict( ioNode.GetDictionary() );
 	PolyValue&	diffuseColorValue( materialDict["diffuseColor"] );
 	PolyValue&	specularColorValue( materialDict["specularColor"] );
+	PolyValue&	emissiveColorValue( materialDict["emissiveColor"] );
 	PolyValue&	transparencyValue( materialDict["transparency"] );
 	PolyValue&	shininessValue( materialDict["shininess"] );
-	// ambientIntensity, emissiveColor not implemented
+	PolyValue&	ambientValue( materialDict["ambientIntensity"] );
 	
 	if (diffuseColorValue.IsNumberVec())
 	{
@@ -134,6 +135,19 @@ static void	MaterialV2ToObject( PolyValue& ioNode, CVRMLReader& inReader,
 	{
 		Q3AttributeSet_Add( ioAttSet.get(), kQ3AttributeTypeDiffuseColor,
 			&kDefaultDiffuseColor );
+	}
+	
+	if (emissiveColorValue.IsNumberVec())
+	{
+		PolyValue::FloatVec&	emissiveColorVec( emissiveColorValue.GetFloatVec() );
+		if (emissiveColorVec.size() == 3)
+		{
+			TQ3ColorRGB	emissiveColor = {
+				emissiveColorVec[0], emissiveColorVec[1], emissiveColorVec[2]
+			};
+			ValidateColor( emissiveColor, "emissive", inReader );
+			Q3AttributeSet_Add( ioAttSet.get(), kQ3AttributeTypeEmissiveColor, &emissiveColor );
+		}
 	}
 	
 	if (specularColorValue.IsNumberVec())
@@ -173,6 +187,13 @@ static void	MaterialV2ToObject( PolyValue& ioNode, CVRMLReader& inReader,
 	{
 		float	specControl = shininessValue.GetFloat();
 		Q3AttributeSet_Add( ioAttSet.get(), kQ3AttributeTypeSpecularControl, &specControl );
+	}
+	
+	if (ambientValue.GetType() == PolyValue::kDataTypeFloat)
+	{
+		float	ambientCoefficient = ambientValue.GetFloat();
+		Q3AttributeSet_Add( ioAttSet.get(), kQ3AttributeTypeAmbientCoefficient,
+			&ambientCoefficient );
 	}
 }
 
