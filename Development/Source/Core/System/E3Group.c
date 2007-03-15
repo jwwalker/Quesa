@@ -606,17 +606,59 @@ e3group_countobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 
 
 
 
+
+
 TQ3Status
 E3Group::countobjects ( TQ3ObjectType isType, TQ3Uns32 *number )
-	{
+{
 	*number = 0L ;
-
-	for ( TQ3XGroupPosition* pos = listHead.next ; pos != &listHead ; pos = pos->next )
-		if ( Q3Object_IsType ( pos->object, isType ) )
-			*number += 1 ;
+	
+	if (listHead.next != &listHead)
+	{
+		if (isType == kQ3ObjectTypeShared)
+		{
+			// Optimization: all members of a group are shared
+			for ( TQ3XGroupPosition* pos = listHead.next; pos != &listHead;
+				pos = pos->next )
+			{
+				*number += 1;
+			}
+		}
+		else
+		{
+			E3ClassInfoPtr typeClass = E3ClassTree::GetClass( isType );
+			
+			if (typeClass != NULL)
+			{
+				TQ3Uns32 classDepth = 0;
+				
+				for ( E3ClassInfo* aClass = typeClass->GetParent(); aClass != NULL;
+					aClass = aClass->GetParent() )
+				{
+					++classDepth;
+				}
+				
+				// Optimization note:  The more obvious way to write this would
+				// use E3Object_IsType, which uses E3ClassInfo::IsType, which
+				// contains a loop that walks up the class tree.  Here, the
+				// GetClass and IsClass calls are constant time.  If there are
+				// enough members in the group, that gain should pay the cost
+				// of the hash table lookup to find typeClass and the loop to
+				// find classDepth.
+				for ( TQ3XGroupPosition* pos = listHead.next; pos != &listHead;
+					pos = pos->next )
+				{
+					if (pos->object->GetClass()->IsClass( isType, classDepth ))
+					{
+						*number += 1;
+					}
+				}
+			}
+		}
+	}
 
 	return kQ3Success ;
-	}
+}
 
 
 
