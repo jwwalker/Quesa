@@ -55,6 +55,30 @@
 //      Private functions
 //-----------------------------------------------------------------------------
 
+//=============================================================================
+//      e3ffw_3DMF_submit_nonempty_attribute_set : submit an attribute set if it is nonempty
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_submit_nonempty_attribute_set( TQ3AttributeSet inAtts, TQ3ViewObject inView )
+{
+	TQ3Status	theStatus = kQ3Success;
+	
+	if (inAtts != NULL)
+	{
+		TQ3AttributeType	attrType = kQ3AttributeTypeNone;
+		
+		if ( (kQ3Success == Q3AttributeSet_GetNextAttributeType( inAtts, &attrType )) &&
+			(attrType != kQ3AttributeTypeNone) )
+		{
+			theStatus = Q3Object_Submit( inAtts, inView );
+		}
+	}
+	
+	return theStatus;
+}
+
+
+
 
 
 //=============================================================================
@@ -1290,8 +1314,11 @@ e3ffw_3DMF_triangle_traverse(TQ3Object object,
 		Q3Object_Dispose(attributeList);
 		}
 	
-	if(data->triangleAttributeSet != NULL && qd3dstatus == kQ3Success)
-		Q3Object_Submit (data->triangleAttributeSet, view);
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( qd3dstatus == kQ3Success )
+	{
+		qd3dstatus = e3ffw_3DMF_submit_nonempty_attribute_set( data->triangleAttributeSet, view );
+	}
 	
 	return qd3dstatus;
 }
@@ -1363,8 +1390,11 @@ e3ffw_3DMF_line_traverse(TQ3Object object,
 		Q3Object_Dispose(attributeList);
 	}
 
-	if (data->lineAttributeSet != NULL && qd3dstatus == kQ3Success)
-		Q3Object_Submit( data->lineAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( qd3dstatus == kQ3Success )
+	{
+		qd3dstatus = e3ffw_3DMF_submit_nonempty_attribute_set( data->lineAttributeSet, view );
+	}
 	
 	
 	return qd3dstatus;
@@ -1411,8 +1441,11 @@ e3ffw_3DMF_point_traverse(TQ3Object object,
 	qd3dstatus = Q3XView_SubmitWriteData( view, 12, (void*)data, NULL );
 	
 
-	if (data->pointAttributeSet != NULL && qd3dstatus == kQ3Success)
-		Q3Object_Submit( data->pointAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( qd3dstatus == kQ3Success )
+	{
+		qd3dstatus = e3ffw_3DMF_submit_nonempty_attribute_set( data->pointAttributeSet, view );
+	}
 	
 	
 	return qd3dstatus;
@@ -1461,9 +1494,11 @@ e3ffw_3DMF_marker_traverse (	TQ3Object object ,
 	status = Q3XView_SubmitWriteData ( view ,
 		Q3Size_Pad ( 36 + data->bitmap.rowBytes * data->bitmap.height )  , (void*) data , NULL ) ;
 	
-	// Overall attribute set
-	if ( ( status != kQ3Failure ) && ( data->markerAttributeSet != NULL ) )
-		status = Q3Object_Submit ( data->markerAttributeSet , view ) ;
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->markerAttributeSet, view );
+	}
 
 
 	return status ;
@@ -1532,9 +1567,11 @@ e3ffw_3DMF_pixmapmarker_traverse (	TQ3Object object ,
 	status = Q3XView_SubmitWriteData ( view ,
 		Q3Size_Pad ( 48 + data->pixmap.rowBytes * data->pixmap.height ) , (void*) data , NULL ) ;
 	
-	// Overall attribute set
-	if ( ( status != kQ3Failure ) && ( data->pixmapMarkerAttributeSet != NULL ) )
-		status = Q3Object_Submit ( data->pixmapMarkerAttributeSet , view ) ;
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->pixmapMarkerAttributeSet, view );
+	}
 
 
 	return status ;
@@ -1608,9 +1645,11 @@ e3ffw_3DMF_box_traverse( TQ3Object object,
 		}
 	
 	
-	// Overall attribute set
-	if ( (status == kQ3Success) && (data->boxAttributeSet != NULL) )
-		status = Q3Object_Submit( data->boxAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->boxAttributeSet, view );
+	}
 
 
 	return status;
@@ -1701,9 +1740,11 @@ e3ffw_3DMF_generalpolygon_traverse( TQ3Object object,
 		}
 	
 	
-	// Overall attribute set
-	if ( (status == kQ3Success) && (data->generalPolygonAttributeSet != NULL) )
-		status = Q3Object_Submit( data->generalPolygonAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->generalPolygonAttributeSet, view );
+	}
 
 
 	return status;
@@ -1860,9 +1901,11 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 		}
 		
 	
-	// Overall attribute set
-	if ( (status == kQ3Success) && (meshData->meshAttributeSet != NULL) )
-		status = Q3Object_Submit( meshData->meshAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( meshData->meshAttributeSet, view );
+	}
 
 	if(status == kQ3Success)
 		return (status);
@@ -1964,9 +2007,11 @@ e3ffw_3DMF_NURBpatch_traverse ( TQ3Object object ,
 		sizeof ( float ) * ( data->numRows + data->uOrder ) +
 		sizeof ( float ) * ( data->numColumns + data->vOrder ) , (void*) data , NULL ) ;
 	
-	// Overall attribute set
-	if ( ( status != kQ3Failure ) && ( data->patchAttributeSet != NULL ) )
-		status = Q3Object_Submit ( data->patchAttributeSet , view ) ;
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->patchAttributeSet, view );
+	}
 
 
 	return status ;
@@ -2065,9 +2110,11 @@ e3ffw_3DMF_polygon_traverse(TQ3Object object,
 
 
 
-	// overall attribute set
-	if (data->polygonAttributeSet != NULL && qd3dstatus == kQ3Success)
-		Q3Object_Submit( data->polygonAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( qd3dstatus == kQ3Success )
+	{
+		qd3dstatus = e3ffw_3DMF_submit_nonempty_attribute_set( data->polygonAttributeSet, view );
+	}
 	
 	
 	return qd3dstatus;
@@ -2173,9 +2220,11 @@ e3ffw_3DMF_polyline_traverse(TQ3Object object,
 
 
 
-	// overall attribute set
-	if (data->polyLineAttributeSet != NULL && qd3dstatus == kQ3Success)
-		Q3Object_Submit( data->polyLineAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( qd3dstatus == kQ3Success )
+	{
+		qd3dstatus = e3ffw_3DMF_submit_nonempty_attribute_set( data->polyLineAttributeSet, view );
+	}
 	
 	
 	return qd3dstatus;
@@ -2277,9 +2326,11 @@ e3ffw_3DMF_trigrid_traverse( TQ3Object object,
 		}
 	
 	
-	// Overall attribute set
-	if ( (status == kQ3Success) && (data->triGridAttributeSet != NULL) )
-		status = Q3Object_Submit( data->triGridAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->triGridAttributeSet, view );
+	}
 
 
 	return status;
@@ -2369,9 +2420,11 @@ e3ffw_3DMF_cone_traverse( TQ3Object object,
 			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 	
-	// Overall attribute set
-	if ( (status == kQ3Success) && (data->coneAttributeSet != NULL) )
-		status = Q3Object_Submit( data->coneAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->coneAttributeSet, view );
+	}
 
 
 	return status;
@@ -2477,9 +2530,11 @@ e3ffw_3DMF_cylinder_traverse( TQ3Object object,
 			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 	
-	// Overall attribute set
-	if ( (status == kQ3Success) && (data->cylinderAttributeSet != NULL) )
-		status = Q3Object_Submit( data->cylinderAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->cylinderAttributeSet, view );
+	}
 
 
 	return status;
@@ -2538,9 +2593,11 @@ e3ffw_3DMF_disk_traverse( TQ3Object object,
 	status = Q3XView_SubmitWriteData( view, 52, (void*)data, NULL );
 
 
-	// Overall attribute set
-	if ( (status == kQ3Success) && (data->diskAttributeSet != NULL) )
-		status = Q3Object_Submit( data->diskAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->diskAttributeSet, view );
+	}
 
 
 	return status;
@@ -2599,9 +2656,11 @@ e3ffw_3DMF_ellipse_traverse(TQ3Object object,
 	status = Q3XView_SubmitWriteData( view, 44, (void*)data, NULL );
 
 
-	// Overall attribute set
-	if ( (status == kQ3Success) && (data->ellipseAttributeSet != NULL) )
-		status = Q3Object_Submit( data->ellipseAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->ellipseAttributeSet, view );
+	}
 
 
 	return status;
@@ -2678,9 +2737,11 @@ e3ffw_3DMF_ellipsoid_traverse( TQ3Object object,
 			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 
-	// Overall attribute set
-	if ( (data->ellipsoidAttributeSet != NULL) && (status == kQ3Success) )
-		status = Q3Object_Submit( data->ellipsoidAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->ellipsoidAttributeSet, view );
+	}
 
 
 	return status;
@@ -2770,9 +2831,11 @@ e3ffw_3DMF_torus_traverse( TQ3Object object,
 			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 
-	// Overall attribute set
-	if ( (data->torusAttributeSet != NULL) && (status == kQ3Success) )
-		status = Q3Object_Submit( data->torusAttributeSet, view );
+	// Overall attribute set (don't write it unless it's nonempty)
+	if ( status == kQ3Success )
+	{
+		status = e3ffw_3DMF_submit_nonempty_attribute_set( data->torusAttributeSet, view );
+	}
 
 
 	return status;
@@ -2974,7 +3037,6 @@ e3ffw_3DMF_trimesh_traverse(TQ3Object object,
 					 TQ3ViewObject view)
 {
 	TQ3Status qd3dstatus;
-	TQ3AttributeType	attrType = kQ3AttributeTypeNone;
 	TQ3Uns32	size, pointIndexBytes, triIndexBytes, i;
 	
 
@@ -3031,12 +3093,9 @@ e3ffw_3DMF_trimesh_traverse(TQ3Object object,
 	}
 	
 	// Overall attribute set (don't write it unless it's nonempty)
-	if ( (data->triMeshAttributeSet != NULL) && (qd3dstatus == kQ3Success) &&
-		(kQ3Success == Q3AttributeSet_GetNextAttributeType( data->triMeshAttributeSet,
-			&attrType )) &&
-		(attrType != kQ3AttributeTypeNone) )
+	if ( qd3dstatus == kQ3Success )
 	{
-		qd3dstatus = Q3Object_Submit (data->triMeshAttributeSet, view);
+		qd3dstatus = e3ffw_3DMF_submit_nonempty_attribute_set( data->triMeshAttributeSet, view );
 	}
 
 	
