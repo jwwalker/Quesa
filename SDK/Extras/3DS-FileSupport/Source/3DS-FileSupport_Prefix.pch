@@ -1,0 +1,14 @@
+//
+// Prefix header for all source files of the '3DS-FileSupport' target in the '3DS-FileSupport' project.
+//
+
+#include <Carbon/Carbon.h>
+#if __MACH__
+	#include <Quesa/Quesa.h>
+#else
+	#include <Quesa.h>
+#endif
+
+#define		kTextureImportCallbackProperty	Q3_OBJECT_TYPE('T', 'x', 'I', 'm')
+
+#define		kDebugTextProperty				Q3_OBJECT_TYPE('D', 'e', 'b', 'g')

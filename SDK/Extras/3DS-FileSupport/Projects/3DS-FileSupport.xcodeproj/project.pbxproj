@@ -1,0 +1,414 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B15582030B5D9D2C004E2AE6 /* C3DSReader.cp in Sources */ = {isa = PBXBuildFile; fileRef = B15581FE0B5D9D2C004E2AE6 /* C3DSReader.cp */; };
+		B15582040B5D9D2C004E2AE6 /* main.cp in Sources */ = {isa = PBXBuildFile; fileRef = B15582000B5D9D2C004E2AE6 /* main.cp */; };
+		B15582050B5D9D2C004E2AE6 /* quesa-methods.cp in Sources */ = {isa = PBXBuildFile; fileRef = B15582010B5D9D2C004E2AE6 /* quesa-methods.cp */; };
+		B1BDF8310B62DC1000A6A5E4 /* atmosphere.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8090B62DC1000A6A5E4 /* atmosphere.c */; };
+		B1BDF8320B62DC1000A6A5E4 /* background.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF80B0B62DC1000A6A5E4 /* background.c */; };
+		B1BDF8330B62DC1000A6A5E4 /* camera.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF80D0B62DC1000A6A5E4 /* camera.c */; };
+		B1BDF8340B62DC1000A6A5E4 /* chunk.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF80F0B62DC1000A6A5E4 /* chunk.c */; };
+		B1BDF8350B62DC1000A6A5E4 /* ease.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8120B62DC1000A6A5E4 /* ease.c */; };
+		B1BDF8360B62DC1000A6A5E4 /* file.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8140B62DC1000A6A5E4 /* file.c */; };
+		B1BDF8370B62DC1000A6A5E4 /* float.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8160B62DC1000A6A5E4 /* float.c */; };
+		B1BDF8380B62DC1000A6A5E4 /* io.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8180B62DC1000A6A5E4 /* io.c */; };
+		B1BDF8390B62DC1000A6A5E4 /* light.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF81A0B62DC1000A6A5E4 /* light.c */; };
+		B1BDF83A0B62DC1000A6A5E4 /* material.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF81C0B62DC1000A6A5E4 /* material.c */; };
+		B1BDF83B0B62DC1000A6A5E4 /* matrix.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF81E0B62DC1000A6A5E4 /* matrix.c */; };
+		B1BDF83C0B62DC1000A6A5E4 /* mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8200B62DC1000A6A5E4 /* mesh.c */; };
+		B1BDF83D0B62DC1000A6A5E4 /* node.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8220B62DC1000A6A5E4 /* node.c */; };
+		B1BDF83E0B62DC1000A6A5E4 /* quat.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8240B62DC1000A6A5E4 /* quat.c */; };
+		B1BDF83F0B62DC1000A6A5E4 /* shadow.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8260B62DC1000A6A5E4 /* shadow.c */; };
+		B1BDF8400B62DC1000A6A5E4 /* tcb.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8280B62DC1000A6A5E4 /* tcb.c */; };
+		B1BDF8410B62DC1000A6A5E4 /* tracks.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF82A0B62DC1000A6A5E4 /* tracks.c */; };
+		B1BDF8420B62DC1000A6A5E4 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF82D0B62DC1000A6A5E4 /* vector.c */; };
+		B1BDF8430B62DC1000A6A5E4 /* viewport.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF82F0B62DC1000A6A5E4 /* viewport.c */; };
+		BE70167309F6AA5500940AA2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE70167209F6AA5500940AA2 /* Carbon.framework */; };
+		BE775A3209F809A5006C1ED3 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE775A3109F809A5006C1ED3 /* Quesa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		BEC95E6F08A87E66001E16B9 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.gcc;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+		BEC95E7008A87E6F001E16B9 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.gcc;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXBuildStyle section */
+		B137E3C70B5AE17900E58C48 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Development;
+		};
+		B137E3C80B5AE17900E58C48 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXFileReference section */
+		8D01CCD20486CAD60068D4B7 /* 3DS-FileSupport.quesaplug */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "3DS-FileSupport.quesaplug"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B15581FD0B5D9D2C004E2AE6 /* 3DS-FileSupport_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "3DS-FileSupport_Prefix.pch"; path = "../Source/3DS-FileSupport_Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		B15581FE0B5D9D2C004E2AE6 /* C3DSReader.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = C3DSReader.cp; path = ../Source/C3DSReader.cp; sourceTree = SOURCE_ROOT; };
+		B15581FF0B5D9D2C004E2AE6 /* C3DSReader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = C3DSReader.h; path = ../Source/C3DSReader.h; sourceTree = SOURCE_ROOT; };
+		B15582000B5D9D2C004E2AE6 /* main.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cp; path = ../Source/main.cp; sourceTree = SOURCE_ROOT; };
+		B15582010B5D9D2C004E2AE6 /* quesa-methods.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = "quesa-methods.cp"; path = "../Source/quesa-methods.cp"; sourceTree = SOURCE_ROOT; };
+		B15582020B5D9D2C004E2AE6 /* quesa-methods.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "quesa-methods.h"; path = "../Source/quesa-methods.h"; sourceTree = SOURCE_ROOT; };
+		B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = "3DS-FileSupport.xcconfig"; sourceTree = "<group>"; };
+		B1BDF8090B62DC1000A6A5E4 /* atmosphere.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = atmosphere.c; path = ../lib3ds/lib3ds/atmosphere.c; sourceTree = SOURCE_ROOT; };
+		B1BDF80A0B62DC1000A6A5E4 /* atmosphere.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = atmosphere.h; path = ../lib3ds/lib3ds/atmosphere.h; sourceTree = SOURCE_ROOT; };
+		B1BDF80B0B62DC1000A6A5E4 /* background.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = background.c; path = ../lib3ds/lib3ds/background.c; sourceTree = SOURCE_ROOT; };
+		B1BDF80C0B62DC1000A6A5E4 /* background.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = background.h; path = ../lib3ds/lib3ds/background.h; sourceTree = SOURCE_ROOT; };
+		B1BDF80D0B62DC1000A6A5E4 /* camera.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = camera.c; path = ../lib3ds/lib3ds/camera.c; sourceTree = SOURCE_ROOT; };
+		B1BDF80E0B62DC1000A6A5E4 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = camera.h; path = ../lib3ds/lib3ds/camera.h; sourceTree = SOURCE_ROOT; };
+		B1BDF80F0B62DC1000A6A5E4 /* chunk.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = chunk.c; path = ../lib3ds/lib3ds/chunk.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8100B62DC1000A6A5E4 /* chunk.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = chunk.h; path = ../lib3ds/lib3ds/chunk.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8110B62DC1000A6A5E4 /* chunktable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = chunktable.h; path = ../lib3ds/lib3ds/chunktable.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8120B62DC1000A6A5E4 /* ease.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = ease.c; path = ../lib3ds/lib3ds/ease.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8130B62DC1000A6A5E4 /* ease.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ease.h; path = ../lib3ds/lib3ds/ease.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8140B62DC1000A6A5E4 /* file.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = file.c; path = ../lib3ds/lib3ds/file.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8150B62DC1000A6A5E4 /* file.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = file.h; path = ../lib3ds/lib3ds/file.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8160B62DC1000A6A5E4 /* float.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = float.c; path = ../lib3ds/lib3ds/float.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8170B62DC1000A6A5E4 /* float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = float.h; path = ../lib3ds/lib3ds/float.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8180B62DC1000A6A5E4 /* io.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = io.c; path = ../lib3ds/lib3ds/io.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8190B62DC1000A6A5E4 /* io.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = io.h; path = ../lib3ds/lib3ds/io.h; sourceTree = SOURCE_ROOT; };
+		B1BDF81A0B62DC1000A6A5E4 /* light.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = light.c; path = ../lib3ds/lib3ds/light.c; sourceTree = SOURCE_ROOT; };
+		B1BDF81B0B62DC1000A6A5E4 /* light.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = light.h; path = ../lib3ds/lib3ds/light.h; sourceTree = SOURCE_ROOT; };
+		B1BDF81C0B62DC1000A6A5E4 /* material.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = material.c; path = ../lib3ds/lib3ds/material.c; sourceTree = SOURCE_ROOT; };
+		B1BDF81D0B62DC1000A6A5E4 /* material.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = material.h; path = ../lib3ds/lib3ds/material.h; sourceTree = SOURCE_ROOT; };
+		B1BDF81E0B62DC1000A6A5E4 /* matrix.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = matrix.c; path = ../lib3ds/lib3ds/matrix.c; sourceTree = SOURCE_ROOT; };
+		B1BDF81F0B62DC1000A6A5E4 /* matrix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = matrix.h; path = ../lib3ds/lib3ds/matrix.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8200B62DC1000A6A5E4 /* mesh.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = mesh.c; path = ../lib3ds/lib3ds/mesh.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8210B62DC1000A6A5E4 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mesh.h; path = ../lib3ds/lib3ds/mesh.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8220B62DC1000A6A5E4 /* node.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = node.c; path = ../lib3ds/lib3ds/node.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8230B62DC1000A6A5E4 /* node.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = node.h; path = ../lib3ds/lib3ds/node.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8240B62DC1000A6A5E4 /* quat.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = quat.c; path = ../lib3ds/lib3ds/quat.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8250B62DC1000A6A5E4 /* quat.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = quat.h; path = ../lib3ds/lib3ds/quat.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8260B62DC1000A6A5E4 /* shadow.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = shadow.c; path = ../lib3ds/lib3ds/shadow.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8270B62DC1000A6A5E4 /* shadow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = shadow.h; path = ../lib3ds/lib3ds/shadow.h; sourceTree = SOURCE_ROOT; };
+		B1BDF8280B62DC1000A6A5E4 /* tcb.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = tcb.c; path = ../lib3ds/lib3ds/tcb.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8290B62DC1000A6A5E4 /* tcb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = tcb.h; path = ../lib3ds/lib3ds/tcb.h; sourceTree = SOURCE_ROOT; };
+		B1BDF82A0B62DC1000A6A5E4 /* tracks.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = tracks.c; path = ../lib3ds/lib3ds/tracks.c; sourceTree = SOURCE_ROOT; };
+		B1BDF82B0B62DC1000A6A5E4 /* tracks.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = tracks.h; path = ../lib3ds/lib3ds/tracks.h; sourceTree = SOURCE_ROOT; };
+		B1BDF82C0B62DC1000A6A5E4 /* types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = types.h; path = ../lib3ds/lib3ds/types.h; sourceTree = SOURCE_ROOT; };
+		B1BDF82D0B62DC1000A6A5E4 /* vector.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = vector.c; path = ../lib3ds/lib3ds/vector.c; sourceTree = SOURCE_ROOT; };
+		B1BDF82E0B62DC1000A6A5E4 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = vector.h; path = ../lib3ds/lib3ds/vector.h; sourceTree = SOURCE_ROOT; };
+		B1BDF82F0B62DC1000A6A5E4 /* viewport.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = viewport.c; path = ../lib3ds/lib3ds/viewport.c; sourceTree = SOURCE_ROOT; };
+		B1BDF8300B62DC1000A6A5E4 /* viewport.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = viewport.h; path = ../lib3ds/lib3ds/viewport.h; sourceTree = SOURCE_ROOT; };
+		BE61011E08EFA04E0020A13D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../Resources/version.h; sourceTree = SOURCE_ROOT; };
+		BE70167209F6AA5500940AA2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		BE775A3109F809A5006C1ED3 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quesa.framework; path = ../../../Libraries/Mac/Framework_Universal/Release/Quesa.framework; sourceTree = SOURCE_ROOT; };
+		BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "VRML-reader.xcconfig"; path = "/Volumes/RoadRunner/Lavori/Quesa/quesa/SDK/Extras/3DS-FileSupport/Projects/VRML-reader.xcconfig"; sourceTree = "<absolute>"; };
+		BEC95CBA08A86BD2001E16B9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ../Resources/Info.plist; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D01CCCD0486CAD60068D4B7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE70167309F6AA5500940AA2 /* Carbon.framework in Frameworks */,
+				BE775A3209F809A5006C1ED3 /* Quesa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* VRML-Reader */ = {
+			isa = PBXGroup;
+			children = (
+				B1BDF8050B62CFA100A6A5E4 /* lib3ds */,
+				08FB77ADFE841716C02AAC07 /* Source */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
+				19C28FB4FE9D528D11CA2CBB /* Products */,
+				B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */,
+			);
+			name = "VRML-Reader";
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				BE775A3109F809A5006C1ED3 /* Quesa.framework */,
+				BE70167209F6AA5500940AA2 /* Carbon.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BEC95CBA08A86BD2001E16B9 /* Info.plist */,
+				BE61011E08EFA04E0020A13D /* version.h */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77ADFE841716C02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				B15581FD0B5D9D2C004E2AE6 /* 3DS-FileSupport_Prefix.pch */,
+				B15581FE0B5D9D2C004E2AE6 /* C3DSReader.cp */,
+				B15581FF0B5D9D2C004E2AE6 /* C3DSReader.h */,
+				B15582000B5D9D2C004E2AE6 /* main.cp */,
+				B15582010B5D9D2C004E2AE6 /* quesa-methods.cp */,
+				B15582020B5D9D2C004E2AE6 /* quesa-methods.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		19C28FB4FE9D528D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D01CCD20486CAD60068D4B7 /* 3DS-FileSupport.quesaplug */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B1BDF8050B62CFA100A6A5E4 /* lib3ds */ = {
+			isa = PBXGroup;
+			children = (
+				B1BDF8090B62DC1000A6A5E4 /* atmosphere.c */,
+				B1BDF80A0B62DC1000A6A5E4 /* atmosphere.h */,
+				B1BDF80B0B62DC1000A6A5E4 /* background.c */,
+				B1BDF80C0B62DC1000A6A5E4 /* background.h */,
+				B1BDF80D0B62DC1000A6A5E4 /* camera.c */,
+				B1BDF80E0B62DC1000A6A5E4 /* camera.h */,
+				B1BDF80F0B62DC1000A6A5E4 /* chunk.c */,
+				B1BDF8100B62DC1000A6A5E4 /* chunk.h */,
+				B1BDF8110B62DC1000A6A5E4 /* chunktable.h */,
+				B1BDF8120B62DC1000A6A5E4 /* ease.c */,
+				B1BDF8130B62DC1000A6A5E4 /* ease.h */,
+				B1BDF8140B62DC1000A6A5E4 /* file.c */,
+				B1BDF8150B62DC1000A6A5E4 /* file.h */,
+				B1BDF8160B62DC1000A6A5E4 /* float.c */,
+				B1BDF8170B62DC1000A6A5E4 /* float.h */,
+				B1BDF8180B62DC1000A6A5E4 /* io.c */,
+				B1BDF8190B62DC1000A6A5E4 /* io.h */,
+				B1BDF81A0B62DC1000A6A5E4 /* light.c */,
+				B1BDF81B0B62DC1000A6A5E4 /* light.h */,
+				B1BDF81C0B62DC1000A6A5E4 /* material.c */,
+				B1BDF81D0B62DC1000A6A5E4 /* material.h */,
+				B1BDF81E0B62DC1000A6A5E4 /* matrix.c */,
+				B1BDF81F0B62DC1000A6A5E4 /* matrix.h */,
+				B1BDF8200B62DC1000A6A5E4 /* mesh.c */,
+				B1BDF8210B62DC1000A6A5E4 /* mesh.h */,
+				B1BDF8220B62DC1000A6A5E4 /* node.c */,
+				B1BDF8230B62DC1000A6A5E4 /* node.h */,
+				B1BDF8240B62DC1000A6A5E4 /* quat.c */,
+				B1BDF8250B62DC1000A6A5E4 /* quat.h */,
+				B1BDF8260B62DC1000A6A5E4 /* shadow.c */,
+				B1BDF8270B62DC1000A6A5E4 /* shadow.h */,
+				B1BDF8280B62DC1000A6A5E4 /* tcb.c */,
+				B1BDF8290B62DC1000A6A5E4 /* tcb.h */,
+				B1BDF82A0B62DC1000A6A5E4 /* tracks.c */,
+				B1BDF82B0B62DC1000A6A5E4 /* tracks.h */,
+				B1BDF82C0B62DC1000A6A5E4 /* types.h */,
+				B1BDF82D0B62DC1000A6A5E4 /* vector.c */,
+				B1BDF82E0B62DC1000A6A5E4 /* vector.h */,
+				B1BDF82F0B62DC1000A6A5E4 /* viewport.c */,
+				B1BDF8300B62DC1000A6A5E4 /* viewport.h */,
+			);
+			name = lib3ds;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D01CCC60486CAD60068D4B7 /* 3DS-Support */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEC95CAF08A86B3C001E16B9 /* Build configuration list for PBXNativeTarget "3DS-Support" */;
+			buildPhases = (
+				8D01CCC90486CAD60068D4B7 /* Resources */,
+				8D01CCCB0486CAD60068D4B7 /* Sources */,
+				8D01CCCD0486CAD60068D4B7 /* Frameworks */,
+				BE90C9EC0AFBD99500976226 /* ShellScript */,
+			);
+			buildRules = (
+				BEC95E7008A87E6F001E16B9 /* PBXBuildRule */,
+				BEC95E6F08A87E66001E16B9 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = "3DS-Support";
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = "VRML-Reader";
+			productReference = 8D01CCD20486CAD60068D4B7 /* 3DS-FileSupport.quesaplug */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = BEC95CB308A86B3C001E16B9 /* Build configuration list for PBXProject "3DS-FileSupport" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				B137E3C70B5AE17900E58C48 /* Development */,
+				B137E3C80B5AE17900E58C48 /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* VRML-Reader */;
+			projectDirPath = "";
+			targets = (
+				8D01CCC60486CAD60068D4B7 /* 3DS-Support */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D01CCC90486CAD60068D4B7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BE90C9EC0AFBD99500976226 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"setting package flag on $CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n/Developer/Tools/SetFile -a B \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D01CCCB0486CAD60068D4B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B15582030B5D9D2C004E2AE6 /* C3DSReader.cp in Sources */,
+				B15582040B5D9D2C004E2AE6 /* main.cp in Sources */,
+				B15582050B5D9D2C004E2AE6 /* quesa-methods.cp in Sources */,
+				B1BDF8310B62DC1000A6A5E4 /* atmosphere.c in Sources */,
+				B1BDF8320B62DC1000A6A5E4 /* background.c in Sources */,
+				B1BDF8330B62DC1000A6A5E4 /* camera.c in Sources */,
+				B1BDF8340B62DC1000A6A5E4 /* chunk.c in Sources */,
+				B1BDF8350B62DC1000A6A5E4 /* ease.c in Sources */,
+				B1BDF8360B62DC1000A6A5E4 /* file.c in Sources */,
+				B1BDF8370B62DC1000A6A5E4 /* float.c in Sources */,
+				B1BDF8380B62DC1000A6A5E4 /* io.c in Sources */,
+				B1BDF8390B62DC1000A6A5E4 /* light.c in Sources */,
+				B1BDF83A0B62DC1000A6A5E4 /* material.c in Sources */,
+				B1BDF83B0B62DC1000A6A5E4 /* matrix.c in Sources */,
+				B1BDF83C0B62DC1000A6A5E4 /* mesh.c in Sources */,
+				B1BDF83D0B62DC1000A6A5E4 /* node.c in Sources */,
+				B1BDF83E0B62DC1000A6A5E4 /* quat.c in Sources */,
+				B1BDF83F0B62DC1000A6A5E4 /* shadow.c in Sources */,
+				B1BDF8400B62DC1000A6A5E4 /* tcb.c in Sources */,
+				B1BDF8410B62DC1000A6A5E4 /* tracks.c in Sources */,
+				B1BDF8420B62DC1000A6A5E4 /* vector.c in Sources */,
+				B1BDF8430B62DC1000A6A5E4 /* viewport.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BE7C488208AF202E00559F64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "3DS-Support";
+			};
+			name = Release;
+		};
+		BE7C488308AF202E00559F64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+			};
+			name = Release;
+		};
+		BEC95CB008A86B3C001E16B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */;
+			buildSettings = {
+				ARCHS = ppc;
+				SYMROOT = "../../../Examples/Geom Test/build/";
+			};
+			name = Debug;
+		};
+		BEC95CB408A86B3C001E16B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+					"DEBUG=1",
+				);
+				PRODUCT_NAME = "3DS-Support-D";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BEC95CAF08A86B3C001E16B9 /* Build configuration list for PBXNativeTarget "3DS-Support" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEC95CB008A86B3C001E16B9 /* Debug */,
+				BE7C488208AF202E00559F64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BEC95CB308A86B3C001E16B9 /* Build configuration list for PBXProject "3DS-FileSupport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEC95CB408A86B3C001E16B9 /* Debug */,
+				BE7C488308AF202E00559F64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
