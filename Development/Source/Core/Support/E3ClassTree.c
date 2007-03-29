@@ -1198,22 +1198,6 @@ E3ClassTree::GetClass ( TQ3Object theObject )
 
 
 
-E3ClassInfoPtr
-OpaqueTQ3Object::GetClass ( void )
-	{
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
-
-
-
-	// Get the class
-	return theClass ;
-	}
-
-
-
-
-
 //=============================================================================
 //      E3ClassTree_GetParent : Get the parent of a class, if any.
 //-----------------------------------------------------------------------------
