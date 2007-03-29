@@ -220,7 +220,12 @@ public :
 
 
 	// Locate a class
-	E3ClassInfoPtr				GetClass ( void ) ;
+	inline E3ClassInfoPtr		GetClass ( void ) const
+											{
+												Q3_ASSERT( this != NULL );
+												return theClass;
+											}
+								
 	TQ3XFunctionPointer 		GetMethod ( TQ3XMethodType methodType ) ;
 
 
