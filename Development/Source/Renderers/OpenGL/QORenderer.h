@@ -189,7 +189,7 @@ protected:
 	void					StartPass(
     								TQ3CameraObject inCamera,
     								TQ3GroupObject inLights );
-    void					EndPass(
+    TQ3ViewStatus			EndPass(
     								TQ3ViewObject inView );
 	
 	bool					SubmitTriMesh(
@@ -302,6 +302,7 @@ protected:
 	TQ3GLExtensions			mGLExtensions;
 	TQ3BlendEquationProcPtr	mGLBlendEqProc;
 	MatrixState				mMatrixState;
+	TQ3Int32				mPassIndex;
 	
 	// Color states
 	TQ3ObjectType			mViewIllumination;

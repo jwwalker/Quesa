@@ -49,6 +49,7 @@
 #include "GLUtils.h"
 #include "GLVBOManager.h"
 #include "GLDisplayListManager.h"
+#include "CQ3ObjectRef_Gets.h"
 
 
 
@@ -181,11 +182,17 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	GLDrawContext_SetCurrent( mGLContext, kQ3True );
 
 
+	// Tell light manager that a frame is starting
+	mLights.StartFrame();
+
 
 	// Clear the context
 	if (mGLClearFlags != 0)
 		glClear( mGLClearFlags );
 
+
+	// Reset pass counter
+	mPassIndex = -1;
 
 	
 	return kQ3Success;
@@ -221,6 +228,7 @@ void		QORenderer::Renderer::StartPass(
 	mViewState.Reset();
 	mGeomState.Reset();
 	mViewIllumination = kQ3ObjectTypeInvalid;
+	mPassIndex += 1;
 	
 	// Set specularity to bogus values to force an update at next chance
 	mCurrentSpecularColor[0] = -1.0f;
@@ -257,7 +265,17 @@ void		QORenderer::Renderer::StartPass(
 	mTextures.StartPass();
 }
 
-void		QORenderer::Renderer::EndPass(
+static bool IsSwapWanted( TQ3ViewObject inView )
+{
+	CQ3ObjectRef	theDrawContext( CQ3View_GetDrawContext( inView ) );
+	TQ3Boolean		swapFlag;
+	return (kQ3Failure == Q3Object_GetProperty( theDrawContext.get(),
+		kQ3DrawContextPropertySwapBufferInEndPass, sizeof(swapFlag), NULL,
+		&swapFlag )) ||
+		(swapFlag == kQ3True);
+}
+
+TQ3ViewStatus		QORenderer::Renderer::EndPass(
 								TQ3ViewObject inView )
 {
 	// Activate our context
@@ -267,22 +285,18 @@ void		QORenderer::Renderer::EndPass(
 	mTriBuffer.Flush();
 	mTransBuffer.Flush( inView );
 	
+	// reset some state to defaults
+	TQ3ViewStatus	allDone = mLights.EndPass();
+	mTextures.EndPass();
+
 	// Swap the back buffer, unless asked not to
-	TQ3DrawContextObject	theDrawContext;
-	Q3View_GetDrawContext( inView, &theDrawContext );
-	CQ3ObjectRef	dcDisposer( theDrawContext );
-	TQ3Boolean		swapFlag;
-	if ( (kQ3Failure == Q3Object_GetProperty( theDrawContext,
-		kQ3DrawContextPropertySwapBufferInEndPass, sizeof(swapFlag), NULL,
-		&swapFlag )) ||
-		(swapFlag == kQ3True) )
+	if ( (allDone == kQ3ViewStatusDone) && IsSwapWanted( inView ) )
 	{
 		GLDrawContext_SwapBuffers( mGLContext );
 	}
 	
-	// reset some state to defaults
-	mLights.EndPass();
-	mTextures.EndPass();
 	FlushVBOCache( mGLContext );
 	FlushDisplayListCache( mGLContext );
+	
+	return allDone;
 }
