@@ -666,6 +666,35 @@ e3view_stack_pop_clean ( E3View* view )
 
 
 //=============================================================================
+//      e3view_init_matrix_state : Initialize matrices in the view state.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3view_init_matrix_state( TQ3ViewObject theView )
+{
+	TQ3Matrix4x4	worldToCamera, cameraToFrustum;
+	TQ3Status		qd3dStatus;
+	E3View*			viewOb = (E3View*) theView;
+	
+	qd3dStatus = Q3Camera_GetWorldToView( viewOb->instanceData.theCamera,
+		&worldToCamera );
+		
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = Q3Camera_GetViewToFrustum( viewOb->instanceData.theCamera,
+			&cameraToFrustum ) ;
+
+	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = E3View_State_SetMatrix( theView,
+			(TQ3MatrixState) ( kQ3MatrixStateWorldToCamera | kQ3MatrixStateCameraToFrustum ),
+			NULL, &worldToCamera, &cameraToFrustum );
+	
+	return qd3dStatus;
+}
+
+
+
+
+
+//=============================================================================
 //      e3view_bounds_box_exact : Update our bounds.
 //-----------------------------------------------------------------------------
 //		Note :	We transform the vertices to world coordinates, then union them
@@ -1378,7 +1407,10 @@ e3view_submit_end ( E3View* view, TQ3ViewStatus submitStatus )
 			view->instanceData.rendererFinishedFrame = kQ3False ;
 
 			if ( view->instanceData.viewMode == kQ3ViewModeDrawing)
+				{
+				e3view_init_matrix_state( view );
 				qd3dStatus = E3Renderer_Method_StartPass ( view, view->instanceData.theCamera, view->instanceData.theLights ) ;
+				}
 			else
 			if ( view->instanceData.viewMode == kQ3ViewModeWriting )
 				qd3dStatus = E3FileFormat_Method_StartPass ( view ) ;
@@ -3490,7 +3522,6 @@ E3View_GetRenderer(TQ3ViewObject theView, TQ3RendererObject *theRenderer)
 TQ3Status
 E3View_StartRendering(TQ3ViewObject theView)
 	{
-	TQ3Matrix4x4			worldToCamera, cameraToFrustum;
 	TQ3DrawContextData		drawContextData;
 
 
@@ -3542,14 +3573,7 @@ E3View_StartRendering(TQ3ViewObject theView)
 			qd3dStatus = E3Renderer_Method_StartFrame ( theView, ( (E3View*) theView )->instanceData.theDrawContext ) ;
 		
 		if ( qd3dStatus != kQ3Failure )
-			qd3dStatus = Q3Camera_GetWorldToView ( ( (E3View*) theView )->instanceData.theCamera,   &worldToCamera ) ;
-		
-		if ( qd3dStatus != kQ3Failure )
-			qd3dStatus = Q3Camera_GetViewToFrustum ( ( (E3View*) theView )->instanceData.theCamera, &cameraToFrustum ) ;
-
-		if ( qd3dStatus != kQ3Failure )
-			E3View_State_SetMatrix ( theView, (TQ3MatrixState) ( kQ3MatrixStateWorldToCamera | kQ3MatrixStateCameraToFrustum ),
-											NULL, &worldToCamera, &cameraToFrustum ) ;
+			qd3dStatus = e3view_init_matrix_state( theView );
 		}
 
 
