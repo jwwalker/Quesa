@@ -248,6 +248,13 @@ e3geom_box_create_face( TQ3ViewObject theView,
 													 { 1.0f, 0.0f },
 													 { 1.0f, 1.0f },
 													 { 0.0f, 1.0f } };
+	TQ3TriMeshEdgeData	 edges[4] =
+	{
+		{ { 0, 1 }, { 0, kQ3ArrayIndexNULL } },
+		{ { 1, 2 }, { 0, kQ3ArrayIndexNULL } },
+		{ { 2, 3 }, { 1, kQ3ArrayIndexNULL } },
+		{ { 3, 0 }, { 1, kQ3ArrayIndexNULL } }
+	};
 	TQ3Vector3D						vertexNormals[4];
 	TQ3TriMeshData					theTriMeshData;
 	TQ3TriMeshAttributeData			vertexAtts[2];
@@ -301,8 +308,8 @@ e3geom_box_create_face( TQ3ViewObject theView,
 	theTriMeshData.triangles                 = triangles;
 	theTriMeshData.numTriangleAttributeTypes = 0;
 	theTriMeshData.triangleAttributeTypes    = NULL;
-	theTriMeshData.numEdges                  = 0;
-	theTriMeshData.edges                     = NULL;
+	theTriMeshData.numEdges                  = 4;
+	theTriMeshData.edges                     = edges;
 	theTriMeshData.numEdgeAttributeTypes     = 0;
 	theTriMeshData.edgeAttributeTypes        = NULL;
 	theTriMeshData.numPoints                 = 4;
