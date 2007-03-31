@@ -1203,6 +1203,15 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	{
 		return false;	// theoretically impossible
 	}
+	
+	if ( (mPassIndex > 0) && (mViewIllumination == kQ3IlluminationTypeNULL) )
+	{
+		// Since NULL illumination disables lighting, and we only use
+		// multiple passes to handle lots of lights, geometries with NULL
+		// illumination should only be handled in the first pass.
+		return true;
+	}
+	
 	bool didHandle = false;
 	
 	ImmediateModePush( inView, inTriMesh, inGeomData->triMeshAttributeSet );
@@ -1306,6 +1315,14 @@ void	QORenderer::Renderer::SubmitTriangle(
 									TQ3GeometryObject inTriangle,
 									const TQ3TriangleData* inGeomData )
 {
+	if ( (mPassIndex > 0) && (mViewIllumination == kQ3IlluminationTypeNULL) )
+	{
+		// Since NULL illumination disables lighting, and we only use
+		// multiple passes to handle lots of lights, geometries with NULL
+		// illumination should only be handled in the first pass.
+		return;
+	}
+
 	ImmediateModePush( inView, inTriangle, inGeomData->triangleAttributeSet );
 
 	// Activate our context
@@ -1388,6 +1405,14 @@ void	QORenderer::Renderer::SubmitTriangle(
 void	QORenderer::Renderer::SubmitPoint(
 								const TQ3PointData* inGeomData )
 {
+	if ( (mPassIndex > 0) && (mViewIllumination == kQ3IlluminationTypeNULL) )
+	{
+		// Since NULL illumination disables lighting, and we only use
+		// multiple passes to handle lots of lights, geometries with NULL
+		// illumination should only be handled in the first pass.
+		return;
+	}
+
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -1448,6 +1473,14 @@ void	QORenderer::Renderer::SubmitPoint(
 void	QORenderer::Renderer::SubmitLine(
 								const TQ3LineData* inGeomData )
 {
+	if ( (mPassIndex > 0) && (mViewIllumination == kQ3IlluminationTypeNULL) )
+	{
+		// Since NULL illumination disables lighting, and we only use
+		// multiple passes to handle lots of lights, geometries with NULL
+		// illumination should only be handled in the first pass.
+		return;
+	}
+
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
