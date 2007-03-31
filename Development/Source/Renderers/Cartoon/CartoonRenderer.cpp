@@ -1037,6 +1037,7 @@ cartoon_new_object( TQ3Object theObject, void *privateData, void *paramData )
 static void
 cartoon_delete_object( TQ3Object theObject, void *privateData )
 {
+#pragma unused( theObject )
 	CCartoonRendererQuesa*	me = *(CCartoonRendererQuesa**) privateData;
 	
 	delete me;
