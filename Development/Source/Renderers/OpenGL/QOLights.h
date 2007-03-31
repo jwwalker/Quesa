@@ -74,12 +74,14 @@ public:
 								: mGLExtensions( inExtensions )
 								, mLightCount( 0 )
 								, mIsOnlyAmbient( false ) {}
+
+	void					StartFrame();
 	
 	void					StartPass(
 									TQ3CameraObject inCamera,
 									TQ3GroupObject inLights );
 
-	void					EndPass();
+	TQ3ViewStatus			EndPass();
 	
 	void					SetOnlyAmbient( bool inOnlyAmbient );
 
@@ -90,6 +92,9 @@ private:
 
 	const TQ3GLExtensions&	mGLExtensions;
 	TQ3Uns32				mLightCount;			// number of non-ambient lights
+	bool					mIsFirstPass;
+	bool					mIsAnotherPassNeeded;
+	TQ3Uns32				mStartingLightIndexForPass;
 	GLfloat					mGlAmbientLight[4];		// color of ambient light
 	
 	bool					mIsOnlyAmbient;

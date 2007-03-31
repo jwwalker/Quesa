@@ -142,10 +142,14 @@ static void AddDirectionalLight( TQ3LightObject inLight,
 
 	// Set up the light
 	GLenum	lightIndex = GL_LIGHT0 + inLightCount;
+	glEnable( lightIndex );
+	glLighti( lightIndex, GL_SPOT_CUTOFF, 180 );
 	glLightfv( lightIndex, GL_DIFFUSE,  lightColor );
 	glLightfv( lightIndex, GL_SPECULAR, lightColor );
 	glLightfv( lightIndex, GL_POSITION, lightDirection );
-	glEnable ( lightIndex );
+	glLightf( lightIndex, GL_CONSTANT_ATTENUATION, 1.0f );
+	glLightf( lightIndex, GL_LINEAR_ATTENUATION, 0.0f );
+	glLightf( lightIndex, GL_QUADRATIC_ATTENUATION, 0.0f );
 }
 
 /*!
@@ -224,14 +228,14 @@ static void AddPointLight( TQ3LightObject inLight,
 
 	// Set up the light
 	GLenum	lightIndex = GL_LIGHT0 + inLightCount;
+	glEnable( lightIndex );
+	glLighti( lightIndex, GL_SPOT_CUTOFF, 180 );
 	glLightfv( lightIndex, GL_DIFFUSE, lightColor );
 	glLightfv( lightIndex, GL_SPECULAR, lightColor );
 	glLightfv( lightIndex, GL_POSITION, lightPosition );
 	glLightf( lightIndex, GL_CONSTANT_ATTENUATION, attConstant );
 	glLightf( lightIndex, GL_LINEAR_ATTENUATION, attLinear );
 	glLightf( lightIndex, GL_QUADRATIC_ATTENUATION, attQuadratic );
-	glLighti( lightIndex, GL_SPOT_CUTOFF, 180 );
-	glEnable( lightIndex );
 }
 
 /*!
@@ -280,6 +284,7 @@ static void AddSpotLight( TQ3LightObject inLight,
 	
 	// Set up the light
 	GLenum	lightIndex = GL_LIGHT0 + inLightCount;
+	glEnable( lightIndex );
 	glLightfv( lightIndex, GL_DIFFUSE, lightColor );
 	glLightfv( lightIndex, GL_SPECULAR, lightColor );
 	glLightfv( lightIndex, GL_POSITION, lightLocation );
@@ -288,7 +293,6 @@ static void AddSpotLight( TQ3LightObject inLight,
 	glLightf( lightIndex, GL_CONSTANT_ATTENUATION, attConstant );
 	glLightf( lightIndex, GL_LINEAR_ATTENUATION, attLinear );
 	glLightf( lightIndex, GL_QUADRATIC_ATTENUATION, attQuadratic );
-	glEnable( lightIndex );
 }
 
 
@@ -326,6 +330,16 @@ void	QORenderer::Lights::Reset( TQ3Uns32 inNumQ3Lights )
 	}
 }
 
+/*!
+	@function	StartFrame
+	
+	@abstract	Initialize lights for the start of a frame.
+*/
+void	QORenderer::Lights::StartFrame()
+{
+	mIsFirstPass = true;
+	mStartingLightIndexForPass = 0;
+}
 
 /*!
 	@function	StartPass
@@ -337,6 +351,7 @@ void	QORenderer::Lights::StartPass(
 								TQ3GroupObject inLights )
 {
 	mIsOnlyAmbient = false;
+	mIsAnotherPassNeeded = false;
 	
 	// How many Quesa lights do we have?
 	TQ3Uns32	numQuesaLights;
@@ -358,6 +373,8 @@ void	QORenderer::Lights::StartPass(
 	// transform to the identity. Since lights are translated before geometry,
 	// we need to transform their direction/positions ourselves in order to
 	// put them into the OpenGL camera's coordinate system.
+	GLfloat				glMatrix[16];
+	glGetFloatv( GL_MODELVIEW_MATRIX, glMatrix );
 	TQ3Matrix4x4	worldToView;
 	Q3Camera_GetWorldToView( inCamera, &worldToView );
 	glMatrixMode( GL_MODELVIEW );
@@ -365,6 +382,8 @@ void	QORenderer::Lights::StartPass(
 	
 	
 	// Process each enabled light
+	TQ3Uns32	lightIndex = 0;
+	TQ3Uns32	handledNonAmbientLights = 0;
 	Q3GroupIterator		iter( inLights, kQ3ShapeTypeLight );
 	CQ3ObjectRef	theLight;
 	while ( (theLight = iter.NextObject()).isvalid() )
@@ -378,32 +397,60 @@ void	QORenderer::Lights::StartPass(
 			
 			if (lightType == kQ3LightTypeAmbient)
 			{
-				ConvertAmbientLight( theLight.get(), mGlAmbientLight );
-			}
-			else if (mLightCount < maxGLLights)
-			{
-				switch (lightType)
+				if (mIsFirstPass)
 				{
-					case kQ3LightTypeDirectional:
-						AddDirectionalLight( theLight.get(), worldToView,
-							mLightCount );
-						++mLightCount;
-						break;
-						
-					case kQ3LightTypePoint:
-						AddPointLight( theLight.get(), worldToView,
-							mLightCount );
-						++mLightCount;
-						break;
-						
-					case kQ3LightTypeSpot:
-						AddSpotLight( theLight.get(), worldToView,
-							mLightCount );
-						++mLightCount;
-						break;
+					ConvertAmbientLight( theLight.get(), mGlAmbientLight );
 				}
 			}
+			else
+			{
+				if (lightIndex >= mStartingLightIndexForPass)
+				{
+					if (mLightCount < maxGLLights)
+					{
+						switch (lightType)
+						{
+							case kQ3LightTypeDirectional:
+								AddDirectionalLight( theLight.get(), worldToView,
+									mLightCount );
+								++mLightCount;
+								break;
+								
+							case kQ3LightTypePoint:
+								AddPointLight( theLight.get(), worldToView,
+									mLightCount );
+								++mLightCount;
+								break;
+								
+							case kQ3LightTypeSpot:
+								AddSpotLight( theLight.get(), worldToView,
+									mLightCount );
+								++mLightCount;
+								break;
+						}
+						++handledNonAmbientLights;
+					}
+					else
+					{
+						mIsAnotherPassNeeded = true;
+					}
+				}
+				lightIndex += 1;
+			}
 		}
+	}
+	
+	mStartingLightIndexForPass += handledNonAmbientLights;
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(glMatrix);
+	
+	if (! mIsFirstPass)
+	{
+		glDepthMask( GL_FALSE );	// no writes to depth buffer
+		glDepthFunc( GL_LEQUAL );	// pass depth test on equal
+		glEnable( GL_BLEND );
+		glBlendFunc( GL_ONE, GL_ONE );
 	}
 }
 
@@ -412,8 +459,10 @@ void	QORenderer::Lights::StartPass(
 	@function	EndPass
 	
 	@abstract	Turn off the lights at the end of a pass.
+	
+	@result		True if we are done with all lights.
 */
-void	QORenderer::Lights::EndPass()
+TQ3ViewStatus	QORenderer::Lights::EndPass()
 {
 	for (int i = 0; i < mLightCount; ++i)
 	{
@@ -421,11 +470,15 @@ void	QORenderer::Lights::EndPass()
 	}
 	
 	Reset( 0 );
+		
+	mIsFirstPass = false;
+	
+	return mIsAnotherPassNeeded? kQ3ViewStatusRetraverse : kQ3ViewStatusDone;
 }
 
 
 /*!
-	@function	Reset
+	@function	SetOnlyAmbient
 	
 	@abstract	Set whether or not all light is ambient.
 	
