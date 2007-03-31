@@ -1057,6 +1057,13 @@ void	QORenderer::Renderer::RenderExplicitEdges(
 	// Turn off texturing.
 	mTextures.SetCurrentTexture( NULL, NULL );
 	
+
+	// If no vertex or edge colors, set the color.
+	if ( (inVertColors == NULL) && (inEdgeColors == NULL) )
+	{
+		glColor3fv( &mGeomState.diffuseColor->r );
+	}
+	
 	
 	// Render edges one line at a time.
 	glBegin( GL_LINES );
