@@ -185,15 +185,16 @@ TQ3ViewStatus	QORenderer::Statics::EndPassMethod(
 								TQ3ViewObject inView,
 								void* privateData )
 {
+	TQ3ViewStatus	theStatus = kQ3ViewStatusError;
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
 	try
 	{
-		me->EndPass( inView );
+		theStatus = me->EndPass( inView );
 	}
 	catch (...)
 	{
 	}
-	return kQ3ViewStatusDone;
+	return theStatus;
 }
 
 TQ3Status	QORenderer::Statics::SubmitTriMeshMethod(
