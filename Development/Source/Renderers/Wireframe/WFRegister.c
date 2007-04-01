@@ -5,7 +5,7 @@
         Quesa wireframe renderer registration.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -241,6 +241,48 @@ wf_wireframe_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *
 
 
 //=============================================================================
+//      wf_update_diffuse_color_method : Update diffuse color method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+wf_update_diffuse_color_method(
+									TQ3ViewObject inView,
+									void* privateData,
+									const TQ3ColorRGB* inAttColor )
+{
+#pragma unused( inView )
+	TQ3WireframeData*	instanceData = (TQ3WireframeData *) privateData;
+	instanceData->qd3dLineColour = *inAttColor;
+	return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
+//      wf_attribute_submetahandler : Attribute metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XRendererUpdateAttributeMethod
+wf_attribute_submetahandler( TQ3AttributeType inAttrType )
+{
+	TQ3XRendererUpdateAttributeMethod	theMethod = NULL;
+	
+	switch (inAttrType)
+	{
+		case kQ3AttributeTypeDiffuseColor:
+			theMethod = (TQ3XRendererUpdateAttributeMethod)
+				wf_update_diffuse_color_method;
+			break;
+	}
+	
+	return theMethod;
+}
+
+
+
+
+
+//=============================================================================
 //      wf_wireframe_metahandler : Renderer metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -285,6 +327,10 @@ wf_wireframe_metahandler(TQ3XMethodType methodType)
 		
 		case kQ3XMethodTypeRendererUpdateStyleMetaHandler:
 			theMethod = (TQ3XFunctionPointer) wf_wireframe_style;
+			break;
+		
+		case kQ3XMethodTypeRendererUpdateAttributeMetaHandler:
+			theMethod = (TQ3XFunctionPointer) wf_attribute_submetahandler;
 			break;
 		
 		case kQ3XMethodTypeRendererGetNickNameString:
