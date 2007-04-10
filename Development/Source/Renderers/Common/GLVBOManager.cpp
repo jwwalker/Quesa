@@ -188,15 +188,6 @@ bool	CachedVBO::IsStale() const
 	return Q3Shared_GetEditIndex( mGeomObject.get() ) != mEditIndex;
 }
 
-template <typename T>
-static void GetProc( T& ioFuncPtr, const char* inName1, const char* inName2 )
-{
-	ioFuncPtr = (T) GLGetProcAddress( inName1 );
-	if (ioFuncPtr == NULL)
-	{
-		ioFuncPtr = (T) GLGetProcAddress( inName2 );
-	}
-}
 
 static VBOCache* GetVBOCache( TQ3GLContext glContext )
 {
@@ -271,12 +262,12 @@ void		VBOCache::InitProcPtrs()
 {
 	if (glGenBuffersARBProc == NULL)
 	{
-		GetProc( glGenBuffersARBProc, "glGenBuffers", "glGenBuffersARB" );
-		GetProc( glBindBufferARBProc, "glBindBuffer", "glBindBufferARB" );
-		GetProc( glDeleteBuffersARBProc, "glDeleteBuffers", "glDeleteBuffersARB" );
-		GetProc( glIsBufferARBProc, "glIsBuffer", "glIsBufferARB" );
-		GetProc( glBufferDataARBProc, "glBufferData", "glBufferDataARB" );
-		GetProc( glBufferSubDataARBProc, "glBufferSubData", "glBufferSubDataARB" );
+		GLGetProcAddress( glGenBuffersARBProc, "glGenBuffers", "glGenBuffersARB" );
+		GLGetProcAddress( glBindBufferARBProc, "glBindBuffer", "glBindBufferARB" );
+		GLGetProcAddress( glDeleteBuffersARBProc, "glDeleteBuffers", "glDeleteBuffersARB" );
+		GLGetProcAddress( glIsBufferARBProc, "glIsBuffer", "glIsBufferARB" );
+		GLGetProcAddress( glBufferDataARBProc, "glBufferData", "glBufferDataARB" );
+		GLGetProcAddress( glBufferSubDataARBProc, "glBufferSubData", "glBufferSubDataARB" );
 
 		Q3_ASSERT( (glGenBuffersARBProc != NULL) &&
 			(glBindBufferARBProc != NULL) &&
