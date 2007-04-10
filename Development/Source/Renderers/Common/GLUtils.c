@@ -336,6 +336,23 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		{
 			featureFlags->vertexBufferObjects = kQ3True;
 		}
+		
+		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_framebuffer_object" ))
+		{
+			featureFlags->frameBufferObjects = kQ3True;
+		}
+		
+		if ( (glVersion >= 0x0200) ||
+			(
+				isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_shading_language_100" ) &&
+				isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_shader_objects" ) &&
+				isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_vertex_shader" ) &&
+				isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_fragment_shader" )
+			)
+		)
+		{
+			featureFlags->shadingLanguage = kQ3True;
+		}
 	}
 }
 
