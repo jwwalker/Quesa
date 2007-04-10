@@ -108,5 +108,26 @@ GLfloat		GLUtils_SpecularControlToGLShininess( float inSpecControl );
 }
 #endif
 
+
+
+//=============================================================================
+//		C++ templates
+//-----------------------------------------------------------------------------
+
+
+// Convenience template to get OpenGL extension function pointer
+#ifdef __cplusplus
+template <typename T>
+inline void GLGetProcAddress( T& outFuncPtr, const char* inName1, const char* inName2 = NULL )
+{
+	outFuncPtr = (T) GLGetProcAddress( inName1 );
+	if ( (outFuncPtr == NULL) && (inName2 != NULL) )
+	{
+		outFuncPtr = (T) GLGetProcAddress( inName2 );
+	}
+}
+#endif
+
+
 #endif
 
