@@ -102,20 +102,23 @@
 //-----------------------------------------------------------------------------
 
 // OpenGL extension availability flags
-typedef struct TQ3GLExtensions
+struct TQ3GLExtensions
 {
 	TQ3Boolean				separateSpecularColor;
 	TQ3Boolean				clampToEdge;
 	TQ3Boolean				multitexture;
 	TQ3Boolean				blendMinMax;
 	TQ3Boolean				vertexBufferObjects;
-} TQ3GLExtensions;
+	TQ3Boolean				frameBufferObjects;
+	TQ3Boolean				shadingLanguage;
+};
 
 
 /*!
 	@typedef		TQ3GLContext
 	@abstract		Opaque pointer to a GL context.  What it points to is
-					platform-dependent.
+					platform-dependent, and may be a private Quesa structure
+					rather than simply a platform GL context.
 */
 typedef	void*		TQ3GLContext;
 
