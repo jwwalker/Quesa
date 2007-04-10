@@ -162,14 +162,8 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 			GLUtils_CheckExtensions( &mGLExtensions );
 			
 			
-			mGLBlendEqProc = (TQ3BlendEquationProcPtr)
-				GLGetProcAddress( "glBlendEquation" );
-			
-			if (mGLBlendEqProc == NULL)
-			{
-				mGLBlendEqProc = (TQ3BlendEquationProcPtr)
-					GLGetProcAddress( "glBlendEquationEXT" );
-			}
+			GLGetProcAddress( mGLBlendEqProc, "glBlendEquation",
+				"glBlendEquationEXT" );
 		}
 
 
@@ -192,8 +186,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 
 	// Reset pass counter
-	mPassIndex = -1;
-
+	mPassIndex = 0;
 	
 	return kQ3Success;
 }
@@ -228,7 +221,6 @@ void		QORenderer::Renderer::StartPass(
 	mViewState.Reset();
 	mGeomState.Reset();
 	mViewIllumination = kQ3ObjectTypeInvalid;
-	mPassIndex += 1;
 	
 	// Set specularity to bogus values to force an update at next chance
 	mCurrentSpecularColor[0] = -1.0f;
@@ -260,6 +252,7 @@ void		QORenderer::Renderer::StartPass(
 	glShadeModel( GL_SMOOTH );
 	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );	// fill style
 	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+	glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
 	
 	mLights.StartPass( inCamera, inLights );
 	mTextures.StartPass();
@@ -297,6 +290,8 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	
 	FlushVBOCache( mGLContext );
 	FlushDisplayListCache( mGLContext );
+
+	mPassIndex += 1;
 	
 	return allDone;
 }
