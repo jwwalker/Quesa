@@ -339,7 +339,7 @@ void	QORenderer::Renderer::HandleGeometryAttributes(
 			{
 				// Send the shader back to the view, which will cause the
 				// renderer to be reentered.
-				Q3Object_Submit( theShader.get(), inView );
+				E3View_SubmitRetained( inView, theShader.get() );
 			}
 		}
 		
@@ -886,7 +886,7 @@ void	QORenderer::Renderer::RenderSlowPathTriMesh(
 		if (faceShader != NULL)
 		{
 			E3Push_Submit( inView );
-			Q3Object_Submit( faceShader, inView );
+			E3View_SubmitRetained( inView, faceShader );
 		}
 	
 		const TQ3Uns32* vertIndices = inGeomData.triangles[ faceNum ].pointIndices;
@@ -1589,7 +1589,7 @@ static void	PassBuckOnPolyLine(
 		
 		if (decomposed.isvalid())
 		{
-			Q3Object_Submit( decomposed.get(), inView );
+			E3View_SubmitRetained( inView, decomposed.get() );
 		}
 	}
 }
