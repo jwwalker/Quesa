@@ -147,7 +147,10 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 		{
 			// Dispose of the old GL context
 			if (mGLContext != NULL)
+			{
+				mPPLighting.Cleanup();
 				GLDrawContext_Destroy( &mGLContext );
+			}
 
 
 			// And try to build a new one
@@ -160,6 +163,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 
 			GLUtils_CheckExtensions( &mGLExtensions );
+			mSLFuncs.Initialize( mGLExtensions );
 			
 			
 			GLGetProcAddress( mGLBlendEqProc, "glBlendEquation",
@@ -256,6 +260,7 @@ void		QORenderer::Renderer::StartPass(
 	
 	mLights.StartPass( inCamera, inLights );
 	mTextures.StartPass();
+	mPPLighting.StartPass();
 }
 
 static bool IsSwapWanted( TQ3ViewObject inView )
@@ -281,6 +286,7 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	// reset some state to defaults
 	TQ3ViewStatus	allDone = mLights.EndPass();
 	mTextures.EndPass();
+	mPPLighting.EndPass();
 
 	// Swap the back buffer, unless asked not to
 	if ( (allDone == kQ3ViewStatusDone) && IsSwapWanted( inView ) )
