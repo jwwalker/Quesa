@@ -48,6 +48,7 @@
 #include "QORenderer.h"
 #include "GLUtils.h"
 #include "E3Math.h"
+#include "QOGLShadingLanguage.h"
 
 #include <algorithm>
 
@@ -155,8 +156,10 @@ static float CalcPrimDepth( int inNumVerts, const TQ3Point3D* inFrustumPt )
 //-----------------------------------------------------------------------------
 
 
-TransBuffer::TransBuffer( Renderer& inRenderer )
+TransBuffer::TransBuffer( Renderer& inRenderer,
+						PerPixelLighting& inPPLighting )
 	: mRenderer( inRenderer )
+	, mPerPixelLighting( inPPLighting )
 {
 }
 
@@ -423,6 +426,8 @@ void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 			glEnable( GL_TEXTURE_2D );
 			glBindTexture( GL_TEXTURE_2D, mCurTexture );
 		}
+		
+		mPerPixelLighting.UpdateTexture();
 	}
 	
 	if ( (inPrim.mUVTransformIndex != mCurUVTransformIndex) &&
@@ -676,6 +681,7 @@ void	TransBuffer::Flush( TQ3ViewObject inView )
 			UpdateFill( thePrim );
 			UpdateOrientation( thePrim );
 			UpdateBackfacing( thePrim );
+			mPerPixelLighting.UpdateIllumination( thePrim.mIlluminationType );
 			
 			Render( thePrim );
 			

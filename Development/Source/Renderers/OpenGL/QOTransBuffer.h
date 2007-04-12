@@ -58,6 +58,7 @@ namespace QORenderer
 {
 
 class Renderer;
+class PerPixelLighting;
 
 struct TransparentPrim
 {
@@ -95,7 +96,9 @@ struct TransparentPrim
 class TransBuffer
 {
 public:
-									TransBuffer( Renderer& inRenderer );
+									TransBuffer(
+											Renderer& inRenderer,
+											PerPixelLighting& inPPLighting );
 									
 	void							AddTriangle(
 											const Vertex* inVertices );
@@ -152,6 +155,7 @@ private:
 											const TransparentPrim& inPrim );
 	
 	Renderer&						mRenderer;
+	PerPixelLighting&				mPerPixelLighting;
 	
 	// Buffers used when accumulating primitives
 	std::vector<TransparentPrim>	mTransBuffer;
