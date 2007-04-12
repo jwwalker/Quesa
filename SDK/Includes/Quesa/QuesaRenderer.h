@@ -118,10 +118,16 @@ enum
 					Whether a triangle strip should be automatically computed
 					for a TriMesh that lacks one.  Only used by the OpenGL
 					renderer.  Data type: TQ3Boolean.  Default value: kQ3True.
+
+	@constant	kQ3RendererPropertyPerPixelLighting
+					Whether we should used per-pixel lighting if possible.
+					Only implemented by the OpenGL renderer.
+					Data type: TQ3Boolean.  Default value: kQ3False.
 */
 enum
 {
-	kQ3RendererPropertyAutomaticTriangleStrips = Q3_OBJECT_TYPE('a', 't', 'r', 's')
+	kQ3RendererPropertyAutomaticTriangleStrips	= Q3_OBJECT_TYPE('a', 't', 'r', 's'),
+	kQ3RendererPropertyPerPixelLighting			= Q3_OBJECT_TYPE('p', 'p', 'x', 'l')
 };
 #endif
 
