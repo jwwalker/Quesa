@@ -151,6 +151,7 @@ void	QORenderer::Renderer::UpdateSurfaceShader(
 	
 	
 	mTextures.SetCurrentTexture( theTexture.get(), inShader );
+	mPPLighting.UpdateTexture();
 }
 
 
@@ -173,6 +174,7 @@ void	QORenderer::Renderer::UpdateIlluminationShader(
 	{
 		mViewIllumination = kQ3ObjectTypeInvalid;
 	}
+	mPPLighting.UpdateIllumination( mViewIllumination );
 	
 	
 	// Update OpenGL specular state
