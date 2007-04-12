@@ -286,6 +286,8 @@
 		BE6E850E0BA295E50000BA89 /* OptimizedTriMeshElement.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6E850C0BA295E50000BA89 /* OptimizedTriMeshElement.h */; };
 		BE6FD692076B88A800587852 /* GLTextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6FD690076B88A800587852 /* GLTextureManager.h */; };
 		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
+		BE9D5E070BCEF2CF00AB129B /* QOGLShadingLanguage.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9D5E050BCEF2CF00AB129B /* QOGLShadingLanguage.h */; };
+		BE9D5E080BCEF2CF00AB129B /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE9D5E060BCEF2CF00AB129B /* QOGLShadingLanguage.cpp */; };
 		BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
 		BEC777D2087DA6AD00080AB7 /* CartoonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */; };
 		BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -575,6 +577,8 @@
 		BE6E850C0BA295E50000BA89 /* OptimizedTriMeshElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OptimizedTriMeshElement.h; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLTextureManager.c; sourceTree = "<group>"; };
+		BE9D5E050BCEF2CF00AB129B /* QOGLShadingLanguage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOGLShadingLanguage.h; sourceTree = "<group>"; };
+		BE9D5E060BCEF2CF00AB129B /* QOGLShadingLanguage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOGLShadingLanguage.cpp; sourceTree = "<group>"; };
 		BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
 		BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CartoonRenderer.h; sourceTree = "<group>"; };
 		BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef.h; sourceTree = "<group>"; };
@@ -1070,6 +1074,8 @@
 				B112DA380B7D277E000F36EF /* QOClientStates.cpp */,
 				B112DA390B7D277E000F36EF /* QOClientStates.h */,
 				B112DA3A0B7D277E000F36EF /* QOGeometry.cpp */,
+				BE9D5E060BCEF2CF00AB129B /* QOGLShadingLanguage.cpp */,
+				BE9D5E050BCEF2CF00AB129B /* QOGLShadingLanguage.h */,
 				B112DA3B0B7D277E000F36EF /* QOLights.cpp */,
 				B112DA3C0B7D277E000F36EF /* QOLights.h */,
 				B112DA3D0B7D277E000F36EF /* QOMatrix.cpp */,
@@ -1261,6 +1267,7 @@
 				B112DA8D0B7D2A5C000F36EF /* GLTextureLoader.h in Headers */,
 				B112DA910B7D2A6B000F36EF /* GLVBOManager.h in Headers */,
 				BE6E850E0BA295E50000BA89 /* OptimizedTriMeshElement.h in Headers */,
+				BE9D5E070BCEF2CF00AB129B /* QOGLShadingLanguage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1458,6 +1465,7 @@
 				B112DA8C0B7D2A5C000F36EF /* GLTextureLoader.cpp in Sources */,
 				B112DA900B7D2A6B000F36EF /* GLVBOManager.cpp in Sources */,
 				BE6E850D0BA295E50000BA89 /* OptimizedTriMeshElement.cpp in Sources */,
+				BE9D5E080BCEF2CF00AB129B /* QOGLShadingLanguage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

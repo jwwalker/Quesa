@@ -354,7 +354,7 @@
                 <SETTING><NAME>PauseUIFlags</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>AltExePath</NAME>
                     <SETTING><NAME>Path</NAME><VALUE></VALUE></SETTING>
-                    <SETTING><NAME>PathFormat</NAME><VALUE>Generic</VALUE></SETTING>
+                    <SETTING><NAME>PathFormat</NAME><VALUE>Unix</VALUE></SETTING>
                     <SETTING><NAME>PathRoot</NAME><VALUE>Absolute</VALUE></SETTING>
                 </SETTING>
                 <SETTING><NAME>StopAtTempBPOnLaunch</NAME><VALUE>true</VALUE></SETTING>
@@ -366,7 +366,7 @@
                 <SETTING><NAME>Enabled</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>ConnectionName</NAME><VALUE>Dell</VALUE></SETTING>
                 <SETTING><NAME>DownloadPath</NAME><VALUE></VALUE></SETTING>
-                <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>LaunchRemoteApp</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>RemoteAppPath</NAME><VALUE></VALUE></SETTING>
                 <SETTING><NAME>CoreID</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>JTAGClockSpeed</NAME><VALUE>8000</VALUE></SETTING>
@@ -770,26 +770,26 @@
                     <SETTING><VALUE>0</VALUE></SETTING>
                     <SETTING><VALUE>0</VALUE></SETTING>
                     <SETTING><VALUE>0</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>0</VALUE></SETTING>
+                    <SETTING><VALUE>0</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>0</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
                     <SETTING><VALUE>0</VALUE></SETTING>
                     <SETTING><VALUE>0</VALUE></SETTING>
                     <SETTING><VALUE>0</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
                     <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
-                    <SETTING><VALUE>0</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
+                    <SETTING><VALUE>1</VALUE></SETTING>
                     <SETTING><VALUE>0</VALUE></SETTING>
                 </SETTING>
 
@@ -1823,6 +1823,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -2533,6 +2540,11 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -4305,6 +4317,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS></FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS></FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -5015,6 +5034,11 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -5766,6 +5790,12 @@
                         <TARGETNAME>Win32 C DLL Debug</TARGETNAME>
                         <PATHTYPE>Name</PATHTYPE>
                         <PATH>QOGeometry.cpp</PATH>
+                        <PATHFORMAT>Unix</PATHFORMAT>
+                    </FILEREF>
+                    <FILEREF>
+                        <TARGETNAME>Win32 C DLL Debug</TARGETNAME>
+                        <PATHTYPE>Name</PATHTYPE>
+                        <PATH>QOGLShadingLanguage.cpp</PATH>
                         <PATHFORMAT>Unix</PATHFORMAT>
                     </FILEREF>
                     <FILEREF>

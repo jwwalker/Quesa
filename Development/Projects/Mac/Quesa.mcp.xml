@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<?codewarrior exportversion="2.0" ideversion="5.8" ?>
+<?codewarrior exportversion="1.0.1" ideversion="5.0" ?>
 
 <!DOCTYPE PROJECT [
 <!ELEMENT PROJECT (TARGETLIST, TARGETORDER, GROUPLIST, DESIGNLIST?)>
@@ -32,11 +32,7 @@
 <!ELEMENT BASEADDRESS (#PCDATA)>
 <!ELEMENT OVERLAY (NAME, FILEREF*)>
 <!ELEMENT SUBTARGETLIST (SUBTARGET+)>
-<!ELEMENT TARGETOUTPUTNAME (#PCDATA)>
-<!ELEMENT TARGETOUTPUTDISPLAYNAME (#PCDATA)>
-<!ELEMENT TARGETOUTPUTPATHFORMAT (#PCDATA)>
-<!ELEMENT TARGETOUTPUTACCESSTYPE (#PCDATA)>
-<!ELEMENT SUBTARGET (TARGETNAME, ATTRIBUTES?, TARGETOUTPUTNAME?, TARGETOUTPUTDISPLAYNAME?, TARGETOUTPUTPATHFORMAT?, TARGETOUTPUTACCESSTYPE?, FILEREF?)>
+<!ELEMENT SUBTARGET (TARGETNAME, ATTRIBUTES?, FILEREF?)>
 <!ELEMENT SUBPROJECTLIST (SUBPROJECT+)>
 <!ELEMENT SUBPROJECT (FILEREF, SUBPROJECTTARGETLIST)>
 <!ELEMENT SUBPROJECTTARGETLIST (SUBPROJECTTARGET*)>
@@ -424,7 +420,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -512,12 +508,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -1999,6 +1995,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -2781,6 +2784,11 @@
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
         <TARGET>
@@ -3148,7 +3156,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -3236,12 +3244,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -4723,6 +4731,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -5505,6 +5520,11 @@
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
         <TARGET>
@@ -5872,7 +5892,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -5960,12 +5980,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -7454,6 +7474,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -8241,6 +8268,11 @@
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
         <TARGET>
@@ -8608,7 +8640,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -8696,12 +8728,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -10141,6 +10173,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -10893,6 +10932,11 @@
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
         <TARGET>
@@ -11260,7 +11304,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -11348,12 +11392,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -12793,6 +12837,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -13545,6 +13596,11 @@
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
         <TARGET>
@@ -13912,7 +13968,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -14000,12 +14056,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -15452,6 +15508,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -16209,6 +16272,11 @@
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
         <TARGET>
@@ -16576,7 +16644,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -16664,12 +16732,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -18073,6 +18141,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -18800,6 +18875,11 @@
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
         <TARGET>
@@ -19167,7 +19247,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -19255,12 +19335,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -20664,6 +20744,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -21391,6 +21478,11 @@
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
         <TARGET>
@@ -21758,7 +21850,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -21846,12 +21938,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -23255,6 +23347,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -23982,6 +24081,11 @@
                     <PATH>OptimizedTriMeshElement.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
         <TARGET>
@@ -24080,7 +24184,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -24168,12 +24272,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -24691,7 +24795,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -24779,12 +24883,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -25269,7 +25373,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -25357,12 +25461,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -25861,7 +25965,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -25949,12 +26053,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -26450,7 +26554,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -26538,12 +26642,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -27345,7 +27449,7 @@
                 <!-- Settings for "Debugger Target" panel -->
                 <SETTING><NAME>ConsoleEncoding</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>LogSystemMessages</NAME><VALUE>true</VALUE></SETTING>
-                <SETTING><NAME>AutoTargetDLLs</NAME><VALUE>false</VALUE></SETTING>
+                <SETTING><NAME>AutoTargetDLLsPopUp</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>StopAtWatchpoints</NAME><VALUE>true</VALUE></SETTING>
                 <SETTING><NAME>PauseWhileRunning</NAME><VALUE>false</VALUE></SETTING>
                 <SETTING><NAME>PauseInterval</NAME><VALUE>5</VALUE></SETTING>
@@ -27433,12 +27537,12 @@
                 <SETTING><NAME>MWFrontEnd_C_booltruefalse</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_inlinelevel</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_ecplusplus</NAME><VALUE>0</VALUE></SETTING>
+                <SETTING><NAME>MWFrontEnd_C_defer_codegen</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_templateparser</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_c99</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_bottomupinline</NAME><VALUE>1</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_gcc_extensions</NAME><VALUE>0</VALUE></SETTING>
                 <SETTING><NAME>MWFrontEnd_C_instance_manager</NAME><VALUE>0</VALUE></SETTING>
-                <SETTING><NAME>MWFrontEnd_C_ipa_mode</NAME><VALUE>0</VALUE></SETTING>
 
                 <!-- Settings for "C/C++ Preprocessor" panel -->
                 <SETTING><NAME>C_CPP_Preprocessor_EmitFile</NAME><VALUE>true</VALUE></SETTING>
@@ -28864,6 +28968,13 @@
                     <FILEKIND>Library</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -29604,6 +29715,11 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>MSL_C++_PPC_D.Lib</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>QOGLShadingLanguage.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -30409,6 +30525,12 @@
                         <TARGETNAME>Classic ShLib Release</TARGETNAME>
                         <PATHTYPE>Name</PATHTYPE>
                         <PATH>QOGeometry.cpp</PATH>
+                        <PATHFORMAT>Unix</PATHFORMAT>
+                    </FILEREF>
+                    <FILEREF>
+                        <TARGETNAME>Classic ShLib Release</TARGETNAME>
+                        <PATHTYPE>Name</PATHTYPE>
+                        <PATH>QOGLShadingLanguage.cpp</PATH>
                         <PATHFORMAT>Unix</PATHFORMAT>
                     </FILEREF>
                     <FILEREF>
