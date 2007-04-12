@@ -344,6 +344,10 @@
 		BE7F26F60B7BB92C00933ED1 /* QOUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */; };
 		BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE7F276F0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE806FCE0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */; };
+		BE806FD00BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */; };
+		BE806FD10BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */; };
+		BE806FD20BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */; };
 		BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
 		BE8D58CB0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h in Headers */ = {isa = PBXBuildFile; fileRef = BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */; };
 		BE8D58CC0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
@@ -951,6 +955,8 @@
 		BE7F26B10B7BB92C00933ED1 /* QOTransBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOTransBuffer.h; sourceTree = "<group>"; };
 		BE7F26B20B7BB92C00933ED1 /* QOUpdate.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOUpdate.cpp; sourceTree = "<group>"; };
 		BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Q3GroupIterator.h; sourceTree = "<group>"; };
+		BE806FCB0BCDCCEA008CD86A /* QOGLShadingLanguage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOGLShadingLanguage.h; sourceTree = "<group>"; };
+		BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOGLShadingLanguage.cpp; sourceTree = "<group>"; };
 		BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OptimizedTriMeshElement.cpp; sourceTree = "<group>"; };
 		BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OptimizedTriMeshElement.h; sourceTree = "<group>"; };
 		BE98E71E09F763AC0040CE1B /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -1497,6 +1503,8 @@
 				BE7F269D0B7BB92C00933ED1 /* QOClientStates.cpp */,
 				BE7F269E0B7BB92C00933ED1 /* QOClientStates.h */,
 				BE7F269F0B7BB92C00933ED1 /* QOGeometry.cpp */,
+				BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */,
+				BE806FCB0BCDCCEA008CD86A /* QOGLShadingLanguage.h */,
 				BE7F26A00B7BB92C00933ED1 /* QOLights.cpp */,
 				BE7F26A10B7BB92C00933ED1 /* QOLights.h */,
 				BE7F26A20B7BB92C00933ED1 /* QOMatrix.cpp */,
@@ -1882,6 +1890,7 @@
 				BE7F26C60B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
 				BE7F26C80B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 				BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
+				BE806FCE0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2027,6 +2036,7 @@
 				BE7F26E90B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
 				BE7F26EA0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 				BE8D58CE0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
+				BE806FD10BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2172,6 +2182,7 @@
 				BE7F26DC0B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
 				BE7F26DE0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 				BE8D58CC0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
+				BE806FD00BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2317,6 +2328,7 @@
 				BE7F26F50B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
 				BE7F26F60B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 				BE8D58CF0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
+				BE806FD20BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
