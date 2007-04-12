@@ -61,6 +61,7 @@
 #include "QOMatrix.h"
 #include "QOOpaqueTriBuffer.h"
 #include "QOTransBuffer.h"
+#include "QOGLShadingLanguage.h"
 
 #include <vector>
 
@@ -296,6 +297,8 @@ protected:
 	TQ3RendererObject		mRendererObject;
 	TQ3GLContext			mGLContext;
 	GLContextCleanup		mCleanup;
+	GLSLFuncs				mSLFuncs;
+	PerPixelLighting		mPPLighting;
 	TQ3Uns32				mRendererEditIndex;
 	TQ3Uns32				mDrawContextEditIndex;
 	GLbitfield				mGLClearFlags;

@@ -95,13 +95,15 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	: mRendererObject( inRenderer )
 	, mGLContext( NULL )
 	, mCleanup( mGLContext )
+	, mSLFuncs()
+	, mPPLighting( mSLFuncs, mRendererObject )
 	, mRendererEditIndex( Q3Shared_GetEditIndex( inRenderer ) )
 	, mDrawContextEditIndex( 0 )
 	, mGLClearFlags( 0 )
 	, mGLBlendEqProc( NULL )
 	, mLights( mGLExtensions )
 	, mTriBuffer( *this )
-	, mTransBuffer( *this )
+	, mTransBuffer( *this, mPPLighting )
 	, mTextures( mRendererObject, mGLContext, mGLExtensions )
 {
 	Q3Object_AddElement( mRendererObject, kQ3ElementTypeDepthBits,
@@ -113,4 +115,5 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 
 QORenderer::Renderer::~Renderer()
 {
+	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 }
