@@ -119,9 +119,11 @@ enum {
 	kMenuItemToggleLocalBoundingSphere,
 	kMenuItemToggleTexture,
 	kMenuItemToggleLights,
+	kMenuItemToggleSpotLight,
 #if !TARGET_API_MAC_OS8
 	kMenuItemToggleVertexNormals,
 	kMenuItemToggleTriangleNormals,
+	kMenuItemTogglePerPixelLighting,
 #endif
 	kMenuItemDivider0,
 	kMenuItemLoadModel,
@@ -2724,6 +2726,45 @@ toggleLights( TQ3ViewObject				theView )
 
 
 
+//=============================================================================
+//      toggleSpotLight : Turn spot lights on or off.
+//-----------------------------------------------------------------------------
+static void
+toggleSpotLight( TQ3ViewObject				theView )
+{
+	TQ3GroupObject	lightGroup = NULL;
+	
+	if ( (kQ3Success == Q3View_GetLightGroup( theView, &lightGroup )) &&
+		(lightGroup != NULL) )
+	{
+		TQ3GroupPosition	pos;
+		TQ3LightObject		theLight;
+		TQ3Boolean			theState;
+		
+		if ( (kQ3Success == Q3Group_GetFirstPositionOfType( lightGroup,
+			kQ3LightTypeSpot, &pos )) &&
+			(pos != NULL) )
+		{
+			do
+			{
+				Q3Group_GetPositionObject( lightGroup, pos, &theLight );
+				Q3Light_GetState( theLight, &theState );
+				theState = (theState == kQ3True) ? kQ3False : kQ3True;
+				Q3Light_SetState( theLight, theState );
+				Q3Object_Dispose( theLight );
+				
+				Q3Group_GetNextPosition( lightGroup, &pos );
+			}	while (pos != NULL);
+		}
+		
+		Q3Object_Dispose( lightGroup );
+	}
+}
+
+
+
+
+
 #if !TARGET_API_MAC_OS8
 //=============================================================================
 //      findVertexNormals : Locate vertex normals in TriMesh data.
@@ -3075,9 +3116,35 @@ appConfigureView(TQ3ViewObject				theView,
 					TQ3DrawContextObject	theDrawContext,
 					TQ3CameraObject			theCamera)
 {
-#pragma unused(theView)
 #pragma unused(theCamera)
+    TQ3SpotLightData			spotLight =
+    {
+    	{
+    		kQ3False,
+    		1.0f,
+    		{ 1.0f, 1.0f,  1.0f}
+    	},
+    	kQ3True,
+    	kQ3AttenuationTypeNone,
+    	{ 0.0f, 0.0f, 5.0f},
+    	{ 0.0f, -0.12f, -1.0f},
+    	Q3Math_DegreesToRadians( 7.0f ),
+    	Q3Math_DegreesToRadians( 7.0f ),
+    	kQ3FallOffTypeNone
+    };
+    TQ3GroupObject      lightGroup;
+    TQ3LightObject      theLight;
 
+
+	// Add a spot light, initially off, to the light group on the view.
+	if (kQ3Success == Q3View_GetLightGroup(theView, &lightGroup))
+	{
+		theLight = Q3SpotLight_New( &spotLight );
+		Q3Group_AddObject(lightGroup, theLight);
+		Q3Object_Dispose(theLight);
+		
+		Q3Object_Dispose(lightGroup);
+	}
 
 
 	// Adjust the background colour
@@ -3101,6 +3168,31 @@ appMouseDown(TQ3ViewObject theView, TQ3Point2D mousePoint)
 	gBackgroundColor.g *= 2.0f;
 	gBackgroundColor.b *= 2.0f;
 }
+
+
+
+
+
+//=============================================================================
+//      togglePerPixelLighting : Turn per-pixel lighting on and off.
+//-----------------------------------------------------------------------------
+#if !TARGET_API_MAC_OS8
+static void
+togglePerPixelLighting( TQ3ViewObject theView )
+{
+	TQ3Object	theRenderer;
+	TQ3Boolean	theFlag = kQ3False;
+
+	Q3View_GetRenderer( theView, &theRenderer );
+	Q3Object_GetProperty( theRenderer,
+		kQ3RendererPropertyPerPixelLighting, sizeof(theFlag), NULL,
+		&theFlag );
+	theFlag = theFlag? kQ3False : kQ3True;
+	Q3Object_SetProperty( theRenderer, kQ3RendererPropertyPerPixelLighting,
+		sizeof(theFlag), &theFlag );
+	Q3Object_Dispose( theRenderer );
+}
+#endif
 
 
 
@@ -3157,10 +3249,18 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemToggleTriangleNormals:
 			gShowFaceNormals = (TQ3Boolean) !gShowFaceNormals;
 			break;
+		
+		case kMenuItemTogglePerPixelLighting:
+			togglePerPixelLighting( theView );
+			break;
 	#endif
 		
 		case kMenuItemToggleLights:
 			toggleLights( theView );
+			break;
+		
+		case kMenuItemToggleSpotLight:
+			toggleSpotLight( theView );
 			break;
 
 		case kMenuItemLoadModel:
@@ -3422,7 +3522,6 @@ appRender(TQ3ViewObject theView)
 		}
 
 
-
 	// Update the rotation matrix, in a such a way that the rate of rotation
 	// remains approximately constant in spite of changes in frame rate.
 	renderTime = getAbsoluteTime();
@@ -3609,9 +3708,11 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Local Bounding Sphere");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Texture");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Lights");
+	Qut_CreateMenuItem(kMenuItemLast, "Toggle Spot Light");
 #if !TARGET_API_MAC_OS8
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Vertex Normals");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Triangle Normals");
+	Qut_CreateMenuItem(kMenuItemLast, "Toggle Per-Pixel Lighting");
 #endif
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Load Model...");
