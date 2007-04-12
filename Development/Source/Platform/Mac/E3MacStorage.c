@@ -380,7 +380,6 @@ e3storage_mac_read ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 data
 static TQ3Status
 e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten )
 	{
-	// TODO for now the writing methods remain unbuffered
 
 	SInt32 ioByteCount = (SInt32) dataSize ;
 	*sizeWritten = 0UL ;
@@ -391,19 +390,6 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 	Q3_REQUIRE_OR_RESULT( ! e3storage_mac_hasFlag( storage, kQ3MacStorage_ReadOnlyFlag ), kQ3Failure ) ;
 
 
-	// check buffer out of range
-	if ( ( offset < ( storage->macStorageData.bufferStart + storage->macStorageData.validBufferSize ) )
-	||   ( offset > ( storage->macStorageData.bufferStart + kQ3MacStorage_BufferSize ) )
-	||   ( offset + dataSize > ( storage->macStorageData.bufferStart + kQ3MacStorage_BufferSize ) ) )
-		{
-		if ( e3storage_mac_flushbuffer ( storage ) != kQ3Success )
-			return kQ3Failure ;
-		
-		storage->macStorageData.bufferStart = offset ;
-		}
-	
-	Q3_ASSERT( ( storage->macStorageData.bufferStart == kQ3MacStorage_BufferInvalid ) ||
-		( storage->macStorageData.bufferStart + storage->macStorageData.validBufferSize == offset ) ) ;
 
 	// we have a valid buffer
 	if ( dataSize >= kQ3MacStorage_MaxSizeBuffered )
@@ -450,17 +436,35 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 		}
 	else
 		{	 // copy it to buffer
+		// check buffer out of range
+		if ( e3storage_mac_hasFlag( storage, kQ3MacStorage_BufferDirtyFlag ) )	{	
+			if ( ( offset < ( storage->macStorageData.bufferStart/*+ storage->macStorageData.validBufferSize */) )
+			||   ( offset > ( storage->macStorageData.bufferStart + kQ3MacStorage_BufferSize ) )
+			||   ( offset + dataSize > ( storage->macStorageData.bufferStart + kQ3MacStorage_BufferSize ) ) )
+				{
+				if ( e3storage_mac_flushbuffer ( storage ) != kQ3Success )
+					return kQ3Failure ;
+				
+				}
+			}
+			
+		if(storage->macStorageData.bufferStart == kQ3MacStorage_BufferInvalid){
+			storage->macStorageData.bufferStart = offset ;
+			}
+	
 		TQ3Uns8* dest = ( (TQ3Uns8*) storage->macStorageData.buffer ) + ( offset - storage->macStorageData.bufferStart ) ;
 		TQ3Uns8* src = (TQ3Uns8*) data ;
 		Q3Memory_Copy ( src, dest, dataSize ) ;
-
-		storage->macStorageData.validBufferSize += dataSize ;
+		
+		if(offset + dataSize > storage->macStorageData.validBufferSize){
+			storage->macStorageData.validBufferSize = offset + dataSize ;
+			}
+			
 		e3storage_mac_setFlag ( storage, kQ3MacStorage_BufferDirtyFlag ) ;
 		}
+		
 	*sizeWritten = (TQ3Uns32) ioByteCount ;
 	
-	Q3_ASSERT( ( storage->macStorageData.bufferStart == kQ3MacStorage_BufferInvalid ) ||
-		( storage->macStorageData.bufferStart + storage->macStorageData.validBufferSize == offset + dataSize ) ) ;
 
 
 	return kQ3Success ;
