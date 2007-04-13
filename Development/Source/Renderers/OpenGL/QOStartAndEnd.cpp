@@ -257,6 +257,8 @@ void		QORenderer::Renderer::StartPass(
 	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );	// fill style
 	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 	glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
+	glDepthMask( GL_TRUE );
+	glDepthFunc( GL_LESS );
 	
 	mLights.StartPass( inCamera, inLights );
 	mTextures.StartPass();
