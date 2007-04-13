@@ -182,6 +182,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 	// Tell light manager that a frame is starting
 	mLights.StartFrame();
+	mPPLighting.StartFrame();
 
 
 	// Clear the context
