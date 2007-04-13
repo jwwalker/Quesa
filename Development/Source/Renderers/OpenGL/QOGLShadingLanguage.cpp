@@ -49,6 +49,7 @@
 
 #include <cstring>
 #include <string>
+#include <algorithm>
 
 
 
@@ -280,6 +281,80 @@ namespace
 	const char* kIsTexturedUniformName			= "isTextured";
 	const char*	kTextureUnitUniformName			= "tex0";
 	const char*	kIlluminationTypeUniformName	= "IlluminationType";
+	
+	const int	kMaxProgramAge					= 100;
+	
+	struct AgeIncrementer
+	{
+		void	operator()( QORenderer::ProgramRec& ioRec ) const
+				{
+					ioRec.mAgeCounter += 1;
+				}
+	};
+	
+	struct IsNotTooOld
+	{
+		bool	operator()( const QORenderer::ProgramRec& ioRec ) const
+				{
+					return ioRec.mAgeCounter <= kMaxProgramAge;
+				}
+	};
+	
+	struct MatchPattern
+	{
+					MatchPattern( const QORenderer::LightPattern& inPattern )
+						: mPattern( inPattern ) {}
+					
+					MatchPattern( const MatchPattern& inOther )
+						: mPattern( inOther.mPattern ) {}
+	
+		bool		operator()( const QORenderer::ProgramRec& inProg ) const
+					{
+						return mPattern == inProg.mPattern;
+					}
+		
+	private:
+		const QORenderer::LightPattern&	mPattern;
+	};
+	
+	struct DeleteProgram
+	{
+								DeleteProgram( QORenderer::GLSLFuncs& inFuncs )
+									: mFuncs( inFuncs ) {}
+								
+								DeleteProgram( const DeleteProgram& inOther )
+									: mFuncs( inOther.mFuncs ) {}
+								
+		void					operator()( QORenderer::ProgramRec& ioProgram ) const
+								{
+									if (ioProgram.mProgram != 0)
+									{
+										mFuncs.glDeleteProgram( ioProgram.mProgram );
+										ioProgram.mProgram = 0;
+									}
+								}	
+							
+		QORenderer::GLSLFuncs&	mFuncs;
+	};
+	
+	struct DeleteShader
+	{
+								DeleteShader( QORenderer::GLSLFuncs& inFuncs )
+									: mFuncs( inFuncs ) {}
+								
+								DeleteShader( const DeleteProgram& inOther )
+									: mFuncs( inOther.mFuncs ) {}
+								
+		void					operator()( GLuint inShader ) const
+								{
+									if (inShader != 0)
+									{
+										mFuncs.glDeleteShader( inShader );
+									}
+								}	
+							
+		QORenderer::GLSLFuncs&	mFuncs;
+	};
 }
 
 
@@ -344,9 +419,9 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mRendererObject( inRendererObject )
 	, mIsShading( false )
 	, mIlluminationType( 0 )
-	, mProgram( 0 )
+	, mIsTextured( false )
+	, mVertexShaderID( 0 )
 {
-	mLightTypes.push_back( kLightTypeInvalid );
 }
 
 QORenderer::PerPixelLighting::~PerPixelLighting()
@@ -437,7 +512,7 @@ static GLint CreateMainFragmentShader( const std::vector<std::string>& inLightPr
 	return shaderID;
 }
 
-static void GetLightTypes( std::vector<QORenderer::ELightType>& outLights )
+static void GetLightTypes( QORenderer::LightPattern& outLights )
 {
 	outLights.clear();
 	
@@ -473,6 +548,30 @@ static void GetLightTypes( std::vector<QORenderer::ELightType>& outLights )
 }
 
 /*!
+	@function	StartFrame
+	@abstract	Begin a rendering frame.
+*/
+void	QORenderer::PerPixelLighting::StartFrame()
+{
+	CheckIfShading();
+	
+	if (mIsShading)
+	{
+		// Increment ages
+		std::for_each( mPrograms.begin(), mPrograms.end(), AgeIncrementer() );
+		
+		// Delete programs that have not been used for a while
+		ProgramVec::iterator	newEnd = std::partition( mPrograms.begin(),
+			mPrograms.end(), IsNotTooOld() );
+		if (newEnd != mPrograms.end())
+		{
+			std::for_each( newEnd, mPrograms.end(), DeleteProgram( mFuncs ) );
+			mPrograms.erase( newEnd, mPrograms.end() );
+		}
+	}
+}
+
+/*!
 	@function	StartPass
 	@abstract	Begin a rendering pass.
 	@discussion	This is where we check whether per-pixel lighting is
@@ -484,73 +583,37 @@ void	QORenderer::PerPixelLighting::StartPass()
 	
 	if (mIsShading)
 	{
-		InitProgram();
+		InitVertexShader();
 		
 		mIlluminationType = 0;
 		mIsTextured = false;
+		mProgramIndex = -1;
 		
-		if (mProgram != 0)
+		if (mVertexShaderID != 0)
 		{
-			std::vector<ELightType>	theLightTypes;
-			GetLightTypes( theLightTypes );
-			const GLint kNumLights = theLightTypes.size();
+			// See if we have a program matching the current light pattern.
+			LightPattern	theLightPattern;
+			GetLightTypes( theLightPattern );
 			
-			if (theLightTypes != mLightTypes)
+			MatchPattern	matcher( theLightPattern );
+			ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
+				mPrograms.end(), matcher );
+			
+			if (foundProg == mPrograms.end())
 			{
-				mLightTypes.swap( theLightTypes );
+				InitProgram( theLightPattern );
 				
-				DetachFragmentShaders();
-				
-				std::vector<std::string>	lightProtos, lightCalls;
-				
-				for (GLint i = 0; i < kNumLights; ++i)
-				{
-					GLenum	lightID = GL_LIGHT0 + i;
-					
-					switch (mLightTypes[i])
-					{
-						case kLightTypeDirectional:
-							AttachDirectionalShader( i );
-							AddDirectionalPrototype( i, lightProtos );
-							AddDirectionalCall( i, lightCalls );
-							break;
-						
-						case kLightTypePositional:
-							AttachPositionalShader( i );
-							AddPositionalPrototype( i, lightProtos );
-							AddPositionalCall( i, lightCalls );
-							break;
-					}
-				}
-				
-				// create and attach main fragment shader
-				GLint shaderID = CreateMainFragmentShader( lightProtos, lightCalls, mFuncs );
-				if (shaderID != 0)
-				{
-					// Attach
-					mFuncs.glAttachShader( mProgram, shaderID );
-					mAttachedFragmentShaders.push_back( shaderID );
-					
-					// Delete, so it will go away when detached
-					mFuncs.glDeleteShader( shaderID );
-				}
-				
-				// Link program
-				mFuncs.glLinkProgram( mProgram );
-				
-				// Check for link success
-				GLint	linkStatus;
-				mFuncs.glGetProgramiv( mProgram, GL_LINK_STATUS, &linkStatus );
-				Q3_ASSERT( linkStatus == GL_TRUE );
-				
-				// Use program
-				if (linkStatus == GL_TRUE)
-				{
-					InitUniforms();
-				}
+				foundProg = std::find_if( mPrograms.begin(),
+					mPrograms.end(), matcher );
 			}
 			
-			mFuncs.glUseProgram( mProgram );
+			if (foundProg != mPrograms.end())
+			{
+				mProgramIndex = foundProg - mPrograms.begin();
+				
+				mFuncs.glUseProgram( foundProg->mProgram );
+				foundProg->mAgeCounter = 0;
+			}
 		}
 	}
 }
@@ -561,30 +624,21 @@ void	QORenderer::PerPixelLighting::StartPass()
 */
 void	QORenderer::PerPixelLighting::EndPass()
 {
-	if ( mIsShading and (mProgram != 0) )
+	if ( mIsShading )
 	{
 		mFuncs.glUseProgram( 0 );
 	}
 }
 
-void	QORenderer::PerPixelLighting::DetachFragmentShaders()
-{
-	for (std::vector<GLuint>::iterator i = mAttachedFragmentShaders.begin();
-		i != mAttachedFragmentShaders.end(); ++i)
-	{
-		mFuncs.glDetachShader( mProgram, *i );
-	}
-	mAttachedFragmentShaders.clear();
-}
 
-void	QORenderer::PerPixelLighting::InitUniforms()
+void	QORenderer::PerPixelLighting::InitUniforms( ProgramRec& ioProgram )
 {
-	mIsTexturedUniformLoc = mFuncs.glGetUniformLocation( mProgram,
-		kIsTexturedUniformName );
-	mTextureUnitUniformLoc = mFuncs.glGetUniformLocation( mProgram,
-		kTextureUnitUniformName );
-	mIlluminationTypeUniformLoc = mFuncs.glGetUniformLocation( mProgram,
-		kIlluminationTypeUniformName );
+	ioProgram.mIsTexturedUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kIsTexturedUniformName );
+	ioProgram.mTextureUnitUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kTextureUnitUniformName );
+	ioProgram.mIlluminationTypeUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kIlluminationTypeUniformName );
 }
 
 /*!
@@ -603,51 +657,118 @@ void	QORenderer::PerPixelLighting::CheckIfShading()
 		(propValue == kQ3True);
 }
 
+
 /*!
-	@function	InitProgram
-	@abstract	Set up the vertex shader and program, if it has not already
+	@function	InitVertexShader
+	@abstract	Set up the vertex shader, if it has not already
 				been done.
 */
-void	QORenderer::PerPixelLighting::InitProgram()
+void	QORenderer::PerPixelLighting::InitVertexShader()
 {
-	if (mProgram == 0)
+	if (mVertexShaderID == 0)
 	{
-		// Make the vertex shader
-		GLuint	shaderID = mFuncs.glCreateShader( GL_VERTEX_SHADER );
-		if (shaderID != 0)
+		mVertexShaderID = mFuncs.glCreateShader( GL_VERTEX_SHADER );
+		
+		if (mVertexShaderID != 0)
 		{
 			// Supply source code
-			mFuncs.glShaderSource( shaderID, 1, &kVertexShaderSource, NULL );
+			mFuncs.glShaderSource( mVertexShaderID, 1, &kVertexShaderSource, NULL );
 			
 			// Compile vertex shader
-			mFuncs.glCompileShader( shaderID );
+			mFuncs.glCompileShader( mVertexShaderID );
 			
 			// Check for compile success
 			GLint	status;
-			mFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
+			mFuncs.glGetShaderiv( mVertexShaderID, GL_COMPILE_STATUS, &status );
+			Q3_ASSERT( status == GL_TRUE );
 			
-			if (status == GL_TRUE)
+			if (status == GL_FALSE)
 			{
-				// Create a program.
-				mProgram = mFuncs.glCreateProgram();
-				
-				if (mProgram != 0)
-				{
-					// Attach the vertex shader to the program.
-					mFuncs.glAttachShader( mProgram, shaderID );
-				}
+				mFuncs.glDeleteShader( mVertexShaderID );
+				mVertexShaderID = 0;
 			}
+		}
+	}
+}
 
-			// Delete the vertex shader.  If we have attached the shader to a
-			// program, the shader will not really be deleted until the program
-			// is deleted.
+/*!
+	@function	InitProgram
+	@abstract	Set up the main fragment shader and program.
+*/
+void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
+{
+	ProgramRec	newProgram;
+	newProgram.mPattern = inPattern;
+	
+	// Create a program.
+	newProgram.mProgram = mFuncs.glCreateProgram();
+			
+	if (newProgram.mProgram != 0)
+	{
+		// Attach the vertex shader to the program.
+		mFuncs.glAttachShader( newProgram.mProgram, mVertexShaderID );
+		
+		std::vector<std::string>	lightProtos, lightCalls;
+		
+		const GLint kNumLights = inPattern.size();
+	
+		for (GLint i = 0; i < kNumLights; ++i)
+		{
+			GLenum	lightID = GL_LIGHT0 + i;
+			
+			switch (inPattern[i])
+			{
+				case kLightTypeDirectional:
+					AttachDirectionalShader( i, newProgram.mProgram );
+					AddDirectionalPrototype( i, lightProtos );
+					AddDirectionalCall( i, lightCalls );
+					break;
+				
+				case kLightTypePositional:
+					AttachPositionalShader( i, newProgram.mProgram );
+					AddPositionalPrototype( i, lightProtos );
+					AddPositionalCall( i, lightCalls );
+					break;
+			}
+		}
+		
+		// create and attach main fragment shader
+		GLint shaderID = CreateMainFragmentShader( lightProtos, lightCalls, mFuncs );
+		if (shaderID != 0)
+		{
+			// Attach
+			mFuncs.glAttachShader( newProgram.mProgram, shaderID );
+			
+			// Delete, so it will go away when detached
 			mFuncs.glDeleteShader( shaderID );
+		}
+		
+		// Link program
+		mFuncs.glLinkProgram( newProgram.mProgram );
+		
+		// Check for link success
+		GLint	linkStatus;
+		mFuncs.glGetProgramiv( newProgram.mProgram, GL_LINK_STATUS, &linkStatus );
+		Q3_ASSERT( linkStatus == GL_TRUE );
+		
+		// Use program
+		if (linkStatus == GL_TRUE)
+		{
+			InitUniforms( newProgram );
+			
+			mPrograms.push_back( newProgram );
+		}
+		else
+		{
+			mFuncs.glDeleteProgram( newProgram.mProgram );
 		}
 	}
 }
 
 
-void	QORenderer::PerPixelLighting::AttachDirectionalShader( GLint inLightIndex )
+void	QORenderer::PerPixelLighting::AttachDirectionalShader(
+								GLint inLightIndex,
+								GLuint inProgram )
 {
 	if (inLightIndex >= mDirectionalLightShaders.size())
 	{
@@ -687,13 +808,14 @@ void	QORenderer::PerPixelLighting::AttachDirectionalShader( GLint inLightIndex )
 	
 	if (shaderID != 0)
 	{
-		mFuncs.glAttachShader( mProgram, shaderID );
-		mAttachedFragmentShaders.push_back( shaderID );
+		mFuncs.glAttachShader( inProgram, shaderID );
 	}
 }
 
 
-void	QORenderer::PerPixelLighting::AttachPositionalShader( GLint inLightIndex )
+void	QORenderer::PerPixelLighting::AttachPositionalShader(
+									GLint inLightIndex,
+									GLuint inProgram )
 {
 	if (inLightIndex >= mPositionalLightShaders.size())
 	{
@@ -733,8 +855,7 @@ void	QORenderer::PerPixelLighting::AttachPositionalShader( GLint inLightIndex )
 	
 	if (shaderID != 0)
 	{
-		mFuncs.glAttachShader( mProgram, shaderID );
-		mAttachedFragmentShaders.push_back( shaderID );
+		mFuncs.glAttachShader( inProgram, shaderID );
 	}
 }
 
@@ -748,35 +869,24 @@ void	QORenderer::PerPixelLighting::AttachPositionalShader( GLint inLightIndex )
 */
 void	QORenderer::PerPixelLighting::Cleanup()
 {
-	if (mProgram != 0)
+	if (mIsShading)
 	{
 		// delete fragment shaders
-		std::vector<GLuint>::iterator i;
-		for (i = mDirectionalLightShaders.begin();
-			i != mDirectionalLightShaders.end(); ++i)
-		{
-			if (*i != 0)
-			{
-				mFuncs.glDeleteShader( *i );
-			}
-		}
+		DeleteShader	deleter( mFuncs );
+
+		std::for_each( mDirectionalLightShaders.begin(),
+			mDirectionalLightShaders.end(), deleter );
 		mDirectionalLightShaders.clear();
-		for (i = mPositionalLightShaders.begin();
-			i != mPositionalLightShaders.end(); ++i)
-		{
-			if (*i != 0)
-			{
-				mFuncs.glDeleteShader( *i );
-			}
-		}
-		
+
+		std::for_each( mPositionalLightShaders.begin(),
+			mPositionalLightShaders.end(), deleter );
 		mPositionalLightShaders.clear();
-		mAttachedFragmentShaders.clear();
-		mLightTypes.clear();
-		mLightTypes.push_back( kLightTypeInvalid );
 		
-		mFuncs.glDeleteProgram( mProgram );
-		mProgram = 0;
+		std::for_each( mPrograms.begin(), mPrograms.end(), DeleteProgram( mFuncs ) );
+		mPrograms.clear();
+		
+		mFuncs.glDeleteShader( mVertexShaderID );
+		mVertexShaderID = 0;
 	}
 }
 
@@ -788,7 +898,7 @@ void	QORenderer::PerPixelLighting::Cleanup()
 */
 void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminationType )
 {
-	if (mIsShading)
+	if (mIsShading && (mProgramIndex >= 0))
 	{
 		if (mIlluminationType != inIlluminationType)
 		{
@@ -810,7 +920,8 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 					break;
 			}
 			
-			mFuncs.glUniform1i( mIlluminationTypeUniformLoc, illuminationCode );
+			mFuncs.glUniform1i( mPrograms[mProgramIndex].mIlluminationTypeUniformLoc,
+				illuminationCode );
 		}
 	}
 }
@@ -822,7 +933,7 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 */
 void	QORenderer::PerPixelLighting::UpdateTexture()
 {
-	if (mIsShading)
+	if (mIsShading && (mProgramIndex >= 0))
 	{
 		bool	isTextured = glIsEnabled( GL_TEXTURE_2D );
 		
@@ -830,7 +941,8 @@ void	QORenderer::PerPixelLighting::UpdateTexture()
 		{
 			mIsTextured = isTextured;
 			
-			mFuncs.glUniform1i( mIsTexturedUniformLoc, mIsTextured );
+			mFuncs.glUniform1i( mPrograms[mProgramIndex].mIsTexturedUniformLoc,
+				mIsTextured );
 		}
 	}
 }

@@ -94,6 +94,42 @@ enum ELightType
 //      Types
 //-----------------------------------------------------------------------------
 
+/*!
+	@typedef	LightPattern
+	@abstract	Light states that can be used to identify a GLSL program.
+*/
+typedef	std::vector<ELightType>	LightPattern;
+
+/*!
+	@struct		ProgramRec
+	@abstract	Structure holding a program ID, its light pattern, a
+				counter indicating how long since it has been used,
+				and locations of some uniform variables.
+*/
+struct ProgramRec
+{
+					ProgramRec()
+						: mProgram( 0 )
+						, mAgeCounter( 0 ) {}
+					ProgramRec( const ProgramRec& inOther )
+						: mProgram( inOther.mProgram )
+						, mAgeCounter( inOther.mAgeCounter )
+						, mPattern( inOther.mPattern )
+						, mIsTexturedUniformLoc( inOther.mIsTexturedUniformLoc )
+						, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
+						, mIlluminationTypeUniformLoc( inOther.mIlluminationTypeUniformLoc )
+						{}
+
+	GLuint			mProgram;
+	int				mAgeCounter;
+	LightPattern	mPattern;
+	GLint			mIsTexturedUniformLoc;
+	GLint			mTextureUnitUniformLoc;
+	GLint			mIlluminationTypeUniformLoc;
+};
+
+typedef	std::vector<ProgramRec>		ProgramVec;
+
 typedef GLuint (* QO_PROCPTR_TYPE glCreateShaderProc )(GLenum type);
 typedef void (* QO_PROCPTR_TYPE glShaderSourceProc )(GLuint shader,
 													GLsizei count,
@@ -176,6 +212,12 @@ public:
 	void						Cleanup();
 	
 	/*!
+		@function	StartFrame
+		@abstract	Begin a rendering frame.
+	*/
+	void						StartFrame();
+	
+	/*!
 		@function	StartPass
 		@abstract	Begin a rendering pass.
 		@discussion	This is where we check whether per-pixel lighting is
@@ -206,26 +248,28 @@ public:
 
 private:
 	void						CheckIfShading();
-	void						InitProgram();
-	void						AttachDirectionalShader( GLint inLightIndex );
-	void						AttachPositionalShader( GLint inLightIndex );
-	void						InitUniforms();
-	void						DetachFragmentShaders();
+	void						InitVertexShader();
+	void						InitProgram( const LightPattern& inPattern );
+	void						AttachDirectionalShader(
+										GLint inLightIndex,
+										GLuint inProgram );
+	void						AttachPositionalShader(
+										GLint inLightIndex,
+										GLuint inProgram );
+	void						InitUniforms( ProgramRec& ioProgram );
 	
 	GLSLFuncs&					mFuncs;
 	TQ3RendererObject			mRendererObject;
 	bool						mIsShading;
 	TQ3ObjectType				mIlluminationType;
 	bool						mIsTextured;
-	GLuint						mProgram;
-	GLint						mIsTexturedUniformLoc;
-	GLint						mTextureUnitUniformLoc;
-	GLint						mIlluminationTypeUniformLoc;
+	GLuint						mVertexShaderID;
 	
 	std::vector<GLuint>			mDirectionalLightShaders;
 	std::vector<GLuint>			mPositionalLightShaders;
-	std::vector<GLuint>			mAttachedFragmentShaders;
-	std::vector<ELightType>		mLightTypes;
+	
+	ProgramVec					mPrograms;
+	int							mProgramIndex;
 };
 
 
