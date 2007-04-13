@@ -79,6 +79,18 @@
 namespace QORenderer
 {
 //=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+
+enum ELightType
+{
+	kLightTypeInvalid = -1,
+	kLightTypeNone = 0,
+	kLightTypeDirectional,
+	kLightTypePositional
+};
+
+//=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
 
@@ -198,6 +210,7 @@ private:
 	void						AttachDirectionalShader( GLint inLightIndex );
 	void						AttachPositionalShader( GLint inLightIndex );
 	void						InitUniforms();
+	void						DetachFragmentShaders();
 	
 	GLSLFuncs&					mFuncs;
 	TQ3RendererObject			mRendererObject;
@@ -212,6 +225,7 @@ private:
 	std::vector<GLuint>			mDirectionalLightShaders;
 	std::vector<GLuint>			mPositionalLightShaders;
 	std::vector<GLuint>			mAttachedFragmentShaders;
+	std::vector<ELightType>		mLightTypes;
 };
 
 

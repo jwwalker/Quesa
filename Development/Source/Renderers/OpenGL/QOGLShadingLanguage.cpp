@@ -346,6 +346,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mIlluminationType( 0 )
 	, mProgram( 0 )
 {
+	mLightTypes.push_back( kLightTypeInvalid );
 }
 
 QORenderer::PerPixelLighting::~PerPixelLighting()
@@ -389,6 +390,88 @@ static void AddPositionalCall( GLint inLightIndex,
 	ioCalls.push_back( std::string(buffer) );
 }
 
+static GLint CreateMainFragmentShader( const std::vector<std::string>& inLightProtos,
+										const std::vector<std::string>& inLightCalls,
+										QORenderer::GLSLFuncs& inFuncs )
+{
+	GLint shaderID = inFuncs.glCreateShader( GL_FRAGMENT_SHADER );
+	if (shaderID != 0)
+	{
+		std::vector<const char*>	sourceParts;
+		
+		sourceParts.push_back( kMainFragmentShaderPart1Source );
+		
+		std::vector<std::string>::const_iterator	j;
+		for (j = inLightProtos.begin(); j != inLightProtos.end(); ++j)
+		{
+			sourceParts.push_back( j->c_str() );
+		}
+		
+		sourceParts.push_back( kMainFragmentShaderPart2Source );
+		
+		for (j = inLightCalls.begin(); j != inLightCalls.end(); ++j)
+		{
+			sourceParts.push_back( j->c_str() );
+		}
+		
+		sourceParts.push_back( kMainFragmentShaderPart3Source );
+		
+		// Supply source code
+		inFuncs.glShaderSource( shaderID, sourceParts.size(), &sourceParts[0], NULL );
+
+		// Compile fragment shader
+		inFuncs.glCompileShader( shaderID );
+		
+		// Check for compile success
+		GLint	status;
+		inFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
+		Q3_ASSERT( status == GL_TRUE );
+		
+		if (status == GL_FALSE)
+		{
+			inFuncs.glDeleteShader( shaderID );
+			shaderID = 0;
+		}
+	}
+	
+	return shaderID;
+}
+
+static void GetLightTypes( std::vector<QORenderer::ELightType>& outLights )
+{
+	outLights.clear();
+	
+	// Query number of lights.
+	GLint		maxGLLights;
+	glGetIntegerv( GL_MAX_LIGHTS, &maxGLLights );
+	outLights.reserve( maxGLLights );
+	
+	for (GLint i = 0; i < maxGLLights; ++i)
+	{
+		QORenderer::ELightType	theType = QORenderer::kLightTypeNone;
+		
+		GLenum	lightID = GL_LIGHT0 + i;
+		
+		if (glIsEnabled( lightID ))
+		{
+			// Is this a positional (point/spot) or directional light?
+			// We can tell from the w component of the position.
+			GLfloat	lightPosition[4];
+			glGetLightfv( lightID, GL_POSITION, lightPosition );
+			
+			if (lightPosition[3] == 0.0f)	// directional
+			{
+				theType = QORenderer::kLightTypeDirectional;
+			}
+			else
+			{
+				theType = QORenderer::kLightTypePositional;
+			}
+		}
+		outLights.push_back( theType );
+	}
+}
+
 /*!
 	@function	StartPass
 	@abstract	Begin a rendering pass.
@@ -408,88 +491,66 @@ void	QORenderer::PerPixelLighting::StartPass()
 		
 		if (mProgram != 0)
 		{
-			std::vector<std::string>	lightProtos, lightCalls;
+			std::vector<ELightType>	theLightTypes;
+			GetLightTypes( theLightTypes );
+			const GLint kNumLights = theLightTypes.size();
 			
-			// Query number of lights.
-			GLint		maxGLLights;
-			glGetIntegerv( GL_MAX_LIGHTS, &maxGLLights );
-			
-			for (GLint i = 0; i < maxGLLights; ++i)
+			if (theLightTypes != mLightTypes)
 			{
-				GLenum	lightID = GL_LIGHT0 + i;
-				if (glIsEnabled( lightID ))
+				mLightTypes.swap( theLightTypes );
+				
+				DetachFragmentShaders();
+				
+				std::vector<std::string>	lightProtos, lightCalls;
+				
+				for (GLint i = 0; i < kNumLights; ++i)
 				{
-					// Is this a positional (point/spot) or directional light?
-					// We can tell from the w component of the position.
-					GLfloat	lightPosition[4];
-					glGetLightfv( lightID, GL_POSITION, lightPosition );
+					GLenum	lightID = GL_LIGHT0 + i;
 					
-					if (lightPosition[3] == 0.0f)	// directional
+					switch (mLightTypes[i])
 					{
-						AttachDirectionalShader( i );
-						AddDirectionalPrototype( i, lightProtos );
-						AddDirectionalCall( i, lightCalls );
+						case kLightTypeDirectional:
+							AttachDirectionalShader( i );
+							AddDirectionalPrototype( i, lightProtos );
+							AddDirectionalCall( i, lightCalls );
+							break;
+						
+						case kLightTypePositional:
+							AttachPositionalShader( i );
+							AddPositionalPrototype( i, lightProtos );
+							AddPositionalCall( i, lightCalls );
+							break;
 					}
-					else	// positional
-					{
-						AttachPositionalShader( i );
-						AddPositionalPrototype( i, lightProtos );
-						AddPositionalCall( i, lightCalls );
-					}
 				}
-			}
-			
-			// create and attach main fragment shader
-			GLint shaderID = mFuncs.glCreateShader( GL_FRAGMENT_SHADER );
-			if (shaderID != 0)
-			{
-				std::vector<const char*>	sourceParts;
-				sourceParts.push_back( kMainFragmentShaderPart1Source );
-				std::vector<std::string>::iterator	j;
-				for (j = lightProtos.begin(); j != lightProtos.end(); ++j)
+				
+				// create and attach main fragment shader
+				GLint shaderID = CreateMainFragmentShader( lightProtos, lightCalls, mFuncs );
+				if (shaderID != 0)
 				{
-					sourceParts.push_back( j->c_str() );
+					// Attach
+					mFuncs.glAttachShader( mProgram, shaderID );
+					mAttachedFragmentShaders.push_back( shaderID );
+					
+					// Delete, so it will go away when detached
+					mFuncs.glDeleteShader( shaderID );
 				}
-				sourceParts.push_back( kMainFragmentShaderPart2Source );
-				for (j = lightCalls.begin(); j != lightCalls.end(); ++j)
+				
+				// Link program
+				mFuncs.glLinkProgram( mProgram );
+				
+				// Check for link success
+				GLint	linkStatus;
+				mFuncs.glGetProgramiv( mProgram, GL_LINK_STATUS, &linkStatus );
+				Q3_ASSERT( linkStatus == GL_TRUE );
+				
+				// Use program
+				if (linkStatus == GL_TRUE)
 				{
-					sourceParts.push_back( j->c_str() );
+					InitUniforms();
 				}
-				sourceParts.push_back( kMainFragmentShaderPart3Source );
-				
-				mFuncs.glShaderSource( shaderID, sourceParts.size(), &sourceParts[0], NULL );
-
-				// Compile fragment shader
-				mFuncs.glCompileShader( shaderID );
-				
-				// Check for compile success
-				GLint	status;
-				mFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
-				Q3_ASSERT( status == GL_TRUE );
-				
-				// Attach
-				mFuncs.glAttachShader( mProgram, shaderID );
-				mAttachedFragmentShaders.push_back( shaderID );
-				
-				// Delete, so it will go away when detached
-				mFuncs.glDeleteShader( shaderID );
 			}
 			
-			// Link program
-			mFuncs.glLinkProgram( mProgram );
-			
-			// Check for link success
-			GLint	linkStatus;
-			mFuncs.glGetProgramiv( mProgram, GL_LINK_STATUS, &linkStatus );
-			Q3_ASSERT( linkStatus == GL_TRUE );
-			
-			// Use program
-			if (linkStatus == GL_TRUE)
-			{
-				InitUniforms();
-				
-				mFuncs.glUseProgram( mProgram );
-			}
+			mFuncs.glUseProgram( mProgram );
 		}
 	}
 }
@@ -503,15 +564,17 @@ void	QORenderer::PerPixelLighting::EndPass()
 	if ( mIsShading and (mProgram != 0) )
 	{
 		mFuncs.glUseProgram( 0 );
-		
-		// detach fragment shaders
-		for (std::vector<GLuint>::iterator i = mAttachedFragmentShaders.begin();
-			i != mAttachedFragmentShaders.end(); ++i)
-		{
-			mFuncs.glDetachShader( mProgram, *i );
-		}
-		mAttachedFragmentShaders.clear();
 	}
+}
+
+void	QORenderer::PerPixelLighting::DetachFragmentShaders()
+{
+	for (std::vector<GLuint>::iterator i = mAttachedFragmentShaders.begin();
+		i != mAttachedFragmentShaders.end(); ++i)
+	{
+		mFuncs.glDetachShader( mProgram, *i );
+	}
+	mAttachedFragmentShaders.clear();
 }
 
 void	QORenderer::PerPixelLighting::InitUniforms()
@@ -706,8 +769,11 @@ void	QORenderer::PerPixelLighting::Cleanup()
 				mFuncs.glDeleteShader( *i );
 			}
 		}
+		
 		mPositionalLightShaders.clear();
 		mAttachedFragmentShaders.clear();
+		mLightTypes.clear();
+		mLightTypes.push_back( kLightTypeInvalid );
 		
 		mFuncs.glDeleteProgram( mProgram );
 		mProgram = 0;
