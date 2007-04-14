@@ -162,6 +162,7 @@ typedef struct TQ3ViewData {
 	TQ3XViewSubmitRetainedMethod		submitRetainedMethod;
 	TQ3XViewSubmitImmediateMethod		submitImmediateMethod;
 	TQ3AttributeSet				viewAttributes;
+	TQ3AttributeSet				stateAttributes;	// needed for E3View_GetAttributeState
 	TQ3Boolean					allowGroupCulling;
 
 
@@ -1722,6 +1723,7 @@ e3view_delete ( E3View* view, void *privateData )
 
 	// Dispose of our instance data
 	Q3Object_CleanDispose(&instanceData->viewAttributes);
+	Q3Object_CleanDispose(&instanceData->stateAttributes);
 	Q3Object_CleanDispose(&instanceData->theRenderer);
 	Q3Object_CleanDispose(&instanceData->theCamera);
 	Q3Object_CleanDispose(&instanceData->theLights);
@@ -4922,9 +4924,13 @@ E3View_GetAttributeState(TQ3ViewObject theView, TQ3AttributeType attributeType, 
 	*((void **) data) = Q3XAttributeSet_GetPointer(attributeSet, attributeType);
 	
 	
-	// Clean up
-	Q3Object_Dispose( attributeSet );
 	
+	// Since the attribute set was created by Q3View_GetAttributeSetState, we must
+	// do something to avoid leaking it.  But since we are returning a pointer to
+	// data within the set, we can't just dispose the set.  So we keep a reference to it.
+	// Even so, we must hope that the client will not keep the pointer very long.
+	E3Shared_Replace( &((E3View*) theView )->instanceData.stateAttributes, attributeSet );
+	Q3Object_Dispose( attributeSet );
 	
 	
 	return kQ3Success ;
