@@ -1503,12 +1503,12 @@ Qut_SelectMetafileToOpen(void)
 //		QutMac_SelectMetafileToSaveTo : Select a metafile to save to.
 //-----------------------------------------------------------------------------
 Boolean
-QutMac_SelectMetafileToSaveTo(FSSpec* theFSSpec)
+QutMac_SelectMetafileToSaveTo(FSSpec* theFSSpec,TQ3FileMode* fileMode)
 {	Str255				thePrompt = "\pSave a model:";
 	OSType			fileType =  '3DMF';
 	OSType			creator =  'ttxt';// what will be the creator for the viewer?
 	const TQ3Int16		numTypes  = 1;
-	/*
+		/*
 		Jose'
 		note we have to found a global mechanism to choose the supported file formats
 	*/
@@ -1591,14 +1591,14 @@ QutMac_SelectMetafileToSaveTo(FSSpec* theFSSpec)
 //		Qut_SelectMetafileToSaveTo : Select a metafile to save to.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-Qut_SelectMetafileToSaveTo(void)
+Qut_SelectMetafileToSaveTo(TQ3FileMode* fileMode)
 {	FSSpec				theFSSpec;
 	TQ3StorageObject	theStorage = NULL;
 
 
 
 	// If we have Navigation services, use it
-	if (QutMac_SelectMetafileToSaveTo(&theFSSpec))
+	if (QutMac_SelectMetafileToSaveTo(&theFSSpec, fileMode))
 		{
 		// Create a storage object for the file
 		theStorage = Q3FSSpecStorage_New(&theFSSpec);
