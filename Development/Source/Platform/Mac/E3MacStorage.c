@@ -439,7 +439,7 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 		// check buffer out of range
 		if ( e3storage_mac_hasFlag( storage, kQ3MacStorage_BufferDirtyFlag ) )	{	
 			if ( ( offset < ( storage->macStorageData.bufferStart/*+ storage->macStorageData.validBufferSize */) )
-			||   ( offset > ( storage->macStorageData.bufferStart + kQ3MacStorage_BufferSize ) )
+			||   ( offset > ( storage->macStorageData.bufferStart + storage->macStorageData.validBufferSize ) )
 			||   ( offset + dataSize > ( storage->macStorageData.bufferStart + kQ3MacStorage_BufferSize ) ) )
 				{
 				if ( e3storage_mac_flushbuffer ( storage ) != kQ3Success )
@@ -456,8 +456,8 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 		TQ3Uns8* src = (TQ3Uns8*) data ;
 		Q3Memory_Copy ( src, dest, dataSize ) ;
 		
-		if(offset + dataSize > storage->macStorageData.validBufferSize){
-			storage->macStorageData.validBufferSize = offset + dataSize ;
+		if(offset + dataSize > storage->macStorageData.bufferStart+storage->macStorageData.validBufferSize){
+			storage->macStorageData.validBufferSize = (offset + dataSize) - storage->macStorageData.bufferStart ;
 			}
 			
 		e3storage_mac_setFlag ( storage, kQ3MacStorage_BufferDirtyFlag ) ;
