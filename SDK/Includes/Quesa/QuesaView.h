@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1298,9 +1298,15 @@ Q3View_GetAttributeSetState (
  *  @discussion
  *      Get the current state of an attribute from a view.
  *
+ *		This function returns a pointer to data within an attribute state
+ *		representing the current attributes in the view.  You should consider
+ *		the pointer to be read-only and temporary.  It is safer and less
+ *		error-prone to get the attribute set with <code>Q3View_GetAttributeSetState</code>
+ *		and then extract data with <code>Q3AttributeSet_Get</code>.
+ *
  *  @param view             The view to query.
  *  @param attributeType    The attribute type to query.
- *  @param data             Receives the current value for the specified attribute.
+ *  @param data             Receives the address of the current value for the specified attribute.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
