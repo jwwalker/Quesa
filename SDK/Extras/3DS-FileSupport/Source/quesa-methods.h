@@ -6,39 +6,25 @@
         Header file for quesa-methods.cp.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
             <http://www.quesa.org/>
         
-        Redistribution and use in source and binary forms, with or without
-        modification, are permitted provided that the following conditions
-        are met:
-        
-            o Redistributions of source code must retain the above copyright
-              notice, this list of conditions and the following disclaimer.
-        
-            o Redistributions in binary form must reproduce the above
-              copyright notice, this list of conditions and the following
-              disclaimer in the documentation and/or other materials provided
-              with the distribution.
-        
-            o Neither the name of Quesa nor the names of its contributors
-              may be used to endorse or promote products derived from this
-              software without specific prior written permission.
-        
-        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-        "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-        LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-        A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-        OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-        SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
-        TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-        PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-        LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-        NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-        SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	  This program is  free  software;  you can redistribute it and/or modify it
+	  under the terms of the  GNU Lesser General Public License  as published by 
+	  the  Free Software Foundation;  either version 2.1 of the License,  or (at 
+	  your option) any later version.
+	 
+	  This  program  is  distributed in  the  hope that it will  be useful,  but
+	  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+	  or  FITNESS FOR A  PARTICULAR PURPOSE.  See the  GNU Lesser General Public  
+	  License for more details.
+	 
+	  You should  have received  a copy of the GNU Lesser General Public License
+	  along with  this program;  if not, write to the  Free Software Foundation,
+	  Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     ___________________________________________________________________________
 */
 #if __MACH__
@@ -50,7 +36,7 @@
 /*!
 	@function	Register_3DS_Class
 	
-	@abstract	Register the 3DS reader-Writter classes with Quesa.
+	@abstract	Register the 3DS Reader-Writter classes with Quesa.
 	
 	@result		Success or failure of the operation.
 */
@@ -59,7 +45,7 @@ TQ3Status		Register_3DS_Class();
 /*!
 	@function	Unregister_3DS_Class
 	
-	@abstract	Unregister the 3DS reader-Writter class from Quesa.
+	@abstract	Unregister the 3DS Reader-Writter classes from Quesa.
 	
 	@discussion	Typically, one will use Quesa and its plugins until the
 				process quits, so it will not be important to unregister
