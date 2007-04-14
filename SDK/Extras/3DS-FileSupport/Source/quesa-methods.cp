@@ -5,55 +5,46 @@
         File format reader class registration.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
             <http://www.quesa.org/>
         
-        Redistribution and use in source and binary forms, with or without
-        modification, are permitted provided that the following conditions
-        are met:
-        
-            o Redistributions of source code must retain the above copyright
-              notice, this list of conditions and the following disclaimer.
-        
-            o Redistributions in binary form must reproduce the above
-              copyright notice, this list of conditions and the following
-              disclaimer in the documentation and/or other materials provided
-              with the distribution.
-        
-            o Neither the name of Quesa nor the names of its contributors
-              may be used to endorse or promote products derived from this
-              software without specific prior written permission.
-        
-        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-        "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-        LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-        A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-        OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-        SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
-        TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-        PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-        LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-        NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-        SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	  This program is  free  software;  you can redistribute it and/or modify it
+	  under the terms of the  GNU Lesser General Public License  as published by 
+	  the  Free Software Foundation;  either version 2.1 of the License,  or (at 
+	  your option) any later version.
+	 
+	  This  program  is  distributed in  the  hope that it will  be useful,  but
+	  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+	  or  FITNESS FOR A  PARTICULAR PURPOSE.  See the  GNU Lesser General Public  
+	  License for more details.
+	 
+	  You should  have received  a copy of the GNU Lesser General Public License
+	  along with  this program;  if not, write to the  Free Software Foundation,
+	  Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
     ___________________________________________________________________________
 */
 #include "quesa-methods.h"
 
 #include "C3DSReader.h"
+#include "C3DSWriter.h"
 
 #if __MACH__
 	#include <Quesa/QuesaIO.h>
 	#include <Quesa/QuesaExtension.h>
 	#include <Quesa/QuesaMemory.h>
 	#include <Quesa/QuesaStorage.h>
+	#include <Quesa/QuesaGeometry.h>
+	#include <Quesa/QuesaTransform.h>
 #else
 	#include <QuesaIO.h>
 	#include <QuesaExtension.h>
 	#include <QuesaMemory.h>
 	#include <QuesaStorage.h>
+	#include <QuesaGeometry.h>
+	#include <QuesaTransform.h>
 #endif
 
 #include <ostream>
@@ -61,21 +52,27 @@
 
 namespace
 {
-	TQ3ObjectType	sRegisteredType = 0;
+	TQ3ObjectType	sRegisteredReaderType= 0;
+	TQ3ObjectType	sRegisteredWriterType= 0;
 	
-	TQ3XObjectClass	sRegisteredClass = 0;
+	TQ3XObjectClass	sRegisteredReaderClass = 0;
+	TQ3XObjectClass	sRegisteredWriterClass = 0;
 	
 	const char*		kClassName3DSReader	= "FileFormat:Reader:3DS";
+	const char*		kClassName3DSWriter	= "FileFormat:Writer:3DS";
 	
 	const char*		kFormatNickname			= "3DS";
 }
 
+#pragma mark --
+#pragma mark Reader
+#pragma mark --
 /*!
-	@function	Create
+	@function	CreateReader
 	@abstract	Create a reader instance.
 	@discussion	Method type: kQ3XMethodTypeObjectNew, TQ3XObjectNewMethod
 */
-static TQ3Status	Create(
+static TQ3Status	CreateReader(
 							TQ3Object object,
 							TQ3FFormatBaseData* privateData,
 							void* initData )
@@ -99,11 +96,11 @@ static TQ3Status	Create(
 }
 
 /*!
-	@function	Delete
+	@function	DeleteReader
 	@abstract	Delete a reader instance.
 	@discussion	Method type: kQ3XMethodTypeObjectDelete, TQ3XObjectDeleteMethod
 */
-static void	Delete(
+static void	DeleteReader(
 							TQ3Object object,
 							TQ3FFormatBaseData* privateData )
 {
@@ -144,7 +141,7 @@ static TQ3Boolean	CanRead(
 	if(Q3Storage_GetData (storage,0, 2,(unsigned char*)&label, &sizeRead) == kQ3Success){
 
 		if ((sizeRead == 2) && (label == 0x4d4d)){
-			*theFileFormatFound = sRegisteredType;
+			*theFileFormatFound = sRegisteredReaderType;
 			didTest = kQ3True;
 			}
 		}
@@ -153,13 +150,13 @@ static TQ3Boolean	CanRead(
 }
 
 /*!
-	@function	Close
+	@function	CloseReader
 	
 	@abstract	Close the reader.
 	
 	@discussion	Method type: kQ3XMethodTypeFFormatClose, TQ3XFFormatCloseMethod
 */
-static TQ3Status	Close(
+static TQ3Status	CloseReader(
 							TQ3FileFormatObject format,
 							TQ3Boolean abort )
 {
@@ -311,23 +308,23 @@ static TQ3Status GetNickname( char* dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32* o
 }
 
 /*!
-	@function	_3ds_metahandler
+	@function	_3ds_reader_metahandler
 	
-	@abstract	Metahandler that provides Quesa methods for the VRML reader.
+	@abstract	Metahandler that provides Quesa methods for the 3DS reader.
 */
 static TQ3XFunctionPointer
-_3ds_metahandler( TQ3XMethodType methodType )
+_3ds_reader_metahandler( TQ3XMethodType methodType )
 {
 	TQ3XFunctionPointer		theMethod = NULL;
 
 	switch (methodType)
 	{
 		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) Create;
+			theMethod = (TQ3XFunctionPointer) CreateReader;
 			break;
 			
 		case kQ3XMethodTypeObjectDelete:
-			theMethod = (TQ3XFunctionPointer) Delete;
+			theMethod = (TQ3XFunctionPointer) DeleteReader;
 			break;
 			
 		case kQ3XMethodTypeFFormatCanRead:
@@ -361,34 +358,383 @@ _3ds_metahandler( TQ3XMethodType methodType )
 			break;
 		
 		case kQ3XMethodTypeFFormatClose:
-			theMethod = (TQ3XFunctionPointer) Close;
+			theMethod = (TQ3XFunctionPointer) CloseReader;
 			break;
 	}
 	
 	return theMethod;
 }
 
+#pragma mark --
+#pragma mark Writer
+#pragma mark --
+
+/*!
+	@function	CreateWriter
+	@abstract	Create a writer instance.
+	@discussion	Method type: kQ3XMethodTypeObjectNew, TQ3XObjectNewMethod
+*/
+static TQ3Status	CreateWriter(
+							TQ3Object object,
+							TQ3FFormatBaseData* privateData,
+							void* initData )
+{
+#pragma unused( object, initData )
+	TQ3Status	success = kQ3Failure;
+	
+	try
+	{
+		// Create the C++ object and store its address in the
+		// private data.
+		C3DSWriter* writer = new C3DSWriter( privateData );
+		
+			
+		if (writer){
+			privateData->reserved1 = reinterpret_cast<TQ3Uns32*>(writer);
+			success = kQ3Success;
+			}
+	}
+	catch (...)
+	{
+	}
+	
+	return success;
+}
+
+/*!
+	@function	DeleteWriter
+	@abstract	Delete a writer instance.
+	@discussion	Method type: kQ3XMethodTypeObjectDelete, TQ3XObjectDeleteMethod
+*/
+static void	DeleteWriter(
+							TQ3Object object,
+							TQ3FFormatBaseData* privateData )
+{
+#pragma unused( object )
+	C3DSWriter*	writer = reinterpret_cast<C3DSWriter*>(
+		privateData->reserved1 );
+	delete writer;
+	privateData->reserved1 = NULL;
+}
+
+/*!
+	@function	Writer_StartFile
+	@abstract	.
+	@discussion	
+*/
+static TQ3Status	Writer_StartFile(
+						TQ3ViewObject			theView,
+						TQ3FFormatBaseData		*baseData,
+						TQ3DrawContextObject	theDrawContext)
+{
+#pragma unused( theView, theDrawContext )
+	TQ3Status	success = kQ3Failure;
+	C3DSWriter*	writer = reinterpret_cast<C3DSWriter*>(baseData->reserved1 );
+	
+	if(!writer){
+		return success;
+		}
+	try
+	{
+		success = writer->StartFile(theView, baseData, theDrawContext);
+	}
+	catch (...)
+	{
+	}
+	
+	return success;
+}
+
+
+
+/*!
+	@function	Writer_EndPass
+	@abstract	.
+	@discussion	
+*/
+static TQ3ViewStatus	Writer_EndPass(
+							TQ3ViewObject			theView,
+							TQ3FFormatBaseData		*baseData)
+{
+#pragma unused( theView)
+	TQ3ViewStatus	status = kQ3ViewStatusError;
+	C3DSWriter*	writer = reinterpret_cast<C3DSWriter*>(baseData->reserved1 );
+	
+	if(!writer){
+		return status;
+		}
+	try
+	{
+		status = writer->EndPass(theView, baseData);
+	}
+	catch (...)
+	{
+	}
+	
+	return status;
+}
+
+
+
+
+
+/*!
+	@function	Writer_Cancel
+	@abstract	.
+	@discussion	
+*/
+static void			Writer_Cancel(
+								TQ3ViewObject			theView,
+								TQ3FFormatBaseData		*baseData)
+{
+#pragma unused( theView)
+	C3DSWriter*	writer = reinterpret_cast<C3DSWriter*>(baseData->reserved1 );
+
+	if(!writer){
+		return;
+		}
+	try
+	{
+		writer->Close(kQ3True);
+	}
+	catch (...)
+	{
+	}
+	
+}
+
+
+
+/*!
+	@function	Writer_Close
+	@abstract	.
+	@discussion	
+*/
+static TQ3Status			Writer_Close(
+								TQ3FileFormatObject format,
+								TQ3Boolean abort)
+{
+#pragma unused( theView)
+	TQ3Status	success = kQ3Success;
+	C3DSWriter*	writer = C3DSWriter::FromFileFormat( format );
+	
+	if(!writer){
+		return success;
+		}
+
+	try
+	{
+		success = writer->Close(abort);
+	}
+	catch (...)
+	{
+	}
+	
+	return success;
+}
+
+
+
+/*!
+	@function	Writer_Submit
+	@abstract	.
+	@discussion	
+*/
+static TQ3Status			Writer_Submit(
+						TQ3ViewObject		theView,
+						TQ3FFormatBaseData	*baseData,
+						TQ3Object			theObject,
+						TQ3ObjectType		objectType,
+						const void			*objectData)
+{
+#pragma unused( theView)
+	TQ3Status	success = kQ3Success;
+	C3DSWriter*	writer = reinterpret_cast<C3DSWriter*>(baseData->reserved1 );
+
+	if(!writer){
+		return success;
+		}
+
+	try
+	{
+		if( objectType == kQ3StateOperatorTypePush){
+			writer->PushGroupLevel();
+			}
+		else if( objectType == kQ3StateOperatorTypePop){
+			writer->PopGroupLevel();
+			}
+		else if(theObject){
+			if(Q3Object_IsType(theObject, (kQ3ShapeTypeTransform))){
+				TQ3Matrix4x4 theMatrix;
+				Q3Transform_GetMatrix(theObject, &theMatrix);
+				writer->UpdateMatrix(&theMatrix);
+			}
+		}
+	}
+	catch (...)
+	{
+	}
+	
+	return success;
+}
+
+
+
+
+/*!
+	@function	Writer_Triangle
+	@abstract	.
+	@discussion	
+*/
+static TQ3Status			Writer_Triangle(TQ3ViewObject	theView,
+										TQ3FFormatBaseData	*baseData,
+										TQ3GeometryObject	theGeom,
+										TQ3TriangleData		*geomData)
+{
+#pragma unused( theView)
+	TQ3Status	success = kQ3Success;
+	C3DSWriter*	writer = reinterpret_cast<C3DSWriter*>(baseData->reserved1 );
+	
+	try
+	{
+		writer->Write_Triangle(geomData);
+	}
+	catch (...)
+	{
+	}
+	
+	return success;
+}
+
+
+
+
+
+/*!
+	@function	Writer_TriMesh
+	@abstract	.
+	@discussion	
+*/
+static TQ3Status			Writer_TriMesh(TQ3ViewObject	theView,
+										TQ3FFormatBaseData	*baseData,
+										TQ3GeometryObject	theGeom,
+										TQ3TriMeshData		*geomData)
+{
+#pragma unused( theView)
+	TQ3Status	success = kQ3Success;
+	C3DSWriter*	writer = reinterpret_cast<C3DSWriter*>(baseData->reserved1 );
+	
+	try
+	{
+		writer->Write_TriMesh(geomData);
+	}
+	catch (...)
+	{
+	}
+	
+	return success;
+}
+
+
+
+
+/*!
+	@function	_3ds_writer_metahandler
+	
+	@abstract	Metahandler that provides Quesa methods for the VRML reader.
+*/
+static TQ3XFunctionPointer
+_3ds_writer_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) CreateWriter;
+			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) DeleteWriter;
+			break;
+			
+		case kQ3XMethodTypeRendererStartFrame:
+			theMethod = (TQ3XFunctionPointer) Writer_StartFile;
+			break;
+
+		case kQ3XMethodTypeRendererEndPass:
+			theMethod = (TQ3XFunctionPointer) Writer_EndPass;
+			break;
+
+		case kQ3XMethodTypeRendererCancel:
+			theMethod = (TQ3XFunctionPointer) Writer_Cancel;
+			break;
+
+		// In spite of the name, this method is not just for renderers.
+		// It is also used by Q3FileFormatClass_GetFormatNameString.
+		case kQ3XMethodTypeRendererGetNickNameString:
+			theMethod = (TQ3XFunctionPointer) GetNickname;
+			break;
+		
+		case kQ3XMethodTypeFFormatClose:
+			theMethod = (TQ3XFunctionPointer) Writer_Close;
+			break;
+
+		// object submit
+		case kQ3XMethodTypeFFormatSubmitObject:
+			theMethod = (TQ3XFunctionPointer) Writer_Submit;
+			break;
+
+		// Required
+		case kQ3GeometryTypeTriangle:
+			theMethod = (TQ3XFunctionPointer) Writer_Triangle;
+			break;
+
+		case kQ3GeometryTypeTriMesh:
+			theMethod = (TQ3XFunctionPointer) Writer_TriMesh;
+			break;
+
+		
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
 #pragma mark -
 
 /*!
 	@function	Register_3DS_Class
 	
-	@abstract	Register the 3DS reader class with Quesa.
+	@abstract	Register the 3DS reader and writer classes with Quesa.
 	
 	@result		Success or failure of the operation.
 */
 TQ3Status	Register_3DS_Class()
 {
-	sRegisteredClass = Q3XObjectHierarchy_RegisterClass(
+	sRegisteredReaderClass = Q3XObjectHierarchy_RegisterClass(
 										kQ3FileFormatTypeReader,
-										&sRegisteredType, 
+										&sRegisteredReaderType, 
 										kClassName3DSReader,
-										_3ds_metahandler,
+										_3ds_reader_metahandler,
 										NULL,
 										0,
 										sizeof(TQ3FFormatBaseData));
 	
-	TQ3Status	theStatus = (sRegisteredClass == NULL)? kQ3Failure : kQ3Success;
+	sRegisteredWriterClass = Q3XObjectHierarchy_RegisterClass(
+										kQ3FileFormatTypeWriter,
+										&sRegisteredWriterType, 
+										kClassName3DSWriter,
+										_3ds_writer_metahandler,
+										NULL,
+										0,
+										sizeof(TQ3FFormatBaseData));
+	
+	TQ3Status	theStatus = (sRegisteredReaderClass == NULL)? kQ3Failure : kQ3Success;
 	
 	return theStatus;
 }
@@ -396,7 +742,7 @@ TQ3Status	Register_3DS_Class()
 /*!
 	@function	Unregister_3DS_Class
 	
-	@abstract	Unregister the 3DS reader class from Quesa.
+	@abstract	Unregister the 3DS reader and writer classes from Quesa.
 	
 	@discussion	Typically, one will use Quesa and its plugins until the
 				process quits, so it will not be important to unregister
@@ -407,13 +753,20 @@ TQ3Status	Register_3DS_Class()
 TQ3Status	Unregister_3DS_Class()
 {
 	TQ3Status	status = kQ3Success;
+	TQ3Status	status2 = kQ3Success;
 	
-	if (sRegisteredClass != NULL)
+	if (sRegisteredReaderClass != NULL)
 	{
-		status = Q3XObjectHierarchy_UnregisterClass(sRegisteredClass);
-		sRegisteredClass = NULL;
-		sRegisteredType = 0;
+		status = Q3XObjectHierarchy_UnregisterClass(sRegisteredReaderClass);
+		sRegisteredReaderClass = NULL;
+		sRegisteredReaderType = 0;
 	}
-	return status;
+	if (sRegisteredWriterClass != NULL)
+	{
+		status2 = Q3XObjectHierarchy_UnregisterClass(sRegisteredWriterClass);
+		sRegisteredWriterClass = NULL;
+		sRegisteredWriterType = 0;
+	}
+	return (status == kQ3Success && status2 == kQ3Success)?  kQ3Success : kQ3Failure;
 }
 
