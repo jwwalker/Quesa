@@ -2464,11 +2464,20 @@ doSaveModel(TQ3ViewObject theView)
 	TQ3ViewStatus		viewStatus;
 	TQ3StorageObject	storage;
 	TQ3FileObject		file;
+	TQ3FileMode			fileMode;
 
 
 
-	// Prompt the user for somewhere to save the file
-	storage = Qut_SelectMetafileToSaveTo();
+	fileMode = kQ3ObjectTypeInvalid;
+	
+	// uncomment the next line to save as 3DS
+	//Q3ObjectHierarchy_GetTypeFromString("FileFormat:Writer:3DS", (TQ3ObjectType*) &fileMode);
+
+	if(fileMode == kQ3ObjectTypeInvalid)
+		fileMode = kQ3FileModeNormal;
+	
+	// Prompt the user for somewhere to save the file, and its type
+	storage = Qut_SelectMetafileToSaveTo(&fileMode);
 
 
 
@@ -2482,7 +2491,7 @@ doSaveModel(TQ3ViewObject theView)
 
 			if(submitStatus == kQ3Success){
 				viewStatus = kQ3ViewStatusRetraverse;
-				submitStatus = Q3File_OpenWrite(file, kQ3FileModeNormal);
+				submitStatus = Q3File_OpenWrite(file, fileMode);
 
 				if(submitStatus == kQ3Success){
 					submitStatus = Q3View_StartWriting(theView,file);
