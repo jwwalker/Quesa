@@ -115,5 +115,8 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 
 QORenderer::Renderer::~Renderer()
 {
-	GLDrawContext_SetCurrent( mGLContext, kQ3False );
+	if (mGLContext != NULL)
+	{
+		GLDrawContext_SetCurrent( mGLContext, kQ3False );
+	}
 }
