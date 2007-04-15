@@ -433,7 +433,7 @@ static void AddDirectionalPrototype( GLint inLightIndex,
 									std::vector<std::string>& ioProtos )
 {
 	char	buffer[100];
-	std::snprintf( buffer, sizeof(buffer), kDirectionalProtoFormat,
+	snprintf( buffer, sizeof(buffer), kDirectionalProtoFormat,
 		(int)inLightIndex );
 	ioProtos.push_back( std::string(buffer) );
 }
@@ -442,7 +442,7 @@ static void AddPositionalPrototype( GLint inLightIndex,
 									std::vector<std::string>& ioProtos )
 {
 	char	buffer[100];
-	std::snprintf( buffer, sizeof(buffer), kPositionalProtoFormat,
+	snprintf( buffer, sizeof(buffer), kPositionalProtoFormat,
 		(int)inLightIndex );
 	ioProtos.push_back( std::string(buffer) );
 }
@@ -451,7 +451,7 @@ static void AddDirectionalCall( GLint inLightIndex,
 								std::vector<std::string>& ioCalls )
 {
 	char	buffer[100];
-	std::snprintf( buffer, sizeof(buffer), kDirectionalCallFormat,
+	snprintf( buffer, sizeof(buffer), kDirectionalCallFormat,
 		(int)inLightIndex );
 	ioCalls.push_back( std::string(buffer) );
 }
@@ -460,7 +460,7 @@ static void AddPositionalCall( GLint inLightIndex,
 								std::vector<std::string>& ioCalls )
 {
 	char	buffer[100];
-	std::snprintf( buffer, sizeof(buffer), kPositionalCallFormat,
+	snprintf( buffer, sizeof(buffer), kPositionalCallFormat,
 		(int)inLightIndex );
 	ioCalls.push_back( std::string(buffer) );
 }
@@ -652,8 +652,8 @@ void	QORenderer::PerPixelLighting::CheckIfShading()
 		kQ3RendererPropertyPerPixelLighting, sizeof(propValue), NULL,
 		&propValue );
 	
-	mIsShading = (mFuncs.glCreateShader != NULL) and
-		(propStatus == kQ3Success) and
+	mIsShading = (mFuncs.glCreateShader != NULL) &&
+		(propStatus == kQ3Success) &&
 		(propValue == kQ3True);
 }
 
@@ -780,7 +780,7 @@ void	QORenderer::PerPixelLighting::AttachDirectionalShader(
 	if (shaderID == 0)
 	{
 		char	buffer[100];
-		std::snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
+		snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
 			(int)inLightIndex, (int)inLightIndex );
 		
 		shaderID = mFuncs.glCreateShader( GL_FRAGMENT_SHADER );
@@ -827,7 +827,7 @@ void	QORenderer::PerPixelLighting::AttachPositionalShader(
 	if (shaderID == 0)
 	{
 		char	buffer[100];
-		std::snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
+		snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
 			(int)inLightIndex, (int)inLightIndex );
 		
 		shaderID = mFuncs.glCreateShader( GL_FRAGMENT_SHADER );

@@ -62,7 +62,7 @@ static bool operator==( const TQ3ColorRGB& inOne, const TQ3ColorRGB& inTwo )
 
 static bool operator!=( const TQ3ColorRGB& inOne, const TQ3ColorRGB& inTwo )
 {
-	return not (inOne == inTwo);
+	return ! (inOne == inTwo);
 }
 
 static bool IsEmissivityVarying( const QORenderer::Vertex* inVertices )
@@ -74,7 +74,7 @@ static bool IsEmissivityVarying( const QORenderer::Vertex* inVertices )
 			(inVertices[0].flags & kVertexHaveEmissive) !=
 			(inVertices[1].flags & kVertexHaveEmissive)
 		)
-		or
+		||
 		(
 			(inVertices[0].flags & kVertexHaveEmissive) !=
 			(inVertices[2].flags & kVertexHaveEmissive)
@@ -85,7 +85,7 @@ static bool IsEmissivityVarying( const QORenderer::Vertex* inVertices )
 	}
 	else if ( (inVertices[0].flags & kVertexHaveEmissive) != 0 )
 	{
-		if ( (inVertices[0].emissiveColor != inVertices[1].emissiveColor) or
+		if ( (inVertices[0].emissiveColor != inVertices[1].emissiveColor) ||
 			(inVertices[0].emissiveColor != inVertices[2].emissiveColor) )
 		{
 			isVarying = true;
@@ -245,8 +245,8 @@ void	QORenderer::OpaqueTriBuffer::AddTriangle( const Vertex* inVertices )
 		}
 		
 		// Flush the buffer if the emissive color has changed
-		if ( (not mTriBuffer.empty()) and
-			((mTriBufferFlags & kVertexHaveEmissive) != 0) and
+		if ( (! mTriBuffer.empty()) &&
+			((mTriBufferFlags & kVertexHaveEmissive) != 0) &&
 			(inVertices[0].emissiveColor != mTriBuffer.back().emissiveColor)
 		)
 		{

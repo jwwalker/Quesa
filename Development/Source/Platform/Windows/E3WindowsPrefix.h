@@ -68,9 +68,12 @@
 #ifdef _MSC_VER
 // VC++ doesn't has the "isfinite" C99 macro, it uses "_finite" instead
 #define isfinite _finite
+#define snprintf _snprintf
 
 #pragma warning(disable:4786) // identifier too long (in debugging with STL)
 #pragma warning(disable:4291) // new(nothrow)
+#pragma warning(disable:4996) // deprecated (!!!) C99 C++ functions
+#pragma warning(disable:4229) // fuctions modifiers
 
 #ifndef __cplusplus
 // VC++ only has "sqrtf" for c++

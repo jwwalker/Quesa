@@ -253,8 +253,8 @@ void	QORenderer::Renderer::UpdateSpecularMaterial()
 void	QORenderer::Renderer::UpdateEmissiveMaterial()
 {
 	if (
-		(mGeomState.emissiveColor->r != mCurrentEmissiveColor.r) or
-		(mGeomState.emissiveColor->g != mCurrentEmissiveColor.g) or
+		(mGeomState.emissiveColor->r != mCurrentEmissiveColor.r) ||
+		(mGeomState.emissiveColor->g != mCurrentEmissiveColor.g) ||
 		(mGeomState.emissiveColor->b != mCurrentEmissiveColor.b) )
 	{
 		SetEmissiveMaterial( *mGeomState.emissiveColor );
@@ -777,25 +777,25 @@ void QORenderer::Renderer::CalcTriMeshVertState(
 	
 	
 	// Inherit attributes from faces.
-	if ( (inData.vertNormal == NULL) and (inData.faceNormal != NULL) )
+	if ( (inData.vertNormal == NULL) && (inData.faceNormal != NULL) )
 	{
 		outVertex.normal = inData.faceNormal[ inFaceNum ];
 		outVertex.flags |= kVertexHaveNormal;
 	}
 	
-	if ( (inData.vertColor == NULL) and (inData.faceColor != NULL) )
+	if ( (inData.vertColor == NULL) && (inData.faceColor != NULL) )
 	{
 		outVertex.diffuseColor = inData.faceColor[ inFaceNum ];
 		outVertex.flags |= kVertexHaveDiffuse;
 	}
 	
-	if ( (inData.vertEmissive == NULL) and (inData.faceEmissive != NULL) )
+	if ( (inData.vertEmissive == NULL) && (inData.faceEmissive != NULL) )
 	{
 		outVertex.emissiveColor = inData.faceEmissive[ inFaceNum ];
 		outVertex.flags |= kVertexHaveEmissive;
 	}
 	
-	if ( (inData.vertTransparency == NULL) and (inData.faceTransparency != NULL) )
+	if ( (inData.vertTransparency == NULL) && (inData.faceTransparency != NULL) )
 	{
 		transparentColor = inData.faceTransparency[ inFaceNum ];
 		haveTransparentColor = true;
@@ -817,9 +817,9 @@ void QORenderer::Renderer::CalcTriMeshVertState(
 	else
 	{
 		if (
-			(mGeomState.diffuseColor != NULL) and
+			(mGeomState.diffuseColor != NULL) &&
 			(
-				((outVertex.flags & kVertexHaveDiffuse) == 0) or
+				((outVertex.flags & kVertexHaveDiffuse) == 0) ||
 				(mGeomState.highlightState == kQ3On) )
 			) 
 		{
@@ -847,9 +847,9 @@ void QORenderer::Renderer::CalcTriMeshVertState(
 	
 	// Emissive color from geom state?
 	if (
-		(mGeomState.emissiveColor != NULL) and
+		(mGeomState.emissiveColor != NULL) &&
 		(
-			((outVertex.flags & kVertexHaveEmissive) == 0) or
+			((outVertex.flags & kVertexHaveEmissive) == 0) ||
 			(mGeomState.highlightState == kQ3On) )
 		) 
 	{
@@ -924,7 +924,7 @@ void	QORenderer::Renderer::RenderSlowPathTriMesh(
 		// if the color or texture is translucent, add the triangle to a
 		// buffer of transparent stuff, otherwise add it to a buffer of opaque
 		// triangles.
-		if ( ((flagUnion & kVertexHaveTransparency) != 0) or
+		if ( ((flagUnion & kVertexHaveTransparency) != 0) ||
 			mTextures.IsTextureTransparent() )
 		{
 			mTransBuffer.AddTriangle( theVertices );
@@ -1300,7 +1300,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		}
 	}
 	
-	if (not didHandle)
+	if (! didHandle)
 	{
 		RenderSlowPathTriMesh( inView, *inGeomData, dataArrays );
 		didHandle = true;
