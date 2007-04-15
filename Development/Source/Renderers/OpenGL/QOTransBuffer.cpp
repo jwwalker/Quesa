@@ -494,8 +494,8 @@ void	TransBuffer::UpdateBackfacing( const TransparentPrim& inPrim )
 
 void	TransBuffer::SetEmissiveColor( const TQ3ColorRGB& inColor )
 {
-	if ( (inColor.r != mCurEmissiveColor.r) or
-		(inColor.g != mCurEmissiveColor.g) or
+	if ( (inColor.r != mCurEmissiveColor.r) ||
+		(inColor.g != mCurEmissiveColor.g) ||
 		(inColor.b != mCurEmissiveColor.b) )
 	{
 		mRenderer.SetEmissiveMaterial( inColor );
@@ -517,9 +517,9 @@ void	TransBuffer::SetDiffuseColor( const QORenderer::Vertex& inVert )
 
 void	TransBuffer::SetDiffuseColor( const GLfloat* inColor4 )
 {
-	if ( (inColor4[3] != mCurDiffuseColor[3]) or
-		(inColor4[0] != mCurDiffuseColor[0]) or
-		(inColor4[1] != mCurDiffuseColor[1]) or
+	if ( (inColor4[3] != mCurDiffuseColor[3]) ||
+		(inColor4[0] != mCurDiffuseColor[0]) ||
+		(inColor4[1] != mCurDiffuseColor[1]) ||
 		(inColor4[2] != mCurDiffuseColor[2]) )
 	{
 		mCurDiffuseColor[0] = inColor4[0];
@@ -560,7 +560,7 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 			glNormal3fv( (const GLfloat *) &theVert.normal );
 		}
 		
-		if ( (mCurTexture != 0) and ((theVert.flags & kVertexHaveUV) != 0) )
+		if ( (mCurTexture != 0) && ((theVert.flags & kVertexHaveUV) != 0) )
 		{
 			glTexCoord2fv( (const GLfloat *) &theVert.uv );
 		}
