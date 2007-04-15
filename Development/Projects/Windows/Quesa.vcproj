@@ -77,7 +77,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib"
-				OutputFile="../../../SDK/Libraries/Windows/Release/Quesa.dll"
+				OutputFile="../../../SDK/Libraries/Windows/Release/QD3D.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				ProgramDatabaseFile=".\Release/Quesa.pdb"
@@ -2870,6 +2870,14 @@
 					</File>
 					<File
 						RelativePath="..\..\Source\Renderers\OpenGL\QOGeometry.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOGLShadingLanguage.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOGLShadingLanguage.h"
 						>
 					</File>
 					<File
