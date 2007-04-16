@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B14DEE3C0BC959E000FB3636 /* C3DSReader.cp in Sources */ = {isa = PBXBuildFile; fileRef = B14DEE3B0BC959E000FB3636 /* C3DSReader.cp */; };
-		B15582030B5D9D2C004E2AE6 /* C3DSWriter.cp in Sources */ = {isa = PBXBuildFile; fileRef = B15581FE0B5D9D2C004E2AE6 /* C3DSWriter.cp */; };
-		B15582040B5D9D2C004E2AE6 /* main.cp in Sources */ = {isa = PBXBuildFile; fileRef = B15582000B5D9D2C004E2AE6 /* main.cp */; };
-		B15582050B5D9D2C004E2AE6 /* quesa-methods.cp in Sources */ = {isa = PBXBuildFile; fileRef = B15582010B5D9D2C004E2AE6 /* quesa-methods.cp */; };
+		B14DEE3C0BC959E000FB3636 /* C3DSReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B14DEE3B0BC959E000FB3636 /* C3DSReader.cpp */; };
+		B15582030B5D9D2C004E2AE6 /* C3DSWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B15581FE0B5D9D2C004E2AE6 /* C3DSWriter.cpp */; };
+		B15582040B5D9D2C004E2AE6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B15582000B5D9D2C004E2AE6 /* main.cpp */; };
+		B15582050B5D9D2C004E2AE6 /* quesa-methods.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B15582010B5D9D2C004E2AE6 /* quesa-methods.cpp */; };
 		B1BDF8310B62DC1000A6A5E4 /* atmosphere.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF8090B62DC1000A6A5E4 /* atmosphere.c */; };
 		B1BDF8320B62DC1000A6A5E4 /* background.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF80B0B62DC1000A6A5E4 /* background.c */; };
 		B1BDF8330B62DC1000A6A5E4 /* camera.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF80D0B62DC1000A6A5E4 /* camera.c */; };
@@ -73,12 +73,12 @@
 /* Begin PBXFileReference section */
 		8D01CCD20486CAD60068D4B7 /* 3DS-FileSupport.quesaplug */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "3DS-FileSupport.quesaplug"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B14DEE340BC958F600FB3636 /* C3DSReader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = C3DSReader.h; path = ../Source/C3DSReader.h; sourceTree = SOURCE_ROOT; };
-		B14DEE3B0BC959E000FB3636 /* C3DSReader.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = C3DSReader.cp; sourceTree = "<group>"; };
+		B14DEE3B0BC959E000FB3636 /* C3DSReader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = C3DSReader.cpp; sourceTree = "<group>"; };
 		B15581FD0B5D9D2C004E2AE6 /* 3DS-FileSupport_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "3DS-FileSupport_Prefix.pch"; path = "../Source/3DS-FileSupport_Prefix.pch"; sourceTree = SOURCE_ROOT; };
-		B15581FE0B5D9D2C004E2AE6 /* C3DSWriter.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = C3DSWriter.cp; path = ../Source/C3DSWriter.cp; sourceTree = SOURCE_ROOT; };
+		B15581FE0B5D9D2C004E2AE6 /* C3DSWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = C3DSWriter.cpp; sourceTree = "<group>"; };
 		B15581FF0B5D9D2C004E2AE6 /* C3DSWriter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = C3DSWriter.h; path = ../Source/C3DSWriter.h; sourceTree = SOURCE_ROOT; };
-		B15582000B5D9D2C004E2AE6 /* main.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cp; path = ../Source/main.cp; sourceTree = SOURCE_ROOT; };
-		B15582010B5D9D2C004E2AE6 /* quesa-methods.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = "quesa-methods.cp"; path = "../Source/quesa-methods.cp"; sourceTree = SOURCE_ROOT; };
+		B15582000B5D9D2C004E2AE6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B15582010B5D9D2C004E2AE6 /* quesa-methods.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = "quesa-methods.cpp"; sourceTree = "<group>"; };
 		B15582020B5D9D2C004E2AE6 /* quesa-methods.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "quesa-methods.h"; path = "../Source/quesa-methods.h"; sourceTree = SOURCE_ROOT; };
 		B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = "3DS-FileSupport.xcconfig"; sourceTree = "<group>"; };
 		B1BDF8090B62DC1000A6A5E4 /* atmosphere.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = atmosphere.c; path = ../lib3ds/lib3ds/atmosphere.c; sourceTree = SOURCE_ROOT; };
@@ -177,11 +177,11 @@
 			children = (
 				B15581FD0B5D9D2C004E2AE6 /* 3DS-FileSupport_Prefix.pch */,
 				B14DEE340BC958F600FB3636 /* C3DSReader.h */,
-				B14DEE3B0BC959E000FB3636 /* C3DSReader.cp */,
-				B15581FE0B5D9D2C004E2AE6 /* C3DSWriter.cp */,
+				B14DEE3B0BC959E000FB3636 /* C3DSReader.cpp */,
+				B15581FE0B5D9D2C004E2AE6 /* C3DSWriter.cpp */,
 				B15581FF0B5D9D2C004E2AE6 /* C3DSWriter.h */,
-				B15582000B5D9D2C004E2AE6 /* main.cp */,
-				B15582010B5D9D2C004E2AE6 /* quesa-methods.cp */,
+				B15582000B5D9D2C004E2AE6 /* main.cpp */,
+				B15582010B5D9D2C004E2AE6 /* quesa-methods.cpp */,
 				B15582020B5D9D2C004E2AE6 /* quesa-methods.h */,
 			);
 			name = Source;
@@ -319,9 +319,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B15582030B5D9D2C004E2AE6 /* C3DSWriter.cp in Sources */,
-				B15582040B5D9D2C004E2AE6 /* main.cp in Sources */,
-				B15582050B5D9D2C004E2AE6 /* quesa-methods.cp in Sources */,
+				B15582030B5D9D2C004E2AE6 /* C3DSWriter.cpp in Sources */,
+				B15582040B5D9D2C004E2AE6 /* main.cpp in Sources */,
+				B15582050B5D9D2C004E2AE6 /* quesa-methods.cpp in Sources */,
 				B1BDF8310B62DC1000A6A5E4 /* atmosphere.c in Sources */,
 				B1BDF8320B62DC1000A6A5E4 /* background.c in Sources */,
 				B1BDF8330B62DC1000A6A5E4 /* camera.c in Sources */,
@@ -341,7 +341,7 @@
 				B1BDF8410B62DC1000A6A5E4 /* tracks.c in Sources */,
 				B1BDF8420B62DC1000A6A5E4 /* vector.c in Sources */,
 				B1BDF8430B62DC1000A6A5E4 /* viewport.c in Sources */,
-				B14DEE3C0BC959E000FB3636 /* C3DSReader.cp in Sources */,
+				B14DEE3C0BC959E000FB3636 /* C3DSReader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
