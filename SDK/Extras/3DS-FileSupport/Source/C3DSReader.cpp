@@ -28,6 +28,8 @@
     ___________________________________________________________________________
 */
 #include "C3DSReader.h"
+#include "3DS-FileSupport_Prefix.pch"
+
 
 #if __MACH__
 	#include <Quesa/Quesa.h>
@@ -372,18 +374,18 @@ void		X3DSReaderImp::Lib3dsToQuesaPoint(Lib3dsVector*src, TQ3Point3D *dest, int 
 void		X3DSReaderImp::Lib3dsToQuesaFaces(Lib3dsMesh *meshData, TQ3TriMeshTriangleData* facesQuesa)
 {
 	Lib3dsFace* face = meshData->faceL;
-	Lib3dsWord maxPointIndex = meshData->points - 1;
+	Lib3dsDword maxPointIndex = meshData->points - 1;
 	volatile int mask = 0x0F0;
 	
 	for(int i=0; i<meshData->faces; i++){
-		facesQuesa->pointIndices[0] = std::min(face->points[0],maxPointIndex);
+		facesQuesa->pointIndices[0] = std::min<int>(face->points[0],maxPointIndex);
 		if(face->flags & mask){
-			facesQuesa->pointIndices[1] = std::min(face->points[1],maxPointIndex);
-			facesQuesa->pointIndices[2] = std::min(face->points[2],maxPointIndex);
+			facesQuesa->pointIndices[1] = std::min<int>(face->points[1],maxPointIndex);
+			facesQuesa->pointIndices[2] = std::min<int>(face->points[2],maxPointIndex);
 			}
 		else{
-			facesQuesa->pointIndices[1] = std::min(face->points[2],maxPointIndex);
-			facesQuesa->pointIndices[2] = std::min(face->points[1],maxPointIndex);
+			facesQuesa->pointIndices[1] = std::min<int>(face->points[2],maxPointIndex);
+			facesQuesa->pointIndices[2] = std::min<int>(face->points[1],maxPointIndex);
 			}
 		face++;
 		facesQuesa++;

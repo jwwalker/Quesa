@@ -28,6 +28,7 @@
     ___________________________________________________________________________
 */
 #include "C3DSWriter.h"
+#include "3DS-FileSupport_Prefix.pch"
 
 #if __MACH__
 	#include <Quesa/Quesa.h>
@@ -381,7 +382,7 @@ Lib3dsMesh*		X3DSWriterImp::CreateLib3dsTriangle(TQ3TriangleData *triData)
 		QuesaToLib3dsPoint(triData->vertices[i].point, &mesh->pointL[i].pos);
 		}
 		
-	mesh->faceL[0] = (Lib3dsFace){0};
+	memset(&mesh->faceL[0],0,sizeof(mesh->faceL[0]));
 	mesh->faceL[0].points[0] = 0;
 	mesh->faceL[0].points[1] = 1;
 	mesh->faceL[0].points[2] = 2;
@@ -424,7 +425,7 @@ void	X3DSWriterImp::QuesaToLib3dsFaces(TQ3TriMeshData* meshData, Lib3dsMesh *mes
 	
 	
 	for(int i=0; i<mesh->faces; i++){
-		mesh->faceL[i] = (Lib3dsFace){0};
+		memset(&mesh->faceL[i],0,sizeof(mesh->faceL[i]));
 		mesh->faceL[i].points[0] = meshData->triangles[i].pointIndices[0];
 		mesh->faceL[i].points[1] = meshData->triangles[i].pointIndices[1];
 		mesh->faceL[i].points[2] = meshData->triangles[i].pointIndices[2];
