@@ -487,7 +487,7 @@ TQ3Status	C3DSWriter::StartFile(
 								TQ3FFormatBaseData			*fileFormatPrivate,
 								TQ3DrawContextObject		theDrawContext)
 {
-	mImp->StartFile( theView, fileFormatPrivate, theDrawContext );
+	return mImp->StartFile( theView, fileFormatPrivate, theDrawContext );
 }
 
 /*!
@@ -499,7 +499,7 @@ TQ3ViewStatus	C3DSWriter::EndPass(
 								TQ3ViewObject				theView,
 								TQ3FFormatBaseData		*fileFormatPrivate)
 {
-	mImp->EndPass( theView, fileFormatPrivate );
+	return mImp->EndPass( theView, fileFormatPrivate );
 }
 	
 
@@ -512,7 +512,7 @@ TQ3ViewStatus	C3DSWriter::EndPass(
 */
 TQ3Status	C3DSWriter::Close( TQ3Boolean inAbort )
 {
-	mImp->Close( inAbort );
+	return mImp->Close( inAbort );
 }
 
 
