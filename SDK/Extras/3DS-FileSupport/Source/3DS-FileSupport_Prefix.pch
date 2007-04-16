@@ -28,13 +28,14 @@
     ___________________________________________________________________________
 */
 
-#include <Carbon/Carbon.h>
-#if __MACH__
-	#include <Quesa/Quesa.h>
-#else
-	#include <Quesa.h>
+#if QUESA_OS_MACINTOSH
+    #include <Carbon/Carbon.h>
+    #if __MACH__
+        #include <Quesa/Quesa.h>
+    #else
+        #include <Quesa.h>
+    #endif
 #endif
 
 #define		kTextureImportCallbackProperty	Q3_OBJECT_TYPE('T', 'x', 'I', 'm')
-
 #define		kDebugTextProperty				Q3_OBJECT_TYPE('D', 'e', 'b', 'g')
