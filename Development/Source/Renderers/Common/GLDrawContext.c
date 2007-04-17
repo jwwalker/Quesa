@@ -66,6 +66,8 @@
 
 
 
+
+
 //=============================================================================
 //		Internal types
 //-----------------------------------------------------------------------------
@@ -1263,96 +1265,6 @@ gldrawcontext_win_updatesize(
 
 
 //=============================================================================
-//		gldrawcontext_be_new : Create an OpenGL context for a draw context.
-//-----------------------------------------------------------------------------
-#pragma mark -
-#if QUESA_OS_BE
-static void *
-gldrawcontext_be_new(TQ3DrawContextObject theDrawContext)
-{
-
-
-	// To be implemented
-	return(NULL);
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_be_destroy : Destroy an OpenGL context.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_be_destroy(void *glContext)
-{
-	// To be implemented
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_be_swapbuffers : Swap the buffers of an OpenGL context.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_be_swapbuffers(void *glContext)
-{
-	// To be implemented
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_be_setcurrent : Make an OpenGL context current.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_be_setcurrent(void *glContext, TQ3Boolean forceSet)
-{
-	// To be implemented
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_be_updateclip : Update OpenGL context clipping.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-gldrawcontext_be_updateclip(void *glContext)
-{
-
-
-	// Not required
-	return(kQ3False);
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_be_updatepos : Update OpenGL context position.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-gldrawcontext_be_updatepos(void *glContext)
-{
-
-
-	// Not required
-	return(kQ3False);
-}
-#endif // QUESA_OS_BE
-
-
-
-
-
-//=============================================================================
 //		Public functions
 //-----------------------------------------------------------------------------
 //		GLDrawContext_New : Create an OpenGL context for a draw context.
@@ -1417,9 +1329,6 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 	glContext = gldrawcontext_win_new( theDrawContext, preferredDepthBits,
 		shareTextures, preferredStencilBits );
 
-#elif QUESA_OS_BE
-	glContext = gldrawcontext_be_new(theDrawContext);
-
 #else
 	glContext = NULL;
 #endif
@@ -1429,7 +1338,7 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 	if ( (glContext != NULL) && (! GLGPUSharing_IsContextKnown( glContext )) )
 		GLGPUSharing_AddContext( glContext, NULL );
 
-
+	
 	// Set up the default state
 	//
 	// New contexts start off cleared in the appropriate manner and with a basic
@@ -1479,9 +1388,6 @@ GLDrawContext_Destroy(void **glContext)
 #elif QUESA_OS_WIN32
 	gldrawcontext_win_destroy(*glContext);
 
-#elif QUESA_OS_BE
-	gldrawcontext_be_destroy(*glContext);
-
 #endif
 
 
@@ -1522,9 +1428,6 @@ GLDrawContext_SwapBuffers(void *glContext)
 #elif QUESA_OS_WIN32
 	gldrawcontext_win_swapbuffers(glContext);
 
-#elif QUESA_OS_BE
-	gldrawcontext_be_swapbuffers(glContext);
-
 #endif
 }
 
@@ -1557,9 +1460,6 @@ GLDrawContext_SetCurrent(void *glContext, TQ3Boolean forceSet)
 
 #elif QUESA_OS_WIN32
 	gldrawcontext_win_setcurrent(glContext, forceSet);
-
-#elif QUESA_OS_BE
-	gldrawcontext_be_setcurrent(glContext, forceSet);
 
 #endif
 }
@@ -1718,9 +1618,6 @@ GLDrawContext_UpdateWindowClip(void *glContext)
 #elif QUESA_OS_WIN32
 	wasUpdated = gldrawcontext_win_updateclip(glContext);
 
-#elif QUESA_OS_BE
-	wasUpdated = gldrawcontext_be_updateclip(glContext);
-
 #endif
 
 	return(wasUpdated);
@@ -1755,9 +1652,6 @@ GLDrawContext_UpdateWindowPosition(void *glContext)
 
 #elif QUESA_OS_WIN32
 	wasUpdated = gldrawcontext_win_updatepos(glContext);
-
-#elif QUESA_OS_BE
-	wasUpdated = gldrawcontext_be_updatepos(glContext);
 
 #endif
 
