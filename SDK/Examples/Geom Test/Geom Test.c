@@ -2623,7 +2623,8 @@ doLoadModel(TQ3ViewObject theView)
 	float				xBounds, yBounds, zBounds, scaleFactor;
 	TQ3BoundingBox		theBounds;
 	TQ3Vector3D			translateToOrigin = { 0.0f, 0.0f, 0.0f };
-	TQ3Vector3D			scale     = { 1.0f, 1.0f, 1.0f };
+	TQ3Matrix4x4		translateMatrix;
+	TQ3Matrix4x4		scaleMatrix;
 	TextureImporterProcPtr	funcPtr = TextureImportCallback;
 
 	// Get the file
@@ -2659,38 +2660,20 @@ doLoadModel(TQ3ViewObject theView)
 		scaleFactor = (zBounds > scaleFactor) ? zBounds : scaleFactor;
 		scaleFactor = 3.75f / scaleFactor;
 
-		scale.x = scaleFactor;
-		scale.y = scaleFactor;
-		scale.z = scaleFactor;
-
 		translateToOrigin.x = -(theBounds.min.x + (xBounds * 0.5f));
 		translateToOrigin.y = -(theBounds.min.y + (yBounds * 0.5f));
 		translateToOrigin.z = -(theBounds.min.z + (zBounds * 0.5f));
 
-	    
-	    normalizedModel = Q3DisplayGroup_New();
-	    if(normalizedModel != NULL)
-	    	{
-	    		tempObj = Q3ScaleTransform_New(&scale);
-	    		if(tempObj)
-	    			{
-                    Q3Group_AddObject(normalizedModel, tempObj);
-               		Q3Object_Dispose(tempObj);
-	    			}
-	    		tempObj = Q3TranslateTransform_New(&translateToOrigin);
-	    		if(tempObj)
-	    			{
-                    Q3Group_AddObject(normalizedModel, tempObj);
-               		Q3Object_Dispose(tempObj);
-	    			}
-	    			
-             Q3Group_AddObject(normalizedModel, theModel);
-             Q3Object_Dispose(theModel);
-             
-             return (normalizedModel);
-	    	}
+	    Q3Matrix4x4_SetTranslate(&translateMatrix,translateToOrigin.x,translateToOrigin.y,translateToOrigin.z);
+	    Q3Matrix4x4_SetScale(&scaleMatrix,scaleFactor,scaleFactor,scaleFactor);
+		
+		Q3Matrix4x4_SetIdentity(&gMatrixCurrent);
+		
+		Q3Matrix4x4_Multiply(&gMatrixCurrent,&translateMatrix,&gMatrixCurrent);
+		Q3Matrix4x4_Multiply(&gMatrixCurrent,&scaleMatrix,&gMatrixCurrent);
+
 		}
-	return NULL;
+	return theModel;
 }
 
 
@@ -3410,7 +3393,6 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			gSceneBoundingSphere = createLocalBoundingSphere(gSceneGeometry);
 			}
 			
-		Q3Matrix4x4_SetIdentity(&gMatrixCurrent);
 		}
 }
 
