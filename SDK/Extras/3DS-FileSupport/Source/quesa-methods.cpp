@@ -557,6 +557,9 @@ static TQ3Status			Writer_Submit(
 
 	try
 	{
+		if( objectType == kQ3SetTypeAttribute){
+			writer->UpdateAttributes((TQ3AttributeSet)theObject);
+			}
 		if( objectType == kQ3StateOperatorTypePush){
 			writer->PushGroupLevel();
 			}

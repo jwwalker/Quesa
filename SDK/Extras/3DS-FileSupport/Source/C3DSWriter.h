@@ -113,8 +113,15 @@ public:
 	*/
 	void					Write_Triangle(TQ3TriangleData *geomData);
 	
-///////// Transform management
+///////// Transform & Attributes management
 
+
+	/*!
+		@function			UpdateAttributes
+		@abstract			An Attribute set is submitted, so let's update our material state.
+	*/
+	void					UpdateAttributes( TQ3AttributeSet theAttributes );
+	
 	/*!
 		@function			UpdateMatrix
 		@abstract			A new Matrix is submitted, so let's update our matrix state.
