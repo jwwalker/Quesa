@@ -55,6 +55,8 @@
 
 #include <lib3ds/file.h>
 #include <lib3ds/mesh.h>
+#include <lib3ds/node.h>
+#include <lib3ds/material.h>
 #include <lib3ds/io.h>
 
 namespace
@@ -62,6 +64,12 @@ namespace
 	typedef		std::map< std::string, CQ3ObjectRef >	NameToTexture;
 	typedef		std::map< std::string, CQ3ObjectRef >	NameToTexture;
 }
+
+struct stateStackItem{
+	TQ3Matrix4x4	matrix;
+	TQ3ColorRGB		diffuseColor;
+	TQ3ColorRGB		specularColor;
+};
 
 #pragma mark struct X3DSWriterImp;
 struct X3DSWriterImp
@@ -86,12 +94,15 @@ struct X3DSWriterImp
 	
 	void					Write_Triangle(TQ3TriangleData *geomData);
 	
+	void					UpdateAttributes( TQ3AttributeSet theAttributes );
 	void					UpdateMatrix( TQ3Matrix4x4* theMatrix );
 	void					PushGroupLevel();
 	void					PopGroupLevel();
 
+	const char*				GetMaterial();
 	Lib3dsMesh*				CreateLib3dsMesh(TQ3TriMeshData *meshData);
 	Lib3dsMesh*				CreateLib3dsTriangle(TQ3TriangleData *triData);
+	void					InsertMeshAndCreateNode( Lib3dsMesh* mesh );
 
 	void					QuesaToLib3dsPoints(TQ3Point3D *src, Lib3dsVector *dest, int numPoints);
 	void					QuesaToLib3dsPoint(TQ3Point3D src, Lib3dsVector *dest);
@@ -102,8 +113,8 @@ struct X3DSWriterImp
 	Lib3dsFile*						m3DSfileRef;
 	TQ3FFormatBaseData*				mBaseData;
 	
-	std::vector<TQ3Matrix4x4>		mMatrixStack;
-	TQ3Matrix4x4					mCurrentMatrix;
+	std::vector<stateStackItem>		mStateStack;
+	stateStackItem					mCurrentState;
 	
 	std::auto_ptr<std::ostringstream>	mDebugStream;
 };
@@ -196,7 +207,8 @@ X3DSWriterImp::X3DSWriterImp (C3DSWriter* inSelf,
 	
 	m3DSfileRef = NULL;
 	
-	Q3Matrix4x4_SetIdentity(&mCurrentMatrix);
+	memset(&mCurrentState, 0 , sizeof(mCurrentState));
+	Q3Matrix4x4_SetIdentity(&mCurrentState.matrix);
 }
 
 
@@ -282,13 +294,63 @@ TQ3Status	X3DSWriterImp::Close(TQ3Boolean inAbort)
 
 
 
+
+void	X3DSWriterImp::InsertMeshAndCreateNode( Lib3dsMesh* mesh )
+{
+	if(mesh){
+		Lib3dsQuatKey* key_q;
+		Lib3dsLin3Key* key_l;
+
+		lib3ds_file_insert_mesh(m3DSfileRef,mesh);
+
+		// create a node
+		Lib3dsNode	*node;
+		node = lib3ds_node_new_object();
+		strncpy(node->name, mesh->name, sizeof(node->name));
+		node->parent_id = LIB3DS_NO_PARENT;
+		static int node_id = 0;
+		node->node_id = node_id;
+		node_id++;
+
+		node->data.object.rot_track.keyL = 0;
+		key_q = lib3ds_quat_key_new();
+		key_q->q[0] = 0;
+		key_q->q[1] = 0;
+		key_q->q[2] = 0;
+		key_q->q[3] = 1;
+		lib3ds_quat_track_insert(&node->data.object.rot_track, key_q);
+		lib3ds_quat_track_setup(&node->data.object.rot_track);
+
+		node->data.object.pos_track.keyL = 0;
+		key_l = lib3ds_lin3_key_new();
+		lib3ds_lin3_track_insert(&node->data.object.pos_track, key_l);
+		lib3ds_lin3_track_setup(&node->data.object.pos_track);
+
+		node->data.object.scl_track.keyL = 0;
+		key_l = lib3ds_lin3_key_new();
+		key_l->value[0] = 1;
+		key_l->value[1] = 1;
+		key_l->value[2] = 1;
+		lib3ds_lin3_track_insert(&node->data.object.scl_track, key_l);
+		lib3ds_lin3_track_setup(&node->data.object.scl_track);
+		lib3ds_file_insert_node(m3DSfileRef,node);
+
+		}
+}
+
+
+
+
 void	X3DSWriterImp::Write_TriMesh( TQ3TriMeshData *geomData )
 {
 	Lib3dsMesh* mesh = CreateLib3dsMesh(geomData);
 	if(mesh){
-		lib3ds_file_insert_mesh(m3DSfileRef,mesh);
+		InsertMeshAndCreateNode(mesh);
 		}
+
 }
+
+
 
 
 
@@ -297,7 +359,24 @@ void	X3DSWriterImp::Write_Triangle(TQ3TriangleData *geomData )
 {
 	Lib3dsMesh* mesh = CreateLib3dsTriangle(geomData);
 	if(mesh){
-		lib3ds_file_insert_mesh(m3DSfileRef,mesh);
+		InsertMeshAndCreateNode(mesh);
+		}
+}
+
+
+
+void	X3DSWriterImp::UpdateAttributes( TQ3AttributeSet theAttributes )
+{
+	TQ3ColorRGB diffuseColor;
+	TQ3Status qd3dstatus = Q3AttributeSet_Get (theAttributes, kQ3AttributeTypeDiffuseColor, &diffuseColor);
+	if(qd3dstatus == kQ3Success){
+		mCurrentState.diffuseColor = diffuseColor;
+		}
+		
+	TQ3ColorRGB specularColor;
+	qd3dstatus = Q3AttributeSet_Get (theAttributes, kQ3AttributeTypeSpecularColor, &specularColor);
+	if(qd3dstatus == kQ3Success){
+		mCurrentState.specularColor = specularColor;
 		}
 }
 
@@ -305,21 +384,64 @@ void	X3DSWriterImp::Write_Triangle(TQ3TriangleData *geomData )
 
 void	X3DSWriterImp::UpdateMatrix( TQ3Matrix4x4* theMatrix )
 {
-	Q3Matrix4x4_Multiply(&mCurrentMatrix,theMatrix,&mCurrentMatrix);
+	Q3Matrix4x4_Multiply(&mCurrentState.matrix,theMatrix,&mCurrentState.matrix);
 }
 
 
 
 void	X3DSWriterImp::PushGroupLevel( )
 {
-	mMatrixStack.push_back(mCurrentMatrix);
+	mStateStack.push_back(mCurrentState);
 }
 
 
 void	X3DSWriterImp::PopGroupLevel( )
 {
-	mCurrentMatrix = mMatrixStack.back();
-	mMatrixStack.pop_back();
+	mCurrentState = mStateStack.back();
+	mStateStack.pop_back();
+}
+
+
+const char*		X3DSWriterImp::GetMaterial()
+{
+	Lib3dsMaterial* foundMaterial = m3DSfileRef->materials;
+	
+	//find an Equivalent Material;
+	while (foundMaterial != NULL){
+		if(
+			foundMaterial->diffuse[0] == mCurrentState.diffuseColor.r &&
+			foundMaterial->diffuse[1] == mCurrentState.diffuseColor.g &&
+			foundMaterial->diffuse[2] == mCurrentState.diffuseColor.b &&
+			
+			foundMaterial->specular[0] == mCurrentState.specularColor.r &&
+			foundMaterial->specular[1] == mCurrentState.specularColor.g &&
+			foundMaterial->specular[2] == mCurrentState.specularColor.b 
+			)
+			break;
+		else
+			foundMaterial = foundMaterial->next;
+		}
+	
+	if (foundMaterial == NULL){
+		foundMaterial =lib3ds_material_new();
+		
+		sprintf(foundMaterial->name,"Ma%X",(long)foundMaterial);
+		foundMaterial->name[10] = 0; // max len 10
+		
+//		foundMaterial->ambient[0] = foundMaterial->ambient[1] = foundMaterial->ambient[2] = 0.0f;
+//		foundMaterial->ambient[0] = 1.0f;
+		foundMaterial->diffuse[0] = mCurrentState.diffuseColor.r;
+		foundMaterial->diffuse[1] = mCurrentState.diffuseColor.g;
+		foundMaterial->diffuse[2] = mCurrentState.diffuseColor.b;
+		
+		foundMaterial->specular[0] = mCurrentState.specularColor.r;
+		foundMaterial->specular[1] = mCurrentState.specularColor.g;
+		foundMaterial->specular[2] = mCurrentState.specularColor.b;
+
+		lib3ds_file_insert_material(m3DSfileRef,foundMaterial);
+	}
+	
+	return foundMaterial->name;
 }
 
 
@@ -327,10 +449,18 @@ Lib3dsMesh*		X3DSWriterImp::CreateLib3dsMesh(TQ3TriMeshData *meshData)
 {
 	if(meshData == NULL) return NULL;
 	
+	
+	if(meshData->triMeshAttributeSet){ // push the geometry attribute set
+		PushGroupLevel( );
+		UpdateAttributes( meshData->triMeshAttributeSet );
+		}
+	
 	Lib3dsMesh* mesh;
 	char s[1024];
 
-	sprintf(s,"Mesh# %X",(long)meshData);
+	sprintf(s,"Me%X",(long)meshData);
+	
+	s[10] = 0; // max len 10
 	
 	mesh=lib3ds_mesh_new(s);
 	
@@ -350,6 +480,10 @@ Lib3dsMesh*		X3DSWriterImp::CreateLib3dsMesh(TQ3TriMeshData *meshData)
 	QuesaToLib3dsPoints(meshData->points, (Lib3dsVector*)mesh->pointL, meshData->numPoints);
 	QuesaToLib3dsFaces (meshData, mesh);
 	
+	if(meshData->triMeshAttributeSet){ // pop the geometry attribute set
+		PopGroupLevel( );
+		}
+	
 	return mesh;
 }
 
@@ -358,10 +492,16 @@ Lib3dsMesh*		X3DSWriterImp::CreateLib3dsTriangle(TQ3TriangleData *triData)
 {
 	if(triData == NULL) return NULL;
 	
+	if(triData->triangleAttributeSet){ // push the geometry attribute set
+		PushGroupLevel( );
+		UpdateAttributes( triData->triangleAttributeSet );
+		}
+	
 	Lib3dsMesh* mesh;
 	char s[1024];
 
-	sprintf(s,"Triangle# %h",(long)triData);
+	sprintf(s,"Tr%X",(long)triData);
+	s[10] = 0; // max len 10
 	
 	mesh=lib3ds_mesh_new(s);
 	
@@ -383,9 +523,14 @@ Lib3dsMesh*		X3DSWriterImp::CreateLib3dsTriangle(TQ3TriangleData *triData)
 		}
 		
 	memset(&mesh->faceL[0],0,sizeof(mesh->faceL[0]));
+	strcpy(mesh->faceL[0].material,GetMaterial());
 	mesh->faceL[0].points[0] = 0;
-	mesh->faceL[0].points[1] = 1;
-	mesh->faceL[0].points[2] = 2;
+	mesh->faceL[0].points[1] = 2;
+	mesh->faceL[0].points[2] = 1;
+	
+	if(triData->triangleAttributeSet){ // pop the geometry attribute set
+		PopGroupLevel( );
+		}
 	
 	return mesh;
 }
@@ -396,10 +541,6 @@ void	X3DSWriterImp::QuesaToLib3dsPoints(TQ3Point3D *src, Lib3dsVector *dest, int
 {
 	for(int i=0; i<numPoints; i++){
 			
-		(*dest)[0] = src->x;
-		(*dest)[2] = src->y;
-		(*dest)[1] = -src->z;
-		
 		QuesaToLib3dsPoint(*src, dest);
 		
 		src++;
@@ -410,7 +551,7 @@ void	X3DSWriterImp::QuesaToLib3dsPoints(TQ3Point3D *src, Lib3dsVector *dest, int
 
 void	X3DSWriterImp::QuesaToLib3dsPoint(TQ3Point3D src, Lib3dsVector *dest)
 {
-		Q3Point3D_Transform(&src,&mCurrentMatrix,&src);
+		Q3Point3D_Transform(&src,&mCurrentState.matrix,&src);
 		(*dest)[0] = src.x;
 		(*dest)[2] = src.y;
 		(*dest)[1] = -src.z;
@@ -422,16 +563,18 @@ void	X3DSWriterImp::QuesaToLib3dsFaces(TQ3TriMeshData* meshData, Lib3dsMesh *mes
 {
 	if(meshData == NULL) return;
 	if(mesh == NULL) return;
+	static int smooth = 1; // needed a  way to find smoothed surfaces
 	
 	
 	for(int i=0; i<mesh->faces; i++){
 		memset(&mesh->faceL[i],0,sizeof(mesh->faceL[i]));
+		strcpy(mesh->faceL[i].material,GetMaterial());
 		mesh->faceL[i].points[0] = meshData->triangles[i].pointIndices[0];
-		mesh->faceL[i].points[1] = meshData->triangles[i].pointIndices[1];
-		mesh->faceL[i].points[2] = meshData->triangles[i].pointIndices[2];
-		
+		mesh->faceL[i].points[1] = meshData->triangles[i].pointIndices[2];
+		mesh->faceL[i].points[2] = meshData->triangles[i].pointIndices[1];
+		mesh->faceL[i].smoothing = smooth;
 		}
-	
+	smooth++;
 }
 
 
@@ -539,6 +682,17 @@ void	C3DSWriter::Write_Triangle(TQ3TriangleData *geomData )
 	mImp->Write_Triangle( geomData );
 }
 
+
+
+
+/*!
+	@function			UpdateAttributes
+	@abstract			An Attribute set is submitted, so let's update our material state.
+*/
+void	C3DSWriter::UpdateAttributes( TQ3AttributeSet theAttributes )
+{
+	mImp->UpdateAttributes( theAttributes );
+}
 
 
 
