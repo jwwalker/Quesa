@@ -1189,7 +1189,7 @@ E3FileFormat_Method_SubmitGroup(TQ3ViewObject	theView,
 		return submitGroup ( theView, theFormat->FindLeafInstanceData (), group, groupType , groupData ) ;
 	
 	// submit the group contents
-	TQ3Status qd3dStatus = kQ3Failure ;
+	TQ3Status qd3dStatus = kQ3Success ;
 	for ( Q3Group_GetFirstPosition ( group, &position ) ;
 		position != NULL ;
 		Q3Group_GetNextPosition ( group, &position ) )
