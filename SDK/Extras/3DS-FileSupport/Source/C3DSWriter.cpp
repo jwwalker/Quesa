@@ -384,7 +384,7 @@ void	X3DSWriterImp::UpdateAttributes( TQ3AttributeSet theAttributes )
 
 void	X3DSWriterImp::UpdateMatrix( TQ3Matrix4x4* theMatrix )
 {
-	Q3Matrix4x4_Multiply(&mCurrentState.matrix,theMatrix,&mCurrentState.matrix);
+	Q3Matrix4x4_Multiply(theMatrix,&mCurrentState.matrix,&mCurrentState.matrix);
 }
 
 
