@@ -640,6 +640,21 @@ static TQ3Status			Writer_TriMesh(TQ3ViewObject	theView,
 
 
 
+/*!
+	@function	Writer_NULL
+	@abstract	Does Nothing.
+	@discussion	Used to handle the required geometryes
+*/
+static TQ3Status			Writer_NULL(TQ3ViewObject	,
+										TQ3FFormatBaseData	*,
+										TQ3GeometryObject	,
+										void		*)
+{	
+	return kQ3Success;
+}
+
+
+
 
 /*!
 	@function	_3ds_writer_metahandler
@@ -696,6 +711,13 @@ _3ds_writer_metahandler(TQ3XMethodType methodType)
 
 		case kQ3GeometryTypeTriMesh:
 			theMethod = (TQ3XFunctionPointer) Writer_TriMesh;
+			break;
+
+		case kQ3GeometryTypePoint:
+		case kQ3GeometryTypeLine:
+		case kQ3GeometryTypeMarker:
+		case kQ3GeometryTypePixmapMarker:
+			theMethod = (TQ3XFunctionPointer) Writer_NULL;
 			break;
 
 		
