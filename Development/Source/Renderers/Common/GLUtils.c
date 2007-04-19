@@ -353,6 +353,13 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		{
 			featureFlags->shadingLanguage = kQ3True;
 		}
+		
+		if (glVersion >= 0x0120)
+		{
+			// There is an extension GL_EXT_packed_pixels, but that does not
+			// cover the reversed formats like GL_UNSIGNED_INT_8_8_8_8_REV.
+			featureFlags->packedPixels = kQ3True;
+		}
 	}
 }
 
