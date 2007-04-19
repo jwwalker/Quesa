@@ -65,6 +65,8 @@
 	#include <mach-o/dyld.h>
 	#include <cstring>
 	
+	#define DLOPEN_NO_WARN	1
+	#include <dlfcn.h>
 #endif
 
 
@@ -498,6 +500,18 @@ void*	GLGetProcAddress( const char* funcName )
 
 #elif QUESA_OS_COCOA || (QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS)
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= 1030
+
+void*	GLGetProcAddress( const char* funcName )
+{
+	// dlsym is available on 10.3 and later, and preferred on 10.4 and later.
+	void*	thePtr = dlsym( RTLD_DEFAULT, funcName );
+	
+	return thePtr;
+}
+
+#else
+
 // See <http://developer.apple.com/qa/qa2001/qa1188.html>
 void*	GLGetProcAddress( const char* funcName )
 {
@@ -525,5 +539,7 @@ void*	GLGetProcAddress( const char* funcName )
 	
 	return thePtr;
 }
+
+#endif
 
 #endif
