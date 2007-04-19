@@ -111,6 +111,7 @@ struct TQ3GLExtensions
 	TQ3Boolean				vertexBufferObjects;
 	TQ3Boolean				frameBufferObjects;
 	TQ3Boolean				shadingLanguage;
+	TQ3Boolean				packedPixels;
 };
 
 
