@@ -1049,6 +1049,7 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 				edges should behave, so there is guesswork here.
 */
 void	QORenderer::Renderer::RenderExplicitEdges(
+									TQ3ViewObject inView,
 									const TQ3TriMeshData& inGeomData,
 									const TQ3Vector3D* inVertNormals,
 									const TQ3ColorRGB* inVertColors,
@@ -1056,7 +1057,22 @@ void	QORenderer::Renderer::RenderExplicitEdges(
 {
 	// Turn off texturing.
 	mTextures.SetCurrentTexture( NULL, NULL );
+
+	// Enable/disable array states.
+	mGLClientStates.EnableNormalArray( inVertNormals != NULL );
+	mGLClientStates.EnableTextureArray( false );
+	mGLClientStates.EnableColorArray( inVertColors != NULL );
 	
+	// Set array pointers.
+	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
+	if (inVertNormals != NULL)
+	{
+		glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
+	}
+	if (inVertColors != NULL)
+	{
+		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
+	}
 
 	// If no vertex or edge colors, set the color.
 	if ( (inVertColors == NULL) && (inEdgeColors == NULL) )
@@ -1068,31 +1084,128 @@ void	QORenderer::Renderer::RenderExplicitEdges(
 	// Render edges one line at a time.
 	glBegin( GL_LINES );
 	
-	for (TQ3Uns32 i = 0; i < inGeomData.numEdges; ++i)
+	if (mStyleBackfacing == kQ3BackfacingStyleRemove)
 	{
-		for (int whichEnd = 0; whichEnd < 2; ++whichEnd)
+		RenderCulledEdges( inView, inGeomData, inVertColors, inEdgeColors );
+	}
+	else
+	{
+		for (TQ3Uns32 i = 0; i < inGeomData.numEdges; ++i)
 		{
-			TQ3Uns32	vertNum = inGeomData.edges[i].pointIndices[ whichEnd ];
-
-			if (inVertNormals != NULL)
-			{
-				glNormal3fv( (const GLfloat *) &inVertNormals[ vertNum ] );
-			}
-			
-			if (inVertColors != NULL)
-			{
-				glColor3fv( (const GLfloat *) &inVertColors[ vertNum ] );
-			}
-			else if (inEdgeColors != NULL)
+			if ( (inVertColors == NULL) && (inEdgeColors != NULL) )
 			{
 				glColor3fv( (const GLfloat *) &inEdgeColors[ i ] );
 			}
-			
-			glVertex3fv( (const GLfloat *) &inGeomData.points[ vertNum ] );
+
+			glArrayElement( inGeomData.edges[i].pointIndices[ 0 ] );
+			glArrayElement( inGeomData.edges[i].pointIndices[ 1 ] );
 		}
 	}
 	
 	glEnd();
+}
+
+
+/*!
+	@function	RenderCulledEdges
+	@abstract	Render lines for edges that belong to at least one front-facing
+				triangle.
+*/
+void	QORenderer::Renderer::RenderCulledEdges(
+								TQ3ViewObject inView,
+								const TQ3TriMeshData& inGeomData,
+								const TQ3ColorRGB* inVertColors,
+								const TQ3ColorRGB* inEdgeColors )
+{
+	// Find world to local transformation
+	TQ3Matrix4x4	localToWorld, worldToLocal;
+	Q3View_GetLocalToWorldMatrixState( inView, &localToWorld );
+	Q3Matrix4x4_Invert( &localToWorld, &worldToLocal );
+	
+	// Get camera placement and type
+	CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
+	TQ3CameraPlacement	thePlacement;
+	Q3Camera_GetPlacement( theCamera.get(), &thePlacement );
+	bool	isOrthographic = (Q3Camera_GetType( theCamera.get() ) ==
+		kQ3CameraTypeOrthographic);
+	
+	TQ3Vector3D		viewVector, normalVector;
+	TQ3Uns32	faceIndex;
+	TQ3Point3D	cameraLocal;
+	
+	if (isOrthographic)
+	{
+		// Get the view vector in local coordinates
+		Q3FastPoint3D_Subtract( &thePlacement.pointOfInterest,
+			&thePlacement.cameraLocation, &viewVector );
+		Q3Vector3D_Transform( &viewVector, &worldToLocal, &viewVector );
+		
+		if (mStyleOrientation == kQ3OrientationStyleClockwise)
+		{
+			// Logically we should flip the normal vector, but it is equivalent
+			// to flip the view vector.
+			Q3FastVector3D_Negate( &viewVector, &viewVector );
+		}
+	}
+	else
+	{
+		// Get the camera location in local coordinates
+		Q3Point3D_Transform( &thePlacement.cameraLocation, &worldToLocal, &cameraLocal );
+	}
+	
+	for (TQ3Uns32 n = 0; n < inGeomData.numEdges; ++n)
+	{
+		const TQ3TriMeshEdgeData& edgeData( inGeomData.edges[n] );
+		bool isFront = false;
+		
+		for (int whichFace = 0; whichFace < 2; ++whichFace)
+		{
+			faceIndex = edgeData.triangleIndices[whichFace];
+			
+			if (faceIndex != kQ3ArrayIndexNULL)
+			{
+				const TQ3TriMeshTriangleData& faceData(
+					inGeomData.triangles[ faceIndex ] );
+				
+				Q3FastPoint3D_CrossProductTri(
+					&inGeomData.points[ faceData.pointIndices[0] ],
+					&inGeomData.points[ faceData.pointIndices[1] ],
+					&inGeomData.points[ faceData.pointIndices[2] ],
+					&normalVector );
+				
+				if (! isOrthographic)
+				{
+					Q3FastPoint3D_Subtract(
+						&inGeomData.points[ faceData.pointIndices[0] ],
+						&cameraLocal, &viewVector );
+					
+					if (mStyleOrientation == kQ3OrientationStyleClockwise)
+					{
+						// Logically we should flip the normal vector, but it is equivalent
+						// to flip the view vector.
+						Q3FastVector3D_Negate( &viewVector, &viewVector );
+					}
+				}
+				
+				if (Q3FastVector3D_Dot( &normalVector, &viewVector ) < 0.0f)
+				{
+					isFront = true;
+					break;
+				}
+			}
+		}
+		
+		if (isFront)
+		{
+			if ( (inVertColors == NULL) && (inEdgeColors != NULL) )
+			{
+				glColor3fv( (const GLfloat *) &inEdgeColors[ n ] );
+			}
+
+			glArrayElement( edgeData.pointIndices[0] );
+			glArrayElement( edgeData.pointIndices[1] );
+		}
+	}
 }
 
 
@@ -1281,7 +1394,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	if ( (mStyleFill == kQ3FillStyleEdges) &&
 		(inGeomData->numEdges > 0) )
 	{
-		RenderExplicitEdges( *inGeomData, dataArrays.vertNormal,
+		RenderExplicitEdges( inView, *inGeomData, dataArrays.vertNormal,
 			dataArrays.vertColor, dataArrays.edgeColor );
 		didHandle = true;
 	}

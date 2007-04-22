@@ -5,7 +5,7 @@
         Global prefix file for Quesa's wireframe renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -61,7 +61,8 @@ typedef struct TQ3WireframeData {
 	// GL state
 	GLbitfield				glClearFlags;
 	void					*glContext;
-
+	bool					isCullingBackfaces;
+	bool					isOrientedCCW;
 
 	// QD3D state
 	TQ3ColorRGB				qd3dLineColour;

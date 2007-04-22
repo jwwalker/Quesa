@@ -5,7 +5,7 @@
         Quesa wireframe renderer update methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -145,12 +145,14 @@ WFRenderer_Update_Style_Backfacing(TQ3ViewObject		theView,
 		case kQ3BackfacingStyleRemove:
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_BACK);
+			instanceData->isCullingBackfaces = true;
 			break;
 
 		case kQ3BackfacingStyleFlip:
 		case kQ3BackfacingStyleBoth:
 		default:
 			glDisable(GL_CULL_FACE);
+			instanceData->isCullingBackfaces = false;
 			break;
 		}	
 
@@ -221,11 +223,13 @@ WFRenderer_Update_Style_Orientation(TQ3ViewObject			theView,
 	switch (*styleData) {
 		case kQ3OrientationStyleClockwise:
 			glFrontFace(GL_CW);
+			instanceData->isOrientedCCW = false;
 			break;
 
 		case kQ3OrientationStyleCounterClockwise:
 		default:
 			glFrontFace(GL_CCW);
+			instanceData->isOrientedCCW = true;
 			break;
 		}
 

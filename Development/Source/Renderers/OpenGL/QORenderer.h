@@ -285,8 +285,14 @@ protected:
 									const TQ3TriMeshData& inGeomData,
 									const MeshArrays& inData );
 	void					RenderExplicitEdges(
+									TQ3ViewObject inView,
 									const TQ3TriMeshData& inGeomData,
 									const TQ3Vector3D* inVertNormals,
+									const TQ3ColorRGB* inVertColors,
+									const TQ3ColorRGB* inEdgeColors );
+	void					RenderCulledEdges(
+									TQ3ViewObject inView,
+									const TQ3TriMeshData& inGeomData,
 									const TQ3ColorRGB* inVertColors,
 									const TQ3ColorRGB* inEdgeColors );
 	void					SimulateSeparateSpecularColor(
