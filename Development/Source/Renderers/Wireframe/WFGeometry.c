@@ -5,7 +5,7 @@
         Quesa wireframe renderer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,7 @@
 #include "GLDrawContext.h"
 
 #include "CQ3ObjectRef.h"
+#include "CQ3ObjectRef_Gets.h"
 
 
 
@@ -132,6 +133,117 @@ static void	PassBuckOnPolyLine(
 	}
 }
 
+
+static void DrawAllLinesOfTriMesh( const TQ3TriMeshData* inTriMeshData )
+{
+	glBegin( GL_LINES );
+	
+	for (int n = 0; n < inTriMeshData->numEdges; ++n)
+	{
+		glArrayElement( inTriMeshData->edges[n].pointIndices[0] );
+		glArrayElement( inTriMeshData->edges[n].pointIndices[1] );
+	}
+	
+	glEnd();
+}
+
+
+static void DrawFrontLinesOfTriMesh( TQ3ViewObject inView,
+									const TQ3TriMeshData* inTriMeshData,
+									bool inIsCCW )
+{
+	int	n, whichFace;
+	bool	isFront;
+	
+	glBegin( GL_LINES );
+
+	// Find world to local transformation
+	TQ3Matrix4x4	localToWorld, worldToLocal;
+	Q3View_GetLocalToWorldMatrixState( inView, &localToWorld );
+	Q3Matrix4x4_Invert( &localToWorld, &worldToLocal );
+	
+	// Get camera placement and type
+	CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
+	TQ3CameraPlacement	thePlacement;
+	Q3Camera_GetPlacement( theCamera.get(), &thePlacement );
+	bool	isOrthographic = (Q3Camera_GetType( theCamera.get() ) ==
+		kQ3CameraTypeOrthographic);
+	
+	TQ3Vector3D		viewVector, normalVector;
+	TQ3Uns32	faceIndex;
+	TQ3Point3D	cameraLocal;
+	
+	if (isOrthographic)
+	{
+		// Get the view vector in local coordinates
+		Q3FastPoint3D_Subtract( &thePlacement.pointOfInterest,
+			&thePlacement.cameraLocation, &viewVector );
+		Q3Vector3D_Transform( &viewVector, &worldToLocal, &viewVector );
+		
+		if (! inIsCCW)
+		{
+			// Logically we should flip the normal vector, but it is equivalent
+			// to flip the view vector.
+			Q3FastVector3D_Negate( &viewVector, &viewVector );
+		}
+	}
+	else
+	{
+		// Get the camera location in local coordinates
+		Q3Point3D_Transform( &thePlacement.cameraLocation, &worldToLocal, &cameraLocal );
+	}
+	
+	for (n = 0; n < inTriMeshData->numEdges; ++n)
+	{
+		const TQ3TriMeshEdgeData& edgeData( inTriMeshData->edges[n] );
+		isFront = false;
+		
+		for (whichFace = 0; whichFace < 2; ++whichFace)
+		{
+			faceIndex = edgeData.triangleIndices[whichFace];
+			
+			if (faceIndex != kQ3ArrayIndexNULL)
+			{
+				const TQ3TriMeshTriangleData& faceData(
+					inTriMeshData->triangles[ faceIndex ] );
+				
+				Q3FastPoint3D_CrossProductTri(
+					&inTriMeshData->points[ faceData.pointIndices[0] ],
+					&inTriMeshData->points[ faceData.pointIndices[1] ],
+					&inTriMeshData->points[ faceData.pointIndices[2] ],
+					&normalVector );
+				
+				if (! isOrthographic)
+				{
+					Q3FastPoint3D_Subtract(
+						&inTriMeshData->points[ faceData.pointIndices[0] ],
+						&cameraLocal, &viewVector );
+					
+					if (! inIsCCW)
+					{
+						// Logically we should flip the normal vector, but it is equivalent
+						// to flip the view vector.
+						Q3FastVector3D_Negate( &viewVector, &viewVector );
+					}
+				}
+				
+				if (Q3FastVector3D_Dot( &normalVector, &viewVector ) < 0.0f)
+				{
+					isFront = true;
+					break;
+				}
+			}
+		}
+		
+		if (isFront)
+		{
+			glArrayElement( edgeData.pointIndices[0] );
+			glArrayElement( edgeData.pointIndices[1] );
+		}
+	}
+	
+	glEnd();
+}
 
 
 
@@ -353,7 +465,6 @@ WFGeometry_TriMesh(TQ3ViewObject			theView,
 					TQ3TriMeshData			*geomData)
 {	TQ3TriMeshTriangleData	*triangleList;
 	TQ3TriMeshEdgeData		*edgeList;
-	TQ3Uns32				n;
 #pragma unused(theView)
 #pragma unused(theGeom)
 
@@ -378,10 +489,16 @@ WFGeometry_TriMesh(TQ3ViewObject			theView,
 
 	// If we're drawing edges, check for an explicit edge array
 	if (geomData->numEdges != 0)
+	{
+		if (instanceData->isCullingBackfaces)
 		{
-		for (n = 0; n < geomData->numEdges; n++, edgeList++)
-			glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, edgeList);
+			DrawFrontLinesOfTriMesh( theView, geomData, instanceData->isOrientedCCW );
 		}
+		else
+		{
+			DrawAllLinesOfTriMesh( geomData );
+		}
+	}
 	
 	
 	

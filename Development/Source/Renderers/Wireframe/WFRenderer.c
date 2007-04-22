@@ -5,7 +5,7 @@
         Quesa wireframe renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -223,11 +223,16 @@ WFRenderer_StartPass(TQ3ViewObject			theView,
 						TQ3GroupObject		theLights)
 {
 #pragma unused(theView)
-#pragma unused(instanceData)
 #pragma unused(theCamera)
 #pragma unused(theLights)
 
 	glEnableClientState(GL_VERTEX_ARRAY);
+	
+	glDisable(GL_CULL_FACE);
+	instanceData->isCullingBackfaces = false;
+	
+	glFrontFace(GL_CCW);
+	instanceData->isOrientedCCW = true;
 
 	return(kQ3Success);
 }
