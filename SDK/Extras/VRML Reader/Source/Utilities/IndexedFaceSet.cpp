@@ -5,7 +5,7 @@
         Code to handle IndexedFaceSet nodes in both VRML 1 and 2.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -63,6 +63,7 @@ namespace
 {
 	const float		kDegenerateLengthSquared	= 1.0e-13f;
 	
+	const float		kNormalRescale				= 1024.0f;
 }
 
 /*!
@@ -107,17 +108,42 @@ void	CIndexedFaceSet::CalcFaceNormals()
 					&mPositions[ mVertices[ faceVerts[2] ].mPosition ],
 					&theNormal );
 				float	lenSq = Q3FastVector3D_LengthSquared( &theNormal );
+				float	len;
 				// If the face is degenerate, leave its normal at kNoIndex.
 				if (lenSq > kDegenerateLengthSquared)
 				{
-					float	len = sqrt( lenSq );
+					len = sqrt( lenSq );
 					Q3FastVector3D_Scale( &theNormal, 1.0f/len, &theNormal );
 					i->mNormal = mFaceNormals.size();
 					mFaceNormals.push_back( theNormal );
 				}
 				else
 				{
-					hasDegenerateFaces = true;
+					// Maybe all the data is on a small scale...
+					TQ3Point3D	scaledPts[3];
+					Q3FastVector3D_Scale( (const TQ3Vector3D*)
+						&mPositions[ mVertices[ faceVerts[0] ].mPosition ],
+						kNormalRescale, (TQ3Vector3D*) &scaledPts[0] );
+					Q3FastVector3D_Scale( (const TQ3Vector3D*)
+						&mPositions[ mVertices[ faceVerts[1] ].mPosition ],
+						kNormalRescale, (TQ3Vector3D*) &scaledPts[1] );
+					Q3FastVector3D_Scale( (const TQ3Vector3D*)
+						&mPositions[ mVertices[ faceVerts[2] ].mPosition ],
+						kNormalRescale, (TQ3Vector3D*) &scaledPts[2] );
+					Q3FastPoint3D_CrossProductTri( &scaledPts[0],
+						&scaledPts[1], &scaledPts[2], &theNormal );
+					lenSq = Q3FastVector3D_LengthSquared( &theNormal );
+					if (lenSq > kDegenerateLengthSquared)
+					{
+						len = sqrt( lenSq );
+						Q3FastVector3D_Scale( &theNormal, 1.0f/len, &theNormal );
+						i->mNormal = mFaceNormals.size();
+						mFaceNormals.push_back( theNormal );
+					}
+					else
+					{
+						hasDegenerateFaces = true;
+					}
 				}
 			}
 			else if (faceSize > 3)
