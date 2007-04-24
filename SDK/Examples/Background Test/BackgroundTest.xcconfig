@@ -1,0 +1,50 @@
+// Architectures
+ARCHS = ppc i386
+
+// Build Locations
+SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk
+
+// Search Paths
+HEADER_SEARCH_PATHS = ../Qut/Mac ../Qut
+FSP_SYS = $(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks
+FSP_QUESA = "$(SRCROOT)/../../Libraries/Mac/Framework_Universal/$(CONFIGURATION)"
+FRAMEWORK_SEARCH_PATHS = $(FSP_SYS) $(FSP_QUESA)
+
+// Build Options
+DEBUG_INFORMATION_FORMAT = dwarf
+
+// Linking
+PREBINDING = NO
+ZERO_LINK = NO
+
+// Packaging
+PRODUCT_NAME = BackgroundTest
+WRAPPER_EXTENSION = app
+INFOPLIST_FILE = Info.plist
+INFOPLIST_PREPROCESS = NO
+
+// Deployment
+COPY_PHASE_STRIP = NO					// Strip Debug Symbols During Copy
+STRIP_INSTALLED_PRODUCT = NO
+
+// Language
+GCC_PREFIX_HEADER = BackgroundTest_Prefix.pch
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+
+// Code Generation
+GCC_DEBUGGING_SYMBOLS = full			// Level of Debug Symbols
+GCC_ENABLE_SYMBOL_SEPARATION = NO		// Separate PCH Symbols (incompatible
+										// with DWARF)
+GCC_FAST_MATH = YES						// Relax IEEE Compliance
+GCC_SYMBOLS_PRIVATE_EXTERN = YES		// Symbols Hidden by Default
+GCC_INLINES_ARE_PRIVATE_EXTERN = YES	// Inline Functions Hidden
+GCC_DYNAMIC_NO_PIC = YES				// Generate Position-Dependent Code
+
+// Warnings
+GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES	// Missing Function Prototypes
+GCC_WARN_ABOUT_RETURN_TYPE = YES		// Mismatched Return Type
+GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO
+
+// Preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = QUESA_OS_MACINTOSH=1 TARGET_API_MAC_CARBON=1
+
