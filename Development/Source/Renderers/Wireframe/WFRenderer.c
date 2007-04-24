@@ -166,6 +166,7 @@ WFRenderer_StartFrame(TQ3ViewObject				theView,
 
 	// Activate our context (forcing it to be set at least once per frame)
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3True);
+	GLDrawContext_StartFrame(instanceData->glContext);
 
 
 

@@ -178,6 +178,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 	// Activate our context (forcing it to be set at least once per frame)
 	GLDrawContext_SetCurrent( mGLContext, kQ3True );
+	GLDrawContext_StartFrame( mGLContext );
 
 
 	// Tell light manager that a frame is starting
