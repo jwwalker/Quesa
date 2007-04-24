@@ -5,7 +5,7 @@
         Header file for GLDrawContext.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -74,6 +74,9 @@ void				GLDrawContext_Destroy(
 								void					**glContext);
 
 void				GLDrawContext_SwapBuffers(
+								void					*glContext);
+
+void				GLDrawContext_StartFrame(
 								void					*glContext);
 
 void				GLDrawContext_SetCurrent(
