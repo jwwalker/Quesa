@@ -1,0 +1,5 @@
+//
+// Prefix header for all source files of the 'BackgroundTest' target in the 'BackgroundTest' project.
+//
+
+#include <Carbon/Carbon.h>
