@@ -5,7 +5,7 @@
         Quesa interactive renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -200,6 +200,7 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 
 	// Activate our context (forcing it to be set at least once per frame)
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3True);
+	GLDrawContext_StartFrame(instanceData->glContext);
 
 
 
