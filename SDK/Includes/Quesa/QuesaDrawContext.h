@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -153,6 +153,16 @@ extern "C" {
  *															applies to Mac window contexts.
  *															Data type: TQ3Boolean.
  *															Default: kQ3False.
+ *	@constant	kQ3DrawContextPropertyGLContextBuildCount	Unlike most draw context properties, this
+ *															is set by Quesa itself and read by clients.
+ *															When used with OpenGL-based renderers, the
+ *															count is incremented whenever the
+ *															associated OpenGL context is rebuilt.
+ *															Data type: TQ3Uns32.
+ *	@constant	kQ3DrawContextPropertyAcceleratedOffscreen	This property, which may only be used with
+ *															a pixmap draw context, requests that the
+ *															context use hardware acceleration if possible.
+ *															Data type: TQ3AcceleratedOffscreenPropertyData.
  */
 enum {
 	kQ3DrawContextPropertyClearDepthBufferFlag		= Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
@@ -164,6 +174,8 @@ enum {
 	kQ3DrawContextPropertySwapBufferInEndPass		= Q3_METHOD_TYPE('s', 'b', 'e', 'p'),
 	kQ3DrawContextPropertySyncToRefresh				= Q3_METHOD_TYPE('g', 'l', 's', 'r'),
 	kQ3DrawContextPropertySurfaceBehindWindow		= Q3_METHOD_TYPE('s', 'u', 'b', 'w'),
+	kQ3DrawContextPropertyGLContextBuildCount		= Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
+	kQ3DrawContextPropertyAcceleratedOffscreen		= Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
 	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
 };
 
@@ -288,6 +300,35 @@ typedef struct TQ3PixmapDrawContextData {
 } TQ3PixmapDrawContextData;
 
 
+/*!
+	@struct		TQ3AcceleratedOffscreenPropertyData
+	@abstract	Data for kQ3DrawContextPropertyAcceleratedOffscreen.
+	@discussion	To request that a pixmap draw context be rendered using
+				hardware acceleration, attach this data, with the property type
+				kQ3DrawContextPropertyAcceleratedOffscreen, to the draw context
+				before rendering anything.  The masterDrawContext member must
+				be an on-screen context that has been rendered, and must
+				continue to exist while the pixmap context exists.
+				If there are multiple monitors being handled by multiple video
+				cards, the masterDrawContext determines which video card will
+				handle the hardware acceleration for the pixmap context.
+	@field		masterDrawContext			An on-screen draw context, see
+											discussion.
+	@field		copyFromPixmapAtFrameStart	Whether to copy the pixmap to the
+											rendering context at the beginning
+											of each frame.  This could be useful
+											if using a pixmap as a background
+											image.
+	@field		copyToPixmapAtFrameEnd		Whether to copy the rendered image
+											to the pixmap at the end of the
+											last pass of each frame.
+*/
+typedef struct TQ3AcceleratedOffscreenPropertyData
+{
+	TQ3Object		masterDrawContext;
+	TQ3Boolean		copyFromPixmapAtFrameStart;
+	TQ3Boolean		copyToPixmapAtFrameEnd;
+} TQ3AcceleratedOffscreenPropertyData;
 
 
 
@@ -475,31 +516,6 @@ typedef struct TQ3XDrawContextData {
 } TQ3XDrawContextData;
 
 #endif // QUESA_OS_UNIX
-
-
-
-
-
-//=============================================================================
-//      Be OS types
-//-----------------------------------------------------------------------------
-#if QUESA_OS_BE
-
-/*!
- *  @struct
- *      TQ3BeDrawContextData
- *  @discussion
- *      Describes the state for a Be draw context.
- *
- *  @field drawContextData  The common state for the draw context.
- *  @field theView          The BView to render to.
- */
-typedef struct TQ3BeDrawContextData {
-    TQ3DrawContextData                          drawContextData;
-    BView                                       *theView;
-} TQ3BeDrawContextData;
-
-#endif // QUESA_OS_BE
 
 
 
@@ -1480,76 +1496,6 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
 
 #endif // QD3D_NO_DIRECTDRAW
 #endif // QUESA_OS_WIN32
-
-
-
-
-
-//=============================================================================
-//      Be function prototypes
-//-----------------------------------------------------------------------------
-#if QUESA_OS_BE
-/*!
-	@functiongroup	 BeOS Draw Context
-*/
-
-/*!
- *  @function
- *      Q3BeDrawContext_New
- *  @discussion
- *      Create a new Be draw context object.
- *
- *      <em>This function is not available in QD3D.</em>
- *
- *  @param drawContextData  The data for the Be draw context object.
- *  @result                 The new draw context object.
- */
-Q3_EXTERN_API_C ( TQ3DrawContextObject  )
-Q3BeDrawContext_New (
-    const TQ3BeDrawContextData    *drawContextData
-);
-
-
-
-/*!
- *  @function
- *      Q3BeDrawContext_SetView
- *  @discussion
- *      Set the BView for a Be draw context.
- *
- *      <em>This function is not available in QD3D.</em>
- *
- *  @param drawContext      The draw context to update.
- *  @param theView          The new BView for the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3BeDrawContext_SetView (
-    TQ3DrawContextObject          drawContext,
-    BView                         *theView
-);
-
-
-
-/*!
- *  @function
- *      Q3BeDrawContext_GetView
- *  @discussion
- *      Get the BView for a Be draw context.
- *
- *      <em>This function is not available in QD3D.</em>
- *
- *  @param drawContext      The draw context to query.
- *  @param theView          Receives the BView of the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3BeDrawContext_GetView (
-    TQ3DrawContextObject          drawContext,
-    BView                         **theView
-);
-
-#endif // QUESA_OS_BE
 
 
 
