@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -478,27 +478,33 @@ E3ViewAngleAspectCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
 	// Initialise ourselves
 	float zNear       = cameraData.range.hither;
 	float zFar        = cameraData.range.yon;
-	float oneOverZFar = 1.0f / zFar;
-	
-	float a = 1.0f / (1.0f - zNear * oneOverZFar);
-	float c = (-zNear * a) / (zNear * zFar);
 
 	float w = 1.0f / (float) tan ( fov * 0.5f ) ;
 	if ( aspectRatioXToY > 1.0f )
 		w = w / aspectRatioXToY ;
 
 	float h = w * aspectRatioXToY;
-	float q = zFar / (zFar - zNear);
 
+
+	float q;
+	
+	if (isfinite( zFar ))
+	{
+		q = zFar / (zFar - zNear);
+	}
+	else
+	{
+		q = 1.0f;
+	}
 
 
 	// Set up the matrix
 	Q3Matrix4x4_SetIdentity(theMatrix);
-	theMatrix->value[0][0] = w * oneOverZFar;
-	theMatrix->value[1][1] = h * oneOverZFar;
-	theMatrix->value[2][2] = a * oneOverZFar;
-	theMatrix->value[2][3] = c / q;
-	theMatrix->value[3][2] = q * zNear * oneOverZFar;
+	theMatrix->value[0][0] = w;
+	theMatrix->value[1][1] = h;
+	theMatrix->value[2][2] = q;
+	theMatrix->value[2][3] = -1.0f;
+	theMatrix->value[3][2] = q * zNear;
 	theMatrix->value[3][3] = 0.0f;
 	}
 
