@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B12AB6F20BE165CE0074502A /* 3DS-FileSupport.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */; };
 		B14DEE3C0BC959E000FB3636 /* C3DSReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B14DEE3B0BC959E000FB3636 /* C3DSReader.cpp */; };
 		B15582030B5D9D2C004E2AE6 /* C3DSWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B15581FE0B5D9D2C004E2AE6 /* C3DSWriter.cpp */; };
 		B15582040B5D9D2C004E2AE6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B15582000B5D9D2C004E2AE6 /* main.cpp */; };
@@ -293,6 +294,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B12AB6F20BE165CE0074502A /* 3DS-FileSupport.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,7 +366,6 @@
 					ppc,
 					i386,
 				);
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -384,7 +385,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */;
 			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
