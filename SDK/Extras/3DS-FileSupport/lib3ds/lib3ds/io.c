@@ -17,7 +17,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: io.c,v 1.1 2007-03-25 14:51:08 cruanyes Exp $
+ * $Id: io.c,v 1.2 2007-04-27 23:49:53 jwwalker Exp $
  */
 #define LIB3DS_EXPORT
 #include <lib3ds/io.h>
@@ -194,7 +194,7 @@ lib3ds_io_read_intb(Lib3dsIo *io)
   Lib3dsIntb b;
 
   ASSERT(io);
-  lib3ds_io_read(io, &b, 1);
+  lib3ds_io_read(io, (Lib3dsByte*)&b, 1);
   return(b);
 }
 
@@ -317,7 +317,7 @@ lib3ds_io_read_string(Lib3dsIo *io, char *s, int buflen)
 
   ASSERT(io);
   for (;;) {
-    if (lib3ds_io_read(io, &c, 1)!=1) {
+    if (lib3ds_io_read(io, (Lib3dsByte*)&c, 1)!=1) {
       return LIB3DS_FALSE;
     }
     *s++ = c;
@@ -401,7 +401,7 @@ Lib3dsBool
 lib3ds_io_write_intb(Lib3dsIo *io, Lib3dsIntb b)
 {
   ASSERT(io);
-  if (lib3ds_io_write(io, &b, 1)!=1) {
+  if (lib3ds_io_write(io, (Lib3dsByte*)&b, 1)!=1) {
     return(LIB3DS_FALSE);
   }
   return(LIB3DS_TRUE);
@@ -519,6 +519,6 @@ lib3ds_io_write_string(Lib3dsIo *io, const char *s)
 {
   ASSERT(s);
   ASSERT(io);
-  lib3ds_io_write(io, s, strlen(s)+1);
+  lib3ds_io_write(io, (Lib3dsByte*)s, strlen(s)+1);
   return(!lib3ds_io_error(io));
 }

@@ -17,7 +17,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: viewport.c,v 1.1 2007-03-25 14:51:14 cruanyes Exp $
+ * $Id: viewport.c,v 1.2 2007-04-27 23:49:47 jwwalker Exp $
  */
 #define LIB3DS_EXPORT
 #include <lib3ds/viewport.h>
@@ -83,7 +83,7 @@ lib3ds_viewport_read(Lib3dsViewport *viewport, Lib3dsIo *io)
                 lib3ds_io_read_vector(io, viewport->layout.viewL[cur].center);
                 viewport->layout.viewL[cur].horiz_angle=lib3ds_io_read_float(io);
                 viewport->layout.viewL[cur].vert_angle=lib3ds_io_read_float(io);
-                lib3ds_io_read(io, viewport->layout.viewL[cur].camera, 11);
+                lib3ds_io_read(io, (Lib3dsByte*)viewport->layout.viewL[cur].camera, 11);
                 ++cur;
               }
               break;
@@ -157,7 +157,7 @@ lib3ds_viewport_read(Lib3dsViewport *viewport, Lib3dsIo *io)
             case LIB3DS_VIEW_CAMERA:
               {
                 viewport->default_view.type=LIB3DS_VIEW_TYPE_CAMERA;
-                lib3ds_io_read(io, viewport->default_view.camera, 11);
+                lib3ds_io_read(io, (Lib3dsByte*)viewport->default_view.camera, 11);
               }
               break;
             default:
@@ -251,7 +251,7 @@ lib3ds_viewport_write(Lib3dsViewport *viewport, Lib3dsIo *io)
       lib3ds_io_write_vector(io, viewport->layout.viewL[i].center);
       lib3ds_io_write_float(io, viewport->layout.viewL[i].horiz_angle);
       lib3ds_io_write_float(io, viewport->layout.viewL[i].vert_angle);
-      lib3ds_io_write(io, viewport->layout.viewL[i].camera,11);
+      lib3ds_io_write(io, (Lib3dsByte*)viewport->layout.viewL[i].camera,11);
     }
 
     if (!lib3ds_chunk_write_end(&c,io)) {
@@ -347,7 +347,7 @@ lib3ds_viewport_write(Lib3dsViewport *viewport, Lib3dsIo *io)
           c.chunk=LIB3DS_VIEW_CAMERA;
           c.size=17;
           lib3ds_chunk_write(&c, io);
-          lib3ds_io_write(io, viewport->default_view.camera, 11);
+          lib3ds_io_write(io, (Lib3dsByte*)viewport->default_view.camera, 11);
         }
         break;
     }
