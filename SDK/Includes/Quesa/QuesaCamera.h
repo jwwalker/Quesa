@@ -99,15 +99,23 @@ typedef struct TQ3CameraPlacement {
 /*!
  *  @struct
  *      TQ3CameraRange
- *  @discussion
+ *  @abstract
  *      Describes the hither and yon clipping planes of a camera.
+ *  @discussion
+ *		Objects closer than the hither distance or farther than the yon distance
+ *		will be clipped, i.e., invisible, so you usually want hither to be closer
+ *		than any object and yon to be farther than any object.
+ *
+ *		The hither and yon values, together with the bit depth of your depth buffer,
+ *		determine how small a difference in depths can be resolved.  It is more
+ *		important to make hither as large as possible than to make yon as small
+ *		as possible.
 
  *  @field hither           The distance from the camera to the near clipping plane.
- *                          This value must always be more than 0.
+ *                          This value must always be greater than 0.
  *  @field yon              The distance from the camera to the far clipping plane.
- *                          This value must always be more than the hither field,
- *                          although if it is too large then artifacts may be visible
- *                          during rendering.
+ *                          This value must always be greater than the hither field,
+ *                          and is allowed to be INFINITY.
  */
 typedef struct TQ3CameraRange {
     float                                       hither;
