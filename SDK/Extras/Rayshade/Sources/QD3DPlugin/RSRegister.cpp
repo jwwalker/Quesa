@@ -5,7 +5,7 @@
         RayShade renderer registration
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,31 +51,22 @@
 #include "RT_Light.h"
 #include "RT_Tracer.h"
 
-#if USE_QUESA_INCLUDES
-	#include <Quesa.h>
-	#include <QuesaView.h>
-	#include <QuesaDrawContext.h>
-	#include <QuesaGroup.h>
-	#include <QuesaCamera.h>
-	#include <QuesaRenderer.h>
-	#include <QuesaExtension.h>
-	#include <QuesaIO.h>
-#else
-	#include <QD3D.h>
-	#include <QD3DView.h>
-	#include <QD3DDrawContext.h>
-	#include <QD3DGroup.h>
-	#include <QD3DCamera.h>
-	#include <QD3DRenderer.h>
-	#include <QD3DExtension.h>
-	#include <QD3DIO.h>
-#endif
+#include <Quesa.h>
+#include <QuesaView.h>
+#include <QuesaDrawContext.h>
+#include <QuesaGroup.h>
+#include <QuesaCamera.h>
+#include <QuesaRenderer.h>
+#include <QuesaExtension.h>
+#include <QuesaIO.h>
 
 #include <string.h>
 
-#if defined(macintosh)
+#if QUESA_OS_MACINTOSH
 
+#if __MWERKS__
 #include <CodeFragments.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -85,7 +76,12 @@ extern "C" {
 /*
  *  Shared library initialization entry point
  */
+
+#if __MWERKS__
 __declspec(dllexport) void RS_Initialize();
+#elif __GNUC__ >= 4
+__attribute__((visibility("default"))) void RS_Initialize();
+#endif
 
 #else	// CFM
 /*
@@ -105,9 +101,9 @@ TQ3Status RS_Exit(
 }
 #endif
 
-#endif /* WINDOW_SYSTEM_MACINTOSH */
+#endif /* QUESA_OS_MACINTOSH */
 
-#if defined(WIN32)
+#if QUESA_OS_WIN32
 #include <Windows.h>
 
 extern "C"
@@ -940,7 +936,7 @@ void RS_Initialize()
 
 #endif	/* WINDOW_SYSTEM_MACINTOSH */
 
-#if defined(WIN32)
+#if QUESA_OS_WIN32
 
 
 BOOL __stdcall DllMain( HINSTANCE inst, 

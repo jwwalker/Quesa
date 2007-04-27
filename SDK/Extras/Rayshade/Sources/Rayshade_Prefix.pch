@@ -1,0 +1,14 @@
+//
+// Prefix header for all source files of the 'Rayshade' target in the 'Rayshade' project.
+//
+
+#if QUESA_OS_MACINTOSH
+    #include <Carbon/Carbon.h>
+    #if __MACH__
+        #include <Quesa/Quesa.h>
+    #else
+        #include <Quesa.h>
+    #endif
+#else
+	#include <Quesa.h>
+#endif
