@@ -5,7 +5,7 @@
         General rasterizer functions
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -54,17 +54,21 @@
 
 #include <stdlib.h>
 
-#if USE_QUESA_INCLUDES
-	#include <QuesaDrawContext.h>
+#if __MACH__
+	#include <Quesa/QuesaDrawContext.h>
 #else
-	#include <QD3DDrawContext.h>
+	#include <QuesaDrawContext.h>
 #endif
 
 #include "RS_Rasterize.h"
 
-#if defined(macintosh)
-	#include <QuickDraw.h>
-	#include <MacWindows.h>
+#if QUESA_OS_MACINTOSH
+	#if ((QUESA_UH_IN_FRAMEWORKS) || (QUESA_OS_COCOA))
+		#include <Carbon/Carbon.h>
+	#else
+		#include <QuickDraw.h>
+		#include <MacWindows.h>
+	#endif
 #elif defined(WIN32)
 	
 #else
