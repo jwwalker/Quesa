@@ -1011,6 +1011,7 @@ Q3View_GetFrustumToWindowMatrixState (
  *      Q3View_GetBackfacingStyleState
  *  @discussion
  *      Get the current backfacing style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
  *  @param backfacingStyle  Receives the current backfacing style state.
@@ -1029,6 +1030,7 @@ Q3View_GetBackfacingStyleState (
  *      Q3View_GetInterpolationStyleState
  *  @discussion
  *      Get the current interpolation style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view                 The view to query.
  *  @param interpolationType    Receives the current interpolation style state.
@@ -1047,6 +1049,7 @@ Q3View_GetInterpolationStyleState (
  *      Q3View_GetFillStyleState
  *  @discussion
  *      Get the current fill style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
  *  @param fillStyle        Receives the current fill style state.
@@ -1065,6 +1068,7 @@ Q3View_GetFillStyleState (
  *      Q3View_GetHighlightStyleState
  *  @discussion
  *      Get the current highlight style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
  *  @param highlightStyle   Receives the current highlight style state.
@@ -1083,6 +1087,7 @@ Q3View_GetHighlightStyleState (
  *      Q3View_GetSubdivisionStyleState
  *  @discussion
  *      Get the current subdivision style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
  *  @param subdivisionStyle Receives the current subdivision style state.
@@ -1101,6 +1106,7 @@ Q3View_GetSubdivisionStyleState (
  *      Q3View_GetOrientationStyleState
  *  @discussion
  *      Get the current orientation style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view                        The view to query.
  *  @param fontFacingDirectionStyle    Receives the current orientation style state.
@@ -1119,6 +1125,7 @@ Q3View_GetOrientationStyleState (
  *      Q3View_GetCastShadowsStyleState
  *  @discussion
  *      Get the current cast shadows style state from a view.
+ *		Must be called within a submitting loop.
  *      
  *      <em>This function is not available in QD3D.</em>
  *
@@ -1143,6 +1150,7 @@ Q3View_GetCastShadowsStyleState (
  *      Q3View_GetReceiveShadowsStyleState
  *  @discussion
  *      Get the current receive shadows style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
  *  @param receiveShadows   Receives the current receive shadows style state.
@@ -1161,6 +1169,7 @@ Q3View_GetReceiveShadowsStyleState (
  *      Q3View_GetPickIDStyleState
  *  @discussion
  *      Get the current pick ID style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
  *  @param pickIDStyle      Receives the current pick ID style state.
@@ -1179,6 +1188,7 @@ Q3View_GetPickIDStyleState (
  *      Q3View_GetPickPartsStyleState
  *  @discussion
  *      Get the current pick parts style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
  *  @param pickPartsStyle   Receives the current pick parts style state.
@@ -1197,6 +1207,7 @@ Q3View_GetPickPartsStyleState (
  *      Q3View_GetAntiAliasStyleState
  *  @discussion
  *      Get the current anti-alias style state from a view.
+ *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
  *  @param antiAliasData    Receives the current anti-alias style state.
@@ -1215,6 +1226,7 @@ Q3View_GetAntiAliasStyleState (
  *      Q3View_GetFogStyleState
  *  @discussion
  *      Get the current fog style associated with a view.
+ *		Must be called within a submitting loop.
  *
  *      <em>This function is not available in QD3D.</em>
  *
