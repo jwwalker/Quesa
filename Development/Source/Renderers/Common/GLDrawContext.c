@@ -801,7 +801,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	MacGLContext*			glContext;
 	GLint					glRect[4];
 	TQ3Pixmap				thePixmap;
-	CGrafPtr				thePort;
+	CGrafPtr				thePort = NULL;
 	Rect					theRect;
 	GLint					paneWidth, paneHeight;
 	char*					paneImage;
@@ -2329,7 +2329,7 @@ GLDrawContext_SetDepthState( TQ3DrawContextObject	theDrawContext)
 //-----------------------------------------------------------------------------
 TQ3Boolean
 GLDrawContext_UpdateWindowClip( TQ3GLContext glContext )
-{	TQ3Boolean		wasUpdated;
+{	TQ3Boolean		wasUpdated = kQ3False;
 
 
 
@@ -2372,7 +2372,7 @@ GLDrawContext_UpdateWindowClip( TQ3GLContext glContext )
 //-----------------------------------------------------------------------------
 TQ3Boolean
 GLDrawContext_UpdateWindowPosition( TQ3GLContext glContext )
-{	TQ3Boolean		wasUpdated;
+{	TQ3Boolean		wasUpdated = kQ3False;
 
 
 
