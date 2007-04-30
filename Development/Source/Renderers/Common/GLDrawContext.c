@@ -53,7 +53,8 @@
 #endif
 
 #include <vector>
-
+#include <cstring>
+using namespace std;
 
 
 
@@ -226,9 +227,9 @@ gldrawcontext_common_flip_pixel_rows( TQ3Uns8* ioPixels,
 		// Swap rows i and j
 		TQ3Uns8*	row_i = ioPixels + i * inRowBytes;
 		TQ3Uns8*	row_j = ioPixels + j * inRowBytes;
-		std::memcpy( rowBuf, row_i, paneWidthBytes );
-		std::memcpy( row_i, row_j, paneWidthBytes );
-		std::memcpy( row_j, rowBuf, paneWidthBytes );
+		memcpy( rowBuf, row_i, paneWidthBytes );
+		memcpy( row_i, row_j, paneWidthBytes );
+		memcpy( row_j, rowBuf, paneWidthBytes );
 	}
 }
 
