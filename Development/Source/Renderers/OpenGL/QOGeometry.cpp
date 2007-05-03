@@ -253,9 +253,13 @@ void	QORenderer::Renderer::UpdateSpecularMaterial()
 void	QORenderer::Renderer::UpdateEmissiveMaterial()
 {
 	if (
-		(mGeomState.emissiveColor->r != mCurrentEmissiveColor.r) ||
-		(mGeomState.emissiveColor->g != mCurrentEmissiveColor.g) ||
-		(mGeomState.emissiveColor->b != mCurrentEmissiveColor.b) )
+		mLights.IsEmissionUsed() &&
+		(
+			(mGeomState.emissiveColor->r != mCurrentEmissiveColor.r) ||
+			(mGeomState.emissiveColor->g != mCurrentEmissiveColor.g) ||
+			(mGeomState.emissiveColor->b != mCurrentEmissiveColor.b)
+		)
+	)
 	{
 		SetEmissiveMaterial( *mGeomState.emissiveColor );
 	}
