@@ -228,10 +228,17 @@ void		QORenderer::Renderer::StartPass(
 	mGeomState.Reset();
 	mViewIllumination = kQ3ObjectTypeInvalid;
 	
-	// Set specularity to bogus values to force an update at next chance
-	mCurrentSpecularColor[0] = -1.0f;
-	mCurrentSpecularControl = -1.0f;
-	mCurrentEmissiveColor.b = -99999.0f;
+	// Initialize specularity and emission
+	mCurrentSpecularColor[0] = mCurrentSpecularColor[1] =
+		mCurrentSpecularColor[2] = 0.0f;
+	mCurrentSpecularColor[3] = 1.0f;
+	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,
+				mCurrentSpecularColor );
+	mCurrentSpecularControl = 0.0f;
+	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 0.0f );
+	mCurrentEmissiveColor.r = mCurrentEmissiveColor.g =
+		mCurrentEmissiveColor.b = 0.0f;
+	SetEmissiveMaterial( mCurrentEmissiveColor );
 
 	// Initialize style states
 	mStyleInterpolation = kQ3InterpolationStyleVertex;
