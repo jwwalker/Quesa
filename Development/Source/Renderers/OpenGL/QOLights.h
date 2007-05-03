@@ -84,6 +84,8 @@ public:
 	TQ3ViewStatus			EndPass();
 	
 	void					SetOnlyAmbient( bool inOnlyAmbient );
+	
+	bool					IsEmissionUsed() const;
 
 private:
 	void					Reset(
