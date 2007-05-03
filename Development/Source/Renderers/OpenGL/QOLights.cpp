@@ -533,3 +533,12 @@ void	QORenderer::Lights::SetOnlyAmbient( bool inOnlyAmbient )
 	}
 }
 
+
+/*!
+	@function	IsEmissionUsed
+	@abstract	Are we using emissive light in this pass?
+*/
+bool	QORenderer::Lights::IsEmissionUsed() const
+{
+	return mIsFirstPass;
+}
