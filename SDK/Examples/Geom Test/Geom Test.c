@@ -201,6 +201,8 @@ static TQ3XObjectClass				sMyViewClass = NULL;
 //-----------------------------------------------------------------------------
 static void appRender(TQ3ViewObject theView);
 
+static void updateRotation();
+
 typedef TQ3Object (*TextureImporterProcPtr)( const char* inURL,
 					TQ3StorageObject inStorage );
 
@@ -3407,7 +3409,26 @@ static void
 appPreRender(TQ3ViewObject theView)
 {
 
+	TQ3DrawContextObject context;
 
+	// If we're flashing the background color, update it now
+	if (gFlashStep) {
+		gFlashStep--;
+		if (0 == gFlashStep) {
+			gBackgroundColor = kColourARGBBackground;
+		} else {
+			gBackgroundColor.r = (gBackgroundColor.r + kColourARGBBackground.r) / 2.0f;
+			gBackgroundColor.g = (gBackgroundColor.g + kColourARGBBackground.r) / 2.0f;
+			gBackgroundColor.b = (gBackgroundColor.b + kColourARGBBackground.r) / 2.0f;
+		}
+		Q3View_GetDrawContext(theView, &context);
+		Q3DrawContext_SetClearImageColor(context, &gBackgroundColor);
+		Q3Object_Dispose(context);
+	}
+
+	// Move the model:
+	updateRotation();
+	
 	// Update the world bounds
 	if (gWorldBounds != NULL)
 	{
@@ -3455,32 +3476,16 @@ getAbsoluteTime()
 
 //=============================================================================
 //      appRender : Render another frame.
+//		
+//		DON'T MODIFY MODEL, VIEW, CAMERA OR DRAWCONTEXT HERE!!!
+//     This procedure is called from inside the render loop
+//			and the model ca'n change while in the render loop
+//
+//		if you need a ciclic update, do it in appPreRender
 //-----------------------------------------------------------------------------
 static void
 appRender(TQ3ViewObject theView)
 {
-	static double	sPrevRenderTime = 0;
-	double			renderTime;
-	float			timeFactor;
-	TQ3Matrix4x4	rotationMatrix;
-	static TQ3Vector3D	sAxis = { 0.6f, 0.8f, 0.0f };
-	const TQ3Point3D	kOrigin = { 0.0f, 0.0f, 0.0f };
-	TQ3DrawContextObject context;
-
-	// If we're flashing the background color, update it now
-	if (gFlashStep) {
-		gFlashStep--;
-		if (0 == gFlashStep) {
-			gBackgroundColor = kColourARGBBackground;
-		} else {
-			gBackgroundColor.r = (gBackgroundColor.r + kColourARGBBackground.r) / 2.0f;
-			gBackgroundColor.g = (gBackgroundColor.g + kColourARGBBackground.r) / 2.0f;
-			gBackgroundColor.b = (gBackgroundColor.b + kColourARGBBackground.r) / 2.0f;
-		}
-		Q3View_GetDrawContext(theView, &context);
-		Q3DrawContext_SetClearImageColor(context, &gBackgroundColor);
-		Q3Object_Dispose(context);
-	}
 
 
 
@@ -3513,6 +3518,21 @@ appRender(TQ3ViewObject theView)
 		}
 
 
+	
+}
+
+//-------------------------------------------------------------------------------------------------------
+static void updateRotation(){
+
+	static double		sPrevRenderTime = 0;
+	double				renderTime;
+	float				timeFactor;
+	TQ3Matrix4x4		rotationMatrix;
+	static TQ3Vector3D	sAxis = { 0.6f, 0.8f, 0.0f };
+	const TQ3Point3D	kOrigin = { 0.0f, 0.0f, 0.0f };
+	
+
+
 	// Update the rotation matrix, in a such a way that the rate of rotation
 	// remains approximately constant in spite of changes in frame rate.
 	renderTime = getAbsoluteTime();
@@ -3530,9 +3550,7 @@ appRender(TQ3ViewObject theView)
 		}
 	sPrevRenderTime = renderTime;
 }
-
-
-
+//-------------------------------------------------------------------------------------------------------
 
 
 #if QUESA_OS_MACINTOSH
