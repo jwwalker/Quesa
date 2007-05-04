@@ -286,11 +286,22 @@ e3geom_trigrid_addtriangle(TQ3GroupObject			group,
 	TQ3GeometryObject	theTriangle;
 	TQ3Vector3D			theNormal;
 
-
-
 	// Initialise the data
 	Q3Memory_Clear(&triangleData, sizeof(TQ3TriangleData));
 
+		
+		if (Q3FastPoint3D_DistanceSquared( &geomData->vertices[n0].point,  &geomData->vertices[n1].point ) < FLT_EPSILON)
+		{
+			return;
+		}
+		if (Q3FastPoint3D_DistanceSquared( &geomData->vertices[n0].point,  &geomData->vertices[n2].point ) < FLT_EPSILON)
+		{
+			return;
+		}
+		if (Q3FastPoint3D_DistanceSquared( &geomData->vertices[n1].point,  &geomData->vertices[n2].point ) < FLT_EPSILON)
+		{
+			return;
+		}
 
 
 	// Set up the triangle
