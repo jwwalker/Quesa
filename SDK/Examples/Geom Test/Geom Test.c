@@ -2620,8 +2620,6 @@ static TQ3Object
 doLoadModel(TQ3ViewObject theView)
 {	TQ3StorageObject	storageObj;
 	TQ3Object 			theModel;
-	TQ3GroupObject 		normalizedModel;
-	TQ3Object 			tempObj;
 	float				xBounds, yBounds, zBounds, scaleFactor;
 	TQ3BoundingBox		theBounds;
 	TQ3Vector3D			translateToOrigin = { 0.0f, 0.0f, 0.0f };

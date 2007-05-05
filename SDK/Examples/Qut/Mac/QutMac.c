@@ -1146,7 +1146,6 @@ qut_mainloop(void)
 	Rect					growRect = { kWindowMinSize, kWindowMinSize, kWindowMaxSize, kWindowMaxSize };
 	TQ3Point2D				q3MousePoint, q3MouseDiff;
 	Point					lastMouse, theMouse;
-	TQ3DrawContextObject	theDrawContext;
 	TQ3Uns32				windowSize;
 	WindowPtr				theWindow;
 	EventRecord				theEvent;
