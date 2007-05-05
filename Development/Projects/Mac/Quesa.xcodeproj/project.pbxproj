@@ -255,6 +255,12 @@
 		B1756BAB080A73C00056134C /* QD3DDrawContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB5055E63B100CA83BE /* QD3DDrawContext.c */; };
 		B1756BAC080A73C00056134C /* GLCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C19055E63B100CA83BE /* GLCamera.c */; };
 		B1756BAD080A73C00056134C /* E3Viewer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C12055E63B100CA83BE /* E3Viewer.c */; };
+		B1BD22040BEBD81B00937A68 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */; };
+		B1BD22050BEBD81B00937A68 /* HiddenLine.h in Headers */ = {isa = PBXBuildFile; fileRef = B1BD22030BEBD81B00937A68 /* HiddenLine.h */; };
+		B1BD22060BEBD81B00937A68 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */; };
+		B1BD22070BEBD81B00937A68 /* HiddenLine.h in Headers */ = {isa = PBXBuildFile; fileRef = B1BD22030BEBD81B00937A68 /* HiddenLine.h */; };
+		B1BD22080BEBD81B00937A68 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */; };
+		B1BD22090BEBD81B00937A68 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */; };
 		BE392D080B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
@@ -676,6 +682,23 @@
 		};
 /* End PBXBuildRule section */
 
+/* Begin PBXBuildStyle section */
+		B112DA020B7D2588000F36EF /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Development;
+		};
+		B112DA030B7D2588000F36EF /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D07F2C80486CC7A007CD1D0 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -911,6 +934,8 @@
 		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
 		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		B1756AFF080A71C30056134C /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = HiddenLine.cpp; sourceTree = "<group>"; };
+		B1BD22030BEBD81B00937A68 /* HiddenLine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HiddenLine.h; sourceTree = "<group>"; };
 		BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef_Gets.h; sourceTree = "<group>"; };
 		BE5FCA270AFFED730080C922 /* Quesa-project-config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Quesa-project-config.xcconfig"; sourceTree = "<group>"; };
 		BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Quesa-framework-targets.xcconfig"; sourceTree = "<group>"; };
@@ -1268,6 +1293,7 @@
 			children = (
 				AB3A7C18055E63B100CA83BE /* Common */,
 				BEC777CE087DA6AD00080AB7 /* Cartoon */,
+				B1BD22010BEBD7CC00937A68 /* HiddenLine */,
 				BE7F26690B7BB8AD00933ED1 /* MakeStrip */,
 				AB3A7C22055E63B100CA83BE /* Generic */,
 				AB3A7C2A055E63B100CA83BE /* Interactive */,
@@ -1483,6 +1509,15 @@
 			path = Mac;
 			sourceTree = "<group>";
 		};
+		B1BD22010BEBD7CC00937A68 /* HiddenLine */ = {
+			isa = PBXGroup;
+			children = (
+				B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */,
+				B1BD22030BEBD81B00937A68 /* HiddenLine.h */,
+			);
+			path = HiddenLine;
+			sourceTree = "<group>";
+		};
 		BE7F26690B7BB8AD00933ED1 /* MakeStrip */ = {
 			isa = PBXGroup;
 			children = (
@@ -1595,6 +1630,7 @@
 				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
 				BE8D58CB0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h in Headers */,
+				B1BD22050BEBD81B00937A68 /* HiddenLine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1629,6 +1665,7 @@
 				BE392D080B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE7F276F0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
 				BE8D58CD0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h in Headers */,
+				B1BD22070BEBD81B00937A68 /* HiddenLine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1715,6 +1752,12 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "Quesa" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				B112DA020B7D2588000F36EF /* Development */,
+				B112DA030B7D2588000F36EF /* Deployment */,
+			);
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* Quesa */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
@@ -1891,6 +1934,7 @@
 				BE7F26C80B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 				BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 				BE806FCE0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
+				B1BD22040BEBD81B00937A68 /* HiddenLine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2037,6 +2081,7 @@
 				BE7F26EA0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 				BE8D58CE0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 				BE806FD10BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
+				B1BD22080BEBD81B00937A68 /* HiddenLine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2183,6 +2228,7 @@
 				BE7F26DE0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 				BE8D58CC0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 				BE806FD00BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
+				B1BD22060BEBD81B00937A68 /* HiddenLine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2329,6 +2375,7 @@
 				BE7F26F60B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 				BE8D58CF0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 				BE806FD20BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
+				B1BD22090BEBD81B00937A68 /* HiddenLine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2339,10 +2386,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE5FCA380AFFF14E0080C922 /* Quesa-framework-targets.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_Universal/$(CONFIGURATION)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",

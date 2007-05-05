@@ -1345,6 +1345,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererModalConfigureMethod)
  *			<li>kQ3RendererTypeInteractive, legacy OpenGL</li>
  *			<li>kQ3RendererTypeWireFrame, wire frame</li>
  *			<li>kQ3RendererTypeCartoon, cartoon style</li>
+ *			<li>kQ3RendererTypeHiddenLine, hidden line removal, non photorealistic</li>
  *		</ul>
  *
  *		One can also get a complete list of installed renderer types by calling
