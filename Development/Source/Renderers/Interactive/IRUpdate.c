@@ -715,9 +715,9 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 		if (styleData->state == kQ3On && (styleData->mode & kQ3AntiAliasModeMaskFullScreen))
 			fsaaLevel = (styleData->quality > 0.5f) ? 4 : 2;
 		else
-			fsaaLevel = 1;
+			fsaaLevel = 0;
 
-		if (!aglSetInteger((AGLContext) instanceData->glContext, ATI_FSAA_SAMPLES, &fsaaLevel))
+		if (!aglSetInteger(aglGetCurrentContext(), ATI_FSAA_SAMPLES, &fsaaLevel))
 			{
 			instanceData->glATIAvailableFSAA = kQ3False;
 			
