@@ -81,11 +81,12 @@ public:
 									TQ3CameraObject inCamera,
 									TQ3GroupObject inLights );
 
-	TQ3ViewStatus			EndPass();
+	bool					EndPass();
 	
 	void					SetOnlyAmbient( bool inOnlyAmbient );
 	
 	bool					IsEmissionUsed() const;
+	inline bool				IsFirstPass() const {return mIsFirstPass;};
 
 private:
 	void					Reset(

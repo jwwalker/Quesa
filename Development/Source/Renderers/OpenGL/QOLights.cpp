@@ -462,7 +462,7 @@ void	QORenderer::Lights::StartPass(
 	
 	@result		True if we are done with all lights.
 */
-TQ3ViewStatus	QORenderer::Lights::EndPass()
+bool	QORenderer::Lights::EndPass()
 {
 	for (int i = 0; i < mLightCount; ++i)
 	{
@@ -471,9 +471,9 @@ TQ3ViewStatus	QORenderer::Lights::EndPass()
 	
 	Reset( 0 );
 		
-	mIsFirstPass = false;
+	mIsFirstPass = ! mIsAnotherPassNeeded; // mIsFirstPass becames false only in the second pass DUE to the lights
 	
-	return mIsAnotherPassNeeded? kQ3ViewStatusRetraverse : kQ3ViewStatusDone;
+	return mIsAnotherPassNeeded;
 }
 
 

@@ -260,6 +260,9 @@ void		QORenderer::Renderer::StartPass(
 	
 	glDisable( GL_ALPHA_TEST );
 	glDisable( GL_BLEND );
+	glDisable(GL_POLYGON_OFFSET_FILL);
+	glDisable(GL_POLYGON_OFFSET_LINE);
+	glDisable(GL_POLYGON_OFFSET_POINT);
 	glFrontFace( GL_CCW );	// orientation style
 	glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE );
 	glShadeModel( GL_SMOOTH );
@@ -294,8 +297,14 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	mTriBuffer.Flush();
 	mTransBuffer.Flush( inView );
 	
+	// don't increment the pass count if we have to make another pass because of lighting
+	if ( ! mLights.EndPass())
+		mPassIndex += 1;
+		
+	TQ3ViewStatus	allDone = (mPassIndex < mNumPasses)? kQ3ViewStatusRetraverse: kQ3ViewStatusDone;
+
 	// reset some state to defaults
-	TQ3ViewStatus	allDone = mLights.EndPass();
+
 	mTextures.EndPass();
 	mPPLighting.EndPass();
 
@@ -308,7 +317,6 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	FlushVBOCache( mGLContext );
 	FlushDisplayListCache( mGLContext );
 
-	mPassIndex += 1;
 	
 	return allDone;
 }

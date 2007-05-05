@@ -312,6 +312,7 @@ protected:
 	TQ3BlendEquationProcPtr	mGLBlendEqProc;
 	MatrixState				mMatrixState;
 	TQ3Int32				mPassIndex;
+	TQ3Int32				mNumPasses;
 	
 	// Color states
 	TQ3ObjectType			mViewIllumination;
@@ -320,6 +321,8 @@ protected:
 	GLfloat					mCurrentSpecularColor[4];
 	float					mCurrentSpecularControl;
 	TQ3ColorRGB				mCurrentEmissiveColor;
+	float 					mLineWidth;
+	TQ3XAttributeMask		mAttributesMask;
 	
 	// style states
 	TQ3InterpolationStyle	mStyleInterpolation;

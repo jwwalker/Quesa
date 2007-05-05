@@ -111,6 +111,12 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	
 	Q3InteractiveRenderer_SetRAVETextureFilter( mRendererObject,
 		kQATextureFilter_Mid );
+	mAttributesMask = kQ3XAttributeMaskAll;
+	
+	mLineWidth = 1.0;
+	
+	mNumPasses = 1;
+
 }
 
 QORenderer::Renderer::~Renderer()
