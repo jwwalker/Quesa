@@ -162,9 +162,12 @@ static CQ3ObjectRef CQ3AttributeSet_GetTextureShader( TQ3AttributeSet inAtts )
 	@abstract	Update a ColorState structure with data from an attribute set.
 */
 static void AdjustGeomState( TQ3AttributeSet inAttSet,
-							QORenderer::ColorState& ioGeomState )
+							QORenderer::ColorState& ioGeomState ,
+							TQ3XAttributeMask inRendererMask)
 {
 	TQ3XAttributeMask	attMask = Q3XAttributeSet_GetMask( inAttSet );
+	
+	attMask &= inRendererMask;
 	
 	if ( (attMask & kQ3XAttributeMaskDiffuseColor) != 0 )
 	{
@@ -349,12 +352,12 @@ void	QORenderer::Renderer::HandleGeometryAttributes(
 		
 		if (inGeomAttSet != NULL)
 		{
-			AdjustGeomState( inGeomAttSet, mGeomState );
+			AdjustGeomState( inGeomAttSet, mGeomState , mAttributesMask);
 		}
 		
 		if (hiliteAtts != NULL)
 		{
-			AdjustGeomState( hiliteAtts, mGeomState );
+			AdjustGeomState( hiliteAtts, mGeomState , mAttributesMask);
 		}
 	}
 	
@@ -1328,11 +1331,10 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		return false;	// theoretically impossible
 	}
 	
-	if ( (mPassIndex > 0) && (mViewIllumination == kQ3IlluminationTypeNULL) )
+	if ( (mViewIllumination == kQ3IlluminationTypeNULL) && (mLights.IsFirstPass() == false))
 	{
-		// Since NULL illumination disables lighting, and we only use
-		// multiple passes to handle lots of lights, geometries with NULL
-		// illumination should only be handled in the first pass.
+		// Since NULL illumination disables lighting,  geometries with NULL
+		// illumination should only be handled in the first light pass.
 		return true;
 	}
 	
@@ -1439,11 +1441,10 @@ void	QORenderer::Renderer::SubmitTriangle(
 									TQ3GeometryObject inTriangle,
 									const TQ3TriangleData* inGeomData )
 {
-	if ( (mPassIndex > 0) && (mViewIllumination == kQ3IlluminationTypeNULL) )
+	if ( (mViewIllumination == kQ3IlluminationTypeNULL) && (mLights.IsFirstPass() == false))
 	{
-		// Since NULL illumination disables lighting, and we only use
-		// multiple passes to handle lots of lights, geometries with NULL
-		// illumination should only be handled in the first pass.
+		// Since NULL illumination disables lighting,  geometries with NULL
+		// illumination should only be handled in the first light pass.
 		return;
 	}
 
@@ -1529,11 +1530,10 @@ void	QORenderer::Renderer::SubmitTriangle(
 void	QORenderer::Renderer::SubmitPoint(
 								const TQ3PointData* inGeomData )
 {
-	if ( (mPassIndex > 0) && (mViewIllumination == kQ3IlluminationTypeNULL) )
+	if ( (mViewIllumination == kQ3IlluminationTypeNULL) && (mLights.IsFirstPass() == false))
 	{
-		// Since NULL illumination disables lighting, and we only use
-		// multiple passes to handle lots of lights, geometries with NULL
-		// illumination should only be handled in the first pass.
+		// Since NULL illumination disables lighting,  geometries with NULL
+		// illumination should only be handled in the first light pass.
 		return;
 	}
 
@@ -1597,11 +1597,10 @@ void	QORenderer::Renderer::SubmitPoint(
 void	QORenderer::Renderer::SubmitLine(
 								const TQ3LineData* inGeomData )
 {
-	if ( (mPassIndex > 0) && (mViewIllumination == kQ3IlluminationTypeNULL) )
+	if ( (mViewIllumination == kQ3IlluminationTypeNULL) && (mLights.IsFirstPass() == false))
 	{
-		// Since NULL illumination disables lighting, and we only use
-		// multiple passes to handle lots of lights, geometries with NULL
-		// illumination should only be handled in the first pass.
+		// Since NULL illumination disables lighting,  geometries with NULL
+		// illumination should only be handled in the first light pass.
 		return;
 	}
 

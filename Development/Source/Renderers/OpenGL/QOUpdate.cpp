@@ -95,7 +95,8 @@ static	bool operator==( const TQ3FogStyleData& inOne, const TQ3FogStyleData& inT
 void	QORenderer::Renderer::UpdateDiffuseColor(
 								const TQ3ColorRGB* inAttColor )
 {
-	mViewState.diffuseColor = inAttColor;
+	if ( (mAttributesMask & kQ3XAttributeMaskDiffuseColor) != 0 )
+		mViewState.diffuseColor = inAttColor;
 }
 
 void	QORenderer::Renderer::UpdateSpecularColor(
@@ -294,6 +295,7 @@ void	QORenderer::Renderer::UpdateFillStyle(
 			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 			break;
 	}
+
 }
 
 void	QORenderer::Renderer::UpdateOrientationStyle(
@@ -355,7 +357,7 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 	
 	// Currently there is no way to vary point and line size.
 	glPointSize( 1.0f );
-	glLineWidth( 1.0f );
+	glLineWidth( mLineWidth );
 
 
 	// Turn everything off
