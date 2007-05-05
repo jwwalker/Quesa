@@ -50,6 +50,7 @@
 #include "IRRegister.h"
 #include "QORegister.h"
 #include "CartoonRenderer.h"
+#include "HiddenLine.h"
 
 
 
@@ -166,6 +167,7 @@ E3System_LoadPlugins(void)
 
 #if !(QUESA_OS_MACINTOSH && TARGET_API_MAC_OS8)
 	qd3dStatus = CartoonRenderer_Register();
+	qd3dStatus = HiddenLine_Register();
 #endif
 #endif
 }
@@ -200,6 +202,7 @@ E3System_UnloadPlugins(void)
 
 #if (QUESA_OS_MACINTOSH && !TARGET_API_MAC_OS8) || QUESA_OS_WIN32
 	CartoonRenderer_Unregister();
+	HiddenLine_Unregister();
 #endif
 #endif
 
