@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="Quesa"
 	ProjectGUID="{F8A88C04-8C7D-4452-B24D-7ECACF01511D}"
+	RootNamespace="Quesa"
 	SccLocalPath="Desktop"
 	>
 	<Platforms>
@@ -109,7 +110,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy        /Y        ..\..\..\SDK\Libraries\Windows\Release\Quesa.dll        c:\windows\system\"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -146,7 +147,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../SDK/Includes/Apple;../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa"
+				AdditionalIncludeDirectories="../../../SDK/Includes/Apple;../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/HiddenLine;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa"
 				PreprocessorDefinitions="QUESA_OS_WIN32;Q3_DEBUG;_DEBUG;WIN32;_WINDOWS;_USRDLL;Q3_EXPORT_SYMBOLS;QD3D_NO_DIRECTDRAW"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -2954,6 +2955,18 @@
 					</File>
 					<File
 						RelativePath="..\..\Source\Renderers\OpenGL\QOUpdate.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="HiddenLine"
+					>
+					<File
+						RelativePath="..\..\Source\Renderers\HiddenLine\HiddenLine.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\HiddenLine\HiddenLine.h"
 						>
 					</File>
 				</Filter>
