@@ -93,6 +93,7 @@ QORenderer::GLContextCleanup::~GLContextCleanup()
 
 QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	: mRendererObject( inRenderer )
+	, mDrawContextObject( NULL )
 	, mGLContext( NULL )
 	, mCleanup( mGLContext )
 	, mSLFuncs()
@@ -101,6 +102,10 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	, mDrawContextEditIndex( 0 )
 	, mGLClearFlags( 0 )
 	, mGLBlendEqProc( NULL )
+	, mPassIndex( 0 )
+	, mNumPasses( 1 )
+	, mLineWidth( 1.0f )
+	, mAttributesMask( kQ3XAttributeMaskAll )
 	, mLights( mGLExtensions )
 	, mTriBuffer( *this )
 	, mTransBuffer( *this, mPPLighting )
@@ -111,12 +116,6 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	
 	Q3InteractiveRenderer_SetRAVETextureFilter( mRendererObject,
 		kQATextureFilter_Mid );
-	mAttributesMask = kQ3XAttributeMaskAll;
-	
-	mLineWidth = 1.0;
-	
-	mNumPasses = 1;
-
 }
 
 QORenderer::Renderer::~Renderer()

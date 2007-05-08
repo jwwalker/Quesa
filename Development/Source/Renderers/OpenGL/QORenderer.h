@@ -301,6 +301,7 @@ protected:
 	bool					IsFakeSeparateSpecularColorNeeded() const;
 	
 	TQ3RendererObject		mRendererObject;
+	TQ3DrawContextObject	mDrawContextObject;
 	TQ3GLContext			mGLContext;
 	GLContextCleanup		mCleanup;
 	GLSLFuncs				mSLFuncs;
