@@ -61,6 +61,9 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 								TQ3ViewObject inView,
 								TQ3DrawContextObject inDrawContext )
 {
+	// Save draw context for access from StartPass
+	mDrawContextObject = inDrawContext;
+	
 	// Update draw context validation flags
 	TQ3XDrawContextValidation		drawContextFlags;
 	Q3XDrawContext_GetValidationFlags( inDrawContext, &drawContextFlags );
@@ -269,8 +272,7 @@ void		QORenderer::Renderer::StartPass(
 	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );	// fill style
 	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 	glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
-	glDepthMask( GL_TRUE );
-	glDepthFunc( GL_LESS );
+	GLDrawContext_SetDepthState( mDrawContextObject );
 	
 	mLights.StartPass( inCamera, inLights );
 	mTextures.StartPass();
