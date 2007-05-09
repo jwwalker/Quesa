@@ -289,6 +289,36 @@ static bool IsSwapWanted( TQ3ViewObject inView )
 		(swapFlag == kQ3True);
 }
 
+/*!
+	@function	RenderTransparent
+	@abstract	Draw transparent stuff in the case where multiple lighting
+				passes were needed using additional mini-passes.
+*/
+void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
+{
+	CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
+	CQ3ObjectRef	theLightGroup( CQ3View_GetLightGroup( inView ) );
+	bool isMoreNeeded;
+	GLenum	dstFactor = GL_ONE_MINUS_SRC_ALPHA;
+	
+	mLights.StartFrame();
+	do
+	{
+		mLights.StartPass( theCamera.get(), theLightGroup.get() );
+		mTextures.StartPass();
+		mPPLighting.StartPass();
+		
+		mTransBuffer.DrawTransparency( inView, GL_SRC_ALPHA, dstFactor );
+		dstFactor = GL_ONE;	// for next mini-pass
+		
+		mTextures.EndPass();
+		mPPLighting.EndPass();
+		isMoreNeeded = mLights.EndPass();
+	} while (isMoreNeeded);
+	
+	mTransBuffer.Cleanup();
+}
+
 TQ3ViewStatus		QORenderer::Renderer::EndPass(
 								TQ3ViewObject inView )
 {
@@ -297,7 +327,15 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	
 	// Flush any remaining triangles
 	mTriBuffer.Flush();
-	mTransBuffer.Flush( inView );
+	
+	// Transparency is drawn at the end of the last lighting pass.
+	// If there was only one lighting pass, we can do it now.
+	bool isFirstLightingPass = mLights.IsFirstPass();
+	if (isFirstLightingPass && mLights.IsLastLightingPass() && mTransBuffer.HasContent())
+	{
+		mTransBuffer.DrawTransparency( inView, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+		mTransBuffer.Cleanup();
+	}
 	
 	// don't increment the pass count if we have to make another pass because of lighting
 	if ( ! mLights.EndPass())
@@ -309,6 +347,13 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 
 	mTextures.EndPass();
 	mPPLighting.EndPass();
+	
+	// If this is the end of several lighting passes, handling transparency is
+	// trickier.
+	if (mLights.IsLastLightingPass() && (! isFirstLightingPass) && mTransBuffer.HasContent())
+	{
+		RenderTransparent( inView );
+	}
 
 	// Swap the back buffer, unless asked not to
 	if ( (allDone == kQ3ViewStatusDone) && IsSwapWanted( inView ) )
