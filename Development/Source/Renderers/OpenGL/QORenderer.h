@@ -299,6 +299,10 @@ protected:
 									TQ3Uns32 inNumIndices,
 									const TQ3Uns32* inIndices );
 	bool					IsFakeSeparateSpecularColorNeeded() const;
+	bool					IsFirstPass() const { return (mPassIndex == 0) &&
+														mLights.IsFirstPass(); }
+	void					RenderTransparent( TQ3ViewObject inView );
+
 	
 	TQ3RendererObject		mRendererObject;
 	TQ3DrawContextObject	mDrawContextObject;
