@@ -86,7 +86,8 @@ public:
 	void					SetOnlyAmbient( bool inOnlyAmbient );
 	
 	bool					IsEmissionUsed() const;
-	inline bool				IsFirstPass() const {return mIsFirstPass;};
+	inline bool				IsFirstPass() const {return mIsFirstPass;}
+	inline bool				IsLastLightingPass() const {return !mIsAnotherPassNeeded;}
 
 private:
 	void					Reset(
