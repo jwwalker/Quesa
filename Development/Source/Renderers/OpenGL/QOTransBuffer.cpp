@@ -268,17 +268,26 @@ void	TransBuffer::AddPrim(
 				
 void	TransBuffer::AddTriangle( const Vertex* inVertices )
 {
-	AddPrim( 3, inVertices );
+	if (mRenderer.IsFirstPass())
+	{
+		AddPrim( 3, inVertices );
+	}
 }
 
 void	TransBuffer::AddLine( const Vertex* inVertices )
 {
-	AddPrim( 2, inVertices );
+	if (mRenderer.IsFirstPass())
+	{
+		AddPrim( 2, inVertices );
+	}
 }
 
 void	TransBuffer::AddPoint( const Vertex& inVertex )
 {
-	AddPrim( 1, &inVertex );
+	if (mRenderer.IsFirstPass())
+	{
+		AddPrim( 1, &inVertex );
+	}
 }
 
 void	TransBuffer::SortIndices()
@@ -339,8 +348,7 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	TQ3BackfacingStyle	theBackfacing = kQ3BackfacingStyleRemove;
 	mRenderer.UpdateBackfacingStyle( &theBackfacing );
 	
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-	mCurBlendFunc = GL_SRC_ALPHA;
+	glBlendFunc( mSrcBlendFactor, mDstBlendFactor );
 
 	// The first pass will not include specularity, so we set the specular color black.
 	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, kGLBlackColor );
@@ -360,18 +368,6 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	
 	mCurEmissiveColor = kBlackColor;
 	mRenderer.SetEmissiveMaterial( mCurEmissiveColor );
-}
-
-void	TransBuffer::UpdateBlendFunc(
-										const TransparentPrim& inPrim )
-{
-	GLenum	newBlend = inPrim.mIsTextureTransparent? GL_ONE : GL_SRC_ALPHA;
-	
-	if (newBlend != mCurBlendFunc)
-	{
-		glBlendFunc( newBlend, GL_ONE_MINUS_SRC_ALPHA );
-		mCurBlendFunc = newBlend;
-	}
 }
 
 void	TransBuffer::UpdateCameraToFrustum(
@@ -649,16 +645,21 @@ void	TransBuffer::AddSpecularHighlights(
 		RenderSpecular( inPrim );
 		
 		// Reset blend func
-		glBlendFunc( mCurBlendFunc, GL_ONE_MINUS_SRC_ALPHA );
+		glBlendFunc( mSrcBlendFactor, mDstBlendFactor );
 		if (mRenderer.mGLBlendEqProc != NULL)
 			(*mRenderer.mGLBlendEqProc)( GL_FUNC_ADD_EXT );
 	}
 }
 
-void	TransBuffer::Flush( TQ3ViewObject inView )
+void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
+										GLenum inSrcBlendFactor,
+										GLenum inDstBlendFactor )
 {
 	if (! mTransBuffer.empty())
 	{
+		mSrcBlendFactor = inSrcBlendFactor;
+		mDstBlendFactor = inDstBlendFactor;
+		
 		SortIndices();
 
 		// Save some OpenGL state
@@ -673,7 +674,6 @@ void	TransBuffer::Flush( TQ3ViewObject inView )
 		{
 			const TransparentPrim& thePrim( *mPrimPtrs[i] );
 			
-			UpdateBlendFunc( thePrim );
 			UpdateCameraToFrustum( thePrim, inView );
 			UpdateLightingEnable( thePrim );
 			UpdateTexture( thePrim );
@@ -690,7 +690,5 @@ void	TransBuffer::Flush( TQ3ViewObject inView )
 
 		// Reset the OpenGL state
 		glPopAttrib();
-		
-		Cleanup();
 	}
 }
