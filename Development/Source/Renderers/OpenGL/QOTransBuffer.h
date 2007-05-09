@@ -109,8 +109,14 @@ public:
 	void							AddPoint(
 											const Vertex& inVertex );
 	
-	void							Flush(
-											TQ3ViewObject inView );
+	void							DrawTransparency(
+											TQ3ViewObject inView,
+											GLenum inSrcBlendFactor,
+											GLenum inDstBlendFactor );
+
+	void							Cleanup();
+	
+	inline bool						HasContent() const { return ! mTransBuffer.empty(); }
 
 private:
 	void							AddPrim(
@@ -120,15 +126,12 @@ private:
 	void							SortIndices();
 	void							InitGLState(
 											TQ3ViewObject inView );
-	void							Cleanup();
 	void							SetEmissiveColor( const TQ3ColorRGB& inColor );
 	void							SetDiffuseColor(
 											const QORenderer::Vertex& inVert );
 	void							SetDiffuseColor(
 											const GLfloat* inColor4 );
 	
-	void							UpdateBlendFunc(
-											const TransparentPrim& inPrim );
 	void							UpdateCameraToFrustum(
 											const TransparentPrim& inPrim,
 											TQ3ViewObject inView );
@@ -167,7 +170,6 @@ private:
 	bool							mIsLightingEnabled;
 	TQ3Uns32						mCurCameraToFrustumIndex;
 	TQ3CameraTransformData			mCurCameraTransform;
-	GLenum							mCurBlendFunc;
 	GLuint							mCurTexture;
 	TQ3Uns32						mCurUVTransformIndex;
 	TQ3ShaderUVBoundary				mCurUBoundary;
@@ -176,6 +178,8 @@ private:
 	float							mCurSpecularControl;
 	TQ3ColorRGB						mCurEmissiveColor;
 	GLfloat							mCurDiffuseColor[4];
+	GLenum							mSrcBlendFactor;
+	GLenum							mDstBlendFactor;
 };
 
 }
