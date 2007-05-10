@@ -141,6 +141,8 @@ private:
 											const TransparentPrim& inPrim );
 	void							UpdateSpecular(
 											const TransparentPrim& inPrim );
+	void							UpdateSpecularColor(
+											const TQ3ColorRGB& inColor );
 	void							UpdateFog(
 											const TransparentPrim& inPrim );
 	void							UpdateFill(
