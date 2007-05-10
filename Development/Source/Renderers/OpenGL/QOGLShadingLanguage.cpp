@@ -254,7 +254,7 @@ namespace
 				"	{"
 				"		vec4 texColor = texture2D( tex0, gl_TexCoord[0].st );"
 				"		color *= texColor.rgb;"
-				"		alpha = texColor.a;"
+				"		alpha *= texColor.a;"
 				"	}"
 
 				"	if (IlluminationType == 2)"
