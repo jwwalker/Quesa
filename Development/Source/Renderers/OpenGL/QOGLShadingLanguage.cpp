@@ -92,8 +92,8 @@ namespace
 	const char* kDirectionalLightFragmentShaderSource =
 				"void FUNC_NAME("
 				"				in vec3 normal,"
-				"				inout vec4 diffuse,"
-				"				inout vec4 specular )"
+				"				inout vec3 diffuse,"
+				"				inout vec3 specular )"
 				"{"
 				"	float nDotVP = max( 0.0, dot( normal,"
 				"		normalize(vec3(gl_LightSource[LIGHT_INDEX].position)) ) );"
@@ -106,8 +106,8 @@ namespace
 				"		pf = pow( nDotHV, gl_FrontMaterial.shininess );"
 				"	}"
 
-				"	diffuse += gl_LightSource[LIGHT_INDEX].diffuse * nDotVP;"
-				"	specular += gl_LightSource[LIGHT_INDEX].specular * pf;"
+				"	diffuse += vec3(gl_LightSource[LIGHT_INDEX].diffuse) * nDotVP;"
+				"	specular += vec3(gl_LightSource[LIGHT_INDEX].specular) * pf;"
 				"}";
 
 	const char* kPositionalLightFragmentShaderSource =
@@ -115,8 +115,8 @@ namespace
 				"				in vec3 eye,			// geometry to eye direction\n"
 				"				in vec3 ecPosition3,	// geometry position\n"
 				"				in vec3 normal,"
-				"				inout vec4 diffuse,"
-				"				inout vec4 specular )"
+				"				inout vec3 diffuse,"
+				"				inout vec3 specular )"
 				"{"
 					// Compute vector from surface to light position
 				"	vec3 geomToLight = vec3(gl_LightSource[LIGHT_INDEX].position) - ecPosition3;"
@@ -155,7 +155,7 @@ namespace
 
 				"	float nDotGeomToLight = max( 0.0, dot( normal, geomToLight ) );"
 
-				"	diffuse += gl_LightSource[LIGHT_INDEX].diffuse * nDotGeomToLight * attenuation;"
+				"	diffuse += gl_LightSource[LIGHT_INDEX].diffuse.rgb * nDotGeomToLight * attenuation;"
 
 				"	float nDotHalf = max( 0.0, dot( normal, halfVector ) );"
 
@@ -165,7 +165,7 @@ namespace
 				"	else"
 				"		pf = pow( nDotHalf, gl_FrontMaterial.shininess );"
 
-				"	specular += gl_LightSource[LIGHT_INDEX].specular * pf * attenuation;"
+				"	specular += gl_LightSource[LIGHT_INDEX].specular.rgb * pf * attenuation;"
 				"}";
 
 	const char* kMainFragmentShaderPart1Source =
@@ -190,8 +190,8 @@ namespace
 				"#define	DIRECTIONAL_LIGHT_PROTO(name) 	\\\n"
 				"	void name(					\\\n"
 				"				in vec3 normal,	\\\n"
-				"				inout vec4 diffuse,\\\n"
-				"				inout vec4 specular )\n"
+				"				inout vec3 diffuse,\\\n"
+				"				inout vec3 specular )\n"
 
 				"#define DIRECTIONAL_LIGHT_CALL(name)	name( normal, diff, spec )\n"
 
@@ -200,8 +200,8 @@ namespace
 				"				in vec3 geomToEyeDir,	\\\n"
 				"				in vec3 geomPos,	\\\n"
 				"				in vec3 normal,	\\\n"
-				"				inout vec4 diffuse,\\\n"
-				"				inout vec4 specular )\n"
+				"				inout vec3 diffuse,\\\n"
+				"				inout vec3 specular )\n"
 
 				"#define	POSITIONAL_LIGHT_CALL(name)	\\\n"
 						"name( geomToEyeDir, geomPos, normal, diff, spec )\n";
@@ -212,8 +212,8 @@ namespace
 				"void main()"
 				"{"
 					// Color components, lights will add to these.
-				"	vec4		diff = vec4(0.0);"
-				"	vec4		spec = vec4(0.0);"
+				"	vec3		diff = vec3(0.0);"
+				"	vec3		spec = vec3(0.0);"
 
 					// Eye coordinate normal vector.  Even if the vertex normals were normalized
 					// and the modelview matrix has no scaling, we would still have to normalize
@@ -230,38 +230,42 @@ namespace
 		// Between part 2 and part 3, we will insert some light shader calls.
 
 	const char* kMainFragmentShaderPart3Source =
-				"	vec4	color;"
+				"	vec3	color;"
+				"	float	alpha;"
 
 				"	if (IlluminationType == 0)"
 				"	{"
-				"		color = gl_Color + gl_FrontMaterial.emission;"
+				"		color = vec3(gl_Color + gl_FrontMaterial.emission);"
 				"	}"
 				"	else"
 				"	{"
 						// Start with emissive and global ambient color.
 						// I will assume that the only ambient light is global.
-				"		color = gl_FrontLightModelProduct.sceneColor;"
+				"		color = gl_FrontLightModelProduct.sceneColor.rgb;"
 
 						// Add diffuse color.
-				"		color += diff * gl_Color;"
+				"		color += diff * gl_Color.rgb;"
 				"	}"
-				
-					// The trouble with adding colors is that adding alpha is
-					// not what we want.
-					"color.a = gl_Color.a;"
 
+				"	alpha = gl_Color.a;"
+				
 					// Texturing, GL_MODULATE mode
 				"	if (isTextured)"
-				"			color *= texture2D( tex0, gl_TexCoord[0].st );"
+				"	{"
+				"		vec4 texColor = texture2D( tex0, gl_TexCoord[0].st );"
+				"		color *= texColor.rgb;"
+				"		alpha = texColor.a;"
+				"	}"
 
 				"	if (IlluminationType == 2)"
 				"	{"
 						// Add specular color.  This is done after texturing, as with
 						// separate specular color.
-				"		color += spec * gl_FrontMaterial.specular;"
+				"		color += spec * gl_FrontMaterial.specular.rgb;"
 				"	}"
 				
-				" 	gl_FragColor = color;"
+				" 	gl_FragColor.rgb = color;"
+				"	gl_FragColor.a = alpha;"
 				"}";
 	
 	const char* kLightShaderPrefixFormat =
