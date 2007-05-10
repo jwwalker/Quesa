@@ -350,9 +350,6 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	
 	glBlendFunc( mSrcBlendFactor, mDstBlendFactor );
 
-	// The first pass will not include specularity, so we set the specular color black.
-	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, kGLBlackColor );
-	
 	glDisable( GL_TEXTURE_2D );
 	mCurTexture = 0;
 	mCurUVTransformIndex = ULONG_MAX;
@@ -529,6 +526,8 @@ void	TransBuffer::SetDiffuseColor( const GLfloat* inColor4 )
 
 void	TransBuffer::Render( const TransparentPrim& inPrim )
 {
+	UpdateSpecularColor( kBlackColor );
+	
 	switch (inPrim.mNumVerts)
 	{
 		case 3:
@@ -601,18 +600,23 @@ void	TransBuffer::RenderSpecular( const TransparentPrim& inPrim )
 	glEnd();
 }
 
-void	TransBuffer::UpdateSpecular( const TransparentPrim& inPrim )
+void	TransBuffer::UpdateSpecularColor( const TQ3ColorRGB& inColor )
 {
-	if ( (inPrim.mSpecularColor.r != mCurSpecularColor[0]) ||
-		(inPrim.mSpecularColor.g != mCurSpecularColor[1]) ||
-		(inPrim.mSpecularColor.b != mCurSpecularColor[2]) )
+	if ( (inColor.r != mCurSpecularColor[0]) ||
+		(inColor.g != mCurSpecularColor[1]) ||
+		(inColor.b != mCurSpecularColor[2]) )
 	{
-		mCurSpecularColor[0] = inPrim.mSpecularColor.r;
-		mCurSpecularColor[1] = inPrim.mSpecularColor.g;
-		mCurSpecularColor[2] = inPrim.mSpecularColor.b;
+		mCurSpecularColor[0] = inColor.r;
+		mCurSpecularColor[1] = inColor.g;
+		mCurSpecularColor[2] = inColor.b;
 		
 		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, mCurSpecularColor );
 	}
+}
+
+void	TransBuffer::UpdateSpecular( const TransparentPrim& inPrim )
+{
+	UpdateSpecularColor( inPrim.mSpecularColor );
 	
 	if (inPrim.mSpecularControl != mCurSpecularControl)
 	{
