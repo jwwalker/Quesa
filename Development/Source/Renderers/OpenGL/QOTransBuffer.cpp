@@ -499,9 +499,9 @@ void	TransBuffer::SetEmissiveColor( const TQ3ColorRGB& inColor )
 void	TransBuffer::SetDiffuseColor( const QORenderer::Vertex& inVert )
 {
 	GLfloat	color4[4] = {
-		inVert.diffuseColor.r,
-		inVert.diffuseColor.g,
-		inVert.diffuseColor.b,
+		inVert.diffuseColor.r * inVert.vertAlpha,
+		inVert.diffuseColor.g * inVert.vertAlpha,
+		inVert.diffuseColor.b * inVert.vertAlpha,
 		inVert.vertAlpha
 	};
 	
