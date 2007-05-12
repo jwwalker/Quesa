@@ -308,7 +308,7 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 		mTextures.StartPass();
 		mPPLighting.StartPass();
 		
-		mTransBuffer.DrawTransparency( inView, GL_SRC_ALPHA, dstFactor );
+		mTransBuffer.DrawTransparency( inView, GL_ONE, dstFactor );
 		dstFactor = GL_ONE;	// for next mini-pass
 		
 		mTextures.EndPass();
@@ -333,7 +333,7 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	bool isFirstLightingPass = mLights.IsFirstPass();
 	if (isFirstLightingPass && mLights.IsLastLightingPass() && mTransBuffer.HasContent())
 	{
-		mTransBuffer.DrawTransparency( inView, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+		mTransBuffer.DrawTransparency( inView, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 		mTransBuffer.Cleanup();
 	}
 	
