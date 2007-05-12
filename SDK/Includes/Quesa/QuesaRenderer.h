@@ -123,11 +123,18 @@ enum
 					Whether we should used per-pixel lighting if possible.
 					Only implemented by the OpenGL renderer.
 					Data type: TQ3Boolean.  Default value: kQ3False.
+
+	@constant	kQ3RendererPropertyConvertToPremultipliedAlpha
+					Whether textures with alpha should be converted from
+					non-premultiplied to premultiplied alpha when loaded into
+					OpenGL.  Implemented by Interactive and OpenGL renderers.
+					Data type: TQ3Boolean.  Default value: kQ3False.
 */
 enum
 {
 	kQ3RendererPropertyAutomaticTriangleStrips	= Q3_OBJECT_TYPE('a', 't', 'r', 's'),
-	kQ3RendererPropertyPerPixelLighting			= Q3_OBJECT_TYPE('p', 'p', 'x', 'l')
+	kQ3RendererPropertyPerPixelLighting			= Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
+	kQ3RendererPropertyConvertToPremultipliedAlpha	= Q3_OBJECT_TYPE('c', 'p', 'm', 'a')
 };
 #endif
 
