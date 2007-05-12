@@ -452,12 +452,23 @@ typedef enum {
 /*!
  *  @enum
  *      TQ3PixelType
- *  @discussion
- *      Fundamental pixel formats.
+ *  @abstract
+ *      Fundamental pixel formats used in pixmaps and mipmaps.
+ *	@discussion
+ *		The layout of the pixel bits in memory depend on the byte order as well
+ *		as the pixel format.  For example, kQ3PixelTypeARGB32 with
+ *		kQ3EndianLittle means you have blue, then green, then red, then alpha.
  *
- *  @constant kQ3PixelTypeRGB32      8 bits for red, green, and blue. Alpha ignored.
+ *		When dealing with formats that have an alpha channel, you must be aware
+ *		of whether your data has premultiplied alpha or not.  By default,
+ *		Quesa's built-in OpenGL-based renderers assume that alpha is
+ *		premultiplied.  However, you can attach an object property of type
+ *		kQ3RendererPropertyConvertToPremultipliedAlpha to the renderer object
+ *		to tell Quesa to convert non-premultiplied alpha to premultiplied alpha.
+ *
+ *  @constant kQ3PixelTypeRGB32      8 bits for red, green, and blue. High-order byte ignored.
  *  @constant kQ3PixelTypeARGB32     8 bits for alpha, red, green, and blue.
- *  @constant kQ3PixelTypeRGB16      5 bits for red, green, and blue. Alpha ignored.
+ *  @constant kQ3PixelTypeRGB16      5 bits for red, green, and blue. High-order bit ignored.
  *  @constant kQ3PixelTypeARGB16     1 bit for alpha. 5 bits for red, green, and blue.
  *  @constant kQ3PixelTypeRGB16_565  5 bits for red, 6 bits for green, 5 bits for blue.
  *  @constant kQ3PixelTypeRGB24      8 bits for red, green, and blue. No alpha byte.
