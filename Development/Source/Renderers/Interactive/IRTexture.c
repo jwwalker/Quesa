@@ -46,6 +46,7 @@
 #include "IRPrefix.h"
 #include "IRTexture.h"
 #include "IRUpdate.h"
+#include "CQ3ObjectRef_Gets.h"
 
 #include "GLPrefix.h"
 #include "GLUtils.h"
@@ -333,10 +334,18 @@ ir_texture_set_params( TQ3InteractiveData *instanceData, TQ3ViewObject inView,
 static TQ3Status
 ir_texture_cache_add(
 							TQ3InteractiveData		*instanceData,
-							TQ3TextureObject		theTexture)
+							TQ3TextureObject		theTexture,
+							TQ3ViewObject			theView )
 {
 	TQ3Status			qd3dStatus = kQ3Failure;
-	GLuint				textureName = GLTextureLoader( theTexture );
+	
+	TQ3Boolean	convertAlpha = kQ3False;
+	CQ3ObjectRef	theRenderer( CQ3View_GetRenderer( theView ) );
+	Q3Object_GetProperty( theRenderer.get(),
+		kQ3RendererPropertyConvertToPremultipliedAlpha,
+		sizeof(convertAlpha), NULL, &convertAlpha );
+	
+	GLuint				textureName = GLTextureLoader( theTexture, convertAlpha );
 
 
 	if (textureName != 0)
@@ -529,7 +538,7 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 				theTexture );
 		if (cachedTexture == NULL)
 			{
-			qd3dStatus = ir_texture_cache_add(instanceData, theTexture);
+			qd3dStatus = ir_texture_cache_add(instanceData, theTexture, theView);
 			cachedTexture = GLTextureMgr_FindCachedTexture( instanceData->textureCache,
 				theTexture );
 			}

@@ -422,8 +422,12 @@ void	Texture::UnCacheTexture( TQ3TextureObject inTexture )
 TQ3CachedTexturePtr		Texture::CacheTexture( TQ3TextureObject inTexture )
 {
 	TQ3CachedTexturePtr	cacheRec = NULL;
+	TQ3Boolean	convertAlpha = kQ3False;
 	
-	GLuint	textureName = GLTextureLoader( inTexture );
+	Q3Object_GetProperty( mRenderer, kQ3RendererPropertyConvertToPremultipliedAlpha,
+		sizeof(convertAlpha), NULL, &convertAlpha );
+	
+	GLuint	textureName = GLTextureLoader( inTexture, convertAlpha );
 	
 	if (textureName != 0)
 	{
