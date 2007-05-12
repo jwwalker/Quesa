@@ -66,10 +66,15 @@ extern "C" {
 	@function	GLTextureLoader
 	
 	@abstract	Load a Quesa texture object as an OpenGL texture object.
-	@param		inTexture		A texture object.
+	@param		inTexture			A texture object.
+	@param		inPremultiplyAlpha	If true, the loader will multiply each color
+									value by its alpha value.  Use this if your
+									texture data has an alpha channel and is NOT
+									set up with premultiplied alpha.
 	@result		An OpenGL texture "name", or 0 on failure.
 */
-GLuint	GLTextureLoader( TQ3TextureObject inTexture );
+GLuint	GLTextureLoader( TQ3TextureObject inTexture,
+						TQ3Boolean inPremultiplyAlpha );
 
 
 

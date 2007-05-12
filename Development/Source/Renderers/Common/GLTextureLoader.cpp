@@ -268,6 +268,24 @@ static void ConvertPixel_ARGB32_Little( const TQ3Uns8* inSrcPixel,
 	ioDstPixel[3] = inSrcPixel[3];	// A
 }
 
+static void ConvertPixel_ARGB32_Big_Premultiply( const TQ3Uns8* inSrcPixel,
+									TQ3Uns8* ioDstPixel )
+{
+	ioDstPixel[0] = (inSrcPixel[1] * inSrcPixel[0]) / 255;	// R
+	ioDstPixel[1] = (inSrcPixel[2] * inSrcPixel[0]) / 255;	// G
+	ioDstPixel[2] = (inSrcPixel[3] * inSrcPixel[0]) / 255;	// B
+	ioDstPixel[3] = inSrcPixel[0];	// A
+}
+
+static void ConvertPixel_ARGB32_Little_Premultiply( const TQ3Uns8* inSrcPixel,
+									TQ3Uns8* ioDstPixel )
+{
+	ioDstPixel[0] = (inSrcPixel[2] * inSrcPixel[0]) / 255;	// R
+	ioDstPixel[1] = (inSrcPixel[1] * inSrcPixel[0]) / 255;	// G
+	ioDstPixel[2] = (inSrcPixel[0] * inSrcPixel[0]) / 255;	// B
+	ioDstPixel[3] = inSrcPixel[3];	// A
+}
+
 static void ConvertPixel_xRGB32_Big( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
@@ -377,9 +395,46 @@ static void ConvertPixel_ARGB16_Little( const TQ3Uns8* inSrcPixel,
 	ioDstPixel[3] = alphaBits ? 0xFF : 0;	// A
 }
 
+static void ConvertPixel_ARGB16_Big_Premultiply( const TQ3Uns8* inSrcPixel,
+									TQ3Uns8* ioDstPixel )
+{
+	TQ3Uns16	pixelValue = (((TQ3Uns16)inSrcPixel[0]) << 8) | inSrcPixel[1];
+	TQ3Uns8		alphaBits = pixelValue >> 15;
+	TQ3Uns8		redBits = (pixelValue >> 10) & 0x1F;
+	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x1F;
+	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
+	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[1] = greenBits << 3;	// G
+	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[3] = alphaBits ? 0xFF : 0;	// A
+	if (alphaBits == 0)
+	{
+		ioDstPixel[0] = ioDstPixel[1] = ioDstPixel[2] = 0;
+	}
+}
+
+static void ConvertPixel_ARGB16_Little_Premultiply( const TQ3Uns8* inSrcPixel,
+									TQ3Uns8* ioDstPixel )
+{
+	TQ3Uns16	pixelValue = (((TQ3Uns16)inSrcPixel[1]) << 8) | inSrcPixel[0];
+	TQ3Uns8		alphaBits = pixelValue >> 15;
+	TQ3Uns8		redBits = (pixelValue >> 10) & 0x1F;
+	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x1F;
+	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
+	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[1] = greenBits << 3;	// G
+	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[3] = alphaBits ? 0xFF : 0;	// A
+	if (alphaBits == 0)
+	{
+		ioDstPixel[0] = ioDstPixel[1] = ioDstPixel[2] = 0;
+	}
+}
+
 static PixelConverter ChoosePixelConverter(
 								TQ3PixelType inSrcPixelType,
-								TQ3Endian inSrcByteOrder )
+								TQ3Endian inSrcByteOrder,
+								bool inPremultiplyAlpha )
 {
 	PixelConverter	theConverter = NULL;
 	
@@ -392,7 +447,9 @@ static PixelConverter ChoosePixelConverter(
 				break;
 			
 			case kQ3PixelTypeARGB32:
-				theConverter = ConvertPixel_ARGB32_Big;
+				theConverter = inPremultiplyAlpha?
+					ConvertPixel_ARGB32_Big_Premultiply :
+					ConvertPixel_ARGB32_Big;
 				break;
 			
 			case kQ3PixelTypeRGB16:
@@ -400,7 +457,9 @@ static PixelConverter ChoosePixelConverter(
 				break;
 			
 			case kQ3PixelTypeARGB16:
-				theConverter = ConvertPixel_ARGB16_Big;
+				theConverter = inPremultiplyAlpha?
+					ConvertPixel_ARGB16_Big_Premultiply :
+					ConvertPixel_ARGB16_Big;
 				break;
 			
 			case kQ3PixelTypeRGB16_565:
@@ -421,7 +480,9 @@ static PixelConverter ChoosePixelConverter(
 				break;
 			
 			case kQ3PixelTypeARGB32:
-				theConverter = ConvertPixel_ARGB32_Little;
+				theConverter = inPremultiplyAlpha?
+					ConvertPixel_ARGB32_Little_Premultiply :
+					ConvertPixel_ARGB32_Little;
 				break;
 			
 			case kQ3PixelTypeRGB16:
@@ -429,7 +490,9 @@ static PixelConverter ChoosePixelConverter(
 				break;
 			
 			case kQ3PixelTypeARGB16:
-				theConverter = ConvertPixel_ARGB16_Little;
+				theConverter = inPremultiplyAlpha?
+					ConvertPixel_ARGB16_Little_Premultiply :
+					ConvertPixel_ARGB16_Little;
 				break;
 			
 			case kQ3PixelTypeRGB16_565:
@@ -503,6 +566,7 @@ static bool	ConvertImageFormat(
 								TQ3Uns32 inSrcHeight,
 								TQ3Uns32 inSrcRowBytes,
 								TQ3Endian inSrcByteOrder,
+								bool inPremultiplyAlpha,
 								std::vector<GLubyte>& outImage,
 								GLint& outGLInternalFormat,
 								GLenum& outGLFormat )
@@ -521,7 +585,7 @@ static bool	ConvertImageFormat(
 	TQ3Uns32 dstRowBytes = 4 * ((dstBytesPerPixel * inSrcWidth + 3) / 4);
 	
 	PixelConverter	theConverter = ChoosePixelConverter( inSrcPixelType,
-		inSrcByteOrder );
+		inSrcByteOrder, inPremultiplyAlpha );
 	
 	if (theConverter != NULL)
 	{
@@ -588,6 +652,7 @@ static bool	ConvertImageForOpenGL(
 								TQ3Uns32 inSrcHeight,
 								TQ3Uns32 inSrcRowBytes,
 								TQ3Endian inSrcByteOrder,
+								bool inPremultiplyAlpha,
 								TQ3Uns32& outDstWidth,
 								TQ3Uns32& outDstHeight,
 								std::vector<GLubyte>& outImage,
@@ -601,7 +666,7 @@ static bool	ConvertImageForOpenGL(
 	
 	if ( (srcData != NULL) &&
 		ConvertImageFormat( srcData, inSrcPixelType, inSrcWidth, inSrcHeight,
-			inSrcRowBytes, inSrcByteOrder, sGLFormatWork,
+			inSrcRowBytes, inSrcByteOrder, inPremultiplyAlpha, sGLFormatWork,
 			outGLInternalFormat, outGLFormat ) )
 	{
 		ConstrainTextureSize( inSrcWidth, inSrcHeight, outDstWidth, outDstHeight );
@@ -625,7 +690,8 @@ static bool	ConvertImageForOpenGL(
 
 
 static bool	LoadOpenGLWithPixmapTexture(
-								TQ3TextureObject inTexture )
+								TQ3TextureObject inTexture,
+								bool inPremultiplyAlpha )
 {
 	bool	didLoad = false;
 	TQ3StoragePixmap	thePixmap;
@@ -642,6 +708,7 @@ static bool	LoadOpenGLWithPixmapTexture(
 		bool didConvert = ConvertImageForOpenGL( thePixmap.image, 0,
 			thePixmap.pixelType, thePixmap.width, thePixmap.height,
 			thePixmap.rowBytes, thePixmap.byteOrder,
+			inPremultiplyAlpha,
 			theWidth, theHeight,
 			imageData, glInternalFormat, glFormat );
 		
@@ -660,7 +727,8 @@ static bool	LoadOpenGLWithPixmapTexture(
 }
 
 static bool	LoadOpenGLWithMipmapTexture(
-								TQ3TextureObject inTexture )
+								TQ3TextureObject inTexture,
+								bool inPremultiplyAlpha )
 {
 	bool	didLoad = false;
 	TQ3Mipmap		theMipmap;
@@ -682,7 +750,8 @@ static bool	LoadOpenGLWithMipmapTexture(
 				theMipmap.mipmaps[i].offset, theMipmap.pixelType,
 				theMipmap.mipmaps[i].width, theMipmap.mipmaps[i].height,
 				theMipmap.mipmaps[i].rowBytes,
-				theMipmap.byteOrder, theWidth, theHeight,
+				theMipmap.byteOrder, inPremultiplyAlpha,
+				theWidth, theHeight,
 				imageData, glInternalFormat, glFormat );
 			
 			if (didConvert)
@@ -711,9 +780,14 @@ static bool	LoadOpenGLWithMipmapTexture(
 	
 	@abstract	Load a Quesa texture object as an OpenGL texture object.
 	@param		inTexture		A texture object.
+	@param		inPremultiplyAlpha	If true, the loader will multiply each color
+									value by its alpha value.  Use this if your
+									texture data has an alpha channel and is NOT
+									set up with premultiplied alpha.
 	@result		An OpenGL texture "name", or 0 on failure.
 */
-GLuint	GLTextureLoader( TQ3TextureObject inTexture )
+GLuint	GLTextureLoader( TQ3TextureObject inTexture,
+							TQ3Boolean inPremultiplyAlpha )
 {
 	GLuint	resultTextureName = 0;
 	Q3_ASSERT( inTexture != NULL );
@@ -735,11 +809,13 @@ GLuint	GLTextureLoader( TQ3TextureObject inTexture )
 		switch (theType)
 		{
 			case kQ3TextureTypePixmap:
-				didLoad = LoadOpenGLWithPixmapTexture( inTexture );
+				didLoad = LoadOpenGLWithPixmapTexture( inTexture,
+					inPremultiplyAlpha == kQ3True );
 				break;
 			
 			case kQ3TextureTypeMipmap:
-				didLoad = LoadOpenGLWithMipmapTexture( inTexture );
+				didLoad = LoadOpenGLWithMipmapTexture( inTexture,
+					inPremultiplyAlpha == kQ3True );
 				break;
 		}
 		
