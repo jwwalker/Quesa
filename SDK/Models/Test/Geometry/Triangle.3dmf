@@ -1,0 +1,41 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+#   NAME:
+#      Triangle.3dmf
+#
+#   DESCRIPTION:
+#       Simple triangle with vertex colors and UVs.
+#		    
+#   COPYRIGHT:
+#       Copyright (c) 2007, Quesa Developers. All rights reserved.
+
+	BeginGroup (
+		DisplayGroup ( )
+		DisplayGroupState ( NoBoundingBox | NoBoundingSphere 
+		)
+	)
+	Container (
+		Triangle (
+			1.5 -1.5 0
+			0 1.5 0
+			-1.5 -1.5 0 )
+		Container (
+			VertexAttributeSetList ( 3 Exclude 0 )
+			Container (
+				AttributeSet ( )
+				SurfaceUV ( 0 0 )
+				DiffuseColor ( 1 0 0 )
+			)
+			Container (
+				AttributeSet ( )
+				SurfaceUV ( 0.5 1 )
+				DiffuseColor ( 0 1 0 )
+			)
+			Container (
+				AttributeSet ( )
+				SurfaceUV ( 1 0 )
+				DiffuseColor ( 0 0 1 )
+			)
+		)
+	)
+	EndGroup ( )
