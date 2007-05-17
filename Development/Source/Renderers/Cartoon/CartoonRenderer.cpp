@@ -280,16 +280,17 @@ void CCartoonRendererQuesa::SetActiveTextureARB(int n)
 
 void CCartoonRendererQuesa::DisableMultiTexturing()
 {
-	int nIx;
-
-	for(nIx = 1; nIx >= 0; nIx--)
-	{
-		SetClientActiveTextureARB(nIx);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-		SetActiveTextureARB(nIx);
-		glDisable(GL_TEXTURE_2D);
-	} // nIx
+	// Turn off texture unit 1
+	SetClientActiveTextureARB( 1 );
+	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+	SetActiveTextureARB( 0 );
+	glDisable( GL_TEXTURE_2D );
+	
+	// Turn off texture unit 0
+	SetClientActiveTextureARB( 0 );
+	mGLClientStates.EnableTextureArray( false );
+	SetActiveTextureARB( 0 );
+	glDisable( GL_TEXTURE_2D );
 }
 
 void CCartoonRendererQuesa::DeleteLocalTexture()
@@ -849,6 +850,11 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 							const TQ3Vector3D* vertNormals,
 							const TQ3Param2D* texCoords )
 {
+	if ( (geomData->numTriangles == 0) || (vertNormals == NULL) )
+	{
+		return;
+	}
+
 	// Lazy initialization
 	if (! IsInited())
 	{
@@ -861,11 +867,6 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 	SetClientActiveTextureARB(0);
 
 	
-	if ( (geomData->numTriangles == 0) || (vertNormals == NULL) )
-	{
-		return;
-	}
-
 	TQ3ColorRGB		whiteRGBColor = { 1.0f, 1.0f, 1.0f };
 	const float* pFloatDiffuseColor = &whiteRGBColor.r;
 	
