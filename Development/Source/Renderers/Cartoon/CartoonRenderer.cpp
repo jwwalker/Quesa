@@ -221,6 +221,7 @@ namespace
 		void InitExtensions();
 		void SetClientActiveTextureARB(int n);
 		void SetActiveTextureARB(int n);
+		void EnableTextureArray( bool inEnable );
 		void DisableMultiTexturing();
 
 		EQ3ActiveTextureARBProcPtr 		m_glActiveTextureARB;
@@ -229,6 +230,7 @@ namespace
 		GLboolean	m_savedLightEnabled[ kNumLightsToSet ];
 		GLboolean	m_savedLightingEnabled;
 		GLfloat		m_savedAmbientLight[ 4 ];
+		GLint		mClientActiveTextureUnit;
 	};
 
 }
@@ -239,6 +241,7 @@ CCartoonRendererQuesa::CCartoonRendererQuesa( TQ3RendererObject inRenderer )
 	, m_nLocalTextureID( 0 )
 	, m_glActiveTextureARB( NULL )
 	, m_glClientActiveTextureARB( NULL )
+	, mClientActiveTextureUnit( 0 )
 {
 	SetShadeLightness(130);
 	SetShadeWidth(7);
@@ -250,23 +253,18 @@ CCartoonRendererQuesa::~CCartoonRendererQuesa()
 }
 
 void CCartoonRendererQuesa::InitExtensions()
-{	
-	void** arrPtrs[] = { (void**)&m_glActiveTextureARB, (void**)&m_glClientActiveTextureARB, 0};
-	char* arrNames[] = { "glActiveTextureARB", "glClientActiveTextureARB", 0};
-	
-	int nIx;
-	
-	for(nIx = 0; arrPtrs[nIx]; nIx++)
-	{
-		*arrPtrs[nIx] = (void*)GLGetProcAddress(arrNames[nIx]);
-	} // nIx
+{
+	GLGetProcAddress( m_glActiveTextureARB, "glActiveTexture", "glActiveTextureARB" );
+	GLGetProcAddress( m_glClientActiveTextureARB, "glClientActiveTexture", "glClientActiveTextureARB" );
 }
 
 void CCartoonRendererQuesa::SetClientActiveTextureARB(int n)
 {
-	if (m_glClientActiveTextureARB != NULL)
+	if ( (m_glClientActiveTextureARB != NULL) &&
+		(n != mClientActiveTextureUnit) )
 	{
 		m_glClientActiveTextureARB(GL_TEXTURE0_ARB + n);
+		mClientActiveTextureUnit = n;
 	}
 }
 
@@ -282,15 +280,34 @@ void CCartoonRendererQuesa::DisableMultiTexturing()
 {
 	// Turn off texture unit 1
 	SetClientActiveTextureARB( 1 );
-	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+	EnableTextureArray( false );
 	SetActiveTextureARB( 0 );
 	glDisable( GL_TEXTURE_2D );
 	
-	// Turn off texture unit 0
+	// Turn off texture unit 0, and leave unit 0 active
 	SetClientActiveTextureARB( 0 );
-	mGLClientStates.EnableTextureArray( false );
+	EnableTextureArray( false );
 	SetActiveTextureARB( 0 );
 	glDisable( GL_TEXTURE_2D );
+}
+
+void CCartoonRendererQuesa::EnableTextureArray( bool inEnable )
+{
+	if (mClientActiveTextureUnit == 0)
+	{
+		mGLClientStates.EnableTextureArray( inEnable );
+	}
+	else
+	{
+		if (inEnable)
+		{
+			glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+		}
+		else
+		{
+			glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+		}
+	}
 }
 
 void CCartoonRendererQuesa::DeleteLocalTexture()
@@ -363,9 +380,9 @@ void CCartoonRendererQuesa::DrawJustLocalTexture()
 	}	
 }
 
-void CCartoonRendererQuesa::DrawLocalTexture(bool bAllreadyTextured)
+void CCartoonRendererQuesa::DrawLocalTexture(bool bAlreadyTextured)
 {
-	if(true == bAllreadyTextured)
+	if(true == bAlreadyTextured)
 	{
 		SetActiveTextureARB(1);
 		SetClientActiveTextureARB(1);
@@ -373,7 +390,7 @@ void CCartoonRendererQuesa::DrawLocalTexture(bool bAllreadyTextured)
 	else
 	{
 		SetClientActiveTextureARB(1);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		EnableTextureArray( false );
 
 		SetActiveTextureARB(1);
 		glDisable(GL_TEXTURE_2D);
@@ -428,19 +445,6 @@ void CCartoonRendererQuesa::Init( bool inHasMultiTexture )
 	RebuildShading();
 }
 
-
-static void* GetCurrentGLContext()
-{
-	void* theContext = NULL;
-	
-	#if QUESA_OS_MACINTOSH
-		theContext = aglGetCurrentContext();
-	#elif QUESA_OS_WIN32
-		theContext = wglGetCurrentContext();
-	#endif
-	
-	return theContext;
-}
 
 void CCartoonRendererQuesa::SetInited(bool bOnOff)
 {
@@ -641,7 +645,6 @@ void CCartoonRendererQuesa::DrawContourArrays( float lineWidth, const TQ3TriMesh
 	glLineWidth( lineWidth );
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, geomData->triangles );
 }
@@ -703,9 +706,8 @@ void CCartoonRendererQuesa::DrawArrays(
 		{
 			SetActiveTextureARB(0);
 			SetClientActiveTextureARB(0);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			EnableTextureArray( true );
 			glEnable(GL_TEXTURE_2D);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 			glTexCoordPointer( 2, GL_FLOAT, 0, texCoords );
 		}
@@ -723,7 +725,7 @@ void CCartoonRendererQuesa::DrawArrays(
 
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		EnableTextureArray( true );
 
 		TQ3Param2D*	tCoords = GenShadeTVerts(geomData->numPoints, vertNormals);
 		
@@ -764,7 +766,7 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(
 	{
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glEnable(GL_TEXTURE_2D);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		EnableTextureArray( true );
 
 		if (0 != pFloatDiffuseColor)
 		{
@@ -880,7 +882,7 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 	
 	// We will use only ambient light, hence we do not need normals for OpenGL.
 	// We will only use normals to compute texture coordinates for shading.
-	glDisableClientState( GL_NORMAL_ARRAY );
+	mGLClientStates.DisableNormalArray();
 	
 	DrawContours( theView, geomData, mStyleBackfacing );
 
@@ -894,9 +896,6 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 		DrawArrays( inTriMesh, geomData, vertNormals, texCoords,
 			pFloatDiffuseColor, bAlreadyTextured );
 	}
-
-	SetActiveTextureARB(0);
-	SetClientActiveTextureARB(0);
 
 	DisableMultiTexturing();
 }
