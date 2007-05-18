@@ -815,14 +815,6 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		return NULL;
 	glContext->macSignature = kQ3MacGLContextSignature;
 	glContext->quesaDrawContext = theDrawContext;
-	TQ3GLExtensions		extFlags;
-	GLUtils_CheckExtensions( &extFlags );
-	if (extFlags.frameBufferObjects)
-	{
-		// The extension check is necessary; the function pointer may be
-		// available even if the extension is not.
-		GLGetProcAddress( glContext->macBindFramebufferEXT, "glBindFramebufferEXT" );
-	}
 
 
 	// Get the type specific draw context data
@@ -878,9 +870,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	// Get the common draw context data
 	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
 	if (qd3dStatus != kQ3Success)
-	{
 		return(NULL);
-	}
 
 	if (!drawContextData.paneState)
 		{
@@ -1037,6 +1027,17 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		(void) aglGetError();
 		}
 
+
+	// Get the function pointer to bind an FBO, if possible.  This cannot be done until
+	// after the context has been made current.
+	TQ3GLExtensions		extFlags;
+	GLUtils_CheckExtensions( &extFlags );
+	if (extFlags.frameBufferObjects)
+	{
+		// The extension check is necessary; the function pointer may be
+		// available even if the extension is not.
+		GLGetProcAddress( glContext->macBindFramebufferEXT, "glBindFramebufferEXT" );
+	}
 
 
 	// AGL_BUFFER_RECT has no effect on an offscreen context
@@ -1974,7 +1975,7 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 	
 	
 	
-	// Check for scissor depth preference.
+	// Check for stencil depth preference.
 	if (kQ3Failure == Q3Object_GetProperty( theDrawContext,
 		kQ3DrawContextPropertyGLStencilBufferDepth,
 		sizeof(preferredStencilBits), NULL, &preferredStencilBits ) )
