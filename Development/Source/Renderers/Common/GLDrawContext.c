@@ -815,7 +815,14 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		return NULL;
 	glContext->macSignature = kQ3MacGLContextSignature;
 	glContext->quesaDrawContext = theDrawContext;
-	GLGetProcAddress( glContext->macBindFramebufferEXT, "glBindFramebufferEXT" );
+	TQ3GLExtensions		extFlags;
+	GLUtils_CheckExtensions( &extFlags );
+	if (extFlags.frameBufferObjects)
+	{
+		// The extension check is necessary; the function pointer may be
+		// available even if the extension is not.
+		GLGetProcAddress( glContext->macBindFramebufferEXT, "glBindFramebufferEXT" );
+	}
 
 
 	// Get the type specific draw context data
@@ -826,7 +833,9 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
     		// Get the port
     		thePort = gldrawcontext_mac_getport( theDrawContext );
     		if (thePort == NULL)
-					return(NULL);
+			{
+				return(NULL);
+			}
 
 
 			// Grab its dimensions
@@ -869,7 +878,9 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	// Get the common draw context data
 	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
 	if (qd3dStatus != kQ3Success)
+	{
 		return(NULL);
+	}
 
 	if (!drawContextData.paneState)
 		{
@@ -1094,6 +1105,7 @@ gldrawcontext_mac_destroy( TQ3GLContext glContext )
 {
 	MacGLContext*	theContext = (MacGLContext*) glContext;
 	
+
 
 	// Close down the context
 	aglSetCurrentContext( NULL );
