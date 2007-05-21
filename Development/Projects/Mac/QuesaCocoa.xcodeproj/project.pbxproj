@@ -289,7 +289,8 @@
 		BE9D5E070BCEF2CF00AB129B /* QOGLShadingLanguage.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9D5E050BCEF2CF00AB129B /* QOGLShadingLanguage.h */; };
 		BE9D5E080BCEF2CF00AB129B /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE9D5E060BCEF2CF00AB129B /* QOGLShadingLanguage.cpp */; };
 		BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
-		BEC777D2087DA6AD00080AB7 /* CartoonRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */; };
+		BED329DB0C021C84006956C8 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED329D90C021C84006956C8 /* HiddenLine.cpp */; };
+		BED329DF0C021E19006956C8 /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BED329DE0C021E19006956C8 /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
 		BEDC045F08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */; };
@@ -581,6 +582,9 @@
 		BE9D5E060BCEF2CF00AB129B /* QOGLShadingLanguage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOGLShadingLanguage.cpp; sourceTree = "<group>"; };
 		BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
 		BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CartoonRenderer.h; sourceTree = "<group>"; };
+		BED329D90C021C84006956C8 /* HiddenLine.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = HiddenLine.cpp; path = ../../Source/Renderers/HiddenLine/HiddenLine.cpp; sourceTree = SOURCE_ROOT; };
+		BED329DA0C021C84006956C8 /* HiddenLine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HiddenLine.h; path = ../../Source/Renderers/HiddenLine/HiddenLine.h; sourceTree = SOURCE_ROOT; };
+		BED329DE0C021E19006956C8 /* CQ3ObjectRef_Gets.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef_Gets.h; sourceTree = "<group>"; };
 		BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef.h; sourceTree = "<group>"; };
 		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cpp; sourceTree = "<group>"; };
 		BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
@@ -841,6 +845,7 @@
 			children = (
 				AB3A7C18055E63B100CA83BE /* Common */,
 				BEC777CE087DA6AD00080AB7 /* Cartoon */,
+				BED329D80C021C60006956C8 /* HiddenLine */,
 				B112DA280B7D276F000F36EF /* MakeStrip */,
 				AB3A7C22055E63B100CA83BE /* Generic */,
 				AB3A7C2A055E63B100CA83BE /* Interactive */,
@@ -1002,6 +1007,7 @@
 			isa = PBXGroup;
 			children = (
 				BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */,
+				BED329DE0C021E19006956C8 /* CQ3ObjectRef_Gets.h */,
 				AB83B5D8055E72B90034F56A /* Quesa.h */,
 				AB83B5D9055E72B90034F56A /* QuesaCamera.h */,
 				AB83B5DA055E72B90034F56A /* QuesaController.h */,
@@ -1118,6 +1124,16 @@
 				BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */,
 				BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */,
 			);
+			path = Cartoon;
+			sourceTree = "<group>";
+		};
+		BED329D80C021C60006956C8 /* HiddenLine */ = {
+			isa = PBXGroup;
+			children = (
+				BED329D90C021C84006956C8 /* HiddenLine.cpp */,
+				BED329DA0C021C84006956C8 /* HiddenLine.h */,
+			);
+			name = HiddenLine;
 			path = Cartoon;
 			sourceTree = "<group>";
 		};
@@ -1244,7 +1260,6 @@
 				AB83B606055E72B90034F56A /* QuesaViewer.h in Headers */,
 				AB83B9A2055E77880034F56A /* E3MacPrefix.h in Headers */,
 				BE6FD692076B88A800587852 /* GLTextureManager.h in Headers */,
-				BEC777D2087DA6AD00080AB7 /* CartoonRenderer.h in Headers */,
 				BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */,
 				BEDC045F08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h in Headers */,
 				B1AC88500906E76700ACE358 /* E3CocoaDrawContextNotify.h in Headers */,
@@ -1268,6 +1283,7 @@
 				B112DA910B7D2A6B000F36EF /* GLVBOManager.h in Headers */,
 				BE6E850E0BA295E50000BA89 /* OptimizedTriMeshElement.h in Headers */,
 				BE9D5E070BCEF2CF00AB129B /* QOGLShadingLanguage.h in Headers */,
+				BED329DF0C021E19006956C8 /* CQ3ObjectRef_Gets.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1466,6 +1482,7 @@
 				B112DA900B7D2A6B000F36EF /* GLVBOManager.cpp in Sources */,
 				BE6E850D0BA295E50000BA89 /* OptimizedTriMeshElement.cpp in Sources */,
 				BE9D5E080BCEF2CF00AB129B /* QOGLShadingLanguage.cpp in Sources */,
+				BED329DB0C021C84006956C8 /* HiddenLine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1533,6 +1550,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_SHADOW = YES;
 				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				PREBINDING = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Debug;
 		};
@@ -1550,6 +1571,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "QUESA_OS_COCOA=1";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				PREBINDING = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Release;
 		};
