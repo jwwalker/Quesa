@@ -1614,6 +1614,8 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	if (pixelFormat == 0)
 		goto fail;
 
+	int	prevPixelFormat = GetPixelFormat( theContext->theDC );
+	
     if (!SetPixelFormat(theContext->theDC, pixelFormat, &pixelFormatDesc))
 	{
 		TQ3Int32	error = GetLastError();
@@ -1622,8 +1624,18 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		sprintf( theString, "SetPixelFormat error %d in gldrawcontext_win_new.", error );
 		E3Assert( __FILE__, __LINE__, theString );
 	#endif
-		Q3Error_PlatformPost(error);
-    	goto fail;
+		
+		// The docs on SetPixelFormat say that "Once a window's pixel format is
+		// set, it cannot be changed".  In that case, try falling back to the
+		// previous format.
+		
+		pixelFormat = prevPixelFormat;
+		
+		if ( (pixelFormat == 0) || !SetPixelFormat(theContext->theDC, pixelFormat, &pixelFormatDesc) )
+		{
+			Q3Error_PlatformPost(error);
+	    	goto fail;
+		}
 	}
 
     DescribePixelFormat(theContext->theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
