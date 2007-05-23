@@ -77,14 +77,11 @@ namespace
 					"vec4 ECPosition = gl_ModelViewMatrix * gl_Vertex;"
 
 				// Convert to 3 dimensions.
-					"ECPos3 = vec3( ECPosition ) / ECPosition.w;"
+					"ECPos3 = ECPosition.xyz / ECPosition.w;"
 
 					"gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;"
 
 					"gl_FrontColor = gl_Color;"
-					"gl_BackColor = gl_Color;"
-					"gl_FrontSecondaryColor = gl_SecondaryColor;"
-					"gl_BackSecondaryColor = gl_SecondaryColor;"
 
 					"gl_Position = ftransform();"
 				"}";
@@ -96,30 +93,31 @@ namespace
 				"				inout vec3 specular )"
 				"{"
 				"	float nDotVP = max( 0.0, dot( normal,"
-				"		normalize(vec3(gl_LightSource[LIGHT_INDEX].position)) ) );"
+				"		gl_LightSource[LIGHT_INDEX].position.xyz ) );"
 				"	float nDotHV = max( 0.0, "
-				"		dot( normal, vec3(gl_LightSource[LIGHT_INDEX].halfVector) ) );"
+				"		dot( normal, gl_LightSource[LIGHT_INDEX].halfVector.xyz ) );"
 				"	float pf = 0.0;"
 				""
-				"	if (nDotVP != 0.0)"
+				"	if (nDotVP > 0.0)"
 				"	{"
 				"		pf = pow( nDotHV, gl_FrontMaterial.shininess );"
 				"	}"
 
-				"	diffuse += vec3(gl_LightSource[LIGHT_INDEX].diffuse) * nDotVP;"
-				"	specular += vec3(gl_LightSource[LIGHT_INDEX].specular) * pf;"
+				"	diffuse += gl_LightSource[LIGHT_INDEX].diffuse.rgb * nDotVP;"
+				"	specular += gl_LightSource[LIGHT_INDEX].specular.rgb * pf;"
 				"}";
 
 	const char* kPositionalLightFragmentShaderSource =
+				"varying vec3 ECPos3;"
+				
 				"void FUNC_NAME("
 				"				in vec3 eye,			// geometry to eye direction\n"
-				"				in vec3 ecPosition3,	// geometry position\n"
 				"				in vec3 normal,"
 				"				inout vec3 diffuse,"
 				"				inout vec3 specular )"
 				"{"
 					// Compute vector from surface to light position
-				"	vec3 geomToLight = vec3(gl_LightSource[LIGHT_INDEX].position) - ecPosition3;"
+				"	vec3 geomToLight = gl_LightSource[LIGHT_INDEX].position.xyz - ECPos3;"
 
 					// Compute distance between geometry and light
 				"	float d = length(geomToLight);"
@@ -132,21 +130,17 @@ namespace
 				"		gl_LightSource[LIGHT_INDEX].linearAttenuation * d +"
 				"		gl_LightSource[LIGHT_INDEX].quadraticAttenuation * d * d );"
 				
-					// By testing whether this is a spot light, we can make this
-					// function work for point lights as well.
-				"	if (gl_LightSource[LIGHT_INDEX].spotCosCutoff != -1.0)"
-				"	{"
-						// See if point on surface is inside cone of illumination,
-						// and maybe attenuate by angle from center of spot.
-						// Quesa never sets GL_SPOT_EXPONENT, meaning it has the
-						// default value of 0, and we need not look at
-						// gl_LightSource[LIGHT_INDEX].spotExponent.
-				"		float spotDot = dot( -geomToLight,"
-				"			normalize(gl_LightSource[LIGHT_INDEX].spotDirection) );"
+					// See if point on surface is inside cone of illumination,
+					// and maybe attenuate by angle from center of spot.
+					// Quesa never sets GL_SPOT_EXPONENT, meaning it has the
+					// default value of 0, and we need not look at
+					// gl_LightSource[LIGHT_INDEX].spotExponent.
+				"	float spotDot = dot( -geomToLight, gl_LightSource[LIGHT_INDEX].spotDirection );"
 					
-				"		if (spotDot < gl_LightSource[LIGHT_INDEX].spotCosCutoff)"
-				"			attenuation = 0.0;		// light contributes nothing\n"
-				"	}"
+					// Set attenuation to 0 if outside the spot light cone.
+					// Note that for a point light, spotCosCutoff will be -1,
+					// and spotDot will never be less than that.
+				"	attenuation *= step( gl_LightSource[LIGHT_INDEX].spotCosCutoff, spotDot );"
 
 					// Compute the direction halfway between the geometry to light vector
 					// and the geometry to eye vectors.  This uses the assumption that
@@ -198,13 +192,12 @@ namespace
 				"#define	POSITIONAL_LIGHT_PROTO(name) 	\\\n"
 				"	void name(					\\\n"
 				"				in vec3 geomToEyeDir,	\\\n"
-				"				in vec3 geomPos,	\\\n"
 				"				in vec3 normal,	\\\n"
 				"				inout vec3 diffuse,\\\n"
 				"				inout vec3 specular )\n"
 
 				"#define	POSITIONAL_LIGHT_CALL(name)	\\\n"
-						"name( geomToEyeDir, geomPos, normal, diff, spec )\n";
+						"name( geomToEyeDir, normal, diff, spec )\n";
 		
 		// Between part 1 and part 2, we will insert some light shader prototypes.
 
@@ -223,8 +216,10 @@ namespace
 				"	vec3		geomPos = ECPos3;"
 				"	vec3		geomToEyeDir = - normalize( geomPos );"
 
-					// Flip the normal for the back face.  If we are using backfacing style
-					// Remove, then back face triangles will not get here, so this does no harm.
+					// Flip the normal for the back face.  If we are using
+					// backfacing style Remove, then back face triangles will
+					// not get here, so this does no harm except wasting a
+					// little time.
 				"	normal = faceforward( normal, geomPos, normal );";
 		
 		// Between part 2 and part 3, we will insert some light shader calls.
@@ -235,7 +230,7 @@ namespace
 
 				"	if (IlluminationType == 0)"
 				"	{"
-				"		color = vec3(gl_Color + gl_FrontMaterial.emission);"
+				"		color = gl_Color.rgb + gl_FrontMaterial.emission.rgb;"
 				"	}"
 				"	else"
 				"	{"
