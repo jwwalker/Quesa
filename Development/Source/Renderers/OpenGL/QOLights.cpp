@@ -129,6 +129,9 @@ static void AddDirectionalLight( TQ3LightObject inLight,
 	Q3Vector3D_Transform( &lightData.direction, &inWorldToView,
 		&lightData.direction );
 	
+	// Normalize the direction, to help per-pixel lighting.
+	Q3FastVector3D_Normalize( &lightData.direction, &lightData.direction );
+	
 	// Set up the light direction as OpenGL likes it
 	GLfloat		lightDirection[4];
 	lightDirection[0] = -lightData.direction.x;
@@ -258,6 +261,10 @@ static void AddSpotLight( TQ3LightObject inLight,
 	Q3Vector3D_Transform( &lightData.direction, &inWorldToView,
 		&lightData.direction );
 		
+	// Normalize the spot direction... this is probably not needed for the
+	// fixed-function pipeline, but saves a little work for per-pixel lighting.
+	Q3FastVector3D_Normalize( &lightData.direction, &lightData.direction );
+
 	// Put direction and location in OpenGL form
 	GLfloat		lightDirection[3];
 	lightDirection[0] = lightData.direction.x;
