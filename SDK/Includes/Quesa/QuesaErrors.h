@@ -334,7 +334,7 @@ typedef enum {
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3ErrorLast,
-    kQ3ErrorSize32                              = 0xFFFFFFFF
+    kQ3ErrorSize32                              = 0x7FFFFFFF
 } TQ3Error;
 
 
@@ -451,7 +451,7 @@ typedef enum {
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3WarningLast,
-    kQ3WarningSize32                            = 0xFFFFFFFF
+    kQ3WarningSize32                            = 0x7FFFFFFF
 } TQ3Warning;
 
 
@@ -505,7 +505,7 @@ typedef enum {
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3NoticeLast,
-    kQ3NoticeSize32                             = 0xFFFFFFFF
+    kQ3NoticeSize32                             = 0x7FFFFFFF
 } TQ3Notice;
 
 
