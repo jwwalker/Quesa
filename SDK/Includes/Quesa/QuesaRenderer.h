@@ -172,7 +172,7 @@ typedef enum TQ3CSGObjectID {
     kQ3SolidGeometryObjC                        = 2,
     kQ3SolidGeometryObjD                        = 3,
     kQ3SolidGeometryObjE                        = 4,
-    kQ3SolidGeometrySize32                      = 0xFFFFFFFF
+    kQ3SolidGeometrySize32                      = 0x7FFFFFFF
 } TQ3CSGObjectID;
 
 
@@ -453,7 +453,7 @@ typedef enum TQ3RaveVendorID {
     kQAVendor_MicroConversions                  = 11,
     kQAVendor_PurpleShark                       = 12,
     kQAVendor_VillageTronic                     = 14,
-    kQAVendor_Size32                            = 0xFFFFFFFF
+    kQAVendor_Size32                            = 0x7FFFFFFF
 } TQ3RaveVendorID;
 
 
@@ -473,7 +473,7 @@ typedef enum TQ3RaveEngineID {
     kQAEngine_AppleHW                           = -1,
     kQAEngine_AppleHW2                          = 1,
     kQAEngine_AppleHW3                          = 2,
-    kQAEngine_Size32                            = 0xFFFFFFFF
+    kQAEngine_Size32                            = 0x7FFFFFFF
 } TQ3RaveEngineID;
 
 
