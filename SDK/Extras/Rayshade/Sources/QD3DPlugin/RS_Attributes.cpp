@@ -48,15 +48,12 @@
 #include "RSPlugin.h"
 #include "RS_Attributes.h"
 #include "RS_Texture.h"
+#include "RT_DrawContext.h"
 
 #if USE_QUESA_INCLUDES
 	#include <Quesa.h>
 	#include <QuesaView.h>
 	#include <QuesaRenderer.h>
-#else
-	#include <QD3D.h>
-	#include <QD3DView.h>
-	#include <QD3DRenderer.h>
 #endif
 
 /*===========================================================================*\
@@ -133,7 +130,6 @@ TQ3Status RS_UpdateAttributes(
 		 * Get the texture
 		 */
 		theShader = (TQ3ShaderObject *) Q3XAttributeSet_GetPointer(theAttributeSet, kQ3AttributeTypeSurfaceShader);
-		if ((theShader != NULL) && (*theShader != NULL))
 		{
 			result = RS_SetShaderSurface(rsPrivate,theShader);
 			if (result != kQ3Success) 
@@ -181,18 +177,15 @@ TQ3Status RS_UpdateAttributes(
 				kQ3AttributeTypeHighlightState,
 				&theNewSurface.hilightState);  
 	
-	if ((!rsPrivate->isCurrentSurface) ||
-		(!RTSurfaceData_Compare(&theNewSurface,&rsPrivate->surfaceCache)))
+	if (!rsPrivate->raytracer->definedSurfaces || !RTSurfaceData_Compare(&theNewSurface,&rsPrivate->surfaceCache))
 	{
 		rsPrivate->surfaceCache = theNewSurface;
 		result = RT_SetCurrentSurface(rsPrivate->raytracer,&rsPrivate->surfaceCache);
 		if (result != kQ3Success)
 		{
-			rsPrivate->isCurrentSurface = kQ3False;
 			goto cleanup;
 		}
 		
-		rsPrivate->isCurrentSurface = kQ3True;
 	}
 	
 	Q3Object_Dispose(theAttributeSet);
