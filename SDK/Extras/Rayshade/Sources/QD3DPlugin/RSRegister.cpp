@@ -452,6 +452,7 @@ TQ3ViewStatus RS_EndPass(
 	TQ3ViewStatus	result = kQ3ViewStatusDone;
 	TQ3Status 		theStatus;
 	TRSRasterizer	*theRasterizer = NULL;
+	TQ3Uns8			* buf = NULL;
 	/*
 	 * Do the raytracing:
 	 */
@@ -495,7 +496,13 @@ TQ3ViewStatus RS_EndPass(
 		{
 			int xres = width;
 	        int yres = height;
-	        TQ3Uns8 buf[2048][3];
+	       
+	       buf = (TQ3Uns8*)std::malloc(xres*3);
+	       
+	        if (! buf){
+	              result = kQ3ViewStatusError;
+	              goto cleanup;
+	        }
 	      
 	      	RSRasterizer_Start( theRasterizer );
 	                
@@ -504,7 +511,7 @@ TQ3ViewStatus RS_EndPass(
 	        	/*
 	        	 * RayTrace the next scan line
 	        	 */
-	        	if (RTRayTracer_ScanNextLine(theTracer,i,buf,sizeof(buf)) != kQ3Success)
+	        	if (RTRayTracer_ScanNextLine(theTracer,i,(TQ3Uns8(*)[3])buf,xres*3) != kQ3Success)
 	            {
 	                result = kQ3ViewStatusError;
 	                goto cleanup;
@@ -518,7 +525,7 @@ TQ3ViewStatus RS_EndPass(
             		result = kQ3ViewStatusError;	
             		goto cleanup;
             	}
-	            RSRasterizer_Rasterize_RGB_Span(theRasterizer,left,i+top,width,buf);
+	            RSRasterizer_Rasterize_RGB_Span(theRasterizer,left,i+top,width,(TQ3Uns8(*)[3])buf);
            		RSRasterizer_Unlock(theRasterizer);
 
          		/*
@@ -540,7 +547,10 @@ TQ3ViewStatus RS_EndPass(
             RTRayTracer_Delete(theTracer);
             theTracer = NULL;
             RT_Reset(rsPrivate->raytracer);
-            
+		 	if (buf)
+				std::free(buf);
+			buf = NULL;
+           
 		}
     	Q3Object_Dispose(theDrawContext);
     }
@@ -553,6 +563,8 @@ cleanup:
 		Q3Object_Dispose(theDrawContext);
 	if (theTracer)
 		RTRayTracer_Delete(theTracer);
+	if (buf)
+		std::free(buf);
 	RT_Reset(rsPrivate->raytracer);
 	return result;
 }
