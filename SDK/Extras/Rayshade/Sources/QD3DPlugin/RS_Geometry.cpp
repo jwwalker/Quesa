@@ -58,6 +58,7 @@
 
 
 #include "RT_Geometry.h"
+#include "RT_DrawContext.h"
 
 
 
@@ -147,13 +148,17 @@ TQ3Status RS_Geometry_Triangle(
 						TQ3GeometryObject			/*pGeom*/, 
 						const TQ3TriangleData		*pTriangleData)
 {
-	TQ3Status			theStatus;     
+	TQ3Status			theStatus = kQ3Success;     
 	/*
 	 * Update the attributes if neccesary
 	 */
+	 
+	// Surface *savedSurface = rsPrivate->raytracer->currentSurface;
+	 CTexture *savedTexture = rsPrivate->raytracer->currentTexture;
+	 
 	theStatus = RS_UpdateAttributes(pView,rsPrivate,pTriangleData->triangleAttributeSet);
 	if (theStatus != kQ3Success)
-		return theStatus;
+		goto exit;
 	
 	/*
 	 * Submit the triangle to the raytracer
@@ -210,10 +215,12 @@ TQ3Status RS_Geometry_Triangle(
 		theStatus = RT_SubmitTriangle(rsPrivate->raytracer,theTriangleType,theVertices,theNormals,
 			(theTextureParams ? theParams : NULL));
 		if (theStatus != kQ3Success)
-			return theStatus;
+			goto exit;
 	}   
-
-	return kQ3Success;
+exit:
+	//rsPrivate->raytracer->currentSurface = savedSurface;
+	rsPrivate->raytracer->currentTexture = savedTexture;
+	return theStatus;
 }
 
 /*===========================================================================*\
