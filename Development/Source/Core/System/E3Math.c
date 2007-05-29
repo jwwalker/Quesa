@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -528,7 +528,7 @@ e3matrix4x4_invert(TQ3Matrix4x4* a)
         //
         // Note: If we were dividing by the same element many times, it would
         // make sense to multiply by its inverse. Since we divide by a given
-        // elemen only 3 (4) times for a 3x3 (4x4) matrix, it doesn't make sense
+        // element only 3 (4) times for a 3x3 (4x4) matrix, it doesn't make sense
         // to pay for the extra floating-point operation.
         element = A(icol,icol);
         A(icol,icol) = 1.0f;    // overwrite original matrix with inverse
@@ -3347,8 +3347,52 @@ E3Matrix4x4_Invert(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 {
     if (result != matrix4x4)
         *result = *matrix4x4;
-        
-    e3matrix4x4_invert(result);
+	
+	// The 4x4 matrices used in 3D graphics often have a last column of
+	// (0, 0, 0, 1).  In that case, we want the inverse to have exactly the same
+	// last column, and we can compute the inverse with fewer floating point
+	// multiplies and divides.  The inverse of the matrix
+	//		A 0
+	//		v 1
+	// (where A is 3x3 and v is 1x3) is
+	//		inv(A)			0
+	//		-v * inv(A)		1	.
+	if ( (result->value[3][3] == 1.0f) && (result->value[0][3] == 0.0f) &&
+		(result->value[1][3] == 0.0f) && (result->value[2][3] == 0.0f) )
+	{
+		TQ3Matrix3x3	upperLeft;
+		int	i, j;
+		for (i = 0; i < 3; ++i)
+		{
+			for (j = 0; j < 3; ++j)
+			{
+				upperLeft.value[i][j] = result->value[i][j];
+			}
+		}
+		
+		e3matrix3x3_invert( &upperLeft );
+		
+		for (i = 0; i < 3; ++i)
+		{
+			for (j = 0; j < 3; ++j)
+			{
+				result->value[i][j] = upperLeft.value[i][j];
+			}
+		}
+		
+		TQ3RationalPoint3D	v = {
+			result->value[3][0], result->value[3][1], result->value[3][2]
+		};
+		E3RationalPoint3D_Transform( &v, &upperLeft, &v );
+		
+		result->value[3][0] = -v.x;
+		result->value[3][1] = -v.y;
+		result->value[3][2] = -v.w;
+	}
+	else
+	{
+		e3matrix4x4_invert(result);
+	}
         
     return(result);
 }
