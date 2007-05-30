@@ -46,6 +46,8 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
+#ifndef QOLIGHTS_HDR
+#define QOLIGHTS_HDR
 
 //=============================================================================
 //      Include files
@@ -53,6 +55,10 @@
 
 #include "E3Prefix.h"
 #include "GLPrefix.h"
+#include "QOPrefix.h"
+#include "CQ3ObjectRef.h"
+#include "QOShadowMarker.h"
+#include <vector>
 
 
 //=============================================================================
@@ -61,6 +67,11 @@
 
 namespace QORenderer
 {
+typedef std::vector< CQ3ObjectRef >	ObVec;
+
+struct GLStencilFuncs;
+class MatrixState;
+struct StyleState;
 
 /*!
 	@class		Lights
@@ -70,12 +81,22 @@ namespace QORenderer
 class Lights
 {
 public:
-							Lights( const TQ3GLExtensions& inExtensions )
+							Lights( const TQ3GLExtensions& inExtensions,
+									const GLStencilFuncs& inStencilFuncs,
+									const MatrixState& inMatrixState,
+									const StyleState& inStyleState )
 								: mGLExtensions( inExtensions )
+								, mGLStencilFuncs( inStencilFuncs )
+								, mMatrixState( inMatrixState )
+								, mStyleState( inStyleState )
 								, mLightCount( 0 )
+								, mShadowMarker( mMatrixState, mStyleState,
+									mGLLightPosition )
 								, mIsOnlyAmbient( false ) {}
 
-	void					StartFrame();
+	void					StartFrame(
+									TQ3ViewObject inView,
+									bool inIsShadowing );
 	
 	void					StartPass(
 									TQ3CameraObject inCamera,
@@ -88,21 +109,60 @@ public:
 	bool					IsEmissionUsed() const;
 	inline bool				IsFirstPass() const {return mIsFirstPass;}
 	inline bool				IsLastLightingPass() const {return !mIsAnotherPassNeeded;}
+	bool					IsShadowMarkingPass() const;
+	
+	void					MarkShadowOfTriMesh(
+									TQ3GeometryObject inTMObject,
+									const TQ3TriMeshData& inTMData,
+									const TQ3Vector3D* inFaceNormals );
+	
+	void					MarkShadowOfTriangle(
+									const Vertex* inVertices );
 
 private:
-	void					Reset(
-									TQ3Uns32 inNumQ3Lights );
+	void					Reset( bool inEnableLighting );
+	void					ClassifyLights( TQ3ViewObject inView, bool inIsShadowing );
+	void					SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToView );
+	void					SetUpShadowLightingPass();
+	void					SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorldToView );
+	void					UseInfiniteYon( TQ3ViewObject inView );
+	
+	void					AddLight(
+									TQ3LightObject inLight,
+									const TQ3Matrix4x4& inWorldToView );
 
+	void					AddDirectionalLight(
+									TQ3LightObject inLight,
+									const TQ3Matrix4x4& inWorldToView );
+	void					AddSpotLight(
+									TQ3LightObject inLight,
+									const TQ3Matrix4x4& inWorldToView );
+	void					AddPointLight(
+									TQ3LightObject inLight,
+									const TQ3Matrix4x4& inWorldToView );
 
 	const TQ3GLExtensions&	mGLExtensions;
-	TQ3Uns32				mLightCount;			// number of non-ambient lights
+	const GLStencilFuncs&	mGLStencilFuncs;
+	const MatrixState&		mMatrixState;
+	const StyleState&		mStyleState;
+	TQ3Uns32				mLightCount;		// number of GL lights in this pass
 	bool					mIsFirstPass;
+	bool					mIsShadowPhase;
 	bool					mIsAnotherPassNeeded;
+	bool					mIsShadowMarkingPass;
 	TQ3Uns32				mStartingLightIndexForPass;
+	GLint					mMaxGLLights;
+	GLfloat					mGLLightPosition[4];
+	
 	GLfloat					mGlAmbientLight[4];		// color of ambient light
+	ObVec					mNonShadowingLights;
+	ObVec					mShadowingLights;
+	ShadowMarker			mShadowMarker;
 	
 	bool					mIsOnlyAmbient;
 	GLfloat					mOnlyAmbient[4];
 };
 
 }
+
+#endif	// QOLIGHTS_HDR
