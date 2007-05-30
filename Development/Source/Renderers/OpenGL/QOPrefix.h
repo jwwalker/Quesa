@@ -58,6 +58,12 @@
 //      Common constants and types
 //-----------------------------------------------------------------------------
 
+#if QUESA_OS_WIN32
+	#define		QO_PROCPTR_TYPE		__stdcall
+#else
+	#define		QO_PROCPTR_TYPE
+#endif
+
 namespace QORenderer
 {
 	enum {
