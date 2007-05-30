@@ -247,26 +247,16 @@
 		B112DA350B7D276F000F36EF /* StripMaker_JoinStrips.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA2E0B7D276F000F36EF /* StripMaker_JoinStrips.cpp */; };
 		B112DA360B7D276F000F36EF /* StripMaker_MakeSimpleStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA2F0B7D276F000F36EF /* StripMaker_MakeSimpleStrip.cpp */; };
 		B112DA4E0B7D277E000F36EF /* QOClientStates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA380B7D277E000F36EF /* QOClientStates.cpp */; };
-		B112DA4F0B7D277E000F36EF /* QOClientStates.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA390B7D277E000F36EF /* QOClientStates.h */; };
 		B112DA500B7D277E000F36EF /* QOGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA3A0B7D277E000F36EF /* QOGeometry.cpp */; };
 		B112DA510B7D277E000F36EF /* QOLights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA3B0B7D277E000F36EF /* QOLights.cpp */; };
-		B112DA520B7D277E000F36EF /* QOLights.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA3C0B7D277E000F36EF /* QOLights.h */; };
 		B112DA530B7D277E000F36EF /* QOMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA3D0B7D277E000F36EF /* QOMatrix.cpp */; };
-		B112DA540B7D277E000F36EF /* QOMatrix.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA3E0B7D277E000F36EF /* QOMatrix.h */; };
 		B112DA550B7D277E000F36EF /* QOOpaqueTriBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA3F0B7D277E000F36EF /* QOOpaqueTriBuffer.cpp */; };
-		B112DA560B7D277E000F36EF /* QOOpaqueTriBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA400B7D277E000F36EF /* QOOpaqueTriBuffer.h */; };
-		B112DA570B7D277E000F36EF /* QOPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA410B7D277E000F36EF /* QOPrefix.h */; };
 		B112DA580B7D277E000F36EF /* QORegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA420B7D277E000F36EF /* QORegister.cpp */; };
-		B112DA590B7D277E000F36EF /* QORegister.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA430B7D277E000F36EF /* QORegister.h */; };
 		B112DA5A0B7D277E000F36EF /* QORenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA440B7D277E000F36EF /* QORenderer.cpp */; };
-		B112DA5B0B7D277E000F36EF /* QORenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA450B7D277E000F36EF /* QORenderer.h */; };
 		B112DA5C0B7D277E000F36EF /* QOStartAndEnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA460B7D277E000F36EF /* QOStartAndEnd.cpp */; };
 		B112DA5D0B7D277E000F36EF /* QOStatics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA470B7D277E000F36EF /* QOStatics.cpp */; };
-		B112DA5E0B7D277E000F36EF /* QOStatics.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA480B7D277E000F36EF /* QOStatics.h */; };
 		B112DA5F0B7D277E000F36EF /* QOTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA490B7D277E000F36EF /* QOTexture.cpp */; };
-		B112DA600B7D277E000F36EF /* QOTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA4A0B7D277E000F36EF /* QOTexture.h */; };
 		B112DA610B7D277E000F36EF /* QOTransBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA4B0B7D277E000F36EF /* QOTransBuffer.cpp */; };
-		B112DA620B7D277E000F36EF /* QOTransBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA4C0B7D277E000F36EF /* QOTransBuffer.h */; };
 		B112DA630B7D277E000F36EF /* QOUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA4D0B7D277E000F36EF /* QOUpdate.cpp */; };
 		B112DA840B7D2A48000F36EF /* GLDisplayListManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA820B7D2A48000F36EF /* GLDisplayListManager.cpp */; };
 		B112DA850B7D2A48000F36EF /* GLDisplayListManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA830B7D2A48000F36EF /* GLDisplayListManager.h */; };
@@ -286,8 +276,9 @@
 		BE6E850E0BA295E50000BA89 /* OptimizedTriMeshElement.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6E850C0BA295E50000BA89 /* OptimizedTriMeshElement.h */; };
 		BE6FD692076B88A800587852 /* GLTextureManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6FD690076B88A800587852 /* GLTextureManager.h */; };
 		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
-		BE9D5E070BCEF2CF00AB129B /* QOGLShadingLanguage.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9D5E050BCEF2CF00AB129B /* QOGLShadingLanguage.h */; };
 		BE9D5E080BCEF2CF00AB129B /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE9D5E060BCEF2CF00AB129B /* QOGLShadingLanguage.cpp */; };
+		BEBAACF30C0DF2C800C9225A /* QOShadowMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEBAACEF0C0DF2C800C9225A /* QOShadowMarker.cpp */; };
+		BEBAACF50C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEBAACF10C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp */; };
 		BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
 		BED329DB0C021C84006956C8 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED329D90C021C84006956C8 /* HiddenLine.cpp */; };
 		BED329DF0C021E19006956C8 /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BED329DE0C021E19006956C8 /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -580,6 +571,10 @@
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GLTextureManager.c; sourceTree = "<group>"; };
 		BE9D5E050BCEF2CF00AB129B /* QOGLShadingLanguage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOGLShadingLanguage.h; sourceTree = "<group>"; };
 		BE9D5E060BCEF2CF00AB129B /* QOGLShadingLanguage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOGLShadingLanguage.cpp; sourceTree = "<group>"; };
+		BEBAACEE0C0DF2C800C9225A /* QOShadowMarker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOShadowMarker.h; sourceTree = "<group>"; };
+		BEBAACEF0C0DF2C800C9225A /* QOShadowMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOShadowMarker.cpp; sourceTree = "<group>"; };
+		BEBAACF00C0DF2C800C9225A /* QOCalcTriMeshEdges.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOCalcTriMeshEdges.h; sourceTree = "<group>"; };
+		BEBAACF10C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOCalcTriMeshEdges.cpp; sourceTree = "<group>"; };
 		BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
 		BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CartoonRenderer.h; sourceTree = "<group>"; };
 		BED329D90C021C84006956C8 /* HiddenLine.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = HiddenLine.cpp; path = ../../Source/Renderers/HiddenLine/HiddenLine.cpp; sourceTree = SOURCE_ROOT; };
@@ -1077,6 +1072,8 @@
 		B112DA370B7D277E000F36EF /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				BEBAACF10C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp */,
+				BEBAACF00C0DF2C800C9225A /* QOCalcTriMeshEdges.h */,
 				B112DA380B7D277E000F36EF /* QOClientStates.cpp */,
 				B112DA390B7D277E000F36EF /* QOClientStates.h */,
 				B112DA3A0B7D277E000F36EF /* QOGeometry.cpp */,
@@ -1093,6 +1090,8 @@
 				B112DA430B7D277E000F36EF /* QORegister.h */,
 				B112DA440B7D277E000F36EF /* QORenderer.cpp */,
 				B112DA450B7D277E000F36EF /* QORenderer.h */,
+				BEBAACEF0C0DF2C800C9225A /* QOShadowMarker.cpp */,
+				BEBAACEE0C0DF2C800C9225A /* QOShadowMarker.h */,
 				B112DA460B7D277E000F36EF /* QOStartAndEnd.cpp */,
 				B112DA470B7D277E000F36EF /* QOStatics.cpp */,
 				B112DA480B7D277E000F36EF /* QOStatics.h */,
@@ -1267,22 +1266,11 @@
 				B1AC88600906EA4000ACE358 /* GLCocoaContext.h in Headers */,
 				B112DA310B7D276F000F36EF /* MakeStrip.h in Headers */,
 				B112DA320B7D276F000F36EF /* StripMaker.h in Headers */,
-				B112DA4F0B7D277E000F36EF /* QOClientStates.h in Headers */,
-				B112DA520B7D277E000F36EF /* QOLights.h in Headers */,
-				B112DA540B7D277E000F36EF /* QOMatrix.h in Headers */,
-				B112DA560B7D277E000F36EF /* QOOpaqueTriBuffer.h in Headers */,
-				B112DA570B7D277E000F36EF /* QOPrefix.h in Headers */,
-				B112DA590B7D277E000F36EF /* QORegister.h in Headers */,
-				B112DA5B0B7D277E000F36EF /* QORenderer.h in Headers */,
-				B112DA5E0B7D277E000F36EF /* QOStatics.h in Headers */,
-				B112DA600B7D277E000F36EF /* QOTexture.h in Headers */,
-				B112DA620B7D277E000F36EF /* QOTransBuffer.h in Headers */,
 				B112DA850B7D2A48000F36EF /* GLDisplayListManager.h in Headers */,
 				B112DA890B7D2A52000F36EF /* GLGPUSharing.h in Headers */,
 				B112DA8D0B7D2A5C000F36EF /* GLTextureLoader.h in Headers */,
 				B112DA910B7D2A6B000F36EF /* GLVBOManager.h in Headers */,
 				BE6E850E0BA295E50000BA89 /* OptimizedTriMeshElement.h in Headers */,
-				BE9D5E070BCEF2CF00AB129B /* QOGLShadingLanguage.h in Headers */,
 				BED329DF0C021E19006956C8 /* CQ3ObjectRef_Gets.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1483,6 +1471,8 @@
 				BE6E850D0BA295E50000BA89 /* OptimizedTriMeshElement.cpp in Sources */,
 				BE9D5E080BCEF2CF00AB129B /* QOGLShadingLanguage.cpp in Sources */,
 				BED329DB0C021C84006956C8 /* HiddenLine.cpp in Sources */,
+				BEBAACF30C0DF2C800C9225A /* QOShadowMarker.cpp in Sources */,
+				BEBAACF50C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
