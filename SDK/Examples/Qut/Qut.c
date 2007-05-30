@@ -5,7 +5,7 @@
         Quesa Utility Toolkit.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -111,7 +111,7 @@ qut_create_camera(TQ3DrawContextObject theDrawContext)
     TQ3Vector3D                     cameraUp    = { 0.0f, 1.0f, 0.0f };
     float                           fieldOfView = Q3Math_DegreesToRadians(50.0f);
     float                           hither      =  0.1f;
-    float                           yon         = 10.0f;
+    float                           yon         = INFINITY;
     float                           rectWidth, rectHeight;
     TQ3ViewAngleAspectCameraData    cameraData;
     TQ3Status                       qd3dStatus;
@@ -252,7 +252,7 @@ qut_create_lights(TQ3ViewObject theView)
     eyeLight.lightData.isOn       = kQ3True;
     eyeLight.lightData.color      = colourWhite;
     eyeLight.lightData.brightness = 0.2f;
-    eyeLight.castsShadows         = kQ3True;
+    eyeLight.castsShadows         = kQ3False;
     eyeLight.direction            = eyeDirection;
 
 
@@ -298,6 +298,34 @@ qut_create_defaults(TQ3ViewObject theView)
 
 
 //=============================================================================
+//      qut_set_depth_and_stencil_size : Set preferred sizes of depth and stencil.
+//-----------------------------------------------------------------------------
+// On Windows, it is not possible to set the pixel format of a window more than
+// once, so we must ask for a stencil buffer if we ever might want to turn on
+// shadows.
+static void
+qut_set_depth_and_stencil_size( TQ3ViewObject theView, TQ3DrawContextObject inDC )
+{
+#if !TARGET_API_MAC_OS8
+	TQ3Object	theRenderer;
+	TQ3Uns32	depthBits = 24;
+	TQ3Uns32	stencilBits = 8;
+	
+	Q3View_GetRenderer( theView, &theRenderer );
+	Q3Object_AddElement( theRenderer, kQ3ElementTypeDepthBits, &depthBits );
+	Q3Object_Dispose( theRenderer );
+
+	Q3Object_SetProperty( inDC,
+			kQ3DrawContextPropertyGLStencilBufferDepth,
+			sizeof(stencilBits), &stencilBits );
+#endif
+}
+
+
+
+
+
+//=============================================================================
 //      Public functions.
 //-----------------------------------------------------------------------------
 //      Qut_CreateView : Create the view.
@@ -333,6 +361,7 @@ Qut_CreateView( qutFuncAppCreateView appCreateView, qutFuncAppConfigureView appC
             qd3dStatus = Q3View_SetCamera(gView,         theCamera);
             qd3dStatus = Q3View_SetRendererByType(gView, kQ3RendererTypeInteractive);
 
+			qut_set_depth_and_stencil_size( gView, theDrawContext );
             qut_create_lights(gView);
             qut_create_defaults(gView);
 
