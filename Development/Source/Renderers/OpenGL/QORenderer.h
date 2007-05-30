@@ -95,11 +95,7 @@ enum ESlowPathMask
 typedef TQ3Uns32	SlowPathMask;
 
 // glBlendEquation type
-#if QUESA_OS_WIN32
-	typedef void (__stdcall * TQ3BlendEquationProcPtr) (GLenum blendType);
-#else
-	typedef void (* TQ3BlendEquationProcPtr) (GLenum blendType);
-#endif
+typedef void (QO_PROCPTR_TYPE * TQ3BlendEquationProcPtr) (GLenum blendType);
 
 /*!
 	@struct		ColorState
@@ -115,6 +111,22 @@ struct ColorState
 	float				specularControl;
 	float				alpha;
 	TQ3Switch			highlightState;
+};
+
+/*!
+	@struct		StyleState
+	@abstract	Structure to hold current values of styles.
+*/
+struct StyleState
+{
+	TQ3InterpolationStyle	mInterpolation;
+	TQ3BackfacingStyle		mBackfacing;
+	TQ3FillStyle			mFill;
+	TQ3OrientationStyle		mOrientation;
+	CQ3ObjectRef			mHilite;	
+	std::vector<TQ3FogStyleData>	mFogStyles;
+	TQ3Uns32				mCurFogStyleIndex;
+	bool					mIsCastingShadows;
 };
 
 /*!
@@ -154,6 +166,37 @@ struct MeshArrays
 	TQ3Object*			faceSurfaceShader;
 	
 	const TQ3ColorRGB*	edgeColor;
+};
+
+// Function pointer type for GL_EXT_stencil_two_side
+typedef void (QO_PROCPTR_TYPE * glActiveStencilFaceEXTProcPtr) (GLenum face);
+
+// Function pointer types for separate stencil, GL 2.0
+typedef void (QO_PROCPTR_TYPE * glStencilFuncSeparateProcPtr) (GLenum face, GLenum func, GLint ref, GLuint mask);
+typedef void (QO_PROCPTR_TYPE * glStencilOpSeparateProcPtr) (GLenum face, GLenum fail, GLenum zfail, GLenum zpass);
+typedef void (QO_PROCPTR_TYPE * glStencilMaskSeparateProcPtr) (GLenum face, GLuint mask);
+
+/*!
+	@struct		GLStencilFuncs
+	@abstract	OpenGL function pointers for two-sided stencils.
+*/
+struct GLStencilFuncs
+{
+								GLStencilFuncs();
+								
+	void						SetNULL();
+	
+	/*!
+		@function	Initialize
+		@abstract	Get the function pointers.  This should be called just
+					after the OpenGL context is created.
+	*/
+	void						Initialize( const TQ3GLExtensions& inExts );
+	
+	glActiveStencilFaceEXTProcPtr	glActiveStencilFace;
+	glStencilFuncSeparateProcPtr	glStencilFuncSeparate;
+	glStencilOpSeparateProcPtr		glStencilOpSeparate;
+	glStencilMaskSeparateProcPtr	glStencilMaskSeparate;
 };
 
 //=============================================================================
@@ -251,6 +294,8 @@ protected:
 									TQ3AntiAliasStyleData* inStyleData );
 	void					UpdateFogStyle(
 									const TQ3FogStyleData* inStyleData );
+	void					UpdateCastShadowsStyle(
+									TQ3Boolean inStyleData );
 	
 
 	//
@@ -309,6 +354,7 @@ protected:
 	TQ3GLContext			mGLContext;
 	GLContextCleanup		mCleanup;
 	GLSLFuncs				mSLFuncs;
+	GLStencilFuncs			mStencilFuncs;
 	PerPixelLighting		mPPLighting;
 	TQ3Uns32				mRendererEditIndex;
 	TQ3Uns32				mDrawContextEditIndex;
@@ -330,13 +376,7 @@ protected:
 	TQ3XAttributeMask		mAttributesMask;
 	
 	// style states
-	TQ3InterpolationStyle	mStyleInterpolation;
-	TQ3BackfacingStyle		mStyleBackfacing;
-	TQ3FillStyle			mStyleFill;
-	TQ3OrientationStyle		mStyleOrientation;
-	CQ3ObjectRef			mStyleHilite;	
-	std::vector<TQ3FogStyleData>	mFogStyles;
-	TQ3Uns32				mCurFogStyleIndex;
+	StyleState				mStyleState;
 	
 	// OpenGL client state
 	ClientStates			mGLClientStates;

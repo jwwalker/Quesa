@@ -46,6 +46,7 @@
 #include "QORenderer.h"
 
 #include "GLDrawContext.h"
+#include "GLUtils.h"
 
 
 
@@ -84,6 +85,41 @@ QORenderer::GLContextCleanup::~GLContextCleanup()
 	}
 }
 
+QORenderer::GLStencilFuncs::GLStencilFuncs()
+{
+	SetNULL();
+}
+
+void	QORenderer::GLStencilFuncs::SetNULL()
+{
+	glActiveStencilFace = NULL;
+	glStencilFuncSeparate = NULL;
+	glStencilOpSeparate = NULL;
+	glStencilMaskSeparate = NULL;
+}
+
+/*!
+	@function	Initialize
+	@abstract	Get the function pointers.  This should be called just
+				after the OpenGL context is created.
+*/
+void	QORenderer::GLStencilFuncs::Initialize( const TQ3GLExtensions& inExts )
+{
+	SetNULL();
+	
+	if (inExts.stencilTwoSide)
+	{
+		GLGetProcAddress( glActiveStencilFace, "glActiveStencilFaceEXT" );
+	}
+	
+	if (inExts.separateStencil)
+	{
+		GLGetProcAddress( glStencilFuncSeparate, "glStencilFuncSeparate" );
+		GLGetProcAddress( glStencilOpSeparate, "glStencilOpSeparate" );
+		GLGetProcAddress( glStencilMaskSeparate, "glStencilMaskSeparate" );
+	}
+}
+
 
 #pragma mark -
 
@@ -97,6 +133,7 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	, mGLContext( NULL )
 	, mCleanup( mGLContext )
 	, mSLFuncs()
+	, mStencilFuncs()
 	, mPPLighting( mSLFuncs, mRendererObject )
 	, mRendererEditIndex( Q3Shared_GetEditIndex( inRenderer ) )
 	, mDrawContextEditIndex( 0 )
@@ -106,7 +143,7 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	, mNumPasses( 1 )
 	, mLineWidth( 1.0f )
 	, mAttributesMask( kQ3XAttributeMaskAll )
-	, mLights( mGLExtensions )
+	, mLights( mGLExtensions, mStencilFuncs, mMatrixState, mStyleState )
 	, mTriBuffer( *this )
 	, mTransBuffer( *this, mPPLighting )
 	, mTextures( mRendererObject, mGLContext, mGLExtensions )
