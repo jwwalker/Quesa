@@ -337,8 +337,8 @@
 			children = (
 				BE0404A50B7FDC8200CC26D5 /* Quesa.framework */,
 				BE0404A70B7FDC8200CC26D5 /* Quesa.framework */,
-				BE0404A90B7FDC8200CC26D5 /* libQuesaD.a */,
-				BE0404AB0B7FDC8200CC26D5 /* libQuesaD.a */,
+				BE0404A90B7FDC8200CC26D5 /* libQuesa.a */,
+				BE0404AB0B7FDC8200CC26D5 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -555,17 +555,17 @@
 			remoteRef = BE0404A60B7FDC8200CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BE0404A90B7FDC8200CC26D5 /* libQuesaD.a */ = {
+		BE0404A90B7FDC8200CC26D5 /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libQuesaD.a;
+			path = libQuesa.a;
 			remoteRef = BE0404A80B7FDC8200CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BE0404AB0B7FDC8200CC26D5 /* libQuesaD.a */ = {
+		BE0404AB0B7FDC8200CC26D5 /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libQuesaD.a;
+			path = libQuesa.a;
 			remoteRef = BE0404AA0B7FDC8200CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -700,6 +700,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
