@@ -51,6 +51,57 @@
 #include "GLDisplayListManager.h"
 #include "CQ3ObjectRef_Gets.h"
 
+#ifndef STENCIL_TEST_TWO_SIDE_EXT
+	#define	STENCIL_TEST_TWO_SIDE_EXT	0x8910
+#endif
+
+//=============================================================================
+//      Local Functions
+//-----------------------------------------------------------------------------
+
+/*!
+	@function	AdjustStencilAndDepthForShadows
+	@abstract	Adjust stencil and depth resolution for stencil shadows.
+	@discussion	To do stencil shadows, we request 8 bits of stencil buffer.
+				In many cases, stencil and depth share space, so we cannot
+				request a 32-bit depth buffer.
+*/
+static bool
+AdjustStencilAndDepthForShadows( TQ3RendererObject inRenderer,
+								TQ3DrawContextObject inDrawContext )
+{
+	bool	changedPref = false;
+	TQ3Uns32	stencilBits = 0;
+	Q3Object_GetProperty( inDrawContext,
+		kQ3DrawContextPropertyGLStencilBufferDepth,
+		sizeof(stencilBits), NULL, &stencilBits );
+	
+	TQ3Uns32	depthBits = 32;
+	Q3Object_GetElement( inRenderer, kQ3ElementTypeDepthBits, &depthBits );
+	
+	if (stencilBits < 8)
+	{
+		stencilBits = 8;
+		
+		Q3Object_SetProperty( inDrawContext,
+			kQ3DrawContextPropertyGLStencilBufferDepth,
+			sizeof(stencilBits), &stencilBits );
+		
+		changedPref = true;
+	}
+	
+	if (stencilBits + depthBits > 32)
+	{
+		depthBits = 32 - stencilBits;
+		
+		Q3Object_AddElement( inRenderer, kQ3ElementTypeDepthBits, &depthBits );
+		
+		changedPref = true;
+	}
+	
+	return changedPref;
+}
+
 
 
 //=============================================================================
@@ -79,6 +130,20 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 		mDrawContextEditIndex = drawContextEditIndex;
 		drawContextFlags |= kQ3XDrawContextValidationClearFunction |
 			kQ3XDrawContextValidationDepthState;
+	}
+
+	// Check whether shadows are requested
+	TQ3Boolean	isShadowingRequested = kQ3False;
+	Q3Object_GetProperty( mRendererObject,
+		kQ3RendererPropertyShadows, sizeof(isShadowingRequested), NULL,
+		&isShadowingRequested );
+	
+	if (isShadowingRequested)
+	{
+		if (AdjustStencilAndDepthForShadows( mRendererObject, inDrawContext ))
+		{
+			drawContextFlags = kQ3XDrawContextValidationAll;
+		}
 	}
 
 #if QUESA_OS_MACINTOSH
@@ -167,6 +232,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 			GLUtils_CheckExtensions( &mGLExtensions );
 			mSLFuncs.Initialize( mGLExtensions );
+			mStencilFuncs.Initialize( mGLExtensions );
 			
 			
 			GLGetProcAddress( mGLBlendEqProc, "glBlendEquation",
@@ -183,9 +249,30 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	GLDrawContext_SetCurrent( mGLContext, kQ3True );
 	GLDrawContext_StartFrame( mGLContext );
 
+	
+	// If shadows are desired, check whether we got a stencil buffer,
+	// and whether we have some form of 2-sided stencil.
+	bool	isShadowing = false;
+	if ( isShadowingRequested &&
+		(mGLExtensions.stencilTwoSide || mGLExtensions.separateStencil) )
+	{
+		GLint	stencilBits = 0;
+		glGetIntegerv( GL_STENCIL_BITS, &stencilBits );
+		if (stencilBits >= 8)
+		{
+			isShadowing = true;
+		}
+	}
+	glDisable( GL_STENCIL_TEST );
+	
+	
+	// Multi-pass lighting may have turned off depth writing, which would
+	// prevent clearing the depth buffer if we do not reset it.
+	GLDrawContext_SetDepthState( inDrawContext );
 
+	
 	// Tell light manager that a frame is starting
-	mLights.StartFrame();
+	mLights.StartFrame( inView, isShadowing );
 	mPPLighting.StartFrame();
 
 
@@ -244,17 +331,18 @@ void		QORenderer::Renderer::StartPass(
 	SetEmissiveMaterial( mCurrentEmissiveColor );
 
 	// Initialize style states
-	mStyleInterpolation = kQ3InterpolationStyleVertex;
-	mStyleBackfacing = kQ3BackfacingStyleBoth;
-	mStyleFill = kQ3FillStyleFilled;
-	mStyleOrientation = kQ3OrientationStyleCounterClockwise;
-	mStyleHilite = CQ3ObjectRef();	// i.e., NULL
+	mStyleState.mInterpolation = kQ3InterpolationStyleVertex;
+	mStyleState.mBackfacing = kQ3BackfacingStyleBoth;
+	mStyleState.mFill = kQ3FillStyleFilled;
+	mStyleState.mOrientation = kQ3OrientationStyleCounterClockwise;
+	mStyleState.mHilite = CQ3ObjectRef();	// i.e., NULL
+	mStyleState.mIsCastingShadows = true;
 		
 	// Turn fog off.
-	mFogStyles.clear();
+	mStyleState.mFogStyles.clear();
 	TQ3FogStyleData	noFog = { kQ3Off };
-	mFogStyles.push_back( noFog );
-	mCurFogStyleIndex = 0;
+	mStyleState.mFogStyles.push_back( noFog );
+	mStyleState.mCurFogStyleIndex = 0;
 	
 	glEnable( GL_COLOR_MATERIAL );
 	glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
@@ -276,7 +364,10 @@ void		QORenderer::Renderer::StartPass(
 	
 	mLights.StartPass( inCamera, inLights );
 	mTextures.StartPass();
-	mPPLighting.StartPass();
+	if (! mLights.IsShadowMarkingPass())
+	{
+		mPPLighting.StartPass();
+	}
 }
 
 static bool IsSwapWanted( TQ3ViewObject inView )
@@ -301,7 +392,7 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 	bool isMoreNeeded;
 	GLenum	dstFactor = GL_ONE_MINUS_SRC_ALPHA;
 	
-	mLights.StartFrame();
+	mLights.StartFrame( inView, false );
 	do
 	{
 		mLights.StartPass( theCamera.get(), theLightGroup.get() );
