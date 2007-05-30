@@ -5,7 +5,7 @@
         Geometry test.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -124,6 +124,7 @@ enum {
 	kMenuItemToggleVertexNormals,
 	kMenuItemToggleTriangleNormals,
 	kMenuItemTogglePerPixelLighting,
+	kMenuItemToggleShadows,
 #endif
 	kMenuItemDivider0,
 	kMenuItemLoadModel,
@@ -3187,6 +3188,23 @@ togglePerPixelLighting( TQ3ViewObject theView )
 #endif
 
 
+#if !TARGET_API_MAC_OS8
+static void
+toggleShadows( TQ3ViewObject theView )
+{
+	TQ3Object	theRenderer;
+	TQ3Boolean	theFlag = kQ3False;
+
+	Q3View_GetRenderer( theView, &theRenderer );
+	Q3Object_GetProperty( theRenderer,
+		'shdw', sizeof(theFlag), NULL,
+		&theFlag );
+	theFlag = theFlag? kQ3False : kQ3True;
+	Q3Object_SetProperty( theRenderer, 'shdw',
+		sizeof(theFlag), &theFlag );
+	Q3Object_Dispose( theRenderer );
+}
+#endif
 
 
 
@@ -3244,6 +3262,10 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		
 		case kMenuItemTogglePerPixelLighting:
 			togglePerPixelLighting( theView );
+			break;
+		
+		case kMenuItemToggleShadows:
+			toggleShadows( theView );
 			break;
 	#endif
 		
@@ -3720,6 +3742,7 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Vertex Normals");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Triangle Normals");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Per-Pixel Lighting");
+	Qut_CreateMenuItem(kMenuItemLast, "Toggle Shadows");
 #endif
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Load Model...");
