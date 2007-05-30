@@ -120,6 +120,7 @@ void	QORenderer::MatrixState::Reset()
 	Q3Matrix4x4_SetIdentity( &mLocalToCamera );
 	Q3Matrix4x4_SetIdentity( &mCameraToFrustum );
 	mIsLocalToCameraInvTrValid = false;
+	mIsLocalToCameraInvValid = false;
 }
 
 
@@ -152,14 +153,22 @@ const TQ3Matrix4x4&	QORenderer::MatrixState::GetLocalToCameraInverseTranspose() 
 {
 	if (! mIsLocalToCameraInvTrValid)
 	{
-		TQ3Matrix4x4	theInv;
-		Q3Matrix4x4_Invert( &mLocalToCamera, &theInv );
+		const TQ3Matrix4x4&	theInv( GetCameraToLocal() );
 		Q3Matrix4x4_Transpose( &theInv, &mLocalToCameraInvTr );
 		mIsLocalToCameraInvTrValid = true;
 	}
 	return mLocalToCameraInvTr;
 }
 
+const TQ3Matrix4x4&		QORenderer::MatrixState::GetCameraToLocal() const
+{
+	if (! mIsLocalToCameraInvValid)
+	{
+		Q3Matrix4x4_Invert( &mLocalToCamera, &mLocalToCameraInv );
+		mIsLocalToCameraInvValid = true; 
+	}
+	return mLocalToCameraInv;
+}
 
 /*!
 	@function	SetLocalToCamera
@@ -169,6 +178,7 @@ void	QORenderer::MatrixState::SetLocalToCamera( const TQ3Matrix4x4& inMtx )
 {
 	mLocalToCamera = inMtx;
 	mIsLocalToCameraInvTrValid = false;
+	mIsLocalToCameraInvValid = false;
 }
 
 

@@ -77,6 +77,7 @@ public:
 	const TQ3Matrix4x4&		GetLocalToCamera() const;
 	const TQ3Matrix4x4&		GetCameraToFrustum() const;
 	const TQ3Matrix4x4&		GetLocalToCameraInverseTranspose() const;
+	const TQ3Matrix4x4&		GetCameraToLocal() const;
 	
 	void					SetLocalToCamera( const TQ3Matrix4x4& inMtx );
 	void					SetCameraToFrustum( const TQ3Matrix4x4& inMtx );
@@ -85,7 +86,9 @@ private:
 	TQ3Matrix4x4			mLocalToCamera;
 	TQ3Matrix4x4			mCameraToFrustum;
 	mutable TQ3Matrix4x4	mLocalToCameraInvTr;
+	mutable TQ3Matrix4x4	mLocalToCameraInv;
 	mutable bool			mIsLocalToCameraInvTrValid;
+	mutable bool			mIsLocalToCameraInvValid;
 };
 
 }
