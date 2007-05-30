@@ -112,6 +112,10 @@ struct TQ3GLExtensions
 	TQ3Boolean				frameBufferObjects;
 	TQ3Boolean				shadingLanguage;
 	TQ3Boolean				packedPixels;
+	bool					depthClamp;				// GL_NV_depth_clamp
+	bool					stencilTwoSide;			// GL_EXT_stencil_two_side
+	bool					separateStencil;
+	bool					stencilWrap;			// GL_EXT_stencil_wrap
 };
 
 

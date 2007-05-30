@@ -362,6 +362,27 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 			// cover the reversed formats like GL_UNSIGNED_INT_8_8_8_8_REV.
 			featureFlags->packedPixels = kQ3True;
 		}
+
+		if (isOpenGLExtensionPresent( openGLExtensions, "GL_NV_depth_clamp" ))
+		{
+			featureFlags->depthClamp = kQ3True;
+		}
+
+		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_stencil_two_side" ))
+		{
+			featureFlags->stencilTwoSide = kQ3True;
+		}
+		
+		if (glVersion >= 0x0200)
+		{
+			featureFlags->separateStencil = kQ3True;
+		}
+		
+		if ( (glVersion >= 0x0140) ||
+			isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_stencil_wrap" ) )
+		{
+			featureFlags->stencilWrap = kQ3True;
+		}
 	}
 }
 
