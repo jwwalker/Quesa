@@ -60,11 +60,6 @@
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
-#if QUESA_OS_WIN32
-	#define		QO_PROCPTR_TYPE		__stdcall
-#else
-	#define		QO_PROCPTR_TYPE
-#endif
 
 #ifndef GL_VERTEX_SHADER
 	#define GL_VERTEX_SHADER                  0x8B31
