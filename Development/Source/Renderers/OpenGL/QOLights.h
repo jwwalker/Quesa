@@ -58,6 +58,8 @@
 #include "QOPrefix.h"
 #include "CQ3ObjectRef.h"
 #include "QOShadowMarker.h"
+
+#include <cmath>
 #include <vector>
 
 
@@ -90,6 +92,7 @@ public:
 								, mMatrixState( inMatrixState )
 								, mStyleState( inStyleState )
 								, mLightCount( 0 )
+								, mSavedYon( INFINITY )
 								, mShadowMarker( mMatrixState, mStyleState,
 									mGLLightPosition )
 								, mIsOnlyAmbient( false ) {}
@@ -103,6 +106,9 @@ public:
 									TQ3GroupObject inLights );
 
 	bool					EndPass();
+	
+	void					EndFrame(
+									TQ3ViewObject inView );
 	
 	void					SetOnlyAmbient( bool inOnlyAmbient );
 	
@@ -153,6 +159,7 @@ private:
 	TQ3Uns32				mStartingLightIndexForPass;
 	GLint					mMaxGLLights;
 	GLfloat					mGLLightPosition[4];
+	float					mSavedYon;
 	
 	GLfloat					mGlAmbientLight[4];		// color of ambient light
 	ObVec					mNonShadowingLights;

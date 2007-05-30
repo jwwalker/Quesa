@@ -454,10 +454,31 @@ void	QORenderer::Lights::UseInfiniteYon( TQ3ViewObject inView )
 	Q3Camera_GetRange( theCamera.get(), &theRange );
 	if (isfinite( theRange.yon ))
 	{
+		mSavedYon = theRange.yon;
 		theRange.yon = INFINITY;
 		Q3Camera_SetRange( theCamera.get(), &theRange );
 	}
 }
+
+
+/*!
+	@function	EndFrame
+	
+	@abstract	Restore original yon.
+*/
+void	QORenderer::Lights::EndFrame(
+								TQ3ViewObject inView )
+{
+	if (isfinite( mSavedYon ))
+	{
+		CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
+		TQ3CameraRange	theRange;
+		Q3Camera_GetRange( theCamera.get(), &theRange );
+		theRange.yon = mSavedYon;
+		Q3Camera_SetRange( theCamera.get(), &theRange );
+	}
+}
+
 
 /*!
 	@function	SetUpShadowMarkingPass
