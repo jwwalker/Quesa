@@ -884,7 +884,7 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 	// We will only use normals to compute texture coordinates for shading.
 	mGLClientStates.DisableNormalArray();
 	
-	DrawContours( theView, geomData, mStyleBackfacing );
+	DrawContours( theView, geomData, mStyleState.mBackfacing );
 
 	if (m_glActiveTextureARB == NULL)
 	{
