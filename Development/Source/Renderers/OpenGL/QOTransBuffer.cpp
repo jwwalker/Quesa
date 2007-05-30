@@ -254,13 +254,13 @@ void	TransBuffer::AddPrim(
 	thePrim.mCameraToFrustumIndex = mCameraToFrustumMatrices.size() - 1;
 	
 	// Record some style state.
-	thePrim.mFillStyle = mRenderer.mStyleFill;
-	thePrim.mOrientationStyle = mRenderer.mStyleOrientation;
-	thePrim.mBackfacingStyle = mRenderer.mStyleBackfacing;
+	thePrim.mFillStyle = mRenderer.mStyleState.mFill;
+	thePrim.mOrientationStyle = mRenderer.mStyleState.mOrientation;
+	thePrim.mBackfacingStyle = mRenderer.mStyleState.mBackfacing;
 	thePrim.mSpecularColor = *mRenderer.mGeomState.specularColor;
 	thePrim.mSpecularControl = mRenderer.mCurrentSpecularControl;
 	thePrim.mIlluminationType = mRenderer.mViewIllumination;
-	thePrim.mFogStyleIndex = mRenderer.mCurFogStyleIndex;
+	thePrim.mFogStyleIndex = mRenderer.mStyleState.mCurFogStyleIndex;
 	
 	// Record the primitive.
 	mTransBuffer.push_back( thePrim );
@@ -453,16 +453,16 @@ void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 
 void	TransBuffer::UpdateFog( const TransparentPrim& inPrim )
 {
-	if (inPrim.mFogStyleIndex != mRenderer.mCurFogStyleIndex)
+	if (inPrim.mFogStyleIndex != mRenderer.mStyleState.mCurFogStyleIndex)
 	{
 		mRenderer.UpdateFogStyle(
-			&mRenderer.mFogStyles[ inPrim.mFogStyleIndex ] );
+			&mRenderer.mStyleState.mFogStyles[ inPrim.mFogStyleIndex ] );
 	}
 }
 
 void	TransBuffer::UpdateFill( const TransparentPrim& inPrim )
 {
-	if (inPrim.mFillStyle != mRenderer.mStyleFill)
+	if (inPrim.mFillStyle != mRenderer.mStyleState.mFill)
 	{
 		mRenderer.UpdateFillStyle( &inPrim.mFillStyle );
 	}
@@ -470,7 +470,7 @@ void	TransBuffer::UpdateFill( const TransparentPrim& inPrim )
 
 void	TransBuffer::UpdateOrientation( const TransparentPrim& inPrim )
 {
-	if (inPrim.mOrientationStyle != mRenderer.mStyleOrientation)
+	if (inPrim.mOrientationStyle != mRenderer.mStyleState.mOrientation)
 	{
 		mRenderer.UpdateOrientationStyle( &inPrim.mOrientationStyle );
 	}
@@ -478,7 +478,7 @@ void	TransBuffer::UpdateOrientation( const TransparentPrim& inPrim )
 
 void	TransBuffer::UpdateBackfacing( const TransparentPrim& inPrim )
 {
-	if (inPrim.mBackfacingStyle != mRenderer.mStyleBackfacing)
+	if (inPrim.mBackfacingStyle != mRenderer.mStyleState.mBackfacing)
 	{
 		mRenderer.UpdateBackfacingStyle( &inPrim.mBackfacingStyle );
 	}
