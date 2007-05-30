@@ -162,8 +162,8 @@ static CQ3ObjectRef CQ3AttributeSet_GetTextureShader( TQ3AttributeSet inAtts )
 	@abstract	Update a ColorState structure with data from an attribute set.
 */
 static void AdjustGeomState( TQ3AttributeSet inAttSet,
-							QORenderer::ColorState& ioGeomState ,
-							TQ3XAttributeMask inRendererMask)
+							QORenderer::ColorState& ioGeomState,
+							TQ3XAttributeMask inRendererMask )
 {
 	TQ3XAttributeMask	attMask = Q3XAttributeSet_GetMask( inAttSet );
 	
@@ -316,9 +316,9 @@ void	QORenderer::Renderer::HandleGeometryAttributes(
 		}
 	}
 	TQ3AttributeSet	hiliteAtts = NULL;
-	if ( mStyleHilite.isvalid() && (kQ3On == highlightSwitch) )
+	if ( mStyleState.mHilite.isvalid() && (kQ3On == highlightSwitch) )
 	{
-		hiliteAtts = mStyleHilite.get();
+		hiliteAtts = mStyleState.mHilite.get();
 	}
 	
 	if ( (inGeomAttSet != NULL) || (hiliteAtts != NULL) )
@@ -352,12 +352,12 @@ void	QORenderer::Renderer::HandleGeometryAttributes(
 		
 		if (inGeomAttSet != NULL)
 		{
-			AdjustGeomState( inGeomAttSet, mGeomState , mAttributesMask);
+			AdjustGeomState( inGeomAttSet, mGeomState , mAttributesMask );
 		}
 		
 		if (hiliteAtts != NULL)
 		{
-			AdjustGeomState( hiliteAtts, mGeomState , mAttributesMask);
+			AdjustGeomState( hiliteAtts, mGeomState , mAttributesMask );
 		}
 	}
 	
@@ -917,7 +917,7 @@ void	QORenderer::Renderer::RenderSlowPathTriMesh(
 				&triNormal );
 			Q3FastVector3D_Normalize( &triNormal, &triNormal );
 			
-			if (mStyleOrientation == kQ3OrientationStyleClockwise)
+			if (mStyleState.mOrientation == kQ3OrientationStyleClockwise)
 			{
 				Q3FastVector3D_Negate( &triNormal, &triNormal );
 			}
@@ -1091,7 +1091,7 @@ void	QORenderer::Renderer::RenderExplicitEdges(
 	// Render edges one line at a time.
 	glBegin( GL_LINES );
 	
-	if (mStyleBackfacing == kQ3BackfacingStyleRemove)
+	if (mStyleState.mBackfacing == kQ3BackfacingStyleRemove)
 	{
 		RenderCulledEdges( inView, inGeomData, inVertColors, inEdgeColors );
 	}
@@ -1147,7 +1147,7 @@ void	QORenderer::Renderer::RenderCulledEdges(
 			&thePlacement.cameraLocation, &viewVector );
 		Q3Vector3D_Transform( &viewVector, &worldToLocal, &viewVector );
 		
-		if (mStyleOrientation == kQ3OrientationStyleClockwise)
+		if (mStyleState.mOrientation == kQ3OrientationStyleClockwise)
 		{
 			// Logically we should flip the normal vector, but it is equivalent
 			// to flip the view vector.
@@ -1186,7 +1186,7 @@ void	QORenderer::Renderer::RenderCulledEdges(
 						&inGeomData.points[ faceData.pointIndices[0] ],
 						&cameraLocal, &viewVector );
 					
-					if (mStyleOrientation == kQ3OrientationStyleClockwise)
+					if (mStyleState.mOrientation == kQ3OrientationStyleClockwise)
 					{
 						// Logically we should flip the normal vector, but it is equivalent
 						// to flip the view vector.
@@ -1394,10 +1394,22 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 			whyNotFastPath = FindTriMeshData( *inGeomData, dataArrays );
 		}
 	}
+	
+	if (mLights.IsShadowMarkingPass())
+	{
+		if ( (mStyleState.mFill == kQ3FillStyleFilled) &&
+			((whyNotFastPath & kSlowPathMask_Transparency) == 0) )
+		{
+			mLights.MarkShadowOfTriMesh( inTriMesh, *inGeomData,
+				dataArrays.faceNormal );
+		}
+		didHandle = true;
+	}
 
 	// If we are in edge-fill mode and explicit edges have been provided,
 	// we may want to handle them here.
-	if ( (mStyleFill == kQ3FillStyleEdges) &&
+	if ( (! didHandle) &&
+		(mStyleState.mFill == kQ3FillStyleEdges) &&
 		(inGeomData->numEdges > 0) )
 	{
 		RenderExplicitEdges( inView, *inGeomData, dataArrays.vertNormal,
@@ -1493,7 +1505,7 @@ void	QORenderer::Renderer::SubmitTriangle(
 				&triNormal );
 			Q3FastVector3D_Normalize( &triNormal, &triNormal );
 			
-			if (mStyleOrientation == kQ3OrientationStyleClockwise)
+			if (mStyleState.mOrientation == kQ3OrientationStyleClockwise)
 			{
 				Q3FastVector3D_Negate( &triNormal, &triNormal );
 			}
@@ -1508,7 +1520,15 @@ void	QORenderer::Renderer::SubmitTriangle(
 	// if the color or texture is translucent, add the triangle to a
 	// buffer of transparent stuff, otherwise add it to a buffer of opaque
 	// triangles.
-	if ( ((flagUnion & kVertexHaveTransparency) != 0) ||
+	if (mLights.IsShadowMarkingPass())
+	{
+		if ( (mStyleState.mFill == kQ3FillStyleFilled) &&
+			((flagUnion & kVertexHaveTransparency) == 0) )
+		{
+			mLights.MarkShadowOfTriangle( theVertices );
+		}
+	}
+	else if ( ((flagUnion & kVertexHaveTransparency) != 0) ||
 		(mTextures.IsTextureActive() && mTextures.IsTextureTransparent()) )
 	{
 		mTransBuffer.AddTriangle( theVertices );
@@ -1535,6 +1555,10 @@ void	QORenderer::Renderer::SubmitPoint(
 		// Since NULL illumination disables lighting,  geometries with NULL
 		// illumination should only be handled in the first light pass.
 		return;
+	}
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;	// a Point does not cast a shadow
 	}
 
 	// Activate our context
@@ -1602,6 +1626,10 @@ void	QORenderer::Renderer::SubmitLine(
 		// Since NULL illumination disables lighting,  geometries with NULL
 		// illumination should only be handled in the first light pass.
 		return;
+	}
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;	// a Line does not cast a shadow
 	}
 
 	// Activate our context
@@ -1723,6 +1751,10 @@ void	QORenderer::Renderer::SubmitPolyLine(
 								TQ3GeometryObject inPolyLine,
 								const TQ3PolyLineData* inGeomData )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;	// a PolyLine does not cast a shadow
+	}
 	if (HasSegmentAtts( inGeomData ))
 	{
 		PassBuckOnPolyLine( inView, inPolyLine, inGeomData );
