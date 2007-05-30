@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE0403450B7FD06700CC26D5 /* VRML-Reader.quesaplug in Resources */ = {isa = PBXBuildFile; fileRef = BE04033C0B7FD06700CC26D5 /* VRML-Reader.quesaplug */; };
 		BE04038E0B7FD93800CC26D5 /* VRML-Reader.quesaplug in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BE04033C0B7FD06700CC26D5 /* VRML-Reader.quesaplug */; };
 		BE06F71808C5597C003DD37B /* 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71108C5597C003DD37B /* 2.tga */; };
 		BE06F71908C5597C003DD37B /* 1.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE06F71208C5597C003DD37B /* 1.tga */; };
@@ -108,7 +107,7 @@
 
 /* Begin PBXFileReference section */
 		32DBCF6D0370B57F00C91783 /* Geom Test_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Geom Test_Prefix.pch"; sourceTree = "<group>"; };
-		8D0C4E970486CD37000505A6 /* Geom Test Univ.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Geom Test Univ.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D0C4E970486CD37000505A6 /* Geom Test Univ D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Geom Test Univ D.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0402870B7FB64800CC26D5 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BE0402A40B7FB6BB00CC26D5 /* VRML-Reader.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "VRML-Reader.xcodeproj"; path = "../../Extras/VRML Reader/Projects/VRML-Reader.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		BE04033C0B7FD06700CC26D5 /* VRML-Reader.quesaplug */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "VRML-Reader.quesaplug"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,7 +153,7 @@
 		195DF8CFFE9D517E11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D0C4E970486CD37000505A6 /* Geom Test Univ.app */,
+				8D0C4E970486CD37000505A6 /* Geom Test Univ D.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -218,8 +217,8 @@
 			children = (
 				BE04028F0B7FB64800CC26D5 /* Quesa.framework */,
 				BE0402910B7FB64800CC26D5 /* Quesa.framework */,
-				BE0402930B7FB64800CC26D5 /* libQuesaD.a */,
-				BE0402950B7FB64800CC26D5 /* libQuesaD.a */,
+				BE0402930B7FB64800CC26D5 /* libQuesa.a */,
+				BE0402950B7FB64800CC26D5 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -286,7 +285,7 @@
 			name = "Geom Test";
 			productInstallPath = "$(HOME)/Applications";
 			productName = "Geom Test";
-			productReference = 8D0C4E970486CD37000505A6 /* Geom Test Univ.app */;
+			productReference = 8D0C4E970486CD37000505A6 /* Geom Test Univ D.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -329,17 +328,17 @@
 			remoteRef = BE0402900B7FB64800CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BE0402930B7FB64800CC26D5 /* libQuesaD.a */ = {
+		BE0402930B7FB64800CC26D5 /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libQuesaD.a;
+			path = libQuesa.a;
 			remoteRef = BE0402920B7FB64800CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BE0402950B7FB64800CC26D5 /* libQuesaD.a */ = {
+		BE0402950B7FB64800CC26D5 /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libQuesaD.a;
+			path = libQuesa.a;
 			remoteRef = BE0402940B7FB64800CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -366,7 +365,6 @@
 				BE06F71C08C5597C003DD37B /* 6.tga in Resources */,
 				BE06F71D08C5597C003DD37B /* 5.tga in Resources */,
 				BE06F74A08C55CD4003DD37B /* Quesa.tga in Resources */,
-				BE0403450B7FD06700CC26D5 /* VRML-Reader.quesaplug in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,13 +443,13 @@
 		BEDC057B08A5B9E800FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
 			};
 			name = Debug;
 		};
 		BEDC057C08A5B9E800FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
 			};
 			name = Release;
 		};
