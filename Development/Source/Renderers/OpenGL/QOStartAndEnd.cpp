@@ -438,6 +438,10 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 
 	mTextures.EndPass();
 	mPPLighting.EndPass();
+	if (allDone == kQ3ViewStatusDone)
+	{
+		mLights.EndFrame( inView );
+	}
 	
 	// If this is the end of several lighting passes, handling transparency is
 	// trickier.
