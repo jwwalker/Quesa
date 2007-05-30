@@ -261,6 +261,11 @@ private:
 									void* privateData,
 									const void* publicData );
 
+	static TQ3Status			UpdateCastShadowsStyleMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const void* publicData );
+
 };
 	
 }
