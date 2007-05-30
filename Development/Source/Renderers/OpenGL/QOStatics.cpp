@@ -633,6 +633,17 @@ TQ3Status	QORenderer::Statics::UpdateAntiAliasStyleMethod(
 	return kQ3Success;
 }
 
+TQ3Status	QORenderer::Statics::UpdateCastShadowsStyleMethod(
+								TQ3ViewObject inView,
+								void* privateData,
+								const void* publicData )
+{
+#pragma unused( inView )
+	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
+	me->UpdateCastShadowsStyle( * (TQ3Boolean*) publicData );
+	return kQ3Success;
+}
+
 TQ3Status	QORenderer::Statics::UpdateFogStyleMethod(
 								TQ3ViewObject inView,
 								void* privateData,
@@ -643,6 +654,7 @@ TQ3Status	QORenderer::Statics::UpdateFogStyleMethod(
 	me->UpdateFogStyle( (TQ3FogStyleData*) publicData );
 	return kQ3Success;
 }
+
 
 TQ3XRendererUpdateStyleMethod
 							QORenderer::Statics::UpdateStyleSubMetaHandler(
@@ -685,6 +697,11 @@ TQ3XRendererUpdateStyleMethod
 		case kQ3StyleTypeFog:
 			theMethod = (TQ3XRendererUpdateStyleMethod)
 				&QORenderer::Statics::UpdateFogStyleMethod;
+			break;
+		
+		case kQ3StyleTypeCastShadows:
+			theMethod = (TQ3XRendererUpdateStyleMethod)
+				&QORenderer::Statics::UpdateCastShadowsStyleMethod;
 			break;
 	}
 	
