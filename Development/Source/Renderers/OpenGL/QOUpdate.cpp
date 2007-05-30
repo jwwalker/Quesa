@@ -133,6 +133,11 @@ void	QORenderer::Renderer::UpdateHiliteState(
 void	QORenderer::Renderer::UpdateSurfaceShader(
 								TQ3ShaderObject inShader )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;
+	}
+
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -159,6 +164,11 @@ void	QORenderer::Renderer::UpdateSurfaceShader(
 void	QORenderer::Renderer::UpdateIlluminationShader(
 								TQ3ShaderObject inShader )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;
+	}
+	
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -213,6 +223,11 @@ void	QORenderer::Renderer::UpdateIlluminationShader(
 void	QORenderer::Renderer::UpdateInterpolationStyle(
 								const TQ3InterpolationStyle* inStyleData )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;
+	}
+	
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -220,10 +235,10 @@ void	QORenderer::Renderer::UpdateInterpolationStyle(
 	mTriBuffer.Flush();
 	
 	
-	mStyleInterpolation = *inStyleData;
+	mStyleState.mInterpolation = *inStyleData;
 	
 	
-	switch (mStyleInterpolation)
+	switch (mStyleState.mInterpolation)
 	{
 		case kQ3InterpolationStyleNone:
 			glShadeModel( GL_FLAT );
@@ -240,6 +255,12 @@ void	QORenderer::Renderer::UpdateInterpolationStyle(
 void	QORenderer::Renderer::UpdateBackfacingStyle(
 								const TQ3BackfacingStyle* inStyleData )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		mStyleState.mBackfacing = *inStyleData;
+		return;
+	}
+	
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -247,10 +268,10 @@ void	QORenderer::Renderer::UpdateBackfacingStyle(
 	mTriBuffer.Flush();
 	
 	
-	mStyleBackfacing = *inStyleData;
+	mStyleState.mBackfacing = *inStyleData;
 	
 	
-	switch (mStyleBackfacing)
+	switch (mStyleState.mBackfacing)
 	{
 		case kQ3BackfacingStyleRemove:
 			glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE );
@@ -270,6 +291,12 @@ void	QORenderer::Renderer::UpdateBackfacingStyle(
 void	QORenderer::Renderer::UpdateFillStyle(
 								const TQ3FillStyle* inStyleData )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		mStyleState.mFill = *inStyleData;
+		return;
+	}
+
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -277,10 +304,10 @@ void	QORenderer::Renderer::UpdateFillStyle(
 	mTriBuffer.Flush();
 	
 	
-	mStyleFill = *inStyleData;
+	mStyleState.mFill = *inStyleData;
 	
 	
-	switch (mStyleFill)
+	switch (mStyleState.mFill)
 	{
 		case kQ3FillStylePoints:
 			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
@@ -301,6 +328,11 @@ void	QORenderer::Renderer::UpdateFillStyle(
 void	QORenderer::Renderer::UpdateOrientationStyle(
 								const TQ3OrientationStyle* inStyleData )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;
+	}
+	
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -308,10 +340,10 @@ void	QORenderer::Renderer::UpdateOrientationStyle(
 	mTriBuffer.Flush();
 	
 	
-	mStyleOrientation = *inStyleData;
+	mStyleState.mOrientation = *inStyleData;
 	
 	
-	switch (mStyleOrientation)
+	switch (mStyleState.mOrientation)
 	{
 		case kQ3OrientationStyleClockwise:
 			glFrontFace( GL_CW );
@@ -327,6 +359,11 @@ void	QORenderer::Renderer::UpdateOrientationStyle(
 void	QORenderer::Renderer::UpdateHighlightStyle(
 								TQ3AttributeSet* inStyleData )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;
+	}
+	
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -336,11 +373,11 @@ void	QORenderer::Renderer::UpdateHighlightStyle(
 	
 	if (*inStyleData == NULL)
 	{
-		mStyleHilite = CQ3ObjectRef();
+		mStyleState.mHilite = CQ3ObjectRef();
 	}
 	else
 	{
-		mStyleHilite = CQ3ObjectRef( Q3Shared_GetReference( *inStyleData ) );
+		mStyleState.mHilite = CQ3ObjectRef( Q3Shared_GetReference( *inStyleData ) );
 	}
 	
 }
@@ -348,6 +385,11 @@ void	QORenderer::Renderer::UpdateHighlightStyle(
 void	QORenderer::Renderer::UpdateAntiAliasStyle(
 								TQ3AntiAliasStyleData* inStyleData )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;
+	}
+	
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -386,6 +428,12 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 void	QORenderer::Renderer::UpdateFogStyle(
 								const TQ3FogStyleData* inStyleData )
 {
+	if (mLights.IsShadowMarkingPass())
+	{
+		return;
+	}
+	
+	
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
@@ -435,14 +483,14 @@ void	QORenderer::Renderer::UpdateFogStyle(
 	// transparent triangles.
 	// Note that the find operation uses a custom operator== for fog data.
 	std::vector<TQ3FogStyleData>::iterator foundFog =
-		std::find( mFogStyles.begin(), mFogStyles.end(),
+		std::find( mStyleState.mFogStyles.begin(), mStyleState.mFogStyles.end(),
 		*inStyleData );
-	if (foundFog == mFogStyles.end())
+	if (foundFog == mStyleState.mFogStyles.end())
 	{
 		try
 		{
-			mFogStyles.push_back( *inStyleData );
-			mCurFogStyleIndex = mFogStyles.size() - 1;
+			mStyleState.mFogStyles.push_back( *inStyleData );
+			mStyleState.mCurFogStyleIndex = mStyleState.mFogStyles.size() - 1;
 		}
 		catch (...)
 		{
@@ -450,6 +498,19 @@ void	QORenderer::Renderer::UpdateFogStyle(
 	}
 	else
 	{
-		mCurFogStyleIndex = foundFog - mFogStyles.begin();
+		mStyleState.mCurFogStyleIndex = foundFog - mStyleState.mFogStyles.begin();
 	}
+}
+
+void	QORenderer::Renderer::UpdateCastShadowsStyle(
+									TQ3Boolean inStyleData )
+{
+	// Activate our context
+	GLDrawContext_SetCurrent( mGLContext, kQ3False );
+	
+	
+	mTriBuffer.Flush();
+	
+	
+	mStyleState.mIsCastingShadows = (inStyleData == kQ3True);
 }
