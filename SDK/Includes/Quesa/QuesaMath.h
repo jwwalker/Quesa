@@ -386,7 +386,7 @@ Q3Vector2D_To3D (
  *
  *      Available in inline form as Q3FastVector2D_ToRationalPoint3D.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param vector2D         Address of 2D vector to convert.
  *  @param result           Address of 3D rational point to set.
@@ -438,7 +438,7 @@ Q3Vector3D_To2D (
  *
  *      Available in inline form as Q3FastRationalPoint3D_ToVector2D.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param rationalPoint3D  Address of 3D rational point to convert.
  *  @param result           Address of 2D vector to set.
@@ -464,7 +464,7 @@ Q3RationalPoint3D_ToVector2D (
  *
  *      Available in inline form as Q3FastVector3D_ToRationalPoint4D.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param vector3D         Address of 3D vector to convert.
  *  @param result           Address of 4D rational point to set.
@@ -490,7 +490,7 @@ Q3Vector3D_ToRationalPoint4D (
  *
  *      Available in inline form as Q3FastRationalPoint4D_ToVector3D.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param rationalPoint4D  Address of 4D rational point to convert.
  *  @param result           Address of 3D vector to set.
@@ -741,7 +741,7 @@ Q3Vector3D_Dot (
  *      At least one of dotProducts or dotLessThanZero must be non-NULL, however
  *      one parameter may be set to NULL if that information is not required.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param inFirstVectors3D             First array of 3D vectors to dot.
  *  @param inSecondVectors3D            Second array of 3D vectors to dot.
@@ -810,9 +810,9 @@ Q3Vector2D_Cross (
  *		Return the length of the cross product of a triangle specified by
  *		three 2D points, that is, of the vectors p2-p1 and p3-p2.
  *
- *      <em>This function is not available in QD3D.</em>
- *
  *      Available in inline form as Q3FastPoint2D_CrossProductTri.
+ *
+ *	@availability			This function is not available in QD3D.
  *
  *  @param p1               Address of one point in the triangle.
  *  @param p2               Address of a second point in the triangle.
@@ -897,7 +897,7 @@ Q3Point3D_CrossProductTri (
  *
  *      The returning vectors are normalized.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param numTriangles     The number of triangles to process.
  *  @param usageFlags       The optional usage flags, indicating the triangles to process.
@@ -962,7 +962,7 @@ Q3Vector2D_Length (
  *
  *      Available in inline form as Q3FastVector2D_LengthSquared.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param vector2D         Address of vector to get length of.
  *  @result                 Squared length of the given vector.
@@ -1010,7 +1010,7 @@ Q3Vector3D_Length (
  *
  *      Available in inline form as Q3FastVector3D_LengthSquared.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param vector3D         Address of vector to get length of.
  *  @result                 Squared length of the given vector.
@@ -2131,7 +2131,7 @@ Q3Param2D_Transform (
  *  @discussion
  *		Transform a 3D rational point by 3x3 matrix.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param rationalPoint3D  Address of a point to transform.
  *  @param matrix3x3        Address of a 3x3 transformation matrix.
@@ -2200,7 +2200,7 @@ Q3RationalPoint4D_Transform (
  *		When you have many vectors to transform, this is a more efficient
  *		alternative to calling Q3Vector2D_Transform repeatedly.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param inVectors2D      Array of 2D vectors to transform.
  *  @param matrix3x3        Transformation matrix.
@@ -2235,7 +2235,7 @@ Q3Vector2D_To2DTransformArray (
  *		When you have many vectors to transform, this is a more efficient
  *		alternative to calling Q3Vector3D_Transform repeatedly.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param inVectors3D      Array of 3D vectors to transform.
  *  @param matrix4x4        Transformation matrix.
@@ -2270,7 +2270,7 @@ Q3Vector3D_To3DTransformArray (
  *		When you have many points to transform, this is a more efficient
  *		alternative to calling Q3Point2D_Transform repeatedly.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param inPoints2D       Array of 2D points to transform.
  *  @param matrix3x3        Transformation matrix.
@@ -2305,7 +2305,7 @@ Q3Point2D_To2DTransformArray (
  *		When you have many vectors to transform, this is a more efficient
  *		alternative to calling Q3Point2D_To3D and Q3RationalPoint3D_Transform repeatedly.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param inPoints2D       Array of 2D points to transform.
  *  @param matrix3x3        Transformation matrix.
@@ -2340,7 +2340,7 @@ Q3Point2D_To3DTransformArray (
  *		When you have many points to transform, this is a more efficient
  *		alternative to calling Q3RationalPoint3D_Transform repeatedly.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param inRationalPoints3D Array of 3D rational points to transform.
  *  @param matrix3x3        Transformation matrix.
@@ -2584,7 +2584,7 @@ Q3Matrix4x4_SetScale (
  *  @discussion
  *		Set a 3x3 matrix to rotate about the origin.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param matrix3x3        Address of matrix to set.
  *  @param angle            Angle to rotate (in radians).
@@ -3436,7 +3436,7 @@ Q3Quaternion_InterpolateLinear (
  *		that result.  (You could even pass null for both, but that would be
  *		rather pointless.)
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param quaternion       Address of a quaternion to inspect.
  *  @param outAxis          Address of a vector to set to the rotation axis (may be null).
@@ -3517,7 +3517,7 @@ Q3Point3D_TransformQuaternion (
  *
  *      Available in inline form as Q3FastBoundingBox_Reset.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param bBox             Address of bounding box to reset.
  *  @result                 Convenience copy of bBox parameter.
@@ -3698,7 +3698,7 @@ Q3BoundingBox_UnionRationalPoint4D (
  *
  *      Available in inline form as Q3FastBoundingSphere_Reset.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param bSphere          Address of bounding sphere to reset.
  *  @result                 Convenience copy of bSphere parameter.
@@ -3880,7 +3880,7 @@ Q3BoundingSphere_UnionRationalPoint4D (
  *
  *      The direction vector of the ray must be normalised.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param theRay           The ray to test.
  *  @param theSphere        The sphere to test against.
@@ -3909,7 +3909,7 @@ Q3Ray3D_IntersectSphere (
  *
  *      The direction vector of the ray must be normalised.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param theRay           The ray to test.
  *  @param theBounds        The bounding box to test against.
@@ -3934,34 +3934,43 @@ Q3Ray3D_IntersectBoundingBox (
  *      Q3Ray3D_IntersectTriangle
  *  @discussion
  *      Test a ray for intersection against a triangle formed by three
- *      points. If an intersection occurs, returns the barycentric
- *      coordinates of the point of intersection and the distance along
+ *      points.  If an intersection occurs, returns the barycentric
+ *      coordinates of the point of intersection and the parameter along
  *      the ray.
  *
  *      Triangles may optionally be subject to backface culling, in
  *      which case a hit on the reverse side of the triangle will fail
  *      to result in an intersection.
  *
- *      Barycentric coordinates can be used to interpolate the triangle
- *      vertices to obtain the exact point of intersection, like so:
+ *		The u and v members of hitPoint can be used to express the point of
+ *		intersection in terms of the vertices of the triangles, using
+ *		barycentric coordinates, as follows:
  *
+ *		<pre>
  *        t = (1.0f - hitPoint.u - hitPoint.v);
  *        x = (point1.x * t) + (point2.x * hitPoint.u) + (point3.x * hitPoint.v);
  *        y = (point1.y * t) + (point2.y * hitPoint.u) + (point3.y * hitPoint.v);
  *        z = (point1.z * t) + (point2.z * hitPoint.u) + (point3.z * hitPoint.v);
+ *		</pre>
  *
- *      Similar calculations can be made for vertex normals, UVs, or any
- *      other vertex attribute. The w component of hitPoint is set to the
- *      distance along the ray at which the intersection occurs.
+ *		The w component of hitPoint describes the point of intersection in
+ *		terms of the ray, as origin + hitPoint.w * direction.
  *
- *      <em>This function is not available in QD3D.</em>
+ *		The direction vector of the ray need not be normalized.  However, if it
+ *		is normalized, then hitPoint.w is the distance from the origin of the
+ *		ray to the point of intersection.  In more generality, the distance is
+ *		hitPoint.w times the length of the direction vector.
+ *
+ *	@availability			This function is not available in QD3D.
  *
  *  @param theRay           The ray to test.
  *  @param point1           The first triangle vertex.
  *  @param point2           The second triangle vertex.
  *  @param point3           The third triangle vertex.
  *  @param cullBackfacing   Controls if back-facing triangles should be skipped.
- *  @param hitPoint         Receives the barycentric coordinates of the intersection, and the distance along the ray.
+ *  @param hitPoint         Receives the barycentric coordinates of the
+ *							intersection, and the multiple of the direction
+ *							vector that reaches the intersection.
  *  @result                 Indicates if the ray intersects the triangle.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3999,7 +4008,7 @@ Q3Ray3D_IntersectTriangle (
  *      suffice for most non-accumulating 3D operations. If a reliable degree
  *      of precision is required, sqrt() should be used instead.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param x                The number whose square root should be returned.
  *  @result                 Approximate square root of x.
@@ -4025,7 +4034,7 @@ Q3Math_SquareRoot (
  *      suffice for most non-accumulating 3D operations. If a reliable degree
  *      of precision is required, 1.0/sqrt() should be used instead.
  *
- *      <em>This function is not available in QD3D.</em>
+ *	@availability			This function is not available in QD3D.
  *
  *  @param x                The number whose inverse square root should be returned.
  *  @result                 Approximate inverse square root of x.
