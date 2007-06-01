@@ -5,7 +5,7 @@
         Header file for E3Math.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -164,6 +164,8 @@ float					E3Point3D_Distance(const TQ3Point3D *p1, const TQ3Point3D *p2);
 float					E3Point3D_DistanceSquared(const TQ3Point3D *p1, const TQ3Point3D *p2);
 float					E3RationalPoint4D_Distance(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2);
 float					E3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D *p2);
+float					E3Point3D_BoundingBox_DistanceSquared( const TQ3Point3D *p, const TQ3BoundingBox* box,
+								TQ3Point3D* outNearest );
 
 
 
