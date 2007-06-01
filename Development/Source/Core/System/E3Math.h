@@ -361,6 +361,9 @@ TQ3BoundingBox *		E3BoundingBox_Copy(const TQ3BoundingBox *bBox, TQ3BoundingBox 
 TQ3BoundingBox *		E3BoundingBox_Union(const TQ3BoundingBox *b1, const TQ3BoundingBox *b2, TQ3BoundingBox *result);
 TQ3BoundingBox *		E3BoundingBox_UnionPoint3D(const TQ3BoundingBox *bBox, const TQ3Point3D *point3D, TQ3BoundingBox *result);
 TQ3BoundingBox *		E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox, const TQ3RationalPoint4D *rationalPoint4D, TQ3BoundingBox *result);
+void					E3BoundingBox_GetCorners( const TQ3BoundingBox *inBox, TQ3Point3D* out8Corners );
+void					E3BoundingBox_Transform( const TQ3BoundingBox *inBox, const TQ3Matrix4x4* inMtx,
+												TQ3BoundingBox* outBox );
 
 
 
