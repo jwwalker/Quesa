@@ -1388,6 +1388,49 @@ E3Point3D_DistanceSquared(const TQ3Point3D *p1, const TQ3Point3D *p2)
 
 
 
+/*!
+	@function	E3Point3D_BoundingBox_DistanceSquared
+	@abstract	Compute squared distance from a point to a bounding box.
+	@param		p			A point.
+	@param		box			A bounding box.
+	@param		outNearest	Receives the point of the bounding box that is
+							nearest to p.  You may pass NULL if you do not
+							need this information.
+	@result		The squared distance.
+*/
+float
+E3Point3D_BoundingBox_DistanceSquared( const TQ3Point3D *p,
+								const TQ3BoundingBox* box,
+								TQ3Point3D* outNearest )
+{
+	float	theDistanceSq;
+	
+	if (box->isEmpty)
+	{
+		theDistanceSq = INFINITY;
+	}
+	else
+	{
+		TQ3Point3D	nearest;
+		nearest.x = E3Num_Clamp( p->x, box->min.x,  box->max.x );
+		nearest.y = E3Num_Clamp( p->y, box->min.y,  box->max.y );
+		nearest.z = E3Num_Clamp( p->z, box->min.z,  box->max.z );
+		
+		theDistanceSq = Q3FastPoint3D_DistanceSquared( p, &nearest );
+		
+		if (outNearest != NULL)
+		{
+			*outNearest = nearest;
+		}
+	}
+	
+	return theDistanceSq;
+}
+
+
+
+
+
 //=============================================================================
 //      E3RationalPoint4D_Distance : Return Euclidean distance.
 //-----------------------------------------------------------------------------
