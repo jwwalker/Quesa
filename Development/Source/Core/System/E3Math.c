@@ -49,7 +49,7 @@
 #include "E3Prefix.h"
 #include "E3Math.h"
 #include "E3Utils.h"
-
+#include <limits>
 
 
 
@@ -1407,7 +1407,7 @@ E3Point3D_BoundingBox_DistanceSquared( const TQ3Point3D *p,
 	
 	if (box->isEmpty)
 	{
-		theDistanceSq = INFINITY;
+		theDistanceSq = std::numeric_limits<float>::infinity();
 	}
 	else
 	{

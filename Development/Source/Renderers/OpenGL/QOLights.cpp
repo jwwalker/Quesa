@@ -50,6 +50,7 @@
 #include "E3ErrorManager.h"
 #include "CQ3ObjectRef_Gets.h"
 #include <cmath>
+#include <limits>
 using namespace std;
 
 
@@ -455,7 +456,7 @@ void	QORenderer::Lights::UseInfiniteYon( TQ3ViewObject inView )
 	if (isfinite( theRange.yon ))
 	{
 		mSavedYon = theRange.yon;
-		theRange.yon = INFINITY;
+		theRange.yon = std::numeric_limits<float>::infinity();
 		Q3Camera_SetRange( theCamera.get(), &theRange );
 	}
 }
