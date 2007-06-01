@@ -4416,6 +4416,68 @@ E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox,
 
 
 
+/*!
+	@function	E3BoundingBox_GetCorners
+	@abstract	Find the 8 corners of a bounding box.
+	@param		inBox			A bounding box.
+	@param		out8Corners		Receives the corners.  You must allocate space
+								for at least 8 points.
+*/
+void
+E3BoundingBox_GetCorners( const TQ3BoundingBox *inBox, TQ3Point3D* out8Corners )
+{
+	out8Corners[0] = inBox->min;
+	out8Corners[7] = inBox->max;
+
+	out8Corners[1] =
+	out8Corners[2] =
+	out8Corners[3] = out8Corners[0];
+
+	out8Corners[1].x = out8Corners[7].x;
+	out8Corners[2].y = out8Corners[7].y;
+	out8Corners[3].z = out8Corners[7].z;
+
+	out8Corners[4] =
+	out8Corners[5] =
+	out8Corners[6] = out8Corners[7];
+
+	out8Corners[4].x = out8Corners[0].x;
+	out8Corners[5].y = out8Corners[0].y;
+	out8Corners[6].z = out8Corners[0].z;
+}
+
+
+
+
+/*!
+	@function	E3BoundingBox_Transform
+	@abstract	Compute a bounding box for a transformed bounding box.
+	@discussion	Be aware that if you compute a tight bounding box for a set of
+				points S, and then transform the bounding box, the result will
+				usually not be the tightest bounding box for the transformation
+				of S.
+	@param		inBox		The original bounding box.
+	@param		inMtx		The transformation matrix to apply.
+	@param		outBox		Receives the transformed bounding box.  This is
+							permitted to point to the same address as inBox.
+*/
+void
+E3BoundingBox_Transform( const TQ3BoundingBox *inBox, const TQ3Matrix4x4* inMtx,
+												TQ3BoundingBox* outBox )
+{
+	TQ3Point3D	theCorners[8];
+	E3BoundingBox_GetCorners( inBox, theCorners );
+	
+	E3Point3D_To3DTransformArray( theCorners, inMtx, theCorners, 8,
+		sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
+	
+	E3BoundingBox_SetFromPoints3D( outBox, theCorners, 8, sizeof(TQ3Point3D) );
+}
+
+
+
+
+
 //=============================================================================
 //      E3BoundingSphere_Reset : Reset (set to empty) bounding sphere.
 //-----------------------------------------------------------------------------
