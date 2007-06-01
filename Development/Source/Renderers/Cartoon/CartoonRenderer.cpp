@@ -86,6 +86,7 @@
 */
 #include "CartoonRenderer.h"
 #include "GLPrefix.h"
+#include "E3Math.h"
 
 #include <cstdlib>
 #include <cmath>
@@ -574,14 +575,7 @@ float	CCartoonRendererQuesa::CalcContourWidth( TQ3ViewObject theView, TQ3TriMesh
 	
 	// Get the corners of the bounding box.
 	TQ3Point3D	corners[8];
-	corners[0] = corners[1] = corners[2] = corners[3] = geomData->bBox.min;
-	corners[4] = corners[5] = corners[6] = corners[7] = geomData->bBox.max;
-	corners[1].x = corners[7].x;
-	corners[2].y = corners[7].y;
-	corners[3].z = corners[7].z;
-	corners[4].x = corners[0].x;
-	corners[5].y = corners[0].y;
-	corners[6].z = corners[0].z;
+	E3BoundingBox_GetCorners( &geomData->bBox, corners );
 	
 	// Transform the corners to screen coordinates.
 	Q3Point3D_To3DTransformArray( corners, &localToWindow, corners, 8, sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
