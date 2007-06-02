@@ -121,6 +121,7 @@ void	QORenderer::MatrixState::Reset()
 	Q3Matrix4x4_SetIdentity( &mCameraToFrustum );
 	mIsLocalToCameraInvTrValid = false;
 	mIsLocalToCameraInvValid = false;
+	mIsLocalToFrustumValid = false;
 }
 
 
@@ -170,6 +171,16 @@ const TQ3Matrix4x4&		QORenderer::MatrixState::GetCameraToLocal() const
 	return mLocalToCameraInv;
 }
 
+const TQ3Matrix4x4&		QORenderer::MatrixState::GetLocalToFrustum() const
+{
+	if (! mIsLocalToFrustumValid)
+	{
+		Q3Matrix4x4_Multiply( &mLocalToCamera, &mCameraToFrustum, &mLocalToFrustum );
+		mIsLocalToFrustumValid = true;
+	}
+	return mLocalToFrustum;
+}
+
 /*!
 	@function	SetLocalToCamera
 	@abstract	Change the local to camera matrix.
@@ -179,6 +190,7 @@ void	QORenderer::MatrixState::SetLocalToCamera( const TQ3Matrix4x4& inMtx )
 	mLocalToCamera = inMtx;
 	mIsLocalToCameraInvTrValid = false;
 	mIsLocalToCameraInvValid = false;
+	mIsLocalToFrustumValid = false;
 }
 
 
@@ -189,6 +201,7 @@ void	QORenderer::MatrixState::SetLocalToCamera( const TQ3Matrix4x4& inMtx )
 void	QORenderer::MatrixState::SetCameraToFrustum( const TQ3Matrix4x4& inMtx )
 {
 	mCameraToFrustum = inMtx;
+	mIsLocalToFrustumValid = false;
 }
 
 #pragma mark -
