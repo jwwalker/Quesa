@@ -54,6 +54,7 @@
 #include "OptimizedTriMeshElement.h"
 #include "E3Memory.h"
 #include "E3View.h"
+#include "E3Math.h"
 
 
 
@@ -1316,6 +1317,23 @@ bool	QORenderer::Renderer::IsFakeSeparateSpecularColorNeeded() const
 			mTextures.IsTextureActive();
 }
 
+
+/*!
+	@function	IsBoundsVisible
+	@abstract	Test whether a bounding box may be visible, for culling.
+*/
+bool	QORenderer::Renderer::IsBoundsVisible( const TQ3BoundingBox& inLocalBox ) const
+{
+	TQ3BoundingBox	frustumBox;
+	E3BoundingBox_Transform( &inLocalBox, &mMatrixState.GetLocalToFrustum(),
+		&frustumBox );
+	
+	return (frustumBox.min.x < 1.0f) &&
+		(frustumBox.max.x > -1.0f) &&
+		(frustumBox.min.y < 1.0f) &&
+		(frustumBox.max.y > -1.0f);
+}
+
 /*!
 	@function		SubmitTriMesh
 	
@@ -1335,6 +1353,12 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	{
 		// Since NULL illumination disables lighting,  geometries with NULL
 		// illumination should only be handled in the first light pass.
+		return true;
+	}
+	
+	// Visibility culling
+	if ( ! IsBoundsVisible( inGeomData->bBox ))
+	{
 		return true;
 	}
 	
