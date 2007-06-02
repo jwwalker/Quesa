@@ -347,6 +347,7 @@ protected:
 	bool					IsFirstPass() const { return (mPassIndex == 0) &&
 														mLights.IsFirstPass(); }
 	void					RenderTransparent( TQ3ViewObject inView );
+	bool					IsBoundsVisible( const TQ3BoundingBox& inLocalBox ) const;
 
 	
 	TQ3RendererObject		mRendererObject;
