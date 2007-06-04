@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Math.h"
+#include "E3Math_Intersect.h"
 
 
 
