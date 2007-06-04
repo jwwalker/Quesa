@@ -1356,8 +1356,14 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		return true;
 	}
 	
-	// Visibility culling
+	// Cull objects not visible from the current camera
 	if ( ! IsBoundsVisible( inGeomData->bBox ))
+	{
+		return true;
+	}
+	
+	// Cull objects not lit during a shadowing pass
+	if (mLights.IsLit( inGeomData->bBox ) == false)
 	{
 		return true;
 	}
