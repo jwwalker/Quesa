@@ -1851,6 +1851,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS>Debug</FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3Math_Intersect.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS>Debug</FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -2581,6 +2588,11 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>QOCalcTriMeshEdges.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3Math_Intersect.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
             </LINKORDER>
@@ -4381,6 +4393,13 @@
                     <FILEKIND>Text</FILEKIND>
                     <FILEFLAGS></FILEFLAGS>
                 </FILE>
+                <FILE>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3Math_Intersect.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                    <FILEKIND>Text</FILEKIND>
+                    <FILEFLAGS></FILEFLAGS>
+                </FILE>
             </FILELIST>
             <LINKORDER>
                 <FILEREF>
@@ -5113,6 +5132,11 @@
                     <PATH>QOCalcTriMeshEdges.cpp</PATH>
                     <PATHFORMAT>Unix</PATHFORMAT>
                 </FILEREF>
+                <FILEREF>
+                    <PATHTYPE>Name</PATHTYPE>
+                    <PATH>E3Math_Intersect.cpp</PATH>
+                    <PATHFORMAT>Unix</PATHFORMAT>
+                </FILEREF>
             </LINKORDER>
         </TARGET>
     </TARGETLIST>
@@ -5533,6 +5557,12 @@
                         <PATHTYPE>Name</PATHTYPE>
                         <PATH>E3Math.c</PATH>
                         <PATHFORMAT>MacOS</PATHFORMAT>
+                    </FILEREF>
+                    <FILEREF>
+                        <TARGETNAME>Win32 C DLL Debug</TARGETNAME>
+                        <PATHTYPE>Name</PATHTYPE>
+                        <PATH>E3Math_Intersect.cpp</PATH>
+                        <PATHFORMAT>Unix</PATHFORMAT>
                     </FILEREF>
                     <FILEREF>
                         <TARGETNAME>Win32 C DLL Debug</TARGETNAME>
