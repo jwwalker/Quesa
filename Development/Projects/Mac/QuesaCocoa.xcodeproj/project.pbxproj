@@ -280,6 +280,7 @@
 		BEBAACF30C0DF2C800C9225A /* QOShadowMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEBAACEF0C0DF2C800C9225A /* QOShadowMarker.cpp */; };
 		BEBAACF50C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEBAACF10C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp */; };
 		BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
+		BECE348D0C13DAB20033329E /* E3Math_Intersect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BECE348B0C13DAB20033329E /* E3Math_Intersect.cpp */; };
 		BED329DB0C021C84006956C8 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED329D90C021C84006956C8 /* HiddenLine.cpp */; };
 		BED329DF0C021E19006956C8 /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BED329DE0C021E19006956C8 /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -577,6 +578,8 @@
 		BEBAACF10C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOCalcTriMeshEdges.cpp; sourceTree = "<group>"; };
 		BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
 		BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CartoonRenderer.h; sourceTree = "<group>"; };
+		BECE348A0C13DAB20033329E /* E3Math_Intersect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Math_Intersect.h; sourceTree = "<group>"; };
+		BECE348B0C13DAB20033329E /* E3Math_Intersect.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3Math_Intersect.cpp; sourceTree = "<group>"; };
 		BED329D90C021C84006956C8 /* HiddenLine.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = HiddenLine.cpp; path = ../../Source/Renderers/HiddenLine/HiddenLine.cpp; sourceTree = SOURCE_ROOT; };
 		BED329DA0C021C84006956C8 /* HiddenLine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HiddenLine.h; path = ../../Source/Renderers/HiddenLine/HiddenLine.h; sourceTree = SOURCE_ROOT; };
 		BED329DE0C021E19006956C8 /* CQ3ObjectRef_Gets.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef_Gets.h; sourceTree = "<group>"; };
@@ -798,6 +801,8 @@
 				AB3A7BF7055E63B100CA83BE /* E3Main.c */,
 				AB3A7BF8055E63B100CA83BE /* E3Main.h */,
 				AB3A7BF9055E63B100CA83BE /* E3Math.c */,
+				BECE348A0C13DAB20033329E /* E3Math_Intersect.h */,
+				BECE348B0C13DAB20033329E /* E3Math_Intersect.cpp */,
 				AB3A7BFA055E63B100CA83BE /* E3Math.h */,
 				AB3A7BFB055E63B100CA83BE /* E3Memory.c */,
 				AB3A7BFC055E63B100CA83BE /* E3Memory.h */,
@@ -1473,6 +1478,7 @@
 				BED329DB0C021C84006956C8 /* HiddenLine.cpp in Sources */,
 				BEBAACF30C0DF2C800C9225A /* QOShadowMarker.cpp in Sources */,
 				BEBAACF50C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp in Sources */,
+				BECE348D0C13DAB20033329E /* E3Math_Intersect.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
