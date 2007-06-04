@@ -48,6 +48,7 @@
 #include "E3Pick.h"
 #include "E3Set.h"
 #include "E3Math.h"
+#include "E3Math_Intersect.h"
 #include "E3Geometry.h"
 #include "E3GeometryTriMesh.h"
 
