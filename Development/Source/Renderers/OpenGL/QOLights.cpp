@@ -48,6 +48,8 @@
 #include "QORenderer.h"
 #include "Q3GroupIterator.h"
 #include "E3ErrorManager.h"
+#include "E3Math.h"
+#include "E3Math_Intersect.h"
 #include "CQ3ObjectRef_Gets.h"
 #include <cmath>
 #include <limits>
@@ -208,6 +210,7 @@ void QORenderer::Lights::AddDirectionalLight( TQ3LightObject inLight,
 	// Get light data
 	TQ3DirectionalLightData		lightData;
 	Q3DirectionalLight_GetData( inLight, &lightData );
+	mLightBrightness = lightData.lightData.brightness;
 	
 	// Transform the direction to view coordinates
 	Q3Vector3D_Transform( &lightData.direction, &inWorldToView,
@@ -250,6 +253,7 @@ void QORenderer::Lights::AddPointLight( TQ3LightObject inLight,
 	// Get light data
 	TQ3PointLightData	lightData;
 	Q3PointLight_GetData( inLight, &lightData );
+	mLightBrightness = lightData.lightData.brightness;
 
 	// Transform the location to view coordinates
 	Q3Point3D_Transform( &lightData.location, &inWorldToView,
@@ -267,6 +271,7 @@ void QORenderer::Lights::AddPointLight( TQ3LightObject inLight,
 	
 	// Find attenuation values
 	GLfloat		attConstant, attLinear, attQuadratic;
+	mLightAttenuation = lightData.attenuation;
 	SetAttenuationParams( lightData.attenuation,
 		attConstant, attLinear, attQuadratic );
 
@@ -294,22 +299,23 @@ void QORenderer::Lights::AddSpotLight( TQ3LightObject inLight,
 	// Get light data
 	TQ3SpotLightData	lightData;
 	Q3SpotLight_GetData( inLight, &lightData );
+	mLightBrightness = lightData.lightData.brightness;
 
 	// Transform the direction and location to view coordinates
 	Q3Point3D_Transform( &lightData.location, &inWorldToView,
 		&lightData.location );
 	Q3Vector3D_Transform( &lightData.direction, &inWorldToView,
-		&lightData.direction );
+		&mSpotLightDirection );
 	
 	// Normalize the spot direction... this is probably not needed for the
 	// fixed-function pipeline, but saves a little work for per-pixel lighting.
-	Q3FastVector3D_Normalize( &lightData.direction, &lightData.direction );
+	Q3FastVector3D_Normalize( &mSpotLightDirection, &mSpotLightDirection );
 		
 	// Put direction and location in OpenGL form
 	GLfloat		lightDirection[3];
-	lightDirection[0] = lightData.direction.x;
-	lightDirection[1] = lightData.direction.y;
-	lightDirection[2] = lightData.direction.z;
+	lightDirection[0] = mSpotLightDirection.x;
+	lightDirection[1] = mSpotLightDirection.y;
+	lightDirection[2] = mSpotLightDirection.z;
 
 	mGLLightPosition[0] = lightData.location.x;
 	mGLLightPosition[1] = lightData.location.y;
@@ -322,11 +328,13 @@ void QORenderer::Lights::AddSpotLight( TQ3LightObject inLight,
 	
 	// Find attenuation values
 	GLfloat		attConstant, attLinear, attQuadratic;
+	mLightAttenuation = lightData.attenuation;
 	SetAttenuationParams( lightData.attenuation,
 		attConstant, attLinear, attQuadratic );
 	
 	// Find the cutoff angle
 	GLfloat		lightOuterAngle = Q3Math_RadiansToDegrees( lightData.outerAngle );
+	mSpotAngleCosine = cos( lightData.outerAngle );
 	
 	
 	// Set up the light
@@ -350,7 +358,9 @@ void QORenderer::Lights::AddSpotLight( TQ3LightObject inLight,
 void QORenderer::Lights::AddLight( TQ3LightObject inLight,
 						const TQ3Matrix4x4& inWorldToView )
 {
-	switch (Q3Light_GetType( inLight ))
+	mLightType = Q3Light_GetType( inLight );
+	
+	switch (mLightType)
 	{
 		case kQ3LightTypeDirectional:
 			AddDirectionalLight( inLight, inWorldToView );
@@ -641,7 +651,7 @@ void	QORenderer::Lights::SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorld
 		if (! mShadowingLights.empty())
 		{
 			mIsAnotherPassNeeded = true;
-			mIsShadowPhase = true;
+			mIsNextPassShadowPhase = true;
 			mIsShadowMarkingPass = false;	// will toggle at next start
 			mStartingLightIndexForPass = 0;
 		}
@@ -671,17 +681,24 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 {
 	mIsFirstPass = true;
 	mIsShadowPhase = false;
+	mIsNextPassShadowPhase = false;
 	mStartingLightIndexForPass = 0;
 
 	// How many OpenGL non-ambient lights can we have?
 	glGetIntegerv( GL_MAX_LIGHTS, &mMaxGLLights );
-
+	
 	ClassifyLights( inView, inIsShadowing );
 	
 	// If we are going to do shadow volumes, we need infinite yon.
 	if (! mShadowingLights.empty())
 	{
 		UseInfiniteYon( inView );
+		
+		// We also need to know the minimum color that is distinguishable from
+		// black, which depends on the bit depth of the color buffer.
+		GLint	colorBits;
+		glGetIntegerv( GL_GREEN_BITS, &colorBits );
+		mMinColor = 1.0f / (1L << colorBits);
 	}
 }
 
@@ -712,6 +729,12 @@ void	QORenderer::Lights::StartPass(
 	glLoadIdentity();
 	
 
+	if (mIsNextPassShadowPhase)
+	{
+		mIsShadowPhase = true;
+		mIsNextPassShadowPhase = false;
+	}
+	
 	if (mIsShadowPhase)
 	{
 		mIsShadowMarkingPass = ! mIsShadowMarkingPass;
@@ -847,4 +870,69 @@ void	QORenderer::Lights::MarkShadowOfTriangle(
 								const Vertex* inVertices )
 {
 	mShadowMarker.MarkShadowOfTriangle( inVertices );
+}
+
+
+/*!
+	@function	IsLit
+	@abstract	Test whether a nonzero amount of the current light may be
+				shining on a certain region.  Used for culling during the
+				shadow phase.
+*/
+bool	QORenderer::Lights::IsLit( const TQ3BoundingBox& inBounds ) const
+{
+	bool	isLit = true;
+	
+	// Only do culling in shadow phase for positional lights
+	
+	if ( mIsShadowPhase && (mLightType != kQ3LightTypeDirectional) )
+	{
+		// Find the bounds in eye (camera) coordinates.
+		TQ3BoundingBox		cameraBounds;
+		E3BoundingBox_Transform( &inBounds, &mMatrixState.GetLocalToCamera(),
+			&cameraBounds );
+		
+		// Find the distance from the light to the object
+		TQ3Point3D	lightPos = {
+			mGLLightPosition[0], mGLLightPosition[1], mGLLightPosition[2]
+		};
+		float	theDistanceSq = E3Point3D_BoundingBox_DistanceSquared(
+			&lightPos, &cameraBounds, NULL );
+		
+		if (theDistanceSq > kQ3RealZero)
+		{
+			// Find the brightness as attenuated by distance
+			float	attenuatedLight = mLightBrightness;
+			switch (mLightAttenuation)
+			{
+				case kQ3AttenuationTypeInverseDistance:
+					attenuatedLight /= sqrt( theDistanceSq );
+					break;
+					
+				case kQ3AttenuationTypeInverseDistanceSquared:
+					attenuatedLight /= theDistanceSq;
+					break;
+			}
+			
+			if (attenuatedLight < mMinColor)
+			{
+				isLit = false;
+			}
+			
+			if ( isLit && (mLightType == kQ3LightTypeSpot) )
+			{
+				// Cull objects outside the light cone
+				TQ3Ray3D	spotAxis = {
+					lightPos, mSpotLightDirection
+				};
+				if (! E3Cone_IntersectBoundingBox( spotAxis, mSpotAngleCosine,
+					cameraBounds ))
+				{
+					isLit = false;
+				}
+			}
+		}
+	}
+	
+	return isLit;
 }

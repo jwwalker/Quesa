@@ -116,6 +116,7 @@ public:
 	inline bool				IsFirstPass() const {return mIsFirstPass;}
 	inline bool				IsLastLightingPass() const {return !mIsAnotherPassNeeded;}
 	bool					IsShadowMarkingPass() const;
+	bool					IsLit( const TQ3BoundingBox& inBounds ) const;
 	
 	void					MarkShadowOfTriMesh(
 									TQ3GeometryObject inTMObject,
@@ -154,6 +155,7 @@ private:
 	TQ3Uns32				mLightCount;		// number of GL lights in this pass
 	bool					mIsFirstPass;
 	bool					mIsShadowPhase;
+	bool					mIsNextPassShadowPhase;
 	bool					mIsAnotherPassNeeded;
 	bool					mIsShadowMarkingPass;
 	TQ3Uns32				mStartingLightIndexForPass;
@@ -165,6 +167,12 @@ private:
 	ObVec					mNonShadowingLights;
 	ObVec					mShadowingLights;
 	ShadowMarker			mShadowMarker;
+	TQ3AttenuationType		mLightAttenuation;
+	float					mLightBrightness;
+	float					mMinColor;
+	TQ3ObjectType			mLightType;
+	TQ3Vector3D				mSpotLightDirection;
+	float					mSpotAngleCosine;
 	
 	bool					mIsOnlyAmbient;
 	GLfloat					mOnlyAmbient[4];
