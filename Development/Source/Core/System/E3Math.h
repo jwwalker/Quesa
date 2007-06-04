@@ -386,22 +386,6 @@ TQ3BoundingSphere *		E3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphe
 
 
 //=============================================================================
-//      Intersection functions
-//-----------------------------------------------------------------------------
-TQ3Boolean				E3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3Point3D *hitPoint);
-TQ3Boolean				E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBounds, TQ3Point3D *hitPoint);
-TQ3Boolean				E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
-													const TQ3Point3D	*point1,
-													const TQ3Point3D	*point2,
-													const TQ3Point3D	*point3,
-													TQ3Boolean			cullBackfacing,
-													TQ3Param3D			*hitPoint);
-
-
-
-
-
-//=============================================================================
 //      General math functions
 //-----------------------------------------------------------------------------
 float					E3Math_SquareRoot(float x);
