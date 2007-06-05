@@ -154,10 +154,6 @@ private:
 
 	void							Render(
 											const TransparentPrim& inPrim );
-	void							RenderSpecular(
-											const TransparentPrim& inPrim );
-	void							AddSpecularHighlights(
-											const TransparentPrim& inPrim );
 	
 	Renderer&						mRenderer;
 	PerPixelLighting&				mPerPixelLighting;
@@ -176,7 +172,7 @@ private:
 	TQ3Uns32						mCurUVTransformIndex;
 	TQ3ShaderUVBoundary				mCurUBoundary;
 	TQ3ShaderUVBoundary				mCurVBoundary;
-	GLfloat							mCurSpecularColor[3];
+	GLfloat							mCurSpecularColor[4];
 	float							mCurSpecularControl;
 	TQ3ColorRGB						mCurEmissiveColor;
 	GLfloat							mCurDiffuseColor[4];
