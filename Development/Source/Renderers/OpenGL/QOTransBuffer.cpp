@@ -498,6 +498,8 @@ void	TransBuffer::SetEmissiveColor( const TQ3ColorRGB& inColor )
 
 void	TransBuffer::SetDiffuseColor( const QORenderer::Vertex& inVert )
 {
+	// Premultiply alpha, so we can use GL_ONE as the source blend factor
+	// for both vertices and textures.
 	GLfloat	color4[4] = {
 		inVert.diffuseColor.r * inVert.vertAlpha,
 		inVert.diffuseColor.g * inVert.vertAlpha,
@@ -526,7 +528,7 @@ void	TransBuffer::SetDiffuseColor( const GLfloat* inColor4 )
 
 void	TransBuffer::Render( const TransparentPrim& inPrim )
 {
-	UpdateSpecularColor( kBlackColor );
+	UpdateSpecular( inPrim );
 	
 	switch (inPrim.mNumVerts)
 	{
@@ -581,24 +583,6 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 	glEnd();
 }
 
-void	TransBuffer::RenderSpecular( const TransparentPrim& inPrim )
-{
-	glBegin( GL_TRIANGLES );
-	
-	for (TQ3Uns32 i = 0; i < 3; ++i)
-	{
-		const Vertex&	theVert( inPrim.mVerts[i] );
-		
-		if ((theVert.flags & kVertexHaveNormal) != 0)
-		{
-			glNormal3fv( (const GLfloat *) &theVert.normal );
-		}
-		
-		glVertex3fv( (const GLfloat *) &theVert.point );
-	}
-	
-	glEnd();
-}
 
 void	TransBuffer::UpdateSpecularColor( const TQ3ColorRGB& inColor )
 {
@@ -609,6 +593,7 @@ void	TransBuffer::UpdateSpecularColor( const TQ3ColorRGB& inColor )
 		mCurSpecularColor[0] = inColor.r;
 		mCurSpecularColor[1] = inColor.g;
 		mCurSpecularColor[2] = inColor.b;
+		mCurSpecularColor[3] = 1.0f;
 		
 		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, mCurSpecularColor );
 	}
@@ -628,32 +613,6 @@ void	TransBuffer::UpdateSpecular( const TransparentPrim& inPrim )
 	}
 }
 
-void	TransBuffer::AddSpecularHighlights(
-										const TransparentPrim& inPrim )
-{
-	if ( (inPrim.mNumVerts == 3) &&
-		(inPrim.mIlluminationType == kQ3IlluminationTypePhong) &&
-		(inPrim.mFillStyle == kQ3FillStyleFilled) )
-	{
-		// Add, not alpha-blend, but use max rather than addition if possible
-		// so that color components do not get too big.
-		glBlendFunc( GL_ONE, GL_ONE );
-		if (mRenderer.mGLBlendEqProc != NULL)
-			(*mRenderer.mGLBlendEqProc)( GL_MAX_EXT );
-
-		// black ambient and diffuse so we get only specular
-		SetDiffuseColor( kGLBlackColor );
-		
-		UpdateSpecular( inPrim );
-		
-		RenderSpecular( inPrim );
-		
-		// Reset blend func
-		glBlendFunc( mSrcBlendFactor, mDstBlendFactor );
-		if (mRenderer.mGLBlendEqProc != NULL)
-			(*mRenderer.mGLBlendEqProc)( GL_FUNC_ADD_EXT );
-	}
-}
 
 void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 										GLenum inSrcBlendFactor,
@@ -688,8 +647,6 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 			mPerPixelLighting.UpdateIllumination( thePrim.mIlluminationType );
 			
 			Render( thePrim );
-			
-			AddSpecularHighlights( thePrim );
 		}
 
 		// Reset the OpenGL state
