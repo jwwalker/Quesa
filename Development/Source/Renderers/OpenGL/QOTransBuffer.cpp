@@ -601,15 +601,22 @@ void	TransBuffer::UpdateSpecularColor( const TQ3ColorRGB& inColor )
 
 void	TransBuffer::UpdateSpecular( const TransparentPrim& inPrim )
 {
-	UpdateSpecularColor( inPrim.mSpecularColor );
-	
-	if (inPrim.mSpecularControl != mCurSpecularControl)
+	if (inPrim.mIlluminationType == kQ3IlluminationTypePhong)
 	{
-		mCurSpecularControl = inPrim.mSpecularControl;
+		UpdateSpecularColor( inPrim.mSpecularColor );
 		
-		GLfloat		shininess = GLUtils_SpecularControlToGLShininess(
-			mCurSpecularControl );
-		glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, shininess );
+		if (inPrim.mSpecularControl != mCurSpecularControl)
+		{
+			mCurSpecularControl = inPrim.mSpecularControl;
+			
+			GLfloat		shininess = GLUtils_SpecularControlToGLShininess(
+				mCurSpecularControl );
+			glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, shininess );
+		}
+	}
+	else
+	{
+		UpdateSpecularColor( kBlackColor );
 	}
 }
 
