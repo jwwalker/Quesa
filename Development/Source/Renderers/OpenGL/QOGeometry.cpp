@@ -330,15 +330,29 @@ void	QORenderer::Renderer::HandleGeometryAttributes(
 			
 			// See if we can find a texture shader.
 			// First try the hilite set, if we have one.
+			// Also see if the hilite set specifies a color.
 			CQ3ObjectRef	theShader;
+			TQ3Boolean		hiliteHasColor = kQ3False;
 			if (hiliteAtts != NULL)
 			{
 				theShader = CQ3AttributeSet_GetTextureShader( hiliteAtts );
+				
+				hiliteHasColor = Q3AttributeSet_Contains( hiliteAtts,
+					kQ3AttributeTypeDiffuseColor );
+				
+				// If the hilite style specifies a color but no texture,
+				// make the color override any previously-set texture.
+				if ( hiliteHasColor && ! theShader.isvalid() )
+				{
+					E3View_State_SetShaderSurface( inView, NULL );
+				}
 			}
 			
-			// If that failed, try the geometry attributes.
+			// If that failed, and the hilite has no color, look for a texture
+			// in the geometry attributes.
 			if ( (! theShader.isvalid()) &&
-				(inGeomAttSet != NULL) )
+				(inGeomAttSet != NULL) &&
+				(kQ3False == hiliteHasColor) )
 			{
 				theShader = CQ3AttributeSet_GetTextureShader( inGeomAttSet );
 			}
@@ -353,12 +367,12 @@ void	QORenderer::Renderer::HandleGeometryAttributes(
 		
 		if (inGeomAttSet != NULL)
 		{
-			AdjustGeomState( inGeomAttSet, mGeomState , mAttributesMask );
+			AdjustGeomState( inGeomAttSet, mGeomState, mAttributesMask );
 		}
 		
 		if (hiliteAtts != NULL)
 		{
-			AdjustGeomState( hiliteAtts, mGeomState , mAttributesMask );
+			AdjustGeomState( hiliteAtts, mGeomState, mAttributesMask );
 		}
 	}
 	
