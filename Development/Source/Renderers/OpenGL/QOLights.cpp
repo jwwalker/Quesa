@@ -461,13 +461,16 @@ void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView, bool inIsShadowin
 void	QORenderer::Lights::UseInfiniteYon( TQ3ViewObject inView )
 {
 	CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
-	TQ3CameraRange	theRange;
-	Q3Camera_GetRange( theCamera.get(), &theRange );
-	if (isfinite( theRange.yon ))
+	if (Q3Camera_GetType( theCamera.get() ) == kQ3CameraTypeViewAngleAspect)
 	{
-		mSavedYon = theRange.yon;
-		theRange.yon = std::numeric_limits<float>::infinity();
-		Q3Camera_SetRange( theCamera.get(), &theRange );
+		TQ3CameraRange	theRange;
+		Q3Camera_GetRange( theCamera.get(), &theRange );
+		if (isfinite( theRange.yon ))
+		{
+			mSavedYon = theRange.yon;
+			theRange.yon = std::numeric_limits<float>::infinity();
+			Q3Camera_SetRange( theCamera.get(), &theRange );
+		}
 	}
 }
 
@@ -683,6 +686,7 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 	mIsShadowPhase = false;
 	mIsNextPassShadowPhase = false;
 	mStartingLightIndexForPass = 0;
+	mSavedYon = std::numeric_limits<float>::infinity();
 
 	// How many OpenGL non-ambient lights can we have?
 	glGetIntegerv( GL_MAX_LIGHTS, &mMaxGLLights );
