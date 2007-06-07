@@ -61,6 +61,7 @@
 
 #include <cmath>
 #include <vector>
+#include <limits>
 
 
 //=============================================================================
@@ -92,7 +93,7 @@ public:
 								, mMatrixState( inMatrixState )
 								, mStyleState( inStyleState )
 								, mLightCount( 0 )
-								, mSavedYon( INFINITY )
+								, mSavedYon( std::numeric_limits<float>::infinity() )
 								, mShadowMarker( mMatrixState, mStyleState,
 									mGLLightPosition )
 								, mIsOnlyAmbient( false ) {}
