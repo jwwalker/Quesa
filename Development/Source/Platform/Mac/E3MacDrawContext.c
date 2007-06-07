@@ -7,7 +7,7 @@
         Only WindowPtr based Mac draw contexts are supported at present.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -173,8 +173,15 @@ e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
 	TQ3MacDrawContext2DLibrary	theLibrary;
 	GDHandle					theDevice;
 	WindowRef					theWindow;
-	TQ3Boolean					isActive;
+	TQ3Boolean					isActive = kQ3False;
 	RgnHandle					visRgn;
+
+
+	// Initialize some output parameters.  If all goes well, these will be
+	// set to more sensible values later.
+	deviceArea->min.x = deviceArea->min.y = deviceArea->max.x = deviceArea->max.y = 0.0f;
+	windowArea->min.x = windowArea->min.y = windowArea->max.x = windowArea->max.y = 0.0f;
+	*clipMaskState = kQ3XClipMaskNotExposed;
 
 
 
@@ -581,9 +588,6 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 static void
 e3drawcontext_mac_updateregions(TQ3DrawContextObject theDrawContext, TQ3XDrawContextValidation stateChanges)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	TQ3Area						deviceArea, windowArea;
-	TQ3XClipMaskState			clipMaskState;
-	TQ3Boolean					isActive;
 	TQ3Uns32					n;
 	
 
@@ -591,6 +595,11 @@ e3drawcontext_mac_updateregions(TQ3DrawContextObject theDrawContext, TQ3XDrawCon
 	// Update the draw regions
 	for (n = 0; n < instanceData->numDrawRegions; n++)
 		{
+		TQ3Area						deviceArea, windowArea;
+		TQ3XClipMaskState			clipMaskState;
+		TQ3Boolean					isActive;
+
+
 		// If this draw region intersects the window, update it
 		isActive = e3drawcontext_mac_isactiveregion(theDrawContext,
 													n,
@@ -847,6 +856,18 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 			{
 			// If something changed, update the state flag and the draw regions
 			instanceData->theState |= stateChanges;
+			
+			if (instanceData->theState == kQ3XDrawContextValidationAll)
+				{
+				// Rebuild the draw regions
+				qd3dStatus = e3drawcontext_mac_buildregions(theDrawContext);
+				if (qd3dStatus != kQ3Success)
+					return(qd3dStatus);
+
+				// update paneState, thePane, windowRect fields of TQ3MacDrawContextState
+				e3drawcontext_mac_checkregions(theDrawContext);
+				}
+			
 			e3drawcontext_mac_updateregions(theDrawContext, instanceData->theState);
 			}
 		}
@@ -922,6 +943,30 @@ e3drawcontext_mac_metahandler(TQ3XMethodType methodType)
 
 
 
+
+
+#if TARGET_RT_MAC_MACHO
+//=============================================================================
+//      e3drawcontext_mac_cg_notify : Core Graphics display callback.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_mac_cg_notify( CGDirectDisplayID display,
+                             CGDisplayChangeSummaryFlags flags,
+                             void *userInfo )
+{
+#pragma unused( display )
+	if ( (flags & kCGDisplayBeginConfigurationFlag) != 0 )
+	{
+		E3GlobalsPtr	theGlobals = (E3GlobalsPtr) userInfo;
+	
+		// Set our flag
+		Q3_ASSERT_VALID_PTR( theGlobals );
+		theGlobals->dmNotifiedChanges = kQ3True;
+	}
+}
+
+
+#else
 //=============================================================================
 //      e3drawcontext_mac_dm_notify : Display Manager callback.
 //-----------------------------------------------------------------------------
@@ -930,12 +975,11 @@ e3drawcontext_mac_dm_notify(AppleEvent *theEvent)
 {	E3GlobalsPtr			theGlobals = E3Globals_Get();
 #pragma unused(theEvent)
 
-
-
 	// Set our flag
 	Q3_ASSERT_VALID_PTR(theGlobals);
 	theGlobals->dmNotifiedChanges = kQ3True;
 }
+#endif
 
 
 
@@ -951,18 +995,25 @@ TQ3Status
 E3MacDrawContext_RegisterClass(void)
 {	E3GlobalsPtr			theGlobals = E3Globals_Get();
 	TQ3Status				qd3dStatus;
-	ProcessSerialNumber		thePSN;
 
 
+
+
+#if TARGET_RT_MAC_MACHO
+	// Register to be notified of display configuration changes
+	CGDisplayRegisterReconfigurationCallback( e3drawcontext_mac_cg_notify, theGlobals );
+
+#else
 
 	// Register our Display Manager notification callback
 	theGlobals->dmNotifyUPP = NewDMNotificationUPP(e3drawcontext_mac_dm_notify);
 	if (theGlobals->dmNotifyUPP != NULL)
 		{
+		ProcessSerialNumber		thePSN;
 		GetCurrentProcess(&thePSN);
 		DMRegisterNotifyProc(theGlobals->dmNotifyUPP, &thePSN);
 		}
-
+#endif
 
 
 	// Register the class
@@ -984,20 +1035,24 @@ TQ3Status
 E3MacDrawContext_UnregisterClass(void)
 {	E3GlobalsPtr			theGlobals = E3Globals_Get();
 	TQ3Status				qd3dStatus;
-	ProcessSerialNumber		thePSN;
 
 
 
+
+#if TARGET_RT_MAC_MACHO
+	CGDisplayRemoveReconfigurationCallback( e3drawcontext_mac_cg_notify, theGlobals );
+#else
 	// Unregister our Display Manager notification callback
 	if (theGlobals->dmNotifyUPP != NULL)
 		{
+		ProcessSerialNumber		thePSN;
 		GetCurrentProcess(&thePSN);
 		DMRemoveNotifyProc(theGlobals->dmNotifyUPP, &thePSN);
 
 		DisposeDMNotificationUPP(theGlobals->dmNotifyUPP);
 		theGlobals->dmNotifyUPP = NULL;
 		}
-
+#endif
 
 
 	// Unregister the classes
@@ -1047,6 +1102,7 @@ E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextT
 	drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
 	drawContextData.paneState         = kQ3False;
 	drawContextData.maskState		  = kQ3False;
+	E3Memory_Clear( &drawContextData.mask, sizeof(drawContextData.mask) );
 	drawContextData.doubleBufferState = kQ3True;
 	drawContextData.pane.min.x        = 0.0f;
 	drawContextData.pane.min.y        = 0.0f;
