@@ -857,7 +857,7 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 			// If something changed, update the state flag and the draw regions
 			instanceData->theState |= stateChanges;
 			
-			if (instanceData->theState == kQ3XDrawContextValidationAll)
+			if (instanceData->theState & kQ3XDrawContextValidationDevice)
 				{
 				// Rebuild the draw regions
 				qd3dStatus = e3drawcontext_mac_buildregions(theDrawContext);
