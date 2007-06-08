@@ -279,6 +279,9 @@ GLUtils_SizeOfPixelType(TQ3PixelType pixelType)
 }
 
 
+
+
+
 //=============================================================================
 //      GLUtils_CheckExtensions : Check availability of OpenGL features
 //-----------------------------------------------------------------------------
@@ -383,8 +386,16 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		{
 			featureFlags->stencilWrap = kQ3True;
 		}
+
+		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_packed_depth_stencil" ))
+		{
+			featureFlags->packedDepthStencil = kQ3True;
+		}
 	}
 }
+
+
+
 
 
 //=============================================================================
@@ -403,6 +414,9 @@ GLUtils_UpdateClientState( TQ3Boolean enable, TQ3Boolean* stateFlag, GLenum whic
 			glDisableClientState( whichArray );
 	}
 }
+
+
+
 
 
 //=============================================================================
@@ -438,6 +452,8 @@ GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix )
 
 
 
+
+
 //=============================================================================
 //      GLUtils_SpecularControlToGLShininess :
 //					Map Quesa specular control to OpenGL shininess.
@@ -459,6 +475,8 @@ GLfloat		GLUtils_SpecularControlToGLShininess( float inSpecControl )
 	
 	return shininess;
 }
+
+
 
 
 
