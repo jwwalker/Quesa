@@ -106,16 +106,17 @@ struct TQ3GLExtensions
 {
 	TQ3Boolean				separateSpecularColor;
 	TQ3Boolean				clampToEdge;
-	TQ3Boolean				multitexture;
+	TQ3Boolean				multitexture;			// GL_ARB_multitexture
 	TQ3Boolean				blendMinMax;
 	TQ3Boolean				vertexBufferObjects;
-	TQ3Boolean				frameBufferObjects;
+	TQ3Boolean				frameBufferObjects;		// GL_EXT_framebuffer_object
 	TQ3Boolean				shadingLanguage;
-	TQ3Boolean				packedPixels;
+	TQ3Boolean				packedPixels;			// GL 1.2
 	bool					depthClamp;				// GL_NV_depth_clamp
 	bool					stencilTwoSide;			// GL_EXT_stencil_two_side
 	bool					separateStencil;
 	bool					stencilWrap;			// GL_EXT_stencil_wrap
+	bool					packedDepthStencil;		// GL_EXT_packed_depth_stencil
 };
 
 
