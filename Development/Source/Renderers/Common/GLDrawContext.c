@@ -92,6 +92,10 @@ enum
 	#define GL_STENCIL_INDEX16_EXT             0x8D49
 #endif
 
+#ifndef GL_DEPTH24_STENCIL8_EXT
+	#define	GL_DEPTH24_STENCIL8_EXT				0x88F0
+#endif
+
 #ifndef GL_DEPTH_COMPONENT32
 	#define GL_DEPTH_COMPONENT16              0x81A5
 	#define GL_DEPTH_COMPONENT24              0x81A6
@@ -464,44 +468,64 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 					GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT,
 					theFBORec->colorRenderBufferID );
 				
-				// Create depth renderbuffer
+				
+				// Create a depth buffer...
 				theFBORec->glGenRenderbuffersEXT( 1, &theFBORec->depthRenderBufferID );
 				theFBORec->glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
 					theFBORec->depthRenderBufferID );
-				GLenum	depthFormat = GL_DEPTH_COMPONENT;
-				switch (depthBits)
-				{
-					case 16:
-						depthFormat = GL_DEPTH_COMPONENT16;
-						break;
-					case 24:
-						depthFormat = GL_DEPTH_COMPONENT24;
-						break;
-					case 32:
-						depthFormat = GL_DEPTH_COMPONENT32;
-						break;
-				}
-				theFBORec->glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
-					depthFormat, paneWidth, paneHeight );
-				theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
-					GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-					theFBORec->depthRenderBufferID );
 				
-				// Maybe a stencil renderbuffer...
-				// It may be necessary to do some trial and error to get this
-				// foolproof, for instance it may not be possible to get a
-				// stencil buffer together with a 32-bit depth buffer on some
-				// video cards.
-				if (stencilBits > 0)
+
+				// if we need a stencil buffer, it is probably necessary to get a packed
+				// depth-stencil buffer.
+				if ( (stencilBits > 0) && extFlags.packedDepthStencil )
 				{
-					theFBORec->glGenRenderbuffersEXT( 1, &theFBORec->stencilRenderBufferID );
-					theFBORec->glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
-						theFBORec->stencilRenderBufferID );
 					theFBORec->glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
-						GL_STENCIL_INDEX, paneWidth, paneHeight );
+						GL_DEPTH24_STENCIL8_EXT, paneWidth, paneHeight );
+					theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+						GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
+						theFBORec->depthRenderBufferID );
 					theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
 						GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-						theFBORec->stencilRenderBufferID );
+						theFBORec->depthRenderBufferID );
+				}
+				else
+				{
+					// Create depth renderbuffer
+					GLenum	depthFormat = GL_DEPTH_COMPONENT;
+					switch (depthBits)
+					{
+						case 16:
+							depthFormat = GL_DEPTH_COMPONENT16;
+							break;
+						case 24:
+							depthFormat = GL_DEPTH_COMPONENT24;
+							break;
+						case 32:
+							depthFormat = GL_DEPTH_COMPONENT32;
+							break;
+					}
+					theFBORec->glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+						depthFormat, paneWidth, paneHeight );
+					theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+						GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
+						theFBORec->depthRenderBufferID );
+					
+					// Maybe a stencil renderbuffer...
+					// It may be necessary to do some trial and error to get this
+					// foolproof, for instance it may not be possible to get a
+					// stencil buffer together with a 32-bit depth buffer on some
+					// video cards.
+					if (stencilBits > 0)
+					{
+						theFBORec->glGenRenderbuffersEXT( 1, &theFBORec->stencilRenderBufferID );
+						theFBORec->glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
+							theFBORec->stencilRenderBufferID );
+						theFBORec->glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+							GL_STENCIL_INDEX, paneWidth, paneHeight );
+						theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+							GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
+							theFBORec->stencilRenderBufferID );
+					}
 				}
 				
 				// Check whether FBO is OK
