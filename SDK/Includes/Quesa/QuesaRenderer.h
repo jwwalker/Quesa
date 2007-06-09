@@ -134,13 +134,22 @@ enum
 					Whether we should attempt to produce shadows for lights
 					that cast shadows.  Only implemented by the OpenGL renderer.
 					Data type: TQ3Boolean.  Default value: kQ3False.
+	
+	@constant	kQ3RendererPropertyAttenuationThreshold
+					A mesh will be culled from shadow passes for a positional
+					light if the light's attenuated brightness is less than
+					this value.
+					Data type: TQ3Float32.
+					Default value: Reciprocal of 2 to the number of bits per
+					color component.
 */
 enum
 {
 	kQ3RendererPropertyAutomaticTriangleStrips	= Q3_OBJECT_TYPE('a', 't', 'r', 's'),
 	kQ3RendererPropertyPerPixelLighting			= Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
 	kQ3RendererPropertyConvertToPremultipliedAlpha	= Q3_OBJECT_TYPE('c', 'p', 'm', 'a'),
-	kQ3RendererPropertyShadows					= Q3_OBJECT_TYPE('s', 'h', 'd', 'w')
+	kQ3RendererPropertyShadows					= Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
+	kQ3RendererPropertyAttenuationThreshold		= Q3_OBJECT_TYPE('s', 'h', 'a', 't')
 };
 #endif
 
