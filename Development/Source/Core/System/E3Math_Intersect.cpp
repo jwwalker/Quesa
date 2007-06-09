@@ -354,16 +354,25 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 
 	// Begin calculating the determinant - also used to calculate u. If the
 	// determinant is near zero, the ray lies in the plane of the triangle.
+	// However, some care is needed; we can get a false positive on "near zero"
+	// if the triangle is small.
 	Q3FastVector3D_Cross(&theRay->direction, &edge2, &pvec);
 	det = Q3FastVector3D_Dot(&edge1, &pvec);
-
+	float	testDet = det;
+	if (fabsf( det ) < kQ3RealZero)
+	{
+		TQ3Vector3D	faceNorm;
+		Q3FastVector3D_Cross( &edge2, &edge1, &faceNorm );
+		Q3FastVector3D_Normalize( &faceNorm, &faceNorm );
+		testDet = Q3FastVector3D_Dot( &faceNorm, &theRay->direction );
+	}
 
 
 	// Handle triangles with back-face culling
 	if (cullBackfacing)
 		{
-		// Test for ray coinciding with triangle plane
-		if (det < kQ3RealZero)
+		// Test for ray coinciding with triangle plane, or backface hit
+		if (testDet < kQ3RealZero)
 			return(kQ3False);
 
 
@@ -398,7 +407,7 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 	else
 		{
 		// Test for ray coinciding with triangle plane
-		if (det > -kQ3RealZero && det < kQ3RealZero)
+		if (testDet > -kQ3RealZero && testDet < kQ3RealZero)
 			return(kQ3False);
 		
 		invDet = 1.0f / det;
