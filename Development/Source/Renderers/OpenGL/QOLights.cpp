@@ -698,11 +698,19 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 	{
 		UseInfiniteYon( inView );
 		
-		// We also need to know the minimum color that is distinguishable from
-		// black, which depends on the bit depth of the color buffer.
-		GLint	colorBits;
-		glGetIntegerv( GL_GREEN_BITS, &colorBits );
-		mMinColor = 1.0f / (1L << colorBits);
+		CQ3ObjectRef	theRenderer( CQ3View_GetRenderer( inView ) );
+		
+		if (kQ3Failure == Q3Object_GetProperty( theRenderer.get(),
+			kQ3RendererPropertyAttenuationThreshold,
+			sizeof(mAttenuatedLightThreshold), NULL,
+			&mAttenuatedLightThreshold ))
+		{
+			// We need to know the minimum color that is distinguishable from
+			// black, which depends on the bit depth of the color buffer.
+			GLint	colorBits;
+			glGetIntegerv( GL_GREEN_BITS, &colorBits );
+			mAttenuatedLightThreshold = 1.0f / (1L << colorBits);
+		}
 	}
 }
 
@@ -918,7 +926,7 @@ bool	QORenderer::Lights::IsLit( const TQ3BoundingBox& inBounds ) const
 					break;
 			}
 			
-			if (attenuatedLight < mMinColor)
+			if (attenuatedLight < mAttenuatedLightThreshold)
 			{
 				isLit = false;
 			}
