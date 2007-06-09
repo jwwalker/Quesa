@@ -170,7 +170,7 @@ private:
 	ShadowMarker			mShadowMarker;
 	TQ3AttenuationType		mLightAttenuation;
 	float					mLightBrightness;
-	float					mMinColor;
+	TQ3Float32				mAttenuatedLightThreshold;
 	TQ3ObjectType			mLightType;
 	TQ3Vector3D				mSpotLightDirection;
 	float					mSpotAngleCosine;
