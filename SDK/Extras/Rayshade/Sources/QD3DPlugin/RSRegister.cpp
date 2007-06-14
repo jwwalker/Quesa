@@ -497,7 +497,7 @@ TQ3ViewStatus RS_EndPass(
 			int xres = width;
 	        int yres = height;
 	       
-	       buf = (TQ3Uns8*)std::malloc(xres*3);
+	       buf = (TQ3Uns8*)malloc(xres*3);
 	       
 	        if (! buf){
 	              result = kQ3ViewStatusError;
@@ -548,7 +548,7 @@ TQ3ViewStatus RS_EndPass(
             theTracer = NULL;
             RT_Reset(rsPrivate->raytracer);
 		 	if (buf)
-				std::free(buf);
+				free(buf);
 			buf = NULL;
            
 		}
@@ -557,14 +557,17 @@ TQ3ViewStatus RS_EndPass(
 	return kQ3ViewStatusDone;
 	
 cleanup:
-	if (theRasterizer)
-		RSRasterizer_Delete(theRasterizer);
+	if (theRasterizer){
+		RSRasterizer_Finish( theRasterizer );
+		RSRasterizer_Delete( theRasterizer );
+		}
+		
 	if (theDrawContext)
 		Q3Object_Dispose(theDrawContext);
 	if (theTracer)
 		RTRayTracer_Delete(theTracer);
 	if (buf)
-		std::free(buf);
+		free(buf);
 	RT_Reset(rsPrivate->raytracer);
 	return result;
 }
