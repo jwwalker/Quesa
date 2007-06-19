@@ -49,6 +49,7 @@
 #include "E3Prefix.h"
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
+#include "E3View.h"
 #include <limits>
 
 
@@ -133,8 +134,248 @@ static void e3BoundingBox_GetEdgeRays(
 }
 
 
+static bool
+IsPointInsidePlane( const TQ3Point3D& inPt, const TQ3RationalPoint4D& inPlane )
+{
+	return inPt.x * inPlane.x + inPt.y * inPlane.y + inPt.z * inPlane.z +
+		inPlane.w <= 0.0f;
+}
+
+static bool
+IsPointInsidePlane( const TQ3RationalPoint4D& inPt, const TQ3RationalPoint4D& inPlane )
+{
+	return inPt.x * inPlane.x + inPt.y * inPlane.y + inPt.z * inPlane.z +
+		inPt.w * inPlane.w <= 0.0f;
+}
 
 
+/*!
+	@function	GetFrustumPlanesInFrustumSpace
+	@abstract	Get the boundary planes of the view frustum in frustum coordinates.
+	@discussion	The visible region of frustum space ranges from 0 (near) to -1
+				(far) in z, and -1 to 1 in x and y.
+				
+				For an example of how we represent the planes, consider the
+				bottom plane, y = -1.  The inner half-space is given by
+				y >= -1.  Put this in a form where we have something less or
+				equal to 0, as - y -1 <= 0.  This can be expressed using a dot
+				product as [0, -1, 0, -1] dot [x, y, z, 1] <= 0.  We represent
+				this with the rational point [0, -1, 0, -1].
+*/
+static const TQ3RationalPoint4D*
+GetFrustumPlanesInFrustumSpace()
+{
+	static const TQ3RationalPoint4D	thePlanes[6] =
+	{
+		{ 0.0f, 0.0f, 1.0f, 0.0f },		// front
+		{ 0.0f, 0.0f, -1.0f, -1.0f },	// rear
+		{ 0.0f, -1.0f, 0.0f, -1.0f },	// bottom
+		{ 0.0f, 1.0f, 0.0f, -1.0f },	// top
+		{ -1.0f, 0.0f, 0.0f, -1.0f },	// left
+		{ 1.0f, 0.0f, 0.0f, -1.0f }		// right
+	};
+	return thePlanes;
+}
+
+
+/*!
+	@function	GetFrustumPlanesInLocalSpace
+	@abstract	Get the boundary planes of the view frustum in local coordinates.
+	@discussion	See the discussion of GetFrustumPlanesInFrustumSpace to see how
+				planes are represented as rational points.
+*/
+static void
+GetFrustumPlanesInLocalSpace(
+			TQ3ViewObject inView,
+			TQ3RationalPoint4D* out6Planes )
+{
+	const TQ3RationalPoint4D*	planesInFrustumSpace =
+		GetFrustumPlanesInFrustumSpace();
+	
+	// If we were transforming points, we would use the frustum to local
+	// matrix.  But a plane is more like a normal vector, so we the inverse
+	// transpose.
+	TQ3Matrix4x4	localToFrustumTranspose;
+	Q3Matrix4x4_Transpose( &E3View_State_GetMatrixLocalToFrustum( inView ),
+		&localToFrustumTranspose );
+	
+	for (int i = 0; i < 6; ++i)
+	{
+		E3RationalPoint4D_Transform( &planesInFrustumSpace[i],
+			&localToFrustumTranspose,
+			&out6Planes[i] );
+	}
+	
+}
+
+
+/*!
+	@function	GetFrustumCornersInLocalSpace
+	@abstract	Compute the view frustum corners in local coordinates,
+				or determine that the frustum is infinite.
+*/
+static void
+GetFrustumCornersInLocalSpace(	TQ3ViewObject inView, TQ3RationalPoint4D* out8Points )
+{
+	TQ3RationalPoint4D	frustumCornersInFrustumSpace[8] =
+	{
+		{ -1.0f, -1.0f, 0.0f, 1.0f },	// front bottom left
+		{ -1.0f, 1.0f, 0.0f, 1.0f },	// front top left
+		{ 1.0f, -1.0f, 0.0f, 1.0f },	// front bottom right
+		{ 1.0f, 1.0f, 0.0f, 1.0f },		// front top right
+		{ -1.0f, -1.0f, -1.0f, 1.0f },	// rear bottom left
+		{ -1.0f, 1.0f, -1.0f, 1.0f },	// rear top left
+		{ 1.0f, -1.0f, -1.0f, 1.0f },	// rear bottom right
+		{ 1.0f, 1.0f, -1.0f, 1.0f }		// rear top right
+	};
+	const TQ3Matrix4x4&	frustumToLocalMatrix(
+		E3View_State_GetMatrixFrustumToLocal( inView ) );
+	
+	int i;
+	for (i = 0; i < 8; ++i)
+	{
+		E3RationalPoint4D_Transform( &frustumCornersInFrustumSpace[i],
+			&frustumToLocalMatrix,
+			&out8Points[i] );
+	}
+	
+	// Test whether we are in the infinite yon case.
+	// This test works for both view angle aspect and orthographic cameras.
+	// If we ever support another type of camera, it should be checked.
+	const TQ3Matrix4x4& cameraToFrustumMatrix(
+		E3View_State_GetMatrixCameraToFrustum( inView ) );
+	bool	isInfiniteYon = (cameraToFrustumMatrix.value[2][2] +
+		cameraToFrustumMatrix.value[2][3] == 0.0f);
+	
+	// In the infinite yon case, the 4 far corners should be infinite points.
+	// Due to floating point inaccuracy, the w coordinates may not be exactly
+	// zero.  Make them so.
+	if (isInfiniteYon)
+	{
+		for (i = 4; i < 8; ++i)
+		{
+			out8Points[i].w = 0.0f;
+		}
+	}
+}
+
+static void MakeOneEdge(	const TQ3RationalPoint4D& inStart,
+							const TQ3RationalPoint4D& inEnd,
+							TQ3Vector3D& outEdge )
+{
+	if (inEnd.w == 0.0f)	// infinite point
+	{
+		outEdge.x = inEnd.x;
+		outEdge.y = inEnd.y;
+		outEdge.z = inEnd.z;
+	}
+	else
+	{
+		TQ3Point3D	startPt, endPt;
+		Q3FastRationalPoint4D_To3D( &inStart, &startPt );
+		Q3FastRationalPoint4D_To3D( &inEnd, &endPt );
+		Q3FastPoint3D_Subtract( &endPt, &startPt, &outEdge );
+	}
+}
+
+/*!
+	@function	GetFrustumEdgesInLocalSpace
+	@abstract	Given the local corners of the frustum, compute the local
+				edge directions.
+	@discussion	We assume that the corners are computed by
+				GetFrustumCornersInLocalSpace.
+				
+				It is not important that the edge directions be unit vectors,
+				but we must account for the possibility that rear frustum
+				corners may be infinite.
+*/
+static void GetFrustumEdgesInLocalSpace( const TQ3RationalPoint4D* in8Corners,
+										TQ3Vector3D* out6Edges )
+{
+	MakeOneEdge( in8Corners[0], in8Corners[4], out6Edges[0] );	// bottom left
+	MakeOneEdge( in8Corners[1], in8Corners[5], out6Edges[1] );	// top left
+	MakeOneEdge( in8Corners[2], in8Corners[6], out6Edges[2] );	// bottom right
+	MakeOneEdge( in8Corners[3], in8Corners[7], out6Edges[3] );	// top right
+
+	MakeOneEdge( in8Corners[0], in8Corners[2], out6Edges[4] );	// horizontal front
+	MakeOneEdge( in8Corners[0], in8Corners[1], out6Edges[5] );	// vertical front
+}
+
+static float VecDotPoint(	const TQ3Vector3D& inDirection,
+							const TQ3Point3D& inPoint )
+{
+	return inDirection.x * inPoint.x +
+		inDirection.y * inPoint.y +
+		inDirection.z * inPoint.z;
+}
+
+static float VecDotPoint(	const TQ3Vector3D& inDirection,
+							const TQ3RationalPoint4D& inPoint )
+{
+	float	theDot = inDirection.x * inPoint.x +
+		inDirection.y * inPoint.y +
+		inDirection.z * inPoint.z;
+	
+	if (inPoint.w == 0.0f)
+	{
+		if (theDot > 0.0f)
+		{
+			theDot = std::numeric_limits<float>::infinity();
+		}
+		else if (theDot < 0.0f)
+		{
+			theDot = - std::numeric_limits<float>::infinity();
+		}
+	}
+	else
+	{
+		theDot /= inPoint.w;
+	}
+	
+	return theDot;
+}
+
+static bool
+DirectionSeparatesCorners(	const TQ3Vector3D& inDirection,
+							const TQ3Point3D* inBoxCorners,
+							const TQ3RationalPoint4D* inFrustumCorners )
+{
+	float	boxDot = VecDotPoint( inDirection, inBoxCorners[0] );
+	float	frustDot = VecDotPoint( inDirection, inFrustumCorners[0] );
+
+	float	minBoxDot = boxDot;
+	float	maxBoxDot = boxDot;
+
+	float	minFrustDot = frustDot;
+	float	maxFrustDot = frustDot;
+	
+	int i;
+	for (i = 1; i < 8; ++i)
+	{
+		boxDot = VecDotPoint( inDirection, inBoxCorners[i] );
+		frustDot = VecDotPoint( inDirection, inFrustumCorners[i] );
+		
+		if (boxDot < minBoxDot)
+		{
+			minBoxDot = boxDot;
+		}
+		else if (boxDot > maxBoxDot)
+		{
+			maxBoxDot = boxDot;
+		}
+		
+		if (frustDot < minFrustDot)
+		{
+			minFrustDot = frustDot;
+		}
+		else if (frustDot > maxFrustDot)
+		{
+			maxFrustDot = frustDot;
+		}
+	}
+	
+	return (minFrustDot > maxBoxDot) || (minBoxDot > maxFrustDot);
+}
 
 //=============================================================================
 //      Public functions
@@ -721,4 +962,151 @@ bool	E3Cone_IntersectBoundingBox(
 	}
 	
 	return didIntersect;
+}
+
+
+/*!
+	@function	E3BoundingBox_IntersectViewFrustum
+	@abstract	Determine whether a bounding box in local coordinates
+				intersects the view frustum.
+	@param		inView			The view object.
+	@param		inLocalBox		A bounding box in local coordinates.
+	@result		True if the box intersects the frustum.
+*/
+bool	E3BoundingBox_IntersectViewFrustum(
+									TQ3ViewObject inView,
+									const TQ3BoundingBox& inLocalBox )
+{
+	if (inLocalBox.isEmpty)
+	{
+		return false;
+	}
+	
+	// It is tempting to do a quick and dirty test by transforming the box
+	// corners to frustum coordinates and then testing them against the simple
+	// frustum bounds.  However, that can give an incorrect result in some
+	// cases where a large bounding box is partially behind the camera.
+	
+	// The basic principle we use is that if two convex polyhedrons do not
+	// intersect, then there is a plane that separates them, and if there is a
+	// separating plane, there is one that is either parallel to a bounding
+	// plane of one of the polyhedrons, or one normal to the cross product of
+	// an edge of one polyhedron and an edge of the other.
+	
+	// Phase 1: test bounding box corners against frustum planes, in local
+	// coordinates.  If all corners are on the inside of all planes, we can
+	// return true.  If all corners are on the outside of some plane, we can
+	// return false.  This phase should usually suffice in the common case
+	// where the bounding box is small relative to the view frustum.
+	TQ3Point3D	boxLocalCorners[8];
+	E3BoundingBox_GetCorners( &inLocalBox, boxLocalCorners );
+	TQ3RationalPoint4D	localFrustumPlanes[6];
+	GetFrustumPlanesInLocalSpace( inView, localFrustumPlanes );
+	int	planeIndex, cornerIndex;
+	bool	isACornerOutside = false;
+	bool	isACornerInside;
+	
+	for (planeIndex = 0; planeIndex < 6; ++planeIndex)
+	{
+		isACornerInside = false;
+		for (cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
+		{
+			if (IsPointInsidePlane( boxLocalCorners[cornerIndex],
+				localFrustumPlanes[planeIndex] ))
+			{
+				isACornerInside = true;
+			}
+			else
+			{
+				isACornerOutside = true;
+			}
+		}
+		if (! isACornerInside)
+		{
+			// All corners are outside this plane, we are done.
+			return false;
+		}
+	}
+	if (! isACornerOutside)
+	{
+		// All corners are inside all planes, we are done.
+		return true;
+	}
+	
+	
+	// Phase 2: Test frustum corners against bounding box planes, in local
+	// coordinates.  This is conceptually similar to phase 1, but the far
+	// corners of the frustum might be infinite points, so we must use rational
+	// coordinates.
+	TQ3RationalPoint4D	frustumLocalCorners[8];
+	GetFrustumCornersInLocalSpace( inView, frustumLocalCorners );
+	TQ3RationalPoint4D	boxLocalPlanes[6] =
+	{
+		{ -1.0f, 0.0f, 0.0f, inLocalBox.min.x },
+		{ 1.0f, 0.0f, 0.0f, -inLocalBox.max.x },
+		{ 0.0f, -1.0f, 0.0f, inLocalBox.min.y },
+		{ 0.0f, 1.0f, 0.0f, -inLocalBox.max.y },
+		{ 0.0f, 0.0f, -1.0f, inLocalBox.min.z },
+		{ 0.0f, 0.0f, 1.0f, -inLocalBox.max.z }
+	};
+	isACornerOutside = false;
+	for (planeIndex = 0; planeIndex < 6; ++planeIndex)
+	{
+		isACornerInside = false;
+		for (cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
+		{
+			if (IsPointInsidePlane( frustumLocalCorners[cornerIndex],
+				boxLocalPlanes[planeIndex] ))
+			{
+				isACornerInside = true;
+			}
+			else
+			{
+				isACornerOutside = true;
+			}
+		}
+		if (! isACornerInside)
+		{
+			// All corners are outside this plane, we are done.
+			return false;
+		}
+	}
+	if (! isACornerOutside)
+	{
+		// All corners are inside all planes, we are done.
+		return true;
+	}
+	
+	
+	// Phase 3: Look for a separating plane determined by a cross product of
+	// edge vectors.  Note that a box has only 3 distinct edge directions, and
+	// a frustum has only 6.
+	TQ3Vector3D	frustumLocalEdges[6];
+	GetFrustumEdgesInLocalSpace( frustumLocalCorners, frustumLocalEdges );
+	TQ3Vector3D	boxLocalEdges[3] =
+	{
+		{ 1.0f, 0.0f, 0.0f },
+		{ 0.0f, 1.0f, 0.0f },
+		{ 0.0f, 0.0f, 1.0f },
+	};
+	TQ3Vector3D	crossProds[18];
+	int	i, j;
+	for (i = 0; i < 6; ++i)
+	{
+		for (j = 0; j < 3; ++j)
+		{
+			Q3FastVector3D_Cross( &frustumLocalEdges[i], &boxLocalEdges[j],
+				&crossProds[ 6 * j + i ] );
+		}
+	}
+	for (i = 0; i < 18; ++i)
+	{
+		if (DirectionSeparatesCorners( crossProds[i], boxLocalCorners, frustumLocalCorners ))
+		{
+			return false;
+		}
+	}
+
+
+	return true;
 }
