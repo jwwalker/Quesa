@@ -845,22 +845,28 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererPopMethod)(
 /*!
  *  @typedef
  *      TQ3XRendererIsBoundingBoxVisibleMethod
- *  @discussion
+ *  @abstract
  *      Test a local-coordinate bounding box for visibility.
  *
- *      Renderers should return a TQ3Boolean indicating if the bounding box
- *      would be partially or wholly contained within the viewing frustum
- *      for this frame.
+ *  @discussion
+ *      Renderers should return a TQ3Boolean indicating whether the bounding
+ *		box would affect the current rendering pass.  This method is used for
+ *		group culling.
  *
- *      This may simply require testing against the viewing frustum volume,
- *      or more complex tests may be required if objects outside the frustum
- *      are able to contribute to the scene (e.g., via reflections).
+ *      This may simply require testing for intersection with the view frustum,
+ *		as with <code>Q3View_IsBoundingBoxVisible</code>.  Some renderers may
+ *		require more complex tests.  For instance, in some cases, an object
+ *		outside the view frustum might contribute to the scene by reflections.
+ *		In other cases, an object might be within the view frustum and yet not
+ *		contribute to a lighting pass, due to being beyond the reach of the
+ *		light.
  *
- *      This method is optional.
+ *      This method is optional.  If it is not supplied, Quesa will behave as
+ *		if the method returned true.
  *
  *  @param theView          The view being rendered to.
  *  @param rendererPrivate  Renderer-specific instance data.
- *  @param theBounds        The bounding box to test.
+ *  @param theBounds        The local bounding box to test.
  *  @result                 The visibility of the bounding box.
  */
 typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3XRendererIsBoundingBoxVisibleMethod)(
