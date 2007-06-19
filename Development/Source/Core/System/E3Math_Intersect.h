@@ -104,4 +104,16 @@ bool	E3Cone_IntersectBoundingBox(
 									const TQ3BoundingBox& inBox );
 
 
+/*!
+	@function	E3BoundingBox_IntersectViewFrustum
+	@abstract	Determine whether a bounding box in local coordinates
+				intersects the view frustum.
+	@param		inView			The view object.
+	@param		inLocalBox		A bounding box in local coordinates.
+	@result		True if the box intersects the frustum.
+*/
+bool	E3BoundingBox_IntersectViewFrustum(
+									TQ3ViewObject inView,
+									const TQ3BoundingBox& inLocalBox );
+
 #endif
