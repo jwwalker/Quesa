@@ -51,6 +51,7 @@
 #include "E3IOFileFormat.h"
 #include "E3Pick.h"
 #include "E3View.h"
+#include "E3Math_Intersect.h"
 
 
 
@@ -175,6 +176,13 @@ typedef struct TQ3ViewData {
 	TQ3BoundingBox				boundingBox;
 	TQ3SlabObject				boundingPointsSlab;
 	TQ3BoundingSphere			boundingSphere;
+	
+	
+	// Derived cached matrices
+	TQ3Matrix4x4				matrixLocalToFrustum;
+	bool						isLocalToFrustumValid;
+	TQ3Matrix4x4				matrixLocalToFrustumInverse;
+	bool						isLocalToFrustumInverseValid;
 	
 	
 	// Pick state
@@ -561,6 +569,8 @@ e3view_stack_push ( E3View* view )
 		{
 		e3view_stack_initialise ( newTop ) ;
 		newTop->next = oldTop ;
+		view->instanceData.isLocalToFrustumValid = false;
+		view->instanceData.isLocalToFrustumInverseValid = false;
 		}
 	
 	// Otherwise, clone what was on the top to the new top
@@ -615,6 +625,12 @@ e3view_stack_pop ( E3View* view )
 	Q3Object_CleanDispose ( & view->instanceData.viewStack->shaderIllumination ) ;
 	Q3Object_CleanDispose ( & view->instanceData.viewStack->shaderSurface ) ;
 	Q3Object_CleanDispose ( & view->instanceData.viewStack->styleHighlight ) ;
+
+
+
+	// Invalidate caches
+	view->instanceData.isLocalToFrustumValid = false;
+	view->instanceData.isLocalToFrustumInverseValid = false;
 
 
 
@@ -2585,6 +2601,64 @@ E3View_State_GetMatrixLocalToWorld(TQ3ViewObject theView)
 
 
 
+//=============================================================================
+//      E3View_State_GetMatrixLocalToFrustum : Get the local-to-frustum matrix.
+//-----------------------------------------------------------------------------
+const TQ3Matrix4x4&
+E3View_State_GetMatrixLocalToFrustum( TQ3ViewObject inView )
+{
+	E3View*	theView = (E3View*) inView;
+	
+	if (! theView->instanceData.isLocalToFrustumValid)
+	{
+		TQ3Matrix4x4	localToCamera;
+		
+		Q3Matrix4x4_Multiply( &theView->instanceData.viewStack->matrixLocalToWorld,
+			&theView->instanceData.viewStack->matrixWorldToCamera,
+			&localToCamera );
+		
+		Q3Matrix4x4_Multiply( &localToCamera,
+			&theView->instanceData.viewStack->matrixCameraToFrustum,
+			&theView->instanceData.matrixLocalToFrustum );
+		
+		theView->instanceData.isLocalToFrustumValid = true;
+	}
+	
+	return theView->instanceData.matrixLocalToFrustum;
+}
+
+
+
+//=============================================================================
+//      E3View_State_GetMatrixCameraToFrustum : Get the camera-to-frustum matrix.
+//-----------------------------------------------------------------------------
+const TQ3Matrix4x4&
+E3View_State_GetMatrixCameraToFrustum( TQ3ViewObject theView )
+{
+	return ( (E3View*) theView )->instanceData.viewStack->matrixCameraToFrustum;
+}
+
+
+
+//=============================================================================
+//      E3View_State_GetMatrixLocalToFrustum : Get the frustum-to-local matrix.
+//-----------------------------------------------------------------------------
+const TQ3Matrix4x4&
+E3View_State_GetMatrixFrustumToLocal( TQ3ViewObject inView )
+{
+	E3View*	theView = (E3View*) inView;
+	
+	if (! theView->instanceData.isLocalToFrustumInverseValid)
+	{
+		Q3Matrix4x4_Invert( &E3View_State_GetMatrixLocalToFrustum( inView ),
+			&theView->instanceData.matrixLocalToFrustumInverse );
+		
+		theView->instanceData.isLocalToFrustumInverseValid = true;
+	}
+	
+	return theView->instanceData.matrixLocalToFrustumInverse;
+}
+
 
 
 //=============================================================================
@@ -2668,6 +2742,10 @@ E3View_State_SetMatrix(TQ3ViewObject			theView,
 		( (E3View*) theView )->instanceData.viewStack->matrixCameraToFrustum = *cameraToFrustum;
 		}
 
+
+	// Invalidate caches
+	( (E3View*) theView )->instanceData.isLocalToFrustumValid = false;
+	( (E3View*) theView )->instanceData.isLocalToFrustumInverseValid = false;
 
 
 	// Update the renderer
@@ -4206,8 +4284,8 @@ E3View_IsBoundingBoxVisible(TQ3ViewObject theView, const TQ3BoundingBox *theBBox
 
 
 
-	// Ask the renderer if the bounding box is visible
-	isVisible = E3Renderer_Method_IsBBoxVisible(theView, theBBox);
+	isVisible = E3BoundingBox_IntersectViewFrustum(theView, *theBBox)? kQ3True : kQ3False;
+
 
 	return(isVisible);
 }
