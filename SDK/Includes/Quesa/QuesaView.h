@@ -766,14 +766,19 @@ Q3StateOperator_Submit (
 /*!
  *  @function
  *      Q3View_IsBoundingBoxVisible
- *  @discussion
+ *  @abstract
  *      Test a bounding box for visibility.
  *
- *      The bounding box is compared against the view frustum of the camera
- *      currently associated with the view.
+ *  @discussion
+ *      The bounding box (assumed to be in local coordinates) is tested for
+ *		intersection with the view frustum of the camera currently associated
+ *		with the view.
+ *
+ *		This function could be used for visibility culling, either in a
+ *		rendering loop of client code or within a renderer.
  *
  *  @param view             The view to check the bounding box against.
- *  @param bbox             The bounding box to test.
+ *  @param bbox             The local bounding box to test.
  *  @result                 True or false as the bounding box is visible.
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
