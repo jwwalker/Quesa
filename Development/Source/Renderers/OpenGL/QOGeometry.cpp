@@ -55,6 +55,7 @@
 #include "E3Memory.h"
 #include "E3View.h"
 #include "E3Math.h"
+#include "E3Math_Intersect.h"
 
 
 
@@ -1332,21 +1333,6 @@ bool	QORenderer::Renderer::IsFakeSeparateSpecularColorNeeded() const
 }
 
 
-/*!
-	@function	IsBoundsVisible
-	@abstract	Test whether a bounding box may be visible, for culling.
-*/
-bool	QORenderer::Renderer::IsBoundsVisible( const TQ3BoundingBox& inLocalBox ) const
-{
-	TQ3BoundingBox	frustumBox;
-	E3BoundingBox_Transform( &inLocalBox, &mMatrixState.GetLocalToFrustum(),
-		&frustumBox );
-	
-	return (frustumBox.min.x < 1.0f) &&
-		(frustumBox.max.x > -1.0f) &&
-		(frustumBox.min.y < 1.0f) &&
-		(frustumBox.max.y > -1.0f);
-}
 
 /*!
 	@function		SubmitTriMesh
@@ -1371,7 +1357,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	}
 	
 	// Cull objects not visible from the current camera
-	if ( ! IsBoundsVisible( inGeomData->bBox ))
+	if ( ! E3BoundingBox_IntersectViewFrustum( inView, inGeomData->bBox ))
 	{
 		return true;
 	}
