@@ -823,12 +823,12 @@ E3Memory_NextRecordedObject( TQ3Object inObject )
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
 	
 	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, NULL ) ;
-	Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, NULL ) ;
 	
 	if ( inObject == NULL )
 		{
 		// Return the first thing in the list, if any.
-		theNext = NEXTLINK( theGlobals->listHead ) ;
+		if (theGlobals->listHead != NULL)
+			theNext = NEXTLINK( theGlobals->listHead ) ;
 		}
 	else
 		theNext = inObject->next ;
