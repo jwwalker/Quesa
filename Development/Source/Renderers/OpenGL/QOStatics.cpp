@@ -197,6 +197,24 @@ TQ3ViewStatus	QORenderer::Statics::EndPassMethod(
 	return theStatus;
 }
 
+TQ3Boolean	QORenderer::Statics::IsBoundingBoxVisibleMethod(
+									TQ3ViewObject           theView,
+		                            void                    *rendererPrivate,
+		                            const TQ3BoundingBox    *theBounds )
+{
+	TQ3Boolean	shouldSubmit = kQ3True;
+	QORenderer::Renderer*	me = *(QORenderer::Renderer**)rendererPrivate;
+	try
+	{
+		shouldSubmit = me->IsBoundingBoxVisible( theView, *theBounds )?
+			kQ3True : kQ3False;
+	}
+	catch (...)
+	{
+	}
+	return shouldSubmit;
+}
+
 TQ3Status	QORenderer::Statics::SubmitTriMeshMethod(
 									TQ3ViewObject inView,
 									void* privateData,

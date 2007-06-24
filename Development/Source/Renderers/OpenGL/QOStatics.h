@@ -111,6 +111,11 @@ private:
 									TQ3ViewObject inView,
 									void* privateData );
 
+	static TQ3Boolean		IsBoundingBoxVisibleMethod(
+									TQ3ViewObject           theView,
+		                            void                    *rendererPrivate,
+		                            const TQ3BoundingBox    *theBounds );
+
 	static TQ3XRendererSubmitGeometryMethod
 							SubmitGeometrySubMetaHandler(
 									TQ3ObjectType inGeomType );
