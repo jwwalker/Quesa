@@ -48,6 +48,8 @@
 #include "E3IOFileFormat.h"
 #include "E3View.h"
 #include "E3ClassTree.h"
+#include "E3Renderer.h"
+#include "E3Style.h"
 
 
 
@@ -1338,6 +1340,19 @@ e3group_display_submit_render(TQ3ViewObject theView, TQ3ObjectType objectType,
 	TQ3DisplayGroupState theState;
 	TQ3Status qd3dStatus = Q3DisplayGroup_GetState( theObject, &theState );
 	shouldSubmit = E3Bit_AnySet( theState, kQ3DisplayGroupStateMaskIsDrawn );
+
+
+	
+	// Do group culling if appropriate
+	if ( shouldSubmit &&
+		E3Bit_AnySet( theState, kQ3DisplayGroupStateMaskUseBoundingBox ) &&
+		E3View_IsGroupCullingAllowed( theView ) )
+	{
+		TQ3BoundingBox	theBBox;
+		((E3DisplayGroup*) theObject)->GetBoundingBox( &theBBox );
+		
+		shouldSubmit = E3Renderer_Method_IsBBoxVisible( theView, &theBBox );
+	}
 
 
 
@@ -3277,7 +3292,8 @@ E3DisplayGroup::GetBoundingBox ( TQ3BoundingBox *pBBox )
 	{
 	// Get the field
 	*pBBox = bBox ;
-	return kQ3Success ;
+	return ((state & kQ3DisplayGroupStateMaskUseBoundingBox) != 0)?
+		kQ3Success : kQ3Failure;
 	}
 
 
@@ -3292,6 +3308,9 @@ E3DisplayGroup::RemoveBoundingBox ( void )
 	{
 	// Set the field
 	state &= ~kQ3DisplayGroupStateMaskUseBoundingBox ;
+	
+	Q3Shared_Edited ( this ) ;
+	
 	return kQ3Success ;
 	}
 
@@ -3307,6 +3326,10 @@ E3DisplayGroup::CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewO
 	{	
 	TQ3ViewStatus viewErr ;
 	TQ3BoundingBox theBBox ;
+	TQ3SubdivisionStyleData	subData = {
+		kQ3SubdivisionMethodConstant,
+		20.0f, 20.0f
+	};
 
 
 
@@ -3316,6 +3339,10 @@ E3DisplayGroup::CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewO
 	
 	do
 		{
+		// Submit a subdivision style, because some geometries do not implement
+		// the default screen space subdivision.
+		E3SubdivisionStyle_Submit( &subData, view );
+		
 		err = Q3DisplayGroup_Submit ( this, view ) ;
 		viewErr = Q3View_EndBoundingBox ( view, &theBBox ) ;
 		}
@@ -3329,6 +3356,7 @@ E3DisplayGroup::CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewO
 	
 	state |= kQ3DisplayGroupStateMaskUseBoundingBox ;
 	bBox = theBBox ;
+	Q3Shared_Edited ( this ) ;
 	
 	return kQ3Success ;
 	}
