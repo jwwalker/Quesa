@@ -241,6 +241,23 @@ wf_wireframe_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *
 
 
 //=============================================================================
+//      wf_is_bounding_box_visible : Test for group culling.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+wf_is_bounding_box_visible( TQ3ViewObject           theView,
+                            void                    *rendererPrivate,
+                            const TQ3BoundingBox    *theBounds )
+{
+#pragma unused( rendererPrivate )
+
+	return Q3View_IsBoundingBoxVisible( theView, theBounds );
+}
+
+
+
+
+
+//=============================================================================
 //      wf_update_diffuse_color_method : Update diffuse color method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -339,6 +356,10 @@ wf_wireframe_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeRendererIsInteractive:
 			theMethod = (TQ3XFunctionPointer) kQ3True;
+			break;
+			
+		case kQ3XMethodTypeRendererIsBoundingBoxVisible:
+			theMethod = (TQ3XFunctionPointer) wf_is_bounding_box_visible;
 			break;
 		}
 	
