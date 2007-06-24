@@ -354,6 +354,23 @@ ir_interactive_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32
 
 
 //=============================================================================
+//      ir_is_bounding_box_visible : Test for group culling.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+ir_is_bounding_box_visible( TQ3ViewObject           theView,
+                            void                    *rendererPrivate,
+                            const TQ3BoundingBox    *theBounds )
+{
+#pragma unused( rendererPrivate )
+
+	return Q3View_IsBoundingBoxVisible( theView, theBounds );
+}
+
+
+
+
+
+//=============================================================================
 //      ir_interactive_metahandler : Renderer metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -418,6 +435,10 @@ ir_interactive_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeRendererIsInteractive:
 			theMethod = (TQ3XFunctionPointer) kQ3True;
+			break;
+			
+		case kQ3XMethodTypeRendererIsBoundingBoxVisible:
+			theMethod = (TQ3XFunctionPointer) ir_is_bounding_box_visible;
 			break;
 		}
 	
