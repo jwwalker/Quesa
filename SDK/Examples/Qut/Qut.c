@@ -111,7 +111,11 @@ qut_create_camera(TQ3DrawContextObject theDrawContext)
     TQ3Vector3D                     cameraUp    = { 0.0f, 1.0f, 0.0f };
     float                           fieldOfView = Q3Math_DegreesToRadians(50.0f);
     float                           hither      =  0.1f;
+#if defined(INFINITY) && !defined(TARGET_API_MAC_OS8)
     float                           yon         = INFINITY;
+#else
+	float                           yon         = 10.0f;
+#endif
     float                           rectWidth, rectHeight;
     TQ3ViewAngleAspectCameraData    cameraData;
     TQ3Status                       qd3dStatus;
