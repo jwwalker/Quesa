@@ -235,6 +235,10 @@ protected:
     								TQ3GroupObject inLights );
     TQ3ViewStatus			EndPass(
     								TQ3ViewObject inView );
+    
+    bool					IsBoundingBoxVisible(
+    								TQ3ViewObject inView,
+    								const TQ3BoundingBox& inBounds );
 	
 	bool					SubmitTriMesh(
 									TQ3ViewObject inView,

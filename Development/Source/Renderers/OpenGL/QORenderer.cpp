@@ -162,3 +162,14 @@ QORenderer::Renderer::~Renderer()
 		GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	}
 }
+
+bool	QORenderer::Renderer::IsBoundingBoxVisible(
+								TQ3ViewObject inView,
+								const TQ3BoundingBox& inBounds )
+{
+	bool	isVisible =
+		(Q3View_IsBoundingBoxVisible( inView, &inBounds ) == kQ3True) &&
+		mLights.IsLit( inBounds );
+	
+	return isVisible;
+}
