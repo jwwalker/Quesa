@@ -1691,6 +1691,7 @@ e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
 	// Initialise our instance data
 	instanceData->submitRetainedMethod  = (TQ3XViewSubmitRetainedMethod) e3view_submit_retained_error;
 	instanceData->submitImmediateMethod = (TQ3XViewSubmitImmediateMethod) e3view_submit_immediate_error;
+	instanceData->allowGroupCulling = kQ3True;
 	
 	instanceData->viewAttributes = Q3AttributeSet_New();
 	if (instanceData->viewAttributes != NULL)
@@ -4305,6 +4306,19 @@ E3View_AllowAllGroupCulling(TQ3ViewObject theView, TQ3Boolean allowCulling)
 
 	return kQ3Success ;
 	}
+
+
+
+
+
+//=============================================================================
+//      E3View_IsGroupCullingAllowed : Access group culling state.
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3View_IsGroupCullingAllowed( TQ3ViewObject theView )
+{
+	return ( (E3View*) theView )->instanceData.allowGroupCulling;
+}
 
 
 
