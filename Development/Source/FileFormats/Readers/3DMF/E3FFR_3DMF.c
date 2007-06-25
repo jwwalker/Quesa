@@ -249,6 +249,18 @@ public :
 	} ;
 	
 
+class E3DisplayGroupBBox : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeDisplayGroupBBox, E3DisplayGroupBBox, OpaqueTQ3Object )
+public :
+
+	TQ3BoundingBox							instanceData ;
+	} ;
+	
+
 
 class E3ShaderUVTransform : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
@@ -1155,6 +1167,81 @@ e3fformat_3dmf_displaygroupstate_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectWrite:
 			theMethod = (TQ3XFunctionPointer) E3FFW_3DMF_32_Write;
+			break;
+
+	// traverse are implemented via Q3XView_SubmitSubObjectData
+		}
+
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_displaygroupbbox_read : DisplayGroupBBox read object method.
+//-----------------------------------------------------------------------------
+static TQ3Object
+e3fformat_3dmf_displaygroupbbox_read(TQ3FileObject theFile)
+{
+	TQ3Object	theObject = NULL;
+	TQ3BoundingBox	theBox;
+	
+	if ( (kQ3Success == Q3Point3D_Read( &theBox.min, theFile )) &&
+		(kQ3Success == Q3Point3D_Read( &theBox.max, theFile )) )
+	{
+		theBox.isEmpty = kQ3False;
+		
+		// Create the object
+		theObject = E3ClassTree::CreateInstance( kQ3ObjectTypeDisplayGroupBBox, kQ3False, &theBox );
+	}
+
+	
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_displaygroupbbox_write : DisplayGroupBBox write object method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_displaygroupbbox_write( TQ3BoundingBox *object, TQ3FileObject theFile )
+{
+	TQ3Status	result = Q3Point3D_Write( &object->min, theFile );
+	
+	if (result == kQ3Success)
+	{
+		result = Q3Point3D_Write( &object->max, theFile );
+	}
+
+	return(result);
+}
+
+
+
+
+
+//=============================================================================
+//      e3fformat_3dmf_displaygroupbbox_metahandler : DisplayGroupBBox metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3fformat_3dmf_displaygroupbbox_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectRead:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_displaygroupbbox_read;
+			break;
+
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_displaygroupbbox_write;
 			break;
 
 	// traverse are implemented via Q3XView_SubmitSubObjectData
@@ -2602,6 +2689,12 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameDisplayGroupState,
 											e3fformat_3dmf_displaygroupstate_metahandler,
 											E3DisplayGroupState ) ;
+
+
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameDisplayGroupBBox,
+											e3fformat_3dmf_displaygroupbbox_metahandler,
+											E3DisplayGroupBBox ) ;
 
 
 	if(qd3dStatus == kQ3Success)
