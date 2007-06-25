@@ -1050,7 +1050,7 @@ Q3DisplayGroup_Submit (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_SetAndUseBoundingBox (
     TQ3GroupObject                group,
-    TQ3BoundingBox                *bBox
+    const TQ3BoundingBox          *bBox
 );
 
 
