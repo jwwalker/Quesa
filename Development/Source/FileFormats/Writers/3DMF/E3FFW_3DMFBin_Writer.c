@@ -1083,14 +1083,14 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 		if(qd3dStatus != kQ3Success)
 			return qd3dStatus;
 		
-		if(state != defaultState){	
+		if(state != defaultState){
 			writeState = (TQ3DisplayGroupState*)Q3Memory_Allocate(sizeof(TQ3DisplayGroupState));
 			
 			if(writeState){
 					
 				*writeState = 0;
 				
-				// Why the memory layout of the group state flags is different fron those in disk  ????
+				// Why the memory layout of the group state flags is different from those in disk  ????
 				
 				
 				if((state & kQ3DisplayGroupStateMaskIsInline) == kQ3DisplayGroupStateMaskIsInline)
@@ -1118,6 +1118,25 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 				}
 			else{
 				return kQ3Failure;
+				}
+			}
+		
+		TQ3BoundingBox	bBox;
+		if (kQ3Success == Q3DisplayGroup_GetBoundingBox( object, &bBox ))
+			{
+			TQ3BoundingBox*	writeBoxData = (TQ3BoundingBox*) Q3Memory_Allocate( sizeof(TQ3BoundingBox) );
+			
+			if (writeBoxData)
+				{
+				*writeBoxData = bBox;
+
+				TQ3XObjectClass displayGroupBoxClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeDisplayGroupBBox );
+				
+				// Note that we do not write the bounding box isEmpty flag, hence we do not use
+				// sizeof( TQ3BoundingBox ) as the size.
+				if (displayGroupBoxClass != NULL)
+					qd3dStatus = Q3XView_SubmitSubObjectData( view, displayGroupBoxClass,
+						2 * sizeof(TQ3Point3D), writeBoxData, E3FFW_3DMF_Default_Delete );
 				}
 			}
 		}
