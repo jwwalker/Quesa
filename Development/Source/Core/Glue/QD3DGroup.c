@@ -1264,7 +1264,7 @@ Q3DisplayGroup_Submit(TQ3GroupObject group, TQ3ViewObject view)
 //      Q3DisplayGroup_SetAndUseBoundingBox : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject group, TQ3BoundingBox *bBox)
+Q3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject group, const TQ3BoundingBox *bBox)
 {
 
 
