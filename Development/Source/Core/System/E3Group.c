@@ -54,7 +54,6 @@
 
 
 
-
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
@@ -3220,7 +3219,7 @@ TQ3Status
 E3DisplayGroup::GetState ( TQ3DisplayGroupState* pState )
 	{
 	// Get the field
-	*pState = state ;
+	*pState = state & ~kQ3DisplayGroupStateMaskPrivateBits;
 	return kQ3Success ;
 	}
 
@@ -3235,7 +3234,7 @@ TQ3Status
 E3DisplayGroup::SetState ( TQ3DisplayGroupState pState )
 	{
 	// Set the field
-	state = pState ;
+	state = (state & kQ3DisplayGroupStateMaskPrivateBits) | pState ;
 	
 	Q3Shared_Edited ( this ) ;
 
@@ -3273,7 +3272,8 @@ E3DisplayGroup::SetAndUseBoundingBox ( TQ3BoundingBox *pBBox )
 	{
 	// Set the field
 	bBox   = *pBBox ;
-	state |= kQ3DisplayGroupStateMaskUseBoundingBox ;
+	state |= kQ3DisplayGroupStateMaskHasBoundingBox |
+			kQ3DisplayGroupStateMaskUseBoundingBox;
 	
 	Q3Shared_Edited ( this ) ;
 
@@ -3292,7 +3292,7 @@ E3DisplayGroup::GetBoundingBox ( TQ3BoundingBox *pBBox )
 	{
 	// Get the field
 	*pBBox = bBox ;
-	return ((state & kQ3DisplayGroupStateMaskUseBoundingBox) != 0)?
+	return ((state & kQ3DisplayGroupStateMaskHasBoundingBox) != 0)?
 		kQ3Success : kQ3Failure;
 	}
 
@@ -3307,7 +3307,7 @@ TQ3Status
 E3DisplayGroup::RemoveBoundingBox ( void )
 	{
 	// Set the field
-	state &= ~kQ3DisplayGroupStateMaskUseBoundingBox ;
+	state &= ~(kQ3DisplayGroupStateMaskUseBoundingBox | kQ3DisplayGroupStateMaskHasBoundingBox);
 	
 	Q3Shared_Edited ( this ) ;
 	
@@ -3354,7 +3354,8 @@ E3DisplayGroup::CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewO
 	if ( err == kQ3Failure )
 		return kQ3Failure ;
 	
-	state |= kQ3DisplayGroupStateMaskUseBoundingBox ;
+	state |= kQ3DisplayGroupStateMaskHasBoundingBox |
+			kQ3DisplayGroupStateMaskUseBoundingBox;
 	bBox = theBBox ;
 	Q3Shared_Edited ( this ) ;
 	

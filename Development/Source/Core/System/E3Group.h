@@ -100,6 +100,23 @@ typedef enum
 
 
 
+/*
+	Private display group state flag
+	
+	The documentation is not clear, but it appears that the value of the
+	kQ3DisplayGroupStateMaskUseBoundingBox bit may be independent of whether
+	a bounding box has actually been set for the group.  The APIs that set or
+	remove a bounding box do say that they affect
+	kQ3DisplayGroupStateMaskUseBoundingBox, but the use of this flag in 3DMF
+	files has not been clear.
+*/
+enum
+{
+	kQ3DisplayGroupStateMaskHasBoundingBox      = (1 << 31),
+	kQ3DisplayGroupStateMaskPrivateBits			= kQ3DisplayGroupStateMaskHasBoundingBox
+};
+
+
 
 
 //=============================================================================
