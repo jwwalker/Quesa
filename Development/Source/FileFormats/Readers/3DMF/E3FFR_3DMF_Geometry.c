@@ -286,9 +286,16 @@ e3read_3dmf_group_subobjects( TQ3Object theGroup, TQ3FileObject theFile )
 	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
 		childObject = Q3File_ReadObject(theFile);
 		if(childObject != NULL){
-			if(Q3Object_IsType (childObject, kQ3ObjectTypeDisplayGroupState))
+			if (Q3Object_IsType (childObject, kQ3ObjectTypeDisplayGroupState))
 				{
 				Q3DisplayGroup_SetState (theGroup, E3FFormat_3DMF_DisplayGroupState_Get(childObject));
+				Q3Object_Dispose(childObject);
+				}
+			else if (Q3Object_IsType (childObject, kQ3ObjectTypeDisplayGroupBBox))
+				{
+				const TQ3BoundingBox*	theBounds = (const TQ3BoundingBox*)
+					childObject->FindLeafInstanceData();
+				Q3DisplayGroup_SetAndUseBoundingBox( theGroup, theBounds );
 				Q3Object_Dispose(childObject);
 				}
 			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
