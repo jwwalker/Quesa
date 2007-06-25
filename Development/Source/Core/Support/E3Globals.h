@@ -239,6 +239,7 @@ extern "C" {
 #define kQ3ClassNameAttributeSetListVertex			"VertexAttributeSetList"
 #define kQ3ClassNameGeneralPolygonHint				"GeneralPolygonHint"
 #define kQ3ClassNameDisplayGroupState				"DisplayGroupState"
+#define kQ3ClassNameDisplayGroupBBox				"DisplayGroupBBox"
 #define kQ3ClassNameCaps							"Caps"
 #define kQ3ClassNameTopCapAttributeSet				"TopCapAttributeSet"
 #define kQ3ClassNameBottomCapAttributeSet			"BottomCapAttributeSet"
@@ -329,6 +330,7 @@ extern "C" {
 #define kQ3ObjectTypeAttributeSetListGeometry		Q3_OBJECT_TYPE('g', 'a', 's', 'l')
 #define kQ3ObjectTypeAttributeSetListVertex			Q3_OBJECT_TYPE('v', 'a', 's', 'l')
 #define kQ3ObjectTypeDisplayGroupState				Q3_OBJECT_TYPE('d', 'g', 's', 't')
+#define kQ3ObjectTypeDisplayGroupBBox				Q3_OBJECT_TYPE('d', 'g', 'b', 'b')
 #define kQ3ObjectTypeGeneralPolygonHint				Q3_OBJECT_TYPE('g', 'p', 'l', 'h')
 #define kQ3ObjectTypeGeometryCaps					Q3_OBJECT_TYPE('c', 'a', 'p', 's')
 #define kQ3ObjectTypeMeshCorners					Q3_OBJECT_TYPE('c', 'r', 'n', 'r')
