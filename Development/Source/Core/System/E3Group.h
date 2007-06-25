@@ -260,7 +260,7 @@ public :
 	TQ3Status				GetState ( TQ3DisplayGroupState* pState ) ;
 	TQ3Status				SetState ( TQ3DisplayGroupState pState ) ;	
 	
-	TQ3Status				SetAndUseBoundingBox ( TQ3BoundingBox *pBBox ) ;
+	TQ3Status				SetAndUseBoundingBox ( const TQ3BoundingBox *pBBox ) ;
 	TQ3Status				GetBoundingBox ( TQ3BoundingBox *pBBox ) ;
 	TQ3Status				RemoveBoundingBox ( void ) ;
 	TQ3Status				CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewObject view ) ;

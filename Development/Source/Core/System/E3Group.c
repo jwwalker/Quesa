@@ -3268,7 +3268,7 @@ E3DisplayGroup_Submit(TQ3GroupObject theGroup, TQ3ViewObject theView)
 //      E3DisplayGroup_SetAndUseBoundingBox : Set and activate a bounding box.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3DisplayGroup::SetAndUseBoundingBox ( TQ3BoundingBox *pBBox )
+E3DisplayGroup::SetAndUseBoundingBox ( const TQ3BoundingBox *pBBox )
 	{
 	// Set the field
 	bBox   = *pBBox ;
