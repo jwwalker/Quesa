@@ -1445,21 +1445,22 @@ IRGeometry_Submit_TriMesh(TQ3ViewObject				theView,
 	CLockTriMeshData	locker;
 	bool				wasValid;
 
-	
-	// Look for a cached optimized geometry.
-	cachedGeom = GetCachedOptimizedTriMesh( theGeom, wasValid );
-	if ( ! wasValid )
-	{
-		// no cached data or stale cache
-		cachedGeom = CQ3ObjectRef( Q3TriMesh_Optimize( theGeom ) );
-		SetCachedOptimizedTriMesh( theGeom, cachedGeom.get() );
+	if (theGeom != NULL) // the non retained case
+	{	
+		// Look for a cached optimized geometry.
+		cachedGeom = GetCachedOptimizedTriMesh( theGeom, wasValid );
+		if ( ! wasValid )
+		{
+			// no cached data or stale cache
+			cachedGeom = CQ3ObjectRef( Q3TriMesh_Optimize( theGeom ) );
+			SetCachedOptimizedTriMesh( theGeom, cachedGeom.get() );
+		}
+		
+		if (cachedGeom.isvalid())
+		{
+			locker.LockData( cachedGeom.get(), &geomData );
+		}
 	}
-	
-	if (cachedGeom.isvalid())
-	{
-		locker.LockData( cachedGeom.get(), &geomData );
-	}
-	
 
 	// Activate our context
 	GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
