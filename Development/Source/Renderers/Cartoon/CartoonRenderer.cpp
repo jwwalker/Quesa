@@ -282,7 +282,7 @@ void CCartoonRendererQuesa::DisableMultiTexturing()
 	// Turn off texture unit 1
 	SetClientActiveTextureARB( 1 );
 	EnableTextureArray( false );
-	SetActiveTextureARB( 0 );
+	SetActiveTextureARB( 1 );
 	glDisable( GL_TEXTURE_2D );
 	
 	// Turn off texture unit 0, and leave unit 0 active
