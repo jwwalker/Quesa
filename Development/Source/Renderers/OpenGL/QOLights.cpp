@@ -803,6 +803,15 @@ bool	QORenderer::Lights::IsShadowMarkingPass() const
 }
 
 
+/*!
+	@function	IsShadowPhase
+	@abstract	Test whether this is a shadow marking or lighting pass.
+*/
+bool	QORenderer::Lights::IsShadowPhase() const
+{
+	return mIsShadowPhase;
+}
+
 
 /*!
 	@function	SetOnlyAmbient
