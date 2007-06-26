@@ -118,6 +118,7 @@ public:
 	inline bool				IsLastLightingPass() const {return !mIsAnotherPassNeeded;}
 	bool					IsShadowMarkingPass() const;
 	bool					IsLit( const TQ3BoundingBox& inBounds ) const;
+	bool					IsShadowPhase() const;
 	
 	void					MarkShadowOfTriMesh(
 									TQ3GeometryObject inTMObject,
