@@ -167,8 +167,14 @@ bool	QORenderer::Renderer::IsBoundingBoxVisible(
 								TQ3ViewObject inView,
 								const TQ3BoundingBox& inBounds )
 {
+	// An object that is not visible may cast a shadow that is visible.
+	// Therefore, when in a shadowing phase, we do not do a bounding box
+	// visibility test.
 	bool	isVisible =
-		(Q3View_IsBoundingBoxVisible( inView, &inBounds ) == kQ3True) &&
+		(
+			mLights.IsShadowPhase() ||
+			(Q3View_IsBoundingBoxVisible( inView, &inBounds ) == kQ3True)
+		) &&
 		mLights.IsLit( inBounds );
 	
 	return isVisible;
