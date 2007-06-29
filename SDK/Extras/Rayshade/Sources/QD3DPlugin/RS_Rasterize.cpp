@@ -379,6 +379,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_Nop(
 	
 	return kQ3Success;
 }
+
 static
 TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 					TRSRasterizer				*inRasterizer,
@@ -401,13 +402,22 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 			case kQ3PixelTypeARGB32:
 				{
 					unsigned int pixel;
-					pixel = 	(0xFF << 24) |  
-								(rgbPixels[i][0] << 16) | 
+#if QUESA_HOST_IS_BIG_ENDIAN
+					pixel = 	(0xFF << 24) |
+								(rgbPixels[i][0] << 16) |
 								(rgbPixels[i][1] << 8)  |
 								(rgbPixels[i][2] << 0);
 					*((unsigned int *)rowAddr) = pixel;
+#else
+					pixel = 	(0xFF << 0) |
+								(rgbPixels[i][0] << 8)  |
+								(rgbPixels[i][1] << 16) |
+								(rgbPixels[i][2] << 24);
+					*((unsigned int *)rowAddr) = pixel;
+#endif
 				}
 				break;
+
 			case kQ3PixelTypeRGB24:
 #if QUESA_HOST_IS_BIG_ENDIAN
 				{
