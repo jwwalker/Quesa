@@ -48,7 +48,6 @@
 //      Include files
 //-----------------------------------------------------------------------------
 
-#include "E3Prefix.h"
 #include "GLPrefix.h"
 #include "CQ3ObjectRef.h"
 
