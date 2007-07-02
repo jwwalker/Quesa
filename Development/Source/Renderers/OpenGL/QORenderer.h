@@ -378,6 +378,7 @@ protected:
 	TQ3ColorRGB				mCurrentEmissiveColor;
 	float 					mLineWidth;
 	TQ3XAttributeMask		mAttributesMask;
+	bool					mUpdateShader;
 	
 	// style states
 	StyleState				mStyleState;

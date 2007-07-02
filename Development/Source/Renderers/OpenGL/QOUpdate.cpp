@@ -169,6 +169,11 @@ void	QORenderer::Renderer::UpdateIlluminationShader(
 		return;
 	}
 	
+	if (!mUpdateShader)
+	{
+		return;
+	}
+	
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
