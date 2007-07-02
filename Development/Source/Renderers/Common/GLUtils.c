@@ -45,6 +45,8 @@
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
 #include "GLUtils.h"
+#include "E3Debug.h"
+#include "QuesaMemory.h"
 
 #include <stdio.h>
 #include <string.h>

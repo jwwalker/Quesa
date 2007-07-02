@@ -46,8 +46,8 @@
 #include "GLPrefix.h"
 #include "GLCamera.h"
 #include "GLUtils.h"
-
-
+#include "E3Debug.h"
+#include "QuesaMath.h"
 
 
 
