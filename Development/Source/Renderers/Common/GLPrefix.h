@@ -46,7 +46,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 // Quesa
-#include "E3Prefix.h"
+#include "Quesa.h"
 
 
 // OpenGL
