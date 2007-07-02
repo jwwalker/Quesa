@@ -283,6 +283,8 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 	// Reset pass counter
 	mPassIndex = 0;
+	mUpdateShader = true;
+	mAttributesMask = kQ3XAttributeMaskAll;
 	
 	return kQ3Success;
 }
