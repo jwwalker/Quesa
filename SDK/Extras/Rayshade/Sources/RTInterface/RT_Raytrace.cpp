@@ -526,19 +526,19 @@ RTRayTracer_Create(
 			result->sampleNumbers = kThreeSamples;
 			break;
 		case 4:
-			result->sampleNumbers = kThreeSamples;
+			result->sampleNumbers = kFourSamples;
 			break;
 		case 5:
-			result->sampleNumbers = kThreeSamples;
+			result->sampleNumbers = kFiveSamples;
 			break;
 		case 6:
-			result->sampleNumbers = kThreeSamples;
+			result->sampleNumbers = kSixSamples;
 			break;
 		case 7:
-			result->sampleNumbers = kThreeSamples;
+			result->sampleNumbers = kSevenSamples;
 			break;
 		case 8:
-			result->sampleNumbers = kThreeSamples;
+			result->sampleNumbers = kEightSamples;
 			break;
 		default:
 			goto cleanup;
