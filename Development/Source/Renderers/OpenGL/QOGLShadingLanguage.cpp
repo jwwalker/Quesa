@@ -548,6 +548,34 @@ static void GetLightTypes( QORenderer::LightPattern& outLights )
 	}
 }
 
+
+/*!
+	@function	IlluminationTypeToCode
+	@abstract	Convert a Quesa illumination shader type to an illumination
+				code for the fragment shader.
+*/
+static GLint IlluminationTypeToCode( TQ3ObjectType inIlluminationType )
+{
+	GLint	illuminationCode = 0;
+	switch (inIlluminationType)
+	{
+		case kQ3IlluminationTypePhong:
+			illuminationCode = 2;
+			break;
+		
+		case kQ3IlluminationTypeLambert:
+			illuminationCode = 1;
+			break;
+			
+		default:
+			illuminationCode = 0;
+			break;
+	}
+	
+	return illuminationCode;
+}
+
+
 /*!
 	@function	StartFrame
 	@abstract	Begin a rendering frame.
@@ -614,6 +642,12 @@ void	QORenderer::PerPixelLighting::StartPass()
 				
 				mFuncs.glUseProgram( foundProg->mProgram );
 				foundProg->mAgeCounter = 0;
+				
+				// Make sure uniform variables start out correct
+				mFuncs.glUniform1i( mPrograms[mProgramIndex].mIsTexturedUniformLoc,
+					mIsTextured );
+				mFuncs.glUniform1i( mPrograms[mProgramIndex].mIlluminationTypeUniformLoc,
+					IlluminationTypeToCode( mIlluminationType ) );
 			}
 		}
 	}
@@ -905,21 +939,7 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 		{
 			mIlluminationType = inIlluminationType;
 			
-			GLint	illuminationCode = 0;
-			switch (mIlluminationType)
-			{
-				case kQ3IlluminationTypePhong:
-					illuminationCode = 2;
-					break;
-				
-				case kQ3IlluminationTypeLambert:
-					illuminationCode = 1;
-					break;
-					
-				default:
-					illuminationCode = 0;
-					break;
-			}
+			GLint	illuminationCode = IlluminationTypeToCode( mIlluminationType );
 			
 			mFuncs.glUniform1i( mPrograms[mProgramIndex].mIlluminationTypeUniformLoc,
 				illuminationCode );
