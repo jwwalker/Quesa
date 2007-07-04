@@ -566,6 +566,7 @@
 		B1AC884D0906E76700ACE358 /* E3CocoaPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = E3CocoaPrefix.h; path = Cocoa/E3CocoaPrefix.h; sourceTree = "<group>"; };
 		B1AC885E0906EA4000ACE358 /* GLCocoaContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLCocoaContext.h; path = ../../Source/Renderers/Common/GLCocoaContext.h; sourceTree = SOURCE_ROOT; };
 		B1AC885F0906EA4000ACE358 /* GLCocoaContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GLCocoaContext.m; path = ../../Source/Renderers/Common/GLCocoaContext.m; sourceTree = SOURCE_ROOT; };
+		BE1353D90C3C3D1300B20B60 /* QuesaCocoa-project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "QuesaCocoa-project.xcconfig"; sourceTree = "<group>"; };
 		BE6E850B0BA295E50000BA89 /* OptimizedTriMeshElement.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OptimizedTriMeshElement.cpp; sourceTree = "<group>"; };
 		BE6E850C0BA295E50000BA89 /* OptimizedTriMeshElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OptimizedTriMeshElement.h; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
@@ -617,6 +618,7 @@
 		0867D691FE84028FC02AAC07 /* Quesa */ = {
 			isa = PBXGroup;
 			children = (
+				BE1353D90C3C3D1300B20B60 /* QuesaCocoa-project.xcconfig */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				AB83B5D5055E72B90034F56A /* Includes */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
@@ -1283,9 +1285,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D07F2BC0486CC7A007CD1D0 /* Framework (sys GCC) */ = {
+		8D07F2BC0486CC7A007CD1D0 /* Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BEDC044708A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Framework (sys GCC)" */;
+			buildConfigurationList = BEDC044708A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Framework" */;
 			buildPhases = (
 				8D07F2BD0486CC7A007CD1D0 /* Headers */,
 				8D07F2C10486CC7A007CD1D0 /* Sources */,
@@ -1296,7 +1298,7 @@
 			);
 			dependencies = (
 			);
-			name = "Framework (sys GCC)";
+			name = Framework;
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = Quesa;
 			productReference = 8D07F2C80486CC7A007CD1D0 /* QuesaCocoa.framework */;
@@ -1313,7 +1315,7 @@
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
 			projectDirPath = "";
 			targets = (
-				8D07F2BC0486CC7A007CD1D0 /* Framework (sys GCC) */,
+				8D07F2BC0486CC7A007CD1D0 /* Framework */,
 			);
 		};
 /* End PBXProject section */
@@ -1488,96 +1490,46 @@
 		BEDC044808A57B3000FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
-				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = "@executable_path/../Frameworks/";
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x12000000,
-				);
-				PRODUCT_NAME = QuesaCocoa;
-				SKIP_INSTALL = NO;
-				SYMROOT = buildCocoa;
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
 		};
 		BEDC044908A57B3000FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist;
-				INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h;
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = "@executable_path/../Frameworks/";
-				LIBRARY_STYLE = DYNAMIC;
-				MACH_O_TYPE = mh_dylib;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0x12000000,
-				);
-				PRODUCT_NAME = QuesaCocoa;
 				SKIP_INSTALL = NO;
-				SYMROOT = buildCocoa;
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
 		};
 		BEDC045008A57B3000FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE1353D90C3C3D1300B20B60 /* QuesaCocoa-project.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1.6;
-				DYLIB_CURRENT_VERSION = 1.7;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_FAST_MATH = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
-				GCC_PREPROCESSOR_DEFINITIONS = "QUESA_OS_COCOA=1";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_SHADOW = YES;
-				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PREBINDING = NO;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Debug;
 		};
 		BEDC045108A57B3000FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE1353D90C3C3D1300B20B60 /* QuesaCocoa-project.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				DEPLOYMENT_POSTPROCESSING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1.6;
-				DYLIB_CURRENT_VERSION = 1.7;
-				GCC_FAST_MATH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h;
-				GCC_PREPROCESSOR_DEFINITIONS = "QUESA_OS_COCOA=1";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PREBINDING = NO;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BEDC044708A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Framework (sys GCC)" */ = {
+		BEDC044708A57B3000FB3A82 /* Build configuration list for PBXNativeTarget "Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEDC044808A57B3000FB3A82 /* Debug */,
