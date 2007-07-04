@@ -134,7 +134,7 @@ typedef	void*		TQ3GLContext;
 	#define CALLBACK
 #endif
 
-#if defined(__GNUC__) && (__GNUC__ >= 4) && QUESA_OS_MACINTOSH
+#if defined(__GNUC__) && (__GNUC__ >= 4) && defined(__APPLE_CC__) && (__APPLE_CC__ < 5450)
 
 	typedef GLvoid (CALLBACK *GLcallback)(...);
 #else
