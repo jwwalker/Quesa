@@ -372,6 +372,15 @@
   drawContext = Q3CocoaDrawContext_New(&cocoaDrawContextData);
   if(drawContext==NULL)
     NSLog(@"Unable to create draw context in initQ3DrawContext");
+	
+	
+	// Sync to monitor refresh
+	if (drawContext != NULL)
+	{
+		TQ3Boolean	doSync = kQ3True;
+		Q3Object_SetProperty( drawContext, kQ3DrawContextPropertySyncToRefresh,
+			sizeof(doSync), &doSync );
+	}
 }
 
 //==================================================================================
