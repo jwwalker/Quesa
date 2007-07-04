@@ -1,0 +1,29 @@
+// Build Locations
+SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk
+
+// Search Paths
+FSP_QUESA = "$(SRCROOT)/../../../../Development/Projects/Mac/buildCocoa/Debug"
+FRAMEWORK_SEARCH_PATHS = $(FSP_QUESA) $(SDKROOT)/Library/Frameworks
+
+// Build Options
+DEBUG_INFORMATION_FORMAT = dwarf
+PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO
+
+// Linking
+PREBINDING = NO
+ZERO_LINK = NO
+LINK_WITH_STANDARD_LIBRARIES = YES
+
+// Packaging
+PRODUCT_NAME = QuesaCocoaTest
+WRAPPER_EXTENSION = app
+INFOPLIST_FILE = Info-Quesa3DView.plist
+INFOPLIST_EXPAND_BUILD_SETTINGS = YES
+
+// Code Generation
+GCC_DYNAMIC_NO_PIC = YES	// "position-dependent code"
+GCC_SYMBOLS_PRIVATE_EXTERN = YES
+GCC_ENABLE_SYMBOL_SEPARATION = NO	// "separate PCH symbols"
+
+// Preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = QUESA_OS_COCOA
