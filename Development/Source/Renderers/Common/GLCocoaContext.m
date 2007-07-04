@@ -79,7 +79,12 @@
 //-----------------------------------------------------------------------------
 void * 
 gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
-{   TQ3Int32						glAttributes[] = { NSOpenGLPFADepthSize, 24, 0 };
+{   TQ3Int32						glAttributes[] =
+	{
+		NSOpenGLPFADoubleBuffer,
+		NSOpenGLPFADepthSize, 24,
+		0
+	};
 	TQ3ObjectType					drawContextType;
 	TQ3DrawContextData				drawContextData;
     NSOpenGLPixelFormat				*pixelFormat;
@@ -168,6 +173,19 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 	[(id)theContext->glContext setValues:&enable forParameter:NSOpenGLCPSwapRectangleEnable];
 	[(id)theContext->glContext setValues:(const long *) glRect forParameter:NSOpenGLCPSwapRectangle];
 
+
+
+	// Sync to monitor refresh rate?
+	TQ3Boolean	doSync;
+	if ( (kQ3Success == Q3Object_GetProperty( theDrawContext,
+		kQ3DrawContextPropertySyncToRefresh, sizeof(doSync), NULL, &doSync ))
+		&&
+		doSync
+	)
+	{
+		[(id)theContext->glContext	setValues:&enable
+									forParameter:NSOpenGLCPSwapInterval];
+	}
 
 
 	// Return the CocoaGLContext
