@@ -1,0 +1,43 @@
+// Build Locations
+SYMROOT = buildCocoa
+SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk
+
+// Search Paths
+HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa
+
+// Build Options
+DEBUG_INFORMATION_FORMAT = dwarf
+PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO
+
+// Linking
+MACH_O_TYPE = mh_dylib
+PREBINDING = NO
+ZERO_LINK = NO
+LINK_WITH_STANDARD_LIBRARIES = YES
+DYLIB_CURRENT_VERSION = 1.7
+DYLIB_COMPATIBILITY_VERSION = 1.6
+
+// Packaging
+PRODUCT_NAME = QuesaCocoa
+WRAPPER_EXTENSION = framework
+INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist
+INFOPLIST_PREPROCESS = YES
+INFOPLIST_EXPAND_BUILD_SETTINGS = YES
+INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h
+
+// Deployment
+MACOSX_DEPLOYMENT_TARGET = 10.3
+INSTALL_PATH = @executable_path/../Frameworks/
+
+// Language
+GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp
+GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+
+// Code Generation
+GCC_FAST_MATH = YES
+GCC_ENABLE_SYMBOL_SEPARATION = NO	// "Searpate PCH Symbols"
+
+// Preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = QUESA_OS_COCOA=1
+
