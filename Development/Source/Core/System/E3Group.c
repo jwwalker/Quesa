@@ -1344,7 +1344,8 @@ e3group_display_submit_render(TQ3ViewObject theView, TQ3ObjectType objectType,
 	
 	// Do group culling if appropriate
 	if ( shouldSubmit &&
-		E3Bit_AnySet( theState, kQ3DisplayGroupStateMaskUseBoundingBox ) &&
+		E3Bit_IsSet( theState, (kQ3DisplayGroupStateMaskHasBoundingBox |
+			kQ3DisplayGroupStateMaskUseBoundingBox)) &&
 		E3View_IsGroupCullingAllowed( theView ) )
 	{
 		TQ3BoundingBox	theBBox;
