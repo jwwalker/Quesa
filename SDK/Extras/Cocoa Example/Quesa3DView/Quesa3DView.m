@@ -347,12 +347,12 @@
 		{
 		// Fill in the draw context data
 		cocoaDrawContextData.drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
-		cocoaDrawContextData.drawContextData.clearImageColor.a = 0.0f;
-		cocoaDrawContextData.drawContextData.clearImageColor.r = 1.0f;
-		cocoaDrawContextData.drawContextData.clearImageColor.g = 1.0f;
-		cocoaDrawContextData.drawContextData.clearImageColor.b = 1.0f;
-		cocoaDrawContextData.drawContextData.paneState         = kQ3True;
-		cocoaDrawContextData.drawContextData.maskState		 = kQ3False;	
+		cocoaDrawContextData.drawContextData.clearImageColor.a = 1.0f;
+		cocoaDrawContextData.drawContextData.clearImageColor.r = 0.0f;
+		cocoaDrawContextData.drawContextData.clearImageColor.g = 0.0f;
+		cocoaDrawContextData.drawContextData.clearImageColor.b = 0.2f;
+		cocoaDrawContextData.drawContextData.paneState         = kQ3False;
+		cocoaDrawContextData.drawContextData.maskState		   = kQ3False;	
 		cocoaDrawContextData.drawContextData.doubleBufferState = kQ3True;
 		}
 
@@ -381,8 +381,7 @@
 - (void)initQ3View
 {	
 	TQ3Status				qd3dStatus;
-    TQ3ColorARGB kColourARGBBackground = {1.0f, 0.0f, 0.0f, 0.1f};
-
+ 
 
 	// Create the view
 	if (drawContext != NULL)
@@ -396,8 +395,6 @@
         qd3dStatus = Q3View_SetRendererByType(qd3dView, kQ3RendererTypeInteractive);
         [self createDefaultCamera];
         [self createDefaultLights];
-    
-        Q3DrawContext_SetClearImageColor(drawContext, &kColourARGBBackground);
     
         if(qd3dDelegate && [qd3dDelegate respondsToSelector:@selector(qd3dViewDidInit:)])
         {
