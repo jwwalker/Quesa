@@ -50,7 +50,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories="../../../SDK/Includes/Apple;../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa"
+				AdditionalIncludeDirectories="../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/HiddenLine;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa"
 				PreprocessorDefinitions="QUESA_OS_WIN32;NDEBUG;WIN32;_WINDOWS;_USRDLL;Q3_EXPORT_SYMBOLS;QD3D_NO_DIRECTDRAW"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -147,7 +147,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../SDK/Includes/Apple;../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/HiddenLine;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa"
+				AdditionalIncludeDirectories="../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/HiddenLine;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa"
 				PreprocessorDefinitions="QUESA_OS_WIN32;Q3_DEBUG;_DEBUG;WIN32;_WINDOWS;_USRDLL;Q3_EXPORT_SYMBOLS;QD3D_NO_DIRECTDRAW"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -775,6 +775,14 @@
 								PreprocessorDefinitions=""
 							/>
 						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOShadowMarker.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOShadowMarker.h"
+						>
 					</File>
 				</Filter>
 				<Filter
@@ -1845,6 +1853,14 @@
 						</FileConfiguration>
 					</File>
 					<File
+						RelativePath="..\..\Source\Core\System\E3Math_Intersect.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Core\System\E3Math_Intersect.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\Source\Core\System\E3Memory.c"
 						>
 						<FileConfiguration
@@ -2861,6 +2877,10 @@
 				<Filter
 					Name="OpenGL"
 					>
+					<File
+						RelativePath="..\..\Source\Renderers\OpenGL\QOCalcTriMeshEdges.cpp"
+						>
+					</File>
 					<File
 						RelativePath="..\..\Source\Renderers\OpenGL\QOClientStates.cpp"
 						>
