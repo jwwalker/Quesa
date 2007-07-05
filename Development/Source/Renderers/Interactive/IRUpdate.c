@@ -968,6 +968,7 @@ IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 
 	// Update the OpenGL state
 	switch (instanceData->stateViewIllumination) {
+		default:
 		case kQ3IlluminationTypeNULL:
 			glDisable(GL_LIGHTING);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  specularColour);
