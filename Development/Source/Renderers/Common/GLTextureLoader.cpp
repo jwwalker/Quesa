@@ -53,7 +53,7 @@
 #include "QuesaStorage.h"
 
 #include <algorithm>
-#include <vector>
+#include <new>
 
 
 
@@ -65,22 +65,149 @@ namespace
 {
 	typedef	void (*PixelConverter)( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel );
+
+
+	/*!
+		@class		ByteBuffer
+		
+		@abstract	Simple growable array of bytes.
+		
+		@discussion	Previously we were using std::vector<TQ3Uns8> and
+					std::vector<GLubyte>, but resizing a std::vector default-
+					constructs new elements, which is unnecessary overhead
+					in our case.
+	*/
+	class ByteBuffer
+	{
+	public:
+						ByteBuffer( unsigned long inInitialSize );
+						~ByteBuffer();
+	
+						/*!
+							@function	Address
+							@abstract	Get the address of the start of the
+										buffer.
+							@result		Address of buffer.
+						*/
+		unsigned char*	Address()
+						{
+							return mBuffer;
+						}
+		
+						/*!
+							@function	Grow
+							@abstract	Make the buffer have at least this many
+										bytes.
+							@discussion	If the new size is greater than the
+										current size, the buffer is grown, with
+										new elements being uninitialized.  If
+										the new size is less or equal to the
+										current size, nothing happens.
+							@param		inSize		Desired size in bytes.
+						*/
+		void			Grow( unsigned long inSize );
+		
+						/*!
+							@function	Swap
+							@abstract	Exchange storage with another buffer.
+							@param		ioOther		Another buffer.
+						*/
+		void			Swap( ByteBuffer& ioOther );
+	
+	private:
+		unsigned char*	mBuffer;
+		unsigned long	mSize;
+		
+		// Unimplemented
+						ByteBuffer( const ByteBuffer& inOther );
+		ByteBuffer&		operator=( const ByteBuffer& inOther );
+	};
 }
+
+
+//=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+
+const unsigned long		kInitialBufferSize = 65536;
+
 
 
 //=============================================================================
 //      Local data
 //-----------------------------------------------------------------------------
 
-std::vector<TQ3Uns8>	sSrcImageData;
+static ByteBuffer	sSrcImageData( kInitialBufferSize );
 
-std::vector<GLubyte>	sGLFormatWork;
+static ByteBuffer	sGLFormatWork( kInitialBufferSize );
+
+static ByteBuffer	sGLImageData( kInitialBufferSize );
+
 
 
 
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+
+ByteBuffer::ByteBuffer( unsigned long inInitialSize )
+	: mBuffer( static_cast<unsigned char*>( Q3Memory_Allocate( inInitialSize ) ) )
+	, mSize( inInitialSize )
+{
+	if (mBuffer == NULL)
+	{
+		mSize = 0;
+	}
+}
+
+
+ByteBuffer::~ByteBuffer()
+{
+	if (mBuffer != NULL)
+	{
+		Q3Memory_Free( &mBuffer );
+	}
+}
+
+/*!
+	@function	Grow
+	@abstract	Make the buffer have at least this many
+				bytes.
+	@discussion	If the new size is greater than the
+				current size, the buffer is grown, with
+				new elements being uninitialized.  If
+				the new size is less or equal to the
+				current size, nothing happens.
+	@param		inSize		Desired size in bytes.
+*/
+void	ByteBuffer::Grow( unsigned long inSize )
+{
+	if (inSize > mSize)
+	{
+		TQ3Status theStatus = Q3Memory_Reallocate( &mBuffer, inSize );
+		if (theStatus == kQ3Failure)
+		{
+			E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
+			throw std::bad_alloc();
+		}
+		mSize = inSize;
+	}
+}
+
+/*!
+	@function	Swap
+	@abstract	Exchange storage with another buffer.
+	@param		ioOther		Another buffer.
+*/
+void	ByteBuffer::Swap( ByteBuffer& ioOther )
+{
+	if (&ioOther != this)
+	{
+		std::swap( mBuffer, ioOther.mBuffer );
+		std::swap( mSize, ioOther.mSize );
+	}
+}
+
 
 static bool IsPowerOf2( TQ3Uns32 n )
 {
@@ -541,12 +668,13 @@ static const TQ3Uns8*	GetImageData(
 			if ( (kQ3Success == Q3Storage_GetSize( inStorage, &bufferSize )) &&
 				(bufferSize > inStorageOffset + inDataSize) )
 			{
-				sSrcImageData.resize( inDataSize );
+				sSrcImageData.Grow( inDataSize );
+				
 				if (kQ3Success == Q3Storage_GetData( inStorage,
-					inStorageOffset, inDataSize, &sSrcImageData[0],
+					inStorageOffset, inDataSize, sSrcImageData.Address(),
 					&sizeRead ))
 				{
-					theData = &sSrcImageData[0];
+					theData = sSrcImageData.Address();
 				}
 			}
 			break;
@@ -570,7 +698,7 @@ static bool	ConvertImageFormat(
 								TQ3Uns32 inSrcRowBytes,
 								TQ3Endian inSrcByteOrder,
 								bool inPremultiplyAlpha,
-								std::vector<GLubyte>& outImage,
+								ByteBuffer& outImage,
 								GLint& outGLInternalFormat,
 								GLenum& outGLFormat )
 {
@@ -593,14 +721,15 @@ static bool	ConvertImageFormat(
 	if (theConverter != NULL)
 	{
 		// Allocate memory
-		outImage.resize( dstRowBytes * inSrcHeight );
+		outImage.Grow( dstRowBytes * inSrcHeight );
+		TQ3Uns8*	dstData = outImage.Address();
 		
 		
 		for (TQ3Uns32 rowNum = 0; rowNum < inSrcHeight; ++rowNum)
 		{
 			const TQ3Uns8* srcRowData = inSrcImageData +
 				(inSrcHeight - rowNum - 1) * inSrcRowBytes;
-			TQ3Uns8* dstRowData = &outImage[ dstRowBytes * rowNum ];
+			TQ3Uns8* dstRowData = &dstData[ dstRowBytes * rowNum ];
 			
 			for (TQ3Uns32 colNum = 0; colNum < inSrcWidth; ++colNum)
 			{
@@ -621,10 +750,10 @@ static void	ResizeImage(
 								GLenum inGLFormat,
 								TQ3Uns32 inSrcWidth,
 								TQ3Uns32 inSrcHeight,
-								std::vector<GLubyte>& inSrcImage,
+								ByteBuffer& inSrcImage,
 								TQ3Uns32 inDstWidth,
 								TQ3Uns32 inDstHeight,
-								std::vector<GLubyte>& outDstImage )
+								ByteBuffer& outDstImage )
 {
 	TQ3Uns32 dstBytesPerPixel = (inGLFormat == GL_RGBA)? 4 : 3;
 	// Assume 4-byte alignment, so dstRowBytes must be rounded up to next
@@ -632,13 +761,13 @@ static void	ResizeImage(
 	TQ3Uns32 dstRowBytes = 4 * ((dstBytesPerPixel * inDstWidth + 3) / 4);
 	
 	// Allocate memory
-	outDstImage.resize( dstRowBytes * inDstHeight );
+	outDstImage.Grow( dstRowBytes * inDstHeight );
 	
 	
 	// Resize the image
-	gluScaleImage( inGLFormat, inSrcWidth, inSrcHeight, GL_UNSIGNED_BYTE,
-					&inSrcImage[0],
-					inDstWidth, inDstHeight, GL_UNSIGNED_BYTE, &outDstImage[0] );
+	gluScaleImage( inGLFormat,
+		inSrcWidth, inSrcHeight, GL_UNSIGNED_BYTE, inSrcImage.Address(),
+		inDstWidth, inDstHeight, GL_UNSIGNED_BYTE, outDstImage.Address() );
 }
 
 /*!
@@ -658,7 +787,7 @@ static bool	ConvertImageForOpenGL(
 								bool inPremultiplyAlpha,
 								TQ3Uns32& outDstWidth,
 								TQ3Uns32& outDstHeight,
-								std::vector<GLubyte>& outImage,
+								ByteBuffer& outImage,
 								GLint& outGLInternalFormat,
 								GLenum& outGLFormat )
 {
@@ -677,11 +806,12 @@ static bool	ConvertImageForOpenGL(
 		if ( (outDstWidth == inSrcWidth) && (outDstHeight == inSrcHeight) )
 		{
 			// Image can be used as is
-			outImage.swap( sGLFormatWork );
+			outImage.Swap( sGLFormatWork );
 		}
 		else
 		{
-			ResizeImage( outGLFormat, inSrcWidth, inSrcHeight, sGLFormatWork,
+			ResizeImage( outGLFormat,
+				inSrcWidth, inSrcHeight, sGLFormatWork,
 				outDstWidth, outDstHeight, outImage );
 		}
 		
@@ -704,7 +834,6 @@ static bool	LoadOpenGLWithPixmapTexture(
 	if (GetPixmapTextureData( inTexture, thePixmap, storageHolder ))
 	{
 		TQ3Uns32	theWidth, theHeight;
-		std::vector<GLubyte>	imageData;
 		GLint	glInternalFormat;
 		GLenum	glFormat;
 		
@@ -713,14 +842,14 @@ static bool	LoadOpenGLWithPixmapTexture(
 			thePixmap.rowBytes, thePixmap.byteOrder,
 			inPremultiplyAlpha,
 			theWidth, theHeight,
-			imageData, glInternalFormat, glFormat );
+			sGLImageData, glInternalFormat, glFormat );
 		
 		if (didConvert)
 		{
 			gluBuild2DMipmaps( GL_TEXTURE_2D, glInternalFormat,
 				theWidth, theHeight,
 				glFormat, GL_UNSIGNED_BYTE,
-				&imageData[0] );
+				sGLImageData.Address() );
 
 			didLoad = true;
 		}
@@ -741,7 +870,6 @@ static bool	LoadOpenGLWithMipmapTexture(
 	{
 		didLoad = true;
 		int	numImages = CountImagesInMipmap( theMipmap );
-		std::vector<GLubyte>	imageData;
 		
 		for (int i = 0; i < numImages; ++i)
 		{
@@ -755,13 +883,13 @@ static bool	LoadOpenGLWithMipmapTexture(
 				theMipmap.mipmaps[i].rowBytes,
 				theMipmap.byteOrder, inPremultiplyAlpha,
 				theWidth, theHeight,
-				imageData, glInternalFormat, glFormat );
+				sGLImageData, glInternalFormat, glFormat );
 			
 			if (didConvert)
 			{
 				glTexImage2D( GL_TEXTURE_2D, i, glInternalFormat,
 					theWidth, theHeight, 0, glFormat, GL_UNSIGNED_BYTE,
-					&imageData[0] );
+					sGLImageData.Address() );
 			}
 			else
 			{
@@ -805,6 +933,8 @@ GLuint	GLTextureLoader( TQ3TextureObject inTexture,
 
 		glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
 		glPixelStorei( GL_UNPACK_ALIGNMENT, 4 );
+		glPixelStorei( GL_PACK_ROW_LENGTH, 0 );
+		glPixelStorei( GL_PACK_ALIGNMENT, 4 );
 
 		TQ3ObjectType	theType = Q3Texture_GetType( inTexture );
 		bool	didLoad = false;
