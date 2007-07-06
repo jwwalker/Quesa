@@ -48,6 +48,7 @@
 #include "liblight/light.h"
 #include "liblight/infinite.h"
 #include "liblight/point.h"
+#include "liblight/extended.h"
 #include "liblight/spot.h"
 
 #include "libshade/options.h"
@@ -144,7 +145,8 @@ RT_AddPointLight(
             TQ3Point3D               *inLocation,
             TQ3Boolean               inCastShadows,
             const TQ3ColorRGB        *inColor,
-            float                    inBrightness)
+            float                    inBrightness,
+            float                    radius)
 {
     Color   theColor;
     Vector  thePos;
@@ -156,9 +158,14 @@ RT_AddPointLight(
     thePos.y = inLocation->y;
     thePos.z = inLocation->z;
     
-    
-    theLight = LightPointCreate(&theColor,
+    if(radius <= 0.0)
+    	theLight = LightPointCreate(&theColor,
                                 &thePos);
+    else
+    	theLight = LightExtendedCreate(&theColor,
+                                radius,
+                                &thePos);
+    	
     if (theLight)
     {
        theLight->shadow = inCastShadows; 

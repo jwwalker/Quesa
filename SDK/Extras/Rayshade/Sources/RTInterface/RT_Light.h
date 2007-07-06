@@ -82,11 +82,12 @@ RT_AddSpotLight(
 
 extern TQ3Status
 RT_AddPointLight(
-			TRTDrawContext			 *inContext,
+			TRTDrawContext			 * /*inContext*/,
             TQ3Point3D               *inLocation,
-            TQ3Boolean                  inCastShadows,
+            TQ3Boolean               inCastShadows,
             const TQ3ColorRGB        *inColor,
-            float                    inBrightness);
+            float                    inBrightness,
+            float                    radius);
        
 extern TQ3Status
 RT_ResetLights(

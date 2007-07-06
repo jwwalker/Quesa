@@ -60,6 +60,8 @@
 #include <QuesaExtension.h>
 #include <QuesaIO.h>
 
+#include <stdlib.h>
+#include <string>
 #include <string.h>
 
 #if QUESA_OS_MACINTOSH
@@ -377,7 +379,8 @@ TQ3Status RS_SetLights(
                                 &thePointLightData.location,
                                 thePointLightData.castsShadows,
                                 &theLightData.color,
-                                theLightData.brightness);
+                                theLightData.brightness,
+                                0.0);
                     }
                     break;
                   case kQ3LightTypeSpot:
