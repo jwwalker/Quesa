@@ -46,11 +46,14 @@
 //-----------------------------------------------------------------------------
 
 #include "GLTextureLoader.h"
+#include "QuesaErrors.h"
+#include "QuesaMemory.h"
+#include "QuesaStorage.h"
 #include "CQ3ObjectRef.h"
 #include "GLUtils.h"
 #include "E3Debug.h"
+#include "E3ErrorManager.h"
 #include "E3Utils.h"
-#include "QuesaStorage.h"
 
 #include <algorithm>
 #include <new>
