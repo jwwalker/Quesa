@@ -654,6 +654,7 @@ enum {
                 kQ3LightTypeAmbient             = Q3_OBJECT_TYPE('a', 'm', 'b', 'n'),
                 kQ3LightTypeDirectional         = Q3_OBJECT_TYPE('d', 'r', 'c', 't'),
                 kQ3LightTypePoint               = Q3_OBJECT_TYPE('p', 'n', 't', 'l'),
+                	kQ3LightTypeSpherical       = Q3_OBJECT_TYPE('s', 'p', 'h', 'l'),
                 kQ3LightTypeSpot                = Q3_OBJECT_TYPE('s', 'p', 'o', 't'),
             kQ3ShapeTypeCamera                  = Q3_OBJECT_TYPE('c', 'm', 'r', 'a'),
                 kQ3CameraTypeOrthographic       = Q3_OBJECT_TYPE('o', 'r', 't', 'h'),
