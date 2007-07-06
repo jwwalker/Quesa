@@ -279,6 +279,29 @@ rt_Setup(TRTDrawContext * /*inContext*/)
 	
 	return kQ3Success;
 }
+
+/*===========================================================================*\
+ *
+ *	Routine:	rt_tweak()
+ *
+ *	Comments:	a Place to modify the parameters
+ *
+\*===========================================================================*/
+static
+TQ3Status
+rt_tweak()
+{
+//	Options.maxdepth = 8;
+//	Options.samples = 5;
+	Options.gaussian = 1;
+//	Options.filterwidth = 1.8;
+	Options.gamma = 0.8;
+
+
+	
+	return kQ3Success;
+}
+
 /*===========================================================================*\
  *
  *	Routine:	RT_Begin()
@@ -303,6 +326,9 @@ RT_BeginScene(TRTDrawContext *inContext)
  	 * Initialize variables, etc.
 	 */
  	theStatus = rt_Setup(inContext);
+ 	if (theStatus != kQ3Success)
+ 		return theStatus;
+ 	theStatus = rt_tweak();
  	if (theStatus != kQ3Success)
  		return theStatus;
  	
