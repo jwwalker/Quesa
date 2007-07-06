@@ -142,6 +142,18 @@ enum
 					Data type: TQ3Float32.
 					Default value: Reciprocal of 2 to the number of bits per
 					color component.
+					
+	@constant	kQ3RendererPropertyLineWidth
+					Line width to be used in wire frame and hidden line renderers.
+					Data type: TQ3Float32.
+					Default value: 1.0.
+					
+	@constant	kQ3RendererPropertyUseColor
+					in the Hiddenline Renderer - Whether the renderer has to fill color
+					    the geometries or leave them white.
+					in the WireFrame Renderer - if the lines should follow the geometry color
+					    or draw them black
+					Data type: TQ3Boolean.  Default value: kQ3True.
 */
 enum
 {
@@ -149,7 +161,9 @@ enum
 	kQ3RendererPropertyPerPixelLighting			= Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
 	kQ3RendererPropertyConvertToPremultipliedAlpha	= Q3_OBJECT_TYPE('c', 'p', 'm', 'a'),
 	kQ3RendererPropertyShadows					= Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
-	kQ3RendererPropertyAttenuationThreshold		= Q3_OBJECT_TYPE('s', 'h', 'a', 't')
+	kQ3RendererPropertyAttenuationThreshold		= Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
+	kQ3RendererPropertyLineWidth				= Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
+	kQ3RendererPropertyUseColor					= Q3_OBJECT_TYPE('u', 'c', 'l', 'r')
 };
 #endif
 

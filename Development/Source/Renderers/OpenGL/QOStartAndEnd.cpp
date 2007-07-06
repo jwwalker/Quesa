@@ -339,6 +339,7 @@ void		QORenderer::Renderer::StartPass(
 	mStyleState.mOrientation = kQ3OrientationStyleCounterClockwise;
 	mStyleState.mHilite = CQ3ObjectRef();	// i.e., NULL
 	mStyleState.mIsCastingShadows = true;
+	mStyleState.mExplicitEdges = false;
 		
 	// Turn fog off.
 	mStyleState.mFogStyles.clear();

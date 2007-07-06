@@ -127,6 +127,7 @@ struct StyleState
 	std::vector<TQ3FogStyleData>	mFogStyles;
 	TQ3Uns32				mCurFogStyleIndex;
 	bool					mIsCastingShadows;
+	bool					mExplicitEdges;
 };
 
 /*!

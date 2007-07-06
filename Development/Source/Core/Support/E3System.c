@@ -46,9 +46,9 @@
 #include "E3Prefix.h"
 #include "E3System.h"
 #include "GNRegister.h"
-#include "WFRegister.h"
 #include "IRRegister.h"
 #include "QORegister.h"
+#include "WFRenderer.h"
 #include "CartoonRenderer.h"
 #include "HiddenLine.h"
 
@@ -161,7 +161,7 @@ E3System_LoadPlugins(void)
 	// Register the built-in plug-ins
 #if QUESA_REGISTER_BUILTIN_PLUGINS
 	qd3dStatus = GNRenderer_Register();
-	qd3dStatus = WFRenderer_Register();
+	qd3dStatus = WireFrameRenderer_Register();
 	qd3dStatus = IRRenderer_Register();
 	qd3dStatus = QORenderer_Register();
 
@@ -196,7 +196,7 @@ E3System_UnloadPlugins(void)
 	// Unregister the built-in plug-ins
 #if QUESA_REGISTER_BUILTIN_PLUGINS
 	GNRenderer_Unregister();
-	WFRenderer_Unregister();
+	WireFrameRenderer_Unregister();
 	IRRenderer_Unregister();
 	QORenderer_Unregister();
 
