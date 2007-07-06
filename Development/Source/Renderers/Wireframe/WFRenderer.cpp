@@ -1,8 +1,8 @@
 /*  NAME:
-        HiddenLine.cpp
+        WFRenderer.cpp
 
     DESCRIPTION:
-        Cartoon-style renderer.
+        Wire Frame Renderer.
 
     COPYRIGHT:
         Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
@@ -46,7 +46,7 @@
 	
 	___________________________________________________________________________
 */
-#include "HiddenLine.h"
+#include "WFRenderer.h"
 #include "GLPrefix.h"
 
 #include "QORenderer.h"
@@ -56,7 +56,8 @@
 #include "E3Compatibility.h"
 
 
-#define kQ3ClassNameRendererHiddenLine				"Quesa HiddenLine"
+#define kQ3ClassNameRendererWireFrame				"Quesa:Shared:Renderer:Wireframe"
+#define kRendererNickName							"Quesa Wireframe"
 
 #if Q3_DEBUG
 	#define		CHECK_GL_ERROR	Q3_ASSERT( (sLastGLError = glGetError()) == GL_NO_ERROR )
@@ -99,20 +100,20 @@ namespace
 {
 	
 
-	#pragma mark class CHiddenLineRendererQuesa
-	class CHiddenLineRendererQuesa : public QORenderer::Renderer
+	#pragma mark class CWireFrameRendererQuesa
+	class CWireFrameRendererQuesa : public QORenderer::Renderer
 	{
 	public:
-		CHiddenLineRendererQuesa( TQ3RendererObject inRenderer );
+		CWireFrameRendererQuesa( TQ3RendererObject inRenderer );
 
-		~CHiddenLineRendererQuesa();
+		~CWireFrameRendererQuesa();
 		
-		void	StartPassHiddenLine(
+		void	StartPassWireFrame(
 								TQ3ViewObject inView,
 								TQ3CameraObject inCamera,
 								TQ3GroupObject inLights );
 																
-		void UpdateIlluminationShaderHiddenLine(
+		void UpdateIlluminationShaderWireFrame(
 								TQ3ShaderObject inShader );
 		
 		TQ3ColorRGB mLineColor;
@@ -123,7 +124,7 @@ namespace
 
 //____________________________________________________________________________________
 
-CHiddenLineRendererQuesa::CHiddenLineRendererQuesa( TQ3RendererObject inRenderer )
+CWireFrameRendererQuesa::CWireFrameRendererQuesa( TQ3RendererObject inRenderer )
 	: QORenderer::Renderer( inRenderer )
 {
 	TQ3ColorRGB fillColor = {1.0,1.0,1.0};
@@ -132,12 +133,12 @@ CHiddenLineRendererQuesa::CHiddenLineRendererQuesa( TQ3RendererObject inRenderer
 	mLineColor = lineColor;
 	
 
-	mNumPasses = 3;
+	mNumPasses = 1;
 }
 
 //____________________________________________________________________________________
 
-CHiddenLineRendererQuesa::~CHiddenLineRendererQuesa()
+CWireFrameRendererQuesa::~CWireFrameRendererQuesa()
 {
 
 }
@@ -146,9 +147,7 @@ CHiddenLineRendererQuesa::~CHiddenLineRendererQuesa()
 
 //____________________________________________________________________________________
 
-#if 0
-
-void CHiddenLineRendererQuesa::StartPassHiddenLine(
+void CWireFrameRendererQuesa::StartPassWireFrame(
 								TQ3ViewObject inView,
 								TQ3CameraObject inCamera,
 								TQ3GroupObject inLights )
@@ -156,72 +155,7 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 	StartPass( inCamera, inLights ); // call parent Method
 
     TQ3DrawContextObject theDrawContext = NULL;
-	TQ3CameraViewPort viewPort;	
-	
-	TQ3Float32 lineW = 1.0f;
-	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyLineWidth,
-			sizeof(lineW), NULL, &lineW );
-			
-	if (( Q3View_GetDrawContext ( inView , &theDrawContext ) != kQ3Failure ) && (Q3Camera_GetViewPort(inCamera, &viewPort)))
-    	{
-		TQ3Area		thePane;
-		Q3DrawContext_GetPane( theDrawContext, &thePane );
-		
-		float diagonal = Q3FastPoint2D_Distance(&thePane.max,&thePane.min);
-
-		
-		lineW = lineW * diagonal/720.0f*(4.0f/(viewPort.width + viewPort.height)); // scale (rather arbirarly) the line to the canvas size
-		}
-
-	switch(mPassIndex)
-	{
-	case 0:
-		{
-			glEnable( GL_POLYGON_OFFSET_FILL );
-			glPolygonOffset( +(lineW +.5f), +(lineW + .5f) );
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			//For the shader null
-			glLineWidth( 1.0f );
-			mViewState.diffuseColor = &mFillColor;
-			mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
-			UpdateIlluminationShader(NULL);
-			mUpdateShader = false;
- 		}
-		break;
-		
-	case 1:
-		{
-		glEnable( GL_POLYGON_OFFSET_LINE );
-		//glPolygonOffset( -lineW -.7f, -lineW - .7f );
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-		mLineWidth = lineW ;
-		glLineWidth( mLineWidth );
-		mViewState.diffuseColor = &mLineColor;
-		mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
-		UpdateIlluminationShader(NULL);
-		mStyleState.mFill = kQ3FillStyleEdges;
-		mStyleState.mExplicitEdges = true;
-		glDisable( GL_POLYGON_OFFSET_FILL );
-		}
-		break;
-
-
-	}
-}
-
-#endif
-
-//____________________________________________________________________________________
-
-void CHiddenLineRendererQuesa::StartPassHiddenLine(
-								TQ3ViewObject inView,
-								TQ3CameraObject inCamera,
-								TQ3GroupObject inLights )
-{
-	StartPass( inCamera, inLights ); // call parent Method
-
-    TQ3DrawContextObject theDrawContext = NULL;
-	TQ3CameraViewPort viewPort;	
+	TQ3CameraViewPort viewPort;
 	
 	TQ3Boolean useColor = kQ3True;
 	
@@ -245,64 +179,25 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 		
 		}
 
-	switch(mPassIndex)
-	{
-	case 0:
-		{
-			glEnable( GL_POLYGON_OFFSET_FILL );
-			glPolygonOffset( +(.1f), +(.1f) );
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			//For the shader null
-			glLineWidth( 1.0f );
-			if(useColor == kQ3False){
-				mViewState.diffuseColor = &mFillColor;
-				mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
-				}
-			UpdateIlluminationShader(NULL);
-			mUpdateShader = false;
- 		}
-		break;
+	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	mLineWidth = lineW;
+	glLineWidth( mLineWidth );
+	
+	if(useColor == kQ3False){
+		mViewState.diffuseColor = &mLineColor;
+		mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
+		}
 		
-	case 1:
-		{
-		glDisable( GL_POLYGON_OFFSET_FILL );
-		glEnable( GL_POLYGON_OFFSET_LINE );
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-			glPolygonOffset( +(factor * 5.1f), +(factor * 5.1f) );
-		mLineWidth = lineW;
-		glLineWidth( mLineWidth );
-		mViewState.diffuseColor = &mLineColor;
-		mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
-		mStyleState.mFill = kQ3FillStyleEdges;
-		UpdateIlluminationShader(NULL);
-//		mStyleState.mExplicitEdges = true;
-		mUpdateShader = false;
-		}
-		break;
-	case 2:
-		{
-//		glDisable( GL_POLYGON_OFFSET_LINE );
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-		glDisable( GL_POLYGON_OFFSET_FILL );
-		glPolygonOffset( 0.0f,0.0f );
-		mLineWidth = lineW * factor;
-		glLineWidth( mLineWidth );
-		mViewState.diffuseColor = &mLineColor;
-		mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
-		UpdateIlluminationShader(NULL);
-		mStyleState.mFill = kQ3FillStyleEdges;
-		mStyleState.mExplicitEdges = true;
-		}
-		break;
-
-
-	}
+	mStyleState.mFill = kQ3FillStyleEdges;
+	UpdateIlluminationShader(NULL);
+//	mStyleState.mExplicitEdges = true;
+	mUpdateShader = false;
 }
 
 
 //____________________________________________________________________________________
 
-void	CHiddenLineRendererQuesa::UpdateIlluminationShaderHiddenLine(
+void	CWireFrameRendererQuesa::UpdateIlluminationShaderWireFrame(
 								TQ3ShaderObject inShader )
 {
 	if(mPassIndex == 0)
@@ -318,7 +213,7 @@ void	CHiddenLineRendererQuesa::UpdateIlluminationShaderHiddenLine(
 //____________________________________________________________________________________
 
 
-static TQ3Status	hiddenline_startpass(
+static TQ3Status	wireframe_startpass(
 								TQ3ViewObject inView,
 								void* privateData,
 								TQ3CameraObject inCamera,
@@ -327,11 +222,11 @@ static TQ3Status	hiddenline_startpass(
 #pragma unused( inView )
 	TQ3Status status = kQ3Success;
 
-	CHiddenLineRendererQuesa*	me = *(CHiddenLineRendererQuesa**) privateData;
+	CWireFrameRendererQuesa*	me = *(CWireFrameRendererQuesa**) privateData;
 	
 	try
 	{
-		me->StartPassHiddenLine( inView, inCamera, inLights); // call our Method
+		me->StartPassWireFrame( inView, inCamera, inLights); // call our Method
 	}
 	catch (...)
 	{
@@ -343,19 +238,19 @@ static TQ3Status	hiddenline_startpass(
 
 //____________________________________________________________________________________
 
-static TQ3Status	hiddenline_update_illumination_shader(
+static TQ3Status	wireframe_update_illumination_shader(
 									TQ3ViewObject inView,
 									void* privateData,
 									TQ3ShaderObject* inShader )
 {
 #pragma unused( inView )
 	TQ3Status	result = kQ3Success;
-	CHiddenLineRendererQuesa*	me = *(CHiddenLineRendererQuesa**)privateData;
+	CWireFrameRendererQuesa*	me = *(CWireFrameRendererQuesa**)privateData;
 	try
 	{
 		if (inShader != NULL)
 		{
-			me->UpdateIlluminationShaderHiddenLine( *inShader );
+			me->UpdateIlluminationShaderWireFrame( *inShader );
 		}
 	}
 	catch (...)
@@ -371,7 +266,7 @@ static TQ3Status	hiddenline_update_illumination_shader(
 
 //____________________________________________________________________________________
 
-static TQ3Status	hiddenline_update_fill_style(
+static TQ3Status	wireframe_update_fill_style(
 								TQ3ViewObject ,
 								void* ,
 								const void*  )
@@ -384,10 +279,10 @@ static TQ3Status	hiddenline_update_fill_style(
 //____________________________________________________________________________________
 
 static TQ3Status
-hiddenline_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
+wireframe_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
 	// Return the amount of space we need
-    *actualDataSize = (TQ3Uns32)strlen(kQ3ClassNameRendererHiddenLine) + 1;
+    *actualDataSize = (TQ3Uns32)strlen(kRendererNickName) + 1;
 
 	// If we have a buffer, return the nick name
 	if (dataBuffer != NULL)
@@ -398,7 +293,7 @@ hiddenline_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *ac
 		
 		
 		// Return the string
-		Q3Memory_Copy(kQ3ClassNameRendererHiddenLine, dataBuffer, (*actualDataSize)-1);
+		Q3Memory_Copy(kRendererNickName, dataBuffer, (*actualDataSize)-1);
         dataBuffer[(*actualDataSize)-1] = 0x00;
 	}
 
@@ -409,7 +304,7 @@ hiddenline_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *ac
 //____________________________________________________________________________________
 
 static TQ3Status
-hiddenline_new_object( TQ3Object theObject, void *privateData, void *paramData )
+wireframe_new_object( TQ3Object theObject, void *privateData, void *paramData )
 {
 #pragma unused(paramData)
 	
@@ -427,14 +322,14 @@ hiddenline_new_object( TQ3Object theObject, void *privateData, void *paramData )
 
 
 	TQ3Status	theStatus;
-	CHiddenLineRendererQuesa*	newHidden = new(std::nothrow) CHiddenLineRendererQuesa( theObject );
+	CWireFrameRendererQuesa*	newHidden = new(std::nothrow) CWireFrameRendererQuesa( theObject );
 	if (newHidden == NULL)
 	{
 		theStatus = kQ3Failure;
 	}
 	else
 	{
-		*(CHiddenLineRendererQuesa**)privateData = newHidden;
+		*(CWireFrameRendererQuesa**)privateData = newHidden;
 		theStatus = kQ3Success;
 	}
 	
@@ -445,10 +340,10 @@ hiddenline_new_object( TQ3Object theObject, void *privateData, void *paramData )
 //____________________________________________________________________________________
 
 static void
-hiddenline_delete_object( TQ3Object theObject, void *privateData )
+wireframe_delete_object( TQ3Object theObject, void *privateData )
 {
 #pragma unused( theObject )
-	CHiddenLineRendererQuesa*	me = *(CHiddenLineRendererQuesa**) privateData;
+	CWireFrameRendererQuesa*	me = *(CWireFrameRendererQuesa**) privateData;
 	
 	delete me;
 }
@@ -465,7 +360,7 @@ hiddenline_delete_object( TQ3Object theObject, void *privateData )
 //____________________________________________________________________________________
 
 
-static TQ3XRendererUpdateStyleMethod hiddenline_style_metahandler (
+static TQ3XRendererUpdateStyleMethod wireframe_style_metahandler (
 									TQ3ObjectType inStyleType )
 {
 	TQ3XRendererUpdateStyleMethod	theMethod = NULL;
@@ -474,7 +369,7 @@ static TQ3XRendererUpdateStyleMethod hiddenline_style_metahandler (
 	{
 		case kQ3StyleTypeFill:
 			theMethod = (TQ3XRendererUpdateStyleMethod)
-				&hiddenline_update_fill_style;
+				&wireframe_update_fill_style;
 			break;
 
 
@@ -490,7 +385,7 @@ static TQ3XRendererUpdateStyleMethod hiddenline_style_metahandler (
 
 //____________________________________________________________________________________
 
-static TQ3XRendererUpdateShaderMethod hiddenline_shader_metahandler (
+static TQ3XRendererUpdateShaderMethod wireframe_shader_metahandler (
 									TQ3ObjectType inShaderType )
 {
 	TQ3XRendererUpdateShaderMethod	theMethod = NULL;
@@ -499,7 +394,7 @@ static TQ3XRendererUpdateShaderMethod hiddenline_shader_metahandler (
 	{
 		case kQ3ShaderTypeIllumination:
 			theMethod = (TQ3XRendererUpdateShaderMethod)
-				&hiddenline_update_illumination_shader;
+				&wireframe_update_illumination_shader;
 			break;
 
 
@@ -516,26 +411,26 @@ static TQ3XRendererUpdateShaderMethod hiddenline_shader_metahandler (
 //____________________________________________________________________________________
 
 static TQ3XFunctionPointer
-hiddenline_metahandler(TQ3XMethodType methodType)
+wireframe_metahandler(TQ3XMethodType methodType)
 {	
 	TQ3XFunctionPointer		theMethod = NULL;	
 
 	switch(methodType)
 	{
 		case kQ3XMethodTypeObjectNew:
-			theMethod = (TQ3XFunctionPointer) hiddenline_new_object;
+			theMethod = (TQ3XFunctionPointer) wireframe_new_object;
 			break;
 		
 		case kQ3XMethodTypeObjectDelete:
-			theMethod = (TQ3XFunctionPointer) hiddenline_delete_object;
+			theMethod = (TQ3XFunctionPointer) wireframe_delete_object;
 			break;
 		
 		case kQ3XMethodTypeRendererGetNickNameString:
-			theMethod = (TQ3XFunctionPointer) hiddenline_nickname;
+			theMethod = (TQ3XFunctionPointer) wireframe_nickname;
 			break;
 		
 		case kQ3XMethodTypeRendererStartPass:
-			theMethod = (TQ3XFunctionPointer) &hiddenline_startpass;
+			theMethod = (TQ3XFunctionPointer) &wireframe_startpass;
 			break;
 			
 		case kQ3XMethodTypeRendererMethodsCached:
@@ -543,11 +438,11 @@ hiddenline_metahandler(TQ3XMethodType methodType)
 			break;
 		
 		case kQ3XMethodTypeRendererUpdateStyleMetaHandler:
-			theMethod = (TQ3XFunctionPointer) &hiddenline_style_metahandler;
+			theMethod = (TQ3XFunctionPointer) &wireframe_style_metahandler;
 			break;
 
 		case kQ3XMethodTypeRendererUpdateShaderMetaHandler:
-			theMethod = (TQ3XFunctionPointer)&hiddenline_shader_metahandler;
+			theMethod = (TQ3XFunctionPointer)&wireframe_shader_metahandler;
 			break;
 
 		default:
@@ -570,18 +465,18 @@ hiddenline_metahandler(TQ3XMethodType methodType)
 
 
 
-TQ3Status HiddenLine_Register()
+TQ3Status WireFrameRenderer_Register()
 {
 	// Register the class
 	//
 	TQ3XObjectClass		theClass = EiObjectHierarchy_RegisterClassByType(
 														kQ3SharedTypeRenderer,
-														kQ3RendererTypeHiddenLine,
-														kQ3ClassNameRendererHiddenLine,
-														hiddenline_metahandler,
+														kQ3RendererTypeWireFrame,
+														kQ3ClassNameRendererWireFrame,
+														wireframe_metahandler,
 														NULL,
 														0,
-														sizeof(CHiddenLineRendererQuesa*));
+														sizeof(CWireFrameRendererQuesa*));
 
 
 	return(theClass == NULL ? kQ3Failure : kQ3Success);
@@ -589,13 +484,13 @@ TQ3Status HiddenLine_Register()
 
 //____________________________________________________________________________________
 
-void HiddenLine_Unregister()
+void WireFrameRenderer_Unregister()
 {
 	TQ3Status			qd3dStatus;
 	TQ3XObjectClass		theClass;
 
 	// Find the renderer class
-	theClass = Q3XObjectHierarchy_FindClassByType( kQ3RendererTypeHiddenLine );
+	theClass = Q3XObjectHierarchy_FindClassByType( kQ3RendererTypeWireFrame );
 	if (theClass == NULL)
 		return;
 

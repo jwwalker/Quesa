@@ -1439,12 +1439,16 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	// If we are in edge-fill mode and explicit edges have been provided,
 	// we may want to handle them here.
 	if ( (! didHandle) &&
-		(mStyleState.mFill == kQ3FillStyleEdges) &&
-		(inGeomData->numEdges > 0) )
+		(mStyleState.mFill == kQ3FillStyleEdges))
 	{
-		RenderExplicitEdges( inView, *inGeomData, dataArrays.vertNormal,
-			dataArrays.vertColor, dataArrays.edgeColor );
-		didHandle = true;
+		if(inGeomData->numEdges > 0)
+		{
+			RenderExplicitEdges( inView, *inGeomData, dataArrays.vertNormal,
+								dataArrays.vertColor, dataArrays.edgeColor );
+			didHandle = true;
+		}
+		else if(mStyleState.mExplicitEdges) // draw only trimesh with explicit Edges
+			didHandle = true;
 	}
 
 	if ( (whyNotFastPath == kSlowPathMask_FastPath) && (! didHandle) )
