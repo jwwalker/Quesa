@@ -181,15 +181,7 @@
 		AB3A7D52055E63B200CA83BE /* IRTriBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C3B055E63B100CA83BE /* IRTriBuffer.h */; };
 		AB3A7D53055E63B200CA83BE /* IRUpdate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C3C055E63B100CA83BE /* IRUpdate.c */; };
 		AB3A7D54055E63B200CA83BE /* IRUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C3D055E63B100CA83BE /* IRUpdate.h */; };
-		AB3A7D55055E63B200CA83BE /* WFGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C3F055E63B100CA83BE /* WFGeometry.c */; };
-		AB3A7D56055E63B200CA83BE /* WFGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C40055E63B100CA83BE /* WFGeometry.h */; };
-		AB3A7D57055E63B200CA83BE /* WFPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C41055E63B100CA83BE /* WFPrefix.h */; };
-		AB3A7D58055E63B200CA83BE /* WFRegister.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C42055E63B100CA83BE /* WFRegister.c */; };
-		AB3A7D59055E63B200CA83BE /* WFRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C43055E63B100CA83BE /* WFRegister.h */; };
-		AB3A7D5A055E63B200CA83BE /* WFRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C44055E63B100CA83BE /* WFRenderer.c */; };
 		AB3A7D5B055E63B200CA83BE /* WFRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C45055E63B100CA83BE /* WFRenderer.h */; };
-		AB3A7D5C055E63B200CA83BE /* WFUpdate.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C46055E63B100CA83BE /* WFUpdate.c */; };
-		AB3A7D5D055E63B200CA83BE /* WFUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C47055E63B100CA83BE /* WFUpdate.h */; };
 		AB3A7D5E055E63B200CA83BE /* E3IOFileFormat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C49055E63B100CA83BE /* E3IOFileFormat.c */; };
 		AB3A7D5F055E63B200CA83BE /* E3IOFileFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = AB3A7C4A055E63B100CA83BE /* E3IOFileFormat.h */; };
 		AB3A7D60055E63B200CA83BE /* E3FFR_3DMF.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C4D055E63B100CA83BE /* E3FFR_3DMF.c */; };
@@ -266,6 +258,7 @@
 		B112DA8D0B7D2A5C000F36EF /* GLTextureLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA8B0B7D2A5C000F36EF /* GLTextureLoader.h */; };
 		B112DA900B7D2A6B000F36EF /* GLVBOManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B112DA8E0B7D2A6B000F36EF /* GLVBOManager.cpp */; };
 		B112DA910B7D2A6B000F36EF /* GLVBOManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B112DA8F0B7D2A6B000F36EF /* GLVBOManager.h */; };
+		B19A747C0C3E8DC20099C820 /* WFRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B19A747B0C3E8DC20099C820 /* WFRenderer.cpp */; };
 		B1AC884F0906E76700ACE358 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B1AC884A0906E76700ACE358 /* E3CocoaDrawContext.m */; };
 		B1AC88500906E76700ACE358 /* E3CocoaDrawContextNotify.h in Headers */ = {isa = PBXBuildFile; fileRef = B1AC884B0906E76700ACE358 /* E3CocoaDrawContextNotify.h */; };
 		B1AC88510906E76700ACE358 /* E3CocoaDrawContextNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = B1AC884C0906E76700ACE358 /* E3CocoaDrawContextNotify.m */; };
@@ -288,6 +281,23 @@
 		BEDC045F08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */; };
 		BEDC08DC08A6B96E00FB3A82 /* Quesa.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		B19A74520C3E8D9B0099C820 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Development;
+		};
+		B19A74530C3E8D9B0099C820 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
 
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -465,15 +475,7 @@
 		AB3A7C3B055E63B100CA83BE /* IRTriBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRTriBuffer.h; sourceTree = "<group>"; };
 		AB3A7C3C055E63B100CA83BE /* IRUpdate.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IRUpdate.c; sourceTree = "<group>"; };
 		AB3A7C3D055E63B100CA83BE /* IRUpdate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IRUpdate.h; sourceTree = "<group>"; };
-		AB3A7C3F055E63B100CA83BE /* WFGeometry.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = WFGeometry.c; sourceTree = "<group>"; };
-		AB3A7C40055E63B100CA83BE /* WFGeometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFGeometry.h; sourceTree = "<group>"; };
-		AB3A7C41055E63B100CA83BE /* WFPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFPrefix.h; sourceTree = "<group>"; };
-		AB3A7C42055E63B100CA83BE /* WFRegister.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = WFRegister.c; sourceTree = "<group>"; };
-		AB3A7C43055E63B100CA83BE /* WFRegister.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFRegister.h; sourceTree = "<group>"; };
-		AB3A7C44055E63B100CA83BE /* WFRenderer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = WFRenderer.c; sourceTree = "<group>"; };
 		AB3A7C45055E63B100CA83BE /* WFRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFRenderer.h; sourceTree = "<group>"; };
-		AB3A7C46055E63B100CA83BE /* WFUpdate.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = WFUpdate.c; sourceTree = "<group>"; };
-		AB3A7C47055E63B100CA83BE /* WFUpdate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WFUpdate.h; sourceTree = "<group>"; };
 		AB3A7C49055E63B100CA83BE /* E3IOFileFormat.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3IOFileFormat.c; sourceTree = "<group>"; };
 		AB3A7C4A055E63B100CA83BE /* E3IOFileFormat.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3IOFileFormat.h; sourceTree = "<group>"; };
 		AB3A7C4D055E63B100CA83BE /* E3FFR_3DMF.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFR_3DMF.c; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 		B112DA8B0B7D2A5C000F36EF /* GLTextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureLoader.h; sourceTree = "<group>"; };
 		B112DA8E0B7D2A6B000F36EF /* GLVBOManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLVBOManager.cpp; sourceTree = "<group>"; };
 		B112DA8F0B7D2A6B000F36EF /* GLVBOManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLVBOManager.h; sourceTree = "<group>"; };
+		B19A747B0C3E8DC20099C820 /* WFRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WFRenderer.cpp; sourceTree = "<group>"; };
 		B1AC884A0906E76700ACE358 /* E3CocoaDrawContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = E3CocoaDrawContext.m; path = Cocoa/E3CocoaDrawContext.m; sourceTree = "<group>"; };
 		B1AC884B0906E76700ACE358 /* E3CocoaDrawContextNotify.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = E3CocoaDrawContextNotify.h; path = Cocoa/E3CocoaDrawContextNotify.h; sourceTree = "<group>"; };
 		B1AC884C0906E76700ACE358 /* E3CocoaDrawContextNotify.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = E3CocoaDrawContextNotify.m; path = Cocoa/E3CocoaDrawContextNotify.m; sourceTree = "<group>"; };
@@ -927,15 +930,8 @@
 		AB3A7C3E055E63B100CA83BE /* Wireframe */ = {
 			isa = PBXGroup;
 			children = (
-				AB3A7C3F055E63B100CA83BE /* WFGeometry.c */,
-				AB3A7C40055E63B100CA83BE /* WFGeometry.h */,
-				AB3A7C41055E63B100CA83BE /* WFPrefix.h */,
-				AB3A7C42055E63B100CA83BE /* WFRegister.c */,
-				AB3A7C43055E63B100CA83BE /* WFRegister.h */,
-				AB3A7C44055E63B100CA83BE /* WFRenderer.c */,
+				B19A747B0C3E8DC20099C820 /* WFRenderer.cpp */,
 				AB3A7C45055E63B100CA83BE /* WFRenderer.h */,
-				AB3A7C46055E63B100CA83BE /* WFUpdate.c */,
-				AB3A7C47055E63B100CA83BE /* WFUpdate.h */,
 			);
 			path = Wireframe;
 			sourceTree = "<group>";
@@ -1228,11 +1224,7 @@
 				AB3A7D50055E63B200CA83BE /* IRTransparent.h in Headers */,
 				AB3A7D52055E63B200CA83BE /* IRTriBuffer.h in Headers */,
 				AB3A7D54055E63B200CA83BE /* IRUpdate.h in Headers */,
-				AB3A7D56055E63B200CA83BE /* WFGeometry.h in Headers */,
-				AB3A7D57055E63B200CA83BE /* WFPrefix.h in Headers */,
-				AB3A7D59055E63B200CA83BE /* WFRegister.h in Headers */,
 				AB3A7D5B055E63B200CA83BE /* WFRenderer.h in Headers */,
-				AB3A7D5D055E63B200CA83BE /* WFUpdate.h in Headers */,
 				AB3A7D5F055E63B200CA83BE /* E3IOFileFormat.h in Headers */,
 				AB3A7D61055E63B200CA83BE /* E3FFR_3DMF.h in Headers */,
 				AB3A7D63055E63B200CA83BE /* E3FFR_3DMF_Bin.h in Headers */,
@@ -1310,6 +1302,12 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "QuesaCocoa" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				B19A74520C3E8D9B0099C820 /* Development */,
+				B19A74530C3E8D9B0099C820 /* Deployment */,
+			);
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* Quesa */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
@@ -1431,10 +1429,6 @@
 				AB3A7D4F055E63B200CA83BE /* IRTransparent.c in Sources */,
 				AB3A7D51055E63B200CA83BE /* IRTriBuffer.c in Sources */,
 				AB3A7D53055E63B200CA83BE /* IRUpdate.c in Sources */,
-				AB3A7D55055E63B200CA83BE /* WFGeometry.c in Sources */,
-				AB3A7D58055E63B200CA83BE /* WFRegister.c in Sources */,
-				AB3A7D5A055E63B200CA83BE /* WFRenderer.c in Sources */,
-				AB3A7D5C055E63B200CA83BE /* WFUpdate.c in Sources */,
 				AB3A7D5E055E63B200CA83BE /* E3IOFileFormat.c in Sources */,
 				AB3A7D60055E63B200CA83BE /* E3FFR_3DMF.c in Sources */,
 				AB3A7D62055E63B200CA83BE /* E3FFR_3DMF_Bin.c in Sources */,
@@ -1481,6 +1475,7 @@
 				BEBAACF30C0DF2C800C9225A /* QOShadowMarker.cpp in Sources */,
 				BEBAACF50C0DF2C800C9225A /* QOCalcTriMeshEdges.cpp in Sources */,
 				BECE348D0C13DAB20033329E /* E3Math_Intersect.cpp in Sources */,
+				B19A747C0C3E8DC20099C820 /* WFRenderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
