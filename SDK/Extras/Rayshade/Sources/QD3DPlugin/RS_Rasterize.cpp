@@ -55,7 +55,7 @@
 #include <stdlib.h>
 
 #if __MACH__
-	#include <Quesa/QuesaDrawContext.h>
+	#include <QuesaDrawContext.h>
 #else
 	#include <QuesaDrawContext.h>
 #endif
@@ -66,8 +66,8 @@
 	#if ((QUESA_UH_IN_FRAMEWORKS) || (QUESA_OS_COCOA))
 		#include <Carbon/Carbon.h>
 	#else
-		#include <QuickDraw.h>
-		#include <MacWindows.h>
+	#include <QuickDraw.h>
+	#include <MacWindows.h>
 	#endif
 #elif defined(WIN32)
 	
@@ -86,7 +86,7 @@ typedef TQ3Status (*TRGBSpanRasterizerFunction)(
 							const int					x,
 							const int					y,
 							const int					width,
-							const TQ3Uns8				rgbPixels[][3]);
+							const TQ3Float32			rgbaPixels[][4]);
 				
 
 typedef struct TRSRasterizer {
@@ -117,7 +117,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_Nop(
 					const int					x,
 					const int					y,
 					const int					width,
-					const TQ3Uns8				rgbPixels[][3]);
+					const TQ3Float32			rgbaPixels[][4]);
 #if defined(macintosh)
 static
 TQ3Status		RSRasterizer_Rasterize_RGB_Span_QD(
@@ -125,7 +125,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_QD(
 					const int					x,
 					const int					y,
 					const int					width,
-					const TQ3Uns8				rgbPixels[][3]);
+					const TQ3Float32			rgbaPixels[][4]);
 #endif
 #if defined(WIN32)
 static
@@ -134,7 +134,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_Win32DC(
 					const int					x,
 					const int					y,
 					const int					width,
-					const TQ3Uns8				rgbPixels[][3]);
+					const TQ3Float32			rgbaPixels[][4]);
 #endif
 static
 TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
@@ -142,7 +142,8 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 					const int					x,
 					const int					y,
 					const int					width,
-					const TQ3Uns8				rgbPixels[][3]);
+					const TQ3Float32			rgbaPixels[][4]);
+					
 					
 /******************************************************************************
  **																			 **
@@ -365,13 +366,29 @@ void			RSRasterizer_Finish(
 #endif
 }
 
+/*===========================================================================*/
+
+static unsigned char
+correct(Float x)
+{
+	/*
+	 * Truncate values < 0 or > 1.
+	 */
+	if (x < 0)
+		return 0;
+	if (x > 1.)
+		return 255;
+	return (unsigned char)(x * 255.);
+}
+
+/*===========================================================================*/
 static
 TQ3Status		RSRasterizer_Rasterize_RGB_Span_Nop(
 					TRSRasterizer				*inRasterizer,
 					const int					/*x*/,
 					const int					/*y*/,
 					const int					/*width*/,
-					const TQ3Uns8				/*rgbPixels*/[][3])
+					const TQ3Float32			/*rgbPixels*/[][4])
 {
 	if (inRasterizer == NULL)
 		return kQ3Failure;
@@ -386,7 +403,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 					const int					x,
 					const int					y,
 					const int					width,
-					const TQ3Uns8				rgbPixels[][3])
+					const TQ3Float32			rgbaPixels[][4])
 {
 	unsigned char* 	rowAddr;
 	int			   	pixelSize = (int)inRasterizer->pixmap.pixelSize / 8;	/* This is pixel size in bytes */
@@ -403,16 +420,16 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 				{
 					unsigned int pixel;
 #if QUESA_HOST_IS_BIG_ENDIAN
-					pixel = 	(0xFF << 24) |
-								(rgbPixels[i][0] << 16) |
-								(rgbPixels[i][1] << 8)  |
-								(rgbPixels[i][2] << 0);
+					pixel = 	( correct ( rgbaPixels[i][3] ) << 24) |  // Alpha
+								( correct ( rgbaPixels[i][0] ) << 16) | 
+								( correct ( rgbaPixels[i][1] ) << 8)  |
+								( correct ( rgbaPixels[i][2] ) << 0 ) ;
 					*((unsigned int *)rowAddr) = pixel;
 #else
-					pixel = 	(0xFF << 0) |
-								(rgbPixels[i][0] << 8)  |
-								(rgbPixels[i][1] << 16) |
-								(rgbPixels[i][2] << 24);
+					pixel = 	( correct ( rgbaPixels[i][3] ) << 0 ) |   // Alpha 
+								( correct ( rgbaPixels[i][0] ) << 8)  | 
+								( correct ( rgbaPixels[i][1] ) << 16) |
+								( correct ( rgbaPixels[i][2] ) << 24 ) ;
 					*((unsigned int *)rowAddr) = pixel;
 #endif
 				}
@@ -421,15 +438,15 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 			case kQ3PixelTypeRGB24:
 #if QUESA_HOST_IS_BIG_ENDIAN
 				{
-					rowAddr[0] = rgbPixels[i][0];
-					rowAddr[1] = rgbPixels[i][1];
-					rowAddr[2] = rgbPixels[i][2];
+					rowAddr[0] = correct ( rgbaPixels[i][0] ) ;
+					rowAddr[1] = correct ( rgbaPixels[i][1] ) ;
+					rowAddr[2] = correct ( rgbaPixels[i][2] ) ;
 				}
 #else
 				{
-					rowAddr[0] = rgbPixels[i][2];
-					rowAddr[1] = rgbPixels[i][1];
-					rowAddr[2] = rgbPixels[i][0];
+					rowAddr[0] = correct ( rgbaPixels[i][2] ) ;
+					rowAddr[1] = correct ( rgbaPixels[i][1] ) ;
+					rowAddr[2] = correct ( rgbaPixels[i][0] ) ;
 				}
 #endif
 				break;
@@ -438,10 +455,10 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 				{
 					unsigned short pixel;
 				
-					pixel = (0x8000) |
-							((rgbPixels[i][0] << 7) & 0x7C00) |
-							((rgbPixels[i][1] << 2) & 0x03E0) |
-							((rgbPixels[i][2] >> 3) & 0x001F) ;
+					pixel = (0x8000) | // Could check alpha > 0.5 here andd save in the single bit if desired
+							(( correct ( rgbaPixels[i][0] ) << 7) & 0x7C00) |
+							(( correct ( rgbaPixels[i][1] ) << 2) & 0x03E0) |
+							(( correct ( rgbaPixels[i][2] ) >> 3) & 0x001F) ;
 					*((unsigned short*)rowAddr) = pixel;
 				}
 				break;
@@ -449,9 +466,9 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_PM(
 				{
 					unsigned short pixel;
 				
-					pixel = ((rgbPixels[i][0] << 8) & 0xF800) |
-							((rgbPixels[i][1] << 2) & 0x07E0) |
-							((rgbPixels[i][2] >> 3) & 0x001F) ;
+					pixel = (( correct ( rgbaPixels[i][0] ) << 8) & 0xF800) |
+							(( correct ( rgbaPixels[i][1] ) << 2) & 0x07E0) |
+							(( correct ( rgbaPixels[i][2] ) >> 3) & 0x001F) ;
 					*((unsigned short*)rowAddr) = pixel;
 				}
 				break;				
@@ -473,7 +490,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_QD(
 					const int					x,
 					const int					y,
 					const int					width,
-					const TQ3Uns8				rgbPixels[][3])
+					const TQ3Float32			rgbaPixels[][4])
 {
 	if (inRasterizer == NULL)
 		return kQ3Failure;
@@ -481,9 +498,9 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_QD(
 	for (int i = 0; i < width; i++)
 	{
 		RGBColor	theColor;
-		theColor.red = rgbPixels[i][0] << 8;
-		theColor.green = rgbPixels[i][1] << 8;
-		theColor.blue = rgbPixels[i][2] << 8;
+		theColor.red = correct ( rgbaPixels[i][0] ) << 8;
+		theColor.green = correct ( rgbaPixels[i][1] ) << 8;
+		theColor.blue = correct ( rgbaPixels[i][2] ) << 8;
 		
 		RGBForeColor(&theColor);
 		MoveTo(x+i,y);
@@ -500,7 +517,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_Win32DC(
 					const int					x,
 					const int					y,
 					const int					width,
-					const TQ3Uns8				rgbPixels[][3])
+					const TQ3Float32			rgbaPixels[][4])
 {
 	if (inRasterizer == NULL)
 		return kQ3Failure;
@@ -508,8 +525,8 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span_Win32DC(
 	for (int i = 0; i < width; i++)
 	{
 		RECT theRect;
-		COLORREF theColor = (rgbPixels[i][2] << 16) | (rgbPixels[i][1] << 8) |
-							(rgbPixels[i][0]) ;
+		COLORREF theColor = ( correct ( rgbaPixels[i][2] ) << 16 ) | ( correct ( rgbaPixels[i][1] ) << 8 ) |
+							( correct ( rgbaPixels[i][0] ) ) ; // Alpha is available in [3] but can Windows use it?
 
 		SetRect(&theRect,x+i,y,x+i+1,y+1);
 		HBRUSH theBrush = CreateSolidBrush(theColor); 
@@ -525,9 +542,9 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span(
 					const int					x,
 					const int					y,
 					const int					width,
-					const TQ3Uns8				rgbPixels[][3])
+					const TQ3Float32			rgbaPixels[][4])
 {
-	return (inRasterizer->rgbSpanRasterize)(inRasterizer,x,y,width,rgbPixels);
+	return (inRasterizer->rgbSpanRasterize)(inRasterizer,x,y,width,rgbaPixels);
 }
 
 
