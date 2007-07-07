@@ -85,7 +85,7 @@ TQ3Status		RSRasterizer_Rasterize_RGB_Span(
 					const int					x,
 					const int					y,
 					const int					width,
-					const TQ3Uns8				rgbPixels[][3]);
+					const TQ3Float32			rgbaPixels[][4]);
 
 
 

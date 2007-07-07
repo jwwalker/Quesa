@@ -51,14 +51,14 @@
 #include "RT_Light.h"
 #include "RT_Tracer.h"
 
-#include <Quesa.h>
-#include <QuesaView.h>
-#include <QuesaDrawContext.h>
-#include <QuesaGroup.h>
-#include <QuesaCamera.h>
-#include <QuesaRenderer.h>
-#include <QuesaExtension.h>
-#include <QuesaIO.h>
+	#include <Quesa.h>
+	#include <QuesaView.h>
+	#include <QuesaDrawContext.h>
+	#include <QuesaGroup.h>
+	#include <QuesaCamera.h>
+	#include <QuesaRenderer.h>
+	#include <QuesaExtension.h>
+	#include <QuesaIO.h>
 
 #include <stdlib.h>
 #include <string>
@@ -143,6 +143,10 @@ const char* kRSRenderer_NickName				= "RayShadeRenderer";
 static TQ3XObjectClass	gRS_RendererClass;
 static TQ3ObjectType	gRS_ClassType;
 static unsigned long 	gRS_SharedLibrary = NULL;
+#if TARGET_RT_MAC_MACHO
+	#pragma unused(gRS_SharedLibrary)
+#endif
+
 
 /******************************************************************************
  **																			 **
@@ -455,7 +459,7 @@ TQ3ViewStatus RS_EndPass(
 	TQ3ViewStatus	result = kQ3ViewStatusDone;
 	TQ3Status 		theStatus;
 	TRSRasterizer	*theRasterizer = NULL;
-	TQ3Uns8			* buf = NULL;
+	TQ3Float32*		buf = NULL ;
 	/*
 	 * Do the raytracing:
 	 */
@@ -500,7 +504,7 @@ TQ3ViewStatus RS_EndPass(
 			int xres = width;
 	        int yres = height;
 	       
-	       buf = (TQ3Uns8*)malloc(xres*3);
+	       buf = (TQ3Float32*) malloc ( xres * 4 * sizeof ( TQ3Float32 ) ) ;
 	       
 	        if (! buf){
 	              result = kQ3ViewStatusError;
@@ -514,7 +518,7 @@ TQ3ViewStatus RS_EndPass(
 	        	/*
 	        	 * RayTrace the next scan line
 	        	 */
-	        	if (RTRayTracer_ScanNextLine(theTracer,i,(TQ3Uns8(*)[3])buf,xres*3) != kQ3Success)
+	        	if (RTRayTracer_ScanNextLine(theTracer,i,(TQ3Float32(*)[4])buf, xres * 4 * sizeof ( TQ3Float32 ) ) != kQ3Success)
 	            {
 	                result = kQ3ViewStatusError;
 	                goto cleanup;
@@ -528,7 +532,7 @@ TQ3ViewStatus RS_EndPass(
             		result = kQ3ViewStatusError;	
             		goto cleanup;
             	}
-	            RSRasterizer_Rasterize_RGB_Span(theRasterizer,left,i+top,width,(TQ3Uns8(*)[3])buf);
+	            RSRasterizer_Rasterize_RGB_Span(theRasterizer,left,i+top,width,(TQ3Float32(*)[4])buf);
            		RSRasterizer_Unlock(theRasterizer);
 
          		/*
@@ -553,7 +557,7 @@ TQ3ViewStatus RS_EndPass(
 		 	if (buf)
 				free(buf);
 			buf = NULL;
-           
+            
 		}
     	Q3Object_Dispose(theDrawContext);
     }

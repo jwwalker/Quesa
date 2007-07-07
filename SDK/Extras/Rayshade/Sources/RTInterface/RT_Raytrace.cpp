@@ -448,26 +448,6 @@ rt_AdaptiveRefineScanline(
 
 /*===========================================================================*\
  *
- *	Routine:	rt_AdaptiveRefineScanline()
- *
- *	Comments:	Convert floating-point (0.-1.) to unsigned char (0-255), with 
- * 				no gamma correction.
- *
-\*===========================================================================*/
-static unsigned char
-correct(Float x)
-{
-	/*
-	 * Truncate values < 0 or > 1.
-	 */
-	if (x < 0)
-		return 0;
-	if (x > 1.)
-		return 255;
-	return (unsigned char)(x * 255.);
-}
-/*===========================================================================*\
- *
  *	Routine:	RTRayTracer_Create()
  *
  *	Comments:	Creates a ray tracer object
@@ -600,7 +580,7 @@ TQ3Status
 RTRayTracer_ScanNextLine(
 					TRTRayTracer 	*inTracer,
 					int 			inCurrentLine,
-					TQ3Uns8			outBuffer[][3],
+					TQ3Float32		outBuffer[][4],
 					int				inBufferSize)
 {
 	int 	i;
@@ -608,7 +588,7 @@ RTRayTracer_ScanNextLine(
 	int		*tmpSample;
 	int		y;
 	
-	if (inBufferSize < (inTracer->width*3))
+	if ( inBufferSize < ( inTracer->width * 4 * sizeof ( TQ3Float32 ) ) )
 		return kQ3Failure;
 	
 	y = inCurrentLine+1;
@@ -625,9 +605,10 @@ RTRayTracer_ScanNextLine(
 	
 		for (i = 0; i < inTracer->width; i++)
     	{
-	        outBuffer[i][0] = (int)CORRECT(inTracer->scan0.pixelValues[i].r);
-	        outBuffer[i][1] = (int)CORRECT(inTracer->scan0.pixelValues[i].g);
-	        outBuffer[i][2] = (int)CORRECT(inTracer->scan0.pixelValues[i].b);
+	        outBuffer[i][0] = GAMMACORRECT ( inTracer->scan0.pixelValues[i].r ) ;
+	        outBuffer[i][1] = GAMMACORRECT ( inTracer->scan0.pixelValues[i].g ) ;
+	        outBuffer[i][2] = GAMMACORRECT ( inTracer->scan0.pixelValues[i].b ) ;
+	        outBuffer[i][3] = inTracer->scan0.pixelValues[i].alpha ;
 	    }	
 	    tmpPixel 							= inTracer->scan0.pixelValues;
 	    tmpSample 							= inTracer->scan0.numberOfSamples;
@@ -651,9 +632,10 @@ RTRayTracer_ScanNextLine(
 	    }
 	    for (i = 0; i < inTracer->width; i++)
     	{
-	        outBuffer[i][0] = (int)CORRECT(inTracer->scan0.pixelValues[i].r);
-	        outBuffer[i][1] = (int)CORRECT(inTracer->scan0.pixelValues[i].g);
-	        outBuffer[i][2] = (int)CORRECT(inTracer->scan0.pixelValues[i].b);
+	        outBuffer[i][0] = GAMMACORRECT ( inTracer->scan0.pixelValues[i].r ) ;
+	        outBuffer[i][1] = GAMMACORRECT ( inTracer->scan0.pixelValues[i].g ) ;
+	        outBuffer[i][2] = GAMMACORRECT ( inTracer->scan0.pixelValues[i].b ) ;
+	        outBuffer[i][3] = inTracer->scan0.pixelValues[i].alpha ;
 	    }
 	}
 	else
