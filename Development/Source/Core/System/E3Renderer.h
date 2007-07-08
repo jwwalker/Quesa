@@ -5,7 +5,7 @@
         Header file for E3Renderer.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -104,35 +104,8 @@ TQ3Status			E3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject theRend
 TQ3Status			E3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject theRenderer, TQ3Uns32 *numRAVEContexts);
 TQ3Status			E3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject theRenderer, TQADrawContext **raveDrawContextList, TQAEngine **raveDrawingEnginesList, TQ3Uns32 *numRAVEContexts, TQ3RaveDestroyCallback raveDestroyCallback);
 
-TQ3Status			E3XDrawContext_GetDrawRegion(TQ3DrawContextObject drawContext, TQ3XDrawRegion *drawRegion);
 TQ3Status			E3XDrawContext_ClearValidationFlags(TQ3DrawContextObject drawContext);
 TQ3Status			E3XDrawContext_GetValidationFlags(TQ3DrawContextObject drawContext, TQ3XDrawContextValidation *validationFlags);
-TQ3Status			E3XDrawRegion_GetDeviceScaleX(TQ3XDrawRegion drawRegion, float *deviceScaleX);
-TQ3Status			E3XDrawRegion_GetDeviceScaleY(TQ3XDrawRegion drawRegion, float *deviceScaleY);
-TQ3Status			E3XDrawRegion_GetDeviceOffsetX(TQ3XDrawRegion drawRegion, float *deviceOffsetX);
-TQ3Status			E3XDrawRegion_GetDeviceOffsetY(TQ3XDrawRegion drawRegion, float *deviceOffsetY);
-TQ3Status			E3XDrawRegion_GetWindowScaleX(TQ3XDrawRegion drawRegion, float *windowScaleX);
-TQ3Status			E3XDrawRegion_GetWindowScaleY(TQ3XDrawRegion drawRegion, float *windowScaleY);
-TQ3Status			E3XDrawRegion_GetWindowOffsetX(TQ3XDrawRegion drawRegion, float *windowOffsetX);
-TQ3Status			E3XDrawRegion_GetWindowOffsetY(TQ3XDrawRegion drawRegion, float *windowOffsetY);
-TQ3Status			E3XDrawRegion_IsActive(TQ3XDrawRegion drawRegion, TQ3Boolean *isActive);
-TQ3Status			E3XDrawRegion_GetNextRegion(TQ3XDrawRegion drawRegion, TQ3XDrawRegion *nextDrawRegion);
-TQ3Status			E3XDrawRegion_Start(TQ3XDrawRegion drawRegion, TQ3XDrawRegionServices services, TQ3XDrawRegionDescriptor **descriptor);
-TQ3Status			E3XDrawRegion_StartAccessToImageBuffer(TQ3XDrawRegion drawRegion, TQ3XDrawRegionServices services, TQ3XDrawRegionDescriptor **descriptor, void **image);
-TQ3Status			E3XDrawRegion_End(TQ3XDrawRegion drawRegion);
-TQ3Status			E3XDrawRegion_GetDeviceTransform(TQ3XDrawRegion drawRegion, TQ3Matrix4x4 **deviceTransform);
-TQ3Status			E3XDrawRegion_GetClipFlags(TQ3XDrawRegion drawRegion, TQ3XClipMaskState *clipMaskState);
-TQ3Status			E3XDrawRegion_GetClipMask(TQ3XDrawRegion drawRegion, TQ3Bitmap **clipMask);
-TQ3Status			E3XDrawRegion_GetRendererPrivate(TQ3XDrawRegion drawRegion, void **rendererPrivate);
-TQ3Status			E3XDrawRegion_SetRendererPrivate(TQ3XDrawRegion drawRegion, const void *rendererPrivate, TQ3XDrawRegionRendererPrivateDeleteMethod deleteMethod);
-TQ3Status			E3XDrawRegion_SetUseDefaultRendererFlag(TQ3XDrawRegion drawRegion, TQ3Boolean flag);
-TQ3Status			E3XDrawRegion_GetUseDefaultRendererFlag(TQ3XDrawRegion drawRegion, TQ3Boolean *useDefaultRenderingFlag);
-
-// Mac specific
-#if QUESA_OS_MACINTOSH
-TQ3Status			E3XDrawRegion_GetClipRegion(TQ3XDrawRegion drawRegion, RgnHandle *rgnHandle);
-TQ3Status			E3XDrawRegion_GetGDHandle(TQ3XDrawRegion drawRegion, GDHandle *gdHandle);
-#endif
 
 TQ3Status			E3XView_IdleProgress(TQ3ViewObject theView, TQ3Uns32 current, TQ3Uns32 completed);
 TQ3Status			E3XView_EndFrame(TQ3ViewObject theView);
