@@ -93,9 +93,6 @@ void				GLDrawContext_SetBackgroundColour(
 void				GLDrawContext_SetDepthState(
 								TQ3DrawContextObject	theDrawContext);
 
-TQ3Boolean			GLDrawContext_UpdateWindowClip(
-								void					*glContext);
-
 TQ3Boolean			GLDrawContext_UpdateWindowPosition(
 								void					*glContext);
 
