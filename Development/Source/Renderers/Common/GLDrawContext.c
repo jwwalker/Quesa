@@ -869,7 +869,9 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 
 
 			// Grab its dimensions
-			SetRect(&theRect, 0, 0, (short)thePixmap.width, (short)thePixmap.height);
+			theRect.top = theRect.left = 0;
+			theRect.right = (short)thePixmap.width;
+			theRect.bottom = (short)thePixmap.height;
 			
 			
 			// Check byte order
@@ -1205,22 +1207,6 @@ gldrawcontext_mac_setcurrent( TQ3GLContext glContext, TQ3Boolean forceSet )
 
 
 //=============================================================================
-//		gldrawcontext_mac_updateclip : Update OpenGL context clipping.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-gldrawcontext_mac_updateclip( TQ3GLContext glContext )
-{
-
-
-	// Update the context
-	return((TQ3Boolean) aglUpdateContext( ((MacGLContext*) glContext)->macContext ));
-}
-
-
-
-
-
-//=============================================================================
 //		gldrawcontext_mac_updatepos : Update OpenGL context position.
 //-----------------------------------------------------------------------------
 static TQ3Boolean
@@ -1467,22 +1453,6 @@ gldrawcontext_x11_setcurrent(void *glContext, TQ3Boolean forceSet)
 		glXGetCurrentContext()  != theContext->glContext ||
 		glXGetCurrentDrawable() != theContext->glDrawable)
 		glXMakeCurrent(theContext->theDisplay, theContext->glDrawable, theContext->glContext);
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_x11_updateclip : Update OpenGL context clipping.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-gldrawcontext_x11_updateclip(void *glContext)
-{
-
-
-	// Not required
-	return(kQ3False);
 }
 
 
@@ -1882,22 +1852,6 @@ gldrawcontext_win_setcurrent( TQ3GLContext glContext, TQ3Boolean forceSet )
 	{
 		theContext->winBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
 	}
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_win_updateclip : Update OpenGL context clipping.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-gldrawcontext_win_updateclip( TQ3GLContext glContext )
-{
-
-
-	// Not required
-	return(kQ3False);
 }
 
 
@@ -2367,49 +2321,6 @@ GLDrawContext_SetDepthState( TQ3DrawContextObject	theDrawContext)
 		compareFunc = GL_LESS;
 	}
 	glDepthFunc( compareFunc );
-}
-
-
-
-
-
-//=============================================================================
-//		GLDrawContext_UpdateWindowClip : Update clipping for an OpenGL context.
-//-----------------------------------------------------------------------------
-TQ3Boolean
-GLDrawContext_UpdateWindowClip( TQ3GLContext glContext )
-{	TQ3Boolean		wasUpdated = kQ3False;
-
-
-
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glContext), kQ3False);
-
-
-
-	// Update the context
-	if (gldrawcontext_is_FBO( glContext ))
-	{
-		// Nothing to do
-	}
-	else
-	{
-	#if QUESA_OS_COCOA
-		wasUpdated = gldrawcontext_cocoa_updateclip(glContext);
-
-	#elif QUESA_OS_MACINTOSH
-		wasUpdated = gldrawcontext_mac_updateclip(glContext);
-
-	#elif QUESA_OS_UNIX
-		wasUpdated = gldrawcontext_x11_updateclip(glContext);
-
-	#elif QUESA_OS_WIN32
-		wasUpdated = gldrawcontext_win_updateclip(glContext);
-
-	#endif
-	}
-
-	return(wasUpdated);
 }
 
 
