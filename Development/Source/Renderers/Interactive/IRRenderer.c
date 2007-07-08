@@ -139,12 +139,6 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 				drawContextFlags &= ~kQ3XDrawContextValidationBackgroundShader;
 				}
 
-			if (drawContextFlags & kQ3XDrawContextValidationWindowClip)
-				{
-				if (GLDrawContext_UpdateWindowClip(instanceData->glContext))
-					drawContextFlags &= ~kQ3XDrawContextValidationWindowClip;
-				}
-
 			if (drawContextFlags & kQ3XDrawContextValidationWindowPosition)
 				{
 				if (GLDrawContext_UpdateWindowPosition(instanceData->glContext))

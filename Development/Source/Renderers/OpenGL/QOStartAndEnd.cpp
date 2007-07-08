@@ -187,12 +187,6 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 				drawContextFlags &= ~kQ3XDrawContextValidationBackgroundShader;
 			}
 
-			if (drawContextFlags & kQ3XDrawContextValidationWindowClip)
-			{
-				if (GLDrawContext_UpdateWindowClip( mGLContext ))
-					drawContextFlags &= ~kQ3XDrawContextValidationWindowClip;
-			}
-
 			if (drawContextFlags & kQ3XDrawContextValidationWindowPosition)
 			{
 				if (GLDrawContext_UpdateWindowPosition( mGLContext ))
