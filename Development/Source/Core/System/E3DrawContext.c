@@ -138,107 +138,14 @@ e3drawcontext_pixmap_new(TQ3Object theObject, void *privateData, const void *par
 static void
 e3drawcontext_pixmap_delete(TQ3Object theObject, void *privateData)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) privateData;
-	TQ3Status					qd3dStatus;
+	TQ3Status					qd3dStatus = kQ3Success;
 #pragma unused(privateData)
 
 
 
 	// Dispose of the common instance data
-	qd3dStatus = E3DrawContext_CreateRegions(theObject, 0);
-
 	if (instanceData->data.common.maskState)
 		qd3dStatus = Q3Bitmap_Empty(&instanceData->data.common.mask);
-}
-
-
-
-
-
-//=============================================================================
-//      e3drawcontext_pixmap_update : Pixmap draw context update method.
-//-----------------------------------------------------------------------------
-//		Note :	Because Pixmap draw contexts don't have any relationship with
-//				a window system, their draw region state is substantially
-//				simpler than other draw context types.
-//
-//				We support Pixmap draw contexts by creating a single draw
-//				region, and rebuilding the draw region from scratch if any
-//				state changes occur.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3drawcontext_pixmap_update(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	TQ3Pixmap					*thePixmap;
-	TQ3Status					qd3dStatus;
-	TQ3XDevicePixelType			pixelType;
-	TQ3Uns32					irrelevantStateFlags =
-										kQ3XDrawContextValidationClearFunction |
-										kQ3XDrawContextValidationDepthState;
-
-
-
-	// If we have a draw region, and nothing relevant has changed, we're done
-	if (instanceData->numDrawRegions != 0 &&
-		(instanceData->theState & ~irrelevantStateFlags) == kQ3XDrawContextValidationClearFlags)
-		return(kQ3Success);
-
-
-
-	// Build a single draw region
-	qd3dStatus = E3DrawContext_CreateRegions(theDrawContext, 1);
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
-
-
-
-	// Configure the draw region. Note that we don't bother setting up
-	// the colorDescriptor field of the draw region descriptor since
-	// these fields aren't currently used by the Interactive Renderer.
-	//
-	// Since we want to move away from draw regions, this is OK for now.
-	//
-	// Clipping masks aren't currently supported.
-	thePixmap = &instanceData->data.pixmapData.pixmap;
-	pixelType = E3DrawContext_GetDevicePixelTypeFromQD3DType(thePixmap->pixelType);
-	
-	instanceData->drawRegions[0].deviceOffsetX           = 0.0f;
-	instanceData->drawRegions[0].deviceOffsetY           = 0.0f;
-	instanceData->drawRegions[0].windowOffsetX           = 0.0f;
-	instanceData->drawRegions[0].windowOffsetY           = 0.0f;
-	instanceData->drawRegions[0].deviceScaleX            = (float) thePixmap->width;
-	instanceData->drawRegions[0].deviceScaleY            = (float) thePixmap->height;
-	instanceData->drawRegions[0].windowScaleX            = (float) thePixmap->width;
-	instanceData->drawRegions[0].windowScaleY            = (float) thePixmap->height;
-	instanceData->drawRegions[0].theDescriptor.width		 = thePixmap->width ;
-	instanceData->drawRegions[0].theDescriptor.height		 = thePixmap->height;
-	instanceData->drawRegions[0].theDescriptor.rowBytes	 = thePixmap->rowBytes;
-	instanceData->drawRegions[0].theDescriptor.pixelSize = thePixmap->pixelSize;
-	instanceData->drawRegions[0].theDescriptor.pixelType = pixelType;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.redShift	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.redMask	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenShift	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenMask	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueShift	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueMask	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaShift	 = ???;
-	//instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaMask	 = ???;
-	instanceData->drawRegions[0].theDescriptor.bitOrder	 = thePixmap->bitOrder;
-	instanceData->drawRegions[0].theDescriptor.byteOrder = thePixmap->byteOrder;
-	instanceData->drawRegions[0].theDescriptor.clipMask = NULL;
-	instanceData->drawRegions[0].imageBuffer             = thePixmap->image;
-	instanceData->drawRegions[0].isActive                = kQ3True;
-	instanceData->drawRegions[0].clipMaskState           = kQ3XClipMaskFullyExposed;
-
-	// clear the DrawContext
-	if(instanceData->data.common.clearImageMethod == kQ3ClearMethodWithColor)
-		NULL;
-		
-
-
-	// Update the state flag
-	instanceData->theState = kQ3XDrawContextValidationAll;
-
-	return(kQ3Success);		
 }
 
 
@@ -282,10 +189,6 @@ e3drawcontext_pixmap_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeObjectDelete:
 			theMethod = (TQ3XFunctionPointer) e3drawcontext_pixmap_delete;
-			break;
-
-		case kQ3XMethodTypeDrawContextUpdate:
-			theMethod = (TQ3XFunctionPointer) e3drawcontext_pixmap_update;
 			break;
 
 		case kQ3XMethodTypeDrawContextGetDimensions:
@@ -552,72 +455,6 @@ E3DrawContext_ResetState(TQ3DrawContextObject drawContext)
 
 
 
-//=============================================================================
-//      E3DrawContext_CreateRegions : Update the draw region array.
-//-----------------------------------------------------------------------------
-//		Note :	Rebuilds the draw region array to provide numRegions draw
-//				regions for the draw context.
-//
-//				If a draw region array already exists, we dispose of it and any
-//				renderer private data it contains first.
-//
-//				Initialises the ownership pointers for the draw regions, but
-//				otherwise leaves every field set to 0s.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3DrawContext_CreateRegions(TQ3DrawContextObject drawContext, TQ3Uns32 numRegions)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
-	TQ3Uns32					n;
-
-
-
-	// If we have any draw regions, get rid of them
-	if (instanceData->numDrawRegions != 0)
-		{
-		// Dispose of any renderer private data
-		Q3_ASSERT_VALID_PTR(instanceData->drawRegions);
-		for (n = 0; n < instanceData->numDrawRegions; n++)
-			{
-			Q3_ASSERT(instanceData->drawRegions[n].theOwner == instanceData);
-			if (instanceData->drawRegions[n].rendererPrivate       != NULL &&
-				instanceData->drawRegions[n].rendererPrivateDelete != NULL)
-				{
-				instanceData->drawRegions[n].rendererPrivateDelete(instanceData->drawRegions[n].rendererPrivate);
-				}			
-			}
-
-
-
-		// Dispose of the draw region array
-		Q3Memory_Free(&instanceData->drawRegions);
-		instanceData->numDrawRegions = 0;
-		}
-
-
-
-	// If we need any new draw regions, allocate them
-	if (numRegions != 0)
-		{
-		// Allocate the draw region array
-		instanceData->drawRegions = (OpaqueTQ3XDrawRegion *) Q3Memory_AllocateClear(
-																sizeof(OpaqueTQ3XDrawRegion) * numRegions);
-		if (instanceData->drawRegions == NULL)
-			return(kQ3Failure);
-
-
-
-		// Initialise it
-		instanceData->numDrawRegions = numRegions;
-		for (n = 0; n < instanceData->numDrawRegions; n++)
-			{
-			instanceData->drawRegions[n].ownerIndex = n;
-			instanceData->drawRegions[n].theOwner   = instanceData;
-			Q3Matrix4x4_SetIdentity(&instanceData->drawRegions[n].deviceTransform);
-			}
-		}
-
-	return(kQ3Success);
-}
 
 
 
