@@ -9,7 +9,7 @@
         access the Cocoa OpenGL API then this is handled as a special case.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -264,22 +264,6 @@ gldrawcontext_cocoa_setcurrent(void *glContext, TQ3Boolean forceSet)
 	// Activate the context
 	if(forceSet || ![[NSOpenGLContext currentContext]isEqual:(id)theContext->glContext])
 		[(id)theContext->glContext makeCurrentContext];
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_cocoa_updateclip : Update OpenGL context clipping.
-//-----------------------------------------------------------------------------
-TQ3Boolean
-gldrawcontext_cocoa_updateclip(void *glContext)
-{
-
-
-	// Not required
-	return(kQ3False);
 }
 
 

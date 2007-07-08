@@ -5,7 +5,7 @@
         Header file for GLCocoaContext.m.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -89,7 +89,6 @@ void		*gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext);
 void		gldrawcontext_cocoa_destroy(void *glContext);
 void		gldrawcontext_cocoa_swapbuffers(void *glContext);
 void		gldrawcontext_cocoa_setcurrent(void *glContext, TQ3Boolean forceSet);
-TQ3Boolean	gldrawcontext_cocoa_updateclip(void *glContext);
 TQ3Boolean	gldrawcontext_cocoa_updatepos(void *glContext);
 
 #endif
