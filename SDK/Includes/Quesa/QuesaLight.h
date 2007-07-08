@@ -655,6 +655,27 @@ Q3PointLight_GetAttenuation (
 
 /*!
  *  @function
+ *      Q3PointLight_GetRadius
+ *  @discussion
+ *      Get the radius of a point light.
+ *		By default, a point light has a radius of zero, but to achieve a fuzzy borders
+ *		of shadows using certain renderers (ray tracers), you can set a radius on the light.
+ *		The unit is related with the scale of the scene.
+ *
+ *  @param light            The light to query.
+ *  @param radius      		Receives the radius of the light.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3PointLight_GetRadius (
+    TQ3LightObject                light,
+    TQ3Float32                    *radius
+);
+
+
+
+/*!
+ *  @function
  *      Q3PointLight_GetLocation
  *  @discussion
  *      Get the location of a point light.
@@ -722,6 +743,28 @@ Q3PointLight_SetAttenuation (
     TQ3LightObject                light,
     TQ3AttenuationType            attenuation
 );
+
+
+
+/*!
+ *  @function
+ *      Q3PointLight_SetRadius
+ *  @discussion
+ *      Set the radius of a point light.
+ *		By default, a point light has a radius of zero, but to achieve a fuzzy borders
+ *		of shadows using certain renderers (ray tracers), you can set a radius on the light.
+ *		The unit is related with the scale of the scene.
+ *
+ *  @param light            The light to update.
+ *  @param attenuation      The new radius for the light.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3PointLight_SetRadius (
+    TQ3LightObject                light,
+    TQ3Float32                    radius
+);
+
 
 
 
