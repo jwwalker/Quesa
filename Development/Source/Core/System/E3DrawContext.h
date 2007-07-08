@@ -5,7 +5,7 @@
         Header file for E3DrawContext.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -80,37 +80,6 @@ typedef struct TQ3DrawContextUnionData *TQ3DrawContextUnionDataPtr;
 
 
 
-// Definition of TQ3XDrawRegion
-typedef struct OpaqueTQ3XDrawRegion {
-	// Link back to owning draw context's draw region list
-	TQ3Uns32									ownerIndex;
-	TQ3DrawContextUnionDataPtr					theOwner;
-
-
-	// State
-	float										deviceScaleX;
-	float										deviceScaleY;
-	float										deviceOffsetX;
-	float										deviceOffsetY;
-	float										windowScaleX;
-	float										windowScaleY;
-	float										windowOffsetX;
-	float										windowOffsetY;
-	TQ3Matrix4x4								deviceTransform;
-	TQ3Boolean									isActive;
-	TQ3Bitmap									clipMask;
-	TQ3XClipMaskState							clipMaskState;
-	TQ3Uns32									platformClip;
-	TQ3Uns32									platformHandle;
-	TQ3Boolean									useDefaultRenderer;
-	TQ3XDrawRegionDescriptor					theDescriptor;
-	void										*imageBuffer;
-	void										*rendererPrivate;
-	TQ3XDrawRegionRendererPrivateDeleteMethod	rendererPrivateDelete;
-} OpaqueTQ3XDrawRegion;
-
-
-
 // Draw context state
 #if QUESA_OS_MACINTOSH
 typedef struct TQ3MacDrawContextState {
@@ -118,7 +87,9 @@ typedef struct TQ3MacDrawContextState {
 	TQ3Boolean						paneState;
 	TQ3Area							thePane;
 	Rect							windowRect;
-	RgnHandle						visRgn;
+#if !TARGET_API_MAC_OS8
+	EventHandlerRef					displayNotificationHandler;
+#endif
 } TQ3MacDrawContextState;
 
 	#if QUESA_OS_COCOA
@@ -169,8 +140,6 @@ typedef struct TQ3BeDrawContextState {
 typedef struct TQ3DrawContextUnionData {
 	// Common data
 	TQ3XDrawContextValidation			theState;
-	TQ3Uns32							numDrawRegions;
-	OpaqueTQ3XDrawRegion				*drawRegions;
 
 
 	// Platform specific. Note that we assume that a TQ3DrawContextData
@@ -249,7 +218,6 @@ void					E3DrawContext_InitaliseData(TQ3DrawContextData *drawContextData);
 TQ3DrawContextObject	E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget);
 //TQ3Status				E3DrawContext_Update(TQ3DrawContextObject drawContext);
 void					E3DrawContext_ResetState(TQ3DrawContextObject drawContext);
-TQ3Status				E3DrawContext_CreateRegions(TQ3DrawContextObject drawContext, TQ3Uns32 numRegions);
 TQ3XDevicePixelType		E3DrawContext_GetDevicePixelTypeFromBPP(TQ3Uns32 pixelSize);
 TQ3XDevicePixelType		E3DrawContext_GetDevicePixelTypeFromQD3DType(TQ3PixelType qd3dType);
 
