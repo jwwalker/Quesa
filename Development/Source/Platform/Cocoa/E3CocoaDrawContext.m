@@ -117,8 +117,6 @@ e3drawcontext_cocoa_delete(TQ3Object theObject, void *privateData)
 
 
 	// Dispose of the common instance data
-	qd3dStatus = E3DrawContext_CreateRegions(theObject, 0);
-
 	if (instanceData->data.common.maskState)
 		qd3dStatus = Q3Bitmap_Empty(&instanceData->data.common.mask);
 }
@@ -134,59 +132,14 @@ static TQ3Status
 e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	TQ3Status					qd3dStatus;
-	TQ3Uns32					cx, cy;
 
 
 
 
-	// If we have a draw region, and nothing has changed, we're done
-	if (instanceData->numDrawRegions != 0 && instanceData->theState == kQ3XDrawContextValidationClearFlags)
+	// If nothing has changed, we're done
+	if (instanceData->theState == kQ3XDrawContextValidationClearFlags)
 		return(kQ3Success);
 
-
-
-	// Build a single draw region
-	qd3dStatus = E3DrawContext_CreateRegions(theDrawContext, 1);
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
-
-
-
-	// Fill it in. Note that draw regions are only needed to support Apple's
-	// Interactive Renderer, which does not run on any Cocoa systems: and so
-	// we can just fill in the basic details for the structure.
-	cx = (TQ3Uns32) E3Num_Max(instanceData->data.common.pane.max.x - instanceData->data.common.pane.min.x, 0.0f);
-	cy = (TQ3Uns32) E3Num_Max(instanceData->data.common.pane.max.y - instanceData->data.common.pane.min.y, 0.0f);
-	
-	instanceData->drawRegions[0].deviceOffsetX           = 0.0f;
-	instanceData->drawRegions[0].deviceOffsetY           = 0.0f;
-	instanceData->drawRegions[0].windowOffsetX           = 0.0f;
-	instanceData->drawRegions[0].windowOffsetY           = 0.0f;
-	instanceData->drawRegions[0].deviceScaleX            = (float) cx;
-	instanceData->drawRegions[0].deviceScaleY            = (float) cy;
-	instanceData->drawRegions[0].windowScaleX            = instanceData->drawRegions[0].deviceScaleX;
-	instanceData->drawRegions[0].windowScaleY            = instanceData->drawRegions[0].deviceScaleY;
-	instanceData->drawRegions[0].theDescriptor.width	 = cx;
-	instanceData->drawRegions[0].theDescriptor.height	 = cy;
-	instanceData->drawRegions[0].theDescriptor.rowBytes  = 0;
-	instanceData->drawRegions[0].theDescriptor.pixelSize = 32;
-	instanceData->drawRegions[0].theDescriptor.pixelType = kQ3XDevicePixelTypeRGB32;
-	instanceData->drawRegions[0].theDescriptor.colorDescriptor.redShift	  = 0;
-	instanceData->drawRegions[0].theDescriptor.colorDescriptor.redMask	  = 0;
-	instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenShift = 0;
-	instanceData->drawRegions[0].theDescriptor.colorDescriptor.greenMask  = 0;
-	instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueShift  = 0;
-	instanceData->drawRegions[0].theDescriptor.colorDescriptor.blueMask	  = 0;
-	instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaShift = 0;
-	instanceData->drawRegions[0].theDescriptor.colorDescriptor.alphaMask  = 0;
-	instanceData->drawRegions[0].theDescriptor.bitOrder	 = kQ3EndianBig;
-	instanceData->drawRegions[0].theDescriptor.byteOrder = kQ3EndianBig;
-	instanceData->drawRegions[0].theDescriptor.clipMask  = NULL;
-	instanceData->drawRegions[0].imageBuffer             = NULL;
-	instanceData->drawRegions[0].isActive                = kQ3True;
-	instanceData->drawRegions[0].clipMaskState           = kQ3XClipMaskFullyExposed;
-
-		
 
 
 	// Update the state flag
