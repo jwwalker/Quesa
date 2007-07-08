@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1092,7 +1092,6 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 	
 	if ( compressedDataH != NULL && imageDescH != NULL )
 	{
-		MoveHHi(compressedDataH);
 		HLock(compressedDataH);
 		compressedDataP = *compressedDataH;
 	
