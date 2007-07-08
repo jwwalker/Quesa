@@ -56,12 +56,12 @@
 
 
 
-
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-#define kMaxDevices									50
 
+
+const UInt32 kEventQuesaDisplayChange	= 'QDsp';
 
 
 
@@ -88,344 +88,6 @@ public :
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3drawcontext_mac_isactivedevice : Is a device active?
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-e3drawcontext_mac_isactivedevice(GDHandle theDevice)
-{	TQ3Boolean		isActive;
-
-
-
-	// Test for an active screen device
-	isActive = (TQ3Boolean) (TestDeviceAttribute(theDevice, screenDevice) &&
-							 TestDeviceAttribute(theDevice, screenActive));
-
-	return(isActive);
-}
-
-
-
-
-
-//=============================================================================
-//      e3drawcontext_mac_areOnSameScreens : Are 2 rectangles on the same screens?
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-e3drawcontext_mac_areOnSameScreens( const Rect* inFirstRect, const Rect* inSecondRect )
-{
-	TQ3Boolean	sameDevices = kQ3True;
-	GDHandle	theDevice;
-	const Rect*	screenBounds;
-	Rect	commonBounds;
-	
-	for (theDevice = GetDeviceList(); theDevice != NULL; theDevice = GetNextDevice(theDevice))
-	{
-		if (e3drawcontext_mac_isactivedevice( theDevice ))
-		{
-			screenBounds = &(**theDevice).gdRect;
-			
-			// If this screen intersects one rectangle and not the other,
-			// then the rectangles aren't on the same screens.
-			if (SectRect( inFirstRect, screenBounds, &commonBounds ) !=
-				SectRect( inSecondRect, screenBounds, &commonBounds ) )
-			{
-				sameDevices = kQ3False;
-				break;
-			}
-		}
-	}
-	
-	return sameDevices;
-}
-
-
-
-
-
-//=============================================================================
-//      e3drawcontext_mac_isactiveregion : Is a draw region active?
-//-----------------------------------------------------------------------------
-//		Note :	Given a particular draw region, we return as it is active for
-//				the associated draw context.
-//
-//				We currently only support WindowPtr based draw contexts.
-//
-//				A draw region is active when some portion of the draw context
-//				falls within the draw region. We return the area of the draw
-//				region that is active, and the area of the window.
-//
-//				We adjust clipRgn to reflect the visible portion of the window,
-//				and indicate if the window is completely or partially visible
-//				by updating clipMaskState.
-//
-//				All coordinates are relative to the draw region's device.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-e3drawcontext_mac_isactiveregion(TQ3DrawContextObject	theDrawContext,
-									TQ3Uns32			theRegion,
-									TQ3Area				*deviceArea,
-									TQ3Area				*windowArea,
-									TQ3XClipMaskState	*clipMaskState,
-									RgnHandle			clipRgn)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	Rect						windowRect, deviceRect, overlapRect, paneRect;
-	Rect						portRect, visRect, contentRect;
-	TQ3MacDrawContext2DLibrary	theLibrary;
-	GDHandle					theDevice;
-	WindowRef					theWindow;
-	TQ3Boolean					isActive = kQ3False;
-	RgnHandle					visRgn;
-
-
-	// Initialize some output parameters.  If all goes well, these will be
-	// set to more sensible values later.
-	deviceArea->min.x = deviceArea->min.y = deviceArea->max.x = deviceArea->max.y = 0.0f;
-	windowArea->min.x = windowArea->min.y = windowArea->max.x = windowArea->max.y = 0.0f;
-	*clipMaskState = kQ3XClipMaskNotExposed;
-
-
-
-	// Work out what type of draw context we're dealing with, watching out
-	// for people who specified QuickDraw when they really wanted a window.
-	theLibrary = instanceData->data.macData.theData.library;
-	if (theLibrary == kQ3Mac2DLibraryQuickDraw            &&
-		instanceData->data.macData.theData.window != NULL &&
-		instanceData->data.macData.theData.window == (CWindowPtr)instanceData->data.macData.theData.grafPort)
-		theLibrary = kQ3Mac2DLibraryNone;
-		
-
-
-	// Handle each draw context type in turn
-	switch (theLibrary) {
-		case kQ3Mac2DLibraryNone:
-			// Get the window and the draw region's device
-			theWindow = (WindowRef) instanceData->data.macData.theData.window;
-			theDevice = (GDHandle)  instanceData->drawRegions[theRegion].platformHandle;
-
-
-
-			// Work out rectangles. If a pane has been specified, we adjust the window
-			// rect accordingly (i.e., as if the window was the size of the pane).
-			// Work out regions, too, as we'll need them shortly.
-			visRgn = NewRgn();
-			if (visRgn == NULL)
-				return(kQ3False);
-
-			GetWindowBounds(theWindow, kWindowContentRgn, &windowRect);
-			GetPortVisibleRegion(GetWindowPort(theWindow), visRgn);
-			GetPortBounds(GetWindowPort(theWindow), &portRect);
-			contentRect = windowRect;
-			GetRegionBounds(visRgn, &visRect);
-
-			deviceRect = (*theDevice)->gdRect;
-
-			if (instanceData->data.common.paneState)
-				{
-				E3Area_ToRect(&instanceData->data.common.pane, &paneRect);
-				OffsetRect(&paneRect, windowRect.left, windowRect.top);
-				windowRect = paneRect;
-				}
-
-
-
-			// Check to see if the draw region is active (i.e., it intersects the window)
-			isActive = (TQ3Boolean) SectRect(&windowRect, &deviceRect, &overlapRect);
-			if (isActive)
-				{
-				// Return the active area of the draw region and the window area
-				OffsetRect(&overlapRect, -deviceRect.left, -deviceRect.top);
-				OffsetRect(&windowRect,  -deviceRect.left, -deviceRect.top);
-
-				E3Area_FromRect(deviceArea, &overlapRect);
-				E3Area_FromRect(windowArea, &windowRect);
-
-
-
-				// If the window is completely visible, we return an empty region.
-				// Otherwise, we return the visible region in device coordinates.
-				if (IsRegionRectangular(visRgn) && EqualRect( &visRect, &portRect ))
-					{
-					*clipMaskState = kQ3XClipMaskFullyExposed;
-					RectRgn(clipRgn, &portRect);
-					}
-				else
-					{
-					*clipMaskState = kQ3XClipMaskPartiallyExposed;
-					CopyRgn(visRgn, clipRgn);
-					}
-
-				OffsetRgn(clipRgn, contentRect.left, contentRect.top);
-				}
-			
-			DisposeRgn(visRgn);
-			break;
-		
-		
-		case kQ3Mac2DLibraryQuickDraw:
-		case kQ3Mac2DLibraryQuickDrawGX:
-			// Not supported
-			isActive = kQ3False;
-			break;
-
-			
-		case kQ3Mac2DLibrarySize32:
-		default:
-			Q3_ASSERT(!"Unknown library");
-			break;
-		}
-
-
-
-	// Return as the draw region is active
-	return(isActive);
-}
-
-
-
-
-
-//=============================================================================
-//      e3drawcontext_mac_createregions : Create some draw regions.
-//-----------------------------------------------------------------------------
-//		Note :	We create the specified number of draw regions, disposing of
-//				any existing Mac clipping RgnHandles before rebuilding the
-//				draw regions.
-//
-//				We need to do this ourselves, since E3DrawContext_CreateRegions
-//				doesn't know that these are RgnHandle structures.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3drawcontext_mac_createregions(TQ3DrawContextObject theDrawContext, TQ3Uns32 numRegions)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	TQ3Status					qd3dStatus;
-	TQ3Uns32					n;
-
-
-
-	// Dispose of any clipping regions that already exist
-	for (n = 0; n < instanceData->numDrawRegions; n++)
-		{
-		if (instanceData->drawRegions[n].platformClip != 0)
-			{
-			DisposeRgn((RgnHandle) instanceData->drawRegions[n].platformClip);
-			instanceData->drawRegions[n].platformClip = 0;
-			}
-		}
-
-
-
-	// Create the draw regions we need
-	qd3dStatus = E3DrawContext_CreateRegions(theDrawContext, numRegions);
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      e3drawcontext_mac_buildregions : Build the draw regions we need.
-//-----------------------------------------------------------------------------
-//		Note :	We create a single draw region for each monitor connected to
-//				the system, and leave them all in a disabled state.
-//
-//				We fill in the generic fields (pixel format, etc), but leave
-//				the rendering specific fields (position, size, etc) blank.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3drawcontext_mac_buildregions(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	TQ3Uns32					n, numRegions, rowBytes, pixelBytes;
-	GDHandle					activeDevices[kMaxDevices];
-	TQ3Status					qd3dStatus;
-	PixMapHandle				thePixMap;
-	GDHandle					theDevice;
-	TQ3XDevicePixelType			pixelType;
-
-
-
-	// Work out how many draw regions we need
-	numRegions = 0;
-	theDevice  = GetDeviceList();
-	while (theDevice != NULL && numRegions < kMaxDevices)
-		{
-		// Check this device, and save it if it's active
-		if (e3drawcontext_mac_isactivedevice(theDevice))
-			{
-			activeDevices[numRegions] = theDevice;
-			numRegions++;
-			}
-
-
-		// And move on to the next device
-		theDevice = GetNextDevice(theDevice);
-		}
-
-	if (numRegions == 0)
-		return(kQ3Failure);
-
-
-
-	// Create the draw regions we need
-	qd3dStatus = e3drawcontext_mac_createregions(theDrawContext, numRegions);
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
-
-
-
-	// Configure them		
-	for (n = 0; n < instanceData->numDrawRegions; n++)
-		{
-		// Grab the info we need for the device
-		thePixMap = (*activeDevices[n])->gdPMap;
-		Q3_ASSERT_VALID_PTR(thePixMap);
-		
-		rowBytes   = GetPixRowBytes(thePixMap);
-		pixelBytes = (*thePixMap)->pixelSize / 8;
-		pixelType  = E3DrawContext_GetDevicePixelTypeFromBPP((*thePixMap)->pixelSize);
-
-
-
-		// Configure the draw region. Note that we don't bother setting up
-		// the colorDescriptor field of the draw region descriptor since
-		// these fields aren't currently used by the Interactive Renderer.
-		//
-		// Since we want to move away from draw regions, this is OK for now.
-		instanceData->drawRegions[n].platformHandle          = (TQ3Uns32) activeDevices[n];
-		instanceData->drawRegions[n].theDescriptor.width	 = (*thePixMap)->bounds.right  - (*thePixMap)->bounds.left;
-		instanceData->drawRegions[n].theDescriptor.height	 = (*thePixMap)->bounds.bottom - (*thePixMap)->bounds.top;
-		instanceData->drawRegions[n].theDescriptor.rowBytes	 = rowBytes;
-		instanceData->drawRegions[n].theDescriptor.pixelSize = pixelBytes;
-		instanceData->drawRegions[n].theDescriptor.pixelType = pixelType;
-		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.redShift	 = ???;
-		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.redMask	 = ???;
-		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.greenShift	 = ???;
-		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.greenMask	 = ???;
-		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.blueShift	 = ???;
-		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.blueMask	 = ???;
-		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.alphaShift	 = ???;
-		//instanceData->drawRegions[n].theDescriptor.colorDescriptor.alphaMask	 = ???;
-		instanceData->drawRegions[n].theDescriptor.bitOrder	 = kQ3EndianBig;
-		instanceData->drawRegions[n].theDescriptor.byteOrder = kQ3EndianBig;
-		instanceData->drawRegions[n].theDescriptor.clipMask = NULL;
-
-		// better implement the following line by calling LockPixels//Unlock in
-		// E3XDrawRegion_StartAccessToImageBuffer and E3XDrawRegion_End
-		//instanceData->drawRegions[n].imageBuffer = GetPixBaseAddr(thePixMap);
-
-
-		// Create a clipping region
-		instanceData->drawRegions[n].platformClip = (TQ3Uns32) NewRgn();
-		}
-
-	return(qd3dStatus);
-}
-
-
-
 
 
 //=============================================================================
@@ -442,14 +104,15 @@ e3drawcontext_mac_buildregions(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static TQ3XDrawContextValidation
 e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData			*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
+{
+	TQ3DrawContextUnionData			*instanceData =
+		(TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	E3GlobalsPtr					theGlobals    = E3Globals_Get();
 	TQ3XDrawContextValidation		stateChanges;
 	TQ3MacDrawContext2DLibrary		theLibrary;
 	Rect							windowRect;
 	WindowRef						theWindow;
 	TQ3MacDrawContextState			*macState;
-	RgnHandle						visRgn;
 	
 
 
@@ -502,14 +165,6 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 
 
 
-			// Check whether the window moved to a different device.
-			if (! e3drawcontext_mac_areOnSameScreens( &windowRect, &macState->windowRect ))
-				{
-				stateChanges |= kQ3XDrawContextValidationDevice;
-				}
-
-
-
 			// Check to see if the window has changed position.
 			if (windowRect.top  != macState->windowRect.top ||
 				windowRect.left != macState->windowRect.left)
@@ -528,27 +183,10 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 
 
 
-			// Check to see if the window clipping has changed
-			visRgn = NewRgn();
-			if (visRgn != NULL)
-				{
-				GetPortVisibleRegion(GetWindowPort(theWindow), visRgn);
-				if (!EqualRgn(visRgn, macState->visRgn))
-					stateChanges |= kQ3XDrawContextValidationWindowClip;
-				}
-
-
-
 			// Save the details for next time
 			macState->paneState  = macState->theData.drawContextData.paneState;
 			macState->thePane    = macState->theData.drawContextData.pane;
 			macState->windowRect = windowRect;
-
-			if (visRgn != NULL)
-				{
-				CopyRgn(visRgn, macState->visRgn);
-				DisposeRgn(visRgn);
-				}
 			break;
 
 		
@@ -574,156 +212,23 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 
 
 
+#if !TARGET_API_MAC_OS8
 //=============================================================================
-//      e3drawcontext_mac_updateregions : Update the draw regions.
+//      e3drawcontext_mac_display_change_handler : Handle a Carbon event notifying
+//				us that the display configuration changed.
 //-----------------------------------------------------------------------------
-//		Note :	We update the rendering specific field of the draw regions to
-//				reflect the current state of the window.
-//
-//				The characteristics which have changed are indicated by
-//				stateChanges.
-//
-//				This is called once per frame, so must have minimal overhead.
-//-----------------------------------------------------------------------------
-static void
-e3drawcontext_mac_updateregions(TQ3DrawContextObject theDrawContext, TQ3XDrawContextValidation stateChanges)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	TQ3Uns32					n;
+static pascal OSStatus
+e3drawcontext_mac_display_change_handler( EventHandlerCallRef inHandlerCallRef,
+										EventRef inEvent, void *inUserData )
+{
+#pragma unused( inHandlerCallRef, inEvent )
+	TQ3XDrawContextValidation*	theState = (TQ3XDrawContextValidation*)inUserData;
+	*theState = kQ3XDrawContextValidationAll;
 	
-
-
-	// Update the draw regions
-	for (n = 0; n < instanceData->numDrawRegions; n++)
-		{
-		TQ3Area						deviceArea, windowArea;
-		TQ3XClipMaskState			clipMaskState;
-		TQ3Boolean					isActive;
-
-
-		// If this draw region intersects the window, update it
-		isActive = e3drawcontext_mac_isactiveregion(theDrawContext,
-													n,
-													&deviceArea,
-													&windowArea,
-													&clipMaskState,
-													(RgnHandle) instanceData->drawRegions[n].platformClip);
-		if (isActive)
-			{
-			// If this draw region has just become active, update everything. We need to do this
-			// since the device/window fields may still be in their initial 0'd state - e.g., the
-			// window may not have changed size, but dragging it on to a previously inactive
-			// draw region will require that those fields have the correct values.
-			if (!instanceData->drawRegions[n].isActive)
-				stateChanges |= kQ3XDrawContextValidationWindowPosition |
-								kQ3XDrawContextValidationWindowSize     |
-								kQ3XDrawContextValidationWindowClip;
-
-
-
-			// Update the draw region for position changes
-			if (stateChanges & kQ3XDrawContextValidationWindowPosition)
-				{
-				instanceData->drawRegions[n].deviceOffsetX = deviceArea.min.x;
-				instanceData->drawRegions[n].deviceOffsetY = deviceArea.min.y;
-				instanceData->drawRegions[n].windowOffsetX = windowArea.min.x;
-				instanceData->drawRegions[n].windowOffsetY = windowArea.min.y;
-				}
-
-
-
-			// Update the draw region for size changes
-			if (stateChanges & kQ3XDrawContextValidationWindowSize)
-				{
-				instanceData->drawRegions[n].deviceScaleX = (deviceArea.max.x - deviceArea.min.x);
-				instanceData->drawRegions[n].deviceScaleY = (deviceArea.max.y - deviceArea.min.y);
-				instanceData->drawRegions[n].windowScaleX = (windowArea.max.x - windowArea.min.x);
-				instanceData->drawRegions[n].windowScaleY = (windowArea.max.y - windowArea.min.y);
-				}
-
-
-
-			// Adjust the draw region for visibility changes
-			if (stateChanges & kQ3XDrawContextValidationWindowClip)
-				{
-				// Update the clipping mask state
-				instanceData->drawRegions[n].clipMaskState = clipMaskState;
-
-
-
-				// Clipping masks aren't currently supported. It's a little unclear what
-				// the behaviour for draw context clipping masks should be at the draw
-				// region level: presumably the mask would need to be split up for each
-				// draw region, with the mask for each draw region being the intersection
-				// between the draw context mask and the draw region active area.
-				//
-				// Would need to compare against QD3D to see what the behaviour there
-				// is, so for now these masks aren't supported.
-				instanceData->drawRegions[n].theDescriptor.clipMask = NULL;
-				}
-			}
-
-
-
-		// Adjust the draw region state
-		instanceData->drawRegions[n].isActive = isActive;
-		}
+	// Let other handlers see the event too
+	return eventNotHandledErr;
 }
-
-
-
-
-
-//=============================================================================
-//      e3drawcontext_mac_normalizeport : Normalize the port state.
-//-----------------------------------------------------------------------------
-//		Note :	Renderers which are rendering to a Mac window are allowed to
-//				assume that the port origin has been set to (0,0) before they
-//				start rendering.
-//
-//				This behaviour is required by Apple's QD3D IR, and so we need
-//				to preserve it in Quesa.
-//-----------------------------------------------------------------------------
-static void
-e3drawcontext_mac_normalizeport(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	CGrafPtr					thePort;
-	Rect						theRect;
-	RgnHandle					theRgn;
-
-
-
-	// Get the port bounds
-	if (instanceData->data.macData.theData.window != NULL)
-		thePort = GetWindowPort((WindowRef) instanceData->data.macData.theData.window);
-	else
-		thePort = instanceData->data.macData.theData.grafPort;
-
-	if (thePort == NULL)
-		return;
-	
-	GetPortBounds(thePort, &theRect);
-
-
-
-	// If a non-zero port origin is in effect, reset the origin
-	if (theRect.left != 0 || theRect.top != 0)
-		{
-		// Reset the origin
-		SetOrigin(0, 0);
-
-
-		// The clip region is unaffected by SetOrigin, so we have to
-		// apply the same translation to it by hand.
-		theRgn = NewRgn();
-		if (theRgn != NULL)
-			{
-			GetClip(theRgn);
-			OffsetRgn(theRgn, -theRect.left, -theRect.top);
-			SetClip(theRgn);
-			DisposeRgn(theRgn);
-			}
-		}
-}
+#endif
 
 
 
@@ -744,9 +249,19 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 
 	// Initialise our instance data
 	instanceData->data.macData.theData   = *macData;
-	instanceData->data.macData.visRgn    = NewRgn();
 	instanceData->data.macData.paneState = macData->drawContextData.paneState;
 	instanceData->data.macData.thePane   = macData->drawContextData.pane;
+
+#if !TARGET_API_MAC_OS8
+	instanceData->data.macData.displayNotificationHandler = NULL;
+	static EventHandlerUPP	sHandlerUPP = NewEventHandlerUPP(
+		e3drawcontext_mac_display_change_handler );
+	EventTypeSpec	evtSpec = {
+		kEventClassApplication, kEventQuesaDisplayChange
+	};
+	InstallEventHandler( GetApplicationEventTarget(), sHandlerUPP, 1, &evtSpec,
+		&instanceData->theState, &instanceData->data.macData.displayNotificationHandler );
+#endif
 
 	E3DrawContext_InitaliseData(&instanceData->data.macData.theData.drawContextData);
 
@@ -768,15 +283,10 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 
 		// Grab its bounds and visible region
 		GetWindowBounds(theWindow, kWindowContentRgn, &instanceData->data.macData.windowRect);
-		GetPortVisibleRegion(GetWindowPort(theWindow), instanceData->data.macData.visRgn);
 		}
 
 
 
-	// Handle failure
-	if (instanceData->data.macData.visRgn == NULL)
-		return(kQ3Failure);
-	
 	return(kQ3Success);
 }
 
@@ -790,22 +300,20 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 static void
 e3drawcontext_mac_delete(TQ3Object theObject, void *privateData)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) privateData;
-	TQ3Status					qd3dStatus;
+	TQ3Status					qd3dStatus = kQ3Success;
 #pragma unused(privateData)
 
 
+#if !TARGET_API_MAC_OS8
+	if (instanceData->data.macData.displayNotificationHandler != NULL)
+	{
+		RemoveEventHandler( instanceData->data.macData.displayNotificationHandler );
+	}
+#endif
 
 	// Dispose of the common instance data
-	qd3dStatus = e3drawcontext_mac_createregions(theObject, 0);
-
 	if (instanceData->data.common.maskState)
 		qd3dStatus = Q3Bitmap_Empty(&instanceData->data.common.mask);
-
-
-
-	// Dispose of the Mac specific instance data
-	if (instanceData->data.macData.visRgn != NULL)
-		DisposeRgn(instanceData->data.macData.visRgn);
 }
 
 
@@ -819,29 +327,16 @@ static TQ3Status
 e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	TQ3XDrawContextValidation	stateChanges;
-	TQ3Status					qd3dStatus;
-
-
-
-	// Normalize the port state
-	e3drawcontext_mac_normalizeport(theDrawContext);
+	TQ3Status					qd3dStatus = kQ3Success;
 
 
 
 	// If we don't have any draw regions, or everything has changed, rebuild them
-	if (instanceData->numDrawRegions == 0 || instanceData->theState == kQ3XDrawContextValidationAll)
+	if (instanceData->theState == kQ3XDrawContextValidationAll)
 		{
 		// Rebuild the draw regions
-		qd3dStatus = e3drawcontext_mac_buildregions(theDrawContext);
-		if (qd3dStatus != kQ3Success)
-			return(qd3dStatus);
-		
 		// update paneState, thePane, windowRect fields of TQ3MacDrawContextState
 		e3drawcontext_mac_checkregions(theDrawContext);
-
-		// Update the regions and the state flag
-		e3drawcontext_mac_updateregions(theDrawContext, kQ3XDrawContextValidationAll);
-		instanceData->theState = kQ3XDrawContextValidationAll;
 		}
 
 
@@ -850,25 +345,11 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 	else
 		{
 		// Test to see if the draw regions need updating
-		qd3dStatus   = kQ3Success;
 		stateChanges = e3drawcontext_mac_checkregions(theDrawContext);
 		if (stateChanges != kQ3XDrawContextValidationClearFlags)
 			{
-			// If something changed, update the state flag and the draw regions
+			// If something changed, update the state flag
 			instanceData->theState |= stateChanges;
-			
-			if (instanceData->theState & kQ3XDrawContextValidationDevice)
-				{
-				// Rebuild the draw regions
-				qd3dStatus = e3drawcontext_mac_buildregions(theDrawContext);
-				if (qd3dStatus != kQ3Success)
-					return(qd3dStatus);
-
-				// update paneState, thePane, windowRect fields of TQ3MacDrawContextState
-				e3drawcontext_mac_checkregions(theDrawContext);
-				}
-			
-			e3drawcontext_mac_updateregions(theDrawContext, instanceData->theState);
 			}
 		}
 	
@@ -884,7 +365,9 @@ e3drawcontext_mac_update(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_mac_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
+{
+	TQ3DrawContextUnionData		*instanceData =
+		(TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 	WindowRef					theWindow;
 	Rect						theRect;
 
@@ -893,7 +376,7 @@ e3drawcontext_mac_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *t
 	// Get our window and its bounds
 	theWindow = (WindowRef) instanceData->data.macData.theData.window;
 	Q3_ASSERT_VALID_PTR(theWindow);
-	GetPortBounds(GetWindowPort(theWindow), &theRect);
+	GetWindowPortBounds( theWindow, &theRect);
 
 
 
@@ -940,6 +423,31 @@ e3drawcontext_mac_metahandler(TQ3XMethodType methodType)
 }
 
 
+//=============================================================================
+//      e3drawcontext_mac_notify_display_change :	Notify draw contexts of a
+//													display configuration change.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_mac_notify_display_change()
+{
+#if TARGET_API_MAC_OS8
+	// This older technique will only work for one draw context
+	E3GlobalsPtr	theGlobals = E3Globals_Get();
+
+	// Set our flag
+	Q3_ASSERT_VALID_PTR( theGlobals );
+	theGlobals->dmNotifiedChanges = kQ3True;
+#else
+	EventRef	theEvent = NULL;
+	CreateEvent( NULL, kEventClassApplication, kEventQuesaDisplayChange,
+		0.0, kEventAttributeNone, &theEvent );
+	if (theEvent)
+	{
+		SendEventToEventTarget( theEvent, GetApplicationEventTarget() );
+	}
+#endif
+	
+}
 
 
 
@@ -954,14 +462,10 @@ e3drawcontext_mac_cg_notify( CGDirectDisplayID display,
                              CGDisplayChangeSummaryFlags flags,
                              void *userInfo )
 {
-#pragma unused( display )
+#pragma unused( display, userInfo )
 	if ( (flags & kCGDisplayBeginConfigurationFlag) != 0 )
 	{
-		E3GlobalsPtr	theGlobals = (E3GlobalsPtr) userInfo;
-	
-		// Set our flag
-		Q3_ASSERT_VALID_PTR( theGlobals );
-		theGlobals->dmNotifiedChanges = kQ3True;
+		e3drawcontext_mac_notify_display_change();
 	}
 }
 
@@ -972,12 +476,9 @@ e3drawcontext_mac_cg_notify( CGDirectDisplayID display,
 //-----------------------------------------------------------------------------
 static pascal void
 e3drawcontext_mac_dm_notify(AppleEvent *theEvent)
-{	E3GlobalsPtr			theGlobals = E3Globals_Get();
+{
 #pragma unused(theEvent)
-
-	// Set our flag
-	Q3_ASSERT_VALID_PTR(theGlobals);
-	theGlobals->dmNotifiedChanges = kQ3True;
+	e3drawcontext_mac_notify_display_change();
 }
 #endif
 
