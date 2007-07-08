@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -114,7 +114,6 @@ e3geom_pixmapmarker_get_data(const TQ3PixmapMarkerData *instanceData, TQ3Boolean
 			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
 			if (qd3dStatus == kQ3Success && theHnd != NULL)
 				{
-			    MoveHHi(theHnd);
     			HLock(theHnd);
     			basePtr = (TQ3Uns8 *) *theHnd;
     			}
