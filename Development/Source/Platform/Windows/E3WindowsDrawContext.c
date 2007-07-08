@@ -5,7 +5,7 @@
         Windows specific Draw Context calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -164,8 +164,6 @@ e3drawcontext_win32dc_delete(TQ3Object theObject, void *privateData)
 
 
 	// Dispose of the common instance data
-	qd3dStatus = E3DrawContext_CreateRegions(theObject, 0);
-
 	if (instanceData->data.common.maskState)
 		qd3dStatus = Q3Bitmap_Empty(&instanceData->data.common.mask);
 }
@@ -180,18 +178,9 @@ e3drawcontext_win32dc_delete(TQ3Object theObject, void *privateData)
 static TQ3Status
 e3drawcontext_win32dc_update ( E3Win32DCDrawContext* theDrawContext )
 {
-	TQ3Status					qd3dStatus;
-	TQ3XDevicePixelType			pixelType;
-	HGDIOBJ						hBitMap;
-	BITMAP						bitMap;
-	TQ3Uns32					cx, cy;
-
-
-
 	// If we have a draw region, and nothing has changed, all we need to do is check whether the window
 	// has been resized.
-	if ( theDrawContext->instanceData.numDrawRegions != 0 &&
-		( theDrawContext->instanceData.theState & ~kQ3XDrawContextValidationBackgroundShader) == kQ3XDrawContextValidationClearFlags)
+	if ( ( theDrawContext->instanceData.theState & ~kQ3XDrawContextValidationBackgroundShader) == kQ3XDrawContextValidationClearFlags)
 		{
 		TQ3Area		newArea;
 		e3drawcontext_win32dc_get_dimensions_from_DC( theDrawContext->instanceData.data.win32Data.theData.hdc,
@@ -204,74 +193,6 @@ e3drawcontext_win32dc_update ( E3Win32DCDrawContext* theDrawContext )
 			}
 		return(kQ3Success);
 		}
-
-
-
-	// Build a single draw region
-	qd3dStatus = E3DrawContext_CreateRegions(theDrawContext, 1);
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
-
-
-
-	// Clipping masks aren't currently supported.
-	//
-	// Create a little bitmap to query color information
-	hBitMap = CreateCompatibleBitmap( theDrawContext->instanceData.data.win32Data.theData.hdc, 1, 1);
-	if(hBitMap == NULL){
-		Q3Error_PlatformPost(GetLastError());
-		return(kQ3Failure);
-		}
-		
-	cx = GetObject(hBitMap,sizeof(BITMAP),&bitMap);
-	DeleteObject(hBitMap);
-	
-	if(cx != sizeof(BITMAP)){
-		Q3Error_PlatformPost(GetLastError());
-		return(kQ3Failure);
-		}
-
-
-
-	// Fill it in
-	cx = (TQ3Uns32) E3Num_Max(theDrawContext->instanceData.data.common.pane.max.x - theDrawContext->instanceData.data.common.pane.min.x, 0.0f);
-	cy = (TQ3Uns32) E3Num_Max(theDrawContext->instanceData.data.common.pane.max.y - theDrawContext->instanceData.data.common.pane.min.y, 0.0f);
-
-	pixelType = E3DrawContext_GetDevicePixelTypeFromBPP(bitMap.bmBitsPixel);
-	
-	theDrawContext->instanceData.drawRegions[0].deviceOffsetX           = 0.0f;
-	theDrawContext->instanceData.drawRegions[0].deviceOffsetY           = 0.0f;
-	theDrawContext->instanceData.drawRegions[0].windowOffsetX           = 0.0f;
-	theDrawContext->instanceData.drawRegions[0].windowOffsetY           = 0.0f;
-	theDrawContext->instanceData.drawRegions[0].deviceScaleX            = (float) cx;
-	theDrawContext->instanceData.drawRegions[0].deviceScaleY            = (float) cy;
-	theDrawContext->instanceData.drawRegions[0].windowScaleX            = theDrawContext->instanceData.drawRegions[0].deviceScaleX;
-	theDrawContext->instanceData.drawRegions[0].windowScaleY            = theDrawContext->instanceData.drawRegions[0].deviceScaleY;
-	theDrawContext->instanceData.drawRegions[0].theDescriptor.width	 = cx;
-	theDrawContext->instanceData.drawRegions[0].theDescriptor.height	 = cy;
-	theDrawContext->instanceData.drawRegions[0].theDescriptor.rowBytes	 = 2 * ((cx * bitMap.bmBitsPixel + 15) / 16);
-	theDrawContext->instanceData.drawRegions[0].theDescriptor.pixelSize = bitMap.bmBitsPixel;
-	theDrawContext->instanceData.drawRegions[0].theDescriptor.pixelType = pixelType;
-	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.redShift	 = ???;
-	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.redMask	 = ???;
-	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.greenShift	 = ???;
-	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.greenMask	 = ???;
-	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.blueShift	 = ???;
-	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.blueMask	 = ???;
-	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.alphaShift	 = ???;
-	//theDrawContext->instanceData.drawRegions[0].theDescriptor.colorDescriptor.alphaMask	 = ???;
-	theDrawContext->instanceData.drawRegions[0].theDescriptor.bitOrder	 = kQ3EndianLittle;
-	theDrawContext->instanceData.drawRegions[0].theDescriptor.byteOrder = kQ3EndianLittle;
-	theDrawContext->instanceData.drawRegions[0].theDescriptor.clipMask = NULL;
-	theDrawContext->instanceData.drawRegions[0].imageBuffer             = NULL;
-	theDrawContext->instanceData.drawRegions[0].isActive                = kQ3True;
-	theDrawContext->instanceData.drawRegions[0].clipMaskState           = kQ3XClipMaskFullyExposed;
-
-
-
-	// clear the DrawContext
-	if (theDrawContext->instanceData.data.common.clearImageMethod == kQ3ClearMethodWithColor)
-		NULL;
 
 
 
