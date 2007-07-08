@@ -111,7 +111,6 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
 			if (qd3dStatus == kQ3Success && theHnd != NULL)
 				{
-			    MoveHHi(theHnd);
     			HLock(theHnd);
     			basePtr = (TQ3Uns8 *) *theHnd;
     			}
