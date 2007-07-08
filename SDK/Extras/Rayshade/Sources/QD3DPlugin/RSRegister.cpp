@@ -376,15 +376,17 @@ TQ3Status RS_SetLights(
                  case kQ3LightTypePoint:
                     {
                         TQ3PointLightData thePointLightData;
+                        TQ3Float32 radius;
                         
                         Q3PointLight_GetData(theLight,&thePointLightData);
+                        Q3PointLight_GetRadius(theLight,&radius);
                         RT_AddPointLight(
                         		rsPrivate->raytracer,
                                 &thePointLightData.location,
                                 thePointLightData.castsShadows,
                                 &theLightData.color,
                                 theLightData.brightness,
-                                0.0);
+                                radius);
                     }
                     break;
                   case kQ3LightTypeSpot:
