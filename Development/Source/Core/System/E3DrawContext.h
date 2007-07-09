@@ -218,8 +218,6 @@ void					E3DrawContext_InitaliseData(TQ3DrawContextData *drawContextData);
 TQ3DrawContextObject	E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget);
 //TQ3Status				E3DrawContext_Update(TQ3DrawContextObject drawContext);
 void					E3DrawContext_ResetState(TQ3DrawContextObject drawContext);
-TQ3XDevicePixelType		E3DrawContext_GetDevicePixelTypeFromBPP(TQ3Uns32 pixelSize);
-TQ3XDevicePixelType		E3DrawContext_GetDevicePixelTypeFromQD3DType(TQ3PixelType qd3dType);
 
 TQ3ObjectType			E3DrawContext_GetType(TQ3DrawContextObject drawContext);
 TQ3Status				E3DrawContext_SetData(TQ3DrawContextObject drawContext, const TQ3DrawContextData *contextData);
