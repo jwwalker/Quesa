@@ -282,59 +282,6 @@ typedef enum TQ3XDrawContextValidationMasks {
 
 /*!
  *  @enum
- *      TQ3XDevicePixelType
- *  @discussion
- *      Draw Context pixel type. 16/32-bit pixel types use the native
- *      byte order for integers of that size.
- *
- *  @constant kQ3XDevicePixelTypeInvalid      Invalid pixel format.
- *  @constant kQ3XDevicePixelTypeRGB32        X:8, R:8, G:8, B:8.
- *  @constant kQ3XDevicePixelTypeARGB32       A:8, R:8, G:8, B:8.
- *  @constant kQ3XDevicePixelTypeRGB24             R:8, G:8, B:8.
- *  @constant kQ3XDevicePixelTypeRGB16        X:1, R:5, G:5, B:5.
- *  @constant kQ3XDevicePixelTypeARGB16       A:1, R:5, G:5, B:5.
- *  @constant kQ3XDevicePixelTypeRGB16_565         R:5, G:6, B:5.
- *  @constant kQ3XDevicePixelTypeIndexed8     8 bit colour table index (unupported).
- *  @constant kQ3XDevicePixelTypeIndexed4     4 bit colour table index (unupported).
- *  @constant kQ3XDevicePixelTypeIndexed2     2 bit colour table index (unupported).
- *  @constant kQ3XDevicePixelTypeIndexed1     1 bit colour table index (unupported).
- */
-typedef enum TQ3XDevicePixelType {
-    kQ3XDevicePixelTypeInvalid                  = 0,
-    kQ3XDevicePixelTypeRGB32                    = 1,
-    kQ3XDevicePixelTypeARGB32                   = 2,
-    kQ3XDevicePixelTypeRGB24                    = 3,
-    kQ3XDevicePixelTypeRGB16                    = 4,
-    kQ3XDevicePixelTypeARGB16                   = 5,
-    kQ3XDevicePixelTypeRGB16_565                = 6,
-    kQ3XDevicePixelTypeIndexed8                 = 7,
-    kQ3XDevicePixelTypeIndexed4                 = 8,
-    kQ3XDevicePixelTypeIndexed2                 = 9,
-    kQ3XDevicePixelTypeIndexed1                 = 10,
-    kQ3XDevicePixelTypeSize32                   = 0xFFFFFFFF
-} TQ3XDevicePixelType;
-
-
-/*!
- *  @enum
- *      TQ3XClipMaskState
- *  @discussion
- *      Draw Context clip mask state.
- *
- *  @constant kQ3XClipMaskFullyExposed        The draw context is not exposed.
- *  @constant kQ3XClipMaskPartiallyExposed    The draw context is partially exposed.
- *  @constant kQ3XClipMaskNotExposed          The draw context is fully exposed.
- */
-typedef enum TQ3XClipMaskState {
-    kQ3XClipMaskFullyExposed                    = 0,
-    kQ3XClipMaskPartiallyExposed                = 1,
-    kQ3XClipMaskNotExposed                      = 2,
-    kQ3XClipMaskSize32                          = 0xFFFFFFFF
-} TQ3XClipMaskState;
-
-
-/*!
- *  @enum
  *      TQ3XMethodTypeRenderer
  *  @discussion
  *      Renderer method types.
