@@ -5,7 +5,7 @@
         Macintosh specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -162,8 +162,8 @@ e3storage_mac_getsize ( E3MacintoshStorage* storage, TQ3Uns32 *size )
 	Q3_REQUIRE_OR_RESULT( ( storage->macStorageData.fsRefNum != -1 ), kQ3Failure ) ;
 
 
-	SInt32 theLength ;
-	OSErr err = ::GetEOF ( storage->macStorageData.fsRefNum, & theLength ) ;
+	SInt64 theLength ;
+	OSErr err = ::FSGetForkSize ( storage->macStorageData.fsRefNum, & theLength ) ;
 
 	if ( err != noErr )
 		{
@@ -186,7 +186,7 @@ e3storage_mac_getsize ( E3MacintoshStorage* storage, TQ3Uns32 *size )
 static TQ3Status
 e3storage_mac_fillbuffer ( E3MacintoshStorage* storage, TQ3Uns32 offset )
 	{
-	SInt32 ioByteCount = kQ3MacStorage_BufferSize ;
+	ByteCount ioByteCount = kQ3MacStorage_BufferSize ;
 	
 	if ( storage->macStorageData.fileEOF == kQ3MacStorage_BufferInvalid )
 		if ( e3storage_mac_getsize ( storage, & storage->macStorageData.fileEOF ) != kQ3Success )
@@ -205,7 +205,7 @@ e3storage_mac_fillbuffer ( E3MacintoshStorage* storage, TQ3Uns32 offset )
 	Q3_REQUIRE_OR_RESULT( storage->macStorageData.buffer != NULL, kQ3Failure ) ;
 	
 
-	err = ::SetFPos ( storage->macStorageData.fsRefNum, fsFromStart, (TQ3Int32) offset ) ;
+	err = ::FSSetForkPosition ( storage->macStorageData.fsRefNum, fsFromStart, (TQ3Int32) offset ) ;
 	if ( err != noErr )
 		{
 		E3ErrorManager_PostPlatformError ( err ) ;
@@ -213,7 +213,8 @@ e3storage_mac_fillbuffer ( E3MacintoshStorage* storage, TQ3Uns32 offset )
 		}
 	
 	
-	err = ::FSRead ( storage->macStorageData.fsRefNum, &ioByteCount, storage->macStorageData.buffer ) ;
+	err = ::FSReadFork ( storage->macStorageData.fsRefNum, fsFromMark, 0,
+		ioByteCount, storage->macStorageData.buffer, &ioByteCount ) ;
 	if ( err != noErr )
 		{
 		E3ErrorManager_PostPlatformError ( err ) ;
@@ -238,7 +239,7 @@ e3storage_mac_fillbuffer ( E3MacintoshStorage* storage, TQ3Uns32 offset )
 static TQ3Status
 e3storage_mac_flushbuffer ( E3MacintoshStorage* storage )
 	{
-	SInt32	ioByteCount = (SInt32) storage->macStorageData.validBufferSize ;
+	ByteCount	ioByteCount = storage->macStorageData.validBufferSize ;
 	
 
 	if ( ! e3storage_mac_hasFlag( storage, kQ3MacStorage_BufferDirtyFlag ) )
@@ -251,8 +252,8 @@ e3storage_mac_flushbuffer ( E3MacintoshStorage* storage )
 	Q3_REQUIRE_OR_RESULT( storage->macStorageData.fsRefNum != -1, kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( storage->macStorageData.buffer != NULL, kQ3Failure ) ;
 	
-	SInt32 theLength ;
-	OSErr err = ::GetEOF ( storage->macStorageData.fsRefNum, &theLength ) ;
+	SInt64 theLength ;
+	OSErr err = ::FSGetForkSize ( storage->macStorageData.fsRefNum, &theLength ) ;
 	if ( err != noErr )
 		{
 		E3ErrorManager_PostPlatformError ( err ) ;
@@ -261,7 +262,8 @@ e3storage_mac_flushbuffer ( E3MacintoshStorage* storage )
 	// Grow storage 
 	if ( ( storage->macStorageData.bufferStart + ioByteCount ) > theLength )
 		{
-		err = ::SetEOF ( storage->macStorageData.fsRefNum, ((SInt32) storage->macStorageData.bufferStart + ioByteCount ) ) ;
+		err = ::FSSetForkSize ( storage->macStorageData.fsRefNum, fsFromStart,
+			((SInt32) storage->macStorageData.bufferStart + ioByteCount ) ) ;
 		if ( err != noErr )
 			{
 			E3ErrorManager_PostPlatformError ( err ) ;
@@ -269,7 +271,8 @@ e3storage_mac_flushbuffer ( E3MacintoshStorage* storage )
 			}
 		}
 
-	err = ::SetFPos ( storage->macStorageData.fsRefNum, fsFromStart, (SInt32) storage->macStorageData.bufferStart ) ;
+	err = ::FSSetForkPosition ( storage->macStorageData.fsRefNum, fsFromStart,
+		(SInt32) storage->macStorageData.bufferStart ) ;
 	if ( err != noErr )
 		{
 		E3ErrorManager_PostPlatformError ( err ) ;
@@ -277,7 +280,8 @@ e3storage_mac_flushbuffer ( E3MacintoshStorage* storage )
 		}
 	
 	
-	err = ::FSWrite ( storage->macStorageData.fsRefNum, &ioByteCount, storage->macStorageData.buffer ) ;
+	err = ::FSWriteFork ( storage->macStorageData.fsRefNum, fsFromMark, 0,
+		ioByteCount, storage->macStorageData.buffer, &ioByteCount ) ;
 	if ( err != noErr )
 		{
 		E3ErrorManager_PostPlatformError ( err ) ;
@@ -306,7 +310,7 @@ e3storage_mac_flushbuffer ( E3MacintoshStorage* storage )
 static TQ3Status
 e3storage_mac_read ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
 	{
-	SInt32 ioByteCount = (SInt32) dataSize ;
+	ByteCount ioByteCount = dataSize ;
 	*sizeRead = 0UL ;
 	OSErr err = noErr;
 	
@@ -335,7 +339,7 @@ e3storage_mac_read ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 data
 
 	if ( ioByteCount > kQ3MacStorage_MaxSizeBuffered )
 		{ // read it directly
-		err = ::SetFPos ( storage->macStorageData.fsRefNum, fsFromStart, (SInt32) offset ) ;
+		err = ::FSSetForkPosition ( storage->macStorageData.fsRefNum, fsFromStart, (SInt32) offset ) ;
 		if (err != noErr)
 			{
 			E3ErrorManager_PostPlatformError ( err ) ;
@@ -343,7 +347,8 @@ e3storage_mac_read ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 data
 			}
 		
 		
-		err = ::FSRead ( storage->macStorageData.fsRefNum, &ioByteCount, data ) ;
+		err = ::FSReadFork ( storage->macStorageData.fsRefNum, fsFromMark, 0,
+			ioByteCount, data, &ioByteCount ) ;
 		if ( err != noErr )
 			{
 			E3ErrorManager_PostPlatformError ( err ) ;
@@ -381,7 +386,7 @@ static TQ3Status
 e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten )
 	{
 
-	SInt32 ioByteCount = (SInt32) dataSize ;
+	ByteCount ioByteCount = dataSize ;
 	*sizeWritten = 0UL ;
 	OSErr err = noErr ;
 	
@@ -401,8 +406,8 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 		// Make sure that the next write doesn't think there is anything in the buffer
 		storage->macStorageData.bufferStart = kQ3MacStorage_BufferInvalid ;
 		
-		SInt32 theLength ;
-		err = ::GetEOF ( storage->macStorageData.fsRefNum, &theLength ) ;
+		SInt64 theLength ;
+		err = ::FSGetForkSize ( storage->macStorageData.fsRefNum, &theLength ) ;
 		if ( err != noErr )
 			{
 			E3ErrorManager_PostPlatformError ( err ) ;
@@ -411,7 +416,8 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 		// Grow storage 
 		if ( (offset + dataSize ) > theLength )
 			{
-			err = ::SetEOF ( storage->macStorageData.fsRefNum, (SInt32) ( offset + dataSize ) ) ;
+			err = ::FSSetForkSize ( storage->macStorageData.fsRefNum, fsFromStart,
+				(SInt32) ( offset + dataSize ) ) ;
 			if ( err != noErr )
 				{
 				E3ErrorManager_PostPlatformError ( err ) ;
@@ -419,7 +425,7 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 				}
 			}
 	
-		err = ::SetFPos ( storage->macStorageData.fsRefNum, fsFromStart, (SInt32) offset ) ;
+		err = ::FSSetForkPosition ( storage->macStorageData.fsRefNum, fsFromStart, (SInt32) offset ) ;
 		if (err != noErr)
 			{
 			E3ErrorManager_PostPlatformError ( err ) ;
@@ -427,7 +433,8 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 			}
 		
 		
-		err = ::FSWrite ( storage->macStorageData.fsRefNum, &ioByteCount, data ) ;
+		err = ::FSWriteFork ( storage->macStorageData.fsRefNum, fsFromMark, 0,
+			ioByteCount, data, &ioByteCount ) ;
 		if (err != noErr)
 			{
 			E3ErrorManager_PostPlatformError ( err ) ;
@@ -583,17 +590,19 @@ e3storage_mac_fsspec_open ( E3FSSpecStorage* theStorage, TQ3Boolean forWriting )
 	{
 	// Validate our state
 	Q3_REQUIRE_OR_RESULT( theStorage->macStorageData.fsRefNum == -1, kQ3Failure ) ;
-
+	
+	
+	FSRef	fileRef;
+	OSStatus theErr = FSpMakeFSRef( & theStorage->theFSSpec, &fileRef );
 
 
 	// Open the file
-#if QUESA_USES_MOREFILES
-	TQ3Int16 filePerm = forWriting ? dmRdWrDenyRdWr : dmRdDenyWr ;
-	OSStatus theErr   = ::FSpOpenAware ( & theStorage->theFSSpec, filePerm, & theStorage->macStorageData.fsRefNum ) ;
-#else
-	TQ3Int16 filePerm = forWriting ? fsRdWrPerm : fsRdPerm ;
-	OSStatus theErr   = ::FSpOpenDF ( & theStorage->theFSSpec, filePerm, & theStorage->macStorageData.fsRefNum ) ;
-#endif
+	if (theErr == noErr)
+	{
+		TQ3Int16 filePerm = forWriting ? fsRdWrPerm : fsRdPerm ;
+		theErr   = ::FSOpenFork( &fileRef, 0, NULL, filePerm,
+			& theStorage->macStorageData.fsRefNum );
+	}
 
 
 
@@ -627,7 +636,7 @@ e3storage_mac_fsspec_close ( E3FSSpecStorage* theStorage )
 
 		
 		// Close it
-		OSStatus theErr = ::FSClose ( theStorage->macStorageData.fsRefNum ) ;
+		OSStatus theErr = ::FSCloseFork ( theStorage->macStorageData.fsRefNum ) ;
 		theStorage->macStorageData.fsRefNum = -1 ;
 		
 		if ( theErr != noErr )
