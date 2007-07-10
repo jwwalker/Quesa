@@ -46,7 +46,7 @@
 //-----------------------------------------------------------------------------
 #include "QOGLShadingLanguage.h"
 #include "GLUtils.h"
-#include "E3Debug.h"
+#include "E3Prefix.h"
 #include "QuesaRenderer.h"
 
 #include <cstring>

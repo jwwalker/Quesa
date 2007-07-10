@@ -78,7 +78,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib odbc32.lib odbccp32.lib"
-				OutputFile="../../../SDK/Libraries/Windows/Release/QD3D.dll"
+				OutputFile="../../../SDK/Libraries/Windows/Release/Quesa.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				ProgramDatabaseFile=".\Release/Quesa.pdb"
@@ -2720,100 +2720,12 @@
 					Name="Wireframe"
 					>
 					<File
-						RelativePath="..\..\Source\Renderers\Wireframe\WFGeometry.c"
+						RelativePath="..\..\Source\Renderers\Wireframe\WFRenderer.cpp"
 						>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								AdditionalIncludeDirectories=""
-								PreprocessorDefinitions=""
-								CompileAs="2"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								AdditionalIncludeDirectories=""
-								PreprocessorDefinitions=""
-								CompileAs="2"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\..\Source\Renderers\Wireframe\WFRegister.c"
+						RelativePath="..\..\Source\Renderers\Wireframe\WFRenderer.h"
 						>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								AdditionalIncludeDirectories=""
-								PreprocessorDefinitions=""
-								CompileAs="2"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								AdditionalIncludeDirectories=""
-								PreprocessorDefinitions=""
-								CompileAs="2"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\Source\Renderers\Wireframe\WFRenderer.c"
-						>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								AdditionalIncludeDirectories=""
-								PreprocessorDefinitions=""
-								CompileAs="2"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								AdditionalIncludeDirectories=""
-								PreprocessorDefinitions=""
-								CompileAs="2"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\..\Source\Renderers\Wireframe\WFUpdate.c"
-						>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								AdditionalIncludeDirectories=""
-								PreprocessorDefinitions=""
-								CompileAs="2"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								AdditionalIncludeDirectories=""
-								PreprocessorDefinitions=""
-								CompileAs="2"
-							/>
-						</FileConfiguration>
 					</File>
 				</Filter>
 				<Filter
