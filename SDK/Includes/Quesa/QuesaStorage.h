@@ -589,6 +589,72 @@ Q3MacintoshStorage_GetType (
     TQ3StorageObject              storage
 );
 
+
+/*!
+	@functiongroup Mac FSRef Storage
+*/
+
+
+/*!
+ *  @function
+ *      Q3FSRefStorage_New
+ *  @discussion
+ *      Create a storage object associated with a Mac file reference.
+ *
+ *      Given a valid FSRef structure, Quesa creates a storage object.
+ *      The file should exist, but should not be open.
+ *
+ *		An FSSpec storage object is the same type of object as an FSRef
+ *		storage object, hence the FSRef and FSSpec storage APIs can be
+ *		used interchangeably.
+ *
+ *  @param fr               A valid file reference.
+ *  @result                 The new storage object.
+ */
+Q3_EXTERN_API_C ( TQ3StorageObject  )
+Q3FSRefStorage_New(
+    const FSRef                  *fr
+);
+
+
+
+/*!
+ *  @function
+ *      Q3FSRefStorage_Set
+ *  @discussion
+ *      Change the file reference for an FSRef storage object.
+ *
+ *      The storage must be closed at the time you call this.
+ *
+ *  @param storage          The FSRef storage object to modify.
+ *  @param fr               The new file reference.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3FSRefStorage_Set (
+    TQ3StorageObject              storage,
+    const FSRef                  *fr
+);
+
+
+
+/*!
+ *  @function
+ *      Q3FSRefStorage_Get
+ *  @discussion
+ *      Find the FSRef associated with an FSRef storage object.
+ *
+ *  @param storage          The FSSpec storage object to examine.
+ *  @param fr               On output, a file reference.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3FSRefStorage_Get (
+    TQ3StorageObject              storage,
+    FSRef                        *fr
+);
+
+
 /*!
 	@functiongroup Mac FSSpec Storage
 */
@@ -602,6 +668,10 @@ Q3MacintoshStorage_GetType (
  *
  *      Given a valid FSSpec structure, Quesa creates a storage object.
  *      The file should exist, but should not be open.
+ *
+ *		An FSSpec storage object is the same type of object as an FSRef
+ *		storage object, hence the FSRef and FSSpec storage APIs can be
+ *		used interchangeably.
  *
  *  @param fs               A valid file system specification.
  *  @result                 The new storage object.
