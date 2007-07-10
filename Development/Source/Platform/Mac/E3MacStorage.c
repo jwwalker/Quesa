@@ -47,11 +47,6 @@
 
 #include "E3Storage.h"
 
-#if QUESA_USES_MOREFILES
-	#include "MoreFiles.h"
-	#include "MoreFilesExtras.h"
-#endif
-
 
 
 
@@ -122,7 +117,7 @@ class E3FSSpecStorage : public E3MacintoshStorage  // This is a leaf class so no
 Q3_CLASS_ENUMS ( kQ3MacintoshStorageTypeFSSpec, E3FSSpecStorage, E3MacintoshStorage )
 public :
 
-	FSSpec								theFSSpec ;
+	FSRef								theFSRef;
 	} ;
 	
 
@@ -592,17 +587,10 @@ e3storage_mac_fsspec_open ( E3FSSpecStorage* theStorage, TQ3Boolean forWriting )
 	Q3_REQUIRE_OR_RESULT( theStorage->macStorageData.fsRefNum == -1, kQ3Failure ) ;
 	
 	
-	FSRef	fileRef;
-	OSStatus theErr = FSpMakeFSRef( & theStorage->theFSSpec, &fileRef );
-
-
 	// Open the file
-	if (theErr == noErr)
-	{
-		TQ3Int16 filePerm = forWriting ? fsRdWrPerm : fsRdPerm ;
-		theErr   = ::FSOpenFork( &fileRef, 0, NULL, filePerm,
+	TQ3Int16 filePerm = forWriting ? fsRdWrPerm : fsRdPerm ;
+	OSStatus	theErr   = ::FSOpenFork( &theStorage->theFSRef, 0, NULL, filePerm,
 			& theStorage->macStorageData.fsRefNum );
-	}
 
 
 
@@ -647,10 +635,7 @@ e3storage_mac_fsspec_close ( E3FSSpecStorage* theStorage )
 
 		
 		
-		// And flush the volume
 		e3storage_mac_clearFlag ( theStorage, kQ3MacStorage_IsOpenFlag ) ;
-		if ( ! e3storage_mac_hasFlag ( theStorage, kQ3MacStorage_ReadOnlyFlag ) )
-			::FlushVol ( NULL, theStorage->theFSSpec.vRefNum ) ;
 		}
 
 	return kQ3Success ;
@@ -1165,7 +1150,9 @@ TQ3StorageObject
 E3FSSpecStorage_New(const FSSpec *fs)
 	{
 	// Create the object
-	return E3ClassTree::CreateInstance(kQ3MacintoshStorageTypeFSSpec, kQ3False, fs);
+	FSRef	theFSRef;
+	FSpMakeFSRef( fs, &theFSRef );
+	return E3ClassTree::CreateInstance(kQ3MacintoshStorageTypeFSSpec, kQ3False, &theFSRef );
 	}
 
 
@@ -1188,7 +1175,7 @@ E3FSSpecStorage_Set(TQ3StorageObject theStorage, const FSSpec *theFSSpec)
 
 
 	// Set the data
-	Q3Memory_Copy ( theFSSpec, & ( (E3FSSpecStorage*) theStorage )->theFSSpec, sizeof ( FSSpec ) ) ;
+	FSpMakeFSRef( theFSSpec, & ( (E3FSSpecStorage*) theStorage )->theFSRef );
 	Q3Shared_Edited ( theStorage ) ;
 	
 	return kQ3Success ;
@@ -1205,9 +1192,65 @@ TQ3Status
 E3FSSpecStorage_Get(TQ3StorageObject theStorage, FSSpec *theFSSpec)
 	{
 	// Get the data
-	Q3Memory_Copy ( & ( (E3FSSpecStorage*) theStorage )->theFSSpec, theFSSpec, sizeof ( FSSpec ) ) ;
+	FSGetCatalogInfo( & ( (E3FSSpecStorage*) theStorage )->theFSRef,
+		kFSCatInfoNone, NULL, NULL, theFSSpec, NULL );
 	
 	return kQ3Success ;
 	}
 
+
+
+
+
+//=============================================================================
+//      E3FSRefStorage_New : Create a new FSRef storage object.
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3StorageObject
+E3FSRefStorage_New(const FSRef *fs)
+{
+	return E3ClassTree::CreateInstance(kQ3MacintoshStorageTypeFSSpec, kQ3False, fs );
+}
+
+
+
+
+
+//=============================================================================
+//      E3FSSpecStorage_Set : Set the information for an FSRef storage object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FSRefStorage_Set(TQ3StorageObject storage, const FSRef *fs)
+{
+	// Make sure we're not open
+	if ( e3storage_mac_hasFlag( (E3MacintoshStorage*) storage, kQ3MacStorage_IsOpenFlag ) )
+	{
+		E3ErrorManager_PostError ( kQ3ErrorStorageIsOpen, kQ3False ) ;
+		return kQ3Failure ;
+	}
+
+
+
+	// Set the data
+	( (E3FSSpecStorage*) storage )->theFSRef = *fs;
+	Q3Shared_Edited ( storage ) ;
+	
+	return kQ3Success ;
+}
+
+
+
+
+
+//=============================================================================
+//      E3FSRefStorage_Get : Get the information for an FSRef storage object.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FSRefStorage_Get(TQ3StorageObject storage, FSRef *fs)
+{
+	// Get the data
+	*fs = ( (E3FSSpecStorage*) storage )->theFSRef;
+	
+	return kQ3Success ;
+}
 
