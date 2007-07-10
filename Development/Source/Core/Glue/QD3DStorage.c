@@ -989,6 +989,79 @@ Q3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs)
 	// Call our implementation
 	return(E3FSSpecStorage_Get(storage, fs));
 }
+
+
+
+
+
+TQ3StorageObject
+Q3FSRefStorage_New(
+    const FSRef                  *fr
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fr), NULL);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FSRefStorage_New(fr));
+}
+
+
+
+
+
+TQ3Status
+Q3FSRefStorage_Set (
+    TQ3StorageObject              storage,
+    const FSRef                  *fr
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, (kQ3MacintoshStorageTypeFSSpec)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fr), kQ3Failure);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FSRefStorage_Set(storage, fr));
+}
+
+
+
+
+
+TQ3Status
+Q3FSRefStorage_Get (
+    TQ3StorageObject              storage,
+    FSRef                        *fr
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(storage, (kQ3MacintoshStorageTypeFSSpec)), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fr), kQ3Failure);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FSRefStorage_Get(storage, fr));
+}
 #endif // QUESA_OS_MACINTOSH
 
 
