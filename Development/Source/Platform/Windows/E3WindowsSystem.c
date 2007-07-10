@@ -161,7 +161,13 @@ e3windowsystem_loadplugins(LPTSTR dir, LPTSTR ext)
 TQ3Status
 E3WindowsSystem_Initialise(void)
 {
-
+#if QUESA_WIN32_MASK_FP_EXCEPTIONS
+	// Mask out the floating point exceptions: zerodivide, overflow, underflow,
+	// invalid, inexact.
+	// The Visual C++ docs say that you should prefer _controlfp_s to _controlfp,
+	// but CodeWarrior does not know about _controlfp_s.
+	_controlfp( _MCW_EM, _MCW_EM );
+#endif
 
 	// Initialise the system
 	return(kQ3Success);
