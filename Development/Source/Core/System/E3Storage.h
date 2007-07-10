@@ -189,6 +189,9 @@ TQ3ObjectType		E3MacintoshStorage_GetType(TQ3StorageObject storage);
 TQ3StorageObject	E3FSSpecStorage_New(const FSSpec *fs);
 TQ3Status			E3FSSpecStorage_Set(TQ3StorageObject storage, const FSSpec *fs);
 TQ3Status			E3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs);
+TQ3StorageObject	E3FSRefStorage_New(const FSRef *fs);
+TQ3Status			E3FSRefStorage_Set(TQ3StorageObject storage, const FSRef *fs);
+TQ3Status			E3FSRefStorage_Get(TQ3StorageObject storage, FSRef *fs);
 #endif
 
 
