@@ -54,6 +54,7 @@
 #include "GLDrawContext.h"
 #include "GLUtils.h"
 #include "E3Compatibility.h"
+#include "CQ3ObjectRef_Gets.h"
 
 
 #define kQ3ClassNameRendererWireFrame				"Quesa:Shared:Renderer:Wireframe"
@@ -154,7 +155,6 @@ void CWireFrameRendererQuesa::StartPassWireFrame(
 {
 	StartPass( inCamera, inLights ); // call parent Method
 
-    TQ3DrawContextObject theDrawContext = NULL;
 	TQ3CameraViewPort viewPort;
 	
 	TQ3Boolean useColor = kQ3True;
@@ -166,11 +166,13 @@ void CWireFrameRendererQuesa::StartPassWireFrame(
 			
 	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyUseColor,
 			sizeof(useColor), NULL, &useColor );
+	
+	CQ3ObjectRef	theDrawContext( CQ3View_GetDrawContext( inView ) );
 			
-	if (( Q3View_GetDrawContext ( inView , &theDrawContext ) != kQ3Failure ) && (Q3Camera_GetViewPort(inCamera, &viewPort)))
+	if ( theDrawContext.isvalid() && (Q3Camera_GetViewPort(inCamera, &viewPort)))
     	{
 		TQ3Area		thePane;
-		Q3DrawContext_GetPane( theDrawContext, &thePane );
+		Q3DrawContext_GetPane( theDrawContext.get(), &thePane );
 		
 		float diagonal = Q3FastPoint2D_Distance(&thePane.max,&thePane.min);
 
