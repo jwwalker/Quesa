@@ -54,6 +54,7 @@
 #include "GLDrawContext.h"
 #include "GLUtils.h"
 #include "E3Compatibility.h"
+#include "CQ3ObjectRef_Gets.h"
 
 
 #define kQ3ClassNameRendererHiddenLine				"Quesa HiddenLine"
@@ -146,7 +147,6 @@ CHiddenLineRendererQuesa::~CHiddenLineRendererQuesa()
 
 //____________________________________________________________________________________
 
-#if 0
 
 void CHiddenLineRendererQuesa::StartPassHiddenLine(
 								TQ3ViewObject inView,
@@ -155,72 +155,6 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 {
 	StartPass( inCamera, inLights ); // call parent Method
 
-    TQ3DrawContextObject theDrawContext = NULL;
-	TQ3CameraViewPort viewPort;	
-	
-	TQ3Float32 lineW = 1.0f;
-	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyLineWidth,
-			sizeof(lineW), NULL, &lineW );
-			
-	if (( Q3View_GetDrawContext ( inView , &theDrawContext ) != kQ3Failure ) && (Q3Camera_GetViewPort(inCamera, &viewPort)))
-    	{
-		TQ3Area		thePane;
-		Q3DrawContext_GetPane( theDrawContext, &thePane );
-		
-		float diagonal = Q3FastPoint2D_Distance(&thePane.max,&thePane.min);
-
-		
-		lineW = lineW * diagonal/720.0f*(4.0f/(viewPort.width + viewPort.height)); // scale (rather arbirarly) the line to the canvas size
-		}
-
-	switch(mPassIndex)
-	{
-	case 0:
-		{
-			glEnable( GL_POLYGON_OFFSET_FILL );
-			glPolygonOffset( +(lineW +.5f), +(lineW + .5f) );
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-			//For the shader null
-			glLineWidth( 1.0f );
-			mViewState.diffuseColor = &mFillColor;
-			mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
-			UpdateIlluminationShader(NULL);
-			mUpdateShader = false;
- 		}
-		break;
-		
-	case 1:
-		{
-		glEnable( GL_POLYGON_OFFSET_LINE );
-		//glPolygonOffset( -lineW -.7f, -lineW - .7f );
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-		mLineWidth = lineW ;
-		glLineWidth( mLineWidth );
-		mViewState.diffuseColor = &mLineColor;
-		mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
-		UpdateIlluminationShader(NULL);
-		mStyleState.mFill = kQ3FillStyleEdges;
-		mStyleState.mExplicitEdges = true;
-		glDisable( GL_POLYGON_OFFSET_FILL );
-		}
-		break;
-
-
-	}
-}
-
-#endif
-
-//____________________________________________________________________________________
-
-void CHiddenLineRendererQuesa::StartPassHiddenLine(
-								TQ3ViewObject inView,
-								TQ3CameraObject inCamera,
-								TQ3GroupObject inLights )
-{
-	StartPass( inCamera, inLights ); // call parent Method
-
-    TQ3DrawContextObject theDrawContext = NULL;
 	TQ3CameraViewPort viewPort;	
 	
 	TQ3Boolean useColor = kQ3True;
@@ -233,10 +167,12 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyUseColor,
 			sizeof(useColor), NULL, &useColor );
 			
-	if (( Q3View_GetDrawContext ( inView , &theDrawContext ) != kQ3Failure ) && (Q3Camera_GetViewPort(inCamera, &viewPort)))
+	CQ3ObjectRef	theDrawContext( CQ3View_GetDrawContext( inView ) );
+			
+	if ( theDrawContext.isvalid() && (Q3Camera_GetViewPort(inCamera, &viewPort)))
     	{
 		TQ3Area		thePane;
-		Q3DrawContext_GetPane( theDrawContext, &thePane );
+		Q3DrawContext_GetPane( theDrawContext.get(), &thePane );
 		
 		float diagonal = Q3FastPoint2D_Distance(&thePane.max,&thePane.min);
 
