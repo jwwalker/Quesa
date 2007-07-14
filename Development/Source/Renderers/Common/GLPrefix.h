@@ -75,11 +75,6 @@
     #include <GL/glx.h>
     #include <GL/glu.h>
 
-#elif QUESA_OS_BE
-    #include <GL/gl.h>
-    #include <GL/glu.h>
-	#include <be/opengl/GLView.h>
-
 #endif
 
 

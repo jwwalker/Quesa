@@ -53,7 +53,6 @@
 #if !defined(QUESA_OS_MACINTOSH) && \
 	!defined(QUESA_OS_WIN32)     && \
     !defined(QUESA_OS_UNIX)      && \
-    !defined(QUESA_OS_BE)        && \
     !defined(QUESA_OS_COCOA)
 
 	// Mac OS
@@ -71,14 +70,6 @@
 	    #endif
 	#endif
 
-
-	// Be
-	#if ((defined(__be_os) && (__dest_os == __be_os)))
-	    #ifndef QUESA_OS_BE
-	        #define QUESA_OS_BE                     		1
-	    #endif
-	#endif
-
 #endif
 
 
@@ -92,6 +83,9 @@
 //              constant, depending on the current platform.
 //
 //              The other platform values are then set to 0 here.
+//
+//				QUESA_OS_COCOA is a special case, treated as a subcase of
+//				QUESA_OS_MACINTOSH.
 //-----------------------------------------------------------------------------
 #ifdef QUESA_OS_COCOA
     #undef  QUESA_OS_COCOA
@@ -122,24 +116,16 @@
     #define QUESA_OS_UNIX                       		0
 #endif
 
-#ifdef QUESA_OS_BE
-    #undef  QUESA_OS_BE
-    #define QUESA_OS_BE                         		1
-#else
-    #define QUESA_OS_BE                         		0
-#endif
 
 #if (!QUESA_OS_MACINTOSH && \
      !QUESA_OS_WIN32     && \
-     !QUESA_OS_UNIX      && \
-     !QUESA_OS_BE)
+     !QUESA_OS_UNIX)
     #error Target OS not selected!
 #endif
 
-#if ( (QUESA_OS_MACINTOSH && (QUESA_OS_WIN32     || QUESA_OS_UNIX  || QUESA_OS_BE   )) || \
-	  (QUESA_OS_WIN32     && (QUESA_OS_MACINTOSH || QUESA_OS_UNIX  || QUESA_OS_BE   )) || \
-	  (QUESA_OS_UNIX      && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_BE   )) || \
-	  (QUESA_OS_BE        && (QUESA_OS_MACINTOSH || QUESA_OS_WIN32 || QUESA_OS_UNIX )) )
+#if ( (QUESA_OS_MACINTOSH && QUESA_OS_WIN32) ||		\
+	  (QUESA_OS_MACINTOSH && QUESA_OS_UNIX) ||		\
+	  (QUESA_OS_WIN32 && QUESA_OS_UNIX) )
     #error More than one target OS has been selected!
 #endif
 
@@ -682,7 +668,6 @@ enum {
             kQ3DrawContextTypeWin32DC           = Q3_OBJECT_TYPE('d', 'w', '3', '2'),
             kQ3DrawContextTypeDDSurface         = Q3_OBJECT_TYPE('d', 'd', 'd', 's'),
             kQ3DrawContextTypeX11               = Q3_OBJECT_TYPE('d', 'x', '1', '1'),
-            kQ3DrawContextTypeBe                = Q3_OBJECT_TYPE('d', 'c', 'b', 'e'),
         kQ3SharedTypeTexture                    = Q3_OBJECT_TYPE('t', 'x', 't', 'r'),
             kQ3TextureTypePixmap                = Q3_OBJECT_TYPE('t', 'x', 'p', 'm'),
             kQ3TextureTypeMipmap                = Q3_OBJECT_TYPE('t', 'x', 'm', 'm'),
@@ -697,7 +682,6 @@ enum {
             kQ3StorageTypeMacintosh             = Q3_OBJECT_TYPE('m', 'a', 'c', 'n'),
                 kQ3MacintoshStorageTypeFSSpec   = Q3_OBJECT_TYPE('m', 'a', 'c', 'p'),
             kQ3StorageTypeWin32                 = Q3_OBJECT_TYPE('w', 'i', 's', 't'),
-            kQ3StorageTypeBe                    = Q3_OBJECT_TYPE('b', 'e', 's', 't'),
         kQ3SharedTypeString                     = Q3_OBJECT_TYPE('s', 't', 'r', 'n'),
             kQ3StringTypeCString                = Q3_OBJECT_TYPE('s', 't', 'r', 'c'),
         kQ3SharedTypeShapePart                  = Q3_OBJECT_TYPE('s', 'p', 'r', 't'),

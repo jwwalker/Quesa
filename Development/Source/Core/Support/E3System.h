@@ -5,7 +5,7 @@
         Header file for E3System.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -116,15 +116,6 @@ TQ3Status	E3WindowsSystem_Initialise(void);
 void		E3WindowsSystem_Terminate(void);
 void		E3WindowsSystem_LoadPlugins(void);
 void		E3WindowsSystem_UnloadPlugins(void);
-#endif
-
-
-// Be specific
-#if QUESA_OS_BE
-TQ3Status	E3BeSystem_Initialise(void);
-void		E3BeSystem_Terminate(void);
-void		E3BeSystem_LoadPlugins(void);
-void		E3BeSystem_UnloadPlugins(void);
 #endif
 
 

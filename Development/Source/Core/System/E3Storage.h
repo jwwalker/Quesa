@@ -217,17 +217,6 @@ TQ3Status			E3UnixPathStorage_Get(TQ3StorageObject storage, char *pathName);
 #endif
 
 
-// Be specific
-#if QUESA_OS_BE
-TQ3Status			E3BeStorage_RegisterClass(void);
-TQ3Status			E3BeStorage_UnregisterClass(void);
-
-TQ3StorageObject	E3BeStorage_New(BFile *theFile);
-TQ3Status			E3BeStorage_Set(TQ3StorageObject theStorage, BFile *theFile);
-TQ3Status			E3BeStorage_Get(TQ3StorageObject theStorage, BFile **theFile);
-#endif
-
-
 
 
 
