@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -738,8 +738,6 @@ E3Storage_RegisterClass(void)
 		qd3dStatus = E3UnixStorage_RegisterClass();
 #elif QUESA_OS_WIN32
 		qd3dStatus = E3Win32Storage_RegisterClass();
-#elif QUESA_OS_BE
-		qd3dStatus = E3BeStorage_RegisterClass();
 #endif
 		}
 
@@ -769,8 +767,6 @@ E3Storage_UnregisterClass(void)
 	qd3dStatus = E3UnixStorage_UnregisterClass();
 #elif QUESA_OS_WIN32
 	qd3dStatus = E3Win32Storage_UnregisterClass();
-#elif QUESA_OS_BE
-	qd3dStatus = E3BeStorage_UnregisterClass();
 #endif
 	
 	return(qd3dStatus);

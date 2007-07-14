@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -301,9 +301,6 @@ E3DrawContext_RegisterClass(void)
 		qd3dStatus = E3DDSurfaceDrawContext_RegisterClass();
 #endif // QD3D_NO_DIRECTDRAW
 
-#elif QUESA_OS_BE
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3BeDrawContext_RegisterClass();
 
 #endif
 
@@ -341,9 +338,6 @@ E3DrawContext_UnregisterClass(void)
 #if !defined(QD3D_NO_DIRECTDRAW)
 	qd3dStatus = E3DDSurfaceDrawContext_UnregisterClass();
 #endif // QD3D_NO_DIRECTDRAW
-
-#elif QUESA_OS_BE
-	qd3dStatus = E3BeDrawContext_UnregisterClass();
 
 #endif
 
@@ -406,9 +400,6 @@ E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
 
 #elif QUESA_OS_WIN32
 	drawContext = E3Win32DCDrawContext_NewWithWindow(drawContextType, drawContextTarget);
-
-#elif QUESA_OS_BE
-	drawContext = E3BeDrawContext_NewWithWindow(drawContextType, drawContextTarget);
 
 #else
 	drawContext = NULL;

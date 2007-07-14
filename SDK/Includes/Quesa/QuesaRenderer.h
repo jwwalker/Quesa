@@ -1140,32 +1140,6 @@ typedef struct TQ3DialogAnchor {
 
 
 //=============================================================================
-//      Be OS types
-//-----------------------------------------------------------------------------
-#if QUESA_OS_BE
-
-/*!
- *  @struct
- *      TQ3DialogAnchor
- *  @discussion
- *      Be dialog anchor.
- *
- *      Supplied to Q3Renderer_ModalConfigure to pass platform-specific
- *      dialog state to the renderer.
- *
- *  @field ownerWindow      The parent window of the configure dialog.
- */
-typedef struct TQ3DialogAnchor {
-    BWindow                                     *ownerWindow;
-} TQ3DialogAnchor;
-
-#endif // QUESA_OS_BE
-
-
-
-
-
-//=============================================================================
 //      Cocoa types
 //-----------------------------------------------------------------------------
 #if QUESA_OS_COCOA

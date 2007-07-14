@@ -5,7 +5,7 @@
         Quesa platform specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -77,9 +77,6 @@ E3System_Initialise(void)
 #elif QUESA_OS_WIN32
 	qd3dStatus = E3WindowsSystem_Initialise();
 
-#elif QUESA_OS_BE
-	qd3dStatus = E3BeSystem_Initialise();
-
 #endif
 
 	return(qd3dStatus);
@@ -106,9 +103,6 @@ E3System_Terminate(void)
 
 #elif QUESA_OS_WIN32
 	E3WindowsSystem_Terminate();
-
-#elif QUESA_OS_BE
-	E3BeSystem_Terminate();
 
 #endif
 }
@@ -141,9 +135,6 @@ E3System_LoadPlugins(void)
 
 #elif QUESA_OS_WIN32
 	E3WindowsSystem_LoadPlugins();
-
-#elif QUESA_OS_BE
-	E3BeSystem_LoadPlugins();
 
 #endif
 
@@ -216,9 +207,6 @@ E3System_UnloadPlugins(void)
 
 #elif QUESA_OS_WIN32
 	E3WindowsSystem_UnloadPlugins();
-
-#elif QUESA_OS_BE
-	E3BeSystem_UnloadPlugins();
 
 #endif
 

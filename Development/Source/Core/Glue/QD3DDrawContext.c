@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1918,118 +1918,6 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ
 }
 #endif // QD3D_NO_DIRECTDRAW
 #endif // QUESA_OS_WIN32
-
-
-
-
-
-//=============================================================================
-//      Q3BeDrawContext_New : Quesa API entry point.
-//-----------------------------------------------------------------------------
-#pragma mark -
-#if QUESA_OS_BE
-TQ3DrawContextObject
-Q3BeDrawContext_New(const TQ3BeDrawContextData *drawContextData)
-{
-
-
-	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), NULL);
-
-
-
-	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContextData
-		return(NULL);
-#endif
-
-
-
-	// Call the bottleneck
-	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3BeDrawContext_New(drawContextData));
-}
-
-
-
-
-
-//=============================================================================
-//      Q3BeDrawContext_SetView : Quesa API entry point.
-//-----------------------------------------------------------------------------
-TQ3Status
-Q3BeDrawContext_SetView(TQ3DrawContextObject drawContext, BView *theView)
-{
-
-
-	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
-
-
-
-	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on theView
-		return(kQ3Failure);
-#endif
-
-
-
-	// Call the bottleneck
-	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3BeDrawContext_SetView(drawContext, theView));
-}
-
-
-
-
-
-//=============================================================================
-//      Q3BeDrawContext_GetView : Quesa API entry point.
-//-----------------------------------------------------------------------------
-TQ3Status
-Q3BeDrawContext_GetView(TQ3DrawContextObject drawContext, BView **theView)
-{
-
-
-	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3DrawContext_IsOfMyClass ( drawContext ), kQ3Failure ) ;
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theView), kQ3Failure);
-
-
-
-	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on theView
-		return(kQ3Failure);
-#endif
-
-
-
-	// Call the bottleneck
-	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3BeDrawContext_GetView(drawContext, theView));
-}
-#endif // QUESA_OS_BE
 
 
 

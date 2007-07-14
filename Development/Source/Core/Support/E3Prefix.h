@@ -5,7 +5,7 @@
         Global prefix file for Quesa.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -89,9 +89,6 @@
 
 #elif QUESA_OS_UNIX
 	#include "E3UnixPrefix.h"
-
-#elif QUESA_OS_BE
-	#include "E3BePrefix.h"
 
 #endif
 

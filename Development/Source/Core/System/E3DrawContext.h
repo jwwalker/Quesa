@@ -126,11 +126,6 @@ typedef struct TQ3DDSurfaceDrawContextState {
 
 #endif
 
-#elif QUESA_OS_BE
-typedef struct TQ3BeDrawContextState {
-	TQ3BeDrawContextData			theData;
-} TQ3BeDrawContextState;
-
 
 #endif
 
@@ -164,9 +159,6 @@ typedef struct TQ3DrawContextUnionData {
 #if !defined(QD3D_NO_DIRECTDRAW)
 		TQ3DDSurfaceDrawContextState	winDDData;
 #endif
-
-#elif QUESA_OS_BE
-		TQ3BeDrawContextState			beData;
 
 #endif
 	} data;
@@ -303,18 +295,6 @@ TQ3DrawContextObject	E3DDSurfaceDrawContext_New(const TQ3DDSurfaceDrawContextDat
 TQ3Status				E3DDSurfaceDrawContext_SetDirectDrawSurface(TQ3DrawContextObject drawContext, const TQ3DDSurfaceDescriptor *ddSurfaceDescriptor);
 TQ3Status				E3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ3DDSurfaceDescriptor *ddSurfaceDescriptor);
 #endif
-#endif
-
-
-// Be specific
-#if QUESA_OS_BE
-TQ3Status				E3BeDrawContext_RegisterClass(void);
-TQ3Status				E3BeDrawContext_UnregisterClass(void);
-
-TQ3DrawContextObject	E3BeDrawContext_New(const TQ3BeDrawContextData *drawContextData);
-TQ3DrawContextObject	E3BeDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
-TQ3Status				E3BeDrawContext_SetView(TQ3DrawContextObject drawContext, BView *theView);
-TQ3Status				E3BeDrawContext_GetView(TQ3DrawContextObject drawContext, BView **theView);
 #endif
 
 
