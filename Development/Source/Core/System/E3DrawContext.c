@@ -384,26 +384,40 @@ E3DrawContext_InitaliseData(TQ3DrawContextData *drawContextData)
 //-----------------------------------------------------------------------------
 TQ3DrawContextObject
 E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
-{	TQ3DrawContextObject		drawContext;
+{
+	TQ3DrawContextObject		drawContext = NULL;
 
 
 
 	// Create the draw context object
-#if QUESA_OS_COCOA
-    drawContext = E3CocoaDrawContext_NewWithWindow(drawContextType, drawContextTarget);
-
-#elif QUESA_OS_MACINTOSH
-	drawContext = E3MacDrawContext_NewWithWindow(drawContextType, drawContextTarget);
-
-#elif QUESA_OS_UNIX
-	drawContext = E3XDrawContext_NewWithWindow(drawContextType, drawContextTarget);
-
-#elif QUESA_OS_WIN32
-	drawContext = E3Win32DCDrawContext_NewWithWindow(drawContextType, drawContextTarget);
-
-#else
-	drawContext = NULL;
-#endif
+	switch (drawContextType)
+	{
+	#if QUESA_OS_MACINTOSH
+		case kQ3DrawContextTypeMacintosh:
+			drawContext = E3MacDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+			break;
+		
+	#if QUESA_OS_COCOA
+		case kQ3DrawContextTypeCocoa:
+			drawContext = E3CocoaDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+			break;
+	#endif
+	#endif
+	
+	
+	#if QUESA_OS_WIN32
+		case kQ3DrawContextTypeWin32DC:
+			drawContext = E3Win32DCDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+			break;
+	#endif
+	
+	
+	#if QUESA_OS_UNIX
+		case kQ3DrawContextTypeX11:
+			drawContext = E3XDrawContext_NewWithWindow(drawContextType, drawContextTarget);
+			break;
+	#endif
+	}
 
 	return(drawContext);
 }
