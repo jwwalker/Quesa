@@ -192,10 +192,10 @@ CocoaGLContext::~CocoaGLContext()
 	
 void	CocoaGLContext::SwapBuffers()
 {
-	// BH, I didn't expect to have to call this, but it doesn't seem to
-    // draw without it here (I expected the gl renderer to do it).
-	glFlush();
-
+	// Previously there was a glFlush call here, with a comment that it doesn't
+	// seem to draw without it.  But now it does seem fine without glFlush, and
+	// Apple docs explicitly say that one should not call glFlush before
+	// flushBuffer.
 
 
 	// Swap the buffers
@@ -208,5 +208,31 @@ void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
 	if(inForceSet || ![[NSOpenGLContext currentContext]isEqual:(id)glContext])
 		[(id)glContext makeCurrentContext];
 }
+
+
+bool	CocoaGLContext::UpdateWindowSize()
+{
+	[(id)glContext update];
+	
+	NSRect	viewFrame = [(id)nsView bounds];
+	TQ3DrawContextData				drawContextData;
+	Q3DrawContext_GetData( quesaDrawContext, &drawContextData );
+	
+	GLint	glRect[4] =
+	{
+		drawContextData.pane.min.x,
+		((viewFrame.origin.y+viewFrame.size.height)            
+                                      - drawContextData.pane.max.y),
+		drawContextData.pane.max.x - drawContextData.pane.min.x,
+		drawContextData.pane.max.y - drawContextData.pane.min.y
+	};
+	glViewport(0, 0, glRect[2], glRect[3]);
+	
+	[(id)glContext setValues:(const long *) glRect
+					forParameter:NSOpenGLCPSwapRectangle];
+	
+	return true;
+}
+
 
 
