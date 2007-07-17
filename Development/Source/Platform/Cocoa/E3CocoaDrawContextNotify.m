@@ -102,7 +102,7 @@
 
 
 	// Reset our state, and update the size of the draw context pane    
-	instanceData->theState = kQ3XDrawContextValidationAll;
+	instanceData->theState |= kQ3XDrawContextValidationWindowSize;
 	if (!instanceData->data.common.paneState)
 		{
 		instanceData->data.common.pane.min.x = viewFrame.origin.x;
