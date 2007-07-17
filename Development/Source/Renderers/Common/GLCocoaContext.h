@@ -80,6 +80,8 @@ public:
 
 	virtual void		SetCurrent( TQ3Boolean inForceSet );
 	
+	virtual bool		UpdateWindowSize();
+
 private:
 	void				*glContext;
 	void				*nsView;
