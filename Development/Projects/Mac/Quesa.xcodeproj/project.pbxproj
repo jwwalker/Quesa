@@ -641,6 +641,18 @@
 		BEDC08CC08A6B24A00FB3A82 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A7E66055E698900CA83BE /* QuickTime.framework */; };
 		BEDC08DC08A6B96E00FB3A82 /* Quesa.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */; };
 		BEDC08DD08A6B96E00FB3A82 /* Quesa.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */; };
+		BEFFD7D50C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */; };
+		BEFFD7D70C4C86E100202EA8 /* E3CocoaDrawContextNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D10C4C86E100202EA8 /* E3CocoaDrawContextNotify.m */; };
+		BEFFD7DA0C4C86E100202EA8 /* GLCocoaContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D40C4C86E100202EA8 /* GLCocoaContext.m */; };
+		BEFFD7DB0C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */; };
+		BEFFD7DD0C4C86E100202EA8 /* E3CocoaDrawContextNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D10C4C86E100202EA8 /* E3CocoaDrawContextNotify.m */; };
+		BEFFD7E00C4C86E100202EA8 /* GLCocoaContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D40C4C86E100202EA8 /* GLCocoaContext.m */; };
+		BEFFD7E10C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */; };
+		BEFFD7E20C4C86E100202EA8 /* E3CocoaDrawContextNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D10C4C86E100202EA8 /* E3CocoaDrawContextNotify.m */; };
+		BEFFD7E30C4C86E100202EA8 /* GLCocoaContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D40C4C86E100202EA8 /* GLCocoaContext.m */; };
+		BEFFD7E40C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */; };
+		BEFFD7E50C4C86E100202EA8 /* E3CocoaDrawContextNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D10C4C86E100202EA8 /* E3CocoaDrawContextNotify.m */; };
+		BEFFD7E60C4C86E100202EA8 /* GLCocoaContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D40C4C86E100202EA8 /* GLCocoaContext.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -677,23 +689,6 @@
 			);
 		};
 /* End PBXBuildRule section */
-
-/* Begin PBXBuildStyle section */
-		B12B33F60C28370D004D72E6 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-			};
-			name = Development;
-		};
-		B12B33F70C28370D004D72E6 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -921,7 +916,7 @@
 		AB83B964055E77870034F56A /* E3MacStorage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacStorage.c; sourceTree = "<group>"; };
 		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
 		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
-		B1756AFF080A71C30056134C /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19A74320C3E7A7F0099C820 /* WFRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WFRenderer.cpp; sourceTree = "<group>"; };
 		B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = HiddenLine.cpp; sourceTree = "<group>"; };
 		B1BD22030BEBD81B00937A68 /* HiddenLine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HiddenLine.h; sourceTree = "<group>"; };
@@ -991,9 +986,15 @@
 		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cpp; sourceTree = "<group>"; };
 		BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
 		BEDC072708A6812D00FB3A82 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEDC08D008A6B24A00FB3A82 /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEDC08D308A6B74200FB3A82 /* Info.plist */ = {isa = PBXFileReference; comments = "This file is for use with Xcode 2.1.  It must be preprocessed in order to\nconvert the symbol kQ3UnquotedStringVersion into an actual version string."; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = Quesa.rsrc; path = Resources/Quesa.rsrc; sourceTree = "<group>"; };
+		BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = E3CocoaDrawContext.m; sourceTree = "<group>"; };
+		BEFFD7D00C4C86E100202EA8 /* E3CocoaDrawContextNotify.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3CocoaDrawContextNotify.h; sourceTree = "<group>"; };
+		BEFFD7D10C4C86E100202EA8 /* E3CocoaDrawContextNotify.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = E3CocoaDrawContextNotify.m; sourceTree = "<group>"; };
+		BEFFD7D20C4C86E100202EA8 /* E3CocoaPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3CocoaPrefix.h; sourceTree = "<group>"; };
+		BEFFD7D30C4C86E100202EA8 /* GLCocoaContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLCocoaContext.h; path = ../../Renderers/Common/GLCocoaContext.h; sourceTree = "<group>"; };
+		BEFFD7D40C4C86E100202EA8 /* GLCocoaContext.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = GLCocoaContext.m; path = ../../Renderers/Common/GLCocoaContext.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1052,9 +1053,9 @@
 			isa = PBXGroup;
 			children = (
 				8D07F2C80486CC7A007CD1D0 /* Quesa.framework */,
-				B1756AFF080A71C30056134C /* libQuesaD.a */,
+				B1756AFF080A71C30056134C /* libQuesa.a */,
 				BEDC072708A6812D00FB3A82 /* Quesa.framework */,
-				BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */,
+				BEDC08D008A6B24A00FB3A82 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1477,6 +1478,7 @@
 		AB83B949055E77870034F56A /* Platform */ = {
 			isa = PBXGroup;
 			children = (
+				BEFFD7CE0C4C86E100202EA8 /* Cocoa */,
 				AB83B959055E77870034F56A /* Mac */,
 			);
 			name = Platform;
@@ -1590,6 +1592,19 @@
 			path = Cartoon;
 			sourceTree = "<group>";
 		};
+		BEFFD7CE0C4C86E100202EA8 /* Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */,
+				BEFFD7D00C4C86E100202EA8 /* E3CocoaDrawContextNotify.h */,
+				BEFFD7D10C4C86E100202EA8 /* E3CocoaDrawContextNotify.m */,
+				BEFFD7D20C4C86E100202EA8 /* E3CocoaPrefix.h */,
+				BEFFD7D30C4C86E100202EA8 /* GLCocoaContext.h */,
+				BEFFD7D40C4C86E100202EA8 /* GLCocoaContext.m */,
+			);
+			path = Cocoa;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1694,7 +1709,7 @@
 			);
 			name = "Static Lib (Univ)";
 			productName = Quesa.lib;
-			productReference = B1756AFF080A71C30056134C /* libQuesaD.a */;
+			productReference = B1756AFF080A71C30056134C /* libQuesa.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		BEDC062F08A6812D00FB3A82 /* Fmwk (GCC 3.3) */ = {
@@ -1733,7 +1748,7 @@
 			);
 			name = "Static Lib (GCC 3.3)";
 			productName = Quesa.lib;
-			productReference = BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */;
+			productReference = BEDC08D008A6B24A00FB3A82 /* libQuesa.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -1742,12 +1757,6 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "Quesa" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				B12B33F60C28370D004D72E6 /* Development */,
-				B12B33F70C28370D004D72E6 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* Quesa */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
@@ -1925,6 +1934,9 @@
 				BE0D65000C0D0FFC00D3D79C /* QOShadowMarker.cpp in Sources */,
 				BE6C6F520C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */,
 				B19A74330C3E7A7F0099C820 /* WFRenderer.cpp in Sources */,
+				BEFFD7D50C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */,
+				BEFFD7D70C4C86E100202EA8 /* E3CocoaDrawContextNotify.m in Sources */,
+				BEFFD7DA0C4C86E100202EA8 /* GLCocoaContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2072,6 +2084,9 @@
 				BE0D65060C0D0FFC00D3D79C /* QOShadowMarker.cpp in Sources */,
 				BE6C6F550C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */,
 				B19A74350C3E7A7F0099C820 /* WFRenderer.cpp in Sources */,
+				BEFFD7E10C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */,
+				BEFFD7E20C4C86E100202EA8 /* E3CocoaDrawContextNotify.m in Sources */,
+				BEFFD7E30C4C86E100202EA8 /* GLCocoaContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2219,6 +2234,9 @@
 				BE0D65040C0D0FFC00D3D79C /* QOShadowMarker.cpp in Sources */,
 				BE6C6F540C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */,
 				B19A74340C3E7A7F0099C820 /* WFRenderer.cpp in Sources */,
+				BEFFD7DB0C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */,
+				BEFFD7DD0C4C86E100202EA8 /* E3CocoaDrawContextNotify.m in Sources */,
+				BEFFD7E00C4C86E100202EA8 /* GLCocoaContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2366,6 +2384,9 @@
 				BE0D65080C0D0FFC00D3D79C /* QOShadowMarker.cpp in Sources */,
 				BE6C6F560C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */,
 				B19A74360C3E7A7F0099C820 /* WFRenderer.cpp in Sources */,
+				BEFFD7E40C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */,
+				BEFFD7E50C4C86E100202EA8 /* E3CocoaDrawContextNotify.m in Sources */,
+				BEFFD7E60C4C86E100202EA8 /* GLCocoaContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2386,6 +2407,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SYMROOT = "build-univ";
