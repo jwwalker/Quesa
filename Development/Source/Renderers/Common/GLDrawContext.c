@@ -144,14 +144,35 @@ typedef void (APIENTRY* glFramebufferRenderbufferEXTProcPtr) (GLenum target, GLe
 typedef GLenum (APIENTRY* glCheckFramebufferStatusEXTProcPtr) (GLenum target);
 typedef void (APIENTRY* glFramebufferTexture2DEXTProcPtr) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
 
-struct FBORec
+class FBORec : public CQ3GLContext
 {
-	TQ3ObjectType			fboSignature;
+public:
+						FBORec(
+								TQ3DrawContextObject theDrawContext,
+								TQ3Uns32 inPaneWidth,
+								TQ3Uns32 inPaneHeight,
+								const TQ3GLExtensions& inExtensionInfo,
+								TQ3Uns32 depthBits,
+								TQ3Uns32 stencilBits,
+								TQ3GLContext inMasterGLContext,
+								bool inCopyOnFrameStart,
+								bool inCopyOnSwapBuffer );
+
+	virtual				~FBORec();
+	
+	virtual void		SwapBuffers();
+
+	virtual void		SetCurrent( TQ3Boolean inForceSet );
+	
+	virtual void		StartFrame();
+
+private:
+	void				Cleanup();
+
 	TQ3GLContext			masterContext;
 	GLint					masterViewPort[4];
-	TQ3DrawContextObject	quesaDrawContext;
-	TQ3Boolean				copyFromPixmapAtFrameStart;
-	TQ3Boolean				copyToPixMapOnSwapBuffer;
+	bool					copyFromPixmapAtFrameStart;
+	bool					copyToPixMapOnSwapBuffer;
 	
 	GLuint					frameBufferID;
 	GLuint					colorRenderBufferID;
@@ -172,32 +193,78 @@ struct FBORec
 
 // Platform specific types
 #if QUESA_OS_UNIX
-typedef struct X11GLContext {
+class X11GLContext : public CQ3GLContext
+{
+public:
+						X11GLContext(
+								TQ3DrawContextObject theDrawContext );
+						
+	virtual				~X11GLContext();
+	
+	virtual void		SwapBuffers();
+
+	virtual void		SetCurrent( TQ3Boolean inForceSet );
+	
 	Display			*theDisplay;
 	GLXContext		glContext;
 	GLXDrawable		glDrawable;
-} X11GLContext;
+};
 #endif
 
 
 #if QUESA_OS_WIN32
-typedef struct WinGLContext {
-	HDC				theDC;
-	HGLRC			glContext;
-	HBITMAP 		backBuffer;
-	BYTE			*pBits;
-	TQ3Pixmap		pixmap;
+class WinGLContext : public CQ3GLContext
+{
+public:
+						WinGLContext(
+								TQ3DrawContextObject theDrawContext,
+								TQ3Uns32 depthBits,
+								TQ3Boolean shareTextures,
+								TQ3Uns32 stencilBits );
+						
+	virtual				~WinGLContext();
+	
+	virtual void		SwapBuffers();
+
+	virtual void		SetCurrent( TQ3Boolean inForceSet );
+	
+	virtual bool		UpdateWindowSize();
+
+//private:
+	HDC								theDC;
+	HGLRC							glContext;
 	glBindFramebufferEXTProcPtr		winBindFramebufferEXT;
-} WinGLContext;
+	
+	// Only used for pixmap draw contexts
+	HBITMAP 						backBuffer;
+	BYTE							*pBits;
+	TQ3Pixmap						pixmap;
+};
 #endif
 
 
 #if QUESA_OS_MACINTOSH
-struct MacGLContext
+class MacGLContext : public CQ3GLContext
 {
-	TQ3ObjectType					macSignature;
+public:
+						MacGLContext(
+								TQ3DrawContextObject theDrawContext,
+								TQ3Uns32 depthBits,
+								TQ3Boolean shareTextures,
+								TQ3Uns32 stencilBits );
+						
+	virtual				~MacGLContext();
+	
+	virtual void		SwapBuffers();
+
+	virtual void		SetCurrent( TQ3Boolean inForceSet );
+	
+	virtual bool		UpdateWindowPosition();
+	
+	virtual bool		UpdateWindowSize();
+
+private:
 	AGLContext						macContext;
-	TQ3Object						quesaDrawContext;
 	glBindFramebufferEXTProcPtr		macBindFramebufferEXT;
 };
 #endif
@@ -235,18 +302,6 @@ gldrawcontext_common_flip_pixel_rows( TQ3Uns8* ioPixels,
 		memcpy( row_i, row_j, paneWidthBytes );
 		memcpy( row_j, rowBuf, paneWidthBytes );
 	}
-}
-
-
-/*!
-	@function	gldrawcontext_is_FBO
-	@abstract	Determine whether a GL context pointer is one for an FBO
-				(framebuffer object).
-*/
-static bool gldrawcontext_is_FBO( TQ3GLContext inContext )
-{
-	FBORec*	theFBORec = static_cast<FBORec*>( inContext );
-	return theFBORec->fboSignature == kQ3FBOGLContextSignature;
 }
 
 
@@ -341,232 +396,6 @@ gldrawcontext_fbo_is_compatible_pixmap_format( TQ3DrawContextObject theDrawConte
 
 
 /*!
-	@function	gldrawcontext_fbo_destroy
-	@abstract	Clean up and dispose an FBO context.
-*/
-static void
-gldrawcontext_fbo_destroy( TQ3GLContext inContext )
-{
-	FBORec* inFBORec = static_cast<FBORec*>( inContext );
-	
-	if (inFBORec->glBindFramebufferEXT != NULL)
-	{
-		// Deactivate the FBO
-		inFBORec->glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-		
-		// Delete renderbuffers
-		if (inFBORec->colorRenderBufferID != 0)
-		{
-			inFBORec->glDeleteRenderbuffersEXT( 1, &inFBORec->colorRenderBufferID );
-		}
-		if (inFBORec->depthRenderBufferID != 0)
-		{
-			inFBORec->glDeleteRenderbuffersEXT( 1, &inFBORec->depthRenderBufferID );
-		}
-		if (inFBORec->stencilRenderBufferID != 0)
-		{
-			inFBORec->glDeleteRenderbuffersEXT( 1, &inFBORec->stencilRenderBufferID );
-		}
-		
-		// Delete framebuffer
-		if (inFBORec->frameBufferID != 0)
-		{
-			inFBORec->glDeleteFramebuffersEXT( 1, &inFBORec->frameBufferID );
-		}
-		
-		// Restore the viewport of the master context.  It does not seem that
-		// this should be necessary, but it is necessary at least on one G5
-		// with a GeForce 5200.
-		GLDrawContext_SetCurrent( inFBORec->masterContext, kQ3False );
-		
-		glViewport( inFBORec->masterViewPort[0], inFBORec->masterViewPort[1],
-			inFBORec->masterViewPort[2], inFBORec->masterViewPort[3] );
-	}
-	
-	// Free the record
-	Q3Memory_Free( &inFBORec );
-}
-
-
-/*!
-	@function	gldrawcontext_fbo_new
-	@abstract	Attempt to create an FBO context, if the draw context is a
-				pixmap draw context that requests hardware acceleration.  If we
-				do not and return NULL, it is not considered a serious error,
-				we will just fall back to a software-rendered pixmap context.
-*/
-static TQ3GLContext
-gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
-						TQ3Uns32 depthBits,
-						TQ3Uns32 stencilBits )
-{
-	TQ3GLContext	theContext = NULL;
-	TQ3AcceleratedOffscreenPropertyData	propData;
-	TQ3Uns32		propSize;
-	TQ3GLContext	masterGLContext = NULL;
-	
-	// Test whether this is a Pixmap draw context for which we have requested
-	// hardware acceleration.
-	if ( (Q3DrawContext_GetType( theDrawContext ) == kQ3DrawContextTypePixmap) &&
-		gldrawcontext_fbo_is_compatible_pixmap_format( theDrawContext ) &&
-		(kQ3Success == Q3Object_GetProperty( theDrawContext,
-			kQ3DrawContextPropertyAcceleratedOffscreen, sizeof(propData),
-			&propSize, &propData )) &&
-		(propSize == sizeof(propData)) &&
-		(kQ3Success == Q3Object_GetProperty( propData.masterDrawContext,
-			kQ3DrawContextPropertyGLContext, sizeof(TQ3GLContext),
-			NULL, &masterGLContext )) )
-	{
-		// Activate the master context so we can check extensions and get
-		// function pointers.
-		GLDrawContext_SetCurrent( masterGLContext, kQ3False );
-		
-		TQ3GLExtensions		extFlags;
-		GLUtils_CheckExtensions( &extFlags );
-		
-		if (extFlags.frameBufferObjects && extFlags.packedPixels)
-		{
-			// Check whether the pane is too big
-			GLint	maxDimen;
-			glGetIntegerv( GL_MAX_RENDERBUFFER_SIZE_EXT, &maxDimen );
-			TQ3Uns32	paneWidth, paneHeight;
-			gldrawcontext_fbo_get_size( theDrawContext, paneWidth, paneHeight );
-			TQ3Uns32	paneSize = E3Num_Max( paneWidth, paneHeight );
-			if ( (paneSize != 0) && (paneSize <= maxDimen) )
-			{
-				FBORec*	theFBORec = static_cast<FBORec*>( Q3Memory_AllocateClear(sizeof(FBORec)) );
-				theFBORec->fboSignature = kQ3FBOGLContextSignature;
-				theFBORec->masterContext = masterGLContext;
-				theFBORec->quesaDrawContext = theDrawContext;
-				theFBORec->copyFromPixmapAtFrameStart = propData.copyFromPixmapAtFrameStart;
-				theFBORec->copyToPixMapOnSwapBuffer = propData.copyToPixmapAtFrameEnd;
-				glGetIntegerv( GL_VIEWPORT, theFBORec->masterViewPort );
-				
-				// Get FBO function pointers
-				GLGetProcAddress( theFBORec->glGenFramebuffersEXT, "glGenFramebuffersEXT" );
-				GLGetProcAddress( theFBORec->glDeleteFramebuffersEXT, "glDeleteFramebuffersEXT" );
-				GLGetProcAddress( theFBORec->glBindFramebufferEXT, "glBindFramebufferEXT" );
-				GLGetProcAddress( theFBORec->glGenRenderbuffersEXT, "glGenRenderbuffersEXT" );
-				GLGetProcAddress( theFBORec->glDeleteRenderbuffersEXT, "glDeleteRenderbuffersEXT" );
-				GLGetProcAddress( theFBORec->glBindRenderbufferEXT, "glBindRenderbufferEXT" );
-				GLGetProcAddress( theFBORec->glRenderbufferStorageEXT, "glRenderbufferStorageEXT" );
-				GLGetProcAddress( theFBORec->glFramebufferRenderbufferEXT, "glFramebufferRenderbufferEXT" );
-				GLGetProcAddress( theFBORec->glCheckFramebufferStatusEXT, "glCheckFramebufferStatusEXT" );
-				GLGetProcAddress( theFBORec->glFramebufferTexture2DEXT, "glFramebufferTexture2DEXT" );
-				
-				// Create and bind a framebuffer object
-				theFBORec->glGenFramebuffersEXT( 1, &theFBORec->frameBufferID );
-				theFBORec->glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, theFBORec->frameBufferID );
-				
-				// Create color renderbuffer
-				theFBORec->glGenRenderbuffersEXT( 1, &theFBORec->colorRenderBufferID );
-				theFBORec->glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
-					theFBORec->colorRenderBufferID );
-				theFBORec->glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_RGB,
-					paneWidth, paneHeight );
-				theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
-					GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT,
-					theFBORec->colorRenderBufferID );
-				
-				
-				// Create a depth buffer...
-				theFBORec->glGenRenderbuffersEXT( 1, &theFBORec->depthRenderBufferID );
-				theFBORec->glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
-					theFBORec->depthRenderBufferID );
-				
-
-				// if we need a stencil buffer, it is probably necessary to get a packed
-				// depth-stencil buffer.
-				if ( (stencilBits > 0) && extFlags.packedDepthStencil )
-				{
-					theFBORec->glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
-						GL_DEPTH24_STENCIL8_EXT, paneWidth, paneHeight );
-					theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
-						GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-						theFBORec->depthRenderBufferID );
-					theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
-						GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-						theFBORec->depthRenderBufferID );
-				}
-				else
-				{
-					// Create depth renderbuffer
-					GLenum	depthFormat = GL_DEPTH_COMPONENT;
-					switch (depthBits)
-					{
-						case 16:
-							depthFormat = GL_DEPTH_COMPONENT16;
-							break;
-						case 24:
-							depthFormat = GL_DEPTH_COMPONENT24;
-							break;
-						case 32:
-							depthFormat = GL_DEPTH_COMPONENT32;
-							break;
-					}
-					theFBORec->glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
-						depthFormat, paneWidth, paneHeight );
-					theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
-						GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-						theFBORec->depthRenderBufferID );
-					
-					// Maybe a stencil renderbuffer...
-					// It may be necessary to do some trial and error to get this
-					// foolproof, for instance it may not be possible to get a
-					// stencil buffer together with a 32-bit depth buffer on some
-					// video cards.
-					if (stencilBits > 0)
-					{
-						theFBORec->glGenRenderbuffersEXT( 1, &theFBORec->stencilRenderBufferID );
-						theFBORec->glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
-							theFBORec->stencilRenderBufferID );
-						theFBORec->glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
-							GL_STENCIL_INDEX, paneWidth, paneHeight );
-						theFBORec->glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
-							GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-							theFBORec->stencilRenderBufferID );
-					}
-				}
-				
-				// Check whether FBO is OK
-				GLenum	result = theFBORec->glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT );
-				if (result == GL_FRAMEBUFFER_COMPLETE_EXT)
-				{
-					theContext = theFBORec;
-					GLGPUSharing_AddContext( theContext, theFBORec->masterContext );
-
-					// Set the viewport
-					glViewport( 0, 0, paneWidth, paneHeight );
-				}
-				else
-				{
-					Q3_ASSERT(!"FBO failed status check");
-					gldrawcontext_fbo_destroy( theFBORec );
-				}
-			}
-		}
-	}
-	
-	return theContext;
-}
-
-
-/*!
-	@function	gldrawcontext_fbo_setcurrent
-	@abstract	Make this FBO the current GL context.
-*/
-static void
-gldrawcontext_fbo_setcurrent( TQ3GLContext glContext )
-{
-	FBORec*		theFBORec = static_cast<FBORec*>( glContext );
-	
-	GLDrawContext_SetCurrent( theFBORec->masterContext, kQ3False );
-	
-	theFBORec->glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, theFBORec->frameBufferID );
-}
-
-
-/*!
 	@function	gldrawcontext_fbo_standard_pixel_transfer
 	@abstract	Standardize OpenGL pixel transfer settings just for paranoia.
 */
@@ -619,23 +448,186 @@ gldrawcontext_fbo_convert_pixel_format( int inBytesPerPixel,
 }
 
 
-/*!
-	@function	gldrawcontext_fbo_swapbuffers
-	@abstract	If requested, copy the color buffer to the pixmap.
-*/
-static void
-gldrawcontext_fbo_swapbuffers( TQ3GLContext glContext )
+FBORec::FBORec(
+		TQ3DrawContextObject theDrawContext,
+		TQ3Uns32 inPaneWidth,
+		TQ3Uns32 inPaneHeight,
+		const TQ3GLExtensions& inExtensionInfo,
+		TQ3Uns32 depthBits,
+		TQ3Uns32 stencilBits,
+		TQ3GLContext inMasterGLContext,
+		bool inCopyOnFrameStart,
+		bool inCopyOnSwapBuffer )
+	: CQ3GLContext( theDrawContext )
+	, masterContext( inMasterGLContext )
+	, copyFromPixmapAtFrameStart( inCopyOnFrameStart )
+	, copyToPixMapOnSwapBuffer( inCopyOnSwapBuffer )
+	, frameBufferID( 0 )
+	, colorRenderBufferID( 0 )
+	, depthRenderBufferID( 0 )
+	, stencilRenderBufferID( 0 )
 {
-	FBORec*		theFBORec = static_cast<FBORec*>( glContext );
+	glGetIntegerv( GL_VIEWPORT, masterViewPort );
+
+	// Get FBO function pointers
+	GLGetProcAddress( glGenFramebuffersEXT, "glGenFramebuffersEXT" );
+	GLGetProcAddress( glDeleteFramebuffersEXT, "glDeleteFramebuffersEXT" );
+	GLGetProcAddress( glBindFramebufferEXT, "glBindFramebufferEXT" );
+	GLGetProcAddress( glGenRenderbuffersEXT, "glGenRenderbuffersEXT" );
+	GLGetProcAddress( glDeleteRenderbuffersEXT, "glDeleteRenderbuffersEXT" );
+	GLGetProcAddress( glBindRenderbufferEXT, "glBindRenderbufferEXT" );
+	GLGetProcAddress( glRenderbufferStorageEXT, "glRenderbufferStorageEXT" );
+	GLGetProcAddress( glFramebufferRenderbufferEXT, "glFramebufferRenderbufferEXT" );
+	GLGetProcAddress( glCheckFramebufferStatusEXT, "glCheckFramebufferStatusEXT" );
+	GLGetProcAddress( glFramebufferTexture2DEXT, "glFramebufferTexture2DEXT" );
+
+	// Create and bind a framebuffer object
+	glGenFramebuffersEXT( 1, &frameBufferID );
+	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, frameBufferID );
 	
-	if (theFBORec->copyToPixMapOnSwapBuffer)
+	// Create color renderbuffer
+	glGenRenderbuffersEXT( 1, &colorRenderBufferID );
+	glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
+		colorRenderBufferID );
+	glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_RGB,
+		inPaneWidth, inPaneHeight );
+	glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+		GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT,
+		colorRenderBufferID );
+	
+	
+	// Create a depth buffer...
+	glGenRenderbuffersEXT( 1, &depthRenderBufferID );
+	glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
+		depthRenderBufferID );
+	
+
+	// if we need a stencil buffer, it is probably necessary to get a packed
+	// depth-stencil buffer.
+	if ( (stencilBits > 0) && inExtensionInfo.packedDepthStencil )
 	{
-		gldrawcontext_fbo_setcurrent( glContext );
+		glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+			GL_DEPTH24_STENCIL8_EXT, inPaneWidth, inPaneHeight );
+		glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+			GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
+			depthRenderBufferID );
+		glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+			GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
+			depthRenderBufferID );
+	}
+	else
+	{
+		// Create depth renderbuffer
+		GLenum	depthFormat = GL_DEPTH_COMPONENT;
+		switch (depthBits)
+		{
+			case 16:
+				depthFormat = GL_DEPTH_COMPONENT16;
+				break;
+			case 24:
+				depthFormat = GL_DEPTH_COMPONENT24;
+				break;
+			case 32:
+				depthFormat = GL_DEPTH_COMPONENT32;
+				break;
+		}
+		glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+			depthFormat, inPaneWidth, inPaneHeight );
+		glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+			GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
+			depthRenderBufferID );
+		
+		// Maybe a stencil renderbuffer...
+		// It may be necessary to do some trial and error to get this
+		// foolproof, for instance it may not be possible to get a
+		// stencil buffer together with a 32-bit depth buffer on some
+		// video cards.
+		if (stencilBits > 0)
+		{
+			glGenRenderbuffersEXT( 1, &stencilRenderBufferID );
+			glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
+				stencilRenderBufferID );
+			glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+				GL_STENCIL_INDEX, inPaneWidth, inPaneHeight );
+			glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+				GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
+				stencilRenderBufferID );
+		}
+	}
+
+	
+	// Check whether FBO is OK
+	GLenum	result = glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT );
+	if (result == GL_FRAMEBUFFER_COMPLETE_EXT)
+	{
+		GLGPUSharing_AddContext( this, masterContext );
+
+		// Set the viewport
+		glViewport( 0, 0, inPaneWidth, inPaneHeight );
+	}
+	else
+	{
+		Q3_ASSERT(!"FBO failed status check");
+		Cleanup();
+		throw std::exception();
+	}
+}
+
+void	FBORec::Cleanup()
+{
+	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
+	
+	// Delete renderbuffers
+	if (colorRenderBufferID != 0)
+	{
+		glDeleteRenderbuffersEXT( 1, &colorRenderBufferID );
+	}
+	if (depthRenderBufferID != 0)
+	{
+		glDeleteRenderbuffersEXT( 1, &depthRenderBufferID );
+	}
+	if (stencilRenderBufferID != 0)
+	{
+		glDeleteRenderbuffersEXT( 1, &stencilRenderBufferID );
+	}
+	
+	// Delete framebuffer
+	if (frameBufferID != 0)
+	{
+		glDeleteFramebuffersEXT( 1, &frameBufferID );
+	}
+	
+	// Restore the viewport of the master context.  It does not seem that
+	// this should be necessary, but it is necessary at least on one G5
+	// with a GeForce 5200.
+	GLDrawContext_SetCurrent( masterContext, kQ3False );
+	
+	glViewport( masterViewPort[0], masterViewPort[1],
+		masterViewPort[2], masterViewPort[3] );
+}
+
+FBORec::~FBORec()
+{
+	Cleanup();
+}
+
+void	FBORec::SetCurrent( TQ3Boolean inForceSet )
+{
+	GLDrawContext_SetCurrent( masterContext, inForceSet );
+	
+	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, frameBufferID );
+}
+
+void	FBORec::SwapBuffers()
+{
+	if (copyToPixMapOnSwapBuffer)
+	{
+		SetCurrent( kQ3False );
 		
 		TQ3Pixmap	thePixMap;
-		Q3PixmapDrawContext_GetPixmap( theFBORec->quesaDrawContext, &thePixMap );
+		Q3PixmapDrawContext_GetPixmap( quesaDrawContext, &thePixMap );
 		TQ3Area		thePane;
-		Q3DrawContext_GetPane( theFBORec->quesaDrawContext, &thePane );
+		Q3DrawContext_GetPane( quesaDrawContext, &thePane );
 		int		minX = thePane.min.x;
 		int		minY = thePane.min.y;
 		int		theLogicalWidth = thePane.max.x - thePane.min.x;
@@ -666,22 +658,18 @@ gldrawcontext_fbo_swapbuffers( TQ3GLContext glContext )
 	}
 }
 
-
 /*!
-	@function	gldrawcontext_fbo_copy_on_start_frame
+	@function	StartFrame
 	@abstract	If requested, copy the pixmap to the color buffer.
 */
-static void
-gldrawcontext_fbo_copy_on_start_frame( TQ3GLContext glContext )
+void	FBORec::StartFrame()
 {
-	FBORec*		theFBORec = static_cast<FBORec*>( glContext );
-	
-	if (theFBORec->copyFromPixmapAtFrameStart)
+	if (copyFromPixmapAtFrameStart)
 	{
 		TQ3Pixmap	thePixMap;
-		Q3PixmapDrawContext_GetPixmap( theFBORec->quesaDrawContext, &thePixMap );
+		Q3PixmapDrawContext_GetPixmap( quesaDrawContext, &thePixMap );
 		TQ3Area		thePane;
-		Q3DrawContext_GetPane( theFBORec->quesaDrawContext, &thePane );
+		Q3DrawContext_GetPane( quesaDrawContext, &thePane );
 		int		minX = thePane.min.x;
 		int		minY = thePane.min.y;
 		int		theWidth = thePane.max.x - thePane.min.x;
@@ -738,6 +726,77 @@ gldrawcontext_fbo_copy_on_start_frame( TQ3GLContext glContext )
 		glPopAttrib();
 	}	
 }
+
+
+
+/*!
+	@function	gldrawcontext_fbo_new
+	@abstract	Attempt to create an FBO context, if the draw context is a
+				pixmap draw context that requests hardware acceleration.  If we
+				do not and return NULL, it is not considered a serious error,
+				we will just fall back to a software-rendered pixmap context.
+*/
+static TQ3GLContext
+gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
+						TQ3Uns32 depthBits,
+						TQ3Uns32 stencilBits )
+{
+	TQ3GLContext	theContext = NULL;
+	TQ3AcceleratedOffscreenPropertyData	propData;
+	TQ3Uns32		propSize;
+	TQ3GLContext	masterGLContext = NULL;
+	
+	// Test whether this is a Pixmap draw context for which we have requested
+	// hardware acceleration.
+	if ( (Q3DrawContext_GetType( theDrawContext ) == kQ3DrawContextTypePixmap) &&
+		gldrawcontext_fbo_is_compatible_pixmap_format( theDrawContext ) &&
+		(kQ3Success == Q3Object_GetProperty( theDrawContext,
+			kQ3DrawContextPropertyAcceleratedOffscreen, sizeof(propData),
+			&propSize, &propData )) &&
+		(propSize == sizeof(propData)) &&
+		(kQ3Success == Q3Object_GetProperty( propData.masterDrawContext,
+			kQ3DrawContextPropertyGLContext, sizeof(TQ3GLContext),
+			NULL, &masterGLContext )) )
+	{
+		// Activate the master context so we can check extensions and get
+		// function pointers.
+		GLDrawContext_SetCurrent( masterGLContext, kQ3False );
+		
+		TQ3GLExtensions		extFlags;
+		GLUtils_CheckExtensions( &extFlags );
+		
+		if (extFlags.frameBufferObjects && extFlags.packedPixels)
+		{
+			// Check whether the pane is too big
+			GLint	maxDimen;
+			glGetIntegerv( GL_MAX_RENDERBUFFER_SIZE_EXT, &maxDimen );
+			TQ3Uns32	paneWidth, paneHeight;
+			gldrawcontext_fbo_get_size( theDrawContext, paneWidth, paneHeight );
+			TQ3Uns32	paneSize = E3Num_Max( paneWidth, paneHeight );
+			if ( (paneSize != 0) && (paneSize <= maxDimen) )
+			{
+				try
+				{
+					theContext = new FBORec( theDrawContext,
+						paneWidth, paneHeight, extFlags,
+						depthBits, stencilBits,
+						masterGLContext,
+						propData.copyFromPixmapAtFrameStart == kQ3True,
+						propData.copyToPixmapAtFrameEnd == kQ3True );
+				}
+				catch (...)
+				{
+				}
+			}
+		}
+	}
+	
+	return theContext;
+}
+
+
+
+
 
 
 
@@ -806,23 +865,22 @@ gldrawcontext_mac_calc_window_origin( CGrafPtr inPort )
 
 
 
-
-
-//-----------------------------------------------------------------------------
-//		gldrawcontext_mac_new : Create an OpenGL context for a draw context.
-//-----------------------------------------------------------------------------
-static TQ3GLContext
-gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
-						TQ3Boolean shareTextures,
-						TQ3Uns32 stencilBits )
-{	GLint					glAttributes[kMaxGLAttributes];
+MacGLContext::MacGLContext(
+								TQ3DrawContextObject theDrawContext,
+								TQ3Uns32 depthBits,
+								TQ3Boolean shareTextures,
+								TQ3Uns32 stencilBits )
+	: CQ3GLContext( theDrawContext )
+	, macContext( NULL )
+	, macBindFramebufferEXT( NULL )
+{
+	GLint					glAttributes[kMaxGLAttributes];
 	TQ3Uns32				numAttributes;
 	TQ3Uns32				sysVersion = 0;
 	TQ3ObjectType			drawContextType;
 	TQ3DrawContextData		drawContextData;
 	AGLPixelFormat			pixelFormat;
 	TQ3Status				qd3dStatus;
-	MacGLContext*			glContext;
 	GLint					glRect[4];
 	TQ3Pixmap				thePixmap;
 	CGrafPtr				thePort = NULL;
@@ -831,14 +889,6 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	char*					paneImage;
 	TQ3GLContext			sharingContext = NULL;
 	TQ3Endian				nativeByteOrder;
-
-
-	// Allocate the context structure
-	glContext = (MacGLContext *) Q3Memory_AllocateClear(sizeof(MacGLContext));
-	if (glContext == NULL)
-		return NULL;
-	glContext->macSignature = kQ3MacGLContextSignature;
-	glContext->quesaDrawContext = theDrawContext;
 
 
 	// Get the type specific draw context data
@@ -850,7 +900,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
     		thePort = gldrawcontext_mac_getport( theDrawContext );
     		if (thePort == NULL)
 			{
-				return(NULL);
+				throw std::exception();
 			}
 
 
@@ -865,7 +915,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
     		// Get the pixmap
 			qd3dStatus = Q3PixmapDrawContext_GetPixmap(theDrawContext, &thePixmap);
 			if (qd3dStatus != kQ3Success || thePixmap.image == NULL)
-				return(NULL);
+				throw std::exception();
 
 
 			// Grab its dimensions
@@ -887,7 +937,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		
 		// Unsupported
 		default:
-			return(NULL);
+			throw std::exception();
 			break;
 		}
 
@@ -896,7 +946,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	// Get the common draw context data
 	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
 	if (qd3dStatus != kQ3Success)
-		return(NULL);
+		throw std::exception();
 
 	if (!drawContextData.paneState)
 		{
@@ -950,7 +1000,6 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 
 
 	// Create the pixel format and context, and attach the context
-	glContext->macContext   = NULL;
 	pixelFormat = aglChoosePixelFormat(NULL, 0, glAttributes);
 	
 	// If that failed, try not asking for the specific renderer.
@@ -973,36 +1022,36 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 				// sharingContext might be a MacGLContext* or an FBORec*
 				GLDrawContext_SetCurrent( sharingContext, kQ3False );
 				AGLContext	sharingAGLContext = aglGetCurrentContext();
-				glContext->macContext = aglCreateContext(pixelFormat, sharingAGLContext );
-				if (glContext->macContext != NULL)
+				macContext = aglCreateContext(pixelFormat, sharingAGLContext );
+				if (macContext != NULL)
 					break;
 				}
 			}
 		
 		// If that fails, just create an unshared context.
-		if (glContext->macContext == NULL)
+		if (macContext == NULL)
 			{
-			glContext->macContext = aglCreateContext(pixelFormat, NULL);
+			macContext = aglCreateContext(pixelFormat, NULL);
 			
-			if (glContext->macContext == NULL)
+			if (macContext == NULL)
 				{
 				// Workaround for Rosetta bug:  try again with a fresh pixel format
 				aglDestroyPixelFormat(pixelFormat);
 				pixelFormat = aglChoosePixelFormat(NULL, 0, glAttributes);
-				glContext->macContext = aglCreateContext(pixelFormat, NULL);
+				macContext = aglCreateContext(pixelFormat, NULL);
 				}
 			}
 		}
 	
-	Q3_ASSERT_MESSAGE( (glContext->macContext != NULL), (const char*)aglErrorString(aglGetError()) );
+	Q3_ASSERT_MESSAGE( (macContext != NULL), (const char*)aglErrorString(aglGetError()) );
 
-	if (glContext->macContext != NULL)
+	if (macContext != NULL)
 		{
-		GLGPUSharing_AddContext( glContext, sharingContext );
+		GLGPUSharing_AddContext( this, sharingContext );
 		
 		if (drawContextType == kQ3DrawContextTypeMacintosh)
 			{
-			aglSetDrawable(glContext->macContext, (AGLDrawable) thePort);
+			aglSetDrawable(macContext, (AGLDrawable) thePort);
 			
 			TQ3Boolean	putBehind;
 			if ( (kQ3Success == Q3Object_GetProperty( theDrawContext,
@@ -1013,7 +1062,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 			)
 				{
 				GLint	backOrder = -1;
-				aglSetInteger( glContext->macContext, AGL_SURFACE_ORDER, &backOrder );
+				aglSetInteger( macContext, AGL_SURFACE_ORDER, &backOrder );
 				}
 			
 			}
@@ -1026,7 +1075,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 				((GLint)drawContextData.pane.min.y) * thePixmap.rowBytes +
 				((GLint)drawContextData.pane.min.x) * thePixmap.pixelSize/8;
 
-			aglSetOffScreen( glContext->macContext, paneWidth, paneHeight,
+			aglSetOffScreen( macContext, paneWidth, paneHeight,
 									   (GLint)thePixmap.rowBytes, paneImage );
 			}
 		}
@@ -1034,19 +1083,18 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	if (pixelFormat != NULL)
 		aglDestroyPixelFormat(pixelFormat);
 
-	if (glContext->macContext == NULL)
+	if (macContext == NULL)
 		{
-		Q3Memory_Free( &glContext );
-		return(NULL);
+		throw std::exception();
 		}
 
 
 
 	// Activate the context and turn off the palette on 9
-	aglSetCurrentContext(glContext->macContext);
+	aglSetCurrentContext(macContext);
 	if (sysVersion < 0x00001000)
 		{
-		aglDisable(glContext->macContext, AGL_COLORMAP_TRACKING);
+		aglDisable(macContext, AGL_COLORMAP_TRACKING);
 		
 		// AGL_COLORMAP_TRACKING only applies in 8 bit color.  In other cases, attempting
 		// to turn it off may set the agl error to AGL_BAD_ENUM, so we clear the error here.
@@ -1062,7 +1110,7 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	{
 		// The extension check is necessary; the function pointer may be
 		// available even if the extension is not.
-		GLGetProcAddress( glContext->macBindFramebufferEXT, "glBindFramebufferEXT" );
+		GLGetProcAddress( macBindFramebufferEXT, "glBindFramebufferEXT" );
 	}
 
 
@@ -1078,11 +1126,11 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 			glRect[2] = paneWidth;
 			glRect[3] = paneHeight;
 
-			aglSetInteger(glContext->macContext, AGL_BUFFER_RECT, glRect);
-			aglEnable(glContext->macContext,     AGL_BUFFER_RECT);
+			aglSetInteger(macContext, AGL_BUFFER_RECT, glRect);
+			aglEnable(macContext,     AGL_BUFFER_RECT);
 			}
 		else
-			aglDisable( (AGLContext) glContext->macContext, AGL_BUFFER_RECT );
+			aglDisable( macContext, AGL_BUFFER_RECT );
 		}
 
 
@@ -1111,78 +1159,37 @@ gldrawcontext_mac_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	)
 	{
 		GLint swapInt = 1;
-		aglSetInteger( glContext->macContext, AGL_SWAP_INTERVAL, &swapInt );
+		aglSetInteger( macContext, AGL_SWAP_INTERVAL, &swapInt );
 	}
-
-
-
-	// Return the context
-	return(glContext);
 }
 
 
-
-
-
-//=============================================================================
-//		gldrawcontext_mac_destroy : Destroy an OpenGL context.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_mac_destroy( TQ3GLContext glContext )
+MacGLContext::~MacGLContext()
 {
-	MacGLContext*	theContext = (MacGLContext*) glContext;
-	
-
-
 	// Close down the context
 	aglSetCurrentContext( NULL );
-	aglSetDrawable( theContext->macContext, NULL );
+	aglSetDrawable( macContext, NULL );
 
 
 
 	// Destroy the context
-	aglDestroyContext( theContext->macContext );
+	aglDestroyContext( macContext );
 	
 	
 	
 	// Forget the context
-	Q3Object_RemoveProperty( theContext->quesaDrawContext, kQ3DrawContextPropertyGLContext );
-
-
-
-	// Free the structure
-	Q3Memory_Free( &theContext );
+	Q3Object_RemoveProperty( quesaDrawContext, kQ3DrawContextPropertyGLContext );
 }
 
 
-
-
-
-//=============================================================================
-//		gldrawcontext_mac_swapbuffers : Swap the buffers of an OpenGL context.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_mac_swapbuffers( TQ3GLContext glContext )
+void	MacGLContext::SwapBuffers()
 {
-
-
-	// Swap the buffers
-	aglSwapBuffers( ((MacGLContext*) glContext)->macContext );
+	aglSwapBuffers( macContext );
 }
 
 
-
-
-
-//=============================================================================
-//		gldrawcontext_mac_setcurrent : Make an OpenGL context current.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_mac_setcurrent( TQ3GLContext glContext, TQ3Boolean forceSet )
+void	MacGLContext::SetCurrent( TQ3Boolean inForceSet )
 {
-	MacGLContext*	contextRec = (MacGLContext*) glContext;
-
-
 	// Activate the context
 	//
 	// Note that calling aglGetCurrentContext if no context has been
@@ -1191,60 +1198,38 @@ gldrawcontext_mac_setcurrent( TQ3GLContext glContext, TQ3Boolean forceSet )
 	// Calling aglGetCurrentContext before any context has been created
 	// will also crash Mac OS X 10.0/10.1 - forceSet allows us to bypass
 	// this potential problem, and force our context to be active.
-	if (forceSet || aglGetCurrentContext() != contextRec->macContext)
-		aglSetCurrentContext( contextRec->macContext );
+	if (inForceSet || aglGetCurrentContext() != macContext)
+		aglSetCurrentContext( macContext );
 	
 
 	// Make sure that no FBO is active
-	if (contextRec->macBindFramebufferEXT != NULL)
+	if (macBindFramebufferEXT != NULL)
 	{
-		contextRec->macBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
+		macBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
 	}
 }
 
-
-
-
-
-//=============================================================================
-//		gldrawcontext_mac_updatepos : Update OpenGL context position.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-gldrawcontext_mac_updatepos( TQ3GLContext glContext )
+bool	MacGLContext::UpdateWindowPosition()
 {
-
-
-	// Update the context
-	return((TQ3Boolean) aglUpdateContext( ((MacGLContext*) glContext)->macContext ));
+	return aglUpdateContext( macContext ) == GL_TRUE;
 }
 
-
-
-
-
-//=============================================================================
-//		gldrawcontext_mac_updatesize : Update OpenGL context size.
-//-----------------------------------------------------------------------------
-static TQ3Status
-gldrawcontext_mac_updatesize(
-								TQ3DrawContextObject	theDrawContext,
-								TQ3GLContext			glContext )
+bool	MacGLContext::UpdateWindowSize()
 {
-	TQ3Status	didUpdate = kQ3Failure;
-	TQ3ObjectType			drawContextType;
-	TQ3DrawContextData		drawContextData;
-	GLint					paneWidth, paneHeight;
+	bool	didUpdate = false;
 	
-	drawContextType = Q3DrawContext_GetType(theDrawContext);
+	TQ3ObjectType drawContextType = Q3DrawContext_GetType(quesaDrawContext);
 	
 	if (drawContextType == kQ3DrawContextTypeMacintosh)
 	{
-		CGrafPtr	thePort = gldrawcontext_mac_getport( theDrawContext );
+		CGrafPtr	thePort = gldrawcontext_mac_getport( quesaDrawContext );
+		TQ3DrawContextData		drawContextData;
 		
-		if ( (kQ3Success == Q3DrawContext_GetData(theDrawContext, &drawContextData)) &&
+		if ( (kQ3Success == Q3DrawContext_GetData(quesaDrawContext, &drawContextData)) &&
 			(thePort != NULL) )
 		{
 			Rect					portBounds;
+			GLint					paneWidth, paneHeight;
 			
 			GetPortBounds(thePort, &portBounds);
 			
@@ -1261,42 +1246,47 @@ gldrawcontext_mac_updatesize(
 				glRect[2] = paneWidth;
 				glRect[3] = paneHeight;
 
-				aglSetInteger( ((MacGLContext*) glContext)->macContext, AGL_BUFFER_RECT, glRect );
-				aglEnable( ((MacGLContext*) glContext)->macContext,     AGL_BUFFER_RECT );
+				aglSetInteger( macContext, AGL_BUFFER_RECT, glRect );
+				aglEnable( macContext,     AGL_BUFFER_RECT );
 			}
 			else
 			{
 				paneWidth = portBounds.right - portBounds.left;
 				paneHeight = portBounds.bottom - portBounds.top;
-				aglDisable( ((MacGLContext*) glContext)->macContext, AGL_BUFFER_RECT );
+				aglDisable( macContext, AGL_BUFFER_RECT );
 			}
 			
 			glViewport( 0, 0, paneWidth, paneHeight );
 			
 			
-			if (aglUpdateContext( ((MacGLContext*) glContext)->macContext ))
+			if (aglUpdateContext( macContext ))
 			{
-				didUpdate = kQ3Success;
+				didUpdate = true;
 			}
 		}
 	}
 	
 	return didUpdate;
+	
 }
+
 #endif // QUESA_OS_MACINTOSH
 
 
 
 
 
-//=============================================================================
-//		gldrawcontext_x11_new : Create an OpenGL context for a draw context.
-//-----------------------------------------------------------------------------
 #pragma mark -
 #if QUESA_OS_UNIX
-static void *
-gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
-{	XVisualInfo				visualInfoTemplate;
+
+X11GLContext::X11GLContext(
+			TQ3DrawContextObject theDrawContext )
+	: CQ3GLContext( theDrawContext )
+	, theDisplay( NULL )
+	, glContext( NULL )
+	, glDrawable( NULL )
+{
+	XVisualInfo				visualInfoTemplate;
 	TQ3ObjectType			drawContextType;
 	TQ3DrawContextData		drawContextData;
 	long					visualInfoMask;
@@ -1308,29 +1298,22 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 
 
 
-	// Allocate the context structure
-	theContext = (X11GLContext *) Q3Memory_AllocateClear(sizeof(X11GLContext));
-	if (theContext == NULL)
-		goto fail;
-
-
-
 	// Get the type specific draw context data
 	drawContextType = Q3DrawContext_GetType(theDrawContext);
     switch (drawContextType) {
     	// X11
     	case kQ3DrawContextTypeX11:
     		// Get the Display and visual
-			qd3dStatus = Q3XDrawContext_GetDisplay(theDrawContext, &theContext->theDisplay);
+			qd3dStatus = Q3XDrawContext_GetDisplay( theDrawContext, &theDisplay );
 
 			if (qd3dStatus == kQ3Success)
-				qd3dStatus = Q3XDrawContext_GetVisual(theDrawContext, &theVisual);
+				qd3dStatus = Q3XDrawContext_GetVisual( theDrawContext, &theVisual );
 
 			if (qd3dStatus == kQ3Success)
-				qd3dStatus = Q3XDrawContext_GetDrawable(theDrawContext, &theContext->glDrawable);
+				qd3dStatus = Q3XDrawContext_GetDrawable(theDrawContext, &glDrawable);
 
 			if (qd3dStatus != kQ3Success)
-				goto fail;
+				throw std::exception();
 			break;
 
 
@@ -1338,7 +1321,7 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 		// Unsupported
 		case kQ3DrawContextTypePixmap:
 		default:
-			goto fail;
+			throw std::exception();
 			break;
 		}
 
@@ -1347,7 +1330,7 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 	// Get the common draw context data
 	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
 	if (qd3dStatus != kQ3Success)
-		goto fail;
+		throw std::exception();
 
 
 
@@ -1356,19 +1339,19 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 	visualInfoTemplate.visual   = theVisual;
 	visualInfoTemplate.visualid = XVisualIDFromVisual(theVisual);
 
-	visualInfo = XGetVisualInfo(theContext->theDisplay, visualInfoMask, &visualInfoTemplate, &numberVisuals);
+	visualInfo = XGetVisualInfo(theDisplay, visualInfoMask, &visualInfoTemplate, &numberVisuals);
 
 
 
 	// Create the context
-	theContext->glContext = glXCreateContext(theContext->theDisplay, visualInfo, NULL, True);
-	if (theContext->glContext == NULL)
-		goto fail;
+	glContext = glXCreateContext(theDisplay, visualInfo, NULL, True);
+	if (glContext == NULL)
+		throw std::exception();
 
 
 
 	// Activate the context
-	glXMakeCurrent(theContext->theDisplay, theContext->glDrawable, theContext->glContext);
+	glXMakeCurrent( theDisplay,  glDrawable,  glContext);
 	
 
 
@@ -1383,92 +1366,31 @@ gldrawcontext_x11_new(TQ3DrawContextObject theDrawContext)
 
 	// Clean up and return the context
 	XFree(visualInfo);
-	
-	return(theContext);
-
-fail:
-	Q3Memory_Free(&theContext);
-	return(NULL);
 }
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_x11_destroy : Destroy an OpenGL context.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_x11_destroy(void *glContext)
-{	X11GLContext		*theContext = (X11GLContext *) glContext;
-
-
-
+		
+X11GLContext::~X11GLContext()
+{
 	// Close down the context
-	glXMakeCurrent(theContext->theDisplay, (GLXDrawable) NULL, (GLXContext) NULL);
+	glXMakeCurrent( theDisplay, (GLXDrawable) NULL, (GLXContext) NULL);
 
 
 
 	// Destroy the context
-	glXDestroyContext(theContext->theDisplay, theContext->glContext);
-
-
-
-	// Dispose of the GL state
-	Q3Memory_Free(&theContext);
+	glXDestroyContext( theDisplay,  glContext );
 }
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_x11_swapbuffers : Swap the buffers of an OpenGL context.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_x11_swapbuffers(void *glContext)
-{	X11GLContext		*theContext = (X11GLContext *) glContext;
-
-
-
-	// Swap the buffers
-	glXSwapBuffers(theContext->theDisplay, theContext->glDrawable);
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_x11_setcurrent : Make an OpenGL context current.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_x11_setcurrent(void *glContext, TQ3Boolean forceSet)
-{	X11GLContext		*theContext = (X11GLContext *) glContext;
-
-
-
-	// Activate the context
-	if (forceSet                                         ||
-		glXGetCurrentContext()  != theContext->glContext ||
-		glXGetCurrentDrawable() != theContext->glDrawable)
-		glXMakeCurrent(theContext->theDisplay, theContext->glDrawable, theContext->glContext);
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_x11_updatepos : Update OpenGL context position.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-gldrawcontext_x11_updatepos(void *glContext)
+	
+void	X11GLContext::SwapBuffers()
 {
+	glXSwapBuffers( theDisplay, glDrawable );
+}
 
-
-	// Not required
-	return(kQ3False);
+void	X11GLContext::SetCurrent( TQ3Boolean inForceSet )
+{
+	// Activate the context
+	if (inForceSet                           ||
+		glXGetCurrentContext()  != glContext ||
+		glXGetCurrentDrawable() != glDrawable)
+		glXMakeCurrent( theDisplay, glDrawable, glContext );
 }
 #endif // QUESA_OS_UNIX
 
@@ -1476,19 +1398,24 @@ gldrawcontext_x11_updatepos(void *glContext)
 
 
 
-//=============================================================================
-//		gldrawcontext_win_new : Create an OpenGL context for a draw context.
-//-----------------------------------------------------------------------------
 #pragma mark -
 #if QUESA_OS_WIN32
-static TQ3GLContext
-gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
-						TQ3Boolean shareTextures, TQ3Uns32 stencilBits )
-{	TQ3ObjectType			drawContextType;
+
+WinGLContext::WinGLContext(
+		TQ3DrawContextObject theDrawContext,
+		TQ3Uns32 depthBits,
+		TQ3Boolean shareTextures,
+		TQ3Uns32 stencilBits )
+	: CQ3GLContext( theDrawContext )
+	, theDC( NULL )
+	, glContext( NULL )
+	, winBindFramebufferEXT( NULL )
+	, backBuffer( NULL )
+	, pBits( NULL )
+{
 	TQ3DrawContextData		drawContextData;
     PIXELFORMATDESCRIPTOR	pixelFormatDesc;
     int						pixelFormat;
-	WinGLContext			*theContext;
 	TQ3Status				qd3dStatus;
 	TQ3Int32				pfdFlags;
 	BITMAPINFOHEADER		bmih;
@@ -1499,26 +1426,19 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	TQ3GLContext			sharingContext = NULL;
 
 
-	// Allocate the context structure
-	theContext = (WinGLContext *) Q3Memory_AllocateClear(sizeof(WinGLContext));
-	if (theContext == NULL)
-		goto fail;
-
-
-
 	// Get the type specific draw context data
-	drawContextType = Q3DrawContext_GetType(theDrawContext);
+	TQ3ObjectType drawContextType = Q3DrawContext_GetType(quesaDrawContext);
     switch (drawContextType) {
     	// Windows DC
     	case kQ3DrawContextTypeWin32DC:
     		// Get the DC
-			qd3dStatus = Q3Win32DCDrawContext_GetDC(theDrawContext, &theContext->theDC);
-			if (qd3dStatus != kQ3Success || theContext->theDC == NULL)
-				goto fail;
+			qd3dStatus = Q3Win32DCDrawContext_GetDC(quesaDrawContext, &theDC);
+			if (qd3dStatus != kQ3Success || theDC == NULL)
+				throw std::exception();
 			
-			theWindow = WindowFromDC( theContext->theDC );
+			theWindow = WindowFromDC( theDC );
 			if (theWindow == NULL)
-				goto fail;
+				throw std::exception();
 			GetClientRect( theWindow, &windowRect );
 			windowHeight = windowRect.bottom - windowRect.top;
 
@@ -1529,42 +1449,42 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 
 		case kQ3DrawContextTypePixmap:
 			
-			qd3dStatus = Q3PixmapDrawContext_GetPixmap (theDrawContext, &theContext->pixmap);
+			qd3dStatus = Q3PixmapDrawContext_GetPixmap (theDrawContext, &pixmap);
 			if (qd3dStatus != kQ3Success )
-				goto fail;
+				throw std::exception();
 
 			// create a surface for OpenGL
 			// initialize bmih
 			Q3Memory_Clear(&bmih, sizeof(bmih));
 			bmih.biSize = sizeof(BITMAPINFOHEADER);
-			bmih.biWidth = theContext->pixmap.width;
-			bmih.biHeight = theContext->pixmap.height;
+			bmih.biWidth = pixmap.width;
+			bmih.biHeight = pixmap.height;
 			bmih.biPlanes = 1;
-			bmih.biBitCount = (unsigned short)theContext->pixmap.pixelSize;
+			bmih.biBitCount = (unsigned short)pixmap.pixelSize;
 			bmih.biCompression = BI_RGB;
 			windowHeight = bmih.biHeight;
 
 			colorBits = (BYTE)bmih.biBitCount;
 			
 			//Create the bits
-			theContext->backBuffer = CreateDIBSection(NULL, (BITMAPINFO*)&bmih,
-				DIB_RGB_COLORS, (void**)&theContext->pBits, NULL, 0);
-			if(theContext->backBuffer == NULL){
+			backBuffer = CreateDIBSection(NULL, (BITMAPINFO*)&bmih,
+				DIB_RGB_COLORS, (void**)&pBits, NULL, 0);
+			if (backBuffer == NULL){
 				Q3Error_PlatformPost(GetLastError());
-				goto fail;
+				throw std::exception();
 				}
 				
 			//create the Device
-			theContext->theDC = CreateCompatibleDC(NULL);
-			if(theContext->theDC == NULL){
+			theDC = CreateCompatibleDC(NULL);
+			if (theDC == NULL){
 				Q3Error_PlatformPost(GetLastError());
-				DeleteObject(theContext->backBuffer);
-				theContext->backBuffer = NULL;
-				goto fail;
+				DeleteObject(backBuffer);
+				backBuffer = NULL;
+				throw std::exception();
 				}
 				
 			//Attach the bitmap to the DC
-			SelectObject(theContext->theDC,theContext->backBuffer);
+			SelectObject( theDC, backBuffer );
 			
 			pfdFlags = PFD_DRAW_TO_BITMAP | PFD_SUPPORT_OPENGL;
 			break;
@@ -1573,7 +1493,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		// Unsupported
 		case kQ3DrawContextTypeDDSurface:
 		default:
-			goto fail;
+			throw std::exception();
 			break;
 		}
 
@@ -1582,7 +1502,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	// Get the common draw context data
 	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
 	if (qd3dStatus != kQ3Success)
-		goto fail;
+		throw std::exception();
 
 
 
@@ -1603,19 +1523,19 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 
 
 	// Create the pixel format and context, and attach the context
-	pixelFormat = ChoosePixelFormat(theContext->theDC, &pixelFormatDesc);
+	pixelFormat = ChoosePixelFormat( theDC, &pixelFormatDesc);
 
 	if (pixelFormat == 0)
-		goto fail;
+		throw std::exception();
 
-	int	prevPixelFormat = GetPixelFormat( theContext->theDC );
+	int	prevPixelFormat = GetPixelFormat( theDC );
 	
-    if (!SetPixelFormat(theContext->theDC, pixelFormat, &pixelFormatDesc))
+    if (!SetPixelFormat( theDC, pixelFormat, &pixelFormatDesc))
 	{
 		TQ3Int32	error = GetLastError();
 	#if Q3_DEBUG
 		char		theString[kQ3StringMaximumLength];
-		sprintf( theString, "SetPixelFormat error %d in gldrawcontext_win_new.", error );
+		sprintf( theString, "SetPixelFormat error %d in WinGLContext::WinGLContext.", error );
 		E3Assert( __FILE__, __LINE__, theString );
 	#endif
 		
@@ -1625,16 +1545,16 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 		
 		pixelFormat = prevPixelFormat;
 		
-		if ( (pixelFormat == 0) || !SetPixelFormat(theContext->theDC, pixelFormat, &pixelFormatDesc) )
+		if ( (pixelFormat == 0) || !SetPixelFormat( theDC, pixelFormat, &pixelFormatDesc) )
 		{
 			Q3Error_PlatformPost(error);
-	    	goto fail;
+	    	throw std::exception();
 		}
 	}
 
-    DescribePixelFormat(theContext->theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
+    DescribePixelFormat( theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
 
-    theContext->glContext = wglCreateContext(theContext->theDC);
+    glContext = wglCreateContext(theDC);
     
     
     
@@ -1643,7 +1563,7 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	    // Attempt to share textures with a previously created context.
 	    while ( (sharingContext = GLGPUSharing_GetNextSharingBase( sharingContext )) != NULL )
 	    {
-	    	if (wglShareLists( ((WinGLContext*)sharingContext)->glContext, theContext->glContext ))
+	    	if (wglShareLists( ((WinGLContext*)sharingContext)->glContext, glContext ))
 	    		break;
 	    }
     }
@@ -1651,17 +1571,17 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	
 	
 	// Tell the texture manager about the new context.
-	GLGPUSharing_AddContext( theContext, sharingContext );
+	GLGPUSharing_AddContext( this, sharingContext );
 
 
 
 	// Activate the context
-	wglMakeCurrent(theContext->theDC, theContext->glContext);
+	wglMakeCurrent( theDC, glContext );
 	
 	
 	
 	// Get the glBindFramebufferEXT function pointer
-	GLGetProcAddress( theContext->winBindFramebufferEXT, "glBindFramebufferEXT" );
+	GLGetProcAddress( winBindFramebufferEXT, "glBindFramebufferEXT" );
 	
 
 
@@ -1682,33 +1602,13 @@ gldrawcontext_win_new(TQ3DrawContextObject theDrawContext, TQ3Uns32 depthBits,
 	{
 		glDisable( GL_SCISSOR_TEST );
 	}
-
-
-
-	// Return the context
-	return(theContext);
-
-fail:
-	Q3Memory_Free(&theContext);
-	return(NULL);
 }
 
 
-
-
-
-//=============================================================================
-//		gldrawcontext_win_destroy : Destroy an OpenGL context.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_win_destroy( TQ3GLContext glContext )
-{	WinGLContext		*theContext = (WinGLContext *) glContext;
-	int	success;
-
-
-
+WinGLContext::~WinGLContext()
+{
 	// Close down the context
-	success = wglMakeCurrent(NULL, NULL);
+	int success = wglMakeCurrent(NULL, NULL);
 	#if Q3_DEBUG
 		if (!success)
 		{
@@ -1722,7 +1622,7 @@ gldrawcontext_win_destroy( TQ3GLContext glContext )
 
 
 	// Destroy the context
-	success = wglDeleteContext(theContext->glContext);
+	success = wglDeleteContext( glContext );
 	#if Q3_DEBUG
 		if (!success)
 		{
@@ -1736,103 +1636,80 @@ gldrawcontext_win_destroy( TQ3GLContext glContext )
 
 
 	// If there is an Quesa backBuffer dispose it and its associated DC
-	if (theContext->backBuffer != NULL)
+	if (backBuffer != NULL)
 		{
-		DeleteDC(theContext->theDC);
-		DeleteObject(theContext->backBuffer);
+		DeleteDC( theDC );
+		DeleteObject( backBuffer );
 		}
-
-
-
-	// Dispose of the GL state
-	Q3Memory_Free(&theContext);
 }
 
-
-
-
-
-//=============================================================================
-//		gldrawcontext_win_swapbuffers : Swap the buffers of an OpenGL context.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_win_swapbuffers( TQ3GLContext glContext )
-{	HDC		theDC;
-	WinGLContext		*theContext = (WinGLContext *) glContext;
-	TQ3Uns32 rowDWORDS,*src,*dst;
-#if QUESA_USES_NORMAL_DIBs
-	TQ3Uns32 pixmapSize,*dstEnd;
-#else
-	TQ3Uns32 x,y;
-#endif
-	
-
-
+void	WinGLContext::SwapBuffers()
+{
 	// Swap the buffers
-	theDC = wglGetCurrentDC();
 	
-	Q3_ASSERT(theDC == theContext->theDC);
+	Q3_ASSERT(theDC == wglGetCurrentDC());
 	
 	glFlush();
-	SwapBuffers(theDC);
+	::SwapBuffers(theDC);
+	
 	
 	// if OpenGL is drawing into our backBuffer copy it
-	if(theContext->backBuffer != NULL){
-		
-		switch(theContext->pixmap.pixelSize){
+	if (backBuffer != NULL)
+	{
+		TQ3Uns32 rowDWORDS, *src, *dst;
+	#if QUESA_USES_NORMAL_DIBs
+		TQ3Uns32 pixmapSize,*dstEnd;
+	#else
+		TQ3Uns32 x,y;
+	#endif
+
+		switch (pixmap.pixelSize)
+		{
 			case 16:
-				rowDWORDS = ((theContext->pixmap.width + 1) / 2);
+				rowDWORDS = ((pixmap.width + 1) / 2);
 				break;
 			case 24:
-				rowDWORDS = Q3Size_Pad(theContext->pixmap.width * 3) / 4;
+				rowDWORDS = Q3Size_Pad(pixmap.width * 3) / 4;
 				break;
 			case 32:
-				rowDWORDS = theContext->pixmap.width;
+				rowDWORDS = pixmap.width;
 				break;
-			}
+		}
 			
-		src = (TQ3Uns32*)theContext->pBits;
-		dst = (TQ3Uns32*)theContext->pixmap.image;
+		src = (TQ3Uns32*)pBits;
+		dst = (TQ3Uns32*)pixmap.image;
 
 #if QUESA_USES_NORMAL_DIBs
-		pixmapSize = rowDWORDS * theContext->pixmap.height;
+		pixmapSize = rowDWORDS * pixmap.height;
 		dstEnd = dst + pixmapSize;
-		while(dst < dstEnd){
+		while(dst < dstEnd)
+		{
 			*dst++ = *src++;
-			}
+		}
 #else
-		dst += rowDWORDS * (theContext->pixmap.height -1);
+		dst += rowDWORDS * (pixmap.height -1);
 		
-		for(y = 0; y < theContext->pixmap.height; y++){
-			for(x = 0; x < rowDWORDS; x++){
+		for (y = 0; y < pixmap.height; y++)
+		{
+			for (x = 0; x < rowDWORDS; x++)
+			{
 				dst[x] = src[x];
 			}
 			src += rowDWORDS;
 			dst -= rowDWORDS;
 		}
 #endif
-		}
+	}
 }
 
-
-
-
-
-//=============================================================================
-//		gldrawcontext_win_setcurrent : Make an OpenGL context current.
-//-----------------------------------------------------------------------------
-static void
-gldrawcontext_win_setcurrent( TQ3GLContext glContext, TQ3Boolean forceSet )
-{	WinGLContext		*theContext = (WinGLContext *) glContext;
-
-
-
+void	WinGLContext::SetCurrent( TQ3Boolean inForceSet )
+{
 	// Activate the context
-	if (forceSet                                    ||
-		wglGetCurrentDC()      != theContext->theDC ||
-		wglGetCurrentContext() != theContext->glContext)
+	if (inForceSet                                    ||
+		wglGetCurrentDC()      != theDC ||
+		wglGetCurrentContext() != glContext)
 	{
-		int	success = wglMakeCurrent(theContext->theDC, theContext->glContext);
+		int	success = wglMakeCurrent( theDC,  glContext);
 	
 	#if Q3_DEBUG
 		if (!success)
@@ -1848,61 +1725,34 @@ gldrawcontext_win_setcurrent( TQ3GLContext glContext, TQ3Boolean forceSet )
 	
 
 	// Make sure that no FBO is active
-	if (theContext->winBindFramebufferEXT != NULL)
+	if (winBindFramebufferEXT != NULL)
 	{
-		theContext->winBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
+		winBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
 	}
 }
 
 
-
-
-
-//=============================================================================
-//		gldrawcontext_win_updatepos : Update OpenGL context position.
-//-----------------------------------------------------------------------------
-static TQ3Boolean
-gldrawcontext_win_updatepos( TQ3GLContext glContext )
+bool	WinGLContext::UpdateWindowSize()
 {
-
-
-	// Not required
-	return(kQ3False);
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_win_updatesize : Update OpenGL context size.
-//-----------------------------------------------------------------------------
-static TQ3Status
-gldrawcontext_win_updatesize(
-								TQ3DrawContextObject	theDrawContext,
-								TQ3GLContext			glContext )
-{
-	TQ3Status	didUpdate = kQ3Failure;
-	TQ3ObjectType			drawContextType;
-	WinGLContext			*theContext = (WinGLContext*)glContext;
+	bool	didUpdate = false;
 	HWND					theWindow;
 	RECT					windowRect;
 	TQ3Int32				windowHeight;
 	TQ3DrawContextData		drawContextData;
 	
-	drawContextType = Q3DrawContext_GetType(theDrawContext);
+	TQ3ObjectType drawContextType = Q3DrawContext_GetType( quesaDrawContext );
 	
 	if (drawContextType == kQ3DrawContextTypeWin32DC)
 	{
-		theWindow = WindowFromDC( theContext->theDC );
+		theWindow = WindowFromDC( theDC );
 		if (theWindow != NULL)
 		{
 			GetClientRect( theWindow, &windowRect );
 			windowHeight = windowRect.bottom - windowRect.top;
 			
-			wglMakeCurrent(theContext->theDC, theContext->glContext);
+			wglMakeCurrent( theDC, glContext );
 			
-			if (kQ3Success == Q3DrawContext_GetData(theDrawContext, &drawContextData))
+			if (kQ3Success == Q3DrawContext_GetData( quesaDrawContext, &drawContextData ))
 			{
 				if (drawContextData.paneState)
 				{
@@ -1922,7 +1772,7 @@ gldrawcontext_win_updatesize(
 						windowHeight );
 					glDisable( GL_SCISSOR_TEST );
 				}
-				didUpdate = kQ3Success;
+				didUpdate = true;
 			}
 		}
 	}
@@ -1944,7 +1794,7 @@ TQ3GLContext
 GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GLbitfield *clearFlags)
 {	TQ3Uns32			preferredDepthBits = 32;
 	TQ3Uns32			preferredStencilBits = 0;
-	TQ3GLContext		glContext;
+	TQ3GLContext		glContext = NULL;
 	TQ3RendererObject	theRenderer;
 	TQ3Boolean			shareTextures;
 
@@ -1981,33 +1831,54 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 	{
 		shareTextures = kQ3True;	// default value
 	}
+	
+	
+	
+	// Type of context?
+	TQ3ObjectType	dcType = Q3DrawContext_GetType( theDrawContext );
 
 
 
 	// Create the context
 	// ... create an FBO if requested and possible
-	glContext = gldrawcontext_fbo_new( theDrawContext, preferredDepthBits,
-		preferredStencilBits );
+	if (dcType == kQ3DrawContextTypePixmap)
+	{
+		glContext = gldrawcontext_fbo_new( theDrawContext, preferredDepthBits,
+			preferredStencilBits );
+	}
 	
 	if (glContext == NULL)
 	{
-	#if QUESA_OS_COCOA
-		glContext = gldrawcontext_cocoa_new(theDrawContext);
+		try
+		{
+		#if QUESA_OS_MACINTOSH
+			switch (dcType)
+			{
+				case kQ3DrawContextTypePixmap:
+				case kQ3DrawContextTypeMacintosh:
+					glContext = new MacGLContext( theDrawContext, preferredDepthBits,
+						shareTextures, preferredStencilBits );
+					break;
+			
+			#if QUESA_OS_COCOA
+				case kQ3DrawContextTypeCocoa:
+					glContext = new CocoaGLContext(theDrawContext);
+					break;
+			#endif
+			}
 		
-	#elif QUESA_OS_MACINTOSH
-		glContext = gldrawcontext_mac_new( theDrawContext, preferredDepthBits,
-			shareTextures, preferredStencilBits );
+		#elif QUESA_OS_UNIX
+			glContext = new X11GLContext(theDrawContext);
 
-	#elif QUESA_OS_UNIX
-		glContext = gldrawcontext_x11_new(theDrawContext);
+		#elif QUESA_OS_WIN32
+			glContext = new WinGLContext( theDrawContext, preferredDepthBits,
+				shareTextures, preferredStencilBits );
 
-	#elif QUESA_OS_WIN32
-		glContext = gldrawcontext_win_new( theDrawContext, preferredDepthBits,
-			shareTextures, preferredStencilBits );
-
-	#else
-		glContext = NULL;
-	#endif
+		#endif
+		}
+		catch (...)
+		{
+		}
 	}
 
 	// If platform-specific code has not already recorded the GL context with the
@@ -2067,30 +1938,13 @@ GLDrawContext_Destroy( TQ3GLContext* glContext )
 	Q3_REQUIRE(Q3_VALID_PTR(glContext));
 	Q3_REQUIRE(Q3_VALID_PTR(*glContext));
 
+	
+	
+	CQ3GLContext*	theContext = static_cast<CQ3GLContext*>( *glContext );
 
 
-	// Destroy the context
-	if (gldrawcontext_is_FBO( *glContext ))
-	{
-		gldrawcontext_fbo_destroy( *glContext );
-	}
-	else
-	{
-	#if QUESA_OS_COCOA
-		gldrawcontext_cocoa_destroy(*glContext);
-
-	#elif QUESA_OS_MACINTOSH
-		gldrawcontext_mac_destroy(*glContext);
-
-	#elif QUESA_OS_UNIX
-		gldrawcontext_x11_destroy(*glContext);
-
-	#elif QUESA_OS_WIN32
-		gldrawcontext_win_destroy(*glContext);
-
-	#endif
-	}
-
+	delete theContext;
+	
 
 	GLGPUSharing_RemoveContext( *glContext );
 
@@ -2116,28 +1970,12 @@ GLDrawContext_SwapBuffers( TQ3GLContext glContext )
 
 
 
+	CQ3GLContext*	theContext = static_cast<CQ3GLContext*>( glContext );
+
+
+
 	// Swap the buffers on the context
-	
-	if (gldrawcontext_is_FBO( glContext ))
-	{
-		gldrawcontext_fbo_swapbuffers( glContext );
-	}
-	else
-	{
-	#if QUESA_OS_COCOA
-		gldrawcontext_cocoa_swapbuffers(glContext);
-
-	#elif QUESA_OS_MACINTOSH
-		gldrawcontext_mac_swapbuffers(glContext);
-
-	#elif QUESA_OS_UNIX
-		gldrawcontext_x11_swapbuffers(glContext);
-
-	#elif QUESA_OS_WIN32
-		gldrawcontext_win_swapbuffers(glContext);
-
-	#endif
-	}
+	theContext->SwapBuffers();
 }
 
 
@@ -2153,11 +1991,7 @@ GLDrawContext_StartFrame( TQ3GLContext glContext )
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(glContext));
 	
-	
-	if (gldrawcontext_is_FBO( glContext ))
-	{
-		gldrawcontext_fbo_copy_on_start_frame( glContext );
-	}
+	((CQ3GLContext*) glContext)->StartFrame();
 }
 
 
@@ -2177,27 +2011,11 @@ GLDrawContext_SetCurrent( TQ3GLContext glContext, TQ3Boolean forceSet )
 
 
 
-	// Activate the context
-	if (gldrawcontext_is_FBO( glContext ))
-	{
-		gldrawcontext_fbo_setcurrent( glContext );
-	}
-	else
-	{
-	#if QUESA_OS_COCOA
-		gldrawcontext_cocoa_setcurrent(glContext, forceSet);
+	CQ3GLContext*	theContext = static_cast<CQ3GLContext*>( glContext );
+	
+	
 
-	#elif QUESA_OS_MACINTOSH
-		gldrawcontext_mac_setcurrent(glContext, forceSet);
-
-	#elif QUESA_OS_UNIX
-		gldrawcontext_x11_setcurrent(glContext, forceSet);
-
-	#elif QUESA_OS_WIN32
-		gldrawcontext_win_setcurrent(glContext, forceSet);
-
-	#endif
-	}
+	theContext->SetCurrent( forceSet );
 }
 
 
@@ -2338,29 +2156,14 @@ GLDrawContext_UpdateWindowPosition( TQ3GLContext glContext )
 
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glContext), kQ3False);
+	
+	
+	CQ3GLContext*	theContext = static_cast<CQ3GLContext*>( glContext );
+	
+	
+	wasUpdated = theContext->UpdateWindowPosition()?
+		kQ3True : kQ3False;
 
-
-	// Update the context
-	if (gldrawcontext_is_FBO( glContext ))
-	{
-		// Nothing to do
-	}
-	else
-	{
-	#if QUESA_OS_COCOA
-		wasUpdated = gldrawcontext_cocoa_updatepos(glContext);
-
-	#elif QUESA_OS_MACINTOSH
-		wasUpdated = gldrawcontext_mac_updatepos(glContext);
-
-	#elif QUESA_OS_UNIX
-		wasUpdated = gldrawcontext_x11_updatepos(glContext);
-
-	#elif QUESA_OS_WIN32
-		wasUpdated = gldrawcontext_win_updatepos(glContext);
-
-	#endif
-	}
 
 	return(wasUpdated);
 }
@@ -2408,25 +2211,20 @@ TQ3Status			GLDrawContext_UpdateSize(
 								TQ3DrawContextObject	theDrawContext,
 								TQ3GLContext			glContext )
 {
+#pragma unused( theDrawContext )
+
 	TQ3Status	didUpdate = kQ3Failure;
 	
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theDrawContext), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(glContext), kQ3Failure);
 	
 	
-	if (gldrawcontext_is_FBO( glContext ))
-	{
-		// Nothing to do
-	}
-	else
-	{
-	#if QUESA_OS_MACINTOSH
-		didUpdate = gldrawcontext_mac_updatesize( theDrawContext, glContext );
-	#elif QUESA_OS_WIN32
-		didUpdate = gldrawcontext_win_updatesize( theDrawContext, glContext );
-	#endif
-	}
+	CQ3GLContext*	theContext = static_cast<CQ3GLContext*>( glContext );
+	
+	
+	didUpdate = theContext->UpdateWindowSize()?
+		kQ3Success : kQ3Failure;
+
 	
 	return didUpdate;
 }
