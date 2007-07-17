@@ -19,24 +19,45 @@
 		BE13529D0C3C14F400B20B60 /* Quesa3DView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2179FF09FF19522C7F000001 /* Quesa3DView.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529E0C3C14F400B20B60 /* QuesaCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */; settings = {ATTRIBUTES = (); }; };
 		BE1352A00C3C14F400B20B60 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		BE1352A10C3C14F400B20B60 /* QuesaCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B112DB270B7D2C9C000F36EF /* QuesaCocoa.framework */; };
-		BE1353060C3C180600B20B60 /* QuesaCocoa.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = B112DB270B7D2C9C000F36EF /* QuesaCocoa.framework */; };
+		BEFFD8930C4C8D6C00202EA8 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
+		BEFFD8AF0C4C8D7A00202EA8 /* Quesa.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		BE1353680C3C21B800B20B60 /* PBXContainerItemProxy */ = {
+		BEFFD8640C4C8C9000202EA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BE1353610C3C21B800B20B60 /* QuesaCocoa.xcodeproj */;
+			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0 /* QuesaCocoa.framework */;
-			remoteInfo = "Framework (sys GCC)";
+			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
+			remoteInfo = "Fmwk Univ";
 		};
-		BE13536A0C3C21C700B20B60 /* PBXContainerItemProxy */ = {
+		BEFFD8660C4C8C9000202EA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BE1353610C3C21B800B20B60 /* QuesaCocoa.xcodeproj */;
+			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC072708A6812D00FB3A82;
+			remoteInfo = "Fmwk (GCC 3.3)";
+		};
+		BEFFD8680C4C8C9000202EA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B1756AFF080A71C30056134C;
+			remoteInfo = "Static Lib (Univ)";
+		};
+		BEFFD86A0C4C8C9000202EA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC08D008A6B24A00FB3A82;
+			remoteInfo = "Static Lib (GCC 3.3)";
+		};
+		BEFFD86C0C4C8CAE00202EA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D07F2BC0486CC7A007CD1D0 /* Framework (sys GCC) */;
-			remoteInfo = "Framework (sys GCC)";
+			remoteGlobalIDString = 8D07F2BC0486CC7A007CD1D0;
+			remoteInfo = "Fmwk Univ";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -47,7 +68,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BE1353060C3C180600B20B60 /* QuesaCocoa.framework in Copy Private Frameworks */,
+				BEFFD8AF0C4C8D7A00202EA8 /* Quesa.framework in Copy Private Frameworks */,
 			);
 			name = "Copy Private Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,11 +88,11 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2D6A02D3FF1986E17F000001 /* QuesaCocoaUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuesaCocoaUtil.h; sourceTree = "<group>"; };
 		2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuesaCocoaUtil.m; sourceTree = "<group>"; };
-		B112DB270B7D2C9C000F36EF /* QuesaCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QuesaCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE1352A80C3C14F400B20B60 /* QuesaCocoaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuesaCocoaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE13530F0C3C190300B20B60 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 		BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "Info-Quesa3DView.plist"; sourceTree = "<group>"; };
-		BE1353610C3C21B800B20B60 /* QuesaCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuesaCocoa.xcodeproj; path = ../../../../Development/Projects/Mac/QuesaCocoa.xcodeproj; sourceTree = SOURCE_ROOT; };
+		BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
+		BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +101,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE1352A00C3C14F400B20B60 /* Cocoa.framework in Frameworks */,
-				BE1352A10C3C14F400B20B60 /* QuesaCocoa.framework in Frameworks */,
+				BEFFD8930C4C8D6C00202EA8 /* Quesa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +121,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -147,7 +169,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B112DB270B7D2C9C000F36EF /* QuesaCocoa.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 			);
 			name = Frameworks;
@@ -186,15 +207,18 @@
 		BE13535F0C3C218B00B20B60 /* Projects */ = {
 			isa = PBXGroup;
 			children = (
-				BE1353610C3C21B800B20B60 /* QuesaCocoa.xcodeproj */,
+				BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */,
 			);
 			name = Projects;
 			sourceTree = "<group>";
 		};
-		BE1353620C3C21B800B20B60 /* Products */ = {
+		BEFFD85E0C4C8C9000202EA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BE1353690C3C21B800B20B60 /* QuesaCocoa.framework */,
+				BEFFD8650C4C8C9000202EA8 /* Quesa.framework */,
+				BEFFD8670C4C8C9000202EA8 /* Quesa.framework */,
+				BEFFD8690C4C8C9000202EA8 /* libQuesa.a */,
+				BEFFD86B0C4C8C9000202EA8 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -230,7 +254,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				BE13536B0C3C21C700B20B60 /* PBXTargetDependency */,
+				BEFFD86D0C4C8CAE00202EA8 /* PBXTargetDependency */,
 			);
 			name = Quesa3DView;
 			productInstallPath = "$(HOME)/Applications";
@@ -249,8 +273,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = BE1353620C3C21B800B20B60 /* Products */;
-					ProjectRef = BE1353610C3C21B800B20B60 /* QuesaCocoa.xcodeproj */;
+					ProductGroup = BEFFD85E0C4C8C9000202EA8 /* Products */;
+					ProjectRef = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
 				},
 			);
 			targets = (
@@ -260,11 +284,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		BE1353690C3C21B800B20B60 /* QuesaCocoa.framework */ = {
+		BEFFD8650C4C8C9000202EA8 /* Quesa.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = QuesaCocoa.framework;
-			remoteRef = BE1353680C3C21B800B20B60 /* PBXContainerItemProxy */;
+			path = Quesa.framework;
+			remoteRef = BEFFD8640C4C8C9000202EA8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BEFFD8670C4C8C9000202EA8 /* Quesa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quesa.framework;
+			remoteRef = BEFFD8660C4C8C9000202EA8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BEFFD8690C4C8C9000202EA8 /* libQuesa.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuesa.a;
+			remoteRef = BEFFD8680C4C8C9000202EA8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BEFFD86B0C4C8C9000202EA8 /* libQuesa.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuesa.a;
+			remoteRef = BEFFD86A0C4C8C9000202EA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -294,7 +339,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make a symbolic link in the configuration build directory, pointing to the right version of Quesa.\necho \"ln -h -f -s \" \"$SRCROOT/../../../../Development/Projects/Mac/buildCocoa/$CONFIGURATION/QuesaCocoa.framework\" QuesaCocoa.framework\nln -h -f -s \"$SRCROOT/../../../../Development/Projects/Mac/buildCocoa/$CONFIGURATION/QuesaCocoa.framework\" QuesaCocoa.framework\n";
+			shellScript = "cd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make a symbolic link in the configuration build directory, pointing to the right version of Quesa.\necho \"ln -h -f -s \" \"../../../../../Libraries/Mac/Framework_Universal/$CONFIGURATION/Quesa.framework\" Quesa.framework\nln -h -f -s \"../../../../../Libraries/Mac/Framework_Universal/$CONFIGURATION/Quesa.framework/\" Quesa.framework\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -314,10 +359,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		BE13536B0C3C21C700B20B60 /* PBXTargetDependency */ = {
+		BEFFD86D0C4C8CAE00202EA8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "Framework (sys GCC)";
-			targetProxy = BE13536A0C3C21C700B20B60 /* PBXContainerItemProxy */;
+			name = "Fmwk Univ";
+			targetProxy = BEFFD86C0C4C8CAE00202EA8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
