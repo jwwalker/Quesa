@@ -131,21 +131,13 @@ e3drawcontext_cocoa_delete(TQ3Object theObject, void *privateData)
 static TQ3Status
 e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	TQ3Status					qd3dStatus;
 
-
-
-
-	// If nothing has changed, we're done
-	if (instanceData->theState == kQ3XDrawContextValidationClearFlags)
-		return(kQ3Success);
-
-
-
-	// Update the state flag
-	instanceData->theState = kQ3XDrawContextValidationAll;
+	// We use a notification to update the view size, so there is no need to
+	// check it here.  If we wanted to check for other changes, such as a
+	// display device going offline, this would be the place to update the draw
+	// context validation state.
 	
-	return(qd3dStatus);		
+	return kQ3Success;
 }
 
 
