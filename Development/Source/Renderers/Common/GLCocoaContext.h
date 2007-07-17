@@ -45,7 +45,7 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-// Include files go here
+#import "GLPrefix.h"
 
 
 
@@ -68,28 +68,22 @@ extern "C" {
 // Cocoa GL context type
 #if QUESA_OS_COCOA
 
-typedef struct CocoaGLContext {
-	void			*glContext;
-	void 			*nsView;
-} CocoaGLContext;
+class CocoaGLContext : public CQ3GLContext
+{
+public:
+						CocoaGLContext(
+								TQ3DrawContextObject theDrawContext );
+						
+	virtual				~CocoaGLContext();
+	
+	virtual void		SwapBuffers();
 
-#endif
-
-
-
-
-
-//=============================================================================
-//      Function prototypes
-//-----------------------------------------------------------------------------
-// Cocoa GL context operations
-#if QUESA_OS_COCOA
-
-void		*gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext);
-void		gldrawcontext_cocoa_destroy(void *glContext);
-void		gldrawcontext_cocoa_swapbuffers(void *glContext);
-void		gldrawcontext_cocoa_setcurrent(void *glContext, TQ3Boolean forceSet);
-TQ3Boolean	gldrawcontext_cocoa_updatepos(void *glContext);
+	virtual void		SetCurrent( TQ3Boolean inForceSet );
+	
+private:
+	void				*glContext;
+	void				*nsView;
+};
 
 #endif
 

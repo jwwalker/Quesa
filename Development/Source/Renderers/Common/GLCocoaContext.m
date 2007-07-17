@@ -69,17 +69,13 @@
 
 
 
-
-
-//=============================================================================
-//		gldrawcontext_cocoa_new : Create an OpenGL context for a draw context.
-//-----------------------------------------------------------------------------
-//		Note :	BH, use glAttributes={5,12,16,0} for double-buffer and 16 bits
-//				depth buffer
-//-----------------------------------------------------------------------------
-void * 
-gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
-{   TQ3Int32						glAttributes[] =
+CocoaGLContext::CocoaGLContext(
+					TQ3DrawContextObject theDrawContext )
+	: CQ3GLContext( theDrawContext )
+	, glContext( NULL )
+	, nsView( NULL )
+{
+   TQ3Int32						glAttributes[] =
 	{
 		NSOpenGLPFADoubleBuffer,
 		NSOpenGLPFADepthSize, 24,
@@ -96,42 +92,35 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 
 
 
-	// Allocate the context structure
-	theContext = (CocoaGLContext *) Q3Memory_AllocateClear(sizeof(CocoaGLContext));
-	if (theContext == NULL)
-		return(NULL);
-
-
-
 	// Get the type specific draw context data
 	drawContextType = Q3DrawContext_GetType(theDrawContext);
     switch (drawContextType) {
 		// NSView
 		case kQ3DrawContextTypeCocoa:
 			// Get the NSView
-			Q3CocoaDrawContext_GetNSView(theDrawContext, &theContext->nsView);
+			Q3CocoaDrawContext_GetNSView(theDrawContext, &nsView);
 
 
 			// Set up and create the NSOpenGLContext
 			pixelFormat           = [[NSOpenGLPixelFormat alloc] initWithAttributes:(NSOpenGLPixelFormatAttribute*)glAttributes];
-			theContext->glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+			glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
 			[pixelFormat release];
 
 
 			// Set the NSView as the NSOpenGLContext's drawable
-			[(id)theContext->glContext setView:(id)theContext->nsView];
-			[(id)theContext->glContext makeCurrentContext];
+			[(id)glContext setView:(id)nsView];
+			[(id)glContext makeCurrentContext];
 
 
 			// Get the view bounds from the NSView for the initial gl viewport
 			// and the default draw context pane if it's needed.
-			viewFrame = [[(id)theContext->glContext view]bounds];
+			viewFrame = [[(id)glContext view]bounds];
           break;
 
 		
 		// Unsupported
 		default:
-			goto fail;
+			throw std::exception();
 			break;
 		}
 
@@ -140,7 +129,7 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 	// Get the common draw context data
 	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
 	if (qd3dStatus != kQ3Success)
-		goto fail;
+		throw std::exception();
 
 	if (!drawContextData.paneState)
     {
@@ -153,7 +142,7 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 
 
 	// Activate the context
-    [(id)theContext->glContext makeCurrentContext];
+    [(id)glContext makeCurrentContext];
 
 
 
@@ -170,8 +159,8 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 
 	// Set the swap buffer rect
 	enable = 1;
-	[(id)theContext->glContext setValues:&enable forParameter:NSOpenGLCPSwapRectangleEnable];
-	[(id)theContext->glContext setValues:(const long *) glRect forParameter:NSOpenGLCPSwapRectangle];
+	[(id)glContext setValues:&enable forParameter:NSOpenGLCPSwapRectangleEnable];
+	[(id)glContext setValues:(const long *) glRect forParameter:NSOpenGLCPSwapRectangle];
 
 
 
@@ -183,61 +172,26 @@ gldrawcontext_cocoa_new(TQ3DrawContextObject theDrawContext)
 		doSync
 	)
 	{
-		[(id)theContext->glContext	setValues:&enable
+		[(id)glContext	setValues:&enable
 									forParameter:NSOpenGLCPSwapInterval];
 	}
-
-
-	// Return the CocoaGLContext
-	return(theContext);
-
-fail:
-	Q3Memory_Free(&theContext);
-	return(NULL);
 }
 
-
-
-
-
-//=============================================================================
-//		gldrawcontext_cocoa_destroy : Destroy an OpenGL context.
-//-----------------------------------------------------------------------------
-void
-gldrawcontext_cocoa_destroy(void *glContext)
-{	CocoaGLContext		*theContext = (CocoaGLContext *) glContext;
-
-
-
+CocoaGLContext::~CocoaGLContext()
+{
 	// Close down the context
 	[NSOpenGLContext clearCurrentContext];
 	// BH, this seems right, but complains 'invalid drawable' when it runs
-	// [(id)theContext->glContext setView:nil];
+	// [(id)glContext setView:nil];
 
 
 
 	// Destroy the context
-    [(id)theContext->glContext release];
-
-
-
-	// Dispose of the GL state
-	Q3Memory_Free(&theContext);
+    [(id)glContext release];
 }
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_cocoa_swapbuffers : Swap the buffers.
-//-----------------------------------------------------------------------------
-void
-gldrawcontext_cocoa_swapbuffers(void *glContext)
-{	CocoaGLContext		*theContext = (CocoaGLContext *) glContext;
-
-
-
+	
+void	CocoaGLContext::SwapBuffers()
+{
 	// BH, I didn't expect to have to call this, but it doesn't seem to
     // draw without it here (I expected the gl renderer to do it).
 	glFlush();
@@ -245,39 +199,14 @@ gldrawcontext_cocoa_swapbuffers(void *glContext)
 
 
 	// Swap the buffers
-	[(id)theContext->glContext flushBuffer];
+	[(id)glContext flushBuffer];
 }
 
-
-
-
-
-//=============================================================================
-//		gldrawcontext_cocoa_setcurrent : Make an OpenGL context current.
-//-----------------------------------------------------------------------------
-void
-gldrawcontext_cocoa_setcurrent(void *glContext, TQ3Boolean forceSet)
-{	CocoaGLContext		*theContext = (CocoaGLContext *) glContext;
-
-
-
-	// Activate the context
-	if(forceSet || ![[NSOpenGLContext currentContext]isEqual:(id)theContext->glContext])
-		[(id)theContext->glContext makeCurrentContext];
-}
-
-
-
-
-
-//=============================================================================
-//		gldrawcontext_cocoa_updatepos : Update OpenGL context position.
-//-----------------------------------------------------------------------------
-TQ3Boolean
-gldrawcontext_cocoa_updatepos(void *glContext)
+void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
 {
-
-
-	// Not required
-	return(kQ3False);
+	// Activate the context
+	if(inForceSet || ![[NSOpenGLContext currentContext]isEqual:(id)glContext])
+		[(id)glContext makeCurrentContext];
 }
+
+
