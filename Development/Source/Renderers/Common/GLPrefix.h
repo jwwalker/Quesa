@@ -52,7 +52,7 @@
 // OpenGL
 #if QUESA_OS_MACINTOSH
 
-	#if TARGET_RT_MAC_MACHO
+	#if QUESA_UH_IN_FRAMEWORKS
 		#include <OpenGL/gl.h>
 		#include <OpenGL/glu.h>
 		#include <AGL/agl.h>
@@ -112,6 +112,34 @@ struct TQ3GLExtensions
 	bool					separateStencil;
 	bool					stencilWrap;			// GL_EXT_stencil_wrap
 	bool					packedDepthStencil;		// GL_EXT_packed_depth_stencil
+};
+
+
+/*!
+	@class		CQ3GLContext
+	@abstract	Abstract base class for an OpenGL context.
+	@discussion	The concrete subclasses will be platform-dependent.
+*/
+class CQ3GLContext
+{
+public:
+						CQ3GLContext( TQ3DrawContextObject inDC )
+							: quesaDrawContext( inDC ) {}
+				
+	virtual				~CQ3GLContext() {}
+	
+	virtual void		SwapBuffers() = 0;
+	
+	virtual void		StartFrame() {}
+	
+	virtual void		SetCurrent( TQ3Boolean inForceSet ) = 0;
+	
+	virtual bool		UpdateWindowPosition() { return false; }
+	
+	virtual bool		UpdateWindowSize() { return false; }
+
+protected:
+	TQ3Object			quesaDrawContext;
 };
 
 
