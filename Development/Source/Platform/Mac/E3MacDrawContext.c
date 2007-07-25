@@ -301,7 +301,7 @@ static void
 e3drawcontext_mac_delete(TQ3Object theObject, void *privateData)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) privateData;
 	TQ3Status					qd3dStatus = kQ3Success;
-#pragma unused(privateData)
+#pragma unused(theObject)
 
 
 #if !TARGET_API_MAC_OS8
@@ -453,7 +453,7 @@ e3drawcontext_mac_notify_display_change()
 
 
 
-#if TARGET_RT_MAC_MACHO
+#if TARGET_RT_MAC_MACHO && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1030)
 //=============================================================================
 //      e3drawcontext_mac_cg_notify : Core Graphics display callback.
 //-----------------------------------------------------------------------------
@@ -500,7 +500,7 @@ E3MacDrawContext_RegisterClass(void)
 
 
 
-#if TARGET_RT_MAC_MACHO
+#if TARGET_RT_MAC_MACHO && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1030)
 	// Register to be notified of display configuration changes
 	CGDisplayRegisterReconfigurationCallback( e3drawcontext_mac_cg_notify, theGlobals );
 
@@ -540,7 +540,7 @@ E3MacDrawContext_UnregisterClass(void)
 
 
 
-#if TARGET_RT_MAC_MACHO
+#if TARGET_RT_MAC_MACHO && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1030)
 	CGDisplayRemoveReconfigurationCallback( e3drawcontext_mac_cg_notify, theGlobals );
 #else
 	// Unregister our Display Manager notification callback
