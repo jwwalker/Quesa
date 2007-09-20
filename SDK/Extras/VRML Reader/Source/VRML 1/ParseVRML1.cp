@@ -770,7 +770,9 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 	startRule
 		=	*(
 				nodeDeclaration[ FinishTopNode(self.mState) ]
-			);
+			)
+			>>
+			end_p;
 #endif
 }
 
