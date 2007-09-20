@@ -708,7 +708,9 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 				routeDeclaration[ FinishRoute(self.mState) ]
 			|	protoDeclaration[ FinishIgnoring(self.mState) ]
 			|	nodeDeclaration[ FinishTopNode(self.mState) ]
-			);
+			)
+			>>
+			end_p;
 }
 
 /*!
