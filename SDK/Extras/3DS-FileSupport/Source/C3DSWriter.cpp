@@ -457,11 +457,12 @@ Lib3dsMesh*		X3DSWriterImp::CreateLib3dsMesh(TQ3TriMeshData *meshData)
 	
 	Lib3dsMesh* mesh;
 	char s[1024];
+	static long key = 0;
 
-	sprintf(s,"Me%X",(long)meshData);
+	sprintf(s,"Me%X",(long)key++);
 	
 	s[10] = 0; // max len 10
-	
+
 	mesh=lib3ds_mesh_new(s);
 	
 	if( ! mesh)
@@ -500,7 +501,10 @@ Lib3dsMesh*		X3DSWriterImp::CreateLib3dsTriangle(TQ3TriangleData *triData)
 	Lib3dsMesh* mesh;
 	char s[1024];
 
-	sprintf(s,"Tr%X",(long)triData);
+	static long key = 0;
+
+	sprintf(s,"Tr%X",(long)key++);
+	
 	s[10] = 0; // max len 10
 	
 	mesh=lib3ds_mesh_new(s);
