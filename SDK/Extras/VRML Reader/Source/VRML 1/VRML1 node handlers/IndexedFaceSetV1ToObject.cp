@@ -136,7 +136,8 @@ IndexedFaceMaker::IndexedFaceMaker(
 		(mState.materialBinding == eVRML1Value_PER_FACE) or
 		(mState.materialBinding == eVRML1Value_PER_FACE_INDEXED) )
 	, mIsNormalPerVertex( (mState.normalBinding == eVRML1Value_PER_VERTEX) or
-		(mState.normalBinding == eVRML1Value_PER_VERTEX_INDEXED) )
+		(mState.normalBinding == eVRML1Value_PER_VERTEX_INDEXED) or
+		(mState.normalBinding == eVRML1Value_DEFAULT) )
 	, mCreaseAngle( mState.creaseAngle )
 	, mCreaseAngleCosine( cos(mCreaseAngle) )
 {
