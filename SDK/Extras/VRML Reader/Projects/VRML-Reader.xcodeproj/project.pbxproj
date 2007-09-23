@@ -66,6 +66,7 @@
 		BEC95D6A08A86FBC001E16B9 /* ShapeV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D3408A86FBC001E16B9 /* ShapeV2ToObject.cp */; };
 		BEC95D6B08A86FBC001E16B9 /* SphereV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D3608A86FBC001E16B9 /* SphereV2ToObject.cp */; };
 		BEC95D6C08A86FBC001E16B9 /* TransformV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D3808A86FBC001E16B9 /* TransformV2ToObject.cp */; };
+		BEFCF9930CA62F4300B84F9B /* SwitchV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEFCF9920CA62F4300B84F9B /* SwitchV2ToObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -252,6 +253,8 @@
 		BEC95D3808A86FBC001E16B9 /* TransformV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TransformV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D3908A86FBC001E16B9 /* TransformV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TransformV2ToObject.h; sourceTree = "<group>"; };
 		BEC95D6D08A86FDD001E16B9 /* VRML-Reader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "VRML-Reader_Prefix.pch"; path = "../Source/Precompiled Headers/VRML-Reader_Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		BEFCF9910CA62F4300B84F9B /* SwitchV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchV2ToObject.h; sourceTree = "<group>"; };
+		BEFCF9920CA62F4300B84F9B /* SwitchV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchV2ToObject.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -488,6 +491,8 @@
 				BEC95D3508A86FBC001E16B9 /* ShapeV2ToObject.h */,
 				BEC95D3608A86FBC001E16B9 /* SphereV2ToObject.cp */,
 				BEC95D3708A86FBC001E16B9 /* SphereV2ToObject.h */,
+				BEFCF9910CA62F4300B84F9B /* SwitchV2ToObject.h */,
+				BEFCF9920CA62F4300B84F9B /* SwitchV2ToObject.cpp */,
 				BEC95D3808A86FBC001E16B9 /* TransformV2ToObject.cp */,
 				BEC95D3908A86FBC001E16B9 /* TransformV2ToObject.h */,
 			);
@@ -660,6 +665,7 @@
 				BE7C47EA08AEC56600559F64 /* GetObjectName.cp in Sources */,
 				BE7C47EB08AEC56600559F64 /* SetGroupName.cp in Sources */,
 				BEB01A2808EF72B000A982F8 /* IndexedFaceSet.cpp in Sources */,
+				BEFCF9930CA62F4300B84F9B /* SwitchV2ToObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
