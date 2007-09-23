@@ -81,6 +81,7 @@ namespace
 			rule<ScannerT>	nodeGut, nodeGuts;
 			rule<ScannerT>	sfStringValue;
 			rule<ScannerT>	routeDeclaration, protoDeclaration, interfaceDeclaration;
+			rule<ScannerT>	scriptGut;
 		};
 		
 		SParseState&		mState;
@@ -153,12 +154,15 @@ namespace
 	DECLARE_NORMAL_ACTION( FinishUnbracketedArray );
 	DECLARE_NORMAL_ACTION( AppendQuotedStringToArray );
 	DECLARE_NORMAL_ACTION( FinishRoute );
+	DECLARE_NORMAL_ACTION( FinishIS );
 	DECLARE_NORMAL_ACTION( StartIgnoring );
 	DECLARE_NORMAL_ACTION( FinishIgnoring );
 	
 	DECLARE_CHAR_ACTION( StartNode );
 	DECLARE_CHAR_ACTION( StartArray );
 	DECLARE_CHAR_ACTION( FinishArray );
+	DECLARE_CHAR_ACTION( StartIgnoringChar );
+	DECLARE_CHAR_ACTION( FinishIgnoringChar );
 	
 	DECLARE_FLOAT_ACTION( AppendFloatToPolyArray );
 	
@@ -446,6 +450,7 @@ void	FinishDEF::operator()( const char* inStart, const char* inEnd ) const
 	{
 		return;
 	}
+	
 	// Pop the node name and node
 	PolyValue	theNode = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -532,10 +537,34 @@ void	FinishRoute::operator()( const char* inStart, const char* inEnd ) const
 	mState.mProgressStack.pop_back();
 }
 
+void	FinishIS::operator()( const char* inStart, const char* inEnd ) const
+{
+#pragma unused( inStart, inEnd )
+	if (mState.IsIgnoring())
+	{
+		return;
+	}
+	// For now we do nothing with IS, just throw away the 2 identifier strings.
+	mState.mProgressStack.pop_back();
+	mState.mProgressStack.pop_back();
+}
+
 void	StartIgnoring::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
 	mState.StartIgnoring();
+}
+
+void	StartIgnoringChar::operator()( char inChar ) const
+{
+#pragma unused( inChar )
+	mState.StartIgnoring();
+}
+
+void	FinishIgnoringChar::operator()( char inChar ) const
+{
+#pragma unused( inChar )
+	mState.StopIgnoring();
 }
 
 void	FinishIgnoring::operator()( const char* inStart, const char* inEnd ) const
@@ -622,10 +651,20 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 		|	node;
 	
 	node
-		=	identifier
-			>> ch_p('{')[ StartNode( self.mState ) ]
-			>> nodeGuts
-			>> ch_p('}');
+		=	(
+				str_p("Script")[ PushString(self.mState) ]
+				>> ch_p('{')[ StartNode( self.mState ) ]
+							[ StartIgnoringChar(self.mState) ]
+				>> *scriptGut
+				>> ch_p('}')[ FinishIgnoringChar(self.mState) ]
+			)
+		|	(
+				identifier
+				>> ch_p('{')[ StartNode( self.mState ) ]
+				>> nodeGuts
+				>> ch_p('}')
+			)
+		;
 	
 	sfNodeValue
 		=	str_p("NULL")[ PushNULL(self.mState) ]
@@ -662,16 +701,21 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 		// Handling the image field as a special case is not required by the
 		// grammar, it is an optimization.
 	nodeGut
-		=	(
+		=	routeDeclaration[ FinishRoute(self.mState) ]
+		|	protoDeclaration[ FinishIgnoring(self.mState) ]
+		|	(
+				str_p("image")[ PushString(self.mState) ]
+				>> +intArrayMember
+			)[ FinishField(self.mState) ]
+		|	(
+				identifier
+				>>
 				(
-					str_p("image")[ PushString(self.mState) ]
-					>> +intArrayMember
+					(str_p("IS") >> identifier)[ FinishIS(self.mState) ]
+				|	fieldValue[ FinishField(self.mState) ]
 				)
-			|	(
-					identifier
-					>> fieldValue
-				)
-			)[ FinishField(self.mState) ];
+			)
+		;
 	
 	nodeGuts = *nodeGut;
 	
@@ -703,6 +747,29 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 			>> *node
 			>> ch_p('}');
 	
+	scriptGut
+		=	(
+				(
+					str_p("eventIn") >> identifier >> identifier
+					>> !(str_p("IS") >> identifier)
+				)
+			|	(
+					str_p("eventOut") >> identifier >> identifier
+					>> !(str_p("IS") >> identifier)
+				)
+			|	(
+					str_p("field") >> identifier >> identifier
+					>>
+					(
+						(str_p("IS") >> identifier)
+					|
+						fieldValue
+					)
+				)
+			|
+				nodeGut
+			);
+		
 	startRule
 		=	*(
 				routeDeclaration[ FinishRoute(self.mState) ]
