@@ -72,7 +72,8 @@
 	@result		An object reference, or NULL on failure.
 */
 CQ3ObjectRef	ChildrenV2ToObject( PolyValue& ioNode, CVRMLReader& inReader,
-									bool& outMadeGroup )
+									bool& outMadeGroup,
+									const char* inFieldName )
 {
 	CQ3ObjectRef	theGroup;
 	outMadeGroup = false;
@@ -81,9 +82,9 @@ CQ3ObjectRef	ChildrenV2ToObject( PolyValue& ioNode, CVRMLReader& inReader,
 	{
 		PolyValue::Dictionary&	nodeDict( ioNode.GetDictionary() );
 		
-		if (IsKeyPresent( nodeDict, "children" ))
+		if (IsKeyPresent( nodeDict, inFieldName ))
 		{
-			PolyValue&	childrenNode( nodeDict["children"] );
+			PolyValue&	childrenNode( nodeDict[inFieldName] );
 			
 			if (childrenNode.GetType() == PolyValue::kDataTypeArray)
 			{
