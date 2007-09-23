@@ -72,7 +72,7 @@ namespace
 			}
 			
 			rule<ScannerT>	startRule;
-			rule<ScannerT>	identifier;
+			rule<ScannerT>	identifier, identifierNoAction;
 			rule<ScannerT>	sfBoolValue, numArrayValue;
 			rule<ScannerT>	sfNodeValue, node, nodeDeclaration;
 			rule<ScannerT>	fieldValue;
@@ -80,8 +80,8 @@ namespace
 			rule<ScannerT>	arrayValue;
 			rule<ScannerT>	nodeGut, nodeGuts;
 			rule<ScannerT>	sfStringValue;
-			rule<ScannerT>	routeDeclaration, protoDeclaration, interfaceDeclaration;
-			rule<ScannerT>	scriptGut;
+			rule<ScannerT>	routeDeclaration, protoDeclaration;
+			rule<ScannerT>	nestingStuff;
 		};
 		
 		SParseState&		mState;
@@ -96,17 +96,12 @@ namespace
 								
 		void					ConvertNumericArray( bool inConvertSingleToFloat );
 		
-		void					StartIgnoring();
-		void					StopIgnoring();
-		bool					IsIgnoring() const;
-		
 		VRMLParser				mGrammar;
 		symbols<int>			mBools;
 		std::ostream*			mStream;
 		PolyValue::PolyVec		mProgressStack;
 		PolyValue::PolyVec&		mCompleteTopNodes;
 		PolyValue::Dictionary	mNamedNodes;
-		long					mIsIgnoringDepth;
 	};
 
 	#pragma mark === Action declarations ===
@@ -153,16 +148,11 @@ namespace
 	DECLARE_NORMAL_ACTION( FinishField );
 	DECLARE_NORMAL_ACTION( FinishUnbracketedArray );
 	DECLARE_NORMAL_ACTION( AppendQuotedStringToArray );
-	DECLARE_NORMAL_ACTION( FinishRoute );
 	DECLARE_NORMAL_ACTION( FinishIS );
-	DECLARE_NORMAL_ACTION( StartIgnoring );
-	DECLARE_NORMAL_ACTION( FinishIgnoring );
 	
 	DECLARE_CHAR_ACTION( StartNode );
 	DECLARE_CHAR_ACTION( StartArray );
 	DECLARE_CHAR_ACTION( FinishArray );
-	DECLARE_CHAR_ACTION( StartIgnoringChar );
-	DECLARE_CHAR_ACTION( FinishIgnoringChar );
 	
 	DECLARE_FLOAT_ACTION( AppendFloatToPolyArray );
 	
@@ -174,8 +164,7 @@ namespace
 SParseState::SParseState( PolyValue::PolyVec& ioTopNodes, std::ostream* ioStream )
 	: mGrammar( *this ),
 	mStream( ioStream ),
-	mCompleteTopNodes( ioTopNodes ),
-	mIsIgnoringDepth( 0 )
+	mCompleteTopNodes( ioTopNodes )
 {
 	mBools.add
 		( "FALSE", 0 )
@@ -188,28 +177,9 @@ void	SParseState::ConvertNumericArray( bool inConvertSingleToFloat )
 	::ConvertNumericArray( mProgressStack.back(), inConvertSingleToFloat, mStream );
 }
 
-void	SParseState::StartIgnoring()
-{
-	mIsIgnoringDepth += 1;
-}
-
-void	SParseState::StopIgnoring()
-{
-	mIsIgnoringDepth -= 1;
-}
-
-bool	SParseState::IsIgnoring() const
-{
-	return (mIsIgnoringDepth > 0);
-}
-
 #pragma mark === Action definitions ===
 void	PushString::operator()( const char* inStart, const char* inEnd ) const
 {
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	std::string	theMatch( inStart, inEnd );
 	PolyValue	strValue( theMatch );
 	mState.mProgressStack.push_back( strValue );
@@ -223,10 +193,6 @@ void	PushString::operator()( const char* inStart, const char* inEnd ) const
 
 void	PushQuotedString::operator()( const char* inStart, const char* inEnd ) const
 {
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	std::string	theMatch( inStart+1, inEnd-1 );
 	UnBackslashEscape( theMatch );
 	PolyValue	strValue( theMatch );
@@ -241,10 +207,6 @@ void	PushQuotedString::operator()( const char* inStart, const char* inEnd ) cons
 
 void	PushBool::operator()( int inValue ) const
 {
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	PolyValue	boolValue( inValue != 0 );
 	mState.mProgressStack.push_back( boolValue );
 
@@ -258,10 +220,6 @@ void	PushBool::operator()( int inValue ) const
 void	PushNULL::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	mState.mProgressStack.push_back( PolyValue() );
 
 	if ( mState.mStream != NULL )
@@ -273,10 +231,6 @@ void	PushNULL::operator()( const char* inStart, const char* inEnd ) const
 void	StartNode::operator()( char inChar ) const
 {
 #pragma unused( inChar )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	PolyValue	nodeTypeValue = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
 	PolyValue	theNode;
@@ -294,10 +248,6 @@ void	StartNode::operator()( char inChar ) const
 void	StartArray::operator()( char inChar ) const
 {
 #pragma unused( inChar )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	PolyValue	theArray;
 	theArray.SetType( PolyValue::kDataTypeArray );
 	mState.mProgressStack.push_back( theArray );
@@ -311,30 +261,18 @@ void	StartArray::operator()( char inChar ) const
 void	FinishArray::operator()( char inChar ) const
 {
 #pragma unused( inChar )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	mState.ConvertNumericArray( false );
 }
 
 void	FinishUnbracketedArray::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	mState.ConvertNumericArray( true );
 }
 
 
 void	AppendFloatToPolyArray::operator()( double inValue ) const
 {
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	if (mState.mProgressStack.back().GetType() != PolyValue::kDataTypeArray)
 	{
 		PolyValue	newArray;
@@ -359,10 +297,6 @@ void	AppendFloatToPolyArray::operator()( double inValue ) const
 
 void	AppendIntToPolyArray::operator()( int inValue ) const
 {
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	if (mState.mProgressStack.back().GetType() != PolyValue::kDataTypeArray)
 	{
 		PolyValue	newArray;
@@ -387,10 +321,6 @@ void	AppendIntToPolyArray::operator()( int inValue ) const
 
 void	AppendIntToIntArray::operator()( int inValue ) const
 {
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	if (mState.mProgressStack.back().GetType() != PolyValue::kDataTypeArrayOfInt)
 	{
 		PolyValue	newArray;
@@ -410,10 +340,6 @@ void	AppendIntToIntArray::operator()( int inValue ) const
 void	AppendNodeToArray::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	// Pop the node
 	PolyValue	theNode = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -430,10 +356,6 @@ void	AppendNodeToArray::operator()( const char* inStart, const char* inEnd ) con
 
 void	AppendQuotedStringToArray::operator()( const char* inStart, const char* inEnd ) const
 {
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	std::string	theMatch( inStart+1, inEnd-1 );
 	UnBackslashEscape( theMatch );
 	PolyValue	strValue( theMatch );
@@ -446,11 +368,6 @@ void	AppendQuotedStringToArray::operator()( const char* inStart, const char* inE
 void	FinishDEF::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
-	
 	// Pop the node name and node
 	PolyValue	theNode = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -475,10 +392,6 @@ void	FinishDEF::operator()( const char* inStart, const char* inEnd ) const
 void	FinishUSE::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	// Pop the node name
 	PolyValue	nodeNameValue = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -507,10 +420,6 @@ void	FinishUSE::operator()( const char* inStart, const char* inEnd ) const
 void	FinishTopNode::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	// Pop the node.
 	PolyValue	theNode = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -523,63 +432,17 @@ void	FinishTopNode::operator()( const char* inStart, const char* inEnd ) const
 	}
 }
 
-void	FinishRoute::operator()( const char* inStart, const char* inEnd ) const
-{
-#pragma unused( inStart, inEnd )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
-	// For now we do nothing with ROUTE, just throw away the 4 identifier strings.
-	mState.mProgressStack.pop_back();
-	mState.mProgressStack.pop_back();
-	mState.mProgressStack.pop_back();
-	mState.mProgressStack.pop_back();
-}
-
 void	FinishIS::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	// For now we do nothing with IS, just throw away the 2 identifier strings.
 	mState.mProgressStack.pop_back();
 	mState.mProgressStack.pop_back();
 }
 
-void	StartIgnoring::operator()( const char* inStart, const char* inEnd ) const
-{
-#pragma unused( inStart, inEnd )
-	mState.StartIgnoring();
-}
-
-void	StartIgnoringChar::operator()( char inChar ) const
-{
-#pragma unused( inChar )
-	mState.StartIgnoring();
-}
-
-void	FinishIgnoringChar::operator()( char inChar ) const
-{
-#pragma unused( inChar )
-	mState.StopIgnoring();
-}
-
-void	FinishIgnoring::operator()( const char* inStart, const char* inEnd ) const
-{
-#pragma unused( inStart, inEnd )
-	mState.StopIgnoring();
-}
-
 void	FinishField::operator()( const char* inStart, const char* inEnd ) const
 {
 #pragma unused( inStart, inEnd )
-	if (mState.IsIgnoring())
-	{
-		return;
-	}
 	// Pop the value.
 	PolyValue	theValue = mState.mProgressStack.back();
 	mState.mProgressStack.pop_back();
@@ -608,12 +471,29 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 	chset<> notIdRestChar( notIdRestChar1 | range_p('\x00', '\x20') );
 	chset<> idRestChars( anychar_p - notIdRestChar );
 	
-	identifier
+	chset<>	nestingChar( "[]{}\"" );
+	chset<>	nonNestingChar( anychar_p - nestingChar );
+	
+	// This rule matches any chunk of text that has proper nesting of braces,
+	// brackets, and quotes, with no semantic actions.  It will only be used to
+	// skip nodes that will not contribute to the imported Quesa object.
+	nestingStuff
+		=	*(
+				nonNestingChar
+			|	(ch_p('{') >> nestingStuff >> ch_p('}'))
+			|	(ch_p('[') >> nestingStuff >> ch_p(']'))
+			|	sfStringValue
+			);
+	
+	identifierNoAction
 		=	lexeme_d
 			[
 				idFirstChar
 				>> *idRestChars
-			][ PushString(self.mState) ];
+			];
+
+	identifier
+		=	identifierNoAction[ PushString(self.mState) ];
 
 	sfBoolValue
 		=	self.mState.mBools [ PushBool(self.mState) ];
@@ -652,11 +532,14 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 	
 	node
 		=	(
+				// One might at first think that one could parse a Script with
+				// no semantic actions.  However, a node can be part of a DEF,
+				// and FinishDEF expects to find a node on the stack, hence we
+				// need StartNode.
 				str_p("Script")[ PushString(self.mState) ]
 				>> ch_p('{')[ StartNode( self.mState ) ]
-							[ StartIgnoringChar(self.mState) ]
-				>> *scriptGut
-				>> ch_p('}')[ FinishIgnoringChar(self.mState) ]
+				>> nestingStuff
+				>> ch_p('}')
 			)
 		|	(
 				identifier
@@ -701,8 +584,8 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 		// Handling the image field as a special case is not required by the
 		// grammar, it is an optimization.
 	nodeGut
-		=	routeDeclaration[ FinishRoute(self.mState) ]
-		|	protoDeclaration[ FinishIgnoring(self.mState) ]
+		=	routeDeclaration
+		|	protoDeclaration
 		|	(
 				str_p("image")[ PushString(self.mState) ]
 				>> +intArrayMember
@@ -721,59 +604,28 @@ VRMLParser::definition<ScannerT>::definition( const VRMLParser& self )
 	
 	routeDeclaration
 		=	str_p("ROUTE")
-			>> identifier
+			>> identifierNoAction
 			>> ch_p('.')
-			>> identifier
+			>> identifierNoAction
 			>> str_p("TO")
-			>> identifier
+			>> identifierNoAction
 			>> ch_p('.')
-			>> identifier;
-
-	interfaceDeclaration
-		=	(
-				(str_p("eventIn") >> identifier >> identifier)
-			|	(str_p("eventOut") >> identifier >> identifier)
-			|	(str_p("field") >> identifier >> identifier >> fieldValue)
-			|	(str_p("exposedField") >> identifier >> identifier >> fieldValue)
-			);
+			>> identifierNoAction;
 
 	protoDeclaration
-		=	str_p("PROTO") [ StartIgnoring(self.mState) ]
-			>> identifier
+		=	str_p("PROTO")
+			>> identifierNoAction
 			>> ch_p('[')
-			>>	*(interfaceDeclaration)
+			>> nestingStuff
 			>> ch_p(']')
 			>> ch_p('{')
-			>> *node
+			>> nestingStuff
 			>> ch_p('}');
 	
-	scriptGut
-		=	(
-				(
-					str_p("eventIn") >> identifier >> identifier
-					>> !(str_p("IS") >> identifier)
-				)
-			|	(
-					str_p("eventOut") >> identifier >> identifier
-					>> !(str_p("IS") >> identifier)
-				)
-			|	(
-					str_p("field") >> identifier >> identifier
-					>>
-					(
-						(str_p("IS") >> identifier)
-					|
-						fieldValue
-					)
-				)
-			|
-				nodeGut
-			);
-		
 	startRule
 		=	*(
-				routeDeclaration[ FinishRoute(self.mState) ]
-			|	protoDeclaration[ FinishIgnoring(self.mState) ]
+				routeDeclaration
+			|	protoDeclaration
 			|	nodeDeclaration[ FinishTopNode(self.mState) ]
 			)
 			>>
@@ -804,12 +656,12 @@ bool	ParseVRML( const std::string& inVRMLText, PolyValue::PolyVec& outNodes,
 {
 	VRML_reader::Skipper	mySkipper;
 	SParseState	theState( outNodes, ioDebugStream );
+	const char*	textStart = &inVRMLText[0];
+	const char* textEnd = textStart + inVRMLText.size();
 	
 	parse_info<>	parseResult = parse(
-		&*inVRMLText.begin(), &*inVRMLText.end(),
+		textStart, textEnd,
 		theState.mGrammar, mySkipper );
-		// The funny &* things are to convert std::string::const_iterator to
-		// const char*.
 	
 	if (ioDebugStream != NULL)
 	{
