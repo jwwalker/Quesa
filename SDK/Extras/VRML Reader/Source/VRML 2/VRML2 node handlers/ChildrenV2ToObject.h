@@ -66,9 +66,11 @@ class CVRMLReader;
 	@param		inReader		The reader object.
 	@param		outMadeGroup	Receives a flag indicating whether the operation
 								made a group of more than one child.
+	@param		inFieldName		Name of the field containing the children.
 	
 	@result		An object reference, or NULL on failure.
 */
 CQ3ObjectRef	ChildrenV2ToObject( PolyValue& ioNode,
 									CVRMLReader& inReader,
-									bool& outMadeGroup );
+									bool& outMadeGroup,
+									const char* inFieldName = "children" );
