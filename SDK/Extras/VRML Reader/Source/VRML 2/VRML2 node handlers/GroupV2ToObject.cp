@@ -69,9 +69,6 @@ CQ3ObjectRef	GroupV2ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 	{
 		SetGroupName( theObject, ioNode.GetDictionary() );
 		
-		// DEBUG
-		std::string		gpName( GetObjectName( theObject ) );
-
 		SetCachedObject( ioNode, theObject );
 	}
 	
