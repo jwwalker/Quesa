@@ -47,6 +47,7 @@
 #include "GroupV2ToObject.h"
 #include "PolyValue.h"
 #include "ShapeV2ToObject.h"
+#include "SwitchV2ToObject.h"
 #include "TransformV2ToObject.h"
 
 #include <ostream>
@@ -92,6 +93,10 @@ CQ3ObjectRef	NodeV2ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 			else if ( (nodeType == "Group") or (nodeType == "Anchor") )
 			{
 				theObject = GroupV2ToObject( ioNode, inReader );
+			}
+			else if (nodeType == "Switch")
+			{
+				theObject = SwitchV2ToObject( ioNode, inReader );
 			}
 			else if (inReader.GetDebugStream() != NULL)
 			{
