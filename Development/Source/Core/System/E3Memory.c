@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,7 @@
 #include "E3Prefix.h"
 #include "E3Memory.h"
 #include "E3StackCrawl.h"
+#include "E3String.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -908,7 +909,13 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 			}
 			fprintf( dumpFile, "%s (%p)", className, anObject );
 			
-			if (Q3Object_IsType( anObject, kQ3ObjectTypeShared ))
+			if (Q3Object_IsType( anObject, kQ3StringTypeCString))
+			{
+				fprintf( dumpFile, "   %ld  '%s'\n",
+					Q3Shared_GetReferenceCount(anObject),
+					E3CString_PeekString( anObject ) );
+			}
+			else if (Q3Object_IsType( anObject, kQ3ObjectTypeShared ))
 			{
 				fprintf( dumpFile, "   %ld\n", Q3Shared_GetReferenceCount(anObject) );
 			}
