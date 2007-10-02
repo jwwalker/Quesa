@@ -55,6 +55,7 @@
 
 #import "GLPrefix.h"
 #import "GLCocoaContext.h"
+#include "GLUtils.h"
 
 
 
@@ -89,6 +90,7 @@ CocoaGLContext::CocoaGLContext(
     NSRect							viewFrame;
     TQ3Uns32						glRect[4];
     long int						enable;
+	TQ3GLExtensions					extFlags;
 
 
 
@@ -164,6 +166,18 @@ CocoaGLContext::CocoaGLContext(
 
 
 
+	// Get the function pointer to bind an FBO, if possible.  This cannot be done until
+	// after the context has been made current.
+	GLUtils_CheckExtensions( &extFlags );
+	if (extFlags.frameBufferObjects)
+	{
+		// The extension check is necessary; the function pointer may be
+		// available even if the extension is not.
+		bindFrameBufferFunc = GLGetProcAddress( "glBindFramebufferEXT" );
+ 	}
+
+
+
 	// Sync to monitor refresh rate?
 	TQ3Boolean	doSync;
 	if ( (kQ3Success == Q3Object_GetProperty( theDrawContext,
@@ -202,11 +216,20 @@ void	CocoaGLContext::SwapBuffers()
 	[(id)glContext flushBuffer];
 }
 
-void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
+void	CocoaGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 {
 	// Activate the context
 	if(inForceSet || ![[NSOpenGLContext currentContext]isEqual:(id)glContext])
 		[(id)glContext makeCurrentContext];
+}
+
+void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
+{
+	// Activate the context
+	SetCurrentBase( inForceSet );
+	
+	// Make sure that no FBO is active
+	BindFrameBuffer( 0 );
 }
 
 
