@@ -77,6 +77,8 @@ public:
 	virtual				~CocoaGLContext();
 	
 	virtual void		SwapBuffers();
+	
+	virtual void		SetCurrentBase( TQ3Boolean inForceSet );
 
 	virtual void		SetCurrent( TQ3Boolean inForceSet );
 	
