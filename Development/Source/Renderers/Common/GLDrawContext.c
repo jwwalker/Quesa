@@ -162,6 +162,10 @@ public:
 	
 	virtual void		SwapBuffers();
 
+						// Make the platform OpenGL context current, but
+						// do not alter the framebuffer binding.
+	virtual void		SetCurrentBase( TQ3Boolean inForceSet );
+
 	virtual void		SetCurrent( TQ3Boolean inForceSet );
 	
 	virtual void		StartFrame();
@@ -181,7 +185,6 @@ private:
 	
 	glGenFramebuffersEXTProcPtr				glGenFramebuffersEXT;
 	glDeleteFramebuffersEXTProcPtr			glDeleteFramebuffersEXT;
-	glBindFramebufferEXTProcPtr				glBindFramebufferEXT;
 	glGenRenderbuffersEXTProcPtr			glGenRenderbuffersEXT;
 	glDeleteRenderbuffersEXTProcPtr			glDeleteRenderbuffersEXT;
 	glBindRenderbufferEXTProcPtr			glBindRenderbufferEXT;
@@ -225,7 +228,11 @@ public:
 	virtual				~WinGLContext();
 	
 	virtual void		SwapBuffers();
-
+	
+						// Make the platform OpenGL context current, but
+						// do not alter the framebuffer binding.
+	virtual void		SetCurrentBase( TQ3Boolean inForceSet );
+	
 	virtual void		SetCurrent( TQ3Boolean inForceSet );
 	
 	virtual bool		UpdateWindowSize();
@@ -233,7 +240,6 @@ public:
 //private:
 	HDC								theDC;
 	HGLRC							glContext;
-	glBindFramebufferEXTProcPtr		winBindFramebufferEXT;
 	
 	// Only used for pixmap draw contexts
 	HBITMAP 						backBuffer;
@@ -257,6 +263,10 @@ public:
 	
 	virtual void		SwapBuffers();
 
+						// Make the platform OpenGL context current, but
+						// do not alter the framebuffer binding.
+	virtual void		SetCurrentBase( TQ3Boolean inForceSet );
+	
 	virtual void		SetCurrent( TQ3Boolean inForceSet );
 	
 	virtual bool		UpdateWindowPosition();
@@ -265,7 +275,6 @@ public:
 
 private:
 	AGLContext						macContext;
-	glBindFramebufferEXTProcPtr		macBindFramebufferEXT;
 };
 #endif
 
@@ -275,6 +284,17 @@ private:
 //=============================================================================
 //		Internal functions
 //-----------------------------------------------------------------------------
+
+void	CQ3GLContext::BindFrameBuffer( GLuint inFrameBufferID )
+{
+	if ( (bindFrameBufferFunc != NULL) &&
+		(inFrameBufferID != currentFrameBufferID) )
+	{
+		((glBindFramebufferEXTProcPtr) bindFrameBufferFunc)( GL_FRAMEBUFFER_EXT,
+			inFrameBufferID );
+		currentFrameBufferID = inFrameBufferID;
+	}
+}
 
 /*!
 	@function	gldrawcontext_common_flip_pixel_rows
@@ -472,7 +492,7 @@ FBORec::FBORec(
 	// Get FBO function pointers
 	GLGetProcAddress( glGenFramebuffersEXT, "glGenFramebuffersEXT" );
 	GLGetProcAddress( glDeleteFramebuffersEXT, "glDeleteFramebuffersEXT" );
-	GLGetProcAddress( glBindFramebufferEXT, "glBindFramebufferEXT" );
+	bindFrameBufferFunc = GLGetProcAddress( "glBindFramebufferEXT" );
 	GLGetProcAddress( glGenRenderbuffersEXT, "glGenRenderbuffersEXT" );
 	GLGetProcAddress( glDeleteRenderbuffersEXT, "glDeleteRenderbuffersEXT" );
 	GLGetProcAddress( glBindRenderbufferEXT, "glBindRenderbufferEXT" );
@@ -483,7 +503,7 @@ FBORec::FBORec(
 
 	// Create and bind a framebuffer object
 	glGenFramebuffersEXT( 1, &frameBufferID );
-	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, frameBufferID );
+	BindFrameBuffer( frameBufferID );
 	
 	// Create color renderbuffer
 	glGenRenderbuffersEXT( 1, &colorRenderBufferID );
@@ -575,7 +595,7 @@ FBORec::FBORec(
 
 void	FBORec::Cleanup()
 {
-	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
+	BindFrameBuffer( 0 );
 	
 	// Delete renderbuffers
 	if (colorRenderBufferID != 0)
@@ -613,9 +633,14 @@ FBORec::~FBORec()
 
 void	FBORec::SetCurrent( TQ3Boolean inForceSet )
 {
-	GLDrawContext_SetCurrent( masterContext, inForceSet );
+	SetCurrentBase( inForceSet );
 	
-	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, frameBufferID );
+	static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer( frameBufferID );
+}
+
+void	FBORec::SetCurrentBase( TQ3Boolean inForceSet )
+{
+	static_cast<CQ3GLContext*>(masterContext)->SetCurrentBase( inForceSet );
 }
 
 void	FBORec::SwapBuffers()
@@ -872,7 +897,6 @@ MacGLContext::MacGLContext(
 								TQ3Uns32 stencilBits )
 	: CQ3GLContext( theDrawContext )
 	, macContext( NULL )
-	, macBindFramebufferEXT( NULL )
 {
 	GLint					glAttributes[kMaxGLAttributes];
 	TQ3Uns32				numAttributes;
@@ -1110,8 +1134,8 @@ MacGLContext::MacGLContext(
 	{
 		// The extension check is necessary; the function pointer may be
 		// available even if the extension is not.
-		GLGetProcAddress( macBindFramebufferEXT, "glBindFramebufferEXT" );
-	}
+		bindFrameBufferFunc = GLGetProcAddress( "glBindFramebufferEXT" );
+ 	}
 
 
 	// AGL_BUFFER_RECT has no effect on an offscreen context
@@ -1187,8 +1211,7 @@ void	MacGLContext::SwapBuffers()
 	aglSwapBuffers( macContext );
 }
 
-
-void	MacGLContext::SetCurrent( TQ3Boolean inForceSet )
+void	MacGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 {
 	// Activate the context
 	//
@@ -1200,13 +1223,16 @@ void	MacGLContext::SetCurrent( TQ3Boolean inForceSet )
 	// this potential problem, and force our context to be active.
 	if (inForceSet || aglGetCurrentContext() != macContext)
 		aglSetCurrentContext( macContext );
-	
+}
 
+
+void	MacGLContext::SetCurrent( TQ3Boolean inForceSet )
+{
+	// Activate the context
+	SetCurrentBase( inForceSet );
+	
 	// Make sure that no FBO is active
-	if (macBindFramebufferEXT != NULL)
-	{
-		macBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-	}
+	BindFrameBuffer( 0 );
 }
 
 bool	MacGLContext::UpdateWindowPosition()
@@ -1409,7 +1435,6 @@ WinGLContext::WinGLContext(
 	: CQ3GLContext( theDrawContext )
 	, theDC( NULL )
 	, glContext( NULL )
-	, winBindFramebufferEXT( NULL )
 	, backBuffer( NULL )
 	, pBits( NULL )
 {
@@ -1581,7 +1606,7 @@ WinGLContext::WinGLContext(
 	
 	
 	// Get the glBindFramebufferEXT function pointer
-	GLGetProcAddress( winBindFramebufferEXT, "glBindFramebufferEXT" );
+	bindFrameBufferFunc = GLGetProcAddress( "glBindFramebufferEXT" );
 	
 
 
@@ -1702,9 +1727,10 @@ void	WinGLContext::SwapBuffers()
 	}
 }
 
-void	WinGLContext::SetCurrent( TQ3Boolean inForceSet )
+// Make the platform OpenGL context current, but
+// do not alter the framebuffer binding.
+void	WinGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 {
-	// Activate the context
 	if (inForceSet                                    ||
 		wglGetCurrentDC()      != theDC ||
 		wglGetCurrentContext() != glContext)
@@ -1721,14 +1747,17 @@ void	WinGLContext::SetCurrent( TQ3Boolean inForceSet )
 		}
 	#endif
 	}
+}
+	
 
+void	WinGLContext::SetCurrent( TQ3Boolean inForceSet )
+{
+	// Activate the context
+	SetCurrentBase( inForceSet );
 	
 
 	// Make sure that no FBO is active
-	if (winBindFramebufferEXT != NULL)
-	{
-		winBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-	}
+	BindFrameBuffer( 0 );
 }
 
 
