@@ -119,19 +119,36 @@ struct TQ3GLExtensions
 	@class		CQ3GLContext
 	@abstract	Abstract base class for an OpenGL context.
 	@discussion	The concrete subclasses will be platform-dependent.
+	
+				A subclass constructor should get the address for
+				bindFrameBufferFunc.  It is usually necessary to make the GL
+				context current and perhaps check for the FBO extension before
+				doing so, hence the base class constructor cannot do it.
 */
 class CQ3GLContext
 {
 public:
 						CQ3GLContext( TQ3DrawContextObject inDC )
-							: quesaDrawContext( inDC ) {}
+							: quesaDrawContext( inDC )
+							, currentFrameBufferID( 0 )
+							, bindFrameBufferFunc( NULL ) {}
 				
 	virtual				~CQ3GLContext() {}
 	
 	virtual void		SwapBuffers() = 0;
 	
 	virtual void		StartFrame() {}
+
+						// Make the platform OpenGL context current, but
+						// do not alter the framebuffer binding.
+	virtual void		SetCurrentBase( TQ3Boolean inForceSet ) = 0;
 	
+						// Set the active framebuffer (FBO), or use 0 to select
+						// no FBO.
+	void				BindFrameBuffer( GLuint inFrameBufferID );
+	
+						// Make the context current.  Normally this will use
+						// SetCurrentBase and BindFrameBuffer.
 	virtual void		SetCurrent( TQ3Boolean inForceSet ) = 0;
 	
 	virtual bool		UpdateWindowPosition() { return false; }
@@ -140,6 +157,8 @@ public:
 
 protected:
 	TQ3Object			quesaDrawContext;
+	GLuint				currentFrameBufferID;
+	void*				bindFrameBufferFunc;
 };
 
 
