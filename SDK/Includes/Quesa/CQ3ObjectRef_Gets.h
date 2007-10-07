@@ -565,6 +565,30 @@ inline CQ3ObjectRef CQ3ViewHints_GetAttributeSet(
 	return CQ3ObjectRef( theObject );
 }
 
+
+#pragma mark Functions from QuesaSet.h
+/*!
+	@functiongroup	Functions from QuesaSet.h
+*/
+
+/*!
+ *	@function	CQ3AttributeSet_GetSurfaceShader
+ *	@discussion	Get the surface shader from an attribute set.
+ *
+ *	@param		inSet		An attribute set.
+ *	@result		A surface shader or NULL.
+*/
+inline CQ3ObjectRef CQ3AttributeSet_GetSurfaceShader( TQ3AttributeSet inSet )
+{
+	TQ3Object	theShader = NULL;
+	if (inSet != NULL)
+	{
+		Q3AttributeSet_Get( inSet, kQ3AttributeTypeSurfaceShader, &theShader );
+	}
+	return CQ3ObjectRef( theShader );
+}
+
+
 #pragma mark Functions from QuesaShader.h
 /*!
 	@functiongroup	Functions from QuesaShader.h
