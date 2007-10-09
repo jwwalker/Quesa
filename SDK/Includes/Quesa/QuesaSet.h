@@ -165,7 +165,7 @@ enum {
     kQ3XAttributeMaskSurfaceShader              = (1 << (kQ3AttributeTypeSurfaceShader      - 1)),
     kQ3XAttributeMaskEmissiveColor              = (1 << (kQ3AttributeTypeEmissiveColor      - 1)),
     kQ3XAttributeMaskCustomAttribute            = 0x80000000,
-    kQ3XAttributeMaskAll                        = 0x800007FF,
+    kQ3XAttributeMaskAll                        = 0x80000FFF,
     kQ3XAttributeMaskInherited                  = 0x000003FF,
     kQ3XAttributeMaskInterpolated               = kQ3XAttributeMaskSurfaceUV          |
                                                   kQ3XAttributeMaskShadingUV          |
