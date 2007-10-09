@@ -1356,8 +1356,10 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		return true;
 	}
 	
-	// Cull objects not visible from the current camera
-	if ( ! E3BoundingBox_IntersectViewFrustum( inView, inGeomData->bBox ))
+	// Cull objects not visible from the current camera, except when marking
+	// shadows
+	if ( ! mLights.IsShadowMarkingPass() &&
+		! E3BoundingBox_IntersectViewFrustum( inView, inGeomData->bBox ))
 	{
 		return true;
 	}
