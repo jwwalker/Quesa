@@ -178,28 +178,17 @@ e3drawcontext_win32dc_delete(TQ3Object theObject, void *privateData)
 static TQ3Status
 e3drawcontext_win32dc_update ( E3Win32DCDrawContext* theDrawContext )
 {
-	// If we have a draw region, and nothing has changed, all we need to do is check whether the window
-	// has been resized.
-	if ( ( theDrawContext->instanceData.theState & ~kQ3XDrawContextValidationBackgroundShader) == kQ3XDrawContextValidationClearFlags)
+	// Check whether the window has been resized.
+	TQ3Area		newArea;
+	e3drawcontext_win32dc_get_dimensions_from_DC( theDrawContext->instanceData.data.win32Data.theData.hdc,
+		&newArea );
+	if ( (newArea.max.x != theDrawContext->instanceData.data.win32Data.windowRect.max.x) ||
+		(newArea.max.y != theDrawContext->instanceData.data.win32Data.windowRect.max.y) )
 		{
-		TQ3Area		newArea;
-		e3drawcontext_win32dc_get_dimensions_from_DC( theDrawContext->instanceData.data.win32Data.theData.hdc,
-			&newArea );
-		if ( (newArea.max.x != theDrawContext->instanceData.data.win32Data.windowRect.max.x) ||
-			(newArea.max.y != theDrawContext->instanceData.data.win32Data.windowRect.max.y) )
-			{
-			theDrawContext->instanceData.data.win32Data.windowRect = newArea;
-			theDrawContext->instanceData.theState = kQ3XDrawContextValidationWindowSize;
-			}
-		return(kQ3Success);
+		theDrawContext->instanceData.data.win32Data.windowRect = newArea;
+		theDrawContext->instanceData.theState = kQ3XDrawContextValidationWindowSize;
 		}
-
-
-
-	// Update the state flag
-	theDrawContext->instanceData.theState = kQ3XDrawContextValidationAll;
-
-	return(kQ3Success);		
+	return(kQ3Success);
 }
 
 
