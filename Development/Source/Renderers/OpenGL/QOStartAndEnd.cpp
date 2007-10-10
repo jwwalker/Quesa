@@ -453,7 +453,10 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 		GLDrawContext_SwapBuffers( mGLContext );
 	}
 	
-	FlushVBOCache( mGLContext );
+	if (mGLExtensions.vertexBufferObjects == kQ3True)
+	{
+		FlushVBOCache( mGLContext );
+	}
 	FlushDisplayListCache( mGLContext );
 
 	
