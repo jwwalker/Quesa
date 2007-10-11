@@ -1771,8 +1771,6 @@ void	WinGLContext::SetCurrent( TQ3Boolean inForceSet )
 		// FBOs turn off scissor test
 		if (needsScissor)
 		{
-			GLint	theViewPort[4];
-			glGetIntegerv( GL_VIEWPORT, theViewPort );
 			glEnable( GL_SCISSOR_TEST );
 		}
 	}
