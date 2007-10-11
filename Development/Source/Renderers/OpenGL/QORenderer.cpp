@@ -61,7 +61,7 @@ namespace
 	const float			kDefaultAlpha = 1.0f;
 	const TQ3ColorRGB	kDefaultEmissiveColor = { 0.0f, 0.0, 0.0f };
 	
-	const TQ3Uns32		kDefaultDepthBits	= 32;
+	const TQ3Uns32		kDefaultDepthBits	= 24;
 }
 
 //=============================================================================
