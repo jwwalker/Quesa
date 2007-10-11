@@ -147,6 +147,8 @@ public:
 						// no FBO.
 	void				BindFrameBuffer( GLuint inFrameBufferID );
 	
+	GLuint				GetCurrentFrameBuffer() const { return currentFrameBufferID; }
+	
 						// Make the context current.  Normally this will use
 						// SetCurrentBase and BindFrameBuffer.
 	virtual void		SetCurrent( TQ3Boolean inForceSet ) = 0;
