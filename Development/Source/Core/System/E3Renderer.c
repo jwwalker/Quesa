@@ -1135,16 +1135,21 @@ E3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject theRenderer, TQ3Uns3
 //      E3InteractiveRenderer_SetRAVETextureFilter : Set the RAVE filter.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject theRenderer, TQ3TextureFilter raveTextureFilterValue)
+E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject inRenderer, TQ3TextureFilter raveTextureFilterValue)
+{
+	E3Renderer*	theRenderer = (E3Renderer*) inRenderer;
+	
+	if (theRenderer->instanceData.raveTextureFilter != raveTextureFilterValue)
 	{
-	// Set the field, and flag that we need to reset the draw context state.
-	( (E3Renderer*) theRenderer )->instanceData.raveTextureFilter = raveTextureFilterValue ;
-	( (E3Renderer*) theRenderer )->instanceData.drawContextReset  = kQ3True ;
+		// Set the field, and flag that we need to reset the draw context state.
+		theRenderer->instanceData.raveTextureFilter = raveTextureFilterValue;
+		theRenderer->instanceData.drawContextReset  = kQ3True;
 
-	Q3Shared_Edited ( theRenderer ) ;
+		Q3Shared_Edited( inRenderer );
+	}
 	
 	return kQ3Success ;
-	}
+}
 
 
 
