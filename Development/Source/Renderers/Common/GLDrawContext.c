@@ -240,6 +240,7 @@ public:
 //private:
 	HDC								theDC;
 	HGLRC							glContext;
+	bool							needsScissor;
 	
 	// Only used for pixmap draw contexts
 	HBITMAP 						backBuffer;
@@ -503,7 +504,7 @@ FBORec::FBORec(
 
 	// Create and bind a framebuffer object
 	glGenFramebuffersEXT( 1, &frameBufferID );
-	BindFrameBuffer( frameBufferID );
+	static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer( frameBufferID );
 	
 	// Create color renderbuffer
 	glGenRenderbuffersEXT( 1, &colorRenderBufferID );
@@ -584,6 +585,8 @@ FBORec::FBORec(
 
 		// Set the viewport
 		glViewport( 0, 0, inPaneWidth, inPaneHeight );
+		
+		glDisable( GL_SCISSOR_TEST );
 	}
 	else
 	{
@@ -595,7 +598,7 @@ FBORec::FBORec(
 
 void	FBORec::Cleanup()
 {
-	BindFrameBuffer( 0 );
+	static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer( frameBufferID );
 	
 	// Delete renderbuffers
 	if (colorRenderBufferID != 0)
@@ -636,6 +639,8 @@ void	FBORec::SetCurrent( TQ3Boolean inForceSet )
 	SetCurrentBase( inForceSet );
 	
 	static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer( frameBufferID );
+	
+	glDisable( GL_SCISSOR_TEST );
 }
 
 void	FBORec::SetCurrentBase( TQ3Boolean inForceSet )
@@ -1435,6 +1440,7 @@ WinGLContext::WinGLContext(
 	: CQ3GLContext( theDrawContext )
 	, theDC( NULL )
 	, glContext( NULL )
+	, needsScissor( false )
 	, backBuffer( NULL )
 	, pBits( NULL )
 {
@@ -1622,6 +1628,7 @@ WinGLContext::WinGLContext(
 				   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
 				   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
 				   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+		needsScissor = true;
 	}
 	else
 	{
@@ -1757,7 +1764,18 @@ void	WinGLContext::SetCurrent( TQ3Boolean inForceSet )
 	
 
 	// Make sure that no FBO is active
-	BindFrameBuffer( 0 );
+	if (GetCurrentFrameBuffer() != 0)
+	{
+		BindFrameBuffer( 0 );
+		
+		// FBOs turn off scissor test
+		if (needsScissor)
+		{
+			GLint	theViewPort[4];
+			glGetIntegerv( GL_VIEWPORT, theViewPort );
+			glEnable( GL_SCISSOR_TEST );
+		}
+	}
 }
 
 
@@ -1794,12 +1812,14 @@ bool	WinGLContext::UpdateWindowSize()
 							   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
 							   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
 							   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+					needsScissor = true;
 				}
 				else
 				{
 					glViewport( 0, 0, windowRect.right - windowRect.left,
 						windowHeight );
 					glDisable( GL_SCISSOR_TEST );
+					needsScissor = false;
 				}
 				didUpdate = true;
 			}
