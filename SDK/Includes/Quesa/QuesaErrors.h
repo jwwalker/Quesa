@@ -479,6 +479,12 @@ typedef enum {
  *  @constant kQ3NoticeViewSyncCalledAgain                 View sync called again.
  *  @constant kQ3NoticeFileCancelled                       File cancelled.
  *  @constant kQ3NoticeBrightnessLessThanZero              Brightness less than 0.0. Not available in QD3D.
+ *	@constant kQ3NoticeVertexShaderCompileFailed		   Per-pixel lighting failed because the vertex shader
+ *														   did not compile.
+ *	@constant kQ3NoticeFragmentShaderCompileFailed		   Per-pixel lighting is not fully functional because
+ *														   a fragment shader did not compile.
+ *	@constant kQ3NoticeShaderProgramLinkFailed			   Per-pixel lighting failed because the shader program
+ *														   did not link.
  */
 typedef enum {
     kQ3NoticeNone                               = 0,
@@ -501,7 +507,10 @@ typedef enum {
     kQ3NoticeFileCancelled                      = -28085,
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-	kQ3NoticeBrightnessLessThanZero             = -28084,
+    kQ3NoticeBrightnessLessThanZero             = -28084,
+    kQ3NoticeVertexShaderCompileFailed          = -28083,
+    kQ3NoticeFragmentShaderCompileFailed        = -28082,
+    kQ3NoticeShaderProgramLinkFailed            = -28081,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3NoticeLast,
