@@ -178,6 +178,11 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 		
 		const TQ3Param2D*	vertUVs = reinterpret_cast<const TQ3Param2D*>(
 			FindTriMeshVertexData( &tmData, kQ3AttributeTypeSurfaceUV ) );
+		if (vertUVs == NULL)
+		{
+			vertUVs = reinterpret_cast<const TQ3Param2D*>(
+				FindTriMeshVertexData( &tmData, kQ3AttributeTypeShadingUV ) );
+		}
 		if (vertUVs != NULL)
 		{
 			AppendArrayToVec( mergedVertUVs, vertUVs, tmData.numPoints );
