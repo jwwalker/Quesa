@@ -239,7 +239,8 @@ namespace
 				"	{"
 						// Start with emissive and global ambient color.
 						// I will assume that the only ambient light is global.
-				"		color = gl_FrontLightModelProduct.sceneColor.rgb;"
+				"		color = gl_LightModel.ambient.rgb * gl_Color.rgb + "
+							"gl_FrontMaterial.emission.rgb;"
 
 						// Add diffuse color.
 				"		color += diff * gl_Color.rgb;"
