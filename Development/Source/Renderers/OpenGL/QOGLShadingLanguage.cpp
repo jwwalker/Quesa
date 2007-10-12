@@ -110,8 +110,9 @@ namespace
 				"}";
 
 	const char* kPositionalLightFragmentShaderSource =
+				// Position in eye coordinates
 				"varying vec3 ECPos3;"
-				
+
 				"void FUNC_NAME("
 				"				in vec3 eye,			// geometry to eye direction\n"
 				"				in vec3 normal,"
@@ -266,6 +267,8 @@ namespace
 				"}";
 	
 	const char* kLightShaderPrefixFormat =
+				"#undef LIGHT_INDEX\n"
+				"#undef FUNC_NAME\n"
 				"#define LIGHT_INDEX %d\n"
 				"#define FUNC_NAME Light%d\n";
 
@@ -394,22 +397,22 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 {
 	if (inExts.shadingLanguage == kQ3True)
 	{
-		GLGetProcAddress( glCreateShader, "glCreateShader", "glCreateShaderARB" );
+		GLGetProcAddress( glCreateShader, "glCreateShader", "glCreateShaderObjectARB" );
 		GLGetProcAddress( glShaderSource, "glShaderSource", "glShaderSourceARB" );
 		GLGetProcAddress( glCompileShader, "glCompileShader", "glCompileShaderARB" );
-		GLGetProcAddress( glGetShaderiv, "glGetShaderiv", "glGetShaderivARB" );
-		GLGetProcAddress( glCreateProgram, "glCreateProgram", "glCreateProgramARB" );
-		GLGetProcAddress( glAttachShader, "glAttachShader", "glAttachShaderARB" );
-		GLGetProcAddress( glDetachShader, "glDetachShader", "glDetachShaderARB" );
+		GLGetProcAddress( glGetShaderiv, "glGetShaderiv", "glGetObjectParameterivARB" );
+		GLGetProcAddress( glCreateProgram, "glCreateProgram", "glCreateProgramObjectARB" );
+		GLGetProcAddress( glAttachShader, "glAttachShader", "glAttachObjectARB" );
+		GLGetProcAddress( glDetachShader, "glDetachShader", "glDetachObjectARB" );
 		GLGetProcAddress( glLinkProgram, "glLinkProgram", "glLinkProgramARB" );
-		GLGetProcAddress( glGetProgramiv, "glGetProgramiv", "glGetProgramivARB" );
-		GLGetProcAddress( glUseProgram, "glUseProgram", "glUseProgramARB" );
+		GLGetProcAddress( glGetProgramiv, "glGetProgramiv", "glGetObjectParameterivARB" );
+		GLGetProcAddress( glUseProgram, "glUseProgram", "glUseProgramObjectARB" );
 		GLGetProcAddress( glGetUniformLocation, "glGetUniformLocation", "glGetUniformLocationARB" );
 		GLGetProcAddress( glUniform1i, "glUniform1i", "glUniform1iARB" );
-		GLGetProcAddress( glDeleteShader, "glDeleteShader", "glDeleteShaderARB" );
-		GLGetProcAddress( glDeleteProgram, "glDeleteProgram", "glDeleteProgramARB" );
-		GLGetProcAddress( glGetProgramInfoLog, "glGetProgramInfoLog", "glGetProgramInfoLogARB" );
-		GLGetProcAddress( glGetShaderInfoLog, "glGetShaderInfoLog", "glGetShaderInfoLogARB" );
+		GLGetProcAddress( glDeleteShader, "glDeleteShader", "glDeleteObjectARB" );
+		GLGetProcAddress( glDeleteProgram, "glDeleteProgram", "glDeleteObjectARB" );
+		GLGetProcAddress( glGetProgramInfoLog, "glGetProgramInfoLog", "glGetInfoLogARB" );
+		GLGetProcAddress( glGetShaderInfoLog, "glGetShaderInfoLog", "glGetInfoLogARB" );
 	#if Q3_DEBUG
 		if ( (glCreateShader == NULL) or
 			(glShaderSource == NULL) or
