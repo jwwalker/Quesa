@@ -280,6 +280,8 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 		"Per-pixel lighting is not fully functional because a fragment shader did not compile." },
 	{ kQ3WarningShaderProgramLinkFailed,			"Quesa Warning: "
 		"Per-pixel lighting failed because the shader program did not link." },
+	{ kQ3WarningCannotAcceleratePixmap,				"Quesa Warning: "
+		"It was not possible to set up the requested hardware-accelerated offscreen rendering." },
 	{ kQ3WarningNone, NULL } };
 
 

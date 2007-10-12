@@ -401,6 +401,8 @@ typedef enum {
  *														   a fragment shader did not compile.
  *	@constant kQ3WarningShaderProgramLinkFailed			   Per-pixel lighting failed because the shader program
  *														   did not link.
+ *	@constant kQ3WarningCannotAcceleratePixmap             It was not possible to set up the requested hardware-accelerated
+ *														   offscreen rendering.
  */
 typedef enum {
     kQ3WarningNone                              = 0,
@@ -457,6 +459,7 @@ typedef enum {
     kQ3WarningVertexShaderCompileFailed         = -28253,
     kQ3WarningFragmentShaderCompileFailed       = -28252,
     kQ3WarningShaderProgramLinkFailed           = -28251,
+    kQ3WarningCannotAcceleratePixmap            = -28250,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3WarningLast,
