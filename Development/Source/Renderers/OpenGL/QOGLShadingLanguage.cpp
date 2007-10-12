@@ -360,6 +360,8 @@ namespace
 
 
 
+
+
 //=============================================================================
 //      Implementations
 //-----------------------------------------------------------------------------
@@ -384,6 +386,8 @@ void	QORenderer::GLSLFuncs::SetNULL()
 	glUniform1i = NULL;
 	glDeleteShader = NULL;
 	glDeleteProgram = NULL;
+	glGetProgramInfoLog = NULL;
+	glGetShaderInfoLog = NULL;
 }
 
 void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
@@ -404,6 +408,29 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glUniform1i, "glUniform1i", "glUniform1iARB" );
 		GLGetProcAddress( glDeleteShader, "glDeleteShader", "glDeleteShaderARB" );
 		GLGetProcAddress( glDeleteProgram, "glDeleteProgram", "glDeleteProgramARB" );
+		GLGetProcAddress( glGetProgramInfoLog, "glGetProgramInfoLog", "glGetProgramInfoLogARB" );
+		GLGetProcAddress( glGetShaderInfoLog, "glGetShaderInfoLog", "glGetShaderInfoLogARB" );
+	#if Q3_DEBUG
+		if ( (glCreateShader == NULL) or
+			(glShaderSource == NULL) or
+			(glCompileShader == NULL) or
+			(glGetShaderiv == NULL) or
+			(glCreateProgram == NULL) or
+			(glAttachShader == NULL) or
+			(glDetachShader == NULL) or
+			(glLinkProgram == NULL) or
+			(glGetProgramiv == NULL) or
+			(glUseProgram == NULL) or
+			(glGetUniformLocation == NULL) or
+			(glUniform1i == NULL) or
+			(glDeleteShader == NULL) or
+			(glDeleteProgram == NULL) or
+			(glGetProgramInfoLog == NULL) or
+			(glGetShaderInfoLog == NULL) )
+		{
+			Q3_MESSAGE( "Shading functions NOT all present.\n" );
+		}
+	#endif
 	}
 	else
 	{
@@ -466,6 +493,31 @@ static void AddPositionalCall( GLint inLightIndex,
 	ioCalls.push_back( std::string(buffer) );
 }
 
+
+
+#if Q3_DEBUG
+static void LogShaderCompileError( GLint inShaderID, QORenderer::GLSLFuncs& inFuncs )
+{
+	GLint	logSize = 0;
+	inFuncs.glGetShaderiv( inShaderID, GL_INFO_LOG_LENGTH, &logSize );
+	if (logSize > 0)
+	{
+		GLbyte*	theLog = (GLbyte*) Q3Memory_Allocate( logSize );
+		if (theLog != NULL)
+		{
+			inFuncs.glGetShaderInfoLog( inShaderID, logSize, NULL, theLog );
+			Q3_MESSAGE( (char*)theLog );
+			Q3_MESSAGE( "\n" );
+			Q3Memory_Free( &theLog );
+		}
+	}
+}
+#else
+	#define		LogShaderCompileError( x, y )
+#endif
+
+
+
 static GLint CreateMainFragmentShader( const std::vector<std::string>& inLightProtos,
 										const std::vector<std::string>& inLightCalls,
 										QORenderer::GLSLFuncs& inFuncs )
@@ -505,13 +557,22 @@ static GLint CreateMainFragmentShader( const std::vector<std::string>& inLightPr
 		
 		if (status == GL_FALSE)
 		{
+			Q3_MESSAGE( "Failed to compile main fragment shader.\n" );
+			LogShaderCompileError( shaderID, inFuncs );
 			inFuncs.glDeleteShader( shaderID );
 			shaderID = 0;
+			E3ErrorManager_PostNotice( kQ3NoticeFragmentShaderCompileFailed );
 		}
+	}
+	else
+	{
+		Q3_MESSAGE( "Failed to create fragment shader.\n" );
 	}
 	
 	return shaderID;
 }
+
+
 
 static void GetLightTypes( QORenderer::LightPattern& outLights )
 {
@@ -719,9 +780,16 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 			
 			if (status == GL_FALSE)
 			{
+				Q3_MESSAGE( "Failed to compile a vertex shader.\n" );
+				LogShaderCompileError( mVertexShaderID, mFuncs );
 				mFuncs.glDeleteShader( mVertexShaderID );
 				mVertexShaderID = 0;
+				E3ErrorManager_PostNotice( kQ3NoticeVertexShaderCompileFailed );
 			}
+		}
+		else
+		{
+			Q3_MESSAGE( "Failed to create a vertex shader.\n" );
 		}
 	}
 }
@@ -795,8 +863,32 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 		}
 		else
 		{
+			E3ErrorManager_PostNotice( kQ3NoticeShaderProgramLinkFailed );
+			
+		#if Q3_DEBUG
+			GLint	logSize = 0;
+			mFuncs.glGetProgramiv( newProgram.mProgram, GL_INFO_LOG_LENGTH, &logSize );
+			if (logSize > 0)
+			{
+				GLbyte*	theLog = (GLbyte*) Q3Memory_Allocate( logSize );
+				if (theLog != NULL)
+				{
+					mFuncs.glGetProgramInfoLog( newProgram.mProgram,
+						logSize, NULL, theLog );
+					Q3_MESSAGE( "Failed to link program.  Error log:\n" );
+					Q3_MESSAGE( (char*)theLog );
+					Q3_MESSAGE( "\n" );
+					Q3Memory_Free( &theLog );
+				}
+			}
+		#endif
+
 			mFuncs.glDeleteProgram( newProgram.mProgram );
 		}
+	}
+	else
+	{
+		Q3_MESSAGE( "Failed to create program.\n" );
 	}
 }
 
@@ -835,9 +927,18 @@ void	QORenderer::PerPixelLighting::AttachDirectionalShader(
 			// Check for compile success
 			GLint	status;
 			mFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
-			Q3_ASSERT( status == GL_TRUE );
-
-			mDirectionalLightShaders[ inLightIndex ] = shaderID;
+			if (status == GL_TRUE)
+			{
+				mDirectionalLightShaders[ inLightIndex ] = shaderID;
+			}
+			else
+			{
+				Q3_MESSAGE( "Failed to compile directional light fragment shader.\n" );
+				LogShaderCompileError( shaderID, mFuncs );
+				E3ErrorManager_PostNotice( kQ3NoticeFragmentShaderCompileFailed );
+				mFuncs.glDeleteShader( shaderID );
+				shaderID = 0;
+			}
 		}
 	}
 	
@@ -882,9 +983,18 @@ void	QORenderer::PerPixelLighting::AttachPositionalShader(
 			// Check for compile success
 			GLint	status;
 			mFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
-			Q3_ASSERT( status == GL_TRUE );
-
-			mPositionalLightShaders[ inLightIndex ] = shaderID;
+			if (status == GL_TRUE)
+			{
+				mPositionalLightShaders[ inLightIndex ] = shaderID;
+			}
+			else
+			{
+				Q3_MESSAGE( "Failed to compile positional light fragment shader.\n" );
+				LogShaderCompileError( shaderID, mFuncs );
+				E3ErrorManager_PostNotice( kQ3NoticeFragmentShaderCompileFailed );
+				mFuncs.glDeleteShader( shaderID );
+				shaderID = 0;
+			}
 		}
 	}
 	
