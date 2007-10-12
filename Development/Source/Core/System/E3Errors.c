@@ -274,6 +274,12 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 	{ kQ3WarningReadInfiniteFloatingPointNumber,	"Quesa Warning: " "Read infinite floating-point number" },
 	{ kQ3WarningReadBadNormalVector,				"Quesa Warning: " "Read bad (unnormalizable) normal vector" },
 	{ kQ3WarningUnsupportedSubdivisionStyle,		"Quesa Warning: " "Unsupported subdivision style" },
+	{ kQ3WarningVertexShaderCompileFailed,			"Quesa Warning: "
+		"Per-pixel lighting failed because the vertex shader  did not compile." },
+	{ kQ3WarningFragmentShaderCompileFailed,		"Quesa Warning: "
+		"Per-pixel lighting is not fully functional because a fragment shader did not compile." },
+	{ kQ3WarningShaderProgramLinkFailed,			"Quesa Warning: "
+		"Per-pixel lighting failed because the shader program did not link." },
 	{ kQ3WarningNone, NULL } };
 
 
@@ -296,12 +302,6 @@ static TQ3StringIdentifier gEnglishStringTable_Notice[] = {
 	{ kQ3NoticeViewSyncCalledAgain,					"Quesa Notice: " "View sync called again" },
 	{ kQ3NoticeFileCancelled,						"Quesa Notice: " "File cancelled" },
 	{ kQ3NoticeBrightnessLessThanZero,				"Quesa Notice: " "Brightness less than 0.0" },
-	{ kQ3NoticeVertexShaderCompileFailed,			"Quesa Notice: "
-		"Per-pixel lighting failed because the vertex shader  did not compile." },
-	{ kQ3NoticeFragmentShaderCompileFailed,			"Quesa Notice: "
-		"Per-pixel lighting is not fully functional because a fragment shader did not compile." },
-	{ kQ3NoticeShaderProgramLinkFailed,				"Quesa Notice: "
-		"Per-pixel lighting failed because the shader program did not link." },
 	{ kQ3NoticeNone, NULL } };
 
 
