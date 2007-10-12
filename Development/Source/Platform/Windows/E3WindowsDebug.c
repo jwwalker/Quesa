@@ -5,7 +5,7 @@
         Windows debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -53,6 +53,15 @@
 
 
 //=============================================================================
+//      Static variables
+//-----------------------------------------------------------------------------
+FILE*	sLogFile = NULL;
+
+
+
+
+
+//=============================================================================
 //      E3Assert : Report failed assertions.
 //-----------------------------------------------------------------------------
 void
@@ -77,7 +86,12 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 
 	//MessageBox(NULL, theString, srcFile, MB_OK | MB_ICONERROR);
 	OutputDebugString(theString);
+	
+	// DebugBreak caused a problem when not running under a debugger, or when
+	// running under Delphi's debugger.
+#if QUESA_USE_DEBUGBREAK
 	DebugBreak();
+#endif
 }
 
 
@@ -104,3 +118,46 @@ E3IsValidPtr(void *thePtr)
 
 
 
+
+
+//=============================================================================
+//      E3LogMessage : Write a message to a log file.
+//-----------------------------------------------------------------------------
+void		E3LogMessage( const char* inMessage )
+{
+	if (sLogFile == NULL)
+	{
+		TCHAR thePath[MAX_PATH];
+		if (GetModuleFileName( 0, thePath, MAX_PATH ) > 0)
+		{
+			char*	backslashLoc = strrchr( thePath, '\\' );
+			if (backslashLoc != NULL)
+			{
+				*backslashLoc = '\0';
+				strcat( thePath, "\\Quesa.log" );
+				sLogFile = fopen( thePath, "ab" );
+			}
+		}
+	}
+	
+	if (sLogFile != NULL)
+	{
+		fprintf( sLogFile, inMessage );
+	}
+}
+
+
+
+
+
+//=============================================================================
+//      E3CloseLog : Close the log file.
+//-----------------------------------------------------------------------------
+void		E3CloseLog()
+{
+	if (sLogFile != NULL)
+	{
+		fclose( sLogFile );
+		sLogFile = NULL;
+	}
+}
