@@ -5,7 +5,7 @@
         Windows specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -185,6 +185,8 @@ void
 E3WindowsSystem_Terminate(void)
 {
 	// Terminate the system
+	
+	E3CloseLog();
 }
 
 
