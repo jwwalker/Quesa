@@ -188,7 +188,8 @@ Characteristic::Characteristic( TQ3Object inTriMesh )
 	{
 		mAttMask |= kAtts_VertexNormals;
 	}
-	if (FindTriMeshVertexData( tmData, kQ3AttributeTypeSurfaceUV ) != NULL)
+	if ( (FindTriMeshVertexData( tmData, kQ3AttributeTypeSurfaceUV ) != NULL) ||
+		(FindTriMeshVertexData( tmData, kQ3AttributeTypeShadingUV ) != NULL) )
 	{
 		mAttMask |= kAtts_VertexSurfaceUV;
 	}
