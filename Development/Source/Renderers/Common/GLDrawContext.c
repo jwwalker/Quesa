@@ -587,6 +587,18 @@ FBORec::FBORec(
 		glViewport( 0, 0, inPaneWidth, inPaneHeight );
 		
 		glDisable( GL_SCISSOR_TEST );
+		
+		// If stencil bits were requested, check whether we got them.
+		if (stencilBits > 0)
+		{
+			GLint	stencilDepth = 0;
+			glGetIntegerv( GL_STENCIL_BITS, &stencilDepth );
+			if (stencilDepth < stencilBits)
+			{
+				// Should there be a warning here?
+				Q3_MESSAGE( "FBO did not get requested stencil bits.\n" );
+			}
+		}
 	}
 	else
 	{
@@ -816,8 +828,22 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 				}
 				catch (...)
 				{
+					Q3_MESSAGE("Failed to set up FBO.\n");
 				}
 			}
+			else
+			{
+				Q3_MESSAGE( "Pane size too big for FBO.\n" );
+			}
+		}
+		else
+		{
+			Q3_MESSAGE( "FBO extensions not available.\n" );
+		}
+		
+		if (theContext == NULL)
+		{
+			E3ErrorManager_PostWarning( kQ3WarningCannotAcceleratePixmap );
 		}
 	}
 	
