@@ -64,6 +64,12 @@ void		E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion);
 TQ3Boolean	E3IsValidPtr(void *thePtr);
 
 
+// Write something to a log file
+void		E3LogMessage( const char* inMessage );
+
+
+// Close the log file.
+void		E3CloseLog();
 
 
 
@@ -97,7 +103,8 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 					((void) 0) :												\
 					E3Assert(__FILE__, __LINE__, (_message))					\
 				)
-			
+	
+	#define	Q3_MESSAGE( _msg )	E3LogMessage( _msg )
 
 	// Generates an assertion error for a bad pointer
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
@@ -109,6 +116,8 @@ TQ3Boolean	E3IsValidPtr(void *thePtr);
 				((void) 0)
 
 	#define	Q3_ASSERT_MESSAGE(_condition, _message)		((void) 0)
+	
+	#define	Q3_MESSAGE( _msg )
 
 	// Do nothing
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
