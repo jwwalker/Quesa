@@ -561,7 +561,7 @@ static GLint CreateMainFragmentShader( const std::vector<std::string>& inLightPr
 			LogShaderCompileError( shaderID, inFuncs );
 			inFuncs.glDeleteShader( shaderID );
 			shaderID = 0;
-			E3ErrorManager_PostNotice( kQ3NoticeFragmentShaderCompileFailed );
+			E3ErrorManager_PostWarning( kQ3WarningFragmentShaderCompileFailed );
 		}
 	}
 	else
@@ -784,7 +784,7 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 				LogShaderCompileError( mVertexShaderID, mFuncs );
 				mFuncs.glDeleteShader( mVertexShaderID );
 				mVertexShaderID = 0;
-				E3ErrorManager_PostNotice( kQ3NoticeVertexShaderCompileFailed );
+				E3ErrorManager_PostWarning( kQ3WarningVertexShaderCompileFailed );
 			}
 		}
 		else
@@ -863,7 +863,7 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 		}
 		else
 		{
-			E3ErrorManager_PostNotice( kQ3NoticeShaderProgramLinkFailed );
+			E3ErrorManager_PostWarning( kQ3WarningShaderProgramLinkFailed );
 			
 		#if Q3_DEBUG
 			GLint	logSize = 0;
@@ -935,7 +935,7 @@ void	QORenderer::PerPixelLighting::AttachDirectionalShader(
 			{
 				Q3_MESSAGE( "Failed to compile directional light fragment shader.\n" );
 				LogShaderCompileError( shaderID, mFuncs );
-				E3ErrorManager_PostNotice( kQ3NoticeFragmentShaderCompileFailed );
+				E3ErrorManager_PostWarning( kQ3WarningFragmentShaderCompileFailed );
 				mFuncs.glDeleteShader( shaderID );
 				shaderID = 0;
 			}
@@ -991,7 +991,7 @@ void	QORenderer::PerPixelLighting::AttachPositionalShader(
 			{
 				Q3_MESSAGE( "Failed to compile positional light fragment shader.\n" );
 				LogShaderCompileError( shaderID, mFuncs );
-				E3ErrorManager_PostNotice( kQ3NoticeFragmentShaderCompileFailed );
+				E3ErrorManager_PostWarning( kQ3WarningFragmentShaderCompileFailed );
 				mFuncs.glDeleteShader( shaderID );
 				shaderID = 0;
 			}

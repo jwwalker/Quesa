@@ -395,6 +395,12 @@ typedef enum {
  *                                                         large or small that it cannot be normalized.
  *                                                         Not available in QD3D.
  *	@constant kQ3WarningUnsupportedSubdivisionStyle		   A geometry does not support the current subdivision style.
+ *	@constant kQ3WarningVertexShaderCompileFailed		   Per-pixel lighting failed because the vertex shader
+ *														   did not compile.
+ *	@constant kQ3WarningFragmentShaderCompileFailed		   Per-pixel lighting is not fully functional because
+ *														   a fragment shader did not compile.
+ *	@constant kQ3WarningShaderProgramLinkFailed			   Per-pixel lighting failed because the shader program
+ *														   did not link.
  */
 typedef enum {
     kQ3WarningNone                              = 0,
@@ -448,6 +454,9 @@ typedef enum {
     kQ3WarningReadInfiniteFloatingPointNumber   = -28256,
     kQ3WarningReadBadNormalVector               = -28255,
     kQ3WarningUnsupportedSubdivisionStyle       = -28254,
+    kQ3WarningVertexShaderCompileFailed         = -28253,
+    kQ3WarningFragmentShaderCompileFailed       = -28252,
+    kQ3WarningShaderProgramLinkFailed           = -28251,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3WarningLast,
@@ -479,12 +488,6 @@ typedef enum {
  *  @constant kQ3NoticeViewSyncCalledAgain                 View sync called again.
  *  @constant kQ3NoticeFileCancelled                       File cancelled.
  *  @constant kQ3NoticeBrightnessLessThanZero              Brightness less than 0.0. Not available in QD3D.
- *	@constant kQ3NoticeVertexShaderCompileFailed		   Per-pixel lighting failed because the vertex shader
- *														   did not compile.
- *	@constant kQ3NoticeFragmentShaderCompileFailed		   Per-pixel lighting is not fully functional because
- *														   a fragment shader did not compile.
- *	@constant kQ3NoticeShaderProgramLinkFailed			   Per-pixel lighting failed because the shader program
- *														   did not link.
  */
 typedef enum {
     kQ3NoticeNone                               = 0,
@@ -508,9 +511,6 @@ typedef enum {
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
     kQ3NoticeBrightnessLessThanZero             = -28084,
-    kQ3NoticeVertexShaderCompileFailed          = -28083,
-    kQ3NoticeFragmentShaderCompileFailed        = -28082,
-    kQ3NoticeShaderProgramLinkFailed            = -28081,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3NoticeLast,
