@@ -71,6 +71,11 @@
 	#define GL_LINK_STATUS                    0x8B82
 #endif
 
+#ifndef GL_INFO_LOG_LENGTH
+	#define		GL_INFO_LOG_LENGTH			0x8B84
+#endif
+
+
 namespace QORenderer
 {
 //=============================================================================
@@ -149,6 +154,14 @@ typedef void (* QO_PROCPTR_TYPE glGetProgramivProc )(GLuint program,
 													GLint *params);
 typedef GLint (* QO_PROCPTR_TYPE glGetUniformLocationProc )(GLuint program,
 													const char *name);
+typedef void (* QO_PROCPTR_TYPE glGetProgramInfoLogProc )(GLuint program,
+													GLsizei maxlength,
+													GLsizei* outLength,
+													GLbyte * infoLog );
+typedef void (* QO_PROCPTR_TYPE glGetShaderInfoLogProc )(GLuint shader,
+													GLsizei maxlength,
+													GLsizei* outLength,
+													GLbyte * infoLog );
 
 /*!
 	@struct		GLSLFuncs
@@ -181,6 +194,8 @@ struct GLSLFuncs
 	glUniform1iProc				glUniform1i;
 	glDeleteShaderProc			glDeleteShader;
 	glDeleteProgramProc			glDeleteProgram;
+	glGetProgramInfoLogProc		glGetProgramInfoLog;
+	glGetShaderInfoLogProc		glGetShaderInfoLog;
 };
 
 /*!
