@@ -88,6 +88,32 @@ namespace
 					"gl_Position = ftransform();"
 				"}";
 	
+	const char*	kFragmentShaderPrefix =
+				"#define DIRECTIONAL_LIGHT_CALL(name)	name( normal, diff, spec )\n"
+
+				"#define	POSITIONAL_LIGHT_CALL(name)	\\\n"
+						"name( geomToEyeDir, normal, diff, spec )\n"
+
+				// Normal vector in eye coordinates
+				"varying vec3 ECNormal;"
+
+				// Position in eye coordinates
+				"varying vec3 ECPos3;"
+
+				// Whether we have a texture on texture unit 0
+				"uniform bool isTextured;"
+
+				// Type of illumination shader
+				// 0 == NULL (lighting disabled)
+				// 1 = Lambert (no specularity)
+				// 2 = Phong
+				"uniform int IlluminationType;"
+
+				// Sampler for texture unit 0
+				"uniform sampler2D tex0;\n"
+				;
+				
+	
 	const char* kDirectionalLightFragmentShaderSource =
 				"void FUNC_NAME("
 				"				in vec3 normal,"
@@ -110,9 +136,6 @@ namespace
 				"}";
 
 	const char* kPositionalLightFragmentShaderSource =
-				// Position in eye coordinates
-				"varying vec3 ECPos3;"
-
 				"void FUNC_NAME("
 				"				in vec3 eye,			// geometry to eye direction\n"
 				"				in vec3 normal,"
@@ -166,45 +189,6 @@ namespace
 				"}";
 
 	const char* kMainFragmentShaderPart1Source =
-				// Normal vector in eye coordinates
-				"varying vec3 ECNormal;"
-
-				// Position in eye coordinates
-				"varying vec3 ECPos3;"
-
-				// Whether we have a texture on texture unit 0
-				"uniform bool isTextured;"
-
-				// Type of illumination shader
-				// 0 == NULL (lighting disabled)
-				// 1 = Lambert (no specularity)
-				// 2 = Phong
-				"uniform int IlluminationType;"
-
-				// Sampler for texture unit 0
-				"uniform sampler2D tex0;\n"
-
-				"#define	DIRECTIONAL_LIGHT_PROTO(name) 	\\\n"
-				"	void name(					\\\n"
-				"				in vec3 normal,	\\\n"
-				"				inout vec3 diffuse,\\\n"
-				"				inout vec3 specular )\n"
-
-				"#define DIRECTIONAL_LIGHT_CALL(name)	name( normal, diff, spec )\n"
-
-				"#define	POSITIONAL_LIGHT_PROTO(name) 	\\\n"
-				"	void name(					\\\n"
-				"				in vec3 geomToEyeDir,	\\\n"
-				"				in vec3 normal,	\\\n"
-				"				inout vec3 diffuse,\\\n"
-				"				inout vec3 specular )\n"
-
-				"#define	POSITIONAL_LIGHT_CALL(name)	\\\n"
-						"name( geomToEyeDir, normal, diff, spec )\n";
-		
-		// Between part 1 and part 2, we will insert some light shader prototypes.
-
-	const char* kMainFragmentShaderPart2Source =
 				"void main()"
 				"{"
 					// Color components, lights will add to these.
@@ -225,9 +209,9 @@ namespace
 					// little time.
 				"	normal = faceforward( normal, geomPos, normal );";
 		
-		// Between part 2 and part 3, we will insert some light shader calls.
+		// Between part 1 and part 2, we will insert some light shader calls.
 
-	const char* kMainFragmentShaderPart3Source =
+	const char* kMainFragmentShaderPart2Source =
 				"	vec3	color;"
 				"	float	alpha;"
 
@@ -268,15 +252,10 @@ namespace
 				"}";
 	
 	const char* kLightShaderPrefixFormat =
-				"#undef LIGHT_INDEX\n"
+				"\n#undef LIGHT_INDEX\n"
 				"#undef FUNC_NAME\n"
 				"#define LIGHT_INDEX %d\n"
 				"#define FUNC_NAME Light%d\n";
-
-	const char*	kDirectionalProtoFormat =
-					"DIRECTIONAL_LIGHT_PROTO( Light%d );";
-	const char*	kPositionalProtoFormat =
-					"POSITIONAL_LIGHT_PROTO( Light%d );";
 
 	const char* kDirectionalCallFormat =
 					"DIRECTIONAL_LIGHT_CALL( Light%d );";
@@ -461,23 +440,6 @@ QORenderer::PerPixelLighting::~PerPixelLighting()
 	Cleanup();
 }
 
-static void AddDirectionalPrototype( GLint inLightIndex,
-									std::vector<std::string>& ioProtos )
-{
-	char	buffer[100];
-	snprintf( buffer, sizeof(buffer), kDirectionalProtoFormat,
-		(int)inLightIndex );
-	ioProtos.push_back( std::string(buffer) );
-}
-
-static void AddPositionalPrototype( GLint inLightIndex,
-									std::vector<std::string>& ioProtos )
-{
-	char	buffer[100];
-	snprintf( buffer, sizeof(buffer), kPositionalProtoFormat,
-		(int)inLightIndex );
-	ioProtos.push_back( std::string(buffer) );
-}
 
 static void AddDirectionalCall( GLint inLightIndex,
 								std::vector<std::string>& ioCalls )
@@ -496,6 +458,29 @@ static void AddPositionalCall( GLint inLightIndex,
 		(int)inLightIndex );
 	ioCalls.push_back( std::string(buffer) );
 }
+
+static void AddDirectionalShaderSource(	GLint inLightIndex,
+										std::vector<std::string>& ioSource )
+{
+	char	buffer[100];
+	snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
+			(int)inLightIndex, (int)inLightIndex );
+	
+	ioSource.push_back( buffer );
+	ioSource.push_back( kDirectionalLightFragmentShaderSource );
+}
+
+static void AddPositionalShaderSource(	GLint inLightIndex,
+										std::vector<std::string>& ioSource )
+{
+	char	buffer[100];
+	snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
+			(int)inLightIndex, (int)inLightIndex );
+	
+	ioSource.push_back( buffer );
+	ioSource.push_back( kPositionalLightFragmentShaderSource );
+}
+
 
 
 
@@ -522,58 +507,36 @@ static void LogShaderCompileError( GLint inShaderID, QORenderer::GLSLFuncs& inFu
 
 
 
-static GLint CreateMainFragmentShader( const std::vector<std::string>& inLightProtos,
-										const std::vector<std::string>& inLightCalls,
-										QORenderer::GLSLFuncs& inFuncs )
+static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern,
+										std::vector<std::string>& outSource )
 {
-	GLint shaderID = inFuncs.glCreateShader( GL_FRAGMENT_SHADER );
-	if (shaderID != 0)
-	{
-		std::vector<const char*>	sourceParts;
-		
-		sourceParts.push_back( kMainFragmentShaderPart1Source );
-		
-		std::vector<std::string>::const_iterator	j;
-		for (j = inLightProtos.begin(); j != inLightProtos.end(); ++j)
-		{
-			sourceParts.push_back( j->c_str() );
-		}
-		
-		sourceParts.push_back( kMainFragmentShaderPart2Source );
-		
-		for (j = inLightCalls.begin(); j != inLightCalls.end(); ++j)
-		{
-			sourceParts.push_back( j->c_str() );
-		}
-		
-		sourceParts.push_back( kMainFragmentShaderPart3Source );
-		
-		// Supply source code
-		inFuncs.glShaderSource( shaderID, sourceParts.size(), &sourceParts[0], NULL );
+	outSource.push_back( kFragmentShaderPrefix );
 
-		// Compile fragment shader
-		inFuncs.glCompileShader( shaderID );
-		
-		// Check for compile success
-		GLint	status;
-		inFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
-		Q3_ASSERT( status == GL_TRUE );
-		
-		if (status == GL_FALSE)
-		{
-			Q3_MESSAGE( "Failed to compile main fragment shader.\n" );
-			LogShaderCompileError( shaderID, inFuncs );
-			inFuncs.glDeleteShader( shaderID );
-			shaderID = 0;
-			E3ErrorManager_PostWarning( kQ3WarningFragmentShaderCompileFailed );
-		}
-	}
-	else
+	std::vector<std::string>	lightCalls;
+
+	const GLint kNumLights = inPattern.size();
+
+	for (GLint i = 0; i < kNumLights; ++i)
 	{
-		Q3_MESSAGE( "Failed to create fragment shader.\n" );
+		switch (inPattern[i])
+		{
+			case QORenderer::kLightTypeDirectional:
+				AddDirectionalShaderSource( i, outSource );
+				AddDirectionalCall( i, lightCalls );
+				break;
+				
+			case QORenderer::kLightTypePositional:
+				AddPositionalShaderSource( i, outSource );
+				AddPositionalCall( i, lightCalls );
+				break;
+		}
 	}
 	
-	return shaderID;
+	outSource.push_back( kMainFragmentShaderPart1Source );
+	
+	outSource.insert( outSource.end(), lightCalls.begin(), lightCalls.end() );
+	
+	outSource.push_back( kMainFragmentShaderPart2Source );
 }
 
 
@@ -798,6 +761,16 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 	}
 }
 
+static void GetSourcePointers(	const std::vector<std::string>& inSrcStrings,
+								std::vector<const char*>& outSrcPtrs )
+{
+	for (std::vector<std::string>::const_iterator i = inSrcStrings.begin();
+		i != inSrcStrings.end(); ++i)
+	{
+		outSrcPtrs.push_back( i->c_str() );
+	}
+}
+
 /*!
 	@function	InitProgram
 	@abstract	Set up the main fragment shader and program.
@@ -815,32 +788,41 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 		// Attach the vertex shader to the program.
 		mFuncs.glAttachShader( newProgram.mProgram, mVertexShaderID );
 		
-		std::vector<std::string>	lightProtos, lightCalls;
+		// Build the source of the fragment shader
+		std::vector<std::string>	fragSource;
+		BuildFragmentShaderSource( inPattern, fragSource );
+		std::vector<const char*>	sourceParts;
+		GetSourcePointers( fragSource, sourceParts );
 		
-		const GLint kNumLights = inPattern.size();
-	
-		for (GLint i = 0; i < kNumLights; ++i)
+		// Create the fragment shader
+		GLint shaderID = mFuncs.glCreateShader( GL_FRAGMENT_SHADER );
+		if (shaderID != 0)
 		{
-			GLenum	lightID = GL_LIGHT0 + i;
+			// Supply source code
+			mFuncs.glShaderSource( shaderID, sourceParts.size(), &sourceParts[0], NULL );
+
+			// Compile fragment shader
+			mFuncs.glCompileShader( shaderID );
 			
-			switch (inPattern[i])
+			// Check for compile success
+			GLint	status;
+			mFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
+			Q3_ASSERT( status == GL_TRUE );
+			
+			if (status == GL_FALSE)
 			{
-				case kLightTypeDirectional:
-					AttachDirectionalShader( i, newProgram.mProgram );
-					AddDirectionalPrototype( i, lightProtos );
-					AddDirectionalCall( i, lightCalls );
-					break;
-				
-				case kLightTypePositional:
-					AttachPositionalShader( i, newProgram.mProgram );
-					AddPositionalPrototype( i, lightProtos );
-					AddPositionalCall( i, lightCalls );
-					break;
+				Q3_MESSAGE( "Failed to compile fragment shader.\n" );
+				LogShaderCompileError( shaderID, mFuncs );
+				mFuncs.glDeleteShader( shaderID );
+				shaderID = 0;
+				E3ErrorManager_PostWarning( kQ3WarningFragmentShaderCompileFailed );
 			}
 		}
+		else
+		{
+			Q3_MESSAGE( "Failed to create fragment shader.\n" );
+		}
 		
-		// create and attach main fragment shader
-		GLint shaderID = CreateMainFragmentShader( lightProtos, lightCalls, mFuncs );
 		if (shaderID != 0)
 		{
 			// Attach
@@ -897,117 +879,6 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 }
 
 
-void	QORenderer::PerPixelLighting::AttachDirectionalShader(
-								GLint inLightIndex,
-								GLuint inProgram )
-{
-	if (inLightIndex >= mDirectionalLightShaders.size())
-	{
-		mDirectionalLightShaders.resize( inLightIndex + 1, 0 );
-	}
-	
-	// If we haven't already, create the shader for this light
-	GLuint	shaderID = mDirectionalLightShaders[ inLightIndex ];
-	if (shaderID == 0)
-	{
-		char	buffer[100];
-		snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
-			(int)inLightIndex, (int)inLightIndex );
-		
-		shaderID = mFuncs.glCreateShader( GL_FRAGMENT_SHADER );
-		if (shaderID != 0)
-		{
-			// Supply source code
-			const char*	sourceParts[] =
-			{
-				buffer,
-				kDirectionalLightFragmentShaderSource
-			};
-			mFuncs.glShaderSource( shaderID, 2, sourceParts, NULL );
-			
-			// Compile fragment shader
-			mFuncs.glCompileShader( shaderID );
-			
-			// Check for compile success
-			GLint	status;
-			mFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
-			if (status == GL_TRUE)
-			{
-				mDirectionalLightShaders[ inLightIndex ] = shaderID;
-			}
-			else
-			{
-				Q3_MESSAGE( "Failed to compile directional light fragment shader.\n" );
-				LogShaderCompileError( shaderID, mFuncs );
-				E3ErrorManager_PostWarning( kQ3WarningFragmentShaderCompileFailed );
-				mFuncs.glDeleteShader( shaderID );
-				shaderID = 0;
-			}
-		}
-	}
-	
-	if (shaderID != 0)
-	{
-		mFuncs.glAttachShader( inProgram, shaderID );
-	}
-}
-
-
-void	QORenderer::PerPixelLighting::AttachPositionalShader(
-									GLint inLightIndex,
-									GLuint inProgram )
-{
-	if (inLightIndex >= mPositionalLightShaders.size())
-	{
-		mPositionalLightShaders.resize( inLightIndex + 1, 0 );
-	}
-	
-	// If we haven't already, create the shader for this light
-	GLuint	shaderID = mPositionalLightShaders[ inLightIndex ];
-	if (shaderID == 0)
-	{
-		char	buffer[100];
-		snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
-			(int)inLightIndex, (int)inLightIndex );
-		
-		shaderID = mFuncs.glCreateShader( GL_FRAGMENT_SHADER );
-		if (shaderID != 0)
-		{
-			// Supply source code
-			const char*	sourceParts[] =
-			{
-				buffer,
-				kPositionalLightFragmentShaderSource
-			};
-			mFuncs.glShaderSource( shaderID, 2, sourceParts, NULL );
-			
-			// Compile fragment shader
-			mFuncs.glCompileShader( shaderID );
-			
-			// Check for compile success
-			GLint	status;
-			mFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
-			if (status == GL_TRUE)
-			{
-				mPositionalLightShaders[ inLightIndex ] = shaderID;
-			}
-			else
-			{
-				Q3_MESSAGE( "Failed to compile positional light fragment shader.\n" );
-				LogShaderCompileError( shaderID, mFuncs );
-				E3ErrorManager_PostWarning( kQ3WarningFragmentShaderCompileFailed );
-				mFuncs.glDeleteShader( shaderID );
-				shaderID = 0;
-			}
-		}
-	}
-	
-	if (shaderID != 0)
-	{
-		mFuncs.glAttachShader( inProgram, shaderID );
-	}
-}
-
 
 /*!
 	@function	Cleanup
@@ -1020,17 +891,6 @@ void	QORenderer::PerPixelLighting::Cleanup()
 {
 	if (mIsShading)
 	{
-		// delete fragment shaders
-		DeleteShader	deleter( mFuncs );
-
-		std::for_each( mDirectionalLightShaders.begin(),
-			mDirectionalLightShaders.end(), deleter );
-		mDirectionalLightShaders.clear();
-
-		std::for_each( mPositionalLightShaders.begin(),
-			mPositionalLightShaders.end(), deleter );
-		mPositionalLightShaders.clear();
-		
 		std::for_each( mPrograms.begin(), mPrograms.end(), DeleteProgram( mFuncs ) );
 		mPrograms.clear();
 		

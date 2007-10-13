@@ -260,12 +260,6 @@ private:
 	void						CheckIfShading();
 	void						InitVertexShader();
 	void						InitProgram( const LightPattern& inPattern );
-	void						AttachDirectionalShader(
-										GLint inLightIndex,
-										GLuint inProgram );
-	void						AttachPositionalShader(
-										GLint inLightIndex,
-										GLuint inProgram );
 	void						InitUniforms( ProgramRec& ioProgram );
 	
 	GLSLFuncs&					mFuncs;
@@ -274,9 +268,6 @@ private:
 	TQ3ObjectType				mIlluminationType;
 	bool						mIsTextured;
 	GLuint						mVertexShaderID;
-	
-	std::vector<GLuint>			mDirectionalLightShaders;
-	std::vector<GLuint>			mPositionalLightShaders;
 	
 	ProgramVec					mPrograms;
 	int							mProgramIndex;
