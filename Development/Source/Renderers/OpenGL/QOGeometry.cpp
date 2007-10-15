@@ -1047,21 +1047,24 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 				
 				GLuint	displayListID = glGenLists( 1 );
 				glNewList( displayListID, GL_COMPILE );
+				GLenum	mode;
 				
 				if (triangleStrip.empty())
 				{
 					ImmediateRenderTriangles( inGeomData, inVertNormals,
 						inVertUVs, inVertColors );
+					mode = GL_TRIANGLES;
 				}
 				else
 				{
 					ImmediateRenderTriangleStrip( inGeomData, inVertNormals,
 						inVertUVs, inVertColors, triangleStrip );
+					mode = GL_TRIANGLE_STRIP;
 				}
 				
 				glEndList();
 				
-				CacheDisplayList( displayListID, mGLContext, inTriMesh );
+				CacheDisplayList( displayListID, mGLContext, inTriMesh, mode );
 				
 				RenderCachedDisplayList( mGLContext, inTriMesh );
 			}
