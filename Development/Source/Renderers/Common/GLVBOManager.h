@@ -122,6 +122,15 @@ void				AddVBOToCache(
 void				FlushVBOCache(
 									TQ3GLContext glContext );
 
+/*!
+	@function		ForgetTriangleStripVBOs
+	@abstract		Delete any cached VBOs for triangle strips.
+	@param			glContext		An OpenGL context.
+*/
+void				ForgetTriangleStripVBOs(
+									TQ3GLContext glContext );
+
+
 //=============================================================================
 //		C++ postamble
 //-----------------------------------------------------------------------------
