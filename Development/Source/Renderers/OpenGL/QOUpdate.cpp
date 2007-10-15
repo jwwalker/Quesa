@@ -48,6 +48,7 @@
 #include "GLDrawContext.h"
 #include "CQ3ObjectRef_Gets.h"
 #include "GLUtils.h"
+#include "GLVBOManager.h"
 
 #include <algorithm>
 
@@ -319,6 +320,7 @@ void	QORenderer::Renderer::UpdateFillStyle(
 			break;
 
 		case kQ3FillStyleEdges:
+			ForgetTriangleStripVBOs( mGLContext );
 			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 			break;
 
