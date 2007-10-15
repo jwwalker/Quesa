@@ -138,6 +138,7 @@ namespace
 		void			RenderVBO( const CachedVBO* inCachedVBO );
 		void			AddVBO( const CachedVBO& inVBO );
 		void			Flush();
+		void			ForgetTriangleStrips();
 
 		GenBuffersARBProcPtr		glGenBuffersARBProc;
 		BindBufferARBProcPtr		glBindBufferARBProc;
@@ -169,6 +170,16 @@ namespace
 									return Q3Shared_IsReferenced(
 										inCachedVBO.mGeomObject.get() ) ==
 										kQ3True;
+								}
+	};
+	
+	// Predicate for use with std::partition and CachedVBOVec.
+	struct IsNotStrip
+	{
+		bool			operator()( const CachedVBO& inCachedVBO ) const
+								{
+									return inCachedVBO.mGLMode !=
+										GL_TRIANGLE_STRIP;
 								}
 	};
 }
@@ -347,6 +358,22 @@ void VBOCache::RenderVBO( const CachedVBO* inCachedVBO )
 }
 
 
+void	VBOCache::ForgetTriangleStrips()
+{
+	// Move VBOs holding triangle strips to end of list
+	CachedVBOVec::iterator startStrips = std::stable_partition(
+		mCachedVBOs.begin(), mCachedVBOs.end(), IsNotStrip() );
+	
+	// Delete the buffers for the VBO records that are going away
+	for (CachedVBOVec::iterator i = startStrips; i != mCachedVBOs.end(); ++i)
+	{
+		(*glDeleteBuffersARBProc)( 2, i->mGLBufferNames );
+	}
+	
+	mCachedVBOs.erase( startStrips, mCachedVBOs.end() );
+}
+
+
 void	VBOCache::Flush()
 {
 	// Move unreferenced VBOs to end of list
@@ -519,5 +546,21 @@ void				FlushVBOCache(
 	if (theCache != NULL)
 	{
 		theCache->Flush();
+	}
+}
+
+/*!
+	@function		ForgetTriangleStripVBOs
+	@abstract		Delete any cached VBOs for triangle strips.
+	@param			glContext		An OpenGL context.
+*/
+void				ForgetTriangleStripVBOs(
+									TQ3GLContext glContext )
+{
+	VBOCache*	theCache = GetVBOCache( glContext );
+	
+	if (theCache != NULL)
+	{
+		theCache->ForgetTriangleStrips();
 	}
 }
