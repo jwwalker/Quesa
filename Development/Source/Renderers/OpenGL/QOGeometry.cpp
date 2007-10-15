@@ -1007,8 +1007,13 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		{
 			if (kQ3False == RenderCachedVBO( mGLContext, inTriMesh ))
 			{
-				GetCachedTriangleStrip( mRendererObject, inTriMesh, inGeomData,
-					triangleStrip );
+				// In edge fill style, the degenerate triangles created by
+				// MakeStrip draw bogus edges.
+				if (mStyleState.mFill != kQ3FillStyleEdges)
+				{
+					GetCachedTriangleStrip( mRendererObject, inTriMesh,
+						inGeomData, triangleStrip );
+				}
 				
 				if (triangleStrip.empty())
 				{
@@ -1032,8 +1037,13 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		{
 			if (kQ3False == RenderCachedDisplayList( mGLContext, inTriMesh ))
 			{
-				GetCachedTriangleStrip( mRendererObject, inTriMesh, inGeomData,
-					triangleStrip );
+				// In edge fill style, the degenerate triangles created by
+				// MakeStrip draw bogus edges.
+				if (mStyleState.mFill != kQ3FillStyleEdges)
+				{
+					GetCachedTriangleStrip( mRendererObject, inTriMesh,
+						inGeomData, triangleStrip );
+				}
 				
 				GLuint	displayListID = glGenLists( 1 );
 				glNewList( displayListID, GL_COMPILE );
