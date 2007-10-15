@@ -97,11 +97,16 @@ TQ3Boolean			RenderCachedDisplayList(
 					</code></pre></blockquote>
 					
 					and finally call RenderCachedDisplayList again.
+	@param			inDisplayList	A display list name.
+	@param			glContext		An OpenGL context.
+	@param			inGeom			A geometry object.
+	@param			inMode			OpenGL mode, e.g., GL_TRIANGLES.
 */
 void				CacheDisplayList(
 									GLuint inDisplayList,
 									TQ3GLContext glContext,
-									TQ3GeometryObject inGeom );
+									TQ3GeometryObject inGeom,
+									GLenum inMode );
 
 
 /*!
@@ -111,6 +116,14 @@ void				CacheDisplayList(
 	@param			glContext		An OpenGL context.
 */
 void				FlushDisplayListCache(
+									TQ3GLContext glContext );
+
+/*!
+	@function		ForgetTriangleStripDisplayLists
+	@abstract		Delete any cached display lists for triangle strips.
+	@param			glContext		An OpenGL context.
+*/
+void				ForgetTriangleStripDisplayLists(
 									TQ3GLContext glContext );
 
 
