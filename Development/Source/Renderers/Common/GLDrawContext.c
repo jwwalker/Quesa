@@ -559,20 +559,48 @@ FBORec::FBORec(
 			depthRenderBufferID );
 		
 		// Maybe a stencil renderbuffer...
-		// It may be necessary to do some trial and error to get this
-		// foolproof, for instance it may not be possible to get a
-		// stencil buffer together with a 32-bit depth buffer on some
-		// video cards.
+		// The GL_EXT_framebuffer_object specification implies that this should
+		// work, but it is not clear whether it is possible in the real world
+		// to get an FBO with a stencil buffer when GL_EXT_packed_depth_stencil
+		// is not supported.
 		if (stencilBits > 0)
 		{
+			GLenum	stencilFormat = GL_STENCIL_INDEX;
+			switch (stencilBits)
+			{
+				case 1:
+					stencilFormat = GL_STENCIL_INDEX1_EXT;
+					break;
+					
+				case 4:
+					stencilFormat = GL_STENCIL_INDEX4_EXT;
+					break;
+					
+				case 8:
+					stencilFormat = GL_STENCIL_INDEX8_EXT;
+					break;
+					
+				case 16:
+					stencilFormat = GL_STENCIL_INDEX16_EXT;
+					break;
+			}
 			glGenRenderbuffersEXT( 1, &stencilRenderBufferID );
 			glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
 				stencilRenderBufferID );
 			glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
-				GL_STENCIL_INDEX, inPaneWidth, inPaneHeight );
-			glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
-				GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-				stencilRenderBufferID );
+				stencilFormat, inPaneWidth, inPaneHeight );
+			GLenum	theGLErr = glGetError();
+			if (theGLErr == GL_NO_ERROR)
+			{
+				glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+					GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
+					stencilRenderBufferID );
+				theGLErr = glGetError();
+			}
+			if (theGLErr != GL_NO_ERROR)
+			{
+				Q3_MESSAGE( "Failed to set up stencil renderbuffer.\n" );
+			}
 		}
 	}
 
