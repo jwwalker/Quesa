@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -282,6 +282,9 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 		"Per-pixel lighting failed because the shader program did not link." },
 	{ kQ3WarningCannotAcceleratePixmap,				"Quesa Warning: "
 		"It was not possible to set up the requested hardware-accelerated offscreen rendering." },
+	{ kQ3WarningNoOffscreenHardwareStencil,				"Quesa Warning: "
+		"It was not possible to set up a stencil buffer (needed for  rendering shadows) in a "
+		"hardware-accelerated pixmap draw context." },
 	{ kQ3WarningNone, NULL } };
 
 
