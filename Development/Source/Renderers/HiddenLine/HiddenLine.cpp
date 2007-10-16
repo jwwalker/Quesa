@@ -180,6 +180,8 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 		factor = diagonal/720.0f*(4.0f/(viewPort.width + viewPort.height)); // scale (rather arbirarly) the line to the canvas size
 		
 		}
+	
+	TQ3FillStyle	fillStyle;
 
 	switch(mPassIndex)
 	{
@@ -187,7 +189,8 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 		{
 			glEnable( GL_POLYGON_OFFSET_FILL );
 			glPolygonOffset( +(.1f), +(.1f) );
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			fillStyle = kQ3FillStyleFilled;
+			UpdateFillStyle( &fillStyle );
 			//For the shader null
 			glLineWidth( 1.0f );
 			if(useColor == kQ3False){
@@ -203,7 +206,8 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 		{
 		glDisable( GL_POLYGON_OFFSET_FILL );
 		glEnable( GL_POLYGON_OFFSET_LINE );
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+		fillStyle = kQ3FillStyleEdges;
+		UpdateFillStyle( &fillStyle );
 			glPolygonOffset( +(factor * 5.1f), +(factor * 5.1f) );
 		mLineWidth = lineW;
 		glLineWidth( mLineWidth );
@@ -218,7 +222,8 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 	case 2:
 		{
 //		glDisable( GL_POLYGON_OFFSET_LINE );
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+		fillStyle = kQ3FillStyleEdges;
+		UpdateFillStyle( &fillStyle );
 		glDisable( GL_POLYGON_OFFSET_FILL );
 		glPolygonOffset( 0.0f,0.0f );
 		mLineWidth = lineW * factor;
