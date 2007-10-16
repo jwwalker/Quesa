@@ -86,6 +86,7 @@ enum
 	#define GL_DEPTH_ATTACHMENT_EXT            0x8D00
 	#define GL_STENCIL_ATTACHMENT_EXT          0x8D20
 	#define GL_FRAMEBUFFER_COMPLETE_EXT        0x8CD5
+	#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT      0x8CD6
 	#define GL_STENCIL_INDEX1_EXT              0x8D46
 	#define GL_STENCIL_INDEX4_EXT              0x8D47
 	#define GL_STENCIL_INDEX8_EXT              0x8D48
@@ -601,6 +602,16 @@ FBORec::FBORec(
 			{
 				Q3_MESSAGE( "Failed to set up stencil renderbuffer.\n" );
 			}
+			// If the framebuffer is not complete, fall back to having no
+			// stencil buffer.
+			if (glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT ) ==
+				GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT)
+			{
+				glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+					GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, 0 );
+				glDeleteRenderbuffersEXT( 1, &stencilRenderBufferID );
+				stencilRenderBufferID = 0;
+			}
 		}
 	}
 
@@ -623,8 +634,8 @@ FBORec::FBORec(
 			glGetIntegerv( GL_STENCIL_BITS, &stencilDepth );
 			if (stencilDepth < stencilBits)
 			{
-				// Should there be a warning here?
 				Q3_MESSAGE( "FBO did not get requested stencil bits.\n" );
+				E3ErrorManager_PostWarning( kQ3WarningNoOffscreenHardwareStencil );
 			}
 		}
 	}
