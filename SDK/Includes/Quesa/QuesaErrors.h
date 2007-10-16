@@ -403,6 +403,9 @@ typedef enum {
  *														   did not link.
  *	@constant kQ3WarningCannotAcceleratePixmap             It was not possible to set up the requested hardware-accelerated
  *														   offscreen rendering.
+ *	@constant kQ3WarningNoOffscreenHardwareStencil		   It was not possible to set up a stencil buffer (needed for
+ *														   rendering shadows) in a hardware-accelerated pixmap draw
+ *														   context.
  */
 typedef enum {
     kQ3WarningNone                              = 0,
@@ -460,6 +463,7 @@ typedef enum {
     kQ3WarningFragmentShaderCompileFailed       = -28252,
     kQ3WarningShaderProgramLinkFailed           = -28251,
     kQ3WarningCannotAcceleratePixmap            = -28250,
+    kQ3WarningNoOffscreenHardwareStencil        = -28249,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3WarningLast,
