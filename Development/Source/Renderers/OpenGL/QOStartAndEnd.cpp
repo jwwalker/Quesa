@@ -390,6 +390,11 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 	GLenum	dstFactor = GL_ONE_MINUS_SRC_ALPHA;
 	
 	mLights.StartFrame( inView, false );
+	
+	// Remove any mask set for shadowing
+	glStencilMask( ~0 );
+	glClear( GL_STENCIL_BUFFER_BIT );
+	
 	do
 	{
 		mLights.StartPass( theCamera.get(), theLightGroup.get() );
