@@ -775,13 +775,13 @@ e3geom_trimesh_triangle_delete(TQ3TriangleData *theTriangle)
 //      e3geom_trimesh_cache_new : TriMesh cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3TriMeshInstanceData *instanceData)
+e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
+						const TQ3TriMeshInstanceData *instanceData)
 {	TQ3TriangleData			triangleData;
 	TQ3GeometryObject		theTriangle;
 	TQ3GroupObject			theGroup;
 	TQ3Uns32				n;
-#pragma unused(theView, theGeom)
-
+	const TQ3TriMeshData*	geomData;
 
 
 	// Create a group to hold the cached geometry
@@ -790,12 +790,15 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		return(NULL);
 
 
+	// Access the TriMesh data
+	geomData = e3geom_trimesh_get_geom_data( theGeom, instanceData );
+
 
 	// Add the cached form to the group
-	for (n = 0; n < instanceData->geomData.numTriangles; n++)
+	for (n = 0; n < geomData->numTriangles; n++)
 		{
 		// Extract the triangle
-		e3geom_trimesh_triangle_new(theView, &instanceData->geomData, n, &triangleData);
+		e3geom_trimesh_triangle_new(theView, geomData, n, &triangleData);
 
 
 		// Create it
