@@ -639,6 +639,12 @@ void CCartoonRendererQuesa::DrawContourArrays( float lineWidth, const TQ3TriMesh
 	glLineWidth( lineWidth );
 
 	glEnableClientState(GL_VERTEX_ARRAY);
+	
+	// The shade model (AKA interpolation style) should not affect the contours,
+	// but on at least one G5 Mac running OS 10.3.9, you get weird extra lines
+	// when using flat shading (kQ3InterpolationStyleNone).
+	StSaveLightingState	saveShadeModel;
+	glShadeModel( GL_SMOOTH );
 
 	glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, geomData->triangles );
 }
