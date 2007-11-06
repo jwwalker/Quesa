@@ -714,8 +714,9 @@ void	FBORec::SwapBuffers()
 		int		theLogicalWidth = thePane.max.x - thePane.min.x;
 		int		theLogicalHeight = thePane.max.y - thePane.min.y;
 		TQ3Uns8*	baseAddr = static_cast<TQ3Uns8*>( thePixMap.image );
-		TQ3Uns8*	panePixels = baseAddr + minY * thePixMap.rowBytes + minX;
 		int		bytesPerPixel = thePixMap.pixelSize / 8;
+		TQ3Uns8*	panePixels = baseAddr + minY * thePixMap.rowBytes +
+			minX * bytesPerPixel;
 		GLint	pixelsThatFitPerRow = thePixMap.rowBytes / bytesPerPixel;
 		int		alignment = gldrawcontext_fbo_get_pixmap_alignment( thePixMap );
 		glPixelStorei( GL_PACK_ROW_LENGTH, pixelsThatFitPerRow );
