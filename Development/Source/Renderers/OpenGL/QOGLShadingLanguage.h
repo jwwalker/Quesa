@@ -115,17 +115,18 @@ struct ProgramRec
 						: mProgram( inOther.mProgram )
 						, mAgeCounter( inOther.mAgeCounter )
 						, mPattern( inOther.mPattern )
-						, mIsTexturedUniformLoc( inOther.mIsTexturedUniformLoc )
+						, mIlluminationType( inOther.mIlluminationType )
+						, mIsTextured( inOther.mIsTextured )
 						, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
-						, mIlluminationTypeUniformLoc( inOther.mIlluminationTypeUniformLoc )
 						{}
 
 	GLuint			mProgram;
 	int				mAgeCounter;
 	LightPattern	mPattern;
-	GLint			mIsTexturedUniformLoc;
+	TQ3ObjectType	mIlluminationType;
+	bool			mIsTextured;
+	
 	GLint			mTextureUnitUniformLoc;
-	GLint			mIlluminationTypeUniformLoc;
 };
 
 typedef	std::vector<ProgramRec>		ProgramVec;
@@ -261,6 +262,7 @@ private:
 	void						InitVertexShader();
 	void						InitProgram( const LightPattern& inPattern );
 	void						InitUniforms( ProgramRec& ioProgram );
+	void						ChooseProgram();
 	
 	GLSLFuncs&					mFuncs;
 	TQ3RendererObject			mRendererObject;

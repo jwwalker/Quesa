@@ -66,8 +66,8 @@ namespace
 				"varying vec3 ECNormal;"
 				""
 				// Position in eye coordinates
-				"varying vec3 ECPos3;"
-				""
+				"varying vec3 ECPos3;\n"
+
 				"void main()"
 				"{"
 					// Transform normal to eye coordinates, and let it
@@ -89,25 +89,11 @@ namespace
 				"}";
 	
 	const char*	kFragmentShaderPrefix =
-				"#define DIRECTIONAL_LIGHT_CALL(name)	name( normal, diff, spec )\n"
-
-				"#define	POSITIONAL_LIGHT_CALL(name)	\\\n"
-						"name( geomToEyeDir, normal, diff, spec )\n"
-
 				// Normal vector in eye coordinates
 				"varying vec3 ECNormal;"
 
 				// Position in eye coordinates
 				"varying vec3 ECPos3;"
-
-				// Whether we have a texture on texture unit 0
-				"uniform bool isTextured;"
-
-				// Type of illumination shader
-				// 0 == NULL (lighting disabled)
-				// 1 = Lambert (no specularity)
-				// 2 = Phong
-				"uniform int IlluminationType;"
 
 				// Sampler for texture unit 0
 				"uniform sampler2D tex0;\n"
@@ -115,10 +101,11 @@ namespace
 				
 	
 	const char* kDirectionalLightFragmentShaderSource =
-				"void FUNC_NAME("
-				"				in vec3 normal,"
-				"				inout vec3 diffuse,"
-				"				inout vec3 specular )"
+				// This shader code computes the contribution of one directional
+				// light.  Copies of this code, with LIGHT_INDEX replaced by a
+				// specific integer, will be included inline.
+				// input: vec3 normal
+				// inout: vec3 diff, vec3 spec
 				"{"
 				"	float nDotVP = max( 0.0, dot( normal,"
 				"		gl_LightSource[LIGHT_INDEX].position.xyz ) );"
@@ -131,16 +118,16 @@ namespace
 				"		pf = pow( nDotHV, gl_FrontMaterial.shininess );"
 				"	}"
 
-				"	diffuse += gl_LightSource[LIGHT_INDEX].diffuse.rgb * nDotVP;"
-				"	specular += gl_LightSource[LIGHT_INDEX].specular.rgb * pf;"
-				"}";
+				"	diff += gl_LightSource[LIGHT_INDEX].diffuse.rgb * nDotVP;"
+				"	spec += gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf;"
+				"}\n";
 
 	const char* kPositionalLightFragmentShaderSource =
-				"void FUNC_NAME("
-				"				in vec3 eye,			// geometry to eye direction\n"
-				"				in vec3 normal,"
-				"				inout vec3 diffuse,"
-				"				inout vec3 specular )"
+				// This shader code computes the contribution of one positional
+				// light.  Copies of this code, with LIGHT_INDEX replaced by a
+				// specific integer, will be included inline.
+				// input: vec3 geomToEyeDir, vec3 normal
+				// inout: vec3 diff, vec3 spec
 				"{"
 					// Compute vector from surface to light position
 				"	vec3 geomToLight = gl_LightSource[LIGHT_INDEX].position.xyz - ECPos3;"
@@ -170,12 +157,12 @@ namespace
 
 					// Compute the direction halfway between the geometry to light vector
 					// and the geometry to eye vectors.  This uses the assumption that
-					// eye and geomToLight are both normalized.
-				"	vec3 halfVector = normalize( geomToLight + eye );"
+					// geomToEyeDir and geomToLight are both normalized.
+				"	vec3 halfVector = normalize( geomToLight + geomToEyeDir );"
 
 				"	float nDotGeomToLight = max( 0.0, dot( normal, geomToLight ) );"
 
-				"	diffuse += gl_LightSource[LIGHT_INDEX].diffuse.rgb * nDotGeomToLight * attenuation;"
+				"	diff += gl_LightSource[LIGHT_INDEX].diffuse.rgb * nDotGeomToLight * attenuation;"
 
 				"	float nDotHalf = max( 0.0, dot( normal, halfVector ) );"
 
@@ -185,15 +172,19 @@ namespace
 				"	else"
 				"		pf = pow( nDotHalf, gl_FrontMaterial.shininess );"
 
-				"	specular += gl_LightSource[LIGHT_INDEX].specular.rgb * pf * attenuation;"
-				"}";
+				"	spec += gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation;"
+				"}\n";
 
-	const char* kMainFragmentShaderPart1Source =
+	const char* kMainFragmentShaderStartSource =
 				"void main()"
 				"{"
-					// Color components, lights will add to these.
+					// Color components of light, lights will add to these.
 				"	vec3		diff = vec3(0.0);"
 				"	vec3		spec = vec3(0.0);"
+				
+					// Color of fragment, to be determined later.
+				"	vec3	color;"
+				"	float	alpha;"
 
 					// Eye coordinate normal vector.  Even if the vertex normals were normalized
 					// and the modelview matrix has no scaling, we would still have to normalize
@@ -207,64 +198,49 @@ namespace
 					// backfacing style Remove, then back face triangles will
 					// not get here, so this does no harm except wasting a
 					// little time.
-				"	normal = faceforward( normal, geomPos, normal );";
+				"	normal = faceforward( normal, geomPos, normal );\n";
 		
 		// Between part 1 and part 2, we will insert some light shader calls.
 
-	const char* kMainFragmentShaderPart2Source =
-				"	vec3	color;"
-				"	float	alpha;"
+	const char* kColorCompForNULLIllumination =
+				"	color = gl_Color.rgb + gl_FrontMaterial.emission.rgb;"
+				"	alpha = gl_Color.a;"
+				;
 
-				"	if (IlluminationType == 0)"
-				"	{"
-				"		color = gl_Color.rgb + gl_FrontMaterial.emission.rgb;"
-				"	}"
-				"	else"
-				"	{"
-						// Start with emissive and global ambient color.
-						// I will assume that the only ambient light is global.
-				"		color = gl_LightModel.ambient.rgb * gl_Color.rgb + "
+	const char* kColorCompForLambertAndPhong =
+					// Start with emissive and global ambient color.
+					// I will assume that the only ambient light is global.
+				"	color = gl_LightModel.ambient.rgb * gl_Color.rgb + "
 							"gl_FrontMaterial.emission.rgb;"
 
-						// Add diffuse color.
-				"		color += diff * gl_Color.rgb;"
-				"	}"
-
-				"	alpha = gl_Color.a;"
+					// Add diffuse color.
+				"	color += diff * gl_Color.rgb;"
 				
+				"	alpha = gl_Color.a;"
+				;
+
+	const char* kTexturedColorComp =
 					// Texturing, GL_MODULATE mode
-				"	if (isTextured)"
 				"	{"
 				"		vec4 texColor = texture2D( tex0, gl_TexCoord[0].st );"
 				"		color *= texColor.rgb;"
 				"		alpha *= texColor.a;"
 				"	}"
+				;
 
-				"	if (IlluminationType == 2)"
-				"	{"
-						// Add specular color.  This is done after texturing, as with
-						// separate specular color.
-				"		color += spec * gl_FrontMaterial.specular.rgb;"
-				"	}"
-				
+	const char* kAddSpecularColor =
+					// Add specular color.  This is done after texturing, as with
+					// separate specular color.
+				"	color += spec * gl_FrontMaterial.specular.rgb;"
+				;
+
+	const char* kMainFragmentShaderEndSource =
 				" 	gl_FragColor.rgb = color;"
 				"	gl_FragColor.a = alpha;"
-				"}";
+				"}\n";
 	
-	const char* kLightShaderPrefixFormat =
-				"\n#undef LIGHT_INDEX\n"
-				"#undef FUNC_NAME\n"
-				"#define LIGHT_INDEX %d\n"
-				"#define FUNC_NAME Light%d\n";
-
-	const char* kDirectionalCallFormat =
-					"DIRECTIONAL_LIGHT_CALL( Light%d );";
-	const char* kPositionalCallFormat =
-					"POSITIONAL_LIGHT_CALL( Light%d );";
 					
-	const char* kIsTexturedUniformName			= "isTextured";
 	const char*	kTextureUnitUniformName			= "tex0";
-	const char*	kIlluminationTypeUniformName	= "IlluminationType";
 	
 	const int	kMaxProgramAge					= 100;
 	
@@ -284,21 +260,32 @@ namespace
 				}
 	};
 	
-	struct MatchPattern
+	struct MatchProgram
 	{
-					MatchPattern( const QORenderer::LightPattern& inPattern )
-						: mPattern( inPattern ) {}
+					MatchProgram(
+							const QORenderer::LightPattern& inPattern,
+							TQ3ObjectType inIlluminationType,
+							bool inIsTextured )
+						: mPattern( inPattern )
+						, mIlluminationType( inIlluminationType )
+						, mIsTextured( inIsTextured ) {}
 					
-					MatchPattern( const MatchPattern& inOther )
-						: mPattern( inOther.mPattern ) {}
+					MatchProgram( const MatchProgram& inOther )
+						: mPattern( inOther.mPattern )
+						, mIlluminationType( inOther.mIlluminationType )
+						, mIsTextured( inOther.mIsTextured ) {}
 	
 		bool		operator()( const QORenderer::ProgramRec& inProg ) const
 					{
-						return mPattern == inProg.mPattern;
+						return (mIsTextured == inProg.mIsTextured) &&
+							(mIlluminationType == inProg.mIlluminationType) &&
+							(mPattern == inProg.mPattern);
 					}
 		
 	private:
 		const QORenderer::LightPattern&	mPattern;
+		TQ3ObjectType	mIlluminationType;
+		bool			mIsTextured;
 	};
 	
 	struct DeleteProgram
@@ -339,8 +326,7 @@ namespace
 							
 		QORenderer::GLSLFuncs&	mFuncs;
 	};
-}
-
+} // end of unnamed namespace
 
 
 
@@ -348,6 +334,36 @@ namespace
 //=============================================================================
 //      Implementations
 //-----------------------------------------------------------------------------
+static void ReplaceAllSubstr( std::string& ioString,
+								const char* inFindSub,
+								const char* inReplacement )
+{
+	std::string::size_type	place;
+	std::string::size_type	len = std::strlen( inFindSub );
+	
+	while ( (place = ioString.find( inFindSub )) != std::string::npos )
+	{
+		ioString.replace( place, len, inReplacement );
+	}
+}
+
+
+static void ReplaceAllSubstrByInt( std::string& ioString,
+								const char* inFindSub,
+								unsigned int inReplacement )
+{
+	char	intAsStr[10];
+	std::sprintf( intAsStr, "%d", inReplacement );
+	std::string::size_type	place;
+	std::string::size_type	len = std::strlen( inFindSub );
+	
+	while ( (place = ioString.find( inFindSub )) != std::string::npos )
+	{
+		ioString.replace( place, len, intAsStr );
+	}
+}
+
+
 QORenderer::GLSLFuncs::GLSLFuncs()
 {
 	SetNULL();
@@ -394,21 +410,21 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glGetProgramInfoLog, "glGetProgramInfoLog", "glGetInfoLogARB" );
 		GLGetProcAddress( glGetShaderInfoLog, "glGetShaderInfoLog", "glGetInfoLogARB" );
 	#if Q3_DEBUG
-		if ( (glCreateShader == NULL) or
-			(glShaderSource == NULL) or
-			(glCompileShader == NULL) or
-			(glGetShaderiv == NULL) or
-			(glCreateProgram == NULL) or
-			(glAttachShader == NULL) or
-			(glDetachShader == NULL) or
-			(glLinkProgram == NULL) or
-			(glGetProgramiv == NULL) or
-			(glUseProgram == NULL) or
-			(glGetUniformLocation == NULL) or
-			(glUniform1i == NULL) or
-			(glDeleteShader == NULL) or
-			(glDeleteProgram == NULL) or
-			(glGetProgramInfoLog == NULL) or
+		if ( (glCreateShader == NULL) ||
+			(glShaderSource == NULL) ||
+			(glCompileShader == NULL) ||
+			(glGetShaderiv == NULL) ||
+			(glCreateProgram == NULL) ||
+			(glAttachShader == NULL) ||
+			(glDetachShader == NULL) ||
+			(glLinkProgram == NULL) ||
+			(glGetProgramiv == NULL) ||
+			(glUseProgram == NULL) ||
+			(glGetUniformLocation == NULL) ||
+			(glUniform1i == NULL) ||
+			(glDeleteShader == NULL) ||
+			(glDeleteProgram == NULL) ||
+			(glGetProgramInfoLog == NULL) ||
 			(glGetShaderInfoLog == NULL) )
 		{
 			Q3_MESSAGE( "Shading functions NOT all present.\n" );
@@ -441,46 +457,21 @@ QORenderer::PerPixelLighting::~PerPixelLighting()
 }
 
 
-static void AddDirectionalCall( GLint inLightIndex,
-								std::vector<std::string>& ioCalls )
-{
-	char	buffer[100];
-	snprintf( buffer, sizeof(buffer), kDirectionalCallFormat,
-		(int)inLightIndex );
-	ioCalls.push_back( std::string(buffer) );
-}
-
-static void AddPositionalCall( GLint inLightIndex,
-								std::vector<std::string>& ioCalls )
-{
-	char	buffer[100];
-	snprintf( buffer, sizeof(buffer), kPositionalCallFormat,
-		(int)inLightIndex );
-	ioCalls.push_back( std::string(buffer) );
-}
-
 static void AddDirectionalShaderSource(	GLint inLightIndex,
 										std::vector<std::string>& ioSource )
 {
-	char	buffer[100];
-	snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
-			(int)inLightIndex, (int)inLightIndex );
-	
-	ioSource.push_back( buffer );
-	ioSource.push_back( kDirectionalLightFragmentShaderSource );
+	std::string		theSource( kDirectionalLightFragmentShaderSource );
+	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
+	ioSource.push_back( theSource );
 }
 
 static void AddPositionalShaderSource(	GLint inLightIndex,
 										std::vector<std::string>& ioSource )
 {
-	char	buffer[100];
-	snprintf( buffer, sizeof(buffer), kLightShaderPrefixFormat,
-			(int)inLightIndex, (int)inLightIndex );
-	
-	ioSource.push_back( buffer );
-	ioSource.push_back( kPositionalLightFragmentShaderSource );
+	std::string		theSource( kPositionalLightFragmentShaderSource );
+	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
+	ioSource.push_back( theSource );
 }
-
 
 
 
@@ -508,35 +499,52 @@ static void LogShaderCompileError( GLint inShaderID, QORenderer::GLSLFuncs& inFu
 
 
 static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern,
+										TQ3ObjectType inIlluminationType,
+										bool inIsTextured,
 										std::vector<std::string>& outSource )
 {
 	outSource.push_back( kFragmentShaderPrefix );
+	outSource.push_back( kMainFragmentShaderStartSource );
 
-	std::vector<std::string>	lightCalls;
-
-	const GLint kNumLights = inPattern.size();
-
-	for (GLint i = 0; i < kNumLights; ++i)
+	if (inIlluminationType != kQ3IlluminationTypeNULL)
 	{
-		switch (inPattern[i])
+		const GLint kNumLights = inPattern.size();
+
+		for (GLint i = 0; i < kNumLights; ++i)
 		{
-			case QORenderer::kLightTypeDirectional:
-				AddDirectionalShaderSource( i, outSource );
-				AddDirectionalCall( i, lightCalls );
-				break;
-				
-			case QORenderer::kLightTypePositional:
-				AddPositionalShaderSource( i, outSource );
-				AddPositionalCall( i, lightCalls );
-				break;
+			switch (inPattern[i])
+			{
+				case QORenderer::kLightTypeDirectional:
+					AddDirectionalShaderSource( i, outSource );
+					break;
+					
+				case QORenderer::kLightTypePositional:
+					AddPositionalShaderSource( i, outSource );
+					break;
+			}
 		}
 	}
 	
-	outSource.push_back( kMainFragmentShaderPart1Source );
+	if (inIlluminationType == kQ3IlluminationTypeNULL)
+	{
+		outSource.push_back( kColorCompForNULLIllumination );
+	}
+	else
+	{
+		outSource.push_back( kColorCompForLambertAndPhong );
+	}
 	
-	outSource.insert( outSource.end(), lightCalls.begin(), lightCalls.end() );
+	if (inIsTextured)
+	{
+		outSource.push_back( kTexturedColorComp );
+	}
 	
-	outSource.push_back( kMainFragmentShaderPart2Source );
+	if (inIlluminationType == kQ3IlluminationTypePhong)
+	{
+		outSource.push_back( kAddSpecularColor );
+	}
+		
+	outSource.push_back( kMainFragmentShaderEndSource );
 }
 
 
@@ -578,33 +586,6 @@ static void GetLightTypes( QORenderer::LightPattern& outLights )
 
 
 /*!
-	@function	IlluminationTypeToCode
-	@abstract	Convert a Quesa illumination shader type to an illumination
-				code for the fragment shader.
-*/
-static GLint IlluminationTypeToCode( TQ3ObjectType inIlluminationType )
-{
-	GLint	illuminationCode = 0;
-	switch (inIlluminationType)
-	{
-		case kQ3IlluminationTypePhong:
-			illuminationCode = 2;
-			break;
-		
-		case kQ3IlluminationTypeLambert:
-			illuminationCode = 1;
-			break;
-			
-		default:
-			illuminationCode = 0;
-			break;
-	}
-	
-	return illuminationCode;
-}
-
-
-/*!
 	@function	StartFrame
 	@abstract	Begin a rendering frame.
 */
@@ -642,42 +623,52 @@ void	QORenderer::PerPixelLighting::StartPass()
 	{
 		InitVertexShader();
 		
-		mIlluminationType = 0;
+		mIlluminationType = kQ3IlluminationTypeNULL;
 		mIsTextured = false;
 		mProgramIndex = -1;
 		
 		if (mVertexShaderID != 0)
 		{
-			// See if we have a program matching the current light pattern.
-			LightPattern	theLightPattern;
-			GetLightTypes( theLightPattern );
-			
-			MatchPattern	matcher( theLightPattern );
-			ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
-				mPrograms.end(), matcher );
-			
-			if (foundProg == mPrograms.end())
-			{
-				InitProgram( theLightPattern );
-				
-				foundProg = std::find_if( mPrograms.begin(),
-					mPrograms.end(), matcher );
-			}
-			
-			if (foundProg != mPrograms.end())
-			{
-				mProgramIndex = foundProg - mPrograms.begin();
-				
-				mFuncs.glUseProgram( foundProg->mProgram );
-				foundProg->mAgeCounter = 0;
-				
-				// Make sure uniform variables start out correct
-				mFuncs.glUniform1i( mPrograms[mProgramIndex].mIsTexturedUniformLoc,
-					mIsTextured );
-				mFuncs.glUniform1i( mPrograms[mProgramIndex].mIlluminationTypeUniformLoc,
-					IlluminationTypeToCode( mIlluminationType ) );
-			}
+			ChooseProgram();
 		}
+	}
+}
+
+
+/*!
+	@function	ChooseProgram
+	
+	@abstract	Look for a program that matches the current light pattern,
+				illumination, and texturing, creating one if need be, and
+				activate it.
+*/
+void	QORenderer::PerPixelLighting::ChooseProgram()
+{
+	// See if we have a program matching the current light pattern.
+	LightPattern	theLightPattern;
+	GetLightTypes( theLightPattern );
+	
+	// Look for a program that meets current needs.
+	MatchProgram	matcher( theLightPattern, mIlluminationType, mIsTextured );
+	ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
+		mPrograms.end(), matcher );
+	
+	// If there is none, create it.
+	if (foundProg == mPrograms.end())
+	{
+		InitProgram( theLightPattern );
+		
+		foundProg = std::find_if( mPrograms.begin(),
+			mPrograms.end(), matcher );
+	}
+	
+	// Activate it.
+	if (foundProg != mPrograms.end())
+	{
+		mProgramIndex = foundProg - mPrograms.begin();
+		
+		mFuncs.glUseProgram( foundProg->mProgram );
+		foundProg->mAgeCounter = 0;
 	}
 }
 
@@ -696,12 +687,8 @@ void	QORenderer::PerPixelLighting::EndPass()
 
 void	QORenderer::PerPixelLighting::InitUniforms( ProgramRec& ioProgram )
 {
-	ioProgram.mIsTexturedUniformLoc = mFuncs.glGetUniformLocation(
-		ioProgram.mProgram, kIsTexturedUniformName );
 	ioProgram.mTextureUnitUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kTextureUnitUniformName );
-	ioProgram.mIlluminationTypeUniformLoc = mFuncs.glGetUniformLocation(
-		ioProgram.mProgram, kIlluminationTypeUniformName );
 }
 
 /*!
@@ -779,6 +766,8 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 {
 	ProgramRec	newProgram;
 	newProgram.mPattern = inPattern;
+	newProgram.mIlluminationType = mIlluminationType;
+	newProgram.mIsTextured = mIsTextured;
 	
 	// Create a program.
 	newProgram.mProgram = mFuncs.glCreateProgram();
@@ -790,7 +779,8 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 		
 		// Build the source of the fragment shader
 		std::vector<std::string>	fragSource;
-		BuildFragmentShaderSource( inPattern, fragSource );
+		BuildFragmentShaderSource( inPattern, mIlluminationType, mIsTextured,
+			fragSource );
 		std::vector<const char*>	sourceParts;
 		GetSourcePointers( fragSource, sourceParts );
 		
@@ -907,16 +897,13 @@ void	QORenderer::PerPixelLighting::Cleanup()
 */
 void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminationType )
 {
-	if (mIsShading && (mProgramIndex >= 0))
+	if (mIsShading)
 	{
 		if (mIlluminationType != inIlluminationType)
 		{
 			mIlluminationType = inIlluminationType;
 			
-			GLint	illuminationCode = IlluminationTypeToCode( mIlluminationType );
-			
-			mFuncs.glUniform1i( mPrograms[mProgramIndex].mIlluminationTypeUniformLoc,
-				illuminationCode );
+			ChooseProgram();
 		}
 	}
 }
@@ -928,7 +915,7 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 */
 void	QORenderer::PerPixelLighting::UpdateTexture()
 {
-	if (mIsShading && (mProgramIndex >= 0))
+	if (mIsShading)
 	{
 		bool	isTextured = glIsEnabled( GL_TEXTURE_2D );
 		
@@ -936,8 +923,7 @@ void	QORenderer::PerPixelLighting::UpdateTexture()
 		{
 			mIsTextured = isTextured;
 			
-			mFuncs.glUniform1i( mPrograms[mProgramIndex].mIsTexturedUniformLoc,
-				mIsTextured );
+			ChooseProgram();
 		}
 	}
 }
