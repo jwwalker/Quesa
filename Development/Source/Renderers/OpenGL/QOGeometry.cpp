@@ -1721,6 +1721,11 @@ void	QORenderer::Renderer::SubmitLine(
 				glNormal3fv( (const GLfloat *) &theVertices[i].normal );
 			}
 			
+			if ( (theVertices[i].flags & kVertexHaveUV) != 0 )
+			{
+				glTexCoord2fv( (const GLfloat *) &theVertices[i].uv );
+			}
+			
 			if ( (theVertices[i].flags & kVertexHaveDiffuse) != 0 )
 			{
 				glColor3fv( (const GLfloat *) &theVertices[i].diffuseColor );
@@ -1852,6 +1857,11 @@ void	QORenderer::Renderer::SubmitPolyLine(
 				if ( (theVertices[i+j].flags & kVertexHaveNormal) != 0 )
 				{
 					glNormal3fv( (const GLfloat *) &theVertices[i+j].normal );
+				}
+				
+				if ( (theVertices[i+j].flags & kVertexHaveUV) != 0 )
+				{
+					glTexCoord2fv( (const GLfloat *) &theVertices[i+j].uv );
 				}
 				
 				if ( (theVertices[i+j].flags & kVertexHaveDiffuse) != 0 )
