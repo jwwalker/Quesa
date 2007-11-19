@@ -263,7 +263,7 @@
 
 #include <stdio.h>
 
-#if _MSC_VER
+#if defined(_MSC_VER) && _MSC_VER
 typedef unsigned __int8 uint8_t;
 typedef unsigned __int16 uint16_t;
 typedef unsigned __int32 uint32_t;

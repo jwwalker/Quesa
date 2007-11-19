@@ -4060,7 +4060,7 @@ Q3Math_InvSquareRoot (
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 // Implementation
-    #if _MSC_VER
+    #if defined(_MSC_VER) && _MSC_VER
      // Disable conditional expression is constant warning for VC++
        #pragma warning(disable:4127)
     #endif
