@@ -55,7 +55,7 @@
 #include <stdlib.h>
 
 #if __MACH__
-	#include <QuesaDrawContext.h>
+	#include <Quesa/QuesaDrawContext.h>
 #else
 	#include <QuesaDrawContext.h>
 #endif

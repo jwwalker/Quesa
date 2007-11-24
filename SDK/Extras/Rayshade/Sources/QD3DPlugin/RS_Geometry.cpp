@@ -48,12 +48,12 @@
 #include "RSPlugin.h"
 #include "RS_Attributes.h"
 
-#if USE_QUESA_INCLUDES
+#if __MACH__
+	#include <Quesa/Quesa.h>
+	#include <Quesa/QuesaRenderer.h>
+#else
 	#include <Quesa.h>
 	#include <QuesaRenderer.h>
-#else
-	#include <QD3D.h>
-	#include <QD3DRenderer.h>
 #endif
 
 

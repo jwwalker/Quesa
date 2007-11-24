@@ -49,14 +49,14 @@
 #include "RS_Attributes.h"
 #include "RS_Texture.h"
 
-#if USE_QUESA_INCLUDES
-	#include "Quesa.h"
-	#include "QuesaView.h"
-	#include "QuesaRenderer.h"
+#if __MACH__
+	#include <Quesa/Quesa.h>
+	#include <Quesa/QuesaView.h>
+	#include <Quesa/QuesaRenderer.h>
 #else
-	#include <QD3D.h>
-	#include <QD3DView.h>
-	#include <QD3DRenderer.h>
+	#include <Quesa.h>
+	#include <QuesaView.h>
+	#include <QuesaRenderer.h>
 #endif
 
 /*===========================================================================*\

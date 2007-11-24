@@ -45,17 +45,18 @@
 //-----------------------------------------------------------------------------
 #include "RSPrefix.h"
 
-#if USE_QUESA_INCLUDES
+#if __MACH__
+	#include <Quesa/Quesa.h>
+	#include <Quesa/QuesaIO.h>
+	#include <Quesa/QuesaShader.h>
+	#include <Quesa/QuesaStorage.h>
+#else
 	#include <Quesa.h>
 	#include <QuesaIO.h>
 	#include <QuesaShader.h>
 	#include <QuesaStorage.h>
-#else
-	#include <QD3D.h>
-	#include <QD3DIO.h>
-	#include <QD3DShader.h>
-	#include <QD3DStorage.h>
 #endif
+
 
 #include <stdlib.h>
 

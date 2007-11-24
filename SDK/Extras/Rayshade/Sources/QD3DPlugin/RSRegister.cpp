@@ -51,14 +51,15 @@
 #include "RT_Light.h"
 #include "RT_Tracer.h"
 
+#if __MACH__
+	#include <Quesa/Quesa.h>
+	#include <Quesa/QuesaGroup.h>
+	#include <Quesa/QuesaExtension.h>
+#else
 	#include <Quesa.h>
-	#include <QuesaView.h>
-	#include <QuesaDrawContext.h>
 	#include <QuesaGroup.h>
-	#include <QuesaCamera.h>
-	#include <QuesaRenderer.h>
 	#include <QuesaExtension.h>
-	#include <QuesaIO.h>
+#endif
 
 #include <stdlib.h>
 #include <string>

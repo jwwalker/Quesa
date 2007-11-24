@@ -1,5 +1,3 @@
-// Architectures
-ARCHS = ppc i386
 
 // Build Locations
 SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk

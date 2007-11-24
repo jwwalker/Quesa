@@ -45,12 +45,10 @@
 //-----------------------------------------------------------------------------
 #include "RSPrefix.h"
 
-#if USE_QUESA_INCLUDES
-	#include <Quesa.h>
-	#include <QuesaMath.h>
+#if __MACH__
+	#include <Quesa/QuesaMath.h>
 #else
-	#include <QD3D.h>
-	#include <QD3DMath.h>
+	#include <QuesaMath.h>
 #endif
 
 #include "RT_Surface.h"

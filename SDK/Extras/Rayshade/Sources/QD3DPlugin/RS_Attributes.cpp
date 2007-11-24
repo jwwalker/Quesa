@@ -50,7 +50,11 @@
 #include "RS_Texture.h"
 #include "RT_DrawContext.h"
 
-#if USE_QUESA_INCLUDES
+#if __MACH__
+	#include <Quesa/Quesa.h>
+	#include <Quesa/QuesaView.h>
+	#include <Quesa/QuesaRenderer.h>
+#else
 	#include <Quesa.h>
 	#include <QuesaView.h>
 	#include <QuesaRenderer.h>
