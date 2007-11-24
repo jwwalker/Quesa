@@ -134,9 +134,11 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 	// Check whether shadows are requested
 	TQ3Boolean	isShadowingRequested = kQ3False;
-	Q3Object_GetProperty( mRendererObject,
-		kQ3RendererPropertyShadows, sizeof(isShadowingRequested), NULL,
-		&isShadowingRequested );
+	if(mNumPasses == 1){ // disable shadows because shadow and multipass is not well implemented
+		Q3Object_GetProperty( mRendererObject,
+			kQ3RendererPropertyShadows, sizeof(isShadowingRequested), NULL,
+			&isShadowingRequested );
+		}
 	
 	if (isShadowingRequested)
 	{
