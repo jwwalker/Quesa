@@ -149,7 +149,7 @@ void	QORenderer::Renderer::UpdateSurfaceShader(
 	
 	// If this is a texture shader, get the texture from the shader
 	CQ3ObjectRef	theTexture;
-	if (inShader != NULL)
+	if (inShader != NULL && ( (mAttributesMask & kQ3XAttributeMaskDiffuseColor) != 0))
 	{
 		if (Q3SurfaceShader_GetType( inShader ) == kQ3SurfaceShaderTypeTexture)
 		{
