@@ -11,11 +11,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>kUnquotedVersion</string>
+	<string>1.0.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>kUnquotedVersion</string>
+	<string>1.0.0</string>
 	<key>CFBundleGetInfoString</key>
-	<string>kUnquotedVersion ©2007 Quesa Developers</string>
+	<string>1.0.0 ©2007 Quesa Developers</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleInfoDictionaryVersion</key>

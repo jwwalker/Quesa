@@ -61,10 +61,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#if USE_QUESA_INCLUDES
-	#include <QuesaMath.h>
+#if __MACH__
+	#include <Quesa/QuesaMath.h>
 #else
-	#include <QD3DMath.h>
+	#include <QuesaMath.h>
 #endif
 
 #if Q3_PROFILE

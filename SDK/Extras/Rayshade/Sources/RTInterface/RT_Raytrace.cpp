@@ -44,13 +44,6 @@
 //-----------------------------------------------------------------------------
 #include "RSPrefix.h"
 
-#if USE_QUESA_INCLUDES
-	#include <Quesa.h>
-	#include <QuesaMath.h>
-#else
-	#include <QD3D.h>
-	#include <QD3DMath.h>
-#endif
 
 #include "RT.h"
 #include "RT_Geometry.h"

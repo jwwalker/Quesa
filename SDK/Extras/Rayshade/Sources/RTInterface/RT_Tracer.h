@@ -44,12 +44,12 @@
 
 #include "RT.h"
 
-#if USE_QUESA_INCLUDES
+#if __MACH__
+	#include <Quesa/Quesa.h>
+	#include <Quesa/QuesaIO.h>
+#else
 	#include <Quesa.h>
 	#include <QuesaIO.h>
-#else
-	#include <QD3D.h>
-	#include <QD3DIO.h>
 #endif
 
 /******************************************************************************

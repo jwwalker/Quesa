@@ -41,10 +41,10 @@
 */
 #include "RSPrefix.h"
 
-#if USE_QUESA_INCLUDES
-	#include <Quesa.h>
+#if __MACH__
+	#include <Quesa/Quesa.h>
 #else
-	#include <QD3D.h>
+	#include <Quesa.h>
 #endif
 
 /******************************************************************************

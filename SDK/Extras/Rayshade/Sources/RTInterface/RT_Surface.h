@@ -46,15 +46,16 @@
 
 #include "RT.h"
 
-#if USE_QUESA_INCLUDES
+#if __MACH__
+	#include <Quesa/QuesaMath.h>
+	#include <Quesa/QuesaCamera.h>
+	#include <Quesa/QuesaLight.h>
+#else
 	#include <QuesaMath.h>
 	#include <QuesaCamera.h>
 	#include <QuesaLight.h>
-#else
-	#include <QD3DMath.h>
-	#include <QD3DCamera.h>
-	#include <QD3DLight.h>
 #endif
+
 /******************************************************************************
  **																			 **
  **								Data Structure							     **
