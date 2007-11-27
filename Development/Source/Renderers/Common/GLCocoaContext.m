@@ -88,8 +88,8 @@ CocoaGLContext::CocoaGLContext(
     CocoaGLContext					*theContext;
 	TQ3Status						qd3dStatus;
     NSRect							viewFrame;
-    TQ3Uns32						glRect[4];
-    long int						enable;
+    GLint							glRect[4];
+    GLint							enable;
 	TQ3GLExtensions					extFlags;
 
 
@@ -149,11 +149,11 @@ CocoaGLContext::CocoaGLContext(
 
 
 	// Set the viewport
-	glRect[0] = (TQ3Uns32) drawContextData.pane.min.x;
-	glRect[1] = (TQ3Uns32) ((viewFrame.origin.y+viewFrame.size.height)            
+	glRect[0] = (GLint) drawContextData.pane.min.x;
+	glRect[1] = (GLint) ((viewFrame.origin.y+viewFrame.size.height)            
                                       - drawContextData.pane.max.y);
-	glRect[2] = (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x);
-	glRect[3] = (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y);
+	glRect[2] = (GLint) (drawContextData.pane.max.x - drawContextData.pane.min.x);
+	glRect[3] = (GLint) (drawContextData.pane.max.y - drawContextData.pane.min.y);
 
 	glViewport(0, 0, glRect[2], glRect[3]);
 
@@ -162,7 +162,7 @@ CocoaGLContext::CocoaGLContext(
 	// Set the swap buffer rect
 	enable = 1;
 	[(id)glContext setValues:&enable forParameter:NSOpenGLCPSwapRectangleEnable];
-	[(id)glContext setValues:(const long *) glRect forParameter:NSOpenGLCPSwapRectangle];
+	[(id)glContext setValues:glRect forParameter:NSOpenGLCPSwapRectangle];
 
 
 
@@ -251,7 +251,7 @@ bool	CocoaGLContext::UpdateWindowSize()
 	};
 	glViewport(0, 0, glRect[2], glRect[3]);
 	
-	[(id)glContext setValues:(const long *) glRect
+	[(id)glContext setValues:glRect
 					forParameter:NSOpenGLCPSwapRectangle];
 	
 	return true;
