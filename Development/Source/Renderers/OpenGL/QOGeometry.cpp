@@ -1273,6 +1273,7 @@ void	QORenderer::Renderer::SimulateSeparateSpecularColor(
 	
 	// Turn off texturing.
 	glDisable( GL_TEXTURE_2D );
+	mGLClientStates.DisableTextureArray();
 	
 	// Add the specular highlights to the existing image.
 	glEnable( GL_BLEND );
@@ -1475,8 +1476,14 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		
 		if ( IsFakeSeparateSpecularColorNeeded() )
 		{
+			// Although we just rendered the geometry, we may have done so using a
+			// display list or something, so the vertex array may not be set.
+			glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData->points );
+			mGLClientStates.EnableNormalArray( true );
+			glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), dataArrays.vertNormal );
+
 			SimulateSeparateSpecularColor( 3 * inGeomData->numTriangles,
-				 inGeomData->triangles[0].pointIndices );
+				inGeomData->triangles[0].pointIndices );
 		}
 	}
 	
