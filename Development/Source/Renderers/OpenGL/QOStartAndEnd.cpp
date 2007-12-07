@@ -227,6 +227,14 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 
 			GLUtils_CheckExtensions( &mGLExtensions );
+			TQ3Boolean	allowVBO = kQ3True;
+			Q3Object_GetProperty( mRendererObject,
+				kQ3RendererPropertyAllowVBOs, sizeof(allowVBO), NULL,
+				&allowVBO );
+			if (allowVBO == kQ3False)
+			{
+				mGLExtensions.vertexBufferObjects = kQ3False;
+			}
 			mSLFuncs.Initialize( mGLExtensions );
 			mStencilFuncs.Initialize( mGLExtensions );
 			
