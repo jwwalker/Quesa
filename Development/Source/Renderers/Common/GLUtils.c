@@ -292,6 +292,7 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 {
 	const char*	openGLVersion = (const char*)glGetString( GL_VERSION );
 	const char*	openGLExtensions = (const char*)glGetString( GL_EXTENSIONS );
+	const char*	openGLVendor = (const char*)glGetString( GL_VENDOR );
 	
 	short j = 0;
 	short shiftVal = 8;
@@ -342,6 +343,12 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 			 isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_vertex_buffer_object" ) )
 		{
 			featureFlags->vertexBufferObjects = kQ3True;
+			
+			// There seems to be a crashing bug in the driver for an Intel 82845G card.
+			if ( (glVersion <= 0x0130) && (strcmp( openGLVendor, "Intel" ) == 0) )
+			{
+				featureFlags->vertexBufferObjects = kQ3False;
+			}
 		}
 		
 		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_framebuffer_object" ))
