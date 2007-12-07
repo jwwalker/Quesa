@@ -154,6 +154,12 @@ enum
 					in the WireFrame Renderer - if the lines should follow the geometry color
 					    or draw them black
 					Data type: TQ3Boolean.  Default value: kQ3True.
+
+	@constant	kQ3RendererPropertyAllowVBOs
+					Allow the renderer to use vertex buffer objects provided
+					that the OpenGL driver claims to support them.  This could
+					be used to disable VBO usage for buggy graphics drivers.
+					Data type: TQ3Boolean.  Default value: kQ3True.
 */
 enum
 {
@@ -163,7 +169,8 @@ enum
 	kQ3RendererPropertyShadows					= Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
 	kQ3RendererPropertyAttenuationThreshold		= Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
 	kQ3RendererPropertyLineWidth				= Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
-	kQ3RendererPropertyUseColor					= Q3_OBJECT_TYPE('u', 'c', 'l', 'r')
+	kQ3RendererPropertyUseColor					= Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
+	kQ3RendererPropertyAllowVBOs				= Q3_OBJECT_TYPE('a', 'v', 'b', 'o')
 };
 #endif
 
