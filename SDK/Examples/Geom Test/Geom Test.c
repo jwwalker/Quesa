@@ -202,7 +202,7 @@ static TQ3XObjectClass				sMyViewClass = NULL;
 //-----------------------------------------------------------------------------
 static void appRender(TQ3ViewObject theView);
 
-static void updateRotation();
+static void updateRotation( void );
 
 typedef TQ3Object (*TextureImporterProcPtr)( const char* inURL,
 					TQ3StorageObject inStorage );
