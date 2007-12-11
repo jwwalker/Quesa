@@ -163,6 +163,10 @@ extern "C" {
  *															a pixmap draw context, requests that the
  *															context use hardware acceleration if possible.
  *															Data type: TQ3AcceleratedOffscreenPropertyData.
+ *	@constant	kQ3DrawContextPropertyGLPixelFormat			Request a specific OpenGL pixel format.
+ *															The data type is platform-specific.
+ *															Mac Carbon: AGLPixelFormat.  Windows: int.
+ *															Mac Cocoa: NSOpenGLPixelFormat*.
  */
 enum {
 	kQ3DrawContextPropertyClearDepthBufferFlag		= Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
@@ -176,6 +180,7 @@ enum {
 	kQ3DrawContextPropertySurfaceBehindWindow		= Q3_METHOD_TYPE('s', 'u', 'b', 'w'),
 	kQ3DrawContextPropertyGLContextBuildCount		= Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
 	kQ3DrawContextPropertyAcceleratedOffscreen		= Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
+	kQ3DrawContextPropertyGLPixelFormat				= Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
 	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
 };
 
