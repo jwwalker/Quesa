@@ -120,6 +120,7 @@ enum
 #endif
 
 
+
 //=============================================================================
 //		Internal types
 //-----------------------------------------------------------------------------
@@ -959,7 +960,65 @@ gldrawcontext_mac_calc_window_origin( CGrafPtr inPort )
 	return thePoint;
 }
 
+/*
+	@function	gldrawcontext_mac_choose_pixel_format
+	@abstract	Choose a pixel format.
+	@param		depthBits		Desired bit depth of depth buffer.
+	@param		stencilBits		Desired bit depth of stencil buffer.
+	@param		doubleBuffer	Whether double-buffered rendering will be used.
+	@param		pixelSize		Desired bits per pixel in color buffer.  Pass 0
+								for on-screen rendering.
+	@param		rendererID		ID of a specific AGL renderer.  Pass 0 to leave
+								unspecified.
+	@result		A pixel format pointer.  When finished with it, call
+				aglDestroyPixelFormat.
+*/
+static AGLPixelFormat
+gldrawcontext_mac_choose_pixel_format(
+								TQ3Uns32 depthBits,
+								TQ3Uns32 stencilBits,
+								TQ3Boolean doubleBuffer,
+								TQ3Uns32 pixelSize,
+								GLint rendererID )
+{
+	GLint					glAttributes[kMaxGLAttributes];
+	TQ3Uns32				numAttributes;
+	AGLPixelFormat			pixelFormat = NULL;
 
+	numAttributes = 0;
+	glAttributes[numAttributes++] = AGL_RGBA;
+	glAttributes[numAttributes++] = AGL_DEPTH_SIZE;
+	glAttributes[numAttributes++] = (GLint)depthBits;
+	glAttributes[numAttributes++] = AGL_STENCIL_SIZE;
+	glAttributes[numAttributes++] = (GLint)stencilBits;
+	
+	if (doubleBuffer)
+	{
+		glAttributes[numAttributes++] = AGL_DOUBLEBUFFER;
+	}
+	
+	if (pixelSize > 0)
+	{
+		glAttributes[numAttributes++] = AGL_OFFSCREEN;
+		glAttributes[numAttributes++] = AGL_PIXEL_SIZE;
+		glAttributes[numAttributes++] = (GLint)pixelSize;
+	}
+	
+	if (rendererID != 0)
+	{
+		glAttributes[numAttributes++] = AGL_RENDERER_ID;
+		glAttributes[numAttributes++] = rendererID;
+	}
+	
+	// Terminate list
+	glAttributes[ numAttributes ] = AGL_NONE;
+	
+	Q3_ASSERT(numAttributes < kMaxGLAttributes);
+	
+	pixelFormat = aglChoosePixelFormat( NULL, 0, glAttributes );
+	
+	return pixelFormat;
+}
 
 MacGLContext::MacGLContext(
 								TQ3DrawContextObject theDrawContext,
@@ -969,12 +1028,10 @@ MacGLContext::MacGLContext(
 	: CQ3GLContext( theDrawContext )
 	, macContext( NULL )
 {
-	GLint					glAttributes[kMaxGLAttributes];
-	TQ3Uns32				numAttributes;
 	TQ3Uns32				sysVersion = 0;
 	TQ3ObjectType			drawContextType;
 	TQ3DrawContextData		drawContextData;
-	AGLPixelFormat			pixelFormat;
+	AGLPixelFormat			pixelFormat = NULL;
 	TQ3Status				qd3dStatus;
 	GLint					glRect[4];
 	TQ3Pixmap				thePixmap;
@@ -984,6 +1041,9 @@ MacGLContext::MacGLContext(
 	char*					paneImage;
 	TQ3GLContext			sharingContext = NULL;
 	TQ3Endian				nativeByteOrder;
+	GLint					rendererID = 0;
+	TQ3Uns32				pixmapPixelSize = 0;
+	TQ3Boolean				createdPixelFormat = kQ3True;
 
 
 	// Get the type specific draw context data
@@ -1055,27 +1115,10 @@ MacGLContext::MacGLContext(
 	paneHeight = (GLint)(drawContextData.pane.max.y - drawContextData.pane.min.y);
 
 
-	// Build up the attributes we need
-	Q3Memory_Clear(glAttributes, sizeof(glAttributes));
-
-	numAttributes = 0;
-	glAttributes[numAttributes++] = AGL_RGBA;
-	glAttributes[numAttributes++] = AGL_DEPTH_SIZE;
-	glAttributes[numAttributes++] = (GLint)depthBits;
-	glAttributes[numAttributes++] = AGL_STENCIL_SIZE;
-	glAttributes[numAttributes++] = (GLint)stencilBits;
-	
-	if (drawContextData.doubleBufferState)
-		glAttributes[numAttributes++] = AGL_DOUBLEBUFFER;
-	
 	if (drawContextType == kQ3DrawContextTypePixmap)
 		{
-		glAttributes[numAttributes++] = AGL_OFFSCREEN;
-		glAttributes[numAttributes++] = AGL_PIXEL_SIZE;
-		glAttributes[numAttributes++] = (GLint)thePixmap.pixelSize;
+		pixmapPixelSize = (GLint)thePixmap.pixelSize;
 		}
-
-	Q3_ASSERT(numAttributes < kMaxGLAttributes);
 	
 	
 	
@@ -1089,20 +1132,33 @@ MacGLContext::MacGLContext(
 	// and shows specular highlights on textured material.
 	if ( (sysVersion >= 0x1040) && (drawContextType == kQ3DrawContextTypePixmap) )
 		{
-		glAttributes[numAttributes++] = AGL_RENDERER_ID;
-		glAttributes[numAttributes++] = 0x20400;
+		rendererID = 0x20400;
 		}
 
-
-	// Create the pixel format and context, and attach the context
-	pixelFormat = aglChoosePixelFormat(NULL, 0, glAttributes);
+	
+	// Check whether a pixel format was provided by the client
+	Q3Object_GetProperty( theDrawContext, kQ3DrawContextPropertyGLPixelFormat,
+		sizeof(pixelFormat), NULL, &pixelFormat );
+	
+	if (pixelFormat == NULL)
+		{
+		// Create the pixel format
+		pixelFormat = gldrawcontext_mac_choose_pixel_format( depthBits,
+			stencilBits, drawContextData.doubleBufferState, pixmapPixelSize,
+			rendererID );
+		}
+	else
+		{
+		createdPixelFormat = kQ3False;
+		}
 	
 	// If that failed, try not asking for the specific renderer.
-	if ( (pixelFormat == NULL) && (sysVersion >= 0x1040) && (drawContextType == kQ3DrawContextTypePixmap) )
+	if ( (pixelFormat == NULL) && (rendererID != 0) )
 		{
-		numAttributes -= 2;
-		glAttributes[numAttributes] = AGL_NONE;
-		pixelFormat = aglChoosePixelFormat(NULL, 0, glAttributes);
+		rendererID = 0;
+		pixelFormat = gldrawcontext_mac_choose_pixel_format( depthBits,
+			stencilBits, drawContextData.doubleBufferState, pixmapPixelSize,
+			rendererID );
 		}
 
 	if (pixelFormat != NULL)
@@ -1128,14 +1184,21 @@ MacGLContext::MacGLContext(
 			{
 			macContext = aglCreateContext(pixelFormat, NULL);
 			
+			#if TARGET_RT_MAC_CFM
 			if (macContext == NULL)
 				{
 				// Workaround for Rosetta bug:  try again with a fresh pixel format
 				aglDestroyPixelFormat(pixelFormat);
-				pixelFormat = aglChoosePixelFormat(NULL, 0, glAttributes);
+				pixelFormat = gldrawcontext_mac_choose_pixel_format( depthBits,
+					stencilBits, drawContextData.doubleBufferState,
+					pixmapPixelSize, rendererID );
 				macContext = aglCreateContext(pixelFormat, NULL);
 				}
+			#endif
 			}
+		
+		if (createdPixelFormat)
+			aglDestroyPixelFormat(pixelFormat);
 		}
 	
 	Q3_ASSERT_MESSAGE( (macContext != NULL), (const char*)aglErrorString(aglGetError()) );
@@ -1174,9 +1237,6 @@ MacGLContext::MacGLContext(
 									   (GLint)thePixmap.rowBytes, paneImage );
 			}
 		}
-
-	if (pixelFormat != NULL)
-		aglDestroyPixelFormat(pixelFormat);
 
 	if (macContext == NULL)
 		{
@@ -1498,6 +1558,56 @@ void	X11GLContext::SetCurrent( TQ3Boolean inForceSet )
 #pragma mark -
 #if QUESA_OS_WIN32
 
+/*
+	@function	gldrawcontext_win_choose_pixel_format
+	@abstract	Choose a pixel format.
+	@param		depthBits		Desired bit depth of depth buffer.
+	@param		stencilBits		Desired bit depth of stencil buffer.
+	@param		doubleBuffer	Whether double-buffered rendering will be used.
+	@param		pixelSize		Desired bits per pixel in color buffer.  Pass 0
+								for on-screen rendering.
+	@param		theDC			Device context.
+	@result		A pixel format pointer.  When finished with it, call
+				aglDestroyPixelFormat.
+*/
+static int
+gldrawcontext_win_choose_pixel_format(
+								TQ3Uns32 depthBits,
+								TQ3Uns32 stencilBits,
+								TQ3Boolean doubleBuffer,
+								TQ3Uns32 pixelSize,
+								HDC	theDC )
+{
+    PIXELFORMATDESCRIPTOR	pixelFormatDesc;
+    int						pixelFormat;
+	
+	Q3Memory_Clear(&pixelFormatDesc, sizeof(pixelFormatDesc));
+
+	pixelFormatDesc.nSize      = sizeof(pixelFormatDesc);
+    pixelFormatDesc.nVersion   = 1;
+    pixelFormatDesc.dwFlags    = PFD_SUPPORT_OPENGL;
+    pixelFormatDesc.cColorBits = pixelSize;
+    pixelFormatDesc.cDepthBits = (TQ3Uns8)depthBits;
+    pixelFormatDesc.cStencilBits = stencilBits;
+    pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
+
+	if (doubleBuffer)
+		pixelFormatDesc.dwFlags |= PFD_DOUBLEBUFFER;
+
+	if (pixelSize == 0)
+	{
+		pixelFormatDesc.dwFlags |= PFD_DRAW_TO_WINDOW;
+	}
+	else
+	{
+		pixelFormatDesc.dwFlags |= PFD_DRAW_TO_BITMAP;
+	}
+	
+	pixelFormat = ChoosePixelFormat( theDC, &pixelFormatDesc);
+	
+	return pixelFormat;
+}
+
 WinGLContext::WinGLContext(
 		TQ3DrawContextObject theDrawContext,
 		TQ3Uns32 depthBits,
@@ -1512,7 +1622,7 @@ WinGLContext::WinGLContext(
 {
 	TQ3DrawContextData		drawContextData;
     PIXELFORMATDESCRIPTOR	pixelFormatDesc;
-    int						pixelFormat;
+    int						pixelFormat = 0;
 	TQ3Status				qd3dStatus;
 	TQ3Int32				pfdFlags;
 	BITMAPINFOHEADER		bmih;
@@ -1602,28 +1712,22 @@ WinGLContext::WinGLContext(
 		throw std::exception();
 
 
-
-	// Build up the attributes we need
-	Q3Memory_Clear(&pixelFormatDesc, sizeof(pixelFormatDesc));
-
-	pixelFormatDesc.nSize      = sizeof(pixelFormatDesc);
-    pixelFormatDesc.nVersion   = 1;
-    pixelFormatDesc.dwFlags    = pfdFlags;
-    pixelFormatDesc.cColorBits = colorBits;
-    pixelFormatDesc.cDepthBits = (TQ3Uns8)depthBits;
-    pixelFormatDesc.cStencilBits = stencilBits;
-    pixelFormatDesc.iPixelType = PFD_TYPE_RGBA;
-
-	if (drawContextData.doubleBufferState)
-		pixelFormatDesc.dwFlags |= PFD_DOUBLEBUFFER;
+	// Check whether a pixel format was provided by the client
+	Q3Object_GetProperty( theDrawContext, kQ3DrawContextPropertyGLPixelFormat,
+		sizeof(pixelFormat), NULL, &pixelFormat );
 
 
-
-	// Create the pixel format and context, and attach the context
-	pixelFormat = ChoosePixelFormat( theDC, &pixelFormatDesc);
+	if (pixelFormat == 0)
+	{
+		// Create the pixel format
+		pixelFormat = gldrawcontext_win_choose_pixel_format( depthBits, stencilBits,
+			drawContextData.doubleBufferState, colorBits, theDC );
+	}
 
 	if (pixelFormat == 0)
 		throw std::exception();
+
+	DescribePixelFormat( theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
 
 	int	prevPixelFormat = GetPixelFormat( theDC );
 	
@@ -1641,6 +1745,7 @@ WinGLContext::WinGLContext(
 		// previous format.
 		
 		pixelFormat = prevPixelFormat;
+		DescribePixelFormat( theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
 		
 		if ( (pixelFormat == 0) || !SetPixelFormat( theDC, pixelFormat, &pixelFormatDesc) )
 		{
@@ -1649,7 +1754,6 @@ WinGLContext::WinGLContext(
 		}
 	}
 
-    DescribePixelFormat( theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
 
     glContext = wglCreateContext(theDC);
     
