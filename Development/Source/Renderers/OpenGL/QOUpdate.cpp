@@ -54,6 +54,15 @@
 #include <algorithm>
 
 
+//=============================================================================
+//     Constants
+//-----------------------------------------------------------------------------
+
+#ifndef	GL_SAMPLE_BUFFERS_ARB
+	#define	GL_SAMPLE_BUFFERS_ARB			0x80A8
+	#define	GL_MULTISAMPLE_ARB				0x809D
+#endif
+
 
 //=============================================================================
 //      operator== : Operator to compare fog style datas.
@@ -415,21 +424,37 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 	glDisable( GL_POINT_SMOOTH );
 	glDisable( GL_LINE_SMOOTH );
 	glDisable( GL_POLYGON_SMOOTH );
+	GLint	sampleBuffers = 0;
+	glGetIntegerv( GL_SAMPLE_BUFFERS_ARB, &sampleBuffers );
+	if (sampleBuffers > 0)
+	{
+		glDisable( GL_MULTISAMPLE_ARB );
+	}
 
 
-	// Maybe turn some things one.
+	// Maybe turn some things on.
 	if (inStyleData->state == kQ3On)
 	{
-		glEnable(GL_POINT_SMOOTH);
-		
-		if ( (inStyleData->mode & kQ3AntiAliasModeMaskEdges) != 0 )
+		if ( (inStyleData->mode & kQ3AntiAliasModeMaskFullScreen) != 0 )
 		{
-			glEnable( GL_LINE_SMOOTH );
+			if (sampleBuffers > 0)
+			{
+				glEnable( GL_MULTISAMPLE_ARB );
+			}
 		}
-		
-		if ( (inStyleData->mode & kQ3AntiAliasModeMaskFilled) != 0 )
+		else
 		{
-			glEnable( GL_POLYGON_SMOOTH );
+			glEnable(GL_POINT_SMOOTH);
+			
+			if ( (inStyleData->mode & kQ3AntiAliasModeMaskEdges) != 0 )
+			{
+				glEnable( GL_LINE_SMOOTH );
+			}
+			
+			if ( (inStyleData->mode & kQ3AntiAliasModeMaskFilled) != 0 )
+			{
+				glEnable( GL_POLYGON_SMOOTH );
+			}
 		}
 	}
 }
