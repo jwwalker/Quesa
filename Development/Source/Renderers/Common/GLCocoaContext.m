@@ -80,11 +80,12 @@ CocoaGLContext::CocoaGLContext(
 	{
 		NSOpenGLPFADoubleBuffer,
 		NSOpenGLPFADepthSize, 24,
+		NSOpenGLPFAStencilSize, 8,
 		0
 	};
 	TQ3ObjectType					drawContextType;
 	TQ3DrawContextData				drawContextData;
-    NSOpenGLPixelFormat				*pixelFormat;
+    NSOpenGLPixelFormat				*pixelFormat = NULL;
     CocoaGLContext					*theContext;
 	TQ3Status						qd3dStatus;
     NSRect							viewFrame;
@@ -103,10 +104,23 @@ CocoaGLContext::CocoaGLContext(
 			Q3CocoaDrawContext_GetNSView(theDrawContext, &nsView);
 
 
+			// Check whether a pixel format was provided by the client
+			Q3Object_GetProperty( theDrawContext, kQ3DrawContextPropertyGLPixelFormat,
+				sizeof(pixelFormat), NULL, &pixelFormat );
+
+
 			// Set up and create the NSOpenGLContext
-			pixelFormat           = [[NSOpenGLPixelFormat alloc] initWithAttributes:(NSOpenGLPixelFormatAttribute*)glAttributes];
-			glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
-			[pixelFormat release];
+			if (pixelFormat == NULL)
+			{
+				pixelFormat           = [[NSOpenGLPixelFormat alloc]
+					initWithAttributes:(NSOpenGLPixelFormatAttribute*)glAttributes];
+				glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+				[pixelFormat release];
+			}
+			else
+			{
+				glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+			}
 
 
 			// Set the NSView as the NSOpenGLContext's drawable
