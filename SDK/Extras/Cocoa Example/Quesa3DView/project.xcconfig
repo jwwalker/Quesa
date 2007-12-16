@@ -2,7 +2,7 @@
 SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk
 
 // Search Paths
-FSP_QUESA = "$(SRCROOT)/../../../../Development/Projects/Mac/buildCocoa/Debug"
+FSP_QUESA = "$(SRCROOT)/../../../Libraries/Mac/Framework_Universal/Debug"
 FRAMEWORK_SEARCH_PATHS = $(FSP_QUESA) $(SDKROOT)/Library/Frameworks
 
 // Build Options
