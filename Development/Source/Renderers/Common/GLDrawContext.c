@@ -208,7 +208,12 @@ public:
 	
 	virtual void		SwapBuffers();
 
+	virtual void		SetCurrentBase( TQ3Boolean inForceSet );
+	
 	virtual void		SetCurrent( TQ3Boolean inForceSet );
+	
+	virtual bool		UpdateWindowSize() {return false;};
+
 	
 	Display			*theDisplay;
 	GLXContext		glContext;
@@ -274,7 +279,7 @@ public:
 	
 	virtual bool		UpdateWindowPosition();
 	
-	virtual bool		UpdateWindowSize();
+    virtual bool		UpdateWindowSize();
 
 private:
 	AGLContext						macContext;
@@ -1544,11 +1549,30 @@ void	X11GLContext::SwapBuffers()
 void	X11GLContext::SetCurrent( TQ3Boolean inForceSet )
 {
 	// Activate the context
+	SetCurrentBase( inForceSet );
+	
+
+	// Make sure that no FBO is active
+	if (GetCurrentFrameBuffer() != 0)
+	{
+		BindFrameBuffer( 0 );
+		
+		// FBOs turn off scissor test
+		glEnable( GL_SCISSOR_TEST );
+
+	}
+}
+
+
+void	X11GLContext::SetCurrentBase( TQ3Boolean inForceSet )
+{
+	// Activate the context
 	if (inForceSet                           ||
 		glXGetCurrentContext()  != glContext ||
 		glXGetCurrentDrawable() != glDrawable)
 		glXMakeCurrent( theDisplay, glDrawable, glContext );
 }
+
 #endif // QUESA_OS_UNIX
 
 

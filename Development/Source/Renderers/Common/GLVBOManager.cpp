@@ -82,8 +82,12 @@ namespace
 	#endif
 #endif
 
-typedef long GLintptrARB;
-typedef long GLsizeiptrARB;
+#ifndef GLintptrARB
+    typedef ptrdiff_t GLintptrARB;
+#endif
+#ifndef GLsizeiptrARB
+    typedef ptrdiff_t GLsizeiptrARB;
+#endif
 
 typedef void (APIENTRY * BindBufferARBProcPtr) (GLenum target,
 												GLuint buffer);
