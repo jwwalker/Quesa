@@ -99,6 +99,15 @@ static TQ3Object						gSceneBounds        = NULL;
 static BOOL								animation = YES;
 static NSTimer*							animationTimer = nil;
 static  TQ3ObjectType			gRenderers[kRendererMaxNum];
+static BOOL								antialias = NO;
+static BOOL								changedAntialias = NO;
+static TQ3AntiAliasStyleData			gFullAntialias =
+										{
+											kQ3On,
+											kQ3AntiAliasModeMaskFullScreen,
+											1.0f
+										};
+static NSOpenGLPixelFormat*				gPixelFormat = NULL;
 
 @implementation AppDelegate
 
@@ -178,6 +187,17 @@ static  TQ3ObjectType			gRenderers[kRendererMaxNum];
 
 -(void)qd3dViewDidInit:(Quesa3DView*)inView
 {
+	TQ3Int32				glAttributes[] =
+	{
+		NSOpenGLPFADoubleBuffer,
+		NSOpenGLPFADepthSize, 24,
+		NSOpenGLPFAStencilSize, 8,
+		NSOpenGLPFASampleBuffers, 1,
+		NSOpenGLPFASamples, 4,
+		NSOpenGLPFAWindow,
+		0
+	};
+
     animationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.05f
                                                       target:self
                                                       selector:@selector(animationTimerFired:)
@@ -189,6 +209,8 @@ static  TQ3ObjectType			gRenderers[kRendererMaxNum];
     gSceneGeometry = createGeomQuesa();
     gSceneIllumination = Q3PhongIllumination_New();
    
+	gPixelFormat           = [[NSOpenGLPixelFormat alloc]
+				initWithAttributes:(NSOpenGLPixelFormatAttribute*)glAttributes];
 }
 
 //==================================================================================
@@ -197,7 +219,35 @@ static  TQ3ObjectType			gRenderers[kRendererMaxNum];
 
 -(void)qd3dViewWillRender:(Quesa3DView*)inView
 {
-
+	TQ3RendererObject	theRenderer = NULL;
+	TQ3ObjectType		theType;
+	
+	if (changedAntialias)
+	{
+		changedAntialias = NO;
+		TQ3DrawContextObject	dc = [inView drawContext];
+		
+		if (antialias)
+		{
+			Q3Object_SetProperty( dc, kQ3DrawContextPropertyGLPixelFormat,
+				sizeof(gPixelFormat), &gPixelFormat );
+		}
+		else
+		{
+			Q3Object_RemoveProperty( dc, kQ3DrawContextPropertyGLPixelFormat );
+		}
+		
+		// In some cases, the driver disregards disabling of GL_MULTISAMPLE,
+		// so the only way to be sure we can turn antialiasing on and off is
+		// to recreate the renderer.
+		Q3View_GetRenderer( [inView qd3dView], &theRenderer );
+		if (theRenderer != NULL)
+		{
+			theType = Q3Renderer_GetType( theRenderer );
+			Q3View_SetRendererByType( [inView qd3dView], theType );
+			Q3Object_Dispose( theRenderer );
+		}
+	}
 }
 
 //==================================================================================
@@ -206,13 +256,14 @@ static  TQ3ObjectType			gRenderers[kRendererMaxNum];
 
 -(void)qd3dViewRenderFrame:(Quesa3DView*)inView
 {
-
+	
 
 	// Submit the styles
 	Q3BackfacingStyle_Submit(gSceneBackfacing,               [inView qd3dView]);
 	Q3InterpolationStyle_Submit(kQ3InterpolationStyleVertex, [inView qd3dView]);
 	Q3SubdivisionStyle_Submit(&subdivStyle,                  [inView qd3dView]);
-
+	gFullAntialias.state = (antialias? kQ3On : kQ3Off);
+	Q3AntiAliasStyle_Submit( &gFullAntialias, [inView qd3dView] );
 
 
 	// Submit the scene
@@ -421,6 +472,17 @@ static  TQ3ObjectType			gRenderers[kRendererMaxNum];
 - (void)toggleAnimation:(id)sender
 {
     animation = !animation;
+}
+
+//==================================================================================
+//	toggleAntialiasing
+//==================================================================================
+
+- (void)toggleAntialiasing:(id)sender
+{
+	antialias = ! antialias;
+	changedAntialias = YES;
+	[quesa3dView setNeedsDisplay:YES];
 }
 
 //==================================================================================
