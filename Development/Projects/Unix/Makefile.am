@@ -21,11 +21,14 @@ QUESAINCLUDES= -I${QUESAAPI}		                \
           -I${SRC}${FFORMAT}                       \
           -I${SRC}${FFORMATR}/3DMF                 \
           -I${SRC}${FFORMATW}/3DMF                 \
+          -I${SRC}${RENDERER}/Cartoon              \
           -I${SRC}${RENDERER}/Common               \
           -I${SRC}${RENDERER}/Generic              \
-          -I${SRC}${RENDERER}/Wireframe            \
+          -I${SRC}${RENDERER}/HiddenLine           \
           -I${SRC}${RENDERER}/Interactive          \
-          -I${SRC}${RENDERER}/Cartoon              \
+          -I${SRC}${RENDERER}/MakeStrip            \
+          -I${SRC}${RENDERER}/OpenGL               \
+          -I${SRC}${RENDERER}/Wireframe            \
           -I${SRC}${PLATFORM}  
 
 
@@ -75,6 +78,7 @@ myIncludes= ${pkginclude_HEADERS} \
              ${SRC}${SYSTEM}/E3Light.h                    \
              ${SRC}${SYSTEM}/E3Main.h                     \
              ${SRC}${SYSTEM}/E3Math.h                     \
+             ${SRC}${SYSTEM}/E3Math_Intersect.h           \
              ${SRC}${SYSTEM}/E3Memory.h                   \
              ${SRC}${SYSTEM}/E3Pick.h                     \
              ${SRC}${SYSTEM}/E3Renderer.h                 \
@@ -140,13 +144,10 @@ myIncludes= ${pkginclude_HEADERS} \
              ${SRC}${RENDERER}/Generic/GNGeometry.h       \
              ${SRC}${RENDERER}/Generic/GNRegister.h       \
              ${SRC}${RENDERER}/Generic/GNRenderer.h       \
-             ${SRC}${RENDERER}/Cartoon/CartoonRenderer.h \
-             ${SRC}${RENDERER}/Wireframe/WFPrefix.h     \
-             ${SRC}${RENDERER}/Wireframe/WFGeometry.h     \
-             ${SRC}${RENDERER}/Wireframe/WFRegister.h     \
+             ${SRC}${RENDERER}/HiddenLine/HiddenLine.h    \
+             ${SRC}${RENDERER}/Cartoon/CartoonRenderer.h  \
              ${SRC}${RENDERER}/Wireframe/WFRenderer.h     \
-             ${SRC}${RENDERER}/Wireframe/WFUpdate.h       \
-             ${SRC}${RENDERER}/Interactive/IRPrefix.h   \
+             ${SRC}${RENDERER}/Interactive/IRPrefix.h     \
              ${SRC}${RENDERER}/Interactive/IRGeometry.h   \
              ${SRC}${RENDERER}/Interactive/IRGeometryTriMesh.h \
              ${SRC}${RENDERER}/Interactive/IRRegister.h   \
@@ -156,12 +157,27 @@ myIncludes= ${pkginclude_HEADERS} \
              ${SRC}${RENDERER}/Interactive/IRTriBuffer.h  \
              ${SRC}${RENDERER}/Interactive/IRLights.h     \
              ${SRC}${RENDERER}/Interactive/IRUpdate.h     \
+             ${SRC}${RENDERER}/MakeStrip/MakeStrip.h      \
+             ${SRC}${RENDERER}/MakeStrip/StripMaker.h     \
+             ${SRC}${RENDERER}/OpenGL/QOCalcTriMeshEdges.h \
+             ${SRC}${RENDERER}/OpenGL/QOClientStates.h    \
+             ${SRC}${RENDERER}/OpenGL/QOGLShadingLanguage.h \
+             ${SRC}${RENDERER}/OpenGL/QOLights.h          \
+             ${SRC}${RENDERER}/OpenGL/QOMatrix.h          \
+             ${SRC}${RENDERER}/OpenGL/QOOpaqueTriBuffer.h \
+             ${SRC}${RENDERER}/OpenGL/QOPrefix.h         \
+             ${SRC}${RENDERER}/OpenGL/QORegister.h       \
+             ${SRC}${RENDERER}/OpenGL/QORenderer.h       \
+             ${SRC}${RENDERER}/OpenGL/QOShadowMarker.h   \
+             ${SRC}${RENDERER}/OpenGL/QOStatics.h        \
+             ${SRC}${RENDERER}/OpenGL/QOTexture.h        \
+             ${SRC}${RENDERER}/OpenGL/QOTransBuffer.h    \
              ${SRC}${PLATFORM}/E3UnixPrefix.h       
 
           
 
 libquesa_la_SOURCES=	${myIncludes}            \
-			${SRC}${GLUE}/QD3DCamera.c                    \
+	     ${SRC}${GLUE}/QD3DCamera.c                    \
              ${SRC}${GLUE}/QD3DController.c               \
              ${SRC}${GLUE}/QD3DCustomElements.c           \
              ${SRC}${GLUE}/QD3DDrawContext.c              \
@@ -195,6 +211,7 @@ libquesa_la_SOURCES=	${myIncludes}            \
              ${SRC}${SYSTEM}/E3Light.c                    \
              ${SRC}${SYSTEM}/E3Main.c                     \
              ${SRC}${SYSTEM}/E3Math.c                     \
+             ${SRC}${SYSTEM}/E3Math_Intersect.cpp         \
              ${SRC}${SYSTEM}/E3Memory.c                   \
              ${SRC}${SYSTEM}/E3Pick.c                     \
              ${SRC}${SYSTEM}/E3Renderer.c                 \
@@ -248,17 +265,20 @@ libquesa_la_SOURCES=	${myIncludes}            \
              ${SRC}${FFORMATW}/3DMF/E3FFW_3DMFBin_Register.c \
              ${SRC}${FFORMATW}/3DMF/E3FFW_3DMFBin_Writer.c \
              ${SRC}${RENDERER}/Common/GLCamera.c          \
-             ${SRC}${RENDERER}/Common/GLUtils.c           \
+             ${SRC}${RENDERER}/Common/GLDisplayListManager.cpp  \
              ${SRC}${RENDERER}/Common/GLDrawContext.c     \
-             ${SRC}${RENDERER}/Common/GLTextureManager.c     \
+             ${SRC}${RENDERER}/Common/GLGPUSharing.cpp      \
+             ${SRC}${RENDERER}/Common/GLTextureLoader.cpp  \
+             ${SRC}${RENDERER}/Common/GLTextureManager.c   \
+             ${SRC}${RENDERER}/Common/GLUtils.c           \
+             ${SRC}${RENDERER}/Common/GLVBOManager.cpp    \
+             ${SRC}${RENDERER}/Common/OptimizedTriMeshElement.cpp  \
              ${SRC}${RENDERER}/Generic/GNGeometry.c       \
              ${SRC}${RENDERER}/Generic/GNRegister.c       \
              ${SRC}${RENDERER}/Generic/GNRenderer.c       \
              ${SRC}${RENDERER}/Cartoon/CartoonRenderer.cpp \
-             ${SRC}${RENDERER}/Wireframe/WFGeometry.c     \
-             ${SRC}${RENDERER}/Wireframe/WFRegister.c     \
-             ${SRC}${RENDERER}/Wireframe/WFRenderer.c     \
-             ${SRC}${RENDERER}/Wireframe/WFUpdate.c       \
+             ${SRC}${RENDERER}/HiddenLine/HiddenLine.cpp    \
+             ${SRC}${RENDERER}/Wireframe/WFRenderer.cpp     \
              ${SRC}${RENDERER}/Interactive/IRGeometry.c   \
              ${SRC}${RENDERER}/Interactive/IRGeometryTriMesh.c \
              ${SRC}${RENDERER}/Interactive/IRRegister.c   \
@@ -268,9 +288,29 @@ libquesa_la_SOURCES=	${myIncludes}            \
              ${SRC}${RENDERER}/Interactive/IRTriBuffer.c  \
              ${SRC}${RENDERER}/Interactive/IRLights.c     \
              ${SRC}${RENDERER}/Interactive/IRUpdate.c     \
-             ${SRC}${PLATFORM}/E3UnixDebug.c              \
-             ${SRC}${PLATFORM}/E3UnixStorage.c            \
-             ${SRC}${PLATFORM}/E3UnixSystem.c             \
+             ${SRC}${RENDERER}/OpenGL/QOCalcTriMeshEdges.cpp \
+             ${SRC}${RENDERER}/OpenGL/QOClientStates.cpp \
+             ${SRC}${RENDERER}/OpenGL/QOGeometry.cpp     \
+             ${SRC}${RENDERER}/OpenGL/QOGLShadingLanguage.cpp \
+             ${SRC}${RENDERER}/OpenGL/QOLights.cpp       \
+             ${SRC}${RENDERER}/OpenGL/QOMatrix.cpp       \
+             ${SRC}${RENDERER}/OpenGL/QOOpaqueTriBuffer.cpp \
+             ${SRC}${RENDERER}/OpenGL/QORegister.cpp     \
+             ${SRC}${RENDERER}/OpenGL/QORenderer.cpp     \
+             ${SRC}${RENDERER}/OpenGL/QOShadowMarker.cpp \
+             ${SRC}${RENDERER}/OpenGL/QOStartAndEnd.cpp  \
+             ${SRC}${RENDERER}/OpenGL/QOStatics.cpp      \
+             ${SRC}${RENDERER}/OpenGL/QOTexture.cpp      \
+             ${SRC}${RENDERER}/OpenGL/QOTransBuffer.cpp  \
+             ${SRC}${RENDERER}/OpenGL/QOUpdate.cpp       \
+             ${SRC}${RENDERER}/MakeStrip/MakeStrip.cpp   \
+             ${SRC}${RENDERER}/MakeStrip/StripMaker_FindAdjacencies.cpp \
+             ${SRC}${RENDERER}/MakeStrip/StripMaker_InitFaces.cpp \
+             ${SRC}${RENDERER}/MakeStrip/StripMaker_JoinStrips.cpp \
+             ${SRC}${RENDERER}/MakeStrip/StripMaker_MakeSimpleStrip.cpp \
+             ${SRC}${PLATFORM}/E3UnixDebug.c             \
+             ${SRC}${PLATFORM}/E3UnixStorage.c           \
+             ${SRC}${PLATFORM}/E3UnixSystem.c            \
              ${SRC}${PLATFORM}/E3UnixDrawContext.c       
 
 
