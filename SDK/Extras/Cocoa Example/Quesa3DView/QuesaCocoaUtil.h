@@ -5,7 +5,7 @@
         Utility methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -41,8 +41,8 @@
     ___________________________________________________________________________
 */
 #import <Foundation/Foundation.h>
-#include <QuesaCocoa/Quesa.h>
-#include <QuesaCocoa/QuesaGeometry.h>
-#include <QuesaCocoa/QuesaView.h>
+#include <Quesa/Quesa.h>
+#include <Quesa/QuesaGeometry.h>
+#include <Quesa/QuesaView.h>
 
 void boundsForObject(TQ3ViewObject theView,TQ3Object theObject, TQ3BoundingBox* theBounds);

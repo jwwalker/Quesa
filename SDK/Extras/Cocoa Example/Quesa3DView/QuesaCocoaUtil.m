@@ -5,7 +5,7 @@
         Utility methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -41,28 +41,28 @@
     ___________________________________________________________________________
 */
 #import "QuesaCocoaUtil.h"
-#include <QuesaCocoa/Quesa.h>
-#include <QuesaCocoa/QuesaCamera.h>
-#include <QuesaCocoa/QuesaController.h>
-#include <QuesaCocoa/QuesaCustomElements.h>
-#include <QuesaCocoa/QuesaDrawContext.h>
-#include <QuesaCocoa/QuesaErrors.h>
-#include <QuesaCocoa/QuesaExtension.h>
-#include <QuesaCocoa/QuesaGeometry.h>
-#include <QuesaCocoa/QuesaGroup.h>
-#include <QuesaCocoa/QuesaIO.h>
-#include <QuesaCocoa/QuesaLight.h>
-#include <QuesaCocoa/QuesaMath.h>
-#include <QuesaCocoa/QuesaPick.h>
-#include <QuesaCocoa/QuesaRenderer.h>
-#include <QuesaCocoa/QuesaSet.h>
-#include <QuesaCocoa/QuesaShader.h>
-#include <QuesaCocoa/QuesaStorage.h>
-#include <QuesaCocoa/QuesaString.h>
-#include <QuesaCocoa/QuesaStyle.h>
-#include <QuesaCocoa/QuesaTransform.h>
-#include <QuesaCocoa/QuesaView.h>
-#include <QuesaCocoa/QuesaViewer.h>
+#include <Quesa/Quesa.h>
+#include <Quesa/QuesaCamera.h>
+#include <Quesa/QuesaController.h>
+#include <Quesa/QuesaCustomElements.h>
+#include <Quesa/QuesaDrawContext.h>
+#include <Quesa/QuesaErrors.h>
+#include <Quesa/QuesaExtension.h>
+#include <Quesa/QuesaGeometry.h>
+#include <Quesa/QuesaGroup.h>
+#include <Quesa/QuesaIO.h>
+#include <Quesa/QuesaLight.h>
+#include <Quesa/QuesaMath.h>
+#include <Quesa/QuesaPick.h>
+#include <Quesa/QuesaRenderer.h>
+#include <Quesa/QuesaSet.h>
+#include <Quesa/QuesaShader.h>
+#include <Quesa/QuesaStorage.h>
+#include <Quesa/QuesaString.h>
+#include <Quesa/QuesaStyle.h>
+#include <Quesa/QuesaTransform.h>
+#include <Quesa/QuesaView.h>
+#include <Quesa/QuesaViewer.h>
 
 
 void boundsForObject(TQ3ViewObject theView,TQ3Object theObject, TQ3BoundingBox* theBounds)

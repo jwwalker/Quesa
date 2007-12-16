@@ -5,7 +5,7 @@
         NSView subclass to display a quesa draw context.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -41,7 +41,7 @@
     ___________________________________________________________________________
 */
 #import <AppKit/AppKit.h>
-#include <QuesaCocoa/Quesa.h>
+#include <Quesa/Quesa.h>
 
 @interface Quesa3DView : NSView
 {
