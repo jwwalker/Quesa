@@ -1,34 +1,79 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {
-                setGeometryFromTag = id; 
-                setRendererFromTag = id; 
-                setXRot = id; 
-                setYRot = id; 
-                setZRot = id; 
-                toggleAnimation = id; 
-                toggleBoundingBox = id; 
-            }; 
-            CLASS = AppDelegate; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {objectMenu = id; quesa3dView = id; rendererMenu = id; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {showHelp = id; }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }, 
-        {CLASS = NSOpenGLView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {
-            CLASS = Quesa3DView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {qd3dDelegate = id; }; 
-            SUPERCLASS = NSView; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>setGeometryFromTag</key>
+				<string>id</string>
+				<key>setRendererFromTag</key>
+				<string>id</string>
+				<key>setXRot</key>
+				<string>id</string>
+				<key>setYRot</key>
+				<string>id</string>
+				<key>setZRot</key>
+				<string>id</string>
+				<key>toggleAnimation</key>
+				<string>id</string>
+				<key>toggleAntialiasing</key>
+				<string>id</string>
+				<key>toggleBoundingBox</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AppDelegate</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>objectMenu</key>
+				<string>id</string>
+				<key>quesa3dView</key>
+				<string>id</string>
+				<key>rendererMenu</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>showHelp</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>Quesa3DView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>qd3dDelegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
