@@ -5,7 +5,7 @@
         NSView subclass to display a quesa draw context.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -40,14 +40,14 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
-#include <QuesaCocoa/Quesa.h>
-#include <QuesaCocoa/QuesaDrawContext.h>
-#include <QuesaCocoa/QuesaCamera.h>
-#include <QuesaCocoa/QuesaView.h>
-#include <QuesaCocoa/QuesaMath.h>
-#include <QuesaCocoa/QuesaLight.h>
-#include <QuesaCocoa/QuesaStyle.h> 
-#include <QuesaCocoa/QuesaGroup.h> 
+#include <Quesa/Quesa.h>
+#include <Quesa/QuesaDrawContext.h>
+#include <Quesa/QuesaCamera.h>
+#include <Quesa/QuesaView.h>
+#include <Quesa/QuesaMath.h>
+#include <Quesa/QuesaLight.h>
+#include <Quesa/QuesaStyle.h> 
+#include <Quesa/QuesaGroup.h> 
 
 #import "Quesa3DView.h"
 #include <AppKit/AppKit.h>

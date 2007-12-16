@@ -5,7 +5,7 @@
         
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -44,19 +44,19 @@
 
 #import <Foundation/Foundation.h>
 
-#include <QuesaCocoa/Quesa.h>
-#include <QuesaCocoa/QuesaDrawContext.h>
-#include <QuesaCocoa/QuesaCamera.h>
-#include <QuesaCocoa/QuesaShader.h>
-#include <QuesaCocoa/QuesaMath.h>
-#include <QuesaCocoa/QuesaView.h>
-#include <QuesaCocoa/QuesaMath.h>
-#include <QuesaCocoa/QuesaLight.h>
-#include <QuesaCocoa/QuesaStyle.h> 
-#include <QuesaCocoa/QuesaGroup.h> 
-#include <QuesaCocoa/QuesaGeometry.h> 
-#include <QuesaCocoa/QuesaTransform.h> 
-#include <QuesaCocoa/QuesaRenderer.h> 
+#include <Quesa/Quesa.h>
+#include <Quesa/QuesaDrawContext.h>
+#include <Quesa/QuesaCamera.h>
+#include <Quesa/QuesaShader.h>
+#include <Quesa/QuesaMath.h>
+#include <Quesa/QuesaView.h>
+#include <Quesa/QuesaMath.h>
+#include <Quesa/QuesaLight.h>
+#include <Quesa/QuesaStyle.h> 
+#include <Quesa/QuesaGroup.h> 
+#include <Quesa/QuesaGeometry.h> 
+#include <Quesa/QuesaTransform.h> 
+#include <Quesa/QuesaRenderer.h> 
 
 #import "Quesa3DView.h"
 #import "DemoGeometry.h"
