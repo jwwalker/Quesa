@@ -5,7 +5,7 @@
         Header file for AppDelegate.m.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -53,6 +53,7 @@
 - (void)setZRot:(id)sender;
 - (void)setGeometryFromTag:(id)sender;
 - (void)toggleAnimation:(id)sender;
+- (void)toggleAntialiasing:(id)sender;
 - (void)setRendererFromTag:(id)sender;
 - (void)toggleBoundingBox:(id)sender;
 @end
