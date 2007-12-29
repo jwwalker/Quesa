@@ -82,10 +82,8 @@ namespace
 	#endif
 #endif
 
-#ifndef GLintptrARB
+#ifndef GL_ARB_vertex_buffer_object
     typedef ptrdiff_t GLintptrARB;
-#endif
-#ifndef GLsizeiptrARB
     typedef ptrdiff_t GLsizeiptrARB;
 #endif
 
