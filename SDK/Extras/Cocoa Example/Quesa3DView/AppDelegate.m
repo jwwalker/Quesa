@@ -108,6 +108,7 @@ static TQ3AntiAliasStyleData			gFullAntialias =
 											1.0f
 										};
 static NSOpenGLPixelFormat*				gPixelFormat = NULL;
+static BOOL								shadows = NO;
 
 @implementation AppDelegate
 
@@ -482,6 +483,30 @@ static NSOpenGLPixelFormat*				gPixelFormat = NULL;
 {
 	antialias = ! antialias;
 	changedAntialias = YES;
+	[quesa3dView setNeedsDisplay:YES];
+}
+
+//==================================================================================
+//	toggleShadows
+//==================================================================================
+
+- (void)toggleShadows:(id)sender
+{
+	TQ3RendererObject	theRenderer = NULL;
+	TQ3Boolean			shadowFlag;
+
+	shadows = ! shadows;
+	
+	Q3View_GetRenderer( [quesa3dView qd3dView], &theRenderer );
+	if (theRenderer != NULL)
+	{
+		shadowFlag = shadows? kQ3True : kQ3False;
+		Q3Object_SetProperty( theRenderer, kQ3RendererPropertyShadows,
+				sizeof(shadowFlag), &shadowFlag );
+		
+		Q3Object_Dispose( theRenderer );
+	}
+	
 	[quesa3dView setNeedsDisplay:YES];
 }
 

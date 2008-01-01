@@ -54,6 +54,7 @@
 - (void)setGeometryFromTag:(id)sender;
 - (void)toggleAnimation:(id)sender;
 - (void)toggleAntialiasing:(id)sender;
+- (void)toggleShadows:(id)sender;
 - (void)setRendererFromTag:(id)sender;
 - (void)toggleBoundingBox:(id)sender;
 @end
