@@ -152,7 +152,7 @@ void	CIndexedFaceSet::CalcFaceNormals()
 				// we choose two edges at random, their cross product may be zero.
 				// So, I will find the longest of all edge cross products.
 				
-				// Compute edges.
+				// Compute nonzero edges.
 				edges.clear();
 				TQ3Vector3D	edgeVec;
 				VertIndex	j, k;
@@ -162,15 +162,19 @@ void	CIndexedFaceSet::CalcFaceNormals()
 						&mPositions[ mVertices[ faceVerts[ (j + 1) % faceSize ] ].mPosition ],
 						&mPositions[ mVertices[ faceVerts[ j ] ].mPosition ],
 						&edgeVec );
-					edges.push_back( edgeVec );
+					if (Q3FastVector3D_LengthSquared( &edgeVec ) > kDegenerateLengthSquared)
+					{
+						edges.push_back( edgeVec );
+					}
 				}
 			
 				// Find longest cross product.
 				TQ3Vector3D	bestCross, oneCross;
 				float		bestCrossLenSq = -1.0f;
-				for (j = 0; j < faceSize - 1; ++j)
+				const VertIndex kNumEdges = edges.size();
+				for (j = 0; j < kNumEdges - 1; ++j)
 				{
-					for (k = j + 1; k < faceSize; ++k)
+					for (k = j + 1; k < kNumEdges; ++k)
 					{
 						Q3FastVector3D_Cross( &edges[j], &edges[k], &oneCross );
 						float	oneLenSq = Q3FastVector3D_LengthSquared( &oneCross );
@@ -198,11 +202,11 @@ void	CIndexedFaceSet::CalcFaceNormals()
 					bool	isSomeAngleNegative = false;
 					
 					float	angleSum = 0.0f;
-					for (j = 0; j < faceSize; ++j)
+					for (j = 0; j < kNumEdges; ++j)
 					{
 						float	oneAngle = SignedAngleBetweenVectors(
 							edges[ j ],
-							edges[ (j + 1) % faceSize ],
+							edges[ (j + 1) % kNumEdges ],
 							bestCross );
 						angleSum += oneAngle;
 						if (oneAngle > FLT_EPSILON)
