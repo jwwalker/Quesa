@@ -298,7 +298,7 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 		theBounds
 	};
 	
-	if ( (mergedData.numPoints > 0) and (mergedData.numTriangles > 0) )
+	if ( (mergedData.numPoints > 0) && (mergedData.numTriangles > 0) )
 	{
 		theResult = CQ3ObjectRef( Q3TriMesh_New( &mergedData ) );
 	}
