@@ -49,7 +49,7 @@
     	2004). 15-18th June, Singapore, 2004, ACM Press, New York, New York,
     	pp. 250-253.
     	Available on web:
-    	<http://www.hitlabnz.org/fileman_store/2004-Graphite-ShadowVols-Aldridge.pdf>
+    	<http://www.hitlabnz.org/publications/2004-Graphite-ShadowVols-Aldridge.pdf>
     ___________________________________________________________________________
 */
 
