@@ -90,7 +90,7 @@ static bool CopyOneAtt( TQ3AttributeSet inSrcSet, TQ3AttributeSet inDestSet,
 	return didSomething;
 }
 
-bool	CopyAttributes( TQ3AttributeSet inSrcSet, TQ3AttributeSet inDestSet,
+static bool	CopyAttributes( TQ3AttributeSet inSrcSet, TQ3AttributeSet inDestSet,
 			bool inOverride )
 {
 	bool	didSomething = false;
