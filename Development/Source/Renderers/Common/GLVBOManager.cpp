@@ -5,7 +5,7 @@
         Quesa OpenGL vertex buffer object caching.
        
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <cstddef>
 
 
 //=============================================================================
@@ -83,8 +84,8 @@ namespace
 #endif
 
 #ifndef GL_ARB_vertex_buffer_object
-    typedef ptrdiff_t GLintptrARB;
-    typedef ptrdiff_t GLsizeiptrARB;
+    typedef std::ptrdiff_t GLintptrARB;
+    typedef std::ptrdiff_t GLsizeiptrARB;
 #endif
 
 typedef void (APIENTRY * BindBufferARBProcPtr) (GLenum target,
