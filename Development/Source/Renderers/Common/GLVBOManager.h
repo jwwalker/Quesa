@@ -10,7 +10,7 @@
     	GLUtils_CheckExtensions.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -80,11 +80,13 @@ extern "C" {
 					appropriate.
 	@param			glContext		An OpenGL context.
 	@param			inGeom			A geometry object.
+	@param			inFillStyle		Current fill Style.
 	@result			True if the object was found and rendered.
 */
 TQ3Boolean			RenderCachedVBO(
 									TQ3GLContext glContext,
-									TQ3GeometryObject inGeom );
+									TQ3GeometryObject inGeom,
+									TQ3FillStyle inFillStyle );
 
 /*!
 	@function		AddVBOToCache
@@ -120,14 +122,6 @@ void				AddVBOToCache(
 	@param			glContext		An OpenGL context.
 */
 void				FlushVBOCache(
-									TQ3GLContext glContext );
-
-/*!
-	@function		ForgetTriangleStripVBOs
-	@abstract		Delete any cached VBOs for triangle strips.
-	@param			glContext		An OpenGL context.
-*/
-void				ForgetTriangleStripVBOs(
 									TQ3GLContext glContext );
 
 

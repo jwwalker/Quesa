@@ -109,7 +109,7 @@ namespace
 	struct CachedVBO
 	{
 						CachedVBO() {}
-						CachedVBO( TQ3GeometryObject inGeom );
+						CachedVBO( TQ3GeometryObject inGeom, GLenum inMode );
 						CachedVBO( const CachedVBO& inOther );
 						~CachedVBO() {}
 		
@@ -136,12 +136,11 @@ namespace
 						VBOCache();
 		
 		void			InitProcPtrs();
-		CachedVBO*		FindVBO( TQ3GeometryObject inGeom );
-		void			DeleteVBO( CachedVBO* inVBO );
+		CachedVBO*		FindVBO( TQ3GeometryObject inGeom, GLenum inMode );
 		void			RenderVBO( const CachedVBO* inCachedVBO );
 		void			AddVBO( const CachedVBO& inVBO );
-		void			Flush();
-		void			ForgetTriangleStrips();
+		void			FlushUnreferenced();
+		void			FlushStale();
 
 		GenBuffersARBProcPtr		glGenBuffersARBProc;
 		BindBufferARBProcPtr		glBindBufferARBProc;
@@ -156,12 +155,16 @@ namespace
 		CachedVBOVec	mCachedVBOs;
 	};
 
-	// Comparator for ordering cached VBOs by their geometries
-	struct GeomLess
+	// Comparator for ordering cached VBOs by their mode and geometries
+	struct VBOLess
 	{
 		bool	operator()( const CachedVBO& inOne, const CachedVBO& inTwo ) const
 				{
-					return inOne.mGeomObject.get() < inTwo.mGeomObject.get();
+					return (inOne.mGLMode < inTwo.mGLMode) ||
+						(
+							(inOne.mGLMode == inTwo.mGLMode) &&
+							(inOne.mGeomObject.get() < inTwo.mGeomObject.get())
+						);
 				}
 	};
 	
@@ -177,12 +180,11 @@ namespace
 	};
 	
 	// Predicate for use with std::partition and CachedVBOVec.
-	struct IsNotStrip
+	struct IsNotStale
 	{
 		bool			operator()( const CachedVBO& inCachedVBO ) const
 								{
-									return inCachedVBO.mGLMode !=
-										GL_TRIANGLE_STRIP;
+									return ! inCachedVBO.IsStale();
 								}
 	};
 }
@@ -221,9 +223,10 @@ static VBOCache* GetVBOCache( TQ3GLContext glContext )
 	return theCache;
 }
 
-CachedVBO::CachedVBO( TQ3GeometryObject inGeom )
+CachedVBO::CachedVBO( TQ3GeometryObject inGeom, GLenum inMode )
 	: mGeomObject( Q3Shared_GetReference( inGeom ) )
 	, mEditIndex( Q3Shared_GetEditIndex( inGeom ) )
+	, mGLMode( inMode )
 {
 	// Leave other fields uninitialized for now
 }
@@ -293,17 +296,18 @@ void		VBOCache::InitProcPtrs()
 }
 
 
-CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom )
+CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode )
 {
 	CachedVBO*	theCachedVBO = NULL;
 	
-	CachedVBO	searchDummy( inGeom );
+	CachedVBO	searchDummy( inGeom, inMode );
 	
 	CachedVBOVec::iterator	foundIt = std::lower_bound( mCachedVBOs.begin(),
-		mCachedVBOs.end(), searchDummy, GeomLess() );
+		mCachedVBOs.end(), searchDummy, VBOLess() );
 	
 	if ( (foundIt != mCachedVBOs.end()) &&
-		(foundIt->mGeomObject.get() == inGeom) )
+		(foundIt->mGeomObject.get() == inGeom) &&
+		(foundIt->mGLMode == inMode) )
 	{
 		theCachedVBO = &*foundIt;
 	}
@@ -311,18 +315,10 @@ CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom )
 	return theCachedVBO;
 }
 
-void	VBOCache::DeleteVBO( CachedVBO* inVBO )
-{
-	(*glDeleteBuffersARBProc)( 2, inVBO->mGLBufferNames );
-
-	TQ3Uns32	arrayIndex = inVBO - &mCachedVBOs[0];
-	mCachedVBOs.erase( mCachedVBOs.begin() + arrayIndex );
-}
-
 void	VBOCache::AddVBO( const CachedVBO& inVBO )
 {
 	CachedVBOVec::iterator	placeIt = std::lower_bound( mCachedVBOs.begin(),
-		mCachedVBOs.end(), inVBO, GeomLess() );
+		mCachedVBOs.end(), inVBO, VBOLess() );
 
 	mCachedVBOs.insert( placeIt, inVBO );
 }
@@ -361,23 +357,7 @@ void VBOCache::RenderVBO( const CachedVBO* inCachedVBO )
 }
 
 
-void	VBOCache::ForgetTriangleStrips()
-{
-	// Move VBOs holding triangle strips to end of list
-	CachedVBOVec::iterator startStrips = std::stable_partition(
-		mCachedVBOs.begin(), mCachedVBOs.end(), IsNotStrip() );
-	
-	// Delete the buffers for the VBO records that are going away
-	for (CachedVBOVec::iterator i = startStrips; i != mCachedVBOs.end(); ++i)
-	{
-		(*glDeleteBuffersARBProc)( 2, i->mGLBufferNames );
-	}
-	
-	mCachedVBOs.erase( startStrips, mCachedVBOs.end() );
-}
-
-
-void	VBOCache::Flush()
+void	VBOCache::FlushUnreferenced()
 {
 	// Move unreferenced VBOs to end of list
 	CachedVBOVec::iterator startUnused = std::stable_partition(
@@ -391,6 +371,22 @@ void	VBOCache::Flush()
 	
 	mCachedVBOs.erase( startUnused, mCachedVBOs.end() );
 }
+
+void	VBOCache::FlushStale()
+{
+	// Move stale VBOs to end of list
+	CachedVBOVec::iterator startStale = std::stable_partition(
+		mCachedVBOs.begin(), mCachedVBOs.end(), IsNotStale() );
+	
+	// Delete the buffers for the VBO records that are going away
+	for (CachedVBOVec::iterator i = startStale; i != mCachedVBOs.end(); ++i)
+	{
+		(*glDeleteBuffersARBProc)( 2, i->mGLBufferNames );
+	}
+	
+	mCachedVBOs.erase( startStale, mCachedVBOs.end() );
+}
+
 
 #pragma mark -
 //=============================================================================
@@ -406,30 +402,40 @@ void	VBOCache::Flush()
 					is stale, we delete it from the cache and return false.
 	@param			glContext		An OpenGL context.
 	@param			inGeom			A geometry object.
+	@param			inFillStyle		Current fill Style.
 	@result			True if the object was found and rendered.
 */
 TQ3Boolean			RenderCachedVBO(
 									TQ3GLContext glContext,
-									TQ3GeometryObject inGeom )
+									TQ3GeometryObject inGeom,
+									TQ3FillStyle inFillStyle )
 {
 	TQ3Boolean	didRender = kQ3False;
 	VBOCache*	theCache = GetVBOCache( glContext );
 	
 	if (theCache != NULL)
 	{
-		CachedVBO*	theVBO = theCache->FindVBO( inGeom );
+		theCache->FlushStale();
+		CachedVBO*	theVBO = NULL;
+		
+		if (inFillStyle == kQ3FillStyleEdges)
+		{
+			theVBO = theCache->FindVBO( inGeom, GL_TRIANGLES );
+		}
+		else
+		{
+			theVBO = theCache->FindVBO( inGeom, GL_TRIANGLE_STRIP );
+			
+			if (theVBO == NULL)
+			{
+				theVBO = theCache->FindVBO( inGeom, GL_TRIANGLES );
+			}
+		}
 		
 		if (theVBO != NULL)
 		{
-			if ( theVBO->IsStale() )
-			{
-				theCache->DeleteVBO( theVBO );
-			}
-			else
-			{
-				theCache->RenderVBO( theVBO );
-				didRender = kQ3True;
-			}
+			theCache->RenderVBO( theVBO );
+			didRender = kQ3True;
 		}
 	}
 	
@@ -467,8 +473,7 @@ void				AddVBOToCache(
 	
 	if (theCache != NULL)
 	{
-		CachedVBO	newVBO( inGeom );
-		newVBO.mGLMode = inMode;
+		CachedVBO	newVBO( inGeom, inMode );
 		newVBO.mNumIndices = inNumIndices;
 		(*theCache->glGenBuffersARBProc)( 2, newVBO.mGLBufferNames );
 		
@@ -548,22 +553,6 @@ void				FlushVBOCache(
 	
 	if (theCache != NULL)
 	{
-		theCache->Flush();
-	}
-}
-
-/*!
-	@function		ForgetTriangleStripVBOs
-	@abstract		Delete any cached VBOs for triangle strips.
-	@param			glContext		An OpenGL context.
-*/
-void				ForgetTriangleStripVBOs(
-									TQ3GLContext glContext )
-{
-	VBOCache*	theCache = GetVBOCache( glContext );
-	
-	if (theCache != NULL)
-	{
-		theCache->ForgetTriangleStrips();
+		theCache->FlushUnreferenced();
 	}
 }

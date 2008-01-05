@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -330,8 +330,6 @@ void	QORenderer::Renderer::UpdateFillStyle(
 			break;
 
 		case kQ3FillStyleEdges:
-			ForgetTriangleStripVBOs( mGLContext );
-			ForgetTriangleStripDisplayLists( mGLContext );
 			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 			break;
 
