@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1005,7 +1005,8 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		// If we can use VBOs, do so.
 		if (mGLExtensions.vertexBufferObjects == kQ3True)
 		{
-			if (kQ3False == RenderCachedVBO( mGLContext, inTriMesh ))
+			if (kQ3False == RenderCachedVBO( mGLContext, inTriMesh,
+				mStyleState.mFill ))
 			{
 				// In edge fill style, the degenerate triangles created by
 				// MakeStrip draw bogus edges.
@@ -1030,12 +1031,13 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 						&triangleStrip[0] );
 				}
 				
-				RenderCachedVBO( mGLContext, inTriMesh );
+				RenderCachedVBO( mGLContext, inTriMesh, mStyleState.mFill );
 			}
 		}
 		else // if not, use display lists.
 		{
-			if (kQ3False == RenderCachedDisplayList( mGLContext, inTriMesh ))
+			if (kQ3False == RenderCachedDisplayList( mGLContext, inTriMesh,
+				mStyleState.mFill ))
 			{
 				// In edge fill style, the degenerate triangles created by
 				// MakeStrip draw bogus edges.
@@ -1066,7 +1068,8 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 				
 				CacheDisplayList( displayListID, mGLContext, inTriMesh, mode );
 				
-				RenderCachedDisplayList( mGLContext, inTriMesh );
+				RenderCachedDisplayList( mGLContext, inTriMesh,
+					mStyleState.mFill );
 			}
 		}
 	}

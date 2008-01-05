@@ -5,7 +5,7 @@
         OpenGL display list caching.
        
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -74,7 +74,8 @@ namespace
 	struct CachedDisplayList
 	{
 						CachedDisplayList() {}
-						CachedDisplayList( TQ3GeometryObject inGeom );
+						CachedDisplayList( TQ3GeometryObject inGeom,
+										GLenum inMode );
 						CachedDisplayList( const CachedDisplayList& inOther );
 						~CachedDisplayList() {}
 						
@@ -85,7 +86,7 @@ namespace
 		CQ3ObjectRef	mGeomObject;
 		TQ3Uns32		mEditIndex;
 		GLuint			mDisplayList;
-		GLenum			mMode;
+		GLenum			mGLMode;
 	};
 	
 	typedef	std::vector< CachedDisplayList >	DisplayListVec;
@@ -93,12 +94,12 @@ namespace
 	class DisplayListCache : public CQ3GPSharedCache
 	{
 	public:
-		CachedDisplayList*	FindDisplayList( TQ3GeometryObject inGeom );
-		void				DeleteList( CachedDisplayList* inList );
+		CachedDisplayList*	FindDisplayList( TQ3GeometryObject inGeom,
+											GLenum inMode );
 		void				RenderList( const CachedDisplayList* inList );
 		void				AddList( const CachedDisplayList& inList );
-		void				Flush();
-		void				ForgetTriangleStrips();
+		void				FlushUnreferenced();
+		void				FlushStale();
 		
 	private:
 		// The vector of display list records will be maintained in order
@@ -112,7 +113,11 @@ namespace
 		bool	operator()( const CachedDisplayList& inOne,
 							const CachedDisplayList& inTwo ) const
 				{
-					return inOne.mGeomObject.get() < inTwo.mGeomObject.get();
+					return (inOne.mGLMode < inTwo.mGLMode) ||
+						(
+							(inOne.mGLMode == inTwo.mGLMode) &&
+							(inOne.mGeomObject.get() < inTwo.mGeomObject.get())
+						);
 				}
 	};
 	
@@ -128,12 +133,11 @@ namespace
 	};
 	
 	// Predicate for use with std::partition and CachedVBOVec.
-	struct IsNotStrip
+	struct IsNotStale
 	{
 		bool			operator()( const CachedDisplayList& inCachedDL ) const
 								{
-									return inCachedDL.mMode !=
-										GL_TRIANGLE_STRIP;
+									return ! inCachedDL.IsStale();
 								}
 	};
 }
@@ -143,9 +147,10 @@ namespace
 //		Internal functions
 //-----------------------------------------------------------------------------
 
-CachedDisplayList::CachedDisplayList( TQ3GeometryObject inGeom )
+CachedDisplayList::CachedDisplayList( TQ3GeometryObject inGeom, GLenum inMode )
 	: mGeomObject( Q3Shared_GetReference( inGeom ) )
 	, mEditIndex( Q3Shared_GetEditIndex( inGeom ) )
+	, mGLMode( inMode )
 {
 	// Leave other fields uninitialized for now
 }
@@ -154,7 +159,7 @@ CachedDisplayList::CachedDisplayList( const CachedDisplayList& inOther )
 	: mGeomObject( inOther.mGeomObject )
 	, mEditIndex( inOther.mEditIndex )
 	, mDisplayList( inOther.mDisplayList )
-	, mMode( inOther.mMode )
+	, mGLMode( inOther.mGLMode )
 {
 }
 
@@ -163,7 +168,7 @@ CachedDisplayList&	CachedDisplayList::operator=( const CachedDisplayList& inOthe
 	mGeomObject = inOther.mGeomObject;
 	mEditIndex = inOther.mEditIndex;
 	mDisplayList = inOther.mDisplayList;
-	mMode = inOther.mMode;
+	mGLMode = inOther.mGLMode;
 	return *this;
 }
 
@@ -190,29 +195,23 @@ static DisplayListCache* GetDisplayListCache( TQ3GLContext glContext )
 	return theCache;
 }
 
-CachedDisplayList*	DisplayListCache::FindDisplayList( TQ3GeometryObject inGeom )
+CachedDisplayList*	DisplayListCache::FindDisplayList( TQ3GeometryObject inGeom,
+														GLenum inMode )
 {
 	CachedDisplayList*	theCachedList = NULL;
-	CachedDisplayList	searchDummy( inGeom );
+	CachedDisplayList	searchDummy( inGeom, inMode );
 	
 	DisplayListVec::iterator	foundIt = std::lower_bound( mDisplayLists.begin(),
 		mDisplayLists.end(), searchDummy, GeomLess() );
 	
 	if ( (foundIt != mDisplayLists.end()) &&
-		(foundIt->mGeomObject.get() == inGeom) )
+		(foundIt->mGeomObject.get() == inGeom) &&
+		(foundIt->mGLMode == inMode) )
 	{
 		theCachedList = &*foundIt;
 	}
 	
 	return theCachedList;
-}
-
-void	DisplayListCache::DeleteList( CachedDisplayList* inList )
-{
-	glDeleteLists( inList->mDisplayList, 1 );
-
-	TQ3Uns32	arrayIndex = inList - &mDisplayLists[0];
-	mDisplayLists.erase( mDisplayLists.begin() + arrayIndex );
 }
 
 void	DisplayListCache::RenderList( const CachedDisplayList* inList )
@@ -235,23 +234,23 @@ void	DisplayListCache::AddList( const CachedDisplayList& inList )
 }
 
 
-void	DisplayListCache::ForgetTriangleStrips()
+void	DisplayListCache::FlushStale()
 {
-	// Move display lists holding triangle strips to end of list
-	DisplayListVec::iterator startStrips = std::stable_partition(
-		mDisplayLists.begin(), mDisplayLists.end(), IsNotStrip() );
+	// Move stale display lists to end of list
+	DisplayListVec::iterator startStale = std::stable_partition(
+		mDisplayLists.begin(), mDisplayLists.end(), IsNotStale() );
 	
 	// Delete the lists for the records that are going away
-	for (DisplayListVec::iterator i = startStrips; i != mDisplayLists.end(); ++i)
+	for (DisplayListVec::iterator i = startStale; i != mDisplayLists.end(); ++i)
 	{
 		glDeleteLists( i->mDisplayList, 1 );
 	}
 	
-	mDisplayLists.erase( startStrips, mDisplayLists.end() );
+	mDisplayLists.erase( startStale, mDisplayLists.end() );
 }
 
 
-void	DisplayListCache::Flush()
+void	DisplayListCache::FlushUnreferenced()
 {
 	// Move unreferenced display lists to end of list
 	DisplayListVec::iterator startUnused = std::stable_partition(
@@ -282,30 +281,40 @@ void	DisplayListCache::Flush()
 					The caller should have activated the GL context.
 	@param			glContext		An OpenGL context.
 	@param			inGeom			A geometry object.
+	@param			inFillStyle		Current fill Style.
 	@result			True if the object was found and rendered.
 */
 TQ3Boolean			RenderCachedDisplayList(
 									TQ3GLContext glContext,
-									TQ3GeometryObject inGeom )
+									TQ3GeometryObject inGeom,
+									TQ3FillStyle inFillStyle )
 {
 	TQ3Boolean	didRender = kQ3False;
 	DisplayListCache*	theCache = GetDisplayListCache( glContext );
 	
 	if (theCache != NULL)
 	{
-		CachedDisplayList*	theList = theCache->FindDisplayList( inGeom );
+		theCache->FlushStale();
+		CachedDisplayList*	theList = NULL;
+
+		if (inFillStyle == kQ3FillStyleEdges)
+		{
+			theList = theCache->FindDisplayList( inGeom, GL_TRIANGLES );
+		}
+		else
+		{
+			theList = theCache->FindDisplayList( inGeom, GL_TRIANGLE_STRIP );
+			
+			if (theList == NULL)
+			{
+				theList = theCache->FindDisplayList( inGeom, GL_TRIANGLES );
+			}
+		}
 		
 		if (theList != NULL)
 		{
-			if ( theList->IsStale() )
-			{
-				theCache->DeleteList( theList );
-			}
-			else
-			{
-				theCache->RenderList( theList );
-				didRender = kQ3True;
-			}
+			theCache->RenderList( theList );
+			didRender = kQ3True;
 		}
 	}
 	
@@ -344,9 +353,8 @@ void				CacheDisplayList(
 	
 	if (theCache != NULL)
 	{
-		CachedDisplayList	newRec( inGeom );
+		CachedDisplayList	newRec( inGeom, inMode );
 		newRec.mDisplayList = inDisplayList;
-		newRec.mMode = inMode;
 		
 		theCache->AddList( newRec );
 	}
@@ -365,23 +373,6 @@ void				FlushDisplayListCache(
 	
 	if (theCache != NULL)
 	{
-		theCache->Flush();
+		theCache->FlushUnreferenced();
 	}
 }
-
-/*!
-	@function		ForgetTriangleStripDisplayLists
-	@abstract		Delete any cached display lists for triangle strips.
-	@param			glContext		An OpenGL context.
-*/
-void				ForgetTriangleStripDisplayLists(
-									TQ3GLContext glContext )
-{
-	DisplayListCache*	theCache = GetDisplayListCache( glContext );
-	
-	if (theCache != NULL)
-	{
-		theCache->ForgetTriangleStrips();
-	}
-}
-

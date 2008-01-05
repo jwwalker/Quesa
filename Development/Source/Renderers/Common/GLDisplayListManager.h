@@ -5,7 +5,7 @@
         Header file for GLDisplayListManager.cpp.
        
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -74,11 +74,13 @@ extern "C" {
 					The caller should have activated the GL context.
 	@param			glContext		An OpenGL context.
 	@param			inGeom			A geometry object.
+	@param			inFillStyle		Current fill Style.
 	@result			True if the object was found and rendered.
 */
 TQ3Boolean			RenderCachedDisplayList(
 									TQ3GLContext glContext,
-									TQ3GeometryObject inGeom );
+									TQ3GeometryObject inGeom,
+									TQ3FillStyle inFillStyle );
 
 /*!
 	@function		CacheDisplayList
@@ -116,14 +118,6 @@ void				CacheDisplayList(
 	@param			glContext		An OpenGL context.
 */
 void				FlushDisplayListCache(
-									TQ3GLContext glContext );
-
-/*!
-	@function		ForgetTriangleStripDisplayLists
-	@abstract		Delete any cached display lists for triangle strips.
-	@param			glContext		An OpenGL context.
-*/
-void				ForgetTriangleStripDisplayLists(
 									TQ3GLContext glContext );
 
 
