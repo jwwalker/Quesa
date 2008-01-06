@@ -1,0 +1,687 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Functions</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/CQ3AttributeSet_GetSurfaceShader"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3AttributeSet_GetSurfaceShader">CQ3AttributeSet_GetSurfaceShader</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3AttributeSet_GetSurfaceShader (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet inSet
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the surface shader from an attribute set.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inSet</em></tt></dt><dd>An attribute set.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>A surface shader or NULL.
+</dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Box_GetFaceAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Box_GetFaceAttributeSet">CQ3Box_GetFaceAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Box_GetFaceAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject box,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 faceIndex
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Gets the attribute set associated with a certain face of a box object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>box</em></tt></dt><dd>A reference to a box geometry object.</dd>
+<dt><tt><em>faceIndex</em></tt></dt><dd>The index of the face of the box,
+between 0 and 5 (inclusive).</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the box face, or
+NULL if the face does not have an attribute set.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Cone_GetBottomAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cone_GetBottomAttributeSet">CQ3Cone_GetBottomAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Cone_GetBottomAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject cone
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set for the bottom cap of a cone object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cone</em></tt></dt><dd>The cone object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The bottom attribute set, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Cone_GetFaceAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cone_GetFaceAttributeSet">CQ3Cone_GetFaceAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Cone_GetFaceAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject cone
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set for the face (as opposed to the bottom
+cap) of a cone.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cone</em></tt></dt><dd>The cone object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The face attribute set, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Cone_GetInteriorAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cone_GetInteriorAttributeSet">CQ3Cone_GetInteriorAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Cone_GetInteriorAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject cone
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set for the interior of a cone object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cylinder</em></tt></dt><dd>A cone object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set for the interior, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Cylinder_GetBottomAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cylinder_GetBottomAttributeSet">CQ3Cylinder_GetBottomAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Cylinder_GetBottomAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject cylinder
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set for the bottom cap of a cylinder object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set for the bottom cap, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Cylinder_GetFaceAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cylinder_GetFaceAttributeSet">CQ3Cylinder_GetFaceAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Cylinder_GetFaceAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject cylinder
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set for the face of a cylinder object
+(i.e., neither end)
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set for the face, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Cylinder_GetInteriorAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cylinder_GetInteriorAttributeSet">CQ3Cylinder_GetInteriorAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Cylinder_GetInteriorAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject cylinder
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set for the interior of a cylinder object.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set for the interior, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Cylinder_GetTopAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cylinder_GetTopAttributeSet">CQ3Cylinder_GetTopAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Cylinder_GetTopAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject cylinder
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set for the top cap of a cylinder object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set for the top cap, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3File_GetStorage"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3File_GetStorage">CQ3File_GetStorage</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3File_GetStorage (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the storage object for a file.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theFile</em></tt></dt><dd>The file to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The storage object for the file.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3GeneralPolygon_GetVertexAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3GeneralPolygon_GetVertexAttributeSet">CQ3GeneralPolygon_GetVertexAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3GeneralPolygon_GetVertexAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject generalPolygon,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 contourIndex,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 pointIndex
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of a vertex of a general polygon.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>generalPolygon</em></tt></dt><dd>A general polygon object.</dd>
+<dt><tt><em>contourIndex</em></tt></dt><dd>A 0-based index into the array of contours.</dd>
+<dt><tt><em>pointIndex</em></tt></dt><dd>A 0-based index into the array of vertices of a contour.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The vertex attribute set, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Geometry_GetAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Geometry_GetAttributeSet">CQ3Geometry_GetAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Geometry_GetAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject geometry
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the attribute set associated with a geometric object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>geometry</em></tt></dt><dd>A reference to a geometry object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the geometry.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Group_GetPositionObject"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Group_GetPositionObject">CQ3Group_GetPositionObject</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Group_GetPositionObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the object located at a certain position in a group.
+<br><br>
+This function obtains a reference to the group member at a 
+specified position.
+<br><br>
+Returns NULL if there is no object at the given position.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Position of desired object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The indicated object.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3HighlightStyle_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3HighlightStyle_Get">CQ3HighlightStyle_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3HighlightStyle_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject highlight
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a highlight style.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>highlight</em></tt></dt><dd>The style to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The data from the style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Line_GetVertexAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Line_GetVertexAttributeSet">CQ3Line_GetVertexAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Line_GetVertexAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject line,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 index
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of one of the ends of a line object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>line</em></tt></dt><dd>A line object.</dd>
+<dt><tt><em>index</em></tt></dt><dd>An index, 0 or 1, specifying an end of the line.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Mesh_GetCornerAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Mesh_GetCornerAttributeSet">CQ3Mesh_GetCornerAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Mesh_GetCornerAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject mesh,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshVertex vertex,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshFace face
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of a mesh corner.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>mesh</em></tt></dt><dd>The mesh to query.</dd>
+<dt><tt><em>vertex</em></tt></dt><dd>The vertex to query.</dd>
+<dt><tt><em>face</em></tt></dt><dd>The face to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the mesh corner.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Mesh_GetEdgeAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Mesh_GetEdgeAttributeSet">CQ3Mesh_GetEdgeAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Mesh_GetEdgeAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject mesh,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshEdge edge
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of a mesh edge.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>mesh</em></tt></dt><dd>The mesh to query.</dd>
+<dt><tt><em>face</em></tt></dt><dd>The face to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the mesh face.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Mesh_GetFaceAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Mesh_GetFaceAttributeSet">CQ3Mesh_GetFaceAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Mesh_GetFaceAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject mesh,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshFace face
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of a mesh face.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>mesh</em></tt></dt><dd>The mesh to query.</dd>
+<dt><tt><em>face</em></tt></dt><dd>The face to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the mesh face.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Mesh_GetVertexAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Mesh_GetVertexAttributeSet">CQ3Mesh_GetVertexAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Mesh_GetVertexAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject mesh,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshVertex vertex
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of a mesh vertex.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>mesh</em></tt></dt><dd>The mesh to query.</dd>
+<dt><tt><em>vertex</em></tt></dt><dd>The vertex to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the mesh vertex.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Object_GetSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Object_GetSet">CQ3Object_GetSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Object_GetSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object inObject
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the element set of an object.  This is not the same as the set
+returned by <code>Q3Shape_GetSet</code>.
+<br><br>
+This function is primarily for the use of file format plug-ins.
+Most applications will not need it.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inObject</em></tt></dt><dd>The object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>A set object, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3PolyLine_GetSegmentAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3PolyLine_GetSegmentAttributeSet">CQ3PolyLine_GetSegmentAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3PolyLine_GetSegmentAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject polyLine,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 index
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of a polyline segment.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>polyLine</em></tt></dt><dd>The polyline to query.</dd>
+<dt><tt><em>index</em></tt></dt><dd>The index of the segment to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the polyline segment.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3PolyLine_GetVertexAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3PolyLine_GetVertexAttributeSet">CQ3PolyLine_GetVertexAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3PolyLine_GetVertexAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject polyLine,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 index
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of a polyline vertex.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>polyLine</em></tt></dt><dd>The polyline to query.</dd>
+<dt><tt><em>index</em></tt></dt><dd>The index of the vertex to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the polyline vertex.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Polygon_GetVertexAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Polygon_GetVertexAttributeSet">CQ3Polygon_GetVertexAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Polygon_GetVertexAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject polygon,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 index
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of a vertex in a polygon object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>polygon</em></tt></dt><dd>A polygon object.</dd>
+<dt><tt><em>index</em></tt></dt><dd>A 0-based index into the array of vertices of the polygon.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set, or NULL.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Polyhedron_GetVertexAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Polyhedron_GetVertexAttributeSet">CQ3Polyhedron_GetVertexAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Polyhedron_GetVertexAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject polyhedron,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 index
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the position of a polyhedron vertex.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>polyhedron</em></tt></dt><dd>The polyhedron to query.</dd>
+<dt><tt><em>index</em></tt></dt><dd>The index of the vertex to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the vertex.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Shape_GetSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Shape_GetSet">CQ3Shape_GetSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Shape_GetSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject inObject
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the set element currently associated with a shape.
+The function call <code>Q3Shape_GetSet( o, &s )</code> is equivalent to
+<code>Q3Shape_GetElement( o, kQ3ElementTypeSet, &s )</code>.
+<br><br>
+Note that this is not the same as the attribute set of a geometry object,
+nor is in the internal set which holds elements on an object.  That is,
+after adding elements or attributes to an object, this function may still
+return the NULL set.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>shape</em></tt></dt><dd>The object to query.</dd>
+<dt><tt><em>theSet</em></tt></dt><dd>Receives the set of the object, or NULL.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3TextureShader_GetTexture"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3TextureShader_GetTexture">CQ3TextureShader_GetTexture</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3TextureShader_GetTexture (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the texture from a texture shader.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>shader</em></tt></dt><dd>The shader to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The texture from the texture shader.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3Triangle_GetVertexAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Triangle_GetVertexAttributeSet">CQ3Triangle_GetVertexAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3Triangle_GetVertexAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject triangle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 index
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set of a triangle vertex.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>triangle</em></tt></dt><dd>The triangle to query.</dd>
+<dt><tt><em>index</em></tt></dt><dd>The index of the vertex to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set of the triangle vertex.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3ViewHints_GetAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3ViewHints_GetAttributeSet">CQ3ViewHints_GetAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3ViewHints_GetAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set from a view hints object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>viewHints</em></tt></dt><dd>The view hints to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The attribute set from the view hints.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3ViewHints_GetCamera"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3ViewHints_GetCamera">CQ3ViewHints_GetCamera</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3ViewHints_GetCamera (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the camera from a view hints object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>viewHints</em></tt></dt><dd>The view hints to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The camera from the view hints.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3ViewHints_GetLightGroup"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3ViewHints_GetLightGroup">CQ3ViewHints_GetLightGroup</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3ViewHints_GetLightGroup (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the light group from a view hints object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>viewHints</em></tt></dt><dd>The view hints to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The light group from the view hints.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3ViewHints_GetRenderer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3ViewHints_GetRenderer">CQ3ViewHints_GetRenderer</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3ViewHints_GetRenderer (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the renderer from a view hints object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>viewHints</em></tt></dt><dd>The view hints to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The renderer from the view hints.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3View_GetAttributeSetState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3View_GetAttributeSetState">CQ3View_GetAttributeSetState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3View_GetAttributeSetState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current attribute state set from a view.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The current attribute state set associated with the view.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3View_GetCamera"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3View_GetCamera">CQ3View_GetCamera</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3View_GetCamera (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the camera from a view.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The camera associated with the view.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3View_GetDefaultAttributeSet"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3View_GetDefaultAttributeSet">CQ3View_GetDefaultAttributeSet</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3View_GetDefaultAttributeSet (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the default attribute set from a view.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The default attribute set associated with the view.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3View_GetDrawContext"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3View_GetDrawContext">CQ3View_GetDrawContext</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3View_GetDrawContext (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the draw context from a view.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The draw context associated with the view.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3View_GetLightGroup"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3View_GetLightGroup">CQ3View_GetLightGroup</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3View_GetLightGroup (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the light group from a view.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The light group associated with the view.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/CQ3View_GetRenderer"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3View_GetRenderer">CQ3View_GetRenderer</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>inline CQ3ObjectRef CQ3View_GetRenderer (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the renderer from a view.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The renderer associated with the view.
+ </dd></dl>
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
+</p></body></html>
