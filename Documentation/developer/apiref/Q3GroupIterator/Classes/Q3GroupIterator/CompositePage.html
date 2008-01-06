@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Q3GroupIterator</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Q3GroupIterator</font></h1><br>
+<h2>Abstract</h2>
+Class to simplify iterating through a Quesa group.
+<h2>Discussion</h2>
+Example:
+<br><br>
+<blockquote><pre><code>
+Q3GroupIterator		iter( aGroup, kQ3ShapeTypeGeometry );
+CQ3ObjectRef	theItem;
+while ( (theItem = iter.NextObject()).isvalid() )
+{
+// do something with theItem...
+}
+</code></pre></blockquote>
+<hr><br><h2>Member Functions</h2>
+<hr><a name="//Quesa/cpp/instm/Q3GroupIterator/NextObject/"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="NextObject">NextObject</a></h2>
+</td></tr></table><hr>Get a reference to the next member of the group.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>CQ3ObjectRef NextObject (void);</tt><br>
+</pre></blockquote>
+<dl><dt><i>function result</i></dt><dd>A reference to a member object, or NULL if done.
+	</dd></dl>
+<hr><a name="//Quesa/cpp/instm/Q3GroupIterator/Q3GroupIterator/TQ3GroupObjectTQ3ObjectTypeinType="></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3GroupIterator">Q3GroupIterator</a></h2>
+</td></tr></table><hr>Constructor.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>Q3GroupIterator (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject inGroup,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType inType = kQ3ObjectTypeShared
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inGroup</em></tt></dt><dd>A group object.</dd>
+<dt><tt><em>inType</em></tt></dt><dd>A type of object to iterate over.
+Optional, defaults to kQ3ObjectTypeShared.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
+</p></body></html>
