@@ -266,6 +266,7 @@ May or may not update the draw context - behaviour is renderer-dependent.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current anti-alias style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -306,13 +307,19 @@ May or may not update the draw context - behaviour is renderer-dependent.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current state of an attribute from a view.
 <br><br>
+This function returns a pointer to data within an attribute state
+representing the current attributes in the view.  You should consider
+the pointer to be read-only and temporary.  It is safer and less
+error-prone to get the attribute set with <code>Q3View_GetAttributeSetState</code>
+and then extract data with <code>Q3AttributeSet_Get</code>.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
 <dt><tt><em>attributeType</em></tt></dt><dd>The attribute type to query.</dd>
-<dt><tt><em>data</em></tt></dt><dd>Receives the current value for the specified attribute.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the address of the current value for the specified attribute.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -325,6 +332,7 @@ May or may not update the draw context - behaviour is renderer-dependent.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current backfacing style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -365,6 +373,7 @@ The reference count of the camera is incremented.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current cast shadows style state from a view.
+Must be called within a submitting loop.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -428,6 +437,7 @@ The reference count of the draw context is incremented.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current fill style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -447,6 +457,7 @@ The reference count of the draw context is incremented.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current fog style associated with a view.
+Must be called within a submitting loop.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -493,6 +504,7 @@ coordinates.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current highlight style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -512,6 +524,7 @@ coordinates.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current interpolation style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -572,6 +585,7 @@ Must be called within a submitting loop.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current orientation style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -591,6 +605,7 @@ Must be called within a submitting loop.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current pick ID style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -610,6 +625,7 @@ Must be called within a submitting loop.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current pick parts style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -629,6 +645,7 @@ Must be called within a submitting loop.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current receive shadows style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -669,6 +686,7 @@ The reference count of the renderer is incremented.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current subdivision style state from a view.
+Must be called within a submitting loop.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -717,22 +735,27 @@ Q3Camera_GetWorldToFrustum instead.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3View_IsBoundingBoxVisible"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_IsBoundingBoxVisible">Q3View_IsBoundingBoxVisible</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3View_IsBoundingBoxVisible (
+</td></tr></table><hr>Test a bounding box for visibility.
+<br><br>
+
+<blockquote><pre><tt>( TQ3Boolean ) Q3View_IsBoundingBoxVisible (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
 &nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *bbox
 );</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Test a bounding box for visibility.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The bounding box (assumed to be in local coordinates) is tested for
+intersection with the view frustum of the camera currently associated
+with the view.
 <br><br>
-The bounding box is compared against the view frustum of the camera
-currently associated with the view.
+This function could be used for visibility culling, either in a
+rendering loop of client code or within a renderer.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to check the bounding box against.</dd>
-<dt><tt><em>bbox</em></tt></dt><dd>The bounding box to test.</dd>
+<dt><tt><em>bbox</em></tt></dt><dd>The local bounding box to test.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>True or false as the bounding box is visible.
@@ -1151,5 +1174,5 @@ May only be called within a view submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

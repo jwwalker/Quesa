@@ -1099,5 +1099,30 @@ return kQ3False if the object a reference count of one.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>True or false as the object has more than one reference.
  </dd></dl>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<hr><a name="//Quesa/c/func/Q3Shared_SetEditIndex <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_SetEditIndex <br><br>">Q3Shared_SetEditIndex <br><br></a></h2>
+</td></tr></table><hr>Set the edit index of a shared object.
+<br><br>
+
+<blockquote><pre><tt>( void ) Q3Shared_SetEditIndex (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject inObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inEditIndex
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This function should be used even more rarely than
+Q3Shared_Edited.  It was added to solve a specific problem:
+Caching information in a custom element attached to an object
+without changing the edit index of the object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inObject</em></tt></dt><dd>A shared object to update.</dd>
+<dt><tt><em>inEditIndex</em></tt></dt><dd>New edit index.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

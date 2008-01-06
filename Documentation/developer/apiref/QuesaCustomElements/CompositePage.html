@@ -6,7 +6,7 @@
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">QuesaCustomElements.h</font></h1><br>
 <h2>Discussion</h2>
-Declares the Quesa custom elements inherited from QD3D.
+Declares the standard Quesa custom elements, most inherited from QD3D.
  <hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/CENameElement_EmptyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CENameElement_EmptyData">CENameElement_EmptyData</a></h2>
@@ -97,6 +97,87 @@ by CENameElement_SetData.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/CETriangleStripElement_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CETriangleStripElement_GetData">CETriangleStripElement_GetData</a></h2>
+</td></tr></table><hr>Get a triangle strip for the object.
+
+<blockquote><pre><tt>( TQ3Status ) CETriangleStripElement_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object inObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32* outNumIndices,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32** outIndices
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Triangle strips are used by the OpenGL renderer as a speed
+optimization for rendering TriMesh objects.
+<br><br>
+If the current edit index of the object is not the same as
+when a strip was assigned, the strip will be considered stale
+and this function will return kQ3Failure.
+<br><br>
+This function returns the actual triangle strip data within
+the element, not a copy.  The data should be considered
+read-only and temporary.
+<br><br>
+<em>This function is not available in QD3D.</em>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inObject</em></tt></dt><dd>An object, normally a TriMesh.</dd>
+<dt><tt><em>outNumIndices</em></tt></dt><dd>Receives count of indices.</dd>
+<dt><tt><em>outIndices</em></tt></dt><dd>Receives address of array of vertex indices.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/CETriangleStripElement_Remove"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CETriangleStripElement_Remove">CETriangleStripElement_Remove</a></h2>
+</td></tr></table><hr>Remove a triangle strip element if it exists.
+
+<blockquote><pre><tt>(void) CETriangleStripElement_Remove (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object ioObject
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>ioObject</em></tt></dt><dd>An object, normally a TriMesh.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/func/CETriangleStripElement_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CETriangleStripElement_SetData">CETriangleStripElement_SetData</a></h2>
+</td></tr></table><hr>Set a triangle strip for the object.
+
+<blockquote><pre><tt>( TQ3Status ) CETriangleStripElement_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object ioObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inNumIndices,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32* inIndices
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Triangle strips are used by the OpenGL renderer as a speed
+optimization for rendering TriMesh objects.  If you have not
+already provided a triangle strip for a TriMesh, the renderer
+will compute one, but this can take a little time.
+<br><br>
+When you assign a triangle strip, the element also records the
+current edit index of the object.
+<br><br>
+You can pass 0 for inNumIndices and NULL for inIndices to
+indicate that you want to avoid using a triangle strip, perhaps
+because there is no efficient strip for this geometry.
+<br><br>
+<em>This function is not available in QD3D.</em>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>ioObject</em></tt></dt><dd>An object, normally a TriMesh.</dd>
+<dt><tt><em>inNumIndices</em></tt></dt><dd>Count of indices in the following array.</dd>
+<dt><tt><em>inIndices</em></tt></dt><dd>Array of vertex indices making the strip.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/CEUrlElement_EmptyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEUrlElement_EmptyData">CEUrlElement_EmptyData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEUrlElement_EmptyData (
@@ -245,43 +326,18 @@ CEUrlElement_EmptyData.
 <br><br>
 Ordinarily you will not need to use the class name, because you
 can manipulate name elements using the functions
-CEWireElement_SetData, CEWireElement_SetData, and
+CEWireElement_SetData, CEWireElement_GetData, and
 CEWireElement_EmptyData.
 </p>
-<h2>Typedefs</h2>
-<hr><a name="//Quesa/c/tdef/TQ3ObjectEventCallback"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ObjectEventCallback">TQ3ObjectEventCallback</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3ObjectEventCallback</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object       theObject,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType  theEventType,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object   	theHost<BR>);</tt><br>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Applications can obtain callbacks as objects are processed
-by Quesa.  Callbacks are installed as custom elements.  In some cases,
-it may be necessary to attach the element to each object of interest,
-while in other cases the element may be attached to another object
-such as a view.  See the discussions of element types such as
-kQ3ElementTypeBeforeRender for details about specific callbacks.
-<br><br>
-Callbacks should return kQ3Success to continue processing the
-object, or kQ3Failure to cancel the operation (if possible).
-Some events, e.g., those which indicate the completion of an
-event, can not be cancelled and the result will be ignored.
-<br><br>
-Event callbacks are only available for retained mode objects.
-<br><br>
-<em>This functionality is not available in QD3D.</em>
-<br><br>
+<hr><a name="//Quesa/c/data/kQ3ClassNameCustomElementTriangleStrip"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="kQ3ClassNameCustomElementTriangleStrip">kQ3ClassNameCustomElementTriangleStrip</a></h2>
+</td></tr></table><hr>Class name of the triangle strip custom element.
+<br>
+<blockquote></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Ordinarily you will not need to use the class name, because you
+can manipulate triangle strip elements using the functions
+CETriangleStripElement_SetData, CETriangleStripElement_GetData.
 </p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl><dt><tt>theObject</tt></dt><dd>The object being processed.</dd>
-<dt><tt>theEventType</tt></dt><dd>The event occurring to the object.</dd>
-<dt><tt>theHost</tt></dt><dd>The object to which the callback element is attached.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Whether to continue with the event.
-</dd></dl>
 <h2>Structs</h2>
 <hr><a name="//Quesa/c/tag/TCEUrlData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEUrlData">TCEUrlData</a></h2>
@@ -325,54 +381,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kCEUrlOptionUseMap"><tt>kCEUrlOptionUseMap</tt></a></dt><dd>Map option set (meaning unknown).</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/tag/TQ3EventCallbackElementTypes"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3EventCallbackElementTypes">TQ3EventCallbackElementTypes</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef enum {
-  kQ3CallbackElementTypeBeforeRender      =  Q3_OBJECT_TYPE(0xF0, 'b', 'r', 'e'),
-  kQ3CallbackElementTypeAfterRender      =  Q3_OBJECT_TYPE(0xF0, 'a', 'r', 'e'),
-  kQ3CallbackElementTypeBeforePick      =  Q3_OBJECT_TYPE(0xF0, 'b', 'p', 'k'),
-  kQ3CallbackElementTypeAfterPick        =  Q3_OBJECT_TYPE(0xF0, 'a', 'p', 'k')
-} TQ3EventCallbackElementTypes;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Custom elements containing callback functions can be attached to objects,
-in order that client code can be notified by Quesa of certain events.
-The callback function has the type TQ3ObjectEventCallback.
-<br><br>
-<em>This functionality is not available in QD3D.</em>
-<br><br>
-Example of installing an event callback:
-<br><br>
-<blockquote><pre><code>
-TQ3ObjectEventCallback	callback = MyCallback;
-Q3Object_AddElement( theView,
-&nbsp;		kQ3CallbackElementTypeBeforeRender,
-&nbsp;		&amp;callback );
-</code></pre></blockquote>
-<br><br>
-The before and after rendering callbacks should be attached to the view
-object.  They are called not only for retained objects that you explicitly submit
-for rendering, but also for each object in the hierarchy of a group that
-you submit.
-<br><br>
-</p>
-<h4>Constants</h4>
-<blockquote>
-<dl>
-<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeBeforeRender"><tt>kQ3CallbackElementTypeBeforeRender</tt></a></dt><dd>The callback will be called just before each retained object
-is passed to the renderer.  If the callback returns
-kQ3Failure, then the object will not be passed to the renderer.</dd>
-<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeAfterRender"><tt>kQ3CallbackElementTypeAfterRender</tt></a></dt><dd>The callback will be called just after each retained object
-is passed to the renderer.  The callback's status result
-is ignored.</dd>
-<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeBeforePick"><tt>kQ3CallbackElementTypeBeforePick</tt></a></dt><dd>The callback will be called just before each retained object
-is submitted for picking.  If the callback returns
-kQ3Failure, then the object will not be submitted.</dd>
-<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeAfterPick"><tt>kQ3CallbackElementTypeAfterPick</tt></a></dt><dd>The callback will be called just after each retained object
-is submitted for picking.  The callback's status result
-is ignored.</dd>
-</dl>
-</blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

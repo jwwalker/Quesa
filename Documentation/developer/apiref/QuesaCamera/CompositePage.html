@@ -934,25 +934,33 @@ axis of the viewing plane.</dd>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CameraRange"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CameraRange">TQ3CameraRange</a></h2>
-</td></tr></table><hr><blockquote><pre>
+</td></tr></table><hr>Describes the hither and yon clipping planes of a camera.
+
+<blockquote><pre>
 typedef struct TQ3CameraRange {
     float                                       hither;
     float                                       yon;
 } TQ3CameraRange;
 </pre>
 </blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the hither and yon clipping planes of a camera.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Objects closer than the hither distance or farther than the yon distance
+will be clipped, i.e., invisible, so you usually want hither to be closer
+than any object and yon to be farther than any object.
+<br><br>
+The hither and yon values, together with the bit depth of your depth buffer,
+determine how small a difference in depths can be resolved.  It is more
+important to make hither as large as possible than to make yon as small
+as possible.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
 <dl>
 <dt><tt>hither</tt></dt><dd>The distance from the camera to the near clipping plane.
-This value must always be more than 0.</dd>
+This value must always be greater than 0.</dd>
 <dt><tt>yon</tt></dt><dd>The distance from the camera to the far clipping plane.
-This value must always be more than the hither field,
-although if it is too large then artifacts may be visible
-during rendering.</dd>
+This value must always be greater than the hither field,
+and is allowed to be INFINITY.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CameraViewPort"></a>
@@ -1079,5 +1087,5 @@ extends from the camera position through the four edges of this rectangle.
 <dt><tt>centerYOnViewPlane</tt></dt><dd>The y-center of the rectangle on the view plane.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

@@ -148,7 +148,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE texture filter from the interactive renderer.
 <br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
+Although Quesa does not actually use RAVE, the Interactive and OpenGL
+renderers do use this filter to choose OpenGL texture filtering settings.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -255,7 +256,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the RAVE texture filter for the interactive renderer.
 <br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
+Although Quesa does not actually use RAVE, the Interactive and OpenGL
+renderers do use this filter to choose OpenGL texture filtering settings.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -419,8 +421,20 @@ the application for later recall.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Instantiate a new renderer by type.
 <br><br>
-Built-in renderer types include kQ3RendererTypeInteractive for a shaded
-renderer, and kQ3RendererTypeWireFrame for a wire-frame renderer.
+The built-in renderer types include:
+<br><br>
+<ul>
+<li>kQ3RendererTypeOpenGL, new OpenGL</li>
+<li>kQ3RendererTypeInteractive, legacy OpenGL</li>
+<li>kQ3RendererTypeWireFrame, wire frame</li>
+<li>kQ3RendererTypeCartoon, cartoon style</li>
+<li>kQ3RendererTypeHiddenLine, hidden line removal, non photorealistic</li>
+</ul>
+<br><br>
+One can also get a complete list of installed renderer types by calling
+<code>Q3ObjectHierarchy_GetSubClassData</code> for the class
+kQ3SharedTypeRenderer, and get the human-readable names of the renderer
+types using <code>Q3RendererClass_GetNickNameString</code>.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -474,27 +488,6 @@ This function should only be called from renderer plug-ins.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawContext_GetDrawRegion"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetDrawRegion">Q3XDrawContext_GetDrawRegion</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetDrawRegion (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion *drawRegion
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the draw region for a draw context object.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
-<dt><tt><em>drawRegion</em></tt></dt><dd>Receives the draw region for the draw context.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XDrawContext_GetValidationFlags"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetValidationFlags">Q3XDrawContext_GetValidationFlags</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetValidationFlags (
@@ -516,474 +509,6 @@ This function should only be called from renderer plug-ins.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_End"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_End">Q3XDrawRegion_End</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_End (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>End access to a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to unlock.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetClipFlags"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetClipFlags">Q3XDrawRegion_GetClipFlags</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetClipFlags (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XClipMaskState *clipMaskState
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clip flags for a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>clipMaskState</em></tt></dt><dd>Receives the clip flags for the draw region.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetClipMask"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetClipMask">Q3XDrawRegion_GetClipMask</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetClipMask (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Bitmap **clipMask
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clip mask for a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>clipMask</em></tt></dt><dd>Receives the clip mask for the draw region.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetClipRegion"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetClipRegion">Q3XDrawRegion_GetClipRegion</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetClipRegion (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;RgnHandle *rgnHandle
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clip region for a draw region on Mac OS.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>rgnHandle</em></tt></dt><dd>Receives the clip region for the draw region.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceOffsetX"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceOffsetX">Q3XDrawRegion_GetDeviceOffsetX</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceOffsetX (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;float *deviceOffsetX
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the horizontal device offset of a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>deviceOffsetX</em></tt></dt><dd>Receives the horizontal device offset.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceOffsetY"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceOffsetY">Q3XDrawRegion_GetDeviceOffsetY</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceOffsetY (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;float *deviceOffsetX
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the vertical device offset of a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>deviceOffsetX</em></tt></dt><dd>Receives the vertical device offset.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceScaleX"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceScaleX">Q3XDrawRegion_GetDeviceScaleX</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceScaleX (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;float *deviceScaleX
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the horizontal device size of a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>deviceScaleX</em></tt></dt><dd>Receives the horizontal device size.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceScaleY"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceScaleY">Q3XDrawRegion_GetDeviceScaleY</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceScaleY (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;float *deviceScaleY
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the vertical device size of a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>deviceScaleY</em></tt></dt><dd>Receives the vertical device size.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetDeviceTransform"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetDeviceTransform">Q3XDrawRegion_GetDeviceTransform</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetDeviceTransform (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 **deviceTransform
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the device transform for a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>deviceTransform</em></tt></dt><dd>Receives the device transform for the draw region.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetGDHandle"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetGDHandle">Q3XDrawRegion_GetGDHandle</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetGDHandle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;GDHandle *gdHandle
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the GDHandle for a draw region on Mac OS.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>gdHandle</em></tt></dt><dd>Receives the GDHandle for the draw region.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetNextRegion"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetNextRegion">Q3XDrawRegion_GetNextRegion</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetNextRegion (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion *nextDrawRegion
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the next draw region from a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>nextDrawRegion</em></tt></dt><dd>Receives the next draw region.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetRendererPrivate"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetRendererPrivate">Q3XDrawRegion_GetRendererPrivate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetRendererPrivate (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;void **rendererPrivate
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the private renderer data for a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>rendererPrivate</em></tt></dt><dd>Receives the renderer private data.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetUseDefaultRendererFlag"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetUseDefaultRendererFlag">Q3XDrawRegion_GetUseDefaultRendererFlag</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetUseDefaultRendererFlag (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *useDefaultRenderingFlag
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the use-default-renderer flag for a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>useDefaultRenderingFlag</em></tt></dt><dd>Receives the use-default-renderer state.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetWindowOffsetX"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetWindowOffsetX">Q3XDrawRegion_GetWindowOffsetX</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetWindowOffsetX (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;float *windowOffsetX
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the horizontal window offset of a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>windowOffsetX</em></tt></dt><dd>Receives the horizontal window offset.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetWindowOffsetY"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetWindowOffsetY">Q3XDrawRegion_GetWindowOffsetY</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetWindowOffsetY (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;float *windowOffsetY
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the vertical window offset of a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>windowOffsetY</em></tt></dt><dd>Receives the vertical window offset.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetWindowScaleX"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetWindowScaleX">Q3XDrawRegion_GetWindowScaleX</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetWindowScaleX (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;float *windowScaleX
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the horizontal window size of a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>windowScaleX</em></tt></dt><dd>Receives the horizontal window size.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_GetWindowScaleY"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_GetWindowScaleY">Q3XDrawRegion_GetWindowScaleY</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_GetWindowScaleY (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;float *windowScaleY
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the vertical window size of a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>windowScaleY</em></tt></dt><dd>Receives the vertical window size.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_IsActive"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_IsActive">Q3XDrawRegion_IsActive</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_IsActive (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *isActive
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Is a draw region active?
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to query.</dd>
-<dt><tt><em>isActive</em></tt></dt><dd>Receives the active status.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_SetRendererPrivate"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_SetRendererPrivate">Q3XDrawRegion_SetRendererPrivate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_SetRendererPrivate (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;const void *rendererPrivate,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionRendererPrivateDeleteMethod deleteMethod
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the private renderer data for a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to update.</dd>
-<dt><tt><em>rendererPrivate</em></tt></dt><dd>The private renderer data for the draw region.</dd>
-<dt><tt><em>deleteMethod</em></tt></dt><dd>The delete method to dispose of the renderer data.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_SetUseDefaultRendererFlag"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_SetUseDefaultRendererFlag">Q3XDrawRegion_SetUseDefaultRendererFlag</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_SetUseDefaultRendererFlag (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean flag
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the use-default-renderer flag for a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to update.</dd>
-<dt><tt><em>flag</em></tt></dt><dd>The use-default-renderer state.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_Start"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_Start">Q3XDrawRegion_Start</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_Start (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionServices services,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionDescriptor **descriptor
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Start access to a draw region.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to lock for access.</dd>
-<dt><tt><em>services</em></tt></dt><dd>The draw region services.</dd>
-<dt><tt><em>descriptor</em></tt></dt><dd>Receives the draw region descriptor.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3XDrawRegion_StartAccessToImageBuffer"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawRegion_StartAccessToImageBuffer">Q3XDrawRegion_StartAccessToImageBuffer</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawRegion_StartAccessToImageBuffer (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegion drawRegion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionServices services,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawRegionDescriptor **descriptor,
-&nbsp;&nbsp;&nbsp;&nbsp;void **image
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Start access to a draw region image buffer.
-<br><br>
-Note - this function is deprecated, and is not fully supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawRegion</em></tt></dt><dd>The draw region to lock for access.</dd>
-<dt><tt><em>services</em></tt></dt><dd>The draw region services.</dd>
-<dt><tt><em>descriptor</em></tt></dt><dd>Receives the draw region descriptor.</dd>
-<dt><tt><em>image</em></tt></dt><dd>Receives the draw region image buffer.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XView_EndFrame"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XView_EndFrame">Q3XView_EndFrame</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XView_EndFrame (
@@ -992,7 +517,7 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Indicate to a view that a frame has completed.
 <br><br>
-This function should only be called from asynchronou renderer plug-ins.
+This function should only be called from asynchronous renderer plug-ins.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -1036,5 +561,5 @@ This function should only be called from renderer plug-ins.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

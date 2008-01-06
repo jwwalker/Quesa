@@ -7,7 +7,7 @@
 <body bgcolor="#cccccc" link="#000099" vlink="#660066"
 leftmargin="0" topmargin="0" marginwidth="1"
 marginheight="0">
-<font size="-2"><a href="../masterTOC.html" target="_top" headerDoc="topLink">[Top]</a></font><br>
+<font size="-2"><a href="../MasterTOC.html" target="_top" headerDoc="topLink">[Top]</a></font><br>
 
 <table width="100%"><tr bgcolor="#999999"><td>&nbsp;</td></tr></table><br><table border="0" cellpadding="0" cellspacing="2" width="148">
 <tr><td colspan="2"><font size="5" color="#330066"><b>Header:</b></font></td></tr>
@@ -15,7 +15,35 @@ marginheight="0">
 </table><br>
 <nobr>&nbsp;<a href="QuesaIO.html" target="doc">Introduction</a>
 <h4>Functions</h4>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3Comment_Write" target="doc">Q3Comment_Write</a></nobr><br>
+<i>Extension</i><br>&nbsp;<br><nobr>&nbsp;<a href="Functions/Functions.html#Q3XView_SubmitSubObjectData" target="doc">Q3XView_SubmitSubObjectData</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3XView_SubmitWriteData" target="doc">Q3XView_SubmitWriteData</a></nobr><br>
+&nbsp;<br><i>File Objects</i><br>&nbsp;<br><nobr>&nbsp;<a href="Functions/Functions.html#Q3File_Cancel" target="doc">Q3File_Cancel</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_Close" target="doc">Q3File_Close</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetExternalReferences" target="doc">Q3File_GetExternalReferences</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetMode" target="doc">Q3File_GetMode</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetNextObjectType" target="doc">Q3File_GetNextObjectType</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetReadInGroup" target="doc">Q3File_GetReadInGroup</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetStorage" target="doc">Q3File_GetStorage</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetVersion" target="doc">Q3File_GetVersion</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsEndOfContainer" target="doc">Q3File_IsEndOfContainer</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsEndOfData" target="doc">Q3File_IsEndOfData</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsEndOfFile" target="doc">Q3File_IsEndOfFile</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsNextObjectOfType" target="doc">Q3File_IsNextObjectOfType</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsOpen" target="doc">Q3File_IsOpen</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_MarkAsExternalReference" target="doc">Q3File_MarkAsExternalReference</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_New" target="doc">Q3File_New</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_OpenRead" target="doc">Q3File_OpenRead</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_OpenWrite" target="doc">Q3File_OpenWrite</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_ReadObject" target="doc">Q3File_ReadObject</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_SetIdleMethod" target="doc">Q3File_SetIdleMethod</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_SetReadInGroup" target="doc">Q3File_SetReadInGroup</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_SetStorage" target="doc">Q3File_SetStorage</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_SkipObject" target="doc">Q3File_SkipObject</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3Shared_ClearEditTracking" target="doc">Q3Shared_ClearEditTracking</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3Shared_GetEditTrackingState" target="doc">Q3Shared_GetEditTrackingState</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3View_EndWriting" target="doc">Q3View_EndWriting</a></nobr><br>
+<nobr>&nbsp;<a href="Functions/Functions.html#Q3View_StartWriting" target="doc">Q3View_StartWriting</a></nobr><br>
+&nbsp;<br><i>Low Level I/O</i><br>&nbsp;<br><nobr>&nbsp;<a href="Functions/Functions.html#Q3Comment_Write" target="doc">Q3Comment_Write</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3FileFormatClass_GetFormatNameString" target="doc">Q3FileFormatClass_GetFormatNameString</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3FileFormat_GenericReadBinSwap_16" target="doc">Q3FileFormat_GenericReadBinSwap_16</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3FileFormat_GenericReadBinSwap_32" target="doc">Q3FileFormat_GenericReadBinSwap_32</a></nobr><br>
@@ -43,29 +71,7 @@ marginheight="0">
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3FileFormat_ModalConfigure" target="doc">Q3FileFormat_ModalConfigure</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3FileFormat_NewFromType" target="doc">Q3FileFormat_NewFromType</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3FileFormat_SetConfigurationData" target="doc">Q3FileFormat_SetConfigurationData</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_Cancel" target="doc">Q3File_Cancel</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_Close" target="doc">Q3File_Close</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetExternalReferences" target="doc">Q3File_GetExternalReferences</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetFileFormat" target="doc">Q3File_GetFileFormat</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetMode" target="doc">Q3File_GetMode</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetNextObjectType" target="doc">Q3File_GetNextObjectType</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetReadInGroup" target="doc">Q3File_GetReadInGroup</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetStorage" target="doc">Q3File_GetStorage</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_GetVersion" target="doc">Q3File_GetVersion</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsEndOfContainer" target="doc">Q3File_IsEndOfContainer</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsEndOfData" target="doc">Q3File_IsEndOfData</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsEndOfFile" target="doc">Q3File_IsEndOfFile</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsNextObjectOfType" target="doc">Q3File_IsNextObjectOfType</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_IsOpen" target="doc">Q3File_IsOpen</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_MarkAsExternalReference" target="doc">Q3File_MarkAsExternalReference</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_New" target="doc">Q3File_New</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_OpenRead" target="doc">Q3File_OpenRead</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_OpenWrite" target="doc">Q3File_OpenWrite</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_ReadObject" target="doc">Q3File_ReadObject</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_SetIdleMethod" target="doc">Q3File_SetIdleMethod</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_SetReadInGroup" target="doc">Q3File_SetReadInGroup</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_SetStorage" target="doc">Q3File_SetStorage</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3File_SkipObject" target="doc">Q3File_SkipObject</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3Float32_Read" target="doc">Q3Float32_Read</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3Float32_ReadArray" target="doc">Q3Float32_ReadArray</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3Float32_Write" target="doc">Q3Float32_Write</a></nobr><br>
@@ -92,8 +98,6 @@ marginheight="0">
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3RationalPoint4D_Write" target="doc">Q3RationalPoint4D_Write</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3RawData_Read" target="doc">Q3RawData_Read</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3RawData_Write" target="doc">Q3RawData_Write</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3Shared_ClearEditTracking" target="doc">Q3Shared_ClearEditTracking</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3Shared_GetEditTrackingState" target="doc">Q3Shared_GetEditTrackingState</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3Size_Pad" target="doc">Q3Size_Pad</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3String_Read" target="doc">Q3String_Read</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3String_ReadUnlimited" target="doc">Q3String_ReadUnlimited</a></nobr><br>
@@ -127,7 +131,7 @@ marginheight="0">
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3Vector2D_Write" target="doc">Q3Vector2D_Write</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3Vector3D_Read" target="doc">Q3Vector3D_Read</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3Vector3D_Write" target="doc">Q3Vector3D_Write</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3ViewHints_GetAttributeSet" target="doc">Q3ViewHints_GetAttributeSet</a></nobr><br>
+&nbsp;<br><i>View Hints</i><br>&nbsp;<br><nobr>&nbsp;<a href="Functions/Functions.html#Q3ViewHints_GetAttributeSet" target="doc">Q3ViewHints_GetAttributeSet</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3ViewHints_GetCamera" target="doc">Q3ViewHints_GetCamera</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3ViewHints_GetClearImageColor" target="doc">Q3ViewHints_GetClearImageColor</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3ViewHints_GetClearImageMethod" target="doc">Q3ViewHints_GetClearImageMethod</a></nobr><br>
@@ -148,10 +152,6 @@ marginheight="0">
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3ViewHints_SetMask" target="doc">Q3ViewHints_SetMask</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3ViewHints_SetMaskState" target="doc">Q3ViewHints_SetMaskState</a></nobr><br>
 <nobr>&nbsp;<a href="Functions/Functions.html#Q3ViewHints_SetRenderer" target="doc">Q3ViewHints_SetRenderer</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3View_EndWriting" target="doc">Q3View_EndWriting</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3View_StartWriting" target="doc">Q3View_StartWriting</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3XView_SubmitSubObjectData" target="doc">Q3XView_SubmitSubObjectData</a></nobr><br>
-<nobr>&nbsp;<a href="Functions/Functions.html#Q3XView_SubmitWriteData" target="doc">Q3XView_SubmitWriteData</a></nobr><br>
 <h4>Defined Types</h4>
 <nobr>&nbsp;<a href="DataTypes/DataTypes.html#TQ3FileIdleMethod" target="doc">TQ3FileIdleMethod</a></nobr><br>
 <nobr>&nbsp;<a href="DataTypes/DataTypes.html#TQ3XDataDeleteMethod" target="doc">TQ3XDataDeleteMethod</a></nobr><br>

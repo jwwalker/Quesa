@@ -73,7 +73,8 @@ typedef enum TQ3AttributeTypes {
     kQ3AttributeTypeSurfaceTangent              = 9,            // TQ3Tangent2D
     kQ3AttributeTypeHighlightState              = 10,           // TQ3Switch
     kQ3AttributeTypeSurfaceShader               = 11,           // TQ3SurfaceShaderObject
-    kQ3AttributeTypeNumTypes                    = 12,           // N/A
+    kQ3AttributeTypeEmissiveColor               = 12,           // TQ3ColorRGB
+    kQ3AttributeTypeNumTypes                    = 13,           // N/A
     kQ3AttributeTypeSize32                      = 0xFFFFFFFF
 } TQ3AttributeTypes;
 </pre>
@@ -105,6 +106,9 @@ Larger values make smaller specular highlights.</dd>
 <dt><a name="//Quesa/c/econst/kQ3AttributeTypeSurfaceTangent"><tt>kQ3AttributeTypeSurfaceTangent</tt></a></dt><dd>Surface tangent (<code>TQ3Tangent2D</code>)</dd>
 <dt><a name="//Quesa/c/econst/kQ3AttributeTypeHighlightState"><tt>kQ3AttributeTypeHighlightState</tt></a></dt><dd>Highlight state (<code>TQ3Switch</code>)</dd>
 <dt><a name="//Quesa/c/econst/kQ3AttributeTypeSurfaceShader"><tt>kQ3AttributeTypeSurfaceShader</tt></a></dt><dd>Surface shader (<code>TQ3SurfaceShaderObject</code>)</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeEmissiveColor"><tt>kQ3AttributeTypeEmissiveColor</tt></a></dt><dd>Emissive color (<code>TQ3ColorRGB</code>)
+(<em>This attribute did not exist in QuickDraw
+3D, and may not be recognized by all renderers.</em>)</dd>
 <dt><a name="//Quesa/c/econst/kQ3AttributeTypeNumTypes"><tt>kQ3AttributeTypeNumTypes</tt></a></dt><dd>Number of standard attribute types.</dd>
 </dl>
 </blockquote>
@@ -124,8 +128,9 @@ enum {
     kQ3XAttributeMaskSurfaceTangent             = (1 &lt;&lt; (kQ3AttributeTypeSurfaceTangent     - 1)),
     kQ3XAttributeMaskHighlightState             = (1 &lt;&lt; (kQ3AttributeTypeHighlightState     - 1)),
     kQ3XAttributeMaskSurfaceShader              = (1 &lt;&lt; (kQ3AttributeTypeSurfaceShader      - 1)),
+    kQ3XAttributeMaskEmissiveColor              = (1 &lt;&lt; (kQ3AttributeTypeEmissiveColor      - 1)),
     kQ3XAttributeMaskCustomAttribute            = 0x80000000,
-    kQ3XAttributeMaskAll                        = 0x800007FF,
+    kQ3XAttributeMaskAll                        = 0x80000FFF,
     kQ3XAttributeMaskInherited                  = 0x000003FF,
     kQ3XAttributeMaskInterpolated               = kQ3XAttributeMaskSurfaceUV          |
                                                   kQ3XAttributeMaskShadingUV          |
@@ -134,6 +139,7 @@ enum {
                                                   kQ3XAttributeMaskDiffuseColor       |
                                                   kQ3XAttributeMaskSpecularControl    |
                                                   kQ3XAttributeMaskTransparencyColor  |
+                                                  kQ3XAttributeMaskEmissiveColor      |
                                                   kQ3XAttributeMaskSurfaceTangent,
     kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
 };
@@ -157,11 +163,12 @@ enum {
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskSurfaceTangent"><tt>kQ3XAttributeMaskSurfaceTangent</tt></a></dt><dd>Surface tangent attribute mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskHighlightState"><tt>kQ3XAttributeMaskHighlightState</tt></a></dt><dd>Highlight state attribute mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskSurfaceShader"><tt>kQ3XAttributeMaskSurfaceShader</tt></a></dt><dd>Surface shader attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskEmissiveColor"><tt>kQ3XAttributeMaskEmissiveColor</tt></a></dt><dd>Emissive color attribute mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskCustomAttribute"><tt>kQ3XAttributeMaskCustomAttribute</tt></a></dt><dd>Custom attribute mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskAll"><tt>kQ3XAttributeMaskAll</tt></a></dt><dd>All attributes.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskInherited"><tt>kQ3XAttributeMaskInherited</tt></a></dt><dd>Inherited attributes mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskInterpolated"><tt>kQ3XAttributeMaskInterpolated</tt></a></dt><dd>Interpolated attributes mask.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

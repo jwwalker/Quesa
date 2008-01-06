@@ -65,7 +65,7 @@ The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vM
 allow partial cones, e.g., a cone with a wedge cut out of it or with its tip cut off.
 This feature was not implemented in QuickDraw 3D.  See the discussion of
 <code>TQ3EllipseData</code> for notes on the interpretation of <code>uMin</code> and
-code>uMax</code>.
+<code>uMax</code>.
 <br><br>
 If <code>vMax</code> < 1, so that the tip is cut off, the top disk is considered part of
 an interior face, rather than a top cap.
@@ -129,7 +129,7 @@ The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vM
 allow partial cylinders, e.g., a cylinder with a wedge cut out of it.
 This feature was not implemented in QuickDraw 3D.  See the discussion of
 <code>TQ3EllipseData</code> for notes on the interpretation of <code>uMin</code> and
-code>uMax</code>.
+<code>uMax</code>.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
@@ -182,7 +182,7 @@ The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vM
 allow partial disks, e.g., a slice of pie (partial range of u values) or a washer
 (partial range of v values).  This feature was never implemented in QuickDraw 3D,
 although it was planned.  See the discussion of <code>TQ3EllipseData</code> for notes
-on the interpretation of <code>uMin</code> and code>uMax</code>.
+on the interpretation of <code>uMin</code> and <code>uMax</code>.
 <br><br>
 The u and v limits here do not have anything to do with the uv parametrization used by
 shaders.
@@ -265,18 +265,18 @@ typedef struct TQ3EllipsoidData {
 </pre>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Data describing the state of an ellipsoid.  The major axis, minor axis, and
-orientation vectors need not be orthogonal, but should be independent.
+orientation vectors need not be orthogonal, but should be independent, i.e.,
+not coplanar.
+<br><br>
 The ellipsoid can be expressed by a parametric equation
 <br><br>
-f(u,v) = origin + cos(&pi;v)orientation + sin(&pi;v)(cos(2&pi;u)majorRadius + sin(2&pi;u)minorRadius)
+f(u,v) = origin - cos(&pi;v)orientation + sin(&pi;v)(cos(2&pi;u)majorRadius + sin(2&pi;u)minorRadius)
 <br><br>
 where u and v range from 0 to 1.
 <br><br>
 The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
-were apparently intended to allow partial ellipsoids, e.g., an ellipsoid with a wedge
-cut out of it.
-But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
-ever did either.
+allow partial ellipsoids, e.g., an ellipsoid with a wedge cut out of it.
+Partial ellipsoids were not implemented in QuickDraw 3D.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
@@ -294,10 +294,9 @@ minor axes).  Typically 0.</dd>
 south pole (origin - orientation) to the north pole
 (origin + orientation).  Typically 0.</dd>
 <dt><tt>vMax</tt></dt><dd>Minimum value of the v parameter.  Typically 1.</dd>
-<dt><tt>caps</tt></dt><dd>Style of caps to be used on partial ellipsoids.
-Currently ignored by Quesa.</dd>
-<dt><tt>interiorAttributeSet</tt></dt><dd>Interior attributes.  Currently unused by Quesa
-rendering, so leave it NULL.</dd>
+<dt><tt>caps</tt></dt><dd>Style of caps to be used on partial ellipsoids.</dd>
+<dt><tt>interiorAttributeSet</tt></dt><dd>Interior attributes, used for end or interior caps.
+May be NULL.</dd>
 <dt><tt>ellipsoidAttributeSet</tt></dt><dd>Attributes for the ellipsoid surface.  May be NULL.</dd>
 </dl>
 </blockquote>
@@ -898,17 +897,29 @@ typedef struct TQ3TorusData {
 ellipse about an axis that is in the same plane as the ellipse but does not pass
 through the ellipse.
 <br><br>
+To express the torus as a parametric equation, we first define the
+elliptical central axis by the equation
+<br><br>
+axis(u) = cos(2&pi;u) majorRadius + sin(2&pi;u) minorRadius
+<br><br>
+where majorRadius and minorRadius are independent vectors, and u varies
+from 0 to 1.  Then we define the torus surface by
+<br><br>
+f(u,v) = origin + axis(u) - sin(2&pi;v) orientation -
+(cos(2&pi;v) * ratio * |orientation| / |axis(u)|) axis(u)
+<br><br>
+where v also varies from 0 to 1 and vertical bars indicate length of a
+vector.
+<br><br>
 The kind of torus usually encountered in elementary mathematics, with circular
 cross sections, would be one where the <code>orientation</code>, <code>majorRadius</code>,
 and <code>minorRadius</code> vectors are mutually orthogonal, where
 <code>majorRadius</code> and <code>minorRadius</code> have the same length, and where
 <code>ratio</code> is 1.
 <br><br>
-The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
-were apparently intended to allow partial tori, e.g., a torus with a wedge
-cut out of it.
-But Quesa does not implement this feature, and I do not believe that QuickDraw 3D
-ever did either.
+The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and
+<code>vMax</code> allow one to create partial tori, e.g., a torus with
+a wedge cut out of it.  QuickDraw 3D did not implement this feature.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
@@ -916,22 +927,29 @@ ever did either.
 <dl>
 <dt><tt>origin</tt></dt><dd>Center of rotation.</dd>
 <dt><tt>orientation</tt></dt><dd>Vector whose direction is the axis of rotation, and
-whose length is the length of the radius of the ellipse
+whose length is the length of the
+radius of the cross-sectional ellipse
 in the direction of the axis of rotation.</dd>
 <dt><tt>majorRadius</tt></dt><dd>Vector from the origin to the center of the ellipse.</dd>
 <dt><tt>minorRadius</tt></dt><dd>Vector from the origin to the center of a different
 cross-sectional ellipse.</dd>
-<dt><tt>ratio</tt></dt><dd>The ratio between the radius of the ellipse in the direction
-of <code>majorRadius</code>, and the length of
+<dt><tt>ratio</tt></dt><dd>The ratio between the radius of the
+cross-sectional ellipse in the
+direction of <code>majorRadius</code>,
+and the length of
 <code>orientation</code>.</dd>
-<dt><tt>uMin</tt></dt><dd>Minimum value in the u parametric direction (the long way
-around.)  Normally 0.</dd>
-<dt><tt>uMax</tt></dt><dd>Maximum value in the u parametric direction (the long way
-around.)  Normally 1.</dd>
-<dt><tt>vMin</tt></dt><dd>Minimum value in the v parametric direction (the short way
-around.)  Normally 0.</dd>
-<dt><tt>vMax</tt></dt><dd>Maximum value in the v parametric direction (the short way
-around.)  Normally 1.</dd>
+<dt><tt>uMin</tt></dt><dd>Minimum value in the u parametric
+direction (the long way around.)
+Normally 0, must be in interval [0, 1].</dd>
+<dt><tt>uMax</tt></dt><dd>Maximum value in the u parametric
+direction (the long way around.)
+Normally 1, must be in interval [0, 1].</dd>
+<dt><tt>vMin</tt></dt><dd>Minimum value in the v parametric
+direction (the short way around.)
+Normally 0, must be in interval [0, 1].</dd>
+<dt><tt>vMax</tt></dt><dd>Maximum value in the v parametric
+direction (the short way around.)
+Normally 1, must be in interval [0, 1].</dd>
 <dt><tt>caps</tt></dt><dd>Cap style.  Should be kQ3EndCapNone.
 <br><br></dd>
 <dt><tt>interiorAttributeSet</tt></dt><dd>Interior attribute set.  Not currently used.
@@ -1108,5 +1126,5 @@ typedef struct TQ3TriangleData {
 <dt><tt>triangleAttributeSet</tt></dt><dd>Set of attributes for the triangle.  May be NULL.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

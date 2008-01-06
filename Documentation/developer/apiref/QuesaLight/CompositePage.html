@@ -441,6 +441,28 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_GetRadius"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetRadius">Q3PointLight_GetRadius</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetRadius (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32 *radius
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the radius of a point light.
+By default, a point light has a radius of zero, but to achieve a fuzzy borders
+of shadows using certain renderers (ray tracers), you can set a radius on the light.
+The unit is related with the scale of the scene.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
+<dt><tt><em>radius</em></tt></dt><dd>Receives the radius of the light.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PointLight_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_New">Q3PointLight_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject ) Q3PointLight_New (
@@ -530,6 +552,28 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <dl>
 <dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
 <dt><tt><em>location</em></tt></dt><dd>The new location for the light.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PointLight_SetRadius"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetRadius">Q3PointLight_SetRadius</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetRadius (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32 radius
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the radius of a point light.
+By default, a point light has a radius of zero, but to achieve a fuzzy borders
+of shadows using certain renderers (ray tracers), you can set a radius on the light.
+The unit is related with the scale of the scene.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
+<dt><tt><em>attenuation</em></tt></dt><dd>The new radius for the light.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -1043,5 +1087,5 @@ to the outer angle (where the light intensity falls to zero).
 <dt><a name="//Quesa/c/econst/kQ3FallOffTypeCosine"><tt>kQ3FallOffTypeCosine</tt></a></dt><dd>Intensity falls off as the cosine of the angle.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

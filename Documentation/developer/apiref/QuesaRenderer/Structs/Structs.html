@@ -69,26 +69,6 @@ dialog state to the renderer.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DialogAnchor {
-    BWindow                                     *ownerWindow;
-} TQ3DialogAnchor;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Be dialog anchor.
-<br><br>
-Supplied to Q3Renderer_ModalConfigure to pass platform-specific
-dialog state to the renderer.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>ownerWindow</tt></dt><dd>The parent window of the configure dialog.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3DialogAnchor {
     void                                        *notUsed;
 } TQ3DialogAnchor;
 </pre>
@@ -105,69 +85,5 @@ dialog state to the renderer.
 <dt><tt>notUsed</tt></dt><dd>Not used.</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/tag/TQ3XColorDescriptor"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XColorDescriptor">TQ3XColorDescriptor</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3XColorDescriptor {
-    TQ3Uns32                                    redShift;
-    TQ3Uns32                                    redMask;
-    TQ3Uns32                                    greenShift;
-    TQ3Uns32                                    greenMask;
-    TQ3Uns32                                    blueShift;
-    TQ3Uns32                                    blueMask;
-    TQ3Uns32                                    alphaShift;
-    TQ3Uns32                                    alphaMask;
-} TQ3XColorDescriptor;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Draw region color descriptor.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>redShift</tt></dt><dd>Shift for red bits.</dd>
-<dt><tt>redMask</tt></dt><dd>Mask for red bits.</dd>
-<dt><tt>greenShift</tt></dt><dd>Shift for green bits.</dd>
-<dt><tt>greenMask</tt></dt><dd>Mask for green bits.</dd>
-<dt><tt>blueShift</tt></dt><dd>Shift for blue bits.</dd>
-<dt><tt>blueMask</tt></dt><dd>Mask for blue bits.</dd>
-<dt><tt>alphaShift</tt></dt><dd>Shift for alpha bits.</dd>
-<dt><tt>alphaMask</tt></dt><dd>Mask for alpha bits.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3XDrawRegionDescriptor"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XDrawRegionDescriptor">TQ3XDrawRegionDescriptor</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3XDrawRegionDescriptor {
-    TQ3Uns32                                    width;
-    TQ3Uns32                                    height;
-    TQ3Uns32                                    rowBytes;
-    TQ3Uns32                                    pixelSize;
-    TQ3XDevicePixelType                         pixelType;
-    TQ3XColorDescriptor                         colorDescriptor;
-    TQ3Endian                                   bitOrder;
-    TQ3Endian                                   byteOrder;
-    TQ3Bitmap                                   *clipMask;
-} TQ3XDrawRegionDescriptor;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Draw region descriptor.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>width</tt></dt><dd>Width of draw region.</dd>
-<dt><tt>height</tt></dt><dd>Height of draw region.</dd>
-<dt><tt>rowBytes</tt></dt><dd>Row stride of draw region.</dd>
-<dt><tt>pixelSize</tt></dt><dd>Pixel size of draw region.</dd>
-<dt><tt>pixelType</tt></dt><dd>Pixel type of draw region.</dd>
-<dt><tt>colorDescriptor</tt></dt><dd>Color descriptor of draw region.</dd>
-<dt><tt>bitOrder</tt></dt><dd>Bit order of draw region.</dd>
-<dt><tt>byteOrder</tt></dt><dd>Byte order of draw region.</dd>
-<dt><tt>clipMask</tt></dt><dd>Clipping mask for draw region (may be NULL).</dd>
-</dl>
-</blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

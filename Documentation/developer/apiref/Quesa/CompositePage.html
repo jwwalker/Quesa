@@ -1102,6 +1102,31 @@ return kQ3False if the object a reference count of one.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>True or false as the object has more than one reference.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shared_SetEditIndex <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_SetEditIndex <br><br>">Q3Shared_SetEditIndex <br><br></a></h2>
+</td></tr></table><hr>Set the edit index of a shared object.
+<br><br>
+
+<blockquote><pre><tt>( void ) Q3Shared_SetEditIndex (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject inObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inEditIndex
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This function should be used even more rarely than
+Q3Shared_Edited.  It was added to solve a specific problem:
+Caching information in a custom element attached to an object
+without changing the edit index of the object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inObject</em></tt></dt><dd>A shared object to update.</dd>
+<dt><tt><em>inEditIndex</em></tt></dt><dd>New edit index.</dd>
+</dl>
+</blockquote>
 <h2>Typedefs</h2>
 <hr><a name="//Quesa/c/tdef/TQ3ElementType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ElementType">TQ3ElementType</a></h2>
@@ -2004,6 +2029,9 @@ enum {
             kQ3RendererTypeWireFrame            = Q3_OBJECT_TYPE('w', 'r', 'f', 'r'),
             kQ3RendererTypeGeneric              = Q3_OBJECT_TYPE('g', 'n', 'r', 'r'),
             kQ3RendererTypeInteractive          = Q3_OBJECT_TYPE('c', 't', 'w', 'n'),
+            kQ3RendererTypeOpenGL               = Q3_OBJECT_TYPE('o', 'g', 'l', 'r'),
+            kQ3RendererTypeCartoon              = Q3_OBJECT_TYPE('t', 'o', 'o', 'n'),
+            kQ3RendererTypeHiddenLine           = Q3_OBJECT_TYPE('h', 'd', 'n', 'l'),
         kQ3SharedTypeShape                      = Q3_OBJECT_TYPE('s', 'h', 'a', 'p'),
             kQ3ShapeTypeGeometry                = Q3_OBJECT_TYPE('g', 'm', 't', 'r'),
                 kQ3GeometryTypeBox              = Q3_OBJECT_TYPE('b', 'o', 'x', ' '),
@@ -2092,7 +2120,6 @@ enum {
             kQ3DrawContextTypeWin32DC           = Q3_OBJECT_TYPE('d', 'w', '3', '2'),
             kQ3DrawContextTypeDDSurface         = Q3_OBJECT_TYPE('d', 'd', 'd', 's'),
             kQ3DrawContextTypeX11               = Q3_OBJECT_TYPE('d', 'x', '1', '1'),
-            kQ3DrawContextTypeBe                = Q3_OBJECT_TYPE('d', 'c', 'b', 'e'),
         kQ3SharedTypeTexture                    = Q3_OBJECT_TYPE('t', 'x', 't', 'r'),
             kQ3TextureTypePixmap                = Q3_OBJECT_TYPE('t', 'x', 'p', 'm'),
             kQ3TextureTypeMipmap                = Q3_OBJECT_TYPE('t', 'x', 'm', 'm'),
@@ -2107,7 +2134,6 @@ enum {
             kQ3StorageTypeMacintosh             = Q3_OBJECT_TYPE('m', 'a', 'c', 'n'),
                 kQ3MacintoshStorageTypeFSSpec   = Q3_OBJECT_TYPE('m', 'a', 'c', 'p'),
             kQ3StorageTypeWin32                 = Q3_OBJECT_TYPE('w', 'i', 's', 't'),
-            kQ3StorageTypeBe                    = Q3_OBJECT_TYPE('b', 'e', 's', 't'),
         kQ3SharedTypeString                     = Q3_OBJECT_TYPE('s', 't', 'r', 'n'),
             kQ3StringTypeCString                = Q3_OBJECT_TYPE('s', 't', 'r', 'c'),
         kQ3SharedTypeShapePart                  = Q3_OBJECT_TYPE('s', 'p', 'r', 't'),
@@ -2278,7 +2304,9 @@ typedef enum {
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PixelType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PixelType">TQ3PixelType</a></h2>
-</td></tr></table><hr><blockquote><pre>
+</td></tr></table><hr>Fundamental pixel formats used in pixmaps and mipmaps.
+<br>
+<blockquote><pre>
 typedef enum {
     kQ3PixelTypeRGB32                           = 0,
     kQ3PixelTypeARGB32                          = 1,
@@ -2291,15 +2319,24 @@ typedef enum {
 } TQ3PixelType;
 </pre>
 </blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Fundamental pixel formats.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The layout of the pixel bits in memory depend on the byte order as well
+as the pixel format.  For example, kQ3PixelTypeARGB32 with
+kQ3EndianLittle means you have blue, then green, then red, then alpha.
+<br><br>
+When dealing with formats that have an alpha channel, you must be aware
+of whether your data has premultiplied alpha or not.  By default,
+Quesa's built-in OpenGL-based renderers assume that alpha is
+premultiplied.  However, you can attach an object property of type
+kQ3RendererPropertyConvertToPremultipliedAlpha to the renderer object
+to tell Quesa to convert non-premultiplied alpha to premultiplied alpha.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
 <dl>
-<dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB32"><tt>kQ3PixelTypeRGB32</tt></a></dt><dd>8 bits for red, green, and blue. Alpha ignored.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB32"><tt>kQ3PixelTypeRGB32</tt></a></dt><dd>8 bits for red, green, and blue. High-order byte ignored.</dd>
 <dt><a name="//Quesa/c/econst/kQ3PixelTypeARGB32"><tt>kQ3PixelTypeARGB32</tt></a></dt><dd>8 bits for alpha, red, green, and blue.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB16"><tt>kQ3PixelTypeRGB16</tt></a></dt><dd>5 bits for red, green, and blue. Alpha ignored.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB16"><tt>kQ3PixelTypeRGB16</tt></a></dt><dd>5 bits for red, green, and blue. High-order bit ignored.</dd>
 <dt><a name="//Quesa/c/econst/kQ3PixelTypeARGB16"><tt>kQ3PixelTypeARGB16</tt></a></dt><dd>1 bit for alpha. 5 bits for red, green, and blue.</dd>
 <dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB16_565"><tt>kQ3PixelTypeRGB16_565</tt></a></dt><dd>5 bits for red, 6 bits for green, 5 bits for blue.</dd>
 <dt><a name="//Quesa/c/econst/kQ3PixelTypeRGB24"><tt>kQ3PixelTypeRGB24</tt></a></dt><dd>8 bits for red, green, and blue. No alpha byte.</dd>
@@ -2346,5 +2383,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kQ3On"><tt>kQ3On</tt></a></dt><dd>On.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

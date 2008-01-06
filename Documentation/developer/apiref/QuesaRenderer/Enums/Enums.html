@@ -37,6 +37,71 @@ renderer of a preferred bit depth for a depth buffer.  Renderers that
 are not based on OpenGL will probably ignore this preference.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/Renderer&nbsp;Property&nbsp;Types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Renderer&nbsp;Property&nbsp;Types">Renderer&nbsp;Property&nbsp;Types</a></h2>
+</td></tr></table><hr>Object properties that may be set on renderers to indicate
+preferences.
+<br><br>
+<br>
+<blockquote><pre>
+enum
+{
+  kQ3RendererPropertyAutomaticTriangleStrips  = Q3_OBJECT_TYPE('a', 't', 'r', 's'),
+  kQ3RendererPropertyPerPixelLighting      = Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
+  kQ3RendererPropertyConvertToPremultipliedAlpha  = Q3_OBJECT_TYPE('c', 'p', 'm', 'a'),
+  kQ3RendererPropertyShadows          = Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
+  kQ3RendererPropertyAttenuationThreshold    = Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
+  kQ3RendererPropertyLineWidth        = Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
+  kQ3RendererPropertyUseColor          = Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
+  kQ3RendererPropertyAllowVBOs        = Q3_OBJECT_TYPE('a', 'v', 'b', 'o')
+};
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyAutomaticTriangleStrips"><tt>kQ3RendererPropertyAutomaticTriangleStrips</tt></a></dt><dd>Whether a triangle strip should be automatically computed
+for a TriMesh that lacks one.  Only used by the OpenGL
+renderer.  Data type: TQ3Boolean.  Default value: kQ3True.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyPerPixelLighting"><tt>kQ3RendererPropertyPerPixelLighting</tt></a></dt><dd>Whether we should used per-pixel lighting if possible.
+Only implemented by the OpenGL renderer.
+Data type: TQ3Boolean.  Default value: kQ3False.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyConvertToPremultipliedAlpha"><tt>kQ3RendererPropertyConvertToPremultipliedAlpha</tt></a></dt><dd>Whether textures with alpha should be converted from
+non-premultiplied to premultiplied alpha when loaded into
+OpenGL.  Implemented by Interactive and OpenGL renderers.
+Data type: TQ3Boolean.  Default value: kQ3False.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyShadows"><tt>kQ3RendererPropertyShadows</tt></a></dt><dd>Whether we should attempt to produce shadows for lights
+that cast shadows.  Only implemented by the OpenGL renderer.
+Data type: TQ3Boolean.  Default value: kQ3False.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyAttenuationThreshold"><tt>kQ3RendererPropertyAttenuationThreshold</tt></a></dt><dd>A mesh will be culled from shadow passes for a positional
+light if the light's attenuated brightness is less than
+this value.
+Data type: TQ3Float32.
+Default value: Reciprocal of 2 to the number of bits per
+color component.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyLineWidth"><tt>kQ3RendererPropertyLineWidth</tt></a></dt><dd>Line width to be used in wire frame and hidden line renderers.
+Data type: TQ3Float32.
+Default value: 1.0.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyUseColor"><tt>kQ3RendererPropertyUseColor</tt></a></dt><dd>in the Hiddenline Renderer - Whether the renderer has to fill color
+the geometries or leave them white.
+in the WireFrame Renderer - if the lines should follow the geometry color
+or draw them black
+Data type: TQ3Boolean.  Default value: kQ3True.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyAllowVBOs"><tt>kQ3RendererPropertyAllowVBOs</tt></a></dt><dd>Allow the renderer to use vertex buffer objects provided
+that the OpenGL driver claims to support them.  This could
+be used to disable VBO usage for buggy graphics drivers.
+Data type: TQ3Boolean.  Default value: kQ3True.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CSGEquation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CSGEquation">TQ3CSGEquation</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -73,7 +138,7 @@ typedef enum TQ3CSGObjectID {
     kQ3SolidGeometryObjC                        = 2,
     kQ3SolidGeometryObjD                        = 3,
     kQ3SolidGeometryObjE                        = 4,
-    kQ3SolidGeometrySize32                      = 0xFFFFFFFF
+    kQ3SolidGeometrySize32                      = 0x7FFFFFFF
 } TQ3CSGObjectID;
 </pre>
 </blockquote>
@@ -99,7 +164,7 @@ typedef enum TQ3RaveEngineID {
     kQAEngine_AppleHW                           = -1,
     kQAEngine_AppleHW2                          = 1,
     kQAEngine_AppleHW3                          = 2,
-    kQAEngine_Size32                            = 0xFFFFFFFF
+    kQAEngine_Size32                            = 0x7FFFFFFF
 } TQ3RaveEngineID;
 </pre>
 </blockquote>
@@ -134,7 +199,7 @@ typedef enum TQ3RaveVendorID {
     kQAVendor_MicroConversions                  = 11,
     kQAVendor_PurpleShark                       = 12,
     kQAVendor_VillageTronic                     = 14,
-    kQAVendor_Size32                            = 0xFFFFFFFF
+    kQAVendor_Size32                            = 0x7FFFFFFF
 } TQ3RaveVendorID;
 </pre>
 </blockquote>
@@ -181,67 +246,6 @@ typedef enum TQ3TextureFilter {
 <dt><a name="//Quesa/c/econst/kQATextureFilter_Fast"><tt>kQATextureFilter_Fast</tt></a></dt><dd>Select nearest pixel.</dd>
 <dt><a name="//Quesa/c/econst/kQATextureFilter_Mid"><tt>kQATextureFilter_Mid</tt></a></dt><dd>Perform basic filtering.</dd>
 <dt><a name="//Quesa/c/econst/kQATextureFilter_Best"><tt>kQATextureFilter_Best</tt></a></dt><dd>Perform high quality filtering.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3XClipMaskState"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XClipMaskState">TQ3XClipMaskState</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef enum TQ3XClipMaskState {
-    kQ3XClipMaskFullyExposed                    = 0,
-    kQ3XClipMaskPartiallyExposed                = 1,
-    kQ3XClipMaskNotExposed                      = 2,
-    kQ3XClipMaskSize32                          = 0xFFFFFFFF
-} TQ3XClipMaskState;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Draw Context clip mask state.
-<br><br>
-</p>
-<h4>Constants</h4>
-<blockquote>
-<dl>
-<dt><a name="//Quesa/c/econst/kQ3XClipMaskFullyExposed"><tt>kQ3XClipMaskFullyExposed</tt></a></dt><dd>The draw context is not exposed.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XClipMaskPartiallyExposed"><tt>kQ3XClipMaskPartiallyExposed</tt></a></dt><dd>The draw context is partially exposed.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XClipMaskNotExposed"><tt>kQ3XClipMaskNotExposed</tt></a></dt><dd>The draw context is fully exposed.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3XDevicePixelType"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XDevicePixelType">TQ3XDevicePixelType</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef enum TQ3XDevicePixelType {
-    kQ3XDevicePixelTypeInvalid                  = 0,
-    kQ3XDevicePixelTypeRGB32                    = 1,
-    kQ3XDevicePixelTypeARGB32                   = 2,
-    kQ3XDevicePixelTypeRGB24                    = 3,
-    kQ3XDevicePixelTypeRGB16                    = 4,
-    kQ3XDevicePixelTypeARGB16                   = 5,
-    kQ3XDevicePixelTypeRGB16_565                = 6,
-    kQ3XDevicePixelTypeIndexed8                 = 7,
-    kQ3XDevicePixelTypeIndexed4                 = 8,
-    kQ3XDevicePixelTypeIndexed2                 = 9,
-    kQ3XDevicePixelTypeIndexed1                 = 10,
-    kQ3XDevicePixelTypeSize32                   = 0xFFFFFFFF
-} TQ3XDevicePixelType;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Draw Context pixel type. 16/32-bit pixel types use the native
-byte order for integers of that size.
-<br><br>
-</p>
-<h4>Constants</h4>
-<blockquote>
-<dl>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeInvalid"><tt>kQ3XDevicePixelTypeInvalid</tt></a></dt><dd>Invalid pixel format.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeRGB32"><tt>kQ3XDevicePixelTypeRGB32</tt></a></dt><dd>X:8, R:8, G:8, B:8.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeARGB32"><tt>kQ3XDevicePixelTypeARGB32</tt></a></dt><dd>A:8, R:8, G:8, B:8.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeRGB24"><tt>kQ3XDevicePixelTypeRGB24</tt></a></dt><dd>R:8, G:8, B:8.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeRGB16"><tt>kQ3XDevicePixelTypeRGB16</tt></a></dt><dd>X:1, R:5, G:5, B:5.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeARGB16"><tt>kQ3XDevicePixelTypeARGB16</tt></a></dt><dd>A:1, R:5, G:5, B:5.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeRGB16_565"><tt>kQ3XDevicePixelTypeRGB16_565</tt></a></dt><dd>R:5, G:6, B:5.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeIndexed8"><tt>kQ3XDevicePixelTypeIndexed8</tt></a></dt><dd>8 bit colour table index (unupported).</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeIndexed4"><tt>kQ3XDevicePixelTypeIndexed4</tt></a></dt><dd>4 bit colour table index (unupported).</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeIndexed2"><tt>kQ3XDevicePixelTypeIndexed2</tt></a></dt><dd>2 bit colour table index (unupported).</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDevicePixelTypeIndexed1"><tt>kQ3XDevicePixelTypeIndexed1</tt></a></dt><dd>1 bit colour table index (unupported).</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3XDrawContextValidationMasks"></a>
@@ -298,28 +302,6 @@ typedef enum TQ3XDrawContextValidationMasks {
 <dt><a name="//Quesa/c/econst/kQ3XDrawContextValidationRAVETextureFilter"><tt>kQ3XDrawContextValidationRAVETextureFilter</tt></a></dt><dd>The RAVE texture filter state is invalid (unupported).</dd>
 <dt><a name="//Quesa/c/econst/kQ3XDrawContextValidationDepthState"><tt>kQ3XDrawContextValidationDepthState</tt></a></dt><dd>The depth testing state (glDepthMask, glDepthFunc) is invalid.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XDrawContextValidationAll"><tt>kQ3XDrawContextValidationAll</tt></a></dt><dd>The draw context state is invalid.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3XDrawRegionServicesMasks"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XDrawRegionServicesMasks">TQ3XDrawRegionServicesMasks</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef enum TQ3XDrawRegionServicesMasks {
-    kQ3XDrawRegionServicesNoneFlag                 = 0,
-    kQ3XDrawRegionServicesClearFlag                = (1 &lt;&lt; 0),
-    kQ3XDrawRegionServicesDontLockDDSurfaceFlag    = (1 &lt;&lt; 1),
-    kQ3XDrawRegionServicesSize32                   = 0xFFFFFFFF
-} TQ3XDrawRegionServicesMasks;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Draw Context services mask flags.
-<br><br>
-</p>
-<h4>Constants</h4>
-<blockquote>
-<dl>
-<dt><a name="//Quesa/c/econst/kQ3XDrawRegionServicesNoneFlag"><tt>kQ3XDrawRegionServicesNoneFlag</tt></a></dt><dd>No services are supported.</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDrawRegionServicesClearFlag"><tt>kQ3XDrawRegionServicesClearFlag</tt></a></dt><dd>Clearing is supported (unsupported).</dd>
-<dt><a name="//Quesa/c/econst/kQ3XDrawRegionServicesDontLockDDSurfaceFlag"><tt>kQ3XDrawRegionServicesDontLockDDSurfaceFlag</tt></a></dt><dd>DirectDraw locking is supported (unsupported).</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3XMethodTypeRenderer"></a>
@@ -411,5 +393,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

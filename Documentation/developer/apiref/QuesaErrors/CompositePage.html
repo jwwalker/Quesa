@@ -497,7 +497,7 @@ typedef enum {
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3ErrorLast,
-    kQ3ErrorSize32                              = 0xFFFFFFFF
+    kQ3ErrorSize32                              = 0x7FFFFFFF
 } TQ3Error;
 </pre>
 </blockquote>
@@ -651,11 +651,11 @@ typedef enum {
     kQ3NoticeViewSyncCalledAgain                = -28086,
     kQ3NoticeFileCancelled                      = -28085,
 
-  kQ3NoticeBrightnessLessThanZero             = -28084,
+    kQ3NoticeBrightnessLessThanZero             = -28084,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3NoticeLast,
-    kQ3NoticeSize32                             = 0xFFFFFFFF
+    kQ3NoticeSize32                             = 0x7FFFFFFF
 } TQ3Notice;
 </pre>
 </blockquote>
@@ -738,10 +738,16 @@ typedef enum {
   kQ3WarningVertexNotNormalized               = -28257,
     kQ3WarningReadInfiniteFloatingPointNumber   = -28256,
     kQ3WarningReadBadNormalVector               = -28255,
+    kQ3WarningUnsupportedSubdivisionStyle       = -28254,
+    kQ3WarningVertexShaderCompileFailed         = -28253,
+    kQ3WarningFragmentShaderCompileFailed       = -28252,
+    kQ3WarningShaderProgramLinkFailed           = -28251,
+    kQ3WarningCannotAcceleratePixmap            = -28250,
+    kQ3WarningNoOffscreenHardwareStencil        = -28249,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3WarningLast,
-    kQ3WarningSize32                            = 0xFFFFFFFF
+    kQ3WarningSize32                            = 0x7FFFFFFF
 } TQ3Warning;
 </pre>
 </blockquote>
@@ -801,7 +807,19 @@ infinite or NaN.  Not available in QD3D.</dd>
 <dt><a name="//Quesa/c/econst/kQ3WarningReadBadNormalVector"><tt>kQ3WarningReadBadNormalVector</tt></a></dt><dd>A supposed normal vector has components so
 large or small that it cannot be normalized.
 Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningUnsupportedSubdivisionStyle"><tt>kQ3WarningUnsupportedSubdivisionStyle</tt></a></dt><dd>A geometry does not support the current subdivision style.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningVertexShaderCompileFailed"><tt>kQ3WarningVertexShaderCompileFailed</tt></a></dt><dd>Per-pixel lighting failed because the vertex shader
+did not compile.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningFragmentShaderCompileFailed"><tt>kQ3WarningFragmentShaderCompileFailed</tt></a></dt><dd>Per-pixel lighting is not fully functional because
+a fragment shader did not compile.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningShaderProgramLinkFailed"><tt>kQ3WarningShaderProgramLinkFailed</tt></a></dt><dd>Per-pixel lighting failed because the shader program
+did not link.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningCannotAcceleratePixmap"><tt>kQ3WarningCannotAcceleratePixmap</tt></a></dt><dd>It was not possible to set up the requested hardware-accelerated
+offscreen rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningNoOffscreenHardwareStencil"><tt>kQ3WarningNoOffscreenHardwareStencil</tt></a></dt><dd>It was not possible to set up a stencil buffer (needed for
+rendering shadows) in a hardware-accelerated pixmap draw
+context.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>
