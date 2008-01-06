@@ -40,21 +40,6 @@ Not supported in Quesa.
 <dl><dt><tt>theRenderer</tt></dt><dd>The renderer being destroyed.</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/tdef/TQ3XDrawRegionRendererPrivateDeleteMethod"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XDrawRegionRendererPrivateDeleteMethod">TQ3XDrawRegionRendererPrivateDeleteMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                TQ3XDrawRegionRendererPrivateDeleteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate<BR>);</tt><br>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Draw region private delete callback.
-<br><br>
-Not supported in Quesa.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl><dt><tt>rendererPrivate</tt></dt><dd>The private data to delete.</dd>
-</dl>
-</blockquote>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererCancelMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererCancelMethod">TQ3XRendererCancelMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                TQ3XRendererCancelMethod</b>) (<BR>
@@ -204,29 +189,35 @@ This method is optional.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererIsBoundingBoxVisibleMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererIsBoundingBoxVisibleMethod">TQ3XRendererIsBoundingBoxVisibleMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Boolean,          TQ3XRendererIsBoundingBoxVisibleMethod</b>) (<BR>
+</td></tr></table><hr>Test a local-coordinate bounding box for visibility.
+<br><br>
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Boolean,          TQ3XRendererIsBoundingBoxVisibleMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject           theView,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;void                    *rendererPrivate,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox    *theBounds<BR>);</tt><br>
 </blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Test a local-coordinate bounding box for visibility.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Renderers should return a TQ3Boolean indicating whether the bounding
+box would affect the current rendering pass.  This method is used for
+group culling.
 <br><br>
-Renderers should return a TQ3Boolean indicating if the bounding box
-would be partially or wholly contained within the viewing frustum
-for this frame.
+This may simply require testing for intersection with the view frustum,
+as with <code>Q3View_IsBoundingBoxVisible</code>.  Some renderers may
+require more complex tests.  For instance, in some cases, an object
+outside the view frustum might contribute to the scene by reflections.
+In other cases, an object might be within the view frustum and yet not
+contribute to a lighting pass, due to being beyond the reach of the
+light.
 <br><br>
-This may simply require testing against the viewing frustum volume,
-or more complex tests may be required if objects outside the frustum
-are able to contribute to the scene (e.g., via reflections).
-<br><br>
-This method is optional.
+This method is optional.  If it is not supplied, Quesa will behave as
+if the method returned true.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>theBounds</tt></dt><dd>The bounding box to test.</dd>
+<dt><tt>theBounds</tt></dt><dd>The local bounding box to test.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The visibility of the bounding box.
@@ -705,5 +696,5 @@ This method is optional.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
  </dd></dl>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

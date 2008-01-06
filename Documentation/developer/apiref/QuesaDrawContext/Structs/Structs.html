@@ -5,23 +5,41 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
-<hr><a name="//Quesa/c/tag/TQ3BeDrawContextData"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3BeDrawContextData">TQ3BeDrawContextData</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3BeDrawContextData {
-    TQ3DrawContextData                          drawContextData;
-    BView                                       *theView;
-} TQ3BeDrawContextData;
+<hr><a name="//Quesa/c/tag/TQ3AcceleratedOffscreenPropertyData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AcceleratedOffscreenPropertyData">TQ3AcceleratedOffscreenPropertyData</a></h2>
+</td></tr></table><hr>Data for kQ3DrawContextPropertyAcceleratedOffscreen.
+
+<blockquote><pre>
+typedef struct TQ3AcceleratedOffscreenPropertyData {
+    TQ3Object    masterDrawContext;
+    TQ3Boolean    copyFromPixmapAtFrameStart;
+    TQ3Boolean    copyToPixmapAtFrameEnd;
+} TQ3AcceleratedOffscreenPropertyData;
 </pre>
 </blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a Be draw context.
-<br><br>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>To request that a pixmap draw context be rendered using
+hardware acceleration, attach this data, with the property type
+kQ3DrawContextPropertyAcceleratedOffscreen, to the draw context
+before rendering anything.  The masterDrawContext member must
+be an on-screen context that has been rendered, and must
+continue to exist while the pixmap context exists.
+If there are multiple monitors being handled by multiple video
+cards, the masterDrawContext determines which video card will
+handle the hardware acceleration for the pixmap context.
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
-<dt><tt>theView</tt></dt><dd>The BView to render to.</dd>
+<dt><tt>masterDrawContext</tt></dt><dd>An on-screen draw context, see
+discussion.</dd>
+<dt><tt>copyFromPixmapAtFrameStart</tt></dt><dd>Whether to copy the pixmap to the
+rendering context at the beginning
+of each frame.  This could be useful
+if using a pixmap as a background
+image.</dd>
+<dt><tt>copyToPixmapAtFrameEnd</tt></dt><dd>Whether to copy the rendered image
+to the pixmap at the end of the
+last pass of each frame.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CocoaDrawContextData"></a>
@@ -261,5 +279,5 @@ of the fields have been assumed.
 <dt><tt>colorMapData</tt></dt><dd>The X11 color map data.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

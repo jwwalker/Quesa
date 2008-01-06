@@ -5,63 +5,66 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
-<hr><a name="//Quesa/c/func/Q3BeStorage_Get"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BeStorage_Get">Q3BeStorage_Get</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BeStorage_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
-&nbsp;&nbsp;&nbsp;&nbsp;BFile **theFile
+<hr><a name="//Quesa/c/func/Q3FSRefStorage_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSRefStorage_Get">Q3FSRefStorage_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FSRefStorage_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;FSRef *fr
 );</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the BFile for a Be storage object.
-<br><br>
-<em>This function is not available in QD3D.</em>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Find the FSRef associated with an FSRef storage object.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>theStorage</em></tt></dt><dd>The storage object to query.</dd>
-<dt><tt><em>theFile</em></tt></dt><dd>Receives the BFile.</dd>
+<dt><tt><em>storage</em></tt></dt><dd>The FSSpec storage object to examine.</dd>
+<dt><tt><em>fr</em></tt></dt><dd>On output, a file reference.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3BeStorage_New"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BeStorage_New">Q3BeStorage_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3BeStorage_New (
-&nbsp;&nbsp;&nbsp;&nbsp;BFile *theFile
+<hr><a name="//Quesa/c/func/Q3FSRefStorage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSRefStorage_New">Q3FSRefStorage_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3FSRefStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const FSRef *fr
 );</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Be BFile storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a storage object associated with a Mac file reference.
 <br><br>
-<em>This function is not available in QD3D.</em>
+Given a valid FSRef structure, Quesa creates a storage object.
+The file should exist, but should not be open.
+<br><br>
+An FSSpec storage object is the same type of object as an FSRef
+storage object, hence the FSRef and FSSpec storage APIs can be
+used interchangeably.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>theFile</em></tt></dt><dd>A valid BFile.</dd>
+<dt><tt><em>fr</em></tt></dt><dd>A valid file reference.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The new storage object.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3BeStorage_Set"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BeStorage_Set">Q3BeStorage_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BeStorage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
-&nbsp;&nbsp;&nbsp;&nbsp;BFile *theFile
+<hr><a name="//Quesa/c/func/Q3FSRefStorage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSRefStorage_Set">Q3FSRefStorage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FSRefStorage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;const FSRef *fr
 );</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the BFile for a Be storage object.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the file reference for an FSRef storage object.
 <br><br>
-<em>This function is not available in QD3D.</em>
+The storage must be closed at the time you call this.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>theStorage</em></tt></dt><dd>The storage object to update.</dd>
-<dt><tt><em>theFile</em></tt></dt><dd>The new BFile for the storage object.</dd>
+<dt><tt><em>storage</em></tt></dt><dd>The FSRef storage object to modify.</dd>
+<dt><tt><em>fr</em></tt></dt><dd>The new file reference.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -95,6 +98,10 @@
 <br><br>
 Given a valid FSSpec structure, Quesa creates a storage object.
 The file should exist, but should not be open.
+<br><br>
+An FSSpec storage object is the same type of object as an FSRef
+storage object, hence the FSRef and FSSpec storage APIs can be
+used interchangeably.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -730,5 +737,5 @@ object, and it is your responsibility to close the file later.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

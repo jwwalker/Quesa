@@ -25,54 +25,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kCEUrlOptionUseMap"><tt>kCEUrlOptionUseMap</tt></a></dt><dd>Map option set (meaning unknown).</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/tag/TQ3EventCallbackElementTypes"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3EventCallbackElementTypes">TQ3EventCallbackElementTypes</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef enum {
-  kQ3CallbackElementTypeBeforeRender      =  Q3_OBJECT_TYPE(0xF0, 'b', 'r', 'e'),
-  kQ3CallbackElementTypeAfterRender      =  Q3_OBJECT_TYPE(0xF0, 'a', 'r', 'e'),
-  kQ3CallbackElementTypeBeforePick      =  Q3_OBJECT_TYPE(0xF0, 'b', 'p', 'k'),
-  kQ3CallbackElementTypeAfterPick        =  Q3_OBJECT_TYPE(0xF0, 'a', 'p', 'k')
-} TQ3EventCallbackElementTypes;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Custom elements containing callback functions can be attached to objects,
-in order that client code can be notified by Quesa of certain events.
-The callback function has the type TQ3ObjectEventCallback.
-<br><br>
-<em>This functionality is not available in QD3D.</em>
-<br><br>
-Example of installing an event callback:
-<br><br>
-<blockquote><pre><code>
-TQ3ObjectEventCallback	callback = MyCallback;
-Q3Object_AddElement( theView,
-&nbsp;		kQ3CallbackElementTypeBeforeRender,
-&nbsp;		&amp;callback );
-</code></pre></blockquote>
-<br><br>
-The before and after rendering callbacks should be attached to the view
-object.  They are called not only for retained objects that you explicitly submit
-for rendering, but also for each object in the hierarchy of a group that
-you submit.
-<br><br>
-</p>
-<h4>Constants</h4>
-<blockquote>
-<dl>
-<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeBeforeRender"><tt>kQ3CallbackElementTypeBeforeRender</tt></a></dt><dd>The callback will be called just before each retained object
-is passed to the renderer.  If the callback returns
-kQ3Failure, then the object will not be passed to the renderer.</dd>
-<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeAfterRender"><tt>kQ3CallbackElementTypeAfterRender</tt></a></dt><dd>The callback will be called just after each retained object
-is passed to the renderer.  The callback's status result
-is ignored.</dd>
-<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeBeforePick"><tt>kQ3CallbackElementTypeBeforePick</tt></a></dt><dd>The callback will be called just before each retained object
-is submitted for picking.  If the callback returns
-kQ3Failure, then the object will not be submitted.</dd>
-<dt><a name="//Quesa/c/econst/kQ3CallbackElementTypeAfterPick"><tt>kQ3CallbackElementTypeAfterPick</tt></a></dt><dd>The callback will be called just after each retained object
-is submitted for picking.  The callback's status result
-is ignored.</dd>
-</dl>
-</blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

@@ -6496,6 +6496,44 @@ the TriMesh.</dd>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TriMesh_MakeTriangleStrip"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_MakeTriangleStrip">Q3TriMesh_MakeTriangleStrip</a></h2>
+</td></tr></table><hr>Compute a triangle strip.
+
+<blockquote><pre><tt>( TQ3Status ) Q3TriMesh_MakeTriangleStrip (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inNumTriangles,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32* inTriangles,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32* outStripLength,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32** outStrip
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Although this function does not take a TriMesh as a
+parameter, it is grouped with TriMesh functions because
+Quesa's OpenGL renderer currently only uses triangle strips
+with TriMeshes.
+<br><br>
+Also see the triangle strip element functions in
+QuesaCustomElements.h.
+<br><br>
+When you are finished with the data returned in the
+outStrip parameter, free it using Q3Memory_Free. 
+<br><br>
+<em>This function is not available in QD3D.</em>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inNumTriangles</em></tt></dt><dd>Number of triangles.</dd>
+<dt><tt><em>inTriangles</em></tt></dt><dd>Point indices for the triangles.  The length of
+this array should be 3 * inNumTriangles.</dd>
+<dt><tt><em>outStripLength</em></tt></dt><dd>Receives number of indices in outStrip.</dd>
+<dt><tt><em>outStrip</em></tt></dt><dd>Receives pointer to array of point indices in the
+strip.  You are responsible for freeing this
+memory with Q3Memory_Free.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3TriMesh_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_New">Q3TriMesh_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3GeometryObject ) Q3TriMesh_New (
@@ -6525,8 +6563,10 @@ and Quesa will compute the bounding box.
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject inTriMesh
 );</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>See discussion of E3TriMesh_OptimizeData for the optimizations
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>See discussion of Q3TriMesh_OptimizeData for the optimizations
 that are performed.  If no optimizations are needed, NULL is returned.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -6577,6 +6617,8 @@ The time it takes to perform the optimization depends on the numbers
 of vertices, faces, edges, and attributes in the TriMesh.  However,
 determining whether optimization is <em>needed</em> is quick, as it
 depends only on the number of attribute types.
+<br><br>
+<em>This function is not available in QD3D.</em>
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -6833,5 +6875,5 @@ This function should only be called in a submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>

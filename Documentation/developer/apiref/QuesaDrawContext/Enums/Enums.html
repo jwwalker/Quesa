@@ -14,7 +14,13 @@ enum {
   kQ3DrawContextPropertyWritableDepthBuffer    = Q3_METHOD_TYPE('w', 'r', 'd', 'b'),
   kQ3DrawContextPropertyGLDepthFunc        = Q3_METHOD_TYPE('g', 'l', 'd', 'f'),
   kQ3DrawContextPropertyGLTextureSharing      = Q3_METHOD_TYPE('g', 'l', 't', 's'),
+  kQ3DrawContextPropertyGLStencilBufferDepth    = Q3_METHOD_TYPE('g', 'l', 's', 'd'),
   kQ3DrawContextPropertySwapBufferInEndPass    = Q3_METHOD_TYPE('s', 'b', 'e', 'p'),
+  kQ3DrawContextPropertySyncToRefresh        = Q3_METHOD_TYPE('g', 'l', 's', 'r'),
+  kQ3DrawContextPropertySurfaceBehindWindow    = Q3_METHOD_TYPE('s', 'u', 'b', 'w'),
+  kQ3DrawContextPropertyGLContextBuildCount    = Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
+  kQ3DrawContextPropertyAcceleratedOffscreen    = Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
+  kQ3DrawContextPropertyGLPixelFormat        = Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
   kQ3DrawContextPropertyTypeSize32        = 0xFFFFFFFF
 };
 </pre>
@@ -49,11 +55,39 @@ previously-created OpenGL context, if
 possible.
 Data type: TQ3Boolean.
 Default: kQ3True</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLStencilBufferDepth"><tt>kQ3DrawContextPropertyGLStencilBufferDepth</tt></a></dt><dd>Desired bit depth of OpenGL stencil
+buffer.
+Data type: TQ3Uns32.
+Default: 0 (no stencil buffer)</dd>
 <dt><a name="//Quesa/c/econst/kQ3DrawContextPropertySwapBufferInEndPass"><tt>kQ3DrawContextPropertySwapBufferInEndPass</tt></a></dt><dd>If true, requests that the renderer
 swap buffers in its EndPass method.
 Only relevant to double-buffered contexts.
 Data type: TQ3Boolean.
 Default: kQ3True.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertySyncToRefresh"><tt>kQ3DrawContextPropertySyncToRefresh</tt></a></dt><dd>If true, requests that the renderer
+synchronize drawing with the screen
+refresh rate.
+Data type: TQ3Boolean.
+Default: kQ3False.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertySurfaceBehindWindow"><tt>kQ3DrawContextPropertySurfaceBehindWindow</tt></a></dt><dd>If true, requests that drawing occur on
+a surface behind the window.  Only
+applies to Mac window contexts.
+Data type: TQ3Boolean.
+Default: kQ3False.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLContextBuildCount"><tt>kQ3DrawContextPropertyGLContextBuildCount</tt></a></dt><dd>Unlike most draw context properties, this
+is set by Quesa itself and read by clients.
+When used with OpenGL-based renderers, the
+count is incremented whenever the
+associated OpenGL context is rebuilt.
+Data type: TQ3Uns32.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyAcceleratedOffscreen"><tt>kQ3DrawContextPropertyAcceleratedOffscreen</tt></a></dt><dd>This property, which may only be used with
+a pixmap draw context, requests that the
+context use hardware acceleration if possible.
+Data type: TQ3AcceleratedOffscreenPropertyData.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLPixelFormat"><tt>kQ3DrawContextPropertyGLPixelFormat</tt></a></dt><dd>Request a specific OpenGL pixel format.
+The data type is platform-specific.
+Mac Carbon: AGLPixelFormat.  Windows: int.
+Mac Cocoa: NSOpenGLPixelFormat*.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3DirectDrawObjectSelector"></a>
@@ -139,5 +173,5 @@ the library field should be set to kQ3Mac2DLibraryNone.
 <dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2006 Quesa Developers (Last Updated 4/22/2006)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
 </p></body></html>
