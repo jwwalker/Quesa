@@ -47,6 +47,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
+#include "QuesaStyle.h"
 
 
 
