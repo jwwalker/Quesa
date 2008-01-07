@@ -5,7 +5,7 @@
         Quesa OpenGL draw context support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -87,6 +87,7 @@ enum
 	#define GL_STENCIL_ATTACHMENT_EXT          0x8D20
 	#define GL_FRAMEBUFFER_COMPLETE_EXT        0x8CD5
 	#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT      0x8CD6
+	#define GL_FRAMEBUFFER_UNSUPPORTED_EXT     0x8CDD
 	#define GL_STENCIL_INDEX1_EXT              0x8D46
 	#define GL_STENCIL_INDEX4_EXT              0x8D47
 	#define GL_STENCIL_INDEX8_EXT              0x8D48
@@ -610,8 +611,9 @@ FBORec::FBORec(
 			}
 			// If the framebuffer is not complete, fall back to having no
 			// stencil buffer.
-			if (glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT ) ==
-				GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT)
+			GLenum	stencilComplete = glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT );
+			if ( (stencilComplete == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT) ||
+				(stencilComplete == GL_FRAMEBUFFER_UNSUPPORTED_EXT) )
 			{
 				glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
 					GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, 0 );
@@ -648,6 +650,13 @@ FBORec::FBORec(
 	else
 	{
 		Q3_ASSERT(!"FBO failed status check");
+	#if Q3_DEBUG
+		{
+			char		theString[kQ3StringMaximumLength];
+			sprintf( theString, "FBO status check returned error %X\n", (int)result );
+			Q3_MESSAGE( theString );
+		}
+	#endif
 		Cleanup();
 		throw std::exception();
 	}
