@@ -190,7 +190,7 @@ void	Lowerer::DoLower( TQ3Object ioGroup )
 			// the geometry, if they don't already exist in the geometry.
 			CQ3ObjectRef	geomAtts( CQ3Geometry_GetAttributeSet(
 				theMember.get() ) );
-			if (not geomAtts.isvalid())
+			if (! geomAtts.isvalid())
 			{
 				Q3Geometry_SetAttributeSet( theMember.get(), mAttStack.back().get() );
 			}
