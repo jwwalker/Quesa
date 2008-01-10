@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -587,6 +587,7 @@ void	QORenderer::Lights::SetUpShadowLightingPass()
 	glEnable( GL_LIGHT0 );
 	glEnable( GL_LIGHTING );
 	mLightCount = 1;
+	mGlAmbientLight[0] = mGlAmbientLight[1] = mGlAmbientLight[2] = 0.0f;
 	
 	mStartingLightIndexForPass += 1;
 	if (mStartingLightIndexForPass < mShadowingLights.size())
