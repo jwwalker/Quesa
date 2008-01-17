@@ -1388,7 +1388,8 @@ enum
   kQ3RendererPropertyAttenuationThreshold    = Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
   kQ3RendererPropertyLineWidth        = Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
   kQ3RendererPropertyUseColor          = Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
-  kQ3RendererPropertyAllowVBOs        = Q3_OBJECT_TYPE('a', 'v', 'b', 'o')
+  kQ3RendererPropertyAllowVBOs        = Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
+  kQ3RendererPropertyAllowLineSmooth      = Q3_OBJECT_TYPE('a', 'l', 's', 'm')
 };
 </pre>
 </blockquote>
@@ -1434,6 +1435,12 @@ Data type: TQ3Boolean.  Default value: kQ3True.
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyAllowVBOs"><tt>kQ3RendererPropertyAllowVBOs</tt></a></dt><dd>Allow the renderer to use vertex buffer objects provided
 that the OpenGL driver claims to support them.  This could
 be used to disable VBO usage for buggy graphics drivers.
+Data type: TQ3Boolean.  Default value: kQ3True.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyAllowLineSmooth"><tt>kQ3RendererPropertyAllowLineSmooth</tt></a></dt><dd>Allow an OpenGL-based renderer to enable GL_LINE_SMOOTH.
+This may be used to disable line smoothing for buggy
+graphics drivers, such as some versions of Apple's software
+renderer.
 Data type: TQ3Boolean.  Default value: kQ3True.</dd>
 </dl>
 </blockquote>
@@ -1728,5 +1735,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/17/2008)
 </p></body></html>
