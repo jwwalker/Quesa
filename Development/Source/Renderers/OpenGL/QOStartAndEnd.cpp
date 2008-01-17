@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -134,11 +134,21 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 	// Check whether shadows are requested
 	TQ3Boolean	isShadowingRequested = kQ3False;
-	if(mNumPasses == 1){ // disable shadows because shadow and multipass is not well implemented
+	if (mNumPasses == 1){ // disable shadows because shadow and multipass is not well implemented
 		Q3Object_GetProperty( mRendererObject,
 			kQ3RendererPropertyShadows, sizeof(isShadowingRequested), NULL,
 			&isShadowingRequested );
 		}
+	
+	// Check whether line smoothing is allowed
+	mAllowLineSmooth = true;
+	TQ3Boolean	allowSmooth;
+	if ( (kQ3Success == Q3Object_GetProperty( mRendererObject,
+		kQ3RendererPropertyAllowLineSmooth, sizeof(allowSmooth), NULL,
+			&allowSmooth )) && (allowSmooth == kQ3False) )
+	{
+		mAllowLineSmooth = false;
+	}
 	
 	if (isShadowingRequested)
 	{

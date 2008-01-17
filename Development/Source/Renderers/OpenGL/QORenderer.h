@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -369,6 +369,7 @@ protected:
 	MatrixState				mMatrixState;
 	TQ3Int32				mPassIndex;
 	TQ3Int32				mNumPasses;
+	bool					mAllowLineSmooth;
 	
 	// Color states
 	TQ3ObjectType			mViewIllumination;

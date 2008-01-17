@@ -5,7 +5,7 @@
         Cartoon-style renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -635,7 +635,10 @@ void CCartoonRendererQuesa::DrawContourArrays( float lineWidth, const TQ3TriMesh
 
 	glVertexPointer( 3, GL_FLOAT, 0, geomData->points );
 
-	glEnable( GL_LINE_SMOOTH );
+	if (mAllowLineSmooth)
+	{
+		glEnable( GL_LINE_SMOOTH );
+	}
 	glLineWidth( lineWidth );
 
 	glEnableClientState(GL_VERTEX_ARRAY);
