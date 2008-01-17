@@ -444,7 +444,8 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 		{
 			glEnable(GL_POINT_SMOOTH);
 			
-			if ( (inStyleData->mode & kQ3AntiAliasModeMaskEdges) != 0 )
+			if ( ((inStyleData->mode & kQ3AntiAliasModeMaskEdges) != 0) &&
+				mAllowLineSmooth )
 			{
 				glEnable( GL_LINE_SMOOTH );
 			}
