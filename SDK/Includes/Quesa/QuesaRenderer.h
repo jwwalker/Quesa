@@ -10,7 +10,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -160,6 +160,13 @@ enum
 					that the OpenGL driver claims to support them.  This could
 					be used to disable VBO usage for buggy graphics drivers.
 					Data type: TQ3Boolean.  Default value: kQ3True.
+	
+	@constant	kQ3RendererPropertyAllowLineSmooth
+					Allow an OpenGL-based renderer to enable GL_LINE_SMOOTH.
+					This may be used to disable line smoothing for buggy
+					graphics drivers, such as some versions of Apple's software
+					renderer.
+					Data type: TQ3Boolean.  Default value: kQ3True.
 */
 enum
 {
@@ -170,7 +177,8 @@ enum
 	kQ3RendererPropertyAttenuationThreshold		= Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
 	kQ3RendererPropertyLineWidth				= Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
 	kQ3RendererPropertyUseColor					= Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
-	kQ3RendererPropertyAllowVBOs				= Q3_OBJECT_TYPE('a', 'v', 'b', 'o')
+	kQ3RendererPropertyAllowVBOs				= Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
+	kQ3RendererPropertyAllowLineSmooth			= Q3_OBJECT_TYPE('a', 'l', 's', 'm')
 };
 #endif
 
