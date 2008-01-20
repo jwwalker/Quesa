@@ -5,7 +5,7 @@
         Windows resource file for Quesa.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,7 +69,7 @@ BEGIN
             VALUE "FileDescription", "Quesa 3D library\0"
             VALUE "FileVersion", kQ3StringVersion "\0"
             VALUE "InternalName", "Quesa\0"
-            VALUE "LegalCopyright", "Copyright \251 1999-2005 Quesa Developers\0"
+            VALUE "LegalCopyright", "Copyright \251 1999-2008 Quesa Developers\0"
             VALUE "ProductName", "Quesa\0"
             VALUE "ProductVersion", kQ3StringVersion "\0"
             VALUE "OriginalFilename", "Quesa.dll\0"
