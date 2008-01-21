@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: node.h,v 1.1 2007-03-25 14:51:11 cruanyes Exp $
+ * $Id: node.h,v 1.2 2008-01-21 09:23:48 jwwalker Exp $
  */
 
 #ifndef INCLUDED_LIB3DS_TRACKS_H
@@ -163,7 +163,7 @@ extern LIB3DSAPI Lib3dsBool lib3ds_node_read(Lib3dsNode *node, Lib3dsFile *file,
 extern LIB3DSAPI Lib3dsBool lib3ds_node_write(Lib3dsNode *node, Lib3dsFile *file, Lib3dsIo *io);
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 

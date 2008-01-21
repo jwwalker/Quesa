@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: material.h,v 1.1 2007-03-25 14:51:10 cruanyes Exp $
+ * $Id: material.h,v 1.2 2008-01-21 09:23:44 jwwalker Exp $
  */
 
 #ifndef INCLUDED_LIB3DS_TYPES_H
@@ -160,7 +160,7 @@ extern LIB3DSAPI Lib3dsBool lib3ds_material_read(Lib3dsMaterial *material, Lib3d
 extern LIB3DSAPI Lib3dsBool lib3ds_material_write(Lib3dsMaterial *material, Lib3dsIo *io);
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 

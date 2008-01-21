@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: viewport.h,v 1.1 2007-03-25 14:51:14 cruanyes Exp $
+ * $Id: viewport.h,v 1.2 2008-01-21 09:24:10 jwwalker Exp $
  */
 
 #ifndef INCLUDED_LIB3DS_TYPES_H
@@ -127,7 +127,7 @@ extern LIB3DSAPI void lib3ds_viewport_set_views(Lib3dsViewport *viewport, Lib3ds
 extern LIB3DSAPI Lib3dsBool lib3ds_viewport_write(Lib3dsViewport *viewport, Lib3dsIo *io);
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 

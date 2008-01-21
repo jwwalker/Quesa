@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: file.h,v 1.1 2007-03-25 14:51:07 cruanyes Exp $
+ * $Id: file.h,v 1.2 2008-01-21 09:24:06 jwwalker Exp $
  */
 
 #ifndef INCLUDED_LIB3DS_BACKGROUND_H
@@ -99,7 +99,7 @@ extern LIB3DSAPI Lib3dsBool lib3ds_file_remove_node(Lib3dsFile *file, Lib3dsNode
 extern LIB3DSAPI void lib3ds_file_dump_nodes(Lib3dsFile *file);
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 

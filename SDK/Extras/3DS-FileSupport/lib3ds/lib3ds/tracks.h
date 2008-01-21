@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: tracks.h,v 1.1 2007-03-25 14:51:13 cruanyes Exp $
+ * $Id: tracks.h,v 1.2 2008-01-21 09:23:51 jwwalker Exp $
  */
 
 #ifndef INCLUDED_LIB3DS_TCB_H
@@ -203,7 +203,7 @@ extern LIB3DSAPI Lib3dsBool lib3ds_morph_track_read(Lib3dsMorphTrack *track, Lib
 extern LIB3DSAPI Lib3dsBool lib3ds_morph_track_write(Lib3dsMorphTrack *track, Lib3dsIo *io);
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 

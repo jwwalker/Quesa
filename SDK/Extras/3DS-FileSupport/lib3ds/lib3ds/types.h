@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: types.h,v 1.1 2007-03-25 14:51:13 cruanyes Exp $
+ * $Id: types.h,v 1.2 2008-01-21 09:24:29 jwwalker Exp $
  */
 #ifdef __cplusplus
 extern "C" {
@@ -131,7 +131,7 @@ typedef union _Lib3dsUserData {
 } Lib3dsUserData;
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 
