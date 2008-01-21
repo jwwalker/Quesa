@@ -514,7 +514,6 @@ static TQ3Status			Writer_Close(
 								TQ3FileFormatObject format,
 								TQ3Boolean abort)
 {
-#pragma unused( theView)
 	TQ3Status	success = kQ3Success;
 	C3DSWriter*	writer = C3DSWriter::FromFileFormat( format );
 	
