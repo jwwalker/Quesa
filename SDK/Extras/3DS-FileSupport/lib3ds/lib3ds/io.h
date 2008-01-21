@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: io.h,v 1.1 2007-03-25 14:51:08 cruanyes Exp $
+ * $Id: io.h,v 1.2 2008-01-21 09:23:58 jwwalker Exp $
  */
 
 #ifndef INCLUDED_LIB3DS_TYPES_H
@@ -76,7 +76,7 @@ extern LIB3DSAPI Lib3dsBool lib3ds_io_write_rgb(Lib3dsIo *io, Lib3dsRgb rgb);
 extern LIB3DSAPI Lib3dsBool lib3ds_io_write_string(Lib3dsIo *io, const char *s);
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 

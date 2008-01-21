@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: shadow.h,v 1.1 2007-03-25 14:51:12 cruanyes Exp $
+ * $Id: shadow.h,v 1.2 2008-01-21 09:24:15 jwwalker Exp $
  */
 
 #ifndef INCLUDED_LIB3DS_TYPES_H
@@ -49,7 +49,7 @@ extern LIB3DSAPI Lib3dsBool lib3ds_shadow_read(Lib3dsShadow *shadow, Lib3dsIo *i
 extern LIB3DSAPI Lib3dsBool lib3ds_shadow_write(Lib3dsShadow *shadow, Lib3dsIo *io);
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 

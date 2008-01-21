@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: mesh.h,v 1.2 2007-04-14 14:08:03 cruanyes Exp $
+ * $Id: mesh.h,v 1.3 2008-01-21 09:24:03 jwwalker Exp $
  */
 
 #ifndef INCLUDED_LIB3DS_TYPES_H
@@ -129,7 +129,7 @@ extern LIB3DSAPI Lib3dsBool lib3ds_mesh_read(Lib3dsMesh *mesh, Lib3dsIo *io);
 extern LIB3DSAPI Lib3dsBool lib3ds_mesh_write(Lib3dsMesh *mesh, Lib3dsIo *io);
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 

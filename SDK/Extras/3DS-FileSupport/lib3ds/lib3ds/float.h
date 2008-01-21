@@ -20,7 +20,7 @@
  * along with  this program;  if not, write to the  Free Software Foundation,
  * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: float.h,v 1.1 2007-03-25 14:51:08 cruanyes Exp $
+ * $Id: float.h,v 1.2 2008-01-21 09:24:25 jwwalker Exp $
  */
 
 #ifndef INCLUDED_LIB3DS_TYPES_H
@@ -35,7 +35,7 @@ extern LIB3DSAPI Lib3dsFloat lib3ds_float_cubic(Lib3dsFloat a, Lib3dsFloat p,
   Lib3dsFloat q, Lib3dsFloat b, Lib3dsFloat t);
 
 #ifdef __cplusplus
-};
+}
 #endif
 #endif
 
