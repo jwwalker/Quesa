@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -847,6 +847,9 @@ Q3PixmapTexture_New (
  *  @discussion
  *      Get the pixmap from a pixmap texture.
  *
+ *      The reference count of the returned image storage is incremented, and the
+ *      caller must release their reference when done.
+ *
  *  @param texture          The texture to query.
  *  @param pixmap           Receives the pixmap of the texture.
  *  @result                 Success or failure of the operation.
@@ -901,6 +904,9 @@ Q3MipmapTexture_New (
  *      Q3MipmapTexture_GetMipmap
  *  @discussion
  *      Get the mipmap from a mipmap texture.
+ *
+ *      The reference count of the returned image storage is incremented, and the
+ *      caller must release their reference when done.
  *
  *  @param texture          The texture to query.
  *  @param mipmap           Receives the mipmap of the texture.
@@ -961,6 +967,10 @@ Q3CompressedPixmapTexture_New (
  *      Get the compressed pixmap from a compressed pixmap texture.
  *
  *      This function is only available on platforms that support QuickTime.
+ *
+ *      The reference counts of the returned compressedImage and imageDesc
+ *		fields are incremented, and the  caller must release their references
+ *		when done.
  *
  *  @param texture          The texture to query.
  *  @param compressedPixmap Receives the compressed pixmap of the texture.
