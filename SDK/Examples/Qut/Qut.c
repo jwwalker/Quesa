@@ -363,7 +363,7 @@ Qut_CreateView( qutFuncAppCreateView appCreateView, qutFuncAppConfigureView appC
             // Configure the view
             qd3dStatus = Q3View_SetDrawContext(gView,    theDrawContext);
             qd3dStatus = Q3View_SetCamera(gView,         theCamera);
-            qd3dStatus = Q3View_SetRendererByType(gView, kQ3RendererTypeInteractive);
+            qd3dStatus = Q3View_SetRendererByType(gView, kQ3RendererTypeOpenGL);
 
 			qut_set_depth_and_stencil_size( gView, theDrawContext );
             qut_create_lights(gView);
