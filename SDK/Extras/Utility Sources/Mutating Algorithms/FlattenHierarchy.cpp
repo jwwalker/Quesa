@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,10 +49,12 @@
 #if !TARGET_RT_MAC_MACHO
 	#include "CQ3ObjectRef.h"
 	#include "QuesaGroup.h"
+	#include "QuesaStyle.h"
 	#include "Q3GroupIterator.h"
 #else
 	#include <Quesa/CQ3ObjectRef.h>
 	#include <Quesa/QuesaGroup.h>
+	#include <Quesa/QuesaStyle.h>
 	#include <Quesa/Q3GroupIterator.h>
 #endif
 
@@ -99,6 +101,52 @@ static bool IsStateModifierType( TQ3Object inObject )
 		Q3Object_IsType( inObject, kQ3ShapeTypeShader );
 }
 
+template <typename T>
+static int NumCompare( T inA, T inB )
+{
+	return (inA < inB)? -1 : ((inA == inB)? 0 : 1 );
+}
+
+static int ObjectCompare( TQ3Object inA, TQ3Object inB )
+{
+	int	compResult = NumCompare( inA, inB );
+	
+	
+	// Special case for certain objects
+	if ( (inA != NULL) && (inB != NULL) )
+	{
+		if (Q3Object_IsType( inA, kQ3StyleTypeOrientation ) &&
+			Q3Object_IsType( inB, kQ3StyleTypeOrientation ) )
+		{
+			TQ3OrientationStyle	orientA, orientB;
+			Q3OrientationStyle_Get( inA, &orientA );
+			Q3OrientationStyle_Get( inB, &orientB );
+			
+			compResult = NumCompare( orientA, orientB );
+		}
+		else if (Q3Object_IsType( inA, kQ3StyleTypeBackfacing ) &&
+			Q3Object_IsType( inB, kQ3StyleTypeBackfacing ) )
+		{
+			TQ3BackfacingStyle	facingA, facingB;
+			Q3BackfacingStyle_Get( inA, &facingA );
+			Q3BackfacingStyle_Get( inB, &facingB );
+			
+			compResult = NumCompare( facingA, facingB );
+		}
+		else if (Q3Object_IsType( inA, kQ3StyleTypeFill ) &&
+			Q3Object_IsType( inB, kQ3StyleTypeFill ) )
+		{
+			TQ3FillStyle	fillA, fillB;
+			Q3FillStyle_Get( inA, &fillA );
+			Q3FillStyle_Get( inB, &fillB );
+			
+			compResult = NumCompare( fillA, fillB  );
+		}
+	}
+	
+	return compResult;
+}
+
 bool StateLess::operator()( CQ3ObjectRef inGpA, CQ3ObjectRef inGpB ) const
 {
 	bool	isLess = false;
@@ -117,12 +165,15 @@ bool StateLess::operator()( CQ3ObjectRef inGpA, CQ3ObjectRef inGpB ) const
 		{
 			memB = CQ3ObjectRef();	// set to NULL
 		}
-		if (memA.get() < memB.get())
+		
+		int res = ObjectCompare( memA.get(), memB.get() );
+		
+		if (res < 0)
 		{
 			isLess = true;
 			break;
 		}
-		else if (memB.get() < memA.get())
+		else if (res > 0)
 		{
 			break;
 		}
