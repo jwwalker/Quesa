@@ -5,7 +5,7 @@
         Geometry test.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,10 @@
 	#include <sys/time.h>
 #endif
 
+#include "ApplyTransformsToGeometries.h"
+#include "DecomposeGeometries.h"
+#include "FlattenHierarchy.h"
+#include "MergeTriMeshes.h"
 
 
 //=============================================================================
@@ -154,6 +158,7 @@ enum {
 	kMenuItemGeometryTriMesh,
 	kMenuItemDivider2,
 	kMenuItemMultiBox,
+	kMenuItemMultiBoxOptimized,
 	kMenuItemQuesaLogo,
 	kMenuItemDivider3,
 	kMenuItemTestDepth,
@@ -1958,9 +1963,11 @@ createGeomMultiBox(void)
 											  {0.0f, 1.0f, 1.0f} };
 	TQ3AttributeSet			faceAttributes[6];
 	TQ3Uns32				n, i, j;
-	TQ3DisplayGroupObject	theGroup;
+	TQ3DisplayGroupObject	theGroup, theSubgroup;
 	TQ3BoxData				boxData;
 	TQ3GeometryObject		theBox;
+	TQ3TransformObject		theTransform;
+	TQ3Vector3D				theTranslation;
 
 
 
@@ -1975,6 +1982,7 @@ createGeomMultiBox(void)
 	Q3Vector3D_Set(&boxData.orientation, 0.0f,  0.1f,  0.0f);
 	Q3Vector3D_Set(&boxData.majorAxis,   0.0f,  0.0f,  0.1f);
 	Q3Vector3D_Set(&boxData.minorAxis,   0.1f,  0.0f,  0.0f);
+	Q3Point3D_Set(&boxData.origin,   -0.95f,  -0.95f,  -0.95f);
 	boxData.boxAttributeSet  = NULL;
 	boxData.faceAttributeSet = faceAttributes;
 
@@ -1986,26 +1994,30 @@ createGeomMultiBox(void)
 		}
 
 
+	// Create a prototype box
+	theBox = Q3Box_New(&boxData);
+	
 
 	// Create the boxes
 	for (i = 0; i < 10; ++i)
 		{
-		boxData.origin.x = -0.95f + i * 0.2f;
+		theTranslation.x = i * 0.2f;
 		
 		for (j = 0; j < 10; ++j)
 			{
-			boxData.origin.y = -0.95f + j * 0.2f;
+			theTranslation.y =j * 0.2f;
 			
 			for (n = 0; n < 10; ++n)
 				{
-				boxData.origin.z = -0.95f + n * 0.2f;
+				theTranslation.z = + n * 0.2f;
 
-				theBox = Q3Box_New(&boxData);
-				if (theBox != NULL)
-					{
-					Q3Group_AddObject(theGroup, theBox);
-					Q3Object_Dispose(theBox);
-					}
+				theSubgroup = Q3DisplayGroup_New();
+				Q3Group_AddObject( theGroup, theSubgroup );
+				theTransform = Q3TranslateTransform_New( &theTranslation );
+				Q3Group_AddObject( theSubgroup, theTransform );
+				Q3Object_Dispose(theTransform);
+				Q3Group_AddObject( theSubgroup, theBox );
+				Q3Object_Dispose(theSubgroup);
 				}
 			}
 		}
@@ -2018,10 +2030,59 @@ createGeomMultiBox(void)
 		if (faceAttributes[n] != NULL)
 			Q3Object_Dispose(faceAttributes[n]);
 		}
+	
+	Q3Object_Dispose( theBox );
 
 	return(theGroup);
 }
 
+
+
+
+//=============================================================================
+//      createGeomMultiBoxOptimized : Create the optimized multi-box geometry.
+//
+//	This illustrates how some of the utility algorithms can produce vastly
+//	better performance than some naively constructed objects.
+//
+//-----------------------------------------------------------------------------
+static TQ3GroupObject
+createGeomMultiBoxOptimized( TQ3ViewObject theView )
+{
+	TQ3BoundingBox	dummyBounds;
+	TQ3GroupObject	theGroup2;
+	TQ3GroupObject	theGroup1 = createGeomMultiBox();
+	
+	// Apply the transforms to the boxes, resulting in a group that contains
+	// 1000 groups, each of which contains one box.
+	ApplyTransformsToGeometries( theGroup1 );
+
+	// Decompose the boxes.  Each box is converted to a group containing an
+	// orientation style and 6 TriMeshes.
+	// DecomposeGeometries must be done in a submitting loop, so we use a dummy
+	// bounding loop.
+	if (Q3View_StartBoundingBox( theView, kQ3ComputeBoundsExact ) == kQ3Success)
+	{
+		do
+		{
+			// Submit the default state so that we are using the same subdivision
+			// style as for rendering.  This keeps our cached trimesh from being
+			// rebuilt unnecessarily.
+			Qut_SubmitDefaultState( theView );
+			DecomposeGeometries( theGroup1, theView );
+			
+		} while (Q3View_EndBoundingBox(theView, &dummyBounds) == kQ3ViewStatusRetraverse);
+	}
+	
+	// Flatten the hierarchy, making all 6000 TriMeshes siblings of each other.
+	theGroup2 = FlattenHierarchy( theGroup1, 0 );
+	Q3Object_Dispose( theGroup1 );
+	
+	// Merge TriMeshes with the same attributes, resulting in just 6 TriMeshes.
+	MergeTriMeshes( theGroup2 );
+	
+	return theGroup2;
+}
 
 
 
@@ -3214,7 +3275,6 @@ toggleShadows( TQ3ViewObject theView )
 static void
 appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 {	TQ3Object		theGeom;
-#pragma unused(theView)
 
 
 
@@ -3375,6 +3435,10 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 
 		case kMenuItemMultiBox:
 			theGeom = createGeomMultiBox();
+			break;
+		
+		case kMenuItemMultiBoxOptimized:
+			theGeom = createGeomMultiBoxOptimized( theView );
 			break;
 
 		case kMenuItemQuesaLogo:
@@ -3772,6 +3836,7 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "TriMesh");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "MultiBox");
+	Qut_CreateMenuItem(kMenuItemLast, "MultiBox (optimized)");
 	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Test Depth Buffer");
