@@ -26,6 +26,15 @@
 		BEDC05C008A5C0FB00FB3A82 /* QutMac.c in Sources */ = {isa = PBXBuildFile; fileRef = BEDC05B908A5C0FB00FB3A82 /* QutMac.c */; };
 		BEDC05D508A5C54600FB3A82 /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = BEDC05D408A5C54600FB3A82 /* main.nib */; };
 		BEDC090F08A6CBF200FB3A82 /* GeomTest.icns in Resources */ = {isa = PBXBuildFile; fileRef = BEDC090E08A6CBF200FB3A82 /* GeomTest.icns */; };
+		BEF8F1F00D553D1300E7A3BD /* DeleteObjectsOfType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF8F1EF0D553D1300E7A3BD /* DeleteObjectsOfType.cpp */; };
+		BEF8F1FC0D55405700E7A3BD /* ApplyTransformsToGeometries.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF8F1FB0D55405700E7A3BD /* ApplyTransformsToGeometries.cpp */; };
+		BEF8F2000D5544B900E7A3BD /* TransformGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF8F1FF0D5544B900E7A3BD /* TransformGeometry.cpp */; };
+		BEF8F2800D554FDF00E7A3BD /* MergeTriMeshes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF8F2780D554FDF00E7A3BD /* MergeTriMeshes.cpp */; };
+		BEF8F2810D554FDF00E7A3BD /* DecomposeGeometries.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF8F27A0D554FDF00E7A3BD /* DecomposeGeometries.cpp */; };
+		BEF8F2820D554FDF00E7A3BD /* FlattenHierarchy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF8F27C0D554FDF00E7A3BD /* FlattenHierarchy.cpp */; };
+		BEF8F2830D554FDF00E7A3BD /* MergeTriMeshList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF8F27E0D554FDF00E7A3BD /* MergeTriMeshList.cpp */; };
+		BEF8F2890D55503800E7A3BD /* FindTriMeshFaceData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF8F2860D55503800E7A3BD /* FindTriMeshFaceData.cpp */; };
+		BEF8F28A0D55503800E7A3BD /* FindTriMeshVertexData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF8F2880D55503800E7A3BD /* FindTriMeshVertexData.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +143,24 @@
 		BEDC05BA08A5C0FB00FB3A82 /* QutMac.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QutMac.h; path = ../Qut/Mac/QutMac.h; sourceTree = SOURCE_ROOT; };
 		BEDC05D408A5C54600FB3A82 /* main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = main.nib; path = ../Qut/Mac/main.nib; sourceTree = SOURCE_ROOT; };
 		BEDC090E08A6CBF200FB3A82 /* GeomTest.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GeomTest.icns; sourceTree = "<group>"; };
+		BEF8F1EE0D553D1300E7A3BD /* DeleteObjectsOfType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteObjectsOfType.h; path = "../../Extras/Utility Sources/Mutating Algorithms/DeleteObjectsOfType.h"; sourceTree = SOURCE_ROOT; };
+		BEF8F1EF0D553D1300E7A3BD /* DeleteObjectsOfType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeleteObjectsOfType.cpp; path = "../../Extras/Utility Sources/Mutating Algorithms/DeleteObjectsOfType.cpp"; sourceTree = SOURCE_ROOT; };
+		BEF8F1FA0D55405700E7A3BD /* ApplyTransformsToGeometries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplyTransformsToGeometries.h; path = "../../Extras/Utility Sources/Mutating Algorithms/ApplyTransformsToGeometries.h"; sourceTree = SOURCE_ROOT; };
+		BEF8F1FB0D55405700E7A3BD /* ApplyTransformsToGeometries.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ApplyTransformsToGeometries.cpp; path = "../../Extras/Utility Sources/Mutating Algorithms/ApplyTransformsToGeometries.cpp"; sourceTree = SOURCE_ROOT; };
+		BEF8F1FE0D5544B900E7A3BD /* TransformGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TransformGeometry.h; path = "../../Extras/Utility Sources/Mutating Algorithms/TransformGeometry.h"; sourceTree = SOURCE_ROOT; };
+		BEF8F1FF0D5544B900E7A3BD /* TransformGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TransformGeometry.cpp; path = "../../Extras/Utility Sources/Mutating Algorithms/TransformGeometry.cpp"; sourceTree = SOURCE_ROOT; };
+		BEF8F2780D554FDF00E7A3BD /* MergeTriMeshes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MergeTriMeshes.cpp; path = "../../Extras/Utility Sources/Mutating Algorithms/MergeTriMeshes.cpp"; sourceTree = SOURCE_ROOT; };
+		BEF8F2790D554FDF00E7A3BD /* DecomposeGeometries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DecomposeGeometries.h; path = "../../Extras/Utility Sources/Mutating Algorithms/DecomposeGeometries.h"; sourceTree = SOURCE_ROOT; };
+		BEF8F27A0D554FDF00E7A3BD /* DecomposeGeometries.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DecomposeGeometries.cpp; path = "../../Extras/Utility Sources/Mutating Algorithms/DecomposeGeometries.cpp"; sourceTree = SOURCE_ROOT; };
+		BEF8F27B0D554FDF00E7A3BD /* FlattenHierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlattenHierarchy.h; path = "../../Extras/Utility Sources/Mutating Algorithms/FlattenHierarchy.h"; sourceTree = SOURCE_ROOT; };
+		BEF8F27C0D554FDF00E7A3BD /* FlattenHierarchy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FlattenHierarchy.cpp; path = "../../Extras/Utility Sources/Mutating Algorithms/FlattenHierarchy.cpp"; sourceTree = SOURCE_ROOT; };
+		BEF8F27D0D554FDF00E7A3BD /* MergeTriMeshList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MergeTriMeshList.h; path = "../../Extras/Utility Sources/Mutating Algorithms/MergeTriMeshList.h"; sourceTree = SOURCE_ROOT; };
+		BEF8F27E0D554FDF00E7A3BD /* MergeTriMeshList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MergeTriMeshList.cpp; path = "../../Extras/Utility Sources/Mutating Algorithms/MergeTriMeshList.cpp"; sourceTree = SOURCE_ROOT; };
+		BEF8F27F0D554FDF00E7A3BD /* MergeTriMeshes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MergeTriMeshes.h; path = "../../Extras/Utility Sources/Mutating Algorithms/MergeTriMeshes.h"; sourceTree = SOURCE_ROOT; };
+		BEF8F2850D55503800E7A3BD /* FindTriMeshFaceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindTriMeshFaceData.h; path = "../../Extras/Utility Sources/Mutating Algorithms/FindTriMeshFaceData.h"; sourceTree = SOURCE_ROOT; };
+		BEF8F2860D55503800E7A3BD /* FindTriMeshFaceData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FindTriMeshFaceData.cpp; path = "../../Extras/Utility Sources/Mutating Algorithms/FindTriMeshFaceData.cpp"; sourceTree = SOURCE_ROOT; };
+		BEF8F2870D55503800E7A3BD /* FindTriMeshVertexData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindTriMeshVertexData.h; path = "../../Extras/Utility Sources/Mutating Algorithms/FindTriMeshVertexData.h"; sourceTree = SOURCE_ROOT; };
+		BEF8F2880D55503800E7A3BD /* FindTriMeshVertexData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FindTriMeshVertexData.cpp; path = "../../Extras/Utility Sources/Mutating Algorithms/FindTriMeshVertexData.cpp"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +207,7 @@
 				BEDC05B408A5C0FB00FB3A82 /* Qut.c */,
 				BEDC05B608A5C0FB00FB3A82 /* QutTexture.c */,
 				BEDC05B908A5C0FB00FB3A82 /* QutMac.c */,
+				BEF8F2180D554F7800E7A3BD /* Utility Algorithms */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -260,6 +288,31 @@
 			name = "Plug-ins";
 			sourceTree = "<group>";
 		};
+		BEF8F2180D554F7800E7A3BD /* Utility Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				BEF8F1FB0D55405700E7A3BD /* ApplyTransformsToGeometries.cpp */,
+				BEF8F1FA0D55405700E7A3BD /* ApplyTransformsToGeometries.h */,
+				BEF8F27A0D554FDF00E7A3BD /* DecomposeGeometries.cpp */,
+				BEF8F2790D554FDF00E7A3BD /* DecomposeGeometries.h */,
+				BEF8F1EF0D553D1300E7A3BD /* DeleteObjectsOfType.cpp */,
+				BEF8F1EE0D553D1300E7A3BD /* DeleteObjectsOfType.h */,
+				BEF8F2850D55503800E7A3BD /* FindTriMeshFaceData.h */,
+				BEF8F2860D55503800E7A3BD /* FindTriMeshFaceData.cpp */,
+				BEF8F2870D55503800E7A3BD /* FindTriMeshVertexData.h */,
+				BEF8F2880D55503800E7A3BD /* FindTriMeshVertexData.cpp */,
+				BEF8F27C0D554FDF00E7A3BD /* FlattenHierarchy.cpp */,
+				BEF8F27B0D554FDF00E7A3BD /* FlattenHierarchy.h */,
+				BEF8F2780D554FDF00E7A3BD /* MergeTriMeshes.cpp */,
+				BEF8F27F0D554FDF00E7A3BD /* MergeTriMeshes.h */,
+				BEF8F27E0D554FDF00E7A3BD /* MergeTriMeshList.cpp */,
+				BEF8F27D0D554FDF00E7A3BD /* MergeTriMeshList.h */,
+				BEF8F1FF0D5544B900E7A3BD /* TransformGeometry.cpp */,
+				BEF8F1FE0D5544B900E7A3BD /* TransformGeometry.h */,
+			);
+			name = "Utility Algorithms";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -294,6 +347,7 @@
 		20286C28FDCF999611CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = BEDC057E08A5B9E800FB3A82 /* Build configuration list for PBXProject "Geom Test" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 20286C29FDCF999611CA2CEA /* Geom Test */;
 			projectDirPath = "";
@@ -307,6 +361,7 @@
 					ProjectRef = BE0402A40B7FB6BB00CC26D5 /* VRML-Reader.xcodeproj */;
 				},
 			);
+			projectRoot = "";
 			targets = (
 				8D0C4E890486CD37000505A6 /* Geom Test */,
 			);
@@ -421,6 +476,15 @@
 				BEDC05BB08A5C0FB00FB3A82 /* Qut.c in Sources */,
 				BEDC05BD08A5C0FB00FB3A82 /* QutTexture.c in Sources */,
 				BEDC05C008A5C0FB00FB3A82 /* QutMac.c in Sources */,
+				BEF8F1F00D553D1300E7A3BD /* DeleteObjectsOfType.cpp in Sources */,
+				BEF8F1FC0D55405700E7A3BD /* ApplyTransformsToGeometries.cpp in Sources */,
+				BEF8F2000D5544B900E7A3BD /* TransformGeometry.cpp in Sources */,
+				BEF8F2800D554FDF00E7A3BD /* MergeTriMeshes.cpp in Sources */,
+				BEF8F2810D554FDF00E7A3BD /* DecomposeGeometries.cpp in Sources */,
+				BEF8F2820D554FDF00E7A3BD /* FlattenHierarchy.cpp in Sources */,
+				BEF8F2830D554FDF00E7A3BD /* MergeTriMeshList.cpp in Sources */,
+				BEF8F2890D55503800E7A3BD /* FindTriMeshFaceData.cpp in Sources */,
+				BEF8F28A0D55503800E7A3BD /* FindTriMeshVertexData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
