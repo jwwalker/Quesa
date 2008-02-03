@@ -158,7 +158,9 @@ enum {
 	kMenuItemGeometryTriMesh,
 	kMenuItemDivider2,
 	kMenuItemMultiBox,
+#if !TARGET_API_MAC_OS8
 	kMenuItemMultiBoxOptimized,
+#endif
 	kMenuItemQuesaLogo,
 	kMenuItemDivider3,
 	kMenuItemTestDepth,
@@ -2038,7 +2040,7 @@ createGeomMultiBox(void)
 
 
 
-
+#if !TARGET_API_MAC_OS8
 //=============================================================================
 //      createGeomMultiBoxOptimized : Create the optimized multi-box geometry.
 //
@@ -2083,6 +2085,7 @@ createGeomMultiBoxOptimized( TQ3ViewObject theView )
 	
 	return theGroup2;
 }
+#endif
 
 
 
@@ -3437,9 +3440,11 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			theGeom = createGeomMultiBox();
 			break;
 		
+	#if !TARGET_API_MAC_OS8
 		case kMenuItemMultiBoxOptimized:
 			theGeom = createGeomMultiBoxOptimized( theView );
 			break;
+	#endif
 
 		case kMenuItemQuesaLogo:
 			theGeom = createGeomQuesa();
@@ -3836,7 +3841,9 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, "TriMesh");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "MultiBox");
+#if !TARGET_API_MAC_OS8
 	Qut_CreateMenuItem(kMenuItemLast, "MultiBox (optimized)");
+#endif
 	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Test Depth Buffer");
