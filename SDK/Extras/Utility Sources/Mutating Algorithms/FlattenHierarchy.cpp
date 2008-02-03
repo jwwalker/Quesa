@@ -109,38 +109,52 @@ static int NumCompare( T inA, T inB )
 
 static int ObjectCompare( TQ3Object inA, TQ3Object inB )
 {
-	int	compResult = NumCompare( inA, inB );
+	// Major order is by type
+	TQ3ObjectType	typeA = (inA == NULL)? kQ3ObjectTypeInvalid :
+		Q3Object_GetLeafType( inA );
+	TQ3ObjectType	typeB = (inB == NULL)? kQ3ObjectTypeInvalid :
+		Q3Object_GetLeafType( inB );
 	
+	int	compResult = NumCompare( typeA, typeB );
 	
-	// Special case for certain objects
-	if ( (inA != NULL) && (inB != NULL) )
+	// If the type is the same, use a secondary order
+	if (compResult == 0)
 	{
-		if (Q3Object_IsType( inA, kQ3StyleTypeOrientation ) &&
-			Q3Object_IsType( inB, kQ3StyleTypeOrientation ) )
+		switch (typeA)
 		{
-			TQ3OrientationStyle	orientA, orientB;
-			Q3OrientationStyle_Get( inA, &orientA );
-			Q3OrientationStyle_Get( inB, &orientB );
+			case kQ3StyleTypeOrientation:
+				{
+					TQ3OrientationStyle	orientA, orientB;
+					Q3OrientationStyle_Get( inA, &orientA );
+					Q3OrientationStyle_Get( inB, &orientB );
+					
+					compResult = NumCompare( orientA, orientB );
+				}
+				break;
 			
-			compResult = NumCompare( orientA, orientB );
-		}
-		else if (Q3Object_IsType( inA, kQ3StyleTypeBackfacing ) &&
-			Q3Object_IsType( inB, kQ3StyleTypeBackfacing ) )
-		{
-			TQ3BackfacingStyle	facingA, facingB;
-			Q3BackfacingStyle_Get( inA, &facingA );
-			Q3BackfacingStyle_Get( inB, &facingB );
+			case kQ3StyleTypeBackfacing:
+				{
+					TQ3BackfacingStyle	facingA, facingB;
+					Q3BackfacingStyle_Get( inA, &facingA );
+					Q3BackfacingStyle_Get( inB, &facingB );
+					
+					compResult = NumCompare( facingA, facingB );
+				}
+				break;
 			
-			compResult = NumCompare( facingA, facingB );
-		}
-		else if (Q3Object_IsType( inA, kQ3StyleTypeFill ) &&
-			Q3Object_IsType( inB, kQ3StyleTypeFill ) )
-		{
-			TQ3FillStyle	fillA, fillB;
-			Q3FillStyle_Get( inA, &fillA );
-			Q3FillStyle_Get( inB, &fillB );
+			case kQ3StyleTypeFill:
+				{
+					TQ3FillStyle	fillA, fillB;
+					Q3FillStyle_Get( inA, &fillA );
+					Q3FillStyle_Get( inB, &fillB );
+					
+					compResult = NumCompare( fillA, fillB  );
+				}
+				break;
 			
-			compResult = NumCompare( fillA, fillB  );
+			default:
+				compResult = NumCompare( inA, inB  );
+				break;
 		}
 	}
 	
