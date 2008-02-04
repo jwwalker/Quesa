@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -118,6 +118,7 @@ struct ProgramRec
 						, mIlluminationType( inOther.mIlluminationType )
 						, mIsTextured( inOther.mIsTextured )
 						, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
+						, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
 						{}
 
 	GLuint			mProgram;
@@ -127,6 +128,7 @@ struct ProgramRec
 	bool			mIsTextured;
 	
 	GLint			mTextureUnitUniformLoc;
+	GLint			mQuantizationUniformLoc;
 };
 
 typedef	std::vector<ProgramRec>		ProgramVec;
@@ -147,6 +149,7 @@ typedef void (* QO_PROCPTR_TYPE glUseProgramProc )(GLuint program);
 typedef void (* QO_PROCPTR_TYPE glDeleteProgramProc )(GLuint program);
 typedef void (* QO_PROCPTR_TYPE glDeleteShaderProc )(GLuint shader);
 typedef void (* QO_PROCPTR_TYPE glUniform1iProc )(GLint location, GLint v0);
+typedef void (* QO_PROCPTR_TYPE glUniform1fProc )(GLint location, GLfloat v0);
 typedef void (* QO_PROCPTR_TYPE glGetShaderivProc )(GLuint shader,
 													GLenum pname,
 													GLint *params);
@@ -193,6 +196,7 @@ struct GLSLFuncs
 	glUseProgramProc			glUseProgram;
 	glGetUniformLocationProc	glGetUniformLocation;
 	glUniform1iProc				glUniform1i;
+	glUniform1fProc				glUniform1f;
 	glDeleteShaderProc			glDeleteShader;
 	glDeleteProgramProc			glDeleteProgram;
 	glGetProgramInfoLogProc		glGetProgramInfoLog;
@@ -270,6 +274,7 @@ private:
 	TQ3ObjectType				mIlluminationType;
 	bool						mIsTextured;
 	GLuint						mVertexShaderID;
+	TQ3Float32					mQuantization;
 	
 	ProgramVec					mPrograms;
 	int							mProgramIndex;
