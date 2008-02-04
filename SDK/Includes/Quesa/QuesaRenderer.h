@@ -167,6 +167,18 @@ enum
 					graphics drivers, such as some versions of Apple's software
 					renderer.
 					Data type: TQ3Boolean.  Default value: kQ3True.
+	
+	@constant	kQ3RendererPropertyQuantizePerPixelLight
+					When used with per-pixel lighting, this rounds the light
+					being applied to each pixel to certain values, producing a
+					cartoonish look.  More precisely, if the value q is provided
+					here, each component c of the light will be replaced by the
+					value floor( c * q ) / q, resulting in an integer multiple
+					of 1/q.  The greater the value of q, the more distinct
+					shades are produced.  A value less then or equal to 0.0
+					turns off quantization.
+					
+					Data type: TQ3Float32.  Default value: 0.0.
 */
 enum
 {
@@ -178,7 +190,8 @@ enum
 	kQ3RendererPropertyLineWidth				= Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
 	kQ3RendererPropertyUseColor					= Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
 	kQ3RendererPropertyAllowVBOs				= Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
-	kQ3RendererPropertyAllowLineSmooth			= Q3_OBJECT_TYPE('a', 'l', 's', 'm')
+	kQ3RendererPropertyAllowLineSmooth			= Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
+	kQ3RendererPropertyQuantizePerPixelLight	= Q3_OBJECT_TYPE('p', 'p', 'x', 'q')
 };
 #endif
 
