@@ -87,6 +87,7 @@
 #include "CartoonRenderer.h"
 #include "GLPrefix.h"
 #include "E3Math.h"
+#include "CQ3ObjectRef_Gets.h"
 
 #include <cstdlib>
 #include <cmath>
@@ -1046,6 +1047,43 @@ cartoon_delete_object( TQ3Object theObject, void *privateData )
 	delete me;
 }
 
+
+static TQ3Status
+cartoon_start_frame_method(
+								TQ3ViewObject inView,
+								void* privateData,
+								TQ3DrawContextObject inDrawContext )
+{
+	CQ3ObjectRef	theRenderer( CQ3View_GetRenderer( inView ) );
+	
+	// Since the cartoon renderer currently does not work well with shadows,
+	// temporarily turn the shadowing flag off while the OpenGL renderer is
+	// looking for it.
+	TQ3Boolean	isShadowingRequested = kQ3False;
+	Q3Object_GetProperty( theRenderer.get(),
+			kQ3RendererPropertyShadows, sizeof(isShadowingRequested), NULL,
+			&isShadowingRequested );
+	if (isShadowingRequested)
+	{
+		TQ3Boolean	noShadow = kQ3False;
+		Q3Object_SetProperty( theRenderer.get(), kQ3RendererPropertyShadows,
+			sizeof(TQ3Boolean), &noShadow );
+	}
+	
+	TQ3XRendererStartFrameMethod	parentMethod = (TQ3XRendererStartFrameMethod)
+		GetParentRendererMethod( kQ3XMethodTypeRendererStartFrame );
+		
+	TQ3Status	result = (*parentMethod)( inView, privateData, inDrawContext );
+
+	if (isShadowingRequested)
+	{
+		Q3Object_SetProperty( theRenderer.get(), kQ3RendererPropertyShadows,
+			sizeof(TQ3Boolean), &isShadowingRequested );
+	}
+	
+	return result;
+}
+
 static TQ3XFunctionPointer
 ca_cartoon_metahandler(TQ3XMethodType methodType)
 {	
@@ -1067,6 +1105,10 @@ ca_cartoon_metahandler(TQ3XMethodType methodType)
 		
 		case kQ3XMethodTypeRendererSubmitGeometryMetaHandler:
 			theMethod = (TQ3XFunctionPointer) cartoon_submit_geom_metahandler;
+			break;
+
+		case kQ3XMethodTypeRendererStartFrame:
+			theMethod = (TQ3XFunctionPointer) cartoon_start_frame_method;
 			break;
 
 		case kQ3XMethodTypeRendererMethodsCached:
