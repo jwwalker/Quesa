@@ -104,7 +104,7 @@ namespace
 				"vec3 Quantize( in vec3 inLight )\n"
 				"{\n"
 				"	return (quantization <= 0.0)? inLight :\n"
-				"		floor( inLight * quantization ) / quantization;\n"
+				"		floor( inLight * quantization + 0.5 ) / quantization;\n"
 				"}\n\n"
 				;
 				
