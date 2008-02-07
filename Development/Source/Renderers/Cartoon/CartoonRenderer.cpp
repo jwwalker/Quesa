@@ -102,8 +102,6 @@
 
 static int sLastGLError = 0;
 
-#define		kNonCartoonProperty					Q3_FOUR_CHARACTER_CONSTANT('N', 'C', 'a', 'r')
-
 #define kQ3ClassNameRendererCartoon				"Quesa Cartoon"
 
 const int	kShadingTextureWidth	= 32;
@@ -906,7 +904,10 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 
 static bool IsGeomMarkedNonCartoon( TQ3Object inObject )
 {
-	return (kQ3Success == Q3Object_GetProperty( inObject, kNonCartoonProperty, 0, NULL, NULL ));
+	TQ3Boolean	theValue = kQ3False;
+	return (kQ3Success == Q3Object_GetProperty( inObject,
+		kQ3GeometryPropertyNonCartoon, sizeof(theValue), NULL, &theValue )) &&
+		(theValue == kQ3True);
 }
 
 static bool IsGeomTransparent( const QORenderer::ColorState& inGeomState )
