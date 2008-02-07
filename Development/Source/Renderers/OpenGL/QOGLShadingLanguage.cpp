@@ -63,7 +63,7 @@ namespace
 {
 	const char* kVertexShaderSource =
 				// Normal vector in eye coordinates
-				"varying vec3 ECNormal;"
+				"varying vec3 ECNormal;\n"
 				""
 				// Position in eye coordinates
 				"varying vec3 ECPos3;\n"
@@ -101,10 +101,30 @@ namespace
 				// Sampler for texture unit 0
 				"uniform sampler2D tex0;\n\n"
 				
-				"vec3 Quantize( in vec3 inLight )\n"
+				"vec3 QuantizeLight( in vec3 light )\n"
 				"{\n"
-				"	return (quantization <= 0.0)? inLight :\n"
-				"		floor( inLight * quantization + 0.5 ) / quantization;\n"
+				"	return (quantization <= 0.0)? light :\n"
+				"		floor( light * quantization + 0.5 ) / quantization;\n"
+				"}\n\n"
+				
+				"float QuantizeDot( in float normalDotGeomToLight )\n"
+				"{\n"
+				"	return (quantization <= 0.0)? normalDotGeomToLight :\n"
+						"floor( 2.0 * normalDotGeomToLight );\n"
+				"}"
+				
+				"vec3 QuantizeDiffuse( in vec3 light, in float normalDotGeomToLight )\n"
+				"{\n"
+				"	vec3	result;\n"
+				"	if (quantization <= 0.0)\n"
+				"	{\n"
+				"		result = light * normalDotGeomToLight;\n"
+				"	}\n"
+				"	else\n"
+				"	{\n"
+				"		result = mix( QuantizeLight( light * normalDotGeomToLight ), light, 0.3 );"
+				"	}\n"
+				"	return result;\n"
 				"}\n\n"
 				;
 				
@@ -128,8 +148,8 @@ namespace
 				"		pf = pow( nDotHV, gl_FrontMaterial.shininess );\n"
 				"	}\n\n"
 
-				"	diff += Quantize(gl_LightSource[LIGHT_INDEX].diffuse.rgb * nDotVP);\n"
-				"	spec += Quantize(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf);\n"
+				"	diff += QuantizeDiffuse( gl_LightSource[LIGHT_INDEX].diffuse.rgb, nDotVP );\n"
+				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf);\n"
 				"}\n\n";
 
 	const char* kPositionalLightFragmentShaderSource =
@@ -173,8 +193,10 @@ namespace
 				"	vec3 halfVector = normalize( geomToLight + geomToEyeDir );\n"
 
 				"	float nDotGeomToLight = max( 0.0, dot( normal, geomToLight ) );\n"
+				"	nDotGeomToLight = QuantizeDot( nDotGeomToLight )\n;"
 
-				"	diff += Quantize(gl_LightSource[LIGHT_INDEX].diffuse.rgb * nDotGeomToLight * attenuation);\n"
+				"	diff += QuantizeDiffuse( gl_LightSource[LIGHT_INDEX].diffuse.rgb * \n"
+				"				attenuation, nDotGeomToLight );\n"
 
 				"	float nDotHalf = max( 0.0, dot( normal, halfVector ) );\n"
 
@@ -184,7 +206,7 @@ namespace
 				"	else\n"
 				"		pf = pow( nDotHalf, gl_FrontMaterial.shininess );\n\n"
 
-				"	spec += Quantize(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
+				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
 				"}\n\n";
 
 	const char* kMainFragmentShaderStartSource =
@@ -226,7 +248,17 @@ namespace
 							"gl_FrontMaterial.emission.rgb;\n"
 
 					// Add diffuse color.
-				"	color += diff * gl_Color.rgb;\n"
+					// Ordinarily we just add the diffuse light times the
+					// material color, but when doing a cartoonish style, we
+					// skip areas nearly perpendicular to the eye.
+				"	if (quantization <= 0.0)\n"
+				"	{"
+				"		color += diff * gl_Color.rgb;\n"
+				"	}\n"
+				"	else if (dot( normal, geomToEyeDir ) > 0.5)\n"
+				"	{\n"
+				"		color += min( diff, 1.0 ) * gl_Color.rgb;\n"
+				"	}\n"
 				
 				"	alpha = gl_Color.a;\n"
 				;
