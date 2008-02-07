@@ -260,6 +260,13 @@ public:
 					are texturing or which texture is active.
 	*/
 	void						UpdateTexture();
+	
+	/*!
+		@function	PreGeomSubmit
+		@abstract	This is called just before a geometry will be rendered, in
+					order to check for kQ3GeometryPropertyNonCartoon.
+	*/
+	void						PreGeomSubmit( TQ3GeometryObject inGeom );
 
 private:
 	void						CheckIfShading();

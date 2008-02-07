@@ -987,3 +987,23 @@ void	QORenderer::PerPixelLighting::UpdateTexture()
 	}
 }
 
+/*!
+	@function	PreGeomSubmit
+	@abstract	This is called just before a geometry will be rendered, in
+				order to check for kQ3GeometryPropertyNonCartoon.
+*/
+void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
+{
+	if ( mIsShading && (inGeom != NULL) && (mQuantization > 0.0f) )
+	{
+		TQ3Boolean	isNonCartoon = kQ3False;
+		
+		Q3Object_GetProperty( inGeom, kQ3GeometryPropertyNonCartoon,
+			sizeof(TQ3Boolean), NULL, &isNonCartoon );
+		
+		mFuncs.glUniform1f( mPrograms[ mProgramIndex ].mQuantizationUniformLoc,
+			isNonCartoon? 0.0f : mQuantization );
+	}
+}
+
+
