@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -135,6 +135,26 @@ typedef enum TQ3PolyhedronEdgeMasks {
     kQ3PolyhedronEdgeSize32                     = 0xFFFFFFFF
 } TQ3PolyhedronEdgeMasks;
 
+
+
+
+
+/*!
+	@enum	Geometry&nbsp;Property&nbsp;Types
+	
+	@abstract	Object properties that may be set on geometries.
+	
+	@constant	kQ3GeometryPropertyNonCartoon
+						This property indicates to the cartoon renderer or to the
+						quantized per-pixel lighting mode of the OpenGL renderer
+						that this geometry should be rendered normally.
+						
+						Data type: TQ3Boolean.  Default value: kQ3False.
+*/
+enum
+{
+	kQ3GeometryPropertyNonCartoon					= Q3_OBJECT_TYPE('n', 'c', 'a', 'r')
+};
 
 
 
