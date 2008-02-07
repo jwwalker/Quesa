@@ -1454,6 +1454,12 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		}
 		didHandle = true;
 	}
+	
+	// Notify per-pixel lighting
+	if (! mLights.IsShadowMarkingPass())
+	{
+		mPPLighting.PreGeomSubmit( inTriMesh );
+	}
 
 	// If we are in edge-fill mode and explicit edges have been provided,
 	// we may want to handle them here.
@@ -1526,6 +1532,12 @@ void	QORenderer::Renderer::SubmitTriangle(
 	
 	// Allow usual lighting
 	mLights.SetOnlyAmbient( false );
+	
+	// Notify per-pixel lighting
+	if (! mLights.IsShadowMarkingPass())
+	{
+		mPPLighting.PreGeomSubmit( inTriangle );
+	}
 	
 	// update color and texture from geometry attribute set
 	HandleGeometryAttributes( inGeomData->triangleAttributeSet, inView,
@@ -1827,6 +1839,9 @@ void	QORenderer::Renderer::SubmitPolyLine(
 
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
+	
+	// Notify per-pixel lighting
+	mPPLighting.PreGeomSubmit( inPolyLine );
 	
 	// update color from geometry attribute set
 	HandleGeometryAttributes( inGeomData->polyLineAttributeSet, NULL,
