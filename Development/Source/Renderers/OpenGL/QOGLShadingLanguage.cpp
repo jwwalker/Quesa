@@ -97,6 +97,9 @@ namespace
 				
 				// Light quantization parameter
 				"uniform float quantization;\n"
+				
+				// Cartoon edges parameter
+				"uniform float lightNearEdge;\n"
 
 				// Sampler for texture unit 0
 				"uniform sampler2D tex0;\n\n"
@@ -255,10 +258,17 @@ namespace
 				"	{"
 				"		color += diff * gl_Color.rgb;\n"
 				"	}\n"
-				"	else if (dot( normal, geomToEyeDir ) > 0.5)\n"
+				"	else\n"		// cartoony style
 				"	{\n"
-				"		color += min( diff, 1.0 ) * gl_Color.rgb;\n"
-				"	}\n"
+				"		if (dot( normal, geomToEyeDir ) > 0.5)\n"
+				"		{\n"
+				"			color += min( diff, 1.0 ) * gl_Color.rgb;\n"
+				"		}\n"
+				"		else\n"
+				"		{\n"
+				"			color += lightNearEdge * min( diff, 1.0 ) * gl_Color.rgb;\n"
+				"		}\n"
+				"	}\n\n"
 				
 				"	alpha = gl_Color.a;\n"
 				;
@@ -286,6 +296,7 @@ namespace
 					
 	const char*	kTextureUnitUniformName			= "tex0";
 	const char*	kQuantizationUniformName		= "quantization";
+	const char*	kLightNearEdgeUniformName		= "lightNearEdge";
 	
 	const int	kMaxProgramAge					= 100;
 	
@@ -497,6 +508,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mIsTextured( false )
 	, mVertexShaderID( 0 )
 	, mQuantization( 0.0f )
+	, mLightNearEdge( 1.0f )
 {
 }
 
@@ -721,6 +733,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 		
 		// Set the quantization uniform variable.
 		mFuncs.glUniform1f( foundProg->mQuantizationUniformLoc, mQuantization );
+		mFuncs.glUniform1f( foundProg->mLightNearEdgeUniformLoc, mLightNearEdge );
 	}
 }
 
@@ -743,6 +756,8 @@ void	QORenderer::PerPixelLighting::InitUniforms( ProgramRec& ioProgram )
 		ioProgram.mProgram, kTextureUnitUniformName );
 	ioProgram.mQuantizationUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kQuantizationUniformName );
+	ioProgram.mLightNearEdgeUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kLightNearEdgeUniformName );
 }
 
 /*!
@@ -760,10 +775,18 @@ void	QORenderer::PerPixelLighting::CheckIfShading()
 		(propStatus == kQ3Success) &&
 		(propValue == kQ3True);
 	
-	mQuantization = 0.0f;	// default of no quantization
-	propStatus = Q3Object_GetProperty( mRendererObject,
-		kQ3RendererPropertyQuantizePerPixelLight, sizeof(mQuantization), NULL,
-		&mQuantization );
+	if (mIsShading)
+	{
+		mQuantization = 0.0f;	// default of no quantization
+		Q3Object_GetProperty( mRendererObject,
+			kQ3RendererPropertyQuantizePerPixelLight, sizeof(mQuantization), NULL,
+			&mQuantization );
+		
+		mLightNearEdge = 1.0f;	// default, no darkening of edges
+		Q3Object_GetProperty( mRendererObject,
+			kQ3RendererPropertyCartoonLightNearEdge, sizeof(TQ3Float32), NULL,
+			&mLightNearEdge );
+	}
 }
 
 

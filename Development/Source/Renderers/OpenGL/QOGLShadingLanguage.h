@@ -119,6 +119,7 @@ struct ProgramRec
 						, mIsTextured( inOther.mIsTextured )
 						, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
 						, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
+						, mLightNearEdgeUniformLoc( inOther.mLightNearEdgeUniformLoc )
 						{}
 
 	GLuint			mProgram;
@@ -129,6 +130,7 @@ struct ProgramRec
 	
 	GLint			mTextureUnitUniformLoc;
 	GLint			mQuantizationUniformLoc;
+	GLint			mLightNearEdgeUniformLoc;
 };
 
 typedef	std::vector<ProgramRec>		ProgramVec;
@@ -282,6 +284,7 @@ private:
 	bool						mIsTextured;
 	GLuint						mVertexShaderID;
 	TQ3Float32					mQuantization;
+	TQ3Float32					mLightNearEdge;
 	
 	ProgramVec					mPrograms;
 	int							mProgramIndex;
