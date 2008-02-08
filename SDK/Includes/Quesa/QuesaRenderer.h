@@ -179,6 +179,14 @@ enum
 					turns off quantization.
 					
 					Data type: TQ3Float32.  Default value: 0.0.
+					
+	@constant	kQ3RendererPropertyCartoonLightNearEdge
+					When used with quantized per-pixel lighting (see
+					kQ3RendererPropertyQuantizePerPixelLight) this controls how
+					much diffuse lighting is allowed to light triangles that are
+					nearly perpendicular to the view vector.
+					
+					Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
 */
 enum
 {
@@ -191,7 +199,8 @@ enum
 	kQ3RendererPropertyUseColor					= Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
 	kQ3RendererPropertyAllowVBOs				= Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
 	kQ3RendererPropertyAllowLineSmooth			= Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
-	kQ3RendererPropertyQuantizePerPixelLight	= Q3_OBJECT_TYPE('p', 'p', 'x', 'q')
+	kQ3RendererPropertyQuantizePerPixelLight	= Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
+	kQ3RendererPropertyCartoonLightNearEdge		= Q3_OBJECT_TYPE('p', 'p', 'c', 'e')
 };
 #endif
 
