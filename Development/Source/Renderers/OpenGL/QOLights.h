@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -114,6 +114,7 @@ public:
 	void					SetOnlyAmbient( bool inOnlyAmbient );
 	
 	bool					IsEmissionUsed() const;
+	inline bool				IsShadowFrame() const {return mIsShadowFrame;}
 	inline bool				IsFirstPass() const {return mIsFirstPass;}
 	inline bool				IsLastLightingPass() const {return !mIsAnotherPassNeeded;}
 	bool					IsShadowMarkingPass() const;
@@ -130,7 +131,7 @@ public:
 
 private:
 	void					Reset( bool inEnableLighting );
-	void					ClassifyLights( TQ3ViewObject inView, bool inIsShadowing );
+	void					ClassifyLights( TQ3ViewObject inView );
 	void					SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToView );
 	void					SetUpShadowLightingPass();
 	void					SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorldToView );
@@ -155,6 +156,7 @@ private:
 	const MatrixState&		mMatrixState;
 	const StyleState&		mStyleState;
 	TQ3Uns32				mLightCount;		// number of GL lights in this pass
+	bool					mIsShadowFrame;
 	bool					mIsFirstPass;
 	bool					mIsShadowPhase;
 	bool					mIsNextPassShadowPhase;
