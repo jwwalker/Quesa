@@ -74,14 +74,13 @@
 	renderer class, as the Geom Test sample does.  Another way would be to
 	use code like this:
 	
-	TQ3ObjectType	cartoonType;
-	Q3ObjectHierarchy_GetTypeFromString( "Quesa Cartoon", &cartoonType );
-	TQ3RendererObject	theRenderer = Q3Renderer_NewFromType( cartoonType );
+	TQ3RendererObject	theRenderer = Q3Renderer_NewFromType(
+		kQ3RendererTypeCartoon );
 	
-	A TriMesh can be forced to be rendered by the standard interactive
-	renderer by attaching an object property of type 'NCar'.  The data in the
-	property does not matter.  Transparent trimeshes will always be rendered
-	by the interactive renderer.
+	A TriMesh can be forced to be rendered by the standard OpenGL renderer by
+	attaching an object property of type kQ3GeometryPropertyNonCartoon and value
+	kQ3True.  Transparent trimeshes will always be rendered by the OpenGL
+	renderer.
 	___________________________________________________________________________
 */
 #include "CartoonRenderer.h"
@@ -177,22 +176,17 @@ namespace
 							const TQ3TriMeshData* geomData,
 							const TQ3Vector3D* vertNormals,
 							const TQ3Param2D* texCoords,
-							const float* pFloatDiffuseColor,
 							bool bAllreadyTextured );
 		void DrawArraysFakeMultitexture(
 							TQ3GeometryObject inTriMesh,
 							const TQ3TriMeshData* geomData,
 							const TQ3Vector3D* vertNormals,
-							const TQ3Param2D* texCoords,
-							const float* pFloatDiffuseColor,
-							bool bAllreadyTextured );
+							const TQ3Param2D* texCoords );
 
 		void SetInited(bool bOnOff = true);
 		bool IsInited();
 		bool m_bInited;
 		
-		void DrawJustLocalTexture();
-
 		void	DrawContours( TQ3ViewObject theView, TQ3TriMeshData* geomData,
 							TQ3BackfacingStyle inBackfacing );
 		float	CalcContourWidth( TQ3ViewObject theView, TQ3TriMeshData* geomData );
@@ -215,7 +209,11 @@ namespace
 		void* GetLocalTextureMemory();
 		void BuildLocalTexture();
 		void DeleteLocalTexture();
-		void DrawLocalTexture(bool bAllreadyTextured);
+		
+		void	SetRealTexture( const TQ3Param2D* inTexCoords );
+		void	SetShadingTexture( int nVerts, const TQ3Vector3D* pMemNormals,
+									bool inAlreadyTextured );
+		
 		GLuint m_nLocalTextureID;
 		
 		void InitExtensions();
@@ -358,49 +356,75 @@ void CCartoonRendererQuesa::BuildLocalTexture()
 	glBindTexture( GL_TEXTURE_2D, savedTexture );
 }
 
-void CCartoonRendererQuesa::DrawJustLocalTexture()
+
+/*!
+	@function	SetRealTexture
+	
+	@abstract	If the geometry or view state has specified a texture, set up
+				texture unit 0 for that texture.
+*/
+void	CCartoonRendererQuesa::SetRealTexture( const TQ3Param2D* inTexCoords )
 {
-	if (0 != m_nLocalTextureID)
-	{
-		CHECK_GL_ERROR;
-
-		glBindTexture(GL_TEXTURE_2D, m_nLocalTextureID);
-		CHECK_GL_ERROR;
-
-		glEnable(GL_TEXTURE_2D);
-		CHECK_GL_ERROR;
-
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);	
-		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		CHECK_GL_ERROR;
-	}
-	else
-	{
-		Q3_ASSERT( !"no local texture" );
-	}	
+	SetActiveTextureARB(0);
+	glEnable( GL_TEXTURE_2D );
+	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+	
+	SetClientActiveTextureARB(0);
+	EnableTextureArray( true );
+	glTexCoordPointer( 2, GL_FLOAT, 0, inTexCoords );
 }
 
-void CCartoonRendererQuesa::DrawLocalTexture(bool bAlreadyTextured)
+
+/*!
+	@function	SetShadingTexture
+	
+	@abstract	Set up our local shading texture, using texture unit 1 if unit
+				0 is already in use for a real texture.
+*/
+void	CCartoonRendererQuesa::SetShadingTexture(
+							int nVerts,
+							const TQ3Vector3D* pMemNormals,
+							bool inAlreadyTextured )
 {
-	if(true == bAlreadyTextured)
+	if (inAlreadyTextured)	// already textured, use unit 1
 	{
 		SetActiveTextureARB(1);
 		SetClientActiveTextureARB(1);
 	}
-	else
+	else	// not textured, use unit 0
 	{
+		// Make sure unit 1 is off
+		SetActiveTextureARB(1);
 		SetClientActiveTextureARB(1);
 		EnableTextureArray( false );
-
-		SetActiveTextureARB(1);
-		glDisable(GL_TEXTURE_2D);
-
+		glDisable( GL_TEXTURE_2D );
+		
+		// Turn unit 0 on
 		SetActiveTextureARB(0);
 		SetClientActiveTextureARB(0);
 	}
 
-	DrawJustLocalTexture();
+	glBindTexture(GL_TEXTURE_2D, m_nLocalTextureID);
+	CHECK_GL_ERROR;
+
+	glEnable(GL_TEXTURE_2D);
+	CHECK_GL_ERROR;
+	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);	
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	CHECK_GL_ERROR;
+
+	TQ3Param2D*	tCoords = GenShadeTVerts( nVerts, pMemNormals );
+	EnableTextureArray( true );
+	glTexCoordPointer( 2, GL_FLOAT, 0, tCoords );
+	
+	glMatrixMode(GL_TEXTURE);
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+
 }
+
 
 void CCartoonRendererQuesa::RebuildShading()
 {
@@ -456,17 +480,24 @@ bool CCartoonRendererQuesa::IsInited()
 	return m_bInited;
 }
 
-TQ3Param2D* CCartoonRendererQuesa::GenShadeTVerts( int nVerts, const TQ3Vector3D* pMemNormals )
+
+/*!
+	@function	GenShadeTVerts
+	
+	@abstract	Generate texture coordinates that depend on the angle between
+				the vertex normal vector and the camera view vector, so that we
+				can use a darker shade for triangles that are nearly edge-on to
+				the viewer.
+*/
+TQ3Param2D* CCartoonRendererQuesa::GenShadeTVerts( int nVerts,
+											const TQ3Vector3D* pMemNormals )
 {
 	if ((int)m_arrShadeTVerts.size() < nVerts)
 	{
 		m_arrShadeTVerts.resize(nVerts);
-		memset(&m_arrShadeTVerts[0], 0, sizeof(TQ3Param2D) * nVerts);
 	}
 
 	TQ3Param2D* pMemShadeTVerts = &m_arrShadeTVerts[0];
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);		
 
 	TQ3Matrix4x4 modelViewMatrix;
 	glGetFloatv(GL_MODELVIEW_MATRIX, &modelViewMatrix.value[0][0]);
@@ -516,7 +547,7 @@ TQ3Param2D* CCartoonRendererQuesa::GenShadeTVerts( int nVerts, const TQ3Vector3D
 	return &m_arrShadeTVerts[0];
 }
 
-static void SetUpLight( float inAmbientLevel = 1.4f )
+static void SetUpLight( float inAmbientLevel )
 {
 	glEnable( GL_LIGHTING );
 	GLfloat	brightAmbient[] = {
@@ -533,7 +564,12 @@ static void SetUpLight( float inAmbientLevel = 1.4f )
 	glDisable( GL_LIGHT7 );
 }
 
-
+/*!
+	@function	DrawContours
+	
+	@abstract	If we are removing backfaces, then add black outlines by
+				rendering backfaces in edge-fill mode.
+*/
 void	CCartoonRendererQuesa::DrawContours( TQ3ViewObject theView, TQ3TriMeshData* geomData,
 							TQ3BackfacingStyle inBackfacing )
 {
@@ -543,17 +579,17 @@ void	CCartoonRendererQuesa::DrawContours( TQ3ViewObject theView, TQ3TriMeshData*
 		
 		DrawContourArrays( lineWidth, geomData );
 		
-		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
+		glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE );
+		glEnable( GL_CULL_FACE );
+		glCullFace( GL_BACK );
 	}
 	else
 	{
-		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glDisable(GL_CULL_FACE);
+		glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE );
+		glDisable( GL_CULL_FACE );
 	}
+	
+	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }
 
 
@@ -632,16 +668,12 @@ void CCartoonRendererQuesa::DrawContourArrays( float lineWidth, const TQ3TriMesh
 
 	glPolygonMode(GL_BACK, GL_LINE);
 
-	glVertexPointer( 3, GL_FLOAT, 0, geomData->points );
-
 	if (mAllowLineSmooth)
 	{
 		glEnable( GL_LINE_SMOOTH );
 	}
 	glLineWidth( lineWidth );
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	
 	// The shade model (AKA interpolation style) should not affect the contours,
 	// but on at least one G5 Mac running OS 10.3.9, you get weird extra lines
 	// when using flat shading (kQ3InterpolationStyleNone).
@@ -699,47 +731,18 @@ void CCartoonRendererQuesa::DrawArrays(
 							const TQ3TriMeshData* geomData,
 							const TQ3Vector3D* vertNormals,
 							const TQ3Param2D* texCoords,
-							const float* pFloatDiffuseColor,
-							bool bAllreadyTextured)
+							bool bAlreadyTextured)
 {
 	try
 	{
-		if (bAllreadyTextured)
+		if (bAlreadyTextured)
 		{
-			SetActiveTextureARB(0);
-			SetClientActiveTextureARB(0);
-			EnableTextureArray( true );
-			glEnable(GL_TEXTURE_2D);
-
-			glTexCoordPointer( 2, GL_FLOAT, 0, texCoords );
+			SetRealTexture( texCoords );
 		}
 
-		DrawLocalTexture(bAllreadyTextured);
+		SetShadingTexture( geomData->numPoints, vertNormals, bAlreadyTextured );
 		
-		if(0 != pFloatDiffuseColor)
-		{
-			glColor3fv(pFloatDiffuseColor);
-		}
-		else
-		{
-			glColor3ub(255, 255, 0);	
-		}
-
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-		EnableTextureArray( true );
-
-		TQ3Param2D*	tCoords = GenShadeTVerts(geomData->numPoints, vertNormals);
-		
-		glMatrixMode(GL_TEXTURE);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-
-		glTexCoordPointer(2, GL_FLOAT, 0, tCoords);
-		
-		glVertexPointer(3, GL_FLOAT, 0, geomData->points);
-		
-		SetUpLight( bAllreadyTextured? 1.4f : 1.1f );
+		SetUpLight( bAlreadyTextured? 1.4f : 1.1f );
 
 		// Check for a triangle strip.
 		TQ3Uns32	stripSize;
@@ -756,28 +759,23 @@ void CCartoonRendererQuesa::DrawArrays(
 	}
 }
 
+
+/*!
+	@function	DrawArraysFakeMultitexture
+	
+	@abstract	If the geometry is textured, but the OpenGL implementation does
+				not support multitexturing, we must fake it by rendering twice
+				and blending.
+*/
 void CCartoonRendererQuesa::DrawArraysFakeMultitexture(
 							TQ3GeometryObject inTriMesh,
 							const TQ3TriMeshData* geomData,
 							const TQ3Vector3D* vertNormals,
-							const TQ3Param2D* texCoords,
-							const float* pFloatDiffuseColor,
-							bool bAllreadyTextured )
+							const TQ3Param2D* texCoords )
 {
 	try
 	{
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glEnable(GL_TEXTURE_2D);
-		EnableTextureArray( true );
-
-		if (0 != pFloatDiffuseColor)
-		{
-			glColor3fv(pFloatDiffuseColor);
-		}
-		else
-		{
-			glColor3ub(255, 255, 0);	
-		}
+		SetRealTexture( texCoords );
 		
 		// Check for a triangle strip.
 		TQ3Uns32	stripSize;
@@ -787,42 +785,35 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(
 			CETriangleStripElement_GetData( inTriMesh, &stripSize, &stripArray );
 		}
 
-		if (bAllreadyTextured)
-		{
-			glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
-			glVertexPointer(3, GL_FLOAT, 0, geomData->points);
-			SetUpLight( 2.0f );
-			
-			DrawTrianglesOrStrip( *geomData, stripSize, stripArray );
-			
-			glEnable( GL_BLEND );
-			glBlendFunc( GL_DST_COLOR, GL_ZERO );
-			glDepthMask( GL_FALSE );
-			glDepthFunc( GL_EQUAL );
-		}
-
-		DrawJustLocalTexture();
-		
-		TQ3Param2D*	tCoords = GenShadeTVerts( geomData->numPoints, vertNormals );
-		
-		glMatrixMode(GL_TEXTURE);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-
-		glTexCoordPointer(2, GL_FLOAT, 0, tCoords);
-		
-		glVertexPointer(3, GL_FLOAT, 0, geomData->points);
-
-		SetUpLight( bAllreadyTextured? 1.4f : 1.1f );
+		SetUpLight( 1.0f );
 		
 		DrawTrianglesOrStrip( *geomData, stripSize, stripArray );
 		
-		if (bAllreadyTextured)
-		{
-			glDisable( GL_BLEND );
-			glDepthMask( GL_TRUE );
-			glDepthFunc( GL_LESS );
-		}
+		// Use a blending function that will have the effect of multiplying the
+		// existing fragment color by the new fragment color, imitating
+		// texturing with GL_MODULATE.
+		glEnable( GL_BLEND );
+		glBlendFunc( GL_DST_COLOR, GL_ZERO );
+		
+		glDepthMask( GL_FALSE );	// no writing to depth buffer
+		glDepthFunc( GL_EQUAL );
+
+		// save the current bound texture
+		GLint	savedTexture = 0;
+		glGetIntegerv( GL_TEXTURE_BINDING_2D, &savedTexture );
+
+		SetShadingTexture( geomData->numPoints, vertNormals, false );
+		
+		SetUpLight( 1.4f );
+		
+		DrawTrianglesOrStrip( *geomData, stripSize, stripArray );
+
+		glDisable( GL_BLEND );
+		glDepthMask( GL_TRUE );
+		glDepthFunc( GL_LESS );
+
+		// restore previous texture
+		glBindTexture( GL_TEXTURE_2D, savedTexture );
 	}
 	catch (...)
 	{
@@ -864,6 +855,9 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 	{
 		Init( mGLExtensions.multitexture == kQ3True );
 	}
+	
+	glEnableClientState( GL_VERTEX_ARRAY );
+	glVertexPointer( 3, GL_FLOAT, 0, geomData->points );
 
 	StSaveLightingState	saveLight;
 	
@@ -880,6 +874,8 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 		pFloatDiffuseColor = &mGeomState.diffuseColor->r;
 	}
 
+	glColor3fv(pFloatDiffuseColor);
+
 	bool bAlreadyTextured = (texCoords != NULL) && mTextures.IsTextureActive();
 	
 	// We will use only ambient light, hence we do not need normals for OpenGL.
@@ -887,16 +883,15 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 	mGLClientStates.DisableNormalArray();
 	
 	DrawContours( theView, geomData, mStyleState.mBackfacing );
-
-	if (m_glActiveTextureARB == NULL)
+	
+	if ( (m_glActiveTextureARB == NULL) && bAlreadyTextured )
 	{
-		DrawArraysFakeMultitexture( inTriMesh, geomData, vertNormals, texCoords,
-			pFloatDiffuseColor, bAlreadyTextured );
+		DrawArraysFakeMultitexture( inTriMesh, geomData, vertNormals, texCoords );
 	}
 	else
 	{
 		DrawArrays( inTriMesh, geomData, vertNormals, texCoords,
-			pFloatDiffuseColor, bAlreadyTextured );
+			bAlreadyTextured );
 	}
 
 	DisableMultiTexturing();
