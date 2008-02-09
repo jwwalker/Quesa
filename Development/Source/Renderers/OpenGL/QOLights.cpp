@@ -413,7 +413,7 @@ void	QORenderer::Lights::Reset( bool inEnableLighting )
 	@abstract	At the start of a frame, classify the lights as ambient,
 				shadowing, or non-shadowing.
 */
-void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView, bool inIsShadowing )
+void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView )
 {
 	mGlAmbientLight[0] = mGlAmbientLight[1] = mGlAmbientLight[2] = 0.0f;
 	mGlAmbientLight[3] = 1.0f;
@@ -440,7 +440,7 @@ void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView, bool inIsShadowin
 			}
 			else
 			{
-				if ( inIsShadowing && IsShadowCaster( theLight.get(), lightType ) )
+				if ( IsShadowFrame() && IsShadowCaster( theLight.get(), lightType ) )
 				{
 					mShadowingLights.push_back( theLight );
 				}
@@ -683,6 +683,7 @@ void	QORenderer::Lights::SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorld
 void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 										bool inIsShadowing )
 {
+	mIsShadowFrame = inIsShadowing;
 	mIsFirstPass = true;
 	mIsShadowPhase = false;
 	mIsNextPassShadowPhase = false;
@@ -692,7 +693,7 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 	// How many OpenGL non-ambient lights can we have?
 	glGetIntegerv( GL_MAX_LIGHTS, &mMaxGLLights );
 	
-	ClassifyLights( inView, inIsShadowing );
+	ClassifyLights( inView );
 	
 	// If we are going to do shadow volumes, we need infinite yon.
 	if (! mShadowingLights.empty())
