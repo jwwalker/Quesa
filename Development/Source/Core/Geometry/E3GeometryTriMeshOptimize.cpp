@@ -5,7 +5,7 @@
         Functions to optimize a TriMesh for use by the interactive renderer.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -59,6 +59,37 @@
 										throw std::exception();	\
 										} } while (false)
 
+/*
+	DISCUSSION
+	
+	Due to the needs of OpenGL, color attributes and normal vectors must exist
+	on vertices rather than faces or edges.  Therefore we must make vertices
+	inherit attributes from the faces or edges that contain them.  However, if a
+	vertex belongs to multiple faces of different colors, for instance, we have
+	a problem.  We must duplicate the point, so that the point in its role as
+	a vertex of one face is considered to be different from the point in its
+	role as a vertex of a face of a different color.
+	
+	Let's adopt some terminology for this discussion and the code below.
+	
+	A "point" will be a point as provided by the original TriMesh.
+	
+	A "vertex" will be a point of the new optimized TriMesh.  Since these are
+	produced by (at most) duplicating original points, they can be identified by
+	indices into the original array of points.
+	
+	An "instance" will be a point in a specific role, as a corner of a face, as
+	an endpoint of an edge, or as a point on its own.  Consequently, an instance
+	has an "owner", which consists of a type (face, edge, or point) and an index
+	into one of the arrays making up the original TriMesh.
+	
+	Of course we could simply treat each instance as a vertex, but that would be
+	wasteful.  It would produce a TriMesh with many more points than is usually
+	necessary, and which could not be accelerated using triangle strips.  Thus,
+	when two instances refer to the same point, we must treat them as the same
+	vertex unless there is a specific reason not to, such as a color conflict.
+*/
+
 namespace
 {
 	const float		kDegenerateLengthSquared	= 1.0e-12f;
@@ -66,6 +97,25 @@ namespace
 	typedef	std::vector< TQ3Vector3D >	VecVec;
 	
 	typedef std::vector< TQ3Int32 >		IntVec;
+	
+	const TQ3Vector3D	kDefaultNormal = { 1.0f, 0.0f, 0.0f };
+	
+	const TQ3ColorRGB	kDefaultDiffuseColor = { 1.0f, 1.0f, 1.0f };
+	const TQ3ColorRGB	kDefaultSpecularColor = { 0.5f, 0.5f, 0.5f };
+	const TQ3ColorRGB	kDefaultTransparencyColor = { 1.0f, 1.0f, 1.0f };
+	
+	enum OwnerType
+	{
+		kOwnerTypeFace,
+		kOwnerTypeEdge,
+		kOwnerTypePoint
+	};
+	
+	struct Owner
+	{
+		OwnerType	mType;
+		TQ3Int32	mIndex;
+	};
 
 	class TriMeshOptimizer
 	{
@@ -82,9 +132,9 @@ namespace
 		void					EnsureFaceNormals();
 		void					MakeInstanceToPoint();
 		void					FindBackLinks();
-		bool					ArePointsSimilar( TQ3Int32 inPt1, TQ3Int32 inPt2 );
-		TQ3Int32				FindPrevSimilarPoint( TQ3Int32 inPtInstanceIndex );
-		void					FindDictinctVertices();
+		bool					AreInstancesSimilar( TQ3Int32 inPt1, TQ3Int32 inPt2 );
+		TQ3Int32				FindPrevSimilarInstance( TQ3Int32 inPtInstanceIndex );
+		void					FindDistinctVertices();
 		void					BuildNewTriMesh();
 		void					BuildFaces();
 		void					BuildFaceAttributes();
@@ -93,17 +143,28 @@ namespace
 		void					BuildPoints();
 		void					BuildVertexAttributes();
 		void					ComputeBounds();
+		Owner					GetOwnerOfInstance( TQ3Int32 inInstance ) const;
+		TQ3Vector3D				GetNormalFromOwner( const Owner& inOwner ) const;
+		TQ3ColorRGB				GetDiffColorFromOwner( const Owner& inOwner ) const;
+		TQ3ColorRGB				GetSpecColorFromOwner( const Owner& inOwner ) const;
+		TQ3ColorRGB				GetTransColorFromOwner( const Owner& inOwner ) const;
 	
 		const TQ3TriMeshData&	mOrigData;
 		TQ3TriMeshData&			mResultData;
 		
 		const TQ3Vector3D*		mOrigFaceNormals;
-		const TQ3Vector3D*		mOrigVertexNormals;
 		const TQ3ColorRGB*		mOrigFaceColor;
-		const TQ3ColorRGB*		mOrigVertexColor;
 		const TQ3ColorRGB*		mOrigFaceTransparency;
-		const TQ3ColorRGB*		mOrigVertexTransparency;
 		const TQ3ColorRGB*		mOrigFaceSpecularColor;
+		
+		const TQ3Vector3D*		mOrigEdgeNormals;
+		const TQ3ColorRGB*		mOrigEdgeColor;
+		const TQ3ColorRGB*		mOrigEdgeTransparency;
+		const TQ3ColorRGB*		mOrigEdgeSpecularColor;
+		
+		const TQ3Vector3D*		mOrigVertexNormals;
+		const TQ3ColorRGB*		mOrigVertexColor;
+		const TQ3ColorRGB*		mOrigVertexTransparency;
 		const TQ3ColorRGB*		mOrigVertexSpecularColor;
 		
 		VecVec					mComputedFaceNormals;
@@ -112,8 +173,7 @@ namespace
 		IntVec					mPrevPointInstance;
 		IntVec					mInstanceToVertex;
 		IntVec					mVertexToPoint;
-		IntVec					mVertexToFace;
-		IntVec					mPointToVertex;
+		std::vector<Owner>		mVertexToOwner;
 	};
 }
 
@@ -122,14 +182,22 @@ TriMeshOptimizer::TriMeshOptimizer(
 										TQ3TriMeshData& outData )
 	: mOrigData( inData )
 	, mResultData( outData )
+	
 	, mOrigFaceNormals( NULL )
-	, mOrigVertexNormals( NULL )
 	, mOrigFaceColor( NULL )
-	, mOrigVertexColor( NULL )
 	, mOrigFaceTransparency( NULL )
-	, mOrigVertexTransparency( NULL )
 	, mOrigFaceSpecularColor( NULL )
+
+	, mOrigEdgeNormals( NULL )
+	, mOrigEdgeColor( NULL )
+	, mOrigEdgeTransparency( NULL )
+	, mOrigEdgeSpecularColor( NULL )
+
+	, mOrigVertexNormals( NULL )
+	, mOrigVertexColor( NULL )
+	, mOrigVertexTransparency( NULL )
 	, mOrigVertexSpecularColor( NULL )
+	
 	, mResultFaceNormals( NULL )
 {
 }
@@ -145,13 +213,20 @@ TQ3Boolean		TriMeshOptimizer::Optimize()
 		EnsureFaceNormals();
 		MakeInstanceToPoint();
 		FindBackLinks();
-		FindDictinctVertices();
+		FindDistinctVertices();
 		BuildNewTriMesh();
 	}
 	
 	return optNeeded;
 }
 
+
+/*!
+	@function	IsOptNeeded
+	
+	@abstract	Determine whether the TriMesh is missing some vertex attribute
+				data that we could synthesize.
+*/
 TQ3Boolean		TriMeshOptimizer::IsOptNeeded() const
 {
 	TQ3Boolean	needOpt = kQ3False;
@@ -172,19 +247,169 @@ TQ3Boolean		TriMeshOptimizer::IsOptNeeded() const
 /*!
 	@function	MakeInstanceToPoint
 	
-	@abstract	For convenience, convert the triangles array into
-				a straight array of point indices.
+	@abstract	Create an array of "instances", indexes of points playing a
+				specific role.
 */
 void	TriMeshOptimizer::MakeInstanceToPoint()
 {
-	mInstanceToPoint.resize( mOrigData.numTriangles * 3 );
+	mInstanceToPoint.reserve( mOrigData.numTriangles * 3 +
+		mOrigData.numEdges * 2 + mOrigData.numPoints );
 	
-	for (TQ3Uns32 i = 0; i < mOrigData.numTriangles; ++i)
+	TQ3Uns32 i;
+	
+	for (i = 0; i < mOrigData.numTriangles; ++i)
 	{
-		mInstanceToPoint[ 3 * i ] = mOrigData.triangles[i].pointIndices[0];
-		mInstanceToPoint[ 3 * i + 1 ] = mOrigData.triangles[i].pointIndices[1];
-		mInstanceToPoint[ 3 * i + 2 ] = mOrigData.triangles[i].pointIndices[2];
+		mInstanceToPoint.push_back( mOrigData.triangles[i].pointIndices[0] );
+		mInstanceToPoint.push_back( mOrigData.triangles[i].pointIndices[1] );
+		mInstanceToPoint.push_back( mOrigData.triangles[i].pointIndices[2] );
 	}
+	
+	for (i = 0; i < mOrigData.numEdges; ++i)
+	{
+		mInstanceToPoint.push_back( mOrigData.edges[i].pointIndices[0] );
+		mInstanceToPoint.push_back( mOrigData.edges[i].pointIndices[1] );
+	}
+	
+	// Let us only include instances points that do not occur in faces or edges.
+	std::vector<bool>	isPointUsedInFaceOrEdge( mOrigData.numPoints, false );
+	for (i = 0; i < mInstanceToPoint.size(); ++i)
+	{
+		isPointUsedInFaceOrEdge[ mInstanceToPoint[i] ] = true;
+	}
+	
+	for (i = 0; i < mOrigData.numPoints; ++i)
+	{
+		if (! isPointUsedInFaceOrEdge[i])
+		{
+			mInstanceToPoint.push_back( i );
+		}
+	}
+}
+
+
+/*!
+	@function	GetOwnerOfInstance
+	
+	@abstract	Given an instance, find the face, edge, or isolated point that
+				owns it.
+*/
+Owner	TriMeshOptimizer::GetOwnerOfInstance( TQ3Int32 inInstance ) const
+{
+	Owner	theOwner;
+	
+	if (inInstance < mOrigData.numTriangles * 3)
+	{
+		theOwner.mType = kOwnerTypeFace;
+		theOwner.mIndex = inInstance / 3;
+	}
+	else if (inInstance < mOrigData.numTriangles * 3 + mOrigData.numEdges * 2)
+	{
+		theOwner.mType = kOwnerTypeEdge;
+		theOwner.mIndex = (inInstance - mOrigData.numTriangles * 3) / 2;
+	}
+	else
+	{
+		theOwner.mType = kOwnerTypePoint;
+		theOwner.mIndex = mInstanceToPoint[ inInstance ];
+	}
+	
+	return theOwner;
+}
+
+/*!
+	@function	GetNormalFromOwner
+	
+	@abstract	When vertex normals do not exist, inherit normals from owners.
+*/
+TQ3Vector3D	TriMeshOptimizer::GetNormalFromOwner( const Owner& inOwner ) const
+{
+	TQ3Vector3D	theNormal = kDefaultNormal;
+	
+	if (inOwner.mType == kOwnerTypeFace)
+	{
+		theNormal = mResultFaceNormals[ inOwner.mIndex ];
+	}
+	else if (inOwner.mType == kOwnerTypeEdge)
+	{
+		if (mOrigEdgeNormals != NULL)
+		{
+			theNormal = mOrigEdgeNormals[ inOwner.mIndex ];
+		}
+	}
+	
+	return theNormal;
+}
+
+/*!
+	@function	GetDiffColorFromOwner
+	
+	@abstract	When vertex colors do not exist, inherit colors from owners.
+*/
+TQ3ColorRGB	TriMeshOptimizer::GetDiffColorFromOwner( const Owner& inOwner ) const
+{
+	TQ3ColorRGB	theColor( kDefaultDiffuseColor );
+	
+	if (inOwner.mType == kOwnerTypeFace)
+	{
+		theColor = mOrigFaceColor[ inOwner.mIndex ];
+	}
+	else if (inOwner.mType == kOwnerTypeEdge)
+	{
+		if (mOrigEdgeColor != NULL)
+		{
+			theColor = mOrigEdgeColor[ inOwner.mIndex ];
+		}
+	}
+
+	return theColor;
+}
+
+/*!
+	@function	GetSpecColorFromOwner
+	
+	@abstract	When vertex colors do not exist, inherit colors from owners.
+*/
+TQ3ColorRGB	TriMeshOptimizer::GetSpecColorFromOwner( const Owner& inOwner ) const
+{
+	TQ3ColorRGB	theColor( kDefaultSpecularColor );
+	
+	if (inOwner.mType == kOwnerTypeFace)
+	{
+		theColor = mOrigFaceSpecularColor[ inOwner.mIndex ];
+	}
+	else if (inOwner.mType == kOwnerTypeEdge)
+	{
+		if (mOrigEdgeSpecularColor != NULL)
+		{
+			theColor = mOrigEdgeSpecularColor[ inOwner.mIndex ];
+		}
+	}
+
+	return theColor;
+}
+
+/*!
+	@function	GetTransColorFromOwner
+	
+	@abstract	When vertex colors do not exist, inherit colors from owners.
+*/
+TQ3ColorRGB	TriMeshOptimizer::GetTransColorFromOwner( const Owner& inOwner ) const
+{
+	TQ3ColorRGB	theColor( kDefaultTransparencyColor );
+	
+	if (inOwner.mType == kOwnerTypeFace)
+	{
+		theColor = mOrigFaceTransparency[ inOwner.mIndex ];
+	}
+	else if (inOwner.mType == kOwnerTypeEdge)
+	{
+		if (mOrigEdgeTransparency != NULL)
+		{
+			theColor = mOrigEdgeTransparency[ inOwner.mIndex ];
+		}
+	}
+
+	return theColor;
 }
 
 /*!
@@ -223,26 +448,28 @@ static bool IsSameColor( const TQ3ColorRGB& inOne, const TQ3ColorRGB& inTwo )
 }
 
 /*!
-	@function	ArePointsSimilar
+	@function	AreInstancesSimilar
 	
 	@abstract	Determine whether two instances of the same point (given by
 				indices into mInstanceToPoint) should be treated as the same
 				vertex.
 */
-bool	TriMeshOptimizer::ArePointsSimilar( TQ3Int32 inPt1, TQ3Int32 inPt2 )
+bool	TriMeshOptimizer::AreInstancesSimilar( TQ3Int32 inPt1, TQ3Int32 inPt2 )
 {
+	Q3_ASSERT( mInstanceToPoint[ inPt1 ] == mInstanceToPoint[ inPt2 ] );
 	bool	isSame = true;
-	TQ3Int32	face1, face2;
 	
-	face1 = inPt1 / 3;
-	face2 = inPt2 / 3;
+	Owner	owner1( GetOwnerOfInstance( inPt1 ) );
+	Owner	owner2( GetOwnerOfInstance( inPt2 ) );
 	
 	// If vertex normals do not exist, similar instances must have the same
 	// face normal.
 	if (mOrigVertexNormals == NULL)
 	{
-		float	dotProd = Q3FastVector3D_Dot( &mResultFaceNormals[face1],
-			&mResultFaceNormals[ face2 ] );
+		TQ3Vector3D	norm1( GetNormalFromOwner( owner1 ) );
+		TQ3Vector3D	norm2( GetNormalFromOwner( owner2 ) );
+		
+		float	dotProd = Q3FastVector3D_Dot( &norm1, &norm2 );
 		
 		if (dotProd < 1.0f - FLT_EPSILON)
 		{
@@ -254,32 +481,38 @@ bool	TriMeshOptimizer::ArePointsSimilar( TQ3Int32 inPt1, TQ3Int32 inPt2 )
 	// not vertex colors, then the face colors may distinguish them.
 	if ( isSame && (mOrigFaceColor != NULL) && (mOrigVertexColor == NULL) )
 	{
-		isSame = IsSameColor( mOrigFaceColor[face1], mOrigFaceColor[face2] );
+		TQ3ColorRGB	diff1( GetDiffColorFromOwner( owner1 ) );
+		TQ3ColorRGB	diff2( GetDiffColorFromOwner( owner2 ) );
+		isSame = IsSameColor( diff1, diff2 );
 	}
 	
 	// Same for transparency color.
 	if ( isSame && (mOrigFaceTransparency != NULL) && (mOrigVertexTransparency == NULL) )
 	{
-		isSame = IsSameColor( mOrigFaceTransparency[face1], mOrigFaceTransparency[face2] );
+		TQ3ColorRGB	trans1( GetTransColorFromOwner( owner1 ) );
+		TQ3ColorRGB	trans2( GetTransColorFromOwner( owner2 ) );
+		isSame = IsSameColor( trans1, trans2 );
 	}
 	
 	// Same for specular color.
 	if ( isSame && (mOrigFaceSpecularColor != NULL) && (mOrigVertexSpecularColor == NULL) )
 	{
-		isSame = IsSameColor( mOrigFaceSpecularColor[face1], mOrigFaceSpecularColor[face2] );
+		TQ3ColorRGB	spec1( GetSpecColorFromOwner( owner1 ) );
+		TQ3ColorRGB	spec2( GetSpecColorFromOwner( owner2 ) );
+		isSame = IsSameColor( spec1, spec2 );
 	}
 	
 	return isSame;
 }
 
 /*!
-	@function	FindPrevSimilarPoint
+	@function	FindPrevSimilarInstance
 	
 	@abstract	Given a point instance index (index into mInstanceToPoint), find a
 				previous instance of the same point that can be considered to
 				be the same vertex.
 */
-TQ3Int32	TriMeshOptimizer::FindPrevSimilarPoint( TQ3Int32 inPtInstanceIndex )
+TQ3Int32	TriMeshOptimizer::FindPrevSimilarInstance( TQ3Int32 inPtInstanceIndex )
 {
 	TQ3Int32	prevSimilarIndex = -1;
 	TQ3Int32	prevIndex;
@@ -295,7 +528,7 @@ TQ3Int32	TriMeshOptimizer::FindPrevSimilarPoint( TQ3Int32 inPtInstanceIndex )
 		{
 			break;
 		}
-		else if(ArePointsSimilar( inPtInstanceIndex, prevIndex ))
+		else if (AreInstancesSimilar( inPtInstanceIndex, prevIndex ))
 		{
 			prevSimilarIndex = prevIndex;
 			break;
@@ -306,43 +539,50 @@ TQ3Int32	TriMeshOptimizer::FindPrevSimilarPoint( TQ3Int32 inPtInstanceIndex )
 
 
 /*!
-	@function	FindDictinctVertices
+	@function	FindDistinctVertices
 	
 	@abstract	Decide how points need to be duplicated.
 	
-	@discussion	Let's say the original TriMesh has F faces and P points.
-				The array mInstanceToPoint can be thought of as a function
-				from the set {0... 3F-1} to the set {0... P-1}.
-				Here we will construct an array mInstanceToVertex,
-				mapping {0... 3F-1} to {0... V-1}, and an array mVertexToPoint
-				mapping {0... V-1} to {0... P-1}, such that
-				mVertexToPoint[ mInstanceToVertex[i] ] == mInstanceToPoint[i]
-				for each i, and if i and j are instances that are not
-				"similar", mInstanceToVertex[i] != mInstanceToVertex[j].
-				We also need an array mVertexToFace that will map a vertex
-				to one of the faces that contains it, and an array
-				mPointToVertex that maps a point to one of the vertices at
-				that location.
+	@discussion	At the time this function is called, we have a function from the
+				set of instances to the set of points, provided by the array
+				mInstanceToPoint, and we have a function from instances to
+				owners provided by the method GetOwnerOfInstance.
+				We need to define the set of vertices by factoring these known
+				functions through the vertices.  To be precise, we will define
+				arrays mInstanceToVertex, mVertexToPoint, and mVertexToOwner
+				such that:
+				
+				(1) mVertexToPoint[ mInstanceToVertex[i] ] == mInstanceToPoint[i]
+				for each i
+				
+				(2) if i and j are instances that do not map to the same point,
+				or do map to the same point but have owners with conflicting
+				attributes, then mInstanceToVertex[i] != mInstanceToVertex[j]
+				
+				(3) mVertexToOwner[ mInstanceToVertex[i] ] == GetOwnerOfInstance(i)
+				for each i
 */
-void	TriMeshOptimizer::FindDictinctVertices()
+void	TriMeshOptimizer::FindDistinctVertices()
 {
 	const TQ3Int32	kNumInstances = mInstanceToPoint.size();
 	mInstanceToVertex.resize( kNumInstances );
-	mPointToVertex.resize( mOrigData.numPoints, -1 );
 	TQ3Int32	i;
-	
+
 	for (i = 0; i < kNumInstances; ++i)
 	{
-		TQ3Int32	prevSimilar = FindPrevSimilarPoint( i );
+		TQ3Int32	prevSimilar = FindPrevSimilarInstance( i );
 		if (prevSimilar < 0)
 		{
-			// new vertex
+			// New vertex
+			TQ3Int32	nextVertIndex = mVertexToPoint.size();
 			mVertexToPoint.push_back( mInstanceToPoint[i] );
-			mInstanceToVertex[i] = mVertexToPoint.size() - 1;
-			mVertexToFace.push_back( i / 3 );
-			mPointToVertex[ mInstanceToPoint[i] ] = mVertexToPoint.size() - 1;
+			// hence mVertexToPoint[ nextVertIndex ] == mInstanceToPoint[i]
+			mInstanceToVertex[i] = nextVertIndex;
+			// and now (1) is satisfied
+			
+			mVertexToOwner.push_back( GetOwnerOfInstance(i) );
 		}
-		else
+		else	// this instance maps to the same vertex as the previous one
 		{
 			mInstanceToVertex[i] = mInstanceToVertex[ prevSimilar ];
 		}
@@ -489,12 +729,13 @@ void	TriMeshOptimizer::BuildEdges()
 			mOrigData.numEdges * sizeof(TQ3TriMeshEdgeData) );
 		
 		// Update point indices
+		TQ3Int32	instanceIndex = mOrigData.numTriangles * 3;
 		for (TQ3Uns32 i = 0; i < mOrigData.numEdges; ++i)
 		{
 			mResultData.edges[i].pointIndices[0] =
-				mPointToVertex[ mResultData.edges[i].pointIndices[0] ];
+				mInstanceToVertex[ instanceIndex++ ];
 			mResultData.edges[i].pointIndices[1] =
-				mPointToVertex[ mResultData.edges[i].pointIndices[1] ];
+				mInstanceToVertex[ instanceIndex++ ];
 		}
 	}
 }
@@ -577,6 +818,7 @@ void	TriMeshOptimizer::BuildVertexAttributes()
 	EQ3ThrowIfMemFail_( mResultData.vertexAttributeTypes );
 	TQ3Uns32	i, j;
 
+	// Copy original vertex attribute data
 	for (i = 0; i < mOrigData.numVertexAttributeTypes; ++i)
 	{
 		mResultData.vertexAttributeTypes[i].attributeType =
@@ -628,7 +870,7 @@ void	TriMeshOptimizer::BuildVertexAttributes()
 		
 		for (j = 0; j < mResultData.numPoints; ++j)
 		{
-			vertNormals[j] = mResultFaceNormals[ mVertexToFace[j] ];
+			vertNormals[j] = GetNormalFromOwner( mVertexToOwner[j] );
 		}
 		++i;
 	}
@@ -643,7 +885,7 @@ void	TriMeshOptimizer::BuildVertexAttributes()
 		
 		for (j = 0; j < mResultData.numPoints; ++j)
 		{
-			vertColors[j] = mOrigFaceColor[ mVertexToFace[j] ];
+			vertColors[j] = GetDiffColorFromOwner( mVertexToOwner[j] );
 		}
 		++i;
 	}
@@ -658,7 +900,7 @@ void	TriMeshOptimizer::BuildVertexAttributes()
 		
 		for (j = 0; j < mResultData.numPoints; ++j)
 		{
-			vertTrans[j] = mOrigFaceTransparency[ mVertexToFace[j] ];
+			vertTrans[j] = GetTransColorFromOwner( mVertexToOwner[j] );
 		}
 		++i;
 	}
@@ -673,7 +915,7 @@ void	TriMeshOptimizer::BuildVertexAttributes()
 		
 		for (j = 0; j < mResultData.numPoints; ++j)
 		{
-			vertSpecs[j] = mOrigFaceSpecularColor[ mVertexToFace[j] ];
+			vertSpecs[j] = GetSpecColorFromOwner( mVertexToOwner[j] );
 		}
 		++i;
 	}
@@ -733,6 +975,12 @@ void	TriMeshOptimizer::EnsureFaceNormals()
 	}
 }
 
+/*!
+	@function	FindOrigAtts
+	
+	@abstract	Locate the arrays of attribute data within the original TriMesh
+				data.
+*/
 void	TriMeshOptimizer::FindOrigAtts()
 {
 	TQ3Uns32	i;
@@ -759,6 +1007,33 @@ void	TriMeshOptimizer::FindOrigAtts()
 			case kQ3AttributeTypeSpecularColor:
 				mOrigFaceSpecularColor = static_cast<const TQ3ColorRGB*>(
 					mOrigData.triangleAttributeTypes[i].data );
+				break;
+		}
+	}
+
+	
+	for (i = 0; i < mOrigData.numEdgeAttributeTypes; ++i)
+	{
+		switch (mOrigData.edgeAttributeTypes[i].attributeType)
+		{
+			case kQ3AttributeTypeNormal:
+				mOrigEdgeNormals = static_cast<const TQ3Vector3D*>(
+					mOrigData.edgeAttributeTypes[i].data );
+				break;
+			
+			case kQ3AttributeTypeDiffuseColor:
+				mOrigEdgeColor = static_cast<const TQ3ColorRGB*>(
+					mOrigData.edgeAttributeTypes[i].data );
+				break;
+			
+			case kQ3AttributeTypeTransparencyColor:
+				mOrigEdgeTransparency = static_cast<const TQ3ColorRGB*>(
+					mOrigData.edgeAttributeTypes[i].data );
+				break;
+			
+			case kQ3AttributeTypeSpecularColor:
+				mOrigEdgeSpecularColor = static_cast<const TQ3ColorRGB*>(
+					mOrigData.edgeAttributeTypes[i].data );
 				break;
 		}
 	}
