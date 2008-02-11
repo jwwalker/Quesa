@@ -134,19 +134,26 @@ namespace
 	const int		kFullContourSize	= 400;
 	const float		kMaxContourWidth	= 2.5f;
 
-	
-	class StSaveLightingState
+	class StSaveStates
 	{
 	public:
-			StSaveLightingState()
+			StSaveStates( GLbitfield inMask )
 				{
-					glPushAttrib( GL_LIGHTING_BIT );
+					glPushAttrib( inMask );
 				}
 			
-			~StSaveLightingState()
+			~StSaveStates()
 				{
 					glPopAttrib();
 				}
+	};
+	
+	class StSaveLightingState : public StSaveStates
+	{
+	public:
+			StSaveLightingState()
+				: StSaveStates( GL_LIGHTING_BIT )
+				{}
 	};
 	
 
@@ -577,19 +584,11 @@ void	CCartoonRendererQuesa::DrawContours( TQ3ViewObject theView, TQ3TriMeshData*
 	{
 		float	lineWidth = CalcContourWidth( theView, geomData );
 		
-		DrawContourArrays( lineWidth, geomData );
-		
-		glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE );
-		glEnable( GL_CULL_FACE );
-		glCullFace( GL_BACK );
+		if (lineWidth > FLT_EPSILON)
+		{
+			DrawContourArrays( lineWidth, geomData );
+		}
 	}
-	else
-	{
-		glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE );
-		glDisable( GL_CULL_FACE );
-	}
-	
-	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }
 
 
@@ -647,11 +646,9 @@ float	CCartoonRendererQuesa::CalcContourWidth( TQ3ViewObject theView, TQ3TriMesh
 
 void CCartoonRendererQuesa::DrawContourArrays( float lineWidth, const TQ3TriMeshData* geomData )
 {
-	if (lineWidth < FLT_EPSILON)
-	{
-		return;
-	}
-
+	StSaveStates	saveStates( GL_ENABLE_BIT | GL_CURRENT_BIT |
+		GL_POLYGON_BIT | GL_LINE_BIT | GL_LIGHTING_BIT );
+			
 	DisableMultiTexturing();
 
 	glEnable(GL_CULL_FACE);
@@ -677,7 +674,6 @@ void CCartoonRendererQuesa::DrawContourArrays( float lineWidth, const TQ3TriMesh
 	// The shade model (AKA interpolation style) should not affect the contours,
 	// but on at least one G5 Mac running OS 10.3.9, you get weird extra lines
 	// when using flat shading (kQ3InterpolationStyleNone).
-	StSaveLightingState	saveShadeModel;
 	glShadeModel( GL_SMOOTH );
 
 	glDrawElements(GL_TRIANGLES, geomData->numTriangles * 3, GL_UNSIGNED_INT, geomData->triangles );
