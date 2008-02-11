@@ -183,7 +183,7 @@ namespace
 							const TQ3TriMeshData* geomData,
 							const TQ3Vector3D* vertNormals,
 							const TQ3Param2D* texCoords,
-							bool bAllreadyTextured );
+							bool bAlreadyTextured );
 		void DrawArraysFakeMultitexture(
 							TQ3GeometryObject inTriMesh,
 							const TQ3TriMeshData* geomData,
@@ -228,13 +228,13 @@ namespace
 		void SetActiveTextureARB(int n);
 		void EnableTextureArray( bool inEnable );
 		void DisableMultiTexturing();
+		
+		TQ3ColorRGB	CalcLightLevel( const TQ3TriMeshData* geomData,
+									bool bAlreadyTextured );
 
 		EQ3ActiveTextureARBProcPtr 		m_glActiveTextureARB;
 		EQ3ClientActiveTextureARBProcPtr m_glClientActiveTextureARB;
 		
-		GLboolean	m_savedLightEnabled[ kNumLightsToSet ];
-		GLboolean	m_savedLightingEnabled;
-		GLfloat		m_savedAmbientLight[ 4 ];
 		GLint		mClientActiveTextureUnit;
 	};
 
@@ -554,11 +554,125 @@ TQ3Param2D* CCartoonRendererQuesa::GenShadeTVerts( int nVerts,
 	return &m_arrShadeTVerts[0];
 }
 
-static void SetUpLight( float inAmbientLevel )
+static void AddLightComps( TQ3ColorRGB& ioLight, const GLfloat* inComps,
+							float inAttenuation )
+{
+	ioLight.r += inComps[0] * inAttenuation;
+	ioLight.g += inComps[1] * inAttenuation;
+	ioLight.b += inComps[2] * inAttenuation;
+}
+
+static float CalcAttenuation( GLenum inLightName, const TQ3Point3D& inGeomPlace,
+							const TQ3Point3D& inLightPlace )
+{
+	float	attFactor;
+	GLfloat		attConstant, attLinear, attQuad;
+	glGetLightfv( inLightName, GL_CONSTANT_ATTENUATION, &attConstant );
+	glGetLightfv( inLightName, GL_LINEAR_ATTENUATION, &attLinear );
+	glGetLightfv( inLightName, GL_QUADRATIC_ATTENUATION, &attQuad );
+	
+	if (attQuad > 0.0f)
+	{
+		attFactor = 1.0f / (attQuad * Q3FastPoint3D_DistanceSquared(
+			&inGeomPlace, &inLightPlace ));
+	}
+	else if (attLinear > 0.0f)
+	{
+		attFactor = 1.0f / (attLinear * Q3FastPoint3D_Distance(
+			&inGeomPlace, &inLightPlace ));
+	}
+	else
+	{
+		attFactor = 1.0f / attConstant;
+	}
+	
+	return attFactor;
+}
+
+/*!
+	@function	CalcLightLevel
+	
+	@abstract	Compute the level of ambient light to be used.
+	
+	@discussion	Originally, cartoon rendering used a fixed level of light,
+				regardless of any actual lights in use.  If we are to allow
+				shadows in a reasonable way, we must respect the brightness of
+				the actual lights.  However, to preserve the cartoon quality,
+				we still want to use ambient lights rather than directional or
+				positional lights.
+*/
+TQ3ColorRGB	CCartoonRendererQuesa::CalcLightLevel( const TQ3TriMeshData* geomData,
+												bool bAlreadyTextured )
+{
+	TQ3ColorRGB	lightLevel = { 0.0f, 0.0f, 0.0f };
+	
+	if (mLights.IsShadowFrame())
+	{
+		// Find center of bounding box
+		TQ3Point3D	centerGeom;
+		Q3FastPoint3D_RRatio( &geomData->bBox.min, &geomData->bBox.max,
+			1.0f, 1.0f, &centerGeom );
+		
+		// Get the modelview matrix
+		TQ3Matrix4x4 modelViewMatrix;
+		glGetFloatv( GL_MODELVIEW_MATRIX, &modelViewMatrix.value[0][0] );
+		
+		// Convert the center to eye coordinates
+		Q3Point3D_Transform( &centerGeom, &modelViewMatrix, &centerGeom );
+		
+		// Start with actual ambient light
+		GLfloat	lightComps[4];
+		glGetFloatv( GL_LIGHT_MODEL_AMBIENT, lightComps );
+		AddLightComps( lightLevel, lightComps, 1.0f );
+		
+		// How many other lights?
+		GLint	maxGLLights = 0;
+		glGetIntegerv( GL_MAX_LIGHTS, &maxGLLights );
+		
+		for (GLint i = 0; i < maxGLLights; ++i)
+		{
+			GLenum	lightName = GL_LIGHT0 + i;
+			
+			if (glIsEnabled( lightName ))
+			{
+				// Get the diffuse light color
+				glGetLightfv( lightName, GL_DIFFUSE, lightComps );
+				
+				// Get the position
+				GLfloat	lightPos[4];
+				glGetLightfv( lightName, GL_POSITION, lightPos );
+				
+				if (lightPos[3] == 0.0f)	// directional light
+				{
+					AddLightComps( lightLevel, lightComps, 1.0f );
+				}
+				else	// positional light
+				{
+					TQ3Point3D	lightPlace = {
+						lightPos[0], lightPos[1], lightPos[2]
+					};
+					float	att = CalcAttenuation( lightName, centerGeom,
+						lightPlace );
+					AddLightComps( lightLevel, lightComps, att );
+				}
+			}
+		}
+	}
+	else	// old case, no shadows
+	{
+		static const TQ3ColorRGB kTexturedLightLevel = { 1.4f, 1.4f, 1.4f };
+		static const TQ3ColorRGB kColoredLightLevel = { 1.1f, 1.1f, 1.1f };
+		lightLevel = bAlreadyTextured? kTexturedLightLevel : kColoredLightLevel;
+	}
+	
+	return lightLevel;
+}
+
+static void SetUpLight( const TQ3ColorRGB& inAmbientLevel )
 {
 	glEnable( GL_LIGHTING );
 	GLfloat	brightAmbient[] = {
-		inAmbientLevel, inAmbientLevel, inAmbientLevel, 1.0f
+		inAmbientLevel.r, inAmbientLevel.g, inAmbientLevel.b, 1.0f
 	};
 	glLightModelfv( GL_LIGHT_MODEL_AMBIENT, brightAmbient );
 	glDisable( GL_LIGHT0 );
@@ -738,7 +852,9 @@ void CCartoonRendererQuesa::DrawArrays(
 
 		SetShadingTexture( geomData->numPoints, vertNormals, bAlreadyTextured );
 		
-		SetUpLight( bAlreadyTextured? 1.4f : 1.1f );
+		TQ3ColorRGB	lightLevel( CalcLightLevel( geomData, bAlreadyTextured ) );
+		
+		SetUpLight( lightLevel );
 
 		// Check for a triangle strip.
 		TQ3Uns32	stripSize;
@@ -781,35 +897,33 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(
 			CETriangleStripElement_GetData( inTriMesh, &stripSize, &stripArray );
 		}
 
-		SetUpLight( 1.0f );
+		TQ3ColorRGB	lightLevel( CalcLightLevel( geomData, true ) );
+
+		TQ3ColorRGB	firstLight = { 1.0f, 1.0f, 1.0f };
+		
+		SetUpLight( firstLight );
 		
 		DrawTrianglesOrStrip( *geomData, stripSize, stripArray );
 		
 		// Use a blending function that will have the effect of multiplying the
 		// existing fragment color by the new fragment color, imitating
 		// texturing with GL_MODULATE.
+		// NOTE: This code path does not work well with shadows, probably
+		// because the shadow algorithm uses blending to add in the effect of
+		// each shadow-casting light.
+		StSaveStates	saveGL( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT |
+			GL_TEXTURE_BIT );
 		glEnable( GL_BLEND );
 		glBlendFunc( GL_DST_COLOR, GL_ZERO );
 		
 		glDepthMask( GL_FALSE );	// no writing to depth buffer
 		glDepthFunc( GL_EQUAL );
 
-		// save the current bound texture
-		GLint	savedTexture = 0;
-		glGetIntegerv( GL_TEXTURE_BINDING_2D, &savedTexture );
-
 		SetShadingTexture( geomData->numPoints, vertNormals, false );
 		
-		SetUpLight( 1.4f );
+		SetUpLight( lightLevel );
 		
 		DrawTrianglesOrStrip( *geomData, stripSize, stripArray );
-
-		glDisable( GL_BLEND );
-		glDepthMask( GL_TRUE );
-		glDepthFunc( GL_LESS );
-
-		// restore previous texture
-		glBindTexture( GL_TEXTURE_2D, savedTexture );
 	}
 	catch (...)
 	{
@@ -878,7 +992,10 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 	// We will only use normals to compute texture coordinates for shading.
 	mGLClientStates.DisableNormalArray();
 	
-	DrawContours( theView, geomData, mStyleState.mBackfacing );
+	if (IsFirstPass())
+	{
+		DrawContours( theView, geomData, mStyleState.mBackfacing );
+	}
 	
 	if ( (m_glActiveTextureARB == NULL) && bAlreadyTextured )
 	{
@@ -933,13 +1050,15 @@ CCartoonRendererQuesa::Cartoon_Geometry_Submit_TriMesh(
 	// Translucent objects, objects without vertex normals, or objects marked
 	// with a special property, will be passed to the
 	// standard OpenGL renderer.
-	if ( (normals == NULL) || IsGeomMarkedNonCartoon( theGeom ) ||
+	if ( me->mLights.IsShadowMarkingPass() || 
+		(normals == NULL) || IsGeomMarkedNonCartoon( theGeom ) ||
 		IsGeomTransparent( me->mGeomState ) ||
 		me->mTextures.IsTextureTransparent() )
 	{
-		TQ3XRendererSubmitGeometryMethod	irMethod = (TQ3XRendererSubmitGeometryMethod)
+		TQ3XRendererSubmitGeometryMethod	GLMethod =
+			(TQ3XRendererSubmitGeometryMethod)
 			GetParentRendererMethod( kQ3GeometryTypeTriMesh );
-		theStatus = irMethod( theView, privateData, theGeom, geomData );
+		theStatus = GLMethod( theView, privateData, theGeom, geomData );
 	}
 	else
 	{
@@ -1040,42 +1159,6 @@ cartoon_delete_object( TQ3Object theObject, void *privateData )
 }
 
 
-static TQ3Status
-cartoon_start_frame_method(
-								TQ3ViewObject inView,
-								void* privateData,
-								TQ3DrawContextObject inDrawContext )
-{
-	CQ3ObjectRef	theRenderer( CQ3View_GetRenderer( inView ) );
-	
-	// Since the cartoon renderer currently does not work well with shadows,
-	// temporarily turn the shadowing flag off while the OpenGL renderer is
-	// looking for it.
-	TQ3Boolean	isShadowingRequested = kQ3False;
-	Q3Object_GetProperty( theRenderer.get(),
-			kQ3RendererPropertyShadows, sizeof(isShadowingRequested), NULL,
-			&isShadowingRequested );
-	if (isShadowingRequested)
-	{
-		TQ3Boolean	noShadow = kQ3False;
-		Q3Object_SetProperty( theRenderer.get(), kQ3RendererPropertyShadows,
-			sizeof(TQ3Boolean), &noShadow );
-	}
-	
-	TQ3XRendererStartFrameMethod	parentMethod = (TQ3XRendererStartFrameMethod)
-		GetParentRendererMethod( kQ3XMethodTypeRendererStartFrame );
-		
-	TQ3Status	result = (*parentMethod)( inView, privateData, inDrawContext );
-
-	if (isShadowingRequested)
-	{
-		Q3Object_SetProperty( theRenderer.get(), kQ3RendererPropertyShadows,
-			sizeof(TQ3Boolean), &isShadowingRequested );
-	}
-	
-	return result;
-}
-
 static TQ3XFunctionPointer
 ca_cartoon_metahandler(TQ3XMethodType methodType)
 {	
@@ -1097,10 +1180,6 @@ ca_cartoon_metahandler(TQ3XMethodType methodType)
 		
 		case kQ3XMethodTypeRendererSubmitGeometryMetaHandler:
 			theMethod = (TQ3XFunctionPointer) cartoon_submit_geom_metahandler;
-			break;
-
-		case kQ3XMethodTypeRendererStartFrame:
-			theMethod = (TQ3XFunctionPointer) cartoon_start_frame_method;
 			break;
 
 		case kQ3XMethodTypeRendererMethodsCached:
