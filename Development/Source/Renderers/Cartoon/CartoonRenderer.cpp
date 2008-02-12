@@ -103,6 +103,8 @@ static int sLastGLError = 0;
 
 #define kQ3ClassNameRendererCartoon				"Quesa Cartoon"
 
+const float	kMinAttenuationDenominator		= 0.00001f;
+
 const int	kShadingTextureWidth	= 32;
 
 #if Q3_DEBUG
@@ -565,7 +567,7 @@ static void AddLightComps( TQ3ColorRGB& ioLight, const GLfloat* inComps,
 static float CalcAttenuation( GLenum inLightName, const TQ3Point3D& inGeomPlace,
 							const TQ3Point3D& inLightPlace )
 {
-	float	attFactor;
+	float	attDenom;
 	GLfloat		attConstant, attLinear, attQuad;
 	glGetLightfv( inLightName, GL_CONSTANT_ATTENUATION, &attConstant );
 	glGetLightfv( inLightName, GL_LINEAR_ATTENUATION, &attLinear );
@@ -573,18 +575,25 @@ static float CalcAttenuation( GLenum inLightName, const TQ3Point3D& inGeomPlace,
 	
 	if (attQuad > 0.0f)
 	{
-		attFactor = 1.0f / (attQuad * Q3FastPoint3D_DistanceSquared(
-			&inGeomPlace, &inLightPlace ));
+		attDenom = attQuad *
+			Q3FastPoint3D_DistanceSquared( &inGeomPlace, &inLightPlace );
 	}
 	else if (attLinear > 0.0f)
 	{
-		attFactor = 1.0f / (attLinear * Q3FastPoint3D_Distance(
-			&inGeomPlace, &inLightPlace ));
+		attDenom = attLinear *
+			Q3FastPoint3D_Distance( &inGeomPlace, &inLightPlace );
 	}
 	else
 	{
-		attFactor = 1.0f / attConstant;
+		attDenom = attConstant;
 	}
+	
+	if (attDenom < kMinAttenuationDenominator)
+	{
+		attDenom = kMinAttenuationDenominator;
+	}
+	
+	float	attFactor = 1.0f / attDenom;
 	
 	return attFactor;
 }
