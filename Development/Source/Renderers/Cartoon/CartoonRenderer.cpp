@@ -103,7 +103,6 @@ static int sLastGLError = 0;
 
 #define kQ3ClassNameRendererCartoon				"Quesa Cartoon"
 
-const float	kMinAttenuationDenominator		= 0.00001f;
 
 const int	kShadingTextureWidth	= 32;
 
@@ -135,6 +134,7 @@ namespace
 	const int		kMinContourSize		= 40;
 	const int		kFullContourSize	= 400;
 	const float		kMaxContourWidth	= 2.5f;
+	const float	kMinAttenuationDenominator		= 0.00001f;
 
 	class StSaveStates
 	{
