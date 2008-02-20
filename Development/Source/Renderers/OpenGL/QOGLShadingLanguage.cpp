@@ -103,34 +103,43 @@ namespace
 
 				// Sampler for texture unit 0
 				"uniform sampler2D tex0;\n\n"
-				
+				;
+	
+	const char*	kFragmentShaderQuantizeFuncs_Normal =
 				"vec3 QuantizeLight( in vec3 light )\n"
 				"{\n"
-				"	return (quantization <= 0.0)? light :\n"
-				"		floor( light * quantization + 0.5 ) / quantization;\n"
+				"	return light;\n"
 				"}\n\n"
 				
 				"float QuantizeDot( in float normalDotGeomToLight )\n"
 				"{\n"
-				"	return (quantization <= 0.0)? normalDotGeomToLight :\n"
-						"floor( 2.0 * normalDotGeomToLight );\n"
-				"}"
+				"	return normalDotGeomToLight;\n"
+				"}\n\n"
+				
+				"vec3 QuantizeDiffuse( in vec3 light, in float normalDotGeomToLight )\n"
+				"{\n"
+				"	return light * normalDotGeomToLight;\n"
+				"}\n\n"
+				;
+	
+	const char*	kFragmentShaderQuantizeFuncs_Cartoonish =
+				"vec3 QuantizeLight( in vec3 light )\n"
+				"{\n"
+				"	return floor( light * quantization + vec3(0.5) ) / quantization;\n"
+				"}\n\n"
+				
+				"float QuantizeDot( in float normalDotGeomToLight )\n"
+				"{\n"
+				"	return floor( 2.0 * normalDotGeomToLight );\n"
+				"}\n\n"
 				
 				"vec3 QuantizeDiffuse( in vec3 light, in float normalDotGeomToLight )\n"
 				"{\n"
 				"	vec3	result;\n"
-				"	if (quantization <= 0.0)\n"
-				"	{\n"
-				"		result = light * normalDotGeomToLight;\n"
-				"	}\n"
-				"	else\n"
-				"	{\n"
-				"		result = mix( QuantizeLight( light * normalDotGeomToLight ), light, 0.3 );"
-				"	}\n"
+				"	result = mix( QuantizeLight( light * normalDotGeomToLight ), light, 0.3 );\n"
 				"	return result;\n"
 				"}\n\n"
 				;
-				
 	
 	const char* kDirectionalLightFragmentShaderSource =
 				// This shader code computes the contribution of one directional
@@ -251,24 +260,29 @@ namespace
 							"gl_FrontMaterial.emission.rgb;\n"
 
 					// Add diffuse color.
+				"	color += diff * gl_Color.rgb;\n"
+				
+				"	alpha = gl_Color.a;\n"
+				;
+
+	const char* kColorCompForLambertAndPhong_Cartoonish =
+					// Start with emissive and global ambient color.
+					// I will assume that the only ambient light is global.
+				"	color = gl_LightModel.ambient.rgb * gl_Color.rgb + "
+							"gl_FrontMaterial.emission.rgb;\n"
+
+					// Add diffuse color.
 					// Ordinarily we just add the diffuse light times the
 					// material color, but when doing a cartoonish style, we
-					// skip areas nearly perpendicular to the eye.
-				"	if (quantization <= 0.0)\n"
-				"	{"
-				"		color += diff * gl_Color.rgb;\n"
-				"	}\n"
-				"	else\n"		// cartoony style
+					// may darken areas nearly perpendicular to the eye.
+				"	if (dot( normal, geomToEyeDir ) > 0.5)\n"
 				"	{\n"
-				"		if (dot( normal, geomToEyeDir ) > 0.5)\n"
-				"		{\n"
-				"			color += min( diff, 1.0 ) * gl_Color.rgb;\n"
-				"		}\n"
-				"		else\n"
-				"		{\n"
-				"			color += lightNearEdge * min( diff, 1.0 ) * gl_Color.rgb;\n"
-				"		}\n"
-				"	}\n\n"
+				"		color += min( diff, 1.0 ) * gl_Color.rgb;\n"
+				"	}\n"
+				"	else\n"
+				"	{\n"
+				"		color += lightNearEdge * min( diff, 1.0 ) * gl_Color.rgb;\n"
+				"	}\n"
 				
 				"	alpha = gl_Color.a;\n"
 				;
@@ -321,20 +335,24 @@ namespace
 					MatchProgram(
 							const QORenderer::LightPattern& inPattern,
 							TQ3ObjectType inIlluminationType,
-							bool inIsTextured )
+							bool inIsTextured,
+							bool inIsCartoonish )
 						: mPattern( inPattern )
 						, mIlluminationType( inIlluminationType )
-						, mIsTextured( inIsTextured ) {}
+						, mIsTextured( inIsTextured )
+						, mIsCartoonish( inIsCartoonish ) {}
 					
 					MatchProgram( const MatchProgram& inOther )
 						: mPattern( inOther.mPattern )
 						, mIlluminationType( inOther.mIlluminationType )
-						, mIsTextured( inOther.mIsTextured ) {}
+						, mIsTextured( inOther.mIsTextured )
+						, mIsCartoonish( inOther.mIsCartoonish ) {}
 	
 		bool		operator()( const QORenderer::ProgramRec& inProg ) const
 					{
 						return (mIsTextured == inProg.mIsTextured) &&
 							(mIlluminationType == inProg.mIlluminationType) &&
+							(mIsCartoonish == inProg.mIsCartoonish) &&
 							(mPattern == inProg.mPattern);
 					}
 		
@@ -342,6 +360,7 @@ namespace
 		const QORenderer::LightPattern&	mPattern;
 		TQ3ObjectType	mIlluminationType;
 		bool			mIsTextured;
+		bool			mIsCartoonish;
 	};
 	
 	struct DeleteProgram
@@ -509,6 +528,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mVertexShaderID( 0 )
 	, mQuantization( 0.0f )
 	, mLightNearEdge( 1.0f )
+	, mIsCartoonish( false )
 {
 }
 
@@ -562,9 +582,20 @@ static void LogShaderCompileError( GLint inShaderID, QORenderer::GLSLFuncs& inFu
 static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern,
 										TQ3ObjectType inIlluminationType,
 										bool inIsTextured,
+										bool inIsCartoonish,
 										std::vector<std::string>& outSource )
 {
 	outSource.push_back( kFragmentShaderPrefix );
+	
+	if (inIsCartoonish)
+	{
+		outSource.push_back( kFragmentShaderQuantizeFuncs_Cartoonish );
+	}
+	else
+	{
+		outSource.push_back( kFragmentShaderQuantizeFuncs_Normal );
+	}
+	
 	outSource.push_back( kMainFragmentShaderStartSource );
 
 	if (inIlluminationType != kQ3IlluminationTypeNULL)
@@ -590,6 +621,10 @@ static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern
 	{
 		outSource.push_back( kColorCompForNULLIllumination );
 	}
+	else if (inIsCartoonish)
+	{
+		outSource.push_back( kColorCompForLambertAndPhong_Cartoonish );
+	}
 	else
 	{
 		outSource.push_back( kColorCompForLambertAndPhong );
@@ -607,7 +642,6 @@ static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern
 		
 	outSource.push_back( kMainFragmentShaderEndSource );
 }
-
 
 
 static void GetLightTypes( QORenderer::LightPattern& outLights )
@@ -687,6 +721,7 @@ void	QORenderer::PerPixelLighting::StartPass()
 		mIlluminationType = kQ3IlluminationTypeNULL;
 		mIsTextured = false;
 		mProgramIndex = -1;
+		mIsCartoonish = (mQuantization > 0.0f);
 		
 		if (mVertexShaderID != 0)
 		{
@@ -710,7 +745,8 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 	GetLightTypes( theLightPattern );
 	
 	// Look for a program that meets current needs.
-	MatchProgram	matcher( theLightPattern, mIlluminationType, mIsTextured );
+	MatchProgram	matcher( theLightPattern, mIlluminationType, mIsTextured,
+		mIsCartoonish );
 	ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
 		mPrograms.end(), matcher );
 	
@@ -731,7 +767,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 		mFuncs.glUseProgram( foundProg->mProgram );
 		foundProg->mAgeCounter = 0;
 		
-		// Set the quantization uniform variable.
+		// Set the quantization uniform variables.
 		mFuncs.glUniform1f( foundProg->mQuantizationUniformLoc, mQuantization );
 		mFuncs.glUniform1f( foundProg->mLightNearEdgeUniformLoc, mLightNearEdge );
 	}
@@ -850,6 +886,7 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 	newProgram.mPattern = inPattern;
 	newProgram.mIlluminationType = mIlluminationType;
 	newProgram.mIsTextured = mIsTextured;
+	newProgram.mIsCartoonish = mIsCartoonish;
 	
 	// Create a program.
 	newProgram.mProgram = mFuncs.glCreateProgram();
@@ -862,7 +899,7 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 		// Build the source of the fragment shader
 		std::vector<std::string>	fragSource;
 		BuildFragmentShaderSource( inPattern, mIlluminationType, mIsTextured,
-			fragSource );
+			mIsCartoonish, fragSource );
 		std::vector<const char*>	sourceParts;
 		GetSourcePointers( fragSource, sourceParts );
 		
@@ -1024,8 +1061,17 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 		Q3Object_GetProperty( inGeom, kQ3GeometryPropertyNonCartoon,
 			sizeof(TQ3Boolean), NULL, &isNonCartoon );
 		
-		mFuncs.glUniform1f( mPrograms[ mProgramIndex ].mQuantizationUniformLoc,
-			isNonCartoon? 0.0f : mQuantization );
+		bool	isCartoonish = (isNonCartoon == kQ3False);
+		
+		if (isCartoonish != mIsCartoonish)
+		{
+			mIsCartoonish = isCartoonish;
+			
+			ChooseProgram();
+					
+			mFuncs.glUniform1f( mPrograms[ mProgramIndex ].mQuantizationUniformLoc,
+				isCartoonish? mQuantization : 0.0f );
+		}
 	}
 }
 

@@ -117,6 +117,7 @@ struct ProgramRec
 						, mPattern( inOther.mPattern )
 						, mIlluminationType( inOther.mIlluminationType )
 						, mIsTextured( inOther.mIsTextured )
+						, mIsCartoonish( inOther.mIsCartoonish )
 						, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
 						, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
 						, mLightNearEdgeUniformLoc( inOther.mLightNearEdgeUniformLoc )
@@ -127,6 +128,7 @@ struct ProgramRec
 	LightPattern	mPattern;
 	TQ3ObjectType	mIlluminationType;
 	bool			mIsTextured;
+	bool			mIsCartoonish;
 	
 	GLint			mTextureUnitUniformLoc;
 	GLint			mQuantizationUniformLoc;
@@ -285,6 +287,7 @@ private:
 	GLuint						mVertexShaderID;
 	TQ3Float32					mQuantization;
 	TQ3Float32					mLightNearEdge;
+	bool						mIsCartoonish;
 	
 	ProgramVec					mPrograms;
 	int							mProgramIndex;
