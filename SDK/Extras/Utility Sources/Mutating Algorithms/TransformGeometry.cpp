@@ -100,6 +100,20 @@ static void TransformCylinder( const TQ3Matrix4x4* inMatrix,
 	Q3Cylinder_EmptyData( &cylData );
 }
 
+static void TransformDisk( const TQ3Matrix4x4* inMatrix,
+								TQ3GeometryObject ioGeom )
+{
+	TQ3DiskData	diskData;
+	Q3Disk_GetData( ioGeom, &diskData );
+	
+	Q3Vector3D_Transform( &diskData.majorRadius, inMatrix, &diskData.majorRadius );
+	Q3Vector3D_Transform( &diskData.minorRadius, inMatrix, &diskData.minorRadius );
+	Q3Point3D_Transform( &diskData.origin, inMatrix, &diskData.origin );
+
+	Q3Disk_SetData( ioGeom, &diskData );
+	Q3Disk_EmptyData( &diskData );
+}
+
 static void TransformEllipsoid( const TQ3Matrix4x4* inMatrix,
 								TQ3GeometryObject ioGeom )
 {
@@ -282,6 +296,10 @@ TQ3Status	TransformGeometry( const TQ3Matrix4x4* inMatrix,
 			
 		case kQ3GeometryTypeCylinder:
 			TransformCylinder( inMatrix, ioGeom );
+			break;
+			
+		case kQ3GeometryTypeDisk:
+			TransformDisk( inMatrix, ioGeom );
 			break;
 			
 		case kQ3GeometryTypeEllipsoid:
