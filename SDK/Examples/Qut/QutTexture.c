@@ -5,7 +5,7 @@
         Quesa Utility Toolkit - texture utilities.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -672,7 +672,8 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 	TQ3Mipmap				qd3dMipMap;
 	UInt16					*pixelPtr;
 	UInt8					*baseAddr;
-
+	OSType					pixelFormat;
+	TQ3Endian				byteOrder;
 
 
 	// Get the details we need from the PixMap
@@ -684,7 +685,7 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 	rowBytes   = (*thePixMap)->rowBytes & 0x7FFF;
 	pixelBytes = (*thePixMap)->pixelSize / 8;
 	baseAddr   = (UInt8 *) GetPixBaseAddr(thePixMap);
-
+	pixelFormat = (*thePixMap)->pixelFormat;
 
 
 	// If this is a 16 bit alpha channel texture, set the alpha bits.
@@ -702,6 +703,17 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 			}
 		}
 
+
+	// Set the byte order
+	if ( (pixelFormat == k32BGRAPixelFormat) ||
+		(pixelFormat == k16LE555PixelFormat) )
+	{
+		byteOrder = kQ3EndianLittle;
+	}
+	else
+	{
+		byteOrder = kQ3EndianBig;
+	}
 
 
 	// Create a storage object based on the GWorld
@@ -727,8 +739,8 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 			qd3dPixMap.rowBytes		= rowBytes;
 			qd3dPixMap.pixelSize	= (pixelType == kQ3PixelTypeARGB32 || pixelType == kQ3PixelTypeRGB32) ? 32 : 16;
 			qd3dPixMap.pixelType	= pixelType;
-			qd3dPixMap.bitOrder		= kQ3EndianBig;
-			qd3dPixMap.byteOrder	= kQ3EndianBig;
+			qd3dPixMap.bitOrder		= byteOrder;
+			qd3dPixMap.byteOrder	= byteOrder;
 
 			qd3dTextureObject = Q3PixmapTexture_New(&qd3dPixMap);
 			}
@@ -739,8 +751,8 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 			qd3dMipMap.image         = qd3dMemoryStorage;
 			qd3dMipMap.useMipmapping = kQ3False;
 			qd3dMipMap.pixelType	 = pixelType;
-			qd3dMipMap.bitOrder		 = kQ3EndianBig;
-			qd3dMipMap.byteOrder	 = kQ3EndianBig;
+			qd3dMipMap.bitOrder		 = byteOrder;
+			qd3dMipMap.byteOrder	 = byteOrder;
 			qd3dMipMap.reserved		 = 0;
 
 			qd3dMipMap.mipmaps[0].width    = theWidth;
