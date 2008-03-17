@@ -1,5 +1,5 @@
 /*  NAME:
-        MergeTriMeshes.h
+        FindTriMeshVertexData.h
 
     DESCRIPTION:
         Quesa utility header.
