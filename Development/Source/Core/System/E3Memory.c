@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+
+#if QUESA_OS_MACINTOSH
+	#include <unistd.h>
+#endif
 
 
 
@@ -236,6 +240,50 @@ e3Int64_Max( const TQ3Int64& a, const TQ3Int64& b )
 	else
 		return a;
 }
+
+
+
+
+
+#if Q3_DEBUG
+//=============================================================================
+//      SetDirectoryForDump : If a plain file name was passed to
+//			E3Memory_DumpRecording, we may want to set a default directory.
+//-----------------------------------------------------------------------------
+static void SetDirectoryForDump( const char* inFileName )
+{
+#if QUESA_OS_MACINTOSH && TARGET_RT_MAC_MACHO
+	if (inFileName[0] != '/')
+	{
+		FSRef	dirRef;
+		OSStatus	err = FSFindFolder( kUserDomain, kDocumentsFolderType,
+			kCreateFolder, &dirRef );
+		if (err == noErr)
+		{
+			CFURLRef	dirURL = CFURLCreateFromFSRef( NULL, &dirRef );
+			if (dirURL != NULL)
+			{
+				CFStringRef	pathCF = CFURLCopyFileSystemPath( dirURL,
+					kCFURLPOSIXPathStyle );
+				if (pathCF != NULL)
+				{
+					char	thePath[ PATH_MAX ];
+					if (CFStringGetCString( pathCF, thePath, PATH_MAX,
+						kCFStringEncodingUTF8 ))
+					{
+						chdir( thePath );
+					}
+					
+					CFRelease( pathCF );
+				}
+				
+				CFRelease( dirURL );
+			}
+		}
+	}
+#endif
+}
+#endif
 
 
 
@@ -870,6 +918,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 	
 	if (theGlobals->listHead)	// true if anything was ever recorded
 	{
+		SetDirectoryForDump( fileName );
 		dumpFile = fopen( fileName, "a" );
 		if (dumpFile == NULL)
 		{
