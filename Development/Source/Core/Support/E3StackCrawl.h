@@ -10,7 +10,7 @@
         public API as defined here.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -73,9 +73,9 @@ extern "C" {
 /*!
 	@typedef	TQ3StackCrawl
 	
-	@discussion	This is an opaque pointer type holding a list of function names
-				of a stack crawl.  Some time in the future, we might want to
-				record additional information such as addresses.
+	@discussion	This is an opaque pointer type holding a stack crawl.  Depending
+				on platform and implementation, it might hold numerical
+				addresses or symbol strings.
 */
 typedef struct TQ3StackCrawlRec*	TQ3StackCrawl;
 
@@ -108,6 +108,8 @@ TQ3Uns32		E3StackCrawl_Count( TQ3StackCrawl inCrawl );
 /*!
 	@function	E3StackCrawl_Get
 	@abstract	Get a function name out of a stack crawl.
+	@discussion	The string returned by this function should be regarded as
+				read-only and temporary.
 	@param		inCrawl		A stack crawl created by <code>E3StackCrawl_New</code>.
 	@param		inIndex		An index, at least 0 and less than the result of
 							<code>E3StackCrawl_Count</code>.
