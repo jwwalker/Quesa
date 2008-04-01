@@ -517,12 +517,6 @@ E3StackCrawl_New()
 	}
 	theCrawl->numFrames = index;
 	
-	printf("\n\n%d frames\n", (int)index );
-	for (index = 0; index < theCrawl->numFrames; ++index)
-	{
-		printf( "  %08X\n", (int)theCrawl->frames[index].pc );
-	}
-	
 	return theCrawl;
 }
 
