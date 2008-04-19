@@ -745,7 +745,7 @@ void	FBORec::SwapBuffers()
 		gldrawcontext_fbo_convert_pixel_format( bytesPerPixel, thePixMap.byteOrder,
 			pixelFormat, pixelType );
 	
-		glFlush();
+		glFinish();	// on some machines, glFlush does not suffice
 		glReadBuffer( GL_COLOR_ATTACHMENT0_EXT );
 		glReadPixels( 0, 0, theLogicalWidth, theLogicalHeight, pixelFormat,
 			pixelType, panePixels );
