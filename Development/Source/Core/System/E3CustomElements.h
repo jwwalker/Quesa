@@ -5,7 +5,7 @@
         Header file for E3CustomElements.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,6 +95,9 @@ TQ3Status	E3WireElement_GetData(TQ3Object object, QTAtomContainer *wireData);
 TQ3Status	E3WireElement_EmptyData(QTAtomContainer *wireData);
 #endif
 
+const void*	E3Object_GetPropertyAddress( TQ3Object object,
+										TQ3ObjectType propType,
+										TQ3Uns32* actualSize );
 TQ3Status	E3Object_GetProperty( TQ3Object object, TQ3ObjectType propType,
 								TQ3Uns32 bufferSize, TQ3Uns32* actualSize, void* buffer );
 TQ3Status	E3Object_RemoveProperty( TQ3Object object, TQ3ObjectType propType );

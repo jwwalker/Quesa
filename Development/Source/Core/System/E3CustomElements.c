@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1112,6 +1112,47 @@ E3CustomElements_UnregisterClass(void)
 
 #pragma mark -
 //=============================================================================
+//      E3Object_GetPropertyAddress : Get a pointer to a property of an object.
+//-----------------------------------------------------------------------------
+//	You may pass NULL for actualSize if you do not need that information.
+//	
+//	This function is somewhat unsafe, but may be useful for optimization of
+//	large properties, since it avoids a copy.
+const void*	E3Object_GetPropertyAddress( TQ3Object object,
+										TQ3ObjectType propType,
+										TQ3Uns32* actualSize )
+{
+	const void*	dataPtr = NULL;
+	
+	TCEPropertyPrivate	theData;
+	
+	TQ3Status	status = Q3Object_GetElement( object,
+		kQ3ObjectTypeCustomElementProperties, &theData );
+
+	if (status == kQ3Success)
+	{
+		void*	theItem = E3HashTable_Find( theData.table, propType );
+		
+		if (theItem != NULL)
+		{
+			if (actualSize != NULL)
+			{
+				// The data buffer begins with the data size
+				Q3Memory_Copy( theItem, actualSize, sizeof(TQ3Uns32) );
+			}
+			
+			dataPtr = ((char*)theItem) + sizeof(TQ3Uns32);
+		}
+	}
+
+	return dataPtr;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Object_GetProperty : Get the data of a property of an object.
 //-----------------------------------------------------------------------------
 //	You may pass NULL for actualSize if you do not need that information.
@@ -1121,42 +1162,35 @@ E3Object_GetProperty( TQ3Object object, TQ3ObjectType propType, TQ3Uns32 bufferS
 	TQ3Uns32* actualSize, void* buffer )
 {
 	TQ3Status	status = kQ3Success;
-	TCEPropertyPrivate	theData;
+	TQ3Uns32	dataSize = 0;
 	
-	status = Q3Object_GetElement( object, kQ3ObjectTypeCustomElementProperties,
-		&theData );
-
-	if (status == kQ3Success)
-	{
-		void*	theItem = E3HashTable_Find( theData.table, propType );
+	const void*	actualData = E3Object_GetPropertyAddress( object, propType,
+		&dataSize );
 		
-		if (theItem == NULL)
+	if (actualData != NULL)
+	{
+		if (actualSize != NULL)
 		{
-			status = kQ3Failure;
+			*actualSize = dataSize;
 		}
-		else
+
+		if (buffer != NULL)
 		{
-			TQ3Uns32	trueSize;
-			Q3Memory_Copy( theItem, &trueSize, sizeof(TQ3Uns32) );
-			if (actualSize != NULL)
+			if (bufferSize >= dataSize)
 			{
-				*actualSize = trueSize;
+				Q3Memory_Copy( actualData, buffer, dataSize );
 			}
-			
-			if (buffer != NULL)
+			else	// fail due to buffer being too small
 			{
-				if (bufferSize >= trueSize)
-				{
-					char*	dataSource = ((char*)theItem) + sizeof(TQ3Uns32);
-					Q3Memory_Copy( dataSource, buffer, trueSize );
-				}
-				else
-				{
-					status = kQ3Failure;
-				}
+				status = kQ3Failure;
 			}
 		}
 	}
+	else	// property is missing
+	{
+		status = kQ3Failure;
+	}
+
 	return status;
 }
 
