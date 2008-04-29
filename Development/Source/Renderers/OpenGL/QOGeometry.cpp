@@ -56,6 +56,7 @@
 #include "E3View.h"
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
+#include "QOCalcTriMeshEdges.h"
 
 
 
@@ -1005,12 +1006,14 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		// If we can use VBOs, do so.
 		if (mGLExtensions.vertexBufferObjects == kQ3True)
 		{
-			if (kQ3False == RenderCachedVBO( mGLContext, inTriMesh,
-				mStyleState.mFill ))
+			// In edge fill style, the degenerate triangles created by
+			// MakeStrip draw bogus edges.
+			GLenum	mode = (mStyleState.mFill == kQ3FillStyleEdges)?
+				GL_TRIANGLES : GL_TRIANGLE_STRIP;
+			
+			if (kQ3False == RenderCachedVBO( mGLContext, inTriMesh, mode ))
 			{
-				// In edge fill style, the degenerate triangles created by
-				// MakeStrip draw bogus edges.
-				if (mStyleState.mFill != kQ3FillStyleEdges)
+				if (mode == GL_TRIANGLE_STRIP)
 				{
 					GetCachedTriangleStrip( mRendererObject, inTriMesh,
 						inGeomData, triangleStrip );
@@ -1031,7 +1034,7 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 						&triangleStrip[0] );
 				}
 				
-				RenderCachedVBO( mGLContext, inTriMesh, mStyleState.mFill );
+				RenderCachedVBO( mGLContext, inTriMesh, mode );
 			}
 		}
 		else // if not, use display lists.
@@ -1246,6 +1249,86 @@ void	QORenderer::Renderer::RenderCulledEdges(
 		}
 	}
 }
+
+
+/*!
+	@function	RenderFaceEdges
+	@abstract	Render the edges of all triangles.
+	@discussion	The obvious way to do this is to rely on
+				glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ), but that has major
+				performance problems on some video cards.
+*/
+void	QORenderer::Renderer::RenderFaceEdges(
+								TQ3ViewObject inView,
+								TQ3GeometryObject inTriMesh,
+								const TQ3TriMeshData& inGeomData,
+								const TQ3Vector3D* inVertNormals,
+								const TQ3ColorRGB* inVertColors )
+{
+	// Turn off texturing.
+	mTextures.SetCurrentTexture( NULL, NULL );
+
+	// Enable/disable array states.
+	mGLClientStates.EnableNormalArray( inVertNormals != NULL );
+	mGLClientStates.EnableTextureArray( false );
+	mGLClientStates.EnableColorArray( inVertColors != NULL );
+	
+	// Set array pointers.
+	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
+	if (inVertNormals != NULL)
+	{
+		glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
+	}
+	if (inVertColors != NULL)
+	{
+		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
+	}
+
+	// If no vertex colors, set the color.
+	if ( inVertColors == NULL )
+	{
+		glColor3fv( &mGeomState.diffuseColor->r );
+	}
+	
+	if ( (inTriMesh != NULL) &&
+		(inGeomData.numTriangles >= kMinTrianglesToCache) &&
+		(mGLExtensions.vertexBufferObjects == kQ3True) )
+	{
+		if (kQ3False == RenderCachedVBO( mGLContext, inTriMesh, GL_LINES ))
+		{
+			if (inTriMesh == NULL)
+			{
+				QOCalcTriMeshEdges( inGeomData, mEdges, mFacesToEdges );
+			}
+			else
+			{
+				QOGetCachedTriMeshEdges( inTriMesh, mScratchBuffer, mEdges,
+					mFacesToEdges );
+			}
+			
+			AddVBOToCache( mGLContext, inTriMesh, inGeomData.numPoints,
+				inGeomData.points, inVertNormals, inVertColors, NULL,
+				GL_LINES, mEdges.size() * 2, &mEdges[0].pointIndices[0] );
+			
+			RenderCachedVBO( mGLContext, inTriMesh, GL_LINES );
+		}
+	}
+	else
+	{
+		if (inTriMesh == NULL)
+		{
+			QOCalcTriMeshEdges( inGeomData, mEdges, mFacesToEdges );
+		}
+		else
+		{
+			QOGetCachedTriMeshEdges( inTriMesh, mScratchBuffer, mEdges,
+				mFacesToEdges );
+		}
+		
+		glDrawElements( GL_LINES, mEdges.size() * 2, GL_UNSIGNED_INT, &mEdges[0] );
+	}
+}
+
 
 
 /*!
@@ -1466,14 +1549,22 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	if ( (! didHandle) &&
 		(mStyleState.mFill == kQ3FillStyleEdges))
 	{
-		if(inGeomData->numEdges > 0)
+		if (inGeomData->numEdges > 0)
 		{
 			RenderExplicitEdges( inView, *inGeomData, dataArrays.vertNormal,
 								dataArrays.vertColor, dataArrays.edgeColor );
 			didHandle = true;
 		}
-		else if(mStyleState.mExplicitEdges) // draw only trimesh with explicit Edges
+		else if (mStyleState.mExplicitEdges) // draw only trimesh with explicit Edges
+		{
 			didHandle = true;
+		}
+		else if (mStyleState.mBackfacing != kQ3BackfacingStyleRemove)
+		{
+			RenderFaceEdges( inView, inTriMesh, *inGeomData,
+				dataArrays.vertNormal, dataArrays.vertColor );
+			didHandle = true;
+		}
 	}
 
 	if ( (whyNotFastPath == kSlowPathMask_FastPath) && (! didHandle) )
