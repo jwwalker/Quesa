@@ -402,13 +402,13 @@ void	VBOCache::FlushStale()
 					is stale, we delete it from the cache and return false.
 	@param			glContext		An OpenGL context.
 	@param			inGeom			A geometry object.
-	@param			inFillStyle		Current fill Style.
+	@param			inMode			OpenGL mode, e.g., GL_TRIANGLES.
 	@result			True if the object was found and rendered.
 */
 TQ3Boolean			RenderCachedVBO(
 									TQ3GLContext glContext,
 									TQ3GeometryObject inGeom,
-									TQ3FillStyle inFillStyle )
+									GLenum inMode )
 {
 	TQ3Boolean	didRender = kQ3False;
 	VBOCache*	theCache = GetVBOCache( glContext );
@@ -416,20 +416,11 @@ TQ3Boolean			RenderCachedVBO(
 	if (theCache != NULL)
 	{
 		theCache->FlushStale();
-		CachedVBO*	theVBO = NULL;
+		CachedVBO*	theVBO = theCache->FindVBO( inGeom, inMode );
 		
-		if (inFillStyle == kQ3FillStyleEdges)
+		if ( (theVBO == NULL) && (inMode == GL_TRIANGLE_STRIP) )
 		{
 			theVBO = theCache->FindVBO( inGeom, GL_TRIANGLES );
-		}
-		else
-		{
-			theVBO = theCache->FindVBO( inGeom, GL_TRIANGLE_STRIP );
-			
-			if (theVBO == NULL)
-			{
-				theVBO = theCache->FindVBO( inGeom, GL_TRIANGLES );
-			}
 		}
 		
 		if (theVBO != NULL)
