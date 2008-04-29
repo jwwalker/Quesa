@@ -62,6 +62,7 @@
 #include "QOOpaqueTriBuffer.h"
 #include "QOTransBuffer.h"
 #include "QOGLShadingLanguage.h"
+#include "QOCalcTriMeshEdges.h"
 
 #include <vector>
 
@@ -345,6 +346,12 @@ protected:
 									const TQ3TriMeshData& inGeomData,
 									const TQ3ColorRGB* inVertColors,
 									const TQ3ColorRGB* inEdgeColors );
+	void					RenderFaceEdges(
+									TQ3ViewObject inView,
+									TQ3GeometryObject inTriMesh,
+									const TQ3TriMeshData& inGeomData,
+									const TQ3Vector3D* inVertNormals,
+									const TQ3ColorRGB* inVertColors );
 	void					SimulateSeparateSpecularColor(
 									TQ3Uns32 inNumIndices,
 									const TQ3Uns32* inIndices );
@@ -370,6 +377,12 @@ protected:
 	TQ3Int32				mPassIndex;
 	TQ3Int32				mNumPasses;
 	bool					mAllowLineSmooth;
+	
+	// Buffers used temporarily in QOGeometry.cpp, only members to reduce
+	// memory allocation
+	std::vector<char>		mScratchBuffer;
+	TQ3EdgeVec				mEdges;
+	TQ3TriangleToEdgeVec	mFacesToEdges;
 	
 	// Color states
 	TQ3ObjectType			mViewIllumination;
