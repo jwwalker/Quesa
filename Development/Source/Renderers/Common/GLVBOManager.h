@@ -81,13 +81,13 @@ extern "C" {
 					appropriate.
 	@param			glContext		An OpenGL context.
 	@param			inGeom			A geometry object.
-	@param			inFillStyle		Current fill Style.
+	@param			inMode			OpenGL mode, e.g., GL_TRIANGLES.
 	@result			True if the object was found and rendered.
 */
 TQ3Boolean			RenderCachedVBO(
 									TQ3GLContext glContext,
 									TQ3GeometryObject inGeom,
-									TQ3FillStyle inFillStyle );
+									GLenum inMode );
 
 /*!
 	@function		AddVBOToCache
