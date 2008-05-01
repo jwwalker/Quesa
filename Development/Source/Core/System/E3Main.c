@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1277,14 +1277,14 @@ OpaqueTQ3Object::GetElement ( TQ3ElementType theType, void *theData )
 
 	// If we've actually been passed a set, use it directly
 	if ( Q3_OBJECT_IS_CLASS ( this, E3Set ) )
-		return Q3Set_Get ( (TQ3SetObject) this, theType, theData ) ;
+		return ( (E3Set*) this )->Get ( theType, theData ) ;
 	
 	// otherwise use the set within the instance data
 	
 	if ( theSet == NULL )
 		return kQ3Failure ;
 	
-	return Q3Set_Get ( theSet, theType, (void*)theData ) ;
+	return ( (E3Set*) theSet )->Get ( theType, theData ) ;
 	}
 
 
