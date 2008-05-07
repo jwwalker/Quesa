@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -267,6 +267,11 @@ private:
 									const void* publicData );
 
 	static TQ3Status			UpdateCastShadowsStyleMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const void* publicData );
+
+	static TQ3Status			UpdateLineWidthStyleMethod(
 									TQ3ViewObject inView,
 									void* privateData,
 									const void* publicData );
