@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1901,4 +1901,142 @@ Q3FogStyle_SetData(TQ3StyleObject styleObject, const TQ3FogStyleData *data)
 
 
 
+
+//=============================================================================
+//      Q3LineWidthStyle_New : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3StyleObject
+Q3LineWidthStyle_New( float inWidth )
+{
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on data
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3LineWidthStyle_New( inWidth );
+}
+
+
+
+
+
+//=============================================================================
+//      Q3LineWidthStyle_Submit : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3LineWidthStyle_Submit (
+    float			inWidth,
+    TQ3ViewObject	view
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on data
+		return(kQ3Failure);
+
+	if (0) // Further checks on view
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3LineWidthStyle_Submit( inWidth, view );
+}
+
+
+
+
+
+//=============================================================================
+//      Q3LineWidthStyle_GetData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3LineWidthStyle_GetData (
+    TQ3StyleObject			styleObject,
+    float					*outWidth
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Style_IsOfMyClass ( styleObject ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outWidth), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on styleObject
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3LineWidthStyle_Get(styleObject, outWidth );
+}
+
+
+
+
+
+//=============================================================================
+//      Q3LineWidthStyle_SetData : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3LineWidthStyle_SetData (
+    TQ3StyleObject		styleObject,
+    float				inWidth
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Style_IsOfMyClass ( styleObject ), kQ3Failure);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on styleObject
+		return(kQ3Failure);
+
+	if (0) // Further checks on data
+		return(kQ3Failure);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3LineWidthStyle_Set( styleObject, inWidth );
+}
 
