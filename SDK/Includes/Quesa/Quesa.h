@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -615,6 +615,7 @@ enum {
                 kQ3StyleTypePickID              = Q3_OBJECT_TYPE('p', 'k', 'i', 'd'),
 #if QUESA_ALLOW_QD3D_EXTENSIONS
                 kQ3StyleTypeCastShadows         = Q3_OBJECT_TYPE('c', 'a', 's', 'h'),
+                kQ3StyleTypeLineWidth           = Q3_OBJECT_TYPE('l', 'n', 'w', 'd'),
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
                 kQ3StyleTypeReceiveShadows      = Q3_OBJECT_TYPE('r', 'c', 's', 'h'),
                 kQ3StyleTypeHighlight           = Q3_OBJECT_TYPE('h', 'i', 'g', 'h'),
