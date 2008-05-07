@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -662,6 +662,17 @@ TQ3Status	QORenderer::Statics::UpdateCastShadowsStyleMethod(
 	return kQ3Success;
 }
 
+TQ3Status	QORenderer::Statics::UpdateLineWidthStyleMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const void* publicData )
+{
+#pragma unused( inView )
+	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
+	me->UpdateLineWidthStyle( * (float*) publicData );
+	return kQ3Success;
+}
+
 TQ3Status	QORenderer::Statics::UpdateFogStyleMethod(
 								TQ3ViewObject inView,
 								void* privateData,
@@ -720,6 +731,11 @@ TQ3XRendererUpdateStyleMethod
 		case kQ3StyleTypeCastShadows:
 			theMethod = (TQ3XRendererUpdateStyleMethod)
 				&QORenderer::Statics::UpdateCastShadowsStyleMethod;
+			break;
+		
+		case kQ3StyleTypeLineWidth:
+			theMethod = (TQ3XRendererUpdateStyleMethod)
+				&QORenderer::Statics::UpdateLineWidthStyleMethod;
 			break;
 	}
 	
