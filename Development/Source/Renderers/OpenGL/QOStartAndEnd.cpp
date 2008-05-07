@@ -354,6 +354,7 @@ void		QORenderer::Renderer::StartPass(
 	mStyleState.mHilite = CQ3ObjectRef();	// i.e., NULL
 	mStyleState.mIsCastingShadows = true;
 	mStyleState.mExplicitEdges = false;
+	mLineWidth = 1.0f;
 		
 	// Turn fog off.
 	mStyleState.mFogStyles.clear();
@@ -378,6 +379,7 @@ void		QORenderer::Renderer::StartPass(
 	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 	glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
 	GLDrawContext_SetDepthState( mDrawContextObject );
+	glLineWidth( mLineWidth );
 	
 	mLights.StartPass( inCamera, inLights );
 	mTextures.StartPass();
