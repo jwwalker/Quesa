@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -94,6 +94,7 @@ enum {
 	kQ3ViewStateAttributeSurfaceTangent		= 1 << 25,		// Surface tangent attribute changed
 	kQ3ViewStateAttributeHighlightState		= 1 << 26,		// Highlight switch attribute changed
 	kQ3ViewStateAttributeEmissiveColor		= 1 << 27,		// Emissive color attribute changed
+	kQ3ViewStateStyleLineWidth				= 1 << 28,		// Line Width style changed
 	kQ3ViewStateNone						= 0,			// Nothing changed
 	kQ3ViewStateAll							= 0xFFFFFFFF,	// Everything changed
 	kQ3ViewStateMatrixAny					= kQ3ViewStateMatrixLocalToWorld  |	// Any matrix changed
@@ -140,6 +141,7 @@ typedef struct TQ3ViewStackItem {
 	TQ3PickParts				stylePickParts;
 	TQ3AntiAliasStyleData		styleAntiAlias;
 	TQ3FogStyleData				styleFog;
+	float						styleLineWidth;
 	TQ3Param2D					attributeSurfaceUV;
 	TQ3Param2D					attributeShadingUV;
 	TQ3Vector3D					attributeNormal;
@@ -317,6 +319,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	theItem->styleFog.fogStart       = 0.0f;
 	theItem->styleFog.fogEnd         = 1.0f;
 	theItem->styleFog.density        = 0.5f;
+	theItem->styleLineWidth			 = 1.0f;
 	Q3ColorARGB_Set(&theItem->styleFog.color, 1.0f, 1.0f, 1.0f, 1.0f);
 
 	theItem->attributeAmbientCoefficient = kQ3ViewDefaultAmbientCoefficient;
@@ -491,6 +494,9 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 
 		if ( ( stateChange & kQ3ViewStateStyleFog ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeFog, &theItem->styleFog ) ;
+
+		if ( ( stateChange & kQ3ViewStateStyleLineWidth ) && qd3dStatus != kQ3Failure )
+			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeLineWidth, &theItem->styleLineWidth ) ;
 
 		if ( ( stateChange & kQ3ViewStateAttributeSurfaceUV ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeSurfaceUV, &theItem->attributeSurfaceUV ) ;
@@ -3125,6 +3131,30 @@ E3View_State_SetStyleFog(TQ3ViewObject theView, const TQ3FogStyleData *theData)
 		e3view_stack_update ( (E3View*) theView, kQ3ViewStateStyleFog ) ;
 		}
 	}
+
+
+
+
+
+//=============================================================================
+//      E3View_State_SetStyleLineWidth : Set the line width state.
+//-----------------------------------------------------------------------------
+void
+E3View_State_SetStyleLineWidth(TQ3ViewObject theView, float inWidth)
+{
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+
+
+
+	// Set the value
+	( (E3View*) theView )->instanceData.viewStack->styleLineWidth = inWidth;
+
+
+
+	// Update the renderer
+	e3view_stack_update ( (E3View*) theView, kQ3ViewStateStyleLineWidth ) ;
+}
 
 
 
