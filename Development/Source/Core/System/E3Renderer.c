@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -181,7 +181,8 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 														kQ3StyleTypeOrientation,
 														kQ3StyleTypePickParts,
 														kQ3StyleTypeAntiAlias,
-														kQ3StyleTypeFog };
+														kQ3StyleTypeFog,
+														kQ3StyleTypeLineWidth };
 
 
 
