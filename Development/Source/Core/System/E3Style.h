@@ -5,7 +5,7 @@
         Header file for E3Style.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -131,6 +131,11 @@ TQ3StyleObject		E3FogStyle_New(const TQ3FogStyleData *data);
 TQ3Status			E3FogStyle_Submit(const TQ3FogStyleData *data, TQ3ViewObject theView);
 TQ3Status			E3FogStyle_GetData(TQ3StyleObject styleObject, TQ3FogStyleData *data);
 TQ3Status			E3FogStyle_SetData(TQ3StyleObject styleObject, const TQ3FogStyleData *data);
+
+TQ3StyleObject		E3LineWidthStyle_New( float inWidth );
+TQ3Status			E3LineWidthStyle_Submit(float inWidth, TQ3ViewObject theView);
+TQ3Status			E3LineWidthStyle_Get(TQ3StyleObject styleObject, float *outWidth);
+TQ3Status			E3LineWidthStyle_Set(TQ3StyleObject styleObject, float inWidth);
 
 
 

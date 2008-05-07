@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -107,6 +107,19 @@ Q3_CLASS_ENUMS ( kQ3StyleTypePickParts, E3PickPartsStyle, E3Style )
 public :
 
 	TQ3PickParts				instanceData ;
+	} ;
+	
+
+
+class E3LineWidthStyle : public E3Style  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3StyleTypeLineWidth, E3LineWidthStyle, E3Style )
+public :
+
+	float					instanceData ;
 	} ;
 	
 
@@ -881,6 +894,55 @@ e3style_fog_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3style_linewidth_submit : Line Width submit method.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static TQ3Status
+e3style_linewidth_submit(TQ3ViewObject theView, TQ3ObjectType objectType,
+						TQ3Object theObject, const void *objectData)
+{
+#pragma unused(objectType)
+#pragma unused(theObject)
+	const float			*instanceData = (const float *) objectData;
+
+
+
+	// Submit the style
+	E3View_State_SetStyleLineWidth(theView, *instanceData);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3style_linewidth_metahandler : Line Width metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3style_linewidth_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectSubmitRender:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_linewidth_submit;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3Style_RegisterClass : Register the class.
@@ -957,6 +1019,11 @@ E3Style_RegisterClass(void)
 											e3style_fog_metahandler,
 											E3FogStyle ) ;
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleLineWidth,
+											e3style_linewidth_metahandler,
+											E3LineWidthStyle ) ;
+
 	return(qd3dStatus);
 }
 
@@ -986,6 +1053,7 @@ E3Style_UnregisterClass(void)
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypePickParts, 			 kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypePickID,    			 kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeSubdivision,			 kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeLineWidth,     		 kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeStyle,     			 kQ3True);
 
 	return(qd3dStatus);
@@ -1945,4 +2013,60 @@ E3FogStyle_SetData(TQ3StyleObject theStyle, const TQ3FogStyleData *data)
 
 
 
+
+//=============================================================================
+//      E3LineWidthStyle_New : Create a new line width style.
+//-----------------------------------------------------------------------------
+#pragma mark -
+TQ3StyleObject		E3LineWidthStyle_New( float inWidth )
+{
+	TQ3StyleObject theObject = E3ClassTree::CreateInstance( kQ3StyleTypeLineWidth,
+		kQ3False, &inWidth );
+
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      E3LineWidthStyle_Submit : Submit the style.
+//-----------------------------------------------------------------------------
+TQ3Status			E3LineWidthStyle_Submit(float inWidth, TQ3ViewObject theView)
+{
+	TQ3Status qd3dStatus = E3View_SubmitImmediate( theView, kQ3StyleTypeLineWidth,
+		&inWidth );
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3LineWidthStyle_Get : Get the data for the style.
+//-----------------------------------------------------------------------------
+TQ3Status			E3LineWidthStyle_Get(TQ3StyleObject styleObject, float *outWidth)
+{
+	*outWidth = ( (E3LineWidthStyle*) styleObject )->instanceData ;
+
+	return kQ3Success ;
+}
+
+
+
+
+
+//=============================================================================
+//      E3LineWidthStyle_Set : Set the data for the style.
+//-----------------------------------------------------------------------------
+TQ3Status			E3LineWidthStyle_Set(TQ3StyleObject styleObject, float inWidth)
+{
+	( (E3LineWidthStyle*) styleObject )->instanceData = inWidth ;
+	Q3Shared_Edited ( styleObject ) ;
+
+	return kQ3Success ;
+}
 
