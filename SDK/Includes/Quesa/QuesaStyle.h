@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1283,6 +1283,102 @@ Q3FogStyle_SetData (
     const TQ3FogStyleData         *data
 );
 
+
+/*!
+	@functiongroup Line Width
+*/
+
+/*!
+ *  @function
+ *      Q3LineWidthStyle_New
+ *  @discussion
+ *      Create a line width style.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param inWidth          New line width in pixels.
+ *  @result                 The new fog style.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3LineWidthStyle_New (
+    float         inWidth
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3LineWidthStyle_Submit
+ *  @discussion
+ *      Submit a line width style to a view.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param inWidth          New line width in pixels.
+ *  @param view             The view to submit the style to.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3LineWidthStyle_Submit (
+    float			inWidth,
+    TQ3ViewObject	view
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3LineWidthStyle_GetData
+ *  @discussion
+ *      Get width from a line width style.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param styleObject      The style to query.
+ *  @param outWidth         Receives the data from the style.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS    
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3LineWidthStyle_GetData (
+    TQ3StyleObject			styleObject,
+    float					*outWidth
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3LineWidthStyle_SetData
+ *  @discussion
+ *      Set the width for a line width style.
+ *      
+ *      <em>This function is not available in QD3D.</em>
+ *
+ *  @param styleObject      The style to update.
+ *  @param inWidth          The new line width for the style.
+ *  @result                 Success or failure of the operation.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS    
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3LineWidthStyle_SetData (
+    TQ3StyleObject		styleObject,
+    float				inWidth
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 // Work around a HeaderDoc bug
