@@ -413,7 +413,7 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 	mTriBuffer.Flush();
 	
 	
-	// Currently there is no way to vary point and line size.
+	// Currently there is no way to vary point size.
 	glPointSize( 1.0f );
 	glLineWidth( mLineWidth );
 
@@ -546,4 +546,19 @@ void	QORenderer::Renderer::UpdateCastShadowsStyle(
 	
 	
 	mStyleState.mIsCastingShadows = (inStyleData == kQ3True);
+}
+
+
+void	QORenderer::Renderer::UpdateLineWidthStyle(
+									float inStyleData )
+{
+	// Activate our context
+	GLDrawContext_SetCurrent( mGLContext, kQ3False );
+	
+	
+	mTriBuffer.Flush();
+	
+	
+	mLineWidth = inStyleData;
+	glLineWidth( mLineWidth );
 }
