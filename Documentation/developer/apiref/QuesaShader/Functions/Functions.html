@@ -412,6 +412,10 @@ This function is only available on platforms that support QuickTime.
 <br><br>
 This function is only available on platforms that support QuickTime.
 <br><br>
+The reference counts of the returned compressedImage and imageDesc
+fields are incremented, and the  caller must release their references
+when done.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -497,6 +501,9 @@ This function is only available on platforms that support QuickTime.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mipmap from a mipmap texture.
 <br><br>
+The reference count of the returned image storage is incremented, and the
+caller must release their reference when done.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -569,6 +576,9 @@ This function is only available on platforms that support QuickTime.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pixmap from a pixmap texture.
+<br><br>
+The reference count of the returned image storage is incremented, and the
+caller must release their reference when done.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -900,5 +910,5 @@ caller must release their reference when done.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
 </p></body></html>

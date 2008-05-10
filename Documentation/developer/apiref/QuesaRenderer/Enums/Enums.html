@@ -54,7 +54,9 @@ enum
   kQ3RendererPropertyLineWidth        = Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
   kQ3RendererPropertyUseColor          = Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
   kQ3RendererPropertyAllowVBOs        = Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
-  kQ3RendererPropertyAllowLineSmooth      = Q3_OBJECT_TYPE('a', 'l', 's', 'm')
+  kQ3RendererPropertyAllowLineSmooth      = Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
+  kQ3RendererPropertyQuantizePerPixelLight  = Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
+  kQ3RendererPropertyCartoonLightNearEdge    = Q3_OBJECT_TYPE('p', 'p', 'c', 'e')
 };
 </pre>
 </blockquote>
@@ -106,7 +108,25 @@ Data type: TQ3Boolean.  Default value: kQ3True.
 This may be used to disable line smoothing for buggy
 graphics drivers, such as some versions of Apple's software
 renderer.
-Data type: TQ3Boolean.  Default value: kQ3True.</dd>
+Data type: TQ3Boolean.  Default value: kQ3True.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyQuantizePerPixelLight"><tt>kQ3RendererPropertyQuantizePerPixelLight</tt></a></dt><dd>When used with per-pixel lighting, this rounds the light
+being applied to each pixel to certain values, producing a
+cartoonish look.  More precisely, if the value q is provided
+here, each component c of the light will be replaced by the
+value floor( c * q ) / q, resulting in an integer multiple
+of 1/q.  The greater the value of q, the more distinct
+shades are produced.  A value less then or equal to 0.0
+turns off quantization.
+<br><br>
+Data type: TQ3Float32.  Default value: 0.0.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyCartoonLightNearEdge"><tt>kQ3RendererPropertyCartoonLightNearEdge</tt></a></dt><dd>When used with quantized per-pixel lighting (see
+kQ3RendererPropertyQuantizePerPixelLight) this controls how
+much diffuse lighting is allowed to light triangles that are
+nearly perpendicular to the view vector.
+<br><br>
+Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CSGEquation"></a>
@@ -400,5 +420,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/17/2008)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
 </p></body></html>

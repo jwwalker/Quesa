@@ -8054,6 +8054,30 @@ typedef struct TQ3TriangleData {
 </dl>
 </blockquote>
 <h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/Geometry&nbsp;Property&nbsp;Types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Geometry&nbsp;Property&nbsp;Types">Geometry&nbsp;Property&nbsp;Types</a></h2>
+</td></tr></table><hr>Object properties that may be set on geometries.
+<br><br>
+<br>
+<blockquote><pre>
+enum
+{
+  kQ3GeometryPropertyNonCartoon          = Q3_OBJECT_TYPE('n', 'c', 'a', 'r')
+};
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3GeometryPropertyNonCartoon"><tt>kQ3GeometryPropertyNonCartoon</tt></a></dt><dd>This property indicates to the cartoon renderer or to the
+quantized per-pixel lighting mode of the OpenGL renderer
+that this geometry should be rendered normally.
+<br><br>
+Data type: TQ3Boolean.  Default value: kQ3False.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/Nurb Limits"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Nurb Limits">Nurb Limits</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -8126,5 +8150,5 @@ rendered.
 <dt><a name="//Quesa/c/econst/kQ3PolyhedronEdgeAll"><tt>kQ3PolyhedronEdgeAll</tt></a></dt><dd>Render all the edges.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
 </p></body></html>
