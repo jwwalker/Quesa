@@ -534,6 +534,88 @@ Declares the Quesa style objects.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3LineWidthStyle_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LineWidthStyle_GetData">Q3LineWidthStyle_GetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3LineWidthStyle_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;float *outWidth
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get width from a line width style.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to query.</dd>
+<dt><tt><em>outWidth</em></tt></dt><dd>Receives the data from the style.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3LineWidthStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LineWidthStyle_New">Q3LineWidthStyle_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3LineWidthStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;float inWidth
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a line width style.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inWidth</em></tt></dt><dd>New line width in pixels.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new fog style.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3LineWidthStyle_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LineWidthStyle_SetData">Q3LineWidthStyle_SetData</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3LineWidthStyle_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;float inWidth
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the width for a line width style.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>styleObject</em></tt></dt><dd>The style to update.</dd>
+<dt><tt><em>inWidth</em></tt></dt><dd>The new line width for the style.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3LineWidthStyle_Submit"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LineWidthStyle_Submit">Q3LineWidthStyle_Submit</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3LineWidthStyle_Submit (
+&nbsp;&nbsp;&nbsp;&nbsp;float inWidth,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a line width style to a view.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inWidth</em></tt></dt><dd>New line width in pixels.</dd>
+<dt><tt><em>view</em></tt></dt><dd>The view to submit the style to.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3OrientationStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrientationStyle_Get">Q3OrientationStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrientationStyle_Get (
@@ -1240,5 +1322,5 @@ than the specified size in world-space.</dd>
 than the specified size in pixels.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 1/6/2008)
+<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
 </p></body></html>
