@@ -92,9 +92,12 @@ template <typename T>
 static void AppendArrayToVec( std::vector<T>& ioVec,
 							const T* inArray, long inCount )
 {
-	long	prevSize = ioVec.size();
-	ioVec.resize( prevSize + inCount );
-	std::memcpy( &ioVec[prevSize], inArray, inCount * sizeof(T) );
+	if (inCount > 0)
+	{
+		long	prevSize = ioVec.size();
+		ioVec.resize( prevSize + inCount );
+		std::memcpy( &ioVec[prevSize], inArray, inCount * sizeof(T) );
+	}
 }
 
 
