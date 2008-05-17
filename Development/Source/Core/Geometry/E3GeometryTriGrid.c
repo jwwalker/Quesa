@@ -2,10 +2,10 @@
         E3GeometryTriGrid.c
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa TriGrid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -383,6 +383,7 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	TQ3Uns32 numpoints, numtriangles;
 	TQ3Uns32 i, col, row, tnum=0, vnum=0;
 	TQ3Boolean cacheAsTriangles = kQ3False;		// to always test triangles, set this to true!
+	TQ3DisplayGroupState	gpState;
 #pragma unused(theView)
 
 
@@ -432,11 +433,15 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 			}
 		}		
 
-		// Finish off the group state (in-line, since we don't make any view state changes)
-		Q3DisplayGroup_SetState(theGroup, kQ3DisplayGroupStateMaskIsInline  |
-										  kQ3DisplayGroupStateMaskIsDrawn   |
-										  kQ3DisplayGroupStateMaskIsWritten |
-										  kQ3DisplayGroupStateMaskIsPicked);
+		// Finish off the group state
+		gpState = kQ3DisplayGroupStateMaskIsDrawn   |
+				  kQ3DisplayGroupStateMaskIsWritten |
+				  kQ3DisplayGroupStateMaskIsPicked;
+		if (geomData->triGridAttributeSet == NULL)
+		{
+			gpState |= kQ3DisplayGroupStateMaskIsInline;
+		}
+		Q3DisplayGroup_SetState( theGroup, gpState );
 
 		return theGroup;
 	}
