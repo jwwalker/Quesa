@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -98,6 +98,12 @@ static void AppendArrayToVec( std::vector<T>& ioVec,
 		ioVec.resize( prevSize + inCount );
 		std::memcpy( &ioVec[prevSize], inArray, inCount * sizeof(T) );
 	}
+}
+
+template <typename T>
+static T* VecAddr( std::vector<T>& ioVec )
+{
+	return ioVec.empty()? NULL : &ioVec[0];
 }
 
 
@@ -225,12 +231,12 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	}
 
 	TQ3BoundingBox	theBounds;
-	Q3BoundingBox_SetFromPoints3D( &theBounds, &mergedPoints[0],
+	Q3BoundingBox_SetFromPoints3D( &theBounds, VecAddr(mergedPoints),
 		mergedPoints.size(), sizeof(TQ3Point3D) );
 
 	TQ3TriMeshAttributeData	faceAtt = {
 		kQ3AttributeTypeNormal,
-		&mergedFaceNormals[0],
+		VecAddr(mergedFaceNormals),
 		NULL
 	};
 	
@@ -239,7 +245,7 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	if (mergedVertNormals.size() == mergedPoints.size())
 	{
 		TQ3TriMeshAttributeData	normAtt = {
-			kQ3AttributeTypeNormal, &mergedVertNormals[0], NULL
+			kQ3AttributeTypeNormal, VecAddr(mergedVertNormals), NULL
 		};
 		vertAtts.push_back( normAtt );
 	}
@@ -247,7 +253,7 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	if (mergedVertUVs.size() == mergedPoints.size())
 	{
 		TQ3TriMeshAttributeData	uvAtt = {
-			kQ3AttributeTypeSurfaceUV, &mergedVertUVs[0], NULL
+			kQ3AttributeTypeSurfaceUV, VecAddr(mergedVertUVs), NULL
 		};
 		vertAtts.push_back( uvAtt );
 	}
@@ -255,7 +261,7 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	if (mergedVertDiffColors.size() == mergedPoints.size())
 	{
 		TQ3TriMeshAttributeData	diffAtt = {
-			kQ3AttributeTypeDiffuseColor, &mergedVertDiffColors[0], NULL
+			kQ3AttributeTypeDiffuseColor, VecAddr(mergedVertDiffColors), NULL
 		};
 		vertAtts.push_back( diffAtt );
 	}
@@ -263,7 +269,7 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	if (mergedVertSpecColors.size() == mergedPoints.size())
 	{
 		TQ3TriMeshAttributeData	specAtt = {
-			kQ3AttributeTypeSpecularColor, &mergedVertSpecColors[0], NULL
+			kQ3AttributeTypeSpecularColor, VecAddr(mergedVertSpecColors), NULL
 		};
 		vertAtts.push_back( specAtt );
 	}
@@ -271,7 +277,7 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	if (mergedVertTransColors.size() == mergedPoints.size())
 	{
 		TQ3TriMeshAttributeData	transAtt = {
-			kQ3AttributeTypeTransparencyColor, &mergedVertTransColors[0], NULL
+			kQ3AttributeTypeTransparencyColor, VecAddr(mergedVertTransColors), NULL
 		};
 		vertAtts.push_back( transAtt );
 	}
@@ -279,7 +285,7 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	if (mergedVertSpecControls.size() == mergedPoints.size())
 	{
 		TQ3TriMeshAttributeData	specCtlAtt = {
-			kQ3AttributeTypeSpecularControl, &mergedVertSpecControls[0], NULL
+			kQ3AttributeTypeSpecularControl, VecAddr(mergedVertSpecControls), NULL
 		};
 		vertAtts.push_back( specCtlAtt );
 	}
@@ -287,17 +293,17 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	TQ3TriMeshData	mergedData = {
 		overallAtts.get(),
 		mergedFaces.size(),
-		&mergedFaces[0],
+		VecAddr(mergedFaces),
 		(mergedFaceNormals.size() == mergedFaces.size()? 1 : 0),
 		&faceAtt,
 		mergedEdges.size(),
-		&mergedEdges[0],
+		VecAddr(mergedEdges),
 		0,
 		NULL,
 		mergedPoints.size(),
-		&mergedPoints[0],
+		VecAddr(mergedPoints),
 		vertAtts.size(),
-		&vertAtts[0],
+		VecAddr(vertAtts),
 		theBounds
 	};
 	
