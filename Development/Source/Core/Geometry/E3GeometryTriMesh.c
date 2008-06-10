@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -633,7 +633,7 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(theTriMesh));
-	Q3_REQUIRE(theIndex >= 0 && theIndex < theTriMesh->numTriangles);
+	Q3_REQUIRE(theIndex < theTriMesh->numTriangles);
 	Q3_REQUIRE(Q3_VALID_PTR(theTriangle));
 
 
