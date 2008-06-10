@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2721,8 +2721,8 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	for(i = 0; i< numVertices; i++){
 		if(Q3Point3D_Read(&vertex.point, theFile)!= kQ3Success)
 			{
-			goto cleanUp;
 			readFailed = kQ3True;
+			goto cleanUp;
 			}
 		vertices[i] = Q3Mesh_VertexNew (mesh, &vertex);
 		}
@@ -2730,14 +2730,14 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	// read the number of faces
 	if(Q3Uns32_Read(&numFaces, theFile)!= kQ3Success)
 		{
-		goto cleanUp;
 		readFailed = kQ3True;
+		goto cleanUp;
 		}
 	// read the number of contours
 	if(Q3Uns32_Read(&numContours, theFile)!= kQ3Success)
 		{
-		goto cleanUp;
 		readFailed = kQ3True;
+		goto cleanUp;
 		}
 
 	// Allocate the faces Array
@@ -2746,8 +2746,8 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 		faces = (TQ3MeshFace *) Q3Memory_AllocateClear(sizeof(TQ3MeshFace) * numFaces);
 		if (faces == NULL)
 			{
-			goto cleanUp;
 			readFailed = kQ3True;
+			goto cleanUp;
 			}
 		}
 
@@ -2755,15 +2755,15 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	for(i = 0; i< (numFaces + numContours); i++){
 		if(Q3Int32_Read(&numFaceVertexIndices, theFile)!= kQ3Success)
 			{
-			goto cleanUp;
 			readFailed = kQ3True;
+			goto cleanUp;
 			}
 		//how many vertices?
 		absFaceVertexIndices = E3Integer_Abs(numFaceVertexIndices);
 		
 		if(allocatedFaceIndices < absFaceVertexIndices){
 			if(Q3Memory_Reallocate (&faceVertices, (absFaceVertexIndices*sizeof(TQ3MeshVertex))) != kQ3Success)
-			goto cleanUp;
+				goto cleanUp;
 			allocatedFaceIndices = absFaceVertexIndices;
 			}
 			
