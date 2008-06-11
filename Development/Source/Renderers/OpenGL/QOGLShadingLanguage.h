@@ -122,6 +122,10 @@ struct ProgramRec
 						, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
 						, mLightNearEdgeUniformLoc( inOther.mLightNearEdgeUniformLoc )
 						{}
+	
+	void			swap( ProgramRec& ioOther );
+	
+	ProgramRec&		operator=( const ProgramRec& inOther );
 
 	GLuint			mProgram;
 	int				mAgeCounter;
@@ -137,36 +141,36 @@ struct ProgramRec
 
 typedef	std::vector<ProgramRec>		ProgramVec;
 
-typedef GLuint (* QO_PROCPTR_TYPE glCreateShaderProc )(GLenum type);
-typedef void (* QO_PROCPTR_TYPE glShaderSourceProc )(GLuint shader,
+typedef GLuint (QO_PROCPTR_TYPE glCreateShaderProc )(GLenum type);
+typedef void (QO_PROCPTR_TYPE glShaderSourceProc )(GLuint shader,
 													GLsizei count,
 													const char* *string,
 													const GLint *length);
-typedef void (* QO_PROCPTR_TYPE glCompileShaderProc )(GLuint shader);
-typedef GLuint (* QO_PROCPTR_TYPE glCreateProgramProc )(void);
-typedef void (* QO_PROCPTR_TYPE glAttachShaderProc )(GLuint program,
+typedef void (QO_PROCPTR_TYPE glCompileShaderProc )(GLuint shader);
+typedef GLuint (QO_PROCPTR_TYPE glCreateProgramProc )(void);
+typedef void (QO_PROCPTR_TYPE glAttachShaderProc )(GLuint program,
 													GLuint shader);
-typedef void (* QO_PROCPTR_TYPE glDetachShaderProc ) (GLuint program,
+typedef void (QO_PROCPTR_TYPE glDetachShaderProc ) (GLuint program,
 													GLuint shader);
-typedef void (* QO_PROCPTR_TYPE glLinkProgramProc )(GLuint program);
-typedef void (* QO_PROCPTR_TYPE glUseProgramProc )(GLuint program);
-typedef void (* QO_PROCPTR_TYPE glDeleteProgramProc )(GLuint program);
-typedef void (* QO_PROCPTR_TYPE glDeleteShaderProc )(GLuint shader);
-typedef void (* QO_PROCPTR_TYPE glUniform1iProc )(GLint location, GLint v0);
-typedef void (* QO_PROCPTR_TYPE glUniform1fProc )(GLint location, GLfloat v0);
-typedef void (* QO_PROCPTR_TYPE glGetShaderivProc )(GLuint shader,
+typedef void (QO_PROCPTR_TYPE glLinkProgramProc )(GLuint program);
+typedef void (QO_PROCPTR_TYPE glUseProgramProc )(GLuint program);
+typedef void (QO_PROCPTR_TYPE glDeleteProgramProc )(GLuint program);
+typedef void (QO_PROCPTR_TYPE glDeleteShaderProc )(GLuint shader);
+typedef void (QO_PROCPTR_TYPE glUniform1iProc )(GLint location, GLint v0);
+typedef void (QO_PROCPTR_TYPE glUniform1fProc )(GLint location, GLfloat v0);
+typedef void (QO_PROCPTR_TYPE glGetShaderivProc )(GLuint shader,
 													GLenum pname,
 													GLint *params);
-typedef void (* QO_PROCPTR_TYPE glGetProgramivProc )(GLuint program,
+typedef void (QO_PROCPTR_TYPE glGetProgramivProc )(GLuint program,
 													GLenum pname,
 													GLint *params);
-typedef GLint (* QO_PROCPTR_TYPE glGetUniformLocationProc )(GLuint program,
+typedef GLint (QO_PROCPTR_TYPE glGetUniformLocationProc )(GLuint program,
 													const char *name);
-typedef void (* QO_PROCPTR_TYPE glGetProgramInfoLogProc )(GLuint program,
+typedef void (QO_PROCPTR_TYPE glGetProgramInfoLogProc )(GLuint program,
 													GLsizei maxlength,
 													GLsizei* outLength,
 													GLbyte * infoLog );
-typedef void (* QO_PROCPTR_TYPE glGetShaderInfoLogProc )(GLuint shader,
+typedef void (QO_PROCPTR_TYPE glGetShaderInfoLogProc )(GLuint shader,
 													GLsizei maxlength,
 													GLsizei* outLength,
 													GLbyte * infoLog );
