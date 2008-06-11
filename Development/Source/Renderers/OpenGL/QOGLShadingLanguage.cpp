@@ -401,14 +401,38 @@ namespace
 							
 		QORenderer::GLSLFuncs&	mFuncs;
 	};
+	
+	GLenum	sGLError = 0;
 } // end of unnamed namespace
 
+#define		CHECK_GL_ERROR	Q3_ASSERT( (sGLError = glGetError()) == GL_NO_ERROR )
 
 
 
 //=============================================================================
 //      Implementations
 //-----------------------------------------------------------------------------
+void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
+{
+	std::swap( mProgram, ioOther.mProgram );
+	std::swap( mAgeCounter, ioOther.mAgeCounter );
+	mPattern.swap( ioOther.mPattern );
+	std::swap( mIlluminationType, ioOther.mIlluminationType );
+	std::swap( mIsTextured, ioOther.mIsTextured );
+	std::swap( mIsCartoonish, ioOther.mIsCartoonish );
+	std::swap( mTextureUnitUniformLoc, ioOther.mTextureUnitUniformLoc );
+	std::swap( mQuantizationUniformLoc, ioOther.mQuantizationUniformLoc );
+	std::swap( mLightNearEdgeUniformLoc, ioOther.mLightNearEdgeUniformLoc );
+}
+
+QORenderer::ProgramRec&
+QORenderer::ProgramRec::operator=( const QORenderer::ProgramRec& inOther )
+{
+	ProgramRec	temp( inOther );
+	swap( temp );
+	return *this;
+}
+
 static void ReplaceAllSubstr( std::string& ioString,
 								const char* inFindSub,
 								const char* inReplacement )
@@ -486,7 +510,6 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glDeleteProgram, "glDeleteProgram", "glDeleteObjectARB" );
 		GLGetProcAddress( glGetProgramInfoLog, "glGetProgramInfoLog", "glGetInfoLogARB" );
 		GLGetProcAddress( glGetShaderInfoLog, "glGetShaderInfoLog", "glGetInfoLogARB" );
-	#if Q3_DEBUG
 		if ( (glCreateShader == NULL) ||
 			(glShaderSource == NULL) ||
 			(glCompileShader == NULL) ||
@@ -506,8 +529,8 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 			(glGetShaderInfoLog == NULL) )
 		{
 			Q3_MESSAGE( "Shading functions NOT all present.\n" );
+			SetNULL();
 		}
-	#endif
 	}
 	else
 	{
@@ -529,6 +552,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mQuantization( 0.0f )
 	, mLightNearEdge( 1.0f )
 	, mIsCartoonish( false )
+	, mProgramIndex( -1 )
 {
 }
 
@@ -716,12 +740,12 @@ void	QORenderer::PerPixelLighting::StartPass()
 	
 	if (mIsShading)
 	{
-		InitVertexShader();
-		
 		mIlluminationType = kQ3IlluminationTypeNULL;
 		mIsTextured = false;
 		mProgramIndex = -1;
 		mIsCartoonish = (mQuantization > 0.0f);
+		
+		InitVertexShader();
 		
 		if (mVertexShaderID != 0)
 		{
@@ -765,11 +789,14 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 		mProgramIndex = foundProg - mPrograms.begin();
 		
 		mFuncs.glUseProgram( foundProg->mProgram );
+		CHECK_GL_ERROR;
 		foundProg->mAgeCounter = 0;
 		
 		// Set the quantization uniform variables.
 		mFuncs.glUniform1f( foundProg->mQuantizationUniformLoc, mQuantization );
+		CHECK_GL_ERROR;
 		mFuncs.glUniform1f( foundProg->mLightNearEdgeUniformLoc, mLightNearEdge );
+		CHECK_GL_ERROR;
 	}
 }
 
@@ -790,10 +817,13 @@ void	QORenderer::PerPixelLighting::InitUniforms( ProgramRec& ioProgram )
 {
 	ioProgram.mTextureUnitUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kTextureUnitUniformName );
+	CHECK_GL_ERROR;
 	ioProgram.mQuantizationUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kQuantizationUniformName );
+	CHECK_GL_ERROR;
 	ioProgram.mLightNearEdgeUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kLightNearEdgeUniformName );
+	CHECK_GL_ERROR;
 }
 
 /*!
@@ -836,19 +866,23 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 	if (mVertexShaderID == 0)
 	{
 		mVertexShaderID = mFuncs.glCreateShader( GL_VERTEX_SHADER );
+		CHECK_GL_ERROR;
 		
 		if (mVertexShaderID != 0)
 		{
 			// Supply source code
 			mFuncs.glShaderSource( mVertexShaderID, 1, &kVertexShaderSource, NULL );
+			CHECK_GL_ERROR;
 			
 			// Compile vertex shader
 			mFuncs.glCompileShader( mVertexShaderID );
+			CHECK_GL_ERROR;
 			
 			// Check for compile success
 			GLint	status;
 			mFuncs.glGetShaderiv( mVertexShaderID, GL_COMPILE_STATUS, &status );
 			Q3_ASSERT( status == GL_TRUE );
+			CHECK_GL_ERROR;
 			
 			if (status == GL_FALSE)
 			{
@@ -890,11 +924,13 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 	
 	// Create a program.
 	newProgram.mProgram = mFuncs.glCreateProgram();
-			
+	CHECK_GL_ERROR;
+	
 	if (newProgram.mProgram != 0)
 	{
 		// Attach the vertex shader to the program.
 		mFuncs.glAttachShader( newProgram.mProgram, mVertexShaderID );
+		CHECK_GL_ERROR;
 		
 		// Build the source of the fragment shader
 		std::vector<std::string>	fragSource;
@@ -905,17 +941,21 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 		
 		// Create the fragment shader
 		GLint shaderID = mFuncs.glCreateShader( GL_FRAGMENT_SHADER );
+		CHECK_GL_ERROR;
 		if (shaderID != 0)
 		{
 			// Supply source code
 			mFuncs.glShaderSource( shaderID, sourceParts.size(), &sourceParts[0], NULL );
+			CHECK_GL_ERROR;
 
 			// Compile fragment shader
 			mFuncs.glCompileShader( shaderID );
+			CHECK_GL_ERROR;
 			
 			// Check for compile success
 			GLint	status;
 			mFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
+			CHECK_GL_ERROR;
 			Q3_ASSERT( status == GL_TRUE );
 			
 			if (status == GL_FALSE)
@@ -936,18 +976,22 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 		{
 			// Attach
 			mFuncs.glAttachShader( newProgram.mProgram, shaderID );
+			CHECK_GL_ERROR;
 			
 			// Delete, so it will go away when detached
 			mFuncs.glDeleteShader( shaderID );
+			CHECK_GL_ERROR;
 		}
 		
 		// Link program
 		mFuncs.glLinkProgram( newProgram.mProgram );
+		CHECK_GL_ERROR;
 		
 		// Check for link success
 		GLint	linkStatus;
 		mFuncs.glGetProgramiv( newProgram.mProgram, GL_LINK_STATUS, &linkStatus );
 		Q3_ASSERT( linkStatus == GL_TRUE );
+		CHECK_GL_ERROR;
 		
 		// Use program
 		if (linkStatus == GL_TRUE)
@@ -963,6 +1007,7 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 		#if Q3_DEBUG
 			GLint	logSize = 0;
 			mFuncs.glGetProgramiv( newProgram.mProgram, GL_INFO_LOG_LENGTH, &logSize );
+			CHECK_GL_ERROR;
 			if (logSize > 0)
 			{
 				GLbyte*	theLog = (GLbyte*) Q3Memory_Allocate( logSize );
