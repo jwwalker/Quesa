@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -620,68 +620,70 @@ e3fformat_3dmf_text_read_float64 ( E3Text3DMFReader* format, TQ3Float64* data )
 static TQ3Uns32
 e3fformat_3dmf_hex_to_dec(unsigned char hex)
 {
+	TQ3Uns32	theValue = 0;
 	
 	switch(hex){
 		case '0':
-			return(0);
+			theValue = 0;
 			break;
 		case '1':
-			return(1);
+			theValue = 1;
 			break;
 		case '2':
-			return(2);
+			theValue = 2;
 			break;
 		case '3':
-			return(3);
+			theValue = 3;
 			break;
 		case '4':
-			return(4);
+			theValue = 4;
 			break;
 		case '5':
-			return(5);
+			theValue = 5;
 			break;
 		case '6':
-			return(6);
+			theValue = 6;
 			break;
 		case '7':
-			return(7);
+			theValue = 7;
 			break;
 		case '8':
-			return(8);
+			theValue = 8;
 			break;
 		case '9':
-			return(9);
+			theValue = 9;
 			break;
 		case 'A':
 		case 'a':
-			return(10);
+			theValue = 10;
 			break;
 		case 'B':
 		case 'b':
-			return(11);
+			theValue = 11;
 			break;
 		case 'C':
 		case 'c':
-			return(12);
+			theValue = 12;
 			break;
 		case 'D':
 		case 'd':
-			return(13);
+			theValue = 13;
 			break;
 		case 'E':
 		case 'e':
-			return(14);
+			theValue = 14;
 			break;
 		case 'F':
 		case 'f':
-			return(15);
+			theValue = 15;
 			break;
 		default:
 			Q3_ASSERT(hex == '0');
-			return(0);
+			theValue = 0;
 			break;
 	}
-
+	
+	return theValue;
 }
 
 
