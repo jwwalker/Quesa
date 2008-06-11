@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -57,10 +57,17 @@
 //      Common constants and types
 //-----------------------------------------------------------------------------
 
-#if QUESA_OS_WIN32
-	#define		QO_PROCPTR_TYPE		__stdcall
-#else
-	#define		QO_PROCPTR_TYPE
+// Set calling convention for OpenGL library function pointers
+#ifndef		QO_PROCPTR_TYPE
+	#if QUESA_OS_WIN32
+		#define		QO_PROCPTR_TYPE		__stdcall *
+		// Note: I have read that some IBM compilers may require that the order
+		// be * __stdcall, though I do not know the appropriate test for such a
+		// compiler.  Some compilers definitely require __stdcall to come before
+		// the asterisk, and some do not care.
+	#else
+		#define		QO_PROCPTR_TYPE		*
+	#endif
 #endif
 
 namespace QORenderer

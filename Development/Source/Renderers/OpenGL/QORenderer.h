@@ -96,7 +96,7 @@ enum ESlowPathMask
 typedef TQ3Uns32	SlowPathMask;
 
 // glBlendEquation type
-typedef void (QO_PROCPTR_TYPE * TQ3BlendEquationProcPtr) (GLenum blendType);
+typedef void (QO_PROCPTR_TYPE TQ3BlendEquationProcPtr) (GLenum blendType);
 
 /*!
 	@struct		ColorState
@@ -171,12 +171,12 @@ struct MeshArrays
 };
 
 // Function pointer type for GL_EXT_stencil_two_side
-typedef void (QO_PROCPTR_TYPE * glActiveStencilFaceEXTProcPtr) (GLenum face);
+typedef void (QO_PROCPTR_TYPE glActiveStencilFaceEXTProcPtr) (GLenum face);
 
 // Function pointer types for separate stencil, GL 2.0
-typedef void (QO_PROCPTR_TYPE * glStencilFuncSeparateProcPtr) (GLenum face, GLenum func, GLint ref, GLuint mask);
-typedef void (QO_PROCPTR_TYPE * glStencilOpSeparateProcPtr) (GLenum face, GLenum fail, GLenum zfail, GLenum zpass);
-typedef void (QO_PROCPTR_TYPE * glStencilMaskSeparateProcPtr) (GLenum face, GLuint mask);
+typedef void (QO_PROCPTR_TYPE glStencilFuncSeparateProcPtr) (GLenum face, GLenum func, GLint ref, GLuint mask);
+typedef void (QO_PROCPTR_TYPE glStencilOpSeparateProcPtr) (GLenum face, GLenum fail, GLenum zfail, GLenum zpass);
+typedef void (QO_PROCPTR_TYPE glStencilMaskSeparateProcPtr) (GLenum face, GLuint mask);
 
 /*!
 	@struct		GLStencilFuncs
