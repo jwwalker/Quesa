@@ -958,12 +958,17 @@ strip_element_readdata( TQ3Object parentObject, TQ3FileObject theFile )
 		if (numIndices > 0)
 		{
 			status = Q3Uns32_ReadArray( numIndices, &theArray[0], theFile );
-		}
 		
-		if (status == kQ3Success)
+			if (status == kQ3Success)
+			{
+				status = E3TriangleStripElement_SetData( parentObject,
+					numIndices, &theArray[0] );
+			}
+		}
+		else
 		{
 			status = E3TriangleStripElement_SetData( parentObject,
-				numIndices, &theArray[0] );
+					numIndices, NULL );
 		}
 	}
 	
