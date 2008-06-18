@@ -254,7 +254,7 @@ typedef struct TQ3ConeData {
  *		Data describing the state of a cylinder object.  The orientation, major radius,
  *		and minor radius vectors need not be orthogonal, though they should be
  *		independent.  Ordinarily, the vectors (orientation, major axis, minor axis)
- *		should form a left-handed coordinate system.  If they form a left-handed system,
+ *		should form a right-handed coordinate system.  If they form a left-handed system,
  *		then the cylinder is "inside out", i.e., the front face is inside.
  *
  *		The values <code>uMin</code>, <code>uMax</code>, <code>vMin</code>, and <code>vMax</code>
