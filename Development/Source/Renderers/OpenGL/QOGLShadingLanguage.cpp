@@ -1073,6 +1073,20 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 }
 
 /*!
+	@function	UpdateLighting
+	@abstract	Notification that there has been a change in which OpenGL
+				lights are on.
+*/
+void	QORenderer::PerPixelLighting::UpdateLighting()
+{
+	if (mIsShading)
+	{
+		ChooseProgram();
+	}
+}
+
+
+/*!
 	@function	UpdateTexture
 	@abstract	Notification that there has been a change in whether we
 				are texturing or which texture is active.
