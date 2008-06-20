@@ -270,6 +270,13 @@ public:
 	void						UpdateTexture();
 	
 	/*!
+		@function	UpdateLighting
+		@abstract	Notification that there has been a change in which OpenGL
+					lights are on.
+	*/
+	void						UpdateLighting();
+	
+	/*!
 		@function	PreGeomSubmit
 		@abstract	This is called just before a geometry will be rendered, in
 					order to check for kQ3GeometryPropertyNonCartoon.

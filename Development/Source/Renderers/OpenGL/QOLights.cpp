@@ -868,6 +868,8 @@ void	QORenderer::Lights::SetOnlyAmbient( bool inOnlyAmbient )
 			
 			glLightModelfv( GL_LIGHT_MODEL_AMBIENT, mGlAmbientLight );
 		}
+		
+		mPerPixelLighting.UpdateLighting();
 	}
 }
 

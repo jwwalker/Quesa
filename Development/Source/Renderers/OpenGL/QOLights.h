@@ -58,6 +58,7 @@
 #include "QOPrefix.h"
 #include "CQ3ObjectRef.h"
 #include "QOShadowMarker.h"
+#include "QOGLShadingLanguage.h"
 
 #include <cmath>
 #include <vector>
@@ -87,11 +88,13 @@ public:
 							Lights( const TQ3GLExtensions& inExtensions,
 									const GLStencilFuncs& inStencilFuncs,
 									const MatrixState& inMatrixState,
-									const StyleState& inStyleState )
+									const StyleState& inStyleState,
+									PerPixelLighting& ioPerPixelLighting )
 								: mGLExtensions( inExtensions )
 								, mGLStencilFuncs( inStencilFuncs )
 								, mMatrixState( inMatrixState )
 								, mStyleState( inStyleState )
+								, mPerPixelLighting( ioPerPixelLighting )
 								, mLightCount( 0 )
 								, mSavedYon( std::numeric_limits<float>::infinity() )
 								, mShadowMarker( mMatrixState, mStyleState,
@@ -155,6 +158,7 @@ private:
 	const GLStencilFuncs&	mGLStencilFuncs;
 	const MatrixState&		mMatrixState;
 	const StyleState&		mStyleState;
+	PerPixelLighting&		mPerPixelLighting;
 	TQ3Uns32				mLightCount;		// number of GL lights in this pass
 	bool					mIsShadowFrame;
 	bool					mIsFirstPass;
