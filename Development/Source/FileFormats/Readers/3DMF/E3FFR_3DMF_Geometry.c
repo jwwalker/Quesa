@@ -3941,6 +3941,7 @@ E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3TriangleData		geomData;
 	TQ3Uns32			i;
+	TQ3SetObject			elementSet = NULL;
 
 
 
@@ -3965,6 +3966,9 @@ E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile)
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.triangleAttributeSet = childObject;
 
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
+
 			else{
 				if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListVertex)){
 					for(i = 0; i< 3; i++){
@@ -3981,6 +3985,9 @@ E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile)
 	// Create the geometry
 	theObject = Q3Triangle_New(&geomData);
 
+
+	// Apply any custom elements
+	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 
 	// Clean up
