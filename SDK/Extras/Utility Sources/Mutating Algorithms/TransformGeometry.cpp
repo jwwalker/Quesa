@@ -172,16 +172,68 @@ static void TransformLine( const TQ3Matrix4x4* inMatrix,
 	Q3Line_EmptyData( &lineData );
 }
 
+static void TransformNormalAttribute( TQ3AttributeSet ioAtts,
+										const TQ3Matrix4x4& inMatrix )
+{
+	if (ioAtts != NULL)
+	{
+		TQ3Vector3D		theNormal;
+		if (kQ3Success == Q3AttributeSet_Get( ioAtts, kQ3AttributeTypeNormal,
+			&theNormal ))
+		{
+			Q3Vector3D_Transform( &theNormal, &inMatrix, &theNormal );
+			Q3AttributeSet_Add( ioAtts, kQ3AttributeTypeNormal, &theNormal );
+		}
+	}
+}
+
+static void TransformTriangle( const TQ3Matrix4x4* inMatrix,
+								TQ3GeometryObject ioGeom )
+{
+	TQ3TriangleData	triData;
+	Q3Triangle_GetData( ioGeom, &triData );
+	
+	Q3Point3D_Transform( &triData.vertices[0].point, inMatrix,
+			&triData.vertices[0].point );
+	Q3Point3D_Transform( &triData.vertices[1].point, inMatrix,
+			&triData.vertices[1].point );
+	Q3Point3D_Transform( &triData.vertices[2].point, inMatrix,
+			&triData.vertices[2].point );
+
+	// Normal vectors must be transformed by the inverse transpose of the
+	// transformation matrix.
+	TQ3Matrix4x4	normalTrans;
+	Q3Matrix4x4_Invert( inMatrix, &normalTrans );
+	Q3Matrix4x4_Transpose( &normalTrans, &normalTrans );
+	
+	TransformNormalAttribute( triData.vertices[0].attributeSet, normalTrans );
+	TransformNormalAttribute( triData.vertices[1].attributeSet, normalTrans );
+	TransformNormalAttribute( triData.vertices[2].attributeSet, normalTrans );
+	TransformNormalAttribute( triData.triangleAttributeSet, normalTrans );
+
+	Q3Triangle_SetData( ioGeom, &triData );
+	Q3Triangle_EmptyData( &triData );
+}
+
 static void TransformPolygon( const TQ3Matrix4x4* inMatrix,
 								TQ3GeometryObject ioGeom )
 {
 	TQ3PolygonData	polyData;
 	Q3Polygon_GetData( ioGeom, &polyData );
 	
+	// Normal vectors must be transformed by the inverse transpose of the
+	// transformation matrix.
+	TQ3Matrix4x4	normalTrans;
+	Q3Matrix4x4_Invert( inMatrix, &normalTrans );
+	Q3Matrix4x4_Transpose( &normalTrans, &normalTrans );
+	
+	TransformNormalAttribute( polyData.polygonAttributeSet, normalTrans );
+	
 	for (TQ3Uns32 i = 0; i < polyData.numVertices; ++i)
 	{
 		Q3Point3D_Transform( &polyData.vertices[i].point, inMatrix,
 			&polyData.vertices[i].point );
+		TransformNormalAttribute( polyData.vertices[i].attributeSet, normalTrans );
 	}
 	
 	Q3Polygon_SetData( ioGeom, &polyData );
@@ -194,6 +246,14 @@ static void TransformGeneralPolygon( const TQ3Matrix4x4* inMatrix,
 	TQ3GeneralPolygonData	polyData;
 	Q3GeneralPolygon_GetData( ioGeom, &polyData );
 	
+	// Normal vectors must be transformed by the inverse transpose of the
+	// transformation matrix.
+	TQ3Matrix4x4	normalTrans;
+	Q3Matrix4x4_Invert( inMatrix, &normalTrans );
+	Q3Matrix4x4_Transpose( &normalTrans, &normalTrans );
+	
+	TransformNormalAttribute( polyData.generalPolygonAttributeSet, normalTrans );
+
 	for (TQ3Uns32 i = 0; i < polyData.numContours; ++i)
 	{
 		TQ3GeneralPolygonContourData&	theContour( polyData.contours[i] );
@@ -202,6 +262,7 @@ static void TransformGeneralPolygon( const TQ3Matrix4x4* inMatrix,
 		{
 			Q3Point3D_Transform( &theContour.vertices[j].point, inMatrix,
 				&theContour.vertices[j].point );
+			TransformNormalAttribute( theContour.vertices[j].attributeSet, normalTrans );
 		}
 	}
 
@@ -328,6 +389,10 @@ TQ3Status	TransformGeometry( const TQ3Matrix4x4* inMatrix,
 			
 		case kQ3GeometryTypeTriMesh:
 			TransformTriMesh( inMatrix, ioGeom );
+			break;
+		
+		case kQ3GeometryTypeTriangle:
+			TransformTriangle( inMatrix, ioGeom );
 			break;
 			
 		default:
