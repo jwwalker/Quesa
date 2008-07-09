@@ -947,9 +947,9 @@ bool	QORenderer::Lights::IsLit( const TQ3BoundingBox& inBounds ) const
 			if ( isLit && (mLightType == kQ3LightTypeSpot) )
 			{
 				// Cull objects outside the light cone
-				TQ3Ray3D	spotAxis = {
-					lightPos, mSpotLightDirection
-				};
+				TQ3Ray3D	spotAxis;
+				spotAxis.origin = lightPos;
+				spotAxis.direction = mSpotLightDirection;
 				if (! E3Cone_IntersectBoundingBox( spotAxis, mSpotAngleCosine,
 					cameraBounds ))
 				{
