@@ -6,7 +6,7 @@
         Header file for QOCalcTriMeshEdges.cpp.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -41,6 +41,8 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
+#ifndef QOCALC_TRIMESH_EDGES_H
+#define QOCALC_TRIMESH_EDGES_H
 
 //=============================================================================
 //      Include files
@@ -128,3 +130,4 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 							TQ3EdgeVec& outEdges,
 							TQ3TriangleToEdgeVec& outFacesToEdges );
 
+#endif
