@@ -250,7 +250,7 @@ e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 
 	// Initialise the instance data of the new object
 	instanceData->refCount  = 1;
-	instanceData->editIndex = fromInstanceData->editIndex;
+	instanceData->editIndex = E3Integer_Abs( fromInstanceData->editIndex );
 
 	return(kQ3Success);
 }
@@ -1560,7 +1560,7 @@ TQ3Uns32
 E3Shared::GetEditIndex ( void )
 	{
 	// Return the edit index
-	return editIndex ;
+	return E3Integer_Abs( editIndex );
 	}
 
 
@@ -1585,11 +1585,55 @@ E3Shared::SetEditIndex( TQ3Uns32 inIndex )
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shared::Edited ( void )
+{
+	if (editIndex >= 0)
 	{
-	// Increment the edit index
-	++editIndex ;
-	return kQ3Success ;
+#if Q3_DEBUG
+		if (GetLeafType() == 'tmsh')
+		{
+			++editIndex;
+			--editIndex;
+		}
+	#endif
+		// Increment the edit index
+		++editIndex ;
 	}
+	
+	return kQ3Success ;
+}
+
+
+
+
+
+//=============================================================================
+//      SetEditIndexLocked : Set or clear a lock on the edit index
+//-----------------------------------------------------------------------------
+void
+E3Shared::SetEditIndexLocked( TQ3Boolean inIsLocked )
+{
+	if (inIsLocked)
+	{
+		editIndex = - E3Integer_Abs( editIndex );
+	}
+	else	// unlock
+	{
+		editIndex = E3Integer_Abs( editIndex );
+	}
+}
+
+
+
+
+
+//=============================================================================
+//      IsEditIndexLocked : Test whether the edit index is locked
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3Shared::IsEditIndexLocked() const
+{
+	return (editIndex < 0) ? kQ3True : kQ3False;
+}
 
 
 

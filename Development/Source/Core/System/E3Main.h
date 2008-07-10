@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -255,7 +255,7 @@ class E3Shared : public OpaqueTQ3Object
 	{
 Q3_CLASS_ENUMS ( kQ3ObjectTypeShared, E3Shared, OpaqueTQ3Object )
 	TQ3Uns32		refCount;
-	TQ3Uns32		editIndex;
+	TQ3Int32		editIndex;	// normally positive, negative means "locked"
 	
 	friend TQ3Status	e3shared_new ( E3Shared* theObject, void *privateData, void *paramData ) ;
 	friend void			e3shared_dispose ( E3Shared* theObject ) ;
@@ -273,6 +273,8 @@ public :
 	TQ3Uns32			GetEditIndex ( void ) ;
 	void				SetEditIndex( TQ3Uns32 inIndex );
 	TQ3Status			Edited ( void ) ;
+	void				SetEditIndexLocked( TQ3Boolean inIsLocked );
+	TQ3Boolean			IsEditIndexLocked() const;
 	} ;
 
 
