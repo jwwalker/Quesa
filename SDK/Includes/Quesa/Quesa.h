@@ -2288,11 +2288,8 @@ Q3Shared_GetEditIndex (
 
 
 /*!
-	@function
-		Q3Shared_SetEditIndex
-	
+	@function	Q3Shared_SetEditIndex
 	@abstract	Set the edit index of a shared object.
-	
 	@discussion	This function should be used even more rarely than
 				Q3Shared_Edited.  It was added to solve a specific problem:
 				Caching information in a custom element attached to an object
@@ -2308,6 +2305,36 @@ Q3Shared_SetEditIndex(
 	TQ3SharedObject inObject,
 	TQ3Uns32 inEditIndex
 );
+
+
+
+/*!
+	@function	Q3Shared_SetEditIndexLocked
+	@abstract	Lock the edit index of a shared object.
+	@discussion	When the edit index of an object is locked, Q3Shared_Edited
+				does nothing.  You should do this only very temporarily, for
+				example when setting a property on an object without flushing a
+				cache that is attached to the object.  Doing so with this
+				function is a little safer and easier to debug than doing so
+				using Q3Shared_GetEditIndex and Q3Shared_SetEditIndex.
+				
+				 <em>This function is not available in QD3D.</em>
+	@param		inIsLocked		Pass kQ3True to lock, pass kQ3False to unlock.
+*/
+Q3_EXTERN_API_C( void )
+Q3Shared_SetEditIndexLocked( TQ3SharedObject inObject, TQ3Boolean inIsLocked );
+
+
+
+/*!
+	@function	Q3Shared_IsEditIndexLocked
+	@abstract	Test whether the edit index of a shared object is locked.
+	@discussion	<em>This function is not available in QD3D.</em>
+	@param		inObject		A shared object to update.
+	@result		kQ3True if locked, kQ3False if unlocked.
+*/
+Q3_EXTERN_API_C( TQ3Boolean )
+Q3Shared_IsEditIndexLocked( TQ3SharedObject inObject );
 
 
 

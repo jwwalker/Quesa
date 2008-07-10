@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1382,6 +1382,47 @@ Q3Shared_Edited(TQ3SharedObject sharedObject)
 }
 
 
+
+//=============================================================================
+//      Q3Shared_SetEditIndexLocked : Quesa API entry point.
+//-----------------------------------------------------------------------------
+void
+Q3Shared_SetEditIndexLocked( TQ3SharedObject inObject, TQ3Boolean inIsLocked )
+{
+	// Release build checks
+	Q3_REQUIRE( E3Shared_IsOfMyClass ( inObject ) );
+	
+	
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	( (E3Shared*) inObject )->SetEditIndexLocked( inIsLocked );
+}
+
+
+
+//=============================================================================
+//      Q3Shared_IsEditIndexLocked : Quesa API entry point.
+TQ3Boolean
+Q3Shared_IsEditIndexLocked( TQ3SharedObject inObject )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Shared_IsOfMyClass ( inObject ), kQ3False );
+	
+	
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return ( (E3Shared*) inObject )->IsEditIndexLocked();
+}
 
 
 
