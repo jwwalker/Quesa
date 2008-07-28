@@ -177,6 +177,7 @@ private:
 	void				Cleanup();
 
 	TQ3GLContext			masterContext;
+	GLint					fboViewPort[4];
 	GLint					masterViewPort[4];
 	bool					copyFromPixmapAtFrameStart;
 	bool					copyToPixMapOnSwapBuffer;
@@ -249,6 +250,7 @@ public:
 	HDC								theDC;
 	HGLRC							glContext;
 	bool							needsScissor;
+	GLint							viewPort[4];
 	
 	// Only used for pixmap draw contexts
 	HBITMAP 						backBuffer;
@@ -284,6 +286,7 @@ public:
 
 private:
 	AGLContext						macContext;
+	GLint							viewPort[4];
 };
 #endif
 
@@ -631,7 +634,10 @@ FBORec::FBORec(
 		GLGPUSharing_AddContext( this, masterContext );
 
 		// Set the viewport
-		glViewport( 0, 0, inPaneWidth, inPaneHeight );
+		fboViewPort[0] = fboViewPort[1] = 0;
+		fboViewPort[2] = inPaneWidth;
+		fboViewPort[3] = inPaneHeight;
+		glViewport( fboViewPort[0], fboViewPort[1], fboViewPort[2], fboViewPort[3] );
 		
 		glDisable( GL_SCISSOR_TEST );
 		
@@ -707,6 +713,8 @@ void	FBORec::SetCurrent( TQ3Boolean inForceSet )
 	static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer( frameBufferID );
 	
 	glDisable( GL_SCISSOR_TEST );
+
+	glViewport( fboViewPort[0], fboViewPort[1], fboViewPort[2], fboViewPort[3] );
 }
 
 void	FBORec::SetCurrentBase( TQ3Boolean inForceSet )
@@ -1304,7 +1312,10 @@ MacGLContext::MacGLContext(
 
 
 	// Set the viewport
-	glViewport( 0, 0, paneWidth, paneHeight );
+	viewPort[0] = viewPort[1] = 0;
+	viewPort[2] = paneWidth;
+	viewPort[3] = paneHeight;
+	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 
 
 	// Tell OpenGL to leave renderers in memory when loaded, to make creating
@@ -1378,6 +1389,9 @@ void	MacGLContext::SetCurrent( TQ3Boolean inForceSet )
 	
 	// Make sure that no FBO is active
 	BindFrameBuffer( 0 );
+
+	// Restore viewport, which may have been changed by an FBO
+	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 }
 
 bool	MacGLContext::UpdateWindowPosition()
@@ -1427,7 +1441,9 @@ bool	MacGLContext::UpdateWindowSize()
 				aglDisable( macContext, AGL_BUFFER_RECT );
 			}
 			
-			glViewport( 0, 0, paneWidth, paneHeight );
+			viewPort[2] = paneWidth;
+			viewPort[3] = paneHeight;
+			glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 			
 			
 			if (aglUpdateContext( macContext ))
@@ -1819,24 +1835,36 @@ WinGLContext::WinGLContext(
 	
 
 
-	// Set the viewport
+	// Set the viewport, and maybe scissor
 	if (drawContextData.paneState)
 	{
-		glViewport((TQ3Uns32)  drawContextData.pane.min.x,
-				   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
-				   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
-				   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+		viewPort[0] = drawContextData.pane.min.x;
+		viewPort[1] = windowHeight - drawContextData.pane.max.y;
+		viewPort[2] = drawContextData.pane.max.x - drawContextData.pane.min.x;
+		viewPort[3] = drawContextData.pane.max.y - drawContextData.pane.min.y;
+		
 		glEnable( GL_SCISSOR_TEST );
-		glScissor((TQ3Uns32)  drawContextData.pane.min.x,
-				   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
-				   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
-				   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+		glScissor( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 		needsScissor = true;
 	}
 	else
 	{
+		viewPort[0] = 0;
+		viewPort[1] = 0;
+		
+		if (drawContextType == kQ3DrawContextTypePixmap)
+		{
+			viewPort[2] = pixmap.width;
+			viewPort[3] = pixmap.height;
+		}
+		else
+		{
+			viewPort[2] = windowRect.right - windowRect.left;
+			viewPort[3] = windowHeight;
+		}
 		glDisable( GL_SCISSOR_TEST );
 	}
+	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 }
 
 
@@ -1976,6 +2004,8 @@ void	WinGLContext::SetCurrent( TQ3Boolean inForceSet )
 		{
 			glEnable( GL_SCISSOR_TEST );
 		}
+		
+		glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 	}
 }
 
@@ -2004,21 +2034,20 @@ bool	WinGLContext::UpdateWindowSize()
 			{
 				if (drawContextData.paneState)
 				{
-					glViewport((TQ3Uns32)  drawContextData.pane.min.x,
-							   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
-							   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
-							   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+					viewPort[0] = drawContextData.pane.min.x;
+					viewPort[1] = windowHeight - drawContextData.pane.max.y;
+					viewPort[2] = drawContextData.pane.max.x - drawContextData.pane.min.x;
+					viewPort[3] = drawContextData.pane.max.y - drawContextData.pane.min.y;
+					glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 					glEnable( GL_SCISSOR_TEST );
-					glScissor((TQ3Uns32)  drawContextData.pane.min.x,
-							   (TQ3Uns32)  (windowHeight - drawContextData.pane.max.y),
-							   (TQ3Uns32) (drawContextData.pane.max.x - drawContextData.pane.min.x),
-							   (TQ3Uns32) (drawContextData.pane.max.y - drawContextData.pane.min.y));
+					glScissor( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 					needsScissor = true;
 				}
 				else
 				{
-					glViewport( 0, 0, windowRect.right - windowRect.left,
-						windowHeight );
+					viewPort[2] = windowRect.right - windowRect.left;
+					viewPort[3] = windowHeight;
+					glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 					glDisable( GL_SCISSOR_TEST );
 					needsScissor = false;
 				}

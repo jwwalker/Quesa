@@ -9,7 +9,7 @@
         access the Cocoa OpenGL API then this is handled as a special case.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -89,7 +89,6 @@ CocoaGLContext::CocoaGLContext(
     CocoaGLContext					*theContext;
 	TQ3Status						qd3dStatus;
     NSRect							viewFrame;
-    GLint							glRect[4];
     GLint							enable;
 	TQ3GLExtensions					extFlags;
 
@@ -163,20 +162,20 @@ CocoaGLContext::CocoaGLContext(
 
 
 	// Set the viewport
-	glRect[0] = (GLint) drawContextData.pane.min.x;
-	glRect[1] = (GLint) ((viewFrame.origin.y+viewFrame.size.height)            
+	viewPort[0] = (GLint) drawContextData.pane.min.x;
+	viewPort[1] = (GLint) ((viewFrame.origin.y+viewFrame.size.height)            
                                       - drawContextData.pane.max.y);
-	glRect[2] = (GLint) (drawContextData.pane.max.x - drawContextData.pane.min.x);
-	glRect[3] = (GLint) (drawContextData.pane.max.y - drawContextData.pane.min.y);
+	viewPort[2] = (GLint) (drawContextData.pane.max.x - drawContextData.pane.min.x);
+	viewPort[3] = (GLint) (drawContextData.pane.max.y - drawContextData.pane.min.y);
 
-	glViewport(0, 0, glRect[2], glRect[3]);
+	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 
 
 
 	// Set the swap buffer rect
 	enable = 1;
 	[(id)glContext setValues:&enable forParameter:NSOpenGLCPSwapRectangleEnable];
-	[(id)glContext setValues:glRect forParameter:NSOpenGLCPSwapRectangle];
+	[(id)glContext setValues:viewPort forParameter:NSOpenGLCPSwapRectangle];
 
 
 
@@ -244,6 +243,8 @@ void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
 	
 	// Make sure that no FBO is active
 	BindFrameBuffer( 0 );
+
+	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 }
 
 
@@ -255,17 +256,15 @@ bool	CocoaGLContext::UpdateWindowSize()
 	TQ3DrawContextData				drawContextData;
 	Q3DrawContext_GetData( quesaDrawContext, &drawContextData );
 	
-	GLint	glRect[4] =
-	{
-		drawContextData.pane.min.x,
-		((viewFrame.origin.y+viewFrame.size.height)            
-                                      - drawContextData.pane.max.y),
-		drawContextData.pane.max.x - drawContextData.pane.min.x,
-		drawContextData.pane.max.y - drawContextData.pane.min.y
-	};
-	glViewport(0, 0, glRect[2], glRect[3]);
+	viewPort[0] = (GLint) drawContextData.pane.min.x;
+	viewPort[1] = (GLint) ((viewFrame.origin.y+viewFrame.size.height)            
+                                      - drawContextData.pane.max.y);
+	viewPort[2] = (GLint) (drawContextData.pane.max.x - drawContextData.pane.min.x);
+	viewPort[3] = (GLint) (drawContextData.pane.max.y - drawContextData.pane.min.y);
+
+	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 	
-	[(id)glContext setValues:glRect
+	[(id)glContext setValues: viewPort
 					forParameter:NSOpenGLCPSwapRectangle];
 	
 	return true;
