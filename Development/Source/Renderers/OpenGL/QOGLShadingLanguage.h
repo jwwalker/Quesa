@@ -286,7 +286,7 @@ public:
 private:
 	void						CheckIfShading();
 	void						InitVertexShader();
-	void						InitProgram( const LightPattern& inPattern );
+	void						InitProgram();
 	void						InitUniforms( ProgramRec& ioProgram );
 	void						ChooseProgram();
 	
@@ -299,6 +299,7 @@ private:
 	TQ3Float32					mQuantization;
 	TQ3Float32					mLightNearEdge;
 	bool						mIsCartoonish;
+	LightPattern				mLightPattern;
 	
 	ProgramVec					mPrograms;
 	int							mProgramIndex;

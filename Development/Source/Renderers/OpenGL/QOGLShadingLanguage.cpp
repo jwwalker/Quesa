@@ -749,6 +749,7 @@ void	QORenderer::PerPixelLighting::StartPass()
 		
 		if (mVertexShaderID != 0)
 		{
+			GetLightTypes( mLightPattern );
 			ChooseProgram();
 		}
 	}
@@ -764,12 +765,8 @@ void	QORenderer::PerPixelLighting::StartPass()
 */
 void	QORenderer::PerPixelLighting::ChooseProgram()
 {
-	// See if we have a program matching the current light pattern.
-	LightPattern	theLightPattern;
-	GetLightTypes( theLightPattern );
-	
 	// Look for a program that meets current needs.
-	MatchProgram	matcher( theLightPattern, mIlluminationType, mIsTextured,
+	MatchProgram	matcher( mLightPattern, mIlluminationType, mIsTextured,
 		mIsCartoonish );
 	ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
 		mPrograms.end(), matcher );
@@ -777,7 +774,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 	// If there is none, create it.
 	if (foundProg == mPrograms.end())
 	{
-		InitProgram( theLightPattern );
+		InitProgram();
 		
 		foundProg = std::find_if( mPrograms.begin(),
 			mPrograms.end(), matcher );
@@ -914,10 +911,10 @@ static void GetSourcePointers(	const std::vector<std::string>& inSrcStrings,
 	@function	InitProgram
 	@abstract	Set up the main fragment shader and program.
 */
-void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
+void	QORenderer::PerPixelLighting::InitProgram()
 {
 	ProgramRec	newProgram;
-	newProgram.mPattern = inPattern;
+	newProgram.mPattern = mLightPattern;
 	newProgram.mIlluminationType = mIlluminationType;
 	newProgram.mIsTextured = mIsTextured;
 	newProgram.mIsCartoonish = mIsCartoonish;
@@ -934,7 +931,7 @@ void	QORenderer::PerPixelLighting::InitProgram( const LightPattern& inPattern )
 		
 		// Build the source of the fragment shader
 		std::vector<std::string>	fragSource;
-		BuildFragmentShaderSource( inPattern, mIlluminationType, mIsTextured,
+		BuildFragmentShaderSource( mLightPattern, mIlluminationType, mIsTextured,
 			mIsCartoonish, fragSource );
 		std::vector<const char*>	sourceParts;
 		GetSourcePointers( fragSource, sourceParts );
@@ -1067,6 +1064,11 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 		{
 			mIlluminationType = inIlluminationType;
 			
+			// The illumination does not really change the light pattern.
+			// However, I want the client code to be able enable/disable lights
+			// and get Quesa to notice the change by changing illumination.
+			GetLightTypes( mLightPattern );
+			
 			ChooseProgram();
 		}
 	}
@@ -1081,6 +1083,7 @@ void	QORenderer::PerPixelLighting::UpdateLighting()
 {
 	if (mIsShading)
 	{
+		GetLightTypes( mLightPattern );
 		ChooseProgram();
 	}
 }
