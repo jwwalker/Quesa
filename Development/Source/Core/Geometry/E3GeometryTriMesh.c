@@ -480,7 +480,6 @@ e3geom_trimesh_optimize_normals(TQ3Uns32 numNormals, TQ3TriMeshAttributeData *at
 
 
 	// Validate our parameters
-	Q3_ASSERT_VALID_PTR(numNormals != 0);
 	Q3_ASSERT_VALID_PTR(attributeData);
 
 
