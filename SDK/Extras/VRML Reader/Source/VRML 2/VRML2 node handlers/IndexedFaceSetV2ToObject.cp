@@ -322,29 +322,31 @@ CQ3ObjectRef	IndexedFaceMaker::CreateObject()
 	mFaceSet.CalcVertexNormals( mCreaseAngleCosine );
 	mFaceSet.IdentifyDistinctPoints();
 	CQ3ObjectRef	theTriMesh( mFaceSet.CreateTriMesh() );
-	ThrowIfNullQuesaOb_( theTriMesh );
 	
-	if (mIsSolid)
+	if (theTriMesh.isvalid())
 	{
-		resultShape = theTriMesh;
-	}
-	else
-	{
-		resultShape = CQ3ObjectRef( Q3DisplayGroup_New() );
-		ThrowIfNullQuesaOb_( resultShape );
-		CQ3ObjectRef	theStyle( Q3BackfacingStyle_New( kQ3BackfacingStyleFlip ) );
-		ThrowIfNullQuesaOb_( theStyle );
-		
-		Q3Group_AddObject( resultShape.get(), theStyle.get() );
-		Q3Group_AddObject( resultShape.get(), theTriMesh.get() );
-	}
+		if (mIsSolid)
+		{
+			resultShape = theTriMesh;
+		}
+		else
+		{
+			resultShape = CQ3ObjectRef( Q3DisplayGroup_New() );
+			ThrowIfNullQuesaOb_( resultShape );
+			CQ3ObjectRef	theStyle( Q3BackfacingStyle_New( kQ3BackfacingStyleFlip ) );
+			ThrowIfNullQuesaOb_( theStyle );
+			
+			Q3Group_AddObject( resultShape.get(), theStyle.get() );
+			Q3Group_AddObject( resultShape.get(), theTriMesh.get() );
+		}
 
-	// If the IndexedFaceSet was named with a DEF, use that as the name of the object.
-	if (IsKeyPresent( mNodeDict, "[name]" ))
-	{
-		PolyValue&	nameValue( mNodeDict["[name]"] );
-		const std::string&	theName( nameValue.GetString() );
-		::CENameElement_SetData( theTriMesh.get(), theName.c_str() );
+		// If the IndexedFaceSet was named with a DEF, use that as the name of the object.
+		if (IsKeyPresent( mNodeDict, "[name]" ))
+		{
+			PolyValue&	nameValue( mNodeDict["[name]"] );
+			const std::string&	theName( nameValue.GetString() );
+			::CENameElement_SetData( theTriMesh.get(), theName.c_str() );
+		}
 	}
 	
 	return resultShape;
