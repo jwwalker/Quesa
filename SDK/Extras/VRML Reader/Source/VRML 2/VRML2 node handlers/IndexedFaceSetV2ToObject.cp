@@ -312,6 +312,12 @@ CQ3ObjectRef	IndexedFaceMaker::CreateObject()
 		mFaceSet.ReverseFaceOrientations();
 	}
 	mFaceSet.CalcFaceNormals();
+	if (mFaceSet.GetVertices().empty())
+	{
+		// When CalcFaceNormals removes degenerate faces, it may remove vertices
+		// too, and if we happened to remove all vertices, we may as well bail.
+		return resultShape;
+	}
 	mFaceSet.FindVerticesAtPosition();
 	mFaceSet.CalcVertexNormals( mCreaseAngleCosine );
 	mFaceSet.IdentifyDistinctPoints();
