@@ -803,9 +803,9 @@ CQ3ObjectRef	CIndexedFaceSet::CreateTriMesh() const
 	ComputeTriMeshFaceNormals( faceNormals );
 	ComputeTriMeshFaceColors( faceColors );
 	ComputeTriMeshPositions( thePoints );
-	if (thePoints.empty())
+	if (thePoints.empty() || theTriangles.empty())
 	{
-		throw std::runtime_error("IndexedFaceSet with no points");
+		return CQ3ObjectRef();
 	}
 	ComputeTriMeshVertexNormals( vertexNormals );
 	ComputeTriMeshVertexColors( vertexColors );
