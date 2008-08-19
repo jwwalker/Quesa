@@ -405,8 +405,20 @@ namespace
 	GLenum	sGLError = 0;
 } // end of unnamed namespace
 
-#define		CHECK_GL_ERROR	Q3_ASSERT( (sGLError = glGetError()) == GL_NO_ERROR )
-
+#if Q3_DEBUG
+	#define		CHECK_GL_ERROR	do {	\
+									sGLError = glGetError();	\
+									if (sGLError != GL_NO_ERROR)	\
+									{	\
+										char	xmsg[200];	\
+										sprintf( xmsg, "glGetError() is %d", \
+											(int)sGLError );	\
+										E3Assert(__FILE__, __LINE__, xmsg);	\
+									} \
+								} while (false)
+#else
+	#define		CHECK_GL_ERROR
+#endif
 
 
 //=============================================================================
