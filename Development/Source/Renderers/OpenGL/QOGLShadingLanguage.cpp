@@ -623,13 +623,16 @@ static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern
 {
 	outSource.push_back( kFragmentShaderPrefix );
 	
-	if (inIsCartoonish)
+	if (inIlluminationType != kQ3IlluminationTypeNULL)
 	{
-		outSource.push_back( kFragmentShaderQuantizeFuncs_Cartoonish );
-	}
-	else
-	{
-		outSource.push_back( kFragmentShaderQuantizeFuncs_Normal );
+		if (inIsCartoonish)
+		{
+			outSource.push_back( kFragmentShaderQuantizeFuncs_Cartoonish );
+		}
+		else
+		{
+			outSource.push_back( kFragmentShaderQuantizeFuncs_Normal );
+		}
 	}
 	
 	outSource.push_back( kMainFragmentShaderStartSource );
@@ -680,38 +683,42 @@ static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern
 }
 
 
-static void GetLightTypes( QORenderer::LightPattern& outLights )
+static void GetLightTypes( TQ3ObjectType inIlluminationType,
+							QORenderer::LightPattern& outLights )
 {
 	outLights.clear();
 	
-	// Query number of lights.
-	GLint		maxGLLights;
-	glGetIntegerv( GL_MAX_LIGHTS, &maxGLLights );
-	outLights.reserve( maxGLLights );
-	
-	for (GLint i = 0; i < maxGLLights; ++i)
+	if (inIlluminationType != kQ3IlluminationTypeNULL)
 	{
-		QORenderer::ELightType	theType = QORenderer::kLightTypeNone;
+		// Query number of lights.
+		GLint		maxGLLights;
+		glGetIntegerv( GL_MAX_LIGHTS, &maxGLLights );
+		outLights.reserve( maxGLLights );
 		
-		GLenum	lightID = GL_LIGHT0 + i;
-		
-		if (glIsEnabled( lightID ))
+		for (GLint i = 0; i < maxGLLights; ++i)
 		{
-			// Is this a positional (point/spot) or directional light?
-			// We can tell from the w component of the position.
-			GLfloat	lightPosition[4];
-			glGetLightfv( lightID, GL_POSITION, lightPosition );
+			QORenderer::ELightType	theType = QORenderer::kLightTypeNone;
 			
-			if (lightPosition[3] == 0.0f)	// directional
+			GLenum	lightID = GL_LIGHT0 + i;
+			
+			if (glIsEnabled( lightID ))
 			{
-				theType = QORenderer::kLightTypeDirectional;
+				// Is this a positional (point/spot) or directional light?
+				// We can tell from the w component of the position.
+				GLfloat	lightPosition[4];
+				glGetLightfv( lightID, GL_POSITION, lightPosition );
+				
+				if (lightPosition[3] == 0.0f)	// directional
+				{
+					theType = QORenderer::kLightTypeDirectional;
+				}
+				else
+				{
+					theType = QORenderer::kLightTypePositional;
+				}
 			}
-			else
-			{
-				theType = QORenderer::kLightTypePositional;
-			}
+			outLights.push_back( theType );
 		}
-		outLights.push_back( theType );
 	}
 }
 
@@ -761,7 +768,7 @@ void	QORenderer::PerPixelLighting::StartPass()
 		
 		if (mVertexShaderID != 0)
 		{
-			GetLightTypes( mLightPattern );
+			GetLightTypes( mIlluminationType, mLightPattern );
 			ChooseProgram();
 		}
 	}
@@ -1076,10 +1083,12 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 		{
 			mIlluminationType = inIlluminationType;
 			
-			// The illumination does not really change the light pattern.
-			// However, I want the client code to be able enable/disable lights
+			GetLightTypes( mIlluminationType, mLightPattern );
+			
+			// An illumination change does not change the texture, but I want
+			// client code to be able to disable texturing at the OpenGL level
 			// and get Quesa to notice the change by changing illumination.
-			GetLightTypes( mLightPattern );
+			UpdateTexture();
 			
 			ChooseProgram();
 		}
@@ -1095,7 +1104,7 @@ void	QORenderer::PerPixelLighting::UpdateLighting()
 {
 	if (mIsShading)
 	{
-		GetLightTypes( mLightPattern );
+		GetLightTypes( mIlluminationType, mLightPattern );
 		ChooseProgram();
 	}
 }
