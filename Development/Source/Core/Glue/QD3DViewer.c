@@ -45,6 +45,9 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+
+#if QUESA_SUPPORT_VIEWER
+
 #include "E3Viewer.h"
 
 
@@ -6142,5 +6145,6 @@ Q3WinViewerSetCameraView(TQ3ViewerObject viewer, TQ3ViewerCameraView viewType)
 
 #endif // defined(QUESA_OS_WIN32) && QUESA_OS_WIN32
 
+#endif	// QUESA_SUPPORT_VIEWER
 
 

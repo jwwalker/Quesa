@@ -47,6 +47,9 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+
+#if QUESA_SUPPORT_VIEWER
+
 #include "E3Memory.h"
 #include "E3Viewer.h"
 
@@ -1266,4 +1269,5 @@ E3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 
 #endif // !QUESA_SUPPORT_HITOOLBOX
 
+#endif // QUESA_SUPPORT_VIEWER
 

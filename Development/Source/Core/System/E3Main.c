@@ -69,7 +69,7 @@
 #include "E3IOFileFormat.h"
 #include "E3StackCrawl.h"
 
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_MACINTOSH && QUESA_SUPPORT_VIEWER
 // Viewer supported only on Carbon/Classic now
 #include "E3Viewer.h"
 #endif
@@ -666,7 +666,7 @@ E3Initialize(void)
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3CustomElements_RegisterClass();
 
-		#if QUESA_OS_MACINTOSH & QUESA_SUPPORT_HITOOLBOX
+		#if QUESA_OS_MACINTOSH & QUESA_SUPPORT_VIEWER
 		// Viewer  supported only on Carbon/Classic
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3Viewer_RegisterClass();
@@ -758,7 +758,7 @@ E3Exit(void)
 
 
 		// Terminate Quesa
-		#if QUESA_OS_MACINTOSH & QUESA_SUPPORT_HITOOLBOX
+		#if QUESA_OS_MACINTOSH & QUESA_SUPPORT_VIEWER
 		// Viewer  supported only on Carbon/Classic
 		qd3dStatus = E3Viewer_UnregisterClass();
 		#endif
