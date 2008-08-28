@@ -5,7 +5,7 @@
         Macintosh specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -77,7 +77,11 @@ typedef struct TE3_MacStorageData {
 	TQ3Uns32	validBufferSize; 
 	TQ3Uns32	fileEOF;
 	
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	FSIORefNum 	fsRefNum; 
+#else
 	TQ3Int16 	fsRefNum; 
+#endif
 	TQ3Int16	flags;
 } TE3_MacStorageData;
 
@@ -832,9 +836,8 @@ e3storage_mac_handle_read ( E3HandleStorage* storage, TQ3Uns32 offset, TQ3Uns32 
 
 
 
-	// Copy the block (using BlockMoveData since this is Mac specific,
-	// while Q3Memory_Copy would require us to lock the handle).
-	::BlockMoveData ( ( *storage->instanceData.theHnd ) + offset, data, (SInt32) bytesToRead ) ;
+	// Copy the block.
+	::memmove ( data, ( *storage->instanceData.theHnd ) + offset, bytesToRead ) ;
 	
 	*sizeRead = bytesToRead ;
 	
@@ -870,9 +873,8 @@ e3storage_mac_handle_write ( E3HandleStorage* storage, TQ3Uns32 offset, TQ3Uns32
 		}
 
 
-	// Copy the block (using BlockMoveData since this is Mac specific,
-	// while Q3Memory_Copy would require us to lock the handle).
-	::BlockMoveData ( data, (*storage->instanceData.theHnd) + offset, (SInt32) bytesToWrite ) ;
+	// Copy the block.
+	::memmove ( (*storage->instanceData.theHnd) + offset, data, bytesToWrite ) ;
 	
 	*sizeWritten = bytesToWrite ;
 	
@@ -1146,6 +1148,10 @@ E3MacintoshStorage_GetType(TQ3StorageObject storage)
 //      E3FSSpecStorage_New : Create a new FSSpec storage object.
 //-----------------------------------------------------------------------------
 #pragma mark -
+
+// FSSpec is not available in 64bit.
+#if QUESA_SUPPORT_HITOOLBOX
+
 TQ3StorageObject
 E3FSSpecStorage_New(const FSSpec *fs)
 	{
@@ -1198,7 +1204,7 @@ E3FSSpecStorage_Get(TQ3StorageObject theStorage, FSSpec *theFSSpec)
 	return kQ3Success ;
 	}
 
-
+#endif // QUESA_SUPPORT_HITOOLBOX
 
 
 

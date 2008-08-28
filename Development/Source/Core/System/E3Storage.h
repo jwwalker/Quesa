@@ -5,7 +5,7 @@
         Header file for E3Storage.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -186,9 +186,14 @@ TQ3StorageObject	E3MacintoshStorage_New(TQ3Int16 fsRefNum);
 TQ3Status			E3MacintoshStorage_Set(TQ3StorageObject storage, TQ3Int16 fsRefNum);
 TQ3Status			E3MacintoshStorage_Get(TQ3StorageObject storage, TQ3Int16 *fsRefNum);
 TQ3ObjectType		E3MacintoshStorage_GetType(TQ3StorageObject storage);
+
+// FSSpec is not available in 64bit.
+#if QUESA_SUPPORT_HITOOLBOX
 TQ3StorageObject	E3FSSpecStorage_New(const FSSpec *fs);
 TQ3Status			E3FSSpecStorage_Set(TQ3StorageObject storage, const FSSpec *fs);
 TQ3Status			E3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs);
+#endif
+
 TQ3StorageObject	E3FSRefStorage_New(const FSRef *fs);
 TQ3Status			E3FSRefStorage_Set(TQ3StorageObject storage, const FSRef *fs);
 TQ3Status			E3FSRefStorage_Get(TQ3StorageObject storage, FSRef *fs);

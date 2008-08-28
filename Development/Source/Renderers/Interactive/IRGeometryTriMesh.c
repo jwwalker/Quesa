@@ -5,7 +5,7 @@
         Quesa interactive renderer TriMesh implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1276,14 +1276,14 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 	// at least 4-byte aligned (or we'll take a large performance hit on PowerPC). All our
 	// items are multiples of 4 bytes at present, but this will catch us if we allocate any
 	// single byte entries in the future.
-	Q3_ASSERT(((TQ3Uns32) vertexArray->theIndices)         % 4 == 0);
-	Q3_ASSERT(((TQ3Uns32) vertexArray->triFlags)           % 4 == 0);
-	Q3_ASSERT(((TQ3Uns32) vertexArray->triNormals)         % 4 == 0);
-	Q3_ASSERT(((TQ3Uns32) vertexArray->vertexPoints)       % 4 == 0);
-	Q3_ASSERT(((TQ3Uns32) vertexArray->vertexDiffuse)      % 4 == 0);
-	Q3_ASSERT(((TQ3Uns32) vertexArray->vertexTransparency) % 4 == 0);
-	Q3_ASSERT(((TQ3Uns32) vertexArray->vertexNormals)      % 4 == 0);
-	Q3_ASSERT(((TQ3Uns32) vertexArray->vertexParents)      % 4 == 0);
+	Q3_ASSERT(((intptr_t) vertexArray->theIndices)         % 4 == 0);
+	Q3_ASSERT(((intptr_t) vertexArray->triFlags)           % 4 == 0);
+	Q3_ASSERT(((intptr_t) vertexArray->triNormals)         % 4 == 0);
+	Q3_ASSERT(((intptr_t) vertexArray->vertexPoints)       % 4 == 0);
+	Q3_ASSERT(((intptr_t) vertexArray->vertexDiffuse)      % 4 == 0);
+	Q3_ASSERT(((intptr_t) vertexArray->vertexTransparency) % 4 == 0);
+	Q3_ASSERT(((intptr_t) vertexArray->vertexNormals)      % 4 == 0);
+	Q3_ASSERT(((intptr_t) vertexArray->vertexParents)      % 4 == 0);
 
 	return(kQ3Success);
 }

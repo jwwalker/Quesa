@@ -5,7 +5,7 @@
         Quesa interactive renderer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -478,9 +478,9 @@ IRGeometry_Generate_Triangle_Flags(TQ3InteractiveData	*instanceData,
 	// are at least 4-byte aligned (or we'll take a large performance hit on PowerPC). All
 	// our items are multiples of 4 bytes at present, but this will catch us if we allocate
 	// any single byte entries in the future.
-	Q3_ASSERT(((TQ3Uns32) triToEye)        % 4 == 0);
-	Q3_ASSERT(((TQ3Uns32) dotProducts)     % 4 == 0);
-	Q3_ASSERT(((TQ3Uns32) dotLessThanZero) % 4 == 0);
+	Q3_ASSERT(((intptr_t) triToEye)        % 4 == 0);
+	Q3_ASSERT(((intptr_t) dotProducts)     % 4 == 0);
+	Q3_ASSERT(((intptr_t) dotLessThanZero) % 4 == 0);
 
 
 

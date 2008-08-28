@@ -7,7 +7,7 @@
         Only WindowPtr based Mac draw contexts are supported at present.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,6 +47,8 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3DrawContext.h"
+
+#if QUESA_SUPPORT_HITOOLBOX
 
 #if !QUESA_UH_IN_FRAMEWORKS
 	#include <QuickDraw.h>
@@ -794,4 +796,5 @@ E3MacDrawContext_Get2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 
 
 
+#endif	// QUESA_SUPPORT_HITOOLBOX
 

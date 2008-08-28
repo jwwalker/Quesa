@@ -921,7 +921,7 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 
 
 #pragma mark -
-#if QUESA_OS_MACINTOSH
+#if QUESA_SUPPORT_HITOOLBOX
 //-----------------------------------------------------------------------------
 //		gldrawcontext_mac_getport : Get the port from a Mac draw context.
 //-----------------------------------------------------------------------------
@@ -1050,7 +1050,7 @@ MacGLContext::MacGLContext(
 	: CQ3GLContext( theDrawContext )
 	, macContext( NULL )
 {
-	TQ3Uns32				sysVersion = 0;
+	SInt32					sysVersion = 0;
 	TQ3ObjectType			drawContextType;
 	TQ3DrawContextData		drawContextData;
 	AGLPixelFormat			pixelFormat = NULL;
@@ -1145,7 +1145,7 @@ MacGLContext::MacGLContext(
 	
 	
 	// Find the OS version
-	Gestalt(gestaltSystemVersion, (long *) &sysVersion);
+	Gestalt(gestaltSystemVersion, &sysVersion);
 
 
 
@@ -1457,7 +1457,7 @@ bool	MacGLContext::UpdateWindowSize()
 	
 }
 
-#endif // QUESA_OS_MACINTOSH
+#endif // QUESA_SUPPORT_HITOOLBOX
 
 
 
@@ -2135,8 +2135,12 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 			{
 				case kQ3DrawContextTypePixmap:
 				case kQ3DrawContextTypeMacintosh:
+				#if QUESA_SUPPORT_HITOOLBOX
 					glContext = new MacGLContext( theDrawContext, preferredDepthBits,
 						shareTextures, preferredStencilBits );
+				#else
+					glContext = NULL;
+				#endif
 					break;
 			
 			#if QUESA_OS_COCOA

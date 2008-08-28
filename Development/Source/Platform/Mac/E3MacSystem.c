@@ -5,7 +5,7 @@
         Mac specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -85,8 +85,11 @@ const ItemCount	kPluginSearchBatchSize	= 10;
 //=============================================================================
 //      Function prototyes
 //-----------------------------------------------------------------------------
+#if TARGET_RT_MAC_CFM
 pascal OSErr E3MacCFM_Initialise(const CFragInitBlock *initBlock);
 pascal OSErr E3MacCFM_Terminate(void);
+
+#elif TARGET_RT_MAC_MACHO
 
 #ifdef __cplusplus
 extern "C" {
@@ -102,6 +105,8 @@ Q3_EXTERN_API_C(void) E3MacMachoFrameworkInit();
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 
@@ -383,7 +388,7 @@ void E3MacMachoFrameworkTerminate()
 
 
 
-#else	// CFM
+#elif TARGET_RT_MAC_CFM // CFM
 //-----------------------------------------------------------------------------
 //      E3MacCFM_Initialise : CFM initialise routine.
 //-----------------------------------------------------------------------------
@@ -495,14 +500,15 @@ E3MacSystem_Terminate(void)
 #endif
 
 
-
+#if QUESA_SUPPORT_HITOOLBOX
 	// Shut down OpenGL. This fixes a crash on exit on some apps on Mac OS 9
 	// if they exit without destroying renderer objects that use OpenGL.
 	//
 	// Since we may not have any renderers which use OpenGL, we assume that
 	// we've been weak linked and test for the symbol first.
-	if ((TQ3Uns32) aglResetLibrary != (TQ3Uns32) kUnresolvedCFragSymbolAddress)
+	if ( aglResetLibrary != NULL )
 		aglResetLibrary();
+#endif
 }
 
 
@@ -525,7 +531,7 @@ E3MacSystem_LoadPlugins(void)
 	int						dirCount = 0;
 	Boolean					wasChanged, isOnOSX;
 	OSStatus				theErr;
-	long					sysVersion;
+	SInt32					sysVersion;
 	int						i, j;
 
 
@@ -559,6 +565,8 @@ E3MacSystem_LoadPlugins(void)
 	}
 	else
 	{
+#if QUESA_SUPPORT_HITOOLBOX
+		// FSSpec is not supported in 64 bit, and this else is for Mac OS 9 only anyway.
 		FSSpec	appSpec;
 		ProcessInfoRec			processInfo;
 		processInfo.processInfoLength = sizeof(ProcessInfoRec);
@@ -570,6 +578,7 @@ E3MacSystem_LoadPlugins(void)
 		{
 			FSpMakeFSRef( &appSpec, &fileRef );
 		}
+#endif
 	}	
 	if (theErr == noErr)
 	{

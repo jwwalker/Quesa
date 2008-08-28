@@ -8,7 +8,7 @@
         through to the newer, unified Quesa APIs.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -57,7 +57,7 @@
 //=============================================================================
 //      Mac OS Viewer APIs
 //-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
+#if QUESA_SUPPORT_HITOOLBOX
 
 #pragma mark Mac OS Viewer APIs
 #pragma mark -
@@ -291,7 +291,7 @@ E3ViewerWriteData(TQ3ViewerObject theViewer, Handle data)
 		SetHandleSize(data, dataSize);
 		memErr = MemError();
 		if (noErr == memErr)
-			BlockMoveData( tempData, *data, dataSize );
+			memmove( *data, tempData, dataSize );
 		}
 	
 	E3Memory_Free( &tempData );
@@ -595,7 +595,7 @@ E3ViewerHandleKeyEvent(TQ3ViewerObject theViewer, EventRecord *evt)
 OSErr		
 E3ViewerSetDrawingCallbackMethod(TQ3ViewerObject theViewer, TQ3ViewerDrawingCallbackMethod callbackMethod, const void *data)
 {
-	return(-4);  // unimplemented	
+	return(unimpErr);  // unimplemented	
 }
 
 
@@ -603,7 +603,7 @@ OSErr
 E3ViewerSetWindowResizeCallback(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallbackMethod windowResizeCallbackMethod, const void *data)
 {
 
-	return(-4);  // unimplemented
+	return(unimpErr);  // unimplemented
 }
 
 
@@ -611,7 +611,7 @@ OSErr
 E3ViewerSetPaneResizeNotifyCallback(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod paneResizeNotifyCallbackMethod, const void *data)
 {
 
-	return(-4);  // unimplemented
+	return(unimpErr);  // unimplemented
 }
 
 
@@ -725,7 +725,7 @@ TQ3Status
 E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented  
 }
 
 
@@ -733,7 +733,7 @@ TQ3Status
 E3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -741,7 +741,7 @@ TQ3Status
 E3ViewerDispose(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -749,7 +749,7 @@ TQ3Status
 E3ViewerUseData(TQ3ViewerObject theViewer, void *data, TQ3Int32 size)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -757,7 +757,7 @@ TQ3Status
 E3ViewerWriteData(TQ3ViewerObject theViewer, void *data, TQ3Uns32 dataSize, TQ3Uns32 *actualDataSize)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -765,7 +765,7 @@ TQ3Status
 E3ViewerDraw(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -773,7 +773,7 @@ TQ3Status
 E3ViewerDrawContent(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -781,7 +781,7 @@ TQ3Status
 E3ViewerDrawControlStrip(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -797,7 +797,7 @@ TQ3Status
 E3ViewerSetCurrentButton(TQ3ViewerObject theViewer, TQ3Uns32 button)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -805,7 +805,7 @@ TQ3Status
 E3ViewerUseGroup(TQ3ViewerObject theViewer, TQ3GroupObject group)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -821,7 +821,7 @@ TQ3Status
 E3ViewerSetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -829,7 +829,7 @@ TQ3Status
 E3ViewerGetBackgroundColor(TQ3ViewerObject theViewer, TQ3ColorARGB *color)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -845,7 +845,7 @@ TQ3Status
 E3ViewerRestoreView(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -853,7 +853,7 @@ TQ3Status
 E3ViewerSetFlags(TQ3ViewerObject theViewer, TQ3Uns32 flags)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -869,7 +869,7 @@ TQ3Status
 E3ViewerSetDimension(TQ3ViewerObject theViewer, TQ3Uns32 width, TQ3Uns32 height)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -877,7 +877,7 @@ TQ3Status
 E3ViewerGetDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -885,7 +885,7 @@ TQ3Status
 E3ViewerGetMinimumDimension(TQ3ViewerObject theViewer, TQ3Uns32 *width, TQ3Uns32 *height)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -901,7 +901,7 @@ TQ3Status
 E3ViewerCursorChanged(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -917,7 +917,7 @@ TQ3Status
 E3ViewerClear(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -925,7 +925,7 @@ TQ3Status
 E3ViewerCut(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -933,7 +933,7 @@ TQ3Status
 E3ViewerCopy(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -941,7 +941,7 @@ TQ3Status
 E3ViewerPaste(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -949,7 +949,7 @@ TQ3Status
 E3ViewerSetDrawingCallbackMethod(TQ3ViewerObject theViewer, TQ3ViewerDrawingCallbackMethod callbackMethod, const void *data)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -957,7 +957,7 @@ TQ3Status
 E3ViewerSetWindowResizeCallback(TQ3ViewerObject theViewer, TQ3ViewerWindowResizeCallbackMethod windowResizeCallbackMethod, const void *data)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -965,7 +965,7 @@ TQ3Status
 E3ViewerSetPaneResizeNotifyCallback(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeNotifyCallbackMethod paneResizeNotifyCallbackMethod, const void *data)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -973,7 +973,7 @@ TQ3Status
 E3ViewerUndo(TQ3ViewerObject theViewer)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -989,7 +989,7 @@ TQ3Status
 E3ViewerGetCameraCount(TQ3ViewerObject theViewer, TQ3Uns32 *cnt)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -997,7 +997,7 @@ TQ3Status
 E3ViewerSetCameraByNumber(TQ3ViewerObject theViewer, TQ3Uns32 cameraNo)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1005,7 +1005,7 @@ TQ3Status
 E3ViewerSetCameraByView(TQ3ViewerObject theViewer, TQ3ViewerCameraView viewType)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1013,7 +1013,7 @@ TQ3Status
 E3ViewerSetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType rendererType)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1021,7 +1021,7 @@ TQ3Status
 E3ViewerGetRendererType(TQ3ViewerObject theViewer, TQ3ObjectType *rendererType)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1029,7 +1029,7 @@ TQ3Status
 E3ViewerChangeBrightness(TQ3ViewerObject theViewer, float brightness)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1037,7 +1037,7 @@ TQ3Status
 E3ViewerSetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean remove)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1045,7 +1045,7 @@ TQ3Status
 E3ViewerGetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean *remove)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1053,7 +1053,7 @@ TQ3Status
 E3ViewerSetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean phong)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1061,7 +1061,7 @@ TQ3Status
 E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1069,7 +1069,7 @@ TQ3Status
 E3ViewerGetGroupBounds(TQ3ViewerObject theViewer, TQ3BoundingBox* bounds)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1098,7 +1098,7 @@ TQ3Status
 E3ViewerUseFile(TQ3ViewerObject theViewer, HANDLE fileHandle)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1106,7 +1106,7 @@ TQ3Status
 E3ViewerWriteFile(TQ3ViewerObject theViewer, HANDLE fileHandle)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1131,7 +1131,7 @@ TQ3Status
 E3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, RECT *rect)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1139,7 +1139,7 @@ TQ3Status
 E3ViewerSetBounds(TQ3ViewerObject theViewer, RECT *bounds)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1147,7 +1147,7 @@ TQ3Status
 E3ViewerGetBounds(TQ3ViewerObject theViewer, RECT *bounds)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1193,7 +1193,7 @@ TQ3Status
 E3ViewerUseFile(TQ3ViewerObject theViewer, void *fileRef)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1201,7 +1201,7 @@ TQ3Status
 E3ViewerWriteFile(TQ3ViewerObject theViewer, void *fileRef)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1218,7 +1218,7 @@ TQ3Status
 E3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, TQ3Area *rect)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1226,7 +1226,7 @@ TQ3Status
 E3ViewerSetBounds(TQ3ViewerObject theViewer, TQ3Area *bounds)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1234,7 +1234,7 @@ TQ3Status
 E3ViewerGetBounds(TQ3ViewerObject theViewer, TQ3Area *bounds)
 {
 
-	return(-4);  // unimplemented
+	return((TQ3Status)-4);  // unimplemented
 }
 
 
@@ -1264,6 +1264,6 @@ E3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 
 #endif // QUESA_OS_WIN32
 
-#endif // !QUESA_OS_MACINTOSH
+#endif // !QUESA_SUPPORT_HITOOLBOX
 
 
