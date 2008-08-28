@@ -165,6 +165,12 @@
             #define QUESA_SUPPORT_HITOOLBOX				1
         #endif
     #endif
+	
+	// The viewer is only supported on Carbon/Classic, and even those using
+	// Carbon may want to omit the viewer code.
+	#ifndef QUESA_SUPPORT_VIEWER
+		#define	QUESA_SUPPORT_VIEWER		QUESA_SUPPORT_HITOOLBOX
+	#endif
     
     #if defined(__GNUC__) && (defined(__APPLE_CPP__) || defined(__APPLE_CC__) || defined(__NEXT_CPP__))
         #define QUESA_UH_IN_FRAMEWORKS					1

@@ -44,6 +44,9 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+
+#if QUESA_SUPPORT_VIEWER
+
 #include "E3Version.h"
 #include "E3Viewer.h"
 
@@ -3499,4 +3502,5 @@ E3Viewer_SetCallbackResizeNotify(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeN
 }
 
 
+#endif	// QUESA_SUPPORT_VIEWER
 
