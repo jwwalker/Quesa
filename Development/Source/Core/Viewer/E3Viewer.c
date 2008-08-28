@@ -5,7 +5,7 @@
         Quesa viewer library implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -433,7 +433,7 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 			TQ3Uns32 buttonID, TQ3Area *butnRect, TQ3Boolean down)
 {
 	// For now, let's do a Mac-only hack.
-	#if QUESA_OS_MACINTOSH
+	#if QUESA_SUPPORT_HITOOLBOX
 		Rect r;
 		ThemeButtonDrawInfo drawInfo = {0};
 		static GWorldPtr sIconImages = NULL, sIconMasks = NULL;
@@ -526,7 +526,7 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 		SetGWorld(oldGWorld, oldDevice);
 		UnlockPixels(imagePM);
 		UnlockPixels(maskPM);
-	#endif // QUESA_OS_MACINTOSH
+	#endif // QUESA_SUPPORT_HITOOLBOX
 }
 
 
@@ -540,7 +540,7 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 //-----------------------------------------------------------------------------
 static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect)
 {
-	#if QUESA_OS_MACINTOSH
+	#if QUESA_SUPPORT_HITOOLBOX
 		// MacOS implementation: use the Appearance Manager to draw an
 		// appropriate theme background.
 		Rect r;
@@ -567,7 +567,7 @@ static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect
 			theme = kThemeBrushModelessDialogBackgroundInactive;
 		SetThemeBackground(theme, 32, true);
 		EraseRect(&r);				// Opportunity For Improvement: make a region that excludes the buttons!
-	#endif // QUESA_OS_MACINTOSH
+	#endif // QUESA_SUPPORT_HITOOLBOX
 }
 
 
@@ -580,7 +580,7 @@ static void e3viewer_drawStripBackground(TQ3ViewerData *data, TQ3Area *stripRect
 static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 {
 	// For now, let's do a Mac-only hack.
-	#if QUESA_OS_MACINTOSH
+	#if QUESA_SUPPORT_HITOOLBOX
 		Rect r;
 		Pattern	pat;
 		SetPort((GrafPtr)data->mWindow);
@@ -599,7 +599,7 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 		FrameRect(&r);
 		
 		ForeColor(blackColor);
-	#endif // QUESA_OS_MACINTOSH	
+	#endif // QUESA_SUPPORT_HITOOLBOX	
 }
 
 
@@ -619,7 +619,7 @@ static void e3viewer_drawDragFrame(TQ3ViewerData *data, TQ3Area *rect)
 static TQ3Int32 e3viewer_popupMenu (TQ3Area* r, TQ3Int32 menuID, TQ3Int32 *outMenuID)
 {
 	TQ3Int32 result = 0;
-	#if QUESA_OS_MACINTOSH
+	#if QUESA_SUPPORT_HITOOLBOX
 		MenuHandle menu;
 		short oldResFile = CurResFile();
 		if (gShlbResFile) UseResFile(gShlbResFile);
@@ -646,7 +646,7 @@ static TQ3Int32 e3viewer_popupMenu (TQ3Area* r, TQ3Int32 menuID, TQ3Int32 *outMe
 			}
 
 		UseResFile(oldResFile);
-	#endif // QUESA_OS_MACINTOSH	
+	#endif // QUESA_SUPPORT_HITOOLBOX	
 	return result;
 }
 
@@ -805,7 +805,7 @@ static TQ3Status e3viewer_askBackgroundColor(TQ3ColorARGB *inOutColor)
 {
 	TQ3Status status = kQ3Failure;
 
-	#if QUESA_OS_MACINTOSH
+	#if QUESA_OS_MACINTOSH && QUESA_SUPPORT_HITOOLBOX
 		RGBColor rgb;
 		Point where = {0, 0}; // centers the dialog
 		rgb.red = (unsigned short) inOutColor->r * 65535L;
@@ -1011,7 +1011,7 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 
 
 
-	#if QUESA_OS_MACINTOSH
+	#if QUESA_SUPPORT_HITOOLBOX
 	if (!view) return;
 	if (gShlbResFile) UseResFile(gShlbResFile);
 
@@ -1119,7 +1119,7 @@ static void e3viewer_doOptionsButton(TQ3ViewerObject theViewer)
 		}
 
 	UseResFile(oldResFile);
-	#endif // QUESA_OS_MACINTOSH
+	#endif // QUESA_SUPPORT_HITOOLBOX
 
 	// Now, we have selectedMenu and selection (the item).
 	// Take the appropriate action.
@@ -1463,7 +1463,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 {
 	// This code should be mostly portable, except for the contextData.
 	// But currently implemented only for Mac.
-	#if QUESA_OS_MACINTOSH
+	#if QUESA_SUPPORT_HITOOLBOX
 		TQ3MacDrawContextData			contextData = {(TQ3DrawContextClearImageMethod)0};
 		TQ3DrawContextObject			drawContext;
 		TQ3RendererObject				renderer;
@@ -1552,7 +1552,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		Q3Object_Dispose(camera);
 		Q3Object_Dispose(renderer);
 		Q3Object_Dispose(lights);
-	#endif // QUESA_OS_MACINTOSH
+	#endif // QUESA_SUPPORT_HITOOLBOX
 	Q3Object_CleanDispose(&instanceData->mDataStorage);
 }
 
@@ -1641,7 +1641,7 @@ e3viewer_new(TQ3Object theObject, void *privateData, const void *paramData)
 	instanceData->mArea = *params->mArea;
 
 	// Convert from port coordinates to window coordinates
-#if QUESA_OS_MACINTOSH
+#if QUESA_SUPPORT_HITOOLBOX
 	GetPortBounds((CGrafPtr)instanceData->mWindow, &portBounds);
 	instanceData->mArea.min.x -= portBounds.left;
 	instanceData->mArea.min.y -= portBounds.top;
@@ -2597,7 +2597,7 @@ E3Viewer_SetBounds(TQ3ViewerObject theViewer, const TQ3Area *theRect)
 
 
 	// Convert from port coordinates to window coordinates
-#if QUESA_OS_MACINTOSH
+#if QUESA_SUPPORT_HITOOLBOX
 	GetPortBounds((CGrafPtr)instanceData->mWindow, &portBounds);
 	instanceData->mArea.min.x -= portBounds.left;
 	instanceData->mArea.min.y -= portBounds.top;

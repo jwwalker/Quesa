@@ -5,7 +5,7 @@
         Global prefix file for OpenGL.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -85,8 +85,8 @@
 //      Macros
 //-----------------------------------------------------------------------------
 // For Mac specific weak linking
-#if QUESA_OS_MACINTOSH
-	#define QUESA_FOUND_OPENGL		((TQ3Uns32) aglGetVersion != (TQ3Uns32) kUnresolvedCFragSymbolAddress)
+#if QUESA_OS_MACINTOSH && QUESA_SUPPORT_HITOOLBOX
+	#define QUESA_FOUND_OPENGL		(aglGetVersion != NULL)
 #else
 	#define QUESA_FOUND_OPENGL		(1)
 #endif

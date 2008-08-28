@@ -145,8 +145,27 @@
     	#define		QUESA_HOST_IS_BIG_ENDIAN			1
     #endif
     
-    #define QUESA_SUPPORT_QUICKTIME						1
-
+    // Some of the APIs in QuickTime.framework are removed in 64 bit.
+    #ifndef QUESA_SUPPORT_QUICKTIME	
+        #if __LP64__
+            #define QUESA_SUPPORT_QUICKTIME				0
+        #else
+            #define QUESA_SUPPORT_QUICKTIME				1
+        #endif
+    #endif
+    
+    // Some of the APIs in Carbon.framework are removed in 64 bit, notably QuickDraw and HIToolbox.
+	// When QUESA_OS_MACINTOSH is true, at least one of QUESA_SUPPORT_HITOOLBOX
+	// and QUESA_OS_COCOA should be true, otherwise there will be no way to
+	// create a draw context.
+    #ifndef QUESA_SUPPORT_HITOOLBOX	
+        #if __LP64__
+            #define QUESA_SUPPORT_HITOOLBOX				0
+        #else
+            #define QUESA_SUPPORT_HITOOLBOX				1
+        #endif
+    #endif
+    
     #if defined(__GNUC__) && (defined(__APPLE_CPP__) || defined(__APPLE_CC__) || defined(__NEXT_CPP__))
         #define QUESA_UH_IN_FRAMEWORKS					1
     #elif defined(__MACH__) &&  __MACH__
@@ -157,12 +176,17 @@
 
 
     // Includes
-    #if QUESA_UH_IN_FRAMEWORKS
-        #include <Carbon/Carbon.h>
-    #else
-        #include <Dialogs.h>
-        #include <MacTypes.h>
-    #endif
+	#if QUESA_SUPPORT_HITOOLBOX
+		#if QUESA_UH_IN_FRAMEWORKS
+			#include <Carbon/Carbon.h>
+		#else
+			#include <Dialogs.h>
+			#include <MacTypes.h>
+		#endif
+	#endif
+	#if QUESA_OS_COCOA
+		#include <Cocoa/Cocoa.h>
+	#endif
 
 
     // Ensure compiler settings match QD3D, to be binary compatible

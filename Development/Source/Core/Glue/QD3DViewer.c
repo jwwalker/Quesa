@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2377,7 +2377,7 @@ Q3Viewer_SetCallbackResizeNotify(TQ3ViewerObject theViewer, TQ3ViewerPaneResizeN
 //=============================================================================
 //      QD3D Viewer - Mac OS public functions
 //-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
+#if QUESA_SUPPORT_HITOOLBOX
 
 //-----------------------------------------------------------------------------
 //      Q3ViewerGetVersion : Quesa API entry point.
@@ -4439,7 +4439,7 @@ Q3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong)
 	return(E3ViewerGetPhongShading(theViewer, phong));
 }
 
-#endif // QUESA_OS_MACINTOSH
+#endif // QUESA_SUPPORT_HITOOLBOX
 
 
 

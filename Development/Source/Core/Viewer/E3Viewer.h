@@ -5,7 +5,7 @@
         Header file for E3Viewer.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -144,7 +144,7 @@ TQ3Status								E3Viewer_SetCallbackResizeNotify(TQ3ViewerObject theViewer, TQ3
 //-----------------------------------------------------------------------------
 #pragma mark old Mac APIs
 
-#if QUESA_OS_MACINTOSH
+#if QUESA_SUPPORT_HITOOLBOX
 
 OSErr			E3ViewerGetVersion(unsigned long *majorRevision, unsigned long *minorRevision);
 OSErr			E3ViewerGetReleaseVersion(unsigned long *releaseRevision);
@@ -204,7 +204,7 @@ OSErr			E3ViewerGetRemoveBackfaces(TQ3ViewerObject theViewer, TQ3Boolean *remove
 OSErr			E3ViewerSetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean phong);
 OSErr			E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong);
 
-#endif
+#else
 
 
 
@@ -212,11 +212,9 @@ OSErr			E3ViewerGetPhongShading(TQ3ViewerObject theViewer, TQ3Boolean *phong);
 
 //=============================================================================
 //      Function prototypes
-//      Windows versions of old cross-platform QD3D Viewer APIs
+//      Windows versions of old cross-platform QD3D Viewer APIs  *COMMENT WRONG*
 //-----------------------------------------------------------------------------
 #pragma mark old common APIs
-
-#if QUESA_OS_WIN32
 
 TQ3Status		E3ViewerGetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision);
 TQ3Status		E3ViewerGetReleaseVersion(TQ3Uns32 *releaseRevision);
@@ -284,14 +282,14 @@ TQ3Status		E3ViewerGetBounds(TQ3ViewerObject theViewer, RECT *bounds);
 BOOL			E3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
 BOOL			E3ViewerContinueTracking(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
 BOOL			E3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
+
 	#else
 
 TQ3ViewerObject	E3ViewerNew(void* theWindow, const TQ3Area *rect, TQ3Uns32 flags);
-
 TQ3Status		E3ViewerUseFile(TQ3ViewerObject theViewer, void *fileRef);
 TQ3Status		E3ViewerWriteFile(TQ3ViewerObject theViewer, void *fileRef);
-void*			E3ViewerGetPicture(TQ3ViewerObject theViewer);
 
+void*			E3ViewerGetPicture(TQ3ViewerObject theViewer);
 TQ3Status		E3ViewerGetButtonRect(TQ3ViewerObject theViewer, TQ3Uns32 button, TQ3Area *rect);
 TQ3Status		E3ViewerSetBounds(TQ3ViewerObject theViewer, TQ3Area *bounds);
 TQ3Status		E3ViewerGetBounds(TQ3ViewerObject theViewer, TQ3Area *bounds);
@@ -300,8 +298,8 @@ TQ3Boolean		E3ViewerMouseDown(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y)
 TQ3Boolean		E3ViewerContinueTracking(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
 TQ3Boolean		E3ViewerMouseUp(TQ3ViewerObject theViewer, TQ3Int32 x, TQ3Int32 y);
 
-	#endif
-#endif
+	#endif // QUESA_OS_WIN32
+#endif // QUESA_SUPPORT_HITOOLBOX
 
 
 

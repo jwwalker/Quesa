@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -882,6 +882,8 @@ Q3MacintoshStorage_GetType(TQ3StorageObject storage)
 
 
 
+// FSSpec is not available in 64bit.
+#if QUESA_SUPPORT_HITOOLBOX
 
 
 //=============================================================================
@@ -991,7 +993,7 @@ Q3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs)
 }
 
 
-
+#endif // QUESA_SUPPORT_HITOOLBOX
 
 
 TQ3StorageObject

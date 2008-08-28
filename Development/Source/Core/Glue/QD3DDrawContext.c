@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -833,7 +833,7 @@ Q3PixmapDrawContext_GetPixmap(TQ3DrawContextObject drawContext, TQ3Pixmap *pixma
 //      Q3MacDrawContext_New : Quesa API entry point.
 //-----------------------------------------------------------------------------
 #pragma mark -
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_MACINTOSH & QUESA_SUPPORT_HITOOLBOX
 TQ3DrawContextObject
 Q3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData)
 {

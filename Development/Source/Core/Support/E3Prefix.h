@@ -5,7 +5,7 @@
         Global prefix file for Quesa.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -78,7 +78,9 @@
 // Quesa (private, platform specific)
 #if QUESA_OS_MACINTOSH
 
-	#include "E3MacPrefix.h"
+	#if QUESA_SUPPORT_HITOOLBOX
+		#include "E3MacPrefix.h"
+	#endif
 	
 	#if QUESA_OS_COCOA
 		#include "E3CocoaPrefix.h"
