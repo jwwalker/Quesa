@@ -13,7 +13,7 @@
         events for the application.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,6 +52,9 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #import "E3Prefix.h"
+
+#if QUESA_OS_COCOA
+
 #import "E3CocoaDrawContextNotify.h"
 #import "E3DrawContext.h"
 
@@ -163,3 +166,5 @@ void e3cocoa_nsview_unregister(void *nsView)
 	[[NSNotificationCenter defaultCenter]postNotificationName:CocoaDrawContextWillCloseNotification
 											object:(NSObject*)nsView];
 }
+
+#endif // QUESA_OS_COCOA

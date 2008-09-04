@@ -47,6 +47,8 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
+#if QUESA_OS_COCOA
+
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import <AppKit/NSOpenGL.h>
@@ -270,5 +272,6 @@ bool	CocoaGLContext::UpdateWindowSize()
 	return true;
 }
 
+#endif // QUESA_OS_COCOA
 
 

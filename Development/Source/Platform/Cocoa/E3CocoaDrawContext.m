@@ -5,7 +5,7 @@
         Cocoa specific draw context implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,6 +45,9 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+
+#if QUESA_OS_COCOA
+
 #import <Cocoa/Cocoa.h>
 #include "E3DrawContext.h"
 #include "E3CocoaDrawContextNotify.h"
@@ -346,3 +349,4 @@ E3CocoaDrawContext_GetNSView(TQ3DrawContextObject drawContext, void **nsView)
 	return(kQ3Success);
 }
 
+#endif // QUESA_OS_COCOA
