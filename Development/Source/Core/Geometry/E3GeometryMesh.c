@@ -5,7 +5,7 @@
 		Implementation of Quesa Mesh geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -336,7 +336,7 @@ e3meshVertexPtr_Relink(
 	TE3MeshVertexPtr* vertexHdl,
 	void* unusedArg)
 {
-    unusedArg; /* Suppress compiler warning */
+    (void)unusedArg; /* Suppress compiler warning */
 
 	return(e3meshPartPtr_Relink(E3_UP_CAST(TE3MeshPartPtr*, vertexHdl)));
 }
@@ -389,7 +389,7 @@ e3meshFacePtr_Relink(
 	TE3MeshFacePtr* faceHdl,
 	void* unusedArg)
 {
-    unusedArg; /* Suppress compiler warning */
+    (void)unusedArg; /* Suppress compiler warning */
 
 	return(e3meshPartPtr_Relink(E3_UP_CAST(TE3MeshPartPtr*, faceHdl)));
 }
@@ -843,7 +843,7 @@ e3meshCorner_RelinkFaces(
 	TE3MeshCornerData* cornerPtr,
 	void* unusedArg)
 {
-    unusedArg; /* Suppress compiler warning */
+    (void)unusedArg; /* Suppress compiler warning */
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(cornerPtr);
@@ -1393,7 +1393,7 @@ e3meshVertex_RelinkCornerFaces(
 	TE3MeshVertexData* vertexPtr,
 	void* unusedArg)
 {
-    unusedArg; /* Suppress compiler warning */
+    (void)unusedArg; /* Suppress compiler warning */
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(vertexPtr);
@@ -2054,7 +2054,7 @@ e3meshContour_RelinkContainerFace(
 	TE3MeshContourData* contourPtr,
 	void* unusedArg)
 {
-    unusedArg; /* Suppress compiler warning */
+    (void)unusedArg; /* Suppress compiler warning */
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(contourPtr);
@@ -2113,7 +2113,7 @@ e3meshContour_RelinkVertices(
 	TE3MeshContourData* contourPtr,
 	void* unusedArg)
 {
-    unusedArg; /* Suppress compiler warning */
+    (void)unusedArg; /* Suppress compiler warning */
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(contourPtr);
@@ -2578,7 +2578,7 @@ e3meshFace_RelinkContourFaces(
 	TE3MeshFaceData* facePtr,
 	void* unusedArg)
 {
-    unusedArg; /* Suppress compiler warning */
+    (void)unusedArg; /* Suppress compiler warning */
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(facePtr);
@@ -2668,7 +2668,7 @@ e3meshFace_RelinkContourVertices(
 	TE3MeshFaceData* facePtr,
 	void* unusedArg)
 {
-    unusedArg; /* Suppress compiler warning */
+    (void)unusedArg; /* Suppress compiler warning */
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(facePtr);

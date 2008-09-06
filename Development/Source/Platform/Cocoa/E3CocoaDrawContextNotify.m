@@ -143,15 +143,16 @@ void e3cocoa_nsview_register(void *nsView, TQ3DrawContextObject theDrawContext)
 
 
 	// Hook it into the view
-	[[NSNotificationCenter defaultCenter]addObserver:watcher
-											selector:@selector(viewDidResize:)
-											name:NSViewFrameDidChangeNotification
-											object:(NSObject*)nsView];
+	NSNotificationCenter* defaultCenter = [NSNotificationCenter defaultCenter];
+	[defaultCenter addObserver:watcher
+						selector:@selector(viewDidResize:)
+						name:NSViewFrameDidChangeNotification
+						object:(NSView*)nsView];
 
-	[[NSNotificationCenter defaultCenter]addObserver:watcher
-											selector:@selector(drawContextWillClose:)
-											name:CocoaDrawContextWillCloseNotification
-											object:(NSObject*)nsView];
+	[defaultCenter addObserver:watcher
+						selector:@selector(drawContextWillClose:)
+						name:CocoaDrawContextWillCloseNotification
+						object:(NSView*)nsView];
 }
 
 
@@ -163,8 +164,9 @@ void e3cocoa_nsview_register(void *nsView, TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 void e3cocoa_nsview_unregister(void *nsView)
 {
-	[[NSNotificationCenter defaultCenter]postNotificationName:CocoaDrawContextWillCloseNotification
-											object:(NSObject*)nsView];
+	NSNotificationCenter* defaultCenter = [NSNotificationCenter defaultCenter];
+	[defaultCenter postNotificationName:CocoaDrawContextWillCloseNotification
+								object:(NSView*)nsView];
 }
 
 #endif // QUESA_OS_COCOA

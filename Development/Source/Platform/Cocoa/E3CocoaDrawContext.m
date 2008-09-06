@@ -290,6 +290,11 @@ E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContex
 	drawContextData.pane.min.y        = 0.0f;
 	drawContextData.pane.max.x        = 0.0f;
 	drawContextData.pane.max.y        = 0.0f;
+	drawContextData.mask.image        = NULL;
+	drawContextData.mask.width        = 0;
+	drawContextData.mask.height       = 0;
+	drawContextData.mask.rowBytes     = 0;
+	drawContextData.mask.bitOrder     = kQ3EndianBig;
 
 	cocoaDrawContextData.drawContextData = drawContextData;
 	cocoaDrawContextData.nsView          = (NSView *) drawContextTarget;

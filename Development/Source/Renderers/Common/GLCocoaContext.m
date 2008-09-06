@@ -131,7 +131,7 @@ CocoaGLContext::CocoaGLContext(
 
 			// Get the view bounds from the NSView for the initial gl viewport
 			// and the default draw context pane if it's needed.
-			viewFrame = [[(id)glContext view]bounds];
+			viewFrame = [[(NSOpenGLContext*)glContext view]bounds];
           break;
 
 		

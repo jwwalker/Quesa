@@ -5,7 +5,7 @@
         Header file for E3FileFormat.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -135,7 +135,7 @@ TQ3Status				E3FileFormat_GenericReadBinSwapArray_32(TQ3FileFormatObject format,
 
 TQ3Status				E3FileFormat_GenericReadText_SkipBlanks(TQ3FileFormatObject format);
 TQ3Status				E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format,char* buffer,
-																	char* chars, TQ3Uns32 numChars, TQ3Boolean blanks,
+																	const char* chars, TQ3Uns32 numChars, TQ3Boolean blanks,
 																	TQ3Int32* foundChar,TQ3Uns32 maxLen,
 																	TQ3Uns32* charsRead);
 

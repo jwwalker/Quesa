@@ -13,7 +13,7 @@
         contained here.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -411,7 +411,7 @@ Q3Pick_GetHitData(TQ3PickObject		pickObject,
 TQ3XObjectClass
 EiObjectHierarchy_RegisterClassByType(TQ3ObjectType 		parentType,
 										TQ3ObjectType		classType,
-										char *				className,
+										const char *		className,
 										TQ3XMetaHandler 	metaHandler,
 										TQ3XMetaHandler 	virtualMetaHandler,
 										TQ3Uns32	 		methodsSize,

@@ -85,8 +85,9 @@ public:
 	virtual bool		UpdateWindowSize();
 
 private:
-	void				*glContext;
-	void				*nsView;
+	// Strong so that in garbage collected (GC) mode the colector keeps track of these pointers. This is needed since they are not declared as 'id'.
+	__strong void		*glContext;
+	__strong void		*nsView;
 	GLint				viewPort[4];
 };
 
