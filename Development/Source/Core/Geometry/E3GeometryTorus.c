@@ -5,7 +5,7 @@
         Implementation of Quesa Torus geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -288,8 +288,6 @@ e3geom_torus_validate_parameter_bounds( const TQ3TorusData& geomData,
 										float& outUMin, float& outUMax,
 										float& outVMin, float& outVMax )
 {
-	bool	isValid = true;
-	
 	// Clamp to interval [0, 1].
 	outUMin  = E3Num_Clamp( geomData.uMin, 0.0f, 1.0f );
 	outUMax  = E3Num_Clamp( geomData.uMax, 0.0f, 1.0f );

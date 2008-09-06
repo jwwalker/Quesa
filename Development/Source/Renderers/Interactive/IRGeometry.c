@@ -605,11 +605,11 @@ IRGeometry_Validate_Triangles(TQ3InteractiveData		*instanceData,
 {
 #if !Q3_DEBUG
 	// Keep compiler happy
-	instanceData;
-	numTriangles;
-	theIndices;
-	thePoints;
-	theNormals;
+	(void)instanceData;
+	(void)numTriangles;
+	(void)theIndices;
+	(void)thePoints;
+	(void)theNormals;
 #else
 	float				dotProduct, theLength;
 	const TQ3Uns32		*triIndices;
@@ -715,10 +715,10 @@ IRGeometry_Validate_Vertices(TQ3InteractiveData		*instanceData,
 {
 #if !Q3_DEBUG
 	// Keep compiler happy
-	instanceData;
-	numVertices;
-	vertexStride;
-	theNormals;
+	(void)instanceData;
+	(void)numVertices;
+	(void)vertexStride;
+	(void)theNormals;
 #else
 	const TQ3Vector3D	*theNormal;
 	float				theLength;

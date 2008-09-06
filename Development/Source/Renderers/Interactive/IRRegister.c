@@ -5,7 +5,7 @@
         Quesa interactive renderer registration.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -457,7 +457,7 @@ ir_interactive_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 IRRenderer_Register(void)
-{	char				*className;
+{	const char			*className;
 	TQ3XObjectClass		theClass;
 	TQ3ObjectType		theType;
 
