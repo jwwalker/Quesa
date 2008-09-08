@@ -67,7 +67,7 @@ resource 'vers' (1) {
 	kQ3PrereleaseVersion,
 	verUS,
 	kQ3StringVersion,
-	kQ3StringVersion ", Copyright ï¿½ 1999-2008\nQuesa Developers"
+	kQ3StringVersion ", Copyright © 1999-2008\nQuesa Developers"
 };
 
 
