@@ -135,6 +135,8 @@ namespace
 	const int		kFullContourSize	= 400;
 	const float		kMaxContourWidth	= 2.5f;
 	const float	kMinAttenuationDenominator		= 0.00001f;
+	
+	TQ3XObjectClass	s_ParentRendererClass = NULL;
 
 	class StSaveStates
 	{
@@ -942,8 +944,6 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(
 
 static TQ3XFunctionPointer GetParentRendererMethod(TQ3XMethodType methodType)
 {
-	static TQ3XObjectClass	s_ParentRendererClass = NULL;
-	
 	if (NULL == s_ParentRendererClass)
 	{
 		s_ParentRendererClass = Q3XObjectHierarchy_FindClassByType(kQ3RendererTypeOpenGL);	
@@ -1231,5 +1231,6 @@ void CartoonRenderer_Unregister()
 
 	// Unregister the class
 	qd3dStatus = Q3XObjectHierarchy_UnregisterClass(theClass);
+	
+	s_ParentRendererClass = NULL;
 }
-

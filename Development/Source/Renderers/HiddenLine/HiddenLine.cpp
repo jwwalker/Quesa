@@ -5,7 +5,7 @@
         Cartoon-style renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -65,13 +65,15 @@
 	#define		CHECK_GL_ERROR
 #endif
 
+namespace
+{
+	TQ3XObjectClass	s_ParentRendererClass = NULL;
+}
 
 //____________________________________________________________________________________
 
 static TQ3XFunctionPointer GetParentRendererMethod(TQ3XMethodType methodType)
 {
-	static TQ3XObjectClass	s_ParentRendererClass = NULL;
-	
 	if (NULL == s_ParentRendererClass)
 	{
 		s_ParentRendererClass = Q3XObjectHierarchy_FindClassByType(kQ3RendererTypeOpenGL);	
@@ -542,5 +544,6 @@ void HiddenLine_Unregister()
 
 	// Unregister the class
 	qd3dStatus = Q3XObjectHierarchy_UnregisterClass(theClass);
+	
+	s_ParentRendererClass = NULL;
 }
-
