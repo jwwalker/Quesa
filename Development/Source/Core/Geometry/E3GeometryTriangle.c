@@ -5,7 +5,7 @@
         Implementation of Quesa Triangle geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-20045, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -254,6 +254,7 @@ e3geom_triangle_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, T
 {	const TQ3TriangleData		*instanceData = (const TQ3TriangleData *) objectData;
 	TQ3Status					qd3dStatus = kQ3Success;
 	TQ3Point2D					windowPoints[3];
+	TQ3Point3D					windowCoordPts[3];
 	TQ3WindowRectPickData		pickData;
 	TQ3Uns32					n;
 	
@@ -265,16 +266,37 @@ e3geom_triangle_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, T
 
 
 	// Transform our points
+	TQ3Matrix4x4	frustumToWindow, localToWindow;
+	const TQ3Matrix4x4&	localToFrustum( E3View_State_GetMatrixLocalToFrustum( theView ) );
+	E3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
+	Q3Matrix4x4_Multiply( &localToFrustum, &frustumToWindow, &localToWindow );
 	for (n = 0; n < 3; n++)
-		Q3View_TransformLocalToWindow(theView, &instanceData->vertices[n].point, &windowPoints[n]);
+	{
+		Q3Point3D_Transform( &instanceData->vertices[n].point, &localToWindow,
+			&windowCoordPts[n] );
+		windowPoints[n].x = windowCoordPts[n].x;
+		windowPoints[n].y = windowCoordPts[n].y;
+	}
 
 
 
 	// See if we fall within the pick
+	const TQ3Matrix4x4 *localToWorld = E3View_State_GetMatrixLocalToWorld( theView );
+	TQ3Point3D	worldHit;
+	
 	if (E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[1]) ||
-		E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[2]) ||
-		E3Rect_ContainsLine(&pickData.rect, &windowPoints[1], &windowPoints[2]))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
+		E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[2]))
+	{
+		Q3Point3D_Transform( &instanceData->vertices[0].point, localToWorld,
+			&worldHit );
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, NULL, NULL, NULL);
+	}
+	else if (E3Rect_ContainsLine(&pickData.rect, &windowPoints[1], &windowPoints[2]))
+	{
+		Q3Point3D_Transform( &instanceData->vertices[1].point, localToWorld,
+			&worldHit );
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, NULL, NULL, NULL);
+	}
 
 	return(qd3dStatus);
 }
