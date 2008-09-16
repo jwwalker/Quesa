@@ -5,7 +5,7 @@
         Implementation of Quesa Line geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -466,7 +466,13 @@ e3geom_line_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Ob
 
 	// See if we fall within the pick
 	if (E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[1]))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
+	{
+		TQ3Point3D	worldHit;
+		Q3Point3D_Transform( &instanceData->vertices[0].point,
+			E3View_State_GetMatrixLocalToWorld( theView ),
+			&worldHit );
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, NULL, NULL, NULL);
+	}
 
 	return(qd3dStatus);
 }
