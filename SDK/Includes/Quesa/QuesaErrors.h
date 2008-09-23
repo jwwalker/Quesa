@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -200,6 +200,7 @@ extern "C" {
  *  @constant kQ3ErrorBoundingLoopFailed                   Bounding loop failed.
  *  @constant kQ3ErrorPlatformError                        Platform-specific error. Not available in QD3D.
  *	@constant kQ3ErrorInfiniteRationalPoint                Infinite rational point. Not available in QD3D.
+ *	@constant kQ3ErrorTriMeshPointIndexOutOfRange          Bad point index in TriMesh data. Not available in QD3D.
  */
 typedef enum {
     kQ3ErrorNone                                = 0,
@@ -330,7 +331,8 @@ typedef enum {
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
     kQ3ErrorPlatformError                       = -28377,
-    kQ3ErrorInfiniteRationalPoint				= -28376,
+    kQ3ErrorInfiniteRationalPoint               = -28376,
+    kQ3ErrorTriMeshPointIndexOutOfRange         = -28375,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3ErrorLast,
@@ -406,6 +408,7 @@ typedef enum {
  *	@constant kQ3WarningNoOffscreenHardwareStencil		   It was not possible to set up a stencil buffer (needed for
  *														   rendering shadows) in a hardware-accelerated pixmap draw
  *														   context.
+ *	@constant kQ3WarningTriMeshTriangleIndexOutOfBounds    Bad triangle index in TriMesh data.
  */
 typedef enum {
     kQ3WarningNone                              = 0,
@@ -452,10 +455,10 @@ typedef enum {
     kQ3WarningInvalidObjectInGroupMetafile      = -28261,
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-	kQ3WarningQuaternionNotNormalized           = -28260,
-	kQ3WarningNormalCanNotBeFlipped             = -28259,
-	kQ3WarningTriangleNotNormalized             = -28258,
-	kQ3WarningVertexNotNormalized               = -28257,
+    kQ3WarningQuaternionNotNormalized           = -28260,
+    kQ3WarningNormalCanNotBeFlipped             = -28259,
+    kQ3WarningTriangleNotNormalized             = -28258,
+    kQ3WarningVertexNotNormalized               = -28257,
     kQ3WarningReadInfiniteFloatingPointNumber   = -28256,
     kQ3WarningReadBadNormalVector               = -28255,
     kQ3WarningUnsupportedSubdivisionStyle       = -28254,
@@ -464,6 +467,7 @@ typedef enum {
     kQ3WarningShaderProgramLinkFailed           = -28251,
     kQ3WarningCannotAcceleratePixmap            = -28250,
     kQ3WarningNoOffscreenHardwareStencil        = -28249,
+    kQ3WarningTriMeshTriangleIndexOutOfBounds   = -28248,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3WarningLast,
