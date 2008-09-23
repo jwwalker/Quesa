@@ -51,6 +51,7 @@
 #include "E3Math_Intersect.h"
 #include "E3Geometry.h"
 #include "E3GeometryTriMesh.h"
+#include "E3ErrorManager.h"
 
 
 
@@ -544,6 +545,77 @@ e3geom_trimesh_optimize(TQ3TriMeshData *theTriMesh)
 
 
 //=============================================================================
+//      e3geom_trimesh_validate : Check for bad indices.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_trimesh_validate( TQ3TriMeshData *theTriMesh )
+{
+	TQ3Status	theStatus = kQ3Success;
+	bool	reportedFaceIndexWarning = false;
+	
+	// Check faces
+	TQ3Uns32	i;
+	const TQ3Uns32	faceCount = theTriMesh->numTriangles;
+	const TQ3Uns32	pointCount = theTriMesh->numPoints;
+	for (i = 0; i < faceCount; ++i)
+	{
+		if ( (theTriMesh->triangles[i].pointIndices[0] >= pointCount) ||
+			(theTriMesh->triangles[i].pointIndices[1] >= pointCount) ||
+			(theTriMesh->triangles[i].pointIndices[2] >= pointCount) )
+		{
+			E3ErrorManager_PostError( kQ3ErrorTriMeshPointIndexOutOfRange,
+				kQ3False );
+			theStatus = kQ3Failure;
+			break;
+		}
+	}
+	
+	// Check edges
+	const TQ3Uns32	edgeCount = theTriMesh->numEdges;
+	for (i = 0; i < edgeCount; ++i)
+	{
+		if ( (theTriMesh->edges[i].pointIndices[0] >= pointCount) ||
+			(theTriMesh->edges[i].pointIndices[1] >= pointCount) )
+		{
+			E3ErrorManager_PostError( kQ3ErrorTriMeshPointIndexOutOfRange,
+				kQ3False );
+			theStatus = kQ3Failure;
+			break;
+		}
+		
+		if ( (theTriMesh->edges[i].triangleIndices[0] >= faceCount) &&
+			(theTriMesh->edges[i].triangleIndices[0] != kQ3ArrayIndexNULL) )
+		{
+			if (not reportedFaceIndexWarning)
+			{
+				E3ErrorManager_PostWarning(
+					kQ3WarningTriMeshTriangleIndexOutOfBounds );
+				reportedFaceIndexWarning = true;
+			}
+			theTriMesh->edges[i].triangleIndices[0] = kQ3ArrayIndexNULL;
+		}
+		
+		if ( (theTriMesh->edges[i].triangleIndices[1] >= faceCount) &&
+			(theTriMesh->edges[i].triangleIndices[1] != kQ3ArrayIndexNULL) )
+		{
+			if (not reportedFaceIndexWarning)
+			{
+				E3ErrorManager_PostWarning(
+					kQ3WarningTriMeshTriangleIndexOutOfBounds );
+				reportedFaceIndexWarning = true;
+			}
+			theTriMesh->edges[i].triangleIndices[1] = kQ3ArrayIndexNULL;
+		}
+	}
+	
+	return theStatus;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_trimesh_new : TriMesh new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -557,7 +629,14 @@ e3geom_trimesh_new(TQ3Object theObject, void *privateData, const void *paramData
 
 	// Initialise the TriMesh, then optimise it
 	instanceData->theFlags = kTriMeshNone;
-	qd3dStatus             = e3geom_trimesh_copydata(trimeshData, &instanceData->geomData, kQ3False);
+	qd3dStatus = e3geom_trimesh_copydata(trimeshData, &instanceData->geomData,
+		kQ3False);
+	
+	if (qd3dStatus == kQ3Success)
+	{
+		qd3dStatus = e3geom_trimesh_validate( &instanceData->geomData );
+	}
+	
 	if (qd3dStatus == kQ3Success)
 		e3geom_trimesh_optimize(&instanceData->geomData);
 
@@ -1525,7 +1604,14 @@ E3TriMesh_SetData(TQ3GeometryObject theTriMesh, const TQ3TriMeshData *triMeshDat
 
 
 	// Copy the new TriMesh data, then optimize it
-	TQ3Status qd3dStatus = e3geom_trimesh_copydata ( triMeshData, & triMesh->instanceData.geomData, kQ3False ) ;
+	TQ3Status qd3dStatus = e3geom_trimesh_copydata ( triMeshData,
+		& triMesh->instanceData.geomData, kQ3False ) ;
+	
+	if (qd3dStatus == kQ3Success)
+	{
+		qd3dStatus = e3geom_trimesh_validate( &triMesh->instanceData.geomData );
+	}
+	
 	if ( qd3dStatus != kQ3Failure )
 		e3geom_trimesh_optimize ( & triMesh->instanceData.geomData ) ;
 
@@ -1616,19 +1702,22 @@ E3TriMesh_LockData(TQ3GeometryObject theTriMesh, TQ3Boolean readOnly, TQ3TriMesh
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TriMesh_UnlockData(TQ3GeometryObject theTriMesh)
-	{
+{
+	TQ3Status	theStatus = kQ3Success;
 	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
 
 	// If the TriMesh was mutable, assume it needs updating
 	if ( ! E3Bit_IsSet( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) )
-		{
+	{
+		theStatus = e3geom_trimesh_validate( &triMesh->instanceData.geomData );
+	
 		// Re-optimize the TriMesh
 		e3geom_trimesh_optimize ( & triMesh->instanceData.geomData ) ;
 
 
 		// Bump the edit index
 		Q3Shared_Edited ( triMesh ) ;
-		}
+	}
 	
 	
 	
@@ -1636,8 +1725,8 @@ E3TriMesh_UnlockData(TQ3GeometryObject theTriMesh)
 	E3Bit_Clear( triMesh->instanceData.theFlags, kTriMeshLocked ) ;
 	E3Bit_Clear( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
 
-	return kQ3Success ;
-	}
+	return theStatus;
+}
 
 
 
