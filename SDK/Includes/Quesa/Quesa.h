@@ -2157,6 +2157,12 @@ Q3Object_RemoveProperty(
  *		Set a property of an object.  If there was already a property of the
  *		same type, it is replaced.
  *
+ *		An object property can be used to associate some "plain old data" with
+ *		an object.  If you need to attach non-self-contained data such as
+ *		pointers or Quesa object references, it is better to use a custom
+ *		element, where you can specify the correct behavior when the object is
+ *		disposed or copied.
+ *
  *		Property type tags consisting of all lowercase ASCII letters are reserved
  *		for Quesa internal use.
  *      
