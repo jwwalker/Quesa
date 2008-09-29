@@ -282,7 +282,7 @@ QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath )
 					thePixMap.width = theHeader.width;
 					thePixMap.height = theHeader.height;
 					thePixMap.rowBytes = rowBytes;
-					thePixMap.pixelSize = bytesPerPixel;
+					thePixMap.pixelSize = bytesPerPixel * 8;
 					thePixMap.bitOrder = kQ3EndianLittle;
 					thePixMap.byteOrder = kQ3EndianLittle;
 					thePixMap.pixelType = pixelType;
