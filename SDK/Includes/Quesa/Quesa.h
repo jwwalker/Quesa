@@ -147,7 +147,7 @@
     
     // Some of the APIs in QuickTime.framework are removed in 64 bit.
     #ifndef QUESA_SUPPORT_QUICKTIME	
-        #if defined(__LP64__) && __LP64__
+        #if defined (__LP64__) && __LP64__
             #define QUESA_SUPPORT_QUICKTIME				0
         #else
             #define QUESA_SUPPORT_QUICKTIME				1
@@ -159,7 +159,7 @@
 	// and QUESA_OS_COCOA should be true, otherwise there will be no way to
 	// create a draw context.
     #ifndef QUESA_SUPPORT_HITOOLBOX	
-        #if defined(__LP64__) && __LP64__
+        #if defined (__LP64__) && __LP64__
             #define QUESA_SUPPORT_HITOOLBOX				0
         #else
             #define QUESA_SUPPORT_HITOOLBOX				1
