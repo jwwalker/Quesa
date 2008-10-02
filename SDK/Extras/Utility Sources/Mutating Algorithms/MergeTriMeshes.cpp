@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -53,12 +53,14 @@
 #if !TARGET_RT_MAC_MACHO
 	#include "CQ3ObjectRef.h"
 	#include "CQ3ObjectRef_Gets.h"
+	#include "QuesaCustomElements.h"
 	#include "QuesaGeometry.h"
 	#include "QuesaGroup.h"
 	#include "Q3GroupIterator.h"
 #else
 	#include <Quesa/CQ3ObjectRef.h>
 	#include <Quesa/CQ3ObjectRef_Gets.h>
+	#include <Quesa/QuesaCustomElements.h>
 	#include <Quesa/QuesaGeometry.h>
 	#include <Quesa/QuesaGroup.h>
 	#include <Quesa/Q3GroupIterator.h>
@@ -66,6 +68,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <string>
 
 namespace
 {
@@ -322,6 +325,14 @@ static void MergeCompatibleTriMeshes( TQ3GroupObject inParent,
 		
 		if (theMerged.isvalid())
 		{
+			// If the first object has a name, copy it to the merged result.
+			const char*	theName = NULL;
+			CENameElement_PeekData( inRunStart->GetObject().get(), &theName );
+			if (theName != NULL)
+			{
+				CENameElement_SetData( theMerged.get(), theName );
+			}
+		
 			// Replace the first member and delete the rest.
 			Q3Group_SetPositionObject( inParent, inRunStart->GetPos(),
 				theMerged.get() );
