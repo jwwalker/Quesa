@@ -104,7 +104,11 @@ void	Applier::DoApply( TQ3Object ioGroup )
 			// to a single geometry, but that these need to become distinct
 			// geometries when different transforms are applied.  Hence we
 			// duplicate the geometry before transforming it.
+			// However, we want to preserve references to shared attribute sets.
+			CQ3ObjectRef	theAtts( CQ3Geometry_GetAttributeSet( theItem.get() ) );
+			Q3Geometry_SetAttributeSet( theItem.get(), NULL );
 			CQ3ObjectRef	dupGeom( Q3Object_Duplicate( theItem.get() ) );
+			Q3Geometry_SetAttributeSet( dupGeom.get(), theAtts.get() );
 			TransformGeometry( &mMatStack.back(), dupGeom.get() );
 			Q3Group_SetPositionObject( ioGroup, pos, dupGeom.get() );
 		}
