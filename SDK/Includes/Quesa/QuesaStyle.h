@@ -146,11 +146,17 @@ typedef enum TQ3FillStyle {
  *  @constant kQ3BackfacingStyleFlip            Both backfacing and front facing surfaces are
  *                                              rendered, and the surface normals of backfacing
  *                                              surfaces are inverted before rendering.
+ *	@constant kQ3BackfacingStyleRemoveFront		Front facing surfaces are removed before
+ *												rendering, and back facing surfaces are
+ *												rendered with reversed normals.  (This constant
+ *												was not available in QD3D, and may not be
+ *												understood by all renderers.)
  */
 typedef enum TQ3BackfacingStyle {
     kQ3BackfacingStyleBoth                      = 0,
     kQ3BackfacingStyleRemove                    = 1,
     kQ3BackfacingStyleFlip                      = 2,
+	kQ3BackfacingStyleRemoveFront				= 3,
     kQ3BackfacingStyleSize32                    = 0xFFFFFFFF
 } TQ3BackfacingStyle;
 
