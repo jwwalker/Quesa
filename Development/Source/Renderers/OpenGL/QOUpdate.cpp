@@ -294,6 +294,12 @@ void	QORenderer::Renderer::UpdateBackfacingStyle(
 			glCullFace( GL_BACK );
 			glEnable( GL_CULL_FACE );
 			break;
+
+		case kQ3BackfacingStyleRemoveFront:
+			glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE );
+			glCullFace( GL_FRONT );
+			glEnable( GL_CULL_FACE );
+			break;
 		
 		default:
 		case kQ3BackfacingStyleBoth:
