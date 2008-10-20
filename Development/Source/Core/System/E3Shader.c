@@ -399,7 +399,8 @@ e3shader_texture_delete(TQ3Object theObject, void *privateData)
 
 
 	//delete the storage for the texture
-	Q3Object_Dispose( *instanceData ) ;
+	if (*instanceData != NULL)
+		Q3Object_Dispose( *instanceData ) ;
 }
 
 
