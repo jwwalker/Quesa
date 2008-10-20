@@ -1139,7 +1139,7 @@ Q3TextureShader_New(TQ3TextureObject texture)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Texture_IsOfMyClass ( texture ), NULL);
+	Q3_REQUIRE_OR_RESULT( (texture == NULL) || E3Texture_IsOfMyClass ( texture ), NULL);
 
 
 
@@ -1214,7 +1214,7 @@ Q3TextureShader_SetTexture(TQ3ShaderObject shader, TQ3TextureObject texture)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3TextureShader_IsOfMyClass ( shader ), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT( E3Texture_IsOfMyClass ( texture ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( (texture == NULL) || E3Texture_IsOfMyClass ( texture ), kQ3Failure);
 
 
 

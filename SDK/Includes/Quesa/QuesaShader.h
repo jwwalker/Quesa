@@ -718,8 +718,12 @@ Q3SurfaceShader_GetType (
  *  @discussion
  *      Create a texture shader.
  *
+ *		A texture shader with a NULL texture serves to override a texture shader
+ *		at a higher level of the hierarchy, causing geometries that it governs
+ *		to be untextured.
+ *
  *  @param texture          The texture object for the shader.
- *  @result                 The new texture shader.
+ *  @result                 The new texture shader, or NULL.
  */
 Q3_EXTERN_API_C ( TQ3ShaderObject  )
 Q3TextureShader_New (
@@ -756,7 +760,7 @@ Q3TextureShader_GetTexture (
  *      Set the texture for a texture shader.
  *
  *  @param shader           The shader to update.
- *  @param texture          The texture for the shader.
+ *  @param texture          The texture for the shader, or NULL.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
