@@ -586,7 +586,7 @@ e3geom_trimesh_validate( TQ3TriMeshData *theTriMesh )
 		if ( (theTriMesh->edges[i].triangleIndices[0] >= faceCount) &&
 			(theTriMesh->edges[i].triangleIndices[0] != kQ3ArrayIndexNULL) )
 		{
-			if (not reportedFaceIndexWarning)
+			if (! reportedFaceIndexWarning)
 			{
 				E3ErrorManager_PostWarning(
 					kQ3WarningTriMeshTriangleIndexOutOfBounds );
@@ -598,7 +598,7 @@ e3geom_trimesh_validate( TQ3TriMeshData *theTriMesh )
 		if ( (theTriMesh->edges[i].triangleIndices[1] >= faceCount) &&
 			(theTriMesh->edges[i].triangleIndices[1] != kQ3ArrayIndexNULL) )
 		{
-			if (not reportedFaceIndexWarning)
+			if (! reportedFaceIndexWarning)
 			{
 				E3ErrorManager_PostWarning(
 					kQ3WarningTriMeshTriangleIndexOutOfBounds );
