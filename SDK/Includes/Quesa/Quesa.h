@@ -293,7 +293,7 @@
 
 #include <stdio.h>
 
-#if (defined(_MSC_VER) && _MSC_VER) || defined(__BORLANDC__)
+#if (defined(_MSC_VER) && _MSC_VER)
 typedef unsigned __int8 uint8_t;
 typedef unsigned __int16 uint16_t;
 typedef unsigned __int32 uint32_t;
@@ -302,6 +302,8 @@ typedef signed __int8 int8_t;
 typedef signed __int16 int16_t;
 typedef signed __int32 int32_t;
 
+#elif defined(__BORLANDC__)
+	#include <stdint.h>
 #else
 	#include <inttypes.h>
 #endif
