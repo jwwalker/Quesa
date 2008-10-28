@@ -222,6 +222,7 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 	{ kQ3ErrorBoundingLoopFailed,					"Quesa Error: " "Bounding loop failed" },
 	{ kQ3ErrorPlatformError,						"Quesa Error: " "Platform-specific error" },
 	{ kQ3ErrorInfiniteRationalPoint,				"Quesa Error: " "Infinite rational point" },
+	{ kQ3ErrorTriMeshPointIndexOutOfRange,			"Quesa Error: " "TriMesh face or edge data contains an invalid point index" },
 	{ kQ3ErrorNone, NULL } };
 
 
@@ -285,6 +286,8 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 	{ kQ3WarningNoOffscreenHardwareStencil,				"Quesa Warning: "
 		"It was not possible to set up a stencil buffer (needed for  rendering shadows) in a "
 		"hardware-accelerated pixmap draw context." },
+	{ kQ3WarningTriMeshTriangleIndexOutOfBounds,	"Quesa Warning: "
+		"TriMesh edge data contains an invalid triangle index" },
 	{ kQ3WarningNone, NULL } };
 
 
