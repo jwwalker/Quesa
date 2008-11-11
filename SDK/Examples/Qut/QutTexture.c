@@ -685,7 +685,11 @@ QutTexture_CreateTextureObjectFromPixmap(PixMapHandle		thePixMap,
 	rowBytes   = (*thePixMap)->rowBytes & 0x7FFF;
 	pixelBytes = (*thePixMap)->pixelSize / 8;
 	baseAddr   = (UInt8 *) GetPixBaseAddr(thePixMap);
+#if OLDPIXMAPSTRUCT
+	pixelFormat = 0;
+#else
 	pixelFormat = (*thePixMap)->pixelFormat;
+#endif
 
 
 	// If this is a 16 bit alpha channel texture, set the alpha bits.
