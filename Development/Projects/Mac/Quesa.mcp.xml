@@ -1234,13 +1234,6 @@
                 </FILE>
                 <FILE>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                    <FILEKIND>Resource</FILEKIND>
-                    <FILEFLAGS>Debug</FILEFLAGS>
-                </FILE>
-                <FILE>
-                    <PATHTYPE>Name</PATHTYPE>
                     <PATH>Quesa.r</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                     <FILEKIND>Text</FILEKIND>
@@ -2202,11 +2195,6 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>E3Globals.c</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                </FILEREF>
-                <FILEREF>
-                    <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                 </FILEREF>
                 <FILEREF>
@@ -3910,13 +3898,6 @@
                 </FILE>
                 <FILE>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                    <FILEKIND>Resource</FILEKIND>
-                    <FILEFLAGS>Debug</FILEFLAGS>
-                </FILE>
-                <FILE>
-                    <PATHTYPE>Name</PATHTYPE>
                     <PATH>Quesa.r</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                     <FILEKIND>Text</FILEKIND>
@@ -4878,11 +4859,6 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>E3Globals.c</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                </FILEREF>
-                <FILEREF>
-                    <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                 </FILEREF>
                 <FILEREF>
@@ -6586,13 +6562,6 @@
                 </FILE>
                 <FILE>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                    <FILEKIND>Resource</FILEKIND>
-                    <FILEFLAGS>Debug</FILEFLAGS>
-                </FILE>
-                <FILE>
-                    <PATHTYPE>Name</PATHTYPE>
                     <PATH>Quesa.r</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                     <FILEKIND>Text</FILEKIND>
@@ -7561,11 +7530,6 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>E3Globals.c</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                </FILEREF>
-                <FILEREF>
-                    <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                 </FILEREF>
                 <FILEREF>
@@ -9273,13 +9237,6 @@
                 </FILE>
                 <FILE>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                    <FILEKIND>Resource</FILEKIND>
-                    <FILEFLAGS>Debug</FILEFLAGS>
-                </FILE>
-                <FILE>
-                    <PATHTYPE>Name</PATHTYPE>
                     <PATH>Quesa.r</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                     <FILEKIND>Text</FILEKIND>
@@ -10206,11 +10163,6 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>E3Globals.c</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                </FILEREF>
-                <FILEREF>
-                    <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                 </FILEREF>
                 <FILEREF>
@@ -11888,13 +11840,6 @@
                 </FILE>
                 <FILE>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                    <FILEKIND>Resource</FILEKIND>
-                    <FILEFLAGS>Debug</FILEFLAGS>
-                </FILE>
-                <FILE>
-                    <PATHTYPE>Name</PATHTYPE>
                     <PATH>Quesa.r</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                     <FILEKIND>Text</FILEKIND>
@@ -12821,11 +12766,6 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>E3Globals.c</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                </FILEREF>
-                <FILEREF>
-                    <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                 </FILEREF>
                 <FILEREF>
@@ -14503,13 +14443,6 @@
                 </FILE>
                 <FILE>
                     <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                    <FILEKIND>Resource</FILEKIND>
-                    <FILEFLAGS>Debug</FILEFLAGS>
-                </FILE>
-                <FILE>
-                    <PATHTYPE>Name</PATHTYPE>
                     <PATH>Quesa.r</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                     <FILEKIND>Text</FILEKIND>
@@ -15436,11 +15369,6 @@
                 <FILEREF>
                     <PATHTYPE>Name</PATHTYPE>
                     <PATH>E3Globals.c</PATH>
-                    <PATHFORMAT>MacOS</PATHFORMAT>
-                </FILEREF>
-                <FILEREF>
-                    <PATHTYPE>Name</PATHTYPE>
-                    <PATH>Quesa.rsrc</PATH>
                     <PATHFORMAT>MacOS</PATHFORMAT>
                 </FILEREF>
                 <FILEREF>
@@ -21614,12 +21542,6 @@
                             <TARGETNAME>Carbon ShLib Debug</TARGETNAME>
                             <PATHTYPE>Name</PATHTYPE>
                             <PATH>Quesa.r</PATH>
-                            <PATHFORMAT>MacOS</PATHFORMAT>
-                        </FILEREF>
-                        <FILEREF>
-                            <TARGETNAME>Carbon ShLib Debug</TARGETNAME>
-                            <PATHTYPE>Name</PATHTYPE>
-                            <PATH>Quesa.rsrc</PATH>
                             <PATHFORMAT>MacOS</PATHFORMAT>
                         </FILEREF>
                     </GROUP>
