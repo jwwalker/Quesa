@@ -1,4 +1,5 @@
-#include <Types.r>
+#include <Carbon.r>
+
 
 resource 'DITL' (128, purgeable) {
 	{	/* array DITLarray: 2 elements */
