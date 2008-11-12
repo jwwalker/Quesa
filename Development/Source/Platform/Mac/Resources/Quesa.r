@@ -48,8 +48,8 @@
 #define SystemSevenOrBetter 1			// We want the extended types
 #define	SystemSevenOrLater	1			// Types.r uses this variable
 
-#include <Types.r>
-#include <SysTypes.r>
+#include <Carbon.r>
+
 #include "E3Version.h"
 
 
@@ -67,7 +67,7 @@ resource 'vers' (1) {
 	kQ3PrereleaseVersion,
 	verUS,
 	kQ3StringVersion,
-	kQ3StringVersion ", Copyright © 1999-2008\nQuesa Developers"
+	kQ3StringVersion ", Copyright Â© 1999-2008\nQuesa Developers"
 };
 
 
@@ -91,11 +91,11 @@ resource 'MENU' (8043) {
 	"Options",
 	{	/* array: 6 elements */
 		/* [1] */
-		"Renderer", noIcon, hierarchicalMenu, "ö", plain,
+		"Renderer", noIcon, hierarchicalMenu, "\0xF6", plain,
 		/* [2] */
-		"Brightness", noIcon, hierarchicalMenu, "÷", plain,
+		"Brightness", noIcon, hierarchicalMenu, "\0xF7", plain,
 		/* [3] */
-		"Background ColorÉ", noIcon, noKey, noMark, plain,
+		"Background Colorâ€¦", noIcon, noKey, noMark, plain,
 		/* [4] */
 		"Remove Backfaces", noIcon, noKey, noMark, plain,
 		/* [5] */
