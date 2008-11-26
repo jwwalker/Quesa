@@ -723,9 +723,8 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 */
 void	QORenderer::Lights::StartPass(
 								TQ3CameraObject inCamera,
-								TQ3GroupObject inLights )
+								TQ3RendererObject inRenderer )
 {
-#pragma unused( inLights )
 	mIsOnlyAmbient = false;
 	mIsAnotherPassNeeded = false;
 	
@@ -742,33 +741,49 @@ void	QORenderer::Lights::StartPass(
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 	
-
+	
 	if (mIsNextPassShadowPhase)
 	{
 		mIsShadowPhase = true;
 		mIsNextPassShadowPhase = false;
 	}
 	
+	
+	TQ3RendererPassInfo	passInfo;
+	
+
 	if (mIsShadowPhase)
 	{
 		mIsShadowMarkingPass = ! mIsShadowMarkingPass;
 		
+		passInfo.light = mShadowingLights[ mStartingLightIndexForPass ].get();
+		
 		if (mIsShadowMarkingPass)
 		{
+			passInfo.passType = kQ3RendererPassShadowMarking;
+			
 			SetUpShadowMarkingPass( worldToView );
 		}
 		else	// shadow lighting pass
 		{
+			passInfo.passType = kQ3RendererPassShadowLighting;
+			
 			SetUpShadowLightingPass();
 		}
 	}
 	else	// non-shadowing phase
 	{
+		passInfo.light = NULL;
+		passInfo.passType = kQ3RendererPassNonShadow;
+		
 		SetUpNonShadowLightingPass( worldToView );
 	}
 	
 	glMatrixMode( GL_MODELVIEW );
 	glLoadMatrixf( savedModelViewMatrix );
+	
+	Q3Object_SetProperty( inRenderer, kQ3RendererPropertyPassType,
+		sizeof(passInfo), &passInfo );
 }
 
 
