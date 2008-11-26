@@ -107,7 +107,7 @@ public:
 	
 	void					StartPass(
 									TQ3CameraObject inCamera,
-									TQ3GroupObject inLights );
+									TQ3RendererObject inRenderer );
 
 	bool					EndPass();
 	
