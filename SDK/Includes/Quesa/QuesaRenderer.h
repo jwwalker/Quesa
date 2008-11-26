@@ -187,6 +187,15 @@ enum
 					nearly perpendicular to the view vector.
 					
 					Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
+
+	@constant	kQ3RendererPropertyPassInfo
+					The OpenGL renderer sets this property so that client code
+					can tell whether the pass is for non-shadowing lights, marking
+					a shadow, or adding light outside a shadow.  For instance
+					this information can be used to make certain objects only
+					cast shadows from certain lights.
+					
+					Data type: TQ3RendererPassInfo.
 */
 enum
 {
@@ -200,8 +209,35 @@ enum
 	kQ3RendererPropertyAllowVBOs				= Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
 	kQ3RendererPropertyAllowLineSmooth			= Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
 	kQ3RendererPropertyQuantizePerPixelLight	= Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
-	kQ3RendererPropertyCartoonLightNearEdge		= Q3_OBJECT_TYPE('p', 'p', 'c', 'e')
+	kQ3RendererPropertyCartoonLightNearEdge		= Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
+	kQ3RendererPropertyPassType					= Q3_OBJECT_TYPE('r', 'p', 't', 'y')
 };
+
+
+/*!
+	@enum		TQ3RendererPassType
+	
+	@abstract	Pass types used in the TQ3RendererPassInfo structure.
+	
+	@constant	kQ3RendererPassNonShadow
+						The pass is handling lights that do not cast shadows.
+	
+	@constant	kQ3RendererPassShadowMarking
+						The pass is marking the shadow of one shadow-casting
+						light.
+	
+	@constant	kQ3RendererPassShadowLighting
+						The pass is adding the light from one shadow-casting
+						light.
+*/
+typedef enum TQ3RendererPassType
+{
+	kQ3RendererPassNonShadow       = 0,
+	kQ3RendererPassShadowMarking   = 1,
+	kQ3RendererPassShadowLighting  = 2,
+	
+	kQ3RendererPassSize32	= 0x7FFFFFFF
+} TQ3RendererPassType;
 #endif
 
 
@@ -1076,6 +1112,27 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(
                             void                *rendererPrivate,
                             const TQ3Matrix4x4  *theMatrix);
 
+
+
+
+/*!
+	@struct		TQ3RendererPassInfo
+	
+	@abstract	Pass data in the kQ3RendererPropertyPassType property that the
+				renderer may set on the renderer object.
+
+	@discussion	When you obtain this property, you do not get a new reference to
+				the light, so do not dispose it.
+	
+	@field		passType	Type of the current pass.
+	@field		light		Current shadowing light, or NULL if this is a pass
+							of type kQ3RendererPassNonShadow.
+*/
+struct TQ3RendererPassInfo
+{
+	TQ3RendererPassType		passType;
+	TQ3LightObject			light;
+};
 
 
 
