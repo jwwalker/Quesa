@@ -381,7 +381,7 @@ void		QORenderer::Renderer::StartPass(
 	GLDrawContext_SetDepthState( mDrawContextObject );
 	glLineWidth( mLineWidth );
 	
-	mLights.StartPass( inCamera, inLights );
+	mLights.StartPass( inCamera, mRendererObject );
 	mTextures.StartPass();
 	if (! mLights.IsShadowMarkingPass())
 	{
@@ -402,7 +402,7 @@ static bool IsSwapWanted( TQ3ViewObject inView )
 /*!
 	@function	RenderTransparent
 	@abstract	Draw transparent stuff in the case where multiple lighting
-				passes were needed using additional mini-passes.
+				passes were needed, using additional mini-passes.
 */
 void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 {
@@ -419,7 +419,7 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 	
 	do
 	{
-		mLights.StartPass( theCamera.get(), theLightGroup.get() );
+		mLights.StartPass( theCamera.get(), mRendererObject );
 		mTextures.StartPass();
 		mPPLighting.StartPass();
 		
