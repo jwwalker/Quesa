@@ -114,6 +114,9 @@ public:
 											TQ3ViewObject inView,
 											GLenum inSrcBlendFactor,
 											GLenum inDstBlendFactor );
+	
+	void							DrawDepth(
+											TQ3ViewObject inView );
 
 	void							Cleanup();
 	
@@ -127,6 +130,9 @@ private:
 	void							SortIndices();
 	void							InitGLState(
 											TQ3ViewObject inView );
+	void							InitGLStateForDepth(
+											TQ3ViewObject inView,
+											TQ3Float32 inAlphaThreshold );
 	void							SetEmissiveColor( const TQ3ColorRGB& inColor );
 	void							SetDiffuseColor(
 											const QORenderer::Vertex& inVert );
