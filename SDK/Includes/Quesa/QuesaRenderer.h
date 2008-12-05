@@ -196,6 +196,15 @@ enum
 					cast shadows from certain lights.
 					
 					Data type: TQ3RendererPassInfo.
+
+	@constant	kQ3RendererPropertyDepthAlphaThreshold
+					Normally, geometry with transparent color or texture does not
+					affect the OpenGL depth buffer.  By setting this property,
+					you can make sufficiently opaque fragments (alpha greater
+					than the given threshold) update the depth,
+					at the expense of a little extra rendering time.
+					
+					Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
 */
 enum
 {
@@ -210,7 +219,8 @@ enum
 	kQ3RendererPropertyAllowLineSmooth			= Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
 	kQ3RendererPropertyQuantizePerPixelLight	= Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
 	kQ3RendererPropertyCartoonLightNearEdge		= Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
-	kQ3RendererPropertyPassType					= Q3_OBJECT_TYPE('r', 'p', 't', 'y')
+	kQ3RendererPropertyPassType					= Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
+	kQ3RendererPropertyDepthAlphaThreshold		= Q3_OBJECT_TYPE('d', 'p', 'a', 't')
 };
 
 
