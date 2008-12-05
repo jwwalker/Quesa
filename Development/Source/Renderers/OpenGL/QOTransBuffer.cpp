@@ -669,3 +669,85 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 		glPopAttrib();
 	}
 }
+
+void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
+											TQ3Float32 inAlphaThreshold )
+{
+	// We need to clear any transforms which are active when the rendering loop ended,
+	// since transparent primitives are already transformed into camera coordinates,
+	// and the camera to frustum matrix will be updated later.
+	Q3Matrix4x4_SetIdentity( &mCurCameraTransform.localToWorld );
+	Q3Matrix4x4_SetIdentity( &mCurCameraTransform.worldToCamera );
+	Q3Matrix4x4_SetIdentity( &mCurCameraTransform.cameraToFrustum );
+	Q3CameraTransform_Submit (&mCurCameraTransform, inView );
+	mCurCameraToFrustumIndex = ULONG_MAX;
+	
+	TQ3FillStyle	theFillStyle = kQ3FillStyleFilled;
+	mRenderer.UpdateFillStyle( &theFillStyle );
+	
+	TQ3OrientationStyle	theOrientation = kQ3OrientationStyleCounterClockwise;
+	mRenderer.UpdateOrientationStyle( &theOrientation );
+	
+	TQ3BackfacingStyle	theBackfacing = kQ3BackfacingStyleRemove;
+	mRenderer.UpdateBackfacingStyle( &theBackfacing );
+	
+	// Turn off unneeded fragment operations
+	glDisable( GL_LIGHTING );
+	glDisable( GL_BLEND );
+	glDisable( GL_TEXTURE_2D );
+	mCurTexture = 0;
+	mCurUVTransformIndex = ULONG_MAX;
+	mCurUBoundary = kQ3ShaderUVBoundarySize32;
+	mCurVBoundary = kQ3ShaderUVBoundarySize32;
+	glDisable( GL_DITHER );
+	
+	// Turn off writing to the color buffer
+	glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
+	
+	// Turn on writing to the depth buffer
+	glDepthMask( GL_TRUE );
+	glEnable( GL_DEPTH_TEST );
+	
+	// Set up alpha test
+	glEnable( GL_ALPHA_TEST );
+	glAlphaFunc( GL_GREATER, inAlphaThreshold );
+}
+
+/*!
+	@function	DrawDepth
+	
+	@abstract	If a special renderer property is present, draw the geometry
+				again, affecting only the depth buffer.
+*/
+void	TransBuffer::DrawDepth( TQ3ViewObject inView )
+{
+	TQ3Float32	alphaThreshold = 1.0f;
+	Q3Object_GetProperty( mRenderer.mRendererObject,
+		kQ3RendererPropertyDepthAlphaThreshold, sizeof(alphaThreshold), NULL,
+		&alphaThreshold );
+
+	if (alphaThreshold < 1.0f)
+	{
+		glPushAttrib( GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		
+		InitGLStateForDepth( inView, alphaThreshold );
+
+		const TQ3Uns32 kNumPrims = mTransBuffer.size();
+		
+		for (TQ3Uns32 i = 0; i < kNumPrims; ++i)
+		{
+			const TransparentPrim& thePrim( *mPrimPtrs[i] );
+			
+			UpdateCameraToFrustum( thePrim, inView );
+			UpdateTexture( thePrim );
+			UpdateFill( thePrim );
+			UpdateOrientation( thePrim );
+			UpdateBackfacing( thePrim );
+			UpdateLineWidth( thePrim );
+			
+			Render( thePrim );
+		}
+		
+		glPopAttrib();
+	}
+}
