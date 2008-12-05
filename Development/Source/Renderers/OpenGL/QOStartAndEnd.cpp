@@ -431,6 +431,7 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 		isMoreNeeded = mLights.EndPass();
 	} while (isMoreNeeded);
 	
+	mTransBuffer.DrawDepth( inView );
 	mTransBuffer.Cleanup();
 }
 
@@ -449,6 +450,7 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	if (isFirstLightingPass && mLights.IsLastLightingPass() && mTransBuffer.HasContent())
 	{
 		mTransBuffer.DrawTransparency( inView, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
+		mTransBuffer.DrawDepth( inView );
 		mTransBuffer.Cleanup();
 	}
 	
