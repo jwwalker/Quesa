@@ -242,6 +242,17 @@ QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath )
 					default:	// quiet an uninitialized-variable warning
 					case 4:
 						pixelType = kQ3PixelTypeARGB32;
+						// Typically TGA format uses non-premultiplied alpha,
+						// whereas Quesa usually expects premultiplied alpha, so
+						// we multiply here.
+						for (i = 0; i < theHeader.width * theHeader.height; ++i)
+						{
+							unsigned short a = theBuffer[i*4+3];
+
+							theBuffer[i*4] = (theBuffer[i*4]*a) / 255;
+							theBuffer[i*4+1] = (theBuffer[i*4+1]*a) / 255;
+							theBuffer[i*4+2] = (theBuffer[i*4+2]*a) / 255;							
+						}
 						break;
 				}
 				
