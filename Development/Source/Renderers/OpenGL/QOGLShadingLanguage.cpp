@@ -826,6 +826,7 @@ void	QORenderer::PerPixelLighting::EndPass()
 	{
 		mFuncs.glUseProgram( 0 );
 	}
+	mIsShading = false;
 }
 
 
@@ -1059,7 +1060,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 */
 void	QORenderer::PerPixelLighting::Cleanup()
 {
-	if (mIsShading)
+	if (mVertexShaderID != 0)
 	{
 		std::for_each( mPrograms.begin(), mPrograms.end(), DeleteProgram( mFuncs ) );
 		mPrograms.clear();
