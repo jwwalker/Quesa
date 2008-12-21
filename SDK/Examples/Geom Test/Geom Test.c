@@ -3492,6 +3492,39 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 
 
 //=============================================================================
+//      updateAspectRatio : Sync the aspect ratio of the camera to that of the
+//							draw context.
+//-----------------------------------------------------------------------------
+static void
+updateAspectRatio( TQ3ViewObject theView )
+{
+	TQ3DrawContextObject context;
+	TQ3CameraObject camera;
+	TQ3Area                         theArea;
+	float		dcAspect, cameraAspect;
+	
+	Q3View_GetDrawContext( theView, &context );
+	Q3View_GetCamera( theView, &camera );
+	
+	Q3DrawContext_GetPane( context, &theArea );
+	
+	dcAspect = (theArea.max.x - theArea.min.x) / theArea.max.y - theArea.min.y;
+	Q3ViewAngleAspectCamera_GetAspectRatio( camera, &cameraAspect );
+	
+	if ( fabsf( cameraAspect - dcAspect ) > kQ3RealZero )
+	{
+		Q3ViewAngleAspectCamera_SetAspectRatio( camera, dcAspect );
+	}
+	
+	Q3Object_Dispose( context );
+	Q3Object_Dispose( camera );
+}
+
+
+
+
+
+//=============================================================================
 //      appPreRender : Prepare to render another frame.
 //-----------------------------------------------------------------------------
 static void
@@ -3517,6 +3550,8 @@ appPreRender(TQ3ViewObject theView)
 
 	// Move the model:
 	updateRotation();
+	
+	updateAspectRatio( theView );
 	
 	// Update the world bounds
 	if (gWorldBounds != NULL)
