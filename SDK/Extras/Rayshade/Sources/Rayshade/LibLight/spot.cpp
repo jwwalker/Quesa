@@ -13,9 +13,12 @@
  * There is no warranty or other guarantee of fitness of this software
  * for any purpose.  It is provided solely "as is".
  *
- * $Id: spot.cpp,v 1.1 2002-12-18 18:36:42 pepe Exp $
+ * $Id: spot.cpp,v 1.2 2008-12-21 02:04:26 jwwalker Exp $
  *
  * $Log: not supported by cvs2svn $
+ * Revision 1.1  2002/12/18 18:36:42  pepe
+ * First upload
+ *
  * Revision 4.0  91/07/17  14:35:42  kolb
  * Initial version.
  * 
@@ -28,29 +31,34 @@ static LightMethods *iSpotMethods = NULL;
 static int  SpotIntens(LightRef lr, Color *lcolor,ShadowCache *cache, 
                 Ray *ray, Float dist,int noshadow, Color *color);
 static void SpotDirection(LightRef lr, Vector *pos,Vector* dir,Float* dist);
-static Float rampup(Float left,Float right,Float at);
 
 static Float SpotAtten(Spotlight *lp, Vector *dir);
 Spotlight *
 SpotCreate(
         Vector          *from,
-        Vector          *to, 
-        Float           coef,
-        Float           in,
-        Float           out)
+        Vector          *dir,
+        Float           hotAngle,
+        Float           outerAngle ,
+		int				attenuation ,
+		int				fallOff )
 {
 	Spotlight *spot;
 
 	spot = (Spotlight *)share_malloc(sizeof(Spotlight));
 	spot->pos = *from;
-	VecSub(*to, *from, &spot->dir);
-	if (VecNormalize(&spot->dir) == 0. || in > out) {
+	spot->dir.x = dir->x ;
+	spot->dir.y = dir->y ;
+	spot->dir.z = dir->z ;
+	if (VecNormalize(&spot->dir) == 0. || hotAngle > outerAngle ) {
 		RLerror(RL_ABORT,"Invalid spotlight specification.\n");
 		return (Spotlight *)NULL;
 	}
-	spot->coef = coef;
-	spot->radius = cos(deg2rad(in));
-	spot->falloff = cos(deg2rad(out));
+	spot->hotAngle = hotAngle ;
+	spot->outerAngle = outerAngle ;
+	spot->cosHotAngle = cos ( hotAngle ) ;
+	spot->cosOuterAngle = cos ( outerAngle ) ;
+	spot->attenuation = attenuation ;
+	spot->fallOff = fallOff ;
 
 	return spot;
 }
@@ -102,12 +110,15 @@ SpotIntens(
 	return TRUE;
 }
 
+#define kQ3PiOver2                     ((Float)  (3.1415926535898 / 2.0))
+static const float eMinus1 = exp ( 1.0f ) - 1.0f ;
+
 /*
  * Compute intensity of spotlight along 'dir'.
  */
 static Float
 SpotAtten(
-        Spotlight       *lp, 
+        Spotlight       *lp,
         Vector          *dir)
 {
 	Float costheta, atten;
@@ -118,35 +129,74 @@ SpotAtten(
 	 */
 	if (costheta <= 0.)
 		return 0.;
-	/*
-	 * Intensity is the product of costheta raised to lp->coef and
-	 * a function that smoothly interpolates from 0 at
-	 * costheta=lp->falloff to 1 at costheta=lp->radius.
-	 */
-	atten = pow(costheta, lp->coef);
-	if (lp->radius > 0.)
-		atten *= rampup(lp->falloff, lp->radius, costheta);
+
+	if ( costheta < lp->cosOuterAngle )
+		return 0.0 ;
+
+	atten = costheta ;
+	if (lp->cosHotAngle > 0.) // What is this all about ?
+		{
+		Float fallOffMultiplier = 1.0 ;
+		if ( lp->fallOff == 1 /*kQ3FallOffTypeLinear*/ )
+			{
+			if ( costheta < lp->cosHotAngle )
+				{
+				Float angle = acos ( costheta ) ;
+				fallOffMultiplier = ( lp->outerAngle - angle ) /
+					( lp->outerAngle - lp->hotAngle ) ;
+				}
+			}
+		else
+		if ( lp->fallOff == 2/*kQ3FallOffTypeExponential*/ )
+			{
+			if ( costheta < lp->cosHotAngle )
+				{
+				Float angle = acos ( costheta ) ;
+				fallOffMultiplier = ( exp ( ( lp->outerAngle - angle ) /
+					( lp->outerAngle - lp->hotAngle ) ) - 1 ) / eMinus1 ;
+				}
+			}
+		else
+		if ( lp->fallOff == 3/*kQ3FallOffTypeCosine*/ )
+			{
+			if ( costheta < lp->cosHotAngle )
+				{
+				Float angle = acos ( costheta ) ;
+				fallOffMultiplier = cos ( ( angle - lp->hotAngle ) * kQ3PiOver2 /
+					( lp->outerAngle - lp->hotAngle ) ) ;
+				}
+			}
+
+				
+/*
+		This may be required some time but presently neither the attenuation  
+nor the world pixel position are available. Maybe it should go  
+somewhere else in the calculations
+		if ( lp->attenuation != kQ3AttenuationTypeNone )
+			{
+			switch ( lp->attenuation )
+				{
+	    		case kQ3AttenuationTypeInverseDistance :
+	    			{
+	    			fallOffMultiplier *= 1.0f / Distance ( pixelWorldPos - lp- 
+pos ) ;
+	    			break ;
+	   				}
+				case kQ3AttenuationTypeInverseDistanceSquared :
+	    			{
+	    			fallOffMultiplier *= 1.0f / DistanceSquared ( pixelWorldPos -  
+lp->pos ) ;
+	    			break ;
+	   				}
+				}
+			}
+*/		
+		
+		atten *= fallOffMultiplier ;
+		}
 	return atten;
 }
 
-/*
- * Cubic interpolation between 0 at left and 1 at right, sampled at 'at'
- * It is assumed that right >= left.
- */
-Float
-rampup(Float left,Float right,Float at)
-{
-	if (at < left)
-		return 0.;
-	else if (at > right)
-		return 1.;
-
-	if (right == left)
-		return 0.;
-
-	at = (at - left) / (right - left);
-	return (3 - 2*at)*at*at;
-}
 
 static void
 SpotDirection(LightRef lr, Vector *pos,Vector* dir,Float* dist)

@@ -5,7 +5,7 @@
         A procedural api for RayShade.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -204,31 +204,17 @@ RT_AddSpotLight(
     thePos.y = inLocation->y;
     thePos.z = inLocation->z;
     
-    theVector.x = -inDirection->x;
-    theVector.y = -inDirection->y;
-    theVector.z = -inDirection->z;
-    
-    switch(inFallOffType)
-    {
-        case kQ3FallOffTypeNone:
-            theCoeff = 0.0f;
-            break;
-        case kQ3FallOffTypeLinear:
-            theCoeff = 1.0f;
-            break;
-        case kQ3FallOffTypeExponential:
-            theCoeff = 0.8f;
-            break;
-        case kQ3FallOffTypeCosine:
-            theCoeff = 2.0f;
-            break;
-    }
+    theVector.x = inDirection->x;
+    theVector.y = inDirection->y;
+    theVector.z = inDirection->z;
+
     theLight = LightSpotCreate(&theColor,
                   &thePos,
                   &theVector,
-                  theCoeff,
-                  Q3Math_RadiansToDegrees(hotAngle),
-                  Q3Math_RadiansToDegrees(outerAngle));
+                  hotAngle ,
+                  outerAngle ,
+				  kQ3AttenuationTypeNone ,
+				  inFallOffType ) ; // Use kQ3AttenuationTypeNone until we find we need the proper value
     if (theLight)
     {
        theLight->shadow = inCastShadows;  
