@@ -5,7 +5,7 @@
         A procedural api for RayShade.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -470,12 +470,14 @@ TQ3Status RT_SetCamera(TRTDrawContext * /*inContext*/,
     if (aspectRatioXToY <= 1.0)
     {
     	Camera.hfov = Q3Math_RadiansToDegrees(minfov);
-   		Camera.vfov = Q3Math_RadiansToDegrees(atan2f(tan(minfov),aspectRatioXToY));
+   		Camera.vfov = Q3Math_RadiansToDegrees( atan( tan( minfov * 0.5 ) /
+			aspectRatioXToY ) * 2.0 );
    	}
    	else
    	{
    		Camera.vfov = Q3Math_RadiansToDegrees(minfov);
-   		Camera.hfov = Q3Math_RadiansToDegrees(atanf(tan(minfov)*aspectRatioXToY));
+   		Camera.hfov = Q3Math_RadiansToDegrees( atan( tan( minfov *  0.5 ) *
+			aspectRatioXToY ) * 2.0 );
    	} 
     return kQ3Success;
 }
