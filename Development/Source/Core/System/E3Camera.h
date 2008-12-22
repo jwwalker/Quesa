@@ -5,7 +5,7 @@
         Header file for E3Camera.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -155,6 +155,7 @@ Q3_CLASS_ENUMS ( kQ3CameraTypeViewPlane, E3ViewPlaneCamera, E3Camera )
 
 public :
 
+	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
 	TQ3Status			GetData ( TQ3ViewPlaneCameraData *CameraData ) ;
 	TQ3Status			SetData ( const TQ3ViewPlaneCameraData *CameraData ) ;
 	TQ3Status			SetViewPlane ( float ViewPlane ) ;
