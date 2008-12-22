@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -100,31 +100,6 @@ static void
 e3camera_orthographic_frustum_matrix ( TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
 	{
 	( ( E3OrthographicCamera* ) theCamera )->GetFrustumMatrix ( theMatrix ) ;
-	}
-
-
-
-void
-E3OrthographicCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
-	{
-	// Initialise ourselves
-	float x  = 2.0f / ( right - left ) ;
-	float y  = 2.0f / ( top   - bottom ) ;
-	float z  = 1.0f / ( cameraData.range.yon - cameraData.range.hither ) ;
-
-	float tx = - ( right + left )   / ( right - left ) ;
-	float ty = - ( top   + bottom ) / ( top   - bottom ) ;
-
-
-
-	// Set up the matrix
-	Q3Matrix4x4_SetIdentity(theMatrix);
-	theMatrix->value[0][0] = x;
-	theMatrix->value[3][0] = tx;
-	theMatrix->value[1][1] = y;
-	theMatrix->value[3][1] = ty;
-	theMatrix->value[2][2] = z;
-	theMatrix->value[3][2] = cameraData.range.hither * z ;
 	}
 
 
@@ -289,12 +264,7 @@ e3camera_orthographic_metahandler ( TQ3XMethodType methodType )
 void
 e3camera_viewplane_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
 {	
-
-
-
-	// Calculate the view to frustum matrix for the camera
-	// dair, to be implemented
-	Q3Matrix4x4_SetIdentity(theMatrix);
+	( ( E3ViewPlaneCamera* ) theCamera )->GetFrustumMatrix ( theMatrix );
 }
 
 
@@ -472,41 +442,6 @@ e3camera_viewangle_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMa
 	}
 
 
-void
-E3ViewAngleAspectCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
-	{
-	// Initialise ourselves
-	float zNear       = cameraData.range.hither;
-	float zFar        = cameraData.range.yon;
-
-	float w = 1.0f / (float) tan ( fov * 0.5f ) ;
-	if ( aspectRatioXToY > 1.0f )
-		w = w / aspectRatioXToY ;
-
-	float h = w * aspectRatioXToY;
-
-
-	float q;
-	
-	if (isfinite( zFar ))
-	{
-		q = zFar / (zFar - zNear);
-	}
-	else
-	{
-		q = 1.0f;
-	}
-
-
-	// Set up the matrix
-	Q3Matrix4x4_SetIdentity(theMatrix);
-	theMatrix->value[0][0] = w;
-	theMatrix->value[1][1] = h;
-	theMatrix->value[2][2] = q;
-	theMatrix->value[2][3] = -1.0f;
-	theMatrix->value[3][2] = q * zNear;
-	theMatrix->value[3][3] = 0.0f;
-	}
 
 
 
@@ -1250,6 +1185,36 @@ E3OrthographicCamera::GetBottom ( float *Bottom )
 
 
 //=============================================================================
+//      E3OrthographicCamera::GetFrustumMatrix : Return the view to frustum matrix.
+//-----------------------------------------------------------------------------
+void
+E3OrthographicCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
+	{
+	// Initialise ourselves
+	float x  = 2.0f / ( right - left ) ;
+	float y  = 2.0f / ( top   - bottom ) ;
+	float z  = 1.0f / ( cameraData.range.yon - cameraData.range.hither ) ;
+
+	float tx = - ( right + left )   / ( right - left ) ;
+	float ty = - ( top   + bottom ) / ( top   - bottom ) ;
+
+
+
+	// Set up the matrix
+	Q3Matrix4x4_SetIdentity(theMatrix);
+	theMatrix->value[0][0] = x;
+	theMatrix->value[3][0] = tx;
+	theMatrix->value[1][1] = y;
+	theMatrix->value[3][1] = ty;
+	theMatrix->value[2][2] = z;
+	theMatrix->value[3][2] = cameraData.range.hither * z ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3ViewPlaneCamera_New : Create a view plane camera.
 //-----------------------------------------------------------------------------
 #pragma mark -
@@ -1473,6 +1438,105 @@ E3ViewPlaneCamera::GetCenterY ( float *CenterYOnViewPlane )
 
 
 //=============================================================================
+//      E3ViewPlaneCamera::GetFrustumMatrix : Return the view to frustum matrix.
+//-----------------------------------------------------------------------------
+void
+E3ViewPlaneCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
+{
+	// Express the view plane as an area in xy view coordinates
+	TQ3Area	viewPlaneArea =
+	{
+		{
+			centerXOnViewPlane - halfWidthAtViewPlane,	// min.x
+			centerYOnViewPlane - halfHeightAtViewPlane	// min.y
+		},
+		{
+			centerXOnViewPlane + halfWidthAtViewPlane,	// max.x
+			centerYOnViewPlane + halfHeightAtViewPlane	// max.y
+		}
+	};
+	
+	// Expand to an area in xy view coordinates centered at the origin
+	TQ3Area	viewSymArea =
+	{
+		{
+			E3Num_Min( viewPlaneArea.min.x, -viewPlaneArea.max.x ),
+			E3Num_Min( viewPlaneArea.min.y, -viewPlaneArea.max.y )
+		}
+		,
+		{
+			E3Num_Max( viewPlaneArea.max.x, -viewPlaneArea.min.x ),
+			E3Num_Max( viewPlaneArea.max.y, -viewPlaneArea.min.y )
+		}
+	};
+	float	symWidth = viewSymArea.max.x - viewSymArea.min.x;
+	float	symHeight = viewSymArea.max.y - viewSymArea.min.y;
+	
+	// Think of the symmetric area as the view plane of an angle aspect camera,
+	// and compute its view to frustum matrix.
+	float zNear       = cameraData.range.hither;
+	float zFar        = cameraData.range.yon;
+	float	w = 2 * viewPlane / symWidth;
+	float	h = 2 * viewPlane / symHeight;
+	float q;
+	
+	if (isfinite( zFar ))
+	{
+		q = zFar / (zFar - zNear);
+	}
+	else
+	{
+		q = 1.0f;
+	}
+	TQ3Matrix4x4	viewToStdFrustum;
+	Q3Matrix4x4_SetIdentity( &viewToStdFrustum );
+	viewToStdFrustum.value[0][0] = w;
+	viewToStdFrustum.value[1][1] = h;
+	viewToStdFrustum.value[2][2] = q;
+	viewToStdFrustum.value[2][3] = -1.0f;
+	viewToStdFrustum.value[3][2] = q * zNear;
+	viewToStdFrustum.value[3][3] = 0.0f;
+	
+	// Converting from the view angle frustum space to the desired view plane
+	// frustum space is essentially a matter of applying a camera viewport
+	// transformation, as in E3Camera::GetViewToFrustum.
+	TQ3Area	viewPortArea =
+	{
+		{
+			viewPlaneArea.min.x / viewSymArea.max.x,
+			viewPlaneArea.min.y / viewSymArea.max.y
+		},
+		{
+			viewPlaneArea.max.x / viewSymArea.max.x,
+			viewPlaneArea.max.y / viewSymArea.max.y
+		}
+	};
+	float	halfPortWidth = (viewPortArea.max.x - viewPortArea.min.x) / 2.0f;
+	float	halfPortHeight = (viewPortArea.max.y - viewPortArea.min.y) / 2.0f;
+	TQ3Point2D portCenter =
+	{
+		viewPortArea.min.x + halfPortWidth,
+		viewPortArea.min.y + halfPortHeight
+	};
+	// Translate the viewport center to the origin
+	TQ3Matrix4x4 transPort;
+	Q3Matrix4x4_SetTranslate( &transPort, -portCenter.x, -portCenter.y, 0.0f );
+	// Scale the port back up to the range [-1, 1] in x and y
+	TQ3Matrix4x4	scalePort;
+	Q3Matrix4x4_SetScale( &scalePort, 1.0f / halfPortWidth, 1.0f / halfPortHeight, 1.0f );
+	// Compute the combined viewport matrix
+	TQ3Matrix4x4	viewportMtx;
+	Q3Matrix4x4_Multiply( &transPort, &scalePort, &viewportMtx );
+	
+	// Finally get the view to frustum matrix
+	Q3Matrix4x4_Multiply( &viewToStdFrustum, &viewportMtx, theMatrix );
+}
+
+
+
+
+
+//=============================================================================
 //      E3ViewAngleAspectCamera_New : Create a view angle camera.
 //-----------------------------------------------------------------------------
 #pragma mark -
@@ -1592,4 +1656,43 @@ E3ViewAngleAspectCamera::GetAspectRatio ( float *AspectRatioXToY )
 
 
 
+
+//=============================================================================
+//      E3ViewAngleAspectCamera::GetFrustumMatrix : Return the view to frustum matrix.
+//-----------------------------------------------------------------------------
+void
+E3ViewAngleAspectCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
+	{
+	// Initialise ourselves
+	float zNear       = cameraData.range.hither;
+	float zFar        = cameraData.range.yon;
+
+	float w = 1.0f / (float) tan ( fov * 0.5f ) ;
+	if ( aspectRatioXToY > 1.0f )
+		w = w / aspectRatioXToY ;
+
+	float h = w * aspectRatioXToY;
+
+
+	float q;
+	
+	if (isfinite( zFar ))
+	{
+		q = zFar / (zFar - zNear);
+	}
+	else
+	{
+		q = 1.0f;
+	}
+
+
+	// Set up the matrix
+	Q3Matrix4x4_SetIdentity(theMatrix);
+	theMatrix->value[0][0] = w;
+	theMatrix->value[1][1] = h;
+	theMatrix->value[2][2] = q;
+	theMatrix->value[2][3] = -1.0f;
+	theMatrix->value[3][2] = q * zNear;
+	theMatrix->value[3][3] = 0.0f;
+	}
 
