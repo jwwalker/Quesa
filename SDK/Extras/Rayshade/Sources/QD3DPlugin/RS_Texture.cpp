@@ -5,7 +5,7 @@
         RayShade geometry handlers
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -657,7 +657,9 @@ RS_SetShaderSurface(
 	 */
 	Q3Shader_GetUVTransform(*inShader, &rsPrivate->uvTransform);
 
+	rsPrivate->uvTransform.value[0][1] *= -1.0f;
 	rsPrivate->uvTransform.value[1][1] *= -1.0f;
+	rsPrivate->uvTransform.value[2][1] *= -1.0f;
 	
 	if (theTexture) Q3Object_Dispose(theTexture);
 
