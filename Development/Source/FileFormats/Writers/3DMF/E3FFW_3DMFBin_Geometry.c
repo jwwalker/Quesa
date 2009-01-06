@@ -5,7 +5,7 @@
         Quesa 3DMFBin writer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -746,7 +746,14 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 		qd3dstatus = Q3Shader_GetVBoundary (object, &vBoundary);
 		if(qd3dstatus != kQ3Success)
 			return qd3dstatus;
-			
+		
+		// The code below for writing shader boundaries is incorrect, but it is
+		// not immediately clear how to fix it, and it is better to write
+		// nothing than to write the wrong thing.  The problem relates to a QD3D
+		// design stupidity:  The code 'shdr' is used both for the shader base
+		// class and for the shader boundary data object used in 3DMF.  Since
+		// Quesa can't have 2 classes of the same type, what can we do?
+		/*
 		if((uBoundary != kQ3ShaderUVBoundaryWrap) || (vBoundary != kQ3ShaderUVBoundaryWrap)){
 		
 			boundaries = (TQ3Uns32*)Q3Memory_Allocate (8);
@@ -764,7 +771,9 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 				return qd3dstatus;
 				}
 			}
+		*/
 		}
+		
 	// Write uvTransform
 
 
