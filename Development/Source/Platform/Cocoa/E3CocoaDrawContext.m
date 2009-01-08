@@ -5,7 +5,7 @@
         Cocoa specific draw context implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,7 +50,15 @@
 
 #import <Cocoa/Cocoa.h>
 #include "E3DrawContext.h"
-#include "E3CocoaDrawContextNotify.h"
+
+
+
+
+
+//=============================================================================
+//      Internal constants
+//-----------------------------------------------------------------------------
+#define CocoaDrawContextWillCloseNotification @"CocoaDrawContextWillCloseNotification"
 
 
 
@@ -59,6 +67,14 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+@interface QuesaViewWatcher : NSObject
+{
+	TQ3DrawContextObject		drawContext;
+}
+
+- (id) initWithDrawContext:(TQ3DrawContextObject)theContext;
+
+@end
 
 
 
@@ -77,6 +93,56 @@ public :
 ///=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+@implementation QuesaViewWatcher
+
+- (id) initWithDrawContext:(TQ3DrawContextObject)theContext
+{
+	if ( (self = [super init]) != nil )
+	{
+		drawContext = theContext;
+	}
+	return self;
+}
+
+
+- (void) viewDidResize:(NSNotification*)note
+{
+	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *)
+		drawContext->FindLeafInstanceData();
+    NSRect						viewFrame;
+
+
+
+	// Grab our bounds    
+	viewFrame = [[note object] bounds];
+
+
+
+	// Reset our state, and update the size of the draw context pane    
+	instanceData->theState |= kQ3XDrawContextValidationWindowSize;
+	if (!instanceData->data.common.paneState)
+	{
+		instanceData->data.common.pane.min.x = viewFrame.origin.x;
+		instanceData->data.common.pane.min.y = viewFrame.origin.y;
+		instanceData->data.common.pane.max.x = viewFrame.origin.x + viewFrame.size.width;
+		instanceData->data.common.pane.max.y = viewFrame.origin.y + viewFrame.size.height;
+	}
+}
+
+
+
+- (void)drawContextWillClose:(NSNotification*)note
+{
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[self release];
+}
+
+
+@end
+
+
+
+//-----------------------------------------------------------------------------
 //      e3drawcontext_cocoa_new : Cocoa draw context new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -94,7 +160,18 @@ e3drawcontext_cocoa_new(TQ3Object theObject, void *privateData, const void *para
 
 
 	// Register our notification callback
-    e3cocoa_nsview_register(cocoaData->nsView, theObject);
+	QuesaViewWatcher* watcher = [[QuesaViewWatcher alloc] initWithDrawContext: theObject];
+
+	NSNotificationCenter* defaultCenter = [NSNotificationCenter defaultCenter];
+	[defaultCenter addObserver: watcher
+						selector: @selector(viewDidResize:)
+						name: NSViewFrameDidChangeNotification
+						object: (NSView*)cocoaData->nsView];
+
+	[defaultCenter addObserver: watcher
+						selector: @selector(drawContextWillClose:)
+						name: CocoaDrawContextWillCloseNotification
+						object: (NSView*)cocoaData->nsView];
 
 	return(kQ3Success);
 }
@@ -110,12 +187,13 @@ static void
 e3drawcontext_cocoa_delete(TQ3Object theObject, void *privateData)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) privateData;
 	TQ3Status					qd3dStatus;
-#pragma unused(privateData)
 
 
 
 	// Unregister our notification callback
-    e3cocoa_nsview_unregister(instanceData->data.cocoaData.theData.nsView);
+	NSNotificationCenter* defaultCenter = [NSNotificationCenter defaultCenter];
+	[defaultCenter postNotificationName: CocoaDrawContextWillCloseNotification
+				object: (NSView*) instanceData->data.cocoaData.theData.nsView];
 
 
 
