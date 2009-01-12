@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -694,7 +694,7 @@ Q3OrthographicCamera_GetBottom (
 
 
 /*!
-	@functiongroup View Plane (unimplemented)
+	@functiongroup View Plane
 */
 
 /*!
