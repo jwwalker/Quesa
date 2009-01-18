@@ -1,0 +1,23 @@
+// The base path where build products will be placed during a build for a given configuration.
+CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_Universal/$(CONFIGURATION)
+
+// Build as Framework.
+LIBRARY_STYLE = DYNAMIC
+WRAPPER_EXTENSION = framework
+INSTALL_PATH = @executable_path/../Frameworks/
+
+// Info.plist.  Preprocess it so that the version placeholder is replaced with the actual version.
+INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist
+INFOPLIST_PREPROCESS = YES
+INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h
+
+// Make the function E3MacMachoFrameworkInit (in E3MacSystem.c) be called when
+// the framework is loaded.  Currently all this function does is open the
+// resource file, which is probably not used unless you use the viewer.
+// Also note that if you require OS 10.4 or later, you could instead decorate
+// the function declaration with __attribute__((constructor)).
+INIT_ROUTINE = _E3MacMachoFrameworkInit
+
+// Functions whose declarations use the Q3_EXTERN_API_C macro will be exported
+// from the framework.
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) Q3_EXPORT_SYMBOLS=1

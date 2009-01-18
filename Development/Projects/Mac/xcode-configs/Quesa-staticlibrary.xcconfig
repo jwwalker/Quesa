@@ -1,0 +1,5 @@
+// The base path where build products will be placed during a build for a given configuration.
+CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/../../../SDK/Libraries/Mac/Static_Universal/$(CONFIGURATION)
+
+// Build as static library.
+LIBRARY_STYLE = STATIC

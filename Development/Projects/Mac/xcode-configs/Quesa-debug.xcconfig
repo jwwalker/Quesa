@@ -1,0 +1,36 @@
+#include "Quesa-common.xcconfig"
+
+
+// Don't build only the active architecture.
+// Switch to YES to only build the active arch (for faster debugging turnaround).
+ONLY_ACTIVE_ARCH = NO
+
+// Disable compiler optimizations.
+GCC_OPTIMIZATION_LEVEL = 0
+DEAD_CODE_STRIPPING = NO
+
+GCC_ENABLE_FIX_AND_CONTINUE = YES
+
+// Must be on to get debug symbols.
+GCC_GENERATE_DEBUGGING_SYMBOLS = YES
+
+// Debug symbols: embedded within the executable.
+DEBUG_INFORMATION_FORMAT = dwarf
+
+// Symbol stripping, don't remove symbols.
+DEPLOYMENT_POSTPROCESSING = NO
+STRIP_STYLE = debugging
+STRIP_INSTALLED_PRODUCT = NO
+SEPARATE_STRIP = NO
+UNSTRIPPED_PRODUCT = YES
+ONLY_LINK_ESSENTIAL_SYMBOLS = NO
+
+// Code generation optimisations.
+GCC_AUTO_VECTORIZATION = NO
+GCC_ENABLE_SSE3_EXTENSIONS = NO
+GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = NO
+
+DEPLOYMENT_POSTPROCESSING = NO
+
+// Define Q3_DEBUG in debug only.
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(QUESA_PREPROCESSOR_DEFINITIONS_COMMON) Q3_DEBUG=1
