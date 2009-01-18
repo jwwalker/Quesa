@@ -1,0 +1,35 @@
+#include "Quesa-common.xcconfig"
+
+
+// Don't build only the active architecture.
+ONLY_ACTIVE_ARCH = NO
+
+// Enable compiler optimizations.
+GCC_OPTIMIZATION_LEVEL = s
+DEAD_CODE_STRIPPING = YES
+PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES
+
+GCC_ENABLE_FIX_AND_CONTINUE = NO
+
+// Must be on even in Release in order to get the .dSYM file.
+GCC_GENERATE_DEBUGGING_SYMBOLS = YES
+
+// Debug symbols: in seperate .dSYM file.
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+
+// Symbol stripping, remove all symbols to give a smaller application.
+DEPLOYMENT_POSTPROCESSING = YES
+STRIP_STYLE = debugging // deliberate, so we have function names in crash reports.
+STRIP_INSTALLED_PRODUCT = YES
+SEPARATE_STRIP = YES
+UNSTRIPPED_PRODUCT = NO
+ONLY_LINK_ESSENTIAL_SYMBOLS = YES
+DEPLOYMENT_POSTPROCESSING = YES
+
+// Code generation optimisations.
+GCC_AUTO_VECTORIZATION = YES
+GCC_ENABLE_SSE3_EXTENSIONS = YES
+GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES
+
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(QUESA_PREPROCESSOR_DEFINITIONS_COMMON)

@@ -1,0 +1,113 @@
+// Basic preprocessor settings, always used.
+QUESA_PREPROCESSOR_DEFINITIONS_BASIC = QUESA_OS_MACINTOSH=1
+
+// Customisable preprocesses settings, set as desired.
+// QUESA_OS_COCOA=1 must be used if you will create Cocoa draw contexts.
+// QUESA_SUPPORT_HITOOLBOX=1 must be used if you will create Carbon draw contexts,
+//   and must NOT be used if you compile for 64 bits.
+// QUESA_SUPPORT_QUICKTIME=1 is needed for certain features (compressed textures,
+//   wire elements) and is not allowed when compiling for 64 bits.
+QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE = QUESA_OS_COCOA=1 QUESA_SUPPORT_HITOOLBOX=1 QUESA_SUPPORT_QUICKTIME=1
+
+// Combine the above for the compiler's use.
+QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) $(QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE)
+
+// Mac OS SDK to use, Quesa requires the 10.3 SDK or later.
+// If you want to be able to build using Xcode 2.5, use the 10.4u SDK.
+// If you will build only with Xcode 3 or later, you may as well use the 10.5
+// SDK, and you may be required to use it for certain features such as compiler
+// stack protection.
+SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
+//SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk
+
+// Prebinding is useless as of Mac OS X 10.3.something.
+PREBINDING = NO
+
+// Minimum OS versions supported.
+MACOSX_DEPLOYMENT_TARGET = 10.3
+
+// Build Universal Binary: PowerPC and Intel.
+// Use ARCHS_STANDARD_32_64_BIT for 64 bit as well.
+ARCHS = ppc i386
+
+// Compiler choice.  Quesa supports gcc 3.3 and later.
+// Important: If this is 4.2 or later, then the minimum deployment version and
+// the SDK version must be 10.5. or later.
+GCC_VERSION = 4.0
+
+// Faster Objective-C method dispatch, requires 10.4 or later.
+//GCC_FAST_OBJC_DISPATCH = YES
+
+// Objective-C 2 garbage collection feature, requires 10.5 or later, and
+// GCC 4.2 or later.
+// Quesa has not been qualified with GC, but it may in fact work fine.
+GCC_ENABLE_OBJC_GC = supported
+
+// The newer dwarf debugging format is better than stabs.
+DEBUG_INFORMATION_FORMAT = dwarf
+
+// Compiler warnings.
+GCC_WARN_ABOUT_POINTER_SIGNEDNESS = YES
+GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = YES
+GCC_WARN_SHADOW = YES
+GCC_WARN_ABOUT_RETURN_TYPE = YES
+GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES
+GCC_WARN_MISSING_PARENTHESES = YES
+GCC_WARN_ABOUT_MISSING_NEWLINE = YES
+GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES
+GCC_WARN_UNKNOWN_PRAGMAS = YES
+GCC_WARN_UNUSED_LABEL = YES
+GCC_WARN_UNUSED_VALUE = YES
+
+// C++-only warnings.
+GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES
+GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES
+QUESA_WARNINGS_ONLY_CXX = -Wabi -Wstrict-null-sentinel -Wsign-promo
+
+// Objective C-only.
+QUESA_WARNINGS_ONLY_OBJC = -Wstrict-selector-match -Wundeclared-selector
+
+// Other warnings for which Xcode has no explicit setting.
+WARNING_CFLAGS = -Wendif-labels -Wlarger-than-30000 -Wpointer-arith -Wcast-align -Wwrite-strings -Wpacked -Winvalid-pch -Wdisabled-optimization $(QUESA_WARNINGS_ONLY_CXX) $(QUESA_WARNINGS_ONLY_OBJC)
+
+// These generate many warnings (and so are off), but the warnings are mostly harmless.
+GCC_WARN_UNUSED_VARIABLE = NO
+GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO
+GCC_WARN_CHECK_SWITCH_STATEMENTS = NO
+GCC_WARN_UNUSED_FUNCTION = NO
+GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = NO
+GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO
+
+// These generate many warnings (and so are off), but should ideally be fixed!
+GCC_WARN_SIGN_COMPARE = NO
+GCC_WARN_64_TO_32_BIT_CONVERSION = NO
+
+// Product name and versions.
+PRODUCT_NAME = Quesa
+DYLIB_CURRENT_VERSION = 2.0
+DYLIB_COMPATIBILITY_VERSION = 1.6
+
+// Search paths
+HEADER_SEARCH_PATHS = ../../../SDK/Includes/Quesa
+PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO
+
+// Use and precompile the main prefix header.
+GCC_PREFIX_HEADER = ../../Source/Core/Support/E3Prefix.h
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+
+// Force all files to be compiled as Obj-C++ (regardless of their file extension).
+GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp
+
+// Separate PCH Symbols, this only applies to STABS not DWARF.
+GCC_ENABLE_SYMBOL_SEPARATION = NO
+
+// Relax IEEE Compliance.
+GCC_FAST_MATH = YES
+
+// Symbols hidden by default
+GCC_SYMBOLS_PRIVATE_EXTERN = YES
+
+// Extra debugging features, requires Xcode 3 and the 10.5 SDK.
+// QUESA_EXTRA_DEBUG = -fstack-protector -D_FORTIFY_SOURCE=2
+QUESA_EXTRA_DEBUG =
+OTHER_CFLAGS = $(inherited) $(QUESA_EXTRA_DEBUG)
