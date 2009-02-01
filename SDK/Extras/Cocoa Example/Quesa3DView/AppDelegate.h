@@ -5,7 +5,7 @@
         Header file for AppDelegate.m.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -40,21 +40,68 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
+#include <Quesa/Quesa.h>
+
+@class Quesa3DView;
 
 
-@interface AppDelegate : NSObject {
-  id quesa3dView;
-  id rendererMenu;
-  id objectMenu;
+/*!
+	@class		AppDelegate
+	
+	@abstract	Controller for the dialog and delegate of the Quesa view.
+	
+	@discussion	Contrary to the name, this object is not a delegate of the
+				application.
+				
+				Most of the window controls are set up using bindings rather
+				than action methods.
+*/
+@interface AppDelegate : NSObject
+{
+	IBOutlet Quesa3DView*		quesa3dView;
+	IBOutlet NSPopUpButton*		rendererMenu;
+	IBOutlet NSPopUpButton*		objectMenu;
+	
+	NSTimer*			mAnimationTimer;
+	BOOL				mAnimates;
+	BOOL				mDrawsShadows;
+	TQ3Object			mSceneBounds;
+	BOOL				mFullScreenAntialias;
+	NSOpenGLPixelFormat*	mPixelFormat;
+	TQ3ObjectType		mRendererType;
+	TQ3Matrix4x4		mCurrentMatrix;
+	TQ3Matrix4x4		mRotationFactor;
+	TQ3ShaderObject		mIlluminationShader;
+	TQ3ShapeObject		mSceneGeometry;
+	float				mXRotation;
+	float				mYRotation;
+	float				mZRotation;
 }
-- (void)setXRot:(id)sender;
-- (void)setYRot:(id)sender;
-- (void)setZRot:(id)sender;
-- (void)setGeometryFromTag:(id)sender;
-- (void)toggleAnimation:(id)sender;
-- (void)toggleAntialiasing:(id)sender;
-- (void)toggleShadows:(id)sender;
-- (void)setRendererFromTag:(id)sender;
-- (void)toggleBoundingBox:(id)sender;
+
+- (BOOL) drawsShadows;
+- (void) setDrawsShadows: (BOOL) shadows;
+
+- (BOOL) animates;
+- (void) setAnimates: (BOOL) animate;
+
+- (BOOL) drawsBounds;
+- (void) setDrawsBounds: (BOOL) bounds;
+
+- (BOOL) fullScreenAntialias;
+- (void) setFullScreenAntialias: (BOOL) antialias;
+
+- (TQ3ObjectType) rendererType;
+- (void) setRendererType: (TQ3ObjectType) rendererType;
+
+- (float) xRotation;
+- (void) setXRotation: (float) angleDegrees;
+
+- (float) yRotation;
+- (void) setYRotation: (float) angleDegrees;
+
+- (float) zRotation;
+- (void) setXRotation: (float) angleDegrees;
+
+- (IBAction)setGeometryFromTag:(id)sender;
 @end
