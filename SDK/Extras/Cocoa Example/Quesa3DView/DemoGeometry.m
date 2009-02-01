@@ -5,7 +5,7 @@
         Geometry creation methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1492,14 +1492,13 @@ createGeomTriMesh(void)
 
 
 TQ3GroupObject
-createGeomBounds(TQ3GeometryObject theGeom)
+createGeomBounds(TQ3GeometryObject theGeom, TQ3ViewObject aView)
 {	TQ3ColorRGB			boxColour = { 0.0f, 1.0f, 0.0f };
 	TQ3BoundingBox		theBounds;
 	TQ3ShaderObject		theShader;
 	TQ3StyleObject		theStyle;
 	TQ3GroupObject		theGroup;
 	TQ3BoxData			boxData;
-	TQ3ViewObject		theView;
 	TQ3GeometryObject	theBox;
 
 
@@ -1529,13 +1528,7 @@ createGeomBounds(TQ3GeometryObject theGeom)
 
 
 	// Calculate the bounding box
-	theView = Q3View_New();
-	if (theView == NULL)
-		return(NULL);
-
-    boundsForObject(theView,theGeom, &theBounds);
-
-	Q3Object_Dispose(theView);
+    boundsForObject(aView,theGeom, &theBounds);
 
 
 
