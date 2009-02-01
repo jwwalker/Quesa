@@ -5,7 +5,7 @@
         NSView subclass to display a quesa draw context.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -60,16 +60,35 @@
 
 
 @interface Quesa3DView(PrivateMethods)
-+ (BOOL)assureQD3DInit;
 - (void)setupQD3D;
 - (void)initQ3DrawContext;
 - (void)initQ3View;
 - (void)createDefaultLights;
 - (void)createDefaultCamera;
+- (void) frameChanged: (NSNotification*) note;
 @end
 
 
 @implementation Quesa3DView
+
+//==================================================================================
+//	initialize (class method)
+//==================================================================================
+
++ (void)initialize
+{
+	if ( self == [Quesa3DView class] )
+	{
+		TQ3Status qd3dStatus;
+		if (!Q3IsInitialized())    
+			qd3dStatus = Q3Initialize();
+			
+		if (qd3dStatus != kQ3Success)
+		{
+			NSLog(@"Error in Q3Initialize");
+		}
+	}
+}
 
 //==================================================================================
 //	initWithFrame:
@@ -77,10 +96,20 @@
 
 - (id)initWithFrame:(NSRect)frameRect
 {
+	[super initWithFrame:frameRect];
     qd3dView = NULL;
     drawContext = NULL;
-    [Quesa3DView assureQD3DInit];
-    return [super initWithFrame:frameRect];
+	
+	// Listen for frame changes to myself, so that the aspect ratio can be
+	// kept up to date.
+	[self setPostsFrameChangedNotifications: YES];
+	[[NSNotificationCenter defaultCenter]
+		addObserver: self
+		selector: @selector(frameChanged:)
+		name: NSViewFrameDidChangeNotification
+		object: self ];
+
+    return self;
 }
 
 //==================================================================================
@@ -89,6 +118,8 @@
 
 - (void)dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+
   if (qd3dView != NULL)
       Q3Object_Dispose(qd3dView);
 
@@ -291,22 +322,6 @@
 @implementation Quesa3DView(PrivateMethods)
 
 //==================================================================================
-//	assureQD3DInit
-//==================================================================================
-
-+ (BOOL)assureQD3DInit
-{
-    TQ3Status qd3dStatus;
-    if(!Q3IsInitialized())    
-      qd3dStatus = Q3Initialize();
-    if(qd3dStatus != kQ3Success)
-    {
-      NSLog(@"Error %d in Q3Initialize",(int)qd3dStatus);
-    }
-    return (BOOL)Q3IsInitialized();
-}
-
-//==================================================================================
 //	setupQD3D
 //==================================================================================
 
@@ -507,6 +522,23 @@
 	if (theCamera != NULL)
 		Q3Object_Dispose(theCamera);
 
+}
+
+- (void) frameChanged: (NSNotification*) note;
+{
+	TQ3Area							theArea;
+	TQ3CameraObject	theCamera;
+	float	aspect;
+	
+	Q3DrawContext_GetPane(drawContext, &theArea);
+	
+	aspect = (theArea.max.x - theArea.min.x) / (theArea.max.y - theArea.min.y);
+	
+	Q3View_GetCamera( qd3dView, &theCamera );
+	
+	Q3ViewAngleAspectCamera_SetAspectRatio( theCamera, aspect );
+	
+	Q3Object_Dispose( theCamera );
 }
 
 @end
