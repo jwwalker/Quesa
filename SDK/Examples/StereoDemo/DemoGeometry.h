@@ -71,6 +71,7 @@ TQ3GeometryObject createGeomTorus(void);
 TQ3GeometryObject createGeomTriangle(void);
 TQ3GeometryObject createGeomTriGrid(void);
 TQ3GeometryObject createGeomTriMesh(void);
+TQ3GroupObject createPastelGroup(void);
 
 TQ3GroupObject createGeomBounds(TQ3GeometryObject theGeom, TQ3ViewObject aView);
 

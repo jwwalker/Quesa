@@ -1141,6 +1141,76 @@ createGeomPolyLine(void)
 
 
 //=============================================================================
+//      createPastelGroup : Create a group of pale objects.
+//-----------------------------------------------------------------------------
+TQ3GroupObject createPastelGroup(void)
+{
+	TQ3GroupObject			theGroup;
+	TQ3GeometryObject		theCube, theBall, theCylinder;
+	TQ3ColorRGB				colorCube = { 0.8f, 0.8f, 0.8f };
+	TQ3ColorRGB				colorBall = { 1.0f, 0.7f, 0.7f };
+	TQ3ColorRGB				colorCyl = { 0.7f, 1.0f, 0.7f };
+	TQ3EllipsoidData		ballData =
+	{
+		{ 0.0f, 0.0f, 1.5f },	// Origin
+		{ 0.0f, 0.3f, 0.0f },	// Orientation
+		{ 0.0f, 0.0f, 0.3f },	// Major radius
+		{ 0.3f, 0.0f, 0.0f },	// Minor radius
+		0.0f, 1.0f, 0.0f, 1.0f,
+		kQ3EndCapNone, NULL, NULL
+	};
+	TQ3BoxData				cubeData =
+	{
+		{ 0.7f, 0.0f, -0.8f },	// Origin
+		{ 0.0f, 0.4f, 0.0f },	// Orientation
+		{ 0.0f, 0.0f, 0.4f },	// Major radius
+		{ 0.4f, 0.0f, 0.0f },	// Minor radius
+		NULL, NULL
+	};
+	TQ3CylinderData			cylData =
+	{
+		{ -0.7f, 0.0f, -0.8f },	// Origin
+		{ 0.0f, 0.3f, 0.0f },	// Orientation
+		{ 0.0f, 0.0f, 0.3f },	// Major radius
+		{ 0.3f, 0.0f, 0.0f },	// Minor radius
+		0.0f, 1.0f, 0.0f, 1.0f,
+		kQ3EndCapMaskTop | kQ3EndCapMaskBottom,
+		NULL, NULL, NULL, NULL, NULL
+	};
+	
+	theGroup = Q3DisplayGroup_New();
+	
+	ballData.ellipsoidAttributeSet = Q3AttributeSet_New();
+	Q3AttributeSet_Add( ballData.ellipsoidAttributeSet,
+		kQ3AttributeTypeDiffuseColor, &colorBall );
+	theBall = Q3Ellipsoid_New( &ballData );
+	Q3Object_Dispose( ballData.ellipsoidAttributeSet );
+	Q3Group_AddObject( theGroup, theBall );
+	Q3Object_Dispose( theBall );
+	
+	cubeData.boxAttributeSet = Q3AttributeSet_New();
+	Q3AttributeSet_Add( cubeData.boxAttributeSet,
+		kQ3AttributeTypeDiffuseColor, &colorCube );
+	theCube = Q3Box_New( &cubeData );
+	Q3Object_Dispose( cubeData.boxAttributeSet );
+	Q3Group_AddObject( theGroup, theCube );
+	Q3Object_Dispose( theCube );
+	
+	cylData.cylinderAttributeSet = Q3AttributeSet_New();
+	Q3AttributeSet_Add( cylData.cylinderAttributeSet,
+		kQ3AttributeTypeDiffuseColor, &colorCyl );
+	theCylinder = Q3Cylinder_New( &cylData );
+	Q3Object_Dispose( cylData.cylinderAttributeSet );
+	Q3Group_AddObject( theGroup, theCylinder );
+	Q3Object_Dispose( theCylinder );
+	
+	return theGroup;
+}
+
+
+
+
+//=============================================================================
 //      createGeomQuesa : Create the Quesa logo geometry.
 //-----------------------------------------------------------------------------
 TQ3GroupObject
