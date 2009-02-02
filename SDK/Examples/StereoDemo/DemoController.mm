@@ -88,7 +88,8 @@ enum
 	kMenuItemGeometryTorus,
 	kMenuItemGeometryTriangle,
 	kMenuItemGeometryTriGrid,
-	kMenuItemGeometryTriMesh
+	kMenuItemGeometryTriMesh,
+	kMenuItemGeometryPastelGroup
 };
 
 namespace
@@ -278,11 +279,11 @@ static void SetColorMask( const ColorMask& inMask )
 - (void) awakeFromNib
 {
 	[self buildRendererMenu];
-	[objectMenu selectItemWithTitle: @"Quesa Logo"];
+	[objectMenu selectItemWithTag: kMenuItemGeometryPastelGroup ];
+	[self setGeometryFromTag: objectMenu];
 
 	Q3Matrix4x4_SetIdentity(&mCurrentMatrix);
   	Q3Matrix4x4_SetRotate_XYZ(&mRotationFactor, 0.03f, 0.05f, 0.005f);
-    mSceneGeometry = createGeomQuesa();
     mIlluminationShader = Q3PhongIllumination_New();
 	[self initViewPlaneCamera];
 }
@@ -780,98 +781,101 @@ static void SetColorMask( const ColorMask& inMask )
   
   switch(tagVal)
   {
-      case kMenuItemGeometryBox:
-          theGeom = createGeomBox();
-          break;
+	case kMenuItemGeometryBox:
+	  theGeom = createGeomBox();
+	  break;
 
-      case kMenuItemGeometryCone:
-          theGeom = createGeomCone();
-          break;
+	case kMenuItemGeometryCone:
+	  theGeom = createGeomCone();
+	  break;
 
-      case kMenuItemGeometryCylinder:
-          theGeom = createGeomCylinder();
-          break;
+	case kMenuItemGeometryCylinder:
+	  theGeom = createGeomCylinder();
+	  break;
 
-      case kMenuItemGeometryDisk:
-          theGeom = createGeomDisk();
-          break;
+	case kMenuItemGeometryDisk:
+	  theGeom = createGeomDisk();
+	  break;
 
-      case kMenuItemGeometryEllipse:
-          theGeom = createGeomEllipse();
-          break;
+	case kMenuItemGeometryEllipse:
+	  theGeom = createGeomEllipse();
+	  break;
 
-      case kMenuItemGeometryEllipsoid:
-          theGeom = createGeomEllipsoid();
-          break;
+	case kMenuItemGeometryEllipsoid:
+	  theGeom = createGeomEllipsoid();
+	  break;
 
-      case kMenuItemGeometryGeneralPolygon:
-          theGeom = createGeomGeneralPolygon();
-          break;
+	case kMenuItemGeometryGeneralPolygon:
+	  theGeom = createGeomGeneralPolygon();
+	  break;
 
-      case kMenuItemGeometryLine:
-          theGeom = createGeomLine();
-          break;
+	case kMenuItemGeometryLine:
+	  theGeom = createGeomLine();
+	  break;
 
-      case kMenuItemGeometryMarker:
-          theGeom = createGeomMarker();
-          break;
+	case kMenuItemGeometryMarker:
+	  theGeom = createGeomMarker();
+	  break;
 
-      case kMenuItemGeometryMesh:
-          theGeom = createGeomMesh();
-          break;
+	case kMenuItemGeometryMesh:
+	  theGeom = createGeomMesh();
+	  break;
 
-      case kMenuItemGeometryNURBCurve:
-          theGeom = createGeomNURBCurve();
-          break;
+	case kMenuItemGeometryNURBCurve:
+	  theGeom = createGeomNURBCurve();
+	  break;
 
-      case kMenuItemGeometryNURBPatch:
-          theGeom = createGeomNURBPatch();
-          break;
+	case kMenuItemGeometryNURBPatch:
+	  theGeom = createGeomNURBPatch();
+	  break;
 
-      case kMenuItemGeometryPixmapMarker:
-          theGeom = createGeomPixmapMarker();
-          break;
+	case kMenuItemGeometryPixmapMarker:
+	  theGeom = createGeomPixmapMarker();
+	  break;
 
-      case kMenuItemGeometryPoint:
-          theGeom = createGeomPoint();
-          break;
+	case kMenuItemGeometryPoint:
+	  theGeom = createGeomPoint();
+	  break;
 
-      case kMenuItemGeometryPolyLine:
-          theGeom = createGeomPolyLine();
-          break;
+	case kMenuItemGeometryPolyLine:
+	  theGeom = createGeomPolyLine();
+	  break;
 
-      case kMenuItemGeometryPolygon:
-          theGeom = createGeomPolygon();
-          break;
-      
-      case kMenuItemGeometryPolyhedron:
-          theGeom = createGeomPolyhedron();
-          break;
-      
-      case kMenuItemQuesaLogo:
-          theGeom = createGeomQuesa();
-          break;
+	case kMenuItemGeometryPolygon:
+	  theGeom = createGeomPolygon();
+	  break;
 
-      case kMenuItemGeometryTriangle:
-          theGeom = createGeomTriangle();
-          break;
+	case kMenuItemGeometryPolyhedron:
+	  theGeom = createGeomPolyhedron();
+	  break;
 
-      case kMenuItemGeometryTorus:
-          theGeom = createGeomTorus();
-          break;
+	case kMenuItemQuesaLogo:
+	  theGeom = createGeomQuesa();
+	  break;
 
-      case kMenuItemGeometryTriGrid:
-          theGeom = createGeomTriGrid();
-          break;
+	case kMenuItemGeometryTriangle:
+	  theGeom = createGeomTriangle();
+	  break;
 
-      case kMenuItemGeometryTriMesh:
-          theGeom = createGeomTriMesh();
-          break;
+	case kMenuItemGeometryTorus:
+	  theGeom = createGeomTorus();
+	  break;
 
-      default:
+	case kMenuItemGeometryTriGrid:
+	  theGeom = createGeomTriGrid();
+	  break;
+
+	case kMenuItemGeometryTriMesh:
+	  theGeom = createGeomTriMesh();
+	  break;
+
+	case kMenuItemGeometryPastelGroup:
+		theGeom = createPastelGroup();
+		break;
+
+	default:
           break;
   }
-
 
 
 	// If we created it, replace the current geometry
