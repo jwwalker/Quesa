@@ -63,7 +63,7 @@
 
 enum
 {
-	kMenuItemGeometryBox,
+	kMenuItemGeometryBox = 1,
 	kMenuItemGeometryCone,
 	kMenuItemGeometryCylinder,
 	kMenuItemGeometryDisk,
