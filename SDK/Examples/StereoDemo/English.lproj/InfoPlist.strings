@@ -1,0 +1,6 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "StereoDemo";
+CFBundleShortVersionString = "StereoDemo version 0.0.1d1";
+CFBundleGetInfoString = "StereoDemo version 0.0.1d1, Copyright © 2009, Quesa Developers.";
+NSHumanReadableCopyright = "Copyright © 2009, Quesa Developers";
