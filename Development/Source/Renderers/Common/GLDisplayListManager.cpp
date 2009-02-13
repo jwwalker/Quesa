@@ -5,7 +5,7 @@
         OpenGL display list caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -71,6 +71,7 @@ namespace
 
 namespace
 {
+#pragma mark struct CachedDisplayList
 	struct CachedDisplayList
 	{
 						CachedDisplayList() {}
@@ -87,6 +88,7 @@ namespace
 		TQ3Uns32		mEditIndex;
 		GLuint			mDisplayList;
 		GLenum			mGLMode;
+		int				mModeCount;
 	};
 	
 	typedef	std::vector< CachedDisplayList >	DisplayListVec;
@@ -98,6 +100,7 @@ namespace
 											GLenum inMode );
 		void				RenderList( const CachedDisplayList* inList );
 		void				AddList( const CachedDisplayList& inList );
+		void				UpdateModeCount( TQ3GeometryObject inGeom );
 		void				FlushUnreferenced();
 		void				FlushStale();
 		
@@ -126,9 +129,9 @@ namespace
 	{
 		bool		operator()( const CachedDisplayList& inCachedDL ) const
 								{
-									return Q3Shared_IsReferenced(
-										inCachedDL.mGeomObject.get() ) ==
-										kQ3True;
+									return Q3Shared_GetReferenceCount(
+										inCachedDL.mGeomObject.get() ) >
+										inCachedDL.mModeCount;
 								}
 	};
 	
@@ -151,6 +154,7 @@ CachedDisplayList::CachedDisplayList( TQ3GeometryObject inGeom, GLenum inMode )
 	: mGeomObject( Q3Shared_GetReference( inGeom ) )
 	, mEditIndex( Q3Shared_GetEditIndex( inGeom ) )
 	, mGLMode( inMode )
+	, mModeCount( 1 )
 {
 	// Leave other fields uninitialized for now
 }
@@ -160,6 +164,7 @@ CachedDisplayList::CachedDisplayList( const CachedDisplayList& inOther )
 	, mEditIndex( inOther.mEditIndex )
 	, mDisplayList( inOther.mDisplayList )
 	, mGLMode( inOther.mGLMode )
+	, mModeCount( inOther.mModeCount )
 {
 }
 
@@ -169,6 +174,7 @@ CachedDisplayList&	CachedDisplayList::operator=( const CachedDisplayList& inOthe
 	mEditIndex = inOther.mEditIndex;
 	mDisplayList = inOther.mDisplayList;
 	mGLMode = inOther.mGLMode;
+	mModeCount = inOther.mModeCount;
 	return *this;
 }
 
@@ -194,6 +200,8 @@ static DisplayListCache* GetDisplayListCache( TQ3GLContext glContext )
 	
 	return theCache;
 }
+
+#pragma mark -
 
 CachedDisplayList*	DisplayListCache::FindDisplayList( TQ3GeometryObject inGeom,
 														GLenum inMode )
@@ -227,9 +235,36 @@ void	DisplayListCache::AddList( const CachedDisplayList& inList )
 			mDisplayLists.begin(), mDisplayLists.end(), inList, GeomLess() );
 
 		mDisplayLists.insert( placeIt, inList );
+	
+		UpdateModeCount( inList.mGeomObject.get() );
 	}
 	catch (...)
 	{
+	}
+}
+
+void	DisplayListCache::UpdateModeCount( TQ3GeometryObject inGeom )
+{
+	CachedDisplayList*	stripDL = FindDisplayList( inGeom, GL_TRIANGLE_STRIP );
+	CachedDisplayList*	triDL = FindDisplayList( inGeom, GL_TRIANGLES );
+	CachedDisplayList*	lineDL = FindDisplayList( inGeom, GL_LINES );
+	
+	int	modeCount = (stripDL? 1 : 0) + (triDL? 1 : 0) + (lineDL? 1 : 0);
+	
+	if (modeCount > 0)
+	{
+		if (stripDL)
+		{
+			stripDL->mModeCount = modeCount;
+		}
+		if (triDL)
+		{
+			triDL->mModeCount = modeCount;
+		}
+		if (lineDL)
+		{
+			lineDL->mModeCount = modeCount;
+		}
 	}
 }
 
@@ -240,13 +275,19 @@ void	DisplayListCache::FlushStale()
 	DisplayListVec::iterator startStale = std::stable_partition(
 		mDisplayLists.begin(), mDisplayLists.end(), IsNotStale() );
 	
+	// Make a copy of the records that will go away
+	DisplayListVec	doomedDLs( startStale, mDisplayLists.end() );
+	
+	// Remove them from the normal array
+	mDisplayLists.erase( startStale, mDisplayLists.end() );
+	
 	// Delete the lists for the records that are going away
-	for (DisplayListVec::iterator i = startStale; i != mDisplayLists.end(); ++i)
+	for (DisplayListVec::iterator i = doomedDLs.begin(); i != doomedDLs.end(); ++i)
 	{
 		glDeleteLists( i->mDisplayList, 1 );
+		
+		UpdateModeCount( i->mGeomObject.get() );
 	}
-	
-	mDisplayLists.erase( startStale, mDisplayLists.end() );
 }
 
 
@@ -256,13 +297,19 @@ void	DisplayListCache::FlushUnreferenced()
 	DisplayListVec::iterator startUnused = std::stable_partition(
 		mDisplayLists.begin(), mDisplayLists.end(), IsReferenced() );
 	
+	// Make a copy of the records that will go away
+	DisplayListVec	doomedDLs( startUnused, mDisplayLists.end() );
+	
+	// Remove them from the normal array
+	mDisplayLists.erase( startUnused, mDisplayLists.end() );
+
 	// Delete the lists for the records that are going away
-	for (DisplayListVec::iterator i = startUnused; i != mDisplayLists.end(); ++i)
+	for (DisplayListVec::iterator i = doomedDLs.begin(); i != doomedDLs.end(); ++i)
 	{
 		glDeleteLists( i->mDisplayList, 1 );
+		
+		UpdateModeCount( i->mGeomObject.get() );
 	}
-	
-	mDisplayLists.erase( startUnused, mDisplayLists.end() );
 }
 
 
