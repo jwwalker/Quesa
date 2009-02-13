@@ -5,7 +5,7 @@
         Quesa OpenGL vertex buffer object caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -106,6 +106,7 @@ typedef void (APIENTRY * BufferSubDataARBProcPtr) (GLenum target,
 
 namespace
 {
+#pragma mark struct CachedVBO
 	struct CachedVBO
 	{
 						CachedVBO() {}
@@ -126,6 +127,7 @@ namespace
 		TQ3Uns32		mNormalBufferOffset;
 		TQ3Uns32		mColorBufferOffset;
 		TQ3Uns32		mTextureUVBufferOffset;
+		int				mModeCount;
 	};
 	
 	typedef	std::vector< CachedVBO >	CachedVBOVec;
@@ -139,6 +141,7 @@ namespace
 		CachedVBO*		FindVBO( TQ3GeometryObject inGeom, GLenum inMode );
 		void			RenderVBO( const CachedVBO* inCachedVBO );
 		void			AddVBO( const CachedVBO& inVBO );
+		void			UpdateModeCount( TQ3GeometryObject inGeom );
 		void			FlushUnreferenced();
 		void			FlushStale();
 
@@ -173,9 +176,9 @@ namespace
 	{
 		bool			operator()( const CachedVBO& inCachedVBO ) const
 								{
-									return Q3Shared_IsReferenced(
-										inCachedVBO.mGeomObject.get() ) ==
-										kQ3True;
+									return Q3Shared_GetReferenceCount(
+										inCachedVBO.mGeomObject.get() ) >
+										inCachedVBO.mModeCount;
 								}
 	};
 	
@@ -199,11 +202,6 @@ static inline GLvoid* BufferObPtr( GLuint offset )
 	return (GLvoid*)( ((char*)NULL) + offset );
 }
 
-bool	CachedVBO::IsStale() const
-{
-	return Q3Shared_GetEditIndex( mGeomObject.get() ) != mEditIndex;
-}
-
 
 static VBOCache* GetVBOCache( TQ3GLContext glContext )
 {
@@ -223,10 +221,13 @@ static VBOCache* GetVBOCache( TQ3GLContext glContext )
 	return theCache;
 }
 
+#pragma mark -
+
 CachedVBO::CachedVBO( TQ3GeometryObject inGeom, GLenum inMode )
 	: mGeomObject( Q3Shared_GetReference( inGeom ) )
 	, mEditIndex( Q3Shared_GetEditIndex( inGeom ) )
 	, mGLMode( inMode )
+	, mModeCount( 1 )
 {
 	// Leave other fields uninitialized for now
 }
@@ -240,6 +241,7 @@ CachedVBO::CachedVBO( const CachedVBO& inOther )
 	, mNormalBufferOffset( inOther.mNormalBufferOffset )
 	, mColorBufferOffset( inOther.mColorBufferOffset )
 	, mTextureUVBufferOffset( inOther.mTextureUVBufferOffset )
+	, mModeCount( inOther.mModeCount )
 {
 	mGLBufferNames[0] = inOther.mGLBufferNames[0];
 	mGLBufferNames[1] = inOther.mGLBufferNames[1];
@@ -259,10 +261,17 @@ CachedVBO&		CachedVBO::operator=( const CachedVBO& inOther )
 	mNormalBufferOffset = inOther.mNormalBufferOffset;
 	mColorBufferOffset = inOther.mColorBufferOffset;
 	mTextureUVBufferOffset = inOther.mTextureUVBufferOffset;
+	mModeCount = inOther.mModeCount;
 	
 	return *this;
 }
 
+bool	CachedVBO::IsStale() const
+{
+	return Q3Shared_GetEditIndex( mGeomObject.get() ) != mEditIndex;
+}
+
+#pragma mark -
 
 VBOCache::VBOCache()
 	: glGenBuffersARBProc( NULL )
@@ -321,6 +330,33 @@ void	VBOCache::AddVBO( const CachedVBO& inVBO )
 		mCachedVBOs.end(), inVBO, VBOLess() );
 
 	mCachedVBOs.insert( placeIt, inVBO );
+	
+	UpdateModeCount( inVBO.mGeomObject.get() );
+}
+
+void	VBOCache::UpdateModeCount( TQ3GeometryObject inGeom )
+{
+	CachedVBO*	stripVBO = FindVBO( inGeom, GL_TRIANGLE_STRIP );
+	CachedVBO*	triVBO = FindVBO( inGeom, GL_TRIANGLES );
+	CachedVBO*	lineVBO = FindVBO( inGeom, GL_LINES );
+	
+	int	modeCount = (stripVBO? 1 : 0) + (triVBO? 1 : 0) + (lineVBO? 1 : 0);
+	
+	if (modeCount > 0)
+	{
+		if (stripVBO)
+		{
+			stripVBO->mModeCount = modeCount;
+		}
+		if (triVBO)
+		{
+			triVBO->mModeCount = modeCount;
+		}
+		if (lineVBO)
+		{
+			lineVBO->mModeCount = modeCount;
+		}
+	}
 }
 
 void VBOCache::RenderVBO( const CachedVBO* inCachedVBO )
@@ -356,20 +392,25 @@ void VBOCache::RenderVBO( const CachedVBO* inCachedVBO )
 	(*glBindBufferARBProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
 }
 
-
 void	VBOCache::FlushUnreferenced()
 {
 	// Move unreferenced VBOs to end of list
 	CachedVBOVec::iterator startUnused = std::stable_partition(
 		mCachedVBOs.begin(), mCachedVBOs.end(), IsReferenced() );
 	
+	// Make a copy of the records that will go away
+	CachedVBOVec	doomedVBOs( startUnused, mCachedVBOs.end() );
+	
+	// Remove them from the normal array
+	mCachedVBOs.erase( startUnused, mCachedVBOs.end() );
+
 	// Delete the buffers for the VBO records that are going away
-	for (CachedVBOVec::iterator i = startUnused; i != mCachedVBOs.end(); ++i)
+	for (CachedVBOVec::iterator i = doomedVBOs.begin(); i != doomedVBOs.end(); ++i)
 	{
 		(*glDeleteBuffersARBProc)( 2, i->mGLBufferNames );
+		
+		UpdateModeCount( i->mGeomObject.get() );
 	}
-	
-	mCachedVBOs.erase( startUnused, mCachedVBOs.end() );
 }
 
 void	VBOCache::FlushStale()
@@ -378,13 +419,19 @@ void	VBOCache::FlushStale()
 	CachedVBOVec::iterator startStale = std::stable_partition(
 		mCachedVBOs.begin(), mCachedVBOs.end(), IsNotStale() );
 	
+	// Make a copy of the records that will go away
+	CachedVBOVec	doomedVBOs( startStale, mCachedVBOs.end() );
+	
+	// Remove them from the normal array
+	mCachedVBOs.erase( startStale, mCachedVBOs.end() );
+	
 	// Delete the buffers for the VBO records that are going away
-	for (CachedVBOVec::iterator i = startStale; i != mCachedVBOs.end(); ++i)
+	for (CachedVBOVec::iterator i = doomedVBOs.begin(); i != doomedVBOs.end(); ++i)
 	{
 		(*glDeleteBuffersARBProc)( 2, i->mGLBufferNames );
+		
+		UpdateModeCount( i->mGeomObject.get() );
 	}
-	
-	mCachedVBOs.erase( startStale, mCachedVBOs.end() );
 }
 
 
