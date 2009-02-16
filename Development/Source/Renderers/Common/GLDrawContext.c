@@ -5,7 +5,7 @@
         Quesa OpenGL draw context support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1206,10 +1206,12 @@ MacGLContext::MacGLContext(
 			{
 			macContext = aglCreateContext(pixelFormat, NULL);
 			
-			#if TARGET_RT_MAC_CFM
-			if (macContext == NULL)
+			#if TARGET_CPU_PPC
+			if ( (macContext == NULL) && createdPixelFormat )
 				{
-				// Workaround for Rosetta bug:  try again with a fresh pixel format
+				// Workaround for Rosetta bug (<rdar://4499987>) in which trying
+				// to share textures between onscreen and offscreen contexts
+				// corrupts the pixel format:  try again with a fresh pixel format
 				aglDestroyPixelFormat(pixelFormat);
 				pixelFormat = gldrawcontext_mac_choose_pixel_format( depthBits,
 					stencilBits, drawContextData.doubleBufferState,
