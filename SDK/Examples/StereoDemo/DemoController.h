@@ -52,7 +52,10 @@ typedef enum
 	kLeftRightFormat_BlueYellow,
 	kLeftRightFormat_CyanRed,
 	kLeftRightFormat_MagentaGreen,
-	kLeftRightFormat_YellowBlue
+	kLeftRightFormat_YellowBlue,
+	
+	kLeftRightFormat_EvenOdd,
+	kLeftRightFormat_OddEven
 } ELeftRightFormat;
 
 
@@ -75,6 +78,7 @@ typedef enum
 	BOOL				mDrawsShadows;
 	TQ3Object			mSceneBounds;
 	BOOL				mFullScreenAntialias;
+	BOOL				mIsFirstPassForEye;
 	NSOpenGLPixelFormat*	mPixelFormat;
 	TQ3ObjectType		mRendererType;
 	TQ3Matrix4x4		mCurrentMatrix;
