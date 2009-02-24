@@ -102,26 +102,64 @@ namespace
 		GLboolean	alpha;
 	};
 	
-	const TQ3ColorARGB	kClearColor = { 1.0f, 0.0f, 0.0f, 0.0f };
+	const ColorMask kWhiteMask = { GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE };
+
+	const ColorMask kRedMask = { GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE };
+	const ColorMask kGreenMask = { GL_FALSE, GL_TRUE, GL_FALSE, GL_TRUE };
+	const ColorMask kBlueMask = { GL_FALSE, GL_FALSE, GL_TRUE, GL_TRUE };
+
+	const ColorMask kCyanMask = { GL_FALSE, GL_TRUE, GL_TRUE, GL_TRUE };
+	const ColorMask kMagentaMask = { GL_TRUE, GL_FALSE, GL_TRUE, GL_TRUE };
+	const ColorMask kYellowMask = { GL_TRUE, GL_TRUE, GL_FALSE, GL_TRUE };
+	
+	const TQ3ColorARGB	kClearColor = { 1.0f, 0.0f, 0.1f, 0.0f };
 	
 	const ColorMask kLeftColorMasks[] =
 	{
-		{ GL_TRUE, GL_FALSE, GL_FALSE, GL_ALPHA },
-		{ GL_FALSE, GL_TRUE, GL_FALSE, GL_ALPHA },
-		{ GL_FALSE, GL_FALSE, GL_TRUE, GL_ALPHA },
-		{ GL_FALSE, GL_TRUE, GL_TRUE, GL_ALPHA },
-		{ GL_TRUE, GL_FALSE, GL_TRUE, GL_ALPHA },
-		{ GL_TRUE, GL_TRUE, GL_FALSE, GL_ALPHA }
+		kRedMask,
+		kGreenMask,
+		kBlueMask,
+		kCyanMask,
+		kMagentaMask,
+		kYellowMask,
+		kWhiteMask,
+		kWhiteMask
 	};
 	
 	const ColorMask kRightColorMasks[] =
 	{
-		{ GL_FALSE, GL_TRUE, GL_TRUE, GL_ALPHA },
-		{ GL_TRUE, GL_FALSE, GL_TRUE, GL_ALPHA },
-		{ GL_TRUE, GL_TRUE, GL_FALSE, GL_ALPHA },
-		{ GL_TRUE, GL_FALSE, GL_FALSE, GL_ALPHA },
-		{ GL_FALSE, GL_TRUE, GL_FALSE, GL_ALPHA },
-		{ GL_FALSE, GL_FALSE, GL_TRUE, GL_ALPHA }
+		kCyanMask,
+		kMagentaMask,
+		kYellowMask,
+		kRedMask,
+		kGreenMask,
+		kBlueMask,
+		kWhiteMask,
+		kWhiteMask
+	};
+	
+	const UInt32	kEvenRowStipple[] =
+	{
+		0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+		0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+		0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+		0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+		0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+		0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+		0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+		0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF
+	};
+	
+	const UInt32	kOddRowStipple[] =
+	{
+		0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+		0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+		0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+		0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+		0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+		0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+		0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+		0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000
 	};
 }
 
@@ -393,6 +431,25 @@ static void SetColorMask( const ColorMask& inMask )
 	return isMarking;
 }
 
+- (BOOL) isColorMaskFormat
+{
+	BOOL isColorMask = YES;
+	
+	switch ([self leftRightFormat])
+	{
+		default:
+			isColorMask = YES;
+			break;
+	
+		case kLeftRightFormat_EvenOdd:
+		case kLeftRightFormat_OddEven:
+			isColorMask = NO;
+			break;
+	}
+	
+	return isColorMask;
+}
+
 - (void) setUpCameraAtOffset: (float) xOffset
 {
 	if (mViewPlaneCamera == NULL)
@@ -443,6 +500,70 @@ static void SetColorMask( const ColorMask& inMask )
 	Q3ViewPlaneCamera_SetCenterX( mViewPlaneCamera, - xOffset );
 }
 
+- (void) clearColorWithStipple
+{
+	// We need to clear the colors of the pixels admitted by the stipple mask,
+	// but glClear does not respect glPolygonStipple...
+	glMatrixMode( GL_MODELVIEW );
+	glPushMatrix();
+	glLoadIdentity();	// set modelview matrix to identity
+	glMatrixMode( GL_PROJECTION );
+	glPushMatrix();
+	glLoadIdentity();	// set projection matrix to identity
+	
+	glPushAttrib( GL_ENABLE_BIT | GL_DEPTH_BUFFER_BIT );
+	
+	glDisable( GL_LIGHTING );
+	glDisable( GL_TEXTURE_2D );
+	glDisable( GL_BLEND );
+	glDisable( GL_CULL_FACE );
+	glDisable( GL_DEPTH_TEST );
+	glDisable( GL_STENCIL_TEST );
+	glDepthMask( GL_FALSE );
+	
+	glColor3f( kClearColor.r, kClearColor.g, kClearColor.b );
+	
+	glBegin( GL_QUADS );
+	
+	glVertex2f( -1.0f, -1.0f );
+	glVertex2f( -1.0f, 1.0f );
+	glVertex2f( 1.0f, 1.0f );
+	glVertex2f( 1.0f, -1.0f );
+	
+	glEnd();
+	
+	glPopAttrib();
+	
+	glPopMatrix();	// restore projection
+	glMatrixMode( GL_MODELVIEW );
+	glPopMatrix();	// restore modelview
+}
+
+- (void) setStipple
+{
+	// Set the parity of the stipple pattern according to the parity of the y
+	// coordinate of the bottom of the view, in screen coordinates.
+	
+	// If you want to keep the image up to date even if the rendered image is
+	// not continually changing, you would need to watch for notifications of
+	// the window being moved, or the view moving inside the window.
+	
+	NSPoint windowCoordOrigin = [quesa3dView convertPoint: NSZeroPoint toView: nil];
+	NSPoint screenCoordOrigin = [[quesa3dView window]
+		convertBaseToScreen: windowCoordOrigin ];
+	int yCoord = ::lround( screenCoordOrigin.y );
+	BOOL isEvenBase = ((yCoord % 2) == 0);
+	BOOL useEvenOnRight = [self leftRightFormat] == kLeftRightFormat_OddEven;
+	if (isEvenBase == useEvenOnRight)
+	{
+		glPolygonStipple( (const GLubyte*) kEvenRowStipple );
+	}
+	else
+	{
+		glPolygonStipple( (const GLubyte*) kOddRowStipple );
+	}
+}
+
 - (void) setUpLeftEye
 {
 	TQ3DrawContextObject theDC = [quesa3dView drawContext];
@@ -471,6 +592,7 @@ static void SetColorMask( const ColorMask& inMask )
 {
 	if (not [self isMarkingPass: view])
 	{
+		glDisable( GL_POLYGON_STIPPLE );
 		SetColorMask( kLeftColorMasks[ [self leftRightFormat] - 1 ] );
 	}
 }
@@ -480,6 +602,17 @@ static void SetColorMask( const ColorMask& inMask )
 	if (not [self isMarkingPass: view])
 	{
 		SetColorMask( kRightColorMasks[ [self leftRightFormat] - 1 ] );
+		
+		if (not [self isColorMaskFormat])
+		{
+			glEnable( GL_POLYGON_STIPPLE );
+			[self setStipple];
+			
+			if (mIsFirstPassForEye)
+			{
+				[self clearColorWithStipple];
+			}
+		}
 	}
 }
 
@@ -490,11 +623,13 @@ static void SetColorMask( const ColorMask& inMask )
 		// Clear the color buffer
 		glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
 		glClear( GL_COLOR_BUFFER_BIT );
+		mIsFirstPassForEye = YES;
 		
 		do
 		{
 			[self beginLeftPass: view];
 			[self submitObjects: view];
+			mIsFirstPassForEye = NO;
 		}
 		while (Q3View_EndRendering(view) == kQ3ViewStatusRetraverse);
 	}
@@ -504,10 +639,13 @@ static void SetColorMask( const ColorMask& inMask )
 {
 	if (Q3View_StartRendering(view) == kQ3Success)
 	{
+		mIsFirstPassForEye = YES;
+
 		do
 		{
 			[self beginRightPass: view];
 			[self submitObjects: view];
+			mIsFirstPassForEye = NO;
 		}
 		while (Q3View_EndRendering(view) == kQ3ViewStatusRetraverse);
 	}
@@ -914,7 +1052,9 @@ static void SetColorMask( const ColorMask& inMask )
 
 -(void)quesaViewRenderFrame:(Quesa3DView*)inView
 {
-	// No automatic clearing by Quesa, we will handle it here
+	Q3DrawContext_SetClearImageColor( [quesa3dView drawContext], &kClearColor );
+
+	// No automatic clearing by Quesa, we will handle it manually
 	Q3DrawContext_SetClearImageMethod( [quesa3dView drawContext],
 		kQ3ClearMethodNone );
 
