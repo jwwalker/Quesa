@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -113,8 +113,32 @@
 //		are preserved in case we need a generic NxN approach in the future.
 //-----------------------------------------------------------------------------
 
+//=============================================================================
+// AdvancePointer, AdvanceConstPointer templates
+//-----------------------------------------------------------------------------
+//		Previously, if we had a pointer such as
+//			TQ3Vector3D*	vecs;
+//		and we wanted to advance it by n bytes, we did this:
+//			((char*&) vecs) += n;
+//		However, gcc 4.0 and 4.2, using maximum optimization and the auto-
+//		vectorization option, produced bad code from this.  As a workaround, we
+//		now advance pointers using these templates.
 
+template< typename T>
+static void AdvancePointer( T*& ioPtr, TQ3Uns32 inCount )
+{
+	char*	ptr = reinterpret_cast<char*>( ioPtr );
+	ptr += inCount;
+	ioPtr = reinterpret_cast<T*>( ptr );
+}
 
+template< typename T>
+static void AdvanceConstPointer( const T*& ioPtr, TQ3Uns32 inCount )
+{
+	const char*	ptr = reinterpret_cast<const char*>( ioPtr );
+	ptr += inCount;
+	ioPtr = reinterpret_cast<const T*>( ptr );
+}
 
 
 //=============================================================================
@@ -1077,10 +1101,10 @@ E3Vector3D_DotArray(
 			*outDotProducts      = dotProduct;	
 			*outDotLessThanZeros = (TQ3Boolean) (dotProduct < 0.0f);
 
-			((const char*&) inFirstVectors3D) += inStructSize;
-			((const char*&) inSecondVectors3D) += inStructSize;
-			((char*&) outDotProducts) += outDotProductStructSize;
-			((char*&) outDotLessThanZeros) += outDotLessThanZeroStructSize;
+			AdvanceConstPointer( inFirstVectors3D, inStructSize );
+			AdvanceConstPointer( inSecondVectors3D, inStructSize );
+			AdvancePointer( outDotProducts, outDotProductStructSize );
+			AdvancePointer( outDotLessThanZeros, outDotLessThanZeroStructSize );
 		}
 	}
 
@@ -1091,9 +1115,9 @@ E3Vector3D_DotArray(
 			dotProduct           = Q3Vector3D_Dot(inFirstVectors3D, inSecondVectors3D);
 			*outDotProducts      = dotProduct;	
 
-			((const char*&) inFirstVectors3D) += inStructSize;
-			((const char*&) inSecondVectors3D) += inStructSize;
-			((char*&) outDotProducts) += outDotProductStructSize;
+			AdvanceConstPointer( inFirstVectors3D, inStructSize );
+			AdvanceConstPointer( inSecondVectors3D, inStructSize );
+			AdvancePointer( outDotProducts, outDotProductStructSize );
 		}
 	}
 
@@ -1104,9 +1128,9 @@ E3Vector3D_DotArray(
 			dotProduct           = Q3Vector3D_Dot(inFirstVectors3D, inSecondVectors3D);
 			*outDotLessThanZeros = (TQ3Boolean) (dotProduct < 0.0f);
 
-			((const char*&) inFirstVectors3D) += inStructSize;
-			((const char*&) inSecondVectors3D) += inStructSize;
-			((char*&) outDotLessThanZeros) += outDotLessThanZeroStructSize;
+			AdvanceConstPointer( inFirstVectors3D, inStructSize );
+			AdvanceConstPointer( inSecondVectors3D, inStructSize );
+			AdvancePointer( outDotLessThanZeros, outDotLessThanZeroStructSize );
 		}
 	}
 	
@@ -2263,8 +2287,8 @@ E3Vector2D_To2DTransformArray(const TQ3Vector2D		*inVectors2D,
 	{
 		E3Vector2D_Transform(inVectors2D, matrix3x3, outVectors2D);
 
-		((const char*&) inVectors2D) += inStructSize;
-		((char*&) outVectors2D) += outStructSize;
+		AdvanceConstPointer( inVectors2D, inStructSize );
+		AdvancePointer( outVectors2D, outStructSize );
 	}
 
 	return(kQ3Success);
@@ -2293,8 +2317,8 @@ E3Vector3D_To3DTransformArray(const TQ3Vector3D		*inVectors3D,
 	{
 		E3Vector3D_Transform(inVectors3D, matrix4x4, outVectors3D);
 
-		((const char*&) inVectors3D) += inStructSize;
-		((char*&) outVectors3D) += outStructSize;
+		AdvanceConstPointer( inVectors3D, inStructSize );
+		AdvancePointer( outVectors3D, outStructSize );
 	}
 
 	return(kQ3Success);
@@ -2323,8 +2347,8 @@ E3Point2D_To2DTransformArray(const TQ3Point2D		*inPoints2D,
 	{
 		E3Point2D_Transform(inPoints2D, matrix3x3, outPoints2D);
 
-		((const char*&) inPoints2D) += inStructSize;
-		((char*&) outPoints2D) += outStructSize;
+		AdvanceConstPointer( inPoints2D, inStructSize );
+		AdvancePointer( outPoints2D, outStructSize );
 	}
 
 	return(kQ3Success);
@@ -2356,8 +2380,8 @@ E3Point2D_To3DTransformArray(const TQ3Point2D		*inPoints2D,
 		outRationalPoints3D->w = inPoints2D->x*M(0,2) + inPoints2D->y*M(1,2) + M(2,2);
 		#undef M
 
-		((const char*&) inPoints2D) += inStructSize;
-		((char*&) outRationalPoints3D) += outStructSize;
+		AdvanceConstPointer( inPoints2D, inStructSize );
+		AdvancePointer( outRationalPoints3D, outStructSize );
 	}
 
 	return(kQ3Success);
@@ -2387,8 +2411,8 @@ E3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D	*inRationalPoints3
 	{
 		E3RationalPoint3D_Transform(inRationalPoints3D, matrix3x3, outRationalPoints3D);
 
-		((const char*&) inRationalPoints3D) += inStructSize;
-		((char*&) outRationalPoints3D) += outStructSize;
+		AdvanceConstPointer( inRationalPoints3D, inStructSize );
+		AdvancePointer( outRationalPoints3D, outStructSize );
 	}
 
 	return(kQ3Success);
@@ -2418,8 +2442,8 @@ E3Point3D_To3DTransformArray(const TQ3Point3D		*inPoints3D,
 	{
 		E3Point3D_Transform(inPoints3D, matrix4x4, outPoints3D);
 
-		((const char*&) inPoints3D) += inStructSize;
-		((char*&) outPoints3D) += outStructSize;
+		AdvanceConstPointer( inPoints3D, inStructSize );
+		AdvancePointer( outPoints3D, outStructSize );
 	}
 
 	return(kQ3Success);
@@ -2452,8 +2476,8 @@ E3Point3D_To4DTransformArray(const TQ3Point3D		*inPoints3D,
 		outRationalPoints4D->w = inPoints3D->x*M(0,3) + inPoints3D->y*M(1,3) + inPoints3D->z*M(2,3) + M(3,3);
 		#undef M
 		
-		((const char*&) inPoints3D) += inStructSize;
-		((char*&) outRationalPoints4D) += outStructSize;
+		AdvanceConstPointer( inPoints3D, inStructSize );
+		AdvancePointer( outRationalPoints4D, outStructSize );
 	}
 
 	return(kQ3Success);
@@ -2483,8 +2507,8 @@ E3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D	*inRationalPoints4
 	{
 		E3RationalPoint4D_Transform(inRationalPoints4D, matrix4x4, outRationalPoints4D);
 		
-		((const char*&) inRationalPoints4D) += inStructSize;
-		((char*&) outRationalPoints4D) += outStructSize;
+		AdvanceConstPointer( inRationalPoints4D, inStructSize );
+		AdvancePointer( outRationalPoints4D, outStructSize );
 	}
 
 	return(kQ3Success);
@@ -4545,7 +4569,7 @@ E3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *p
 
 			// Set the (initial) radius of the bounding sphere to the maximum distance from the origin
 			radiusSquared = 0.0f;
-			for (i = 0, currPoint3D = points3D; i < numPoints; ++i, ((const char *&) currPoint3D) += structSize)
+			for (i = 0, currPoint3D = points3D; i < numPoints; ++i, AdvanceConstPointer( currPoint3D, structSize ))
 			{
 				float currRadiusSquared = Q3Point3D_DistanceSquared(&origin, currPoint3D);
 
