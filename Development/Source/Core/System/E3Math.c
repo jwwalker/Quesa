@@ -125,7 +125,7 @@
 //		now advance pointers using these templates.
 
 template< typename T>
-static void AdvancePointer( T*& ioPtr, TQ3Uns32 inCount )
+inline void AdvancePointer( T*& ioPtr, TQ3Uns32 inCount )
 {
 	char*	ptr = reinterpret_cast<char*>( ioPtr );
 	ptr += inCount;
@@ -133,7 +133,7 @@ static void AdvancePointer( T*& ioPtr, TQ3Uns32 inCount )
 }
 
 template< typename T>
-static void AdvanceConstPointer( const T*& ioPtr, TQ3Uns32 inCount )
+inline void AdvanceConstPointer( const T*& ioPtr, TQ3Uns32 inCount )
 {
 	const char*	ptr = reinterpret_cast<const char*>( ioPtr );
 	ptr += inCount;
