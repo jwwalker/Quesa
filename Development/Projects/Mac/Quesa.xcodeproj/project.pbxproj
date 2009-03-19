@@ -1641,7 +1641,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE499C9A0F145E950060DF4E /* Quesa-framework.xcconfig */;
 			buildSettings = {
-				ARCHS = i386;
 			};
 			name = Debug;
 		};
