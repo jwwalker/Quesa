@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,7 @@
 #include "QOGLShadingLanguage.h"
 
 #include <algorithm>
+#include <stdint.h>
 
 using namespace QORenderer;
 
@@ -324,7 +325,7 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	Q3Matrix4x4_SetIdentity( &mCurCameraTransform.worldToCamera );
 	Q3Matrix4x4_SetIdentity( &mCurCameraTransform.cameraToFrustum );
 	Q3CameraTransform_Submit (&mCurCameraTransform, inView );
-	mCurCameraToFrustumIndex = ULONG_MAX;
+	mCurCameraToFrustumIndex = UINT32_MAX;
 
 	// We also enable blending
 	glEnable( GL_BLEND );
@@ -353,7 +354,7 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 
 	glDisable( GL_TEXTURE_2D );
 	mCurTexture = 0;
-	mCurUVTransformIndex = ULONG_MAX;
+	mCurUVTransformIndex = UINT32_MAX;
 	mCurUBoundary = kQ3ShaderUVBoundarySize32;
 	mCurVBoundary = kQ3ShaderUVBoundarySize32;
 	
@@ -680,7 +681,7 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	Q3Matrix4x4_SetIdentity( &mCurCameraTransform.worldToCamera );
 	Q3Matrix4x4_SetIdentity( &mCurCameraTransform.cameraToFrustum );
 	Q3CameraTransform_Submit (&mCurCameraTransform, inView );
-	mCurCameraToFrustumIndex = ULONG_MAX;
+	mCurCameraToFrustumIndex = UINT32_MAX;
 	
 	TQ3FillStyle	theFillStyle = kQ3FillStyleFilled;
 	mRenderer.UpdateFillStyle( &theFillStyle );
@@ -696,7 +697,7 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	glDisable( GL_BLEND );
 	glDisable( GL_TEXTURE_2D );
 	mCurTexture = 0;
-	mCurUVTransformIndex = ULONG_MAX;
+	mCurUVTransformIndex = UINT32_MAX;
 	mCurUBoundary = kQ3ShaderUVBoundarySize32;
 	mCurVBoundary = kQ3ShaderUVBoundarySize32;
 	glDisable( GL_DITHER );
