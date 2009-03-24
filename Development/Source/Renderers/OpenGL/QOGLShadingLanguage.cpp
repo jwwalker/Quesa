@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -411,7 +411,8 @@ namespace
 									if (sGLError != GL_NO_ERROR)	\
 									{	\
 										char	xmsg[200];	\
-										sprintf( xmsg, "glGetError() is %d", \
+										snprintf( xmsg, sizeof(xmsg),	\
+											"glGetError() is %d", \
 											(int)sGLError );	\
 										E3Assert(__FILE__, __LINE__, xmsg);	\
 									} \
@@ -463,8 +464,8 @@ static void ReplaceAllSubstrByInt( std::string& ioString,
 								const char* inFindSub,
 								unsigned int inReplacement )
 {
-	char	intAsStr[10];
-	std::sprintf( intAsStr, "%d", inReplacement );
+	char	intAsStr[11];
+	std::snprintf( intAsStr, sizeof(intAsStr), "%d", inReplacement );
 	std::string::size_type	place;
 	std::string::size_type	len = std::strlen( inFindSub );
 	
