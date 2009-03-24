@@ -659,7 +659,8 @@ FBORec::FBORec(
 	#if Q3_DEBUG
 		{
 			char		theString[kQ3StringMaximumLength];
-			sprintf( theString, "FBO status check returned error %X\n", (int)result );
+			snprintf( theString, sizeof(theString),
+				"FBO status check returned error %X\n", (int)result );
 			Q3_MESSAGE( theString );
 		}
 	#endif
@@ -1787,7 +1788,8 @@ WinGLContext::WinGLContext(
 		TQ3Int32	error = GetLastError();
 	#if Q3_DEBUG
 		char		theString[kQ3StringMaximumLength];
-		sprintf( theString, "SetPixelFormat error %d in WinGLContext::WinGLContext.", error );
+		snprintf( theString, sizeof(theString),
+			"SetPixelFormat error %d in WinGLContext::WinGLContext.", error );
 		E3Assert( __FILE__, __LINE__, theString );
 	#endif
 		
@@ -1879,7 +1881,8 @@ WinGLContext::~WinGLContext()
 		{
 			TQ3Int32	error = GetLastError();
 			char		theString[kQ3StringMaximumLength];
-			sprintf( theString, "wglMakeCurrent error %d in gldrawcontext_win_destroy.", error );
+			snprintf( theString, sizeof(theString),
+				"wglMakeCurrent error %d in gldrawcontext_win_destroy.", error );
 			E3Assert( __FILE__, __LINE__, theString );
 		}
 	#endif
@@ -1893,7 +1896,8 @@ WinGLContext::~WinGLContext()
 		{
 			TQ3Int32	error = GetLastError();
 			char		theString[kQ3StringMaximumLength];
-			sprintf( theString, "wglDeleteContext error %d in gldrawcontext_win_destroy.", error );
+			snprintf( theString, sizeof(theString),
+				"wglDeleteContext error %d in gldrawcontext_win_destroy.", error );
 			E3Assert( __FILE__, __LINE__, theString );
 		}
 	#endif
@@ -1982,7 +1986,8 @@ void	WinGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 		{
 			TQ3Int32	error = GetLastError();
 			char		theString[kQ3StringMaximumLength];
-			sprintf( theString, "wglMakeCurrent error %d in gldrawcontext_win_setcurrent.", error );
+			snprintf( theString, sizeof(theString),
+				"wglMakeCurrent error %d in gldrawcontext_win_setcurrent.", error );
 			E3Assert( __FILE__, __LINE__, theString );
 		}
 	#endif
