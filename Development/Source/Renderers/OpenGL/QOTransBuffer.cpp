@@ -70,7 +70,7 @@ using namespace QORenderer;
 
 // Old CodeWarrior headers do not define UINT32_MAX
 #ifndef UINT32_MAX
-	#define		UINT32_MAX		ULONG_MAX
+	#define		UINT32_MAX		0xFFFFFFFFU
 #endif
 
 namespace
