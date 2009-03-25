@@ -68,6 +68,11 @@ using namespace QORenderer;
 #endif
 
 
+// Old CodeWarrior headers do not define UINT32_MAX
+#ifndef UINT32_MAX
+	#define		UINT32_MAX		ULONG_MAX
+#endif
+
 namespace
 {
 	const GLfloat				kGLBlackColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
