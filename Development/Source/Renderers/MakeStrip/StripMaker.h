@@ -10,7 +10,7 @@
     	code.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -64,7 +64,7 @@ namespace StripMaker
 		@constant	kInvalidIndex
 		@abstract	Special invalid value for index to a face or edge.
 	*/
-	const TQ3Uns32	kInvalidIndex		= 0xFFFFFFFFUL;
+	const TQ3Uns32	kInvalidIndex		= 0xFFFFFFFFU;
 	
 //=============================================================================
 //      Types

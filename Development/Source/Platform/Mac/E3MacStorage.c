@@ -5,7 +5,7 @@
         Macintosh specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -310,7 +310,7 @@ static TQ3Status
 e3storage_mac_read ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
 	{
 	ByteCount ioByteCount = dataSize ;
-	*sizeRead = 0UL ;
+	*sizeRead = 0U;
 	OSErr err = noErr;
 	
 	Q3_REQUIRE_OR_RESULT( ( storage->macStorageData.fsRefNum != -1 ), kQ3Failure ) ;
@@ -386,7 +386,7 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 	{
 
 	ByteCount ioByteCount = dataSize ;
-	*sizeWritten = 0UL ;
+	*sizeWritten = 0U;
 	OSErr err = noErr ;
 	
 	Q3_REQUIRE_OR_RESULT( ( storage->macStorageData.fsRefNum != -1 ), kQ3Failure ) ;

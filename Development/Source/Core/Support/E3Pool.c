@@ -29,7 +29,7 @@
 		"The C++ Programming Language", 3rd ed.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -151,7 +151,7 @@ E3Pool_AllocateTagged(
 	Q3_ASSERT_VALID_PTR(poolPtr);
 	Q3_ASSERT(itemOffset >= sizeof(TE3PoolBlock));
 	Q3_ASSERT(itemSize >= sizeof(TE3PoolItem));
-	Q3_ASSERT(blockLength > (tagItemPtr == NULL ? 0UL : 1UL));
+	Q3_ASSERT(blockLength > (tagItemPtr == NULL ? 0U : 1U));
 
 	// If no free items in pool...
 	if (poolPtr->headFreeItemPtr_private == NULL)

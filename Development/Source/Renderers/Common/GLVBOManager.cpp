@@ -61,7 +61,7 @@ namespace
 {
 	const TQ3Uns32	kVBOCacheKey	= Q3_FOUR_CHARACTER_CONSTANT('v', 'b', 'o', 'k');
 	
-	const TQ3Uns32	kAbsentBuffer	= 0xFFFFFFFFUL;
+	const TQ3Uns32	kAbsentBuffer	= 0xFFFFFFFFU;
 }
 
 #ifndef GL_ARRAY_BUFFER

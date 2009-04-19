@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -59,7 +59,7 @@ namespace
 	const TQ3ColorRGB	kDefaultSpecularColor = { 0.5f, 0.5f, 0.5f };
 	const float			kDefaultSpecularControl = 4.0f;
 	const float			kDefaultAlpha = 1.0f;
-	const TQ3ColorRGB	kDefaultEmissiveColor = { 0.0f, 0.0, 0.0f };
+	const TQ3ColorRGB	kDefaultEmissiveColor = { 0.0f, 0.0f, 0.0f };
 	
 	const TQ3Uns32		kDefaultDepthBits	= 24;
 }

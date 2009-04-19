@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -3682,18 +3682,18 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	geomData.triangles = (TQ3TriMeshTriangleData *)Q3Memory_Allocate(sizeof(TQ3TriMeshTriangleData)*geomData.numTriangles);
 	if(geomData.triangles == NULL)
 		goto cleanUp;
-	if(geomData.numPoints >= 0x00010000UL)
+	if(geomData.numPoints >= 0x00010000U)
 		{
 		if (Q3Uns32_ReadArray(3*geomData.numTriangles, (TQ3Uns32*)geomData.triangles, theFile) != kQ3Success)
 			goto cleanUp;
 		}
-	else if(geomData.numPoints >= 0x00000100UL)
+	else if(geomData.numPoints >= 0x00000100U)
 		{
 		if (Q3Uns16_ReadArray(3*geomData.numTriangles, (TQ3Uns16*)geomData.triangles, theFile) != kQ3Success)
 			goto cleanUp;
 		e3read_3dmf_spreadarray_uns16to32( 3*geomData.numTriangles, geomData.triangles );
 		}
-	else	// geomData.numPoints <= 0x000000FFUL
+	else	// geomData.numPoints <= 0x000000FFU
 		{
 		if (Q3Uns8_ReadArray(3*geomData.numTriangles, (TQ3Uns8*)geomData.triangles, theFile) != kQ3Success)
 			goto cleanUp;
@@ -3710,7 +3710,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 		geomData.edges = (TQ3TriMeshEdgeData *)Q3Memory_Allocate(sizeof(TQ3TriMeshEdgeData)*geomData.numEdges);
 		if(geomData.edges == NULL)
 			goto cleanUp;
-		if(geomData.numPoints >= 0x00010000UL)
+		if(geomData.numPoints >= 0x00010000U)
 			for(i = 0; i < geomData.numEdges; i++)
 				{
 				if(Q3Uns32_Read(&geomData.edges[i].pointIndices[0], theFile)!= kQ3Success)
@@ -3718,25 +3718,25 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 				if(Q3Uns32_Read(&geomData.edges[i].pointIndices[1], theFile)!= kQ3Success)
 					goto cleanUp;
 					
-				if(geomData.numTriangles >= 0x00010000UL)
+				if(geomData.numTriangles >= 0x00010000U)
 					{
 					if(Q3Uns32_Read(&geomData.edges[i].triangleIndices[0], theFile)!= kQ3Success)
 						goto cleanUp;
 					if(Q3Uns32_Read(&geomData.edges[i].triangleIndices[1], theFile)!= kQ3Success)
 						goto cleanUp;
 					}
-				else if(geomData.numTriangles >= 0x00000100UL)
+				else if(geomData.numTriangles >= 0x00000100U)
 					{
 					if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp16 == 0xFFFF)
-						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[0] = (TQ3Uns32)temp16;
 					if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp16 == 0xFFFF)
-						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[1] = (TQ3Uns32)temp16;
 					}
@@ -3745,18 +3745,18 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 					if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp8 == 0xFF)
-						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[0] = (TQ3Uns32)temp8;
 					if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp8 == 0xFF)
-						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[1] = (TQ3Uns32)temp8;
 					}
 				}
-		else if(geomData.numPoints >= 0x00000100UL)
+		else if(geomData.numPoints >= 0x00000100U)
 			for(i = 0; i < geomData.numEdges; i++)
 				{
 				if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
@@ -3765,25 +3765,25 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 				if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
 					goto cleanUp;
 				geomData.edges[i].pointIndices[1] = (TQ3Uns32)temp16;
-				if(geomData.numTriangles >= 0x00010000UL)
+				if(geomData.numTriangles >= 0x00010000U)
 					{
 					if(Q3Uns32_Read(&geomData.edges[i].triangleIndices[0], theFile)!= kQ3Success)
 						goto cleanUp;
 					if(Q3Uns32_Read(&geomData.edges[i].triangleIndices[1], theFile)!= kQ3Success)
 						goto cleanUp;
 					}
-				else if(geomData.numTriangles >= 0x00000100UL)
+				else if(geomData.numTriangles >= 0x00000100U)
 					{
 					if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp16 == 0xFFFF)
-						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[0] = (TQ3Uns32)temp16;
 					if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp16 == 0xFFFF)
-						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[1] = (TQ3Uns32)temp16;
 					}
@@ -3792,13 +3792,13 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 					if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp8 == 0xFF)
-						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[0] = (TQ3Uns32)temp8;
 					if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp8 == 0xFF)
-						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[1] = (TQ3Uns32)temp8;
 					}
@@ -3812,25 +3812,25 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 				if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
 					goto cleanUp;
 				geomData.edges[i].pointIndices[1] = (TQ3Uns32)temp8;
-				if(geomData.numTriangles >= 0x00010000UL)
+				if(geomData.numTriangles >= 0x00010000U)
 					{
 					if(Q3Uns32_Read(&geomData.edges[i].triangleIndices[0], theFile)!= kQ3Success)
 						goto cleanUp;
 					if(Q3Uns32_Read(&geomData.edges[i].triangleIndices[1], theFile)!= kQ3Success)
 						goto cleanUp;
 					}
-				else if(geomData.numTriangles >= 0x00000100UL)
+				else if(geomData.numTriangles >= 0x00000100U)
 					{
 					if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp16 == 0xFFFF)
-						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[0] = (TQ3Uns32)temp16;
 					if(Q3Uns16_Read(&temp16, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp16 == 0xFFFF)
-						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[1] = (TQ3Uns32)temp16;
 					}
@@ -3839,13 +3839,13 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 					if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp8 == 0xFF)
-						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[0] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[0] = (TQ3Uns32)temp8;
 					if(Q3Uns8_Read(&temp8, theFile)!= kQ3Success)
 						goto cleanUp;
 					if(temp8 == 0xFF)
-						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFF;
+						geomData.edges[i].triangleIndices[1] = 0xFFFFFFFFU;
 					else
 						geomData.edges[i].triangleIndices[1] = (TQ3Uns32)temp8;
 					}

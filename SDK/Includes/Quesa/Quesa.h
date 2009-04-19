@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -381,7 +381,7 @@ typedef TQ3Int32                                TQ3ObjectType;
  */
 enum {
     kQ3StringMaximumLength                      = 1024,
-    kQ3ArrayIndexNULL                           = 0xFFFFFFFFUL
+    kQ3ArrayIndexNULL                           = 0xFFFFFFFFU
 };
 
 
