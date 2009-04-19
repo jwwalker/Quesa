@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -702,7 +702,7 @@ E3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
 			case 11:
 				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
 				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
-				((TQ3Uns16 *) dstPtr)[ 4] = ((const TQ3Uns16 *) srcPtr)[ 4];
+				((TQ3Uns16 *) dstPtr)[4] = ((const TQ3Uns16 *) srcPtr)[4];
 				((TQ3Uns8  *) dstPtr)[10] = ((const TQ3Uns8  *) srcPtr)[10];
 				break;
 	

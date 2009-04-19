@@ -2902,7 +2902,7 @@ e3ffw_3DMF_num_index_bytes( TQ3Uns32 numItems )
 	{
 		numBytes = 1;
 	}
-	else if (numItems <= 0x0FFFFUL)	// maximum index <= 0xFFFE
+	else if (numItems <= 0x0FFFFU)	// maximum index <= 0xFFFE
 	{
 		numBytes = 2;
 	}

@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -691,7 +691,7 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 		// read the total number of corners
 		status = Q3Uns32_Read(&i, theFile);
 	
-		if(status != kQ3Success || i == 0UL)
+		if(status != kQ3Success || i == 0U)
 			goto fail;
 	
 		// allocate the array of corners
@@ -713,7 +713,7 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 			
 			// read face count
 			status = Q3Uns32_Read(&k, theFile);
-			if(status != kQ3Success || k == 0UL)
+			if(status != kQ3Success || k == 0U)
 				goto fail;
 			
 			// allocate the faces array
@@ -917,7 +917,7 @@ e3fformat_3dmf_meshedges_read(TQ3FileObject theFile)
 		// read the total number of edges
 		status = Q3Uns32_Read(&i, theFile);
 	
-		if(status != kQ3Success || i == 0UL)
+		if(status != kQ3Success || i == 0U)
 			goto fail;
 	
 		// allocate the array of edges
@@ -1442,7 +1442,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 	// read the total number of elements
 	status = Q3Uns32_Read(&i, theFile);
 	
-	if(status != kQ3Success || i == 0UL)
+	if(status != kQ3Success || i == 0U)
 		return (kQ3Failure);
 	
 	// allocate the array
@@ -1462,7 +1462,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 	if(Q3Uns32_Read(&nIndices, theFile)!= kQ3Success)
 		return (kQ3Failure);
 	if(((packing == 0x00000000 /*include*/) && (nIndices == theASLD->attributeSetCounter)) ||
-		 ((packing == 0x00000001 /*exclude*/) && (nIndices == 0UL)))
+		 ((packing == 0x00000001 /*exclude*/) && (nIndices == 0U)))
 		 {// nothing to read, fill all slots
 		 nIndices = 0;
 		 indices = NULL;

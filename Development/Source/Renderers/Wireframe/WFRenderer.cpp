@@ -5,7 +5,7 @@
         Wire Frame Renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -128,8 +128,8 @@ namespace
 CWireFrameRendererQuesa::CWireFrameRendererQuesa( TQ3RendererObject inRenderer )
 	: QORenderer::Renderer( inRenderer )
 {
-	TQ3ColorRGB fillColor = {1.0,1.0,1.0};
-	TQ3ColorRGB lineColor = {0.0,0.0,0.0};
+	TQ3ColorRGB fillColor = {1.0f,1.0f,1.0f};
+	TQ3ColorRGB lineColor = {0.0f,0.0f,0.0f};
 	mFillColor = fillColor;
 	mLineColor = lineColor;
 	
