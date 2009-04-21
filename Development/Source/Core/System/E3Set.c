@@ -22,7 +22,7 @@
         routines on an attribute set - so this implementation would be OK.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1759,24 +1759,25 @@ E3Set_RegisterClass(void)
 
 
 	// Register the set classes
-	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameSet,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameSet,
 										e3set_metahandler,
-										E3Set ) ;
+										E3Set,
+										sizeof(TQ3SetData) ) ;
 
 	if ( qd3dStatus != kQ3Failure )
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameSetAttribute,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameSetAttribute,
 											e3attributeset_metahandler,
 											E3AttributeSet ) ;
 
 
 	// Register the element classes
 	if ( qd3dStatus != kQ3Failure )
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameElement,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameElement,
 											e3element_metahandler,
 											E3Element ) ;
 
 	if ( qd3dStatus != kQ3Failure )
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameAttribute,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameAttribute,
 											e3attribute_metahandler,
 											E3Attribute ) ;
 
@@ -2862,7 +2863,8 @@ E3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32
 											*elementType ,
 											name ,
 											metaHandler ,
-											sizeOfElement + sizeof ( E3Element ) ); 
+											sizeOfElement + sizeof ( E3Element ),
+											sizeOfElement ); 
 	if ( qd3dStatus == kQ3Failure )
 		return NULL ;
 
@@ -2933,7 +2935,8 @@ E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 											*attributeType ,
 											creatorName ,
 											metaHandler ,
-											sizeOfElement + sizeof ( E3Attribute ) ) ;
+											sizeOfElement + sizeof ( E3Attribute ),
+											sizeOfElement ) ;
 	if ( qd3dStatus == kQ3Failure )
 		return NULL ;
 

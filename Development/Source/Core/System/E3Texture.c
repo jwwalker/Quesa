@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -631,7 +631,7 @@ E3Texture_RegisterClass(void)
 
 	// register the texture base class
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTexture,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameTexture,
 											e3texture_metahandler,
 											E3Texture ) ;
 

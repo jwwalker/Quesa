@@ -5,7 +5,7 @@
         Implementation of Quesa Abstract FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -65,14 +65,14 @@ E3FileFormat_RegisterClass()
 
 
 	// Register the class
-	qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormat,
+	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameFileFormat,
 										NULL,
 										E3FileFormat ) ;
 
 
 	// Register the built in readers
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatReader,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameFileFormatReader,
 											NULL,
 											E3FileFormatReader ) ;
 
@@ -86,7 +86,7 @@ E3FileFormat_RegisterClass()
 
 	// Register the built in writers
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFileFormatWriter,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameFileFormatWriter,
 											NULL,
 											E3FileFormatWriter ) ;
 

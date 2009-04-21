@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -270,7 +270,7 @@ E3DrawContext_RegisterClass(void)
 
 
 	// Register the draw context classes
-	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameDrawContext,
+	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameDrawContext,
 										e3drawcontext_metahandler,
 										E3DrawContext ) ;
 

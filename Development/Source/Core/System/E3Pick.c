@@ -1014,7 +1014,7 @@ E3Pick_RegisterClass(void)
 
 
 	// Register the pick classes
-	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNamePick,
+	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNamePick,
 										NULL,
 										E3Pick ) ;
 
@@ -1036,29 +1036,34 @@ E3Pick_RegisterClass(void)
 	//----------------------------------------------------------------------------------
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameShapePart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameShapePart,
 											e3shapepart_metahandler,
-											E3ShapePart ) ;
+											E3ShapePart,
+											sizeof(TQ3ShapeObject) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameMeshShapePart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameMeshShapePart,
 											e3meshpart_metahandler,
-											E3MeshPart ) ;
+											E3MeshPart,
+											sizeof(TQ3MeshComponent) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameMeshFacePart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameMeshFacePart,
 											e3meshpart_face_metahandler,
-											E3MeshFacePart ) ;
+											E3MeshFacePart,
+											sizeof(TQ3MeshFace) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameMeshEdgePart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameMeshEdgePart,
 											e3meshpart_edge_metahandler,
-											E3MeshEdgePart ) ;
+											E3MeshEdgePart,
+											sizeof(TQ3MeshEdge) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameMeshVertexPart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameMeshVertexPart,
 											e3meshpart_vertex_metahandler,
-											E3MeshVertexPart ) ;
+											E3MeshVertexPart,
+											sizeof(TQ3MeshVertex) ) ;
 
 	return(qd3dStatus);
 }

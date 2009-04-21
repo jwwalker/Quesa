@@ -20,7 +20,7 @@
         to record their relationship to the rest of the tree.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -149,6 +149,7 @@ E3ClassInfo::E3ClassInfo	(
 	abstract = kQ3False ;
 	numInstances = 0 ;
 	instanceSize = 0 ;
+	deltaInstanceSize = 0;
 	numChildren = 0 ;
 	theChildren = NULL ;
 	for ( TQ3Int32 i = kQ3MaxBuiltInClassHierarchyDepth - 1 ; i >= 0 ; --i )
@@ -370,6 +371,8 @@ E3ClassInfo::Dump_Class ( FILE *theFile, TQ3Uns32 indent )
 
 	fprintf(theFile, "%s-> instanceSize = %lu\n", thePad, instanceSize);
 
+	fprintf(theFile, "%s-> deltaInstanceSize = %lu\n", thePad, deltaInstanceSize);
+
 	fprintf(theFile, "%s-> numChildren  = %lu\n", thePad, numChildren);
 	
 	if (E3HashTable_GetNumItems( methodTable) == 0)
@@ -477,7 +480,8 @@ E3ClassTree::RegisterExternalClass (
 										classType,
 										className,
 										classMetaHandler,
-										leafInstanceSize + theParent->instanceSize ) ;
+										leafInstanceSize + theParent->instanceSize,
+										leafInstanceSize ) ;
 	
 	return kQ3Failure ;
 	}
@@ -488,7 +492,8 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 								TQ3ObjectType		classType,
 								const char			*className,
 								TQ3XMetaHandler		classMetaHandler,
-								TQ3Uns32			instanceSize )
+								TQ3Uns32			instanceSize,
+								TQ3Uns32			deltaInstanceSize )
 	{
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
 	TQ3Status qd3dStatus = kQ3Success ;
@@ -551,6 +556,8 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	// Initialise the class
 	newClass->classType        = classType ;
 	newClass->instanceSize     = instanceSize ;
+	newClass->deltaInstanceSize = deltaInstanceSize;
+	
 
 	strcpy ( newClass->className, className ) ;
 
@@ -734,12 +741,15 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 		}
 
 	// If this class has any private data, initialise it
-	if ( inClass->instanceSize != parentInstanceSize )
+	if ( inClass->deltaInstanceSize != 0 )
 		{
+		void* leafInstanceData = (void*)
+			( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->deltaInstanceSize );
+		
 		// If the object has a new method, call it to initialise the object
 		if ( ( (E3Root*) inClass )->newMethod != NULL )
 			return ( (E3Root*) inClass )->newMethod (	(TQ3Object) this,
-														(void*) ( (TQ3Uns8*) this + parentInstanceSize ),
+														leafInstanceData,
 														(void *) paramData ) ;
 			
 		// If the object is an element, it might have a copy add method
@@ -749,7 +759,7 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 			elementCopyAddMethod = ( (E3ElementInfo*) inClass )->elementCopyAddMethod ;
 			
 		if ( elementCopyAddMethod != NULL )
-			return elementCopyAddMethod ( paramData, ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
+			return elementCopyAddMethod ( paramData, leafInstanceData ) ;
 			
 
 		// Otherwise if there was no new method, but there was parameter data, do a
@@ -758,7 +768,7 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 		// with instance data that's initialised to 0s.
 
 		if ( paramData != NULL )
-			Q3Memory_Copy ( paramData, ( (TQ3Uns8*) this ) + parentInstanceSize, inClass->instanceSize - parentInstanceSize ) ;
+			Q3Memory_Copy ( paramData, leafInstanceData, inClass->deltaInstanceSize ) ;
 		
 		}
 
@@ -861,10 +871,8 @@ E3ClassInfo::CreateInstance (	TQ3Boolean		sharedParams,
 void
 OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr inClass )
 	{
-	TQ3Uns32 parentInstanceSize = 0 ;
-	
-	if ( inClass->theParent != NULL )
-		parentInstanceSize = inClass->theParent->instanceSize ;
+	void* leafInstanceData = (void*)
+		( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->deltaInstanceSize );
 
 	TQ3XElementDeleteMethod elementDeleteMethod = NULL ;
 	if ( Q3_CLASS_INFO_IS_CLASS ( inClass , E3Element ) )
@@ -874,12 +882,12 @@ OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr inClass )
 	if ( elementDeleteMethod != NULL )
 		{
 		OpaqueTQ3Object* thisPtr = this ; // So can be set to null in delete method
-		elementDeleteMethod ( ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
+		elementDeleteMethod ( leafInstanceData ) ;
 		}	
 	else
 		{
 		if ( ( (E3Root*) inClass )->deleteMethod != NULL )
-			( (E3Root*) inClass )->deleteMethod ( (TQ3Object) this , (void*)  ( (TQ3Uns8*) this + parentInstanceSize ) ) ;
+			( (E3Root*) inClass )->deleteMethod ( (TQ3Object) this , leafInstanceData ) ;
 		}
 
 
@@ -933,12 +941,9 @@ TQ3Status
 OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 										E3ClassInfoPtr	inClass )
 	{
-	TQ3Uns32 parentInstanceSize = 0 ;
-	
 	// If the object has a parent, duplicate the parent object
 	if ( inClass->theParent != NULL )
 		{
-		parentInstanceSize = inClass->theParent->instanceSize ;
 		if ( DuplicateInstanceData ( newObject , inClass->theParent ) == kQ3Failure )
 			return kQ3Failure ;
 		}
@@ -946,8 +951,13 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 
 
 	// If the object has any private data, allocate and duplicate it
-	if ( inClass->instanceSize != parentInstanceSize )
+	if ( inClass->deltaInstanceSize != 0 )
 		{
+		void* oldLeafInstanceData = (void*)
+			( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->deltaInstanceSize );
+		void* newLeafInstanceData = (void*)
+			( ((TQ3Uns8*) newObject) + inClass->instanceSize - inClass->deltaInstanceSize );
+
 		// Call the object's duplicate method to initialise it. If the object
 		// does not have duplicate method, we do a bitwise copy.
 
@@ -955,9 +965,9 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 			{
 			if ( ( (E3Root*) inClass )->duplicateMethod (
 					(TQ3Object) this,
-					(void*) ( (TQ3Uns8*) this + parentInstanceSize ),
+					oldLeafInstanceData,
 					newObject,
-					(void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) == kQ3Failure )
+					newLeafInstanceData ) == kQ3Failure )
 				{
 				if ( inClass->theParent != NULL )
 					newObject->DeleteInstanceData (	inClass->theParent ) ;
@@ -972,7 +982,8 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 
 			if ( elementDuplicateMethod != NULL )
 				{
-				TQ3Status qd3dStatus = elementDuplicateMethod ( (void*) ( (TQ3Uns8*) this + parentInstanceSize ) , (void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) ) ;
+				TQ3Status qd3dStatus = elementDuplicateMethod (
+					oldLeafInstanceData, newLeafInstanceData ) ;
 				if ( qd3dStatus == kQ3Failure )
 					{
 					if ( inClass->theParent != NULL )
@@ -981,8 +992,8 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 					}
 				}
 			else
-				Q3Memory_Copy ( (void*) ( (TQ3Uns8*) this + parentInstanceSize ) ,
-								(void*) ( (TQ3Uns8*) newObject + parentInstanceSize ) , inClass->instanceSize - parentInstanceSize ) ;
+				Q3Memory_Copy ( oldLeafInstanceData,
+								newLeafInstanceData, inClass->deltaInstanceSize ) ;
 			}	
 		}
 	return kQ3Success ;
@@ -1054,10 +1065,7 @@ OpaqueTQ3Object::FindLeafInstanceData ( void ) // Same as the old FindInstanceDa
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
 	Q3_CLASS_VERIFY(this);
 
-	if ( theClass->theParent != NULL )
-		return (void*) ( (TQ3Uns8*) this + theClass->theParent->instanceSize ) ;
-	
-	return (void*) this ;
+	return (void*) ( (TQ3Uns8*) this + theClass->instanceSize - theClass->deltaInstanceSize ) ;
 	}
 
 
@@ -1365,10 +1373,8 @@ E3ClassInfo::GetInstanceSize ( void )
 
 
 	// Return the size of the instance data for the class
-	if ( theParent )
-		return instanceSize - theParent->instanceSize ;
 		
-	return instanceSize ;
+	return deltaInstanceSize;
 	}
 
 

@@ -5,7 +5,7 @@
         Header file for E3Camera.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -90,7 +90,7 @@ class E3Camera : public E3Shape
 Q3_CLASS_ENUMS ( kQ3ShapeTypeCamera, E3Camera, E3Shape )
 protected :
 
-    TQ3CameraData cameraData ;
+    TQ3CameraData cameraData;
 
 public :
 	static TQ3Status	RegisterClass ( void ) ;
@@ -112,18 +112,26 @@ public :
 	TQ3Status			GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum ) ;
 	TQ3Status			GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum ) ;	
 	} ;
-	
+
+
+
+
+struct E3OrthographicCameraData
+{
+    float                                       left ;
+    float                                       top ;
+    float                                       right ;
+    float                                       bottom ;
+};
+
 
 
 class E3OrthographicCamera : public E3Camera
 	{
 Q3_CLASS_ENUMS ( kQ3CameraTypeOrthographic, E3OrthographicCamera, E3Camera )
-    float                                       left ;
-    float                                       top ;
-    float                                       right ;
-    float                                       bottom ;
 	
 public :
+	E3OrthographicCameraData	instanceData;
 
 	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
 	
@@ -141,20 +149,28 @@ public :
 	
 	friend TQ3Status e3camera_orthographic_new(TQ3Object theObject, void *privateData, const void *paramData) ;
 	} ;
-	
 
 
-class E3ViewPlaneCamera : public E3Camera
-	{
-Q3_CLASS_ENUMS ( kQ3CameraTypeViewPlane, E3ViewPlaneCamera, E3Camera )
+
+
+struct E3ViewPlaneCameraData
+{
     float                                       viewPlane ;
     float                                       halfWidthAtViewPlane ;
     float                                       halfHeightAtViewPlane ;
     float                                       centerXOnViewPlane ;
     float                                       centerYOnViewPlane ;
+};
+
+
+
+class E3ViewPlaneCamera : public E3Camera
+	{
+Q3_CLASS_ENUMS ( kQ3CameraTypeViewPlane, E3ViewPlaneCamera, E3Camera )
 
 public :
-
+	E3ViewPlaneCameraData	instanceData;
+	
 	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
 	TQ3Status			GetData ( TQ3ViewPlaneCameraData *CameraData ) ;
 	TQ3Status			SetData ( const TQ3ViewPlaneCameraData *CameraData ) ;
@@ -173,16 +189,24 @@ public :
 	friend void e3camera_viewplane_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix) ;
 	friend TQ3Status e3camera_viewplane_new(TQ3Object theObject, void *privateData, const void *paramData) ;
 	} ;
-	
+
+
+
+
+struct E3ViewAngleAspectCameraData
+{
+    float                                       fov ;
+    float                                       aspectRatioXToY ;
+};
+
 
 
 class E3ViewAngleAspectCamera : public E3Camera
 	{
 Q3_CLASS_ENUMS ( kQ3CameraTypeViewAngleAspect, E3ViewAngleAspectCamera, E3Camera )
-    float                                       fov ;
-    float                                       aspectRatioXToY ;
 
 public :
+	E3ViewAngleAspectCameraData	instanceData;
 
 	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
 	TQ3Status			SetData ( const TQ3ViewAngleAspectCameraData *CameraData ) ;

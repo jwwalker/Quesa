@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1717,9 +1717,10 @@ E3Unknown_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameUnknown,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameUnknown,
 										NULL,
-										E3Unknown ) ;
+										E3Unknown,
+										sizeof(TQ3Boolean) ) ;
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameUnknownBinary,
 											e3unknown_binary_metahandler,
@@ -1958,38 +1959,39 @@ e3viewhints_new ( E3ViewHints* theObject, void *privateData, const void *paramDa
 		{
 		const TQ3ViewObject theView = (const TQ3ViewObject) paramData ;
 
-		Q3View_GetRenderer ( theView , &theObject->renderer ) ;
-		Q3View_GetCamera ( theView , &theObject->camera ) ;
-		Q3View_GetLightGroup ( theView , &theObject->lightGroup ) ;
-		Q3View_GetAttributeSetState ( theView , &theObject->attributeSet ) ;
+		Q3View_GetRenderer ( theView , &theObject->instanceData.renderer ) ;
+		Q3View_GetCamera ( theView , &theObject->instanceData.camera ) ;
+		Q3View_GetLightGroup ( theView , &theObject->instanceData.lightGroup ) ;
+		Q3View_GetAttributeSetState ( theView , &theObject->instanceData.attributeSet ) ;
 		
 		TQ3DrawContextObject drawContext ;
 		if ( Q3View_GetDrawContext ( theView , &drawContext ) != kQ3Failure )
 			{
-			Q3DrawContext_GetClearImageMethod ( drawContext , &theObject->clearMethod ) ;
-			Q3DrawContext_GetClearImageColor ( drawContext , &theObject->clearImageColor ) ;
-			theObject->isValidSetMaskState = ( Q3DrawContext_GetMask ( drawContext , &theObject->mask ) != kQ3Failure ) ? kQ3True : kQ3False ;
+			Q3DrawContext_GetClearImageMethod ( drawContext , &theObject->instanceData.clearMethod ) ;
+			Q3DrawContext_GetClearImageColor ( drawContext , &theObject->instanceData.clearImageColor ) ;
+			theObject->instanceData.isValidSetMaskState = ( Q3DrawContext_GetMask (
+				drawContext , &theObject->instanceData.mask ) != kQ3Failure ) ? kQ3True : kQ3False ;
 			}
 		}
 	else
 		{
-		theObject->renderer = Q3Renderer_NewFromType ( kQ3RendererTypeInteractive ) ;
-		theObject->camera = NULL ;
-		theObject->lightGroup = NULL ;
-		theObject->attributeSet = NULL ;
-		theObject->clearMethod = kQ3ClearMethodNone  ;
-		Q3ColorARGB_Set ( &theObject->clearImageColor, 1.0f, 1.0f, 1.0f, 1.0f ) ;
-		theObject->mask.image = NULL ;
-		theObject->mask.width = 0 ;
-		theObject->mask.height = 0 ;
-		theObject->mask.rowBytes = 0 ;
-		theObject->mask.bitOrder = kQ3EndianBig ;
+		theObject->instanceData.renderer = Q3Renderer_NewFromType ( kQ3RendererTypeInteractive ) ;
+		theObject->instanceData.camera = NULL ;
+		theObject->instanceData.lightGroup = NULL ;
+		theObject->instanceData.attributeSet = NULL ;
+		theObject->instanceData.clearMethod = kQ3ClearMethodNone  ;
+		Q3ColorARGB_Set ( &theObject->instanceData.clearImageColor, 1.0f, 1.0f, 1.0f, 1.0f ) ;
+		theObject->instanceData.mask.image = NULL ;
+		theObject->instanceData.mask.width = 0 ;
+		theObject->instanceData.mask.height = 0 ;
+		theObject->instanceData.mask.rowBytes = 0 ;
+		theObject->instanceData.mask.bitOrder = kQ3EndianBig ;
 		}
 
 	
-	theObject->isValidSetDimensions = kQ3False ;
-	theObject->widthDimensions = 0 ; // These don't seem to be in the View or the Draw Context, unless they should be max - min.
-	theObject->heightDimensions = 0 ;
+	theObject->instanceData.isValidSetDimensions = kQ3False ;
+	theObject->instanceData.widthDimensions = 0 ; // These don't seem to be in the View or the Draw Context, unless they should be max - min.
+	theObject->instanceData.heightDimensions = 0 ;
 
 	return kQ3Success ;
 	}
@@ -2007,14 +2009,14 @@ e3viewhints_delete ( E3ViewHints* theObject, void *privateData )
 #pragma unused(privateData)
 
 	// Dispose of our instance data
-	if ( theObject->renderer )
-		Q3Object_Dispose ( theObject->renderer ) ;
-	if ( theObject->camera )
-		Q3Object_Dispose ( theObject->camera ) ;
-	if ( theObject->attributeSet )
-		Q3Object_Dispose ( theObject->attributeSet ) ;
-	if ( theObject->lightGroup )
-		Q3Object_Dispose ( theObject->lightGroup ) ;
+	if ( theObject->instanceData.renderer )
+		Q3Object_Dispose ( theObject->instanceData.renderer ) ;
+	if ( theObject->instanceData.camera )
+		Q3Object_Dispose ( theObject->instanceData.camera ) ;
+	if ( theObject->instanceData.attributeSet )
+		Q3Object_Dispose ( theObject->instanceData.attributeSet ) ;
+	if ( theObject->instanceData.lightGroup )
+		Q3Object_Dispose ( theObject->instanceData.lightGroup ) ;
 	}
 
 
@@ -2250,7 +2252,7 @@ E3ViewHints_New ( TQ3ViewObject view )
 TQ3Status
 E3ViewHints::SetRenderer ( TQ3RendererObject theRenderer )
 	{
-	E3Shared_Replace ( &renderer, theRenderer ) ;
+	E3Shared_Replace ( &instanceData.renderer, theRenderer ) ;
 
 	return kQ3Success ;
 	}
@@ -2266,7 +2268,7 @@ TQ3Status
 E3ViewHints::GetRenderer ( TQ3RendererObject* theRenderer )
 	{
 	// Make sure we have a renderer
-	if ( renderer == NULL )
+	if ( instanceData.renderer == NULL )
 		{
 		*theRenderer = NULL ; // Assign a return value
 		return kQ3Failure ;
@@ -2275,7 +2277,7 @@ E3ViewHints::GetRenderer ( TQ3RendererObject* theRenderer )
 
 
 	// Create a new reference to our renderer
-	*theRenderer = Q3Shared_GetReference ( renderer ) ;
+	*theRenderer = Q3Shared_GetReference ( instanceData.renderer ) ;
 
 	return kQ3Success ;
 	}
@@ -2291,7 +2293,7 @@ TQ3Status
 E3ViewHints::SetCamera ( TQ3CameraObject theCamera )
 	{
 	// Replace the existing renderer reference
-	E3Shared_Replace ( &camera, theCamera ) ;
+	E3Shared_Replace ( &instanceData.camera, theCamera ) ;
 
 	return kQ3Success ;
 	}
@@ -2307,7 +2309,7 @@ TQ3Status
 E3ViewHints::GetCamera ( TQ3CameraObject* theCamera )
 	{
 	// Make sure we have a camera
-	if ( camera == NULL )
+	if ( instanceData.camera == NULL )
 		{
 		*theCamera = NULL ; // Assign a return value
 		return kQ3Failure ;
@@ -2316,7 +2318,7 @@ E3ViewHints::GetCamera ( TQ3CameraObject* theCamera )
 
 
 	// Create a new reference to our camera
-	*theCamera = Q3Shared_GetReference ( camera ) ;
+	*theCamera = Q3Shared_GetReference ( instanceData.camera ) ;
 
 	return kQ3Success ;
 	}
@@ -2332,7 +2334,7 @@ TQ3Status
 E3ViewHints::SetLightGroup ( TQ3GroupObject theLightGroup )
 	{
 	// Replace the existing light group reference
-	E3Shared_Replace ( &lightGroup, theLightGroup ) ;
+	E3Shared_Replace ( &instanceData.lightGroup, theLightGroup ) ;
 
 	return kQ3Success ;
 	}
@@ -2348,7 +2350,7 @@ TQ3Status
 E3ViewHints::GetLightGroup ( TQ3GroupObject* theLightGroup )
 	{
 	// Make sure we have a light group
-	if ( lightGroup == NULL )
+	if ( instanceData.lightGroup == NULL )
 		{
 		*theLightGroup = NULL ; // Assign a return value
 		return kQ3Failure ;
@@ -2357,7 +2359,7 @@ E3ViewHints::GetLightGroup ( TQ3GroupObject* theLightGroup )
 
 
 	// Create a new reference to our light group
-	*theLightGroup = Q3Shared_GetReference ( lightGroup ) ;
+	*theLightGroup = Q3Shared_GetReference ( instanceData.lightGroup ) ;
 
 	return kQ3Success ;
 	}
@@ -2373,7 +2375,7 @@ TQ3Status
 E3ViewHints::SetAttributeSet ( TQ3AttributeSet theAttributeSet )
 	{
 	// Replace the existing attribute set reference
-	E3Shared_Replace ( &attributeSet, theAttributeSet ) ;
+	E3Shared_Replace ( &instanceData.attributeSet, theAttributeSet ) ;
 
 	return kQ3Success ;
 	}
@@ -2389,7 +2391,7 @@ TQ3Status
 E3ViewHints::GetAttributeSet ( TQ3AttributeSet* theAttributeSet )
 	{
 	// Make sure we have an attribute set
-	if ( attributeSet == NULL )
+	if ( instanceData.attributeSet == NULL )
 		{
 		*theAttributeSet = NULL ; // Assign a return value
 		return kQ3Failure ;
@@ -2398,7 +2400,7 @@ E3ViewHints::GetAttributeSet ( TQ3AttributeSet* theAttributeSet )
 
 
 	// Create a new reference to our attribute set
-	*theAttributeSet = Q3Shared_GetReference ( attributeSet ) ;
+	*theAttributeSet = Q3Shared_GetReference ( instanceData.attributeSet ) ;
 
 	return kQ3Success ;
 	}
@@ -2413,7 +2415,7 @@ E3ViewHints::GetAttributeSet ( TQ3AttributeSet* theAttributeSet )
 TQ3Status
 E3ViewHints::SetDimensionsState ( TQ3Boolean isValid )
 	{
-	isValidSetDimensions = isValid ;
+	instanceData.isValidSetDimensions = isValid ;
 
 	return kQ3Success ;
 	}
@@ -2428,7 +2430,7 @@ E3ViewHints::SetDimensionsState ( TQ3Boolean isValid )
 TQ3Status
 E3ViewHints::GetDimensionsState ( TQ3Boolean* isValid )
 	{
-	*isValid = isValidSetDimensions ;
+	*isValid = instanceData.isValidSetDimensions ;
 
 	return kQ3Success ;
 	}
@@ -2443,8 +2445,8 @@ E3ViewHints::GetDimensionsState ( TQ3Boolean* isValid )
 TQ3Status
 E3ViewHints::SetDimensions ( TQ3Uns32 width, TQ3Uns32 height )
 	{
-	widthDimensions = width ;
-	heightDimensions = height ;
+	instanceData.widthDimensions = width ;
+	instanceData.heightDimensions = height ;
 
 	return kQ3Success ;
 	}
@@ -2459,8 +2461,8 @@ E3ViewHints::SetDimensions ( TQ3Uns32 width, TQ3Uns32 height )
 TQ3Status
 E3ViewHints::GetDimensions ( TQ3Uns32* width, TQ3Uns32* height )
 	{
-	*width = widthDimensions ;
-	*height = heightDimensions ;
+	*width = instanceData.widthDimensions ;
+	*height = instanceData.heightDimensions ;
 
 	return kQ3Success ;
 	}
@@ -2475,7 +2477,7 @@ E3ViewHints::GetDimensions ( TQ3Uns32* width, TQ3Uns32* height )
 TQ3Status
 E3ViewHints::SetMaskState ( TQ3Boolean isValid )
 	{
-	isValidSetMaskState = isValid ;
+	instanceData.isValidSetMaskState = isValid ;
 
 	return kQ3Success ;
 	}
@@ -2490,7 +2492,7 @@ E3ViewHints::SetMaskState ( TQ3Boolean isValid )
 TQ3Status
 E3ViewHints::GetMaskState ( TQ3Boolean* isValid )
 	{
-	*isValid = isValidSetMaskState ;
+	*isValid = instanceData.isValidSetMaskState ;
 
 	return kQ3Success ;
 	}
@@ -2507,7 +2509,7 @@ E3ViewHints::SetMask ( const TQ3Bitmap* theMask )
 	{
 	// Copy the mask image. We don't compare the current
 	// state, and assume that setting a mask may cause a rebuild.
-	return E3Bitmap_Replace ( theMask, &mask, kQ3True ) ;
+	return E3Bitmap_Replace ( theMask, &instanceData.mask, kQ3True ) ;
 	}
 
 
@@ -2521,7 +2523,7 @@ TQ3Status
 E3ViewHints::GetMask ( TQ3Bitmap* theMask )
 	{
 	// Copy the mask image and update our flags
-	return E3Bitmap_Replace ( &mask, theMask, kQ3False ) ;
+	return E3Bitmap_Replace ( &instanceData.mask, theMask, kQ3False ) ;
 	}
 
 
@@ -2535,8 +2537,8 @@ TQ3Status
 E3ViewHints::SetClearImageMethod ( TQ3DrawContextClearImageMethod theClearMethod )
 	{
 	// Set the clear image method [ and update our flags? ]
-	if ( clearMethod != theClearMethod )
-		 clearMethod = theClearMethod ;
+	if ( instanceData.clearMethod != theClearMethod )
+		 instanceData.clearMethod = theClearMethod ;
 
 	return kQ3Success ;
 	}
@@ -2552,7 +2554,7 @@ TQ3Status
 E3ViewHints::GetClearImageMethod ( TQ3DrawContextClearImageMethod* theClearMethod )
 	{
 	// Return the clear image method
-	*theClearMethod = clearMethod ;
+	*theClearMethod = instanceData.clearMethod ;
 	return kQ3Success ;
 	}
 
@@ -2567,8 +2569,8 @@ TQ3Status
 E3ViewHints::SetClearImageColor ( const TQ3ColorARGB* color )
 	{
 	// Set the clear colour and update our flags
-	if ( memcmp ( &clearImageColor, color, sizeof ( TQ3ColorARGB ) ) != 0 )
-		clearImageColor = *color ;
+	if ( memcmp ( &instanceData.clearImageColor, color, sizeof ( TQ3ColorARGB ) ) != 0 )
+		instanceData.clearImageColor = *color ;
 
 	return kQ3Success ;
 	}
@@ -2584,7 +2586,7 @@ TQ3Status
 E3ViewHints::GetClearImageColor ( TQ3ColorARGB* color )
 	{
 	// Return the clear colour
-	*color = clearImageColor ;
+	*color = instanceData.clearImageColor ;
 	return kQ3Success ;
 	}
 

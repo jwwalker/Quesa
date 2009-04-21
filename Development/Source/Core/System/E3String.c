@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -214,7 +214,7 @@ E3String_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameString,
+	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameString,
 										NULL,
 										E3String ) ;
 	

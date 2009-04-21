@@ -5,7 +5,7 @@
         Windows specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -256,7 +256,8 @@ E3Win32Storage_RegisterClass(void)
 											kQ3StorageTypeWin32,
 											kQ3ClassNameStorageWin32,
 											e3storage_win32_metahandler,
-											sizeof(E3Win32Storage));
+											sizeof(E3Win32Storage),
+											sizeof(TQ3Win32StorageData));
 
 	return(qd3dStatus);
 }

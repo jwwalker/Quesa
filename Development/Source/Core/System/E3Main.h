@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -97,8 +97,32 @@ private :
 								_instanceClass::eClassType,									\
 								_Name,														\
 								_metaHandler,												\
-								sizeof ( _instanceClass )									\
+								sizeof ( _instanceClass ),									\
+								sizeof ( ((_instanceClass*)0)->instanceData )				\
 								)
+
+
+
+#define Q3_REGISTER_CLASS_WITH_DATA( _Name, _metaHandler, _instanceClass, _leafInstanceSize )		\
+	E3ClassTree::RegisterClass	( _instanceClass::eParentType,								\
+								_instanceClass::eClassType,									\
+								_Name,														\
+								_metaHandler,												\
+								sizeof ( _instanceClass ),									\
+								_leafInstanceSize											\
+								)
+
+
+
+#define Q3_REGISTER_CLASS_NO_DATA( _Name, _metaHandler, _instanceClass )					\
+	E3ClassTree::RegisterClass	( _instanceClass::eParentType,								\
+								_instanceClass::eClassType,									\
+								_Name,														\
+								_metaHandler,												\
+								sizeof ( _instanceClass ),									\
+								0															\
+								)
+
 	
 //=============================================================================
 //      Types
@@ -250,12 +274,18 @@ public :
 
 
 
+struct E3SharedData
+{
+	TQ3Uns32		refCount;
+	TQ3Int32		editIndex;	// normally positive, negative means "locked"
+};
+
+
+
 // Shared object data
 class E3Shared : public OpaqueTQ3Object
 	{
 Q3_CLASS_ENUMS ( kQ3ObjectTypeShared, E3Shared, OpaqueTQ3Object )
-	TQ3Uns32		refCount;
-	TQ3Int32		editIndex;	// normally positive, negative means "locked"
 	
 	friend TQ3Status	e3shared_new ( E3Shared* theObject, void *privateData, void *paramData ) ;
 	friend void			e3shared_dispose ( E3Shared* theObject ) ;
@@ -263,7 +293,9 @@ Q3_CLASS_ENUMS ( kQ3ObjectTypeShared, E3Shared, OpaqueTQ3Object )
 												const void *fromPrivateData,
 						 						TQ3Object toObject,
 						 						void *toPrivateData ) ;
-						 						
+	
+	E3SharedData		sharedData;
+	
 public :
 
 

@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -692,47 +692,49 @@ E3Shader_RegisterClass(void)
 
 
 	// Register the shader base class
-	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameShader,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameShader,
 										e3shader_metahandler,
-										E3Shader ) ;
+										E3Shader,
+										sizeof(TQ3ShaderData) ) ;
 
 
 	//register illumination shader bases class
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameShaderIllumination,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameShaderIllumination,
 											e3shader_illumination_metahandler,
 											E3IlluminationShader ) ;
 
 
 	//register illumination shaders
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameIlluminationNULL,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameIlluminationNULL,
 											NULL,
 											E3NULLIllumination ) ;
 											
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameIlluminationLambert,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameIlluminationLambert,
 											NULL,
 											E3LambertIllumination ) ;
 	
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameIlluminationPhong,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameIlluminationPhong,
 											NULL,
 											E3PhongIllumination ) ;	
 
 
 	//register surface shader base class
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameShaderSurface,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameShaderSurface,
 											e3shader_surface_metahandler,
 											E3SurfaceShader ) ;
 
 
 	//register surface shaders
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameSurfaceTexture,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameSurfaceTexture,
 											e3shader_texture_metahandler,
-											E3TextureShader ) ;
+											E3TextureShader,
+											sizeof(TQ3TextureObject) ) ;
 
 
 	return(qd3dStatus) ;

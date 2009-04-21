@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1937,17 +1937,17 @@ E3View_RegisterClass(void)
 										E3View ) ;
 	
 	if (qd3dStatus != kQ3Failure)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStateOperator,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameStateOperator,
 											NULL,
 											E3StateOperator ) ;
 	
 	if (qd3dStatus != kQ3Failure)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStateOperatorPush,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameStateOperatorPush,
 											e3push_metahandler,
 											E3Push ) ;
 	
 	if (qd3dStatus != kQ3Failure)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStateOperatorPop,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameStateOperatorPop,
 											e3pop_metahandler,
 											E3Pop ) ;
 

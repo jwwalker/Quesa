@@ -5,7 +5,7 @@
         Header file for E3IOData.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -72,12 +72,8 @@ typedef struct TE3UnknownBinary_Data {
 
 
 
-
-
-class E3ViewHints : public E3Shared
-	{
-Q3_CLASS_ENUMS ( kQ3SharedTypeViewHints, E3ViewHints, E3Shared )
-
+struct E3ViewHintsData
+{
 	TQ3RendererObject				renderer ;
 	TQ3CameraObject					camera ;
 	TQ3AttributeSet					attributeSet ;
@@ -89,7 +85,17 @@ Q3_CLASS_ENUMS ( kQ3SharedTypeViewHints, E3ViewHints, E3Shared )
 	TQ3Bitmap						mask ;
 	TQ3DrawContextClearImageMethod	clearMethod ;
 	TQ3ColorARGB					clearImageColor ;
+};
 
+
+
+
+class E3ViewHints : public E3Shared
+	{
+Q3_CLASS_ENUMS ( kQ3SharedTypeViewHints, E3ViewHints, E3Shared )
+
+	E3ViewHintsData					instanceData;
+	
 public :
 
 //	static TQ3Boolean		IsOfMyClass ( TQ3Object object ) ;
@@ -117,6 +123,7 @@ public :
 
 	friend TQ3Status				e3viewhints_new ( E3ViewHints* theObject, void* privateData, const void* paramData ) ;
 	friend void						e3viewhints_delete ( E3ViewHints* theObject, void* privateData ) ;
+	friend TQ3Status				E3ViewHints_RegisterClass ( void );
 	} ;
 	
 

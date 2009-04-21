@@ -5,7 +5,7 @@
         Header file for E3Geometry.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -89,16 +89,22 @@ public :
 
 
 // Geometry data
-class E3Geometry : public E3Shape
-	{
-Q3_CLASS_ENUMS ( kQ3ShapeTypeGeometry, E3Geometry, E3Shape )
+struct E3GeometryData
+{
 	TQ3Uns32					cameraEditIndex;
 	TQ3SubdivisionStyleData		styleSubdivision;
 	TQ3OrientationStyle			styleOrientation;
 	TQ3Uns32					cachedEditIndex;
 	TQ3Object					cachedObject;
 	float						cachedDeterminant;
+};
+
+
+class E3Geometry : public E3Shape
+	{
+Q3_CLASS_ENUMS ( kQ3ShapeTypeGeometry, E3Geometry, E3Shape )
 	
+	E3GeometryData				instanceData;
 	
 public :
 	
@@ -112,6 +118,8 @@ public :
 													const void   *geomData,   TQ3Object         cachedGeom)	;
 	friend TQ3Status			e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType,
 													TQ3Object theObject, const void *objectData) ;
+													
+	friend TQ3Status			E3Geometry_RegisterClass();
 	} ;
 
 

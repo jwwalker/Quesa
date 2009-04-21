@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1086,14 +1086,15 @@ E3Transform_RegisterClass(void)
 
 
 	// Register the camera classes
-	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransform,
+	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameTransform,
 										e3transform_metahandler,
 										E3Transform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformMatrix,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameTransformMatrix,
 											e3transform_matrix_metahandler,
-											E3MatrixTransform ) ;
+											E3MatrixTransform,
+											sizeof(TQ3Matrix4x4) ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformRotate,
@@ -1126,7 +1127,7 @@ E3Transform_RegisterClass(void)
 											E3QuaternionTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformReset,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameTransformReset,
 											e3transform_reset_metahandler,
 											E3ResetTransform ) ;
 
@@ -1136,7 +1137,7 @@ E3Transform_RegisterClass(void)
 											E3CameraTransform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformCameraRasterize,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameTransformCameraRasterize,
 											e3transform_camera_rasterize_metahandler,
 											E3CameraRasterizeTransform ) ;
 
