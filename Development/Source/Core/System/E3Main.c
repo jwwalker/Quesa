@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -190,8 +190,8 @@ e3shared_new ( E3Shared* theObject, void *privateData, void *paramData )
 
 
 	// Initialise our instance data
-	theObject->refCount  = 1 ;
-	theObject->editIndex = 1 ;
+	theObject->sharedData.refCount  = 1 ;
+	theObject->sharedData.editIndex = 1 ;
 	
 	return kQ3Success ;
 	}
@@ -213,13 +213,13 @@ e3shared_dispose ( E3Shared* theObject )
 
 
 	// Decrement the reference count
-	Q3_ASSERT(theObject->refCount >= 1);
-	theObject->refCount--;
+	Q3_ASSERT(theObject->sharedData.refCount >= 1);
+	theObject->sharedData.refCount--;
 
 
 
 	// If the reference count falls to 0, dispose of the object
-	if ( theObject->refCount == 0 )
+	if ( theObject->sharedData.refCount == 0 )
 		theObject->DestroyInstance () ;
 	}
 
@@ -249,8 +249,8 @@ e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 
 
 	// Initialise the instance data of the new object
-	instanceData->refCount  = 1;
-	instanceData->editIndex = E3Integer_Abs( fromInstanceData->editIndex );
+	instanceData->sharedData.refCount  = 1;
+	instanceData->sharedData.editIndex = E3Integer_Abs( fromInstanceData->sharedData.editIndex );
 
 	return(kQ3Success);
 }
@@ -554,16 +554,18 @@ e3main_registercoreclasses(void)
 											OpaqueTQ3Object::eClassType,
 											kQ3ClassNameRoot,
 											e3root_metahandler,
+											sizeof ( OpaqueTQ3Object ),
 											sizeof ( OpaqueTQ3Object )
 											);
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ClassNameShared,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (		kQ3ClassNameShared,
 												e3shared_metahandler,
-												E3Shared ) ;
+												E3Shared,
+												sizeof(E3SharedData) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (		kQ3ClassNameShape,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (		kQ3ClassNameShape,
 												e3shape_metahandler,
 												E3Shape ) ;
 
@@ -1512,8 +1514,8 @@ E3Shared::GetReference ( void )
 	// Increment the reference count and return the object. Note that we
 	// return the object passed in: this is OK since we're not declared
 	// to return a different object.
-	refCount++;
-	Q3_ASSERT(refCount >= 2);
+	sharedData.refCount++;
+	Q3_ASSERT(sharedData.refCount >= 2);
 
 	return this ;
 	}
@@ -1532,7 +1534,7 @@ TQ3Boolean
 E3Shared::IsReferenced ( void )
 	{
 	// Return as the reference count is greater than 1
-	return ( (TQ3Boolean) ( refCount > 1 ) ) ;
+	return ( (TQ3Boolean) ( sharedData.refCount > 1 ) ) ;
 	}
 
 
@@ -1546,7 +1548,7 @@ TQ3Uns32
 E3Shared::GetReferenceCount ( void )
 	{
 	// Return the reference count
-	return refCount ;
+	return sharedData.refCount ;
 	}
 
 
@@ -1560,7 +1562,7 @@ TQ3Uns32
 E3Shared::GetEditIndex ( void )
 	{
 	// Return the edit index
-	return E3Integer_Abs( editIndex );
+	return E3Integer_Abs( sharedData.editIndex );
 	}
 
 
@@ -1573,7 +1575,7 @@ E3Shared::GetEditIndex ( void )
 void
 E3Shared::SetEditIndex( TQ3Uns32 inIndex )
 {
-	editIndex = inIndex;
+	sharedData.editIndex = inIndex;
 }
 
 
@@ -1586,17 +1588,10 @@ E3Shared::SetEditIndex( TQ3Uns32 inIndex )
 TQ3Status
 E3Shared::Edited ( void )
 {
-	if (editIndex >= 0)
+	if (sharedData.editIndex >= 0)
 	{
-#if Q3_DEBUG
-		if (GetLeafType() == 'tmsh')
-		{
-			++editIndex;
-			--editIndex;
-		}
-	#endif
 		// Increment the edit index
-		++editIndex ;
+		++sharedData.editIndex ;
 	}
 	
 	return kQ3Success ;
@@ -1614,11 +1609,11 @@ E3Shared::SetEditIndexLocked( TQ3Boolean inIsLocked )
 {
 	if (inIsLocked)
 	{
-		editIndex = - E3Integer_Abs( editIndex );
+		sharedData.editIndex = - E3Integer_Abs( sharedData.editIndex );
 	}
 	else	// unlock
 	{
-		editIndex = E3Integer_Abs( editIndex );
+		sharedData.editIndex = E3Integer_Abs( sharedData.editIndex );
 	}
 }
 
@@ -1632,7 +1627,7 @@ E3Shared::SetEditIndexLocked( TQ3Boolean inIsLocked )
 TQ3Boolean
 E3Shared::IsEditIndexLocked() const
 {
-	return (editIndex < 0) ? kQ3True : kQ3False;
+	return (sharedData.editIndex < 0) ? kQ3True : kQ3False;
 }
 
 

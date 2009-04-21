@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -118,11 +118,11 @@ e3camera_orthographic_new(TQ3Object theObject, void *privateData, const void *pa
 
 
 	// Initialise our instance data
-	( (E3OrthographicCamera*) theObject )->cameraData = CameraData->cameraData ;
-	( (E3OrthographicCamera*) theObject )->left = CameraData->left ;
-	( (E3OrthographicCamera*) theObject )->top = CameraData->top ;
-	( (E3OrthographicCamera*) theObject )->right = CameraData->right ;
-	( (E3OrthographicCamera*) theObject )->bottom = CameraData->bottom ;
+	( (E3Camera*) theObject )->SetData( &CameraData->cameraData );
+	( (E3OrthographicCamera*) theObject )->instanceData.left = CameraData->left ;
+	( (E3OrthographicCamera*) theObject )->instanceData.top = CameraData->top ;
+	( (E3OrthographicCamera*) theObject )->instanceData.right = CameraData->right ;
+	( (E3OrthographicCamera*) theObject )->instanceData.bottom = CameraData->bottom ;
 	return kQ3Success ;
 	}
 
@@ -283,12 +283,12 @@ e3camera_viewplane_new(TQ3Object theObject, void *privateData, const void *param
 
 
 	// Initialise our instance data
-	( (E3ViewPlaneCamera*) theObject )->cameraData = CameraData->cameraData ;
-	( (E3ViewPlaneCamera*) theObject )->viewPlane = CameraData->viewPlane ;
-	( (E3ViewPlaneCamera*) theObject )->halfWidthAtViewPlane = CameraData->halfWidthAtViewPlane ;
-	( (E3ViewPlaneCamera*) theObject )->halfHeightAtViewPlane = CameraData->halfHeightAtViewPlane ;
-	( (E3ViewPlaneCamera*) theObject )->centerXOnViewPlane = CameraData->centerXOnViewPlane ;
-	( (E3ViewPlaneCamera*) theObject )->centerYOnViewPlane = CameraData->centerYOnViewPlane ;
+	( (E3Camera*) theObject )->SetData( &CameraData->cameraData );
+	( (E3ViewPlaneCamera*) theObject )->instanceData.viewPlane = CameraData->viewPlane ;
+	( (E3ViewPlaneCamera*) theObject )->instanceData.halfWidthAtViewPlane = CameraData->halfWidthAtViewPlane ;
+	( (E3ViewPlaneCamera*) theObject )->instanceData.halfHeightAtViewPlane = CameraData->halfHeightAtViewPlane ;
+	( (E3ViewPlaneCamera*) theObject )->instanceData.centerXOnViewPlane = CameraData->centerXOnViewPlane ;
+	( (E3ViewPlaneCamera*) theObject )->instanceData.centerYOnViewPlane = CameraData->centerYOnViewPlane ;
 	return kQ3Success ;
 	}
 
@@ -522,9 +522,9 @@ e3camera_viewangle_new(TQ3Object theObject, void *privateData, const void *param
 
 
 	// Initialise our instance data
-	( (E3ViewAngleAspectCamera*) theObject )->cameraData = CameraData->cameraData ;
-	( (E3ViewAngleAspectCamera*) theObject )->fov = CameraData->fov ;
-	( (E3ViewAngleAspectCamera*) theObject )->aspectRatioXToY = CameraData->aspectRatioXToY ;
+	( (E3Camera*) theObject )->SetData( &CameraData->cameraData );
+	( (E3ViewAngleAspectCamera*) theObject )->instanceData.fov = CameraData->fov ;
+	( (E3ViewAngleAspectCamera*) theObject )->instanceData.aspectRatioXToY = CameraData->aspectRatioXToY ;
 	return kQ3Success ;
 	}
 
@@ -629,9 +629,10 @@ E3Camera::RegisterClass(void)
 
 
 	// Register the camera classes
-	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCamera,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA(	kQ3ClassNameCamera,
 										e3camera_metahandler,
-										E3Camera ) ;
+										E3Camera,
+										sizeof(TQ3CameraData) );
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCameraOrthographic,
@@ -1021,7 +1022,12 @@ TQ3Status
 E3OrthographicCamera::GetData ( TQ3OrthographicCameraData *CameraData )
 	{
 	// Return the camera's data
-	*CameraData = * ( ( TQ3OrthographicCameraData* ) &cameraData ) ;
+	E3Camera::GetData( &CameraData->cameraData );
+	
+	CameraData->left = instanceData.left;
+	CameraData->top = instanceData.top;
+	CameraData->right = instanceData.right;
+	CameraData->bottom = instanceData.bottom;
 	
 	return kQ3Success ;
 	}
@@ -1036,8 +1042,13 @@ E3OrthographicCamera::GetData ( TQ3OrthographicCameraData *CameraData )
 TQ3Status
 E3OrthographicCamera::SetData ( const TQ3OrthographicCameraData *CameraData )
 	{
-	// Return the camera's data
-	* ( ( TQ3OrthographicCameraData* ) &cameraData ) = *CameraData ;
+	// Set the camera's data
+	E3Camera::SetData( &CameraData->cameraData );
+	
+	instanceData.left = CameraData->left;
+	instanceData.top = CameraData->top;
+	instanceData.right = CameraData->right;
+	instanceData.bottom = CameraData->bottom;
 	
 	Q3Shared_Edited ( this );
 
@@ -1055,7 +1066,7 @@ TQ3Status
 E3OrthographicCamera::SetLeft ( float Left )
 	{
 	// Set the field
-	left = Left ;
+	instanceData.left = Left ;
 	
 	Q3Shared_Edited ( this ) ;
 
@@ -1073,7 +1084,7 @@ TQ3Status
 E3OrthographicCamera::GetLeft ( float *Left )
 	{
 	// Return the field
-	*Left = left ;
+	*Left = instanceData.left ;
 	
 	return kQ3Success ;
 	}
@@ -1089,7 +1100,7 @@ TQ3Status
 E3OrthographicCamera::SetTop ( float Top) 
 	{
 	// Set the field
-	top = Top ;
+	instanceData.top = Top ;
 
 	Q3Shared_Edited ( this ) ;
 
@@ -1107,7 +1118,7 @@ TQ3Status
 E3OrthographicCamera::GetTop ( float *Top )
 	{
 	// Return the field
-	*Top = top ;
+	*Top = instanceData.top ;
 
 	return kQ3Success ;
 	}
@@ -1123,7 +1134,7 @@ TQ3Status
 E3OrthographicCamera::SetRight ( float Right )
 	{
 	// Set the field
-	right = Right ;
+	instanceData.right = Right ;
 
 	Q3Shared_Edited ( this ) ;
 
@@ -1141,7 +1152,7 @@ TQ3Status
 E3OrthographicCamera::GetRight ( float *Right )
 	{
 	// Return the field
-	*Right = right ;
+	*Right = instanceData.right ;
 
 	return kQ3Success ;
 	}
@@ -1157,7 +1168,7 @@ TQ3Status
 E3OrthographicCamera::SetBottom ( float Bottom )
 	{
 	// Set the field
-	bottom = Bottom ;
+	instanceData.bottom = Bottom ;
 
 	Q3Shared_Edited ( this ) ;
 
@@ -1175,7 +1186,7 @@ TQ3Status
 E3OrthographicCamera::GetBottom ( float *Bottom )
 	{
 	// Return the field
-	*Bottom = bottom ;
+	*Bottom = instanceData.bottom ;
 
 	return kQ3Success ;
 	}
@@ -1191,12 +1202,14 @@ void
 E3OrthographicCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
 	{
 	// Initialise ourselves
-	float x  = 2.0f / ( right - left ) ;
-	float y  = 2.0f / ( top   - bottom ) ;
+	float x  = 2.0f / ( instanceData.right - instanceData.left ) ;
+	float y  = 2.0f / ( instanceData.top   - instanceData.bottom ) ;
 	float z  = 1.0f / ( cameraData.range.yon - cameraData.range.hither ) ;
 
-	float tx = - ( right + left )   / ( right - left ) ;
-	float ty = - ( top   + bottom ) / ( top   - bottom ) ;
+	float tx = - ( instanceData.right + instanceData.left )   /
+		( instanceData.right - instanceData.left ) ;
+	float ty = - ( instanceData.top + instanceData.bottom ) /
+		( instanceData.top - instanceData.bottom ) ;
 
 
 
@@ -1240,7 +1253,12 @@ TQ3Status
 E3ViewPlaneCamera::GetData ( TQ3ViewPlaneCameraData *CameraData)
 	{
 	// Return the camera's data
-	*CameraData = * ( (TQ3ViewPlaneCameraData*) &cameraData ) ;
+	E3Camera::GetData( &CameraData->cameraData );
+	CameraData->viewPlane = instanceData.viewPlane;
+	CameraData->halfWidthAtViewPlane = instanceData.halfWidthAtViewPlane;
+	CameraData->halfHeightAtViewPlane = instanceData.halfHeightAtViewPlane;
+	CameraData->centerXOnViewPlane = instanceData.centerXOnViewPlane;
+	CameraData->centerYOnViewPlane = instanceData.centerYOnViewPlane;
 	
 	return kQ3Success ;
 	}
@@ -1256,7 +1274,12 @@ TQ3Status
 E3ViewPlaneCamera::SetData ( const TQ3ViewPlaneCameraData *CameraData )
 	{
 	// Set the camera's data
-	* ( (TQ3ViewPlaneCameraData*) &cameraData ) = *CameraData;
+	E3Camera::SetData( &CameraData->cameraData );
+	instanceData.viewPlane = CameraData->viewPlane;
+	instanceData.halfWidthAtViewPlane = CameraData->halfWidthAtViewPlane;
+	instanceData.halfHeightAtViewPlane = CameraData->halfHeightAtViewPlane;
+	instanceData.centerXOnViewPlane = CameraData->centerXOnViewPlane;
+	instanceData.centerYOnViewPlane = CameraData->centerYOnViewPlane;
 
 	Q3Shared_Edited ( this ) ;
 
@@ -1274,7 +1297,7 @@ TQ3Status
 E3ViewPlaneCamera::SetViewPlane ( float ViewPlane )
 	{
 	// Set the field
-	viewPlane = ViewPlane ;
+	instanceData.viewPlane = ViewPlane ;
 
 	Q3Shared_Edited ( this ) ;
 
@@ -1292,7 +1315,7 @@ TQ3Status
 E3ViewPlaneCamera::GetViewPlane ( float *ViewPlane )
 	{
 	// Return the field
-	*ViewPlane = viewPlane ;
+	*ViewPlane = instanceData.viewPlane ;
 
 	return kQ3Success ;
 	}
@@ -1308,7 +1331,7 @@ TQ3Status
 E3ViewPlaneCamera::SetHalfWidth ( float HalfWidthAtViewPlane )
 	{
 	// Set the field
-	halfWidthAtViewPlane = HalfWidthAtViewPlane ;
+	instanceData.halfWidthAtViewPlane = HalfWidthAtViewPlane ;
 
 	Q3Shared_Edited ( this ) ;
 
@@ -1326,7 +1349,7 @@ TQ3Status
 E3ViewPlaneCamera::GetHalfWidth ( float *HalfWidthAtViewPlane )
 	{
 	// Return the field
-	*HalfWidthAtViewPlane = halfWidthAtViewPlane ;
+	*HalfWidthAtViewPlane = instanceData.halfWidthAtViewPlane ;
 
 	return kQ3Success ;
 	}
@@ -1342,7 +1365,7 @@ TQ3Status
 E3ViewPlaneCamera::SetHalfHeight ( float HalfHeightAtViewPlane )
 	{
 	// Set the field
-	halfHeightAtViewPlane = HalfHeightAtViewPlane ;
+	instanceData.halfHeightAtViewPlane = HalfHeightAtViewPlane ;
 
 	Q3Shared_Edited ( this ) ;
 
@@ -1360,7 +1383,7 @@ TQ3Status
 E3ViewPlaneCamera::GetHalfHeight ( float *HalfHeightAtViewPlane )
 	{
 	// Return the field
-	*HalfHeightAtViewPlane = halfHeightAtViewPlane ;
+	*HalfHeightAtViewPlane = instanceData.halfHeightAtViewPlane ;
 
 	return kQ3Success ;
 	}
@@ -1376,7 +1399,7 @@ TQ3Status
 E3ViewPlaneCamera::SetCenterX ( float CenterXOnViewPlane )
 	{
 	// Set the field
-	centerXOnViewPlane = CenterXOnViewPlane ;
+	instanceData.centerXOnViewPlane = CenterXOnViewPlane ;
 
 	Q3Shared_Edited ( this ) ;
 
@@ -1394,7 +1417,7 @@ TQ3Status
 E3ViewPlaneCamera::GetCenterX ( float *CenterXOnViewPlane )
 	{
 	// Return the field
-	*CenterXOnViewPlane = centerXOnViewPlane ;
+	*CenterXOnViewPlane = instanceData.centerXOnViewPlane ;
 
 	return kQ3Success ;
 	}
@@ -1410,7 +1433,7 @@ TQ3Status
 E3ViewPlaneCamera::SetCenterY ( float CenterYOnViewPlane )
 	{
 	// Set the field
-	centerYOnViewPlane = CenterYOnViewPlane ;
+	instanceData.centerYOnViewPlane = CenterYOnViewPlane ;
 
 	Q3Shared_Edited ( this ) ;
 
@@ -1428,7 +1451,7 @@ TQ3Status
 E3ViewPlaneCamera::GetCenterY ( float *CenterYOnViewPlane )
 	{
 	// Return the field
-	*CenterYOnViewPlane = centerYOnViewPlane ;
+	*CenterYOnViewPlane = instanceData.centerYOnViewPlane ;
 
 	return kQ3Success ;
 	}
@@ -1447,12 +1470,12 @@ E3ViewPlaneCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
 	TQ3Area	viewPlaneArea =
 	{
 		{
-			centerXOnViewPlane - halfWidthAtViewPlane,	// min.x
-			centerYOnViewPlane - halfHeightAtViewPlane	// min.y
+			instanceData.centerXOnViewPlane - instanceData.halfWidthAtViewPlane,	// min.x
+			instanceData.centerYOnViewPlane - instanceData.halfHeightAtViewPlane	// min.y
 		},
 		{
-			centerXOnViewPlane + halfWidthAtViewPlane,	// max.x
-			centerYOnViewPlane + halfHeightAtViewPlane	// max.y
+			instanceData.centerXOnViewPlane + instanceData.halfWidthAtViewPlane,	// max.x
+			instanceData.centerYOnViewPlane + instanceData.halfHeightAtViewPlane	// max.y
 		}
 	};
 	
@@ -1476,8 +1499,8 @@ E3ViewPlaneCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
 	// and compute its view to frustum matrix.
 	float zNear       = cameraData.range.hither;
 	float zFar        = cameraData.range.yon;
-	float	w = 2 * viewPlane / symWidth;
-	float	h = 2 * viewPlane / symHeight;
+	float	w = 2 * instanceData.viewPlane / symWidth;
+	float	h = 2 * instanceData.viewPlane / symHeight;
 	float q;
 	
 	if (isfinite( zFar ))
@@ -1562,7 +1585,9 @@ TQ3Status
 E3ViewAngleAspectCamera::SetData ( const TQ3ViewAngleAspectCameraData *CameraData )
 	{
 	// Set the camera's data
-	* ( (TQ3ViewAngleAspectCameraData*) &cameraData ) = *CameraData ;
+	E3Camera::SetData( &CameraData->cameraData );
+	instanceData.fov = CameraData->fov;
+	instanceData.aspectRatioXToY = CameraData->aspectRatioXToY;
 	
 	Q3Shared_Edited ( this ) ;
 
@@ -1580,7 +1605,9 @@ TQ3Status
 E3ViewAngleAspectCamera::GetData ( TQ3ViewAngleAspectCameraData *CameraData )
 	{
 	// Return the camera's data
-	*CameraData = * ( (TQ3ViewAngleAspectCameraData*) &cameraData ) ;
+	E3Camera::GetData( &CameraData->cameraData );
+	CameraData->fov = instanceData.fov;
+	CameraData->aspectRatioXToY = instanceData.aspectRatioXToY;
 	
 	return kQ3Success ;
 	}
@@ -1596,7 +1623,7 @@ TQ3Status
 E3ViewAngleAspectCamera::SetFOV ( float Fov )
 	{
 	// Set the field
-	fov = Fov ;
+	instanceData.fov = Fov ;
 	
 	Q3Shared_Edited ( this ) ;
 
@@ -1614,7 +1641,7 @@ TQ3Status
 E3ViewAngleAspectCamera::GetFOV ( float *Fov )
 	{
 	// Return the field
-	*Fov = fov ;
+	*Fov = instanceData.fov ;
 	
 	return kQ3Success ;
 	}
@@ -1630,7 +1657,7 @@ TQ3Status
 E3ViewAngleAspectCamera::SetAspectRatio ( float AspectRatioXToY )
 	{
 	// Set the field
-	aspectRatioXToY = AspectRatioXToY ;
+	instanceData.aspectRatioXToY = AspectRatioXToY ;
 	
 	Q3Shared_Edited ( this ) ;
 
@@ -1648,7 +1675,7 @@ TQ3Status
 E3ViewAngleAspectCamera::GetAspectRatio ( float *AspectRatioXToY )
 	{
 	// Return the field
-	*AspectRatioXToY = aspectRatioXToY ;
+	*AspectRatioXToY = instanceData.aspectRatioXToY ;
 
 	return kQ3Success ;
 	}
@@ -1667,11 +1694,11 @@ E3ViewAngleAspectCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
 	float zNear       = cameraData.range.hither;
 	float zFar        = cameraData.range.yon;
 
-	float w = 1.0f / (float) tan ( fov * 0.5f ) ;
-	if ( aspectRatioXToY > 1.0f )
-		w = w / aspectRatioXToY ;
+	float w = 1.0f / (float) tan ( instanceData.fov * 0.5f ) ;
+	if ( instanceData.aspectRatioXToY > 1.0f )
+		w = w / instanceData.aspectRatioXToY ;
 
-	float h = w * aspectRatioXToY;
+	float h = w * instanceData.aspectRatioXToY;
 
 
 	float q;

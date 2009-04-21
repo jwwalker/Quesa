@@ -5,7 +5,7 @@
         Header file for E3Group.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -175,6 +175,13 @@ public :
 
 
 
+struct E3GroupData
+{
+	TQ3XGroupPosition						listHead ;
+	TQ3Uns32								groupPositionSize ;
+};
+
+
 
 class E3Group : public E3Shape
 	{
@@ -182,9 +189,7 @@ Q3_CLASS_ENUMS ( kQ3ShapeTypeGroup, E3Group, E3Shape )
 
 // 16 bytes overhead per group
 // initialised in e3group_new
-	
-	TQ3XGroupPosition						listHead ;
-	TQ3Uns32								groupPositionSize ;
+	E3GroupData								groupData;
 		
 public :
 
@@ -244,14 +249,21 @@ public :
 
 
 
+struct E3DisplayGroupData
+{
+	TQ3DisplayGroupState	state ;
+	TQ3BoundingBox			bBox ;
+};
+
+
+
 class E3DisplayGroup : public E3Group
 	{
 Q3_CLASS_ENUMS ( kQ3GroupTypeDisplay, E3DisplayGroup, E3Group )
 
 // 32 bytes + 16 bytes = 48 bytes overhead per display group
 // initialised in e3group_display_new
-	TQ3DisplayGroupState	state ;
-	TQ3BoundingBox			bBox ;
+	E3DisplayGroupData		displayGroupData;
 	
 public :
 
@@ -304,6 +316,7 @@ public :
 	friend TQ3Status		e3group_display_ordered_new(TQ3Object theObject, void *privateData, const void *paramData) ;
 	friend TQ3Status		e3group_display_ordered_duplicate (	TQ3Object fromObject, const void *fromPrivateData,
 																TQ3Object toObject,   void  * toPrivateData) ;
+	friend TQ3Status		E3Group_RegisterClass(void);
 	} ;
 
 

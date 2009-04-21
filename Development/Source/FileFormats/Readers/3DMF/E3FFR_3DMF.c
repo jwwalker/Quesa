@@ -404,7 +404,14 @@ public :
 
 	TQ3ColorARGB						instanceData ;
 	} ;
-	
+
+
+
+struct E3ImageDimensionsData
+{
+	TQ3Uns32							width ;
+	TQ3Uns32							height ;
+};
 
 
 class E3ImageDimensions : public OpaqueTQ3Object  // This is a leaf class so no other classes use this,
@@ -414,9 +421,7 @@ class E3ImageDimensions : public OpaqueTQ3Object  // This is a leaf class so no 
 	{
 Q3_CLASS_ENUMS ( kQ3ImageDimensions, E3ImageDimensions, OpaqueTQ3Object )
 public :
-
-	TQ3Uns32							width ;
-	TQ3Uns32							height ;
+	E3ImageDimensionsData	instanceData;
 	} ;
 	
 
@@ -2649,7 +2654,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 											E3MeshEdges ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameAttributeArray,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameAttributeArray,
 											e3fformat_3dmf_attributearray_metahandler,
 											E3AttributeArray ) ;
 
@@ -2740,7 +2745,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 
 
 	// Register the end group class
-	qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameEndGroup,
+	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameEndGroup,
 											e3fformat_3dmf_endgroup_metahandler,
 											E3EndGroup ) ;
 
@@ -2888,7 +2893,7 @@ E3FFW_3DMF_Register(void)
 
 	// the Support objects
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassName3DMF,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassName3DMF,
 											NULL,
 											E33DMF ) ;
 
@@ -2896,7 +2901,7 @@ E3FFW_3DMF_Register(void)
 	E3ClassTree::AddMethod(kQ3ObjectType3DMF,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_Write);
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameTOC,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameTOC,
 											NULL,
 											E3TableOfContents ) ;
 
@@ -2904,7 +2909,7 @@ E3FFW_3DMF_Register(void)
 	E3ClassTree::AddMethod(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Write);
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameType,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameType,
 											NULL,
 											E3Type ) ;
 

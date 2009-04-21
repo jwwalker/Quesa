@@ -5,7 +5,7 @@
         Windows specific Draw Context calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -316,7 +316,8 @@ E3Win32DCDrawContext_RegisterClass(void)
 											kQ3DrawContextTypeWin32DC,
 											kQ3ClassNameDrawContextWin32DC,
 											e3drawcontext_win32dc_metahandler,
-											sizeof(E3Win32DCDrawContext));
+											sizeof(E3Win32DCDrawContext),
+											sizeof(TQ3DrawContextUnionData));
 
 	return(qd3dStatus);
 }
@@ -460,7 +461,8 @@ E3DDSurfaceDrawContext_RegisterClass(void)
 											kQ3DrawContextTypeDDSurface,
 											kQ3ClassNameDrawContextDDSurface,
 											e3drawcontext_ddsurface_metahandler,
-											sizeof(E3DDSurfaceDrawContext));
+											sizeof(E3DDSurfaceDrawContext),
+											sizeof(TQ3DrawContextUnionData));
 
 	return(qd3dStatus);
 }

@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -191,10 +191,10 @@ e3group_new(TQ3Object theObject, void *privateData, const void *paramData)
 	E3Group				*instanceData = (E3Group*) theObject ;
 
 	// Initialise our instance data
-	instanceData->listHead.next        = &instanceData->listHead;
-	instanceData->listHead.prev        = &instanceData->listHead;
-	instanceData->listHead.object      = theObject; // points to itself but never used
-	instanceData->groupPositionSize    = sizeof( TQ3GroupPosition );
+	instanceData->groupData.listHead.next        = &instanceData->groupData.listHead;
+	instanceData->groupData.listHead.prev        = &instanceData->groupData.listHead;
+	instanceData->groupData.listHead.object      = theObject; // points to itself but never used
+	instanceData->groupData.groupPositionSize    = sizeof( TQ3GroupPosition );
 
 	return kQ3Success ;
 	}
@@ -283,10 +283,10 @@ E3Group::addobject ( TQ3Object object )
 	if (newGroupPosition)
 		{
 		// add to end of group list
-		newGroupPosition->next = &listHead ;
-		newGroupPosition->prev = listHead.prev ;
-		listHead.prev->next = newGroupPosition ;
-		listHead.prev = newGroupPosition ;
+		newGroupPosition->next = &groupData.listHead ;
+		newGroupPosition->prev = groupData.listHead.prev ;
+		groupData.listHead.prev->next = newGroupPosition ;
+		groupData.listHead.prev = newGroupPosition ;
 		return (TQ3GroupPosition) newGroupPosition ;
 		}
 	return NULL ;
@@ -431,8 +431,8 @@ E3Group::getfirstposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
 	{
 	*position = NULL ;
 
-	TQ3XGroupPosition* finish = &listHead ;
-	TQ3XGroupPosition* pos = listHead.next ;
+	TQ3XGroupPosition* finish = &groupData.listHead ;
+	TQ3XGroupPosition* pos = groupData.listHead.next ;
 
 	if ( isType == kQ3ObjectTypeShared )
 		{
@@ -474,8 +474,8 @@ E3Group::getlastposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
 	{
 	*position = NULL ;
 	
-	TQ3XGroupPosition* finish = &listHead ;
-	TQ3XGroupPosition* pos = listHead.prev ;
+	TQ3XGroupPosition* finish = &groupData.listHead ;
+	TQ3XGroupPosition* pos = groupData.listHead.prev ;
 
 	if ( isType == kQ3ObjectTypeShared )
 		{
@@ -520,7 +520,7 @@ E3Group::getnextposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
 		// This function implements Q3Group_GetNextPositionOfType, whose
 		// documentation says that on entry, *position must be a valid group position.
 	
-	TQ3XGroupPosition* finish = &listHead ;
+	TQ3XGroupPosition* finish = &groupData.listHead ;
 	TQ3XGroupPosition* pos = (TQ3XGroupPosition*) *position ;
 	pos = pos->next ;
 	*position = NULL ;
@@ -566,7 +566,7 @@ E3Group::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
 	if ( *position == NULL )
 		return kQ3Failure ;
 	
-	TQ3XGroupPosition* finish = &listHead ;
+	TQ3XGroupPosition* finish = &groupData.listHead ;
 	TQ3XGroupPosition* pos = (TQ3XGroupPosition*) *position ;
 	pos = pos->prev ;
 	*position = NULL ;
@@ -614,12 +614,12 @@ E3Group::countobjects ( TQ3ObjectType isType, TQ3Uns32 *number )
 {
 	*number = 0L ;
 	
-	if (listHead.next != &listHead)
+	if (groupData.listHead.next != &groupData.listHead)
 	{
 		if (isType == kQ3ObjectTypeShared)
 		{
 			// Optimization: all members of a group are shared
-			for ( TQ3XGroupPosition* pos = listHead.next; pos != &listHead;
+			for ( TQ3XGroupPosition* pos = groupData.listHead.next; pos != &groupData.listHead;
 				pos = pos->next )
 			{
 				*number += 1;
@@ -646,7 +646,7 @@ E3Group::countobjects ( TQ3ObjectType isType, TQ3Uns32 *number )
 				// enough members in the group, that gain should pay the cost
 				// of the hash table lookup to find typeClass and the loop to
 				// find classDepth.
-				for ( TQ3XGroupPosition* pos = listHead.next; pos != &listHead;
+				for ( TQ3XGroupPosition* pos = groupData.listHead.next; pos != &groupData.listHead;
 					pos = pos->next )
 				{
 					if (pos->object->GetClass()->IsClass( isType, classDepth ))
@@ -679,8 +679,8 @@ e3group_emptyobjectsoftype(TQ3GroupObject group, TQ3ObjectType isType)
 TQ3Status
 E3Group::emptyobjects ( TQ3ObjectType isType )
 	{
-	TQ3XGroupPosition* finish = &listHead ;
-	TQ3XGroupPosition* pos = listHead.next ;
+	TQ3XGroupPosition* finish = &groupData.listHead ;
+	TQ3XGroupPosition* pos = groupData.listHead.next ;
 	while ( pos != finish )
 		{
 		if ( Q3Object_IsType ( pos->object, isType ) )
@@ -726,7 +726,8 @@ e3group_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 	e3group_new( toObject, toInstanceData, NULL );
 	
 	// Loop through the members of the "from" group, duplicating and adding to "to"
-	for ( const TQ3XGroupPosition* pos = fromInstanceData->listHead.next ; pos != &fromInstanceData->listHead ;
+	for ( const TQ3XGroupPosition* pos = fromInstanceData->groupData.listHead.next ;
+		pos != &fromInstanceData->groupData.listHead ;
 		pos = pos->next )
 		{
 		TQ3Object dupObject = Q3Object_Duplicate ( pos->object ) ;
@@ -771,8 +772,8 @@ E3Group::getfirstobjectposition ( TQ3Object object, TQ3GroupPosition *position )
 	{
 	*position = NULL ;
 
-	TQ3XGroupPosition* finish = &listHead ;
-	TQ3XGroupPosition* pos = listHead.next ;
+	TQ3XGroupPosition* finish = &groupData.listHead ;
+	TQ3XGroupPosition* pos = groupData.listHead.next ;
 	while ( pos != finish )
 		{
 		if ( pos->object == object )
@@ -810,8 +811,8 @@ E3Group::getlastobjectposition ( TQ3Object object, TQ3GroupPosition *position )
 	{
 	*position = NULL ;
 
-	TQ3XGroupPosition* finish = &listHead ;
-	TQ3XGroupPosition* pos = listHead.prev ;
+	TQ3XGroupPosition* finish = &groupData.listHead ;
+	TQ3XGroupPosition* pos = groupData.listHead.prev ;
 	while ( pos != finish )
 		{
 		if ( pos->object == object )
@@ -850,7 +851,7 @@ E3Group::getnextobjectposition ( TQ3Object object, TQ3GroupPosition *position )
 
 	*position = NULL;
 
-	for ( pos = pos->next ; pos != &listHead ; pos = pos->next )
+	for ( pos = pos->next ; pos != &groupData.listHead ; pos = pos->next )
 		if ( pos->object == object )
 			{
 			*position = (TQ3GroupPosition) pos ;
@@ -890,7 +891,7 @@ E3Group::getprevobjectposition ( TQ3Object object, TQ3GroupPosition *position )
 
 	*position = NULL ;
 
-	for ( pos = pos->prev ; pos != &listHead ; pos = pos->prev )
+	for ( pos = pos->prev ; pos != &groupData.listHead ; pos = pos->prev )
 		if ( pos->object == object )
 			{
 			*position = (TQ3GroupPosition) pos ;
@@ -1305,17 +1306,17 @@ e3group_display_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 	// Initialise our instance data
-	instanceData->state =  kQ3DisplayGroupStateMaskIsDrawn  |
+	instanceData->displayGroupData.state =  kQ3DisplayGroupStateMaskIsDrawn  |
 						   kQ3DisplayGroupStateMaskIsPicked |
 						   kQ3DisplayGroupStateMaskIsWritten;
 
-	instanceData->bBox.min.x   = 0.0f;
-	instanceData->bBox.min.y   = 0.0f;
-	instanceData->bBox.min.z   = 0.0f;
-	instanceData->bBox.max.x   = 0.0f;
-	instanceData->bBox.max.y   = 0.0f;
-	instanceData->bBox.max.z   = 0.0f;
-	instanceData->bBox.isEmpty = kQ3True;
+	instanceData->displayGroupData.bBox.min.x   = 0.0f;
+	instanceData->displayGroupData.bBox.min.y   = 0.0f;
+	instanceData->displayGroupData.bBox.min.z   = 0.0f;
+	instanceData->displayGroupData.bBox.max.x   = 0.0f;
+	instanceData->displayGroupData.bBox.max.y   = 0.0f;
+	instanceData->displayGroupData.bBox.max.z   = 0.0f;
+	instanceData->displayGroupData.bBox.isEmpty = kQ3True;
 
 	return kQ3Success ;
 	}
@@ -2716,32 +2717,35 @@ E3Group_RegisterClass(void)
 
 
 	// Register the group classes
-	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroup,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameGroup,
 										e3group_metahandler,
-										E3Group ) ;
+										E3Group,
+										sizeof(E3GroupData) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupDisplay,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameGroupDisplay,
 											e3group_display_metahandler,
-											E3DisplayGroup ) ;
+											E3DisplayGroup,
+											sizeof(E3DisplayGroupData) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupDisplayOrdered,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameGroupDisplayOrdered,
 											e3group_display_ordered_metahandler,
-											E3OrderedDisplayGroup ) ;
+											E3OrderedDisplayGroup,
+											sizeof(((E3OrderedDisplayGroup*)0)->listHeads) ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupDisplayIOProxy,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameGroupDisplayIOProxy,
 											e3group_display_ioproxy_metahandler,
 											E3IOProxyDisplayGroup ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupLight,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameGroupLight,
 											e3group_light_metahandler,
 											E3LightGroup ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameGroupInfo,
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameGroupInfo,
 											e3group_info_metahandler,
 											E3InfoGroup ) ;
 
@@ -3220,7 +3224,7 @@ TQ3Status
 E3DisplayGroup::GetState ( TQ3DisplayGroupState* pState )
 	{
 	// Get the field
-	*pState = state & ~kQ3DisplayGroupStateMaskPrivateBits;
+	*pState = displayGroupData.state & ~kQ3DisplayGroupStateMaskPrivateBits;
 	return kQ3Success ;
 	}
 
@@ -3235,7 +3239,7 @@ TQ3Status
 E3DisplayGroup::SetState ( TQ3DisplayGroupState pState )
 	{
 	// Set the field
-	state = (state & kQ3DisplayGroupStateMaskPrivateBits) | pState ;
+	displayGroupData.state = (displayGroupData.state & kQ3DisplayGroupStateMaskPrivateBits) | pState ;
 	
 	Q3Shared_Edited ( this ) ;
 
@@ -3272,8 +3276,8 @@ TQ3Status
 E3DisplayGroup::SetAndUseBoundingBox ( const TQ3BoundingBox *pBBox )
 	{
 	// Set the field
-	bBox   = *pBBox ;
-	state |= kQ3DisplayGroupStateMaskHasBoundingBox |
+	displayGroupData.bBox   = *pBBox ;
+	displayGroupData.state |= kQ3DisplayGroupStateMaskHasBoundingBox |
 			kQ3DisplayGroupStateMaskUseBoundingBox;
 	
 	Q3Shared_Edited ( this ) ;
@@ -3292,8 +3296,8 @@ TQ3Status
 E3DisplayGroup::GetBoundingBox ( TQ3BoundingBox *pBBox )
 	{
 	// Get the field
-	*pBBox = bBox ;
-	return ((state & kQ3DisplayGroupStateMaskHasBoundingBox) != 0)?
+	*pBBox = displayGroupData.bBox ;
+	return ((displayGroupData.state & kQ3DisplayGroupStateMaskHasBoundingBox) != 0)?
 		kQ3Success : kQ3Failure;
 	}
 
@@ -3308,7 +3312,7 @@ TQ3Status
 E3DisplayGroup::RemoveBoundingBox ( void )
 	{
 	// Set the field
-	state &= ~(kQ3DisplayGroupStateMaskUseBoundingBox | kQ3DisplayGroupStateMaskHasBoundingBox);
+	displayGroupData.state &= ~(kQ3DisplayGroupStateMaskUseBoundingBox | kQ3DisplayGroupStateMaskHasBoundingBox);
 	
 	Q3Shared_Edited ( this ) ;
 	
@@ -3355,9 +3359,9 @@ E3DisplayGroup::CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewO
 	if ( err == kQ3Failure )
 		return kQ3Failure ;
 	
-	state |= kQ3DisplayGroupStateMaskHasBoundingBox |
+	displayGroupData.state |= kQ3DisplayGroupStateMaskHasBoundingBox |
 			kQ3DisplayGroupStateMaskUseBoundingBox;
-	bBox = theBBox ;
+	displayGroupData.bBox = theBBox ;
 	Q3Shared_Edited ( this ) ;
 	
 	return kQ3Success ;

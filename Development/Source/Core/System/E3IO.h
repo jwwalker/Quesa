@@ -5,7 +5,7 @@
         Header file for E3IO.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -136,6 +136,7 @@ public :
 	TE3FileStatus			GetFileStatus ( void ) ;
 
 	friend TQ3Status		e3file_format_attach ( E3File* theFile,TQ3FileFormatObject theFileFormat ) ;
+	friend TQ3Status		E3File_RegisterClass();
 	} ;
 
 

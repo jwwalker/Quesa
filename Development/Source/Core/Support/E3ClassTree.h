@@ -5,7 +5,7 @@
         Header file for E3ClassTree.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -107,6 +107,11 @@ class E3ClassInfo
 	// Instances
 	TQ3Uns32			numInstances ;
 	TQ3Uns32			instanceSize ; // Includes all parents instance data
+	TQ3Uns32			deltaInstanceSize;
+	// deltaInstanceSize is intended to be the size of the instance data that is
+	// in this class and not in the parent, but not including any padding that
+	// might be added between the parent instance data and the child instance
+	// data.
 
 
 	// Parent/children
@@ -175,7 +180,8 @@ public :
 											TQ3ObjectType		classType,
 											const char			*className,
 											TQ3XMetaHandler		classMetaHandler,
-											TQ3Uns32			totalInstanceSize ) ;
+											TQ3Uns32			totalInstanceSize,
+											TQ3Uns32			deltaInstanceSize ) ;
 	static TQ3Status		RegisterExternalClass (	TQ3ObjectType		parentClassType,
 													TQ3ObjectType		classType,
 													const char			*className,

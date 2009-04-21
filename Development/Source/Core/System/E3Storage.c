@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -711,21 +711,23 @@ E3Storage_RegisterClass(void)
 
 
 	// Register the storage classes
-	qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStorage,
+	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameStorage,
 										e3storage_metahandler,
 										E3Storage ) ;
 
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStorageMemory,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameStorageMemory,
 											e3storage_memory_metahandler,
-											E3MemoryStorage ) ;
+											E3MemoryStorage,
+											sizeof(TE3_MemoryStorageData) ) ;
 
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStoragePath,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameStoragePath,
 											e3storage_path_metahandler,
-											E3PathStorage ) ;
+											E3PathStorage,
+											sizeof(TQ3PathStorageData) ) ;
 
 
 

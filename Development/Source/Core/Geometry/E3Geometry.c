@@ -15,7 +15,7 @@
         for every sub-class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -186,7 +186,7 @@ e3geometry_delete(TQ3Object theObject, void *privateData)
 
 
 	// Clean up
-	Q3Object_CleanDispose ( &instanceData->cachedObject ) ;
+	Q3Object_CleanDispose ( &instanceData->instanceData.cachedObject ) ;
 	}
 
 
@@ -206,12 +206,12 @@ e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 	// Duplicate the geometry
-	toInstanceData->cameraEditIndex   = 0;
-	toInstanceData->styleSubdivision  = fromInstanceData->styleSubdivision;
-	toInstanceData->styleOrientation  = fromInstanceData->styleOrientation;
-	toInstanceData->cachedEditIndex   = 0;
-	toInstanceData->cachedObject      = NULL;
-	toInstanceData->cachedDeterminant = 0.0f;
+	toInstanceData->instanceData.cameraEditIndex   = 0;
+	toInstanceData->instanceData.styleSubdivision  = fromInstanceData->instanceData.styleSubdivision;
+	toInstanceData->instanceData.styleOrientation  = fromInstanceData->instanceData.styleOrientation;
+	toInstanceData->instanceData.cachedEditIndex   = 0;
+	toInstanceData->instanceData.cachedObject      = NULL;
+	toInstanceData->instanceData.cachedDeterminant = 0.0f;
 	
 	return kQ3Success ;
 	}
@@ -260,14 +260,17 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 
 		// Rebuild the cached object if it's out of date
-		if ( ! theClass->cacheIsValid ( theView, objectType, theObject, objectData, instanceData->cachedObject ) )
-			theClass->cacheUpdate(theView, objectType, theObject, objectData, &instanceData->cachedObject);
+		if ( ! theClass->cacheIsValid ( theView, objectType, theObject,
+			objectData, instanceData->instanceData.cachedObject ) )
+			
+			theClass->cacheUpdate(theView, objectType, theObject, objectData,
+				&instanceData->instanceData.cachedObject);
 
 
 
 		// Submit the cached object (or we fail)
-		if (instanceData->cachedObject != NULL)
-			qd3dStatus = E3View_SubmitRetained(theView, instanceData->cachedObject);
+		if (instanceData->instanceData.cachedObject != NULL)
+			qd3dStatus = E3View_SubmitRetained(theView, instanceData->instanceData.cachedObject);
 		}
 
 
@@ -513,9 +516,9 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 
 	// First check the geometry edit index
 	TQ3Uns32 editIndex = Q3Shared_GetEditIndex ( theGeom ) ;
-	if (instanceData->cachedObject == NULL || editIndex > instanceData->cachedEditIndex)
+	if (instanceData->instanceData.cachedObject == NULL || editIndex > instanceData->instanceData.cachedEditIndex)
 		{
-		instanceData->cachedEditIndex = editIndex;
+		instanceData->instanceData.cachedEditIndex = editIndex;
 		
 		isValid = kQ3False;
 		}
@@ -526,12 +529,12 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 	if (usesSubdivision)
 		{
 		// Check to see if the current subdivision style is different
-		if (memcmp(&instanceData->styleSubdivision,
+		if (memcmp(&instanceData->instanceData.styleSubdivision,
 					E3View_State_GetStyleSubdivision(theView),
 					sizeof(TQ3SubdivisionStyleData)) != 0)
 			{
 			Q3Memory_Copy(E3View_State_GetStyleSubdivision(theView),
-							&instanceData->styleSubdivision,
+							&instanceData->instanceData.styleSubdivision,
 							sizeof(TQ3SubdivisionStyleData));
 		
 			isValid = kQ3False;
@@ -540,12 +543,12 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 
 
 		// If the subdivision style is screen space, check to see if the camera has changed
-		if ( instanceData->styleSubdivision.method == kQ3SubdivisionMethodScreenSpace )
+		if ( instanceData->instanceData.styleSubdivision.method == kQ3SubdivisionMethodScreenSpace )
 			{
 			editIndex = Q3Shared_GetEditIndex(E3View_AccessCamera(theView));
-			if (editIndex > instanceData->cameraEditIndex)
+			if (editIndex > instanceData->instanceData.cameraEditIndex)
 				{
-				instanceData->cameraEditIndex = editIndex;
+				instanceData->instanceData.cameraEditIndex = editIndex;
 				isValid = kQ3False;
 				}
 			}
@@ -553,14 +556,14 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 			
 		// If the subdivision style is not constant, check to see if the local to world
 		// transformation has changed its scale factor.
-		if (instanceData->styleSubdivision.method != kQ3SubdivisionMethodConstant)
+		if (instanceData->instanceData.styleSubdivision.method != kQ3SubdivisionMethodConstant)
 			{
 			Q3View_GetLocalToWorldMatrixState( theView, &localToWorld );
 			float theDet = Q3Matrix4x4_Determinant( &localToWorld );
-			float detRatio = instanceData->cachedDeterminant / theDet;
+			float detRatio = instanceData->instanceData.cachedDeterminant / theDet;
 			if (E3Float_Abs( 1.0f - detRatio ) > kWorldSpaceTolerance)
 				{
-				instanceData->cachedDeterminant = theDet;
+				instanceData->instanceData.cachedDeterminant = theDet;
 				isValid = kQ3False;
 				}
 			}
@@ -572,9 +575,9 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 	if ( theClass->GetMethod ( kQ3XMethodTypeGeomUsesOrientation ) != NULL )
 		{
 		TQ3OrientationStyle theOrientation = E3View_State_GetStyleOrientation ( theView ) ;
-		if (instanceData->styleOrientation != theOrientation)
+		if (instanceData->instanceData.styleOrientation != theOrientation)
 			{
-			instanceData->styleOrientation = theOrientation;
+			instanceData->instanceData.styleOrientation = theOrientation;
 			isValid = kQ3False;
 			}
 		}
