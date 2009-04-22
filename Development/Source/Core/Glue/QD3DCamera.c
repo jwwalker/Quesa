@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -138,6 +138,13 @@ Q3Camera_SetData(TQ3CameraObject camera, const TQ3CameraData *cameraData)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
+	
+	if (kQ3RealZero > Q3FastPoint3D_DistanceSquared(
+		&cameraData->placement.cameraLocation,
+		&cameraData->placement.pointOfInterest))
+	{
+		E3ErrorManager_PostError( kQ3ErrorVector3DZeroLength, kQ3False );
+	}
 #endif
 
 
@@ -216,6 +223,12 @@ Q3Camera_SetPlacement(TQ3CameraObject camera, const TQ3CameraPlacement *placemen
 	if (fabs( Q3FastVector3D_Length( &placement->upVector ) - 1.0f ) > kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
+	}
+	
+	if (kQ3RealZero > Q3FastPoint3D_DistanceSquared( &placement->cameraLocation,
+		&placement->pointOfInterest))
+	{
+		E3ErrorManager_PostError( kQ3ErrorVector3DZeroLength, kQ3False );
 	}
 #endif
 
