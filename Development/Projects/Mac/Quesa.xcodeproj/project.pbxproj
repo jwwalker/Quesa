@@ -304,6 +304,7 @@
 		BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE806FCE0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */; };
 		BE806FD10BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */; };
+		BE8779570F9F7937007F104E /* Quesa.r in Rez */ = {isa = PBXBuildFile; fileRef = BE8779560F9F7937007F104E /* Quesa.r */; };
 		BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
 		BE8D58CE0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
 		BE98E72309F763AC0040CE1B /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71E09F763AC0040CE1B /* AGL.framework */; };
@@ -323,7 +324,6 @@
 		BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
 		BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
-		BEDC08DC08A6B96E00FB3A82 /* Quesa.rsrc in Rez */ = {isa = PBXBuildFile; fileRef = BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */; };
 		BEFFD7D50C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */; };
 		BEFFD7DA0C4C86E100202EA8 /* GLCocoaContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D40C4C86E100202EA8 /* GLCocoaContext.m */; };
 		BEFFD7E10C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */; };
@@ -617,6 +617,7 @@
 		BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Q3GroupIterator.h; sourceTree = "<group>"; };
 		BE806FCB0BCDCCEA008CD86A /* QOGLShadingLanguage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOGLShadingLanguage.h; sourceTree = "<group>"; };
 		BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOGLShadingLanguage.cpp; sourceTree = "<group>"; };
+		BE8779560F9F7937007F104E /* Quesa.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = Quesa.r; path = Resources/Quesa.r; sourceTree = "<group>"; };
 		BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OptimizedTriMeshElement.cpp; sourceTree = "<group>"; };
 		BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OptimizedTriMeshElement.h; sourceTree = "<group>"; };
 		BE98E71E09F763AC0040CE1B /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -631,7 +632,6 @@
 		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cpp; sourceTree = "<group>"; };
 		BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
 		BEDC08D308A6B74200FB3A82 /* Info.plist */ = {isa = PBXFileReference; comments = "This file is for use with Xcode 2.1.  It must be preprocessed in order to\nconvert the symbol kQ3UnquotedStringVersion into an actual version string."; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
-		BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = Quesa.rsrc; path = Resources/Quesa.rsrc; sourceTree = "<group>"; };
 		BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = E3CocoaDrawContext.m; sourceTree = "<group>"; };
 		BEFFD7D20C4C86E100202EA8 /* E3CocoaPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3CocoaPrefix.h; sourceTree = "<group>"; };
 		BEFFD7D30C4C86E100202EA8 /* GLCocoaContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLCocoaContext.h; path = ../../Renderers/Common/GLCocoaContext.h; sourceTree = "<group>"; };
@@ -1102,6 +1102,7 @@
 		AB83B959055E77870034F56A /* Mac */ = {
 			isa = PBXGroup;
 			children = (
+				BE8779560F9F7937007F104E /* Quesa.r */,
 				AB83B95B055E77870034F56A /* E3MacDebug.c */,
 				AB83B95C055E77870034F56A /* E3MacDrawContext.c */,
 				AB83B95D055E77870034F56A /* E3MacErrors.c */,
@@ -1110,7 +1111,6 @@
 				AB83B965055E77870034F56A /* E3MacSystem.c */,
 				BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */,
 				BEDC08D308A6B74200FB3A82 /* Info.plist */,
-				BEDC08DB08A6B96E00FB3A82 /* Quesa.rsrc */,
 			);
 			path = Mac;
 			sourceTree = "<group>";
@@ -1329,7 +1329,7 @@
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEDC08DC08A6B96E00FB3A82 /* Quesa.rsrc in Rez */,
+				BE8779570F9F7937007F104E /* Quesa.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
