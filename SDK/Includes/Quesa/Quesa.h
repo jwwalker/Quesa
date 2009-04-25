@@ -195,8 +195,11 @@
 	#endif
 
 
-    // Ensure compiler settings match QD3D, to be binary compatible
-    #pragma options align=power
+    // Mac OS Classic
+    #if TARGET_RT_MAC_CFM
+    	// Ensure compiler settings match QD3D, to be binary compatible
+	    #pragma options align=power
+	#endif
 
 
 	// Export symbols when building a shared library
