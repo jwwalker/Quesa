@@ -1,4 +1,1 @@
 #include "Quesa-staticlibrary.xcconfig"
-
-// Override the default product name to append a "D" for "Debug".
-PRODUCT_NAME = QuesaD
