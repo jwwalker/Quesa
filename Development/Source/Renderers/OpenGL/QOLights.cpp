@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -506,6 +506,7 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 	AddLight( mShadowingLights[ mStartingLightIndexForPass ].get(),
 		inWorldToView );
 	glDisable( GL_LIGHT0 );
+	mLightCount = 0;
 	glDisable( GL_LIGHTING );
 	
 	if (mGLExtensions.depthClamp)
