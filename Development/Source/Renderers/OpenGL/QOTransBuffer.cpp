@@ -427,7 +427,7 @@ void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 			glBindTexture( GL_TEXTURE_2D, mCurTexture );
 		}
 		
-		mPerPixelLighting.UpdateTexture();
+		mPerPixelLighting.UpdateTexture( mCurTexture != 0 );
 	}
 	
 	if ( (inPrim.mUVTransformIndex != mCurUVTransformIndex) &&
