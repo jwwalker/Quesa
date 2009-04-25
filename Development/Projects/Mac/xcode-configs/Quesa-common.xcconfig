@@ -108,6 +108,11 @@ GCC_FAST_MATH = YES
 GCC_SYMBOLS_PRIVATE_EXTERN = YES
 
 // Extra debugging features, requires Xcode 3 and the 10.5 SDK.
-// QUESA_EXTRA_DEBUG = -fstack-protector -D_FORTIFY_SOURCE=2
-QUESA_EXTRA_DEBUG =
-OTHER_CFLAGS = $(inherited) $(QUESA_EXTRA_DEBUG)
+// QUESA_EXTRA_DEBUG_C = -fstack-protector -D_FORTIFY_SOURCE=2
+QUESA_EXTRA_DEBUG_C =
+OTHER_CFLAGS = $(inherited) $(QUESA_EXTRA_DEBUG_C)
+
+// Extra C++-only debugging features, requires gcc 3 or later.
+// QUESA_EXTRA_DEBUG_CXX = -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
+QUESA_EXTRA_DEBUG_CXX =
+OTHER_CXXFLAGS = $(inherited) $(QUESA_EXTRA_DEBUG_C) $(QUESA_EXTRA_DEBUG_CXX)
