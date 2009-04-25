@@ -168,7 +168,7 @@ void	QORenderer::Renderer::UpdateSurfaceShader(
 	
 	
 	mTextures.SetCurrentTexture( theTexture.get(), inShader );
-	mPPLighting.UpdateTexture();
+	mPPLighting.UpdateTexture( theTexture.isvalid() );
 }
 
 

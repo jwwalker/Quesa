@@ -265,9 +265,9 @@ public:
 	/*!
 		@function	UpdateTexture
 		@abstract	Notification that there has been a change in whether we
-					are texturing or which texture is active.
+					are texturing.
 	*/
-	void						UpdateTexture();
+	void						UpdateTexture( bool inTexturing );
 	
 	/*!
 		@function	UpdateLighting

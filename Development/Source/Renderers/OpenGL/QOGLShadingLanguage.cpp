@@ -1090,7 +1090,7 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 			// An illumination change does not change the texture, but I want
 			// client code to be able to disable texturing at the OpenGL level
 			// and get Quesa to notice the change by changing illumination.
-			UpdateTexture();
+			UpdateTexture( glIsEnabled( GL_TEXTURE_2D ) );
 			
 			ChooseProgram();
 		}
@@ -1115,17 +1115,15 @@ void	QORenderer::PerPixelLighting::UpdateLighting()
 /*!
 	@function	UpdateTexture
 	@abstract	Notification that there has been a change in whether we
-				are texturing or which texture is active.
+				are texturing.
 */
-void	QORenderer::PerPixelLighting::UpdateTexture()
+void	QORenderer::PerPixelLighting::UpdateTexture( bool inTexturing  )
 {
 	if (mIsShading)
 	{
-		bool	isTextured = glIsEnabled( GL_TEXTURE_2D );
-		
-		if (isTextured != mIsTextured)
+		if (inTexturing != mIsTextured)
 		{
-			mIsTextured = isTextured;
+			mIsTextured = inTexturing;
 			
 			ChooseProgram();
 		}
