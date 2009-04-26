@@ -556,7 +556,7 @@
 		AB83B964055E77870034F56A /* E3MacStorage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacStorage.c; sourceTree = "<group>"; };
 		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
 		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
-		B1756AFF080A71C30056134C /* libQuesaD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesaD.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19A74320C3E7A7F0099C820 /* WFRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WFRenderer.cpp; sourceTree = "<group>"; };
 		B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = HiddenLine.cpp; sourceTree = "<group>"; };
 		B1BD22030BEBD81B00937A68 /* HiddenLine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HiddenLine.h; sourceTree = "<group>"; };
@@ -670,7 +670,7 @@
 			isa = PBXGroup;
 			children = (
 				8D07F2C80486CC7A007CD1D0 /* Quesa.framework */,
-				B1756AFF080A71C30056134C /* libQuesaD.a */,
+				B1756AFF080A71C30056134C /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1302,7 +1302,7 @@
 			);
 			name = "Static Library";
 			productName = Quesa.lib;
-			productReference = B1756AFF080A71C30056134C /* libQuesaD.a */;
+			productReference = B1756AFF080A71C30056134C /* libQuesa.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -1316,7 +1316,7 @@
 			mainGroup = 0867D691FE84028FC02AAC07 /* Quesa */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
 			projectDirPath = "";
-			projectRoot = "";
+			projectRoot = ../../..;
 			targets = (
 				8D07F2BC0486CC7A007CD1D0 /* Framework */,
 				B1756AFE080A71C30056134C /* Static Library */,
