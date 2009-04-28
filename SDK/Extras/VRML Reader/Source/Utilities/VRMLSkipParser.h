@@ -6,7 +6,7 @@
         Header file for VRMLSkipParser.cp.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -44,7 +44,8 @@
 
 #undef check
 #pragma warn_unusedarg	off
-#include "boost/spirit.hpp"
+#include "boost/spirit/include/classic.hpp"
+// Was #include "boost/spirit.hpp" with older versions of Boost
 #pragma warn_unusedarg	reset
 
 /*
