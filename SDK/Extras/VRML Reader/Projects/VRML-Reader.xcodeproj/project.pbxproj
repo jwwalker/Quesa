@@ -96,26 +96,12 @@
 			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
 			remoteInfo = "Fmwk Univ";
 		};
-		BE0404A60B7FDC8200CC26D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEDC072708A6812D00FB3A82;
-			remoteInfo = "Fmwk (GCC 3.3)";
-		};
 		BE0404A80B7FDC8200CC26D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = B1756AFF080A71C30056134C;
 			remoteInfo = "Static Lib (Univ)";
-		};
-		BE0404AA0B7FDC8200CC26D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEDC08D008A6B24A00FB3A82;
-			remoteInfo = "Static Lib (GCC 3.3)";
 		};
 		BE0404AC0B7FDC9C00CC26D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -140,7 +126,7 @@
 		BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "VRML-reader.xcconfig"; sourceTree = "<group>"; };
 		BEB01A2608EF72B000A982F8 /* IndexedFaceSet.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedFaceSet.cpp; sourceTree = "<group>"; };
 		BEB01A2708EF72B000A982F8 /* IndexedFaceSet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IndexedFaceSet.h; sourceTree = "<group>"; };
-		BEC95CBA08A86BD2001E16B9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ../Resources/Info.plist; sourceTree = SOURCE_ROOT; };
+		BEC95CBA08A86BD2001E16B9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 		BEC95CC308A86F87001E16B9 /* boost-user-config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "boost-user-config.h"; path = "../Source/boost-user-config.h"; sourceTree = SOURCE_ROOT; };
 		BEC95CC408A86F87001E16B9 /* quesa-methods.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = "quesa-methods.cp"; path = "../Source/quesa-methods.cp"; sourceTree = SOURCE_ROOT; };
 		BEC95CC508A86F87001E16B9 /* CVRMLReader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CVRMLReader.h; path = ../Source/CVRMLReader.h; sourceTree = SOURCE_ROOT; };
@@ -339,9 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				BE0404A50B7FDC8200CC26D5 /* Quesa.framework */,
-				BE0404A70B7FDC8200CC26D5 /* Quesa.framework */,
 				BE0404A90B7FDC8200CC26D5 /* libQuesa.a */,
-				BE0404AB0B7FDC8200CC26D5 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -530,6 +514,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = BEC95CB308A86B3C001E16B9 /* Build configuration list for PBXProject "VRML-Reader" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* VRML-Reader */;
 			projectDirPath = "";
@@ -539,6 +524,7 @@
 					ProjectRef = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
 				},
 			);
+			projectRoot = ..;
 			targets = (
 				8D01CCC60486CAD60068D4B7 /* VRML-Reader */,
 			);
@@ -553,25 +539,11 @@
 			remoteRef = BE0404A40B7FDC8200CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BE0404A70B7FDC8200CC26D5 /* Quesa.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Quesa.framework;
-			remoteRef = BE0404A60B7FDC8200CC26D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		BE0404A90B7FDC8200CC26D5 /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libQuesa.a;
 			remoteRef = BE0404A80B7FDC8200CC26D5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BE0404AB0B7FDC8200CC26D5 /* libQuesa.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libQuesa.a;
-			remoteRef = BE0404AA0B7FDC8200CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
