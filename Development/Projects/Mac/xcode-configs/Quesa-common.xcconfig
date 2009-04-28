@@ -101,8 +101,8 @@ GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp
 // Separate PCH Symbols, this only applies to STABS not DWARF.
 GCC_ENABLE_SYMBOL_SEPARATION = NO
 
-// Relax IEEE Compliance.
-GCC_FAST_MATH = YES
+// Do not Relax IEEE Compliance
+GCC_FAST_MATH = NO
 
 // Symbols hidden by default
 GCC_SYMBOLS_PRIVATE_EXTERN = YES
