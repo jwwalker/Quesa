@@ -34,3 +34,14 @@ DEPLOYMENT_POSTPROCESSING = NO
 
 // Define Q3_DEBUG in debug only.
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(QUESA_PREPROCESSOR_DEFINITIONS_COMMON) Q3_DEBUG=1
+
+
+// Extra debugging features, requires Xcode 3 and the 10.5 SDK.
+// QUESA_EXTRA_DEBUG_C = -fstack-protector -D_FORTIFY_SOURCE=2
+QUESA_EXTRA_DEBUG_C =
+OTHER_CFLAGS = $(inherited) $(QUESA_EXTRA_DEBUG_C)
+
+// Extra C++-only debugging features, requires gcc 3 or later.
+// QUESA_EXTRA_DEBUG_CXX = -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
+QUESA_EXTRA_DEBUG_CXX =
+OTHER_CXXFLAGS = $(inherited) $(QUESA_EXTRA_DEBUG_C) $(QUESA_EXTRA_DEBUG_CXX)
