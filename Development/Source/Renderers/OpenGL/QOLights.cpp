@@ -405,6 +405,12 @@ void	QORenderer::Lights::Reset( bool inEnableLighting )
 	else
 	{
 		glDisable( GL_LIGHTING );
+		if (mGLExtensions.depthClamp)
+		{
+			// This gets turned on in the shadow marking phase.  If we leave it
+			// on, it can cause blending artifacts in shadow lighting phases.
+			glDisable( GL_DEPTH_CLAMP_NV );
+		}
 	}
 }
 
