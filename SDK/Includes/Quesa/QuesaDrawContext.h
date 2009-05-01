@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -167,6 +167,9 @@ extern "C" {
  *															The data type is platform-specific.
  *															Mac Carbon: AGLPixelFormat.  Windows: int.
  *															Mac Cocoa: NSOpenGLPixelFormat*.
+ *	@constant	kQ3DrawContextPropertyGLDestroyCallback		Request a callback when an OpenGL context
+ *															is about to be destroyed.
+ *															Data type: TQ3GLContextDestructionCallback.
  */
 enum {
 	kQ3DrawContextPropertyClearDepthBufferFlag		= Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
@@ -181,6 +184,7 @@ enum {
 	kQ3DrawContextPropertyGLContextBuildCount		= Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
 	kQ3DrawContextPropertyAcceleratedOffscreen		= Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
 	kQ3DrawContextPropertyGLPixelFormat				= Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
+	kQ3DrawContextPropertyGLDestroyCallback			= Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
 	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
 };
 
@@ -334,6 +338,28 @@ typedef struct TQ3AcceleratedOffscreenPropertyData
 	TQ3Boolean		copyFromPixmapAtFrameStart;
 	TQ3Boolean		copyToPixmapAtFrameEnd;
 } TQ3AcceleratedOffscreenPropertyData;
+
+
+
+/*!
+	@typedef	TQ3GLContextDestructionCallback
+	@abstract	Type of function pointer for use with
+				kQ3DrawContextPropertyGLDestroyCallback.
+	@discussion	If this function pointer is set as a property on a draw context,
+				it will be called when an OpenGL context is just about to be
+				destroyed.  This will happen when a renderer is destroyed, and
+				may happen at other times too.
+				
+				If you are making OpenGL calls in client code, you may need this
+				opportunity to clean up OpenGL objects or other data.
+				
+				When the function is called, the OpenGL context will have been
+				made active.
+	@param		inQuesaDC	The Quesa draw context associated with the OpenGL
+							context being destroyed.
+*/
+typedef Q3_CALLBACK_API_C( void, TQ3GLContextDestructionCallback )(
+	TQ3DrawContextObject inQuesaDC );
 
 
 

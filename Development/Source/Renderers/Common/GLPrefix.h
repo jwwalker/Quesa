@@ -5,7 +5,7 @@
         Global prefix file for OpenGL.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -156,6 +156,8 @@ public:
 	virtual bool		UpdateWindowPosition() { return false; }
 	
 	virtual bool		UpdateWindowSize() { return false; }
+	
+	TQ3DrawContextObject	GetDrawContext() const { return quesaDrawContext; }
 
 protected:
 	TQ3Object			quesaDrawContext;

@@ -2228,9 +2228,26 @@ GLDrawContext_Destroy( TQ3GLContext* glContext )
 	Q3_REQUIRE(Q3_VALID_PTR(glContext));
 	Q3_REQUIRE(Q3_VALID_PTR(*glContext));
 
+
+	// In some cases, shutting the context down gracefully may require it to be
+	// the active context.
+	GLDrawContext_SetCurrent( *glContext, kQ3True );
 	
 	
 	CQ3GLContext*	theContext = static_cast<CQ3GLContext*>( *glContext );
+	
+	
+	// If there is client code using OpenGL behind Quesa's back, it may need a
+	// chance to do last-minute cleanup.
+	TQ3DrawContextObject	q3dc = theContext->GetDrawContext();
+	TQ3GLContextDestructionCallback	theCallback = NULL;
+	if ( (kQ3Success == Q3Object_GetProperty( q3dc,
+		kQ3DrawContextPropertyGLDestroyCallback, sizeof(theCallback), NULL,
+		&theCallback )) &&
+		(theCallback != NULL) )
+	{
+		(*theCallback)( q3dc );
+	}
 
 
 	delete theContext;
