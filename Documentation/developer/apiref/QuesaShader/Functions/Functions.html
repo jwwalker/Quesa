@@ -827,6 +827,10 @@ caller must release their reference when done.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a texture shader.
 <br><br>
+A texture shader with a NULL texture serves to override a texture shader
+at a higher level of the hierarchy, causing geometries that it governs
+to be untextured.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -834,7 +838,7 @@ caller must release their reference when done.
 <dt><tt><em>texture</em></tt></dt><dd>The texture object for the shader.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The new texture shader.
+<dl><dt><i>function result</i></dt><dd>The new texture shader, or NULL.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3TextureShader_SetTexture"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TextureShader_SetTexture">Q3TextureShader_SetTexture</a></h2>
@@ -850,7 +854,7 @@ caller must release their reference when done.
 <blockquote>
 <dl>
 <dt><tt><em>shader</em></tt></dt><dd>The shader to update.</dd>
-<dt><tt><em>texture</em></tt></dt><dd>The texture for the shader.</dd>
+<dt><tt><em>texture</em></tt></dt><dd>The texture for the shader, or NULL.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -910,5 +914,5 @@ caller must release their reference when done.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>

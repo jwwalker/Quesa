@@ -36,6 +36,7 @@ typedef enum TQ3BackfacingStyle {
     kQ3BackfacingStyleBoth                      = 0,
     kQ3BackfacingStyleRemove                    = 1,
     kQ3BackfacingStyleFlip                      = 2,
+  kQ3BackfacingStyleRemoveFront        = 3,
     kQ3BackfacingStyleSize32                    = 0xFFFFFFFF
 } TQ3BackfacingStyle;
 </pre>
@@ -52,6 +53,11 @@ are rendered.</dd>
 <dt><a name="//Quesa/c/econst/kQ3BackfacingStyleFlip"><tt>kQ3BackfacingStyleFlip</tt></a></dt><dd>Both backfacing and front facing surfaces are
 rendered, and the surface normals of backfacing
 surfaces are inverted before rendering.</dd>
+<dt><a name="//Quesa/c/econst/kQ3BackfacingStyleRemoveFront"><tt>kQ3BackfacingStyleRemoveFront</tt></a></dt><dd>Front facing surfaces are removed before
+rendering, and back facing surfaces are
+rendered with reversed normals.  (This constant
+was not available in QD3D, and may not be
+understood by all renderers.)</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3FillStyle"></a>
@@ -195,5 +201,5 @@ than the specified size in world-space.</dd>
 than the specified size in pixels.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>

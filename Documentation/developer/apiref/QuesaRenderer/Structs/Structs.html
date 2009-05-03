@@ -85,5 +85,30 @@ dialog state to the renderer.
 <dt><tt>notUsed</tt></dt><dd>Not used.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
+<hr><a name="//Quesa/c/tag/TQ3RendererPassInfo <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RendererPassInfo <br><br>">TQ3RendererPassInfo <br><br></a></h2>
+</td></tr></table><hr>Pass data in the kQ3RendererPropertyPassType property that the
+renderer may set on the renderer object.
+<br><br>
+
+<blockquote><pre>
+struct TQ3RendererPassInfo {
+    TQ3RendererPassType    passType;
+    TQ3LightObject      light;
+} ;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>When you obtain this property, you do not get a new reference to
+the light, so do not dispose it.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>passType</tt></dt><dd>Type of the current pass.</dd>
+<dt><tt>light</tt></dt><dd>Current shadowing light, or NULL if this is a pass
+of type kQ3RendererPassNonShadow.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>
