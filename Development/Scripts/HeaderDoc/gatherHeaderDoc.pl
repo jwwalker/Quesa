@@ -268,7 +268,9 @@ sub printMasterTOC {
     	$protocolsSection = "<h2>Protocols</h2>\n<blockquote>\n".$protocolsLinkString."\n</blockquote>\n";
     }
     my $htmlFooter = "</body>\n</html>\n";
-    $fileString = $htmlHeader.$headerSection.$classesSection.$categoriesSection.$protocolsSection.$htmlFooter;
+    # JWWalker 5/3/2009: skip header and footer
+    # $fileString = $htmlHeader.$headerSection.$classesSection.$categoriesSection.$protocolsSection.$htmlFooter;
+    $fileString = $headerSection.$classesSection.$categoriesSection.$protocolsSection;
     
     # write out page
     print "gatherHeaderDoc.pl: writing master TOC to $masterTOC\n" if ($localDebug);
