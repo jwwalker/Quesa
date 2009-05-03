@@ -21,6 +21,7 @@ enum {
   kQ3DrawContextPropertyGLContextBuildCount    = Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
   kQ3DrawContextPropertyAcceleratedOffscreen    = Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
   kQ3DrawContextPropertyGLPixelFormat        = Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
+  kQ3DrawContextPropertyGLDestroyCallback      = Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
   kQ3DrawContextPropertyTypeSize32        = 0xFFFFFFFF
 };
 </pre>
@@ -88,6 +89,9 @@ Data type: TQ3AcceleratedOffscreenPropertyData.</dd>
 The data type is platform-specific.
 Mac Carbon: AGLPixelFormat.  Windows: int.
 Mac Cocoa: NSOpenGLPixelFormat*.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLDestroyCallback"><tt>kQ3DrawContextPropertyGLDestroyCallback</tt></a></dt><dd>Request a callback when an OpenGL context
+is about to be destroyed.
+Data type: TQ3GLContextDestructionCallback.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3DirectDrawObjectSelector"></a>
@@ -173,5 +177,5 @@ the library field should be set to kQ3Mac2DLibraryNone.
 <dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>

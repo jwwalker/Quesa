@@ -1020,6 +1020,32 @@ purpose of the function, and its parameters/result, have been assumed.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The X11 visual info.
  </dd></dl>
+<h2>Typedefs</h2>
+<hr><a name="//Quesa/c/tdef/TQ3GLContextDestructionCallback"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3GLContextDestructionCallback">TQ3GLContextDestructionCallback</a></h2>
+</td></tr></table><hr>Type of function pointer for use with
+kQ3DrawContextPropertyGLDestroyCallback.
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void, TQ3GLContextDestructionCallback</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject inQuesaDC<BR>);</tt><br>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>If this function pointer is set as a property on a draw context,
+it will be called when an OpenGL context is just about to be
+destroyed.  This will happen when a renderer is destroyed, and
+may happen at other times too.
+<br><br>
+If you are making OpenGL calls in client code, you may need this
+opportunity to clean up OpenGL objects or other data.
+<br><br>
+When the function is called, the OpenGL context will have been
+made active.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl><dt><tt>inQuesaDC</tt></dt><dd>The Quesa draw context associated with the OpenGL
+context being destroyed.</dd>
+</dl>
+</blockquote>
 <h2>Structs</h2>
 <hr><a name="//Quesa/c/tag/TQ3AcceleratedOffscreenPropertyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AcceleratedOffscreenPropertyData">TQ3AcceleratedOffscreenPropertyData</a></h2>
@@ -1312,6 +1338,7 @@ enum {
   kQ3DrawContextPropertyGLContextBuildCount    = Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
   kQ3DrawContextPropertyAcceleratedOffscreen    = Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
   kQ3DrawContextPropertyGLPixelFormat        = Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
+  kQ3DrawContextPropertyGLDestroyCallback      = Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
   kQ3DrawContextPropertyTypeSize32        = 0xFFFFFFFF
 };
 </pre>
@@ -1379,6 +1406,9 @@ Data type: TQ3AcceleratedOffscreenPropertyData.</dd>
 The data type is platform-specific.
 Mac Carbon: AGLPixelFormat.  Windows: int.
 Mac Cocoa: NSOpenGLPixelFormat*.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLDestroyCallback"><tt>kQ3DrawContextPropertyGLDestroyCallback</tt></a></dt><dd>Request a callback when an OpenGL context
+is about to be destroyed.
+Data type: TQ3GLContextDestructionCallback.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3DirectDrawObjectSelector"></a>
@@ -1464,5 +1494,5 @@ the library field should be set to kQ3Mac2DLibraryNone.
 <dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>

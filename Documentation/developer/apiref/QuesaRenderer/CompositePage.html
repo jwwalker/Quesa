@@ -1339,6 +1339,31 @@ dialog state to the renderer.
 <dt><tt>notUsed</tt></dt><dd>Not used.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/TQ3RendererPassInfo <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RendererPassInfo <br><br>">TQ3RendererPassInfo <br><br></a></h2>
+</td></tr></table><hr>Pass data in the kQ3RendererPropertyPassType property that the
+renderer may set on the renderer object.
+<br><br>
+
+<blockquote><pre>
+struct TQ3RendererPassInfo {
+    TQ3RendererPassType    passType;
+    TQ3LightObject      light;
+} ;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>When you obtain this property, you do not get a new reference to
+the light, so do not dispose it.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>passType</tt></dt><dd>Type of the current pass.</dd>
+<dt><tt>light</tt></dt><dd>Current shadowing light, or NULL if this is a pass
+of type kQ3RendererPassNonShadow.</dd>
+</dl>
+</blockquote>
 <h2>Enumerations</h2>
 <hr><a name="//Quesa/c/tag/Renderer Element Types"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Renderer Element Types">Renderer Element Types</a></h2>
@@ -1391,7 +1416,9 @@ enum
   kQ3RendererPropertyAllowVBOs        = Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
   kQ3RendererPropertyAllowLineSmooth      = Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
   kQ3RendererPropertyQuantizePerPixelLight  = Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
-  kQ3RendererPropertyCartoonLightNearEdge    = Q3_OBJECT_TYPE('p', 'p', 'c', 'e')
+  kQ3RendererPropertyCartoonLightNearEdge    = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
+  kQ3RendererPropertyPassType          = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
+  kQ3RendererPropertyDepthAlphaThreshold    = Q3_OBJECT_TYPE('d', 'p', 'a', 't')
 };
 </pre>
 </blockquote>
@@ -1460,6 +1487,22 @@ Data type: TQ3Float32.  Default value: 0.0.
 kQ3RendererPropertyQuantizePerPixelLight) this controls how
 much diffuse lighting is allowed to light triangles that are
 nearly perpendicular to the view vector.
+<br><br>
+Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyPassInfo"><tt>kQ3RendererPropertyPassInfo</tt></a></dt><dd>The OpenGL renderer sets this property so that client code
+can tell whether the pass is for non-shadowing lights, marking
+a shadow, or adding light outside a shadow.  For instance
+this information can be used to make certain objects only
+cast shadows from certain lights.
+<br><br>
+Data type: TQ3RendererPassInfo.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyDepthAlphaThreshold"><tt>kQ3RendererPropertyDepthAlphaThreshold</tt></a></dt><dd>Normally, geometry with transparent color or texture does not
+affect the OpenGL depth buffer.  By setting this property,
+you can make sufficiently opaque fragments (alpha greater
+than the given threshold) update the depth,
+at the expense of a little extra rendering time.
 <br><br>
 Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.</dd>
 </dl>
@@ -1586,6 +1629,36 @@ typedef enum TQ3RaveVendorID {
 <dt><a name="//Quesa/c/econst/kQAVendor_MicroConversions"><tt>kQAVendor_MicroConversions</tt></a></dt><dd>MicroConversions.</dd>
 <dt><a name="//Quesa/c/econst/kQAVendor_PurpleShark"><tt>kQAVendor_PurpleShark</tt></a></dt><dd>Purple Shark D3D shim.</dd>
 <dt><a name="//Quesa/c/econst/kQAVendor_VillageTronic"><tt>kQAVendor_VillageTronic</tt></a></dt><dd>VillageTronic.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3RendererPassType"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RendererPassType">TQ3RendererPassType</a></h2>
+</td></tr></table><hr>Pass types used in the TQ3RendererPassInfo structure.
+<br><br>
+<br>
+<blockquote><pre>
+typedef enum TQ3RendererPassType
+{
+  kQ3RendererPassNonShadow       = 0,
+  kQ3RendererPassShadowMarking   = 1,
+  kQ3RendererPassShadowLighting  = 2,
+  
+  kQ3RendererPassSize32  = 0x7FFFFFFF
+} TQ3RendererPassType;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3RendererPassNonShadow"><tt>kQ3RendererPassNonShadow</tt></a></dt><dd>The pass is handling lights that do not cast shadows.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPassShadowMarking"><tt>kQ3RendererPassShadowMarking</tt></a></dt><dd>The pass is marking the shadow of one shadow-casting
+light.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPassShadowLighting"><tt>kQ3RendererPassShadowLighting</tt></a></dt><dd>The pass is adding the light from one shadow-casting
+light.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3TextureFilter"></a>
@@ -1755,5 +1828,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>

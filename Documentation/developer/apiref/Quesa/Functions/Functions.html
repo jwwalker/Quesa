@@ -720,6 +720,12 @@ Only drawable objects may be submitted to a view's writing loop.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set a property of an object.  If there was already a property of the
 same type, it is replaced.
 <br><br>
+An object property can be used to associate some "plain old data" with
+an object.  If you need to attach non-self-contained data such as
+pointers or Quesa object references, it is better to use a custom
+element, where you can specify the correct behavior when the object is
+disposed or copied.
+<br><br>
 Property type tags consisting of all lowercase ASCII letters are reserved
 for Quesa internal use.
 <br><br>
@@ -1079,6 +1085,24 @@ for shared objects.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The type of the shared object.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shared_IsEditIndexLocked"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_IsEditIndexLocked">Q3Shared_IsEditIndexLocked</a></h2>
+</td></tr></table><hr>Test whether the edit index of a shared object is locked.
+
+<blockquote><pre><tt>( TQ3Boolean ) Q3Shared_IsEditIndexLocked (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject inObject
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><em>This function is not available in QD3D.</em>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inObject</em></tt></dt><dd>A shared object to update.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>kQ3True if locked, kQ3False if unlocked.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3Shared_IsReferenced"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_IsReferenced">Q3Shared_IsReferenced</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Shared_IsReferenced (
@@ -1099,10 +1123,9 @@ return kQ3False if the object a reference count of one.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>True or false as the object has more than one reference.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3Shared_SetEditIndex <br><br>"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_SetEditIndex <br><br>">Q3Shared_SetEditIndex <br><br></a></h2>
+<hr><a name="//Quesa/c/func/Q3Shared_SetEditIndex"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_SetEditIndex">Q3Shared_SetEditIndex</a></h2>
 </td></tr></table><hr>Set the edit index of a shared object.
-<br><br>
 
 <blockquote><pre><tt>( void ) Q3Shared_SetEditIndex (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject inObject,
@@ -1124,5 +1147,29 @@ without changing the edit index of the object.
 <dt><tt><em>inEditIndex</em></tt></dt><dd>New edit index.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
+<hr><a name="//Quesa/c/func/Q3Shared_SetEditIndexLocked"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_SetEditIndexLocked">Q3Shared_SetEditIndexLocked</a></h2>
+</td></tr></table><hr>Lock the edit index of a shared object.
+
+<blockquote><pre><tt>( void ) Q3Shared_SetEditIndexLocked (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject inObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean inIsLocked
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>When the edit index of an object is locked, Q3Shared_Edited
+does nothing.  You should do this only very temporarily, for
+example when setting a property on an object without flushing a
+cache that is attached to the object.  Doing so with this
+function is a little safer and easier to debug than doing so
+using Q3Shared_GetEditIndex and Q3Shared_SetEditIndex.
+<br><br>
+<em>This function is not available in QD3D.</em>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inIsLocked</em></tt></dt><dd>Pass kQ3True to lock, pass kQ3False to unlock.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>

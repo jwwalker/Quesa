@@ -493,7 +493,8 @@ typedef enum {
     kQ3ErrorBoundingLoopFailed                  = -28378,
 
     kQ3ErrorPlatformError                       = -28377,
-    kQ3ErrorInfiniteRationalPoint        = -28376,
+    kQ3ErrorInfiniteRationalPoint               = -28376,
+    kQ3ErrorTriMeshPointIndexOutOfRange         = -28375,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3ErrorLast,
@@ -626,6 +627,7 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kQ3ErrorBoundingLoopFailed"><tt>kQ3ErrorBoundingLoopFailed</tt></a></dt><dd>Bounding loop failed.</dd>
 <dt><a name="//Quesa/c/econst/kQ3ErrorPlatformError"><tt>kQ3ErrorPlatformError</tt></a></dt><dd>Platform-specific error. Not available in QD3D.</dd>
 <dt><a name="//Quesa/c/econst/kQ3ErrorInfiniteRationalPoint"><tt>kQ3ErrorInfiniteRationalPoint</tt></a></dt><dd>Infinite rational point. Not available in QD3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3ErrorTriMeshPointIndexOutOfRange"><tt>kQ3ErrorTriMeshPointIndexOutOfRange</tt></a></dt><dd>Bad point index in TriMesh data. Not available in QD3D.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3Notice"></a>
@@ -732,10 +734,10 @@ typedef enum {
     kQ3WarningTypeNewerVersionAlreadyRegistered = -28262,
     kQ3WarningInvalidObjectInGroupMetafile      = -28261,
 
-  kQ3WarningQuaternionNotNormalized           = -28260,
-  kQ3WarningNormalCanNotBeFlipped             = -28259,
-  kQ3WarningTriangleNotNormalized             = -28258,
-  kQ3WarningVertexNotNormalized               = -28257,
+    kQ3WarningQuaternionNotNormalized           = -28260,
+    kQ3WarningNormalCanNotBeFlipped             = -28259,
+    kQ3WarningTriangleNotNormalized             = -28258,
+    kQ3WarningVertexNotNormalized               = -28257,
     kQ3WarningReadInfiniteFloatingPointNumber   = -28256,
     kQ3WarningReadBadNormalVector               = -28255,
     kQ3WarningUnsupportedSubdivisionStyle       = -28254,
@@ -744,6 +746,7 @@ typedef enum {
     kQ3WarningShaderProgramLinkFailed           = -28251,
     kQ3WarningCannotAcceleratePixmap            = -28250,
     kQ3WarningNoOffscreenHardwareStencil        = -28249,
+    kQ3WarningTriMeshTriangleIndexOutOfBounds   = -28248,
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
     kQ3WarningLast,
@@ -819,7 +822,8 @@ offscreen rendering.</dd>
 <dt><a name="//Quesa/c/econst/kQ3WarningNoOffscreenHardwareStencil"><tt>kQ3WarningNoOffscreenHardwareStencil</tt></a></dt><dd>It was not possible to set up a stencil buffer (needed for
 rendering shadows) in a hardware-accelerated pixmap draw
 context.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WarningTriMeshTriangleIndexOutOfBounds"><tt>kQ3WarningTriMeshTriangleIndexOutOfBounds</tt></a></dt><dd>Bad triangle index in TriMesh data.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2008 Quesa Developers (Last Updated 5/10/2008)
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>
