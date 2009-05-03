@@ -1278,6 +1278,7 @@
 				8D07F2C10486CC7A007CD1D0 /* Sources */,
 				8D07F2C30486CC7A007CD1D0 /* Frameworks */,
 				8D07F2C50486CC7A007CD1D0 /* Rez */,
+				BEE381D40FAE3C26000EE99A /* Update API Reference */,
 			);
 			buildRules = (
 			);
@@ -1334,6 +1335,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BEE381D40FAE3C26000EE99A /* Update API Reference */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			comments = "This script automates updates of the API reference.\n\nWe are using a rather old version of HeaderDoc. It has a couple of problems that must be worked around:\n\n1. gatherHeaderDoc gets confused by the invisible .svn folders that Subversion litters around.  To deal with that, this script creates clean HeaderDoc output in a temporary directory, and runs gatherHeaderDoc there.\n\n2. gatherHeaderDoc does not have a template mechanism for its main output file.  I don't know perl, so I hacked gatherHeaderDoc to omit the header and footer sections, and then concatenate the proper header and footer in this script.\n\nOne might be tempted to update to a newer version of HeaderDoc.  Doing so is not trivial.  One problem occurs with the big list of object type codes in Quesa.h.  The newer HeaderDoc reformats the list, losing the careful indentation that reflects the class hierarchy.\n";
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/CQ3ObjectRef_Gets.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/CQ3ObjectRef.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/Q3GroupIterator.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/Quesa.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaCamera.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaController.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaCustomElements.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaDrawContext.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaErrors.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaExtension.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaGeometry.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaGroup.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaIO.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaLight.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaMath.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaMemory.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaPick.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaRenderer.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaSet.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaShader.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaStorage.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaString.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaStyle.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaTransform.h",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaView.h",
+				"$(SRCROOT)/../../../Development/Scripts/HeaderDoc/headerDoc2HTML.config",
+				"$(SRCROOT)/../../../SDK/Includes/Quesa/QuesaViewer.h",
+			);
+			name = "Update API Reference";
+			outputPaths = (
+				"$(SRCROOT)/../../../Documentation/Developer/apiref/MasterTOC.html",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Make paths to important directories\nQUESA_ROOT=\"$SRCROOT/../../..\"\nSCRIPT_DIR=\"$QUESA_ROOT/Development/Scripts/HeaderDoc\"\nOUT_DIR=\"$QUESA_ROOT/Documentation/developer/apiref\"\nHEADER_DIR=\"$QUESA_ROOT/SDK/Includes/Quesa\"\n\n# Write HeaderDoc output in usual documentation directory\necho \"*** First run of HeaderDoc with output in standard place:\"\n/usr/bin/perl \"$SCRIPT_DIR/headerDoc2HTML.pl\" -o \"$OUT_DIR\" \"$HEADER_DIR\"/*.h\n\n# The version of gatherHeaderDoc currently used in Quesa gets confused by the invisible .svn directories.\n# In order to avoid that problem, we make fresh HeaderDoc output in a temporary directory.\n\n# Make a temporary directory\ncd \"$QUESA_ROOT\"\nTMPDIRNAME=`mktemp -d QTempDocs.XXXXXX` || exit 1\nTMPDIR=\"$QUESA_ROOT/$TMPDIRNAME\"\n\n# Run HeaderDoc again, this time with output to the temporary directory\necho \"*** Second run of HeaderDoc with output in temporary place:\"\n/usr/bin/perl \"$SCRIPT_DIR/headerDoc2HTML.pl\" -o \"$TMPDIR\" \"$HEADER_DIR\"/*.h\n\n# Run gatherHeaderDoc on the temporary directory\necho \"*** Running gatherHeaderDoc:\"\n/usr/bin/perl \"$SCRIPT_DIR/gatherHeaderDoc.pl\" \"$TMPDIR\"\n\n# Copy the gatherHeaderDoc output file back to the standard location.\n# Note: This assumes that the only thing gatherHeaderDoc does is produce\n# the master table of contents and the toc.html files.  If we ever update\n# to a newer version of HeaderDoc, that may no longer be true.\necho \"*** Copying gatherHeaderDoc output\"\n/bin/cat \"$SCRIPT_DIR/MasterTOC-header-template.html\" \"$TMPDIR/MasterTOC.html\" \"$SCRIPT_DIR/MasterTOC-footer-template.html\" > \"$OUT_DIR/MasterTOC.html\"\ncd \"$TMPDIR\"\nfor i in * ; do\n\tif [ -d \"$i\" ] ; then\n\t\t/bin/cp \"$i/toc.html\" \"$OUT_DIR/$i\"\n\tfi\ndone\n\n# Remove the temporary directory\necho \"*** Cleaning up.\"\n/bin/rm -R $TMPDIR\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D07F2C10486CC7A007CD1D0 /* Sources */ = {
