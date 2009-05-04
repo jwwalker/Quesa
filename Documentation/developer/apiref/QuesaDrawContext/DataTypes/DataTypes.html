@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Defined Types</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Defined Types</font></h1><br>
+<hr><a name="//Quesa/c/tdef/TQ3GLContextDestructionCallback"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3GLContextDestructionCallback">TQ3GLContextDestructionCallback</a></h2>
+</td></tr></table><hr>Type of function pointer for use with
+kQ3DrawContextPropertyGLDestroyCallback.
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void, TQ3GLContextDestructionCallback</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject inQuesaDC<BR>);</tt><br>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>If this function pointer is set as a property on a draw context,
+it will be called when an OpenGL context is just about to be
+destroyed.  This will happen when a renderer is destroyed, and
+may happen at other times too.
+<br><br>
+If you are making OpenGL calls in client code, you may need this
+opportunity to clean up OpenGL objects or other data.
+<br><br>
+When the function is called, the OpenGL context will have been
+made active.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl><dt><tt>inQuesaDC</tt></dt><dd>The Quesa draw context associated with the OpenGL
+context being destroyed.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
+</p></body></html>
