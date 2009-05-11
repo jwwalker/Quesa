@@ -2207,7 +2207,10 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	glClear(*clearFlags);
+	if (*clearFlags != 0)
+	{
+		glClear(*clearFlags);
+	}
 
 	return(glContext);
 }
