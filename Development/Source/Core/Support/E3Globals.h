@@ -5,7 +5,7 @@
         Header file for E3Globals.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -479,8 +479,12 @@ typedef struct E3Globals {
 
 	// Platform specific (just Mac for now)
 #if QUESA_OS_MACINTOSH
+#if !TARGET_RT_MAC_MACHO || (MAC_OS_X_VERSION_MIN_REQUIRED < 1030)
 	DMNotificationUPP		dmNotifyUPP;
+#endif
+#if TARGET_API_MAC_OS8
 	TQ3Boolean				dmNotifiedChanges;
+#endif
 #endif
 
 

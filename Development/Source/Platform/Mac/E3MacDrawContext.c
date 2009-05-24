@@ -7,7 +7,7 @@
         Only WindowPtr based Mac draw contexts are supported at present.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -118,12 +118,14 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 	
 
 
+#if TARGET_API_MAC_OS8
 	// If a Display Manager notification has occurred, reset everything
 	if (theGlobals->dmNotifiedChanges)
 		{
 		theGlobals->dmNotifiedChanges = kQ3False;
 		return(kQ3XDrawContextValidationAll);
 		}
+#endif
 
 
 
@@ -496,17 +498,16 @@ e3drawcontext_mac_dm_notify(AppleEvent *theEvent)
 #pragma mark -
 TQ3Status
 E3MacDrawContext_RegisterClass(void)
-{	E3GlobalsPtr			theGlobals = E3Globals_Get();
+{
 	TQ3Status				qd3dStatus;
-
-
 
 
 #if TARGET_RT_MAC_MACHO && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1030)
 	// Register to be notified of display configuration changes
-	CGDisplayRegisterReconfigurationCallback( e3drawcontext_mac_cg_notify, theGlobals );
+	CGDisplayRegisterReconfigurationCallback( e3drawcontext_mac_cg_notify, NULL );
 
 #else
+	E3GlobalsPtr			theGlobals = E3Globals_Get();
 
 	// Register our Display Manager notification callback
 	theGlobals->dmNotifyUPP = NewDMNotificationUPP(e3drawcontext_mac_dm_notify);
@@ -536,15 +537,16 @@ E3MacDrawContext_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacDrawContext_UnregisterClass(void)
-{	E3GlobalsPtr			theGlobals = E3Globals_Get();
+{
 	TQ3Status				qd3dStatus;
 
 
 
-
 #if TARGET_RT_MAC_MACHO && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1030)
-	CGDisplayRemoveReconfigurationCallback( e3drawcontext_mac_cg_notify, theGlobals );
+	CGDisplayRemoveReconfigurationCallback( e3drawcontext_mac_cg_notify, NULL );
 #else
+	E3GlobalsPtr			theGlobals = E3Globals_Get();
+	
 	// Unregister our Display Manager notification callback
 	if (theGlobals->dmNotifyUPP != NULL)
 		{
