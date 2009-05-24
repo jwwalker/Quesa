@@ -5,7 +5,7 @@
         Mac specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -132,8 +132,12 @@ typedef struct E3MacSystem_PluginSlot {
 //=============================================================================
 //      Internal globals
 //-----------------------------------------------------------------------------
+#if TARGET_RT_MAC_CFM
 static AliasHandle gQuesaLib = NULL;
+#endif
+
 short gShlbResFile = 0;
+
 static E3MacSystem_PluginSlotPtr e3macsystem_pluginSlotHead = NULL;
 
 
@@ -542,6 +546,7 @@ E3MacSystem_LoadPlugins(void)
 
 
 
+#if TARGET_RT_MAC_CFM
 	// Find the Quesa shared library file (CFM only)
 	if (gQuesaLib != NULL)
 	{
@@ -554,6 +559,7 @@ E3MacSystem_LoadPlugins(void)
 		if (theErr == noErr)
 			++dirCount;
 	}
+#endif
 
 
 
