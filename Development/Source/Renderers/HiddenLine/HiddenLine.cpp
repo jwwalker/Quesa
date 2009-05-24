@@ -59,11 +59,6 @@
 
 #define kQ3ClassNameRendererHiddenLine				"Quesa HiddenLine"
 
-#if Q3_DEBUG
-	#define		CHECK_GL_ERROR	Q3_ASSERT( (sLastGLError = glGetError()) == GL_NO_ERROR )
-#else
-	#define		CHECK_GL_ERROR
-#endif
 
 namespace
 {

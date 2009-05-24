@@ -60,12 +60,6 @@
 #define kQ3ClassNameRendererWireFrame				"Quesa:Shared:Renderer:Wireframe"
 #define kRendererNickName							"Quesa Wireframe"
 
-#if Q3_DEBUG
-	#define		CHECK_GL_ERROR	Q3_ASSERT( (sLastGLError = glGetError()) == GL_NO_ERROR )
-#else
-	#define		CHECK_GL_ERROR
-#endif
-
 
 //____________________________________________________________________________________
 
