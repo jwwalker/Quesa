@@ -254,7 +254,7 @@ bool	CocoaGLContext::UpdateWindowSize()
 {
 	[(id)glContext update];
 	
-	NSRect	viewFrame = [(id)nsView bounds];
+	NSRect	viewFrame = [(NSView*)nsView bounds];
 	TQ3DrawContextData				drawContextData;
 	Q3DrawContext_GetData( quesaDrawContext, &drawContextData );
 	
