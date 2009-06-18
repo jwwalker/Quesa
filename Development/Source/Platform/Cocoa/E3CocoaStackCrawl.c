@@ -368,7 +368,7 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 	const MachOUUIDCommand	*mhID,*archID;
 	struct stat				finfo;
 	MachOFatHeader			fh;
-	uint32_t				index,narchs,offset;
+	uint32_t				index,narchs,offset = 0;
 	size_t					amount;
 	MachOHeader32			mh32;
 	

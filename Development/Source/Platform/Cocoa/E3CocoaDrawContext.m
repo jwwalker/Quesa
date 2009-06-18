@@ -113,8 +113,9 @@ public :
 
 
 
-	// Grab our bounds    
-	viewFrame = [[note object] bounds];
+	// Grab our bounds
+	NSView* view = [note object];
+	viewFrame = [view bounds];
 
 
 
@@ -236,7 +237,8 @@ e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area 
 
 
 	// Return our dimensions
-	viewFrame = [(id)instanceData->data.cocoaData.theData.nsView bounds];
+	NSView* view = (NSView*)instanceData->data.cocoaData.theData.nsView;
+	viewFrame = [view bounds];
 	thePane->min.x = (float) viewFrame.origin.x;
 	thePane->min.y = (float) viewFrame.origin.y;
 	thePane->max.x = (float) (viewFrame.origin.x + viewFrame.size.width);
