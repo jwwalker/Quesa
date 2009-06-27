@@ -2,7 +2,7 @@
 ARCHS = ppc i386
 
 // Build Locations
-SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk
+SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
 SYMROOT = Output-Xcode
 
 // Search Paths
