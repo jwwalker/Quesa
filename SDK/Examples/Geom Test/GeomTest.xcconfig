@@ -2,7 +2,7 @@
 ARCHS = ppc i386
 
 // Build Locations
-SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk
+SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
 
 // Search Paths
 HEADER_SEARCH_PATHS = ../Qut/Mac ../Qut
