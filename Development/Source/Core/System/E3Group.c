@@ -1333,12 +1333,15 @@ e3group_display_submit_render(TQ3ViewObject theView, TQ3ObjectType objectType,
 								TQ3Object theObject, const void *objectData)
 {
 #pragma unused( objectType, objectData )
+	TQ3Status qd3dStatus = kQ3Success;
 
 
 	// Find out if we need to submit ourselves
+	// Note: we must use E3DisplayGroup::GetInternalState, rather than using
+	// Q3DisplayGroup_GetState or E3DisplayGroup::GetState, because
+	// E3DisplayGroup::GetState masks out our private bits.
 	TQ3Boolean shouldSubmit = kQ3False;
-	TQ3DisplayGroupState theState;
-	TQ3Status qd3dStatus = Q3DisplayGroup_GetState( theObject, &theState );
+	TQ3DisplayGroupState theState = ((E3DisplayGroup*)theObject)->GetInternalState();
 	shouldSubmit = E3Bit_AnySet( theState, kQ3DisplayGroupStateMaskIsDrawn );
 
 
@@ -1675,7 +1678,7 @@ static TQ3XOrderIndex	e3group_display_ordered_typetoindex( TQ3ObjectType objectT
 
 
 //=============================================================================
-//      e3group_display_new : Display group new method.
+//      e3group_display_ordered_new : Display group new method.
 //-----------------------------------------------------------------------------
 TQ3Status
 e3group_display_ordered_new(TQ3Object theObject, void *privateData, const void *paramData)
@@ -3212,6 +3215,20 @@ E3DisplayGroup_GetType(TQ3GroupObject theGroup)
 	
 	return theGroup->GetObjectType ( kQ3GroupTypeDisplay ) ;
 	}
+
+
+
+
+
+//=============================================================================
+//      E3DisplayGroup::GetInternalState : Gets a display group's state,
+//											including private flags.
+//-----------------------------------------------------------------------------
+TQ3DisplayGroupState
+E3DisplayGroup::GetInternalState()
+{
+	return displayGroupData.state;
+}
 
 
 

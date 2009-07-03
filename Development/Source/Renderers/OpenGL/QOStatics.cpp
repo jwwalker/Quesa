@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -762,6 +762,10 @@ TQ3XFunctionPointer		QORenderer::Statics::MetaHandler( TQ3XMethodType inMethodTy
 
 		case kQ3XMethodTypeRendererIsInteractive:
 			theMethod = (TQ3XFunctionPointer) kQ3True;
+			break;
+			
+		case kQ3XMethodTypeRendererIsBoundingBoxVisible:
+			theMethod = (TQ3XFunctionPointer) &QORenderer::Statics::IsBoundingBoxVisibleMethod;
 			break;
 			
 		case kQ3XMethodTypeRendererStartFrame:
