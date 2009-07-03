@@ -270,7 +270,8 @@ public :
 
 
 	TQ3Status				GetState ( TQ3DisplayGroupState* pState ) ;
-	TQ3Status				SetState ( TQ3DisplayGroupState pState ) ;	
+	TQ3Status				SetState ( TQ3DisplayGroupState pState ) ;
+	TQ3DisplayGroupState	GetInternalState();
 	
 	TQ3Status				SetAndUseBoundingBox ( const TQ3BoundingBox *pBBox ) ;
 	TQ3Status				GetBoundingBox ( TQ3BoundingBox *pBBox ) ;
@@ -278,7 +279,8 @@ public :
 	TQ3Status				CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewObject view ) ;
 
 
-	friend TQ3Status		e3group_display_new(TQ3Object theObject, void *privateData, const void *paramData) ;
+	friend TQ3Status		e3group_display_new(TQ3Object theObject,
+								void *privateData, const void *paramData) ;
 	} ;
 
 
