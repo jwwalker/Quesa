@@ -1337,24 +1337,20 @@ e3group_display_submit_render(TQ3ViewObject theView, TQ3ObjectType objectType,
 
 
 	// Find out if we need to submit ourselves
-	// Note: we must use E3DisplayGroup::GetInternalState, rather than using
-	// Q3DisplayGroup_GetState or E3DisplayGroup::GetState, because
-	// E3DisplayGroup::GetState masks out our private bits.
 	TQ3Boolean shouldSubmit = kQ3False;
-	TQ3DisplayGroupState theState = ((E3DisplayGroup*)theObject)->GetInternalState();
+	TQ3DisplayGroupState theState;
+	((E3DisplayGroup*)theObject)->GetState( &theState );
 	shouldSubmit = E3Bit_AnySet( theState, kQ3DisplayGroupStateMaskIsDrawn );
 
 
 	
 	// Do group culling if appropriate
+	TQ3BoundingBox	theBBox;
 	if ( shouldSubmit &&
-		E3Bit_IsSet( theState, (kQ3DisplayGroupStateMaskHasBoundingBox |
-			kQ3DisplayGroupStateMaskUseBoundingBox)) &&
-		E3View_IsGroupCullingAllowed( theView ) )
+		E3Bit_IsSet( theState, kQ3DisplayGroupStateMaskUseBoundingBox ) &&
+		E3View_IsGroupCullingAllowed( theView ) &&
+		(kQ3Success == ((E3DisplayGroup*)theObject)->GetBoundingBox( &theBBox )) )
 	{
-		TQ3BoundingBox	theBBox;
-		((E3DisplayGroup*) theObject)->GetBoundingBox( &theBBox );
-		
 		shouldSubmit = E3Renderer_Method_IsBBoxVisible( theView, &theBBox );
 	}
 
@@ -3215,20 +3211,6 @@ E3DisplayGroup_GetType(TQ3GroupObject theGroup)
 	
 	return theGroup->GetObjectType ( kQ3GroupTypeDisplay ) ;
 	}
-
-
-
-
-
-//=============================================================================
-//      E3DisplayGroup::GetInternalState : Gets a display group's state,
-//											including private flags.
-//-----------------------------------------------------------------------------
-TQ3DisplayGroupState
-E3DisplayGroup::GetInternalState()
-{
-	return displayGroupData.state;
-}
 
 
 
