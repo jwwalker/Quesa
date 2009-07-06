@@ -271,7 +271,6 @@ public :
 
 	TQ3Status				GetState ( TQ3DisplayGroupState* pState ) ;
 	TQ3Status				SetState ( TQ3DisplayGroupState pState ) ;
-	TQ3DisplayGroupState	GetInternalState();
 	
 	TQ3Status				SetAndUseBoundingBox ( const TQ3BoundingBox *pBBox ) ;
 	TQ3Status				GetBoundingBox ( TQ3BoundingBox *pBBox ) ;
