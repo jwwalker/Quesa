@@ -50,6 +50,8 @@
 
 #include <cmath>
 
+using namespace std;	// sometimes lround is in std, sometimes not
+
 #pragma mark struct XPolyValueImp
 struct XPolyValueImp
 {
