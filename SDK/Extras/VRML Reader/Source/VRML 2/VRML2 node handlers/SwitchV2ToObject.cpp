@@ -5,7 +5,7 @@
          VRML 2 node handler.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,11 @@
 #include "PolyValue.h"
 #include "SetGroupName.h"
 
+#if __MACH__
+	#include <Quesa/Q3GroupIterator.h>
+#else
+	#include <Q3GroupIterator.h>
+#endif
 
 /*!
 	@function	SwitchV2ToObject
@@ -69,9 +74,52 @@ CQ3ObjectRef	SwitchV2ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 	
 	if (theObject.isvalid())
 	{
-		SetGroupName( theObject, ioNode.GetDictionary() );
+		PolyValue::Dictionary&	nodeDict( ioNode.GetDictionary() );
+		
+		SetGroupName( theObject, nodeDict );
 		
 		SetCachedObject( ioNode, theObject );
+		
+		// A switch node should display whichever child is indicated by the
+		// whichChoice index.  The default index is -1, meaning nothing is shown.
+		int	whichChoice = -1;
+		if (IsKeyPresent( nodeDict, "whichChoice" ))
+		{
+			PolyValue&	whichChoiceValue( nodeDict["whichChoice"] );
+			if (whichChoiceValue.IsNumber())
+			{
+				whichChoice = whichChoiceValue.GetInt();
+			}
+		}
+		
+		if ( whichChoice < 0 )
+		{
+			theObject = CQ3ObjectRef();	// nothing shown
+		}
+		else if (madeGroup)
+		{
+			CQ3ObjectRef	switchGroup( theObject );
+			theObject = CQ3ObjectRef();
+			int		childIndex = 0;
+			Q3GroupIterator		iter( switchGroup.get() );
+			CQ3ObjectRef	theChild;
+			while ( (theChild = iter.NextObject()).isvalid() )
+			{
+				if (childIndex == whichChoice)
+				{
+					theObject = theChild;
+					break;
+				}
+				++childIndex;
+			}
+		}
+		else	// single child
+		{
+			if (whichChoice > 0)
+			{
+				theObject = CQ3ObjectRef();	// nothing shown
+			}
+		}
 	}
 	
 	return theObject;
