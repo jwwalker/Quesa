@@ -5,7 +5,7 @@
        Class to hold polymorphic values.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,6 +47,8 @@
 #else
 	#include <CQ3ObjectRef.h>
 #endif
+
+#include <cmath>
 
 #pragma mark struct XPolyValueImp
 struct XPolyValueImp
@@ -288,6 +290,10 @@ int					PolyValue::GetInt() const
 	if (GetType() == kDataTypeInt)
 	{
 		theVal = static_cast<XIntegerValueImp*>( mImp.get() )->value;
+	}
+	else if (GetType() == kDataTypeFloat)
+	{
+		theVal = ::lround( GetFloat() );
 	}
 	return theVal;
 }
