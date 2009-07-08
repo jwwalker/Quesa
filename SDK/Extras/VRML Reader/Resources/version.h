@@ -5,7 +5,7 @@
         Version numbers for version resources.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -42,7 +42,7 @@
 */
 #define		kNumVersionMajor	1
 #define		kNumVersionMinor	1
-#define		kNumVersionBugfix	0
+#define		kNumVersionBugfix	1
 
-#define		kStringVersion		"1.1"
-#define		kUnquotedVersion	1.1
+#define		kStringVersion		"1.1.1"
+#define		kUnquotedVersion	1.1.1
