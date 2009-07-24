@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -88,7 +88,7 @@ namespace
 		somewhat smaller slowdown when using display lists.  Hence we impose
 		an arbitrary lower bound on the size of meshes to cache.
 	*/
-	const TQ3Uns32	kMinTrianglesToCache	= 500;
+	const TQ3Uns32	kMinTrianglesToCache	= 400;
 }
 
 
