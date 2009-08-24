@@ -271,6 +271,7 @@ void	TransBuffer::AddPrim(
 	
 	// Record the primitive.
 	mTransBuffer.push_back( thePrim );
+	mIsSortNeeded = true;
 }
 				
 void	TransBuffer::AddTriangle( const Vertex* inVertices )
@@ -299,18 +300,23 @@ void	TransBuffer::AddPoint( const Vertex& inVertex )
 
 void	TransBuffer::SortIndices()
 {
-	const TQ3Uns32 kNumPrims = mTransBuffer.size();
-	mPrimPtrs.resize( kNumPrims );
-	TQ3Uns32	i;
-	const TransparentPrim**	ptrArray = &mPrimPtrs[0];
-	
-	for (i = 0; i < kNumPrims; ++i)
+	if (mIsSortNeeded)
 	{
-		mPrimPtrs[i] = &mTransBuffer[i];
+		const TQ3Uns32 kNumPrims = mTransBuffer.size();
+		mPrimPtrs.resize( kNumPrims );
+		TQ3Uns32	i;
+		const TransparentPrim**	ptrArray = &mPrimPtrs[0];
+		
+		for (i = 0; i < kNumPrims; ++i)
+		{
+			mPrimPtrs[i] = &mTransBuffer[i];
+		}
+		
+		PtrCompare	comparator;
+		std::sort( ptrArray, ptrArray + kNumPrims, comparator );
+		
+		mIsSortNeeded = false;
 	}
-	
-	PtrCompare	comparator;
-	std::sort( ptrArray, ptrArray + kNumPrims, comparator );
 }
 
 void	TransBuffer::Cleanup()
@@ -345,6 +351,7 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	
 	glEnable( GL_LIGHTING );
 	mIsLightingEnabled = true;
+	mIsSortNeeded = false;
 	
 	TQ3FillStyle	theFillStyle = kQ3FillStyleFilled;
 	mRenderer.UpdateFillStyle( &theFillStyle );
@@ -713,6 +720,7 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	// Turn on writing to the depth buffer
 	glDepthMask( GL_TRUE );
 	glEnable( GL_DEPTH_TEST );
+	glDepthFunc( GL_LEQUAL );
 	
 	// Set up alpha test
 	glEnable( GL_ALPHA_TEST );
@@ -738,6 +746,8 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 		
 		InitGLStateForDepth( inView, alphaThreshold );
 
+		SortIndices();
+		
 		const TQ3Uns32 kNumPrims = mTransBuffer.size();
 		
 		for (TQ3Uns32 i = 0; i < kNumPrims; ++i)
