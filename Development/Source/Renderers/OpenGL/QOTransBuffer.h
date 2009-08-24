@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -175,6 +175,7 @@ private:
 	// State used when flushing (drawing) primitives
 	std::vector<const TransparentPrim*>		mPrimPtrs;
 	bool							mIsLightingEnabled;
+	bool							mIsSortNeeded;
 	TQ3Uns32						mCurCameraToFrustumIndex;
 	TQ3CameraTransformData			mCurCameraTransform;
 	GLuint							mCurTexture;
