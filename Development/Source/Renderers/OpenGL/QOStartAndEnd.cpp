@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -411,11 +411,15 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 	bool isMoreNeeded;
 	GLenum	dstFactor = GL_ONE_MINUS_SRC_ALPHA;
 	
-	mLights.StartFrame( inView, false );
+	// Ignore any mask set for shadowing
+	glDisable( GL_STENCIL_TEST );
 	
-	// Remove any mask set for shadowing
-	glStencilMask( ~0 );
-	glClear( GL_STENCIL_BUFFER_BIT );
+	// If kQ3RendererPropertyDepthAlphaThreshold has been set, let the mostly-
+	// opaque parts affect the depth buffer, so that other parts will not be
+	// drawn behind them.
+	mTransBuffer.DrawDepth( inView );
+
+	mLights.StartFrame( inView, false );
 	
 	do
 	{
@@ -431,7 +435,6 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 		isMoreNeeded = mLights.EndPass();
 	} while (isMoreNeeded);
 	
-	mTransBuffer.DrawDepth( inView );
 	mTransBuffer.Cleanup();
 }
 
