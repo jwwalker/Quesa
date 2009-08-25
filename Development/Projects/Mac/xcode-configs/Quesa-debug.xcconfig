@@ -41,7 +41,7 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(QUESA_PREPROCESSOR_DEFINITIONS_COM
 QUESA_EXTRA_DEBUG_C =
 OTHER_CFLAGS = $(inherited) $(QUESA_EXTRA_DEBUG_C)
 
-// Extra C++-only debugging features, requires gcc 3 or later.
+// Extra C++-only debugging features, requires gcc 3 or later, and requires using the default system compiler (4.0 on 10.5, 4.2 on 10.6)
 // QUESA_EXTRA_DEBUG_CXX = -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
 QUESA_EXTRA_DEBUG_CXX =
 OTHER_CXXFLAGS = $(inherited) $(QUESA_EXTRA_DEBUG_C) $(QUESA_EXTRA_DEBUG_CXX)

@@ -1,5 +1,5 @@
 // Build Locations
-	SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+	SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
 
 // Build Options
 	DEBUG_INFORMATION_FORMAT = dwarf

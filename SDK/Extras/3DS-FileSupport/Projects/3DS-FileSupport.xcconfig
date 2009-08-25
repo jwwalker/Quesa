@@ -1,4 +1,4 @@
-SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk
+SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
 HEADER_SEARCH_PATHS = $(PROJECT_DIR)/../Resources $(PROJECT_DIR)/../lib3ds
 FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../../../Libraries/Mac/Framework_Universal/$(CONFIGURATION)"
 DEBUG_INFORMATION_FORMAT = dwarf
