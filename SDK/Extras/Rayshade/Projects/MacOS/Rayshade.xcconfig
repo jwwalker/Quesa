@@ -1,6 +1,6 @@
 
 // Build Locations
-SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk
+SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
 
 // Search Paths
 USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../Sources/Rayshade/"
