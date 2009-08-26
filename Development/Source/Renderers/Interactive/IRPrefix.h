@@ -5,7 +5,7 @@
         Global prefix file for Quesa's interactive renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -137,8 +137,6 @@ typedef struct TQ3InteractiveData {
 	// GL state
 	GLbitfield				glClearFlags;
 	void					*glContext;
-	TQ3Boolean				glATICheckedFSAA;
-	TQ3Boolean				glATIAvailableFSAA;
 	TQ3Boolean				glClientStateNormal;
 	TQ3Boolean				glClientStateColor;
 	TQ3Boolean				glClientStateUV;
