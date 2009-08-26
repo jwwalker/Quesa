@@ -5,7 +5,7 @@
         Quesa interactive renderer update methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -64,6 +64,11 @@
 #define kAAPointSize									0.5f
 #define kAALineSize										0.5f
 
+
+#ifndef	GL_SAMPLE_BUFFERS_ARB
+	#define	GL_SAMPLE_BUFFERS_ARB			0x80A8
+	#define	GL_MULTISAMPLE_ARB				0x809D
+#endif
 
 
 
@@ -653,80 +658,60 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 	glDisable(GL_POINT_SMOOTH);
 	glDisable(GL_LINE_SMOOTH);
 	glDisable(GL_POLYGON_SMOOTH);
+	GLint	sampleBuffers = 0;
+	glGetIntegerv( GL_SAMPLE_BUFFERS_ARB, &sampleBuffers );
+	if (sampleBuffers > 0)
+	{
+		glDisable( GL_MULTISAMPLE_ARB );
+	}
+
+
+
+	// restore defaults
+	glPointSize(1.0f);
+	glLineWidth(1.0f);
 
 
 
 	// Turn things back on as required
 	if (styleData->state == kQ3On)
+	{
+		if ( (styleData->mode & kQ3AntiAliasModeMaskFullScreen) != 0 )
 		{
-		// Set up our aliasing thresholds
-		//
-		// Implementations should clamp anti-aliased lines to their minimum width
-		// automatically, however some common systems (Rev-A G5s, some iBooks and
-		// AlBooks) will draw zero-width lines if line smoothing is enabled.
-		//
-		// To avoid this we clamp our line widths to the minimum supported sizes,
-		// to ensure we always have a visible line.
-		lineWidth = E3Num_Max(kAALineSize, GLDrawContext_GetMinLineWidth(instanceData->glContext));
-
-		glPointSize(kAAPointSize);
-		glLineWidth(lineWidth);
-
-
-		// Always do points
-		glEnable(GL_POINT_SMOOTH);
-
-
-		// Do edges or polygons as required
-		if (styleData->mode & kQ3AntiAliasModeMaskEdges)
-			glEnable(GL_LINE_SMOOTH);
-
-		if (styleData->mode & kQ3AntiAliasModeMaskFilled)
-			glEnable(GL_POLYGON_SMOOTH);
-		}
-	else
-		{
-		// restore defaults
-		glPointSize(1.0f);
-		glLineWidth(1.0f);
-		}
-
-
-	// Special-case FSAA support for ATI hardware on the Mac
-	//
-	// Should be extended to other cards/platforms as per bug 69, and
-	// use the ARB_multisample extension if present.
-	//
-	// http://cvs.designcommunity.com/bugzilla/show_bug.cgi?id=69
-	#if QUESA_OS_MACINTOSH && ! QUESA_OS_COCOA
-
-	if (!instanceData->glATICheckedFSAA)
-		{
-		instanceData->glATICheckedFSAA = kQ3True;
-		strcpy(theBuffer, (const char *) glGetString(GL_RENDERER));
-		
-		if ((strstr(theBuffer, "ATI") != NULL && strstr(theBuffer, "adeon") != NULL) ||
-		     strcmp(theBuffer, "ATI R-200 OpenGL Engine") == 0)
-			instanceData->glATIAvailableFSAA = kQ3True;
-		}
-	
-	if (instanceData->glATIAvailableFSAA)
-		{
-		if (styleData->state == kQ3On && (styleData->mode & kQ3AntiAliasModeMaskFullScreen))
-			fsaaLevel = (styleData->quality > 0.5f) ? 4 : 2;
-		else
-			fsaaLevel = 0;
-
-		if (!aglSetInteger(aglGetCurrentContext(), ATI_FSAA_SAMPLES, &fsaaLevel))
+			if (sampleBuffers > 0)
 			{
-			instanceData->glATIAvailableFSAA = kQ3False;
-			
-			// If ATI_FSAA_SAMPLES is not available, the AGL error will be set to AGL_BAD_ENUM.
-			(void) aglGetError();
+				glEnable( GL_MULTISAMPLE_ARB );
 			}
 		}
+		else
+		{
+			// Set up our aliasing thresholds
+			//
+			// Implementations should clamp anti-aliased lines to their minimum width
+			// automatically, however some common systems (Rev-A G5s, some iBooks and
+			// AlBooks) will draw zero-width lines if line smoothing is enabled.
+			//
+			// To avoid this we clamp our line widths to the minimum supported sizes,
+			// to ensure we always have a visible line.
+			lineWidth = E3Num_Max(kAALineSize,
+				GLDrawContext_GetMinLineWidth(instanceData->glContext));
 
-	#endif
+			glPointSize(kAAPointSize);
+			glLineWidth(lineWidth);
+
+
+			// Always do points
+			glEnable(GL_POINT_SMOOTH);
+
+
+			// Do edges or polygons as required
+			if (styleData->mode & kQ3AntiAliasModeMaskEdges)
+				glEnable(GL_LINE_SMOOTH);
+
+			if (styleData->mode & kQ3AntiAliasModeMaskFilled)
+				glEnable(GL_POLYGON_SMOOTH);
+		}
+	}
 
 	return(kQ3Success);
 }
