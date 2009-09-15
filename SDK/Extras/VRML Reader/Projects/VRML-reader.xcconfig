@@ -1,6 +1,12 @@
 // Architectures
 ARCHS = ppc i386
 
+// Compiler version
+//		This has implications for other settings.
+//		If you use GCC 4.2 or later, you cannot use the 10.4u SDK, and PowerPC
+//		code will not run on G3s.
+GCC_VERSION = 4.0
+
 // Build Locations
 SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
 SYMROOT = Output-Xcode
