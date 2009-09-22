@@ -5,7 +5,7 @@
         Windows debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,6 +45,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Debug.h"
+#include "ShlObj.h"
 
 #include <stdio.h>
 
@@ -128,15 +129,15 @@ void		E3LogMessage( const char* inMessage )
 	if (sLogFile == NULL)
 	{
 		TCHAR thePath[MAX_PATH];
-		if (GetModuleFileName( 0, thePath, MAX_PATH ) > 0)
+		
+		HRESULT	res = SHGetFolderPath( NULL, CSIDL_PERSONAL, NULL,
+			0, thePath );
+		
+		if (res == S_OK)
 		{
-			char*	backslashLoc = strrchr( thePath, '\\' );
-			if (backslashLoc != NULL)
-			{
-				*backslashLoc = '\0';
-				strcat( thePath, "\\Quesa.log" );
-				sLogFile = fopen( thePath, "ab" );
-			}
+			strcat( thePath, "\\Quesa.log" );
+			
+			sLogFile = fopen( thePath, "ab" );
 		}
 	}
 	
