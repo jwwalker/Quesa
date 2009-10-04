@@ -297,15 +297,18 @@ private:
 //		Internal functions
 //-----------------------------------------------------------------------------
 
-void	CQ3GLContext::BindFrameBuffer( GLuint inFrameBufferID )
+bool	CQ3GLContext::BindFrameBuffer( GLuint inFrameBufferID )
 {
+	bool	didChange = false;
 	if ( (bindFrameBufferFunc != NULL) &&
 		(inFrameBufferID != currentFrameBufferID) )
 	{
 		((glBindFramebufferEXTProcPtr) bindFrameBufferFunc)( GL_FRAMEBUFFER_EXT,
 			inFrameBufferID );
 		currentFrameBufferID = inFrameBufferID;
+		didChange = true;
 	}
+	return didChange;
 }
 
 /*!
@@ -711,11 +714,15 @@ void	FBORec::SetCurrent( TQ3Boolean inForceSet )
 {
 	SetCurrentBase( inForceSet );
 	
-	static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer( frameBufferID );
+	bool changedID = static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer(
+		frameBufferID );
 	
-	glDisable( GL_SCISSOR_TEST );
+	if (changedID)
+	{
+		glDisable( GL_SCISSOR_TEST );
 
-	glViewport( fboViewPort[0], fboViewPort[1], fboViewPort[2], fboViewPort[3] );
+		glViewport( fboViewPort[0], fboViewPort[1], fboViewPort[2], fboViewPort[3] );
+	}
 }
 
 void	FBORec::SetCurrentBase( TQ3Boolean inForceSet )
@@ -1391,10 +1398,11 @@ void	MacGLContext::SetCurrent( TQ3Boolean inForceSet )
 	SetCurrentBase( inForceSet );
 	
 	// Make sure that no FBO is active
-	BindFrameBuffer( 0 );
-
-	// Restore viewport, which may have been changed by an FBO
-	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
+	if (BindFrameBuffer( 0 ))
+	{
+		// Restore viewport, which may have been changed by an FBO
+		glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
+	}
 }
 
 bool	MacGLContext::UpdateWindowPosition()
@@ -2004,15 +2012,16 @@ void	WinGLContext::SetCurrent( TQ3Boolean inForceSet )
 	// Make sure that no FBO is active
 	if (GetCurrentFrameBuffer() != 0)
 	{
-		BindFrameBuffer( 0 );
-		
-		// FBOs turn off scissor test
-		if (needsScissor)
+		if (BindFrameBuffer( 0 ))
 		{
-			glEnable( GL_SCISSOR_TEST );
+			// FBOs turn off scissor test
+			if (needsScissor)
+			{
+				glEnable( GL_SCISSOR_TEST );
+			}
+			
+			glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 		}
-		
-		glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 	}
 }
 

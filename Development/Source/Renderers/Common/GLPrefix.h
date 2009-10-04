@@ -144,8 +144,8 @@ public:
 	virtual void		SetCurrentBase( TQ3Boolean inForceSet ) = 0;
 	
 						// Set the active framebuffer (FBO), or use 0 to select
-						// no FBO.
-	void				BindFrameBuffer( GLuint inFrameBufferID );
+						// no FBO.  Returns true if the framebuffer ID changed.
+	bool				BindFrameBuffer( GLuint inFrameBufferID );
 	
 	GLuint				GetCurrentFrameBuffer() const { return currentFrameBufferID; }
 	
