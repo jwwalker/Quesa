@@ -977,11 +977,6 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 								const TQ3Param2D* inVertUVs,
 								const TQ3ColorRGB* inVertColors )
 {
-	// Enable/disable array states.
-	mGLClientStates.EnableNormalArray( true );
-	mGLClientStates.EnableTextureArray( inVertUVs != NULL );
-	mGLClientStates.EnableColorArray( inVertColors != NULL );
-	
 	// If there is a texture, and illumination is not NULL, use white as the
 	// underlying color.
 	if ( mTextures.IsTextureActive() &&
@@ -997,6 +992,11 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 	{
 		glColor3fv( &mGeomState.diffuseColor->r );
 	}
+	
+	// Enable/disable array states.
+	mGLClientStates.EnableNormalArray( true );
+	mGLClientStates.EnableTextureArray( inVertUVs != NULL );
+	mGLClientStates.EnableColorArray( inVertColors != NULL );
 	
 	if ( (inTriMesh != NULL) &&
 		(inGeomData.numTriangles >= kMinTrianglesToCache) )
