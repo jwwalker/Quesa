@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -56,12 +56,12 @@
 
 static bool IsOne( float inValue )
 {
-	return fabsf( inValue - 1.0f ) < kQ3RealZero;
+	return fabsf( inValue - 1.0f ) < 3 * kQ3RealZero;
 }
 
 static bool IsZero( float inValue )
 {
-	return fabsf( inValue ) < kQ3RealZero;
+	return fabsf( inValue ) < 3 * kQ3RealZero;
 }
 
 /*!
@@ -84,9 +84,9 @@ static bool IsOrthogonalMatrix( const TQ3Matrix4x4& inMtx )
 		const TQ3Vector3D* row2 = (const TQ3Vector3D*) &inMtx.value[1];
 		const TQ3Vector3D* row3 = (const TQ3Vector3D*) &inMtx.value[2];
 		
-		isOrtho = IsOne( Q3FastVector3D_Dot( row1, row1 ) ) &&
-			IsOne( Q3FastVector3D_Dot( row2, row2 ) ) &&
-			IsOne( Q3FastVector3D_Dot( row3, row3 ) ) &&
+		isOrtho = IsOne( Q3FastVector3D_LengthSquared( row1 ) ) &&
+			IsOne( Q3FastVector3D_LengthSquared( row2 ) ) &&
+			IsOne( Q3FastVector3D_LengthSquared( row3 ) ) &&
 			IsZero( Q3FastVector3D_Dot( row1, row2 ) ) &&
 			IsZero( Q3FastVector3D_Dot( row1, row3 ) ) &&
 			IsZero( Q3FastVector3D_Dot( row2, row3 ) );
