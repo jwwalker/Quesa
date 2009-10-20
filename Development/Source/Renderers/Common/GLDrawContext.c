@@ -482,6 +482,47 @@ gldrawcontext_fbo_convert_pixel_format( int inBytesPerPixel,
 	}
 }
 
+static GLenum gldrawcontext_fbo_depth_internal_format( TQ3Uns32 inDepthBits )
+{
+	GLenum	depthFormat = GL_DEPTH_COMPONENT;
+	switch (inDepthBits)
+	{
+		case 16:
+			depthFormat = GL_DEPTH_COMPONENT16;
+			break;
+		case 24:
+			depthFormat = GL_DEPTH_COMPONENT24;
+			break;
+		case 32:
+			depthFormat = GL_DEPTH_COMPONENT32;
+			break;
+	}
+	return depthFormat;
+}
+
+static GLenum gldrawcontext_fbo_stencil_internal_format( TQ3Uns32 inDepthBits )
+{
+	GLenum	stencilFormat = GL_STENCIL_INDEX;
+	switch (inDepthBits)
+	{
+		case 1:
+			stencilFormat = GL_STENCIL_INDEX1_EXT;
+			break;
+			
+		case 4:
+			stencilFormat = GL_STENCIL_INDEX4_EXT;
+			break;
+			
+		case 8:
+			stencilFormat = GL_STENCIL_INDEX8_EXT;
+			break;
+			
+		case 16:
+			stencilFormat = GL_STENCIL_INDEX16_EXT;
+			break;
+	}
+	return stencilFormat;
+}
 
 FBORec::FBORec(
 		TQ3DrawContextObject theDrawContext,
@@ -549,25 +590,34 @@ FBORec::FBORec(
 		glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
 			GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
 			depthRenderBufferID );
+		
+		// If the FBO setup failed, try with depth only.  In theory this should
+		// not happen, but there could be a driver bug.
+		if ( glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT ) !=
+			GL_FRAMEBUFFER_COMPLETE_EXT )
+		{
+			// No stencil attachment
+			glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+				GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, 0 );
+			// Detach depth for a moment (maybe not needed)
+			glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+				GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, 0 );
+			// Change renderbuffer format to depth only
+			glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+				gldrawcontext_fbo_depth_internal_format( depthBits ),
+				inPaneWidth, inPaneHeight );
+			// Reattach to depth attachment point
+			glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+				GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
+				depthRenderBufferID );
+		}
 	}
 	else
 	{
 		// Create depth renderbuffer
-		GLenum	depthFormat = GL_DEPTH_COMPONENT;
-		switch (depthBits)
-		{
-			case 16:
-				depthFormat = GL_DEPTH_COMPONENT16;
-				break;
-			case 24:
-				depthFormat = GL_DEPTH_COMPONENT24;
-				break;
-			case 32:
-				depthFormat = GL_DEPTH_COMPONENT32;
-				break;
-		}
 		glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
-			depthFormat, inPaneWidth, inPaneHeight );
+			gldrawcontext_fbo_depth_internal_format( depthBits ),
+			inPaneWidth, inPaneHeight );
 		glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
 			GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
 			depthRenderBufferID );
@@ -579,30 +629,12 @@ FBORec::FBORec(
 		// is not supported.
 		if (stencilBits > 0)
 		{
-			GLenum	stencilFormat = GL_STENCIL_INDEX;
-			switch (stencilBits)
-			{
-				case 1:
-					stencilFormat = GL_STENCIL_INDEX1_EXT;
-					break;
-					
-				case 4:
-					stencilFormat = GL_STENCIL_INDEX4_EXT;
-					break;
-					
-				case 8:
-					stencilFormat = GL_STENCIL_INDEX8_EXT;
-					break;
-					
-				case 16:
-					stencilFormat = GL_STENCIL_INDEX16_EXT;
-					break;
-			}
 			glGenRenderbuffersEXT( 1, &stencilRenderBufferID );
 			glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
 				stencilRenderBufferID );
 			glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
-				stencilFormat, inPaneWidth, inPaneHeight );
+				gldrawcontext_fbo_stencil_internal_format( stencilBits),
+				inPaneWidth, inPaneHeight );
 			GLenum	theGLErr = glGetError();
 			if (theGLErr == GL_NO_ERROR)
 			{
