@@ -4076,13 +4076,13 @@ E3Quaternion_InterpolateFast(const TQ3Quaternion *q1, const TQ3Quaternion *q2, f
 //-----------------------------------------------------------------------------
 //		Note :	Despite the name, this function does a SLERP from q1 to q2.
 //				It falls back on a straight linear interpolation only when the
-//				cosine of the angle between them is less than 0.01.
+//				cosine of the angle between them is greater than 0.99.
 //				
 //				The cut-off point was chosen arbitrarily, and may not match
 //				that of QD3D.
 //
 //				This code adapted from:
-//				http://www.gamasutra.com/features/19980703/quaternions_01.htm
+//				http://www.gamasutra.com/view/feature/3278/rotating_objects_using_quaternions.php
 //
 //				Untested.
 //-----------------------------------------------------------------------------
@@ -4093,8 +4093,7 @@ E3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 	float	omega, cosom, sinom, scale0, scale1;
 
 	// calc cosine
-	cosom = q1->x*q2->x + q1->y*q2->y + q1->z*q2->z
-	             + q1->w*q2->w;
+	cosom = Q3FastQuaternion_Dot( q1, q2 );
 
 	// adjust signs (if necessary)
 	if ( cosom < 0.0f ){
@@ -4112,23 +4111,35 @@ E3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 
 	// calculate coefficients
 
-	if ( (1.0f - cosom) > 0.01f ) {
+	if ( (1.0f - cosom) > 0.01f )
+	{
 		// standard case (slerp)
 		omega = (float) acos(cosom);
 		sinom = (float) sin(omega);
 		scale0 = (float) sin((1.0f - t) * omega) / sinom;
 		scale1 = (float) sin(t * omega) / sinom;
-	} else {        
+
+		// calculate final values
+		result->x = scale0*q1->x + scale1*to1[0];
+		result->y = scale0*q1->y + scale1*to1[1];
+		result->z = scale0*q1->z + scale1*to1[2];
+		result->w = scale0*q1->w + scale1*to1[3];
+	}
+	else
+	{        
 		// "q1" and "q2" quaternions are very close 
 		//  ... so we can do a linear interpolation
 		scale0 = 1.0f - t;
 		scale1 = t;
+
+		// calculate final values
+		result->x = scale0*q1->x + scale1*to1[0];
+		result->y = scale0*q1->y + scale1*to1[1];
+		result->z = scale0*q1->z + scale1*to1[2];
+		result->w = scale0*q1->w + scale1*to1[3];
+		
+		Q3FastQuaternion_Normalize( result, result );
 	}
-	// calculate final values
-	result->x = scale0*q1->x + scale1*to1[0];
-	result->y = scale0*q1->y + scale1*to1[1];
-	result->z = scale0*q1->z + scale1*to1[2];
-	result->w = scale0*q1->w + scale1*to1[3];
 	return(result);
 }
 
