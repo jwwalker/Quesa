@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -4419,7 +4419,7 @@ Q3Matrix4x4_SetRotateAboutAxis(TQ3Matrix4x4 *matrix4x4, const TQ3Point3D *origin
 		return(NULL);
 
 	// Further checks on axis
-	if (fabs( Q3FastVector3D_Length( axis ) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastVector3D_LengthSquared( axis ) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
@@ -4464,13 +4464,13 @@ Q3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4, const TQ3Vector3D *
 		return(NULL);
 
 	// Further checks on v1
-	if (fabs( Q3FastVector3D_Length( v1 ) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastVector3D_LengthSquared( v1 ) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
 
 	// Further checks on v2
-	if (fabs( Q3FastVector3D_Length( v2 ) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastVector3D_LengthSquared( v2 ) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
@@ -5202,7 +5202,7 @@ Q3Quaternion_SetRotateAboutAxis(TQ3Quaternion *quaternion, const TQ3Vector3D *ax
 		return(NULL);
 
 	// Further checks on axis
-	if (fabs( Q3FastVector3D_Length( axis ) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastVector3D_LengthSquared( axis ) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
@@ -5247,13 +5247,13 @@ Q3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion, const TQ3Vector3
 		return(NULL);
 
 	// Further checks on v1
-	if (fabs( Q3FastVector3D_Length( v1 ) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastVector3D_LengthSquared( v1 ) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
 
 	// Further checks on v2
-	if (fabs( Q3FastVector3D_Length( v2 ) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastVector3D_LengthSquared( v2 ) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
@@ -6487,7 +6487,7 @@ Q3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3P
 	// Debug build checks
 #if Q3_DEBUG
 	// Further checks on theRay
-	if (fabs( Q3FastVector3D_Length( &theRay->direction) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastVector3D_LengthSquared( &theRay->direction) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
@@ -6532,7 +6532,7 @@ Q3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 	// Debug build checks
 #if Q3_DEBUG
 	// Further checks on theRay
-	if (fabs( Q3FastVector3D_Length( &theRay->direction) - 1.0f ) > kQ3RealZero)
+	if (fabs( Q3FastVector3D_LengthSquared( &theRay->direction) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
