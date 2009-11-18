@@ -176,7 +176,7 @@ enum
 			// Add the menu item and save the type
 			if ( (qd3dStatus == kQ3Success) && (theStr[0] != 0x00) )
 			{
-				[rendererMenu addItemWithTitle:[NSString stringWithCString:theStr]];
+				[rendererMenu addItemWithTitle:[NSString stringWithUTF8String:theStr]];
 				[[rendererMenu lastItem] setTag: rendererData.classTypes[n] ];
 			}
         }
