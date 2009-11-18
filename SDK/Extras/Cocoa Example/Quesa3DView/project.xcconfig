@@ -1,5 +1,10 @@
-// Build Locations
-SDKROOT = $(DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk
+// Architectures
+ARCHS = i386 ppc
+ONLY_ACTIVE_ARCH = NO
+SDKROOT = $(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk
+
+// Deployment
+MACOSX_DEPLOYMENT_TARGET = 10.4
 
 // Search Paths
 FSP_QUESA = "$(SRCROOT)/../../../Libraries/Mac/Framework_Universal/Debug"
