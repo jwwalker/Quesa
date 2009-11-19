@@ -2193,7 +2193,7 @@ GLDrawContext_New(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext, GL
 			
 			#if QUESA_OS_COCOA
 				case kQ3DrawContextTypeCocoa:
-					glContext = new CocoaGLContext(theDrawContext);
+					glContext = new CocoaGLContext(theDrawContext, shareTextures);
 					break;
 			#endif
 			}

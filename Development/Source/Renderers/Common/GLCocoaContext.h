@@ -5,7 +5,7 @@
         Header file for GLCocoaContext.m.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -68,11 +68,14 @@ extern "C" {
 // Cocoa GL context type
 #if QUESA_OS_COCOA
 
+@class NSOpenGLContext;
+
 class CocoaGLContext : public CQ3GLContext
 {
 public:
 						CocoaGLContext(
-								TQ3DrawContextObject theDrawContext );
+								TQ3DrawContextObject theDrawContext,
+								TQ3Boolean shareTextures );
 						
 	virtual				~CocoaGLContext();
 	
@@ -85,8 +88,8 @@ public:
 	virtual bool		UpdateWindowSize();
 
 private:
+	NSOpenGLContext		*glContext;
 	// Strong so that in garbage collected (GC) mode the colector keeps track of these pointers. This is needed since they are not declared as 'id'.
-	__strong void		*glContext;
 	__strong void		*nsView;
 	GLint				viewPort[4];
 };
