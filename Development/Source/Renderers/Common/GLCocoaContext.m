@@ -57,7 +57,9 @@
 
 #import "GLPrefix.h"
 #import "GLCocoaContext.h"
-#include "GLUtils.h"
+#import "GLUtils.h"
+#import "GLGPUSharing.h"
+#import "GLDrawContext.h"
 
 
 
@@ -73,9 +75,10 @@
 
 
 CocoaGLContext::CocoaGLContext(
-					TQ3DrawContextObject theDrawContext )
+					TQ3DrawContextObject theDrawContext,
+					TQ3Boolean shareTextures )
 	: CQ3GLContext( theDrawContext )
-	, glContext( NULL )
+	, glContext( nil )
 	, nsView( NULL )
 {
    TQ3Int32						glAttributes[] =
@@ -88,12 +91,11 @@ CocoaGLContext::CocoaGLContext(
 	TQ3ObjectType					drawContextType;
 	TQ3DrawContextData				drawContextData;
     NSOpenGLPixelFormat				*pixelFormat = NULL;
-    CocoaGLContext					*theContext;
-	TQ3Status						qd3dStatus;
+ 	TQ3Status						qd3dStatus;
     NSRect							viewFrame;
     GLint							enable;
 	TQ3GLExtensions					extFlags;
-
+	TQ3GLContext					sharingContext = NULL;
 
 
 	// Get the type specific draw context data
@@ -110,28 +112,48 @@ CocoaGLContext::CocoaGLContext(
 				sizeof(pixelFormat), NULL, &pixelFormat );
 
 
-			// Set up and create the NSOpenGLContext
+			// If not, create a pixel format here
 			if (pixelFormat == NULL)
 			{
-				pixelFormat           = [[NSOpenGLPixelFormat alloc]
-					initWithAttributes:(NSOpenGLPixelFormatAttribute*)glAttributes];
-				glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
-				[pixelFormat release];
+				pixelFormat = [[[NSOpenGLPixelFormat alloc]
+					initWithAttributes: (NSOpenGLPixelFormatAttribute *)glAttributes]
+					autorelease];
 			}
-			else
+			
+			// Set up and create the NSOpenGLContext
+			if (shareTextures)
 			{
-				glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+				// Attempt to share textures with a previously created context.
+				while ( (sharingContext = GLGPUSharing_GetNextSharingBase( sharingContext )) != NULL )
+				{
+					GLDrawContext_SetCurrent( sharingContext, kQ3False );
+					NSOpenGLContext* prevGLContext = [NSOpenGLContext currentContext];
+					glContext = [[NSOpenGLContext alloc] initWithFormat: pixelFormat
+														shareContext: prevGLContext];
+					if (glContext != nil)
+					{
+						break;
+					}
+				}
 			}
+			
+			if (glContext == nil)
+			{
+				glContext = [[NSOpenGLContext alloc] initWithFormat: pixelFormat
+													shareContext: nil];
+			}
+			
+			GLGPUSharing_AddContext( this, sharingContext );
 
 
 			// Set the NSView as the NSOpenGLContext's drawable
-			[(id)glContext setView:(id)nsView];
-			[(id)glContext makeCurrentContext];
+			[glContext setView:(id)nsView];
+			[glContext makeCurrentContext];
 
 
 			// Get the view bounds from the NSView for the initial gl viewport
 			// and the default draw context pane if it's needed.
-			viewFrame = [[(NSOpenGLContext*)glContext view]bounds];
+			viewFrame = [[glContext view]bounds];
           break;
 
 		
@@ -159,7 +181,7 @@ CocoaGLContext::CocoaGLContext(
 
 
 	// Activate the context
-    [(id)glContext makeCurrentContext];
+    [glContext makeCurrentContext];
 
 
 
@@ -176,8 +198,8 @@ CocoaGLContext::CocoaGLContext(
 
 	// Set the swap buffer rect
 	enable = 1;
-	[(id)glContext setValues:&enable forParameter:NSOpenGLCPSwapRectangleEnable];
-	[(id)glContext setValues:viewPort forParameter:NSOpenGLCPSwapRectangle];
+	[glContext setValues:&enable forParameter:NSOpenGLCPSwapRectangleEnable];
+	[glContext setValues:viewPort forParameter:NSOpenGLCPSwapRectangle];
 
 
 
@@ -201,7 +223,7 @@ CocoaGLContext::CocoaGLContext(
 		doSync
 	)
 	{
-		[(id)glContext	setValues:&enable
+		[glContext	setValues:&enable
 									forParameter:NSOpenGLCPSwapInterval];
 	}
 }
@@ -216,7 +238,7 @@ CocoaGLContext::~CocoaGLContext()
 
 
 	// Destroy the context
-    [(id)glContext release];
+    [glContext release];
 }
 	
 void	CocoaGLContext::SwapBuffers()
@@ -228,14 +250,14 @@ void	CocoaGLContext::SwapBuffers()
 
 
 	// Swap the buffers
-	[(id)glContext flushBuffer];
+	[glContext flushBuffer];
 }
 
 void	CocoaGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 {
 	// Activate the context
-	if(inForceSet || ![[NSOpenGLContext currentContext]isEqual:(id)glContext])
-		[(id)glContext makeCurrentContext];
+	if(inForceSet || ![[NSOpenGLContext currentContext] isEqual:glContext])
+		[glContext makeCurrentContext];
 }
 
 void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
@@ -253,7 +275,7 @@ void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
 
 bool	CocoaGLContext::UpdateWindowSize()
 {
-	[(id)glContext update];
+	[glContext update];
 	
 	NSRect	viewFrame = [(NSView*)nsView bounds];
 	TQ3DrawContextData				drawContextData;
@@ -267,7 +289,7 @@ bool	CocoaGLContext::UpdateWindowSize()
 
 	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 	
-	[(id)glContext setValues: viewPort
+	[glContext setValues: viewPort
 					forParameter:NSOpenGLCPSwapRectangle];
 	
 	return true;
