@@ -5,7 +5,7 @@
         Implementation of Quesa Box geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,7 +49,10 @@
 #include "E3Geometry.h"
 #include "E3GeometryTriMesh.h"
 #include "E3GeometryBox.h"
+#include "Q3GroupIterator.h"
 
+#include <cstring>
+using namespace std;
 
 
 
@@ -362,6 +365,104 @@ e3geom_box_get_face_att_set( const TQ3BoxData* inBoxData, TQ3Int16 inIndex )
 
 
 //=============================================================================
+//      e3geom_box_merge_faces : Merge the 6 box faces into a single TriMesh
+//-----------------------------------------------------------------------------
+static void
+e3geom_box_merge_faces( TQ3GroupObject ioGroup )
+{
+	TQ3Point3D				thePoints[24];	// 4 pts for each of 6 faces
+	TQ3TriMeshTriangleData	theFaces[12];
+	TQ3TriMeshEdgeData		theEdges[24];
+	TQ3TriMeshAttributeData	theVertAtts[2];
+	TQ3Vector3D				thePointNormals[24];
+	TQ3Param2D				thePointUVs[24];
+	
+	theVertAtts[0].attributeType = kQ3AttributeTypeNormal;
+	theVertAtts[0].data = thePointNormals;
+	theVertAtts[0].attributeUseArray = NULL;
+	
+	theVertAtts[1].attributeType = kQ3AttributeTypeSurfaceUV;
+	theVertAtts[1].data = thePointUVs;
+	theVertAtts[1].attributeUseArray = NULL;
+	
+	TQ3TriMeshData tmData =
+	{
+		NULL,
+		12,
+		theFaces,
+		0,
+		NULL,
+		24,
+		theEdges,
+		0,
+		NULL,
+		24,
+		thePoints,
+		2,
+		theVertAtts
+	};
+	
+	int	faceNum = 0;
+	Q3GroupIterator		iter( ioGroup, kQ3GeometryTypeTriMesh );
+	CQ3ObjectRef	theItem;
+	while ( (theItem = iter.NextObject()).isvalid() )
+	{
+		TQ3TriMeshData*	faceTM;
+		Q3TriMesh_LockData( theItem.get(), kQ3True, &faceTM );
+		
+		// Copy points
+		memcpy( &thePoints[faceNum*4], faceTM->points, 4 * sizeof(TQ3Point3D) );
+		
+		// Copy vertex normals
+		memcpy( &thePointNormals[faceNum*4], faceTM->vertexAttributeTypes[0].data,
+			4 * sizeof(TQ3Vector3D) );
+		
+		// Copy vertex UVs
+		memcpy( &thePointUVs[faceNum*4], faceTM->vertexAttributeTypes[1].data,
+			4 * sizeof(TQ3Param2D) );
+		
+		// Copy faces, updating point indices as we go
+		TQ3TriMeshTriangleData aFace = faceTM->triangles[0];
+		aFace.pointIndices[0] += faceNum*4;
+		aFace.pointIndices[1] += faceNum*4;
+		aFace.pointIndices[2] += faceNum*4;
+		theFaces[faceNum*2] = aFace;
+		aFace = faceTM->triangles[1];
+		aFace.pointIndices[0] += faceNum*4;
+		aFace.pointIndices[1] += faceNum*4;
+		aFace.pointIndices[2] += faceNum*4;
+		theFaces[faceNum*2+1] = aFace;
+		
+		// Copy edges, updating point and triangle indices as we go
+		for (int edgeNum = 0; edgeNum < 4; ++edgeNum)
+		{
+			TQ3TriMeshEdgeData anEdge = faceTM->edges[ edgeNum ];
+			anEdge.pointIndices[0] += faceNum*4;
+			anEdge.pointIndices[1] += faceNum*4;
+			anEdge.triangleIndices[0] += faceNum*2;
+			// anEdge.triangleIndices[1] is kQ3ArrayIndexNULL
+			theEdges[ faceNum*4 + edgeNum ] = anEdge;
+		}
+		
+		Q3TriMesh_UnlockData( theItem.get() );
+		++faceNum;
+	}
+	
+	TQ3GeometryObject theTriMesh = Q3TriMesh_New( &tmData );
+	
+	if (theTriMesh != NULL)
+	{
+		E3TriMesh_AddTriangleNormals(theTriMesh, kQ3OrientationStyleCounterClockwise);
+		Q3Group_EmptyObjectsOfType( ioGroup, kQ3GeometryTypeTriMesh );
+		Q3Group_AddObjectAndDispose( ioGroup, &theTriMesh );
+	}
+	
+}
+
+
+
+
+//=============================================================================
 //      e3geom_box_cache_new : Box cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
@@ -472,6 +573,13 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 			&antiMajor, e3geom_box_get_face_att_set( inBoxData, 5 ) );
 	}
 
+
+	// If there are no separate face attributes, the cached representation can be
+	// a single TriMesh, and that will render faster.
+	if ( (status == kQ3Success) && (inBoxData->faceAttributeSet == NULL) )
+	{
+		e3geom_box_merge_faces( theGroup );
+	}
 
 
 	// Clean up
