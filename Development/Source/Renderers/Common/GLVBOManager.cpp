@@ -48,6 +48,7 @@
 #include "GLGPUSharing.h"
 #include "CQ3ObjectRef.h"
 #include "GLUtils.h"
+#include "E3Main.h"
 
 #include <vector>
 #include <algorithm>
@@ -111,10 +112,8 @@ namespace
 	{
 						CachedVBO() {}
 						CachedVBO( TQ3GeometryObject inGeom, GLenum inMode );
-						CachedVBO( const CachedVBO& inOther );
 						~CachedVBO() {}
 		
-		CachedVBO&		operator=( const CachedVBO& inOther );
 						
 		bool			IsStale() const;
 	
@@ -128,22 +127,29 @@ namespace
 		TQ3Uns32		mColorBufferOffset;
 		TQ3Uns32		mTextureUVBufferOffset;
 		int				mModeCount;
+	
+	private:
+		// Unimplemented; declared just to make sure that they don't get used
+		// accidentally
+						CachedVBO( const CachedVBO& inOther );
+		CachedVBO&		operator=( const CachedVBO& inOther );
 	};
 	
-	typedef	std::vector< CachedVBO >	CachedVBOVec;
+	typedef	std::vector< CachedVBO* >	CachedVBOVec;
 
 	class VBOCache : public CQ3GPSharedCache
 	{
 	public:
 						VBOCache();
+						~VBOCache();
 		
 		void			InitProcPtrs();
 		CachedVBO*		FindVBO( TQ3GeometryObject inGeom, GLenum inMode );
 		void			RenderVBO( const CachedVBO* inCachedVBO );
-		void			AddVBO( const CachedVBO& inVBO );
+		void			AddVBO( CachedVBO* inVBO );
 		void			UpdateModeCount( TQ3GeometryObject inGeom );
 		void			FlushUnreferenced();
-		void			FlushStale();
+		void			DeleteVBO( CachedVBO* inCachedVBO );
 
 		GenBuffersARBProcPtr		glGenBuffersARBProc;
 		BindBufferARBProcPtr		glBindBufferARBProc;
@@ -161,12 +167,12 @@ namespace
 	// Comparator for ordering cached VBOs by their mode and geometries
 	struct VBOLess
 	{
-		bool	operator()( const CachedVBO& inOne, const CachedVBO& inTwo ) const
+		bool	operator()( const CachedVBO* inOne, const CachedVBO* inTwo ) const
 				{
-					return (inOne.mGLMode < inTwo.mGLMode) ||
+					return (inOne->mGLMode < inTwo->mGLMode) ||
 						(
-							(inOne.mGLMode == inTwo.mGLMode) &&
-							(inOne.mGeomObject.get() < inTwo.mGeomObject.get())
+							(inOne->mGLMode == inTwo->mGLMode) &&
+							(inOne->mGeomObject.get() < inTwo->mGeomObject.get())
 						);
 				}
 	};
@@ -174,20 +180,20 @@ namespace
 	// Predicate for use with std::partition and CachedVBOVec.
 	struct IsReferenced
 	{
-		bool			operator()( const CachedVBO& inCachedVBO ) const
+		bool			operator()( const CachedVBO* inCachedVBO ) const
 								{
 									return Q3Shared_GetReferenceCount(
-										inCachedVBO.mGeomObject.get() ) >
-										inCachedVBO.mModeCount;
+										inCachedVBO->mGeomObject.get() ) >
+										inCachedVBO->mModeCount;
 								}
 	};
 	
 	// Predicate for use with std::partition and CachedVBOVec.
 	struct IsNotStale
 	{
-		bool			operator()( const CachedVBO& inCachedVBO ) const
+		bool			operator()( const CachedVBO* inCachedVBO ) const
 								{
-									return ! inCachedVBO.IsStale();
+									return ! inCachedVBO->IsStale();
 								}
 	};
 }
@@ -232,43 +238,9 @@ CachedVBO::CachedVBO( TQ3GeometryObject inGeom, GLenum inMode )
 	// Leave other fields uninitialized for now
 }
 
-CachedVBO::CachedVBO( const CachedVBO& inOther )
-	: mGeomObject( inOther.mGeomObject )
-	, mEditIndex( inOther.mEditIndex )
-	, mGLMode( inOther.mGLMode )
-	, mNumIndices( inOther.mNumIndices )
-	, mVertexBufferOffset( inOther.mVertexBufferOffset )
-	, mNormalBufferOffset( inOther.mNormalBufferOffset )
-	, mColorBufferOffset( inOther.mColorBufferOffset )
-	, mTextureUVBufferOffset( inOther.mTextureUVBufferOffset )
-	, mModeCount( inOther.mModeCount )
-{
-	mGLBufferNames[0] = inOther.mGLBufferNames[0];
-	mGLBufferNames[1] = inOther.mGLBufferNames[1];
-}
-
-CachedVBO&		CachedVBO::operator=( const CachedVBO& inOther )
-{
-	mGeomObject = inOther.mGeomObject;
-	mEditIndex = inOther.mEditIndex;
-	mGLMode = inOther.mGLMode;
-	mNumIndices = inOther.mNumIndices;
-	
-	mGLBufferNames[0] = inOther.mGLBufferNames[0];
-	mGLBufferNames[1] = inOther.mGLBufferNames[1];
-	
-	mVertexBufferOffset = inOther.mVertexBufferOffset;
-	mNormalBufferOffset = inOther.mNormalBufferOffset;
-	mColorBufferOffset = inOther.mColorBufferOffset;
-	mTextureUVBufferOffset = inOther.mTextureUVBufferOffset;
-	mModeCount = inOther.mModeCount;
-	
-	return *this;
-}
-
 bool	CachedVBO::IsStale() const
 {
-	return Q3Shared_GetEditIndex( mGeomObject.get() ) != mEditIndex;
+	return static_cast<E3Shared*>( mGeomObject.get() )->GetEditIndex() != mEditIndex;
 }
 
 #pragma mark -
@@ -282,6 +254,14 @@ VBOCache::VBOCache()
 	, glBufferSubDataARBProc( NULL )
 {
 	InitProcPtrs();
+}
+
+VBOCache::~VBOCache()
+{
+	for (CachedVBOVec::iterator i = mCachedVBOs.begin(); i != mCachedVBOs.end(); ++i)
+	{
+		delete *i;
+	}
 }
 
 void		VBOCache::InitProcPtrs()
@@ -312,28 +292,45 @@ CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode )
 	CachedVBO	searchDummy( inGeom, inMode );
 	
 	CachedVBOVec::iterator	foundIt = std::lower_bound( mCachedVBOs.begin(),
-		mCachedVBOs.end(), searchDummy, VBOLess() );
+		mCachedVBOs.end(), &searchDummy, VBOLess() );
 	
 	if ( (foundIt != mCachedVBOs.end()) &&
-		(foundIt->mGeomObject.get() == inGeom) &&
-		(foundIt->mGLMode == inMode) )
+		((*foundIt)->mGeomObject.get() == inGeom) &&
+		((*foundIt)->mGLMode == inMode) )
 	{
-		theCachedVBO = &*foundIt;
+		theCachedVBO = *foundIt;
+	}
+	
+	if ( (theCachedVBO != NULL) && theCachedVBO->IsStale() )
+	{
+		mCachedVBOs.erase( foundIt );
+		
+		DeleteVBO( theCachedVBO );
+		
+		theCachedVBO = NULL;
 	}
 	
 	return theCachedVBO;
 }
 
-void	VBOCache::AddVBO( const CachedVBO& inVBO )
+void	VBOCache::AddVBO( CachedVBO* inVBO )
 {
 	CachedVBOVec::iterator	placeIt = std::lower_bound( mCachedVBOs.begin(),
 		mCachedVBOs.end(), inVBO, VBOLess() );
 
 	mCachedVBOs.insert( placeIt, inVBO );
 	
-	UpdateModeCount( inVBO.mGeomObject.get() );
+	UpdateModeCount( inVBO->mGeomObject.get() );
 }
 
+/*
+	UpdateModeCount
+	
+	A particular geometry may be referenced more than once by the VBO cache.
+	We need to keep track of the number of such references, so that we will be
+	able to quickly tell whether the geometry is still referenced by something
+	other than the VBO cache.
+*/
 void	VBOCache::UpdateModeCount( TQ3GeometryObject inGeom )
 {
 	CachedVBO*	stripVBO = FindVBO( inGeom, GL_TRIANGLE_STRIP );
@@ -392,6 +389,15 @@ void VBOCache::RenderVBO( const CachedVBO* inCachedVBO )
 	(*glBindBufferARBProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
 }
 
+void	VBOCache::DeleteVBO( CachedVBO* inCachedVBO )
+{
+	(*glDeleteBuffersARBProc)( 2, inCachedVBO->mGLBufferNames );
+	
+	UpdateModeCount( inCachedVBO->mGeomObject.get() );
+	
+	delete inCachedVBO;
+}
+
 void	VBOCache::FlushUnreferenced()
 {
 	// Move unreferenced VBOs to end of list
@@ -407,30 +413,7 @@ void	VBOCache::FlushUnreferenced()
 	// Delete the buffers for the VBO records that are going away
 	for (CachedVBOVec::iterator i = doomedVBOs.begin(); i != doomedVBOs.end(); ++i)
 	{
-		(*glDeleteBuffersARBProc)( 2, i->mGLBufferNames );
-		
-		UpdateModeCount( i->mGeomObject.get() );
-	}
-}
-
-void	VBOCache::FlushStale()
-{
-	// Move stale VBOs to end of list
-	CachedVBOVec::iterator startStale = std::stable_partition(
-		mCachedVBOs.begin(), mCachedVBOs.end(), IsNotStale() );
-	
-	// Make a copy of the records that will go away
-	CachedVBOVec	doomedVBOs( startStale, mCachedVBOs.end() );
-	
-	// Remove them from the normal array
-	mCachedVBOs.erase( startStale, mCachedVBOs.end() );
-	
-	// Delete the buffers for the VBO records that are going away
-	for (CachedVBOVec::iterator i = doomedVBOs.begin(); i != doomedVBOs.end(); ++i)
-	{
-		(*glDeleteBuffersARBProc)( 2, i->mGLBufferNames );
-		
-		UpdateModeCount( i->mGeomObject.get() );
+		DeleteVBO( *i );
 	}
 }
 
@@ -462,7 +445,6 @@ TQ3Boolean			RenderCachedVBO(
 	
 	if (theCache != NULL)
 	{
-		theCache->FlushStale();
 		CachedVBO*	theVBO = theCache->FindVBO( inGeom, inMode );
 		
 		if ( (theVBO == NULL) && (inMode == GL_TRIANGLE_STRIP) )
@@ -511,9 +493,9 @@ void				AddVBOToCache(
 	
 	if (theCache != NULL)
 	{
-		CachedVBO	newVBO( inGeom, inMode );
-		newVBO.mNumIndices = inNumIndices;
-		(*theCache->glGenBuffersARBProc)( 2, newVBO.mGLBufferNames );
+		CachedVBO*	newVBO = new CachedVBO( inGeom, inMode );
+		newVBO->mNumIndices = inNumIndices;
+		(*theCache->glGenBuffersARBProc)( 2, newVBO->mGLBufferNames );
 		
 		TQ3Uns32	vertexDataSize = inNumPoints * sizeof(TQ3Point3D);
 		TQ3Uns32	normalDataSize = (inNormals == NULL)? 0 :
@@ -525,12 +507,12 @@ void				AddVBOToCache(
 		TQ3Uns32	totalDataSize = vertexDataSize + normalDataSize +
 			colorDataSize + uvDataSize;
 		
-		newVBO.mVertexBufferOffset = 0;
-		newVBO.mNormalBufferOffset = (inNormals == NULL)? kAbsentBuffer :
+		newVBO->mVertexBufferOffset = 0;
+		newVBO->mNormalBufferOffset = (inNormals == NULL)? kAbsentBuffer :
 			vertexDataSize;
-		newVBO.mColorBufferOffset = (inColors == NULL)? kAbsentBuffer :
+		newVBO->mColorBufferOffset = (inColors == NULL)? kAbsentBuffer :
 			vertexDataSize + normalDataSize;
-		newVBO.mTextureUVBufferOffset = (inUVs == NULL)? kAbsentBuffer :
+		newVBO->mTextureUVBufferOffset = (inUVs == NULL)? kAbsentBuffer :
 			vertexDataSize + normalDataSize + colorDataSize;
 		
 		theCache->AddVBO( newVBO );
@@ -539,7 +521,7 @@ void				AddVBOToCache(
 		
 		// First define an uninitialized buffer of the right size
 		(*theCache->glBindBufferARBProc)( GL_ARRAY_BUFFER,
-			newVBO.mGLBufferNames[0] );
+			newVBO->mGLBufferNames[0] );
 		(*theCache->glBufferDataARBProc)( GL_ARRAY_BUFFER, totalDataSize,
 			NULL, GL_STATIC_DRAW );
 		
@@ -551,25 +533,25 @@ void				AddVBOToCache(
 		{
 			dataAddr = inNormals;
 			(*theCache->glBufferSubDataARBProc)( GL_ARRAY_BUFFER,
-				newVBO.mNormalBufferOffset, normalDataSize, dataAddr );
+				newVBO->mNormalBufferOffset, normalDataSize, dataAddr );
 		}
 		if (inColors != NULL)
 		{
 			dataAddr = inColors;
 			(*theCache->glBufferSubDataARBProc)( GL_ARRAY_BUFFER,
-				newVBO.mColorBufferOffset, colorDataSize, dataAddr );
+				newVBO->mColorBufferOffset, colorDataSize, dataAddr );
 		}
 		if (inUVs != NULL)
 		{
 			dataAddr = inUVs;
 			(*theCache->glBufferSubDataARBProc)( GL_ARRAY_BUFFER,
-				newVBO.mTextureUVBufferOffset, uvDataSize, dataAddr );
+				newVBO->mTextureUVBufferOffset, uvDataSize, dataAddr );
 		}
 		(*theCache->glBindBufferARBProc)( GL_ARRAY_BUFFER, 0 );
 		
 		// Now for the index data.
 		(*theCache->glBindBufferARBProc)( GL_ELEMENT_ARRAY_BUFFER,
-			newVBO.mGLBufferNames[1] );
+			newVBO->mGLBufferNames[1] );
 		dataAddr = inIndices;
 		(*theCache->glBufferDataARBProc)( GL_ELEMENT_ARRAY_BUFFER,
 			inNumIndices * sizeof(TQ3Uns32), dataAddr, GL_STATIC_DRAW );
