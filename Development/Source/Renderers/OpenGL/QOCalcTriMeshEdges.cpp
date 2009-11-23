@@ -5,7 +5,7 @@
         Source code to compute edges of a TriMesh.
 
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -62,7 +62,7 @@ namespace
 	
 	struct EdgeIndexCompare
 	{
-				EdgeIndexCompare( const TQ3EdgeVec& inEdges )
+				EdgeIndexCompare( const TQ3EdgeEnds* inEdges )
 					: mEdges( inEdges ) {}
 				EdgeIndexCompare( const EdgeIndexCompare& inOther )
 					: mEdges( inOther.mEdges ) {}
@@ -82,7 +82,7 @@ namespace
 							);
 					}
 		
-		const TQ3EdgeVec&	mEdges;
+		const TQ3EdgeEnds*	mEdges;
 	};
 }
 
@@ -176,13 +176,14 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	
 	// Make edge indices, and sort the indices by edge ends.
 	const TQ3Uns32	kNumEdgesWithCopies = edgesWithCopies.size();
-	std::vector<TQ3Uns32>	edgeNums( kNumEdgesWithCopies );
+	std::vector<TQ3Uns32>	edgeNumVec( kNumEdgesWithCopies );
+	TQ3Uns32*	edgeNums = &edgeNumVec[0];	// optimization
 	for (TQ3Uns32 i = 0; i < kNumEdgesWithCopies; ++i)
 	{
 		edgeNums[i] = i;
 	}
-	EdgeIndexCompare	comparator( edgesWithCopies );
-	std::sort( edgeNums.begin(), edgeNums.end(), comparator );
+	EdgeIndexCompare	comparator( &edgesWithCopies[0] );
+	std::sort( &edgeNums[0], &edgeNums[kNumEdgesWithCopies], comparator );
 	
 	// We will construct an array that maps indices of old edges with copies
 	// to new uniquified edges.
