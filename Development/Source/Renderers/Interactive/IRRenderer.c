@@ -5,7 +5,7 @@
         Quesa interactive renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -173,8 +173,6 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 				return(kQ3Failure);
 			
 			instanceData->textureCache = GLTextureMgr_GetTextureCache( instanceData->glContext );
-			
-			Q3_ASSERT( GLTextureMgr_IsValidTextureCache( instanceData->textureCache ) );
 
 
 			GLUtils_CheckExtensions( &instanceData->glExtensions );

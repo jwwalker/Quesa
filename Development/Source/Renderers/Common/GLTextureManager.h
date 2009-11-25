@@ -5,7 +5,7 @@
         Header file for GLTextureManager.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -101,27 +101,6 @@ TQ3CachedTexturePtr	GLTextureMgr_FindCachedTexture(
 								TQ3TextureCachePtr txCache,
 								TQ3TextureObject texture );
 
-/*!
-	@function		GLTextureMgr_GetCachedTextureByIndex
-	@abstract		Access a texture cache record by index.
-	@param			txCache			A texture cache.
-	@param			memberIndex		Zero-based index of a cached texture.
-	@result			Pointer to a cached texture record, or NULL if not found.
-*/
-TQ3CachedTexturePtr	GLTextureMgr_GetCachedTextureByIndex(
-								TQ3TextureCachePtr txCache,
-								TQ3Uns32 memberIndex );
-
-/*!
-	@function		GLTextureMgr_RemoveCachedTexture
-	@abstract		Remove a texture record from a texture cache.
-	@param			txCache			A texture cache.
-	@param			textureRec		Texture cache record to remove.
-*/
-void				GLTextureMgr_RemoveCachedTexture(
-								TQ3TextureCachePtr txCache,
-								TQ3CachedTexturePtr textureRec );
-
 
 /*!
 	@function		GLTextureMgr_CacheTexture
@@ -129,42 +108,13 @@ void				GLTextureMgr_RemoveCachedTexture(
 	@param			txCache			A texture cache.
 	@param			inTexture		A Quesa texture object.
 	@param			inGLTextureName	An OpenGL texture object name.
+	@result			Pointer to a new cached texture record.
 */
-void				GLTextureMgr_CacheTexture(
+TQ3CachedTexturePtr		GLTextureMgr_CacheTexture(
 								TQ3TextureCachePtr txCache,
 								TQ3TextureObject inTexture,
 								GLuint inGLTextureName );
 
-/*!
-	@function		GLTextureMgr_IsCachedTextureStale
-	@abstract		Determine whether the texture cache contains this texture,
-					but the texture has been modified since it was cached.
-	@param			txCache			A texture cache.
-	@param			inTexture		A texture object.
-	@result			True if the texture is in the cache but stale.
-*/
-TQ3Boolean				GLTextureMgr_IsCachedTextureStale(
-								TQ3TextureCachePtr txCache,
-								TQ3TextureObject inTexture );
-
-#if Q3_DEBUG
-/*!
-	@function		GLTextureMgr_IsValidTextureCache
-	@abstract		Test whether a texture cache pointer is valid.
-	@param			txCache			A texture cache.
-	@result			Whether the texture cache pointer is valid.
-*/
-TQ3Boolean			GLTextureMgr_IsValidTextureCache( TQ3TextureCachePtr txCache );
-#endif
-
-
-/*!
-	@function		GetQuesaTexture
-	@abstract		Access the Quesa texture object from a cached texture.
-	@param			inCachedTexture		A cached texture record.
-	@result			A texture object.
-*/
-TQ3TextureObject	GLTextureMgr_GetQuesaTexture( TQ3CachedTexturePtr inCachedTexture );
 	
 /*!
 	@function		GetOpenGLTexture
@@ -174,6 +124,14 @@ TQ3TextureObject	GLTextureMgr_GetQuesaTexture( TQ3CachedTexturePtr inCachedTextu
 */
 GLuint		GLTextureMgr_GetOpenGLTexture( TQ3CachedTexturePtr inCachedTexture );
 
+/*!
+	@function		GLTextureMgr_FlushUnreferencedTextures
+	@abstract		Remove from the cache any textures that are not referenced
+					except by the texture cache itself.
+	@param			txCache			A texture cache.
+*/
+void				GLTextureMgr_FlushUnreferencedTextures(
+								TQ3TextureCachePtr txCache );
 
 
 //=============================================================================

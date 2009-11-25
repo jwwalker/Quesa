@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -149,8 +149,6 @@ public:
 	
 	
 private:
-	bool					IsCachedTextureStale( TQ3TextureObject inTexture );
-	void					UnCacheTexture( TQ3TextureObject inTexture );
 	TQ3CachedTexturePtr		CacheTexture( TQ3TextureObject inTexture );
 	void					SetOpenGLTexturingParameters();
 	void					SetOpenGLTextureFiltering(

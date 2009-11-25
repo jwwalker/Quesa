@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -192,32 +192,7 @@ void	Texture::FlushCache()
 	{
 		GLDrawContext_SetCurrent( mGLContext, kQ3False );
 		
-		// Dispose of any objects that we hold the last reference to
-		TQ3Uns32	textureIndex = 0;
-		while (true)
-		{
-			TQ3CachedTexturePtr cachedTexture =
-				GLTextureMgr_GetCachedTextureByIndex( mTextureCache,
-					textureIndex );
-			
-			if (cachedTexture == NULL)
-			{
-				break;	// no more textures
-			}
-			
-			// If we hold the last reference to this texture, release it
-			TQ3TextureObject	theTexture =
-				GLTextureMgr_GetQuesaTexture( cachedTexture );
-			
-			if ( (theTexture != NULL) && ! Q3Shared_IsReferenced( theTexture ) )
-			{
-				UnCacheTexture( theTexture );
-			}
-			else
-			{
-				++textureIndex;
-			}
-		}
+		GLTextureMgr_FlushUnreferencedTextures( mTextureCache );
 	}
 }
 
@@ -309,7 +284,6 @@ void Texture::TextureState::Reset()
 void	Texture::UpdateTextureCache()
 {
 	mTextureCache = GLTextureMgr_GetTextureCache( mGLContext );
-	Q3_ASSERT( GLTextureMgr_IsValidTextureCache( mTextureCache ) );
 }
 
 
@@ -380,40 +354,6 @@ void	Texture::EndPass()
 	FlushCache();
 }
 
-/*!
-	@function	IsCachedTextureStale
-	@abstract	Determine whether the texture cache contains this texture,
-				but the texture has been modified since it was cached.
-*/
-bool	Texture::IsCachedTextureStale( TQ3TextureObject inTexture )
-{
-	bool	isStale = GLTextureMgr_IsCachedTextureStale( mTextureCache,
-		inTexture );
-	
-	return isStale;
-}
-
-/*!
-	@function	UnCacheTexture
-	@abstract	Remove a texture from the cache.
-*/
-void	Texture::UnCacheTexture( TQ3TextureObject inTexture )
-{
-	TQ3CachedTexturePtr	cacheRec = GLTextureMgr_FindCachedTexture(
-		mTextureCache, inTexture );
-	
-	if (cacheRec != NULL)
-	{
-		Q3_ASSERT( GLTextureMgr_GetQuesaTexture( cacheRec ) != NULL );
-		GLuint	textureName = GLTextureMgr_GetOpenGLTexture( cacheRec );
-		Q3_ASSERT( glIsTexture( textureName ) );
-		glDeleteTextures( 1, &textureName );
-		Q3_ASSERT( !glIsTexture( textureName ) );
-
-
-		GLTextureMgr_RemoveCachedTexture( mTextureCache, cacheRec );
-	}
-}
 
 /*!
 	@function	CacheTexture
@@ -431,9 +371,7 @@ TQ3CachedTexturePtr		Texture::CacheTexture( TQ3TextureObject inTexture )
 	
 	if (textureName != 0)
 	{
-		GLTextureMgr_CacheTexture( mTextureCache, inTexture, textureName );
-		
-		cacheRec = GLTextureMgr_FindCachedTexture( mTextureCache, inTexture );
+		cacheRec = GLTextureMgr_CacheTexture( mTextureCache, inTexture, textureName );
 	}
 	
 	return cacheRec;
@@ -463,12 +401,6 @@ void	Texture::SetCurrentTexture(
 	}
 	else	// enable texturing
 	{
-		// Make sure it's not in the cache but stale.
-		if (IsCachedTextureStale( inTexture ))
-		{
-			UnCacheTexture( inTexture );
-		}
-		
 		// Put it in the cache if need be
 		TQ3CachedTexturePtr	cachedTexture = GLTextureMgr_FindCachedTexture(
 			mTextureCache, inTexture );

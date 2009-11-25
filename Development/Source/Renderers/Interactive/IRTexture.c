@@ -5,7 +5,7 @@
         Quesa interactive renderer texture management.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -331,13 +331,13 @@ ir_texture_set_params( TQ3InteractiveData *instanceData, TQ3ViewObject inView,
 //=============================================================================
 //      ir_texture_cache_add : Add a QD3D texture to the cache.
 //-----------------------------------------------------------------------------
-static TQ3Status
+static TQ3CachedTexturePtr
 ir_texture_cache_add(
 							TQ3InteractiveData		*instanceData,
 							TQ3TextureObject		theTexture,
 							TQ3ViewObject			theView )
 {
-	TQ3Status			qd3dStatus = kQ3Failure;
+	TQ3CachedTexturePtr	cacheRec = NULL;
 	
 	TQ3Boolean	convertAlpha = kQ3False;
 	CQ3ObjectRef	theRenderer( CQ3View_GetRenderer( theView ) );
@@ -350,48 +350,11 @@ ir_texture_cache_add(
 
 	if (textureName != 0)
 	{
-		GLTextureMgr_CacheTexture( instanceData->textureCache, theTexture,
-			textureName );
-		qd3dStatus = kQ3Success;
+		cacheRec = GLTextureMgr_CacheTexture( instanceData->textureCache,
+			theTexture, textureName );
 	}
 
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      ir_texture_cache_remove : Remove a QD3D texture from the cache.
-//-----------------------------------------------------------------------------
-static void
-ir_texture_cache_remove(TQ3InteractiveData	*instanceData,
-								TQ3TextureObject	theTexture)
-{
-	TQ3CachedTexturePtr	cachedTextureRec;
-	TQ3TextureCachePtr	textureCache;
-	
-	
-	// Access the texture array
-	textureCache = instanceData->textureCache;
-	
-	cachedTextureRec = GLTextureMgr_FindCachedTexture( textureCache, theTexture );
-	
-
-
-	if (cachedTextureRec != NULL)
-		{
-		// Release the texture
-		Q3_ASSERT( GLTextureMgr_GetQuesaTexture( cachedTextureRec ) != NULL );
-		GLuint	glTexture = GLTextureMgr_GetOpenGLTexture( cachedTextureRec );
-		Q3_ASSERT(glIsTexture( glTexture ));
-		glDeleteTextures( 1, &glTexture );
-		Q3_ASSERT(!glIsTexture( glTexture ));
-
-
-		GLTextureMgr_RemoveCachedTexture( textureCache, cachedTextureRec );
-		}
+	return cacheRec;
 }
 
 
@@ -403,44 +366,15 @@ ir_texture_cache_remove(TQ3InteractiveData	*instanceData,
 //-----------------------------------------------------------------------------
 static void
 ir_texture_flush_cache(TQ3InteractiveData *instanceData )
-{	TQ3Uns32	n;
-	TQ3CachedTexturePtr	cachedTexture;
-	TQ3TextureCachePtr	textureCache;
-
-
+{
 	if (instanceData->glContext != NULL)
 		{
 		GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 	
 	
 	
-		textureCache = instanceData->textureCache;
-
-
 		// Dispose of any objects that we hold the last reference to
-		n = 0;
-		while (1)
-			{
-			cachedTexture = GLTextureMgr_GetCachedTextureByIndex( textureCache, n );
-			if (cachedTexture == NULL)
-				break;	// no more textures in cache
-			
-			// Validate the texture
-			TQ3TextureObject	theTexture =
-				GLTextureMgr_GetQuesaTexture( cachedTexture );
-			Q3_ASSERT( theTexture != NULL );
-			Q3_ASSERT(glIsTexture( GLTextureMgr_GetOpenGLTexture( cachedTexture ) ));
-
-			// If we hold the last reference to this texture , release it
-			if ( (theTexture != NULL) &&
-				!( Q3Shared_IsReferenced( theTexture ) )
-			)
-				ir_texture_cache_remove( instanceData, theTexture );
-
-			// Otherwise move onto the next texture
-			else
-				n++;
-			}
+		GLTextureMgr_FlushUnreferencedTextures( instanceData->textureCache );
 		}
 }
 
@@ -524,23 +458,13 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 	// Otherwise we need to update the texture state
 	else
 		{
-		// If the texture is out of date, remove it from the cache
-		if ( GLTextureMgr_IsCachedTextureStale( instanceData->textureCache,
-			theTexture ) )
-			{
-			ir_texture_cache_remove(instanceData, theTexture);
-			}
-
-
 		// If we don't have a texture object for this texture, create one
 		qd3dStatus = kQ3Success;
 		cachedTexture = GLTextureMgr_FindCachedTexture( instanceData->textureCache,
 				theTexture );
 		if (cachedTexture == NULL)
 			{
-			qd3dStatus = ir_texture_cache_add(instanceData, theTexture, theView);
-			cachedTexture = GLTextureMgr_FindCachedTexture( instanceData->textureCache,
-				theTexture );
+			cachedTexture = ir_texture_cache_add(instanceData, theTexture, theView);
 			}
 
 

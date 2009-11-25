@@ -13,7 +13,7 @@
     	performance optimization.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -60,7 +60,7 @@
 #endif
 
 #include <algorithm>
-#include <list>
+#include <set>
 #include <vector>
 
 
@@ -68,14 +68,6 @@
 //=============================================================================
 //		Internal types
 //-----------------------------------------------------------------------------
-namespace
-{
-	// We use a list instead of a vector to hold texture caches because we use
-	// the pointer to the TQ3CachedTexture as the OpenGl "name" of the texture.
-	typedef std::list<TQ3CachedTexture>		CachedTextureList;
-	typedef std::vector<TQ3GLContext>		GLContextVec;
-	
-}
 
 // Cached texture data
 struct TQ3CachedTexture
@@ -86,6 +78,20 @@ struct TQ3CachedTexture
 	GLuint					glTextureName;
 };
 
+namespace
+{
+	struct CompByTexOb
+	{
+		bool operator()( TQ3CachedTexturePtr inOne, TQ3CachedTexturePtr inTwo ) const
+		{
+			return inOne->cachedTextureObject.get() < inTwo->cachedTextureObject.get();
+		}
+	};
+
+	typedef std::set< TQ3CachedTexturePtr, CompByTexOb >		CachedTextureList;
+	
+}
+
 
 // TQ3TextureCache: object holding cached textures for a number of GL contexts
 // that share texture memory.  This declaration cannot be in an unnamed namespace,
@@ -93,32 +99,11 @@ struct TQ3CachedTexture
 // structure.
 struct TQ3TextureCache : public CQ3GPSharedCache
 {
+	virtual		~TQ3TextureCache();
+
 	CachedTextureList		cachedTextures;
 };
 
-namespace
-{
-
-
-	class MatchTexture	// function object for use with find_if and CachedTextureList
-	{
-	public:
-							MatchTexture( TQ3TextureObject inTexture )
-									: mTextureToMatch( inTexture ) {}
-							MatchTexture( const MatchTexture& inOther )
-									: mTextureToMatch( inOther.mTextureToMatch ) {}
-
-		bool				operator()( const TQ3CachedTexture& inCachedTexture ) const
-									{
-										return (GLTextureMgr_GetQuesaTexture(
-											&inCachedTexture ) ==
-											mTextureToMatch);
-									}
-	private:
-		TQ3TextureObject	mTextureToMatch;
-	};
-
-}
 
 //=============================================================================
 //		Internal constants
@@ -139,40 +124,49 @@ namespace
 //		Internal functions
 //-----------------------------------------------------------------------------
 
-/*!
-	@function	GetPixmapTextureData
-	@abstract	Get the data from a pixmap texture object.
-	@param		inTexture		A pixmap texture object.
-	@param		outData			Receives pixmap data.
-	@result		Holds a reference to outData.image, or NULL on failure.
-*/
-static CQ3ObjectRef GetPixmapTextureData( TQ3TextureObject inTexture,
-											TQ3StoragePixmap& outData )
+TQ3TextureCache::~TQ3TextureCache()
 {
-	CQ3ObjectRef	imageHolder;
-	if (kQ3Success == Q3PixmapTexture_GetPixmap( inTexture, &outData ))
+	for (CachedTextureList::iterator i = cachedTextures.begin();
+		i != cachedTextures.end(); ++i)
 	{
-		imageHolder = CQ3ObjectRef( outData.image );
+		delete *i;
 	}
-	return imageHolder;
 }
 
 /*!
-	@function	GetMipmapTextureData
+	@function	GetPixmapTextureStorage
+	@abstract	Get the data from a pixmap texture object.
+	@param		inTexture		A pixmap texture object.
+	@result		A reference to image storage, or NULL on failure.
+*/
+static TQ3Object GetPixmapTextureStorage( TQ3TextureObject inTexture )
+{
+	TQ3Object	imageStorage = NULL;
+	TQ3StoragePixmap	dataRec;
+	if (kQ3Success == Q3PixmapTexture_GetPixmap( inTexture, &dataRec ))
+	{
+		imageStorage = dataRec.image;
+	}
+	return imageStorage;
+}
+
+/*!
+	@function	GetMipmapTextureStorage
 	@abstract	Get the data from a mipmap texture object.
 	@param		inTexture		A mipmap texture object.
 	@param		outData			Receives mipmap data.
-	@result		Holds a reference to outData.image, or NULL on failure.
+	@result		Holds a reference to image storage, or NULL on failure.
 */
-static CQ3ObjectRef GetMipmapTextureData( TQ3TextureObject inTexture,
-											TQ3Mipmap& outData )
+static TQ3Object GetMipmapTextureStorage( TQ3TextureObject inTexture )
 {
-	CQ3ObjectRef	imageHolder;
-	if (kQ3Success == Q3MipmapTexture_GetMipmap( inTexture, &outData ))
+	TQ3Object	imageStorage = NULL;
+	TQ3Mipmap		dataRec;
+	
+	if (kQ3Success == Q3MipmapTexture_GetMipmap( inTexture, &dataRec ))
 	{
-		imageHolder = CQ3ObjectRef( outData.image );
+		imageStorage = dataRec.image;
 	}
-	return imageHolder;
+	return imageStorage;
 }
 
 /*!
@@ -181,28 +175,22 @@ static CQ3ObjectRef GetMipmapTextureData( TQ3TextureObject inTexture,
 	@param		inTexture		A texture object.
 	@result		A reference to image storage, or NULL on failure.
 */
-static CQ3ObjectRef	GetTextureStorage( TQ3TextureObject inTexture )
+static TQ3Object	GetTextureStorage( TQ3TextureObject inTexture )
 {
-	CQ3ObjectRef	imageHolder;
+	TQ3Object	imageStorage = NULL;
 	
 	switch (Q3Texture_GetType( inTexture ))
 	{
 		case kQ3TextureTypePixmap:
-			{
-				TQ3StoragePixmap	thePixmap;
-				imageHolder = GetPixmapTextureData( inTexture, thePixmap );
-			}
+			imageStorage = GetPixmapTextureStorage( inTexture );
 			break;
 		
 		case kQ3TextureTypeMipmap:
-			{
-				TQ3Mipmap	theMipmap;
-				imageHolder = GetMipmapTextureData( inTexture, theMipmap );
-			}
+			imageStorage = GetMipmapTextureStorage( inTexture );
 			break;
 	}
 	
-	return imageHolder;
+	return imageStorage;
 }
 
 /*!
@@ -221,6 +209,57 @@ static TQ3Uns32 GetStorageEditIndex( TQ3TextureObject inTexture )
 	}
 	return editIndex;
 }
+
+
+
+
+
+/*!
+	@function		RemoveCachedTexture
+	@abstract		Remove a texture record from a texture cache.
+	@param			txCache			A texture cache.
+	@param			textureRec		Texture cache record to remove.
+*/
+static void			RemoveCachedTexture( TQ3TextureCachePtr txCache,
+								CachedTextureList::iterator toRemove )
+{
+	TRY
+	{
+		TQ3CachedTexturePtr theRec = *toRemove;
+		
+		GLuint	textureName = GLTextureMgr_GetOpenGLTexture( theRec );
+		Q3_ASSERT( glIsTexture( textureName ) );
+		glDeleteTextures( 1, &textureName );
+		Q3_ASSERT( !glIsTexture( textureName ) );
+		
+		txCache->cachedTextures.erase( toRemove );
+		
+		delete theRec;
+	}
+	CATCH_ALL
+}
+
+
+#if Q3_DEBUG
+/*!
+	@function		IsValidTextureCache
+	@abstract		Test whether a texture cache pointer is valid.
+	@param			txCache			A texture cache.
+	@result			Whether the texture cache pointer is valid.
+*/
+static TQ3Boolean			IsValidTextureCache( TQ3TextureCachePtr txCache )
+{
+	TQ3Boolean	isValid = kQ3False;
+	
+	if (GLGPUSharing_IsCacheValid( txCache, kTextureCacheKey ))
+	{
+		isValid = kQ3True;
+	}
+	
+	return isValid;
+}
+#endif
+
 
 
 #pragma mark -
@@ -253,32 +292,10 @@ TQ3TextureCachePtr	GLTextureMgr_GetTextureCache( TQ3GLContext glContext )
 		}
 	}
 	
+	Q3_ASSERT( IsValidTextureCache( theCache ) );
+	
 	return theCache;
 }
-
-
-
-
-
-#if Q3_DEBUG
-/*!
-	@function		GLTextureMgr_IsValidTextureCache
-	@abstract		Test whether a texture cache pointer is valid.
-	@param			txCache			A texture cache.
-	@result			Whether the texture cache pointer is valid.
-*/
-TQ3Boolean			GLTextureMgr_IsValidTextureCache( TQ3TextureCachePtr txCache )
-{
-	TQ3Boolean	isValid = kQ3False;
-	
-	if (GLGPUSharing_IsCacheValid( txCache, kTextureCacheKey ))
-	{
-		isValid = kQ3True;
-	}
-	
-	return isValid;
-}
-#endif
 
 
 
@@ -300,46 +317,30 @@ TQ3CachedTexturePtr	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
 	
 	TRY
 	{
-		CachedTextureList::iterator	foundIt = std::find_if( txCache->cachedTextures.begin(),
-			txCache->cachedTextures.end(), MatchTexture( texture ) );
+		TQ3CachedTexture	toFind;
+		toFind.cachedTextureObject = CQ3ObjectRef( Q3Shared_GetReference( texture ) );
+		
+		CachedTextureList::iterator	foundIt = txCache->cachedTextures.find( &toFind );
 		
 		if (foundIt != txCache->cachedTextures.end())
 		{
-			theRecord = &*foundIt;
+			theRecord = *foundIt;
+		}
+
+		// if we found a record, but it is stale, delete it.
+		if (theRecord != NULL)
+		{
+			if ( (Q3Shared_GetEditIndex( texture ) != theRecord->editIndexTexture)
+			||
+				(GetStorageEditIndex( texture ) != theRecord->editIndexStorage) )
+			{
+				RemoveCachedTexture( txCache, foundIt );
+				theRecord = NULL;
+			}
 		}
 	}
 	CATCH_ALL
 	
-	return theRecord;
-}
-
-
-
-
-
-/*!
-	@function		GLTextureMgr_GetCachedTextureByIndex
-	@abstract		Access a texture cache record by index.
-	@param			txCache			A texture cache.
-	@param			memberIndex		Zero-based index of a cached texture.
-	@result			Pointer to a cached texture record, or NULL if not found.
-*/
-TQ3CachedTexturePtr	GLTextureMgr_GetCachedTextureByIndex( TQ3TextureCachePtr txCache,
-								TQ3Uns32 memberIndex )
-{
-	TQ3CachedTexturePtr	theRecord = NULL;
-	
-	TQ3Uns32		theIndex = 0;
-	
-	for (CachedTextureList::iterator i = txCache->cachedTextures.begin();
-		i != txCache->cachedTextures.end(); ++i, ++theIndex)
-	{
-		if (theIndex == memberIndex)
-		{
-			theRecord = &*i;
-			break;
-		}
-	}
 	return theRecord;
 }
 
@@ -353,96 +354,35 @@ TQ3CachedTexturePtr	GLTextureMgr_GetCachedTextureByIndex( TQ3TextureCachePtr txC
 	@param			txCache			A texture cache.
 	@param			inTexture		A Quesa texture object.
 	@param			inGLTextureName	An OpenGL texture object name.
+	@result			Pointer to a new cached texture record.
 */
-void				GLTextureMgr_CacheTexture(
+TQ3CachedTexturePtr		GLTextureMgr_CacheTexture(
 								TQ3TextureCachePtr txCache,
 								TQ3TextureObject inTexture,
 								GLuint inGLTextureName )
 {
-	TQ3CachedTexture	localRec;
-	localRec.cachedTextureObject = CQ3ObjectRef( Q3Shared_GetReference(
-		inTexture ) );
-	localRec.editIndexTexture = Q3Shared_GetEditIndex( inTexture );
-	localRec.editIndexStorage = GetStorageEditIndex( inTexture );
-	localRec.glTextureName = inGLTextureName;
+	TQ3CachedTexturePtr theResult = NULL;
 	
 	TRY
 	{
-		txCache->cachedTextures.push_back( localRec );
-	}
-	CATCH_ALL
-}
-
-
-/*!
-	@function		GLTextureMgr_RemoveCachedTexture
-	@abstract		Remove a texture record from a texture cache.
-	@param			txCache			A texture cache.
-	@param			textureRec		Texture cache record to remove.
-*/
-void				GLTextureMgr_RemoveCachedTexture( TQ3TextureCachePtr txCache,
-								TQ3CachedTexturePtr textureRec )
-{
-	TRY
-	{
-		CachedTextureList::iterator	iter;
+		TQ3CachedTexture* newRec = new TQ3CachedTexture;
 		
-		for (iter = txCache->cachedTextures.begin(); iter != txCache->cachedTextures.end();
-			++iter)
-		{
-			if (&*iter == textureRec)
-			{
-				txCache->cachedTextures.erase( iter );
-				break;
-			}
-		}
+		newRec->cachedTextureObject = CQ3ObjectRef( Q3Shared_GetReference(
+			inTexture ) );
+		newRec->editIndexTexture = Q3Shared_GetEditIndex( inTexture );
+		newRec->editIndexStorage = GetStorageEditIndex( inTexture );
+		newRec->glTextureName = inGLTextureName;
+		theResult = newRec;
+		
+		txCache->cachedTextures.insert( theResult );
 	}
 	CATCH_ALL
+	
+	return theResult;
 }
 
 
-/*!
-	@function		GLTextureMgr_IsCachedTextureStale
-	@abstract		Determine whether the texture cache contains this texture,
-					but the texture has been modified since it was cached.
-	@param			txCache			A texture cache.
-	@param			inTexture		A texture object.
-	@result			True if the texture is in the cache but stale.
-*/
-TQ3Boolean				GLTextureMgr_IsCachedTextureStale(
-								TQ3TextureCachePtr txCache,
-								TQ3TextureObject inTexture )
-{
-	TQ3Boolean	isStale = kQ3False;
-	
-	TQ3CachedTexturePtr	cacheRec = GLTextureMgr_FindCachedTexture(
-		txCache, inTexture );
-	
-	if (cacheRec != NULL)
-	{
-		if ( (Q3Shared_GetEditIndex( inTexture ) != cacheRec->editIndexTexture)
-		||
-			(GetStorageEditIndex( inTexture ) != cacheRec->editIndexStorage) )
-		{
-			isStale = kQ3True;
-		}
-	}
-	
-	return isStale;
-}
 
-/*!
-	@function		GetQuesaTexture
-	@abstract		Access the Quesa texture object from a cached texture.
-	@param			inCachedTexture		A cached texture record.
-	@result			A texture object.
-*/
-TQ3TextureObject	GLTextureMgr_GetQuesaTexture(
-								TQ3CachedTexturePtr inCachedTexture )
-{
-	return inCachedTexture->cachedTextureObject.get();
-}
-	
 /*!
 	@function		GetOpenGLTexture
 	@abstract		Access the OpenGL texture name from a cached texture.
@@ -454,3 +394,35 @@ GLuint	GLTextureMgr_GetOpenGLTexture( TQ3CachedTexturePtr inCachedTexture )
 	return inCachedTexture->glTextureName;
 }
 
+
+
+
+/*!
+	@function		GLTextureMgr_FlushUnreferencedTextures
+	@abstract		Remove from the cache any textures that are not referenced
+					except by the texture cache itself.
+	@param			txCache			A texture cache.
+*/
+void				GLTextureMgr_FlushUnreferencedTextures(
+								TQ3TextureCachePtr txCache )
+{
+	TQ3Uns32	textureIndex = 0;
+	CachedTextureList::iterator iter = txCache->cachedTextures.begin();
+	while (iter != txCache->cachedTextures.end())
+	{
+		CachedTextureList::iterator nextIter = iter;
+		++nextIter;
+		
+		TQ3CachedTexturePtr cachedTexture = *iter;
+		
+		// If we hold the last reference to this texture, release it
+		TQ3TextureObject	theTexture = cachedTexture->cachedTextureObject.get();
+		
+		if ( (theTexture != NULL) && ! Q3Shared_IsReferenced( theTexture ) )
+		{
+			RemoveCachedTexture( txCache, iter );
+		}
+
+		iter = nextIter;
+	}
+}
