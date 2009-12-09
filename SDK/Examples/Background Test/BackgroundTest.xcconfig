@@ -6,7 +6,7 @@ SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
 
 // Search Paths
 HEADER_SEARCH_PATHS = ../Qut/Mac ../Qut
-FSP_SYS = $(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks
+FSP_SYS = $(SDKROOT)/System/Library/Frameworks
 FSP_QUESA = "$(SRCROOT)/../../Libraries/Mac/Framework_Universal/$(CONFIGURATION)"
 FRAMEWORK_SEARCH_PATHS = $(FSP_SYS) $(FSP_QUESA)
 
@@ -26,6 +26,9 @@ INFOPLIST_PREPROCESS = NO
 // Deployment
 COPY_PHASE_STRIP = NO					// Strip Debug Symbols During Copy
 STRIP_INSTALLED_PRODUCT = NO
+
+// Compiler version
+GCC_VERSION = 4.0
 
 // Language
 GCC_PREFIX_HEADER = BackgroundTest_Prefix.pch
@@ -47,4 +50,3 @@ GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO
 
 // Preprocessing
 GCC_PREPROCESSOR_DEFINITIONS = QUESA_OS_MACINTOSH=1 TARGET_API_MAC_CARBON=1
-

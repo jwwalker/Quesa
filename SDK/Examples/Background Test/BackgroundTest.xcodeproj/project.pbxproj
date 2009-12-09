@@ -12,7 +12,6 @@
 		BE69F16309F55B460087418D /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE69F16209F55B460087418D /* QuickTime.framework */; };
 		BE70189309F6C95E00940AA2 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE70189209F6C95E00940AA2 /* Quesa.framework */; };
 		BE763DA909F46DFA0047102C /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = BE763DA809F46DFA0047102C /* main.nib */; };
-		BE763DB309F46E6F0047102C /* QutCarbon.rsrc in Resources */ = {isa = PBXBuildFile; fileRef = BE763DB209F46E6F0047102C /* QutCarbon.rsrc */; };
 		BE763DE109F46FAA0047102C /* Qut.c in Sources */ = {isa = PBXBuildFile; fileRef = BE763DE009F46FAA0047102C /* Qut.c */; };
 		BE763DE909F46FD00047102C /* QutTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = BE763DE809F46FD00047102C /* QutTexture.c */; };
 		BE763DEB09F46FD60047102C /* QutMac.c in Sources */ = {isa = PBXBuildFile; fileRef = BE763DEA09F46FD60047102C /* QutMac.c */; };
@@ -27,26 +26,12 @@
 			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
 			remoteInfo = "Fmwk Univ";
 		};
-		BEA3F2900BDD683B00507100 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BEA3F2770BDD682800507100 /* Quesa.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEDC072708A6812D00FB3A82;
-			remoteInfo = "Fmwk (GCC 3.3)";
-		};
 		BEA3F2920BDD683B00507100 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BEA3F2770BDD682800507100 /* Quesa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = B1756AFF080A71C30056134C;
 			remoteInfo = "Static Lib (Univ)";
-		};
-		BEA3F2940BDD683B00507100 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BEA3F2770BDD682800507100 /* Quesa.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEDC08D008A6B24A00FB3A82;
-			remoteInfo = "Static Lib (GCC 3.3)";
 		};
 		BEA3F2980BDD684C00507100 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -82,7 +67,6 @@
 		BE69F16209F55B460087418D /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		BE70189209F6C95E00940AA2 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quesa.framework; path = ../../../../Libraries/Mac/Framework_Universal/Debug/Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE763DA809F46DFA0047102C /* main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = main.nib; path = ../Qut/Mac/main.nib; sourceTree = SOURCE_ROOT; };
-		BE763DB209F46E6F0047102C /* QutCarbon.rsrc */ = {isa = PBXFileReference; lastKnownFileType = archive.rsrc; name = QutCarbon.rsrc; path = ../Qut/Mac/QutCarbon.rsrc; sourceTree = SOURCE_ROOT; };
 		BE763DE009F46FAA0047102C /* Qut.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = Qut.c; path = ../Qut/Qut.c; sourceTree = SOURCE_ROOT; };
 		BE763DE209F46FAE0047102C /* Qut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Qut.h; path = ../Qut/Qut.h; sourceTree = SOURCE_ROOT; };
 		BE763DE409F46FB90047102C /* QutInternal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QutInternal.h; path = ../Qut/QutInternal.h; sourceTree = SOURCE_ROOT; };
@@ -92,6 +76,7 @@
 		BE763DEC09F46FFA0047102C /* QutMac.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QutMac.h; path = ../Qut/Mac/QutMac.h; sourceTree = SOURCE_ROOT; };
 		BEA3F2770BDD682800507100 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BEA3F2B30BDD6B3B00507100 /* BackgroundTest.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = BackgroundTest.xcconfig; sourceTree = "<group>"; };
+		BEE3404D10D0254E00F597A7 /* QutCarbon.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = QutCarbon.r; path = ../Qut/Mac/QutCarbon.r; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,7 +130,7 @@
 		20286C2CFDCF999611CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BE763DB209F46E6F0047102C /* QutCarbon.rsrc */,
+				BEE3404D10D0254E00F597A7 /* QutCarbon.r */,
 				BE763DA809F46DFA0047102C /* main.nib */,
 				8D0C4E960486CD37000505A6 /* Info.plist */,
 			);
@@ -187,9 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				BEA3F28F0BDD683B00507100 /* Quesa.framework */,
-				BEA3F2910BDD683B00507100 /* Quesa.framework */,
 				BEA3F2930BDD683B00507100 /* libQuesa.a */,
-				BEA3F2950BDD683B00507100 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,6 +208,7 @@
 		20286C28FDCF999611CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "BackgroundTest" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 20286C29FDCF999611CA2CEA /* BackgroundTest */;
 			projectDirPath = "";
@@ -234,6 +218,7 @@
 					ProjectRef = BEA3F2770BDD682800507100 /* Quesa.xcodeproj */;
 				},
 			);
+			projectRoot = "";
 			targets = (
 				8D0C4E890486CD37000505A6 /* BackgroundTest */,
 			);
@@ -248,25 +233,11 @@
 			remoteRef = BEA3F28E0BDD683B00507100 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BEA3F2910BDD683B00507100 /* Quesa.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Quesa.framework;
-			remoteRef = BEA3F2900BDD683B00507100 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		BEA3F2930BDD683B00507100 /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libQuesa.a;
 			remoteRef = BEA3F2920BDD683B00507100 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BEA3F2950BDD683B00507100 /* libQuesa.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libQuesa.a;
-			remoteRef = BEA3F2940BDD683B00507100 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -277,7 +248,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE763DA909F46DFA0047102C /* main.nib in Resources */,
-				BE763DB309F46E6F0047102C /* QutCarbon.rsrc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +280,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# In the Debug configuration, copy the Quesa dSYM package into the Frameworks folder so we can debug Quesa.\n\nif [ \"$CONFIGURATION\" != 'Debug' ]; then\n\texit\nfi\n\ncp -R \"$PROJECT_DIR/../../Libraries/Mac/Framework_Universal/Debug/Quesa.framework.dSYM\" \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Frameworks/\"\n";
+			shellScript = "# In the Debug configuration, copy the Quesa dSYM package into the Frameworks folder so we can debug Quesa.\n\nif [ \"$CONFIGURATION\" != 'Debug' ]; then\n\texit\nfi\n\ncp -R \"$PROJECT_DIR/../../Libraries/Mac/Framework_Universal/Debug/Quesa.framework.dSYM\" \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Frameworks\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
