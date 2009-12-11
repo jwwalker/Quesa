@@ -82,7 +82,9 @@ enum
 	#define GL_FRAMEBUFFER_EXT                 0x8D40
 	#define GL_RENDERBUFFER_EXT                0x8D41
 	#define GL_MAX_RENDERBUFFER_SIZE_EXT       0x84E8
+	#define GL_MAX_COLOR_ATTACHMENTS_EXT       0x8CDF
 	#define GL_COLOR_ATTACHMENT0_EXT           0x8CE0
+	#define GL_COLOR_ATTACHMENT1_EXT           0x8CE1
 	#define GL_DEPTH_ATTACHMENT_EXT            0x8D00
 	#define GL_STENCIL_ATTACHMENT_EXT          0x8D20
 	#define GL_FRAMEBUFFER_COMPLETE_EXT        0x8CD5
@@ -181,6 +183,7 @@ private:
 	GLint					masterViewPort[4];
 	bool					copyFromPixmapAtFrameStart;
 	bool					copyToPixMapOnSwapBuffer;
+	GLenum					colorBufferAttachment;
 	
 	GLuint					frameBufferID;
 	GLuint					colorRenderBufferID;
@@ -542,6 +545,7 @@ FBORec::FBORec(
 	, colorRenderBufferID( 0 )
 	, depthRenderBufferID( 0 )
 	, stencilRenderBufferID( 0 )
+	, colorBufferAttachment( GL_COLOR_ATTACHMENT0_EXT )
 {
 	glGetIntegerv( GL_VIEWPORT, masterViewPort );
 
@@ -561,6 +565,27 @@ FBORec::FBORec(
 	glGenFramebuffersEXT( 1, &frameBufferID );
 	static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer( frameBufferID );
 	
+	// Find how many color attachments are available.
+	GLint	 maxColorAttach = 0;
+	glGetIntegerv( GL_MAX_COLOR_ATTACHMENTS_EXT, &maxColorAttach );
+	
+	// To work around a weird ATI Radeon HD 4670 driver bug, we prefer to use
+	// GL_COLOR_ATTACHMENT1_EXT instead of GL_COLOR_ATTACHMENT0_EXT.  However,
+	// it is possible that maxColorAttach == 1, in which case the only choice is
+	// GL_COLOR_ATTACHMENT0_EXT.
+	if (maxColorAttach >= 2)
+	{
+		colorBufferAttachment = GL_COLOR_ATTACHMENT1_EXT;
+	}
+	
+	// When an FBO is first created and bound, its read and draw buffers are
+	// initialized to GL_COLOR_ATTACHMENT0_EXT.  Since we are probably not using
+	// that attachment point, we must set the read and draw buffers, otherwise
+	// the FBO will not pass the completeness test.
+	glReadBuffer( colorBufferAttachment );
+	glDrawBuffer( colorBufferAttachment );
+	
+	
 	// Create color renderbuffer
 	glGenRenderbuffersEXT( 1, &colorRenderBufferID );
 	glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
@@ -568,7 +593,7 @@ FBORec::FBORec(
 	glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_RGB,
 		inPaneWidth, inPaneHeight );
 	glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
-		GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT,
+		colorBufferAttachment, GL_RENDERBUFFER_EXT,
 		colorRenderBufferID );
 	
 	
@@ -661,6 +686,10 @@ FBORec::FBORec(
 		}
 	}
 
+
+	// no more need for bound renderbuffer
+	glBindRenderbufferEXT( GL_RENDERBUFFER_EXT, 0 );
+	
 	
 	// Check whether FBO is OK
 	GLenum	result = glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT );
@@ -794,7 +823,7 @@ void	FBORec::SwapBuffers()
 			pixelFormat, pixelType );
 	
 		glFinish();	// on some machines, glFlush does not suffice
-		glReadBuffer( GL_COLOR_ATTACHMENT0_EXT );
+		glReadBuffer( colorBufferAttachment );
 		glReadPixels( 0, 0, theLogicalWidth, theLogicalHeight, pixelFormat,
 			pixelType, panePixels );
 		
@@ -864,7 +893,7 @@ void	FBORec::StartFrame()
 		glDisable( GL_DITHER );
 		glDepthMask( GL_FALSE );
 
-		glDrawBuffer( GL_COLOR_ATTACHMENT0_EXT );
+		glDrawBuffer( colorBufferAttachment );
 		glDrawPixels( theWidth, theHeight, pixelFormat,
 			pixelType, panePixels );
 
