@@ -452,8 +452,9 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	bool isFirstLightingPass = mLights.IsFirstPass();
 	if (isFirstLightingPass && mLights.IsLastLightingPass() && mTransBuffer.HasContent())
 	{
-		mTransBuffer.DrawTransparency( inView, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 		mTransBuffer.DrawDepth( inView );
+		glDepthFunc( GL_LEQUAL );
+		mTransBuffer.DrawTransparency( inView, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 		mTransBuffer.Cleanup();
 	}
 	
