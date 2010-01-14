@@ -453,7 +453,19 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	if (isFirstLightingPass && mLights.IsLastLightingPass() && mTransBuffer.HasContent())
 	{
 		mTransBuffer.DrawDepth( inView );
-		glDepthFunc( GL_LEQUAL );
+		
+		// When drawing the depth first, normally we want to use GL_LEQUAL, but
+		// for special purposes the client might reverse it.
+		TQ3Uns32 compareFunc = GL_LEQUAL;
+		if ( (kQ3Success == Q3Object_GetProperty( mDrawContextObject,
+			kQ3DrawContextPropertyGLDepthFunc,
+			sizeof(compareFunc), NULL, &compareFunc )) &&
+			(compareFunc == GL_GREATER) )
+		{
+			compareFunc = GL_GEQUAL;
+		}
+		
+		glDepthFunc( compareFunc );
 		mTransBuffer.DrawTransparency( inView, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 		mTransBuffer.Cleanup();
 	}
