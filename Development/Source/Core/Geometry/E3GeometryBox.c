@@ -5,7 +5,7 @@
         Implementation of Quesa Box geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -447,6 +447,8 @@ e3geom_box_merge_faces( TQ3GroupObject ioGroup )
 		Q3TriMesh_UnlockData( theItem.get() );
 		++faceNum;
 	}
+	
+	Q3BoundingBox_SetFromPoints3D( &tmData.bBox, thePoints, 24, sizeof(TQ3Point3D) );
 	
 	TQ3GeometryObject theTriMesh = Q3TriMesh_New( &tmData );
 	
