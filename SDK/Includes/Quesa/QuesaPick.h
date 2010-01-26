@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -86,15 +86,27 @@ extern "C" {
  *
  *  @constant kQ3PickDetailNone                      No pick details are required.
  *  @constant kQ3PickDetailMaskPickID                The picking ID of the picked object.
+ *													 Data type: TQ3Uns32.
  *  @constant kQ3PickDetailMaskPath                  The path through the model hierarchy to the picked object.
+ *													 Data type: TQ3HitPath.
  *  @constant kQ3PickDetailMaskObject                The picked object.
+ *													 Data type: TQ3SharedObject (a new reference).
  *  @constant kQ3PickDetailMaskLocalToWorldMatrix    The local-to-world matrix for the picked object.
+ *													 Data type: TQ3Matrix4x4.
  *  @constant kQ3PickDetailMaskXYZ                   The picked location in world coordinates.
+ *													 Data type: TQ3Point3D.
  *  @constant kQ3PickDetailMaskDistance              The distance between the picked location and the pick origin.
+ *													 Data type: float.
  *  @constant kQ3PickDetailMaskNormal                The surface normal at the picked location.
+ *													 Data type: TQ3Vector3D.
  *  @constant kQ3PickDetailMaskShapePart             The shape part of the picked object.
+ *													 Only relevant to Mesh objects.
+ *													 Data type: TQ3ShapePartObject (a new reference).
  *  @constant kQ3PickDetailMaskPickPart              The picked object, edge, or vertex.
+ *													 Only relevant to Mesh objects.
+ *													 Data type: TQ3PickParts.
  *  @constant kQ3PickDetailMaskUV                    The UV coordinate of the picked location.
+ *													 Data type: TQ3Param2D.
  */
 typedef enum TQ3PickDetailMasks {
     kQ3PickDetailNone                           = 0,
