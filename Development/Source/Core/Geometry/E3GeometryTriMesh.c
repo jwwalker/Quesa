@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -979,7 +979,8 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
 
 
 			// Record the hit
-			qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal, resultUV, NULL);
+			qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal,
+				resultUV, NULL, n );
 
 
 			// Clean up
@@ -1146,7 +1147,8 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 			Q3Matrix4x4_Invert( &worldToWindow, &windowToWorld );
 			TQ3Point3D		worldHitPt;
 			Q3Point3D_Transform( &windowHitPt, &windowToWorld, &worldHitPt );
-			qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHitPt, NULL, NULL, NULL);
+			qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHitPt, NULL,
+				NULL, NULL, n);
 			break;
 			}
 		}
@@ -1248,7 +1250,8 @@ e3geom_trimesh_record_any_xyz( TQ3ViewObject theView, TQ3PickObject thePick,
 	TQ3Point3D	worldHit;
 	Q3Point3D_Transform( &geomData.points[0], E3View_State_GetMatrixLocalToWorld(theView),
 		&worldHit );
-	TQ3Status	qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, NULL, NULL, NULL);
+	TQ3Status	qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, NULL,
+		NULL, NULL, 0 );
 	return qd3dStatus;
 }
 

@@ -5,7 +5,7 @@
         Header file for E3Pick.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -87,7 +87,8 @@ TQ3Status				E3Pick_RecordHit(TQ3PickObject        		thePick,
 											const TQ3Point3D  		*hitXYZ,
 											const TQ3Vector3D 		*hitNormal,
 											const TQ3Param2D  		*hitUV,
-											TQ3ShapePartObject		hitShape);
+											TQ3ShapePartObject		hitShape,
+											TQ3Uns32				hitTriMeshFaceIndex = kQ3ArrayIndexNULL );
 
 TQ3PickObject			E3WindowPointPick_New(const TQ3WindowPointPickData *data);
 TQ3Status				E3WindowPointPick_GetPoint(TQ3PickObject thePick, TQ3Point2D *point);

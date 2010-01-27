@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -82,6 +82,7 @@ struct TQ3PickHit
 	TQ3Vector3D					hitNormal;
 	float						hitDistance;
 	TQ3Matrix4x4				localToWorld;
+	TQ3Uns32					hitTriMeshFaceIndex;
 };
 
 
@@ -318,7 +319,8 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 						const TQ3Point3D		*hitXYZ,
 						const TQ3Vector3D		*hitNormal,
 						const TQ3Param2D		*hitUV,
-						TQ3ShapePartObject		hitShape)
+						TQ3ShapePartObject		hitShape,
+						TQ3Uns32				hitFaceIndex )
 {	TQ3CameraPlacement		cameraPlacement;
 	TQ3HitPath				*currentPath;
 	TQ3Status				qd3dStatus;
@@ -488,6 +490,16 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 		theHit->hitUV      = *hitUV;
 		theHit->validMask |= kQ3PickDetailMaskUV;
 		}
+	
+	
+	
+	// Save the face index
+	if ( E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskTriMeshFace) &&
+		(hitFaceIndex != kQ3ArrayIndexNULL) )
+	{
+		theHit->hitTriMeshFaceIndex = hitFaceIndex;
+		theHit->validMask |= kQ3PickDetailMaskTriMeshFace;
+	}
 }
 
 
@@ -1425,6 +1437,9 @@ E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pi
 		case kQ3PickDetailMaskUV:
 			*((TQ3Param2D*)(detailData)) = theHit->hitUV;
 			break;
+		case kQ3PickDetailMaskTriMeshFace:
+			*((TQ3Uns32*)(detailData)) = theHit->hitTriMeshFaceIndex;
+			break;
 		default:
 			qd3dStatus = kQ3Failure;
 		}
@@ -1449,7 +1464,8 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 					const TQ3Point3D		*hitXYZ,
 					const TQ3Vector3D		*hitNormal,
 					const TQ3Param2D		*hitUV,
-					TQ3ShapePartObject		hitShape)
+					TQ3ShapePartObject		hitShape,
+					TQ3Uns32				hitTriMeshFaceIndex )
 {
 	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
 	TQ3Status	theStatus = kQ3Success;
@@ -1474,7 +1490,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 
 		// Fill out the data for the hit
 		e3pick_hit_initialise( theHit.get(), thePick, theView, hitXYZ,
-			hitNormal, hitUV, hitShape);
+			hitNormal, hitUV, hitShape, hitTriMeshFaceIndex);
 
 
 
