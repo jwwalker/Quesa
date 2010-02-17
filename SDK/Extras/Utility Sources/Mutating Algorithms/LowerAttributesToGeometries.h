@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,8 +69,10 @@ extern "C" {
 				opportunity to combine meshes.
 	
 	@param		ioGroup		A display group.
+	
+	@result		True if something was changed.
 */
-void	LowerAttributesToGeometries( TQ3GroupObject ioGroup );
+bool	LowerAttributesToGeometries( TQ3GroupObject ioGroup );
 
 #ifdef __cplusplus
 }
