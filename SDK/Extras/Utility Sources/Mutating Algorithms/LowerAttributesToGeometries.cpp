@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,10 +69,11 @@ namespace
 	public:
 						Lowerer();
 	
-		void			DoLower( TQ3Object ioGroup );
+		bool			DoLower( TQ3Object ioGroup );
 	
 	private:
 		std::vector< CQ3ObjectRef >	mAttStack;
+		bool			mDidChange;
 	};
 }
 
@@ -144,12 +145,13 @@ static bool	CopyAttributes( TQ3AttributeSet inSrcSet, TQ3AttributeSet inDestSet,
 
 
 Lowerer::Lowerer()
+	: mDidChange( false )
 {
 	CQ3ObjectRef	emptySet( Q3AttributeSet_New() );
 	mAttStack.push_back( emptySet );
 }
 
-void	Lowerer::DoLower( TQ3Object ioGroup )
+bool	Lowerer::DoLower( TQ3Object ioGroup )
 {
 	TQ3DisplayGroupState	theState;
 	Q3DisplayGroup_GetState( ioGroup, &theState );
@@ -183,6 +185,7 @@ void	Lowerer::DoLower( TQ3Object ioGroup )
 			
 			// Then delete the free-floating attribute set
 			CQ3ObjectRef	deadSet( Q3Group_RemovePosition( ioGroup, pos ) );
+			mDidChange = true;
 		}
 		else if (Q3Object_IsType( theMember.get(), kQ3ShapeTypeGeometry ))
 		{
@@ -208,6 +211,7 @@ void	Lowerer::DoLower( TQ3Object ioGroup )
 			
 			// Then delete the free texture shader
 			CQ3ObjectRef	deadShader( Q3Group_RemovePosition( ioGroup, pos ) );
+			mDidChange = true;
 		}
 		
 		pos = nextPos;
@@ -217,6 +221,8 @@ void	Lowerer::DoLower( TQ3Object ioGroup )
 	{
 		mAttStack.pop_back();
 	}
+	
+	return mDidChange;
 }
 
 /*!
@@ -231,10 +237,12 @@ void	Lowerer::DoLower( TQ3Object ioGroup )
 				opportunity to combine meshes.
 	
 	@param		ioGroup		A display group.
+	
+	@result		True if something was changed.
 */
-void	LowerAttributesToGeometries( TQ3GroupObject ioGroup )
+bool	LowerAttributesToGeometries( TQ3GroupObject ioGroup )
 {
 	Lowerer	theLowerer;
-	theLowerer.DoLower( ioGroup );
+	return theLowerer.DoLower( ioGroup );
 }
 
