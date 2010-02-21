@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -444,19 +444,6 @@ QORenderer::ProgramRec::operator=( const QORenderer::ProgramRec& inOther )
 	ProgramRec	temp( inOther );
 	swap( temp );
 	return *this;
-}
-
-static void ReplaceAllSubstr( std::string& ioString,
-								const char* inFindSub,
-								const char* inReplacement )
-{
-	std::string::size_type	place;
-	std::string::size_type	len = std::strlen( inFindSub );
-	
-	while ( (place = ioString.find( inFindSub )) != std::string::npos )
-	{
-		ioString.replace( place, len, inReplacement );
-	}
 }
 
 
