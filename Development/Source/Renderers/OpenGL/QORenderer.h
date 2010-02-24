@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -369,11 +369,11 @@ protected:
 	GLContextCleanup		mCleanup;
 	GLSLFuncs				mSLFuncs;
 	GLStencilFuncs			mStencilFuncs;
+	TQ3GLExtensions			mGLExtensions;
 	PerPixelLighting		mPPLighting;
 	TQ3Uns32				mRendererEditIndex;
 	TQ3Uns32				mDrawContextEditIndex;
 	GLbitfield				mGLClearFlags;
-	TQ3GLExtensions			mGLExtensions;
 	TQ3BlendEquationProcPtr	mGLBlendEqProc;
 	MatrixState				mMatrixState;
 	TQ3Int32				mPassIndex;

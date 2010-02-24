@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -221,7 +221,8 @@ class PerPixelLighting
 public:
 								PerPixelLighting(
 										GLSLFuncs& inFuncs,
-										TQ3RendererObject inRendererObject );
+										TQ3RendererObject inRendererObject,
+										const TQ3GLExtensions& inExtensions );
 	
 								~PerPixelLighting();
 								
@@ -291,6 +292,7 @@ private:
 	void						ChooseProgram();
 	
 	GLSLFuncs&					mFuncs;
+	const TQ3GLExtensions&		mGLExtensions;
 	TQ3RendererObject			mRendererObject;
 	bool						mIsShading;
 	TQ3ObjectType				mIlluminationType;

@@ -53,6 +53,9 @@
 #include <string>
 #include <algorithm>
 
+#ifndef GL_VERTEX_PROGRAM_TWO_SIDE
+	#define GL_VERTEX_PROGRAM_TWO_SIDE        0x8643
+#endif
 
 
 //=============================================================================
@@ -84,8 +87,14 @@ namespace
 				"	gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;\n"
 
 				"	gl_FrontColor = gl_Color;\n"
+				"	gl_BackColor = gl_Color;\n"
 
 				"	gl_Position = ftransform();\n"
+				
+				// Use secondary color to let the fragment shader tell back from
+				// front.  See comments under kMainFragmentShaderStartSource.
+				"	gl_FrontSecondaryColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
+				"	gl_BackSecondaryColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
 				"}\n";
 	
 	const char*	kFragmentShaderPrefix =
@@ -151,16 +160,11 @@ namespace
 				"{\n"
 				"	float nDotVP = max( 0.0, dot( normal,"
 				"		gl_LightSource[LIGHT_INDEX].position.xyz ) );\n"
+				"	diff += QuantizeDiffuse( gl_LightSource[LIGHT_INDEX].diffuse.rgb, nDotVP );\n\n"
+				
 				"	float nDotHV = max( 0.0, \n"
 				"		dot( normal, gl_LightSource[LIGHT_INDEX].halfVector.xyz ) );\n"
-				"	float pf = 0.0;\n\n"
-				""
-				"	if (nDotVP > 0.0)\n"
-				"	{\n"
-				"		pf = pow( nDotHV, gl_FrontMaterial.shininess );\n"
-				"	}\n\n"
-
-				"	diff += QuantizeDiffuse( gl_LightSource[LIGHT_INDEX].diffuse.rgb, nDotVP );\n"
+				"	float pf = (nDotVP > 0.0)? pow( nDotHV, gl_FrontMaterial.shininess ) : 0.0;\n"
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf);\n"
 				"}\n\n";
 
@@ -242,9 +246,22 @@ namespace
 
 					// Flip the normal for the back face.  If we are using
 					// backfacing style Remove, then back face triangles will
-					// not get here, so this does no harm except wasting a
-					// little time.
-				"	normal = faceforward( normal, geomPos, normal );\n\n";
+					// not get here, in which case no harm is done.
+					// The most obvious way to flip backfacing normals is
+					//   normal = gl_FrontFacing? normal : -normal;
+					// but unfortunately gl_FrontFacing is poorly supported on
+					// some cards/drivers... it may simply fail, or it may cause
+					// a fallback to software rendering.
+					// Previously, we did this using
+					//   normal = faceforward( normal, geomPos, normal );
+					// but that had a problem:  Sometimes, especially in models
+					// created by skeletal animation, the vertex normals may
+					// point a little away from the camera even though the
+					// triangle faces front.
+					// Here we use a trick of using two-sided lighting to
+					// distinguish back from front.
+				"	normal = (gl_SecondaryColor.r > 0.0)? normal : -normal;\n\n"
+				;
 		
 		// Between part 1 and part 2, we will insert some light shader calls.
 
@@ -542,8 +559,10 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 
 QORenderer::PerPixelLighting::PerPixelLighting(
 										GLSLFuncs& inFuncs,
-										TQ3RendererObject inRendererObject )
+										TQ3RendererObject inRendererObject,
+										const TQ3GLExtensions& inExtensions )
 	: mFuncs( inFuncs )
+	, mGLExtensions( inExtensions )
 	, mRendererObject( inRendererObject )
 	, mIsShading( false )
 	, mIlluminationType( 0 )
@@ -731,6 +750,11 @@ void	QORenderer::PerPixelLighting::StartFrame()
 		{
 			std::for_each( newEnd, mPrograms.end(), DeleteProgram( mFuncs ) );
 			mPrograms.erase( newEnd, mPrograms.end() );
+		}
+		
+		if (mGLExtensions.vertexProgramTwoSide)
+		{
+			glEnable( GL_VERTEX_PROGRAM_TWO_SIDE );
 		}
 	}
 }
