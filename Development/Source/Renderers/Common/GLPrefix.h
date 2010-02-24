@@ -5,7 +5,7 @@
         Global prefix file for OpenGL.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -107,11 +107,12 @@ struct TQ3GLExtensions
 	TQ3Boolean				frameBufferObjects;		// GL_EXT_framebuffer_object
 	TQ3Boolean				shadingLanguage;
 	TQ3Boolean				packedPixels;			// GL 1.2
-	bool					depthClamp;				// GL_NV_depth_clamp
-	bool					stencilTwoSide;			// GL_EXT_stencil_two_side
-	bool					separateStencil;
-	bool					stencilWrap;			// GL_EXT_stencil_wrap
-	bool					packedDepthStencil;		// GL_EXT_packed_depth_stencil
+	TQ3Boolean				depthClamp;				// GL_NV_depth_clamp
+	TQ3Boolean				stencilTwoSide;			// GL_EXT_stencil_two_side
+	TQ3Boolean				separateStencil;		// GL 2.0
+	TQ3Boolean				stencilWrap;			// GL_EXT_stencil_wrap
+	TQ3Boolean				packedDepthStencil;		// GL_EXT_packed_depth_stencil
+	TQ3Boolean				vertexProgramTwoSide;	// GL 2.0 or GL_ARB_VERTEX_PROGRAM
 };
 
 

@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -134,7 +134,7 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	, mCleanup( mGLContext )
 	, mSLFuncs()
 	, mStencilFuncs()
-	, mPPLighting( mSLFuncs, mRendererObject )
+	, mPPLighting( mSLFuncs, mRendererObject, mGLExtensions )
 	, mRendererEditIndex( Q3Shared_GetEditIndex( inRenderer ) )
 	, mDrawContextEditIndex( 0 )
 	, mGLClearFlags( 0 )
