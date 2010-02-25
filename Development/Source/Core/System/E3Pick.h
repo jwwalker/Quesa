@@ -88,6 +88,7 @@ TQ3Status				E3Pick_RecordHit(TQ3PickObject        		thePick,
 											const TQ3Vector3D 		*hitNormal,
 											const TQ3Param2D  		*hitUV,
 											TQ3ShapePartObject		hitShape,
+											const TQ3Param3D*		hitBarycentric = NULL,
 											TQ3Uns32				hitTriMeshFaceIndex = kQ3ArrayIndexNULL );
 
 TQ3PickObject			E3WindowPointPick_New(const TQ3WindowPointPickData *data);

@@ -5,7 +5,7 @@
         Implementation of Quesa Triangle geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -211,7 +211,7 @@ e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
 
 
 		// Record the hit
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal, resultUV, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal, resultUV, NULL, &theHit);
 		}
 
 	return(qd3dStatus);
