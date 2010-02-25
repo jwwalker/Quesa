@@ -83,6 +83,7 @@ struct TQ3PickHit
 	float						hitDistance;
 	TQ3Matrix4x4				localToWorld;
 	TQ3Uns32					hitTriMeshFaceIndex;
+	TQ3Param3D					hitBarycentric;
 };
 
 
@@ -320,6 +321,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 						const TQ3Vector3D		*hitNormal,
 						const TQ3Param2D		*hitUV,
 						TQ3ShapePartObject		hitShape,
+						const TQ3Param3D*		hitBarycentric,
 						TQ3Uns32				hitFaceIndex )
 {	TQ3CameraPlacement		cameraPlacement;
 	TQ3HitPath				*currentPath;
@@ -499,6 +501,16 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	{
 		theHit->hitTriMeshFaceIndex = hitFaceIndex;
 		theHit->validMask |= kQ3PickDetailMaskTriMeshFace;
+	}
+	
+	
+	
+	// Save the barycentric coordinates
+	if ( E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskBarycentric) &&
+		(hitBarycentric != NULL) )
+	{
+		theHit->hitBarycentric = *hitBarycentric;
+		theHit->validMask |= kQ3PickDetailMaskBarycentric;
 	}
 }
 
@@ -1440,6 +1452,10 @@ E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pi
 		case kQ3PickDetailMaskTriMeshFace:
 			*((TQ3Uns32*)(detailData)) = theHit->hitTriMeshFaceIndex;
 			break;
+		case kQ3PickDetailMaskBarycentric:
+			*((TQ3Param3D*)(detailData)) = theHit->hitBarycentric;
+			break;
+			
 		default:
 			qd3dStatus = kQ3Failure;
 		}
@@ -1465,6 +1481,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 					const TQ3Vector3D		*hitNormal,
 					const TQ3Param2D		*hitUV,
 					TQ3ShapePartObject		hitShape,
+					const TQ3Param3D*		hitBarycentric,
 					TQ3Uns32				hitTriMeshFaceIndex )
 {
 	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
@@ -1490,7 +1507,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 
 		// Fill out the data for the hit
 		e3pick_hit_initialise( theHit.get(), thePick, theView, hitXYZ,
-			hitNormal, hitUV, hitShape, hitTriMeshFaceIndex);
+			hitNormal, hitUV, hitShape, hitBarycentric, hitTriMeshFaceIndex);
 
 
 

@@ -110,6 +110,10 @@ extern "C" {
  *	@constant kQ3PickDetailMaskTriMeshFace			 The The 0-based index of the TriMesh face that
  *													 was hit.  Not in QuickDraw 3D.
  *													 Data type: TQ3Uns32.
+ *	@constant kQ3PickDetailMaskBarycentric			 The barycentric coordinates of a picked point within
+ *													 a triangle.  Not available for points, lines etc.
+ *													 Not in QuickDraw 3D.
+ *													 Data type: TQ3Param3D.
  */
 typedef enum TQ3PickDetailMasks {
     kQ3PickDetailNone                           = 0,
@@ -124,7 +128,8 @@ typedef enum TQ3PickDetailMasks {
     kQ3PickDetailMaskPickPart                   = (1 << 8),
     kQ3PickDetailMaskUV                         = (1 << 9),
 	kQ3PickDetailMaskTriMeshFace				= (1 << 10),
-    kQ3PickDetailSize32                         = 0x7FFFFFFF
+ 	kQ3PickDetailMaskBarycentric				= (1 << 11),
+   kQ3PickDetailSize32                         = 0x7FFFFFFF
 } TQ3PickDetailMasks;
 
 

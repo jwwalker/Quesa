@@ -980,7 +980,7 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
 
 			// Record the hit
 			qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal,
-				resultUV, NULL, n );
+				resultUV, NULL, &theHit, n );
 
 
 			// Clean up
@@ -1148,7 +1148,7 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 			TQ3Point3D		worldHitPt;
 			Q3Point3D_Transform( &windowHitPt, &windowToWorld, &worldHitPt );
 			qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHitPt, NULL,
-				NULL, NULL, n);
+				NULL, NULL, NULL, n);
 			break;
 			}
 		}
