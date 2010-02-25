@@ -509,11 +509,14 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	if ( E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskBarycentric) &&
 		(hitBarycentric != NULL) )
 	{
-		theHit->hitBarycentric = *hitBarycentric;
 		// We actually may have been passed the result of E3Ray3D_IntersectTriangle,
-		// where the u and v components are barycentric coordinates, but w is
-		// a distance along a ray.  Make it be true barycentric coordinates.
-		theHit->hitBarycentric.w = 1.0f - theHit->hitBarycentric.u - theHit->hitBarycentric.v;
+		// where the u and v components are barycentric coordinates of vertices
+		// 1 and 2, and w is a distance along a ray.  Make it be true
+		// barycentric coordinates.
+		theHit->hitBarycentric.v = hitBarycentric->u;
+		theHit->hitBarycentric.w = hitBarycentric->v;
+		theHit->hitBarycentric.u = 1.0f - theHit->hitBarycentric.v -
+			theHit->hitBarycentric.w;
 		theHit->validMask |= kQ3PickDetailMaskBarycentric;
 	}
 }
