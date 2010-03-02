@@ -225,7 +225,7 @@ namespace
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
 				"}\n\n";
 
-	const char* kMainFragmentShaderStartSource =
+	const char* kMainFragmentShaderStartSmooth =
 				"void main()\n"
 				"{\n"
 					// Color components of light, lights will add to these.
@@ -260,6 +260,30 @@ namespace
 					// triangle faces front.
 					// Here we use a trick of using two-sided lighting to
 					// distinguish back from front.
+				"	normal = (gl_SecondaryColor.r > 0.0)? normal : -normal;\n\n"
+				;
+		
+	const char* kMainFragmentShaderStartFlat =
+				"void main()\n"
+				"{\n"
+					// Color components of light, lights will add to these.
+				"	vec3		diff = vec3(0.0);\n"
+				"	vec3		spec = vec3(0.0);\n"
+				
+					// Color of fragment, to be determined later.
+				"	vec3	color;\n"
+				"	float	alpha;\n"
+
+					// Face normal vector for flat shading.
+					// If we could assume GLSL 1.30 or EXT_gpu_shader4, this
+					// could be done in a less tricky way, using the "flat"
+					// modifier for a varing variable.
+				"	vec3	normal = normalize(cross(dFdx(ECPos3), dFdy(ECPos3)));\n"
+
+				"	vec3		geomPos = ECPos3;\n"
+				"	vec3		geomToEyeDir = - normalize( geomPos );\n"
+
+					// Flip the normal for the back face.
 				"	normal = (gl_SecondaryColor.r > 0.0)? normal : -normal;\n\n"
 				;
 		
@@ -352,16 +376,19 @@ namespace
 					MatchProgram(
 							const QORenderer::LightPattern& inPattern,
 							TQ3ObjectType inIlluminationType,
+							TQ3InterpolationStyle inInterpolation,
 							bool inIsTextured,
 							bool inIsCartoonish )
 						: mPattern( inPattern )
 						, mIlluminationType( inIlluminationType )
+						, mInterpolationStyle( inInterpolation )
 						, mIsTextured( inIsTextured )
 						, mIsCartoonish( inIsCartoonish ) {}
 					
 					MatchProgram( const MatchProgram& inOther )
 						: mPattern( inOther.mPattern )
 						, mIlluminationType( inOther.mIlluminationType )
+						, mInterpolationStyle( inOther.mInterpolationStyle )
 						, mIsTextured( inOther.mIsTextured )
 						, mIsCartoonish( inOther.mIsCartoonish ) {}
 	
@@ -369,15 +396,17 @@ namespace
 					{
 						return (mIsTextured == inProg.mIsTextured) &&
 							(mIlluminationType == inProg.mIlluminationType) &&
+							(mInterpolationStyle == inProg.mInterpolationStyle) &&
 							(mIsCartoonish == inProg.mIsCartoonish) &&
 							(mPattern == inProg.mPattern);
 					}
 		
 	private:
 		const QORenderer::LightPattern&	mPattern;
-		TQ3ObjectType	mIlluminationType;
-		bool			mIsTextured;
-		bool			mIsCartoonish;
+		TQ3ObjectType					mIlluminationType;
+		TQ3InterpolationStyle			mInterpolationStyle;
+		bool							mIsTextured;
+		bool							mIsCartoonish;
 	};
 	
 	struct DeleteProgram
@@ -448,6 +477,7 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	std::swap( mAgeCounter, ioOther.mAgeCounter );
 	mPattern.swap( ioOther.mPattern );
 	std::swap( mIlluminationType, ioOther.mIlluminationType );
+	std::swap( mInterpolationStyle, ioOther.mInterpolationStyle );
 	std::swap( mIsTextured, ioOther.mIsTextured );
 	std::swap( mIsCartoonish, ioOther.mIsCartoonish );
 	std::swap( mTextureUnitUniformLoc, ioOther.mTextureUnitUniformLoc );
@@ -566,6 +596,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mRendererObject( inRendererObject )
 	, mIsShading( false )
 	, mIlluminationType( 0 )
+	, mInterpolationStyle( kQ3InterpolationStyleVertex )
 	, mIsTextured( false )
 	, mVertexShaderID( 0 )
 	, mQuantization( 0.0f )
@@ -624,6 +655,7 @@ static void LogShaderCompileError( GLint inShaderID, QORenderer::GLSLFuncs& inFu
 
 static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern,
 										TQ3ObjectType inIlluminationType,
+										TQ3InterpolationStyle inInterpolation,
 										bool inIsTextured,
 										bool inIsCartoonish,
 										std::vector<std::string>& outSource )
@@ -642,7 +674,14 @@ static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern
 		}
 	}
 	
-	outSource.push_back( kMainFragmentShaderStartSource );
+	if (inInterpolation == kQ3InterpolationStyleNone)
+	{
+		outSource.push_back( kMainFragmentShaderStartFlat );
+	}
+	else
+	{
+		outSource.push_back( kMainFragmentShaderStartSmooth );
+	}
 
 	if (inIlluminationType != kQ3IlluminationTypeNULL)
 	{
@@ -797,8 +836,8 @@ void	QORenderer::PerPixelLighting::StartPass()
 void	QORenderer::PerPixelLighting::ChooseProgram()
 {
 	// Look for a program that meets current needs.
-	MatchProgram	matcher( mLightPattern, mIlluminationType, mIsTextured,
-		mIsCartoonish );
+	MatchProgram	matcher( mLightPattern, mIlluminationType,
+		mInterpolationStyle, mIsTextured, mIsCartoonish );
 	ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
 		mPrograms.end(), matcher );
 	
@@ -948,6 +987,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 	ProgramRec	newProgram;
 	newProgram.mPattern = mLightPattern;
 	newProgram.mIlluminationType = mIlluminationType;
+	newProgram.mInterpolationStyle = mInterpolationStyle;
 	newProgram.mIsTextured = mIsTextured;
 	newProgram.mIsCartoonish = mIsCartoonish;
 	
@@ -963,8 +1003,8 @@ void	QORenderer::PerPixelLighting::InitProgram()
 		
 		// Build the source of the fragment shader
 		std::vector<std::string>	fragSource;
-		BuildFragmentShaderSource( mLightPattern, mIlluminationType, mIsTextured,
-			mIsCartoonish, fragSource );
+		BuildFragmentShaderSource( mLightPattern, mIlluminationType,
+			mInterpolationStyle, mIsTextured, mIsCartoonish, fragSource );
 		std::vector<const char*>	sourceParts;
 		GetSourcePointers( fragSource, sourceParts );
 		
@@ -1102,6 +1142,25 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 			// client code to be able to disable texturing at the OpenGL level
 			// and get Quesa to notice the change by changing illumination.
 			UpdateTexture( glIsEnabled( GL_TEXTURE_2D ) );
+			
+			ChooseProgram();
+		}
+	}
+}
+
+/*!
+	@function	UpdateInterpolationStyle
+	@abstract	Notification that the type of illumination style may have
+				changed.
+*/
+void	QORenderer::PerPixelLighting::UpdateInterpolationStyle(
+									TQ3InterpolationStyle inInterpolation )
+{
+	if (mIsShading)
+	{
+		if (mInterpolationStyle != inInterpolation)
+		{
+			mInterpolationStyle = inInterpolation;
 			
 			ChooseProgram();
 		}

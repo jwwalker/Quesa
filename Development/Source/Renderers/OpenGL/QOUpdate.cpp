@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -266,6 +266,8 @@ void	QORenderer::Renderer::UpdateInterpolationStyle(
 			glShadeModel( GL_SMOOTH );
 			break;
 	}
+	
+	mPPLighting.UpdateInterpolationStyle( mStyleState.mInterpolation );
 }
 
 void	QORenderer::Renderer::UpdateBackfacingStyle(

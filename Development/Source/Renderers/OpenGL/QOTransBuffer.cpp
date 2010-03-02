@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -268,6 +268,7 @@ void	TransBuffer::AddPrim(
 	thePrim.mIlluminationType = mRenderer.mViewIllumination;
 	thePrim.mFogStyleIndex = mRenderer.mStyleState.mCurFogStyleIndex;
 	thePrim.mLineWidthStyle = mRenderer.mLineWidth;
+	thePrim.mInterpolationStyle = mRenderer.mStyleState.mInterpolation;
 	
 	// Record the primitive.
 	mTransBuffer.push_back( thePrim );
@@ -498,6 +499,14 @@ void	TransBuffer::UpdateBackfacing( const TransparentPrim& inPrim )
 	}
 }
 
+void	TransBuffer::UpdateInterpolation( const TransparentPrim& inPrim )
+{
+	if (inPrim.mInterpolationStyle != mRenderer.mStyleState.mInterpolation)
+	{
+		mRenderer.UpdateInterpolationStyle( &inPrim.mInterpolationStyle );
+	}
+}
+
 void	TransBuffer::UpdateLineWidth( const TransparentPrim& inPrim )
 {
 	if (inPrim.mLineWidthStyle != mRenderer.mLineWidth)
@@ -673,6 +682,7 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 			UpdateOrientation( thePrim );
 			UpdateBackfacing( thePrim );
 			UpdateLineWidth( thePrim );
+			UpdateInterpolation( thePrim );
 			mPerPixelLighting.UpdateIllumination( thePrim.mIlluminationType );
 			
 			Render( thePrim );

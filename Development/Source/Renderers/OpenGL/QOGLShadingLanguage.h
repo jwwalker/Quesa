@@ -116,6 +116,7 @@ struct ProgramRec
 						, mAgeCounter( inOther.mAgeCounter )
 						, mPattern( inOther.mPattern )
 						, mIlluminationType( inOther.mIlluminationType )
+						, mInterpolationStyle( inOther.mInterpolationStyle )
 						, mIsTextured( inOther.mIsTextured )
 						, mIsCartoonish( inOther.mIsCartoonish )
 						, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
@@ -131,6 +132,7 @@ struct ProgramRec
 	int				mAgeCounter;
 	LightPattern	mPattern;
 	TQ3ObjectType	mIlluminationType;
+	TQ3InterpolationStyle	mInterpolationStyle;
 	bool			mIsTextured;
 	bool			mIsCartoonish;
 	
@@ -264,6 +266,14 @@ public:
 										TQ3ObjectType inIlluminationType );
 
 	/*!
+		@function	UpdateInterpolationStyle
+		@abstract	Notification that the type of illumination style may have
+					changed.
+	*/
+	void						UpdateInterpolationStyle(
+										TQ3InterpolationStyle inInterpolation );
+
+	/*!
 		@function	UpdateTexture
 		@abstract	Notification that there has been a change in whether we
 					are texturing.
@@ -296,6 +306,7 @@ private:
 	TQ3RendererObject			mRendererObject;
 	bool						mIsShading;
 	TQ3ObjectType				mIlluminationType;
+	TQ3InterpolationStyle		mInterpolationStyle;
 	bool						mIsTextured;
 	GLuint						mVertexShaderID;
 	TQ3Float32					mQuantization;

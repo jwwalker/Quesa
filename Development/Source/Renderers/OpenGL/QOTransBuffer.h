@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -75,6 +75,7 @@ struct TransparentPrim
 	TQ3FillStyle		mFillStyle;
 	TQ3OrientationStyle	mOrientationStyle;
 	TQ3BackfacingStyle	mBackfacingStyle;
+	TQ3InterpolationStyle	mInterpolationStyle;
 	TQ3ColorRGB			mSpecularColor;
 	float				mSpecularControl;
 	TQ3ObjectType		mIlluminationType;
@@ -159,6 +160,8 @@ private:
 	void							UpdateBackfacing(
 											const TransparentPrim& inPrim );
 	void							UpdateLineWidth(
+											const TransparentPrim& inPrim );
+	void							UpdateInterpolation(
 											const TransparentPrim& inPrim );
 
 	void							Render(
