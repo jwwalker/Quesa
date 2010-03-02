@@ -53,6 +53,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "QOPrefix.h"
+#include "QuesaStyle.h"
 
 #include <vector>
 
