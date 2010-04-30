@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -205,7 +205,36 @@ GetFrustumPlanesInLocalSpace(
 			&localToFrustumTranspose,
 			&out6Planes[i] );
 	}
+}
+
+
+/*!
+	@function	GetFrustumPlanesInWorldSpace
+	@abstract	Get the boundary planes of the view frustum in world coordinates.
+	@discussion	See the discussion of GetFrustumPlanesInFrustumSpace to see how
+				planes are represented as rational points.
+*/
+static void
+GetFrustumPlanesInWorldSpace(
+			TQ3CameraObject inCamera,
+			TQ3RationalPoint4D* out6Planes )
+{
+	const TQ3RationalPoint4D*	planesInFrustumSpace =
+		GetFrustumPlanesInFrustumSpace();
 	
+	// If we were transforming points, we would use the frustum to local
+	// matrix.  But a plane is more like a normal vector, so we the inverse
+	// transpose.
+	TQ3Matrix4x4	worldToFrustum, worldToFrustumTranspose;
+	Q3Camera_GetWorldToFrustum( inCamera, &worldToFrustum );
+	Q3Matrix4x4_Transpose( &worldToFrustum, &worldToFrustumTranspose );
+	
+	for (int i = 0; i < 6; ++i)
+	{
+		E3RationalPoint4D_Transform( &planesInFrustumSpace[i],
+			&worldToFrustumTranspose,
+			&out6Planes[i] );
+	}
 }
 
 
@@ -259,6 +288,57 @@ GetFrustumCornersInLocalSpace(	TQ3ViewObject inView, TQ3RationalPoint4D* out8Poi
 	}
 }
 
+
+/*!
+	@function	GetFrustumCornersInWorldSpace
+	@abstract	Compute the view frustum corners in world coordinates,
+				or determine that the frustum is infinite.
+*/
+static void
+GetFrustumCornersInWorldSpace(	TQ3CameraObject inCamera, TQ3RationalPoint4D* out8Points )
+{
+	TQ3RationalPoint4D	frustumCornersInFrustumSpace[8] =
+	{
+		{ -1.0f, -1.0f, 0.0f, 1.0f },	// front bottom left
+		{ -1.0f, 1.0f, 0.0f, 1.0f },	// front top left
+		{ 1.0f, -1.0f, 0.0f, 1.0f },	// front bottom right
+		{ 1.0f, 1.0f, 0.0f, 1.0f },		// front top right
+		{ -1.0f, -1.0f, -1.0f, 1.0f },	// rear bottom left
+		{ -1.0f, 1.0f, -1.0f, 1.0f },	// rear top left
+		{ 1.0f, -1.0f, -1.0f, 1.0f },	// rear bottom right
+		{ 1.0f, 1.0f, -1.0f, 1.0f }		// rear top right
+	};
+	TQ3Matrix4x4	worldToFrustum, frustumToWorld;
+	Q3Camera_GetWorldToFrustum( inCamera, &worldToFrustum );
+	Q3Matrix4x4_Invert( &worldToFrustum, &frustumToWorld );
+	
+	int i;
+	for (i = 0; i < 8; ++i)
+	{
+		E3RationalPoint4D_Transform( &frustumCornersInFrustumSpace[i],
+			&frustumToWorld, &out8Points[i] );
+	}
+	
+	// Test whether we are in the infinite yon case.
+	// This test works for both view angle aspect and orthographic cameras.
+	// If we ever support another type of camera, it should be checked.
+	TQ3Matrix4x4	cameraToFrustumMatrix;
+	Q3Camera_GetViewToFrustum( inCamera, &cameraToFrustumMatrix );
+	bool	isInfiniteYon = (cameraToFrustumMatrix.value[2][2] +
+		cameraToFrustumMatrix.value[2][3] == 0.0f);
+	
+	// In the infinite yon case, the 4 far corners should be infinite points.
+	// Due to floating point inaccuracy, the w coordinates may not be exactly
+	// zero.  Make them so.
+	if (isInfiniteYon)
+	{
+		for (i = 4; i < 8; ++i)
+		{
+			out8Points[i].w = 0.0f;
+		}
+	}
+}
+
 static void MakeOneEdge(	const TQ3RationalPoint4D& inStart,
 							const TQ3RationalPoint4D& inEnd,
 							TQ3Vector3D& outEdge )
@@ -279,8 +359,8 @@ static void MakeOneEdge(	const TQ3RationalPoint4D& inStart,
 }
 
 /*!
-	@function	GetFrustumEdgesInLocalSpace
-	@abstract	Given the local corners of the frustum, compute the local
+	@function	GetFrustumEdges
+	@abstract	Given the corners of the frustum, compute the
 				edge directions.
 	@discussion	We assume that the corners are computed by
 				GetFrustumCornersInLocalSpace.
@@ -289,7 +369,7 @@ static void MakeOneEdge(	const TQ3RationalPoint4D& inStart,
 				but we must account for the possibility that rear frustum
 				corners may be infinite.
 */
-static void GetFrustumEdgesInLocalSpace( const TQ3RationalPoint4D* in8Corners,
+static void GetFrustumEdges( const TQ3RationalPoint4D* in8Corners,
 										TQ3Vector3D* out6Edges )
 {
 	MakeOneEdge( in8Corners[0], in8Corners[4], out6Edges[0] );	// bottom left
@@ -1082,7 +1162,7 @@ bool	E3BoundingBox_IntersectViewFrustum(
 	// edge vectors.  Note that a box has only 3 distinct edge directions, and
 	// a frustum has only 6.
 	TQ3Vector3D	frustumLocalEdges[6];
-	GetFrustumEdgesInLocalSpace( frustumLocalCorners, frustumLocalEdges );
+	GetFrustumEdges( frustumLocalCorners, frustumLocalEdges );
 	TQ3Vector3D	boxLocalEdges[3] =
 	{
 		{ 1.0f, 0.0f, 0.0f },
@@ -1110,3 +1190,151 @@ bool	E3BoundingBox_IntersectViewFrustum(
 
 	return true;
 }
+
+
+/*!
+	@function	E3BoundingBox_IntersectCameraFrustum
+	@abstract	Determine whether a bounding box in world coordinates
+				intersects the view frustum of a camera.
+	@param		inCamera		The camera object.
+	@param		inWorldBox		A bounding box in world coordinates.
+	@result		True if the box intersects the frustum.
+*/
+bool	E3BoundingBox_IntersectCameraFrustum(
+									TQ3CameraObject inCamera,
+									const TQ3BoundingBox& inWorldBox )
+{
+	if (inWorldBox.isEmpty)
+	{
+		return false;
+	}
+	
+	// It is tempting to do a quick and dirty test by transforming the box
+	// corners to frustum coordinates and then testing them against the simple
+	// frustum bounds.  However, that can give an incorrect result in some
+	// cases where a large bounding box is partially behind the camera.
+	
+	// The basic principle we use is that if two convex polyhedrons do not
+	// intersect, then there is a plane that separates them, and if there is a
+	// separating plane, there is one that is either parallel to a bounding
+	// plane of one of the polyhedrons, or one normal to the cross product of
+	// an edge of one polyhedron and an edge of the other.
+	
+	// Phase 1: test bounding box corners against frustum planes, in world
+	// coordinates.  If all corners are on the inside of all planes, we can
+	// return true.  If all corners are on the outside of some plane, we can
+	// return false.  This phase should usually suffice in the common case
+	// where the bounding box is small relative to the view frustum.
+	TQ3Point3D	boxWorldCorners[8];
+	E3BoundingBox_GetCorners( &inWorldBox, boxWorldCorners );
+	TQ3RationalPoint4D	worldFrustumPlanes[6];
+	GetFrustumPlanesInWorldSpace( inCamera, worldFrustumPlanes );
+	int	planeIndex, cornerIndex;
+	bool	isACornerOutside = false;
+	bool	isACornerInside;
+	
+	for (planeIndex = 0; planeIndex < 6; ++planeIndex)
+	{
+		isACornerInside = false;
+		for (cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
+		{
+			if (IsPointInsidePlane( boxWorldCorners[cornerIndex],
+				worldFrustumPlanes[planeIndex] ))
+			{
+				isACornerInside = true;
+			}
+			else
+			{
+				isACornerOutside = true;
+			}
+		}
+		if (! isACornerInside)
+		{
+			// All corners are outside this plane, we are done.
+			return false;
+		}
+	}
+	if (! isACornerOutside)
+	{
+		// All corners are inside all planes, we are done.
+		return true;
+	}
+	
+	
+	// Phase 2: Test frustum corners against bounding box planes, in local
+	// coordinates.  This is conceptually similar to phase 1, but the far
+	// corners of the frustum might be infinite points, so we must use rational
+	// coordinates.
+	TQ3RationalPoint4D	frustumWorldCorners[8];
+	GetFrustumCornersInWorldSpace( inCamera, frustumWorldCorners );
+	TQ3RationalPoint4D	boxWorldPlanes[6] =
+	{
+		{ -1.0f, 0.0f, 0.0f, inWorldBox.min.x },
+		{ 1.0f, 0.0f, 0.0f, -inWorldBox.max.x },
+		{ 0.0f, -1.0f, 0.0f, inWorldBox.min.y },
+		{ 0.0f, 1.0f, 0.0f, -inWorldBox.max.y },
+		{ 0.0f, 0.0f, -1.0f, inWorldBox.min.z },
+		{ 0.0f, 0.0f, 1.0f, -inWorldBox.max.z }
+	};
+	isACornerOutside = false;
+	for (planeIndex = 0; planeIndex < 6; ++planeIndex)
+	{
+		isACornerInside = false;
+		for (cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
+		{
+			if (IsPointInsidePlane( frustumWorldCorners[cornerIndex],
+				boxWorldPlanes[planeIndex] ))
+			{
+				isACornerInside = true;
+			}
+			else
+			{
+				isACornerOutside = true;
+			}
+		}
+		if (! isACornerInside)
+		{
+			// All corners are outside this plane, we are done.
+			return false;
+		}
+	}
+	if (! isACornerOutside)
+	{
+		// All corners are inside all planes, we are done.
+		return true;
+	}
+	
+	
+	// Phase 3: Look for a separating plane determined by a cross product of
+	// edge vectors.  Note that a box has only 3 distinct edge directions, and
+	// a frustum has only 6.
+	TQ3Vector3D	frustumWorldEdges[6];
+	GetFrustumEdges( frustumWorldCorners, frustumWorldEdges );
+	TQ3Vector3D	boxWorldEdges[3] =
+	{
+		{ 1.0f, 0.0f, 0.0f },
+		{ 0.0f, 1.0f, 0.0f },
+		{ 0.0f, 0.0f, 1.0f },
+	};
+	TQ3Vector3D	crossProds[18];
+	int	i, j;
+	for (i = 0; i < 6; ++i)
+	{
+		for (j = 0; j < 3; ++j)
+		{
+			Q3FastVector3D_Cross( &frustumWorldEdges[i], &boxWorldEdges[j],
+				&crossProds[ 6 * j + i ] );
+		}
+	}
+	for (i = 0; i < 18; ++i)
+	{
+		if (DirectionSeparatesCorners( crossProds[i], boxWorldCorners, frustumWorldCorners ))
+		{
+			return false;
+		}
+	}
+
+
+	return true;
+}
+

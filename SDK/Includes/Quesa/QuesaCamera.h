@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -491,6 +491,33 @@ Q3Camera_GetViewToFrustum (
     TQ3CameraObject               camera,
     TQ3Matrix4x4                  *viewToFrustum
 );
+
+
+
+/*!
+ *  @function
+ *      Q3Camera_IsBoundingBoxVisible
+ *  @abstract
+ *      Test a bounding box for visibility.
+ *
+ *  @discussion
+ *      The bounding box (assumed to be in world coordinates) is tested for
+ *		intersection with the view frustum of the camera.
+ *
+ *		This function is similar to Q3View_IsBoundingBoxVisible, but since it
+ *		does not use local coordinates, it does not need to be used within a
+ *		submitting loop.
+ *
+ *  @param camera           The view to check the bounding box against.
+ *  @param bbox             The world bounding box to test.
+ *  @result                 True or false as the bounding box is visible.
+ */
+Q3_EXTERN_API_C ( TQ3Boolean  )
+Q3Camera_IsBoundingBoxVisible (
+    TQ3CameraObject               camera,
+    const TQ3BoundingBox          *bbox
+);
+
 
 
 /*!

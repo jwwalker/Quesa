@@ -5,7 +5,7 @@
         Header file for E3Math_Intersect.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -115,5 +115,19 @@ bool	E3Cone_IntersectBoundingBox(
 bool	E3BoundingBox_IntersectViewFrustum(
 									TQ3ViewObject inView,
 									const TQ3BoundingBox& inLocalBox );
+
+
+/*!
+	@function	E3BoundingBox_IntersectCameraFrustum
+	@abstract	Determine whether a bounding box in world coordinates
+				intersects the view frustum of a camera.
+	@param		inCamera		The camera object.
+	@param		inWorldBox		A bounding box in world coordinates.
+	@result		True if the box intersects the frustum.
+*/
+bool	E3BoundingBox_IntersectCameraFrustum(
+									TQ3CameraObject inCamera,
+									const TQ3BoundingBox& inWorldBox );
+
 
 #endif
