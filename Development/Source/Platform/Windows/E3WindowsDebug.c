@@ -138,12 +138,18 @@ void		E3LogMessage( const char* inMessage )
 			strcat( thePath, "\\Quesa.log" );
 			
 			sLogFile = fopen( thePath, "ab" );
+			
+			if (sLogFile != NULL)
+			{
+				fprintf( sLogFile, "\r\n\r\n**** LOG START ****\r\n\r\n" );
+			}
 		}
 	}
 	
 	if (sLogFile != NULL)
 	{
 		fprintf( sLogFile, inMessage );
+		fflush( sLogFile );
 	}
 }
 
