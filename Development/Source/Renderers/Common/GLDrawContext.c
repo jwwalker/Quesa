@@ -569,17 +569,8 @@ FBORec::FBORec(
 	GLint	 maxColorAttach = 0;
 	glGetIntegerv( GL_MAX_COLOR_ATTACHMENTS_EXT, &maxColorAttach );
 	
-	// To work around a weird ATI Radeon HD 4670 driver bug, we prefer to use
-	// GL_COLOR_ATTACHMENT1_EXT instead of GL_COLOR_ATTACHMENT0_EXT.  However,
-	// it is possible that maxColorAttach == 1, in which case the only choice is
-	// GL_COLOR_ATTACHMENT0_EXT.
-	if (maxColorAttach >= 2)
-	{
-		colorBufferAttachment = GL_COLOR_ATTACHMENT1_EXT;
-	}
-	
 	// When an FBO is first created and bound, its read and draw buffers are
-	// initialized to GL_COLOR_ATTACHMENT0_EXT.  Since we are probably not using
+	// initialized to GL_COLOR_ATTACHMENT0_EXT.  In case we are not using
 	// that attachment point, we must set the read and draw buffers, otherwise
 	// the FBO will not pass the completeness test.
 	glReadBuffer( colorBufferAttachment );
