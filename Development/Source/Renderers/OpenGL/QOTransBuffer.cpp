@@ -85,7 +85,7 @@ namespace
 		bool	operator()( const TransparentPrim* inOne,
 							const TransparentPrim* inTwo ) const
 					{
-						return inOne->mFrustumDepth < inTwo->mFrustumDepth;
+						return inOne->mSortingDepth < inTwo->mSortingDepth;
 					}
 	};
 }
@@ -135,22 +135,22 @@ static bool IsSame4x4( const TQ3Matrix4x4& inA, const TQ3Matrix4x4& inB )
 		IsNearZero( inA.value[3][3] - inB.value[3][3] );
 }
 
-static float CalcPrimDepth( int inNumVerts, const TQ3Point3D* inFrustumPt )
+static float CalcPrimDepth( int inNumVerts, const TQ3Point3D* inCamPt )
 {
 	float	theDepth;
 	
 	if (inNumVerts == 3)
 	{
-		theDepth = inFrustumPt[0].z + inFrustumPt[1].z + inFrustumPt[2].z;
+		theDepth = inCamPt[0].z + inCamPt[1].z + inCamPt[2].z;
 	}
 	else if (inNumVerts == 2)
 	{
-		theDepth = inFrustumPt[0].z + inFrustumPt[1].z;
+		theDepth = inCamPt[0].z + inCamPt[1].z;
 		theDepth *= 1.5f;
 	}
 	else
 	{
-		theDepth = inFrustumPt[0].z;
+		theDepth = inCamPt[0].z;
 		theDepth *= 3;
 	}
 	return theDepth;
@@ -211,7 +211,7 @@ void	TransBuffer::AddPrim(
 		mRenderer.mMatrixState.GetLocalToCameraInverseTranspose() );
 	const TQ3Matrix4x4&	cameraToFrustum(
 		mRenderer.mMatrixState.GetCameraToFrustum() );
-	TQ3Point3D	frustumPoint[3];
+	TQ3Point3D	camPoint[3];
 	for (i = 0; i < inNumVerts; ++i)
 	{
 		if ( (thePrim.mVerts[i].flags & kVertexHaveNormal) != 0 )
@@ -224,10 +224,9 @@ void	TransBuffer::AddPrim(
 				&thePrim.mVerts[i].normal );
 		}
 		
-		E3Point3D_Transform( &thePrim.mVerts[i].point, &cameraToFrustum,
-			&frustumPoint[i] );
+		camPoint[i] = thePrim.mVerts[i].point;
 	}
-	thePrim.mFrustumDepth = CalcPrimDepth( inNumVerts, frustumPoint );
+	thePrim.mSortingDepth = CalcPrimDepth( inNumVerts, camPoint );
 	
 	// Record texture state
 	const Texture::TextureState&	textureState(
