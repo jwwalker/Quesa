@@ -64,7 +64,7 @@ struct TransparentPrim
 {
 	TQ3Uns32			mNumVerts;
 	Vertex				mVerts[3];	// points and normals in camera coordinates
-	float				mFrustumDepth;
+	float				mSortingDepth;
 	
 	GLuint				mTextureName;
 	bool				mIsTextureTransparent;
