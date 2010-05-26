@@ -178,10 +178,7 @@ void	TransBuffer::AddPrim(
 	// Copy vertices to new primitive structure
 	TransparentPrim		thePrim;
 	thePrim.mNumVerts = inNumVerts;
-	for (i = 0; i < inNumVerts; ++i)
-	{
-		thePrim.mVerts[i] = inVertices[i];
-	}
+	memcpy( thePrim.mVerts, inVertices, inNumVerts * sizeof(Vertex) );
 	
 	// Transform vertex locations to camera space.
 	// If all z values are positive (behind the camera), we can bail early.
