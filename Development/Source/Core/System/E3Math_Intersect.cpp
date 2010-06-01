@@ -57,8 +57,87 @@
 
 
 //=============================================================================
+//      Local Constants
+//-----------------------------------------------------------------------------
+enum HalfPlaneResult
+{
+	kHalfPlaneResult_AllInside = 0,
+	kHalfPlaneResult_PartInside,
+	kHalfPlaneResult_AllOutside
+};
+
+
+
+
+
+//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+
+/*!
+	@function	TestBoundingBoxAgainstHalfPlane
+	@abstract	Test whether a bounding box is all inside a half-plane, all
+				outside, or neither.
+	@discussion	As discussed with GetFrustumPlanesInFrustumSpace, the inside of
+				the half-plane consists of points (x, y, z) such that
+				(x, y, z, 1) dot inPlane <= 0.0.
+				
+				The obvious way to test a bounding box would be to test each of
+				the 8 corners against the half-plane.  Doing so would use 32
+				multiplications, or 24 if you omit the 1 * inPlane.w products.
+				But by taking advantage of the linearity of the dot product and
+				the special structure of the bounding box, we can do the test
+				with only 6 multiplications.
+*/
+static HalfPlaneResult TestBoundingBoxAgainstHalfPlane(
+							const TQ3BoundingBox& inBBox,
+							const TQ3RationalPoint4D& inPlane )
+{
+	float baseValue = inBBox.min.x * inPlane.x + inBBox.min.y * inPlane.y +
+		inBBox.min.x * inPlane.z + inPlane.w;
+	float minValue = baseValue;
+	float maxValue = baseValue;
+	TQ3Vector3D	diff;
+	Q3FastPoint3D_Subtract( &inBBox.max, &inBBox.min, &diff );
+	if (inPlane.x > 0.0f)
+	{
+		maxValue += inPlane.x * diff.x;
+	}
+	else
+	{
+		minValue += inPlane.x * diff.x;
+	}
+	
+	if (inPlane.y > 0.0f)
+	{
+		maxValue += inPlane.y * diff.y;
+	}
+	else
+	{
+		minValue += inPlane.y * diff.y;
+	}
+	
+	if (inPlane.z > 0.0f)
+	{
+		maxValue += inPlane.z * diff.z;
+	}
+	else
+	{
+		minValue += inPlane.z * diff.z;
+	}
+	
+	HalfPlaneResult result = kHalfPlaneResult_PartInside;
+	if (maxValue <= 0.0f)
+	{
+		result = kHalfPlaneResult_AllInside;
+	}
+	else if (minValue > 0.0f)
+	{
+		result = kHalfPlaneResult_AllOutside;
+	}
+	
+	return result;
+}
 
 static bool IsPointInCone( const TQ3Point3D& inPt,
 							const TQ3Ray3D& inConeAxis,
@@ -1074,40 +1153,31 @@ bool	E3BoundingBox_IntersectViewFrustum(
 	// an edge of one polyhedron and an edge of the other.
 	
 	// Phase 1: test bounding box corners against frustum planes, in local
-	// coordinates.  If all corners are on the inside of all planes, we can
-	// return true.  If all corners are on the outside of some plane, we can
+	// coordinates.  If the whole box is inside of all planes, we can
+	// return true.  If the whole box is outside of some plane, we can
 	// return false.  This phase should usually suffice in the common case
 	// where the bounding box is small relative to the view frustum.
-	TQ3Point3D	boxLocalCorners[8];
-	E3BoundingBox_GetCorners( &inLocalBox, boxLocalCorners );
 	TQ3RationalPoint4D	localFrustumPlanes[6];
 	GetFrustumPlanesInLocalSpace( inView, localFrustumPlanes );
-	int	planeIndex, cornerIndex;
-	bool	isACornerOutside = false;
-	bool	isACornerInside;
+	int	planeIndex;
+	bool	isAllInside = true;
+	HalfPlaneResult halfPlaneTest;
 	
 	for (planeIndex = 0; planeIndex < 6; ++planeIndex)
 	{
-		isACornerInside = false;
-		for (cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
+		halfPlaneTest = TestBoundingBoxAgainstHalfPlane( inLocalBox,
+			localFrustumPlanes[ planeIndex ] );
+		
+		if (halfPlaneTest == kHalfPlaneResult_AllOutside)
 		{
-			if (IsPointInsidePlane( boxLocalCorners[cornerIndex],
-				localFrustumPlanes[planeIndex] ))
-			{
-				isACornerInside = true;
-			}
-			else
-			{
-				isACornerOutside = true;
-			}
-		}
-		if (! isACornerInside)
-		{
-			// All corners are outside this plane, we are done.
 			return false;
 		}
+		else if (halfPlaneTest == kHalfPlaneResult_PartInside)
+		{
+			isAllInside = false;
+		}
 	}
-	if (! isACornerOutside)
+	if (isAllInside)
 	{
 		// All corners are inside all planes, we are done.
 		return true;
@@ -1129,11 +1199,11 @@ bool	E3BoundingBox_IntersectViewFrustum(
 		{ 0.0f, 0.0f, -1.0f, inLocalBox.min.z },
 		{ 0.0f, 0.0f, 1.0f, -inLocalBox.max.z }
 	};
-	isACornerOutside = false;
+	bool isACornerOutside = false;
 	for (planeIndex = 0; planeIndex < 6; ++planeIndex)
 	{
-		isACornerInside = false;
-		for (cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
+		bool isACornerInside = false;
+		for (int cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
 		{
 			if (IsPointInsidePlane( frustumLocalCorners[cornerIndex],
 				boxLocalPlanes[planeIndex] ))
@@ -1163,6 +1233,8 @@ bool	E3BoundingBox_IntersectViewFrustum(
 	// a frustum has only 6.
 	TQ3Vector3D	frustumLocalEdges[6];
 	GetFrustumEdges( frustumLocalCorners, frustumLocalEdges );
+	TQ3Point3D	boxLocalCorners[8];
+	E3BoundingBox_GetCorners( &inLocalBox, boxLocalCorners );
 	TQ3Vector3D	boxLocalEdges[3] =
 	{
 		{ 1.0f, 0.0f, 0.0f },
@@ -1221,40 +1293,31 @@ bool	E3BoundingBox_IntersectCameraFrustum(
 	// an edge of one polyhedron and an edge of the other.
 	
 	// Phase 1: test bounding box corners against frustum planes, in world
-	// coordinates.  If all corners are on the inside of all planes, we can
-	// return true.  If all corners are on the outside of some plane, we can
+	// coordinates.  If the whole box is inside of all planes, we can
+	// return true.  If the whole box is outside of some plane, we can
 	// return false.  This phase should usually suffice in the common case
 	// where the bounding box is small relative to the view frustum.
-	TQ3Point3D	boxWorldCorners[8];
-	E3BoundingBox_GetCorners( &inWorldBox, boxWorldCorners );
 	TQ3RationalPoint4D	worldFrustumPlanes[6];
 	GetFrustumPlanesInWorldSpace( inCamera, worldFrustumPlanes );
-	int	planeIndex, cornerIndex;
-	bool	isACornerOutside = false;
-	bool	isACornerInside;
+	int	planeIndex;
+	bool	isAllInside = true;
+	HalfPlaneResult halfPlaneTest;
 	
 	for (planeIndex = 0; planeIndex < 6; ++planeIndex)
 	{
-		isACornerInside = false;
-		for (cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
+		halfPlaneTest = TestBoundingBoxAgainstHalfPlane( inWorldBox,
+			worldFrustumPlanes[ planeIndex ] );
+		
+		if (halfPlaneTest == kHalfPlaneResult_AllOutside)
 		{
-			if (IsPointInsidePlane( boxWorldCorners[cornerIndex],
-				worldFrustumPlanes[planeIndex] ))
-			{
-				isACornerInside = true;
-			}
-			else
-			{
-				isACornerOutside = true;
-			}
-		}
-		if (! isACornerInside)
-		{
-			// All corners are outside this plane, we are done.
 			return false;
 		}
+		else if (halfPlaneTest == kHalfPlaneResult_PartInside)
+		{
+			isAllInside = false;
+		}
 	}
-	if (! isACornerOutside)
+	if (isAllInside)
 	{
 		// All corners are inside all planes, we are done.
 		return true;
@@ -1276,11 +1339,11 @@ bool	E3BoundingBox_IntersectCameraFrustum(
 		{ 0.0f, 0.0f, -1.0f, inWorldBox.min.z },
 		{ 0.0f, 0.0f, 1.0f, -inWorldBox.max.z }
 	};
-	isACornerOutside = false;
+	bool isACornerOutside = false;
 	for (planeIndex = 0; planeIndex < 6; ++planeIndex)
 	{
-		isACornerInside = false;
-		for (cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
+		bool isACornerInside = false;
+		for (int cornerIndex = 0; cornerIndex < 8; ++cornerIndex)
 		{
 			if (IsPointInsidePlane( frustumWorldCorners[cornerIndex],
 				boxWorldPlanes[planeIndex] ))
@@ -1310,6 +1373,8 @@ bool	E3BoundingBox_IntersectCameraFrustum(
 	// a frustum has only 6.
 	TQ3Vector3D	frustumWorldEdges[6];
 	GetFrustumEdges( frustumWorldCorners, frustumWorldEdges );
+	TQ3Point3D	boxWorldCorners[8];
+	E3BoundingBox_GetCorners( &inWorldBox, boxWorldCorners );
 	TQ3Vector3D	boxWorldEdges[3] =
 	{
 		{ 1.0f, 0.0f, 0.0f },
