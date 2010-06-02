@@ -94,7 +94,7 @@ static HalfPlaneResult TestBoundingBoxAgainstHalfPlane(
 							const TQ3RationalPoint4D& inPlane )
 {
 	float baseValue = inBBox.min.x * inPlane.x + inBBox.min.y * inPlane.y +
-		inBBox.min.x * inPlane.z + inPlane.w;
+		inBBox.min.z * inPlane.z + inPlane.w;
 	float minValue = baseValue;
 	float maxValue = baseValue;
 	TQ3Vector3D	diff;
