@@ -5,7 +5,7 @@
         Header file for E3View.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -140,6 +140,7 @@ const TQ3Matrix4x4&				E3View_State_GetMatrixFrustumToLocal( TQ3ViewObject theVi
 const TQ3Matrix4x4&				E3View_State_GetMatrixCameraToFrustum( TQ3ViewObject theView );
 const TQ3SubdivisionStyleData	*E3View_State_GetStyleSubdivision(TQ3ViewObject theView);
 TQ3OrientationStyle				E3View_State_GetStyleOrientation(TQ3ViewObject theView);
+const TQ3RationalPoint4D*		E3View_State_GetFrustumPlanesInLocalSpace( TQ3ViewObject theView );
 TQ3Status						E3View_State_SetMatrix(TQ3ViewObject theView, TQ3MatrixState theState, const TQ3Matrix4x4 *localToWorld, const TQ3Matrix4x4 *worldToCamera, const TQ3Matrix4x4 *cameraToFrustum);
 void							E3View_State_SetShaderIllumination(TQ3ViewObject theView, const TQ3IlluminationShaderObject theData);
 void							E3View_State_SetShaderSurface(TQ3ViewObject theView, const TQ3SurfaceShaderObject theData);

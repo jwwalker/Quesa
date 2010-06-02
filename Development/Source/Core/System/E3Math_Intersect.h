@@ -129,5 +129,19 @@ bool	E3BoundingBox_IntersectCameraFrustum(
 									TQ3CameraObject inCamera,
 									const TQ3BoundingBox& inWorldBox );
 
+/*!
+	@function	E3Math_CalcLocalFrustumPlanes
+	@abstract	Compute the boundary half-planes of the view frustum in local
+				coordinates.
+	@discussion	A half-plane is expressed as a rational point, where a point
+				(x, y, z) is considered "inside" the half-plane whenever
+				(x, y, z, 1) dot plane <= 0.0.
+	@param		inLocalToFrustum	Local to frustum matrix.
+	@param		out6Planes			Array of 6 rational points to receive the
+									planes.
+*/
+void	E3Math_CalcLocalFrustumPlanes(
+									const TQ3Matrix4x4& inLocalToFrustum,
+									TQ3RationalPoint4D* out6Planes );
 
 #endif
