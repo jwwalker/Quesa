@@ -257,35 +257,6 @@ GetFrustumPlanesInFrustumSpace()
 }
 
 
-/*!
-	@function	GetFrustumPlanesInLocalSpace
-	@abstract	Get the boundary planes of the view frustum in local coordinates.
-	@discussion	See the discussion of GetFrustumPlanesInFrustumSpace to see how
-				planes are represented as rational points.
-*/
-static void
-GetFrustumPlanesInLocalSpace(
-			TQ3ViewObject inView,
-			TQ3RationalPoint4D* out6Planes )
-{
-	const TQ3RationalPoint4D*	planesInFrustumSpace =
-		GetFrustumPlanesInFrustumSpace();
-	
-	// If we were transforming points, we would use the frustum to local
-	// matrix.  But a plane is more like a normal vector, so we the inverse
-	// transpose.
-	TQ3Matrix4x4	localToFrustumTranspose;
-	Q3Matrix4x4_Transpose( &E3View_State_GetMatrixLocalToFrustum( inView ),
-		&localToFrustumTranspose );
-	
-	for (int i = 0; i < 6; ++i)
-	{
-		E3RationalPoint4D_Transform( &planesInFrustumSpace[i],
-			&localToFrustumTranspose,
-			&out6Planes[i] );
-	}
-}
-
 
 /*!
 	@function	GetFrustumPlanesInWorldSpace
@@ -1157,8 +1128,8 @@ bool	E3BoundingBox_IntersectViewFrustum(
 	// return true.  If the whole box is outside of some plane, we can
 	// return false.  This phase should usually suffice in the common case
 	// where the bounding box is small relative to the view frustum.
-	TQ3RationalPoint4D	localFrustumPlanes[6];
-	GetFrustumPlanesInLocalSpace( inView, localFrustumPlanes );
+	const TQ3RationalPoint4D*	localFrustumPlanes =
+		E3View_State_GetFrustumPlanesInLocalSpace( inView );
 	int	planeIndex;
 	bool	isAllInside = true;
 	HalfPlaneResult halfPlaneTest;
@@ -1403,3 +1374,36 @@ bool	E3BoundingBox_IntersectCameraFrustum(
 	return true;
 }
 
+
+/*!
+	@function	E3Math_CalcLocalFrustumPlanes
+	@abstract	Compute the boundary half-planes of the view frustum in local
+				coordinates.
+	@discussion	A half-plane is expressed as a rational point, where a point
+				(x, y, z) is considered "inside" the half-plane whenever
+				(x, y, z, 1) dot plane <= 0.0.
+	@param		inLocalToFrustum	Local to frustum matrix.
+	@param		out6Planes			Array of 6 rational points to receive the
+									planes.
+*/
+void	E3Math_CalcLocalFrustumPlanes(
+									const TQ3Matrix4x4& inLocalToFrustum,
+									TQ3RationalPoint4D* out6Planes )
+{
+	const TQ3RationalPoint4D*	planesInFrustumSpace =
+		GetFrustumPlanesInFrustumSpace();
+	
+	// If we were transforming points, we would use the frustum to local
+	// matrix.  But a plane is more like a normal vector, so we the inverse
+	// transpose.
+	TQ3Matrix4x4	localToFrustumTranspose;
+	E3Matrix4x4_Transpose( &inLocalToFrustum,
+		&localToFrustumTranspose );
+	
+	for (int i = 0; i < 6; ++i)
+	{
+		E3RationalPoint4D_Transform( &planesInFrustumSpace[i],
+			&localToFrustumTranspose,
+			&out6Planes[i] );
+	}
+}

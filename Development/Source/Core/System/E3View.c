@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -183,6 +183,7 @@ typedef struct TQ3ViewData {
 	// Derived cached matrices
 	TQ3Matrix4x4				matrixLocalToFrustum;
 	bool						isLocalToFrustumValid;
+	TQ3RationalPoint4D			localFrustumPlanes[6];
 	TQ3Matrix4x4				matrixLocalToFrustumInverse;
 	bool						isLocalToFrustumInverseValid;
 	
@@ -2628,12 +2629,33 @@ E3View_State_GetMatrixLocalToFrustum( TQ3ViewObject inView )
 			&theView->instanceData.viewStack->matrixCameraToFrustum,
 			&theView->instanceData.matrixLocalToFrustum );
 		
+		E3Math_CalcLocalFrustumPlanes(
+			theView->instanceData.matrixLocalToFrustum,
+			theView->instanceData.localFrustumPlanes );
+		
 		theView->instanceData.isLocalToFrustumValid = true;
 	}
 	
 	return theView->instanceData.matrixLocalToFrustum;
 }
 
+
+
+//=============================================================================
+//      E3View_State_GetFrustumPlanesInLocalSpace
+//-----------------------------------------------------------------------------
+const TQ3RationalPoint4D*
+E3View_State_GetFrustumPlanesInLocalSpace( TQ3ViewObject inView )
+{
+	E3View*	theView = (E3View*) inView;
+	const TQ3ViewData& viewData( theView->instanceData );
+	if (! viewData.isLocalToFrustumValid)
+	{
+		(void) E3View_State_GetMatrixLocalToFrustum( theView );
+	}
+	
+	return viewData.localFrustumPlanes;
+}
 
 
 //=============================================================================
