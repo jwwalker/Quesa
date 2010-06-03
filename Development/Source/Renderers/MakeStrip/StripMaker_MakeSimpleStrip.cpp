@@ -10,7 +10,7 @@
     	code.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -61,7 +61,7 @@ static void MakeForwardStrip(
 				TQ3Uns32 inStartVert,
 				TQ3Uns32 inStartFace,
 				const FaceVec& inFaces,
-				FaceSet& ioFreeFaces,
+				FreeFaceSet& ioFreeFaces,
 				IndVec& outStrip )
 {
 	outStrip.clear();
@@ -75,12 +75,12 @@ static void MakeForwardStrip(
 	TQ3Uns32	nextFaceNum = curFace->adjFace[ outEdgeNum ];
 	
 	while ( (nextFaceNum != kInvalidIndex) &&
-		(ioFreeFaces[ nextFaceNum ] == 1) )
+		ioFreeFaces.IsFree( nextFaceNum ) )
 	{
 		TQ3Uns32	inEdgeNum = curFace->adjEdge[ outEdgeNum ];
 		curFace = &inFaces[ nextFaceNum ];
 		outStrip.push_back( curFace->vertex[ inEdgeNum ] );
-		ioFreeFaces[ nextFaceNum ] = 0;
+		ioFreeFaces.SetUsed( nextFaceNum );
 		if (addEdge)
 		{
 			outEdgeNum = (inEdgeNum + 1) % 3;
@@ -98,7 +98,7 @@ static void MakeReverseStrip(
 				TQ3Uns32 inStartVert,
 				TQ3Uns32 inStartFace,
 				const FaceVec& inFaces,
-				FaceSet& ioFreeFaces,
+				FreeFaceSet& ioFreeFaces,
 				IndVec& outStrip )
 {
 	outStrip.clear();
@@ -108,12 +108,12 @@ static void MakeReverseStrip(
 	TQ3Uns32	nextFaceNum = curFace->adjFace[ outEdgeNum ];
 	
 	while ( (nextFaceNum != kInvalidIndex) &&
-		(ioFreeFaces[ nextFaceNum ] == 1) )
+		ioFreeFaces.IsFree( nextFaceNum ) )
 	{
 		TQ3Uns32	inEdgeNum = curFace->adjEdge[ outEdgeNum ];
 		curFace = &inFaces[ nextFaceNum ];
 		outStrip.push_back( curFace->vertex[ inEdgeNum ] );
-		ioFreeFaces[ nextFaceNum ] = 0;
+		ioFreeFaces.SetUsed( nextFaceNum );
 		if (addEdge)
 		{
 			outEdgeNum = (inEdgeNum + 1) % 3;
@@ -172,12 +172,12 @@ void StripMaker::MakeSimpleStrip(
 				TQ3Uns32 inStartVert,
 				TQ3Uns32 inStartFace,
 				const FaceVec& inFaces,
-				FaceSet& ioFreeFaces,
+				FreeFaceSet& ioFreeFaces,
 				IndVec& ioScratch1,
 				IndVec& ioScratch2,
 				IndVec& outStrip )
 {
-	ioFreeFaces[ inStartFace ] = 0;
+	ioFreeFaces.SetUsed( inStartFace );
 	
 	MakeForwardStrip( inStartVert, inStartFace, inFaces, ioFreeFaces,
 		ioScratch1 );

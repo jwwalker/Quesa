@@ -10,7 +10,7 @@
     	code.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -71,10 +71,36 @@ namespace StripMaker
 //-----------------------------------------------------------------------------
 	
 	/*!
-		@typedef	FaceSet
-		@abstract	Vector representing a set of face indices.
+		class		FreeFaceSet
+		@abstract	Object representing a set of face indices.
+		@discussion	Originally, a FreeFaceSet was just a naked vector of TQ3Uns8
+					flags.  Profiling MakeStrip showed a substantial amount of
+					time being spent copying face sets using operator=.  In this
+					class, only an interval within the vector is really defined
+					and copied.  Indices less than mFirstMaybeFree are assumed
+					to be used, and indices greater or equal to mFirstAllFree
+					are assumed to be free.
 	*/
-	typedef	std::vector< TQ3Uns8 >		FaceSet;
+	class FreeFaceSet
+	{
+	public:
+						FreeFaceSet( TQ3Uns32 inFaceCount );
+						FreeFaceSet( const FreeFaceSet& inOther );
+					
+		void			swap( FreeFaceSet& ioOther );
+		
+		FreeFaceSet&	operator=( const FreeFaceSet& inOther );
+		
+		TQ3Uns32		FindNextFree();
+		
+		bool			IsFree( TQ3Uns32 inIndex ) const;
+		void			SetUsed( TQ3Uns32 inIndex );
+	
+	private:
+		std::vector<TQ3Uns8>	mFreeFlags;
+		TQ3Uns32				mFirstMaybeFree;
+		TQ3Uns32				mFirstAllFree;
+	};
 	
 	/*!
 		@typedef	IndVec
@@ -149,7 +175,7 @@ namespace StripMaker
 					TQ3Uns32 inStartVert,
 					TQ3Uns32 inStartFace,
 					const FaceVec& inFaces,
-					FaceSet& ioFreeFaces,
+					FreeFaceSet& ioFreeFaces,
 					IndVec& ioScratch1,
 					IndVec& ioScratch2,
 					IndVec& outStrip );
