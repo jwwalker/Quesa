@@ -17,31 +17,31 @@ QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) 
 // If you will build only with Xcode 3 or later, you may as well use the 10.5
 // SDK, and you may be required to use it for certain features such as compiler
 // stack protection.
-SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
-//SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk
+SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk
 
 // Prebinding is useless as of Mac OS X 10.3.something.
 PREBINDING = NO
 
 // Minimum OS versions supported.
-MACOSX_DEPLOYMENT_TARGET = 10.3
+MACOSX_DEPLOYMENT_TARGET = 10.4
 
 // Build Universal Binary: PowerPC and Intel.
 // Use ARCHS_STANDARD_32_64_BIT for 64 bit as well.
 ARCHS = ppc i386
 
 // Compiler choice.  Quesa supports gcc 3.3 and later.
-// Important: If this is 4.2 or later, then the minimum deployment version and
+// Important: If this is 4.2 or later, then
 // the SDK version must be 10.5. or later.
-GCC_VERSION = 4.0
+GCC_VERSION = 4.2
+GCC_VERSION[arch=ppc] = 4.0
 
 // Faster Objective-C method dispatch, requires 10.4 or later.
-//GCC_FAST_OBJC_DISPATCH = YES
+GCC_FAST_OBJC_DISPATCH = YES
 
 // Objective-C 2 garbage collection feature, requires 10.5 or later, and
 // GCC 4.2 or later.
 // Quesa has not been qualified with GC, but it may in fact work fine.
-GCC_ENABLE_OBJC_GC = supported
+GCC_ENABLE_OBJC_GC = unsupported
 
 // The newer dwarf debugging format is better than stabs.
 DEBUG_INFORMATION_FORMAT = dwarf

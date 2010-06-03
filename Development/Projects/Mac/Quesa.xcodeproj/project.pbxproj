@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -324,6 +324,8 @@
 		BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
 		BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
+		BEE6738211B72BFD00943219 /* StripMaker_FreeFaceSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEE6738111B72BFD00943219 /* StripMaker_FreeFaceSet.cpp */; };
+		BEE6738311B72BFD00943219 /* StripMaker_FreeFaceSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEE6738111B72BFD00943219 /* StripMaker_FreeFaceSet.cpp */; };
 		BEFFD7D50C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */; };
 		BEFFD7DA0C4C86E100202EA8 /* GLCocoaContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7D40C4C86E100202EA8 /* GLCocoaContext.m */; };
 		BEFFD7E10C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */; };
@@ -632,6 +634,7 @@
 		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cpp; sourceTree = "<group>"; };
 		BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
 		BEDC08D308A6B74200FB3A82 /* Info.plist */ = {isa = PBXFileReference; comments = "This file is for use with Xcode 2.1.  It must be preprocessed in order to\nconvert the symbol kQ3UnquotedStringVersion into an actual version string."; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
+		BEE6738111B72BFD00943219 /* StripMaker_FreeFaceSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StripMaker_FreeFaceSet.cpp; sourceTree = "<group>"; };
 		BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = E3CocoaDrawContext.m; sourceTree = "<group>"; };
 		BEFFD7D20C4C86E100202EA8 /* E3CocoaPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3CocoaPrefix.h; sourceTree = "<group>"; };
 		BEFFD7D30C4C86E100202EA8 /* GLCocoaContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLCocoaContext.h; path = ../../Renderers/Common/GLCocoaContext.h; sourceTree = "<group>"; };
@@ -1144,6 +1147,7 @@
 				BE7F266A0B7BB8AD00933ED1 /* MakeStrip.cpp */,
 				BE7F266B0B7BB8AD00933ED1 /* MakeStrip.h */,
 				BE7F266C0B7BB8AD00933ED1 /* StripMaker.h */,
+				BEE6738111B72BFD00943219 /* StripMaker_FreeFaceSet.cpp */,
 				BE7F266D0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp */,
 				BE7F266E0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp */,
 				BE7F266F0B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp */,
@@ -1312,7 +1316,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "Quesa" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* Quesa */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
@@ -1530,6 +1534,7 @@
 				BEFFD7D50C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */,
 				BEFFD7DA0C4C86E100202EA8 /* GLCocoaContext.m in Sources */,
 				BE2283EB0F166C6E00937C67 /* E3Geometry.c in Sources */,
+				BEE6738211B72BFD00943219 /* StripMaker_FreeFaceSet.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1679,6 +1684,7 @@
 				B19A74350C3E7A7F0099C820 /* WFRenderer.cpp in Sources */,
 				BEFFD7E10C4C86E100202EA8 /* E3CocoaDrawContext.m in Sources */,
 				BEFFD7E30C4C86E100202EA8 /* GLCocoaContext.m in Sources */,
+				BEE6738311B72BFD00943219 /* StripMaker_FreeFaceSet.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
