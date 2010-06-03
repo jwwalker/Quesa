@@ -10,7 +10,7 @@
     	code.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -62,33 +62,6 @@ using namespace StripMaker;
 //      Local Functions
 //-----------------------------------------------------------------------------
 
-/*!
-	@function	InitFreeFaceIndices
-	@abstract	Initialize a set containing indices of all faces.
-*/
-static void InitFreeFaceIndices( TQ3Uns32 inNumFaces, FaceSet& outFreeSet )
-{
-	outFreeSet.resize( inNumFaces, 1 );
-}
-
-
-/*!
-	@function	NextFreeFace
-	@abstract	Choose a face that has not yet been used.
-*/
-static bool	NextFreeFace( const FaceSet& inFreeSet, TQ3Uns32& ioFaceIndex )
-{
-	bool	foundFree = false;
-	
-	FaceSet::const_iterator i = std::find( inFreeSet.begin() + ioFaceIndex,
-		inFreeSet.end(), 1 );
-	if (i != inFreeSet.end())
-	{
-		ioFaceIndex = i - inFreeSet.begin();
-		foundFree = true;
-	}
-	return foundFree;
-}
 
 //=============================================================================
 //      Public Functions
@@ -125,14 +98,17 @@ void	MakeStrip(
 	InitFaces( inNumFaces, inFaces, theFaces );
 	FindAdjacencies( theFaces );
 	
-	FaceSet	freeFaces, free0, free1, free2, freeBest;
+	FreeFaceSet	freeFaces( inNumFaces );
+	FreeFaceSet free0( inNumFaces );
+	FreeFaceSet free1( inNumFaces );
+	FreeFaceSet free2( inNumFaces );
+	FreeFaceSet freeBest( inNumFaces );
 	IndVec	strip0, strip1, strip2, stripBest, scratch1, scratch2;
-	InitFreeFaceIndices( inNumFaces, freeFaces );
 	TQ3Uns32	startFaceIndex = 0;
 	
 	
 	// Pick a free face
-	while ( NextFreeFace( freeFaces, startFaceIndex ) )
+	while ( (startFaceIndex = freeFaces.FindNextFree()) != kInvalidIndex )
 	{
 		// Pick one of 3 starting vertices of this face.
 		// Each choice will produce a certain path and a certain set of
