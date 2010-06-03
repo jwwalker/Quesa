@@ -5,7 +5,7 @@
         Quesa OpenGL camera support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -60,7 +60,7 @@
 //-----------------------------------------------------------------------------
 void
 GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum)
-{	TQ3Matrix4x4		cameraToNDC, theMatrix;
+{	TQ3Matrix4x4		cameraToNDC;
 	GLfloat				glMatrix[16];
 
 
@@ -86,11 +86,22 @@ GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum)
 	//
 	// This can be done by scaling 0..-1 to 0..+2, then translating 0..+2
 	// to -1..+1.
-	Q3Matrix4x4_SetScale(&theMatrix, 1.0f, 1.0f, -2.0f);
-	Q3Matrix4x4_Multiply(cameraToFrustum, &theMatrix, &cameraToNDC);
+	
+	// The obvious way to do these operations is to multiply cameraToFrustum by
+	// the result of Q3Matrix4x4_SetScale(&aMatrix, 1.0f, 1.0f, -2.0f) and
+	// then by the result of Q3Matrix4x4_SetTranslate(&aMatrix, 0.0f, 0.0f, -1.0f).
+	// However, both of these operations only affect the 3rd column of the
+	// matrix, so we can save a little arithmetic.
 
-	Q3Matrix4x4_SetTranslate(&theMatrix, 0.0f, 0.0f, -1.0f);
-	Q3Matrix4x4_Multiply(&cameraToNDC, &theMatrix, &cameraToNDC);
+	cameraToNDC = *cameraToFrustum;
+	cameraToNDC.value[0][2] *= -2.0f;
+	cameraToNDC.value[0][2] -= cameraToNDC.value[0][3];
+	cameraToNDC.value[1][2] *= -2.0f;
+	cameraToNDC.value[1][2] -= cameraToNDC.value[1][3];
+	cameraToNDC.value[2][2] *= -2.0f;
+	cameraToNDC.value[2][2] -= cameraToNDC.value[2][3];
+	cameraToNDC.value[3][2] *= -2.0f;
+	cameraToNDC.value[3][2] -= cameraToNDC.value[3][3];
 
 
 
