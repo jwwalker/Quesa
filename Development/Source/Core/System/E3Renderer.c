@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -560,8 +560,9 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 								TQ3MatrixState			theState,
 								const TQ3Matrix4x4		*localToWorld,
 								const TQ3Matrix4x4		*worldToCamera,
-								const TQ3Matrix4x4		*cameraToFrustum)
-	{
+								const TQ3Matrix4x4		*cameraToFrustum,
+								const TQ3Matrix4x4		*localToCamera )
+{
 	TQ3Matrix4x4		worldToLocal, tmpMatrix ;
 
 
@@ -572,21 +573,9 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		return kQ3Success ;
 
 
-	// Find the methods
-	E3ClassInfoPtr theClass = theRenderer->GetClass () ;
-	TQ3XRendererUpdateMatrixMethod updateLocalToWorld     = (TQ3XRendererUpdateMatrixMethod) theClass->GetMethod ( kQ3XMethodTypeRendererUpdateMatrixLocalToWorld ) ;
-	TQ3XRendererUpdateMatrixMethod updateLocalToWorldInv  = (TQ3XRendererUpdateMatrixMethod) theClass->GetMethod ( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse ) ;
-	TQ3XRendererUpdateMatrixMethod updateLocalToWorldInvT = (TQ3XRendererUpdateMatrixMethod) theClass->GetMethod ( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose ) ;
-	TQ3XRendererUpdateMatrixMethod updateLocalToCamera    = (TQ3XRendererUpdateMatrixMethod) theClass->GetMethod ( kQ3XMethodTypeRendererUpdateMatrixLocalToCamera ) ;
-	TQ3XRendererUpdateMatrixMethod updateLocalToFrustum   = (TQ3XRendererUpdateMatrixMethod) theClass->GetMethod ( kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum ) ;
-	TQ3XRendererUpdateMatrixMethod updateWorldToCamera    = (TQ3XRendererUpdateMatrixMethod) theClass->GetMethod ( kQ3XMethodTypeRendererUpdateMatrixWorldToCamera ) ;
-	TQ3XRendererUpdateMatrixMethod updateWorldToFrustum   = (TQ3XRendererUpdateMatrixMethod) theClass->GetMethod ( kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum ) ;
-	TQ3XRendererUpdateMatrixMethod updateCameraToFrustum  = (TQ3XRendererUpdateMatrixMethod) theClass->GetMethod ( kQ3XMethodTypeRendererUpdateMatrixCameraToFrustum ) ;
-
-
-
-	// Find the renderer instance data
-	void* instanceData = theRenderer->FindLeafInstanceData () ;
+	// Find the renderer instance data and class
+	void* instanceData = theRenderer->FindLeafInstanceData();
+	E3ClassInfoPtr theClass = theRenderer->GetClass();
 
 
 
@@ -594,62 +583,102 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 
 	// Handle local-to-world changes
 	if ( theState & kQ3MatrixStateLocalToWorld )
-		{
-		if (updateLocalToWorldInv != NULL || updateLocalToWorldInvT != NULL )
+	{
+		TQ3XRendererUpdateMatrixMethod updateLocalToWorld     =
+			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorld ) ;
+		TQ3XRendererUpdateMatrixMethod updateLocalToWorldInv  =
+			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse ) ;
+		TQ3XRendererUpdateMatrixMethod updateLocalToWorldInvT =
+			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose ) ;
+
+		if ((updateLocalToWorldInv != NULL) || (updateLocalToWorldInvT != NULL) )
 			Q3Matrix4x4_Invert(localToWorld, &worldToLocal);
 
-		if ( qd3dStatus == kQ3Success && updateLocalToWorld != NULL )
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorld != NULL) )
 			qd3dStatus = updateLocalToWorld(theView, instanceData, localToWorld);
 
-		if ( qd3dStatus == kQ3Success && updateLocalToWorldInv != NULL )
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorldInv != NULL) )
 			qd3dStatus = updateLocalToWorldInv(theView, instanceData, &worldToLocal);
 
-		if ( qd3dStatus == kQ3Success && updateLocalToWorldInvT != NULL )
-			{
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorldInvT != NULL) )
+		{
 			Q3Matrix4x4_Transpose(&worldToLocal, &tmpMatrix);
 			qd3dStatus = updateLocalToWorldInvT(theView, instanceData, &tmpMatrix);
-			}
-
-		if ( qd3dStatus == kQ3Success && updateLocalToCamera != NULL )
-			{
-			Q3Matrix4x4_Multiply(localToWorld, worldToCamera, &tmpMatrix);
-			qd3dStatus = updateLocalToCamera(theView, instanceData, &tmpMatrix);
-			}
-
-		if ( qd3dStatus == kQ3Success && updateLocalToFrustum != NULL )
-			{
-			Q3Matrix4x4_Multiply(localToWorld, worldToCamera,   &tmpMatrix);
-			Q3Matrix4x4_Multiply(&tmpMatrix,   cameraToFrustum, &tmpMatrix);
-			qd3dStatus = updateLocalToFrustum(theView, instanceData, &tmpMatrix);
-			}
 		}
-	
-	
+	}
+
 	
 	// Handle world-to-camera changes
 	if (theState & kQ3MatrixStateWorldToCamera)
-		{
-		if ( qd3dStatus == kQ3Success && updateWorldToCamera != NULL )
-			qd3dStatus = updateWorldToCamera(theView, instanceData, worldToCamera);
+	{
+		TQ3XRendererUpdateMatrixMethod updateWorldToCamera    =
+			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixWorldToCamera ) ;
 
-		if ( qd3dStatus == kQ3Success && updateWorldToFrustum != NULL )
-			{
-			Q3Matrix4x4_Multiply(worldToCamera, cameraToFrustum, &tmpMatrix);
-			qd3dStatus = updateWorldToFrustum(theView, instanceData, &tmpMatrix);
-			}
+		if ( (qd3dStatus == kQ3Success) && (updateWorldToCamera != NULL) )
+		{
+			qd3dStatus = updateWorldToCamera(theView, instanceData, worldToCamera);
 		}
-	
+	}
 	
 	
 	// Handle camera-to-frustum changes
 	if (theState & kQ3MatrixStateCameraToFrustum)
+	{
+		TQ3XRendererUpdateMatrixMethod updateCameraToFrustum  =
+			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixCameraToFrustum ) ;
+
+		if ( (qd3dStatus == kQ3Success) && (updateCameraToFrustum != NULL) )
 		{
-		if ( qd3dStatus == kQ3Success && updateCameraToFrustum != NULL )
-			qd3dStatus = updateCameraToFrustum(theView, instanceData, cameraToFrustum);
+			qd3dStatus = updateCameraToFrustum( theView, instanceData, cameraToFrustum );
 		}
+	}
+
+	
+	// Update local to camera if local to world or world to camera changes
+	if ( (theState & (kQ3MatrixStateLocalToWorld | kQ3MatrixStateWorldToCamera)) != 0 )
+	{
+		TQ3XRendererUpdateMatrixMethod updateLocalToCamera    =
+			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToCamera ) ;
+
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToCamera != NULL) )
+		{
+			qd3dStatus = updateLocalToCamera( theView, instanceData, localToCamera );
+		}
+	}
+	
+	
+	// Update local to frustum if any of the 3 basic matrices changed
+	if ( (theState & (kQ3MatrixStateLocalToWorld | kQ3MatrixStateWorldToCamera |
+		kQ3MatrixStateCameraToFrustum)) != 0 )
+	{
+		TQ3XRendererUpdateMatrixMethod updateLocalToFrustum   =
+			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum ) ;
+
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToFrustum != NULL) )
+		{
+			Q3Matrix4x4_Multiply( localToCamera, cameraToFrustum, &tmpMatrix );
+			qd3dStatus = updateLocalToFrustum( theView, instanceData, &tmpMatrix );
+		}
+	}
+	
+	
+	// Update world to frustum if world to camera or camera to frustum changed
+	if ( (theState & (kQ3MatrixStateWorldToCamera | kQ3MatrixStateCameraToFrustum)) != 0 )
+	{
+		TQ3XRendererUpdateMatrixMethod updateWorldToFrustum   =
+			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum ) ;
+
+		if ( (qd3dStatus == kQ3Success) && (updateWorldToFrustum != NULL) )
+		{
+			Q3Matrix4x4_Multiply( worldToCamera, cameraToFrustum, &tmpMatrix );
+			qd3dStatus = updateWorldToFrustum( theView, instanceData, &tmpMatrix );
+		}
+	}
+	
+	
 
 	return qd3dStatus ;
-	}
+}
 
 
 

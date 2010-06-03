@@ -126,6 +126,7 @@ typedef struct TQ3ViewStackItem {
 	TQ3ViewStackState			stackState;
 	TQ3Matrix4x4				matrixLocalToWorld;
 	TQ3Matrix4x4				matrixWorldToCamera;
+	TQ3Matrix4x4				matrixLocalToCamera;
 	TQ3Matrix4x4				matrixCameraToFrustum;
 	TQ3ShaderObject				shaderIllumination;
 	TQ3ShaderObject				shaderSurface;
@@ -294,6 +295,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	// Initialise the item
 	Q3Matrix4x4_SetIdentity(&theItem->matrixLocalToWorld);
 	Q3Matrix4x4_SetIdentity(&theItem->matrixWorldToCamera);
+	Q3Matrix4x4_SetIdentity( &theItem->matrixLocalToCamera );
 	Q3Matrix4x4_SetIdentity(&theItem->matrixCameraToFrustum);
 
 	theItem->next					 = NULL;
@@ -444,10 +446,11 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 
 
 			// And update them
-			qd3dStatus = E3Renderer_Method_UpdateMatrix ( view, matrixState,
+			qd3dStatus = E3Renderer_Method_UpdateMatrix( view, matrixState,
 														&theItem->matrixLocalToWorld,
 														&theItem->matrixWorldToCamera,
-														&theItem->matrixCameraToFrustum ) ;
+														&theItem->matrixCameraToFrustum,
+														&theItem->matrixLocalToCamera );
 			}
 
 		if ( ( stateChange & kQ3ViewStateShaderIllumination ) && qd3dStatus != kQ3Failure )
@@ -2619,13 +2622,8 @@ E3View_State_GetMatrixLocalToFrustum( TQ3ViewObject inView )
 	
 	if (! theView->instanceData.isLocalToFrustumValid)
 	{
-		TQ3Matrix4x4	localToCamera;
-		
-		Q3Matrix4x4_Multiply( &theView->instanceData.viewStack->matrixLocalToWorld,
-			&theView->instanceData.viewStack->matrixWorldToCamera,
-			&localToCamera );
-		
-		Q3Matrix4x4_Multiply( &localToCamera,
+		Q3Matrix4x4_Multiply(
+			&theView->instanceData.viewStack->matrixLocalToCamera,
 			&theView->instanceData.viewStack->matrixCameraToFrustum,
 			&theView->instanceData.matrixLocalToFrustum );
 		
@@ -2742,7 +2740,8 @@ E3View_State_SetMatrix(TQ3ViewObject			theView,
 							const TQ3Matrix4x4	*cameraToFrustum)
 	{
 	// Validate our state
-	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+	TQ3ViewData& instanceData( ( (E3View*) theView )->instanceData );
+	Q3_ASSERT ( Q3_VALID_PTR ( instanceData.viewStack ) ) ;
 
 
 
@@ -2753,7 +2752,7 @@ E3View_State_SetMatrix(TQ3ViewObject			theView,
 		{
 		Q3_ASSERT(Q3_VALID_PTR(localToWorld));
 		stateChange                                 |= kQ3ViewStateMatrixLocalToWorld;
-		( (E3View*) theView )->instanceData.viewStack->matrixLocalToWorld = *localToWorld;
+		instanceData.viewStack->matrixLocalToWorld = *localToWorld;
 		}
 	
 	if (theState & kQ3MatrixStateWorldToCamera)
@@ -2761,20 +2760,27 @@ E3View_State_SetMatrix(TQ3ViewObject			theView,
 		Q3_ASSERT(Q3_VALID_PTR(worldToCamera));
 		stateChange                                  |= kQ3ViewStateMatrixWorldToCamera;
 		Q3_ASSERT( isfinite( worldToCamera->value[0][0] ) );
-		( (E3View*) theView )->instanceData.viewStack->matrixWorldToCamera = *worldToCamera;
+		instanceData.viewStack->matrixWorldToCamera = *worldToCamera;
 		}
+	
+	if ( (theState & (kQ3MatrixStateLocalToWorld | kQ3MatrixStateWorldToCamera)) != 0 )
+	{
+		Q3Matrix4x4_Multiply( &instanceData.viewStack->matrixLocalToWorld,
+			&instanceData.viewStack->matrixWorldToCamera,
+			&instanceData.viewStack->matrixLocalToCamera );
+	}
 	
 	if (theState & kQ3MatrixStateCameraToFrustum)
 		{
 		Q3_ASSERT(Q3_VALID_PTR(cameraToFrustum));
 		stateChange                                    |= kQ3ViewStateMatrixCameraToFrustum;
-		( (E3View*) theView )->instanceData.viewStack->matrixCameraToFrustum = *cameraToFrustum;
+		instanceData.viewStack->matrixCameraToFrustum = *cameraToFrustum;
 		}
 
 
 	// Invalidate caches
-	( (E3View*) theView )->instanceData.isLocalToFrustumValid = false;
-	( (E3View*) theView )->instanceData.isLocalToFrustumInverseValid = false;
+	instanceData.isLocalToFrustumValid = false;
+	instanceData.isLocalToFrustumInverseValid = false;
 
 
 	// Update the renderer

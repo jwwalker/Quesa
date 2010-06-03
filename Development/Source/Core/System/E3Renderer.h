@@ -5,7 +5,7 @@
         Header file for E3Renderer.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -76,7 +76,12 @@ TQ3ViewStatus		E3Renderer_Method_EndPass(TQ3ViewObject theView);
 TQ3Status			E3Renderer_Method_FlushFrame(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext);
 TQ3Status			E3Renderer_Method_EndFrame(TQ3ViewObject theView, TQ3DrawContextObject theDrawContext);
 TQ3Boolean			E3Renderer_Method_IsBBoxVisible(TQ3ViewObject theView, const TQ3BoundingBox *theBBox);
-TQ3Status			E3Renderer_Method_UpdateMatrix(TQ3ViewObject theView, TQ3MatrixState theState, const TQ3Matrix4x4 *localToWorld, const TQ3Matrix4x4 *worldToCamera, const TQ3Matrix4x4 *cameraToFrustum);
+TQ3Status			E3Renderer_Method_UpdateMatrix(TQ3ViewObject theView,
+										TQ3MatrixState theState,
+										const TQ3Matrix4x4 *localToWorld,
+										const TQ3Matrix4x4 *worldToCamera,
+										const TQ3Matrix4x4 *cameraToFrustum,
+										const TQ3Matrix4x4* localToCamera );
 TQ3Status			E3Renderer_Method_UpdateShader(TQ3ViewObject theView, TQ3ObjectType shaderType, TQ3Object *theShader);
 TQ3Status			E3Renderer_Method_UpdateStyle(TQ3ViewObject theView, TQ3ObjectType styleType, const void *paramData);
 TQ3Status			E3Renderer_Method_UpdateAttribute(TQ3ViewObject theView, TQ3AttributeType attributeType, const void *paramData);
