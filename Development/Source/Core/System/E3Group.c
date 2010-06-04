@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1708,10 +1708,10 @@ e3group_display_ordered_new(TQ3Object theObject, void *privateData, const void *
 static TQ3ObjectType
 e3group_display_ordered_gettype( TQ3Object inObject )
 {
-	TQ3ObjectType	theType = Q3Shared_GetType( inObject );
+	TQ3ObjectType	theType = E3Shared_GetType( inObject );
 	
 	if (theType == kQ3SharedTypeShape)
-		theType = Q3Shape_GetType( inObject );
+		theType = E3Shape_GetType( inObject );
 	
 	return theType;
 }
