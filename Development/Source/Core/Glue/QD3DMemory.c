@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -313,7 +313,10 @@ Q3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
 	// Release build checks
 	Q3_REQUIRE(Q3_VALID_PTR(srcPtr));
 	Q3_REQUIRE(Q3_VALID_PTR(dstPtr));
-	Q3_REQUIRE(theSize != 0);
+	if (theSize == 0)
+	{
+		return;
+	}
 
 
 
