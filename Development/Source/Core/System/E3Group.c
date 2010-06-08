@@ -50,6 +50,8 @@
 #include "E3ClassTree.h"
 #include "E3Renderer.h"
 #include "E3Style.h"
+#include "E3Main.h"
+
 
 
 
@@ -443,7 +445,7 @@ E3Group::getfirstposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
 		{
 		while ( pos != finish )
 			{
-			if ( Q3Object_IsType ( pos->object, isType ) )
+			if ( E3Object_IsType ( pos->object, isType ) )
 				{
 				*position = (TQ3GroupPosition) pos ;
 				break ;
@@ -486,7 +488,7 @@ E3Group::getlastposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
 		{
 		while ( pos != finish )
 			{
-			if ( Q3Object_IsType ( pos->object, isType ) )
+			if ( E3Object_IsType ( pos->object, isType ) )
 				{
 				*position = (TQ3GroupPosition) pos ;
 				break ;
@@ -534,7 +536,7 @@ E3Group::getnextposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
 		{
 		while ( pos != finish )
 			{
-			if ( Q3Object_IsType ( pos->object, isType ) )
+			if ( E3Object_IsType ( pos->object, isType ) )
 				{
 				*position = (TQ3GroupPosition) pos ;
 				break ;
@@ -580,7 +582,7 @@ E3Group::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition *position )
 		{
 		while ( pos != finish )
 			{
-			if ( Q3Object_IsType ( pos->object, isType ) )
+			if ( E3Object_IsType ( pos->object, isType ) )
 				{
 				*position = (TQ3GroupPosition) pos ;
 				break ;
@@ -683,7 +685,7 @@ E3Group::emptyobjects ( TQ3ObjectType isType )
 	TQ3XGroupPosition* pos = groupData.listHead.next ;
 	while ( pos != finish )
 		{
-		if ( Q3Object_IsType ( pos->object, isType ) )
+		if ( E3Object_IsType ( pos->object, isType ) )
 			{
 			TQ3XGroupPosition* nextPos = pos->next ;
 			
@@ -1863,7 +1865,7 @@ E3OrderedDisplayGroup::findfirsttypeonlist (
 	
 	for ( TQ3XGroupPosition* pos = theListHead->next ; pos != theListHead ; pos = pos->next )
 		{
-		if ( Q3Object_IsType ( pos->object, inType ) )
+		if ( E3Object_IsType ( pos->object, inType ) )
 			{
 			*outPosition = (TQ3GroupPosition) pos ;
 			return kQ3Success ;
@@ -1888,7 +1890,7 @@ E3OrderedDisplayGroup::findlasttypeonlist (
 	TQ3XGroupPosition* theListHead = &listHeads [ inIndex ] ;
 	
 	for ( TQ3XGroupPosition* pos = theListHead->prev ; pos != theListHead ; pos = pos->prev )
-		if ( Q3Object_IsType ( pos->object, inType ) )
+		if ( E3Object_IsType ( pos->object, inType ) )
 			{
 			*outPosition = (TQ3GroupPosition) pos ;
 			return kQ3Success ;
@@ -2026,7 +2028,7 @@ E3OrderedDisplayGroup::getnextposition ( TQ3ObjectType isType, TQ3GroupPosition 
 		// Search the current list
 		for (; pos != theListHead; pos = pos->next)
 		{
-			if (Q3Object_IsType( pos->object, isType ))
+			if (E3Object_IsType( pos->object, isType ))
 			{
 				*position = (TQ3GroupPosition)pos;
 				theStatus = kQ3Success;
@@ -2099,7 +2101,7 @@ E3OrderedDisplayGroup::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition 
 	
 	// Search the current list
 	for ( ; pos != theListHead ; pos = pos->prev )
-		if ( Q3Object_IsType ( pos->object, isType ) )
+		if ( E3Object_IsType ( pos->object, isType ) )
 			{
 			*position = (TQ3GroupPosition) pos ;
 			theStatus = kQ3Success ;
@@ -2113,7 +2115,7 @@ E3OrderedDisplayGroup::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition 
 			{
 			theListHead = &listHeads [ startIndex ] ;
 			for ( pos = theListHead->prev ; pos != theListHead ; pos = pos->prev )
-				if ( Q3Object_IsType ( pos->object, isType ) )
+				if ( E3Object_IsType ( pos->object, isType ) )
 					{
 					*position = (TQ3GroupPosition) pos ;
 					theStatus = kQ3Success ;
@@ -2538,7 +2540,7 @@ e3group_display_ioproxy_startiterate(TQ3GroupObject group, TQ3GroupPosition *ite
 			if (err != kQ3Success)
 				break;
 				
-			if (Q3Object_IsType (theObject, kQ3ShapeTypeUnknown) == kQ3False)
+			if (E3Object_IsType (theObject, kQ3ShapeTypeUnknown) == kQ3False)
 				break ; // this is usable so use this one
 
 			Q3Object_CleanDispose( &theObject );
