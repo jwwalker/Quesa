@@ -20,7 +20,7 @@
         to record their relationship to the rest of the tree.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -74,7 +74,7 @@
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
-#define kClassHashTableSize							64
+#define kClassHashTableSize							512
 #define kMethodHashTableSize						32
 
 
