@@ -12,7 +12,7 @@
 		the methods for each node.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -80,7 +80,7 @@ typedef struct E3HashTable {
 	float				collisionAverage;			// Average collision count
 	TQ3Uns32			numItems;					// Number of items in table
 	TQ3Uns32			tableSize;					// Number of slots in table
-	E3HashTableNodePtr	*theTable;
+	E3HashTableNodePtr	*theTable;					// Array of node pointers
 } E3HashTable;
 
 
@@ -103,7 +103,8 @@ typedef struct E3HashTable {
 //-----------------------------------------------------------------------------
 static E3HashTableNodePtr *
 e3hash_find_node(E3HashTablePtr theTable, TQ3ObjectType theKey)
-{	TQ3Uns32		theIndex;
+{
+	TQ3Uns32		theIndex;
 	TQ3Uns8			*thePtr;
 	
 
@@ -117,13 +118,15 @@ e3hash_find_node(E3HashTablePtr theTable, TQ3ObjectType theKey)
 	// Calculate the index for the node
 	thePtr   = (TQ3Uns8 *) &theKey;
 	
+	// This hash function may not be the most theoretically sound, but I can't
+	// find anything faster that works as well.
 	theIndex = (27*thePtr[0] + 9*thePtr[1] + 3*thePtr[2] + thePtr[3]) & (theTable->tableSize - 1);
 
-	Q3_ASSERT(theIndex >= 0 && theIndex < theTable->tableSize);
+	Q3_ASSERT(theIndex < theTable->tableSize);
 
 
 	// Return the address of the appropriate node within the table
-	return(&theTable->theTable[theIndex]);
+	return (&theTable->theTable[theIndex]);
 }
 
 
