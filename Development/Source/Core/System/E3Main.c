@@ -1652,7 +1652,7 @@ OpaqueTQ3Object::GetProperty( TQ3ObjectType inPropType,
 			
 			if (outDataBuffer != NULL)
 			{
-				dataSize = MIN( dataSize, inBufferSize );
+				dataSize = E3Num_Min( dataSize, inBufferSize );
 				
 				if (dataSize > 0)
 				{
