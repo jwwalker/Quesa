@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,9 @@
 
 
 #include "E3Memory.h"
+#include "E3HashTable.h"
+
+
 
 
 //=============================================================================
@@ -204,6 +207,7 @@ private :
 	TQ3ObjectType				quesaTag ;
 	E3ClassInfoPtr				theClass ;
 	TQ3SetObject				theSet ;
+	E3HashTablePtr				propertyTable;
 	
 #if Q3_DEBUG
 	TQ3Object					prev ;
@@ -242,6 +246,15 @@ public :
 	TQ3Boolean					IsClass ( TQ3ObjectType queryClass, TQ3Int32 queryDepth )
 												{ return (TQ3Boolean) ( theClass->ownAndParentTypes [ queryDepth ] == queryClass ) ; }
 
+	TQ3Status					SetProperty( TQ3ObjectType inPropType,
+											TQ3Uns32 inDataSize,
+											const void* inData );
+	TQ3Status					GetProperty( TQ3ObjectType inPropType,
+											TQ3Uns32 inBufferSize,
+											TQ3Uns32* outDataSize,
+											void* outDataBuffer ) const;
+	TQ3Status					RemoveProperty( TQ3ObjectType inPropType );
+	const void*					GetPropertyAddress( TQ3ObjectType inPropType ) const;
 
 	// Locate a class
 	inline E3ClassInfoPtr		GetClass ( void ) const

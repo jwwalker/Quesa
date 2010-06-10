@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -73,6 +73,15 @@
 // Viewer supported only on Carbon/Classic now
 #include "E3Viewer.h"
 #endif
+
+
+
+
+
+//=============================================================================
+//      Internal constants
+//-----------------------------------------------------------------------------
+#define	kPropertyHashTableSize					32
 
 
 
@@ -351,13 +360,87 @@ e3root_new_class_info (
 	}
 
 
+//=============================================================================
+//      propertyTable_disposeItems : Free one data block in a property table.
+//-----------------------------------------------------------------------------
+static TQ3Status
+propertyTable_disposeOne( E3HashTablePtr srcTable,
+							TQ3ObjectType theKey,
+							void *theItem,
+							void* userData )
+{
+#pragma unused( srcTable, theKey, userData )
+	Q3Memory_Free( &theItem );
+	return kQ3Success;
+}
+
+
+//=============================================================================
+//      propertyTable_disposeItems : Free the data in a property table.
+//-----------------------------------------------------------------------------
+static void
+propertyTable_disposeItems( E3HashTablePtr ioTable )
+{
+	if (ioTable != NULL)
+	{
+		E3HashTable_Iterate( ioTable, propertyTable_disposeOne, NULL );
+	}
+}
+
+
+//=============================================================================
+//      propertyTable_duplicateOne : Copy one item between object property tables.
+//-----------------------------------------------------------------------------
+static TQ3Status
+propertyTable_duplicateOne( E3HashTablePtr srcTable,
+							TQ3ObjectType theKey,
+							void *theItem,
+							void* userData )
+{
+	TQ3Status status = kQ3Success;
+	E3HashTablePtr dstTable = (E3HashTablePtr) userData;
+	TQ3Uns32 dataSize;
+	Q3Memory_Copy( theItem, &dataSize, sizeof(dataSize) );
+	void* newItem = Q3Memory_Allocate( dataSize + sizeof(dataSize) );
+	if (newItem == NULL)
+	{
+		status = kQ3Failure;
+	}
+	else
+	{
+		Q3Memory_Copy( theItem, newItem, dataSize + sizeof(dataSize) );
+		E3HashTable_Add( dstTable, theKey, newItem );
+	}
+	return status;
+}
+
+
+//=============================================================================
+//      propertyTable_duplicate : Duplicate an object property table.
+//-----------------------------------------------------------------------------
+static E3HashTablePtr
+propertyTable_duplicate( E3HashTablePtr inSrcTable )
+{
+	TQ3Uns32	tableSize = E3HashTable_GetTableSize( inSrcTable );
+	E3HashTablePtr	dstTable = E3HashTable_Create( tableSize );
+	if (dstTable != NULL)
+	{
+		if (kQ3Failure == E3HashTable_Iterate( inSrcTable,
+			propertyTable_duplicateOne, dstTable ))
+		{
+			propertyTable_disposeItems( dstTable );
+			E3HashTable_Destroy( &dstTable );
+		}
+	}
+	return dstTable;
+}
+
 
 
 
 //=============================================================================
 //      e3root_new : Root object new method.
 //-----------------------------------------------------------------------------
-
 TQ3Status
 e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 {
@@ -410,6 +493,7 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 #endif
 	
 	theObject->theSet = NULL;
+	theObject->propertyTable = NULL;
 	
 	return kQ3Success;
 }
@@ -444,6 +528,18 @@ e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 				q3status = kQ3Failure;
 			}
 		}
+		
+		
+		if ( (q3status == kQ3Success) && (fromInstanceData->propertyTable != NULL) )
+		{
+			toInstanceData->propertyTable = propertyTable_duplicate(
+				fromInstanceData->propertyTable );
+			
+			if (toInstanceData->propertyTable == NULL)
+			{
+				q3status = kQ3Failure;
+			}
+		}
 	}
 	
 	return q3status;
@@ -465,6 +561,11 @@ e3root_delete( TQ3Object theObject, void *privateData )
 //	Q3_ASSERT(privateData == theObject->FindLeafInstanceData () ) ;
 	
 	Q3Object_CleanDispose( &instanceData->theSet );
+	if (instanceData->propertyTable != NULL)
+	{
+		propertyTable_disposeItems( instanceData->propertyTable );
+		E3HashTable_Destroy( &instanceData->propertyTable );
+	}
 
 #if Q3_DEBUG
 	if ( instanceData->prev != NULL )
@@ -1444,7 +1545,7 @@ OpaqueTQ3Object::GetSet ( TQ3SetObject *set )
 
 
 //=============================================================================
-//      E3Object_SetSet : Set the set of an object.
+//      OpaqueTQ3Object::SetSet : Set the set of an object.
 //-----------------------------------------------------------------------------
 TQ3Status
 OpaqueTQ3Object::SetSet ( TQ3SetObject set )
@@ -1459,13 +1560,149 @@ OpaqueTQ3Object::SetSet ( TQ3SetObject set )
 
 
 //=============================================================================
+//     OpaqueTQ3Object::SetProperty : Set a property of an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+OpaqueTQ3Object::SetProperty( TQ3ObjectType inPropType,
+								TQ3Uns32 inDataSize,
+								const void* inData )
+{
+	TQ3Status didset = kQ3Failure;
+	
+	if (propertyTable == NULL)
+	{
+		propertyTable = E3HashTable_Create( kPropertyHashTableSize );
+	}
+	
+	if (propertyTable != NULL)
+	{
+		(void) RemoveProperty( inPropType );
+		
+		char* itemBuf = (char*) Q3Memory_Allocate( inDataSize + sizeof(TQ3Uns32) );
+		if (itemBuf != NULL)
+		{
+			Q3Memory_Copy( &inDataSize, itemBuf, sizeof(TQ3Uns32) );
+			Q3Memory_Copy( inData, itemBuf + sizeof(TQ3Uns32), inDataSize );
+			
+			didset = E3HashTable_Add( propertyTable, inPropType, itemBuf );
+			
+			if (didset == kQ3Failure)
+			{
+				Q3Memory_Free( &itemBuf );
+			}
+		}
+	}
+	
+	return didset;
+}
+
+
+
+
+
+//=============================================================================
+//     OpaqueTQ3Object::GetProperty : Get a property of an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+OpaqueTQ3Object::GetProperty( TQ3ObjectType inPropType,
+								TQ3Uns32 inBufferSize,
+								TQ3Uns32* outDataSize,
+								void* outDataBuffer ) const
+{
+	TQ3Status found = kQ3Failure;
+	
+	if (propertyTable != NULL)
+	{
+		void* itemAddr = E3HashTable_Find( propertyTable, inPropType );
+		if (itemAddr != NULL)
+		{
+			found = kQ3Success;
+			
+			TQ3Uns32 dataSize;
+			Q3Memory_Copy( itemAddr, &dataSize, sizeof(dataSize) );
+			
+			if (outDataBuffer != NULL)
+			{
+				dataSize = MIN( dataSize, inBufferSize );
+				
+				if (dataSize > 0)
+				{
+					Q3Memory_Copy( ((char*) itemAddr) + sizeof(dataSize),
+						outDataBuffer, dataSize );
+				}
+			}
+
+			if (outDataSize != NULL)
+			{
+				*outDataSize = dataSize;
+			}
+		}
+	}
+	
+	return found;
+}
+
+
+
+
+
+//=============================================================================
+//     OpaqueTQ3Object::GetPropertyAddress : Get pointer to property data of an object.
+//-----------------------------------------------------------------------------
+const void*
+OpaqueTQ3Object::GetPropertyAddress( TQ3ObjectType inPropType ) const
+{
+	const void* theAddr = NULL;
+	
+	if (propertyTable != NULL)
+	{
+		const char* itemAddr = (const char*) E3HashTable_Find( propertyTable,
+			inPropType );
+		
+		if (itemAddr != NULL)
+		{
+			theAddr = itemAddr + sizeof(TQ3Uns32);
+		}
+	}
+	
+	return theAddr;
+}
+
+
+
+
+
+//=============================================================================
+//     OpaqueTQ3Object::RemoveProperty : Remove a property of an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+OpaqueTQ3Object::RemoveProperty( TQ3ObjectType inPropType )
+{
+	TQ3Status found = kQ3Failure;
+	
+	if (propertyTable != NULL)
+	{
+		void* itemAddr = E3HashTable_Find( propertyTable, inPropType );
+		if (itemAddr != NULL)
+		{
+			Q3Memory_Free( &itemAddr );
+			E3HashTable_Remove( propertyTable, inPropType );
+			found = kQ3Success;
+		}
+	}
+	return found;
+}
+
+
+
+#pragma mark -
+//=============================================================================
 //      E3Shared_IsOfMyClass : Check if object pointer is valid and of type shared
 //-----------------------------------------------------------------------------
 //		Replaces Q3Object_IsType ( object, kQ3ObjectTypeShared )
 //		but call is smaller and does not call E3System_Bottleneck
 //		as this is (always?) done in the calling code as well
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3Boolean
 E3Shared_IsOfMyClass ( TQ3Object object )
 	{
