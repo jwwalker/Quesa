@@ -475,7 +475,8 @@ E3HashTable_Iterate(E3HashTablePtr theTable, TQ3HashTableIterator theIterator, v
 {	TQ3Status				qd3dStatus = kQ3Success;
 	E3HashTableItemPtr		theItem;
 	E3HashTableNodePtr		theNode;
-	TQ3Uns32				n, m;
+	TQ3Uns32				n;
+	TQ3Int32				m;	// must be signed due to backwards loop
 
 
 
@@ -487,21 +488,25 @@ E3HashTable_Iterate(E3HashTablePtr theTable, TQ3HashTableIterator theIterator, v
 
 	// Iterate over the table
 	for (n = 0; n < theTable->tableSize; n++)
-		{
+	{
 		theNode = theTable->theTable[n];
-		if (theNode != NULL)
+		
+		if ( theNode != NULL )
+		{
+			// Iterate backwards in case the iterator function removes any items
+			for (m = theNode->numItems - 1; m >= 0; --m)
 			{
-			theItem = theNode->theItems;
-			for (m = 0; m < theNode->numItems; m++)
-				{
+				theItem = &theNode->theItems[m];
+				
 				qd3dStatus = theIterator(theTable, theItem->theKey, theItem->theItem, userData);
 				if (qd3dStatus != kQ3Success)
 					break;
-
-				theItem++;
-				}
 			}
 		}
+
+		if (qd3dStatus != kQ3Success)
+			break;
+	}
 	
 	return(qd3dStatus);
 }

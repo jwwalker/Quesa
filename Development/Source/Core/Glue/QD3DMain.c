@@ -1064,6 +1064,40 @@ Q3Object_SetProperty(
 
 
 
+/*!
+	@function	Q3Object_IterateProperties
+	@abstract	Iterate over the properties of an object.
+	@discussion	The user callback will be called for each property type that
+				exists on the object.  If the object has no properties, the
+				function will simply return kQ3Success without ever calling the
+				callback.
+	@param		object			A Quesa object.
+	@param		userIterator	A callback function.
+	@param		userData		A pointer to be passed back to the callback
+								(use NULL if none is needed).
+	@result		Success or failure of the operation.
+*/
+TQ3Status
+Q3Object_IterateProperties(
+	TQ3Object				object,
+	TQ3PropertyIterator		userIterator,
+	void*					userData )
+{
+	Q3_REQUIRE_OR_RESULT( object->IsObjectValid (), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( userIterator != NULL, kQ3Failure ) ;
+
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+	
+	return object->IterateProperties( userIterator, userData );
+}
+
+
+
+
 //=============================================================================
 //      Q3Object_GetSet : Quesa API entry point.
 //-----------------------------------------------------------------------------

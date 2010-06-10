@@ -90,6 +90,12 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+struct PropIterData
+{
+	TQ3Object			object;
+	TQ3PropertyIterator userIterator;
+	void*				userData;
+};
 
 
 
@@ -434,6 +440,29 @@ propertyTable_duplicate( E3HashTablePtr inSrcTable )
 	}
 	return dstTable;
 }
+
+
+
+
+
+//=============================================================================
+//     propertyIterateFunc: Hash table callback that calls a user callback.
+//-----------------------------------------------------------------------------
+static TQ3Status
+propertyIterateFunc( E3HashTablePtr theTable,
+					TQ3ObjectType theKey,
+					void *theItem,
+					void *userData )
+{
+#pragma unused( theItem )
+	PropIterData* iterData = (PropIterData*) userData;
+	
+	TQ3Status status = (*iterData->userIterator)( iterData->object,
+		theKey, iterData->userData );
+	
+	return status;
+}
+
 
 
 
@@ -1693,6 +1722,32 @@ OpaqueTQ3Object::RemoveProperty( TQ3ObjectType inPropType )
 	return found;
 }
 
+
+
+
+
+//=============================================================================
+//     OpaqueTQ3Object::IterateProperties : Iterate over properties of an object.
+//-----------------------------------------------------------------------------
+TQ3Status
+OpaqueTQ3Object::IterateProperties( TQ3PropertyIterator userIterator,
+									void* userData )
+{
+	TQ3Status status = kQ3Success;
+	
+	if (propertyTable != NULL)
+	{
+		PropIterData iterData =
+		{
+			this,
+			userIterator,
+			userData
+		};
+		status = E3HashTable_Iterate( propertyTable, propertyIterateFunc,
+			&iterData );
+	}
+	return status;
+}
 
 
 #pragma mark -
