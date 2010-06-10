@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1002,7 +1002,7 @@ Q3Object_GetProperty(
 
 
 	// Call our implementation
-	return (E3Object_GetProperty(object, propType, bufferSize, actualSize, buffer));
+	return object->GetProperty( propType, bufferSize, actualSize, buffer );
 }
 
 
@@ -1028,7 +1028,7 @@ Q3Object_RemoveProperty(
 
 
 	// Call our implementation
-	return (E3Object_RemoveProperty(object, propType));
+	return object->RemoveProperty( propType );
 }
 
 
@@ -1057,7 +1057,7 @@ Q3Object_SetProperty(
 
 
 	// Call our implementation
-	return (E3Object_SetProperty(object, propType, dataSize, data));
+	return object->SetProperty( propType, dataSize, data );
 }
 
 

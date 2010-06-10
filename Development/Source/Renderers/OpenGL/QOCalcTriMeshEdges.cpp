@@ -5,7 +5,7 @@
         Source code to compute edges of a TriMesh.
 
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -41,7 +41,7 @@
     ___________________________________________________________________________
 */
 #include "QOCalcTriMeshEdges.h"
-#include "E3CustomElements.h"
+#include "E3Main.h"
 
 #include <algorithm>
 
@@ -257,7 +257,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( inGeom );
 	TQ3Uns32	propSize;
 	const char*	propData = reinterpret_cast<const char*>(
-		E3Object_GetPropertyAddress( inGeom, kPropertyTypeEdgeCache, &propSize ) );
+		inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 	
 	if (propData != NULL)
 	{

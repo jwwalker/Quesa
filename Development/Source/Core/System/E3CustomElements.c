@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -64,30 +64,12 @@ typedef struct TCEUrlDataPrivate {
 } TCEUrlDataPrivate;
 
 
-typedef struct TCEPropertyPrivate {
-	E3HashTablePtr	table;
-} TCEPropertyPrivate;
-
-
 struct TCETriangleStripPrivate
 {
 	TQ3Uns32		indexCount;
 	TQ3Uns32		editIndex;
 	const TQ3Uns32*	indexArray;
 };
-
-
-class E3PropertyElement : public E3Element  // This is a leaf class so no other classes use this,
-								// so it can be here in the .c file rather than in
-								// the .h file, hence all the fields can be public
-								// as nobody should be including this file
-	{
-Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementProperties, E3PropertyElement, E3Element )
-public :
-
-	TCEPropertyPrivate						instanceData ;
-	} ;
-	
 
 
 class E3NameElement : public E3Element  // This is a leaf class so no other classes use this,
@@ -158,8 +140,6 @@ public :
 #define kQ3ClassNameCustomElementBeforePick		"Quesa:BeforePickCallback"
 #define kQ3ClassNameCustomElementAfterPick		"Quesa:AfterPickCallback"
 
-#define	kPropertyHashTableSize					16
-
 
 
 
@@ -176,128 +156,7 @@ static TQ3ElementType	sTriangleStripElementType = 0;
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
-//      e3propertyelement_delete_one : Free one item in the hash table.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3propertyelement_delete_one( E3HashTablePtr theTable, TQ3ObjectType theKey,
-	void *theItem, void *userData)
-{
-#pragma unused(theTable, theKey, userData)
-	Q3Memory_Free( &theItem );
-	return kQ3Success;
-}
 
-
-
-
-
-//=============================================================================
-//      e3propertyelement_delete : Delete method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3propertyelement_delete( TCEPropertyPrivate *propData )
-{
-	TQ3Status	status = E3HashTable_Iterate( propData->table,
-		e3propertyelement_delete_one, NULL );
-	
-	if (status == kQ3Success)
-	{
-		E3HashTable_Destroy( &propData->table );
-	}
-	return status;
-}
-
-
-
-
-
-//=============================================================================
-//      e3propertyelement_copy_one : Copy one item in the hash table.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3propertyelement_copy_one( E3HashTablePtr theTable, TQ3ObjectType theKey,
-	void *theItem, void *userData)
-{
-#pragma unused( theTable )
-	E3HashTablePtr	destTable = (E3HashTablePtr)userData;
-	TQ3Status	status;
-	TQ3Uns32	itemDataSize;
-	void*	itemCopy;
-	
-	Q3Memory_Copy( theItem, &itemDataSize, sizeof(itemDataSize) );
-	itemCopy = Q3Memory_Allocate( itemDataSize + sizeof(itemDataSize) );
-	status = (itemCopy == NULL)? kQ3Failure : kQ3Success;
-	if (status == kQ3Success)
-	{
-		Q3Memory_Copy( theItem, itemCopy, itemDataSize + sizeof(itemDataSize) );
-		
-		status = E3HashTable_Add( destTable, theKey, itemCopy );
-		
-		if (status == kQ3Failure)
-		{
-			Q3Memory_Free( &itemCopy );
-		}
-	}
-	return status;
-}
-
-
-
-
-
-//=============================================================================
-//      e3propertyelement_copyduplicate : Duplicate method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3propertyelement_copyduplicate( TCEPropertyPrivate *source, TCEPropertyPrivate *dest )
-{
-	TQ3Status status;
-	
-	dest->table = E3HashTable_Create( kPropertyHashTableSize );
-	status = (dest->table == NULL)? kQ3Failure : kQ3Success;
-	
-	if ( (status == kQ3Success) && (source->table != NULL) )
-	{
-		status = E3HashTable_Iterate( source->table, e3propertyelement_copy_one,
-			dest->table );
-	}
-	return status;
-}
-
-
-
-
-
-//=============================================================================
-//      e3propertyelement_metahandler : Property element metahandler.
-//-----------------------------------------------------------------------------
-//	Since the user will not be accessing the element data directly, but only
-//	using APIs such as E3Object_GetProperty, we can let the CopyAdd, CopyGet methods
-//	just do the default bitwise copy.  The implementations of E3Object_SetProperty,
-//	E3Object_RemoveProperty depend on that.
-static TQ3XFunctionPointer
-e3propertyelement_metahandler(TQ3XMethodType methodType)
-{
-	TQ3XFunctionPointer		theMethod = NULL;
-	
-	switch (methodType)
-	{
-		case kQ3XMethodTypeElementDelete:
-			theMethod = (TQ3XFunctionPointer)e3propertyelement_delete;
-			break;
-			
-		case kQ3XMethodTypeElementCopyDuplicate:
-			theMethod = (TQ3XFunctionPointer)e3propertyelement_copyduplicate;
-			break;
-	}
-	return theMethod;
-}
-
-
-
-
-
-#pragma mark -
 //-----------------------------------------------------------------------------
 //      e3nameelement_traverse : Traverse method (writing).
 //-----------------------------------------------------------------------------
@@ -1038,11 +897,6 @@ E3CustomElements_RegisterClass(void)
 
 	// Register the classes
 	qd3dStatus = Q3_REGISTER_CLASS (	
-				kQ3ClassNameCustomElementProperties,
-				e3propertyelement_metahandler,
-				E3PropertyElement ) ;
-
-	qd3dStatus = Q3_REGISTER_CLASS (	
 				kQ3ClassNameCustomElementName,
 				e3nameelement_metahandler,
 				E3NameElement ) ;
@@ -1103,7 +957,6 @@ E3CustomElements_UnregisterClass(void)
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementWire, kQ3True);
 #endif
 
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementProperties, kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementName, kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementUrl,  kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
@@ -1116,197 +969,6 @@ E3CustomElements_UnregisterClass(void)
 
 
 #pragma mark -
-//=============================================================================
-//      E3Object_GetPropertyAddress : Get a pointer to a property of an object.
-//-----------------------------------------------------------------------------
-//	You may pass NULL for actualSize if you do not need that information.
-//	
-//	This function is somewhat unsafe, but may be useful for optimization of
-//	large properties, since it avoids a copy.
-const void*	E3Object_GetPropertyAddress( TQ3Object object,
-										TQ3ObjectType propType,
-										TQ3Uns32* actualSize )
-{
-	const void*	dataPtr = NULL;
-	
-	TCEPropertyPrivate	theData;
-	
-	TQ3Status	status = Q3Object_GetElement( object,
-		kQ3ObjectTypeCustomElementProperties, &theData );
-
-	if (status == kQ3Success)
-	{
-		void*	theItem = E3HashTable_Find( theData.table, propType );
-		
-		if (theItem != NULL)
-		{
-			if (actualSize != NULL)
-			{
-				// The data buffer begins with the data size
-				Q3Memory_Copy( theItem, actualSize, sizeof(TQ3Uns32) );
-			}
-			
-			dataPtr = ((char*)theItem) + sizeof(TQ3Uns32);
-		}
-	}
-
-	return dataPtr;
-}
-
-
-
-
-
-//=============================================================================
-//      E3Object_GetProperty : Get the data of a property of an object.
-//-----------------------------------------------------------------------------
-//	You may pass NULL for actualSize if you do not need that information.
-//	You may pass NULL for buffer if you need only the size.
-TQ3Status
-E3Object_GetProperty( TQ3Object object, TQ3ObjectType propType, TQ3Uns32 bufferSize,
-	TQ3Uns32* actualSize, void* buffer )
-{
-	TQ3Status	status = kQ3Success;
-	TQ3Uns32	dataSize = 0;
-	
-	const void*	actualData = E3Object_GetPropertyAddress( object, propType,
-		&dataSize );
-		
-	if (actualData != NULL)
-	{
-		if (actualSize != NULL)
-		{
-			*actualSize = dataSize;
-		}
-
-		if (buffer != NULL)
-		{
-			if (bufferSize >= dataSize)
-			{
-				Q3Memory_Copy( actualData, buffer, dataSize );
-			}
-			else	// fail due to buffer being too small
-			{
-				status = kQ3Failure;
-			}
-		}
-	}
-	else	// property is missing
-	{
-		status = kQ3Failure;
-	}
-
-	return status;
-}
-
-
-
-
-
-//=============================================================================
-//      E3Object_RemoveProperty : Remove a property from an object.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3Object_RemoveProperty( TQ3Object object, TQ3ObjectType propType )
-{
-	TQ3Status	status = kQ3Success;
-	TCEPropertyPrivate	theData;
-	
-	status = Q3Object_GetElement( object, kQ3ObjectTypeCustomElementProperties,
-		&theData );
-
-	if (status == kQ3Success)
-	{
-		void*	theItem = E3HashTable_Find( theData.table, propType );
-		
-		if (theItem == NULL)
-		{
-			status = kQ3Failure;
-		}
-		else
-		{
-			Q3Memory_Free( &theItem );
-			E3HashTable_Remove( theData.table, propType );
-	
-			if (E3Shared_IsOfMyClass( object ))
-				E3Shared_Edited( object );
-		}
-	}
-	return status;
-}
-
-
-
-
-
-//=============================================================================
-//      E3Object_SetProperty : Set a property of an object.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3Object_SetProperty( TQ3Object object, TQ3ObjectType propType,
-	TQ3Uns32 dataSize, const void* data )
-{
-	TQ3Status	status = kQ3Success;
-	TCEPropertyPrivate	theData;
-	
-	status = Q3Object_GetElement( object, kQ3ObjectTypeCustomElementProperties,
-		&theData );
-	
-	if (status == kQ3Failure)
-	{
-		theData.table = E3HashTable_Create( kPropertyHashTableSize );
-		
-		if (theData.table == NULL)
-		{
-			status = kQ3Failure;
-		}
-		else
-		{
-			status = Q3Object_AddElement( object, kQ3ObjectTypeCustomElementProperties,
-				&theData );
-		}
-	}
-	
-	if (status == kQ3Success)
-	{
-		char*	itemContainer = (char*) Q3Memory_Allocate( dataSize + sizeof(TQ3Uns32) );
-		
-		if (itemContainer == NULL)
-		{
-			status = kQ3Failure;
-		}
-		else
-		{
-			void*	oldItem;
-			
-			Q3Memory_Copy( &dataSize, itemContainer, sizeof(TQ3Uns32) );
-			Q3Memory_Copy( data, itemContainer + sizeof(TQ3Uns32), dataSize );
-			
-			oldItem = E3HashTable_Find( theData.table, propType );
-			if (NULL != oldItem)
-			{
-				Q3Memory_Free( &oldItem );
-				E3HashTable_Remove( theData.table, propType );
-			}
-			
-			status = E3HashTable_Add( theData.table, propType, itemContainer );
-			
-			if (status == kQ3Failure)
-			{
-				Q3Memory_Free( &itemContainer );
-			}
-			else if (E3Shared_IsOfMyClass( object ))
-			{
-				E3Shared_Edited( object );
-			}
-		}
-	}
-	return status;
-}
-
-
-
-
 
 //=============================================================================
 //      E3NameElement_SetData : : Attach a name to an object.
