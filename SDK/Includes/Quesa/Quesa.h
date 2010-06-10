@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -893,6 +893,19 @@ typedef TQ3Object                               TQ3ViewerObject;
 typedef TQ3Object                               TQ3SlabObject;
 typedef TQ3Object                               TQ3PickObject;
 
+
+/*!
+	@typedef	TQ3PropertyIterator
+	@abstract	Callback used by Q3Object_IterateProperties.
+	@param		object		Object whose properties are being examined.
+	@param		propType	A type of property that exists on the object.
+	@param		userData	Pointer that was passed into Q3Object_IterateProperties.
+	@result		Pass kQ3Failure if you want to stop iterating.
+*/
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3PropertyIterator)
+										(TQ3Object object,
+										TQ3ObjectType propType,
+										void *userData);
 
 // Geometric types
 /*!
@@ -2191,6 +2204,29 @@ Q3Object_SetProperty(
 #endif
 
 
+
+/*!
+	@function	Q3Object_IterateProperties
+	@abstract	Iterate over the properties of an object.
+	@discussion	The user callback will be called for each property type that
+				exists on the object.  If the object has no properties, the
+				function will simply return kQ3Success without ever calling the
+				callback.
+	@param		object			A Quesa object.
+	@param		userIterator	A callback function.
+	@param		userData		A pointer to be passed back to the callback
+								(use NULL if none is needed).
+	@result		Success or failure of the operation.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Object_IterateProperties(
+	TQ3Object				object,
+	TQ3PropertyIterator		userIterator,
+	void*					userData );
+
+#endif
 
 /*!
  *  @function

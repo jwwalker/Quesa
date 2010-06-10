@@ -255,6 +255,8 @@ public :
 											void* outDataBuffer ) const;
 	TQ3Status					RemoveProperty( TQ3ObjectType inPropType );
 	const void*					GetPropertyAddress( TQ3ObjectType inPropType ) const;
+	TQ3Status					IterateProperties( TQ3PropertyIterator iterator,
+											void* userData );
 
 	// Locate a class
 	inline E3ClassInfoPtr		GetClass ( void ) const
