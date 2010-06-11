@@ -77,6 +77,12 @@
 #define kClassHashTableSize							512
 #define kMethodHashTableSize						32
 
+static TQ3Uns8	sDummyPlaceholder;
+
+static void* const	sMissingMethodPlaceholder	= (void*) &sDummyPlaceholder;
+// Our hash table functions cannot record a NULL value, and return NULL when
+// nothing is found, so we must use a different value to indicate a missing
+// method in the method table.
 
 
 
@@ -1414,7 +1420,7 @@ E3ClassInfo::GetNumInstances ( void )
 //-----------------------------------------------------------------------------
 TQ3XFunctionPointer
 E3ClassInfo::GetMethod ( TQ3XMethodType methodType )
-	{
+{
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
 
@@ -1429,16 +1435,20 @@ E3ClassInfo::GetMethod ( TQ3XMethodType methodType )
 	// When invoking the metahandler, we inherit methods that this class doesn't
 	// implement from the parent - ensuring that the hash table is eventually
 	// populated with all of the (invoked) methods of the class.
-	TQ3XFunctionPointer theMethod = (TQ3XFunctionPointer) E3HashTable_Find ( methodTable, methodType ) ;
-	if ( theMethod == NULL )
-		{
+	TQ3XFunctionPointer theMethod = (TQ3XFunctionPointer) E3HashTable_Find( methodTable, methodType );
+	if ( theMethod == sMissingMethodPlaceholder )
+	{
+		theMethod = NULL;
+	}
+	else if ( theMethod == NULL )
+	{
 		theMethod = Find_Method ( methodType, kQ3True ) ;
-		if (theMethod != NULL)
-			E3HashTable_Add ( methodTable, methodType, (void *)theMethod ) ;
-		}
+
+		AddMethod( methodType, theMethod );
+	}
 
 	return theMethod ;
-	}
+}
 
 
 
@@ -1473,16 +1483,22 @@ OpaqueTQ3Object::GetMethod ( TQ3XMethodType methodType )
 //-----------------------------------------------------------------------------
 void
 E3ClassInfo::AddMethod ( TQ3XMethodType methodType, TQ3XFunctionPointer theMethod )
-	{
+{
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(this));
-	Q3_REQUIRE(Q3_VALID_PTR(theMethod));
 
 
 
 	// Add the method to the hash table for the class
-	E3HashTable_Add ( methodTable, methodType, (void*)theMethod ) ;
+	if (theMethod == NULL)
+	{
+		E3HashTable_Add( methodTable, methodType, sMissingMethodPlaceholder );
 	}
+	else
+	{
+		E3HashTable_Add( methodTable, methodType, (void*)theMethod );
+	}
+}
 
 
 
