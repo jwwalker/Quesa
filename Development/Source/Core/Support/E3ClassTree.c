@@ -75,7 +75,7 @@
 //      Internal constants
 //-----------------------------------------------------------------------------
 #define kClassHashTableSize							512
-#define kMethodHashTableSize						32
+#define kMethodHashTableSize						64
 
 static TQ3Uns8	sDummyPlaceholder;
 
@@ -1444,7 +1444,10 @@ E3ClassInfo::GetMethod ( TQ3XMethodType methodType )
 	{
 		theMethod = Find_Method ( methodType, kQ3True ) ;
 
-		AddMethod( methodType, theMethod );
+		if (theMethod != NULL)
+		{
+			AddMethod( methodType, theMethod );
+		}
 	}
 
 	return theMethod ;
