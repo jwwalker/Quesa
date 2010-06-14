@@ -118,6 +118,14 @@ TQ3DrawContextObject	E3View_AccessDrawContext(TQ3ViewObject theView);
 TQ3FileObject			E3View_AccessFile(TQ3ViewObject theView);
 TQ3FileFormatObject		E3View_AccessFileFormat(TQ3ViewObject theView);
 TQ3CameraObject			E3View_AccessCamera(TQ3ViewObject theView);
+
+TQ3XRendererSubmitGeometryMethod	E3View_AccessSubmitTriMeshMethod( TQ3ViewObject theView );
+TQ3XRendererUpdateMatrixMethod		E3View_AccessUpdateLocalToWorld( TQ3ViewObject theView );
+TQ3XRendererUpdateMatrixMethod		E3View_AccessUpdateLocalToWorldInverse( TQ3ViewObject theView );
+TQ3XRendererUpdateMatrixMethod		E3View_AccessUpdateLocalToWorldInverseTranspose( TQ3ViewObject theView );
+TQ3XRendererUpdateMatrixMethod		E3View_AccessUpdateLocalToCamera( TQ3ViewObject theView );
+TQ3XRendererUpdateMatrixMethod		E3View_AccessUpdateLocalToFrustum( TQ3ViewObject theView );
+
 void					E3View_EndFrame(TQ3ViewObject theView);
 TQ3ViewMode				E3View_GetViewMode(TQ3ViewObject theView);
 TQ3ViewState			E3View_GetViewState(TQ3ViewObject theView);
