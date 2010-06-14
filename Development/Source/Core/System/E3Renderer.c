@@ -580,11 +580,11 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 	if ( theState & kQ3MatrixStateLocalToWorld )
 	{
 		TQ3XRendererUpdateMatrixMethod updateLocalToWorld     =
-			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorld ) ;
+			E3View_AccessUpdateLocalToWorld( theView );
 		TQ3XRendererUpdateMatrixMethod updateLocalToWorldInv  =
-			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse ) ;
+			E3View_AccessUpdateLocalToWorldInverse( theView );
 		TQ3XRendererUpdateMatrixMethod updateLocalToWorldInvT =
-			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose ) ;
+			E3View_AccessUpdateLocalToWorldInverseTranspose( theView );
 
 		if ((updateLocalToWorldInv != NULL) || (updateLocalToWorldInvT != NULL) )
 			Q3Matrix4x4_Invert(localToWorld, &worldToLocal);
@@ -633,7 +633,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 	if ( (theState & (kQ3MatrixStateLocalToWorld | kQ3MatrixStateWorldToCamera)) != 0 )
 	{
 		TQ3XRendererUpdateMatrixMethod updateLocalToCamera    =
-			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToCamera ) ;
+			E3View_AccessUpdateLocalToCamera( theView );
 
 		if ( (qd3dStatus == kQ3Success) && (updateLocalToCamera != NULL) )
 		{
@@ -647,7 +647,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		kQ3MatrixStateCameraToFrustum)) != 0 )
 	{
 		TQ3XRendererUpdateMatrixMethod updateLocalToFrustum   =
-			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum ) ;
+			E3View_AccessUpdateLocalToFrustum( theView );
 
 		if ( (qd3dStatus == kQ3Success) && (updateLocalToFrustum != NULL) )
 		{
@@ -791,7 +791,15 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 
 
 	// Find the method
-	TQ3XRendererSubmitGeometryMethod submitGeom = (TQ3XRendererSubmitGeometryMethod) theRenderer->GetMethod ( geomType ) ;
+	TQ3XRendererSubmitGeometryMethod submitGeom = NULL;
+	if (geomType == kQ3GeometryTypeTriMesh)
+	{
+		submitGeom = E3View_AccessSubmitTriMeshMethod( theView );
+	}
+	else
+	{
+		submitGeom = (TQ3XRendererSubmitGeometryMethod) theRenderer->GetMethod( geomType );
+	}
 	*geomSupported = (TQ3Boolean) ( submitGeom != NULL ) ;
 
 

@@ -207,13 +207,18 @@ typedef struct TQ3ViewData {
 	
 
 	// Rendering resources
-	TQ3RendererObject			theRenderer;
+	TQ3RendererObject			viewRenderer;
 	TQ3CameraObject				theCamera;
 	TQ3GroupObject				theLights;
 	TQ3DrawContextObject		theDrawContext;
 	TQ3AttributeSet				defaultAttributeSet;	
 	TQ3Boolean					rendererFinishedFrame;
-	
+	TQ3XRendererSubmitGeometryMethod	submitTriMeshMethod;
+	TQ3XRendererUpdateMatrixMethod		updateMtxLocalToWorld;
+	TQ3XRendererUpdateMatrixMethod		updateMtxLocalToWorldInverse;
+	TQ3XRendererUpdateMatrixMethod		updateMtxLocalToWorldInverseTranspose;
+	TQ3XRendererUpdateMatrixMethod		updateMtxLocalToCamera;
+	TQ3XRendererUpdateMatrixMethod		updateMtxLocalToFrustum;
 
 	// View callbacks
 	TQ3ViewIdleMethod			idleMethod;
@@ -1768,7 +1773,7 @@ e3view_delete ( E3View* view, void *privateData )
 	// Dispose of our instance data
 	Q3Object_CleanDispose(&instanceData->viewAttributes);
 	Q3Object_CleanDispose(&instanceData->stateAttributes);
-	Q3Object_CleanDispose(&instanceData->theRenderer);
+	Q3Object_CleanDispose(&instanceData->viewRenderer);
 	Q3Object_CleanDispose(&instanceData->theCamera);
 	Q3Object_CleanDispose(&instanceData->theLights);
 	Q3Object_CleanDispose(&instanceData->theDrawContext);
@@ -2090,7 +2095,7 @@ TQ3RendererObject
 E3View_AccessRenderer(TQ3ViewObject theView)
 	{
 	// Return the renderer
-	return ( (E3View*) theView )->instanceData.theRenderer ;
+	return ( (E3View*) theView )->instanceData.viewRenderer ;
 	}
 
 
@@ -2159,6 +2164,69 @@ E3View_AccessCamera(TQ3ViewObject theView)
 	// Return the camera
 	return ( (E3View*) theView )->instanceData.theCamera ;
 	}
+
+
+
+
+
+//=============================================================================
+//      E3View_AccessSubmitTriMeshMethod : Access a cached method pointer.
+//-----------------------------------------------------------------------------
+TQ3XRendererSubmitGeometryMethod
+E3View_AccessSubmitTriMeshMethod( TQ3ViewObject theView )
+{
+	return ( (E3View*) theView )->instanceData.submitTriMeshMethod;
+}
+
+
+
+
+
+TQ3XRendererUpdateMatrixMethod
+E3View_AccessUpdateLocalToWorld( TQ3ViewObject theView )
+{
+	return ( (E3View*) theView )->instanceData.updateMtxLocalToWorld;
+}
+
+
+
+
+
+TQ3XRendererUpdateMatrixMethod
+E3View_AccessUpdateLocalToWorldInverse( TQ3ViewObject theView )
+{
+	return ( (E3View*) theView )->instanceData.updateMtxLocalToWorldInverse;
+}
+
+
+
+
+
+TQ3XRendererUpdateMatrixMethod
+E3View_AccessUpdateLocalToWorldInverseTranspose( TQ3ViewObject theView )
+{
+	return ( (E3View*) theView )->instanceData.updateMtxLocalToWorldInverseTranspose;
+}
+
+
+
+
+
+TQ3XRendererUpdateMatrixMethod
+E3View_AccessUpdateLocalToCamera( TQ3ViewObject theView )
+{
+	return ( (E3View*) theView )->instanceData.updateMtxLocalToCamera;
+}
+
+
+
+
+
+TQ3XRendererUpdateMatrixMethod
+E3View_AccessUpdateLocalToFrustum( TQ3ViewObject theView )
+{
+	return ( (E3View*) theView )->instanceData.updateMtxLocalToFrustum;
+}
 
 
 
@@ -3624,18 +3692,37 @@ E3View_SetRendererByType(TQ3ViewObject theView, TQ3ObjectType theType)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3View_SetRenderer(TQ3ViewObject theView, TQ3RendererObject theRenderer)
-	{
+{
+	TQ3ViewData* instanceData = & ( (E3View*) theView )->instanceData;
+
 	// Replace the existing renderer reference
-	E3Shared_Replace ( & ( (E3View*) theView )->instanceData.theRenderer, theRenderer ) ;
+	E3Shared_Replace ( & instanceData->viewRenderer, theRenderer ) ;
 
 
 
 	// Reset the draw context state
-	if ( ( (E3View*) theView )->instanceData.theDrawContext != NULL )
-		E3DrawContext_ResetState ( ( (E3View*) theView )->instanceData.theDrawContext ) ;
+	if ( instanceData->theDrawContext != NULL )
+		E3DrawContext_ResetState ( instanceData->theDrawContext ) ;
+		
+	
+
+	// Fetch cached method pointers
+	instanceData->submitTriMeshMethod = (TQ3XRendererSubmitGeometryMethod)
+		theRenderer->GetMethod( kQ3GeometryTypeTriMesh );
+	instanceData->updateMtxLocalToWorld = (TQ3XRendererUpdateMatrixMethod)
+		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorld );
+	instanceData->updateMtxLocalToWorldInverse = (TQ3XRendererUpdateMatrixMethod)
+		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse );
+	instanceData->updateMtxLocalToWorldInverseTranspose = (TQ3XRendererUpdateMatrixMethod)
+		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose );
+	instanceData->updateMtxLocalToCamera = (TQ3XRendererUpdateMatrixMethod)
+		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToCamera );
+	instanceData->updateMtxLocalToFrustum = (TQ3XRendererUpdateMatrixMethod)
+		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum );
+
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -3653,13 +3740,13 @@ E3View_GetRenderer(TQ3ViewObject theView, TQ3RendererObject *theRenderer)
 
 
 	// Make sure we have a renderer
-	if ( ( (E3View*) theView )->instanceData.theRenderer == NULL )
+	if ( ( (E3View*) theView )->instanceData.viewRenderer == NULL )
 		return kQ3Failure ;
 
 
 
 	// Create a new reference to our renderer
-	*theRenderer = Q3Shared_GetReference ( ( (E3View*) theView )->instanceData.theRenderer ) ;
+	*theRenderer = Q3Shared_GetReference ( ( (E3View*) theView )->instanceData.viewRenderer ) ;
 
 	return kQ3Success ;
 	}
@@ -3684,13 +3771,13 @@ E3View_StartRendering(TQ3ViewObject theView)
 
 	// Make sure we have the objects we need
 	if ( ( (E3View*) theView )->instanceData.theDrawContext == NULL
-	||	 ( (E3View*) theView )->instanceData.theRenderer    == NULL
+	||	 ( (E3View*) theView )->instanceData.viewRenderer    == NULL
 	||	 ( (E3View*) theView )->instanceData.theCamera      == NULL )
 		{
 		if ( ( (E3View*) theView )->instanceData.theDrawContext == NULL )
 			E3ErrorManager_PostError ( kQ3ErrorDrawContextNotSet, kQ3False ) ;
 			
-		if ( ( (E3View*) theView )->instanceData.theRenderer == NULL )
+		if ( ( (E3View*) theView )->instanceData.viewRenderer == NULL )
 			E3ErrorManager_PostError ( kQ3ErrorRendererNotSet, kQ3False ) ;
 			
 		if ( ( (E3View*) theView )->instanceData.theCamera == NULL )
@@ -3833,7 +3920,7 @@ E3View_Sync(TQ3ViewObject theView)
 	//
 	// The kQ3XMethodTypeRendererEndFrame method is only implemented by async
 	// renderers, so if this method is implemented we know we need to block.
-	if ( ( (E3View*) theView )->instanceData.theRenderer->GetMethod ( kQ3XMethodTypeRendererEndFrame ) != NULL )
+	if ( ( (E3View*) theView )->instanceData.viewRenderer->GetMethod ( kQ3XMethodTypeRendererEndFrame ) != NULL )
 		{
 		// Note - the QD3D Interactive Renderer doesn't appear to call Q3XView_EndFrame even
 		// though it should, since it implements the kQ3XMethodTypeRendererEndFrame method.
