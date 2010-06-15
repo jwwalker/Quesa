@@ -3707,18 +3707,21 @@ E3View_SetRenderer(TQ3ViewObject theView, TQ3RendererObject theRenderer)
 	
 
 	// Fetch cached method pointers
-	instanceData->submitTriMeshMethod = (TQ3XRendererSubmitGeometryMethod)
-		theRenderer->GetMethod( kQ3GeometryTypeTriMesh );
-	instanceData->updateMtxLocalToWorld = (TQ3XRendererUpdateMatrixMethod)
-		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorld );
-	instanceData->updateMtxLocalToWorldInverse = (TQ3XRendererUpdateMatrixMethod)
-		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse );
-	instanceData->updateMtxLocalToWorldInverseTranspose = (TQ3XRendererUpdateMatrixMethod)
-		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose );
-	instanceData->updateMtxLocalToCamera = (TQ3XRendererUpdateMatrixMethod)
-		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToCamera );
-	instanceData->updateMtxLocalToFrustum = (TQ3XRendererUpdateMatrixMethod)
-		theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum );
+	if (theRenderer != NULL)
+	{
+		instanceData->submitTriMeshMethod = (TQ3XRendererSubmitGeometryMethod)
+			theRenderer->GetMethod( kQ3GeometryTypeTriMesh );
+		instanceData->updateMtxLocalToWorld = (TQ3XRendererUpdateMatrixMethod)
+			theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorld );
+		instanceData->updateMtxLocalToWorldInverse = (TQ3XRendererUpdateMatrixMethod)
+			theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverse );
+		instanceData->updateMtxLocalToWorldInverseTranspose = (TQ3XRendererUpdateMatrixMethod)
+			theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToWorldInverseTranspose );
+		instanceData->updateMtxLocalToCamera = (TQ3XRendererUpdateMatrixMethod)
+			theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToCamera );
+		instanceData->updateMtxLocalToFrustum = (TQ3XRendererUpdateMatrixMethod)
+			theRenderer->GetMethod( kQ3XMethodTypeRendererUpdateMatrixLocalToFrustum );
+	}
 
 
 	return kQ3Success ;
