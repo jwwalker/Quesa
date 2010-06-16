@@ -216,10 +216,10 @@ e3shared_new ( E3Shared* theObject, void *privateData, void *paramData )
 
 
 //=============================================================================
-//      e3shared_dispose : Shared dispose method.
+//      E3Shared_Dispose : Shared dispose method.
 //-----------------------------------------------------------------------------
 void
-e3shared_dispose ( E3Shared* theObject )
+E3Shared_Dispose ( E3Shared* theObject )
 	{
 	// Find the instance data
 	if ( theObject == NULL )
@@ -308,7 +308,7 @@ e3shared_metahandler(TQ3XMethodType methodType)
 			break;
 
 		case kQ3XMethodTypeObjectDispose:
-			theMethod = (TQ3XFunctionPointer) e3shared_dispose;
+			theMethod = (TQ3XFunctionPointer) E3Shared_Dispose;
 			break;
 
 		case kQ3XMethodTypeObjectDuplicate:

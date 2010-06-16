@@ -303,7 +303,7 @@ class E3Shared : public OpaqueTQ3Object
 Q3_CLASS_ENUMS ( kQ3ObjectTypeShared, E3Shared, OpaqueTQ3Object )
 	
 	friend TQ3Status	e3shared_new ( E3Shared* theObject, void *privateData, void *paramData ) ;
-	friend void			e3shared_dispose ( E3Shared* theObject ) ;
+	friend void			E3Shared_Dispose ( E3Shared* theObject ) ;
 	friend TQ3Status	e3shared_duplicate (	TQ3Object fromObject,
 												const void *fromPrivateData,
 						 						TQ3Object toObject,
@@ -364,6 +364,7 @@ TQ3Boolean			E3Shared_IsOfMyClass ( TQ3Object object ) ;
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
 inline TQ3Status	E3Shared_Edited ( TQ3SharedObject sharedObject )
 	{ return ( (E3Shared*) sharedObject )->Edited () ; }
+void				E3Shared_Dispose( E3Shared* sharedObject );
 
 TQ3Boolean			E3Shape_IsOfMyClass ( TQ3Object object ) ;
 TQ3ObjectType		E3Shape_GetType(TQ3ShapeObject theShape);

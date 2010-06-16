@@ -1013,17 +1013,20 @@ e3group_enditerate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object *
 {	TQ3Status				err;
 #pragma unused (view)
 
-
-	E3Object_CleanDispose(object);
-
-	err = ((E3Group*)group)->GetNextPosition( iterator );
-	if (err == kQ3Success)
+	if (object != NULL)
+	{
+		E3Shared_Dispose( (E3Shared*) *object );
+		*object = NULL;
+		
+		err = ((E3Group*)group)->GetNextPosition( iterator );
+		if (err == kQ3Success)
 		{
-		if (*iterator)
-			err = ((E3Group*)group)->GetPositionObject (*iterator, object);
+			if (*iterator)
+				err = ((E3Group*)group)->GetPositionObject (*iterator, object);
 		}
-	return(err);
+	}
 
+	return(err);
 }
 
 
