@@ -281,7 +281,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 	if (! haveCachedData)
 	{
 		TQ3TriMeshData*	tmData = NULL;
-		Q3TriMesh_LockData( inGeom, kQ3False, &tmData );
+		Q3TriMesh_LockData( inGeom, kQ3True, &tmData );
 		
 		QOCalcTriMeshEdges( *tmData, outEdges, outFacesToEdges );
 		
