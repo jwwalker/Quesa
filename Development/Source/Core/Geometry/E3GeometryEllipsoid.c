@@ -2,10 +2,10 @@
         E3GeometryEllipsoid.c
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa Ellipsoid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -602,6 +602,8 @@ e3geom_ellipsoid_create_caps(
 
 
 
+
+
 //=============================================================================
 //      e3geom_ellipsoid_create_face : Create main surface
 //-----------------------------------------------------------------------------
@@ -615,7 +617,7 @@ e3geom_ellipsoid_create_face( const TQ3EllipsoidData& geomData,
 							TQ3Uns32 vSegments )
 {
 	TQ3TriMeshData				triMeshData;
-	TQ3Uns32 u,v;
+	TQ3Uns32 u, v, uMaxIndex;
 	float uang=0.0f, vang;
 	TQ3Vector3D vec, vec2, axis;	// (just temporaries used for intermediate results)
 	TQ3Uns32 pnum = 0, tnum = 0;
@@ -636,11 +638,17 @@ e3geom_ellipsoid_create_face( const TQ3EllipsoidData& geomData,
 	TQ3Uns32	numTriangles = uSegments * vSegments * 2;
 	if (isNorthPresent)
 	{
+		// The north strip needs only one triangle, and one north polar point,
+		// for each u segment.
 		numTriangles -= uSegments;
+		numPoints -= 1;
 	}
 	if (isSouthPresent)
 	{
+		// The south strip needs only one triangle, and one south polar point,
+		// for each u segment.
 		numTriangles -= uSegments;
+		numPoints -= 1;
 	}
 
 
@@ -725,7 +733,16 @@ e3geom_ellipsoid_create_face( const TQ3EllipsoidData& geomData,
 		sinVAngle = (float)sin(vang);
 		cosVAngle = (float)cos(vang);
 		
-		for (u = 0, uang = kQ32Pi * uMin; u <= uSegments; ++u, uang += uDeltaAngle)
+		uMaxIndex = uSegments;
+		if ( (isSouthPresent && (v==0)) ||
+			(isNorthPresent && (v == vSegments)) )
+		{
+			// Omit final point on polar edges
+			uMaxIndex -= 1;
+		}
+		
+		
+		for (u = 0, uang = kQ32Pi * uMin; u <= uMaxIndex; ++u, uang += uDeltaAngle)
 		{
 			sinUAngle = (float)sin(uang);
 			cosUAngle = (float)cos(uang);
@@ -763,8 +780,8 @@ e3geom_ellipsoid_create_face( const TQ3EllipsoidData& geomData,
 				// end caps
 				if ( isSouthPresent && (v==0) )
 				{
-					triangles[tnum].pointIndices[0] = uSegments + 1 + pnum + 1;
-					triangles[tnum].pointIndices[1] = uSegments + 1 + pnum;
+					triangles[tnum].pointIndices[0] = uSegments + pnum + 1;
+					triangles[tnum].pointIndices[1] = uSegments + pnum;
 					triangles[tnum].pointIndices[2] = pnum;
 					tnum++;
 				}
