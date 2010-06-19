@@ -74,6 +74,7 @@ const TQ3Uns32 kTriMeshLockedReadOnly								= (1 << 1);
 // TriMesh instance data
 typedef struct {
 	TQ3Uns32			theFlags;
+	TQ3Uns32			lockCount;
 	TQ3TriMeshData		geomData;
 } TQ3TriMeshInstanceData;
 
@@ -1681,12 +1682,20 @@ TQ3Status
 E3TriMesh_LockData(TQ3GeometryObject theTriMesh, TQ3Boolean readOnly, TQ3TriMeshData **triMeshData)
 	{
 	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
+	
+	
+	
+	// If the TriMesh was already locked,
+	// then this lock had better be read-only, lest the code that did the outer
+	// lock gets confused.
+	Q3_ASSERT( (triMesh->instanceData.lockCount == 0) || readOnly );
+	
 
 
 	// Lock the TriMesh
-	E3Bit_Set( triMesh->instanceData.theFlags, kTriMeshLocked ) ;
-	if (readOnly)
+	if ( readOnly && (triMesh->instanceData.lockCount == 0) )
 		E3Bit_Set( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
+	triMesh->instanceData.lockCount += 1;
 
 
 
@@ -1708,25 +1717,30 @@ E3TriMesh_UnlockData(TQ3GeometryObject theTriMesh)
 {
 	TQ3Status	theStatus = kQ3Success;
 	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
-
-	// If the TriMesh was mutable, assume it needs updating
-	if ( ! E3Bit_IsSet( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) )
-	{
-		theStatus = e3geom_trimesh_validate( &triMesh->instanceData.geomData );
 	
-		// Re-optimize the TriMesh
-		e3geom_trimesh_optimize ( & triMesh->instanceData.geomData ) ;
 
-
-		// Bump the edit index
-		Q3Shared_Edited ( triMesh ) ;
-	}
-	
-	
 	
 	// Unlock the TriMesh
-	E3Bit_Clear( triMesh->instanceData.theFlags, kTriMeshLocked ) ;
-	E3Bit_Clear( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
+	triMesh->instanceData.lockCount -= 1;
+	if (triMesh->instanceData.lockCount == 0)
+	{
+		// If the TriMesh was mutable, assume it needs updating
+		if ( ! E3Bit_IsSet( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) )
+		{
+			theStatus = e3geom_trimesh_validate( &triMesh->instanceData.geomData );
+		
+			// Re-optimize the TriMesh
+			e3geom_trimesh_optimize ( & triMesh->instanceData.geomData ) ;
+
+
+			// Bump the edit index
+			Q3Shared_Edited ( triMesh ) ;
+		}
+
+
+
+		E3Bit_Clear( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
+	}
 
 	return theStatus;
 }
