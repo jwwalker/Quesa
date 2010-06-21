@@ -1619,6 +1619,13 @@ OpaqueTQ3Object::SetProperty( TQ3ObjectType inPropType,
 			{
 				Q3Memory_Free( &itemBuf );
 			}
+			else
+			{
+				if (E3Shared_IsOfMyClass( this ))
+				{
+					E3Shared_Edited( this );
+				}
+			}
 		}
 	}
 	
@@ -1717,6 +1724,11 @@ OpaqueTQ3Object::RemoveProperty( TQ3ObjectType inPropType )
 			Q3Memory_Free( &itemAddr );
 			E3HashTable_Remove( propertyTable, inPropType );
 			found = kQ3Success;
+
+			if (E3Shared_IsOfMyClass( this ))
+			{
+				E3Shared_Edited( this );
+			}
 		}
 	}
 	return found;
