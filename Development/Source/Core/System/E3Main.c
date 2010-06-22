@@ -1654,8 +1654,7 @@ OpaqueTQ3Object::GetProperty( TQ3ObjectType inPropType,
 		{
 			found = kQ3Success;
 			
-			TQ3Uns32 dataSize;
-			Q3Memory_Copy( itemAddr, &dataSize, sizeof(dataSize) );
+			TQ3Uns32 dataSize = *(TQ3Uns32*) itemAddr;
 			
 			if (outDataBuffer != NULL)
 			{
@@ -1663,8 +1662,8 @@ OpaqueTQ3Object::GetProperty( TQ3ObjectType inPropType,
 				
 				if (dataSize > 0)
 				{
-					Q3Memory_Copy( ((char*) itemAddr) + sizeof(dataSize),
-						outDataBuffer, dataSize );
+					memcpy( outDataBuffer, ((char*) itemAddr) + sizeof(dataSize),
+						dataSize );
 				}
 			}
 
