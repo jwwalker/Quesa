@@ -499,7 +499,7 @@ static void ReplaceAllSubstrByInt( std::string& ioString,
 								unsigned int inReplacement )
 {
 	char	intAsStr[11];
-	std::snprintf( intAsStr, sizeof(intAsStr), "%d", inReplacement );
+	snprintf( intAsStr, sizeof(intAsStr), "%d", inReplacement );
 	std::string::size_type	place;
 	std::string::size_type	len = std::strlen( inFindSub );
 	
