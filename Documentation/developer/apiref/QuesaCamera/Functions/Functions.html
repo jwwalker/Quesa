@@ -177,6 +177,33 @@ and the camera up vector placed along the +y axis.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_IsBoundingBoxVisible"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_IsBoundingBoxVisible">Q3Camera_IsBoundingBoxVisible</a></h2>
+</td></tr></table><hr>Test a bounding box for visibility.
+<br><br>
+
+<blockquote><pre><tt>( TQ3Boolean ) Q3Camera_IsBoundingBoxVisible (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *bbox
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The bounding box (assumed to be in world coordinates) is tested for
+intersection with the view frustum of the camera.
+<br><br>
+This function is similar to Q3View_IsBoundingBoxVisible, but since it
+does not use local coordinates, it does not need to be used within a
+submitting loop.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The view to check the bounding box against.</dd>
+<dt><tt><em>bbox</em></tt></dt><dd>The world bounding box to test.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>True or false as the bounding box is visible.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Camera_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_SetData">Q3Camera_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_SetData (
@@ -878,5 +905,5 @@ from the camera location.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 7/2/2010)
 </p></body></html>

@@ -603,7 +603,7 @@ enum
 {
 	[self setRendererType: kQ3RendererTypeOpenGL ];
 
-	[self setAnimates: YES];
+	//[self setAnimates: YES];
 }
 
 
