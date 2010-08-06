@@ -687,32 +687,6 @@ Only drawable objects may be submitted to a view's writing loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>True or false as the object is writable or not.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3Object_IterateProperties"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_IterateProperties">Q3Object_IterateProperties</a></h2>
-</td></tr></table><hr>Iterate over the properties of an object.
-
-<blockquote><pre><tt>( TQ3Status ) Q3Object_IterateProperties (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PropertyIterator userIterator,
-&nbsp;&nbsp;&nbsp;&nbsp;void* userData
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The user callback will be called for each property type that
-exists on the object.  If the object has no properties, the
-function will simply return kQ3Success without ever calling the
-callback.
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>object</em></tt></dt><dd>A Quesa object.</dd>
-<dt><tt><em>userIterator</em></tt></dt><dd>A callback function.</dd>
-<dt><tt><em>userData</em></tt></dt><dd>A pointer to be passed back to the callback
-(use NULL if none is needed).</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
-</dd></dl>
 <hr><a name="//Quesa/c/func/Q3Object_RemoveProperty"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_RemoveProperty">Q3Object_RemoveProperty</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_RemoveProperty (
@@ -1197,5 +1171,5 @@ using Q3Shared_GetEditIndex and Q3Shared_SetEditIndex.
 <dt><tt><em>inIsLocked</em></tt></dt><dd>Pass kQ3True to lock, pass kQ3False to unlock.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 8/3/2010)
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>

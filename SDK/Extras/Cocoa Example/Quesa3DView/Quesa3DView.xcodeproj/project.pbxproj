@@ -31,12 +31,26 @@
 			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
 			remoteInfo = "Fmwk Univ";
 		};
+		BEFFD8660C4C8C9000202EA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC072708A6812D00FB3A82;
+			remoteInfo = "Fmwk (GCC 3.3)";
+		};
 		BEFFD8680C4C8C9000202EA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = B1756AFF080A71C30056134C;
 			remoteInfo = "Static Lib (Univ)";
+		};
+		BEFFD86A0C4C8C9000202EA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC08D008A6B24A00FB3A82;
+			remoteInfo = "Static Lib (GCC 3.3)";
 		};
 		BEFFD86C0C4C8CAE00202EA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -76,7 +90,7 @@
 		2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuesaCocoaUtil.m; sourceTree = "<group>"; };
 		BE1352A80C3C14F400B20B60 /* QuesaCocoaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuesaCocoaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE13530F0C3C190300B20B60 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
-		BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Quesa3DView.plist"; sourceTree = "<group>"; };
+		BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "Info-Quesa3DView.plist"; sourceTree = "<group>"; };
 		BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -202,7 +216,9 @@
 			isa = PBXGroup;
 			children = (
 				BEFFD8650C4C8C9000202EA8 /* Quesa.framework */,
+				BEFFD8670C4C8C9000202EA8 /* Quesa.framework */,
 				BEFFD8690C4C8C9000202EA8 /* libQuesa.a */,
+				BEFFD86B0C4C8C9000202EA8 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -252,7 +268,6 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = B1FFA3480906B1A30010DA99 /* Build configuration list for PBXProject "Quesa3DView" */;
-			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 0;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CocoaApp */;
 			projectDirPath = "";
@@ -262,7 +277,6 @@
 					ProjectRef = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
 				},
 			);
-			projectRoot = ../../../..;
 			targets = (
 				BE1352900C3C14F400B20B60 /* Quesa3DView */,
 			);
@@ -277,11 +291,25 @@
 			remoteRef = BEFFD8640C4C8C9000202EA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		BEFFD8670C4C8C9000202EA8 /* Quesa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quesa.framework;
+			remoteRef = BEFFD8660C4C8C9000202EA8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		BEFFD8690C4C8C9000202EA8 /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libQuesa.a;
 			remoteRef = BEFFD8680C4C8C9000202EA8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BEFFD86B0C4C8C9000202EA8 /* libQuesa.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuesa.a;
+			remoteRef = BEFFD86A0C4C8C9000202EA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -368,7 +396,6 @@
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 					"Q3_DEBUG=1",
 				);
-				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -376,6 +403,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE13530F0C3C190300B20B60 /* project.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 			};
 			name = Release;
 		};

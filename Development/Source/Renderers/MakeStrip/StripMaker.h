@@ -95,10 +95,6 @@ namespace StripMaker
 		
 		bool			IsFree( TQ3Uns32 inIndex ) const;
 		void			SetUsed( TQ3Uns32 inIndex );
-		
-	#if Q3_DEBUG
-		TQ3Uns32		CountFree() const;
-	#endif
 	
 	private:
 		std::vector<TQ3Uns8>	mFreeFlags;
@@ -193,15 +189,4 @@ namespace StripMaker
 		@param		inB				Second strip.
 	*/
 	void JoinStrips( IndVec& ioA, const IndVec& inB );
-
-
-#if Q3_DEBUG
-	/*!
-		@function	StripSize
-		@abstract	Count how many non-degenerate triangles are in a strip.
-		@param		inStrip			A triangle strip.
-		@result		Number of triangles.
-	*/
-	TQ3Uns32	StripSize( const IndVec& inStrip );
-#endif
 }

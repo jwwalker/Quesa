@@ -56,9 +56,6 @@
 #include "FlattenHierarchy.h"
 #include "MergeTriMeshes.h"
 
-#include <Quesa/Q3GroupIterator.h>
-#include <cmath>
-#include <vector>
 
 //=============================================================================
 //      Internal constants
@@ -164,8 +161,6 @@ enum {
 #if !TARGET_API_MAC_OS8
 	kMenuItemMultiBoxOptimized,
 #endif
-	kMenuItemLotsaTransparent,
-	kMenuItemLotsaBalls,
 	kMenuItemQuesaLogo,
 	kMenuItemDivider3,
 	kMenuItemTestDepth,
@@ -178,7 +173,7 @@ enum {
 
 #define	kNumDepthTriangles									8
 
-const TQ3ColorARGB kColourARGBBackground = {1.0f, 1.0f, 1.0f, 1.0f};
+const TQ3ColorARGB kColourARGBBackground = {1.0f, 0.0f, 0.0f, 0.1f};
 const TQ3ColorARGB kColorARGBPickHit = {1.0f, 1.0f, 1.0f, 0.1f};
 const TQ3ColorARGB kColorARGBPickMiss = {1.0f, 0.0f, 0.0f, 1.0f};
 
@@ -965,12 +960,11 @@ createGeomEllipsoid(void)
 {	TQ3ColorRGB			ellipsoidColour = { 1.0f, 0.0f, 0.0f };
 	TQ3ColorRGB			capColor = { 1.0f, 1.0f, 0.0f };
 	TQ3EllipsoidData	ellipsoidData   = { { 0.0f, 0.0f, 0.0f },
-										    { 0.0f, 0.0f, 1.0f },
+										    { 0.0f, 0.0f, 0.5f },
 										    { 1.0f, 0.0f, 0.0f },
-										    { 0.0f, 1.0f, 0.0f },
-										   // 0.0f, 0.75f, 0.1f, 0.8f,
-										    0.0f, 1.0f, 0.0f, 1.0f,
-										    kQ3EndCapNone,
+										    { 0.0f, 1.5f, 0.0f },
+										    0.0f, 0.75f, 0.1f, 0.8f,
+										    kQ3EndCapMaskTop | kQ3EndCapMaskBottom | kQ3EndCapMaskInterior,
 										    NULL, NULL };
 	TQ3GeometryObject	theEllipsoid;
 
@@ -2007,15 +2001,15 @@ createGeomMultiBox(void)
 	
 
 	// Create the boxes
-	for (i = 0; i < 13; ++i)
+	for (i = 0; i < 10; ++i)
 		{
 		theTranslation.x = i * 0.2f;
 		
-		for (j = 0; j < 13; ++j)
+		for (j = 0; j < 10; ++j)
 			{
 			theTranslation.y =j * 0.2f;
 			
-			for (n = 0; n < 13; ++n)
+			for (n = 0; n < 10; ++n)
 				{
 				theTranslation.z = + n * 0.2f;
 
@@ -2044,58 +2038,6 @@ createGeomMultiBox(void)
 	return(theGroup);
 }
 
-static void ListTypes( TQ3Object inOb, int inIndentLevel )
-{
-	int i;
-	TQ3ObjectType obType = Q3Object_GetLeafType( inOb );
-	for (i = 0; i < inIndentLevel; ++i)
-	{
-		printf("\t");
-	}
-	printf("%c%c%c%c\n", (char)(obType >> 24), (char)((obType >> 16) & 0xFF),
-		(char)((obType >> 8) & 0xFF), (char)((obType >> 0) & 0xFF) );
-	if (Q3Object_IsType( inOb, kQ3GroupTypeDisplay ))
-	{
-		TQ3GroupPosition	pos;
-		
-		Q3Group_GetFirstPosition( inOb, &pos );
-		while (pos != NULL)
-		{
-			TQ3Object member;
-			
-			Q3Group_GetPositionObject( inOb, pos, &member );
-			ListTypes( member, inIndentLevel + 1 );
-			Q3Object_Dispose( member );
-			
-			Q3Group_GetNextPosition( inOb, &pos );
-		}
-	}
-}
-
-static void NukeGeomAtts( TQ3Object inOb )
-{
-	if (Q3Object_IsType( inOb, kQ3ShapeTypeGeometry ))
-	{
-		Q3Geometry_SetAttributeSet( inOb, NULL );
-	}
-	
-	if (Q3Object_IsType( inOb, kQ3GroupTypeDisplay ))
-	{
-		TQ3GroupPosition	pos;
-		
-		Q3Group_GetFirstPosition( inOb, &pos );
-		while (pos != NULL)
-		{
-			TQ3Object member;
-			
-			Q3Group_GetPositionObject( inOb, pos, &member );
-			NukeGeomAtts( member );
-			Q3Object_Dispose( member );
-			
-			Q3Group_GetNextPosition( inOb, &pos );
-		}
-	}
-}
 
 
 #if !TARGET_API_MAC_OS8
@@ -2137,9 +2079,6 @@ createGeomMultiBoxOptimized( TQ3ViewObject theView )
 	// Flatten the hierarchy, making all 6000 TriMeshes siblings of each other.
 	theGroup2 = FlattenHierarchy( theGroup1, 0 );
 	Q3Object_Dispose( theGroup1 );
-
-	//ListTypes( theGroup2, 0 );
-	//NukeGeomAtts( theGroup2 );
 	
 	// Merge TriMeshes with the same attributes, resulting in just 6 TriMeshes.
 	MergeTriMeshes( theGroup2 );
@@ -2149,362 +2088,7 @@ createGeomMultiBoxOptimized( TQ3ViewObject theView )
 #endif
 
 
-static TQ3GroupObject createGeomMultiTransparent()
-{
-	TQ3GroupObject	theGroup;
-	TQ3SubdivisionStyleData	subdivData =
-	{
-		kQ3SubdivisionMethodConstant,
-		20.0f,
-		20.0f
-	};
-	TQ3StyleObject theStyle;
-	TQ3AttributeSet atts;
-	TQ3ColorRGB ballColor =
-	{
-		0.5f, 0.0f, 1.0f
-	};
-	TQ3ColorRGB transColor =
-	{
-		0.3f, 0.3f, 0.3f
-	};
-	TQ3EllipsoidData ballData =
-	{
-		{ 0.0f, 0.0f, 0.0f },	// origin
-		{ 0.0f, 0.3f, 0.0f },	// orientation
-		{ 0.3f, 0.0f, 0.0f },	// majorRadius
-		{ 0.0f, 0.0f, 0.3f },	// minorRadius
-		0.0f, 1.0f,				// uMin, uMax
-		0.0f, 1.0f,				// vMin, vMax
-		kQ3EndCapNone,			// caps
-		NULL,					// interiorAttributeSet
-		NULL					// ellipsoidAttributeSet
-	};
-	TQ3GeometryObject aBall;
-	int	i, j, k;
-	
-	// Create the group to hold the balls
-	theGroup = Q3DisplayGroup_New();
-	if (theGroup == NULL)
-		return(NULL);
-	
-	theStyle = Q3SubdivisionStyle_New( &subdivData );
-	Q3Group_AddObjectAndDispose( theGroup, &theStyle );
-	
-	atts = Q3AttributeSet_New();
-	Q3AttributeSet_Add( atts, kQ3AttributeTypeDiffuseColor, &ballColor );
-	Q3AttributeSet_Add( atts, kQ3AttributeTypeTransparencyColor, &transColor );
-	Q3Group_AddObjectAndDispose( theGroup, &atts );
-	
-	for (i = -1; i <= 1; ++i)
-	{
-		ballData.origin.x = i;
-		
-		for (j = -1; j <= 1; ++j)
-		{
-			ballData.origin.y = j;
-			
-			for (k = -1; k <= 1; ++k)
-			{
-				ballData.origin.z = k;
-				
-				aBall = Q3Ellipsoid_New( &ballData );
-				Q3Group_AddObjectAndDispose( theGroup, &aBall );
-			}
-		}
-	}
-	
-	return theGroup;
-}
 
-static void SanityCheckTriMeshData( const TQ3TriMeshData& inData )
-{
-	printf("%d points, %d faces\n", inData.numPoints, inData.numTriangles );
-	
-	
-	// Check that each vertex index in the each face is less than the number of
-	// vertices, and look for isolated points.
-	std::vector<bool>	isVertUsed( inData.numPoints, false );
-	int i, j;
-	for (i = 0; i < inData.numTriangles; ++i)
-	{
-		const TQ3TriMeshTriangleData& aFace( inData.triangles[i] );
-		for (j = 0; j < 3; ++j)
-		{
-			if (aFace.pointIndices[j] >= inData.numPoints)
-			{
-				printf("Face %d has bad point %d!\n", i, (int)aFace.pointIndices[j] );
-			}
-			else
-			{
-				isVertUsed[ aFace.pointIndices[j] ] = true;
-			}
-		}
-	}
-	
-	// Any isolated points?
-	for (i = 0; i < inData.numPoints; ++i)
-	{
-		if (not isVertUsed[i])
-		{
-			printf("Vertex %d is isolated!\n", i );
-		}
-	}
-	
-	// Check that face normals, if any, are approximately normalized.
-	for (i = 0; i < inData.numTriangleAttributeTypes; ++i)
-	{
-		if (inData.triangleAttributeTypes[i].attributeType == kQ3AttributeTypeNormal)
-		{
-			const TQ3Vector3D* normals = (const TQ3Vector3D*) inData.triangleAttributeTypes[i].data;
-			
-			for (j = 0; j < inData.numTriangles; ++j)
-			{
-				float lenSq = Q3FastVector3D_LengthSquared( &normals[j] );
-				if ( (not std::isfinite(lenSq)) or (lenSq < 0.9f) or (lenSq > 1.1f) )
-				{
-					printf("Normal of face %d is not normalized!\n", j );
-				}
-			}
-		}
-	}
-	
-	// Check that vertex normals, if any, are approximately normalized.
-	for (i = 0; i < inData.numVertexAttributeTypes; ++i)
-	{
-		if (inData.vertexAttributeTypes[i].attributeType == kQ3AttributeTypeNormal)
-		{
-			const TQ3Vector3D* normals = (const TQ3Vector3D*) inData.vertexAttributeTypes[i].data;
-			
-			for (j = 0; j < inData.numPoints; ++j)
-			{
-				float lenSq = Q3FastVector3D_LengthSquared( &normals[j] );
-				if ( (not std::isfinite(lenSq)) or (lenSq < 0.9f) or (lenSq > 1.1f) )
-				{
-					printf("Normal of vertex %d is not normalized!\n", j );
-				}
-			}
-		}
-	}
-	
-	// Check that vertex locations are within reasonable bounds
-	for (i = 0; i < inData.numPoints; ++i)
-	{
-		TQ3Point3D pt = inData.points[i];
-		if ( not (std::isfinite(pt.x) and std::isfinite(pt.y) and std::isfinite(pt.z)) )
-		{
-			printf("Point %d has a nonfinite component!\n", i );
-		}
-		else if (fabsf(pt.x) + fabsf(pt.y) + fabsf(pt.z) > 4.0f)
-		{
-			printf("Point %d has large components (%f, %f, %f)\n", i,
-				pt.x, pt.y, pt.z );
-		}
-	}
-}
-
-static void SanityCheckTriMesh( TQ3GeometryObject inTriMesh )
-{
-	printf("Checking TriMesh %08X\n", (int) inTriMesh );
-	TQ3TriMeshData* tmData;
-	Q3TriMesh_LockData( inTriMesh, kQ3True, &tmData );
-	SanityCheckTriMeshData( *tmData );
-	Q3TriMesh_UnlockData( inTriMesh );
-}
-
-static void NukeVertexAttributes( TQ3GroupObject ioGroup )
-{
-	CQ3ObjectRef	item2;
-	Q3GroupIterator		iter2( ioGroup, kQ3GeometryTypeTriMesh );
-	while ( (item2 = iter2.NextObject()).isvalid() )
-	{
-		TQ3TriMeshData tmData;
-		if (kQ3Success == Q3TriMesh_GetData( item2.get(), &tmData ))
-		{
-			printf("Sanity check before optimization:\n");
-			SanityCheckTriMeshData( tmData );
-			
-			// Nuke vertex attributes
-			TQ3TriMeshData tmDataModified = tmData;
-			tmDataModified.vertexAttributeTypes = NULL;
-			tmDataModified.numVertexAttributeTypes = 0;
-			Q3TriMesh_SetData( item2.get(), &tmDataModified );
-			
-		#if 0
-			// Recreate them
-			TQ3TriMeshData	tmOptData;
-			TQ3Boolean didOpt;
-			if ( (kQ3Success == Q3TriMesh_OptimizeData( &tmDataModified,
-				&tmOptData, &didOpt )) and didOpt )
-			{
-				printf("Sanity check after optimization:\n");
-				SanityCheckTriMeshData( tmOptData );
-				Q3TriMesh_SetData( item2.get(), &tmOptData );
-				Q3TriMesh_EmptyData( &tmOptData );
-			}
-		#endif
-			
-			Q3TriMesh_EmptyData( &tmData );
-		}
-	}
-}
-
-static void CheckTriMeshesInHierarchy( TQ3Object inGroup )
-{
-	CQ3ObjectRef	item;
-	Q3GroupIterator		iter( inGroup );
-	while ( (item = iter.NextObject()).isvalid() )
-	{
-		if (Q3Object_IsType( item.get(), kQ3GroupTypeDisplay ))
-		{
-			CheckTriMeshesInHierarchy( item.get() );
-		}
-		else if (Q3Object_IsType( item.get(), kQ3GeometryTypeTriMesh ))
-		{
-			SanityCheckTriMesh( item.get() );
-		}
-	}
-}
-
-static void SimplifyHierarchy( TQ3GroupObject ioGrp )
-{
-	// On input, the hierarchy looks like:
-	// Display Group
-	//		Ordered display group
-	//			subdivision style
-	//			orientation style
-	//			attribute set
-	//			TriMesh
-	// On output, I want it to be
-	// Display group
-	//		attribute set
-	//		TriMesh
-	Q3GroupIterator		iter1( ioGrp, kQ3GroupTypeDisplay );
-	CQ3ObjectRef	item1, item2, attSet, triMesh;
-	while ( (item1 = iter1.NextObject()).isvalid() )
-	{
-		Q3GroupIterator		iter2( item1.get() );
-		while ( (item2 = iter2.NextObject()).isvalid() )
-		{
-			if (Q3Object_IsType( item2.get(), kQ3SetTypeAttribute ))
-			{
-				attSet = item2;
-			}
-			else if (Q3Object_IsType( item2.get(), kQ3GeometryTypeTriMesh ))
-			{
-				triMesh = item2;
-			}
-		}
-	}
-	
-	if ( attSet.isvalid() and triMesh.isvalid() )
-	{
-		Q3Group_EmptyObjects( ioGrp );
-		Q3Group_AddObject( ioGrp, attSet.get() );
-		Q3Group_AddObject( ioGrp, triMesh.get() );
-	}
-}
-
-static TQ3GroupObject createGeomMultiBall( TQ3ViewObject theView )
-{
-	TQ3GroupObject	theGroup1, theGroup2;
-	TQ3SubdivisionStyleData	subdivData =
-	{
-		kQ3SubdivisionMethodConstant,
-		100.0f,
-		100.0f
-	};
-	TQ3StyleObject theStyle;
-	TQ3AttributeSet atts;
-	TQ3ColorRGB ballColor =
-	{
-		0.5f, 0.0f, 1.0f
-	};
-	const float kBallRadius = 0.11f;
-	TQ3EllipsoidData ballData =
-	{
-		{ 0.0f, 0.0f, 0.0f },	// origin
-		{ 0.0f, -kBallRadius, 0.0f },	// orientation
-		{ kBallRadius, 0.0f, 0.0f },	// majorRadius
-		{ 0.0f, 0.0f, kBallRadius },	// minorRadius
-		0.0f, 1.0f,				// uMin, uMax
-		0.0f, 1.0f,				// vMin, vMax
-		kQ3EndCapNone,			// caps
-		NULL,					// interiorAttributeSet
-		NULL					// ellipsoidAttributeSet
-	};
-	TQ3GeometryObject aBall;
-	int	i, j, k;
-	TQ3BoundingBox	dummyBounds;
-	
-	// Create the group to hold the balls
-	theGroup1 = Q3DisplayGroup_New();
-	if (theGroup1 == NULL)
-		return(NULL);
-	
-	theStyle = Q3SubdivisionStyle_New( &subdivData );
-	Q3Group_AddObjectAndDispose( theGroup1, &theStyle );
-	
-	atts = Q3AttributeSet_New();
-	Q3AttributeSet_Add( atts, kQ3AttributeTypeDiffuseColor, &ballColor );
-	Q3Group_AddObjectAndDispose( theGroup1, &atts );
-	
-	for (i = -2; i <= 2; ++i)
-	{
-		ballData.origin.x = i/3.0f;
-		
-		for (j = -2; j <= 2; ++j)
-		{
-			ballData.origin.y = j/3.0f;
-			
-			for (k = -2; k <= 2; ++k)
-			{
-				ballData.origin.z = k/3.0f;
-				
-				aBall = Q3Ellipsoid_New( &ballData );
-				Q3Group_AddObjectAndDispose( theGroup1, &aBall );
-			}
-		}
-	}
-
-	// Decompose the boxes.  Each box is converted to a group containing an
-	// orientation style and 6 TriMeshes.
-	// DecomposeGeometries must be done in a submitting loop, so we use a dummy
-	// bounding loop.
-	if (Q3View_StartBoundingBox( theView, kQ3ComputeBoundsExact ) == kQ3Success)
-	{
-		do
-		{
-			// Submit the default state so that we are using the same subdivision
-			// style as for rendering.  This keeps our cached trimesh from being
-			// rebuilt unnecessarily.
-			Qut_SubmitDefaultState( theView );
-			DecomposeGeometries( theGroup1, theView );
-			
-		} while (Q3View_EndBoundingBox(theView, &dummyBounds) == kQ3ViewStatusRetraverse);
-	}
-	
-	theGroup2 = FlattenHierarchy( theGroup1, 0 );
-	Q3Object_Dispose( theGroup1 );
-	
-	printf("*** after flatten ****\n");
-	CheckTriMeshesInHierarchy( theGroup2 );
-
-	// Merge TriMeshes with the same attributes
-	MergeTriMeshes( theGroup2 );
-	
-	printf("*** after merge ****\n");
-	CheckTriMeshesInHierarchy( theGroup2 );
-	printf("*******\n");
-
-	SimplifyHierarchy( theGroup2 );
-	
-	NukeVertexAttributes( theGroup2 );
-	
-	ListTypes( theGroup2, 0 );
-	
-	return theGroup2;
-}
 
 //=============================================================================
 //      createGeomQuesa : Create the Quesa logo geometry.
@@ -3251,7 +2835,7 @@ static const TQ3Vector3D* findVertexNormals( const TQ3TriMeshData* inTMData )
 	{
 		if (inTMData->vertexAttributeTypes[i].attributeType == kQ3AttributeTypeNormal)
 		{
-			theNormals = (TQ3Vector3D*)inTMData->vertexAttributeTypes[i].data;
+			theNormals = inTMData->vertexAttributeTypes[i].data;
 		}
 	}
 	return theNormals;
@@ -3273,7 +2857,7 @@ static const TQ3Vector3D* findFaceNormals( const TQ3TriMeshData* inTMData )
 	{
 		if (inTMData->triangleAttributeTypes[i].attributeType == kQ3AttributeTypeNormal)
 		{
-			theNormals = (TQ3Vector3D*)inTMData->triangleAttributeTypes[i].data;
+			theNormals = inTMData->triangleAttributeTypes[i].data;
 		}
 	}
 	return theNormals;
@@ -3861,14 +3445,6 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 			theGeom = createGeomMultiBoxOptimized( theView );
 			break;
 	#endif
-	
-		case kMenuItemLotsaTransparent:
-			theGeom = createGeomMultiTransparent();
-			break;
-
-		case kMenuItemLotsaBalls:
-			theGeom = createGeomMultiBall( theView );
-			break;
 
 		case kMenuItemQuesaLogo:
 			theGeom = createGeomQuesa();
@@ -3956,19 +3532,6 @@ appPreRender(TQ3ViewObject theView)
 {
 
 	TQ3DrawContextObject context;
-	TQ3RendererObject	renderer;
-	float	edgeLighting, quant;
-	
-	Q3View_GetRenderer( theView, &renderer );
-	quant = 2.0f;
-	edgeLighting = 0.5f;
-	Q3Object_SetProperty( renderer,
-			kQ3RendererPropertyQuantizePerPixelLight, sizeof(TQ3Float32),
-			&quant );
-	Q3Object_SetProperty( renderer,
-		kQ3RendererPropertyCartoonLightNearEdge, sizeof(TQ3Float32),
-		&edgeLighting );
-	Q3Object_Dispose( renderer );
 
 	// If we're flashing the background color, update it now
 	if (gFlashStep) {
@@ -4316,8 +3879,6 @@ App_Initialise(void)
 #if !TARGET_API_MAC_OS8
 	Qut_CreateMenuItem(kMenuItemLast, "MultiBox (optimized)");
 #endif
-	Qut_CreateMenuItem(kMenuItemLast, "Lots of Transparent");
-	Qut_CreateMenuItem(kMenuItemLast, "Lots of Balls");
 	Qut_CreateMenuItem(kMenuItemLast, "Quesa Logo");
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Test Depth Buffer");
