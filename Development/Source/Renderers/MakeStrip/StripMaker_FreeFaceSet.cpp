@@ -115,6 +115,15 @@ void	StripMaker::FreeFaceSet::SetUsed( TQ3Uns32 inIndex )
 	if (inIndex >= mFirstAllFree)
 	{
 		mFreeFlags[inIndex] = 0;
+		
+		// Flags beyond the mFirstAllFree are "considered" to be 1, but their
+		// actual values are unknown.  So if we're going to increase
+		// mFirstAllFree, we must set the flags in between.
+		for (TQ3Uns32 i = mFirstAllFree; i < inIndex; ++i)
+		{
+			mFreeFlags[i] = 1;
+		}
+		
 		mFirstAllFree = inIndex + 1;
 	}
 	else if (inIndex >= mFirstMaybeFree)
@@ -149,3 +158,20 @@ TQ3Uns32	StripMaker::FreeFaceSet::FindNextFree()
 	
 	return freeIndex;
 }
+
+#if Q3_DEBUG
+TQ3Uns32	StripMaker::FreeFaceSet::CountFree() const
+{
+	TQ3Uns32 theCount = mFreeFlags.size() - mFirstAllFree;
+	
+	for (TQ3Uns32 i = mFirstMaybeFree; i < mFirstAllFree; ++i)
+	{
+		if (IsFree( i ))
+		{
+			theCount += 1;
+		}
+	}
+	
+	return theCount;
+}
+#endif
