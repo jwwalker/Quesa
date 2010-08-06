@@ -578,7 +578,6 @@
 		BE6C6F500C134DD300FBD60D /* E3Math_Intersect.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3Math_Intersect.cpp; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = GLTextureManager.c; sourceTree = "<group>"; };
-		BE7759D909F7F88D006C1ED3 /* quesa-export-gcc3.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = "quesa-export-gcc3.txt"; sourceTree = SOURCE_ROOT; };
 		BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLGPUSharing.cpp; sourceTree = "<group>"; };
 		BE7F264A0B7BB87F00933ED1 /* GLDisplayListManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLDisplayListManager.h; sourceTree = "<group>"; };
 		BE7F264B0B7BB87F00933ED1 /* GLTextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureLoader.h; sourceTree = "<group>"; };
@@ -681,7 +680,6 @@
 		0867D691FE84028FC02AAC07 /* Quesa */ = {
 			isa = PBXGroup;
 			children = (
-				BE7759D909F7F88D006C1ED3 /* quesa-export-gcc3.txt */,
 				BE499C950F145E950060DF4E /* xcode-configs */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				AB83B5D5055E72B90034F56A /* Includes */,
