@@ -45,12 +45,26 @@
 			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
 			remoteInfo = "Fmwk Univ";
 		};
+		BE0402900B7FB64800CC26D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE0402870B7FB64800CC26D5 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC072708A6812D00FB3A82;
+			remoteInfo = "Fmwk (GCC 3.3)";
+		};
 		BE0402920B7FB64800CC26D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BE0402870B7FB64800CC26D5 /* Quesa.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = B1756AFF080A71C30056134C;
 			remoteInfo = "Static Lib (Univ)";
+		};
+		BE0402940B7FB64800CC26D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE0402870B7FB64800CC26D5 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC08D008A6B24A00FB3A82;
+			remoteInfo = "Static Lib (GCC 3.3)";
 		};
 		BE0402960B7FB65D00CC26D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -106,7 +120,7 @@
 		BE0402870B7FB64800CC26D5 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BE0402A40B7FB6BB00CC26D5 /* VRML-Reader.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "VRML-Reader.xcodeproj"; path = "../../Extras/VRML Reader/Projects/VRML-Reader.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		BE04033C0B7FD06700CC26D5 /* VRML-Reader.quesaplug */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "VRML-Reader.quesaplug"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BE06F70E08C5593A003DD37B /* XCode-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "XCode-Info.plist"; sourceTree = "<group>"; };
+		BE06F70E08C5593A003DD37B /* XCode-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "XCode-Info.plist"; sourceTree = "<group>"; };
 		BE06F71108C5597C003DD37B /* 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 2.tga; path = "../Support Files/Images/2.tga"; sourceTree = SOURCE_ROOT; };
 		BE06F71208C5597C003DD37B /* 1.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 1.tga; path = "../Support Files/Images/1.tga"; sourceTree = SOURCE_ROOT; };
 		BE06F71308C5597C003DD37B /* 4.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 4.tga; path = "../Support Files/Images/4.tga"; sourceTree = SOURCE_ROOT; };
@@ -119,7 +133,7 @@
 		BEC0EC610ECA543C0012BA6C /* QutCarbon.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = QutCarbon.r; path = ../Qut/Mac/QutCarbon.r; sourceTree = SOURCE_ROOT; };
 		BEC0EC710ECA576B0012BA6C /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		BEC0EC720ECA576B0012BA6C /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		BEDC05B208A5C0DC00FB3A82 /* Geom Test.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = "Geom Test.c"; sourceTree = "<group>"; };
+		BEDC05B208A5C0DC00FB3A82 /* Geom Test.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = "Geom Test.c"; sourceTree = "<group>"; };
 		BEDC05B408A5C0FB00FB3A82 /* Qut.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = Qut.c; path = ../Qut/Qut.c; sourceTree = SOURCE_ROOT; };
 		BEDC05B508A5C0FB00FB3A82 /* Qut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Qut.h; path = ../Qut/Qut.h; sourceTree = SOURCE_ROOT; };
 		BEDC05B608A5C0FB00FB3A82 /* QutTexture.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = QutTexture.c; path = ../Qut/QutTexture.c; sourceTree = SOURCE_ROOT; };
@@ -230,7 +244,9 @@
 			isa = PBXGroup;
 			children = (
 				BE04028F0B7FB64800CC26D5 /* Quesa.framework */,
-				BE0402930B7FB64800CC26D5 /* libQuesa.a */,
+				BE0402910B7FB64800CC26D5 /* Quesa.framework */,
+				BE0402930B7FB64800CC26D5 /* libQuesaD.a */,
+				BE0402950B7FB64800CC26D5 /* libQuesaD.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -360,11 +376,25 @@
 			remoteRef = BE04028E0B7FB64800CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BE0402930B7FB64800CC26D5 /* libQuesa.a */ = {
+		BE0402910B7FB64800CC26D5 /* Quesa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quesa.framework;
+			remoteRef = BE0402900B7FB64800CC26D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE0402930B7FB64800CC26D5 /* libQuesaD.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libQuesa.a;
+			path = libQuesaD.a;
 			remoteRef = BE0402920B7FB64800CC26D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE0402950B7FB64800CC26D5 /* libQuesaD.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuesaD.a;
+			remoteRef = BE0402940B7FB64800CC26D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		BE0402A90B7FB6BB00CC26D5 /* VRML-Reader.quesaplug */ = {
@@ -477,10 +507,7 @@
 		BEDC057B08A5B9E800FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH)";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				ARCHS = "$(NATIVE_ARCH)";
 			};
 			name = Debug;
 		};

@@ -57,25 +57,6 @@ using namespace StripMaker;
 //      Functions
 //-----------------------------------------------------------------------------
 
-
-#if Q3_DEBUG
-TQ3Uns32 StripMaker::StripSize( const IndVec& inStrip )
-{
-	TQ3Uns32 theCount = 0;
-	const TQ3Uns32 kIndexCount = inStrip.size();
-	
-	for (TQ3Uns32 i = 0; (i+2) < kIndexCount; ++i)
-	{
-		if ( (inStrip[i] != inStrip[i+1]) && (inStrip[i+1] != inStrip[i+2]) )
-		{
-			theCount += 1;
-		}
-	}
-	return theCount;
-}
-#endif
-
-
 static void MakeForwardStrip(
 				TQ3Uns32 inStartVert,
 				TQ3Uns32 inStartFace,

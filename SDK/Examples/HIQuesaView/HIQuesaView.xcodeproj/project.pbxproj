@@ -31,21 +31,35 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = BE1355DC0C40BA3000B20B60 /* Quesa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
+			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0 /* Quesa.framework */;
 			remoteInfo = "Fmwk Univ";
+		};
+		BE1355E50C40BA3000B20B60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE1355DC0C40BA3000B20B60 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC072708A6812D00FB3A82 /* Quesa.framework */;
+			remoteInfo = "Fmwk (GCC 3.3)";
 		};
 		BE1355E70C40BA3000B20B60 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BE1355DC0C40BA3000B20B60 /* Quesa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B1756AFF080A71C30056134C;
+			remoteGlobalIDString = B1756AFF080A71C30056134C /* libQuesaD.a */;
 			remoteInfo = "Static Lib (Univ)";
+		};
+		BE1355E90C40BA3000B20B60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE1355DC0C40BA3000B20B60 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */;
+			remoteInfo = "Static Lib (GCC 3.3)";
 		};
 		BE1355F00C40BA3B00B20B60 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BE1355DC0C40BA3000B20B60 /* Quesa.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D07F2BC0486CC7A007CD1D0;
+			remoteGlobalIDString = 8D07F2BC0486CC7A007CD1D0 /* Fmwk Univ */;
 			remoteInfo = "Fmwk Univ";
 		};
 /* End PBXContainerItemProxy section */
@@ -86,7 +100,7 @@
 		5048396D09E3307300765E4B /* HIQuesaViewProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = HIQuesaViewProj.xcconfig; sourceTree = "<group>"; };
 		5048396E09E3307300765E4B /* HIQuesaViewTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = HIQuesaViewTarget.xcconfig; sourceTree = "<group>"; };
 		508344B209E5C41E0093A071 /* HIQuesaView Debug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HIQuesaView Debug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D0C4E960486CD37000505A6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D0C4E960486CD37000505A6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE1355DC0C40BA3000B20B60 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BE1C6D8E0B642C5E002AD7F3 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE1C6DC50B644F75002AD7F3 /* HIQuesaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIQuesaView.h; sourceTree = "<group>"; };
@@ -213,7 +227,9 @@
 			isa = PBXGroup;
 			children = (
 				BE1355E40C40BA3000B20B60 /* Quesa.framework */,
-				BE1355E80C40BA3000B20B60 /* libQuesa.a */,
+				BE1355E60C40BA3000B20B60 /* Quesa.framework */,
+				BE1355E80C40BA3000B20B60 /* libQuesaD.a */,
+				BE1355EA0C40BA3000B20B60 /* libQuesaD.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -249,7 +265,6 @@
 		20286C28FDCF999611CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "HIQuesaView" */;
-			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 20286C29FDCF999611CA2CEA /* HIQuesaView */;
 			projectDirPath = "";
@@ -259,7 +274,6 @@
 					ProjectRef = BE1355DC0C40BA3000B20B60 /* Quesa.xcodeproj */;
 				},
 			);
-			projectRoot = ../../..;
 			targets = (
 				8D0C4E890486CD37000505A6 /* HIQuesaView */,
 			);
@@ -274,11 +288,25 @@
 			remoteRef = BE1355E30C40BA3000B20B60 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BE1355E80C40BA3000B20B60 /* libQuesa.a */ = {
+		BE1355E60C40BA3000B20B60 /* Quesa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quesa.framework;
+			remoteRef = BE1355E50C40BA3000B20B60 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE1355E80C40BA3000B20B60 /* libQuesaD.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libQuesa.a;
+			path = libQuesaD.a;
 			remoteRef = BE1355E70C40BA3000B20B60 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE1355EA0C40BA3000B20B60 /* libQuesaD.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuesaD.a;
+			remoteRef = BE1355E90C40BA3000B20B60 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

@@ -104,24 +104,6 @@ typedef char                                    TQ3ObjectClassNameString[kQ3Stri
 typedef TQ3Int32                                TQ3ObjectType;
 </pre>
 </blockquote>
-<hr><a name="//Quesa/c/tdef/TQ3PropertyIterator"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PropertyIterator">TQ3PropertyIterator</a></h2>
-</td></tr></table><hr>Callback used by Q3Object_IterateProperties.
-
-<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3PropertyIterator</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType propType,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void *userData<BR>);</tt><br>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl><dt><tt>object</tt></dt><dd>Object whose properties are being examined.</dd>
-<dt><tt>propType</tt></dt><dd>A type of property that exists on the object.</dd>
-<dt><tt>userData</tt></dt><dd>Pointer that was passed into Q3Object_IterateProperties.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Pass kQ3Failure if you want to stop iterating.
-</dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3Size"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Size">TQ3Size</a></h2>
 </td></tr></table><hr>Size type.
@@ -181,5 +163,5 @@ typedef TQ3Uns32                                TQ3XMethodType;
 typedef struct OpaqueTQ3XObjectClass            *TQ3XObjectClass;
 </pre>
 </blockquote>
-<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 8/3/2010)
+<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
 </p></body></html>

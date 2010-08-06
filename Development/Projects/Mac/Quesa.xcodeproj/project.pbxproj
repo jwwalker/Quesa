@@ -1702,7 +1702,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE499C9A0F145E950060DF4E /* Quesa-framework.xcconfig */;
 			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = dwarf;
 			};
 			name = Release;
 		};
@@ -1724,7 +1723,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE499C970F145E950060DF4E /* Quesa-debug.xcconfig */;
 			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 			};
 			name = Debug;
 		};

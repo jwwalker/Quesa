@@ -32,8 +32,6 @@ ARCHS = ppc i386
 // Compiler choice.  Quesa supports gcc 3.3 and later.
 // Important: If this is 4.2 or later, then
 // the SDK version must be 10.5. or later.
-// The reason for using GCC 4.0 for the PowerPC is that GCC 4.2 outputs the
-// ppc7400 architecture instead of plain ppc.
 GCC_VERSION = 4.2
 GCC_VERSION[arch=ppc] = 4.0
 
