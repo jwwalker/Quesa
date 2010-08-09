@@ -1568,13 +1568,6 @@ E3ClassTree::Dump ( void )
 	fprintf(theFile, "class tree, table size    = %lu\n",
 						E3HashTable_GetTableSize(theGlobals->classTree));
 
-	fprintf(theFile, "class tree, stat counters = %d/%d/%d/%d/%d\n",
-						theGlobals->classStats1,
-						theGlobals->classStats2,
-						theGlobals->classStats3,
-						theGlobals->classStats4,
-						theGlobals->classStats5);
-
 	fprintf(theFile, "class tree, table size    = %lu\n",
 						E3HashTable_GetTableSize(theGlobals->classTree));
 
