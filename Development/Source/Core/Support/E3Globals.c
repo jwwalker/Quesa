@@ -5,7 +5,7 @@
         Quesa global state.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -63,11 +63,6 @@ E3Globals gE3Globals = {
 	0,						// classTree
 	0,						// classTreeRoot
 	0,						// classNextType
-	0,						// classStats1
-	0,						// classStats2
-	0,						// classStats3
-	0,						// classStats4
-	0,						// classStats5
 	0,						// sharedLibraryCount
 	0,						// sharedLibraryInfo
 	kQ3False,				// errMgrClearError

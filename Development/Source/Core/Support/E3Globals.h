@@ -440,11 +440,6 @@ typedef struct E3Globals {
 	E3HashTablePtr			classTree;
 	E3ClassInfoPtr			classTreeRoot;
 	TQ3ObjectType			classNextType;
-	TQ3Uns32				classStats1;
-	TQ3Uns32				classStats2;
-	TQ3Uns32				classStats3;
-	TQ3Uns32				classStats4;
-	TQ3Uns32				classStats5;
 	
 
 	// Shared libraries
