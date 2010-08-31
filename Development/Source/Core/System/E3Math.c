@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -3729,7 +3729,8 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 	
 	// Note: sin(angle) = |axis|
 		
-	if (!e3vector3d_below_tolerance(&axis, 10.0f*FLT_EPSILON))
+	if ( !e3vector3d_below_tolerance(&axis, 10.0f*FLT_EPSILON) &&
+		(1.0f + cosAngle > FLT_EPSILON) )
 	{
 		// Vectors are neither approximately parallel nor approximately anti-parallel
 		
