@@ -6,7 +6,7 @@
         Header file for QOCalcTriMeshEdges.cpp.
 
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -108,10 +108,12 @@ typedef std::vector< TQ3TriangleEdges >		TQ3TriangleToEdgeVec;
 							fields are used.
 	@param		outEdges			Receives array of edges.
 	@param		outFacesToEdges		Receives array mapping faces to edges.
+									You may pass NULL if you do not need this
+									information.
 */
 void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 							TQ3EdgeVec& outEdges,
-							TQ3TriangleToEdgeVec& outFacesToEdges );
+							TQ3TriangleToEdgeVec* outFacesToEdges );
 
 
 /*!
