@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -181,7 +181,7 @@ void QORenderer::ShadowMarker::GetTriMeshEdges( TQ3GeometryObject inTMObject,
 {
 	if (inTMObject == NULL)
 	{
-		QOCalcTriMeshEdges( inTMData, mShadowEdges, mShadowFacesToEdges );
+		QOCalcTriMeshEdges( inTMData, mShadowEdges, &mShadowFacesToEdges );
 	}
 	else
 	{

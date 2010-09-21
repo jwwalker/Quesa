@@ -160,13 +160,14 @@ static void CreateRedundantEdges(
 							fields are used.
 	@param		outEdges			Receives array of edges.
 	@param		outFacesToEdges		Receives array mapping faces to edges.
+									You may pass NULL if you do not need this
+									information.
 */
 void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 							TQ3EdgeVec& outEdges,
-							TQ3TriangleToEdgeVec& outFacesToEdges )
+							TQ3TriangleToEdgeVec* outFacesToEdges )
 {
 	outEdges.clear();
-	outFacesToEdges.clear();
 	
 	// First create edges and faces without regard to making edges unique.
 	TQ3EdgeVec				edgesWithCopies;
@@ -218,19 +219,22 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	}
 	
 	// Create faces with new indices.
-	const TQ3Uns32 kNumFaces = facesWithCopies.size();
-	outFacesToEdges.resize( kNumFaces );
-	for (TQ3Uns32 f = 0; f < kNumFaces; ++f)
+	if (outFacesToEdges != NULL)
 	{
-		const TQ3TriangleEdges& oldFace( facesWithCopies[f] );
-		TQ3TriangleEdges	newFace = {
-			{
-				edgeToUniqueEdge[ oldFace.edgeIndices[ 0 ] ],
-				edgeToUniqueEdge[ oldFace.edgeIndices[ 1 ] ],
-				edgeToUniqueEdge[ oldFace.edgeIndices[ 2 ] ]
-			}
-		};
-		outFacesToEdges[f] = newFace;
+		const TQ3Uns32 kNumFaces = facesWithCopies.size();
+		outFacesToEdges->resize( kNumFaces );
+		for (TQ3Uns32 f = 0; f < kNumFaces; ++f)
+		{
+			const TQ3TriangleEdges& oldFace( facesWithCopies[f] );
+			TQ3TriangleEdges	newFace = {
+				{
+					edgeToUniqueEdge[ oldFace.edgeIndices[ 0 ] ],
+					edgeToUniqueEdge[ oldFace.edgeIndices[ 1 ] ],
+					edgeToUniqueEdge[ oldFace.edgeIndices[ 2 ] ]
+				}
+			};
+			(*outFacesToEdges)[f] = newFace;
+		}
 	}
 }
 
@@ -245,8 +249,6 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	@param		ioScratchBuffer		A buffer for temporary use.
 	@param		outEdges			Receives array of edges.
 	@param		outFacesToEdges		Receives array mapping faces to edges.
-									You may pass NULL if you do not need this
-									information.
 */
 void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 							std::vector<char>& ioScratchBuffer,
@@ -283,7 +285,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 		TQ3TriMeshData*	tmData = NULL;
 		Q3TriMesh_LockData( inGeom, kQ3True, &tmData );
 		
-		QOCalcTriMeshEdges( *tmData, outEdges, outFacesToEdges );
+		QOCalcTriMeshEdges( *tmData, outEdges, &outFacesToEdges );
 		
 		Q3TriMesh_UnlockData( inGeom );
 		

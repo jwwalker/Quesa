@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1298,7 +1298,7 @@ void	QORenderer::Renderer::RenderFaceEdges(
 		{
 			if (inTriMesh == NULL)
 			{
-				QOCalcTriMeshEdges( inGeomData, mEdges, mFacesToEdges );
+				QOCalcTriMeshEdges( inGeomData, mEdges, NULL );
 			}
 			else
 			{
@@ -1317,7 +1317,7 @@ void	QORenderer::Renderer::RenderFaceEdges(
 	{
 		if (inTriMesh == NULL)
 		{
-			QOCalcTriMeshEdges( inGeomData, mEdges, mFacesToEdges );
+			QOCalcTriMeshEdges( inGeomData, mEdges, NULL );
 		}
 		else
 		{
