@@ -382,7 +382,7 @@ protected:
 	
 	// Buffers used temporarily in QOGeometry.cpp, only members to reduce
 	// memory allocation
-	std::vector<char>		mScratchBuffer;
+	E3FastArray<char>		mScratchBuffer;
 	TQ3EdgeVec				mEdges;
 	TQ3TriangleToEdgeVec	mFacesToEdges;
 	

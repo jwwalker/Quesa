@@ -48,7 +48,8 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
-#include <vector>
+#include "E3FastArray.h"
+
 
 //=============================================================================
 //      Data types
@@ -84,13 +85,13 @@ struct TQ3EdgeEnds
 	@struct		TQ3EdgeVec
 	@abstract	Array of edges.
 */
-typedef std::vector< TQ3EdgeEnds >		TQ3EdgeVec;
+typedef E3FastArray< TQ3EdgeEnds >		TQ3EdgeVec;
 
 /*!
 	@struct		TQ3TriangleToEdgeVec
 	@abstract	Array of triangle edge structures.
 */
-typedef std::vector< TQ3TriangleEdges >		TQ3TriangleToEdgeVec;
+typedef E3FastArray< TQ3TriangleEdges >		TQ3TriangleToEdgeVec;
 
 
 //=============================================================================
@@ -128,7 +129,7 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	@param		outFacesToEdges		Receives array mapping faces to edges.
 */
 void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
-							std::vector<char>& ioScratchBuffer,
+							E3FastArray<char>& ioScratchBuffer,
 							TQ3EdgeVec& outEdges,
 							TQ3TriangleToEdgeVec& outFacesToEdges );
 

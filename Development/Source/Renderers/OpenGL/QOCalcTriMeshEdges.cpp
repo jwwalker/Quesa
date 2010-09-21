@@ -87,8 +87,6 @@ namespace
 }
 
 
-
-
 static bool HasSameEnds( const TQ3EdgeEnds& A, const TQ3EdgeEnds& B )
 {
 	return
@@ -129,8 +127,8 @@ static void CreateRedundantEdges(
 							TQ3EdgeVec& outEdges,
 							TQ3TriangleToEdgeVec& outFacesToEdges )
 {
-	outEdges.resize( 3 * inData.numTriangles );
-	outFacesToEdges.resize( inData.numTriangles );
+	outEdges.resizeNotPreserving( 3 * inData.numTriangles );
+	outFacesToEdges.resizeNotPreserving( inData.numTriangles );
 	
 	TQ3Uns32	edgeNum = 0;
 	TQ3Uns32	faceNum = 0;
@@ -177,7 +175,7 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	
 	// Make edge indices, and sort the indices by edge ends.
 	const TQ3Uns32	kNumEdgesWithCopies = edgesWithCopies.size();
-	std::vector<TQ3Uns32>	edgeNumVec( kNumEdgesWithCopies );
+	E3FastArray<TQ3Uns32>	edgeNumVec( kNumEdgesWithCopies );
 	TQ3Uns32*	edgeNums = &edgeNumVec[0];	// optimization
 	for (TQ3Uns32 i = 0; i < kNumEdgesWithCopies; ++i)
 	{
@@ -188,7 +186,7 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	
 	// We will construct an array that maps indices of old edges with copies
 	// to new uniquified edges.
-	std::vector<TQ3Uns32>	edgeToUniqueEdge( kNumEdgesWithCopies );
+	E3FastArray<TQ3Uns32>	edgeToUniqueEdge( kNumEdgesWithCopies );
 	
 	TQ3Uns32	runStart, nextRunStart;
 	runStart = nextRunStart = 0;
@@ -222,7 +220,7 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	if (outFacesToEdges != NULL)
 	{
 		const TQ3Uns32 kNumFaces = facesWithCopies.size();
-		outFacesToEdges->resize( kNumFaces );
+		outFacesToEdges->resizeNotPreserving( kNumFaces );
 		for (TQ3Uns32 f = 0; f < kNumFaces; ++f)
 		{
 			const TQ3TriangleEdges& oldFace( facesWithCopies[f] );
@@ -251,7 +249,7 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	@param		outFacesToEdges		Receives array mapping faces to edges.
 */
 void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
-							std::vector<char>& ioScratchBuffer,
+							E3FastArray<char>& ioScratchBuffer,
 							TQ3EdgeVec& outEdges,
 							TQ3TriangleToEdgeVec& outFacesToEdges )
 {
@@ -266,11 +264,11 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 		const EdgeCacheRec*	cacheData = reinterpret_cast<const EdgeCacheRec*>( propData );
 		if (cacheData->editIndex == geomEdits)
 		{
-			outEdges.resize( cacheData->edgeCount );
+			outEdges.resizeNotPreserving( cacheData->edgeCount );
 			E3Memory_Copy( propData + sizeof(EdgeCacheRec), &outEdges[0],
 				cacheData->edgeCount * sizeof(TQ3EdgeEnds) );
 			
-			outFacesToEdges.resize( cacheData->faceCount );
+			outFacesToEdges.resizeNotPreserving( cacheData->faceCount );
 			E3Memory_Copy( propData + sizeof(EdgeCacheRec) +
 				cacheData->edgeCount * sizeof(TQ3EdgeEnds),
 				&outFacesToEdges[0],
@@ -294,7 +292,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 			outFacesToEdges.size() * sizeof(TQ3TriangleEdges);
 		if (ioScratchBuffer.size() < propSize)
 		{
-			ioScratchBuffer.resize( propSize );
+			ioScratchBuffer.resizeNotPreserving( propSize );
 		}
 		EdgeCacheRec*	cacheData = reinterpret_cast<EdgeCacheRec*>( &ioScratchBuffer[0] );
 		cacheData->editIndex = geomEdits;

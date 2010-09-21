@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -109,7 +109,7 @@ private:
 	const StyleState&		mStyleState;
 	const GLfloat*			mGLLightPosition;
 
-	std::vector<char>		mScratchBuffer;
+	E3FastArray<char>		mScratchBuffer;
 	TQ3EdgeVec				mShadowEdges;
 	TQ3TriangleToEdgeVec	mShadowFacesToEdges;
 	std::vector<TQ3TriMeshTriangleData>	mFlippedFaces;
