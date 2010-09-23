@@ -54,7 +54,6 @@
 //-----------------------------------------------------------------------------
 #include "QOPrefix.h"
 #include "QOCalcTriMeshEdges.h"
-#include <vector>
 
 
 
@@ -112,11 +111,11 @@ private:
 	E3FastArray<char>		mScratchBuffer;
 	TQ3EdgeVec				mShadowEdges;
 	TQ3TriangleToEdgeVec	mShadowFacesToEdges;
-	std::vector<TQ3TriMeshTriangleData>	mFlippedFaces;
-	std::vector<TQ3RationalPoint4D>		mShadowPoints;
-	std::vector<TQ3Uns8>	mLitFaceFlags;
-	std::vector<TQ3Int32>	mShadowEdgeCounters;
-	std::vector<GLuint>		mShadowVertIndices;
+	E3FastArray<TQ3TriMeshTriangleData>	mFlippedFaces;
+	E3FastArray<TQ3RationalPoint4D>		mShadowPoints;
+	E3FastArray<TQ3Uns8>	mLitFaceFlags;
+	E3FastArray<TQ3Int32>	mShadowEdgeCounters;
+	E3FastArray<GLuint>		mShadowVertIndices;
 };
 
 }
