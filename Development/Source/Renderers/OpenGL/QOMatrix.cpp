@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -237,6 +237,7 @@ TQ3Status	QORenderer::Renderer::UpdateLocalToCamera(
 	
 	
 	// Adjust the normalisation state
+#if QUESA_NORMALIZE_NORMALS
 	//
 	// If the current transform doesn't have a scale component, we can turn off automatic
 	// normalization. Quesa's documented behaviour is that incoming TriMesh objects always
@@ -250,6 +251,11 @@ TQ3Status	QORenderer::Renderer::UpdateLocalToCamera(
 	{
 		glEnable( GL_NORMALIZE );
 	}
+#else
+	// If QUESA_NORMALIZE_NORMALS is off, we make OpenGL do a little more work
+	// in order to save work on the CPU whenever we create or reset a TriMesh.
+	glEnable( GL_NORMALIZE );
+#endif
 
 	return (kQ3Success);
 }

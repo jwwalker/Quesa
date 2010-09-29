@@ -273,6 +273,11 @@
 #endif
 
 
+// Default to normalizing normal vectors
+#ifndef QUESA_NORMALIZE_NORMALS
+	#define		QUESA_NORMALIZE_NORMALS					1
+#endif
+
 
 
 

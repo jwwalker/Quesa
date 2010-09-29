@@ -7,7 +7,12 @@ QUESA_PREPROCESSOR_DEFINITIONS_BASIC = QUESA_OS_MACINTOSH=1
 //   and must NOT be used if you compile for 64 bits.
 // QUESA_SUPPORT_QUICKTIME=1 is needed for certain features (compressed textures,
 //   wire elements) and is not allowed when compiling for 64 bits.
-QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE = QUESA_OS_COCOA=1 QUESA_SUPPORT_HITOOLBOX=1 QUESA_SUPPORT_QUICKTIME=1
+// QUESA_NORMALIZE_NORMALS=1 means that vertex and face normal vectors are
+//	normalized (forced to unit length) whenever a TriMesh is created or modified.
+//	Setting QUESA_NORMALIZE_NORMALS=0 will save that CPU time, at the expense of
+//	more work on the GPU.  It is possible that some plug-in renderers may not
+//	work correctly when QUESA_NORMALIZE_NORMALS=0.
+QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE = QUESA_NORMALIZE_NORMALS=1 QUESA_OS_COCOA=1 QUESA_SUPPORT_HITOOLBOX=1 QUESA_SUPPORT_QUICKTIME=1
 
 // Combine the above for the compiler's use.
 QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) $(QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE)

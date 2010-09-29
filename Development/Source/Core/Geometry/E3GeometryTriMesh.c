@@ -513,6 +513,7 @@ e3geom_trimesh_optimize_normals(TQ3Uns32 numNormals, TQ3TriMeshAttributeData *at
 //=============================================================================
 //      e3geom_trimesh_optimize : Optimise a TriMesh.
 //-----------------------------------------------------------------------------
+#if QUESA_NORMALIZE_NORMALS
 static void
 e3geom_trimesh_optimize(TQ3TriMeshData *theTriMesh)
 {	TQ3TriMeshAttributeData		*attributeData;
@@ -540,6 +541,9 @@ e3geom_trimesh_optimize(TQ3TriMeshData *theTriMesh)
 	if (attributeData != NULL)
 		e3geom_trimesh_optimize_normals(theTriMesh->numPoints, attributeData);
 }
+#else
+	#define		e3geom_trimesh_optimize(x)
+#endif
 
 
 
