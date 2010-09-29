@@ -5,7 +5,7 @@
         Quesa interactive renderer update methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -328,6 +328,7 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 
 
 	// Adjust the normalisation state
+#if QUESA_NORMALIZE_NORMALS
 	//
 	// If the current transform doesn't have a scale component, we can turn off automatic
 	// normalization. Quesa's documented behaviour is that incoming TriMesh objects always
@@ -344,6 +345,11 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 		glEnable(GL_NORMALIZE);
 	else
 		glDisable(GL_NORMALIZE);
+#else
+	// If QUESA_NORMALIZE_NORMALS is off, we make OpenGL do a little more work
+	// in order to save work on the CPU whenever we create or reset a TriMesh.
+	glEnable( GL_NORMALIZE );
+#endif
 
 	return(kQ3Success);
 }
