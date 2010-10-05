@@ -136,11 +136,11 @@ private :
 class E3Root : public E3ClassInfo
 	{
 	const TQ3XObjectDisposeMethod			disposeMethod ;
-	const TQ3XObjectNewMethod				newMethod ;
 	const TQ3XObjectDeleteMethod			deleteMethod ;
 	const TQ3XObjectDuplicateMethod			duplicateMethod ;
 
 public :
+	TQ3XObjectNewMethod						newMethod ;
 
 	const TQ3XObjectSubmitMethod			submitRenderMethod ; // Used in attributes and geometry so must be at this level
 	const TQ3XObjectSubmitMethod			submitPickMethod ; // Used in attributes and geometry so must be at this level

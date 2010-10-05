@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -7645,12 +7645,48 @@ Q3TriGrid_SetFacetAttributeSet (
  *
  *		If you wish, you can set the <code>isEmpty</code> flag in the <code>bBox</code> field,
  *		and Quesa will compute the bounding box.
+ *		
+ *		Edge and face indices will be checked, possibly resulting in an index out
+ *		of bounds error or warning.  Also, if Quesa was compiled with the flag
+ *		QUESA_NORMALIZE_NORMALS turned on (as it is by default), face and vertex
+ *		normal vectors will be normalized.
  *
  *  @param triMeshData      Data describing a TriMesh.
  *  @result                 Reference to a new TriMesh geometry object, or NULL on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3TriMesh_New (
+    const TQ3TriMeshData          *triMeshData
+);
+
+
+
+/*!
+	@function	Q3TriMesh_New_NoCopy
+	@abstract	Create a new TriMesh geometry object without any allocation or
+				copying.
+	@discussion	This is a version of <code>Q3TriMesh_New</code> for use in cases
+				where TriMeshes are being created at runtime and performance is
+				critical.  It assumes that each of the 6 array pointers within
+				the <code>TQ3TriMeshData</code> structure, and each array
+				pointer within the <code>TQ3TriMeshAttributeData</code>
+				structures, is either NULL or has been allocated with one of the
+				Quesa memory allocation functions.  Ownership of these pointers
+				is transferred to the TriMesh object.
+				
+				Unlike <code>Q3TriMesh_New</code>, this function does not
+				validate edge and face indices.  If Quesa was compiled with the
+				flag <code>QUESA_NORMALIZE_NORMALS</code> turned on (as it is by
+				default), face and vertex normal vectors will be normalized.
+				
+				If you wish, you can set the <code>isEmpty</code> flag in the
+				<code>bBox</code> field, and Quesa will compute the bounding box.
+	
+	@param triMeshData      Data describing a TriMesh.
+	@result                 Reference to a new TriMesh geometry object, or NULL on failure.
+*/
+Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3TriMesh_New_NoCopy (
     const TQ3TriMeshData          *triMeshData
 );
 
