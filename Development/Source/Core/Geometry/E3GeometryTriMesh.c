@@ -653,6 +653,41 @@ e3geom_trimesh_new(TQ3Object theObject, void *privateData, const void *paramData
 
 
 //=============================================================================
+//      e3geom_trimesh_new_nocopy : TriMesh new method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_trimesh_new_nocopy(TQ3Object theObject, void *privateData, const void *paramData)
+{	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) privateData;
+	const TQ3TriMeshData		*trimeshData  = (const TQ3TriMeshData   *) paramData;
+#pragma unused(theObject)
+
+
+
+	// Initialise the TriMesh, then optimise it
+	instanceData->theFlags = kTriMeshNone;
+
+	Q3Memory_Copy( trimeshData, &instanceData->geomData, sizeof(TQ3TriMeshData) );
+	
+	E3Shared_Acquire( &instanceData->geomData.triMeshAttributeSet,
+		trimeshData->triMeshAttributeSet );
+
+	if (instanceData->geomData.bBox.isEmpty)
+            Q3BoundingBox_SetFromPoints3D(&instanceData->geomData.bBox,
+                                           instanceData->geomData.points,
+                                           instanceData->geomData.numPoints,
+                                           sizeof(TQ3Point3D));
+
+	
+	e3geom_trimesh_optimize(&instanceData->geomData);
+
+	return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
 //      e3geom_trimesh_delete : TriMesh delete method.
 //-----------------------------------------------------------------------------
 static void
@@ -1577,6 +1612,32 @@ E3TriMesh_New(const TQ3TriMeshData *triMeshData)
 }
 
 
+
+
+TQ3GeometryObject
+E3TriMesh_New_NoCopy(const TQ3TriMeshData *triMeshData)
+{
+	TQ3Object		theObject;
+	
+	E3Root* theClass = (E3Root*) E3ClassTree::GetClass( kQ3GeometryTypeTriMesh );
+	if ( theClass == NULL )
+	{
+		E3ErrorManager_PostWarning ( kQ3WarningTypeHasNotBeenRegistered ) ;
+
+		if ( ! Q3IsInitialized () )
+			E3ErrorManager_PostError ( kQ3ErrorNotInitialized, kQ3False ) ;
+
+		return NULL ;
+	}
+	
+	theClass->newMethod = (TQ3XObjectNewMethod) e3geom_trimesh_new_nocopy;
+	
+	theObject = theClass->CreateInstance( kQ3False, triMeshData );
+	
+	theClass->newMethod = (TQ3XObjectNewMethod) e3geom_trimesh_new;
+	
+	return theObject;
+}
 
 
 

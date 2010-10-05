@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -12288,6 +12288,40 @@ Q3TriMesh_New(const TQ3TriMeshData *triMeshData)
 
 	// Call our implementation
 	return(E3TriMesh_New(triMeshData));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3TriMesh_New_NoCopy : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3GeometryObject
+Q3TriMesh_New_NoCopy(const TQ3TriMeshData *triMeshData)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), NULL);
+
+
+
+	// Debug build checks
+#if Q3_DEBUG
+	if (0) // Further checks on triMeshData
+		return(NULL);
+#endif
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3TriMesh_New_NoCopy(triMeshData));
 }
 
 

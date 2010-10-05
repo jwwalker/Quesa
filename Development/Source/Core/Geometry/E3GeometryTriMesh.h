@@ -5,7 +5,7 @@
         Header file for E3GeometryTriMesh.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,6 +69,7 @@ TQ3Status			E3GeometryTriMesh_RegisterClass(void);
 TQ3Status			E3GeometryTriMesh_UnregisterClass(void);
 
 TQ3GeometryObject	E3TriMesh_New(const TQ3TriMeshData *triMeshData);
+TQ3GeometryObject	E3TriMesh_New_NoCopy(const TQ3TriMeshData *triMeshData);
 TQ3Status			E3TriMesh_Submit(const TQ3TriMeshData *triMeshData, TQ3ViewObject theView);
 TQ3Status			E3TriMesh_SetData(TQ3GeometryObject triMesh, const TQ3TriMeshData *triMeshData);
 TQ3Status			E3TriMesh_GetData(TQ3GeometryObject triMesh, TQ3TriMeshData *triMeshData);
