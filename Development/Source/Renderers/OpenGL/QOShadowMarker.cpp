@@ -185,7 +185,7 @@ void QORenderer::ShadowMarker::GetTriMeshEdges( TQ3GeometryObject inTMObject,
 	}
 	else
 	{
-		QOGetCachedTriMeshEdges( inTMObject, mScratchBuffer, mShadowEdges,
+		QOAccessCachedTriMeshEdges( inTMObject, mScratchBuffer, mShadowEdges,
 			mShadowFacesToEdges );
 	}
 
@@ -247,6 +247,7 @@ static bool IsFaceVisible( TQ3BackfacingStyle inBackfacing, bool inFrontFace )
 void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 							const TQ3TriMeshData& inTMData,
 							const TQ3TriMeshTriangleData* inFaces,
+							const TQ3TriangleEdges* inFacesToEdges,
 							const TQ3RationalPoint4D& inLocalLightPos )
 {
 	TQ3Uns32 i;
@@ -295,7 +296,6 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 	}
 	TQ3Uns32	numVertIndices = 0;
 	GLuint*		vertIndices = &mShadowVertIndices[0];
-	const TQ3TriangleEdges* facesToEdges = &mShadowFacesToEdges[0];
 	const TQ3Uns8* litFaceFlags = &mLitFaceFlags[0];
 	TQ3Uns32 e;
 	for (i = 0; i < kNumFaces; ++i)
@@ -310,7 +310,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 			vertIndices[ numVertIndices++ ] = theFace.pointIndices[2];
 
 			// Update edges of this face.
-			const TQ3TriangleEdges& faceEdges( facesToEdges[ i ] );
+			const TQ3TriangleEdges& faceEdges( inFacesToEdges[ i ] );
 			for (e = 0; e < 3; ++e)
 			{
 				TQ3Uns32	whichEdge = faceEdges.edgeIndices[e];
@@ -372,6 +372,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 							const TQ3TriMeshData& inTMData,
 							const TQ3TriMeshTriangleData* inFaces,
+							const TQ3TriangleEdges* inFacesToEdges,
 							const TQ3RationalPoint4D& inLocalLightPos )
 {
 	TQ3Uns32 i;
@@ -425,7 +426,6 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 	}
 	TQ3Uns32	numVertIndices = 0;
 	GLuint*		vertIndices = &mShadowVertIndices[0];
-	const TQ3TriangleEdges* facesToEdges = &mShadowFacesToEdges[0];
 	const TQ3Uns8* litFaceFlags = &mLitFaceFlags[0];
 	TQ3Uns32 e;
 	for (i = 0; i < kNumFaces; ++i)
@@ -445,7 +445,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 			vertIndices[ numVertIndices++ ] = theFace.pointIndices[0] + kNumPoints;
 			
 			// Update edges of this face.
-			const TQ3TriangleEdges& faceEdges( facesToEdges[ i ] );
+			const TQ3TriangleEdges& faceEdges( inFacesToEdges[ i ] );
 			for (e = 0; e < 3; ++e)
 			{
 				TQ3Uns32	whichEdge = faceEdges.edgeIndices[e];
@@ -523,23 +523,30 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 	
 	// If we are not removing backfaces, flip all faces toward the light.
 	const TQ3TriMeshTriangleData*	faces = inTMData.triangles;
+	const TQ3TriangleEdges* facesToEdges = &mShadowFacesToEdges[0];
+
 	if (mStyleState.mBackfacing != kQ3BackfacingStyleRemove)
 	{
 		mFlippedFaces.resizeNotPreserving( kNumFaces );
 		std::copy( faces, faces + kNumFaces, &mFlippedFaces[0] );
+		
+		mFlippedFacesToEdges = mShadowFacesToEdges;		// make a mutable copy
+		
 		FlipTowardLight( kNumFaces, &mLitFaceFlags[0], &mFlippedFaces[0],
-			mShadowFacesToEdges );
+			mFlippedFacesToEdges );
+		
 		faces = &mFlippedFaces[0];
+		facesToEdges = &mFlippedFacesToEdges[0];
 	}
 	
 	
 	if (localLightPos.w == 0.0f)
 	{
-		MarkShadowOfTriMeshDirectional( inTMData, faces, localLightPos );
+		MarkShadowOfTriMeshDirectional( inTMData, faces, facesToEdges, localLightPos );
 	}
 	else
 	{
-		MarkShadowOfTriMeshPositional( inTMData, faces, localLightPos );
+		MarkShadowOfTriMeshPositional( inTMData, faces, facesToEdges, localLightPos );
 	}
 }
 

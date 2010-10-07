@@ -97,10 +97,12 @@ private:
 	void					MarkShadowOfTriMeshDirectional(
 									const TQ3TriMeshData& inTMData,
 									const TQ3TriMeshTriangleData* inFaces,
+									const TQ3TriangleEdges* inFacesToEdges,
 									const TQ3RationalPoint4D& inLocalLightPos );
 	void					MarkShadowOfTriMeshPositional(
 									const TQ3TriMeshData& inTMData,
 									const TQ3TriMeshTriangleData* inFaces,
+									const TQ3TriangleEdges* inFacesToEdges,
 									const TQ3RationalPoint4D& inLocalLightPos );
 
 
@@ -111,6 +113,7 @@ private:
 	E3FastArray<char>		mScratchBuffer;
 	TQ3EdgeVec				mShadowEdges;
 	TQ3TriangleToEdgeVec	mShadowFacesToEdges;
+	TQ3TriangleToEdgeVec	mFlippedFacesToEdges;
 	E3FastArray<TQ3TriMeshTriangleData>	mFlippedFaces;
 	E3FastArray<TQ3RationalPoint4D>		mShadowPoints;
 	E3FastArray<TQ3Uns8>	mLitFaceFlags;
