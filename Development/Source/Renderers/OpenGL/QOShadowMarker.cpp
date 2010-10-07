@@ -217,6 +217,28 @@ static void FlipTowardLight(
 
 
 
+static bool IsFaceVisible( TQ3BackfacingStyle inBackfacing, bool inFrontFace )
+{
+	bool	isVis = true;
+	
+	if (inBackfacing == kQ3BackfacingStyleRemove)
+	{
+		if (! inFrontFace)
+		{
+			isVis = false;
+		}
+	}
+	else if (inBackfacing == kQ3BackfacingStyleRemoveFront)
+	{
+		if (inFrontFace)
+		{
+			isVis = false;
+		}
+	}
+	
+	return isVis;
+}
+
 
 /*!
 	@function	MarkShadowOfTriMeshDirectional
@@ -278,8 +300,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 	TQ3Uns32 e;
 	for (i = 0; i < kNumFaces; ++i)
 	{
-		if ( (mStyleState.mBackfacing != kQ3BackfacingStyleRemove) ||
-			litFaceFlags[i] )
+		if ( IsFaceVisible( mStyleState.mBackfacing, litFaceFlags[i] ) )
 		{
 			const TQ3TriMeshTriangleData& theFace( inFaces[i] );
 			
@@ -409,8 +430,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 	TQ3Uns32 e;
 	for (i = 0; i < kNumFaces; ++i)
 	{
-		if ( (mStyleState.mBackfacing != kQ3BackfacingStyleRemove) ||
-			litFaceFlags[i] )
+		if ( IsFaceVisible( mStyleState.mBackfacing, litFaceFlags[i] ) )
 		{
 			const TQ3TriMeshTriangleData& theFace( inFaces[i] );
 			
@@ -559,7 +579,7 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriangle(
 	// If the triangle is away from the light and we are removing backfaces,
 	// then the triangle should be invisible from the light and hence not cast
 	// a shadow.
-	if ( (towardLight < 0.0f) && (mStyleState.mBackfacing == kQ3BackfacingStyleRemove) )
+	if ( ! IsFaceVisible( mStyleState.mBackfacing, towardLight > 0.0f ))
 	{
 		return;
 	}
