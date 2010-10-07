@@ -69,18 +69,21 @@ public:
 					E3FastArray( const E3FastArray& inOther );
 					~E3FastArray();
 
+	void			SetUnownedData( int inSize, const T* inData );
+
 	void			swap( E3FastArray& ioOther );
 	
 	E3FastArray&	operator=( const E3FastArray& inOther );
 
 	T&				operator[]( int index ) { return mArray[ index ]; }
-	const T&		operator[]( int index ) const { return mArray[ index ]; }
+	const T&		operator[]( int index ) const
+						{ Q3_ASSERT(mIsOwned); return mArray[ index ]; }
 	
 	int				size() const { return mSize; }
 	int				capacity() const { return mCapacity; }
 	
 	void			resizeNotPreserving( int newSize );
-	void			clear() { return resizeNotPreserving(0); }
+	void			clear() { Q3_REQUIRE( mIsOwned ); resizeNotPreserving(0); }
 	
 	void			push_back( const T& value );
 
@@ -88,6 +91,7 @@ private:
 	T*		mArray;
 	int		mSize;
 	int		mCapacity;
+	bool	mIsOwned;	// if false, we don't own the data, and may not alter or resize it
 };
 
 template <typename T>
@@ -95,6 +99,7 @@ E3FastArray<T>::E3FastArray()
 	: mArray( NULL )
 	, mSize( 0 )
 	, mCapacity( 0 )
+	, mIsOwned( true )
 {
 }
 
@@ -104,6 +109,7 @@ E3FastArray<T>::E3FastArray( int initialSize )
 	: mArray( new T[initialSize] )
 	, mSize( initialSize )
 	, mCapacity( initialSize )
+	, mIsOwned( true )
 {
 }
 
@@ -113,6 +119,7 @@ E3FastArray<T>::E3FastArray( const E3FastArray& inOther )
 	: mArray( new T[ inOther.capacity() ] )
 	, mSize( inOther.size() )
 	, mCapacity( inOther.capacity() )
+	, mIsOwned( true )
 {
 	if (mSize > 0)
 	{
@@ -124,9 +131,24 @@ E3FastArray<T>::E3FastArray( const E3FastArray& inOther )
 template <typename T>
 E3FastArray<T>::~E3FastArray()
 {
-	delete [] mArray;
+	if (mIsOwned)
+	{
+		delete [] mArray;
+	}
 }
 
+template <typename T>
+void	E3FastArray<T>::SetUnownedData( int inSize, const T* inData )
+{
+	if (mIsOwned)
+	{
+		delete [] mArray;
+	}
+	mArray = const_cast<T*>( inData );
+	mSize = inSize;
+	mCapacity = inSize;
+	mIsOwned = false;
+}
 
 template <typename T>
 void	E3FastArray<T>::swap( E3FastArray<T>& ioOther )
@@ -134,6 +156,7 @@ void	E3FastArray<T>::swap( E3FastArray<T>& ioOther )
 	std::swap( mArray, ioOther.mArray );
 	std::swap( mSize, ioOther.mSize );
 	std::swap( mCapacity, ioOther.mCapacity );
+	std::swap( mIsOwned, ioOther.mIsOwned );
 }
 
 
@@ -150,6 +173,7 @@ E3FastArray<T>::operator=( const E3FastArray<T>& inOther )
 template <typename T>
 void	E3FastArray<T>::resizeNotPreserving( int newSize )
 {
+	Q3_REQUIRE( mIsOwned );
 	if (newSize <= capacity())
 	{
 		mSize = newSize;
@@ -167,6 +191,7 @@ void	E3FastArray<T>::resizeNotPreserving( int newSize )
 template <typename T>
 void	E3FastArray<T>::push_back( const T& value )
 {
+	Q3_REQUIRE( mIsOwned );
 	if (size() < capacity())
 	{
 		mArray[ size() ] = value;

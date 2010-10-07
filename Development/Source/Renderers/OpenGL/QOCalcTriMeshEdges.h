@@ -133,4 +133,24 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 							TQ3EdgeVec& outEdges,
 							TQ3TriangleToEdgeVec& outFacesToEdges );
 
+/*!
+	@function	QOAccessCachedTriMeshEdges
+	@abstract	Get read-only access to edge data cached in a TriMesh property.
+	@discussion	If the cached data is present and not stale, it is simply
+				returned as the output.  Otherwise, it is computed using
+				E3CalcTriMeshEdges and cached.
+				
+				Although this function returns data in the same kind of parameters
+				as QOGetCachedTriMeshEdges, this function returns arrays that
+				do not own their data and hence may not be modified.
+	@param		inGeom				A TriMesh object.
+	@param		ioScratchBuffer		A buffer for temporary use.
+	@param		outEdges			Receives array of edges.
+	@param		outFacesToEdges		Receives array mapping faces to edges.
+*/
+void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
+							E3FastArray<char>& ioScratchBuffer,
+							TQ3EdgeVec& outEdges,
+							TQ3TriangleToEdgeVec& outFacesToEdges );
+
 #endif

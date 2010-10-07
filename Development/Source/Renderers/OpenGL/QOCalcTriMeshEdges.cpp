@@ -310,3 +310,90 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 }
 
 
+/*!
+	@function	QOAccessCachedTriMeshEdges
+	@abstract	Get read-only access to edge data cached in a TriMesh property.
+	@discussion	If the cached data is present and not stale, it is simply
+				returned as the output.  Otherwise, it is computed using
+				E3CalcTriMeshEdges and cached.
+				
+				Although this function returns data in the same kind of parameters
+				as QOGetCachedTriMeshEdges, this function returns arrays that
+				do not own their data and hence may not be modified.
+	@param		inGeom				A TriMesh object.
+	@param		ioScratchBuffer		A buffer for temporary use.
+	@param		outEdges			Receives array of edges.
+	@param		outFacesToEdges		Receives array mapping faces to edges.
+*/
+void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
+							E3FastArray<char>& ioScratchBuffer,
+							TQ3EdgeVec& outEdges,
+							TQ3TriangleToEdgeVec& outFacesToEdges )
+{
+	bool	haveCachedData = false;
+	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( inGeom );
+	TQ3Uns32	propSize;
+	const char*	propData = reinterpret_cast<const char*>(
+		inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
+	
+	if (propData != NULL)
+	{
+		const EdgeCacheRec*	cacheData = reinterpret_cast<const EdgeCacheRec*>( propData );
+		if (cacheData->editIndex == geomEdits)
+		{
+			outEdges.SetUnownedData( cacheData->edgeCount,
+				reinterpret_cast<const TQ3EdgeEnds*>( propData + sizeof(EdgeCacheRec) ) );
+			
+			outFacesToEdges.SetUnownedData( cacheData->faceCount,
+				reinterpret_cast<const TQ3TriangleEdges*>(
+					propData + sizeof(EdgeCacheRec) +
+					cacheData->edgeCount * sizeof(TQ3EdgeEnds) ) );
+
+			haveCachedData = true;
+		}
+	}
+	
+	if (! haveCachedData)
+	{
+		TQ3EdgeVec				computedEdges;
+		TQ3TriangleToEdgeVec	computedFacesToEdges;
+
+		TQ3TriMeshData*	tmData = NULL;
+		Q3TriMesh_LockData( inGeom, kQ3True, &tmData );
+		
+		QOCalcTriMeshEdges( *tmData, computedEdges, &computedFacesToEdges );
+		
+		Q3TriMesh_UnlockData( inGeom );
+
+		propSize = sizeof(EdgeCacheRec) +
+			computedEdges.size() * sizeof(TQ3EdgeEnds) +
+			computedFacesToEdges.size() * sizeof(TQ3TriangleEdges);
+		if (ioScratchBuffer.size() < propSize)
+		{
+			ioScratchBuffer.resizeNotPreserving( propSize );
+		}
+		EdgeCacheRec*	cacheData = reinterpret_cast<EdgeCacheRec*>( &ioScratchBuffer[0] );
+		cacheData->editIndex = geomEdits;
+		cacheData->edgeCount = computedEdges.size();
+		cacheData->faceCount = computedFacesToEdges.size();
+		E3Memory_Copy( &computedEdges[0], &ioScratchBuffer[0] + sizeof(EdgeCacheRec),
+				cacheData->edgeCount * sizeof(TQ3EdgeEnds) );
+		E3Memory_Copy( &computedFacesToEdges[0],
+			&ioScratchBuffer[0] + sizeof(EdgeCacheRec) +
+			cacheData->edgeCount * sizeof(TQ3EdgeEnds),
+			cacheData->faceCount * sizeof(TQ3TriangleEdges) );
+		Q3Object_SetProperty( inGeom, kPropertyTypeEdgeCache, propSize, cacheData );
+		Q3Shared_SetEditIndex( inGeom, geomEdits );
+		
+		propData = reinterpret_cast<const char*>(
+			inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
+
+		outEdges.SetUnownedData( cacheData->edgeCount,
+			reinterpret_cast<const TQ3EdgeEnds*>( propData + sizeof(EdgeCacheRec) ) );
+		
+		outFacesToEdges.SetUnownedData( cacheData->faceCount,
+			reinterpret_cast<const TQ3TriangleEdges*>(
+				propData + sizeof(EdgeCacheRec) +
+				cacheData->edgeCount * sizeof(TQ3EdgeEnds) ) );
+	}
+}
