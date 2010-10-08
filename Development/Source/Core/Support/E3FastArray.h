@@ -199,13 +199,16 @@ void	E3FastArray<T>::push_back( const T& value )
 	}
 	else
 	{
+		// We must copy the value here, because value might be a reference to
+		// a member of the array, whose old storage will go away.
+		T valueCopy( value );
 		mCapacity += 1;
 		mCapacity *= 2;
 		T* biggerArray = new T[mCapacity];
 		E3Memory_Copy( mArray, biggerArray, size() * sizeof(T) );
 		delete [] mArray;
 		mArray = biggerArray;
-		mArray[ size() ] = value;
+		mArray[ size() ] = valueCopy;
 		mSize += 1;
 	}
 }
