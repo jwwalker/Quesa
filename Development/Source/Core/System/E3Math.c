@@ -3827,7 +3827,7 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 //
 //				Reference for this code:
 //
-//				http://www.gamasutra.com/features/19980703/quaternions_01.htm
+//				http://www.gamasutra.com/view/feature/3278/rotating_objects_using_quaternions.php
 //-----------------------------------------------------------------------------
 TQ3Quaternion *
 E3Quaternion_SetMatrix(TQ3Quaternion *quaternion, const TQ3Matrix4x4 *matrix4x4)
