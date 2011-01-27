@@ -151,7 +151,7 @@ XHIQuesaViewImp::XHIQuesaViewImp( HIQuesaView* inSelf, float inBorder )
 	, mBorder( inBorder )
 	, mQuesaView( Q3View_New() )
 {
-	Q3View_SetRendererByType( mQuesaView.get(), kQ3RendererTypeInteractive );
+	Q3View_SetRendererByType( mQuesaView.get(), kQ3RendererTypeOpenGL );
 	InitCamera();
 	InitLightGroup();
 }
