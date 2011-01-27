@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1766,7 +1766,7 @@ e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
 //-----------------------------------------------------------------------------
 static void
 e3view_delete ( E3View* view, void *privateData )
-	{
+{
 	TQ3ViewData		*instanceData = (TQ3ViewData *) privateData ;
 
 
@@ -1781,7 +1781,15 @@ e3view_delete ( E3View* view, void *privateData )
 	Q3Object_CleanDispose(&instanceData->boundingPointsSlab);
 
 	e3view_stack_pop_clean ( view ) ;
+	
+	// Clear the free list
+	while (instanceData->viewStackFreeList != NULL)
+	{
+		TQ3ViewStackItem* topItem = instanceData->viewStackFreeList;
+		instanceData->viewStackFreeList = instanceData->viewStackFreeList->next;
+		Q3Memory_Free( &topItem );
 	}
+}
 
 
 
