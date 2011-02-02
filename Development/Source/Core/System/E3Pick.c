@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -91,7 +91,7 @@ struct TQ3PickHit
 struct TQ3PickUnionData
 {
 	// Common data
-	std::vector<TQ3PickHit*>			pickHits;
+	std::vector<TQ3PickHit*>*			pickHits;
 	bool								isSorted;
 
 
@@ -532,7 +532,7 @@ static TQ3PickHit *
 e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
 {
 	// Check we're not out of range
-	if (n >= pickInstanceData->pickHits.size())
+	if (n >= pickInstanceData->pickHits->size())
 		return(NULL);
 	
 	if (pickInstanceData->data.common.numHitsToReturn != kQ3ReturnAllHits)
@@ -548,13 +548,13 @@ e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
 		switch (pickInstanceData->data.common.sort)
 		{
 			case kQ3PickSortNearToFar:
-				std::sort( pickInstanceData->pickHits.begin(),
-					pickInstanceData->pickHits.end(), CompPickNearToFar() );
+				std::sort( pickInstanceData->pickHits->begin(),
+					pickInstanceData->pickHits->end(), CompPickNearToFar() );
 				break;
 			
 			case kQ3PickSortFarToNear:
-				std::sort( pickInstanceData->pickHits.begin(),
-					pickInstanceData->pickHits.end(), CompPickFarToNear() );
+				std::sort( pickInstanceData->pickHits->begin(),
+					pickInstanceData->pickHits->end(), CompPickFarToNear() );
 				break;
 		}
 		pickInstanceData->isSorted = true;
@@ -562,7 +562,7 @@ e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
 
 
 	// Return the one we want
-	return pickInstanceData->pickHits[ n ];
+	return (*pickInstanceData->pickHits)[ n ];
 }
 
 
@@ -601,6 +601,7 @@ e3pick_windowpoint_new(TQ3Object theObject, void *privateData, const void *param
 
 
 	// Initialise our instance data
+	instanceData->pickHits = new std::vector<TQ3PickHit*>;
 	instanceData->data.windowPointData = *pickData;
 
 	e3pick_set_sort_mask(&instanceData->data.windowPointData.data);
@@ -618,12 +619,14 @@ e3pick_windowpoint_new(TQ3Object theObject, void *privateData, const void *param
 static void
 e3pick_windowpoint_delete(TQ3Object theObject, void *privateData)
 {
-#pragma unused(privateData)
-
-
-
 	// Empty the pick list
 	E3Pick_EmptyHitList(theObject);
+	
+	
+	// Free data held by the instance data
+	TQ3PickUnionData* instanceData = (TQ3PickUnionData*) privateData;
+	delete instanceData->pickHits;
+	instanceData->pickHits = NULL;
 }
 
 
@@ -668,6 +671,7 @@ e3pick_windowrect_new(TQ3Object theObject, void *privateData, const void *paramD
 
 
 	// Initialise our instance data
+	instanceData->pickHits = new std::vector<TQ3PickHit*>;
 	instanceData->data.windowRectData = *pickData;
 
 	return(kQ3Success);
@@ -683,12 +687,14 @@ e3pick_windowrect_new(TQ3Object theObject, void *privateData, const void *paramD
 static void
 e3pick_windowrect_delete(TQ3Object theObject, void *privateData)
 {
-#pragma unused(privateData)
-
-
-
 	// Empty the pick list
 	E3Pick_EmptyHitList(theObject);
+	
+	
+	// Free data held by the instance data
+	TQ3PickUnionData* instanceData = (TQ3PickUnionData*) privateData;
+	delete instanceData->pickHits;
+	instanceData->pickHits = NULL;
 }
 
 
@@ -733,6 +739,7 @@ e3pick_worldray_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 	// Initialise our instance data
+	instanceData->pickHits = new std::vector<TQ3PickHit*>;
 	instanceData->data.worldRayData = *pickData;
 
 	e3pick_set_sort_mask(&instanceData->data.windowPointData.data);
@@ -750,12 +757,14 @@ e3pick_worldray_new(TQ3Object theObject, void *privateData, const void *paramDat
 static void
 e3pick_worldray_delete(TQ3Object theObject, void *privateData)
 {
-#pragma unused(privateData)
-
-
-
 	// Empty the pick list
 	E3Pick_EmptyHitList(theObject);
+	
+	
+	// Free data held by the instance data
+	TQ3PickUnionData* instanceData = (TQ3PickUnionData*) privateData;
+	delete instanceData->pickHits;
+	instanceData->pickHits = NULL;
 }
 
 
@@ -1328,7 +1337,7 @@ E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
 
 
 	// Get the field, clamping it if a limit was supplied
-	*numHits = instanceData->pickHits.size();
+	*numHits = instanceData->pickHits->size();
 	
 	if (instanceData->data.common.numHitsToReturn != kQ3ReturnAllHits)
 		{
@@ -1354,13 +1363,13 @@ E3Pick_EmptyHitList(TQ3PickObject thePick)
 
 
 	// Dispose of the hit list
-	for (std::vector<TQ3PickHit*>::iterator i = instanceData->pickHits.begin();
-		i != instanceData->pickHits.end(); ++i)
+	for (std::vector<TQ3PickHit*>::iterator i = instanceData->pickHits->begin();
+		i != instanceData->pickHits->end(); ++i)
 	{
 		delete *i;
 	}
 	
-	instanceData->pickHits.clear();
+	instanceData->pickHits->clear();
 
 	return(kQ3Success);
 }
@@ -1519,7 +1528,7 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 
 
 		// Save the hit at the end of the list
-		instanceData->pickHits.push_back( theHit.get() );
+		instanceData->pickHits->push_back( theHit.get() );
 		
 		
 		
