@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -343,6 +343,28 @@ namespace
 				"	color += spec * gl_FrontMaterial.specular.rgb;\n"
 				;
 
+	const char* kAddFogLinear =
+				"	float dist = length( ECPos3 );\n"
+				"	float fog = (gl_Fog.end - dist) * gl_Fog.scale;\n"
+				"	fog = clamp( fog, 0.0, 1.0 );\n"
+				"	color = mix( gl_Fog.color.rgb, color, fog );\n"
+				;
+
+	const char* kAddFogExp =
+				"	float dist = length( ECPos3 );\n"
+				"	float fog = exp( - gl_Fog.density * dist );\n"
+				"	fog = clamp( fog, 0.0, 1.0 );\n"
+				"	color = mix( gl_Fog.color.rgb, color, fog );\n"
+				;
+
+	const char* kAddFogExp2 =
+				"	float dist = length( ECPos3 );\n"
+				"	float fogProd = gl_Fog.density * dist;\n"
+				"	float fog = exp( - fogProd * fogProd );\n"
+				"	fog = clamp( fog, 0.0, 1.0 );\n"
+				"	color = mix( gl_Fog.color.rgb, color, fog );\n"
+				;
+
 	const char* kMainFragmentShaderEndSource =
 				" 	gl_FragColor.rgb = color;\n"
 				"	gl_FragColor.a = alpha;\n"
@@ -378,19 +400,25 @@ namespace
 							TQ3ObjectType inIlluminationType,
 							TQ3InterpolationStyle inInterpolation,
 							bool inIsTextured,
-							bool inIsCartoonish )
+							bool inIsCartoonish,
+							TQ3Switch inFogOn,
+							TQ3FogMode inFogMode )
 						: mPattern( inPattern )
 						, mIlluminationType( inIlluminationType )
 						, mInterpolationStyle( inInterpolation )
 						, mIsTextured( inIsTextured )
-						, mIsCartoonish( inIsCartoonish ) {}
+						, mIsCartoonish( inIsCartoonish )
+						, mFogState( inFogOn )
+						, mFogMode( inFogMode ) {}
 					
 					MatchProgram( const MatchProgram& inOther )
 						: mPattern( inOther.mPattern )
 						, mIlluminationType( inOther.mIlluminationType )
 						, mInterpolationStyle( inOther.mInterpolationStyle )
 						, mIsTextured( inOther.mIsTextured )
-						, mIsCartoonish( inOther.mIsCartoonish ) {}
+						, mIsCartoonish( inOther.mIsCartoonish )
+						, mFogState( inOther.mFogState )
+						, mFogMode( inOther.mFogMode ) {}
 	
 		bool		operator()( const QORenderer::ProgramRec& inProg ) const
 					{
@@ -398,7 +426,9 @@ namespace
 							(mIlluminationType == inProg.mIlluminationType) &&
 							(mInterpolationStyle == inProg.mInterpolationStyle) &&
 							(mIsCartoonish == inProg.mIsCartoonish) &&
-							(mPattern == inProg.mPattern);
+							(mPattern == inProg.mPattern) &&
+							(mFogState == inProg.mFogState ) &&
+							(mFogMode == inProg.mFogMode);
 					}
 		
 	private:
@@ -407,6 +437,8 @@ namespace
 		TQ3InterpolationStyle			mInterpolationStyle;
 		bool							mIsTextured;
 		bool							mIsCartoonish;
+		TQ3Switch						mFogState;
+		TQ3FogMode						mFogMode;
 	};
 	
 	struct DeleteProgram
@@ -480,6 +512,8 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	std::swap( mInterpolationStyle, ioOther.mInterpolationStyle );
 	std::swap( mIsTextured, ioOther.mIsTextured );
 	std::swap( mIsCartoonish, ioOther.mIsCartoonish );
+	std::swap( mFogState, ioOther.mFogState );
+	std::swap( mFogMode, ioOther.mFogMode );
 	std::swap( mTextureUnitUniformLoc, ioOther.mTextureUnitUniformLoc );
 	std::swap( mQuantizationUniformLoc, ioOther.mQuantizationUniformLoc );
 	std::swap( mLightNearEdgeUniformLoc, ioOther.mLightNearEdgeUniformLoc );
@@ -597,6 +631,8 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mIsShading( false )
 	, mIlluminationType( 0 )
 	, mInterpolationStyle( kQ3InterpolationStyleVertex )
+	, mFogState( kQ3Off )
+	, mFogMode( kQ3FogModeAlpha )
 	, mIsTextured( false )
 	, mVertexShaderID( 0 )
 	, mQuantization( 0.0f )
@@ -653,18 +689,14 @@ static void LogShaderCompileError( GLint inShaderID, QORenderer::GLSLFuncs& inFu
 
 
 
-static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern,
-										TQ3ObjectType inIlluminationType,
-										TQ3InterpolationStyle inInterpolation,
-										bool inIsTextured,
-										bool inIsCartoonish,
+static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRec,
 										std::vector<std::string>& outSource )
 {
 	outSource.push_back( kFragmentShaderPrefix );
 	
-	if (inIlluminationType != kQ3IlluminationTypeNULL)
+	if (inProgramRec.mIlluminationType != kQ3IlluminationTypeNULL)
 	{
-		if (inIsCartoonish)
+		if (inProgramRec.mIsCartoonish)
 		{
 			outSource.push_back( kFragmentShaderQuantizeFuncs_Cartoonish );
 		}
@@ -674,7 +706,7 @@ static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern
 		}
 	}
 	
-	if (inInterpolation == kQ3InterpolationStyleNone)
+	if (inProgramRec.mInterpolationStyle == kQ3InterpolationStyleNone)
 	{
 		outSource.push_back( kMainFragmentShaderStartFlat );
 	}
@@ -683,13 +715,13 @@ static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern
 		outSource.push_back( kMainFragmentShaderStartSmooth );
 	}
 
-	if (inIlluminationType != kQ3IlluminationTypeNULL)
+	if (inProgramRec.mIlluminationType != kQ3IlluminationTypeNULL)
 	{
-		const GLint kNumLights = inPattern.size();
+		const GLint kNumLights = inProgramRec.mPattern.size();
 
 		for (GLint i = 0; i < kNumLights; ++i)
 		{
-			switch (inPattern[i])
+			switch (inProgramRec.mPattern[i])
 			{
 				case QORenderer::kLightTypeDirectional:
 					AddDirectionalShaderSource( i, outSource );
@@ -702,11 +734,11 @@ static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern
 		}
 	}
 	
-	if (inIlluminationType == kQ3IlluminationTypeNULL)
+	if (inProgramRec.mIlluminationType == kQ3IlluminationTypeNULL)
 	{
 		outSource.push_back( kColorCompForNULLIllumination );
 	}
-	else if (inIsCartoonish)
+	else if (inProgramRec.mIsCartoonish)
 	{
 		outSource.push_back( kColorCompForLambertAndPhong_Cartoonish );
 	}
@@ -715,14 +747,32 @@ static void BuildFragmentShaderSource(	const QORenderer::LightPattern& inPattern
 		outSource.push_back( kColorCompForLambertAndPhong );
 	}
 	
-	if (inIsTextured)
+	if (inProgramRec.mIsTextured)
 	{
 		outSource.push_back( kTexturedColorComp );
 	}
 	
-	if (inIlluminationType == kQ3IlluminationTypePhong)
+	if (inProgramRec.mIlluminationType == kQ3IlluminationTypePhong)
 	{
 		outSource.push_back( kAddSpecularColor );
+	}
+	
+	if (inProgramRec.mFogState == kQ3On)
+	{
+		switch (inProgramRec.mFogMode)
+		{
+			case kQ3FogModeLinear:
+				outSource.push_back( kAddFogLinear );
+				break;
+			
+			case kQ3FogModeExponential:
+				outSource.push_back( kAddFogExp );
+				break;
+			
+			case kQ3FogModeExponentialSquared:
+				outSource.push_back( kAddFogExp2 );
+				break;
+		}
 	}
 		
 	outSource.push_back( kMainFragmentShaderEndSource );
@@ -837,7 +887,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 {
 	// Look for a program that meets current needs.
 	MatchProgram	matcher( mLightPattern, mIlluminationType,
-		mInterpolationStyle, mIsTextured, mIsCartoonish );
+		mInterpolationStyle, mIsTextured, mIsCartoonish, mFogState, mFogMode );
 	ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
 		mPrograms.end(), matcher );
 	
@@ -990,6 +1040,8 @@ void	QORenderer::PerPixelLighting::InitProgram()
 	newProgram.mInterpolationStyle = mInterpolationStyle;
 	newProgram.mIsTextured = mIsTextured;
 	newProgram.mIsCartoonish = mIsCartoonish;
+	newProgram.mFogState = mFogState;
+	newProgram.mFogMode = mFogMode;
 	
 	// Create a program.
 	newProgram.mProgram = mFuncs.glCreateProgram();
@@ -1003,8 +1055,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 		
 		// Build the source of the fragment shader
 		std::vector<std::string>	fragSource;
-		BuildFragmentShaderSource( mLightPattern, mIlluminationType,
-			mInterpolationStyle, mIsTextured, mIsCartoonish, fragSource );
+		BuildFragmentShaderSource( newProgram, fragSource );
 		std::vector<const char*>	sourceParts;
 		GetSourcePointers( fragSource, sourceParts );
 		
@@ -1166,6 +1217,30 @@ void	QORenderer::PerPixelLighting::UpdateInterpolationStyle(
 		}
 	}
 }
+
+/*!
+	@function	UpdateFogStyle
+	@abstract	Notification that fog style has changed.
+*/
+void	QORenderer::PerPixelLighting::UpdateFogStyle( const TQ3FogStyleData& inFog )
+{
+	if (mIsShading)
+	{
+		if ( (inFog.state != mFogState) or
+			(
+				(mFogState == kQ3On) &&
+				(inFog.mode != mFogMode)
+			)
+		)
+		{
+			mFogState = inFog.state;
+			mFogMode = inFog.mode;
+			
+			ChooseProgram();
+		}
+	}
+}
+
 
 /*!
 	@function	UpdateLighting

@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -486,14 +486,6 @@ void	QORenderer::Renderer::UpdateFogStyle(
 	{
 		glEnable(GL_FOG);
 		
-		GLfloat	fogColor[4] = {
-			inStyleData->color.r,
-			inStyleData->color.g,
-			inStyleData->color.b,
-			inStyleData->color.a
-		};
-		glFogfv( GL_FOG_COLOR, fogColor );
-		
 		switch (inStyleData->mode)
 		{
 			case kQ3FogModeExponential:
@@ -541,6 +533,10 @@ void	QORenderer::Renderer::UpdateFogStyle(
 	{
 		mStyleState.mCurFogStyleIndex = foundFog - mStyleState.mFogStyles.begin();
 	}
+	
+	
+	mLights.UpdateFogColor();
+	mPPLighting.UpdateFogStyle( *inStyleData );
 }
 
 void	QORenderer::Renderer::UpdateCastShadowsStyle(

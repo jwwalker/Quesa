@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -116,6 +116,8 @@ public:
 	
 	void					SetOnlyAmbient( bool inOnlyAmbient );
 	
+	void					UpdateFogColor();
+
 	bool					IsEmissionUsed() const;
 	inline bool				IsShadowFrame() const {return mIsShadowFrame;}
 	inline bool				IsFirstPass() const {return mIsFirstPass;}
