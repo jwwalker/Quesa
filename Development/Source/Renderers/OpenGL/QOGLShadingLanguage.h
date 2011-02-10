@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -111,7 +111,8 @@ struct ProgramRec
 {
 					ProgramRec()
 						: mProgram( 0 )
-						, mAgeCounter( 0 ) {}
+						, mAgeCounter( 0 )
+						, mFogState( kQ3Off ) {}
 					ProgramRec( const ProgramRec& inOther )
 						: mProgram( inOther.mProgram )
 						, mAgeCounter( inOther.mAgeCounter )
@@ -120,6 +121,8 @@ struct ProgramRec
 						, mInterpolationStyle( inOther.mInterpolationStyle )
 						, mIsTextured( inOther.mIsTextured )
 						, mIsCartoonish( inOther.mIsCartoonish )
+						, mFogState( inOther.mFogState )
+						, mFogMode( inOther.mFogMode )
 						, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
 						, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
 						, mLightNearEdgeUniformLoc( inOther.mLightNearEdgeUniformLoc )
@@ -136,6 +139,8 @@ struct ProgramRec
 	TQ3InterpolationStyle	mInterpolationStyle;
 	bool			mIsTextured;
 	bool			mIsCartoonish;
+	TQ3Switch		mFogState;
+	TQ3FogMode		mFogMode;
 	
 	GLint			mTextureUnitUniformLoc;
 	GLint			mQuantizationUniformLoc;
@@ -275,6 +280,12 @@ public:
 										TQ3InterpolationStyle inInterpolation );
 
 	/*!
+		@function	UpdateFogStyle
+		@abstract	Notification that fog style has changed.
+	*/
+	void						UpdateFogStyle( const TQ3FogStyleData& inFog );
+
+	/*!
 		@function	UpdateTexture
 		@abstract	Notification that there has been a change in whether we
 					are texturing.
@@ -308,6 +319,8 @@ private:
 	bool						mIsShading;
 	TQ3ObjectType				mIlluminationType;
 	TQ3InterpolationStyle		mInterpolationStyle;
+	TQ3Switch					mFogState;
+	TQ3FogMode					mFogMode;
 	bool						mIsTextured;
 	GLuint						mVertexShaderID;
 	TQ3Float32					mQuantization;

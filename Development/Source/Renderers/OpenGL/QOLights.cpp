@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -683,6 +683,47 @@ void	QORenderer::Lights::SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorld
 }
 
 /*!
+	@function	UpdateFogColor
+	@abstract	Update the fog color depending on whether this is the first pass.
+*/
+void	QORenderer::Lights::UpdateFogColor()
+{
+	// Here's why we need to mess with the fog color:  The contributions of
+	// lighting passes are blended additively, which roughly looks like:
+	//   pixelColor = geomColor*light1 + geomColor*light2 + ...
+	// The computation of fog looks like
+	//   fragColor = (1-fog)*fogColor + fog*fragColor.
+	// What we would like to get as the fogged result is
+	//   pixelColor = (1-fog)*fogColor + fog*(geomColor*light1 + geomColor*light2 + ...)
+	// But if we used fog in the normal way in each pass, we would end up with
+	//	  pixelColor = (1-fog)*fogColor + fog*geomColor*light1 +
+	//		(1-fog)*fogColor + fog*geomColor*light2 + ...
+	// To avoid these multiple contributions of the fog color, we set the fog
+	// color to black for all but the first pass.
+	if (mIsFirstPass)
+	{
+		const TQ3FogStyleData& fogData( mStyleState.mFogStyles[ mStyleState.mCurFogStyleIndex ] );
+		GLfloat	fogColor[4] = {
+			fogData.color.r,
+			fogData.color.g,
+			fogData.color.b,
+			fogData.color.a
+		};
+		glFogfv( GL_FOG_COLOR, fogColor );
+	}
+	else
+	{
+		GLfloat	blackFog[4] = {
+			0.0f,
+			0.0f,
+			0.0f,
+			1.0f
+		};
+		glFogfv( GL_FOG_COLOR, blackFog );
+	}
+}
+
+/*!
 	@function	StartFrame
 	
 	@abstract	Initialize lights for the start of a frame.
@@ -788,6 +829,8 @@ void	QORenderer::Lights::StartPass(
 	
 	glMatrixMode( GL_MODELVIEW );
 	glLoadMatrixf( savedModelViewMatrix );
+	
+	UpdateFogColor();
 	
 	Q3Object_SetProperty( inRenderer, kQ3RendererPropertyPassType,
 		sizeof(passInfo), &passInfo );
