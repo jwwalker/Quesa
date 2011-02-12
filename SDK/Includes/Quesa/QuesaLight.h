@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -219,8 +219,8 @@ typedef struct TQ3PointLightData {
  *
  *      Both hotAngle and outerAngle are half-angles from the center of the
  *      light cone, and are specified in radians. They both range from 0.0
- *      to kQ3Pi/2.0 (inclusive), and the outerAngle must be equal than or
- *      greater to the hotAngle.
+ *      to kQ3Pi/2.0 (inclusive), and the outerAngle must be greater than or
+ *      equal to to the hotAngle.
  *
  *  @field lightData        The common state for the light.
  *  @field castsShadows     Indicates if the light casts shadows.
@@ -904,7 +904,7 @@ Q3SpotLight_GetDirection (
  *      Get the hot angle of a spot light.
  *
  *  @param light            The light to query.
- *  @param hotAngle         Receives the hot angle of the light.
+ *  @param hotAngle         Receives the hot angle of the light (in radians).
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -922,7 +922,7 @@ Q3SpotLight_GetHotAngle (
  *      Get the outer angle of a spot light.
  *
  *  @param light            The light to query.
- *  @param outerAngle       Receives the outer angle of the light.
+ *  @param outerAngle       Receives the outer angle of the light (in radians).
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1048,7 +1048,7 @@ Q3SpotLight_SetDirection (
  *      Set the hot angle of a spot light.
  *
  *  @param light            The light to update.
- *  @param hotAngle         The new hot angle for the light.
+ *  @param hotAngle         The new hot angle for the light (in radians).
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1066,7 +1066,7 @@ Q3SpotLight_SetHotAngle (
  *      Set the outer angle of a spot light.
  *
  *  @param light            The light to update.
- *  @param outerAngle       The new outer angle for the light.
+ *  @param outerAngle       The new outer angle for the light (in radians).
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
