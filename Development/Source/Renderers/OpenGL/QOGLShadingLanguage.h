@@ -88,7 +88,12 @@ enum ELightType
 	kLightTypeInvalid = -1,
 	kLightTypeNone = 0,
 	kLightTypeDirectional,
-	kLightTypePositional
+	kLightTypePoint,
+	kLightTypeSpotNone,
+	kLightTypeSpotLinear,
+	kLightTypeSpotExponential,
+	kLightTypeSpotCosine,
+	kLightTypeSpotCubic
 };
 
 //=============================================================================
@@ -100,6 +105,14 @@ enum ELightType
 	@abstract	Light states that can be used to identify a GLSL program.
 */
 typedef	std::vector<ELightType>	LightPattern;
+
+
+/*!
+	@typedef	ObVec
+	@abstract	A vector of Quesa objects, here used for light objects.
+*/
+typedef std::vector< CQ3ObjectRef >	ObVec;
+
 
 /*!
 	@struct		ProgramRec
@@ -113,20 +126,7 @@ struct ProgramRec
 						: mProgram( 0 )
 						, mAgeCounter( 0 )
 						, mFogState( kQ3Off ) {}
-					ProgramRec( const ProgramRec& inOther )
-						: mProgram( inOther.mProgram )
-						, mAgeCounter( inOther.mAgeCounter )
-						, mPattern( inOther.mPattern )
-						, mIlluminationType( inOther.mIlluminationType )
-						, mInterpolationStyle( inOther.mInterpolationStyle )
-						, mIsTextured( inOther.mIsTextured )
-						, mIsCartoonish( inOther.mIsCartoonish )
-						, mFogState( inOther.mFogState )
-						, mFogMode( inOther.mFogMode )
-						, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
-						, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
-						, mLightNearEdgeUniformLoc( inOther.mLightNearEdgeUniformLoc )
-						{}
+					ProgramRec( const ProgramRec& inOther );
 	
 	void			swap( ProgramRec& ioOther );
 	
@@ -145,6 +145,8 @@ struct ProgramRec
 	GLint			mTextureUnitUniformLoc;
 	GLint			mQuantizationUniformLoc;
 	GLint			mLightNearEdgeUniformLoc;
+	GLint			mSpotHotAngleUniformLoc;
+	GLint			mSpotCutoffAngleUniformLoc;
 };
 
 typedef	std::vector<ProgramRec>		ProgramVec;
@@ -166,6 +168,8 @@ typedef void (QO_PROCPTR_TYPE glDeleteProgramProc )(GLuint program);
 typedef void (QO_PROCPTR_TYPE glDeleteShaderProc )(GLuint shader);
 typedef void (QO_PROCPTR_TYPE glUniform1iProc )(GLint location, GLint v0);
 typedef void (QO_PROCPTR_TYPE glUniform1fProc )(GLint location, GLfloat v0);
+typedef void (QO_PROCPTR_TYPE glUniform1fvProc )(GLint location, GLsizei count,
+												const GLfloat* values);
 typedef void (QO_PROCPTR_TYPE glGetShaderivProc )(GLuint shader,
 													GLenum pname,
 													GLint *params);
@@ -211,8 +215,8 @@ struct GLSLFuncs
 	glGetProgramivProc			glGetProgramiv;
 	glUseProgramProc			glUseProgram;
 	glGetUniformLocationProc	glGetUniformLocation;
-	glUniform1iProc				glUniform1i;
 	glUniform1fProc				glUniform1f;
+	glUniform1fvProc			glUniform1fv;
 	glDeleteShaderProc			glDeleteShader;
 	glDeleteProgramProc			glDeleteProgram;
 	glGetProgramInfoLogProc		glGetProgramInfoLog;
@@ -264,6 +268,22 @@ public:
 	void						EndPass();
 	
 	/*!
+		@function	ClearLights
+		@abstract	Forget lights that were previously passed to AddLight.
+		@discussion	This will be called by the Lights object when it is starting
+					a pass, which happens before the PerPixelLighting gets a
+					StartPass call.
+	*/
+	void						ClearLights();
+	
+	/*!
+		@function	AddLight
+		@abstract	The Lights object uses this to inform the PerPixelLighting
+					object about a light being used for this pass.
+	*/
+	void						AddLight( TQ3LightObject inLight );
+	
+	/*!
 		@function	UpdateIllumination
 		@abstract	Notification that the type of illumination shader may
 					have changed.
@@ -310,8 +330,10 @@ private:
 	void						CheckIfShading();
 	void						InitVertexShader();
 	void						InitProgram();
-	void						InitUniforms( ProgramRec& ioProgram );
+	void						InitUniformLocations( ProgramRec& ioProgram );
 	void						ChooseProgram();
+	void						GetLightTypes();
+	void						SetUniformValues( ProgramRec& ioProgram );
 	
 	GLSLFuncs&					mFuncs;
 	const TQ3GLExtensions&		mGLExtensions;
@@ -327,6 +349,7 @@ private:
 	TQ3Float32					mLightNearEdge;
 	bool						mIsCartoonish;
 	LightPattern				mLightPattern;
+	ObVec						mLights;
 	
 	ProgramVec					mPrograms;
 	int							mProgramIndex;

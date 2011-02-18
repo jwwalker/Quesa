@@ -71,7 +71,6 @@
 
 namespace QORenderer
 {
-typedef std::vector< CQ3ObjectRef >	ObVec;
 
 struct GLStencilFuncs;
 class MatrixState;

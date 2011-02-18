@@ -97,6 +97,7 @@ namespace
 				"	gl_BackSecondaryColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
 				"}\n";
 	
+	#pragma mark kFragmentShaderPrefix
 	const char*	kFragmentShaderPrefix =
 				// Normal vector in eye coordinates
 				"varying vec3 ECNormal;\n"
@@ -109,11 +110,16 @@ namespace
 				
 				// Cartoon edges parameter
 				"uniform float lightNearEdge;\n"
+				
+				// Hot angles, cutoff angles for spot lights (in radians)
+				"uniform float hotAngle[gl_MaxLights];\n"
+				"uniform float cutoffAngle[gl_MaxLights];\n"
 
 				// Sampler for texture unit 0
 				"uniform sampler2D tex0;\n\n"
 				;
 	
+	#pragma mark kFragmentShaderQuantizeFuncs_Normal
 	const char*	kFragmentShaderQuantizeFuncs_Normal =
 				"vec3 QuantizeLight( in vec3 light )\n"
 				"{\n"
@@ -131,6 +137,7 @@ namespace
 				"}\n\n"
 				;
 	
+	#pragma mark kFragmentShaderQuantizeFuncs_Cartoonish
 	const char*	kFragmentShaderQuantizeFuncs_Cartoonish =
 				"vec3 QuantizeLight( in vec3 light )\n"
 				"{\n"
@@ -150,6 +157,7 @@ namespace
 				"}\n\n"
 				;
 	
+	#pragma mark kDirectionalLightFragmentShaderSource
 	const char* kDirectionalLightFragmentShaderSource =
 				// This shader code computes the contribution of one directional
 				// light.  Copies of this code, with LIGHT_INDEX replaced by a
@@ -168,8 +176,54 @@ namespace
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf);\n"
 				"}\n\n";
 
-	const char* kPositionalLightFragmentShaderSource =
-				// This shader code computes the contribution of one positional
+	#pragma mark kSpotFalloffNoneSource
+	const char* kSpotFalloffNoneSource =
+				"// Spot light falloff function, none, for light LIGHT_INDEX\n"
+				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
+				"{\n"
+				"	return 1.0;\n"
+				"}\n\n"
+				;
+
+	#pragma mark kSpotFalloffLinearSource
+	const char* kSpotFalloffLinearSource =
+				"// Spot light falloff function, linear, for light LIGHT_INDEX\n"
+				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
+				"{\n"
+				"	return 1.0 - x;\n"
+				"}\n\n"
+				;
+
+	#pragma mark kSpotFalloffExponentialSource
+	const char* kSpotFalloffExponentialSource =
+				"// Spot light falloff function, exponential, for light LIGHT_INDEX\n"
+				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
+				"{\n"
+				"	return (pow( 10.0, 1.0 - x ) - 1.0) / 9.0;\n"
+				"}\n\n"
+				;
+
+	#pragma mark kSpotFalloffCosineSource
+	const char* kSpotFalloffCosineSource =
+				"// Spot light falloff function, cosine, for light LIGHT_INDEX\n"
+				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
+				"{\n"
+				"	return cos( radians( 90.0 * x ) );\n"
+				"}\n\n"
+				;
+
+	#pragma mark kSpotFalloffSmoothCubicSource
+	const char* kSpotFalloffSmoothCubicSource =
+				"// Spot light falloff function, smooth cubic, for light LIGHT_INDEX\n"
+				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
+				"{\n"
+				"	return 1.0 - smoothstep( 0.0, 1.0, x );\n"
+				"}\n\n"
+				;
+
+	#pragma mark kPointLightFragmentShaderSource
+	const char* kPointLightFragmentShaderSource =
+				// This shader code computes the contribution of one point
 				// light.  Copies of this code, with LIGHT_INDEX replaced by a
 				// specific integer, will be included inline.
 				// input: vec3 geomToEyeDir, vec3 normal
@@ -190,18 +244,6 @@ namespace
 				"		(gl_LightSource[LIGHT_INDEX].constantAttenuation +"
 				"		gl_LightSource[LIGHT_INDEX].linearAttenuation * d +"
 				"		gl_LightSource[LIGHT_INDEX].quadraticAttenuation * d * d );\n"
-				
-					// See if point on surface is inside cone of illumination,
-					// and maybe attenuate by angle from center of spot.
-					// Quesa never sets GL_SPOT_EXPONENT, meaning it has the
-					// default value of 0, and we need not look at
-					// gl_LightSource[LIGHT_INDEX].spotExponent.
-				"	float spotDot = dot( -geomToLight, gl_LightSource[LIGHT_INDEX].spotDirection );\n"
-					
-					// Set attenuation to 0 if outside the spot light cone.
-					// Note that for a point light, spotCosCutoff will be -1,
-					// and spotDot will never be less than that.
-				"	attenuation *= step( gl_LightSource[LIGHT_INDEX].spotCosCutoff, spotDot );\n"
 
 					// Compute the direction halfway between the geometry to light vector
 					// and the geometry to eye vectors.  This uses the assumption that
@@ -225,6 +267,76 @@ namespace
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
 				"}\n\n";
 
+	#pragma mark kSpotLightFragmentShaderSource
+	const char* kSpotLightFragmentShaderSource =
+				// This shader code computes the contribution of one spot
+				// light.  Copies of this code, with LIGHT_INDEX replaced by a
+				// specific integer, will be included inline.
+				// input: vec3 geomToEyeDir, vec3 normal
+				// inout: vec3 diff, vec3 spec
+				"// Positional light, light LIGHT_INDEX\n"
+				"{\n"
+					// Compute vector from surface to light position
+				"	vec3 geomToLight = gl_LightSource[LIGHT_INDEX].position.xyz - ECPos3;\n"
+
+					// Compute distance between geometry and light
+				"	float d = length(geomToLight);\n"
+
+					// Normalize direction from geometry to light
+				"	geomToLight /= d;\n"
+
+					// Compute attenuation factor
+				"	float attenuation = 1.0 / "
+				"		(gl_LightSource[LIGHT_INDEX].constantAttenuation +"
+				"		gl_LightSource[LIGHT_INDEX].linearAttenuation * d +"
+				"		gl_LightSource[LIGHT_INDEX].quadraticAttenuation * d * d );\n"
+				
+					// Find the angle between the vector from the light to this
+					// fragment and the light direction vector.  The vectors are
+					// unit vectors, so the dot product is the cosine of the angle.
+					// Quesa never sets GL_SPOT_EXPONENT, meaning it has the
+					// default value of 0, and we need not look at
+					// gl_LightSource[LIGHT_INDEX].spotExponent.
+				"	float spotDot = dot( -geomToLight, gl_LightSource[LIGHT_INDEX].spotDirection );\n"
+				"	float spotAngle = acos( spotDot );\n"
+				
+					// Compute a falloff factor.
+				"	float fallFrac = (spotAngle - hotAngle[LIGHT_INDEX]) /\n"
+				"		(cutoffAngle[LIGHT_INDEX] - hotAngle[LIGHT_INDEX]);\n"
+				"	float spotFalloff = (spotAngle < hotAngle[LIGHT_INDEX])?\n"
+				"		1.0 :\n"
+				"		((spotAngle > cutoffAngle[LIGHT_INDEX])?\n"
+				"			0.0 :\n"
+				"			SpotFalloff_LIGHT_INDEX( fallFrac ));\n"
+					
+					// See if point on surface is inside cone of illumination,
+					// and maybe attenuate by angle from center of spot.
+					// Set attenuation to 0 if outside the spot light cone.
+				"	attenuation *= spotFalloff;\n"
+
+					// Compute the direction halfway between the geometry to light vector
+					// and the geometry to eye vectors.  This uses the assumption that
+					// geomToEyeDir and geomToLight are both normalized.
+				"	vec3 halfVector = normalize( geomToLight + geomToEyeDir );\n"
+
+				"	float nDotGeomToLight = max( 0.0, dot( normal, geomToLight ) );\n"
+				"	nDotGeomToLight = QuantizeDot( nDotGeomToLight )\n;"
+
+				"	diff += QuantizeDiffuse( gl_LightSource[LIGHT_INDEX].diffuse.rgb * \n"
+				"				attenuation, nDotGeomToLight );\n"
+
+				"	float nDotHalf = max( 0.0, dot( normal, halfVector ) );\n"
+
+				"	float pf;\n"
+				"	if (nDotGeomToLight == 0.0)\n"
+				"		pf = 0.0;\n"
+				"	else\n"
+				"		pf = pow( nDotHalf, gl_FrontMaterial.shininess );\n\n"
+
+				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
+				"}\n\n";
+
+	#pragma mark kMainFragmentShaderStartSmooth
 	const char* kMainFragmentShaderStartSmooth =
 				"void main()\n"
 				"{\n"
@@ -262,7 +374,8 @@ namespace
 					// distinguish back from front.
 				"	normal = (gl_SecondaryColor.r > 0.0)? normal : -normal;\n\n"
 				;
-		
+	
+	#pragma mark kMainFragmentShaderStartFlat
 	const char* kMainFragmentShaderStartFlat =
 				"void main()\n"
 				"{\n"
@@ -365,6 +478,7 @@ namespace
 				"	color = mix( gl_Fog.color.rgb, color, fog );\n"
 				;
 
+	#pragma mark kMainFragmentShaderEndSource
 	const char* kMainFragmentShaderEndSource =
 				" 	gl_FragColor.rgb = color;\n"
 				"	gl_FragColor.a = alpha;\n"
@@ -374,6 +488,8 @@ namespace
 	const char*	kTextureUnitUniformName			= "tex0";
 	const char*	kQuantizationUniformName		= "quantization";
 	const char*	kLightNearEdgeUniformName		= "lightNearEdge";
+	const char* kSpotHotAngleUniformName		= "hotAngle";
+	const char* kSpotCutoffAngleUniformName		= "cutoffAngle";
 	
 	const int	kMaxProgramAge					= 100;
 	
@@ -499,10 +615,27 @@ namespace
 	#define		CHECK_GL_ERROR
 #endif
 
-
+#pragma mark -
 //=============================================================================
 //      Implementations
 //-----------------------------------------------------------------------------
+QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
+	: mProgram( inOther.mProgram )
+	, mAgeCounter( inOther.mAgeCounter )
+	, mPattern( inOther.mPattern )
+	, mIlluminationType( inOther.mIlluminationType )
+	, mInterpolationStyle( inOther.mInterpolationStyle )
+	, mIsTextured( inOther.mIsTextured )
+	, mIsCartoonish( inOther.mIsCartoonish )
+	, mFogState( inOther.mFogState )
+	, mFogMode( inOther.mFogMode )
+	, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
+	, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
+	, mLightNearEdgeUniformLoc( inOther.mLightNearEdgeUniformLoc )
+	, mSpotHotAngleUniformLoc( inOther.mSpotHotAngleUniformLoc )
+	, mSpotCutoffAngleUniformLoc( inOther.mSpotCutoffAngleUniformLoc )
+{}
+
 void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 {
 	std::swap( mProgram, ioOther.mProgram );
@@ -517,6 +650,8 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	std::swap( mTextureUnitUniformLoc, ioOther.mTextureUnitUniformLoc );
 	std::swap( mQuantizationUniformLoc, ioOther.mQuantizationUniformLoc );
 	std::swap( mLightNearEdgeUniformLoc, ioOther.mLightNearEdgeUniformLoc );
+	std::swap( mSpotHotAngleUniformLoc, ioOther.mSpotHotAngleUniformLoc );
+	std::swap( mSpotCutoffAngleUniformLoc, ioOther.mSpotCutoffAngleUniformLoc );
 }
 
 QORenderer::ProgramRec&
@@ -562,8 +697,8 @@ void	QORenderer::GLSLFuncs::SetNULL()
 	glGetProgramiv = NULL;
 	glUseProgram = NULL;
 	glGetUniformLocation = NULL;
-	glUniform1i = NULL;
 	glUniform1f = NULL;
+	glUniform1fv = NULL;
 	glDeleteShader = NULL;
 	glDeleteProgram = NULL;
 	glGetProgramInfoLog = NULL;
@@ -585,8 +720,8 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glGetProgramiv, "glGetProgramiv", "glGetObjectParameterivARB" );
 		GLGetProcAddress( glUseProgram, "glUseProgram", "glUseProgramObjectARB" );
 		GLGetProcAddress( glGetUniformLocation, "glGetUniformLocation", "glGetUniformLocationARB" );
-		GLGetProcAddress( glUniform1i, "glUniform1i", "glUniform1iARB" );
 		GLGetProcAddress( glUniform1f, "glUniform1f", "glUniform1fARB" );
+		GLGetProcAddress( glUniform1fv, "glUniform1fv", "glUniform1fvARB" );
 		GLGetProcAddress( glDeleteShader, "glDeleteShader", "glDeleteObjectARB" );
 		GLGetProcAddress( glDeleteProgram, "glDeleteProgram", "glDeleteObjectARB" );
 		GLGetProcAddress( glGetProgramInfoLog, "glGetProgramInfoLog", "glGetInfoLogARB" );
@@ -602,8 +737,8 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 			(glGetProgramiv == NULL) ||
 			(glUseProgram == NULL) ||
 			(glGetUniformLocation == NULL) ||
-			(glUniform1i == NULL) ||
 			(glUniform1f == NULL) ||
+			(glUniform1fv == NULL) ||
 			(glDeleteShader == NULL) ||
 			(glDeleteProgram == NULL) ||
 			(glGetProgramInfoLog == NULL) ||
@@ -656,15 +791,53 @@ static void AddDirectionalShaderSource(	GLint inLightIndex,
 	ioSource.push_back( theSource );
 }
 
-static void AddPositionalShaderSource(	GLint inLightIndex,
+static void AddPointLightShaderSource(	GLint inLightIndex,
 										std::vector<std::string>& ioSource )
 {
-	std::string		theSource( kPositionalLightFragmentShaderSource );
+	std::string		theSource( kPointLightFragmentShaderSource );
 	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
 	ioSource.push_back( theSource );
 }
 
+static void AddSpotLightShaderSource(	GLint inLightIndex,
+										std::vector<std::string>& ioSource )
+{
+	std::string		theSource( kSpotLightFragmentShaderSource );
+	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
+	ioSource.push_back( theSource );
+}
 
+static void AddSpotFalloffFuncSource(	GLint inLightIndex,
+										QORenderer::ELightType inLightType,
+										std::vector<std::string>& ioSource )
+{
+	std::string		theSource;
+	
+	switch (inLightType)
+	{
+		case QORenderer::kLightTypeSpotNone:
+			theSource.assign( kSpotFalloffNoneSource );
+			break;
+			
+		case QORenderer::kLightTypeSpotLinear:
+			theSource.assign( kSpotFalloffLinearSource );
+			break;
+			
+		case QORenderer::kLightTypeSpotExponential:
+			theSource.assign( kSpotFalloffExponentialSource );
+			break;
+			
+		case QORenderer::kLightTypeSpotCosine:
+			theSource.assign( kSpotFalloffCosineSource );
+			break;
+			
+		case QORenderer::kLightTypeSpotCubic:
+			theSource.assign( kSpotFalloffSmoothCubicSource );
+			break;
+	}
+	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
+	ioSource.push_back( theSource );
+}
 
 #if Q3_DEBUG
 static void LogShaderCompileError( GLint inShaderID, QORenderer::GLSLFuncs& inFuncs )
@@ -692,6 +865,9 @@ static void LogShaderCompileError( GLint inShaderID, QORenderer::GLSLFuncs& inFu
 static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRec,
 										std::vector<std::string>& outSource )
 {
+	const GLint kNumLights = inProgramRec.mPattern.size();
+	GLint i;
+	
 	outSource.push_back( kFragmentShaderPrefix );
 	
 	if (inProgramRec.mIlluminationType != kQ3IlluminationTypeNULL)
@@ -703,6 +879,24 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 		else
 		{
 			outSource.push_back( kFragmentShaderQuantizeFuncs_Normal );
+		}
+		
+		for (i = 0; i < kNumLights; ++i)
+		{
+			switch (inProgramRec.mPattern[i])
+			{
+				case QORenderer::kLightTypeSpotNone:
+				case QORenderer::kLightTypeSpotLinear:
+				case QORenderer::kLightTypeSpotExponential:
+				case QORenderer::kLightTypeSpotCosine:
+				case QORenderer::kLightTypeSpotCubic:
+					AddSpotFalloffFuncSource( i, inProgramRec.mPattern[i],
+						outSource );
+					break;
+				
+				default:
+					break;
+			}
 		}
 	}
 	
@@ -717,9 +911,7 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 
 	if (inProgramRec.mIlluminationType != kQ3IlluminationTypeNULL)
 	{
-		const GLint kNumLights = inProgramRec.mPattern.size();
-
-		for (GLint i = 0; i < kNumLights; ++i)
+		for (i = 0; i < kNumLights; ++i)
 		{
 			switch (inProgramRec.mPattern[i])
 			{
@@ -727,8 +919,16 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 					AddDirectionalShaderSource( i, outSource );
 					break;
 					
-				case QORenderer::kLightTypePositional:
-					AddPositionalShaderSource( i, outSource );
+				case QORenderer::kLightTypePoint:
+					AddPointLightShaderSource( i, outSource );
+					break;
+				
+				case QORenderer::kLightTypeSpotNone:
+				case QORenderer::kLightTypeSpotLinear:
+				case QORenderer::kLightTypeSpotExponential:
+				case QORenderer::kLightTypeSpotCosine:
+				case QORenderer::kLightTypeSpotCubic:
+					AddSpotLightShaderSource( i, outSource );
 					break;
 			}
 		}
@@ -779,41 +979,73 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 }
 
 
-static void GetLightTypes( TQ3ObjectType inIlluminationType,
-							QORenderer::LightPattern& outLights )
+/*!
+	@function	GetLightTypes
+	@abstract	Get the pattern of light types.
+*/
+void QORenderer::PerPixelLighting::GetLightTypes()
 {
-	outLights.clear();
+	mLightPattern.clear();
 	
-	if (inIlluminationType != kQ3IlluminationTypeNULL)
+	if (mIlluminationType != kQ3IlluminationTypeNULL)
 	{
 		// Query number of lights.
-		GLint		maxGLLights;
-		glGetIntegerv( GL_MAX_LIGHTS, &maxGLLights );
-		outLights.reserve( maxGLLights );
+		const int kNumLights = mLights.size();
+		mLightPattern.reserve( kNumLights );
 		
-		for (GLint i = 0; i < maxGLLights; ++i)
+		for (int i = 0; i < kNumLights; ++i)
 		{
 			QORenderer::ELightType	theType = QORenderer::kLightTypeNone;
+			TQ3LightObject theLight = mLights[i].get();
 			
-			GLenum	lightID = GL_LIGHT0 + i;
+			TQ3LightData lightData;
+			Q3Light_GetData( theLight, &lightData );
 			
-			if (glIsEnabled( lightID ))
+			if ( lightData.isOn && (lightData.brightness > kQ3RealZero) )
 			{
-				// Is this a positional (point/spot) or directional light?
-				// We can tell from the w component of the position.
-				GLfloat	lightPosition[4];
-				glGetLightfv( lightID, GL_POSITION, lightPosition );
-				
-				if (lightPosition[3] == 0.0f)	// directional
+				switch (Q3Light_GetType( theLight ))
 				{
-					theType = QORenderer::kLightTypeDirectional;
-				}
-				else
-				{
-					theType = QORenderer::kLightTypePositional;
+					case kQ3LightTypeDirectional:
+						theType = QORenderer::kLightTypeDirectional;
+						break;
+					
+					case kQ3LightTypePoint:
+						theType = QORenderer::kLightTypePoint;
+						break;
+
+					case kQ3LightTypeSpot:
+						{
+							TQ3FallOffType fallOff = kQ3FallOffTypeNone;
+							Q3SpotLight_GetFallOff( theLight, &fallOff );
+							
+							switch (fallOff)
+							{
+								default:
+								case kQ3FallOffTypeNone:
+									theType = QORenderer::kLightTypeSpotNone;
+									break;
+								
+								case kQ3FallOffTypeLinear:
+									theType = QORenderer::kLightTypeSpotLinear;
+									break;
+								
+								case kQ3FallOffTypeExponential:
+									theType = QORenderer::kLightTypeSpotExponential;
+									break;
+								
+								case kQ3FallOffTypeCosine:
+									theType = QORenderer::kLightTypeSpotCosine;
+									break;
+								
+								case kQ3FallOffTypeSmoothCubic:
+									theType = QORenderer::kLightTypeSpotCubic;
+									break;
+							}
+						}
+						break;
 				}
 			}
-			outLights.push_back( theType );
+			mLightPattern.push_back( theType );
 		}
 	}
 }
@@ -848,6 +1080,31 @@ void	QORenderer::PerPixelLighting::StartFrame()
 	}
 }
 
+
+/*!
+	@function	ClearLights
+	@abstract	Forget lights that were previously passed to AddLight.
+	@discussion	This will be called by the Lights object when it is starting
+				a pass, which happens before the PerPixelLighting gets a
+				StartPass call.
+*/
+void	QORenderer::PerPixelLighting::ClearLights()
+{
+	mLights.clear();
+}
+
+/*!
+	@function	AddLight
+	@abstract	The Lights object uses this to inform the PerPixelLighting
+				object about a light being used for this pass.
+*/
+void	QORenderer::PerPixelLighting::AddLight( TQ3LightObject inLight )
+{
+	CQ3ObjectRef	lightRef( Q3Shared_GetReference( inLight ) );
+	mLights.push_back( lightRef );
+}
+
+
 /*!
 	@function	StartPass
 	@abstract	Begin a rendering pass.
@@ -869,7 +1126,7 @@ void	QORenderer::PerPixelLighting::StartPass()
 		
 		if (mVertexShaderID != 0)
 		{
-			GetLightTypes( mIlluminationType, mLightPattern );
+			GetLightTypes();
 			ChooseProgram();
 		}
 	}
@@ -909,12 +1166,44 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 		CHECK_GL_ERROR;
 		foundProg->mAgeCounter = 0;
 		
-		// Set the quantization uniform variables.
-		mFuncs.glUniform1f( foundProg->mQuantizationUniformLoc, mQuantization );
-		CHECK_GL_ERROR;
-		mFuncs.glUniform1f( foundProg->mLightNearEdgeUniformLoc, mLightNearEdge );
-		CHECK_GL_ERROR;
+		SetUniformValues( *foundProg );
 	}
+}
+
+/*!
+	@function	SetUniformValues
+	@abstract	Set values for the uniform variables needed in the program.
+*/
+void	QORenderer::PerPixelLighting::SetUniformValues( ProgramRec& ioProgram )
+{
+	// Set the quantization uniform variables.
+	mFuncs.glUniform1f( ioProgram.mQuantizationUniformLoc, mQuantization );
+	CHECK_GL_ERROR;
+	mFuncs.glUniform1f( ioProgram.mLightNearEdgeUniformLoc, mLightNearEdge );
+	CHECK_GL_ERROR;
+	
+	// Retrieve hot angles, cutoff angles for any spot lights.
+	const int kNumLights = mLights.size();
+	std::vector<GLfloat>	hotAngles( kNumLights );
+	std::vector<GLfloat>	cutoffAngles( kNumLights );
+	for (int i = 0; i < kNumLights; ++i)
+	{
+		float theHotAngle = 0.0f;
+		float theCutoffAngle = 0.0f;
+		if (Q3Light_GetType( mLights[i].get() ) == kQ3LightTypeSpot)
+		{
+			Q3SpotLight_GetHotAngle( mLights[i].get(), &theHotAngle );
+			Q3SpotLight_GetOuterAngle( mLights[i].get(), &theCutoffAngle );
+		}
+		hotAngles[ i ] = theHotAngle;
+		cutoffAngles[ i ] = theCutoffAngle;
+	}
+	
+	// Set hot angle, cutoff angle uniform arrays.
+	mFuncs.glUniform1fv( ioProgram.mSpotHotAngleUniformLoc, kNumLights,
+		&hotAngles[0] );
+	mFuncs.glUniform1fv( ioProgram.mSpotCutoffAngleUniformLoc, kNumLights,
+		&cutoffAngles[0] );
 }
 
 /*!
@@ -931,7 +1220,7 @@ void	QORenderer::PerPixelLighting::EndPass()
 }
 
 
-void	QORenderer::PerPixelLighting::InitUniforms( ProgramRec& ioProgram )
+void	QORenderer::PerPixelLighting::InitUniformLocations( ProgramRec& ioProgram )
 {
 	ioProgram.mTextureUnitUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kTextureUnitUniformName );
@@ -941,6 +1230,12 @@ void	QORenderer::PerPixelLighting::InitUniforms( ProgramRec& ioProgram )
 	CHECK_GL_ERROR;
 	ioProgram.mLightNearEdgeUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kLightNearEdgeUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mSpotHotAngleUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kSpotHotAngleUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mSpotCutoffAngleUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kSpotCutoffAngleUniformName );
 	CHECK_GL_ERROR;
 }
 
@@ -1116,7 +1411,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 		// Use program
 		if (linkStatus == GL_TRUE)
 		{
-			InitUniforms( newProgram );
+			InitUniformLocations( newProgram );
 			
 			mPrograms.push_back( newProgram );
 		}
@@ -1187,7 +1482,7 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 		{
 			mIlluminationType = inIlluminationType;
 			
-			GetLightTypes( mIlluminationType, mLightPattern );
+			GetLightTypes();
 			
 			// An illumination change does not change the texture, but I want
 			// client code to be able to disable texturing at the OpenGL level
@@ -1226,7 +1521,7 @@ void	QORenderer::PerPixelLighting::UpdateFogStyle( const TQ3FogStyleData& inFog 
 {
 	if (mIsShading)
 	{
-		if ( (inFog.state != mFogState) or
+		if ( (inFog.state != mFogState) ||
 			(
 				(mFogState == kQ3On) &&
 				(inFog.mode != mFogMode)
@@ -1251,7 +1546,7 @@ void	QORenderer::PerPixelLighting::UpdateLighting()
 {
 	if (mIsShading)
 	{
-		GetLightTypes( mIlluminationType, mLightPattern );
+		GetLightTypes();
 		ChooseProgram();
 	}
 }

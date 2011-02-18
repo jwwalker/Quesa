@@ -377,6 +377,8 @@ void QORenderer::Lights::AddLight( TQ3LightObject inLight,
 			++mLightCount;
 			break;
 	}
+	
+	mPerPixelLighting.AddLight( inLight );
 }
 
 /*!
@@ -789,7 +791,6 @@ void	QORenderer::Lights::StartPass(
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 	
-	
 	if (mIsNextPassShadowPhase)
 	{
 		mIsShadowPhase = true;
@@ -810,6 +811,7 @@ void	QORenderer::Lights::StartPass(
 		{
 			passInfo.passType = kQ3RendererPassShadowMarking;
 			
+			mPerPixelLighting.ClearLights();
 			SetUpShadowMarkingPass( worldToView );
 		}
 		else	// shadow lighting pass
@@ -824,6 +826,7 @@ void	QORenderer::Lights::StartPass(
 		passInfo.light = NULL;
 		passInfo.passType = kQ3RendererPassNonShadow;
 		
+		mPerPixelLighting.ClearLights();
 		SetUpNonShadowLightingPass( worldToView );
 	}
 	
