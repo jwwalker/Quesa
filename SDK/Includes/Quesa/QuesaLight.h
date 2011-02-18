@@ -100,23 +100,41 @@ typedef enum {
 /*!
  *  @enum
  *      TQ3FallOffType
- *  @discussion
+ *	@abstract
  *      Light fall-off methods.
- *
+ *  @discussion
  *      The fall-off value of a light controls how the intensity of the light
  *      varies from the edge of the hot angle (where the light is at full intensity)
  *      to the outer angle (where the light intensity falls to zero).
  *
- *  @constant kQ3FallOffTypeNone           Intensity does not fall off.
- *  @constant kQ3FallOffTypeLinear         Intensity falls off linearly.
+ *		The fall-off can be described as multiplying the light intensity at a
+ *		given angle x from the center of the light by a value
+ *
+ *		f( (x - hotAngle) / (outerAngle - hotAngle) )
+ *
+ *		where f is a function such that f(0) = 1 and f(1) = 0.  In the discussion
+ *		of each fall-off type, we list the formula for the associated
+ *		function f(x) when x is between 0 and 1.
+ *
+ *		Quesa only implements spotlight fall-off when per-pixel lighting is in use.
+ *
+ *  @constant kQ3FallOffTypeNone           Intensity does not fall off.  f(x) = 1.
+ *  @constant kQ3FallOffTypeLinear         Intensity falls off linearly.  f(x) = 1 - x.
  *  @constant kQ3FallOffTypeExponential    Intensity falls off exponentially.
+ *											f(x) = (pow( 10.0, 1.0 - x ) - 1.0) / 9.0.
  *  @constant kQ3FallOffTypeCosine         Intensity falls off as the cosine of the angle.
+ *											f(x) = cos( kQ3PiOver2 * x ).
+ *	@constant kQ3FallOffTypeSmoothCubic		Intensity falls off by a cubic curve that
+ *											is smooth at both ends.
+ *											f(x) = 2 * x * x * x - 3 * x * x + 1.
+ *											(This fall-off type did not exist in QD3D.)
  */
 typedef enum {
     kQ3FallOffTypeNone                          = 0,
     kQ3FallOffTypeLinear                        = 1,
     kQ3FallOffTypeExponential                   = 2,
     kQ3FallOffTypeCosine                        = 3,
+    kQ3FallOffTypeSmoothCubic                   = 4,
     kQ3FallOffSize32                            = 0xFFFFFFFF
 } TQ3FallOffType;
 
