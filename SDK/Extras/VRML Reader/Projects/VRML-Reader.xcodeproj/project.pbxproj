@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE70167309F6AA5500940AA2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE70167209F6AA5500940AA2 /* Carbon.framework */; };
 		BE775A3209F809A5006C1ED3 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE775A3109F809A5006C1ED3 /* Quesa.framework */; };
 		BE7C47EA08AEC56600559F64 /* GetObjectName.cp in Sources */ = {isa = PBXBuildFile; fileRef = BE7C47E808AEC56600559F64 /* GetObjectName.cp */; };
 		BE7C47EB08AEC56600559F64 /* SetGroupName.cp in Sources */ = {isa = PBXBuildFile; fileRef = BE7C47E908AEC56600559F64 /* SetGroupName.cp */; };
@@ -116,7 +115,6 @@
 		8D01CCD20486CAD60068D4B7 /* VRML-Reader.quesaplug */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VRML-Reader.quesaplug"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BE61011E08EFA04E0020A13D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../Resources/version.h; sourceTree = SOURCE_ROOT; };
-		BE70167209F6AA5500940AA2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		BE775A3109F809A5006C1ED3 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE7C47E608AEC56600559F64 /* SetGroupName.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SetGroupName.h; sourceTree = "<group>"; };
 		BE7C47E708AEC56600559F64 /* GetObjectName.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetObjectName.h; sourceTree = "<group>"; };
@@ -248,7 +246,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE70167309F6AA5500940AA2 /* Carbon.framework in Frameworks */,
 				BE775A3209F809A5006C1ED3 /* Quesa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,7 +270,6 @@
 			isa = PBXGroup;
 			children = (
 				BE775A3109F809A5006C1ED3 /* Quesa.framework */,
-				BE70167209F6AA5500940AA2 /* Carbon.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -515,7 +511,14 @@
 			isa = PBXProject;
 			buildConfigurationList = BEC95CB308A86B3C001E16B9 /* Build configuration list for PBXProject "VRML-Reader" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* VRML-Reader */;
 			projectDirPath = "";
 			projectReferences = (
@@ -664,6 +667,10 @@
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					$inherited,
+					"NDEBUG=1",
+				);
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Release;
