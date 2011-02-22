@@ -5,7 +5,7 @@
         Parse VRML 1 grammar.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,15 +50,17 @@
 #include <ostream>
 #include <cctype>
 
-#ifdef _GLIBCXX_IOSTREAM
-	#warning modify Spirit not to include <iostream>
-	// Currently, boost/spirit/iterator/multi_pass.hpp includes <iostream>.
-	// (In newer versions of Boost, this may be boost/spirit/home/classic/
-	// iterator/multi_pass.hpp.)
-	// This can cause a crash on quit in Mac OS X 10.3.9 involving the
-	// destructor of the static std::ios_base::Init object.  See
-	// http://gcc.gnu.org/onlinedocs/libstdc++/27_io/howto.html#10 for reasons
-	// why one should avoid including iostream when possible.
+#if QUESA_OS_MACINTOSH && (MAC_OS_X_VERSION_MIN_REQUIRED < 1040)
+	#ifdef _GLIBCXX_IOSTREAM
+		#warning modify Spirit not to include <iostream>
+		// Currently, boost/spirit/iterator/multi_pass.hpp includes <iostream>.
+		// (In newer versions of Boost, this may be boost/spirit/home/classic/
+		// iterator/multi_pass.hpp.)
+		// boost/assert.hpp also includes <iostream> unless NDEBUG or
+		// BOOST_DISABLE_ASSERTS is defined.
+		// This can cause a crash on quit in Mac OS X 10.3.9 involving the
+		// destructor of the static std::ios_base::Init object.
+	#endif
 #endif
 
 using namespace boost::spirit;
