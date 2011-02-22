@@ -32,7 +32,7 @@ INFOPLIST_PREPROCESS = YES
 INFOPLIST_PREFIX_HEADER = ../Resources/version.h
 
 // Deployment
-MACOSX_DEPLOYMENT_TARGET = 10.3
+MACOSX_DEPLOYMENT_TARGET = 10.4
 
 // Language
 GCC_PREFIX_HEADER = ../Source/Precompiled Headers/VRML-Reader_Prefix.pch
