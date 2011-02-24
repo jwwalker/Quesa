@@ -5,7 +5,7 @@
         Template class to replace std::vector in some cases.
 
     COPYRIGHT:
-        Copyright (c) 2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2010-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -161,7 +161,7 @@ void	E3FastArray<T>::swap( E3FastArray<T>& ioOther )
 
 
 template <typename T>
-typename E3FastArray<T>::E3FastArray&
+E3FastArray<T>&
 E3FastArray<T>::operator=( const E3FastArray<T>& inOther )
 {
 	E3FastArray<T> temp( inOther );
