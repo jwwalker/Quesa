@@ -5,7 +5,7 @@
         Quesa Utility Toolkit - Windows.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -220,7 +220,6 @@ static void qut_update_fps_display()
 static LRESULT CALLBACK
 qut_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {	TQ3Point2D				mouseDiff, theMouse;
-	TQ3DrawContextObject	theDrawContext;
 	int						wmId, wmEvent;
 	TQ3Area					thePane;
 	PAINTSTRUCT				ps;
