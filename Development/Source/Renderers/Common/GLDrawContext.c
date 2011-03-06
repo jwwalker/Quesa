@@ -5,7 +5,7 @@
         Quesa OpenGL draw context support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -356,8 +356,8 @@ gldrawcontext_fbo_get_size( TQ3DrawContextObject theDrawContext,
 {
 	TQ3Area		thePane;
 	Q3DrawContext_GetPane( theDrawContext, &thePane );
-	outWidth = thePane.max.x - thePane.min.x;
-	outHeight = thePane.max.y - thePane.min.y;
+	outWidth = static_cast<int>(thePane.max.x - thePane.min.x);
+	outHeight = static_cast<int>(thePane.max.y - thePane.min.y);
 }
 
 
@@ -701,7 +701,7 @@ FBORec::FBORec(
 		{
 			GLint	stencilDepth = 0;
 			glGetIntegerv( GL_STENCIL_BITS, &stencilDepth );
-			if (stencilDepth < stencilBits)
+			if (static_cast<TQ3Uns32>(stencilDepth) < stencilBits)
 			{
 				Q3_MESSAGE( "FBO did not get requested stencil bits.\n" );
 				E3ErrorManager_PostWarning( kQ3WarningNoOffscreenHardwareStencil );
@@ -792,10 +792,10 @@ void	FBORec::SwapBuffers()
 		Q3PixmapDrawContext_GetPixmap( quesaDrawContext, &thePixMap );
 		TQ3Area		thePane;
 		Q3DrawContext_GetPane( quesaDrawContext, &thePane );
-		int		minX = thePane.min.x;
-		int		minY = thePane.min.y;
-		int		theLogicalWidth = thePane.max.x - thePane.min.x;
-		int		theLogicalHeight = thePane.max.y - thePane.min.y;
+		int		minX = static_cast<int>(thePane.min.x);
+		int		minY = static_cast<int>(thePane.min.y);
+		int		theLogicalWidth = static_cast<int>(thePane.max.x - thePane.min.x);
+		int		theLogicalHeight = static_cast<int>(thePane.max.y - thePane.min.y);
 		TQ3Uns8*	baseAddr = static_cast<TQ3Uns8*>( thePixMap.image );
 		int		bytesPerPixel = thePixMap.pixelSize / 8;
 		TQ3Uns8*	panePixels = baseAddr + minY * thePixMap.rowBytes +
@@ -835,10 +835,10 @@ void	FBORec::StartFrame()
 		Q3PixmapDrawContext_GetPixmap( quesaDrawContext, &thePixMap );
 		TQ3Area		thePane;
 		Q3DrawContext_GetPane( quesaDrawContext, &thePane );
-		int		minX = thePane.min.x;
-		int		minY = thePane.min.y;
-		int		theWidth = thePane.max.x - thePane.min.x;
-		int		theHeight = thePane.max.y - thePane.min.y;
+		int		minX = static_cast<int>(thePane.min.x);
+		int		minY = static_cast<int>(thePane.min.y);
+		int		theWidth = static_cast<int>(thePane.max.x - thePane.min.x);
+		int		theHeight = static_cast<int>(thePane.max.y - thePane.min.y);
 		TQ3Uns8*	baseAddr = static_cast<TQ3Uns8*>( thePixMap.image );
 		TQ3Uns8*	panePixels = baseAddr + minY * thePixMap.rowBytes + minX;
 		int		bytesPerPixel = thePixMap.pixelSize / 8;
@@ -937,7 +937,7 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 			glGetIntegerv( GL_MAX_RENDERBUFFER_SIZE_EXT, &maxDimen );
 			TQ3Uns32	paneWidth, paneHeight;
 			gldrawcontext_fbo_get_size( theDrawContext, paneWidth, paneHeight );
-			TQ3Uns32	paneSize = E3Num_Max( paneWidth, paneHeight );
+			GLint	paneSize = E3Num_Max( paneWidth, paneHeight );
 			if ( (paneSize != 0) && (paneSize <= maxDimen) )
 			{
 				try
@@ -1902,10 +1902,10 @@ WinGLContext::WinGLContext(
 	// Set the viewport, and maybe scissor
 	if (drawContextData.paneState)
 	{
-		viewPort[0] = drawContextData.pane.min.x;
-		viewPort[1] = windowHeight - drawContextData.pane.max.y;
-		viewPort[2] = drawContextData.pane.max.x - drawContextData.pane.min.x;
-		viewPort[3] = drawContextData.pane.max.y - drawContextData.pane.min.y;
+		viewPort[0] = static_cast<int>(drawContextData.pane.min.x);
+		viewPort[1] = static_cast<int>(windowHeight - drawContextData.pane.max.y);
+		viewPort[2] = static_cast<int>(drawContextData.pane.max.x - drawContextData.pane.min.x);
+		viewPort[3] = static_cast<int>(drawContextData.pane.max.y - drawContextData.pane.min.y);
 		
 		glEnable( GL_SCISSOR_TEST );
 		glScissor( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
@@ -2102,10 +2102,10 @@ bool	WinGLContext::UpdateWindowSize()
 			{
 				if (drawContextData.paneState)
 				{
-					viewPort[0] = drawContextData.pane.min.x;
-					viewPort[1] = windowHeight - drawContextData.pane.max.y;
-					viewPort[2] = drawContextData.pane.max.x - drawContextData.pane.min.x;
-					viewPort[3] = drawContextData.pane.max.y - drawContextData.pane.min.y;
+					viewPort[0] = static_cast<int>(drawContextData.pane.min.x);
+					viewPort[1] = static_cast<int>(windowHeight - drawContextData.pane.max.y);
+					viewPort[2] = static_cast<int>(drawContextData.pane.max.x - drawContextData.pane.min.x);
+					viewPort[3] = static_cast<int>(drawContextData.pane.max.y - drawContextData.pane.min.y);
 					glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 					glEnable( GL_SCISSOR_TEST );
 					glScissor( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );

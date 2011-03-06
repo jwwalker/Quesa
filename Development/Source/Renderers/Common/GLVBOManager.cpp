@@ -5,7 +5,7 @@
         Quesa OpenGL vertex buffer object caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -126,7 +126,7 @@ namespace
 		TQ3Uns32		mNormalBufferOffset;
 		TQ3Uns32		mColorBufferOffset;
 		TQ3Uns32		mTextureUVBufferOffset;
-		int				mModeCount;
+		TQ3Uns32		mModeCount;
 	
 	private:
 		// Unimplemented; declared just to make sure that they don't get used
@@ -337,7 +337,7 @@ void	VBOCache::UpdateModeCount( TQ3GeometryObject inGeom )
 	CachedVBO*	triVBO = FindVBO( inGeom, GL_TRIANGLES );
 	CachedVBO*	lineVBO = FindVBO( inGeom, GL_LINES );
 	
-	int	modeCount = (stripVBO? 1 : 0) + (triVBO? 1 : 0) + (lineVBO? 1 : 0);
+	TQ3Uns32	modeCount = (stripVBO? 1 : 0) + (triVBO? 1 : 0) + (lineVBO? 1 : 0);
 	
 	if (modeCount > 0)
 	{

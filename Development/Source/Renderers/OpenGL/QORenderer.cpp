@@ -123,6 +123,14 @@ void	QORenderer::GLStencilFuncs::Initialize( const TQ3GLExtensions& inExts )
 
 #pragma mark -
 
+#ifdef _MSC_VER
+	// Visual Studio complains about passing 'this' to the mTriBuffer and
+	// mTriBuffer objects before the renderer object is fully constructed.
+	// But since those objects don't immediately do anything with the
+	// reference to the renderer other than save it, it's safe.
+	#pragma warning(disable: 4355)
+#endif
+
 //=============================================================================
 //     Main Class Constructor/destructor Implementations
 //-----------------------------------------------------------------------------

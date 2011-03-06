@@ -5,7 +5,7 @@
         Quesa interactive renderer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -107,7 +107,7 @@ static bool HasSegmentAtts( const TQ3PolyLineData* inGeomData )
 	
 	if (inGeomData->segmentAttributeSet != NULL)
 	{
-		for (int i = 0; i < inGeomData->numVertices - 1; ++i)
+		for (TQ3Uns32 i = 0; i < inGeomData->numVertices - 1; ++i)
 		{
 			if (inGeomData->segmentAttributeSet[i] != NULL)
 			{
