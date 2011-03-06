@@ -5,7 +5,7 @@
         Windows resource file for Quesa.
 
     COPYRIGHT:
-        Copyright (c) 2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2008-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,10 +47,9 @@
 //
 // Version
 //
-
 1 VERSIONINFO
- FILEVERSION kQ3MajorVersion, kQ3MinorVersion >> 4, kQ3MinorVersion & 0x0F, 0
- PRODUCTVERSION kQ3MajorVersion, kQ3MinorVersion >> 4, kQ3MinorVersion & 0x0F, 0
+ FILEVERSION kQ3MajorVersion, kQ3MinorVersion1, kQ3MinorVersion2, 0
+ PRODUCTVERSION kQ3MajorVersion, kQ3MinorVersion1, kQ3MinorVersion2, 0
  FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
 #ifdef DEBUG
  FILEFLAGS VS_FF_DEBUG
@@ -69,7 +68,7 @@ BEGIN
             VALUE "FileDescription", "Quesa 3D library\0"
             VALUE "FileVersion", kQ3StringVersion "\0"
             VALUE "InternalName", "Quesa\0"
-            VALUE "LegalCopyright", "Copyright \251 1999-2008 Quesa Developers\0"
+            VALUE "LegalCopyright", "Copyright \251 1999-2011 Quesa Developers\0"
             VALUE "ProductName", "Quesa\0"
             VALUE "ProductVersion", kQ3StringVersion "\0"
             VALUE "OriginalFilename", "Quesa.dll\0"
