@@ -5,7 +5,7 @@
         OpenGL display list caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -88,7 +88,7 @@ namespace
 		TQ3Uns32		mEditIndex;
 		GLuint			mDisplayList;
 		GLenum			mGLMode;
-		int				mModeCount;
+		TQ3Uns32		mModeCount;
 	};
 	
 	typedef	std::vector< CachedDisplayList >	DisplayListVec;

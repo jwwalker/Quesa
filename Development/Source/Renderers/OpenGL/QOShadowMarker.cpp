@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -250,10 +250,10 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 							const TQ3TriangleEdges* inFacesToEdges,
 							const TQ3RationalPoint4D& inLocalLightPos )
 {
-	TQ3Uns32 i;
+	int i;
 
 	// Set up original vertices and vertices extruded to infinity.
-	const TQ3Uns32	kNumPoints = inTMData.numPoints;
+	const int	kNumPoints = inTMData.numPoints;
 	mShadowPoints.resizeNotPreserving( kNumPoints + 1 );
 	TQ3RationalPoint4D*	verts = &mShadowPoints[0];
 	for (i = 0; i < kNumPoints; ++i)
@@ -279,7 +279,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 	glVertexPointer( 4, GL_FLOAT, 0, verts );
 	
 	// Set up edge counters.
-	const TQ3Uns32	kNumEdges = mShadowEdges.size();
+	const int	kNumEdges = mShadowEdges.size();
 	const TQ3EdgeEnds* theEdges = &mShadowEdges[0];
 	if (mShadowEdgeCounters.size() < kNumEdges)
 	{
@@ -289,7 +289,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 	std::fill( edgeCounter, edgeCounter + kNumEdges, 0 );
 
 	// Render front cap.
-	const TQ3Uns32	kNumFaces = inTMData.numTriangles;
+	const int	kNumFaces = inTMData.numTriangles;
 	if (mShadowVertIndices.size() < kNumFaces * 3)
 	{
 		mShadowVertIndices.resizeNotPreserving( kNumFaces * 3 );
@@ -300,7 +300,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 	TQ3Uns32 e;
 	for (i = 0; i < kNumFaces; ++i)
 	{
-		if ( IsFaceVisible( mStyleState.mBackfacing, litFaceFlags[i] ) )
+		if ( IsFaceVisible( mStyleState.mBackfacing, litFaceFlags[i] != 0 ) )
 		{
 			const TQ3TriMeshTriangleData& theFace( inFaces[i] );
 			
@@ -375,10 +375,10 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 							const TQ3TriangleEdges* inFacesToEdges,
 							const TQ3RationalPoint4D& inLocalLightPos )
 {
-	TQ3Uns32 i;
+	int i;
 	
 	// Set up original vertices and vertices extruded to infinity.
-	const TQ3Uns32	kNumPoints = inTMData.numPoints;
+	const int	kNumPoints = inTMData.numPoints;
 	mShadowPoints.resizeNotPreserving( 2 * kNumPoints );
 	TQ3RationalPoint4D*	verts = &mShadowPoints[0];
 
@@ -409,7 +409,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 	glVertexPointer( 4, GL_FLOAT, 0, verts );
 	
 	// Set up edge counters.
-	const TQ3Uns32	kNumEdges = mShadowEdges.size();
+	const int	kNumEdges = mShadowEdges.size();
 	const TQ3EdgeEnds* theEdges = &mShadowEdges[0];
 	if (mShadowEdgeCounters.size() < kNumEdges)
 	{
@@ -419,7 +419,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 	std::fill( edgeCounter, edgeCounter + kNumEdges, 0 );
 	
 	// Render front and back caps.
-	const TQ3Uns32	kNumFaces = inTMData.numTriangles;
+	const int	kNumFaces = inTMData.numTriangles;
 	if (mShadowVertIndices.size() < kNumFaces * 6)
 	{
 		mShadowVertIndices.resizeNotPreserving( kNumFaces * 6 );
@@ -430,7 +430,7 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 	TQ3Uns32 e;
 	for (i = 0; i < kNumFaces; ++i)
 	{
-		if ( IsFaceVisible( mStyleState.mBackfacing, litFaceFlags[i] ) )
+		if ( IsFaceVisible( mStyleState.mBackfacing, litFaceFlags[i] != 0 ) )
 		{
 			const TQ3TriMeshTriangleData& theFace( inFaces[i] );
 			

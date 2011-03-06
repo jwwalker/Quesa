@@ -5,7 +5,7 @@
         Build version header for Quesa.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -91,6 +91,8 @@
 //-----------------------------------------------------------------------------
 #define kQ3MajorVersion             0x02            // Major version for build
 #define kQ3MinorVersion             0x00            // Minor version for build
+#define kQ3MinorVersion1            0x0			    // Minor version, 1st digit
+#define kQ3MinorVersion2            0x0             // Minor version, 2nd digit
 #define kQ3ReleaseType              kFinal		    // Release type for build
 #define kQ3PrereleaseVersion        0x00            // Prerelease version for build
 #define kQ3UnquotedStringVersion    2.0             // Stringified version of above

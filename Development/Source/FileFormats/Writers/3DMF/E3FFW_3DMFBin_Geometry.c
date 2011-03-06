@@ -721,7 +721,7 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 	#pragma unused(data)
 	TQ3ShaderUVBoundary		uBoundary;
 	TQ3ShaderUVBoundary		vBoundary;
-	TQ3Uns32*				boundaries;
+	//TQ3Uns32*				boundaries;
 	TQ3Matrix3x3*			uvTransform;
 	const TQ3Matrix3x3	identityMatrix = { { { 1.0f, 0.0f, 0.0f},
 											{ 0.0f, 1.0f, 0.0f},
