@@ -849,7 +849,7 @@ void	QORenderer::Lights::StartPass(
 */
 bool	QORenderer::Lights::EndPass()
 {
-	for (int i = 0; i < mLightCount; ++i)
+	for (TQ3Uns32 i = 0; i < mLightCount; ++i)
 	{
 		glDisable( GL_LIGHT0 + i );
 	}
@@ -900,7 +900,7 @@ bool	QORenderer::Lights::IsShadowPhase() const
 */
 void	QORenderer::Lights::SetOnlyAmbient( bool inOnlyAmbient )
 {
-	int i, j;
+	TQ3Uns32 i, j;
 	
 	if (mIsOnlyAmbient != inOnlyAmbient)
 	{

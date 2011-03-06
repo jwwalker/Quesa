@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -897,7 +897,7 @@ void	QORenderer::Renderer::RenderSlowPathTriMesh(
 									const MeshArrays& inData )
 {
 	Vertex		theVertices[3];
-	int	faceNum;
+	TQ3Uns32	faceNum;
 	VertexFlags	flagUnion, flagIntersection;
 	
 	for (faceNum = 0; faceNum < inGeomData.numTriangles; ++faceNum)
@@ -1862,7 +1862,7 @@ static bool HasSegmentAtts( const TQ3PolyLineData* inGeomData )
 	
 	if (inGeomData->segmentAttributeSet != NULL)
 	{
-		for (int i = 0; i < inGeomData->numVertices - 1; ++i)
+		for (TQ3Uns32 i = 0; i < inGeomData->numVertices - 1; ++i)
 		{
 			if (inGeomData->segmentAttributeSet[i] != NULL)
 			{
@@ -1940,7 +1940,7 @@ void	QORenderer::Renderer::SubmitPolyLine(
 	
 	// Get the vertices
 	std::vector< Vertex >	theVertices( inGeomData->numVertices );
-	int i;
+	TQ3Uns32 i;
 	for (i = 0; i < inGeomData->numVertices; ++i)
 	{
 		CalcVertexState( inGeomData->vertices[i], theVertices[i] );
