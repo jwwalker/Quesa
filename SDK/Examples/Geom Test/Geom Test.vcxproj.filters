@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{b471074f-c6ef-4a9b-b52e-a440282c8d3e}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source\Utility Algorithms">
+      <UniqueIdentifier>{0765f5e2-c4da-4794-9155-c708cc50c5a2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Geom Test.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Qut\Qut.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Qut\QutTexture.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Qut\Windows\QutWindows.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\ApplyTransformsToGeometries.cpp">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\DecomposeGeometries.cpp">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\DeleteObjectsOfType.cpp">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\FindTriMeshFaceData.cpp">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\FindTriMeshVertexData.cpp">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\FlattenHierarchy.cpp">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\MergeTriMeshes.cpp">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\MergeTriMeshList.cpp">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\TransformGeometry.cpp">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\Libraries\Windows\Stub\Quesa.lib">
+      <Filter>Source</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Qut\Windows\Qut.rc">
+      <Filter>Source</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\ApplyTransformsToGeometries.h">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\DecomposeGeometries.h">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\DeleteObjectsOfType.h">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\FindTriMeshFaceData.h">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\FindTriMeshVertexData.h">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\FlattenHierarchy.h">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\MergeTriMeshes.h">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\MergeTriMeshList.h">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\TransformGeometry.h">
+      <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
