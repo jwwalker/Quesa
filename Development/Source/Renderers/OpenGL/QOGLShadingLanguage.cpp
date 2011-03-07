@@ -390,7 +390,7 @@ namespace
 					// Face normal vector for flat shading.
 					// If we could assume GLSL 1.30 or EXT_gpu_shader4, this
 					// could be done in a less tricky way, using the "flat"
-					// modifier for a varing variable.
+					// modifier for a varying variable.
 				"	vec3	normal = normalize(cross(dFdx(ECPos3), dFdy(ECPos3)));\n"
 
 				"	vec3		geomPos = ECPos3;\n"
@@ -411,7 +411,7 @@ namespace
 					// Start with emissive and global ambient color.
 					// I will assume that the only ambient light is global.
 				"	color = gl_LightModel.ambient.rgb * gl_Color.rgb + "
-							"gl_FrontMaterial.emission.rgb;\n"
+				"         gl_FrontMaterial.emission.rgb;\n"
 
 					// Add diffuse color.
 				"	color += diff * gl_Color.rgb;\n"
