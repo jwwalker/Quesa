@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -362,7 +362,7 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	glBlendFunc( mSrcBlendFactor, mDstBlendFactor );
 
 	glDisable( GL_TEXTURE_2D );
-	mCurTexture = 0;
+	mCurTexture = UINT32_MAX;	// force initial update
 	mCurUVTransformIndex = UINT32_MAX;
 	mCurUBoundary = kQ3ShaderUVBoundarySize32;
 	mCurVBoundary = kQ3ShaderUVBoundarySize32;
@@ -552,9 +552,25 @@ void	TransBuffer::SetDiffuseColor( const GLfloat* inColor4 )
 	}
 }
 
+
 void	TransBuffer::Render( const TransparentPrim& inPrim )
 {
 	UpdateSpecular( inPrim );
+	
+	// Previously, we were setting emissive color inside the loop, but there
+	// were problems with emissive color leaking from some transparent triangles
+	// to other transparent triangles that should not have had emission, when
+	// using per-pixel lighting.
+	// Setting the emissive color before glBegin fixes that problem, and I think
+	// we can live without per-vertex emissive color.
+	if ((inPrim.mVerts[0].flags & kVertexHaveEmissive) != 0)
+	{
+		SetEmissiveColor( inPrim.mVerts[0].emissiveColor );
+	}
+	else
+	{
+		SetEmissiveColor( kBlackColor );
+	}
 	
 	switch (inPrim.mNumVerts)
 	{
@@ -593,18 +609,8 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 			SetDiffuseColor( theVert );
 		}
 		
-		if ((theVert.flags & kVertexHaveEmissive) != 0)
-		{
-			SetEmissiveColor( theVert.emissiveColor );
-		}
-		else
-		{
-			SetEmissiveColor( kBlackColor );
-		}
-		
 		glVertex3fv( (const GLfloat *) &theVert.point );
 	}
-	
 	
 	glEnd();
 }
@@ -714,7 +720,7 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	glDisable( GL_LIGHTING );
 	glDisable( GL_BLEND );
 	glDisable( GL_TEXTURE_2D );
-	mCurTexture = 0;
+	mCurTexture = UINT32_MAX;
 	mCurUVTransformIndex = UINT32_MAX;
 	mCurUBoundary = kQ3ShaderUVBoundarySize32;
 	mCurVBoundary = kQ3ShaderUVBoundarySize32;
@@ -731,6 +737,16 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	// Set up alpha test
 	glEnable( GL_ALPHA_TEST );
 	glAlphaFunc( GL_GREATER, inAlphaThreshold );
+	
+	// specular: set to illegal values to force initial update
+	mCurSpecularControl = -1.0f;
+	mCurSpecularColor[0] = -1.0f;
+	
+	// similar for diffuse color
+	mCurDiffuseColor[3] = -1.0f;
+	
+	mCurEmissiveColor = kBlackColor;
+	mRenderer.SetEmissiveMaterial( mCurEmissiveColor );
 }
 
 /*!
