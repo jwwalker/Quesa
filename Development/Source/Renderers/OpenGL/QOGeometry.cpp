@@ -872,6 +872,8 @@ void QORenderer::Renderer::CalcTriMeshVertState(
 	// Emissive color from geom state?
 	if (
 		(mGeomState.emissiveColor != NULL) &&
+		(mGeomState.emissiveColor->r + mGeomState.emissiveColor->g +
+			mGeomState.emissiveColor->b > kQ3RealZero) &&
 		(
 			((outVertex.flags & kVertexHaveEmissive) == 0) ||
 			(mGeomState.highlightState == kQ3On) )
