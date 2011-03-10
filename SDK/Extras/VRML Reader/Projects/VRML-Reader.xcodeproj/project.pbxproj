@@ -8,64 +8,64 @@
 
 /* Begin PBXBuildFile section */
 		BE775A3209F809A5006C1ED3 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE775A3109F809A5006C1ED3 /* Quesa.framework */; };
-		BE7C47EA08AEC56600559F64 /* GetObjectName.cp in Sources */ = {isa = PBXBuildFile; fileRef = BE7C47E808AEC56600559F64 /* GetObjectName.cp */; };
-		BE7C47EB08AEC56600559F64 /* SetGroupName.cp in Sources */ = {isa = PBXBuildFile; fileRef = BE7C47E908AEC56600559F64 /* SetGroupName.cp */; };
-		BEB01A2808EF72B000A982F8 /* IndexedFaceSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEB01A2608EF72B000A982F8 /* IndexedFaceSet.cpp */; };
-		BEC95CC908A86F87001E16B9 /* quesa-methods.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CC408A86F87001E16B9 /* quesa-methods.cp */; };
-		BEC95CCA08A86F87001E16B9 /* main.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CC708A86F87001E16B9 /* main.cp */; };
-		BEC95CCB08A86F87001E16B9 /* CVRMLReader.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CC808A86F87001E16B9 /* CVRMLReader.cp */; };
-		BEC95D3A08A86FBC001E16B9 /* ConvertNumericArray.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CCD08A86FBC001E16B9 /* ConvertNumericArray.cp */; };
-		BEC95D3B08A86FBC001E16B9 /* CreatePixelTexture.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CCF08A86FBC001E16B9 /* CreatePixelTexture.cp */; };
-		BEC95D3C08A86FBC001E16B9 /* CreateTextureFromURL.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CD108A86FBC001E16B9 /* CreateTextureFromURL.cp */; };
-		BEC95D3D08A86FBC001E16B9 /* GetCachedObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CD408A86FBC001E16B9 /* GetCachedObject.cp */; };
-		BEC95D3E08A86FBC001E16B9 /* GetIntVecFromField.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CD608A86FBC001E16B9 /* GetIntVecFromField.cp */; };
-		BEC95D3F08A86FBC001E16B9 /* MakeTransform.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CD908A86FBC001E16B9 /* MakeTransform.cp */; };
-		BEC95D4008A86FBC001E16B9 /* PolyValue.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CDB08A86FBC001E16B9 /* PolyValue.cp */; };
-		BEC95D4108A86FBC001E16B9 /* PrependObjectToGroup.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CDD08A86FBC001E16B9 /* PrependObjectToGroup.cp */; };
-		BEC95D4208A86FBC001E16B9 /* SignedAngleBetweenVectors.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CDF08A86FBC001E16B9 /* SignedAngleBetweenVectors.cp */; };
-		BEC95D4308A86FBC001E16B9 /* UnBackslashEscape.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CE108A86FBC001E16B9 /* UnBackslashEscape.cp */; };
-		BEC95D4408A86FBC001E16B9 /* VRMLSkipParser.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CE308A86FBC001E16B9 /* VRMLSkipParser.cp */; };
-		BEC95D4508A86FBC001E16B9 /* GetIndexedMaterial.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CE608A86FBC001E16B9 /* GetIndexedMaterial.cp */; };
-		BEC95D4608A86FBC001E16B9 /* NodeV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CE808A86FBC001E16B9 /* NodeV1ToObject.cp */; };
-		BEC95D4708A86FBC001E16B9 /* ParseVRML1.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CEA08A86FBC001E16B9 /* ParseVRML1.cp */; };
-		BEC95D4808A86FBC001E16B9 /* SVRML1State.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CEC08A86FBC001E16B9 /* SVRML1State.cp */; };
-		BEC95D4908A86FBC001E16B9 /* ConeV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CEF08A86FBC001E16B9 /* ConeV1ToObject.cp */; };
-		BEC95D4A08A86FBC001E16B9 /* Coordinate3V1ToState.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CF108A86FBC001E16B9 /* Coordinate3V1ToState.cp */; };
-		BEC95D4B08A86FBC001E16B9 /* CubeV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CF308A86FBC001E16B9 /* CubeV1ToObject.cp */; };
-		BEC95D4C08A86FBC001E16B9 /* CylinderV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CF508A86FBC001E16B9 /* CylinderV1ToObject.cp */; };
-		BEC95D4D08A86FBC001E16B9 /* IndexedFaceSetV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CF708A86FBC001E16B9 /* IndexedFaceSetV1ToObject.cp */; };
-		BEC95D4E08A86FBC001E16B9 /* IndexedLineSetV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CF908A86FBC001E16B9 /* IndexedLineSetV1ToObject.cp */; };
-		BEC95D4F08A86FBC001E16B9 /* MaterialBindingV1ToState.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CFB08A86FBC001E16B9 /* MaterialBindingV1ToState.cp */; };
-		BEC95D5008A86FBC001E16B9 /* MaterialV1ToState.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CFD08A86FBC001E16B9 /* MaterialV1ToState.cp */; };
-		BEC95D5108A86FBC001E16B9 /* MatrixTransformV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95CFF08A86FBC001E16B9 /* MatrixTransformV1ToObject.cp */; };
-		BEC95D5208A86FBC001E16B9 /* NormalBindingV1ToState.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D0108A86FBC001E16B9 /* NormalBindingV1ToState.cp */; };
-		BEC95D5308A86FBC001E16B9 /* NormalV1ToState.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D0308A86FBC001E16B9 /* NormalV1ToState.cp */; };
-		BEC95D5408A86FBC001E16B9 /* PointSetV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D0508A86FBC001E16B9 /* PointSetV1ToObject.cp */; };
-		BEC95D5508A86FBC001E16B9 /* RotationV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D0708A86FBC001E16B9 /* RotationV1ToObject.cp */; };
-		BEC95D5608A86FBC001E16B9 /* ScaleV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D0908A86FBC001E16B9 /* ScaleV1ToObject.cp */; };
-		BEC95D5708A86FBC001E16B9 /* SeparatorV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D0B08A86FBC001E16B9 /* SeparatorV1ToObject.cp */; };
-		BEC95D5808A86FBC001E16B9 /* ShapeHintsV1ToState.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D0D08A86FBC001E16B9 /* ShapeHintsV1ToState.cp */; };
-		BEC95D5908A86FBC001E16B9 /* SphereV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D0F08A86FBC001E16B9 /* SphereV1ToObject.cp */; };
-		BEC95D5A08A86FBC001E16B9 /* Texture2V1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D1108A86FBC001E16B9 /* Texture2V1ToObject.cp */; };
-		BEC95D5B08A86FBC001E16B9 /* TextureCoordinate2V1ToState.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D1308A86FBC001E16B9 /* TextureCoordinate2V1ToState.cp */; };
-		BEC95D5C08A86FBC001E16B9 /* TransformSeparatorV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D1508A86FBC001E16B9 /* TransformSeparatorV1ToObject.cp */; };
-		BEC95D5D08A86FBC001E16B9 /* TransformV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D1708A86FBC001E16B9 /* TransformV1ToObject.cp */; };
-		BEC95D5E08A86FBC001E16B9 /* TranslationV1ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D1908A86FBC001E16B9 /* TranslationV1ToObject.cp */; };
-		BEC95D5F08A86FBC001E16B9 /* NodeV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D1D08A86FBC001E16B9 /* NodeV2ToObject.cp */; };
-		BEC95D6008A86FBC001E16B9 /* ParseVRML.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D1F08A86FBC001E16B9 /* ParseVRML.cp */; };
-		BEC95D6108A86FBC001E16B9 /* AppearanceV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D2208A86FBC001E16B9 /* AppearanceV2ToObject.cp */; };
-		BEC95D6208A86FBC001E16B9 /* BoxV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D2408A86FBC001E16B9 /* BoxV2ToObject.cp */; };
-		BEC95D6308A86FBC001E16B9 /* ChildrenV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D2608A86FBC001E16B9 /* ChildrenV2ToObject.cp */; };
-		BEC95D6408A86FBC001E16B9 /* ConeV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D2808A86FBC001E16B9 /* ConeV2ToObject.cp */; };
-		BEC95D6508A86FBC001E16B9 /* CylinderV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D2A08A86FBC001E16B9 /* CylinderV2ToObject.cp */; };
-		BEC95D6608A86FBC001E16B9 /* GroupV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D2C08A86FBC001E16B9 /* GroupV2ToObject.cp */; };
-		BEC95D6708A86FBC001E16B9 /* IndexedFaceSetV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D2E08A86FBC001E16B9 /* IndexedFaceSetV2ToObject.cp */; };
-		BEC95D6808A86FBC001E16B9 /* IndexedLineSetV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D3008A86FBC001E16B9 /* IndexedLineSetV2ToObject.cp */; };
-		BEC95D6908A86FBC001E16B9 /* PointSetV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D3208A86FBC001E16B9 /* PointSetV2ToObject.cp */; };
-		BEC95D6A08A86FBC001E16B9 /* ShapeV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D3408A86FBC001E16B9 /* ShapeV2ToObject.cp */; };
-		BEC95D6B08A86FBC001E16B9 /* SphereV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D3608A86FBC001E16B9 /* SphereV2ToObject.cp */; };
-		BEC95D6C08A86FBC001E16B9 /* TransformV2ToObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = BEC95D3808A86FBC001E16B9 /* TransformV2ToObject.cp */; };
-		BEFCF9930CA62F4300B84F9B /* SwitchV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEFCF9920CA62F4300B84F9B /* SwitchV2ToObject.cpp */; };
+		BE8D81F61328AAFC009324C6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81F51328AAFC009324C6 /* main.cpp */; };
+		BE8D81F81328AB2B009324C6 /* quesa-methods.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81F71328AB2B009324C6 /* quesa-methods.cpp */; };
+		BE8D81FA1328AB34009324C6 /* CVRMLReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81F91328AB34009324C6 /* CVRMLReader.cpp */; };
+		BE8D820A1328AB88009324C6 /* ConvertNumericArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81FC1328AB88009324C6 /* ConvertNumericArray.cpp */; };
+		BE8D820B1328AB88009324C6 /* CreatePixelTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81FD1328AB88009324C6 /* CreatePixelTexture.cpp */; };
+		BE8D820C1328AB88009324C6 /* CreateTextureFromURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81FE1328AB88009324C6 /* CreateTextureFromURL.cpp */; };
+		BE8D820D1328AB88009324C6 /* GetCachedObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81FF1328AB88009324C6 /* GetCachedObject.cpp */; };
+		BE8D820E1328AB88009324C6 /* GetIntVecFromField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82001328AB88009324C6 /* GetIntVecFromField.cpp */; };
+		BE8D820F1328AB88009324C6 /* GetObjectName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82011328AB88009324C6 /* GetObjectName.cpp */; };
+		BE8D82101328AB88009324C6 /* IndexedFaceSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82021328AB88009324C6 /* IndexedFaceSet.cpp */; };
+		BE8D82111328AB88009324C6 /* MakeTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82031328AB88009324C6 /* MakeTransform.cpp */; };
+		BE8D82121328AB88009324C6 /* PolyValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82041328AB88009324C6 /* PolyValue.cpp */; };
+		BE8D82131328AB88009324C6 /* PrependObjectToGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82051328AB88009324C6 /* PrependObjectToGroup.cpp */; };
+		BE8D82141328AB88009324C6 /* SetGroupName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82061328AB88009324C6 /* SetGroupName.cpp */; };
+		BE8D82151328AB88009324C6 /* SignedAngleBetweenVectors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82071328AB88009324C6 /* SignedAngleBetweenVectors.cpp */; };
+		BE8D82161328AB88009324C6 /* UnBackslashEscape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82081328AB88009324C6 /* UnBackslashEscape.cpp */; };
+		BE8D82171328AB88009324C6 /* VRMLSkipParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82091328AB88009324C6 /* VRMLSkipParser.cpp */; };
+		BE8D82331328ABE6009324C6 /* ConeV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D821D1328ABE6009324C6 /* ConeV1ToObject.cpp */; };
+		BE8D82341328ABE6009324C6 /* Coordinate3V1ToState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D821E1328ABE6009324C6 /* Coordinate3V1ToState.cpp */; };
+		BE8D82351328ABE6009324C6 /* CubeV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D821F1328ABE6009324C6 /* CubeV1ToObject.cpp */; };
+		BE8D82361328ABE6009324C6 /* CylinderV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82201328ABE6009324C6 /* CylinderV1ToObject.cpp */; };
+		BE8D82371328ABE6009324C6 /* IndexedFaceSetV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82211328ABE6009324C6 /* IndexedFaceSetV1ToObject.cpp */; };
+		BE8D82381328ABE6009324C6 /* IndexedLineSetV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82221328ABE6009324C6 /* IndexedLineSetV1ToObject.cpp */; };
+		BE8D82391328ABE6009324C6 /* MaterialBindingV1ToState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82231328ABE6009324C6 /* MaterialBindingV1ToState.cpp */; };
+		BE8D823A1328ABE6009324C6 /* MaterialV1ToState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82241328ABE6009324C6 /* MaterialV1ToState.cpp */; };
+		BE8D823B1328ABE6009324C6 /* MatrixTransformV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82251328ABE6009324C6 /* MatrixTransformV1ToObject.cpp */; };
+		BE8D823C1328ABE6009324C6 /* NormalBindingV1ToState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82261328ABE6009324C6 /* NormalBindingV1ToState.cpp */; };
+		BE8D823D1328ABE6009324C6 /* NormalV1ToState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82271328ABE6009324C6 /* NormalV1ToState.cpp */; };
+		BE8D823E1328ABE6009324C6 /* PointSetV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82281328ABE6009324C6 /* PointSetV1ToObject.cpp */; };
+		BE8D823F1328ABE6009324C6 /* RotationV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82291328ABE6009324C6 /* RotationV1ToObject.cpp */; };
+		BE8D82401328ABE6009324C6 /* ScaleV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D822A1328ABE6009324C6 /* ScaleV1ToObject.cpp */; };
+		BE8D82411328ABE6009324C6 /* SeparatorV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D822B1328ABE6009324C6 /* SeparatorV1ToObject.cpp */; };
+		BE8D82421328ABE6009324C6 /* ShapeHintsV1ToState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D822C1328ABE6009324C6 /* ShapeHintsV1ToState.cpp */; };
+		BE8D82431328ABE6009324C6 /* SphereV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D822D1328ABE6009324C6 /* SphereV1ToObject.cpp */; };
+		BE8D82441328ABE6009324C6 /* Texture2V1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D822E1328ABE6009324C6 /* Texture2V1ToObject.cpp */; };
+		BE8D82451328ABE6009324C6 /* TextureCoordinate2V1ToState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D822F1328ABE6009324C6 /* TextureCoordinate2V1ToState.cpp */; };
+		BE8D82461328ABE6009324C6 /* TransformSeparatorV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82301328ABE6009324C6 /* TransformSeparatorV1ToObject.cpp */; };
+		BE8D82471328ABE6009324C6 /* TransformV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82311328ABE6009324C6 /* TransformV1ToObject.cpp */; };
+		BE8D82481328ABE6009324C6 /* TranslationV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82321328ABE6009324C6 /* TranslationV1ToObject.cpp */; };
+		BE8D824F1328AC09009324C6 /* GetIndexedMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D824B1328AC09009324C6 /* GetIndexedMaterial.cpp */; };
+		BE8D82501328AC09009324C6 /* NodeV1ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D824C1328AC09009324C6 /* NodeV1ToObject.cpp */; };
+		BE8D82511328AC09009324C6 /* ParseVRML1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D824D1328AC09009324C6 /* ParseVRML1.cpp */; };
+		BE8D82521328AC09009324C6 /* SVRML1State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D824E1328AC09009324C6 /* SVRML1State.cpp */; };
+		BE8D82621328AC41009324C6 /* AppearanceV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82551328AC41009324C6 /* AppearanceV2ToObject.cpp */; };
+		BE8D82631328AC41009324C6 /* BoxV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82561328AC41009324C6 /* BoxV2ToObject.cpp */; };
+		BE8D82641328AC41009324C6 /* ChildrenV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82571328AC41009324C6 /* ChildrenV2ToObject.cpp */; };
+		BE8D82651328AC41009324C6 /* ConeV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82581328AC41009324C6 /* ConeV2ToObject.cpp */; };
+		BE8D82661328AC41009324C6 /* CylinderV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82591328AC41009324C6 /* CylinderV2ToObject.cpp */; };
+		BE8D82671328AC41009324C6 /* GroupV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D825A1328AC41009324C6 /* GroupV2ToObject.cpp */; };
+		BE8D82681328AC41009324C6 /* IndexedFaceSetV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D825B1328AC41009324C6 /* IndexedFaceSetV2ToObject.cpp */; };
+		BE8D82691328AC41009324C6 /* IndexedLineSetV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D825C1328AC41009324C6 /* IndexedLineSetV2ToObject.cpp */; };
+		BE8D826A1328AC41009324C6 /* PointSetV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D825D1328AC41009324C6 /* PointSetV2ToObject.cpp */; };
+		BE8D826B1328AC41009324C6 /* ShapeV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D825E1328AC41009324C6 /* ShapeV2ToObject.cpp */; };
+		BE8D826C1328AC41009324C6 /* SphereV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D825F1328AC41009324C6 /* SphereV2ToObject.cpp */; };
+		BE8D826D1328AC41009324C6 /* SwitchV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82601328AC41009324C6 /* SwitchV2ToObject.cpp */; };
+		BE8D826E1328AC41009324C6 /* TransformV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82611328AC41009324C6 /* TransformV2ToObject.cpp */; };
+		BE8D82731328AC55009324C6 /* NodeV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82711328AC55009324C6 /* NodeV2ToObject.cpp */; };
+		BE8D82741328AC55009324C6 /* ParseVRML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82721328AC55009324C6 /* ParseVRML.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -118,127 +118,127 @@
 		BE775A3109F809A5006C1ED3 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE7C47E608AEC56600559F64 /* SetGroupName.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SetGroupName.h; sourceTree = "<group>"; };
 		BE7C47E708AEC56600559F64 /* GetObjectName.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetObjectName.h; sourceTree = "<group>"; };
-		BE7C47E808AEC56600559F64 /* GetObjectName.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GetObjectName.cp; sourceTree = "<group>"; };
-		BE7C47E908AEC56600559F64 /* SetGroupName.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SetGroupName.cp; sourceTree = "<group>"; };
+		BE8D81F51328AAFC009324C6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../Source/main.cpp; sourceTree = SOURCE_ROOT; };
+		BE8D81F71328AB2B009324C6 /* quesa-methods.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "quesa-methods.cpp"; path = "../Source/quesa-methods.cpp"; sourceTree = SOURCE_ROOT; };
+		BE8D81F91328AB34009324C6 /* CVRMLReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CVRMLReader.cpp; path = ../Source/CVRMLReader.cpp; sourceTree = SOURCE_ROOT; };
+		BE8D81FC1328AB88009324C6 /* ConvertNumericArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvertNumericArray.cpp; sourceTree = "<group>"; };
+		BE8D81FD1328AB88009324C6 /* CreatePixelTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreatePixelTexture.cpp; sourceTree = "<group>"; };
+		BE8D81FE1328AB88009324C6 /* CreateTextureFromURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreateTextureFromURL.cpp; sourceTree = "<group>"; };
+		BE8D81FF1328AB88009324C6 /* GetCachedObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GetCachedObject.cpp; sourceTree = "<group>"; };
+		BE8D82001328AB88009324C6 /* GetIntVecFromField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GetIntVecFromField.cpp; sourceTree = "<group>"; };
+		BE8D82011328AB88009324C6 /* GetObjectName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GetObjectName.cpp; sourceTree = "<group>"; };
+		BE8D82021328AB88009324C6 /* IndexedFaceSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedFaceSet.cpp; sourceTree = "<group>"; };
+		BE8D82031328AB88009324C6 /* MakeTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MakeTransform.cpp; sourceTree = "<group>"; };
+		BE8D82041328AB88009324C6 /* PolyValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolyValue.cpp; sourceTree = "<group>"; };
+		BE8D82051328AB88009324C6 /* PrependObjectToGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PrependObjectToGroup.cpp; sourceTree = "<group>"; };
+		BE8D82061328AB88009324C6 /* SetGroupName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SetGroupName.cpp; sourceTree = "<group>"; };
+		BE8D82071328AB88009324C6 /* SignedAngleBetweenVectors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SignedAngleBetweenVectors.cpp; sourceTree = "<group>"; };
+		BE8D82081328AB88009324C6 /* UnBackslashEscape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnBackslashEscape.cpp; sourceTree = "<group>"; };
+		BE8D82091328AB88009324C6 /* VRMLSkipParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VRMLSkipParser.cpp; sourceTree = "<group>"; };
+		BE8D821D1328ABE6009324C6 /* ConeV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConeV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D821E1328ABE6009324C6 /* Coordinate3V1ToState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Coordinate3V1ToState.cpp; sourceTree = "<group>"; };
+		BE8D821F1328ABE6009324C6 /* CubeV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubeV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82201328ABE6009324C6 /* CylinderV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CylinderV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82211328ABE6009324C6 /* IndexedFaceSetV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedFaceSetV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82221328ABE6009324C6 /* IndexedLineSetV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedLineSetV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82231328ABE6009324C6 /* MaterialBindingV1ToState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialBindingV1ToState.cpp; sourceTree = "<group>"; };
+		BE8D82241328ABE6009324C6 /* MaterialV1ToState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialV1ToState.cpp; sourceTree = "<group>"; };
+		BE8D82251328ABE6009324C6 /* MatrixTransformV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MatrixTransformV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82261328ABE6009324C6 /* NormalBindingV1ToState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NormalBindingV1ToState.cpp; sourceTree = "<group>"; };
+		BE8D82271328ABE6009324C6 /* NormalV1ToState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NormalV1ToState.cpp; sourceTree = "<group>"; };
+		BE8D82281328ABE6009324C6 /* PointSetV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointSetV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82291328ABE6009324C6 /* RotationV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RotationV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D822A1328ABE6009324C6 /* ScaleV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScaleV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D822B1328ABE6009324C6 /* SeparatorV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SeparatorV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D822C1328ABE6009324C6 /* ShapeHintsV1ToState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeHintsV1ToState.cpp; sourceTree = "<group>"; };
+		BE8D822D1328ABE6009324C6 /* SphereV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SphereV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D822E1328ABE6009324C6 /* Texture2V1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture2V1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D822F1328ABE6009324C6 /* TextureCoordinate2V1ToState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureCoordinate2V1ToState.cpp; sourceTree = "<group>"; };
+		BE8D82301328ABE6009324C6 /* TransformSeparatorV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransformSeparatorV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82311328ABE6009324C6 /* TransformV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransformV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82321328ABE6009324C6 /* TranslationV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TranslationV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D824B1328AC09009324C6 /* GetIndexedMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GetIndexedMaterial.cpp; sourceTree = "<group>"; };
+		BE8D824C1328AC09009324C6 /* NodeV1ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeV1ToObject.cpp; sourceTree = "<group>"; };
+		BE8D824D1328AC09009324C6 /* ParseVRML1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParseVRML1.cpp; sourceTree = "<group>"; };
+		BE8D824E1328AC09009324C6 /* SVRML1State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVRML1State.cpp; sourceTree = "<group>"; };
+		BE8D82551328AC41009324C6 /* AppearanceV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppearanceV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82561328AC41009324C6 /* BoxV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoxV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82571328AC41009324C6 /* ChildrenV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildrenV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82581328AC41009324C6 /* ConeV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConeV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82591328AC41009324C6 /* CylinderV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CylinderV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D825A1328AC41009324C6 /* GroupV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GroupV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D825B1328AC41009324C6 /* IndexedFaceSetV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedFaceSetV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D825C1328AC41009324C6 /* IndexedLineSetV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedLineSetV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D825D1328AC41009324C6 /* PointSetV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointSetV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D825E1328AC41009324C6 /* ShapeV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D825F1328AC41009324C6 /* SphereV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SphereV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82601328AC41009324C6 /* SwitchV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82611328AC41009324C6 /* TransformV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransformV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82711328AC55009324C6 /* NodeV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeV2ToObject.cpp; sourceTree = "<group>"; };
+		BE8D82721328AC55009324C6 /* ParseVRML.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParseVRML.cpp; sourceTree = "<group>"; };
 		BE90C99F0AFBCC0F00976226 /* VRML-reader-prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "VRML-reader-prefix.h"; path = "../Source/VRML-reader-prefix.h"; sourceTree = SOURCE_ROOT; };
 		BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "VRML-reader.xcconfig"; sourceTree = "<group>"; };
-		BEB01A2608EF72B000A982F8 /* IndexedFaceSet.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedFaceSet.cpp; sourceTree = "<group>"; };
 		BEB01A2708EF72B000A982F8 /* IndexedFaceSet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IndexedFaceSet.h; sourceTree = "<group>"; };
 		BEC95CBA08A86BD2001E16B9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 		BEC95CC308A86F87001E16B9 /* boost-user-config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "boost-user-config.h"; path = "../Source/boost-user-config.h"; sourceTree = SOURCE_ROOT; };
-		BEC95CC408A86F87001E16B9 /* quesa-methods.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = "quesa-methods.cp"; path = "../Source/quesa-methods.cp"; sourceTree = SOURCE_ROOT; };
 		BEC95CC508A86F87001E16B9 /* CVRMLReader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CVRMLReader.h; path = ../Source/CVRMLReader.h; sourceTree = SOURCE_ROOT; };
 		BEC95CC608A86F87001E16B9 /* quesa-methods.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "quesa-methods.h"; path = "../Source/quesa-methods.h"; sourceTree = SOURCE_ROOT; };
-		BEC95CC708A86F87001E16B9 /* main.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cp; path = ../Source/main.cp; sourceTree = SOURCE_ROOT; };
-		BEC95CC808A86F87001E16B9 /* CVRMLReader.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CVRMLReader.cp; path = ../Source/CVRMLReader.cp; sourceTree = SOURCE_ROOT; };
-		BEC95CCD08A86FBC001E16B9 /* ConvertNumericArray.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ConvertNumericArray.cp; sourceTree = "<group>"; };
 		BEC95CCE08A86FBC001E16B9 /* ConvertNumericArray.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConvertNumericArray.h; sourceTree = "<group>"; };
-		BEC95CCF08A86FBC001E16B9 /* CreatePixelTexture.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CreatePixelTexture.cp; sourceTree = "<group>"; };
 		BEC95CD008A86FBC001E16B9 /* CreatePixelTexture.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CreatePixelTexture.h; sourceTree = "<group>"; };
-		BEC95CD108A86FBC001E16B9 /* CreateTextureFromURL.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CreateTextureFromURL.cp; sourceTree = "<group>"; };
 		BEC95CD208A86FBC001E16B9 /* CreateTextureFromURL.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CreateTextureFromURL.h; sourceTree = "<group>"; };
 		BEC95CD308A86FBC001E16B9 /* GetArrayFromNodeField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetArrayFromNodeField.h; sourceTree = "<group>"; };
-		BEC95CD408A86FBC001E16B9 /* GetCachedObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GetCachedObject.cp; sourceTree = "<group>"; };
 		BEC95CD508A86FBC001E16B9 /* GetCachedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetCachedObject.h; sourceTree = "<group>"; };
-		BEC95CD608A86FBC001E16B9 /* GetIntVecFromField.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GetIntVecFromField.cp; sourceTree = "<group>"; };
 		BEC95CD708A86FBC001E16B9 /* GetIntVecFromField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetIntVecFromField.h; sourceTree = "<group>"; };
 		BEC95CD808A86FBC001E16B9 /* IsKeyPresent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IsKeyPresent.h; sourceTree = "<group>"; };
-		BEC95CD908A86FBC001E16B9 /* MakeTransform.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MakeTransform.cp; sourceTree = "<group>"; };
 		BEC95CDA08A86FBC001E16B9 /* MakeTransform.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MakeTransform.h; sourceTree = "<group>"; };
-		BEC95CDB08A86FBC001E16B9 /* PolyValue.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = PolyValue.cp; sourceTree = "<group>"; };
 		BEC95CDC08A86FBC001E16B9 /* PolyValue.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PolyValue.h; sourceTree = "<group>"; };
-		BEC95CDD08A86FBC001E16B9 /* PrependObjectToGroup.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = PrependObjectToGroup.cp; sourceTree = "<group>"; };
 		BEC95CDE08A86FBC001E16B9 /* PrependObjectToGroup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrependObjectToGroup.h; sourceTree = "<group>"; };
-		BEC95CDF08A86FBC001E16B9 /* SignedAngleBetweenVectors.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SignedAngleBetweenVectors.cp; sourceTree = "<group>"; };
 		BEC95CE008A86FBC001E16B9 /* SignedAngleBetweenVectors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SignedAngleBetweenVectors.h; sourceTree = "<group>"; };
-		BEC95CE108A86FBC001E16B9 /* UnBackslashEscape.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = UnBackslashEscape.cp; sourceTree = "<group>"; };
 		BEC95CE208A86FBC001E16B9 /* UnBackslashEscape.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UnBackslashEscape.h; sourceTree = "<group>"; };
-		BEC95CE308A86FBC001E16B9 /* VRMLSkipParser.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = VRMLSkipParser.cp; sourceTree = "<group>"; };
 		BEC95CE408A86FBC001E16B9 /* VRMLSkipParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = VRMLSkipParser.h; sourceTree = "<group>"; };
-		BEC95CE608A86FBC001E16B9 /* GetIndexedMaterial.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GetIndexedMaterial.cp; sourceTree = "<group>"; };
 		BEC95CE708A86FBC001E16B9 /* GetIndexedMaterial.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetIndexedMaterial.h; sourceTree = "<group>"; };
-		BEC95CE808A86FBC001E16B9 /* NodeV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = NodeV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95CE908A86FBC001E16B9 /* NodeV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NodeV1ToObject.h; sourceTree = "<group>"; };
-		BEC95CEA08A86FBC001E16B9 /* ParseVRML1.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ParseVRML1.cp; sourceTree = "<group>"; };
 		BEC95CEB08A86FBC001E16B9 /* ParseVRML1.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ParseVRML1.h; sourceTree = "<group>"; };
-		BEC95CEC08A86FBC001E16B9 /* SVRML1State.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SVRML1State.cp; sourceTree = "<group>"; };
 		BEC95CED08A86FBC001E16B9 /* SVRML1State.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SVRML1State.h; sourceTree = "<group>"; };
-		BEC95CEF08A86FBC001E16B9 /* ConeV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ConeV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95CF008A86FBC001E16B9 /* ConeV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConeV1ToObject.h; sourceTree = "<group>"; };
-		BEC95CF108A86FBC001E16B9 /* Coordinate3V1ToState.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Coordinate3V1ToState.cp; sourceTree = "<group>"; };
 		BEC95CF208A86FBC001E16B9 /* Coordinate3V1ToState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Coordinate3V1ToState.h; sourceTree = "<group>"; };
-		BEC95CF308A86FBC001E16B9 /* CubeV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CubeV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95CF408A86FBC001E16B9 /* CubeV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CubeV1ToObject.h; sourceTree = "<group>"; };
-		BEC95CF508A86FBC001E16B9 /* CylinderV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CylinderV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95CF608A86FBC001E16B9 /* CylinderV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CylinderV1ToObject.h; sourceTree = "<group>"; };
-		BEC95CF708A86FBC001E16B9 /* IndexedFaceSetV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedFaceSetV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95CF808A86FBC001E16B9 /* IndexedFaceSetV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IndexedFaceSetV1ToObject.h; sourceTree = "<group>"; };
-		BEC95CF908A86FBC001E16B9 /* IndexedLineSetV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedLineSetV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95CFA08A86FBC001E16B9 /* IndexedLineSetV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IndexedLineSetV1ToObject.h; sourceTree = "<group>"; };
-		BEC95CFB08A86FBC001E16B9 /* MaterialBindingV1ToState.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialBindingV1ToState.cp; sourceTree = "<group>"; };
 		BEC95CFC08A86FBC001E16B9 /* MaterialBindingV1ToState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MaterialBindingV1ToState.h; sourceTree = "<group>"; };
-		BEC95CFD08A86FBC001E16B9 /* MaterialV1ToState.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialV1ToState.cp; sourceTree = "<group>"; };
 		BEC95CFE08A86FBC001E16B9 /* MaterialV1ToState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MaterialV1ToState.h; sourceTree = "<group>"; };
-		BEC95CFF08A86FBC001E16B9 /* MatrixTransformV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MatrixTransformV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D0008A86FBC001E16B9 /* MatrixTransformV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MatrixTransformV1ToObject.h; sourceTree = "<group>"; };
-		BEC95D0108A86FBC001E16B9 /* NormalBindingV1ToState.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = NormalBindingV1ToState.cp; sourceTree = "<group>"; };
 		BEC95D0208A86FBC001E16B9 /* NormalBindingV1ToState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NormalBindingV1ToState.h; sourceTree = "<group>"; };
-		BEC95D0308A86FBC001E16B9 /* NormalV1ToState.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = NormalV1ToState.cp; sourceTree = "<group>"; };
 		BEC95D0408A86FBC001E16B9 /* NormalV1ToState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NormalV1ToState.h; sourceTree = "<group>"; };
-		BEC95D0508A86FBC001E16B9 /* PointSetV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = PointSetV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D0608A86FBC001E16B9 /* PointSetV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PointSetV1ToObject.h; sourceTree = "<group>"; };
-		BEC95D0708A86FBC001E16B9 /* RotationV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = RotationV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D0808A86FBC001E16B9 /* RotationV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RotationV1ToObject.h; sourceTree = "<group>"; };
-		BEC95D0908A86FBC001E16B9 /* ScaleV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScaleV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D0A08A86FBC001E16B9 /* ScaleV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScaleV1ToObject.h; sourceTree = "<group>"; };
-		BEC95D0B08A86FBC001E16B9 /* SeparatorV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SeparatorV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D0C08A86FBC001E16B9 /* SeparatorV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SeparatorV1ToObject.h; sourceTree = "<group>"; };
-		BEC95D0D08A86FBC001E16B9 /* ShapeHintsV1ToState.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeHintsV1ToState.cp; sourceTree = "<group>"; };
 		BEC95D0E08A86FBC001E16B9 /* ShapeHintsV1ToState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ShapeHintsV1ToState.h; sourceTree = "<group>"; };
-		BEC95D0F08A86FBC001E16B9 /* SphereV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SphereV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D1008A86FBC001E16B9 /* SphereV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SphereV1ToObject.h; sourceTree = "<group>"; };
-		BEC95D1108A86FBC001E16B9 /* Texture2V1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Texture2V1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D1208A86FBC001E16B9 /* Texture2V1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Texture2V1ToObject.h; sourceTree = "<group>"; };
-		BEC95D1308A86FBC001E16B9 /* TextureCoordinate2V1ToState.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TextureCoordinate2V1ToState.cp; sourceTree = "<group>"; };
 		BEC95D1408A86FBC001E16B9 /* TextureCoordinate2V1ToState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TextureCoordinate2V1ToState.h; sourceTree = "<group>"; };
-		BEC95D1508A86FBC001E16B9 /* TransformSeparatorV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TransformSeparatorV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D1608A86FBC001E16B9 /* TransformSeparatorV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TransformSeparatorV1ToObject.h; sourceTree = "<group>"; };
-		BEC95D1708A86FBC001E16B9 /* TransformV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TransformV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D1808A86FBC001E16B9 /* TransformV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TransformV1ToObject.h; sourceTree = "<group>"; };
-		BEC95D1908A86FBC001E16B9 /* TranslationV1ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TranslationV1ToObject.cp; sourceTree = "<group>"; };
 		BEC95D1A08A86FBC001E16B9 /* TranslationV1ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TranslationV1ToObject.h; sourceTree = "<group>"; };
 		BEC95D1B08A86FBC001E16B9 /* VRML_1_constants.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = VRML_1_constants.h; sourceTree = "<group>"; };
-		BEC95D1D08A86FBC001E16B9 /* NodeV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = NodeV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D1E08A86FBC001E16B9 /* NodeV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NodeV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D1F08A86FBC001E16B9 /* ParseVRML.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ParseVRML.cp; sourceTree = "<group>"; };
 		BEC95D2008A86FBC001E16B9 /* ParseVRML.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ParseVRML.h; sourceTree = "<group>"; };
-		BEC95D2208A86FBC001E16B9 /* AppearanceV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = AppearanceV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D2308A86FBC001E16B9 /* AppearanceV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppearanceV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D2408A86FBC001E16B9 /* BoxV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = BoxV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D2508A86FBC001E16B9 /* BoxV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BoxV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D2608A86FBC001E16B9 /* ChildrenV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ChildrenV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D2708A86FBC001E16B9 /* ChildrenV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ChildrenV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D2808A86FBC001E16B9 /* ConeV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ConeV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D2908A86FBC001E16B9 /* ConeV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConeV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D2A08A86FBC001E16B9 /* CylinderV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CylinderV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D2B08A86FBC001E16B9 /* CylinderV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CylinderV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D2C08A86FBC001E16B9 /* GroupV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GroupV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D2D08A86FBC001E16B9 /* GroupV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GroupV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D2E08A86FBC001E16B9 /* IndexedFaceSetV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedFaceSetV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D2F08A86FBC001E16B9 /* IndexedFaceSetV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IndexedFaceSetV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D3008A86FBC001E16B9 /* IndexedLineSetV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = IndexedLineSetV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D3108A86FBC001E16B9 /* IndexedLineSetV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IndexedLineSetV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D3208A86FBC001E16B9 /* PointSetV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = PointSetV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D3308A86FBC001E16B9 /* PointSetV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PointSetV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D3408A86FBC001E16B9 /* ShapeV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ShapeV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D3508A86FBC001E16B9 /* ShapeV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ShapeV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D3608A86FBC001E16B9 /* SphereV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SphereV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D3708A86FBC001E16B9 /* SphereV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SphereV2ToObject.h; sourceTree = "<group>"; };
-		BEC95D3808A86FBC001E16B9 /* TransformV2ToObject.cp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TransformV2ToObject.cp; sourceTree = "<group>"; };
 		BEC95D3908A86FBC001E16B9 /* TransformV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TransformV2ToObject.h; sourceTree = "<group>"; };
 		BEC95D6D08A86FDD001E16B9 /* VRML-Reader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "VRML-Reader_Prefix.pch"; path = "../Source/Precompiled Headers/VRML-Reader_Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		BEFCF9910CA62F4300B84F9B /* SwitchV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchV2ToObject.h; sourceTree = "<group>"; };
-		BEFCF9920CA62F4300B84F9B /* SwitchV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchV2ToObject.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,12 +288,12 @@
 			children = (
 				BEC95D6D08A86FDD001E16B9 /* VRML-Reader_Prefix.pch */,
 				BE90C99F0AFBCC0F00976226 /* VRML-reader-prefix.h */,
-				BEC95CC708A86F87001E16B9 /* main.cp */,
+				BE8D81F51328AAFC009324C6 /* main.cpp */,
 				BEC95CC308A86F87001E16B9 /* boost-user-config.h */,
 				BEC95CC608A86F87001E16B9 /* quesa-methods.h */,
-				BEC95CC408A86F87001E16B9 /* quesa-methods.cp */,
+				BE8D81F71328AB2B009324C6 /* quesa-methods.cpp */,
 				BEC95CC508A86F87001E16B9 /* CVRMLReader.h */,
-				BEC95CC808A86F87001E16B9 /* CVRMLReader.cp */,
+				BE8D81F91328AB34009324C6 /* CVRMLReader.cpp */,
 				BEC95CCC08A86FBC001E16B9 /* Utilities */,
 				BEC95CE508A86FBC001E16B9 /* VRML 1 */,
 				BEC95D1C08A86FBC001E16B9 /* VRML 2 */,
@@ -329,36 +329,36 @@
 		BEC95CCC08A86FBC001E16B9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				BEC95CCD08A86FBC001E16B9 /* ConvertNumericArray.cp */,
+				BE8D81FC1328AB88009324C6 /* ConvertNumericArray.cpp */,
 				BEC95CCE08A86FBC001E16B9 /* ConvertNumericArray.h */,
-				BEC95CCF08A86FBC001E16B9 /* CreatePixelTexture.cp */,
+				BE8D81FD1328AB88009324C6 /* CreatePixelTexture.cpp */,
 				BEC95CD008A86FBC001E16B9 /* CreatePixelTexture.h */,
-				BEC95CD108A86FBC001E16B9 /* CreateTextureFromURL.cp */,
+				BE8D81FE1328AB88009324C6 /* CreateTextureFromURL.cpp */,
 				BEC95CD208A86FBC001E16B9 /* CreateTextureFromURL.h */,
 				BEC95CD308A86FBC001E16B9 /* GetArrayFromNodeField.h */,
-				BEC95CD408A86FBC001E16B9 /* GetCachedObject.cp */,
+				BE8D81FF1328AB88009324C6 /* GetCachedObject.cpp */,
 				BEC95CD508A86FBC001E16B9 /* GetCachedObject.h */,
-				BEC95CD608A86FBC001E16B9 /* GetIntVecFromField.cp */,
+				BE8D82001328AB88009324C6 /* GetIntVecFromField.cpp */,
 				BEC95CD708A86FBC001E16B9 /* GetIntVecFromField.h */,
-				BEB01A2608EF72B000A982F8 /* IndexedFaceSet.cpp */,
+				BE8D82011328AB88009324C6 /* GetObjectName.cpp */,
+				BE7C47E708AEC56600559F64 /* GetObjectName.h */,
+				BE8D82021328AB88009324C6 /* IndexedFaceSet.cpp */,
 				BEB01A2708EF72B000A982F8 /* IndexedFaceSet.h */,
 				BEC95CD808A86FBC001E16B9 /* IsKeyPresent.h */,
-				BEC95CD908A86FBC001E16B9 /* MakeTransform.cp */,
+				BE8D82031328AB88009324C6 /* MakeTransform.cpp */,
 				BEC95CDA08A86FBC001E16B9 /* MakeTransform.h */,
-				BEC95CDB08A86FBC001E16B9 /* PolyValue.cp */,
+				BE8D82041328AB88009324C6 /* PolyValue.cpp */,
 				BEC95CDC08A86FBC001E16B9 /* PolyValue.h */,
-				BEC95CDD08A86FBC001E16B9 /* PrependObjectToGroup.cp */,
+				BE8D82051328AB88009324C6 /* PrependObjectToGroup.cpp */,
 				BEC95CDE08A86FBC001E16B9 /* PrependObjectToGroup.h */,
-				BEC95CDF08A86FBC001E16B9 /* SignedAngleBetweenVectors.cp */,
-				BEC95CE008A86FBC001E16B9 /* SignedAngleBetweenVectors.h */,
-				BEC95CE108A86FBC001E16B9 /* UnBackslashEscape.cp */,
-				BEC95CE208A86FBC001E16B9 /* UnBackslashEscape.h */,
-				BEC95CE308A86FBC001E16B9 /* VRMLSkipParser.cp */,
-				BEC95CE408A86FBC001E16B9 /* VRMLSkipParser.h */,
+				BE8D82061328AB88009324C6 /* SetGroupName.cpp */,
 				BE7C47E608AEC56600559F64 /* SetGroupName.h */,
-				BE7C47E708AEC56600559F64 /* GetObjectName.h */,
-				BE7C47E808AEC56600559F64 /* GetObjectName.cp */,
-				BE7C47E908AEC56600559F64 /* SetGroupName.cp */,
+				BE8D82071328AB88009324C6 /* SignedAngleBetweenVectors.cpp */,
+				BEC95CE008A86FBC001E16B9 /* SignedAngleBetweenVectors.h */,
+				BE8D82081328AB88009324C6 /* UnBackslashEscape.cpp */,
+				BEC95CE208A86FBC001E16B9 /* UnBackslashEscape.h */,
+				BE8D82091328AB88009324C6 /* VRMLSkipParser.cpp */,
+				BEC95CE408A86FBC001E16B9 /* VRMLSkipParser.h */,
 			);
 			name = Utilities;
 			path = ../Source/Utilities;
@@ -367,13 +367,13 @@
 		BEC95CE508A86FBC001E16B9 /* VRML 1 */ = {
 			isa = PBXGroup;
 			children = (
-				BEC95CE608A86FBC001E16B9 /* GetIndexedMaterial.cp */,
+				BE8D824B1328AC09009324C6 /* GetIndexedMaterial.cpp */,
 				BEC95CE708A86FBC001E16B9 /* GetIndexedMaterial.h */,
-				BEC95CE808A86FBC001E16B9 /* NodeV1ToObject.cp */,
+				BE8D824C1328AC09009324C6 /* NodeV1ToObject.cpp */,
 				BEC95CE908A86FBC001E16B9 /* NodeV1ToObject.h */,
-				BEC95CEA08A86FBC001E16B9 /* ParseVRML1.cp */,
+				BE8D824D1328AC09009324C6 /* ParseVRML1.cpp */,
 				BEC95CEB08A86FBC001E16B9 /* ParseVRML1.h */,
-				BEC95CEC08A86FBC001E16B9 /* SVRML1State.cp */,
+				BE8D824E1328AC09009324C6 /* SVRML1State.cpp */,
 				BEC95CED08A86FBC001E16B9 /* SVRML1State.h */,
 				BEC95CEE08A86FBC001E16B9 /* VRML1 node handlers */,
 				BEC95D1B08A86FBC001E16B9 /* VRML_1_constants.h */,
@@ -385,49 +385,49 @@
 		BEC95CEE08A86FBC001E16B9 /* VRML1 node handlers */ = {
 			isa = PBXGroup;
 			children = (
-				BEC95CEF08A86FBC001E16B9 /* ConeV1ToObject.cp */,
+				BE8D821D1328ABE6009324C6 /* ConeV1ToObject.cpp */,
 				BEC95CF008A86FBC001E16B9 /* ConeV1ToObject.h */,
-				BEC95CF108A86FBC001E16B9 /* Coordinate3V1ToState.cp */,
+				BE8D821E1328ABE6009324C6 /* Coordinate3V1ToState.cpp */,
 				BEC95CF208A86FBC001E16B9 /* Coordinate3V1ToState.h */,
-				BEC95CF308A86FBC001E16B9 /* CubeV1ToObject.cp */,
+				BE8D821F1328ABE6009324C6 /* CubeV1ToObject.cpp */,
 				BEC95CF408A86FBC001E16B9 /* CubeV1ToObject.h */,
-				BEC95CF508A86FBC001E16B9 /* CylinderV1ToObject.cp */,
+				BE8D82201328ABE6009324C6 /* CylinderV1ToObject.cpp */,
 				BEC95CF608A86FBC001E16B9 /* CylinderV1ToObject.h */,
-				BEC95CF708A86FBC001E16B9 /* IndexedFaceSetV1ToObject.cp */,
+				BE8D82211328ABE6009324C6 /* IndexedFaceSetV1ToObject.cpp */,
 				BEC95CF808A86FBC001E16B9 /* IndexedFaceSetV1ToObject.h */,
-				BEC95CF908A86FBC001E16B9 /* IndexedLineSetV1ToObject.cp */,
+				BE8D82221328ABE6009324C6 /* IndexedLineSetV1ToObject.cpp */,
 				BEC95CFA08A86FBC001E16B9 /* IndexedLineSetV1ToObject.h */,
-				BEC95CFB08A86FBC001E16B9 /* MaterialBindingV1ToState.cp */,
+				BE8D82231328ABE6009324C6 /* MaterialBindingV1ToState.cpp */,
 				BEC95CFC08A86FBC001E16B9 /* MaterialBindingV1ToState.h */,
-				BEC95CFD08A86FBC001E16B9 /* MaterialV1ToState.cp */,
+				BE8D82241328ABE6009324C6 /* MaterialV1ToState.cpp */,
 				BEC95CFE08A86FBC001E16B9 /* MaterialV1ToState.h */,
-				BEC95CFF08A86FBC001E16B9 /* MatrixTransformV1ToObject.cp */,
+				BE8D82251328ABE6009324C6 /* MatrixTransformV1ToObject.cpp */,
 				BEC95D0008A86FBC001E16B9 /* MatrixTransformV1ToObject.h */,
-				BEC95D0108A86FBC001E16B9 /* NormalBindingV1ToState.cp */,
+				BE8D82261328ABE6009324C6 /* NormalBindingV1ToState.cpp */,
 				BEC95D0208A86FBC001E16B9 /* NormalBindingV1ToState.h */,
-				BEC95D0308A86FBC001E16B9 /* NormalV1ToState.cp */,
+				BE8D82271328ABE6009324C6 /* NormalV1ToState.cpp */,
 				BEC95D0408A86FBC001E16B9 /* NormalV1ToState.h */,
-				BEC95D0508A86FBC001E16B9 /* PointSetV1ToObject.cp */,
+				BE8D82281328ABE6009324C6 /* PointSetV1ToObject.cpp */,
 				BEC95D0608A86FBC001E16B9 /* PointSetV1ToObject.h */,
-				BEC95D0708A86FBC001E16B9 /* RotationV1ToObject.cp */,
+				BE8D82291328ABE6009324C6 /* RotationV1ToObject.cpp */,
 				BEC95D0808A86FBC001E16B9 /* RotationV1ToObject.h */,
-				BEC95D0908A86FBC001E16B9 /* ScaleV1ToObject.cp */,
+				BE8D822A1328ABE6009324C6 /* ScaleV1ToObject.cpp */,
 				BEC95D0A08A86FBC001E16B9 /* ScaleV1ToObject.h */,
-				BEC95D0B08A86FBC001E16B9 /* SeparatorV1ToObject.cp */,
+				BE8D822B1328ABE6009324C6 /* SeparatorV1ToObject.cpp */,
 				BEC95D0C08A86FBC001E16B9 /* SeparatorV1ToObject.h */,
-				BEC95D0D08A86FBC001E16B9 /* ShapeHintsV1ToState.cp */,
+				BE8D822C1328ABE6009324C6 /* ShapeHintsV1ToState.cpp */,
 				BEC95D0E08A86FBC001E16B9 /* ShapeHintsV1ToState.h */,
-				BEC95D0F08A86FBC001E16B9 /* SphereV1ToObject.cp */,
+				BE8D822D1328ABE6009324C6 /* SphereV1ToObject.cpp */,
 				BEC95D1008A86FBC001E16B9 /* SphereV1ToObject.h */,
-				BEC95D1108A86FBC001E16B9 /* Texture2V1ToObject.cp */,
+				BE8D822E1328ABE6009324C6 /* Texture2V1ToObject.cpp */,
 				BEC95D1208A86FBC001E16B9 /* Texture2V1ToObject.h */,
-				BEC95D1308A86FBC001E16B9 /* TextureCoordinate2V1ToState.cp */,
+				BE8D822F1328ABE6009324C6 /* TextureCoordinate2V1ToState.cpp */,
 				BEC95D1408A86FBC001E16B9 /* TextureCoordinate2V1ToState.h */,
-				BEC95D1508A86FBC001E16B9 /* TransformSeparatorV1ToObject.cp */,
+				BE8D82301328ABE6009324C6 /* TransformSeparatorV1ToObject.cpp */,
 				BEC95D1608A86FBC001E16B9 /* TransformSeparatorV1ToObject.h */,
-				BEC95D1708A86FBC001E16B9 /* TransformV1ToObject.cp */,
+				BE8D82311328ABE6009324C6 /* TransformV1ToObject.cpp */,
 				BEC95D1808A86FBC001E16B9 /* TransformV1ToObject.h */,
-				BEC95D1908A86FBC001E16B9 /* TranslationV1ToObject.cp */,
+				BE8D82321328ABE6009324C6 /* TranslationV1ToObject.cpp */,
 				BEC95D1A08A86FBC001E16B9 /* TranslationV1ToObject.h */,
 			);
 			path = "VRML1 node handlers";
@@ -436,9 +436,9 @@
 		BEC95D1C08A86FBC001E16B9 /* VRML 2 */ = {
 			isa = PBXGroup;
 			children = (
-				BEC95D1D08A86FBC001E16B9 /* NodeV2ToObject.cp */,
+				BE8D82711328AC55009324C6 /* NodeV2ToObject.cpp */,
 				BEC95D1E08A86FBC001E16B9 /* NodeV2ToObject.h */,
-				BEC95D1F08A86FBC001E16B9 /* ParseVRML.cp */,
+				BE8D82721328AC55009324C6 /* ParseVRML.cpp */,
 				BEC95D2008A86FBC001E16B9 /* ParseVRML.h */,
 				BEC95D2108A86FBC001E16B9 /* VRML2 node handlers */,
 			);
@@ -449,31 +449,31 @@
 		BEC95D2108A86FBC001E16B9 /* VRML2 node handlers */ = {
 			isa = PBXGroup;
 			children = (
-				BEC95D2208A86FBC001E16B9 /* AppearanceV2ToObject.cp */,
+				BE8D82551328AC41009324C6 /* AppearanceV2ToObject.cpp */,
 				BEC95D2308A86FBC001E16B9 /* AppearanceV2ToObject.h */,
-				BEC95D2408A86FBC001E16B9 /* BoxV2ToObject.cp */,
+				BE8D82561328AC41009324C6 /* BoxV2ToObject.cpp */,
 				BEC95D2508A86FBC001E16B9 /* BoxV2ToObject.h */,
-				BEC95D2608A86FBC001E16B9 /* ChildrenV2ToObject.cp */,
+				BE8D82571328AC41009324C6 /* ChildrenV2ToObject.cpp */,
 				BEC95D2708A86FBC001E16B9 /* ChildrenV2ToObject.h */,
-				BEC95D2808A86FBC001E16B9 /* ConeV2ToObject.cp */,
+				BE8D82581328AC41009324C6 /* ConeV2ToObject.cpp */,
 				BEC95D2908A86FBC001E16B9 /* ConeV2ToObject.h */,
-				BEC95D2A08A86FBC001E16B9 /* CylinderV2ToObject.cp */,
+				BE8D82591328AC41009324C6 /* CylinderV2ToObject.cpp */,
 				BEC95D2B08A86FBC001E16B9 /* CylinderV2ToObject.h */,
-				BEC95D2C08A86FBC001E16B9 /* GroupV2ToObject.cp */,
+				BE8D825A1328AC41009324C6 /* GroupV2ToObject.cpp */,
 				BEC95D2D08A86FBC001E16B9 /* GroupV2ToObject.h */,
-				BEC95D2E08A86FBC001E16B9 /* IndexedFaceSetV2ToObject.cp */,
+				BE8D825B1328AC41009324C6 /* IndexedFaceSetV2ToObject.cpp */,
 				BEC95D2F08A86FBC001E16B9 /* IndexedFaceSetV2ToObject.h */,
-				BEC95D3008A86FBC001E16B9 /* IndexedLineSetV2ToObject.cp */,
+				BE8D825C1328AC41009324C6 /* IndexedLineSetV2ToObject.cpp */,
 				BEC95D3108A86FBC001E16B9 /* IndexedLineSetV2ToObject.h */,
-				BEC95D3208A86FBC001E16B9 /* PointSetV2ToObject.cp */,
+				BE8D825D1328AC41009324C6 /* PointSetV2ToObject.cpp */,
 				BEC95D3308A86FBC001E16B9 /* PointSetV2ToObject.h */,
-				BEC95D3408A86FBC001E16B9 /* ShapeV2ToObject.cp */,
+				BE8D825E1328AC41009324C6 /* ShapeV2ToObject.cpp */,
 				BEC95D3508A86FBC001E16B9 /* ShapeV2ToObject.h */,
-				BEC95D3608A86FBC001E16B9 /* SphereV2ToObject.cp */,
+				BE8D825F1328AC41009324C6 /* SphereV2ToObject.cpp */,
 				BEC95D3708A86FBC001E16B9 /* SphereV2ToObject.h */,
+				BE8D82601328AC41009324C6 /* SwitchV2ToObject.cpp */,
 				BEFCF9910CA62F4300B84F9B /* SwitchV2ToObject.h */,
-				BEFCF9920CA62F4300B84F9B /* SwitchV2ToObject.cpp */,
-				BEC95D3808A86FBC001E16B9 /* TransformV2ToObject.cp */,
+				BE8D82611328AC41009324C6 /* TransformV2ToObject.cpp */,
 				BEC95D3908A86FBC001E16B9 /* TransformV2ToObject.h */,
 			);
 			path = "VRML2 node handlers";
@@ -583,64 +583,64 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEC95CC908A86F87001E16B9 /* quesa-methods.cp in Sources */,
-				BEC95CCA08A86F87001E16B9 /* main.cp in Sources */,
-				BEC95CCB08A86F87001E16B9 /* CVRMLReader.cp in Sources */,
-				BEC95D3A08A86FBC001E16B9 /* ConvertNumericArray.cp in Sources */,
-				BEC95D3B08A86FBC001E16B9 /* CreatePixelTexture.cp in Sources */,
-				BEC95D3C08A86FBC001E16B9 /* CreateTextureFromURL.cp in Sources */,
-				BEC95D3D08A86FBC001E16B9 /* GetCachedObject.cp in Sources */,
-				BEC95D3E08A86FBC001E16B9 /* GetIntVecFromField.cp in Sources */,
-				BEC95D3F08A86FBC001E16B9 /* MakeTransform.cp in Sources */,
-				BEC95D4008A86FBC001E16B9 /* PolyValue.cp in Sources */,
-				BEC95D4108A86FBC001E16B9 /* PrependObjectToGroup.cp in Sources */,
-				BEC95D4208A86FBC001E16B9 /* SignedAngleBetweenVectors.cp in Sources */,
-				BEC95D4308A86FBC001E16B9 /* UnBackslashEscape.cp in Sources */,
-				BEC95D4408A86FBC001E16B9 /* VRMLSkipParser.cp in Sources */,
-				BEC95D4508A86FBC001E16B9 /* GetIndexedMaterial.cp in Sources */,
-				BEC95D4608A86FBC001E16B9 /* NodeV1ToObject.cp in Sources */,
-				BEC95D4708A86FBC001E16B9 /* ParseVRML1.cp in Sources */,
-				BEC95D4808A86FBC001E16B9 /* SVRML1State.cp in Sources */,
-				BEC95D4908A86FBC001E16B9 /* ConeV1ToObject.cp in Sources */,
-				BEC95D4A08A86FBC001E16B9 /* Coordinate3V1ToState.cp in Sources */,
-				BEC95D4B08A86FBC001E16B9 /* CubeV1ToObject.cp in Sources */,
-				BEC95D4C08A86FBC001E16B9 /* CylinderV1ToObject.cp in Sources */,
-				BEC95D4D08A86FBC001E16B9 /* IndexedFaceSetV1ToObject.cp in Sources */,
-				BEC95D4E08A86FBC001E16B9 /* IndexedLineSetV1ToObject.cp in Sources */,
-				BEC95D4F08A86FBC001E16B9 /* MaterialBindingV1ToState.cp in Sources */,
-				BEC95D5008A86FBC001E16B9 /* MaterialV1ToState.cp in Sources */,
-				BEC95D5108A86FBC001E16B9 /* MatrixTransformV1ToObject.cp in Sources */,
-				BEC95D5208A86FBC001E16B9 /* NormalBindingV1ToState.cp in Sources */,
-				BEC95D5308A86FBC001E16B9 /* NormalV1ToState.cp in Sources */,
-				BEC95D5408A86FBC001E16B9 /* PointSetV1ToObject.cp in Sources */,
-				BEC95D5508A86FBC001E16B9 /* RotationV1ToObject.cp in Sources */,
-				BEC95D5608A86FBC001E16B9 /* ScaleV1ToObject.cp in Sources */,
-				BEC95D5708A86FBC001E16B9 /* SeparatorV1ToObject.cp in Sources */,
-				BEC95D5808A86FBC001E16B9 /* ShapeHintsV1ToState.cp in Sources */,
-				BEC95D5908A86FBC001E16B9 /* SphereV1ToObject.cp in Sources */,
-				BEC95D5A08A86FBC001E16B9 /* Texture2V1ToObject.cp in Sources */,
-				BEC95D5B08A86FBC001E16B9 /* TextureCoordinate2V1ToState.cp in Sources */,
-				BEC95D5C08A86FBC001E16B9 /* TransformSeparatorV1ToObject.cp in Sources */,
-				BEC95D5D08A86FBC001E16B9 /* TransformV1ToObject.cp in Sources */,
-				BEC95D5E08A86FBC001E16B9 /* TranslationV1ToObject.cp in Sources */,
-				BEC95D5F08A86FBC001E16B9 /* NodeV2ToObject.cp in Sources */,
-				BEC95D6008A86FBC001E16B9 /* ParseVRML.cp in Sources */,
-				BEC95D6108A86FBC001E16B9 /* AppearanceV2ToObject.cp in Sources */,
-				BEC95D6208A86FBC001E16B9 /* BoxV2ToObject.cp in Sources */,
-				BEC95D6308A86FBC001E16B9 /* ChildrenV2ToObject.cp in Sources */,
-				BEC95D6408A86FBC001E16B9 /* ConeV2ToObject.cp in Sources */,
-				BEC95D6508A86FBC001E16B9 /* CylinderV2ToObject.cp in Sources */,
-				BEC95D6608A86FBC001E16B9 /* GroupV2ToObject.cp in Sources */,
-				BEC95D6708A86FBC001E16B9 /* IndexedFaceSetV2ToObject.cp in Sources */,
-				BEC95D6808A86FBC001E16B9 /* IndexedLineSetV2ToObject.cp in Sources */,
-				BEC95D6908A86FBC001E16B9 /* PointSetV2ToObject.cp in Sources */,
-				BEC95D6A08A86FBC001E16B9 /* ShapeV2ToObject.cp in Sources */,
-				BEC95D6B08A86FBC001E16B9 /* SphereV2ToObject.cp in Sources */,
-				BEC95D6C08A86FBC001E16B9 /* TransformV2ToObject.cp in Sources */,
-				BE7C47EA08AEC56600559F64 /* GetObjectName.cp in Sources */,
-				BE7C47EB08AEC56600559F64 /* SetGroupName.cp in Sources */,
-				BEB01A2808EF72B000A982F8 /* IndexedFaceSet.cpp in Sources */,
-				BEFCF9930CA62F4300B84F9B /* SwitchV2ToObject.cpp in Sources */,
+				BE8D81F61328AAFC009324C6 /* main.cpp in Sources */,
+				BE8D81F81328AB2B009324C6 /* quesa-methods.cpp in Sources */,
+				BE8D81FA1328AB34009324C6 /* CVRMLReader.cpp in Sources */,
+				BE8D820A1328AB88009324C6 /* ConvertNumericArray.cpp in Sources */,
+				BE8D820B1328AB88009324C6 /* CreatePixelTexture.cpp in Sources */,
+				BE8D820C1328AB88009324C6 /* CreateTextureFromURL.cpp in Sources */,
+				BE8D820D1328AB88009324C6 /* GetCachedObject.cpp in Sources */,
+				BE8D820E1328AB88009324C6 /* GetIntVecFromField.cpp in Sources */,
+				BE8D820F1328AB88009324C6 /* GetObjectName.cpp in Sources */,
+				BE8D82101328AB88009324C6 /* IndexedFaceSet.cpp in Sources */,
+				BE8D82111328AB88009324C6 /* MakeTransform.cpp in Sources */,
+				BE8D82121328AB88009324C6 /* PolyValue.cpp in Sources */,
+				BE8D82131328AB88009324C6 /* PrependObjectToGroup.cpp in Sources */,
+				BE8D82141328AB88009324C6 /* SetGroupName.cpp in Sources */,
+				BE8D82151328AB88009324C6 /* SignedAngleBetweenVectors.cpp in Sources */,
+				BE8D82161328AB88009324C6 /* UnBackslashEscape.cpp in Sources */,
+				BE8D82171328AB88009324C6 /* VRMLSkipParser.cpp in Sources */,
+				BE8D82331328ABE6009324C6 /* ConeV1ToObject.cpp in Sources */,
+				BE8D82341328ABE6009324C6 /* Coordinate3V1ToState.cpp in Sources */,
+				BE8D82351328ABE6009324C6 /* CubeV1ToObject.cpp in Sources */,
+				BE8D82361328ABE6009324C6 /* CylinderV1ToObject.cpp in Sources */,
+				BE8D82371328ABE6009324C6 /* IndexedFaceSetV1ToObject.cpp in Sources */,
+				BE8D82381328ABE6009324C6 /* IndexedLineSetV1ToObject.cpp in Sources */,
+				BE8D82391328ABE6009324C6 /* MaterialBindingV1ToState.cpp in Sources */,
+				BE8D823A1328ABE6009324C6 /* MaterialV1ToState.cpp in Sources */,
+				BE8D823B1328ABE6009324C6 /* MatrixTransformV1ToObject.cpp in Sources */,
+				BE8D823C1328ABE6009324C6 /* NormalBindingV1ToState.cpp in Sources */,
+				BE8D823D1328ABE6009324C6 /* NormalV1ToState.cpp in Sources */,
+				BE8D823E1328ABE6009324C6 /* PointSetV1ToObject.cpp in Sources */,
+				BE8D823F1328ABE6009324C6 /* RotationV1ToObject.cpp in Sources */,
+				BE8D82401328ABE6009324C6 /* ScaleV1ToObject.cpp in Sources */,
+				BE8D82411328ABE6009324C6 /* SeparatorV1ToObject.cpp in Sources */,
+				BE8D82421328ABE6009324C6 /* ShapeHintsV1ToState.cpp in Sources */,
+				BE8D82431328ABE6009324C6 /* SphereV1ToObject.cpp in Sources */,
+				BE8D82441328ABE6009324C6 /* Texture2V1ToObject.cpp in Sources */,
+				BE8D82451328ABE6009324C6 /* TextureCoordinate2V1ToState.cpp in Sources */,
+				BE8D82461328ABE6009324C6 /* TransformSeparatorV1ToObject.cpp in Sources */,
+				BE8D82471328ABE6009324C6 /* TransformV1ToObject.cpp in Sources */,
+				BE8D82481328ABE6009324C6 /* TranslationV1ToObject.cpp in Sources */,
+				BE8D824F1328AC09009324C6 /* GetIndexedMaterial.cpp in Sources */,
+				BE8D82501328AC09009324C6 /* NodeV1ToObject.cpp in Sources */,
+				BE8D82511328AC09009324C6 /* ParseVRML1.cpp in Sources */,
+				BE8D82521328AC09009324C6 /* SVRML1State.cpp in Sources */,
+				BE8D82621328AC41009324C6 /* AppearanceV2ToObject.cpp in Sources */,
+				BE8D82631328AC41009324C6 /* BoxV2ToObject.cpp in Sources */,
+				BE8D82641328AC41009324C6 /* ChildrenV2ToObject.cpp in Sources */,
+				BE8D82651328AC41009324C6 /* ConeV2ToObject.cpp in Sources */,
+				BE8D82661328AC41009324C6 /* CylinderV2ToObject.cpp in Sources */,
+				BE8D82671328AC41009324C6 /* GroupV2ToObject.cpp in Sources */,
+				BE8D82681328AC41009324C6 /* IndexedFaceSetV2ToObject.cpp in Sources */,
+				BE8D82691328AC41009324C6 /* IndexedLineSetV2ToObject.cpp in Sources */,
+				BE8D826A1328AC41009324C6 /* PointSetV2ToObject.cpp in Sources */,
+				BE8D826B1328AC41009324C6 /* ShapeV2ToObject.cpp in Sources */,
+				BE8D826C1328AC41009324C6 /* SphereV2ToObject.cpp in Sources */,
+				BE8D826D1328AC41009324C6 /* SwitchV2ToObject.cpp in Sources */,
+				BE8D826E1328AC41009324C6 /* TransformV2ToObject.cpp in Sources */,
+				BE8D82731328AC55009324C6 /* NodeV2ToObject.cpp in Sources */,
+				BE8D82741328AC55009324C6 /* ParseVRML.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
