@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2007-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,6 +69,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <cmath>
 
 namespace
 {
@@ -85,7 +86,8 @@ namespace
 		kAtts_VertexSpecularControl = (1 << 8),
 		kAtts_VertexAlpha = (1 << 9),
 		kAtts_VertexSurfaceUV = (1 << 10),
-		kAtts_GlobalSurfaceShader = (1 << 11)
+		kAtts_GlobalSurfaceShader = (1 << 11),
+		kAtts_GlobalEmissiveColor = (1 << 12)
 	};
 	
 	class Characteristic
@@ -99,6 +101,7 @@ namespace
 		TQ3Uns32		mAttMask;
 		TQ3ColorRGB		mGlobalDiffuseColor;
 		TQ3ColorRGB		mGlobalSpecularColor;
+		TQ3ColorRGB		mGlobalEmissiveColor;
 		float			mGlobalSpecularControl;
 		float			mGlobalAlpha;
 		CQ3ObjectRef	mSurfaceShader;
@@ -165,12 +168,26 @@ Characteristic::Characteristic( TQ3Object inTriMesh )
 		{
 			mAttMask |= kAtts_GlobalSpecularControl;
 		}
+		if (Q3AttributeSet_Get( atts.get(), kQ3AttributeTypeEmissiveColor,
+			&mGlobalEmissiveColor ) == kQ3Success)
+		{
+			// Treat black emission like no emission
+			if (mGlobalEmissiveColor.r + mGlobalEmissiveColor.g +
+				mGlobalEmissiveColor.b > FLT_EPSILON)
+			{
+				mAttMask |= kAtts_GlobalEmissiveColor;
+			}
+		}
 		TQ3ColorRGB	transColor;
 		if (Q3AttributeSet_Get( atts.get(), kQ3AttributeTypeTransparencyColor,
 			&transColor ) == kQ3Success)
 		{
-			mAttMask |= kAtts_GlobalAlpha;
 			mGlobalAlpha = (transColor.r + transColor.g + transColor.b) / 3.0f;
+			// Treat a transparency color (1, 1, 1) the same as no global alpha.
+			if (1.0f - mGlobalAlpha > FLT_EPSILON)
+			{
+				mAttMask |= kAtts_GlobalAlpha;
+			}
 		}
 		
 		mSurfaceShader = CQ3AttributeSet_GetSurfaceShader( atts.get() );
@@ -269,6 +286,12 @@ bool	Characteristic::operator<( const Characteristic& inOther ) const
 		if ( isEqual && ((mAttMask & kAtts_GlobalSurfaceShader) != 0) )
 		{
 			CompField( mSurfaceShader.get(), inOther.mSurfaceShader.get(),
+				isLess, isEqual );
+		}
+		
+		if ( isEqual && ((mAttMask & kAtts_GlobalEmissiveColor) != 0) )
+		{
+			CompField( mGlobalEmissiveColor, inOther.mGlobalEmissiveColor,
 				isLess, isEqual );
 		}
 	}
