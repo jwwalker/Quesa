@@ -20,7 +20,9 @@ typedef enum TQ3PickDetailMasks {
     kQ3PickDetailMaskShapePart                  = (1 &lt;&lt; 7),
     kQ3PickDetailMaskPickPart                   = (1 &lt;&lt; 8),
     kQ3PickDetailMaskUV                         = (1 &lt;&lt; 9),
-    kQ3PickDetailSize32                         = 0xFFFFFFFF
+  kQ3PickDetailMaskTriMeshFace        = (1 &lt;&lt; 10),
+   kQ3PickDetailMaskBarycentric        = (1 &lt;&lt; 11),
+   kQ3PickDetailSize32                         = 0x7FFFFFFF
 } TQ3PickDetailMasks;
 </pre>
 </blockquote>
@@ -31,16 +33,35 @@ typedef enum TQ3PickDetailMasks {
 <blockquote>
 <dl>
 <dt><a name="//Quesa/c/econst/kQ3PickDetailNone"><tt>kQ3PickDetailNone</tt></a></dt><dd>No pick details are required.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskPickID"><tt>kQ3PickDetailMaskPickID</tt></a></dt><dd>The picking ID of the picked object.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskPath"><tt>kQ3PickDetailMaskPath</tt></a></dt><dd>The path through the model hierarchy to the picked object.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskObject"><tt>kQ3PickDetailMaskObject</tt></a></dt><dd>The picked object.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskLocalToWorldMatrix"><tt>kQ3PickDetailMaskLocalToWorldMatrix</tt></a></dt><dd>The local-to-world matrix for the picked object.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskXYZ"><tt>kQ3PickDetailMaskXYZ</tt></a></dt><dd>The picked location in world coordinates.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskDistance"><tt>kQ3PickDetailMaskDistance</tt></a></dt><dd>The distance between the picked location and the pick origin.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskNormal"><tt>kQ3PickDetailMaskNormal</tt></a></dt><dd>The surface normal at the picked location.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskShapePart"><tt>kQ3PickDetailMaskShapePart</tt></a></dt><dd>The shape part of the picked object.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskPickPart"><tt>kQ3PickDetailMaskPickPart</tt></a></dt><dd>The picked object, edge, or vertex.</dd>
-<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskUV"><tt>kQ3PickDetailMaskUV</tt></a></dt><dd>The UV coordinate of the picked location.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskPickID"><tt>kQ3PickDetailMaskPickID</tt></a></dt><dd>The picking ID of the picked object.
+Data type: TQ3Uns32.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskPath"><tt>kQ3PickDetailMaskPath</tt></a></dt><dd>The path through the model hierarchy to the picked object.
+Data type: TQ3HitPath.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskObject"><tt>kQ3PickDetailMaskObject</tt></a></dt><dd>The picked object.
+Data type: TQ3SharedObject (a new reference).</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskLocalToWorldMatrix"><tt>kQ3PickDetailMaskLocalToWorldMatrix</tt></a></dt><dd>The local-to-world matrix for the picked object.
+Data type: TQ3Matrix4x4.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskXYZ"><tt>kQ3PickDetailMaskXYZ</tt></a></dt><dd>The picked location in world coordinates.
+Data type: TQ3Point3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskDistance"><tt>kQ3PickDetailMaskDistance</tt></a></dt><dd>The distance between the picked location and the pick origin.
+Data type: float.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskNormal"><tt>kQ3PickDetailMaskNormal</tt></a></dt><dd>The surface normal at the picked location.
+Data type: TQ3Vector3D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskShapePart"><tt>kQ3PickDetailMaskShapePart</tt></a></dt><dd>The shape part of the picked object.
+Only relevant to Mesh objects.
+Data type: TQ3ShapePartObject (a new reference).</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskPickPart"><tt>kQ3PickDetailMaskPickPart</tt></a></dt><dd>The picked object, edge, or vertex.
+Only relevant to Mesh objects.
+Data type: TQ3PickParts.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskUV"><tt>kQ3PickDetailMaskUV</tt></a></dt><dd>The UV coordinate of the picked location.
+Data type: TQ3Param2D.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskTriMeshFace"><tt>kQ3PickDetailMaskTriMeshFace</tt></a></dt><dd>The The 0-based index of the TriMesh face that
+was hit.  Not in QuickDraw 3D.
+Data type: TQ3Uns32.</dd>
+<dt><a name="//Quesa/c/econst/kQ3PickDetailMaskBarycentric"><tt>kQ3PickDetailMaskBarycentric</tt></a></dt><dd>The barycentric coordinates of a picked point within
+a triangle.  Not available for points, lines etc.
+Not in QuickDraw 3D.
+Data type: TQ3Param3D.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PickSort"></a>
@@ -65,5 +86,5 @@ typedef enum TQ3PickSort {
 <dt><a name="//Quesa/c/econst/kQ3PickSortFarToNear"><tt>kQ3PickSortFarToNear</tt></a></dt><dd>The pick hit list should be sorted from far to near.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
+<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
 </p></body></html>

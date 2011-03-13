@@ -687,7 +687,7 @@ The unit is related with the scale of the scene.
 <blockquote>
 <dl>
 <dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
-<dt><tt><em>hotAngle</em></tt></dt><dd>Receives the hot angle of the light.</dd>
+<dt><tt><em>hotAngle</em></tt></dt><dd>Receives the hot angle of the light (in radians).</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -725,7 +725,7 @@ The unit is related with the scale of the scene.
 <blockquote>
 <dl>
 <dt><tt><em>light</em></tt></dt><dd>The light to query.</dd>
-<dt><tt><em>outerAngle</em></tt></dt><dd>Receives the outer angle of the light.</dd>
+<dt><tt><em>outerAngle</em></tt></dt><dd>Receives the outer angle of the light (in radians).</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -856,7 +856,7 @@ The unit is related with the scale of the scene.
 <blockquote>
 <dl>
 <dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
-<dt><tt><em>hotAngle</em></tt></dt><dd>The new hot angle for the light.</dd>
+<dt><tt><em>hotAngle</em></tt></dt><dd>The new hot angle for the light (in radians).</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -894,7 +894,7 @@ The unit is related with the scale of the scene.
 <blockquote>
 <dl>
 <dt><tt><em>light</em></tt></dt><dd>The light to update.</dd>
-<dt><tt><em>outerAngle</em></tt></dt><dd>The new outer angle for the light.</dd>
+<dt><tt><em>outerAngle</em></tt></dt><dd>The new outer angle for the light (in radians).</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -1015,8 +1015,8 @@ outerAngle values is controlled by the light fallOff value.
 <br><br>
 Both hotAngle and outerAngle are half-angles from the center of the
 light cone, and are specified in radians. They both range from 0.0
-to kQ3Pi/2.0 (inclusive), and the outerAngle must be equal than or
-greater to the hotAngle.
+to kQ3Pi/2.0 (inclusive), and the outerAngle must be greater than or
+equal to to the hotAngle.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
@@ -1061,31 +1061,49 @@ light source is attenuated as 1/(d*d).
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3FallOffType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FallOffType">TQ3FallOffType</a></h2>
-</td></tr></table><hr><blockquote><pre>
+</td></tr></table><hr>Light fall-off methods.
+<br>
+<blockquote><pre>
 typedef enum {
     kQ3FallOffTypeNone                          = 0,
     kQ3FallOffTypeLinear                        = 1,
     kQ3FallOffTypeExponential                   = 2,
     kQ3FallOffTypeCosine                        = 3,
+    kQ3FallOffTypeSmoothCubic                   = 4,
     kQ3FallOffSize32                            = 0xFFFFFFFF
 } TQ3FallOffType;
 </pre>
 </blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Light fall-off methods.
-<br><br>
-The fall-off value of a light controls how the intensity of the light
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The fall-off value of a light controls how the intensity of the light
 varies from the edge of the hot angle (where the light is at full intensity)
 to the outer angle (where the light intensity falls to zero).
+<br><br>
+The fall-off can be described as multiplying the light intensity at a
+given angle x from the center of the light by a value
+<br><br>
+f( (x - hotAngle) / (outerAngle - hotAngle) )
+<br><br>
+where f is a function such that f(0) = 1 and f(1) = 0.  In the discussion
+of each fall-off type, we list the formula for the associated
+function f(x) when x is between 0 and 1.
+<br><br>
+Quesa only implements spotlight fall-off when per-pixel lighting is in use.
 <br><br>
 </p>
 <h4>Constants</h4>
 <blockquote>
 <dl>
-<dt><a name="//Quesa/c/econst/kQ3FallOffTypeNone"><tt>kQ3FallOffTypeNone</tt></a></dt><dd>Intensity does not fall off.</dd>
-<dt><a name="//Quesa/c/econst/kQ3FallOffTypeLinear"><tt>kQ3FallOffTypeLinear</tt></a></dt><dd>Intensity falls off linearly.</dd>
-<dt><a name="//Quesa/c/econst/kQ3FallOffTypeExponential"><tt>kQ3FallOffTypeExponential</tt></a></dt><dd>Intensity falls off exponentially.</dd>
-<dt><a name="//Quesa/c/econst/kQ3FallOffTypeCosine"><tt>kQ3FallOffTypeCosine</tt></a></dt><dd>Intensity falls off as the cosine of the angle.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeNone"><tt>kQ3FallOffTypeNone</tt></a></dt><dd>Intensity does not fall off.  f(x) = 1.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeLinear"><tt>kQ3FallOffTypeLinear</tt></a></dt><dd>Intensity falls off linearly.  f(x) = 1 - x.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeExponential"><tt>kQ3FallOffTypeExponential</tt></a></dt><dd>Intensity falls off exponentially.
+f(x) = (pow( 10.0, 1.0 - x ) - 1.0) / 9.0.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeCosine"><tt>kQ3FallOffTypeCosine</tt></a></dt><dd>Intensity falls off as the cosine of the angle.
+f(x) = cos( kQ3PiOver2 * x ).</dd>
+<dt><a name="//Quesa/c/econst/kQ3FallOffTypeSmoothCubic"><tt>kQ3FallOffTypeSmoothCubic</tt></a></dt><dd>Intensity falls off by a cubic curve that
+is smooth at both ends.
+f(x) = 2 * x * x * x - 3 * x * x + 1.
+(This fall-off type did not exist in QD3D.)</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
+<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
 </p></body></html>
