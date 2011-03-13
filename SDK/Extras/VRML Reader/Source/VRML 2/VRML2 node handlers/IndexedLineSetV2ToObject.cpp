@@ -5,7 +5,7 @@
         VRML 2 node handler.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -123,7 +123,7 @@ CQ3ObjectRef	IndexedLineSetV2ToObject( PolyValue& ioNode )
 	std::vector<CQ3ObjectRef>	vertAttSets;
 	int	polylineNum = 0;
 	
-	for (int i = 0; i < pointIndices.size(); ++i)
+	for (unsigned int i = 0; i < pointIndices.size(); ++i)
 	{
 		if (pointIndices[i] < 0)
 		{

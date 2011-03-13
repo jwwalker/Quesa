@@ -5,7 +5,7 @@
         Code to handle IndexedFaceSet nodes in both VRML 1 and 2.
 
     COPYRIGHT:
-        Copyright (c) 2005-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -327,7 +327,7 @@ void	CIndexedFaceSet::FindVerticesAtPosition()
 	mLastVertAtPosition.resize( mPositions.size(), kNoIndex );
 	mPrevVertAtSamePosition.resize( mVertices.size(), kNoIndex );
 	
-	for (VertIndex i = 0; i < mVertices.size(); ++i)
+	for (VertIndex i = 0; i < static_cast<VertIndex>(mVertices.size()); ++i)
 	{
 		const SVertex&	theVertex( mVertices[i] );
 		
@@ -355,7 +355,7 @@ void	CIndexedFaceSet::CalcVertexNormals( float inCreaseCosine )
 		// except vertices belonging to degenerate faces.
 		mNextVertSharingNormal.resize( mVertices.size(), kNoIndex );
 		
-		for (PositionIndex p = 0; p < mPositions.size(); ++p)
+		for (PositionIndex p = 0; p < static_cast<PositionIndex>(mPositions.size()); ++p)
 		{
 			for (VertIndex v = mLastVertAtPosition[p]; v != kNoIndex;
 				v = mPrevVertAtSamePosition[v])
@@ -394,7 +394,8 @@ void	CIndexedFaceSet::CalcVertexNormals( float inCreaseCosine )
 		}
 		
 		TQ3Vector3D	vertNorm;
-		for (VertNormIndex i = 0; i < mFirstVertWithNormal.size(); ++i)
+		for (VertNormIndex i = 0;
+			i < static_cast<VertNormIndex>(mFirstVertWithNormal.size()); ++i)
 		{
 			TQ3Vector3D	normSum = { 0.0f, 0.0f, 0.0f };
 			
@@ -425,7 +426,7 @@ void	CIndexedFaceSet::IdentifyDistinctPoints()
 {
 	mVertToPoint.resize( mVertices.size(), kNoIndex );
 	
-	for (PositionIndex p = 0; p < mPositions.size(); ++p)
+	for (PositionIndex p = 0; p < static_cast<PositionIndex>(mPositions.size()); ++p)
 	{
 		for (VertIndex v = mLastVertAtPosition[p]; v != kNoIndex;
 			v = mPrevVertAtSamePosition[v])
@@ -487,7 +488,7 @@ void	CIndexedFaceSet::ComputeTriMeshFaces( TriangleVec& outTriangles ) const
 void	CIndexedFaceSet::TriangulateConvexFace( const SFace& inFace,
 									TriangleVec& outTriangles ) const
 {
-	for (VertIndex i = 2; i < inFace.mVertices.size(); ++i)
+	for (VertIndex i = 2; i < static_cast<VertIndex>(inFace.mVertices.size()); ++i)
 	{
 		// Make a triangle from the instances 0, i-1, and i
 		TQ3TriMeshTriangleData	aTri;
@@ -597,7 +598,8 @@ void	CIndexedFaceSet::ComputeTriMeshFaceNormals(
 		{
 			TQ3Vector3D	faceNorm( mFaceNormals[ i->mNormal ] );
 			
-			for (VertIndex j = 0; j < i->mVertices.size() - 2; ++j)
+			for (VertIndex j = 0;
+				j < static_cast<VertIndex>(i->mVertices.size()) - 2; ++j)
 			{
 				outNormals.push_back( faceNorm );
 			}
@@ -624,7 +626,8 @@ void	CIndexedFaceSet::ComputeTriMeshFaceColors(
 			{
 				TQ3ColorRGB	faceColor( mColors[ i->mColor ] );
 			
-				for (VertIndex j = 0; j < i->mVertices.size() - 2; ++j)
+				for (VertIndex j = 0;
+					j < static_cast<VertIndex>(i->mVertices.size()) - 2; ++j)
 				{
 					outColors.push_back( faceColor );
 				}

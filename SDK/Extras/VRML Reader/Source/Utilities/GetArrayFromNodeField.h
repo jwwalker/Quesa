@@ -6,7 +6,7 @@
         Template functions to help get arrays of numbers.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -66,9 +66,9 @@ namespace GetNumbersFromIterator
 		void	operator()( Iter& ioIter,
 							TQ3Point3D& outPt )
 		{
-			outPt.x = *ioIter; ++ioIter;
-			outPt.y = *ioIter; ++ioIter;
-			outPt.z = *ioIter; ++ioIter;
+			outPt.x = static_cast<float>(*ioIter); ++ioIter;
+			outPt.y = static_cast<float>(*ioIter); ++ioIter;
+			outPt.z = static_cast<float>(*ioIter); ++ioIter;
 		}
 	};
 
@@ -78,9 +78,9 @@ namespace GetNumbersFromIterator
 		void	operator()( Iter& ioIter,
 							TQ3Vector3D& outVec )
 		{
-			outVec.x = *ioIter; ++ioIter;
-			outVec.y = *ioIter; ++ioIter;
-			outVec.z = *ioIter; ++ioIter;
+			outVec.x = static_cast<float>(*ioIter); ++ioIter;
+			outVec.y = static_cast<float>(*ioIter); ++ioIter;
+			outVec.z = static_cast<float>(*ioIter); ++ioIter;
 		}
 	};
 
@@ -90,9 +90,9 @@ namespace GetNumbersFromIterator
 		void	operator()( Iter& ioIter,
 								TQ3ColorRGB& outColor )
 		{
-			outColor.r = *ioIter; ++ioIter;
-			outColor.g = *ioIter; ++ioIter;
-			outColor.b = *ioIter; ++ioIter;
+			outColor.r = static_cast<float>(*ioIter); ++ioIter;
+			outColor.g = static_cast<float>(*ioIter); ++ioIter;
+			outColor.b = static_cast<float>(*ioIter); ++ioIter;
 		}
 	};
 	
@@ -103,8 +103,8 @@ namespace GetNumbersFromIterator
 		void	operator()( Iter& ioIter,
 								TQ3Param2D& outUV )
 		{
-			outUV.u = *ioIter; ++ioIter;
-			outUV.v = *ioIter; ++ioIter;
+			outUV.u = static_cast<float>(*ioIter); ++ioIter;
+			outUV.v = static_cast<float>(*ioIter); ++ioIter;
 		}
 	};
 }
