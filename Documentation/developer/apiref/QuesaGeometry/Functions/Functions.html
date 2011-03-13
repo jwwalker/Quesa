@@ -6545,6 +6545,11 @@ memory with Q3Memory_Free.</dd>
 If you wish, you can set the <code>isEmpty</code> flag in the <code>bBox</code> field,
 and Quesa will compute the bounding box.
 <br><br>
+Edge and face indices will be checked, possibly resulting in an index out
+of bounds error or warning.  Also, if Quesa was compiled with the flag
+QUESA_NORMALIZE_NORMALS turned on (as it is by default), face and vertex
+normal vectors will be normalized.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -6554,6 +6559,41 @@ and Quesa will compute the bounding box.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Reference to a new TriMesh geometry object, or NULL on failure.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TriMesh_New_NoCopy"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_New_NoCopy">Q3TriMesh_New_NoCopy</a></h2>
+</td></tr></table><hr>Create a new TriMesh geometry object without any allocation or
+copying.
+
+<blockquote><pre><tt>( TQ3GeometryObject ) Q3TriMesh_New_NoCopy (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3TriMeshData *triMeshData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This is a version of <code>Q3TriMesh_New</code> for use in cases
+where TriMeshes are being created at runtime and performance is
+critical.  It assumes that each of the 6 array pointers within
+the <code>TQ3TriMeshData</code> structure, and each array
+pointer within the <code>TQ3TriMeshAttributeData</code>
+structures, is either NULL or has been allocated with one of the
+Quesa memory allocation functions.  Ownership of these pointers
+is transferred to the TriMesh object.
+<br><br>
+Unlike <code>Q3TriMesh_New</code>, this function does not
+validate edge and face indices.  If Quesa was compiled with the
+flag <code>QUESA_NORMALIZE_NORMALS</code> turned on (as it is by
+default), face and vertex normal vectors will be normalized.
+<br><br>
+If you wish, you can set the <code>isEmpty</code> flag in the
+<code>bBox</code> field, and Quesa will compute the bounding box.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>triMeshData</em></tt></dt><dd>Data describing a TriMesh.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Reference to a new TriMesh geometry object, or NULL on failure.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3TriMesh_Optimize"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_Optimize">Q3TriMesh_Optimize</a></h2>
 </td></tr></table><hr>Modify a TriMesh, if needed, for efficient use by the interactive renderer.
@@ -6875,5 +6915,5 @@ This function should only be called in a submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2009 Quesa Developers (Last Updated 5/3/2009)
+<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
 </p></body></html>
