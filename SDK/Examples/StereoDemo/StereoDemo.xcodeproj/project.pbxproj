@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,8 +18,8 @@
 		BE13529C0C3C14F400B20B60 /* DemoGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E8954AAFF19270E7F000001 /* DemoGeometry.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529D0C3C14F400B20B60 /* Quesa3DView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2179FF09FF19522C7F000001 /* Quesa3DView.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529E0C3C14F400B20B60 /* QuesaCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */; settings = {ATTRIBUTES = (); }; };
-		BECB0ECA0F361C9400EECDAB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB0EC90F361C9400EECDAB /* Cocoa.framework */; };
-		BECB0FA60F3664C600EECDAB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB0FA50F3664C600EECDAB /* OpenGL.framework */; };
+		BE703B83132D6BC800C0056D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE703B82132D6BC800C0056D /* OpenGL.framework */; };
+		BE703B8C132D6BDB00C0056D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE703B8B132D6BDB00C0056D /* Cocoa.framework */; };
 		BEFFD8930C4C8D6C00202EA8 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
 		BEFFD8AF0C4C8D7A00202EA8 /* Quesa.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
 /* End PBXBuildFile section */
@@ -29,14 +29,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0 /* Quesa.framework */;
+			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
 			remoteInfo = Framework;
 		};
 		BECB0EA60F361BD700EECDAB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B1756AFF080A71C30056134C /* libQuesaD.a */;
+			remoteGlobalIDString = B1756AFF080A71C30056134C;
 			remoteInfo = "Static Library";
 		};
 /* End PBXContainerItemProxy section */
@@ -70,8 +70,8 @@
 		BE1352A80C3C14F400B20B60 /* StereoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StereoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE13530F0C3C190300B20B60 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 		BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Quesa3DView.plist"; sourceTree = "<group>"; };
-		BECB0EC90F361C9400EECDAB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		BECB0FA50F3664C600EECDAB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		BE703B82132D6BC800C0056D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		BE703B8B132D6BDB00C0056D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -82,8 +82,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEFFD8930C4C8D6C00202EA8 /* Quesa.framework in Frameworks */,
-				BECB0ECA0F361C9400EECDAB /* Cocoa.framework in Frameworks */,
-				BECB0FA60F3664C600EECDAB /* OpenGL.framework in Frameworks */,
+				BE703B83132D6BC800C0056D /* OpenGL.framework in Frameworks */,
+				BE703B8C132D6BDB00C0056D /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,9 +103,9 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BECB0FA50F3664C600EECDAB /* OpenGL.framework */,
-				BECB0EC90F361C9400EECDAB /* Cocoa.framework */,
 				BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */,
+				BE703B82132D6BC800C0056D /* OpenGL.framework */,
+				BE703B8B132D6BDB00C0056D /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -199,7 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				BECB0EA50F361BD700EECDAB /* Quesa.framework */,
-				BECB0EA70F361BD700EECDAB /* libQuesaD.a */,
+				BECB0EA70F361BD700EECDAB /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -248,8 +248,15 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = B1FFA3480906B1A30010DA99 /* Build configuration list for PBXProject "StereoDemo" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CocoaApp */;
 			projectDirPath = "";
 			projectReferences = (
@@ -273,10 +280,10 @@
 			remoteRef = BECB0EA40F361BD700EECDAB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BECB0EA70F361BD700EECDAB /* libQuesaD.a */ = {
+		BECB0EA70F361BD700EECDAB /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libQuesaD.a;
+			path = libQuesa.a;
 			remoteRef = BECB0EA60F361BD700EECDAB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
