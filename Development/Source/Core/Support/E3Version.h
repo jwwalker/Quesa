@@ -90,13 +90,13 @@
 //			<http://developer.apple.com/technotes/tn/tn1132.html>.
 //-----------------------------------------------------------------------------
 #define kQ3MajorVersion             0x02            // Major version for build
-#define kQ3MinorVersion             0x00            // Minor version for build
-#define kQ3MinorVersion1            0x0			    // Minor version, 1st digit
+#define kQ3MinorVersion             0x10            // Minor version for build
+#define kQ3MinorVersion1            0x1			    // Minor version, 1st digit
 #define kQ3MinorVersion2            0x0             // Minor version, 2nd digit
 #define kQ3ReleaseType              kFinal		    // Release type for build
 #define kQ3PrereleaseVersion        0x00            // Prerelease version for build
-#define kQ3UnquotedStringVersion    2.0             // Stringified version of above
-#define kQ3StringVersion            "2.0"			// quoted string version
+#define kQ3UnquotedStringVersion    2.1             // Stringified version of above
+#define kQ3StringVersion            "2.1"			// quoted string version
 
 #ifndef PLIST_COMPILER
 #define kQ3PackedVersion            E3_FOUR_BYTE_CONSTANT(kQ3MajorVersion,  \
