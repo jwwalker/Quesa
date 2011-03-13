@@ -99,5 +99,5 @@ extern Surface      *SurfaceGetNamed(
 extern void         SurfaceDeleteOne(Surface    *surf);
 extern void         SurfaceDeleteEvery(Surface  *surf);
 extern Surface *    GetShadingSurf(HitList *hitlist);
-extern Surface *    SurfaceFetchNamed(char *name);
+extern Surface *    SurfaceFetchNamed(const char *name);
 #endif /* SURFACE_H */

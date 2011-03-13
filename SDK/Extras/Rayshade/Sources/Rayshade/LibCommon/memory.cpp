@@ -70,7 +70,7 @@ PrintMemoryStats(FILE *fp)
  * Allocate space for a string, copy string into space.
  */
 char *
-strsave(char *s)
+strsave(const char *s)
 {
 	char *tmp;
 

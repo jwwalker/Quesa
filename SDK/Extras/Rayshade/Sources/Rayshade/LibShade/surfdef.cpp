@@ -45,6 +45,7 @@ Surface DefaultSurface = {
 
 Surface *SurfaceGetNamed(), *SurfaceFetchNamed();
 
+#if 0	// never called?
 /*
  * Add surf to the list of defined surfaces.
  */
@@ -69,6 +70,8 @@ SurfaceAddToDefined(Surface *surf)
 	surf->next = Surfaces;
 	Surfaces = surf;
 }
+#endif
+
 /* 
  * Delete the defined surfaces.
  */ 
@@ -98,7 +101,7 @@ SurfaceGetNamed(char *name)
  * Return pointer to surface with given name, NULL if no such surface.
  */
 Surface *
-SurfaceFetchNamed(char *name)
+SurfaceFetchNamed(const char *name)
 {
 	Surface *stmp;
 
