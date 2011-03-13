@@ -1,5 +1,9 @@
 // Build Locations
-SDKROOT = $(DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk
+SDKROOT = $(DEVELOPER_DIR)/SDKs/MacOSX10.6.sdk
+
+// Compiler version
+GCC_VERSION = 4.2
+GCC_VERSION[arch=ppc] = 4.0
 
 // Search Paths
 FSP_QUESA = "$(SRCROOT)/../../Libraries/Mac/Framework_Universal/Debug"
