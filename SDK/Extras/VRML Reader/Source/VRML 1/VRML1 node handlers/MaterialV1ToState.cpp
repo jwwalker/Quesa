@@ -5,7 +5,7 @@
         VRML 1 node handler.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -86,7 +86,7 @@ void	MaterialV1ToState( PolyValue& ioNode, CVRMLReader& ioReader )
 {
 	SVRML1State&	curState( ioReader.GetVRML1State() );
 	PolyValue::Dictionary&	theDict( ioNode.GetDictionary() );
-	int	i;
+	unsigned int	i;
 
 	if (IsKeyPresent( theDict, "diffuseColor" ))
 	{

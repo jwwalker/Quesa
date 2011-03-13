@@ -5,7 +5,7 @@
         VRML 1 node handler.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -124,7 +124,7 @@ CQ3ObjectRef	IndexedLineSetV1ToObject( PolyValue& ioNode, CVRMLReader& inReader 
 	std::vector<TQ3Vertex3D>	vertices;
 	std::vector<CQ3ObjectRef>	vertAttSets;
 	
-	for (int i = 0; i < pointIndices.size(); ++i)
+	for (unsigned int i = 0; i < pointIndices.size(); ++i)
 	{
 		if (pointIndices[i] < 0)
 		{

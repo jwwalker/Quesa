@@ -5,7 +5,7 @@
         VRML 2 node handler.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -88,8 +88,8 @@ CQ3ObjectRef	PointSetV2ToObject( PolyValue& ioNode )
 		
 		std::vector<TQ3ColorRGB>	theColors;
 		GetNodeArray( theDict, "color", "Color", "color", theColors );
-		int		i;
-		const int kNumPoints = thePoints.size();
+		unsigned int		i;
+		const unsigned int kNumPoints = thePoints.size();
 		
 		if (theColors.size() >= kNumPoints)
 		{

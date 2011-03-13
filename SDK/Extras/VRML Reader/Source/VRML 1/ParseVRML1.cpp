@@ -223,6 +223,10 @@ namespace
 	DECLARE_INT_ACTION( MoreMask );
 }
 
+#ifdef _MSC_VER
+	#pragma warning(disable: 4355)
+#endif
+
 SParseState::SParseState( PolyValue::PolyVec& ioTopNodes, std::ostream* ioStream )
 	: mGrammar( *this ),
 	mStream( ioStream ),

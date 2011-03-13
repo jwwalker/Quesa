@@ -1,5 +1,18 @@
 #pragma once
 
+#if QUESA_OS_WIN32
+	#include <SDKDDKVer.h>
+
+	#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+	
+	#ifdef _MSC_VER
+		// Allow use of and, or, not, which is part of standard C++
+		#include <iso646.h>
+
+		#pragma warning(disable: 4244)
+	#endif
+#endif
+
 #include <stdexcept>
 
 #if __MACH__

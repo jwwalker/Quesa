@@ -5,7 +5,7 @@
         VRML 1 node handler.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,7 +95,7 @@ CQ3ObjectRef	PointSetV1ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 	const std::vector<TQ3Point3D>&	thePoints( theState.coordinate3 );
 	const std::vector<TQ3ColorRGB>&	theColors( theState.diffuseColor );
 	
-	if ( (startIndex < thePoints.size()) and (numPoints != 0) )
+	if ( (startIndex < static_cast<int>(thePoints.size())) and (numPoints != 0) )
 	{
 		theObject = CQ3ObjectRef( Q3DisplayGroup_New() );
 		ThrowIfNullQuesaOb_( theObject );
@@ -115,7 +115,7 @@ CQ3ObjectRef	PointSetV1ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 			(theState.materialBinding == eVRML1Value_DEFAULT));
 		int	i;
 		
-		if (isColorPerVertex and (theColors.size() >= endIndex) )
+		if (isColorPerVertex and (static_cast<int>(theColors.size()) >= endIndex) )
 		{
 			for (i = startIndex; i < endIndex; ++i)
 			{

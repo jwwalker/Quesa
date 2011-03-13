@@ -5,7 +5,7 @@
        Class to hold polymorphic values.
 
     COPYRIGHT:
-        Copyright (c) 2005-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,14 @@
 #include <cmath>
 
 using namespace std;	// sometimes lround is in std, sometimes not
+
+#ifdef _MSC_VER
+// Unaccountably, lround is not in math.h in Visual Studio.
+static int lround( double x )
+{
+	return (x > 0.0)? static_cast<int>(x+0.5) : static_cast<int>(x-0.5);
+}
+#endif
 
 #pragma mark struct XPolyValueImp
 struct XPolyValueImp
@@ -291,7 +299,7 @@ int					PolyValue::GetInt() const
 	int	theVal = 0;
 	if (GetType() == kDataTypeInt)
 	{
-		theVal = static_cast<XIntegerValueImp*>( mImp.get() )->value;
+		theVal = static_cast<int>(static_cast<XIntegerValueImp*>( mImp.get() )->value);
 	}
 	else if (GetType() == kDataTypeFloat)
 	{

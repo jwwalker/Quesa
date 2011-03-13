@@ -5,7 +5,7 @@
         VRML 2 node handler.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -119,7 +119,7 @@ static float GetCreaseAngle( PolyValue::Dictionary& inDict )
 		PolyValue&	theNode( inDict[ "creaseAngle" ] );
 		if (theNode.GetType() == PolyValue::kDataTypeFloat)
 		{
-			theAngle = theNode.GetFloat();
+			theAngle = static_cast<float>(theNode.GetFloat());
 		}
 	}
 	return theAngle;

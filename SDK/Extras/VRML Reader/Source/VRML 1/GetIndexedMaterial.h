@@ -6,7 +6,7 @@
         Header file for GetIndexedMaterial.cp.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -64,4 +64,4 @@ class CVRMLReader;
 	
 	@result		An attribute set object.
 */
-CQ3ObjectRef	GetIndexedMaterial( CVRMLReader& inReader, int inIndex );
+CQ3ObjectRef	GetIndexedMaterial( CVRMLReader& inReader, unsigned int inIndex );

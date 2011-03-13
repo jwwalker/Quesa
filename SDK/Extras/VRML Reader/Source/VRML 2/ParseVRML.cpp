@@ -5,7 +5,7 @@
         Parse VRML 2 grammar.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -160,6 +160,10 @@ namespace
 	DECLARE_INT_ACTION( AppendIntToPolyArray );
 	DECLARE_INT_ACTION( AppendIntToIntArray );
 }
+
+#ifdef _MSC_VER
+	#pragma warning(disable: 4355)
+#endif
 
 SParseState::SParseState( PolyValue::PolyVec& ioTopNodes, std::ostream* ioStream )
 	: mGrammar( *this ),

@@ -5,7 +5,7 @@
         VRML 2 node handler.
 
     COPYRIGHT:
-        Copyright (c) 2005-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -156,7 +156,9 @@ static void	MaterialV2ToObject( PolyValue& ioNode, CVRMLReader& inReader,
 		if (specColorVec.size() == 3)
 		{
 			TQ3ColorRGB	specColor = {
-				specColorVec[0], specColorVec[1], specColorVec[2]
+				static_cast<float>(specColorVec[0]),
+				static_cast<float>(specColorVec[1]),
+				static_cast<float>(specColorVec[2])
 			};
 			ValidateColor( specColor, "specular", inReader );
 			Q3AttributeSet_Add( ioAttSet.get(), kQ3AttributeTypeSpecularColor, &specColor );

@@ -5,7 +5,7 @@
        Main class implementing the reader.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -363,6 +363,10 @@ bool	XVRMLReaderImp::GetCachedExternalTexture( const char* inURL,
 
 
 #pragma mark -
+
+#ifdef _MSC_VER
+	#pragma warning(disable: 4355)
+#endif
 
 CVRMLReader::CVRMLReader( TQ3FFormatBaseData* inData )
 	: mImp( new XVRMLReaderImp( this, inData ) )

@@ -5,7 +5,7 @@
        Utility function.
 
     COPYRIGHT:
-        Copyright (c) 2005-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -65,7 +65,7 @@
 	
 	@result		An attribute set object.
 */
-CQ3ObjectRef	GetIndexedMaterial( CVRMLReader& inReader, int inIndex )
+CQ3ObjectRef	GetIndexedMaterial( CVRMLReader& inReader, unsigned int inIndex )
 {
 	SVRML1State&	curState( inReader.GetVRML1State() );
 	
