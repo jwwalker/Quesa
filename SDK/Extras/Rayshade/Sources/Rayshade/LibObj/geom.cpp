@@ -271,7 +271,7 @@ GeomBounds(Geom *obj, Float bounds[2][3])
 	}
 }
 
-char *
+const char *
 GeomName(Geom *obj)
 {
 	if (obj->methods->name)

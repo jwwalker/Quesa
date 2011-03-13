@@ -122,7 +122,7 @@ extern char *share_malloc(), *share_calloc();
 extern voidstar Malloc(unsigned int size);
 extern voidstar Calloc(unsigned int num,unsigned int size);
 extern void     Free(voidstar ptr);
-extern char		*strsave(char *);
+extern char		*strsave(const char *);
 extern double	drand48();	/* just in case */
 extern void PrintMemoryStats(FILE *fp);
 

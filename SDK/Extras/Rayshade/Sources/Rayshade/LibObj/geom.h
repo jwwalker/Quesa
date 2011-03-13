@@ -147,7 +147,7 @@ typedef struct HitList {
 	HitNode data[MAXMODELDEPTH];
 } HitList;
 
-extern char     *GeomName(Geom *obj);
+extern const char     *GeomName(Geom *obj);
 
 extern Geom	*GeomCreate(GeomRef objptr, Methods *methods);
 extern Geom *GeomCopy(Geom *obj);

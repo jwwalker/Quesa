@@ -92,7 +92,7 @@ PrintGeomStats()
 {
 	Geom *otmp;
 	unsigned long tests, hits, totaltests, totalhits;
-	char *name;
+	const char *name;
 
 	totaltests = totalhits = 0;
 

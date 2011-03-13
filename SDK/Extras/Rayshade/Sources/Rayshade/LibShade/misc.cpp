@@ -58,7 +58,7 @@ OpenStatsFile()
 	}
 }
 static void
-RLmessagev(char *type,char *pat,va_list arg_ptr)
+RLmessagev(const char *type, const char *pat,va_list arg_ptr)
 {
 #if 0
 	extern FILE *yyin;
@@ -84,7 +84,7 @@ RLmessagev(char *type,char *pat,va_list arg_ptr)
 #endif
 }
 void
-RLerror(int level, char *pat, ...)
+RLerror(int level, const char *pat, ...)
 {
 	va_list arg_ptr=NULL;
 	

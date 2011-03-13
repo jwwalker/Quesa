@@ -83,7 +83,7 @@ extern "C" {
 #if __MWERKS__
 __declspec(dllexport) void RS_Initialize();
 #elif __GNUC__ >= 4
-__attribute__((visibility("default"))) void RS_Initialize();
+void RS_Initialize() __attribute__ ((constructor));
 #endif
 
 #else	// CFM
@@ -947,11 +947,9 @@ TQ3Status RS_Exit(
 
 #elif TARGET_RT_MAC_MACHO
 
-#pragma CALL_ON_LOAD RS_Initialize
 void RS_Initialize()
 {
 	TQ3XSharedLibraryInfo	sharedLibraryInfo;
-	
 	
 	sharedLibraryInfo.registerFunction 	= RS_Register;
 	sharedLibraryInfo.sharedLibrary 	= NULL;

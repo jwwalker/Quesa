@@ -39,6 +39,6 @@
 #define RL_ABORT	2	/* Aborted */
 #define RL_PANIC	3	/* Panic */
 
-extern void RLerror(int level, char *pat, ...);		/* application-supplied reporting routine */
+extern void RLerror(int level, const char *pat, ...);		/* application-supplied reporting routine */
 
 #endif /* ERROR_H */

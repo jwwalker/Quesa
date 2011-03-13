@@ -1,6 +1,11 @@
 
 // Build Locations
-SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk
+SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk
+
+// Compiler version
+GCC_VERSION = 4.2
+GCC_VERSION[arch=ppc] = 4.0
+
 
 // Search Paths
 USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../Sources/Rayshade/"
@@ -21,7 +26,7 @@ WRAPPER_EXTENSION = quesaplug
 INFOPLIST_FILE = $(PROJECT_DIR)/../../Resources/MacOS/Info.plist
 
 // Deployment
-MACOSX_DEPLOYMENT_TARGET = 10.3
+MACOSX_DEPLOYMENT_TARGET = 10.4
 
 // Language
 GCC_PREFIX_HEADER = $(PROJECT_DIR)/../../Sources/Rayshade_Prefix.pch
