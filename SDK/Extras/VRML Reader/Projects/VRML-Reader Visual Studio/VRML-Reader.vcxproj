@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E2C46A5C-4434-46A7-8BFF-A3F4B1AA08F9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>VRMLReader</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="CommonProperties.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="CommonProperties.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Includes\Quesa\CQ3ObjectRef.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\CQ3ObjectRef_Gets.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\Q3GroupIterator.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\Quesa.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaCamera.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaController.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaCustomElements.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaDrawContext.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaErrors.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaExtension.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaGeometry.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaGroup.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaIO.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaLight.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaMath.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaMemory.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaPick.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaRenderer.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaSet.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaShader.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaStorage.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaString.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaStyle.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaTransform.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaView.h" />
+    <ClInclude Include="..\..\..\..\Includes\Quesa\QuesaViewer.h" />
+    <ClInclude Include="..\..\Resources\version.h" />
+    <ClInclude Include="..\..\Source\CVRMLReader.h" />
+    <ClInclude Include="..\..\Source\quesa-methods.h" />
+    <ClInclude Include="..\..\Source\Utilities\ConvertNumericArray.h" />
+    <ClInclude Include="..\..\Source\Utilities\CreatePixelTexture.h" />
+    <ClInclude Include="..\..\Source\Utilities\CreateTextureFromURL.h" />
+    <ClInclude Include="..\..\Source\Utilities\GetArrayFromNodeField.h" />
+    <ClInclude Include="..\..\Source\Utilities\GetCachedObject.h" />
+    <ClInclude Include="..\..\Source\Utilities\GetIntVecFromField.h" />
+    <ClInclude Include="..\..\Source\Utilities\GetObjectName.h" />
+    <ClInclude Include="..\..\Source\Utilities\IndexedFaceSet.h" />
+    <ClInclude Include="..\..\Source\Utilities\IsKeyPresent.h" />
+    <ClInclude Include="..\..\Source\Utilities\MakeTransform.h" />
+    <ClInclude Include="..\..\Source\Utilities\PolyValue.h" />
+    <ClInclude Include="..\..\Source\Utilities\PrependObjectToGroup.h" />
+    <ClInclude Include="..\..\Source\Utilities\SetGroupName.h" />
+    <ClInclude Include="..\..\Source\Utilities\SignedAngleBetweenVectors.h" />
+    <ClInclude Include="..\..\Source\Utilities\UnBackslashEscape.h" />
+    <ClInclude Include="..\..\Source\Utilities\VRMLSkipParser.h" />
+    <ClInclude Include="..\..\Source\VRML 1\GetIndexedMaterial.h" />
+    <ClInclude Include="..\..\Source\VRML 1\NodeV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\ParseVRML1.h" />
+    <ClInclude Include="..\..\Source\VRML 1\SVRML1State.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\ConeV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\Coordinate3V1ToState.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\CubeV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\CylinderV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\IndexedFaceSetV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\IndexedLineSetV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\MaterialBindingV1ToState.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\MaterialV1ToState.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\MatrixTransformV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\NormalBindingV1ToState.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\NormalV1ToState.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\PointSetV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\RotationV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\ScaleV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\SeparatorV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\ShapeHintsV1ToState.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\SphereV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\Texture2V1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\TextureCoordinate2V1ToState.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\TransformSeparatorV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\TransformV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML1 node handlers\TranslationV1ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 1\VRML_1_constants.h" />
+    <ClInclude Include="..\..\Source\VRML 2\NodeV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\ParseVRML.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\AppearanceV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\BoxV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\ChildrenV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\ConeV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\CylinderV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\GroupV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\IndexedFaceSetV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\IndexedLineSetV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\PointSetV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\ShapeV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\SphereV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\SwitchV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML 2\VRML2 node handlers\TransformV2ToObject.h" />
+    <ClInclude Include="..\..\Source\VRML-reader-prefix.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\CVRMLReader.cpp" />
+    <ClCompile Include="..\..\Source\main.cpp" />
+    <ClCompile Include="..\..\Source\quesa-methods.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\ConvertNumericArray.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\CreatePixelTexture.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\CreateTextureFromURL.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\GetCachedObject.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\GetIntVecFromField.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\GetObjectName.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\IndexedFaceSet.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\MakeTransform.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\PolyValue.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\PrependObjectToGroup.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\SetGroupName.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\SignedAngleBetweenVectors.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\UnBackslashEscape.cpp" />
+    <ClCompile Include="..\..\Source\Utilities\VRMLSkipParser.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\GetIndexedMaterial.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\NodeV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\ParseVRML1.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\SVRML1State.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\ConeV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\Coordinate3V1ToState.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\CubeV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\CylinderV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\IndexedFaceSetV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\IndexedLineSetV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\MaterialBindingV1ToState.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\MaterialV1ToState.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\MatrixTransformV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\NormalBindingV1ToState.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\NormalV1ToState.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\PointSetV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\RotationV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\ScaleV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\SeparatorV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\ShapeHintsV1ToState.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\SphereV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\Texture2V1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\TextureCoordinate2V1ToState.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\TransformSeparatorV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\TransformV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 1\VRML1 node handlers\TranslationV1ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\NodeV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\ParseVRML.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\AppearanceV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\BoxV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\ChildrenV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\ConeV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\CylinderV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\GroupV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\IndexedFaceSetV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\IndexedLineSetV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\PointSetV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\ShapeV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\SphereV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\SwitchV2ToObject.cpp" />
+    <ClCompile Include="..\..\Source\VRML 2\VRML2 node handlers\TransformV2ToObject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Resources\Reader.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\Libraries\Windows\Stub\Quesa.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
