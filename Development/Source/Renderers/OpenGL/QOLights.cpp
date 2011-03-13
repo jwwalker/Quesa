@@ -535,7 +535,7 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 	glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
 	
 	// Do write to stencil buffer
-	glStencilMask( ~0 );
+	glStencilMask( ~0U );
 	
 	// Clear stencil buffer
 	glClearStencil( 128 );
@@ -558,8 +558,8 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 			GL_KEEP,			// stencil test fail
 			decrEnum,			// depth test fail
 			GL_KEEP );			// depth test pass
-		glStencilMask( ~0 );
-		glStencilFunc( GL_ALWAYS, 0, ~0 );
+		glStencilMask( ~0U );
+		glStencilFunc( GL_ALWAYS, 0, ~0U );
 	}
 	else if (mGLExtensions.stencilTwoSide)
 	{
@@ -569,15 +569,15 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 		glStencilOp( GL_KEEP,	// stencil test fail
 			incrEnum, 			// depth test fail
 			GL_KEEP );			// depth test pass
-		glStencilMask( ~0 );
-		glStencilFunc( GL_ALWAYS, 0, ~0 );
+		glStencilMask( ~0U );
+		glStencilFunc( GL_ALWAYS, 0, ~0U );
 
 		mGLStencilFuncs.glActiveStencilFace( GL_FRONT );
 		glStencilOp( GL_KEEP,	// stencil test fail
 			decrEnum,			// depth test fail
 			GL_KEEP );			// depth test pass
-		glStencilMask( ~0 );
-		glStencilFunc( GL_ALWAYS, 0, ~0 );
+		glStencilMask( ~0U );
+		glStencilFunc( GL_ALWAYS, 0, ~0U );
 	}
 
 	glDepthMask( GL_FALSE );	// no writes to depth buffer
@@ -609,19 +609,19 @@ void	QORenderer::Lights::SetUpShadowLightingPass()
 	
 	if (mGLExtensions.separateStencil)
 	{
-		glStencilFunc( GL_EQUAL, 128, ~0 );
+		glStencilFunc( GL_EQUAL, 128, ~0U );
 		glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
 		glStencilMask( 0 );
 	}
 	else if (mGLExtensions.stencilTwoSide)
 	{
 		mGLStencilFuncs.glActiveStencilFace( GL_BACK );
-		glStencilFunc( GL_EQUAL, 128, ~0 );
+		glStencilFunc( GL_EQUAL, 128, ~0U );
 		glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
 		glStencilMask( 0 );
 		
 		mGLStencilFuncs.glActiveStencilFace( GL_FRONT );
-		glStencilFunc( GL_EQUAL, 128, ~0 );
+		glStencilFunc( GL_EQUAL, 128, ~0U );
 		glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
 		glStencilMask( 0 );
 	}
