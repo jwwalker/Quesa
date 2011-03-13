@@ -259,6 +259,11 @@
 		BE6C6F520C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE6C6F500C134DD300FBD60D /* E3Math_Intersect.cpp */; };
 		BE6C6F550C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE6C6F500C134DD300FBD60D /* E3Math_Intersect.cpp */; };
 		BE6FD693076B88A800587852 /* GLTextureManager.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.c */; };
+		BE7033FD132D30B700C0056D /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7033FC132D30B700C0056D /* AGL.framework */; };
+		BE7033FF132D30B700C0056D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7033FE132D30B700C0056D /* OpenGL.framework */; };
+		BE703429132D326300C0056D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE703428132D326300C0056D /* Carbon.framework */; };
+		BE7034ED132D32BD00C0056D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7034EC132D32BD00C0056D /* Cocoa.framework */; };
+		BE7034EF132D32BD00C0056D /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7034EE132D32BD00C0056D /* QuickTime.framework */; };
 		BE7F26510B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */; };
 		BE7F26540B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264C0B7BB87F00933ED1 /* GLTextureLoader.cpp */; };
 		BE7F26550B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264D0B7BB87F00933ED1 /* GLDisplayListManager.cpp */; };
@@ -307,20 +312,11 @@
 		BE8779570F9F7937007F104E /* Quesa.r in Rez */ = {isa = PBXBuildFile; fileRef = BE8779560F9F7937007F104E /* Quesa.r */; };
 		BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
 		BE8D58CE0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
-		BE98E72309F763AC0040CE1B /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71E09F763AC0040CE1B /* AGL.framework */; };
-		BE98E72409F763AC0040CE1B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71F09F763AC0040CE1B /* Carbon.framework */; };
-		BE98E72509F763AC0040CE1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72009F763AC0040CE1B /* Cocoa.framework */; };
-		BE98E72609F763AC0040CE1B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72109F763AC0040CE1B /* OpenGL.framework */; };
-		BE98E72709F763AC0040CE1B /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72209F763AC0040CE1B /* QuickTime.framework */; };
 		BE98E73B09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */ = {isa = PBXBuildFile; fileRef = BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */; };
 		BE98E73D09F764A60040CE1B /* E3CocoaStackCrawl.c in Sources */ = {isa = PBXBuildFile; fileRef = BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */; };
-		BE98E76B09F7EB050040CE1B /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71E09F763AC0040CE1B /* AGL.framework */; };
-		BE98E76C09F7EB050040CE1B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E71F09F763AC0040CE1B /* Carbon.framework */; };
-		BE98E76D09F7EB050040CE1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72009F763AC0040CE1B /* Cocoa.framework */; };
-		BE98E76E09F7EB050040CE1B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72109F763AC0040CE1B /* OpenGL.framework */; };
-		BE98E76F09F7EB050040CE1B /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98E72209F763AC0040CE1B /* QuickTime.framework */; };
 		BEC777D1087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
 		BEC777D3087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */; };
+		BED71C1F131594EC008DB2FF /* E3FastArray.h in Headers */ = {isa = PBXBuildFile; fileRef = BED71C1E131594EC008DB2FF /* E3FastArray.h */; };
 		BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
 		BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */; };
@@ -333,7 +329,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D07F2C80486CC7A007CD1D0 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB3A7B85055E63B100CA83BE /* E3Geometry.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Geometry.c; sourceTree = "<group>"; };
 		AB3A7B86055E63B100CA83BE /* E3Geometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Geometry.h; sourceTree = "<group>"; };
@@ -525,9 +520,6 @@
 		AB3A7C5A055E63B100CA83BE /* E3FFW_3DMFBin_Register.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFW_3DMFBin_Register.h; sourceTree = "<group>"; };
 		AB3A7C5B055E63B100CA83BE /* E3FFW_3DMFBin_Writer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3FFW_3DMFBin_Writer.c; sourceTree = "<group>"; };
 		AB3A7C5C055E63B100CA83BE /* E3FFW_3DMFBin_Writer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3FFW_3DMFBin_Writer.h; sourceTree = "<group>"; };
-		AB3A7E33055E691D00CA83BE /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		AB3A7E66055E698900CA83BE /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		AB83B5D8055E72B90034F56A /* Quesa.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Quesa.h; sourceTree = "<group>"; };
 		AB83B5D9055E72B90034F56A /* QuesaCamera.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaCamera.h; sourceTree = "<group>"; };
 		AB83B5DA055E72B90034F56A /* QuesaController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaController.h; sourceTree = "<group>"; };
@@ -557,7 +549,6 @@
 		AB83B95F055E77870034F56A /* E3MacPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3MacPrefix.h; sourceTree = "<group>"; };
 		AB83B964055E77870034F56A /* E3MacStorage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacStorage.c; sourceTree = "<group>"; };
 		AB83B965055E77870034F56A /* E3MacSystem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = E3MacSystem.c; sourceTree = "<group>"; };
-		AB83B9FC055E79B20034F56A /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19A74320C3E7A7F0099C820 /* WFRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = WFRenderer.cpp; sourceTree = "<group>"; };
 		B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = HiddenLine.cpp; sourceTree = "<group>"; };
@@ -567,7 +558,7 @@
 		BE0D64FB0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOCalcTriMeshEdges.h; sourceTree = "<group>"; };
 		BE0D64FC0C0D0FFC00D3D79C /* QOShadowMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOShadowMarker.cpp; sourceTree = "<group>"; };
 		BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef_Gets.h; sourceTree = "<group>"; };
-		BE499C960F145E950060DF4E /* Quesa-common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-common.xcconfig"; path = "xcode-configs/Quesa-common.xcconfig"; sourceTree = SOURCE_ROOT; };
+		BE499C960F145E950060DF4E /* Quesa-common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-common.xcconfig"; path = "xcode-configs/Quesa-common.xcconfig"; sourceTree = SOURCE_ROOT; wrapsLines = 1; };
 		BE499C970F145E950060DF4E /* Quesa-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-debug.xcconfig"; path = "xcode-configs/Quesa-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
 		BE499C9A0F145E950060DF4E /* Quesa-framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-framework.xcconfig"; path = "xcode-configs/Quesa-framework.xcconfig"; sourceTree = SOURCE_ROOT; };
 		BE499C9B0F145E950060DF4E /* Quesa-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-release.xcconfig"; path = "xcode-configs/Quesa-release.xcconfig"; sourceTree = SOURCE_ROOT; };
@@ -578,6 +569,11 @@
 		BE6C6F500C134DD300FBD60D /* E3Math_Intersect.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3Math_Intersect.cpp; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = GLTextureManager.c; sourceTree = "<group>"; };
+		BE7033FC132D30B700C0056D /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = System/Library/Frameworks/AGL.framework; sourceTree = SDKROOT; };
+		BE7033FE132D30B700C0056D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		BE703428132D326300C0056D /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		BE7034EC132D32BD00C0056D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BE7034EE132D32BD00C0056D /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLGPUSharing.cpp; sourceTree = "<group>"; };
 		BE7F264A0B7BB87F00933ED1 /* GLDisplayListManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLDisplayListManager.h; sourceTree = "<group>"; };
 		BE7F264B0B7BB87F00933ED1 /* GLTextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureLoader.h; sourceTree = "<group>"; };
@@ -621,14 +617,10 @@
 		BE8779560F9F7937007F104E /* Quesa.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = Quesa.r; path = Resources/Quesa.r; sourceTree = "<group>"; };
 		BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OptimizedTriMeshElement.cpp; sourceTree = "<group>"; };
 		BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OptimizedTriMeshElement.h; sourceTree = "<group>"; };
-		BE98E71E09F763AC0040CE1B /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
-		BE98E71F09F763AC0040CE1B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		BE98E72009F763AC0040CE1B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		BE98E72109F763AC0040CE1B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
-		BE98E72209F763AC0040CE1B /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = E3CocoaStackCrawl.c; path = ../../Source/Platform/Cocoa/E3CocoaStackCrawl.c; sourceTree = SOURCE_ROOT; };
 		BEC777CF087DA6AD00080AB7 /* CartoonRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = CartoonRenderer.cpp; sourceTree = "<group>"; };
 		BEC777D0087DA6AD00080AB7 /* CartoonRenderer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CartoonRenderer.h; sourceTree = "<group>"; };
+		BED71C1E131594EC008DB2FF /* E3FastArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = E3FastArray.h; sourceTree = "<group>"; };
 		BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef.h; sourceTree = "<group>"; };
 		BEDC045A08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3GeometryTriMeshOptimize.cpp; sourceTree = "<group>"; };
 		BEDC045B08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3GeometryTriMeshOptimize.h; sourceTree = "<group>"; };
@@ -645,11 +637,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE98E72309F763AC0040CE1B /* AGL.framework in Frameworks */,
-				BE98E72409F763AC0040CE1B /* Carbon.framework in Frameworks */,
-				BE98E72509F763AC0040CE1B /* Cocoa.framework in Frameworks */,
-				BE98E72609F763AC0040CE1B /* OpenGL.framework in Frameworks */,
-				BE98E72709F763AC0040CE1B /* QuickTime.framework in Frameworks */,
+				BE7033FD132D30B700C0056D /* AGL.framework in Frameworks */,
+				BE7033FF132D30B700C0056D /* OpenGL.framework in Frameworks */,
+				BE703429132D326300C0056D /* Carbon.framework in Frameworks */,
+				BE7034ED132D32BD00C0056D /* Cocoa.framework in Frameworks */,
+				BE7034EF132D32BD00C0056D /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,11 +649,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE98E76B09F7EB050040CE1B /* AGL.framework in Frameworks */,
-				BE98E76C09F7EB050040CE1B /* Carbon.framework in Frameworks */,
-				BE98E76D09F7EB050040CE1B /* Cocoa.framework in Frameworks */,
-				BE98E76E09F7EB050040CE1B /* OpenGL.framework in Frameworks */,
-				BE98E76F09F7EB050040CE1B /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,8 +679,11 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BE98E71D09F763610040CE1B /* 10.4u SDK */,
-				BE98E71109F763440040CE1B /* Current System */,
+				BE7033FC132D30B700C0056D /* AGL.framework */,
+				BE7033FE132D30B700C0056D /* OpenGL.framework */,
+				BE703428132D326300C0056D /* Carbon.framework */,
+				BE7034EC132D32BD00C0056D /* Cocoa.framework */,
+				BE7034EE132D32BD00C0056D /* QuickTime.framework */,
 			);
 			name = "External Frameworks";
 			sourceTree = "<group>";
@@ -817,6 +807,7 @@
 				AB3A7BD0055E63B100CA83BE /* E3Debug.h */,
 				AB3A7BD1055E63B100CA83BE /* E3ErrorManager.c */,
 				AB3A7BD2055E63B100CA83BE /* E3ErrorManager.h */,
+				BED71C1E131594EC008DB2FF /* E3FastArray.h */,
 				AB3A7BD3055E63B100CA83BE /* E3Globals.c */,
 				AB3A7BD4055E63B100CA83BE /* E3Globals.h */,
 				AB3A7BD5055E63B100CA83BE /* E3HashTable.c */,
@@ -1189,30 +1180,6 @@
 			path = OpenGL;
 			sourceTree = "<group>";
 		};
-		BE98E71109F763440040CE1B /* Current System */ = {
-			isa = PBXGroup;
-			children = (
-				AB83B9FC055E79B20034F56A /* AGL.framework */,
-				08FB77AAFE841565C02AAC07 /* Carbon.framework */,
-				AB3A7E6C055E6A0800CA83BE /* Cocoa.framework */,
-				AB3A7E33055E691D00CA83BE /* OpenGL.framework */,
-				AB3A7E66055E698900CA83BE /* QuickTime.framework */,
-			);
-			name = "Current System";
-			sourceTree = "<group>";
-		};
-		BE98E71D09F763610040CE1B /* 10.4u SDK */ = {
-			isa = PBXGroup;
-			children = (
-				BE98E71E09F763AC0040CE1B /* AGL.framework */,
-				BE98E71F09F763AC0040CE1B /* Carbon.framework */,
-				BE98E72009F763AC0040CE1B /* Cocoa.framework */,
-				BE98E72109F763AC0040CE1B /* OpenGL.framework */,
-				BE98E72209F763AC0040CE1B /* QuickTime.framework */,
-			);
-			name = "10.4u SDK";
-			sourceTree = "<group>";
-		};
 		BEC777CE087DA6AD00080AB7 /* Cartoon */ = {
 			isa = PBXGroup;
 			children = (
@@ -1266,6 +1233,7 @@
 				BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */,
 				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
+				BED71C1F131594EC008DB2FF /* E3FastArray.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1315,7 +1283,14 @@
 			isa = PBXProject;
 			buildConfigurationList = BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "Quesa" */;
 			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* Quesa */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
 			projectDirPath = "";
@@ -1380,7 +1355,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Make paths to important directories\nQUESA_ROOT=\"$SRCROOT/../../..\"\nSCRIPT_DIR=\"$QUESA_ROOT/Development/Scripts/HeaderDoc\"\nOUT_DIR=\"$QUESA_ROOT/Documentation/developer/apiref\"\nHEADER_DIR=\"$QUESA_ROOT/SDK/Includes/Quesa\"\n\n# Write HeaderDoc output in usual documentation directory\necho \"*** First run of HeaderDoc with output in standard place:\"\n/usr/bin/perl \"$SCRIPT_DIR/headerDoc2HTML.pl\" -o \"$OUT_DIR\" \"$HEADER_DIR\"/*.h\n\n# The version of gatherHeaderDoc currently used in Quesa gets confused by the invisible .svn directories.\n# In order to avoid that problem, we make fresh HeaderDoc output in a temporary directory.\n\n# Make a temporary directory\ncd \"$QUESA_ROOT\"\nTMPDIRNAME=`mktemp -d QTempDocs.XXXXXX` || exit 1\nTMPDIR=\"$QUESA_ROOT/$TMPDIRNAME\"\n\n# Run HeaderDoc again, this time with output to the temporary directory\necho \"*** Second run of HeaderDoc with output in temporary place:\"\n/usr/bin/perl \"$SCRIPT_DIR/headerDoc2HTML.pl\" -o \"$TMPDIR\" \"$HEADER_DIR\"/*.h\n\n# Run gatherHeaderDoc on the temporary directory\necho \"*** Running gatherHeaderDoc:\"\n/usr/bin/perl \"$SCRIPT_DIR/gatherHeaderDoc.pl\" \"$TMPDIR\"\n\n# Copy the gatherHeaderDoc output file back to the standard location.\n# Note: This assumes that the only thing gatherHeaderDoc does is produce\n# the master table of contents and the toc.html files.  If we ever update\n# to a newer version of HeaderDoc, that may no longer be true.\necho \"*** Copying gatherHeaderDoc output\"\n/bin/cat \"$SCRIPT_DIR/MasterTOC-header-template.html\" \"$TMPDIR/MasterTOC.html\" \"$SCRIPT_DIR/MasterTOC-footer-template.html\" > \"$OUT_DIR/MasterTOC.html\"\ncd \"$TMPDIR\"\nfor i in * ; do\n\tif [ -d \"$i\" ] ; then\n\t\t/bin/cp \"$i/toc.html\" \"$OUT_DIR/$i\"\n\tfi\ndone\n\n# Remove the temporary directory\necho \"*** Cleaning up.\"\n/bin/rm -R $TMPDIR\n";
+			shellScript = "if [[ \"${CONFIGURATION}\" == \"Debug\" ]]; then\n\t# Make paths to important directories\n\tQUESA_ROOT=\"$SRCROOT/../../..\"\n\tSCRIPT_DIR=\"$QUESA_ROOT/Development/Scripts/HeaderDoc\"\n\tOUT_DIR=\"$QUESA_ROOT/Documentation/developer/apiref\"\n\tHEADER_DIR=\"$QUESA_ROOT/SDK/Includes/Quesa\"\n\t\n\t# Write HeaderDoc output in usual documentation directory\n\techo \"*** First run of HeaderDoc with output in standard place:\"\n\t/usr/bin/perl \"$SCRIPT_DIR/headerDoc2HTML.pl\" -o \"$OUT_DIR\" \"$HEADER_DIR\"/*.h\n\t\n\t# The version of gatherHeaderDoc currently used in Quesa gets confused by the invisible .svn directories.\n\t# In order to avoid that problem, we make fresh HeaderDoc output in a temporary directory.\n\t\n\t# Make a temporary directory\n\tcd \"$QUESA_ROOT\"\n\tTMPDIRNAME=`mktemp -d QTempDocs.XXXXXX` || exit 1\n\tTMPDIR=\"$QUESA_ROOT/$TMPDIRNAME\"\n\t\n\t# Run HeaderDoc again, this time with output to the temporary directory\n\techo \"*** Second run of HeaderDoc with output in temporary place:\"\n\t/usr/bin/perl \"$SCRIPT_DIR/headerDoc2HTML.pl\" -o \"$TMPDIR\" \"$HEADER_DIR\"/*.h\n\t\n\t# Run gatherHeaderDoc on the temporary directory\n\techo \"*** Running gatherHeaderDoc:\"\n\t/usr/bin/perl \"$SCRIPT_DIR/gatherHeaderDoc.pl\" \"$TMPDIR\"\n\t\n\t# Copy the gatherHeaderDoc output file back to the standard location.\n\t# Note: This assumes that the only thing gatherHeaderDoc does is produce\n\t# the master table of contents and the toc.html files.  If we ever update\n\t# to a newer version of HeaderDoc, that may no longer be true.\n\techo \"*** Copying gatherHeaderDoc output\"\n\t/bin/cat \"$SCRIPT_DIR/MasterTOC-header-template.html\" \"$TMPDIR/MasterTOC.html\" \"$SCRIPT_DIR/MasterTOC-footer-template.html\" > \"$OUT_DIR/MasterTOC.html\"\n\tcd \"$TMPDIR\"\n\tfor i in * ; do\n\t\tif [ -d \"$i\" ] ; then\n\t\t\t/bin/cp \"$i/toc.html\" \"$OUT_DIR/$i\"\n\t\tfi\n\tdone\n\t\n\t# Remove the temporary directory\n\techo \"*** Cleaning up.\"\n\t/bin/rm -R $TMPDIR\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1693,6 +1668,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE499C9A0F145E950060DF4E /* Quesa-framework.xcconfig */;
 			buildSettings = {
+				GCC_WARN_PROTOTYPE_CONVERSION = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
 			};
 			name = Debug;
 		};

@@ -19,10 +19,10 @@ QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) 
 
 // Mac OS SDK to use, Quesa requires the 10.3 SDK or later.
 // If you want to be able to build using Xcode 2.5, use the 10.4u SDK.
-// If you will build only with Xcode 3 or later, you may as well use the 10.5
-// SDK, and you may be required to use it for certain features such as compiler
-// stack protection.
-SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk
+// If you will build only with Xcode 3 or later, you may as well use the 10.5 or
+// 10.6 SDK, and you may be required to use it for certain features such as
+// compiler stack protection.  Xcode 4.0 only comes with the 10.6 SDK.
+SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk
 
 // Prebinding is useless as of Mac OS X 10.3.something.
 PREBINDING = NO
@@ -31,12 +31,15 @@ PREBINDING = NO
 MACOSX_DEPLOYMENT_TARGET = 10.4
 
 // Build Universal Binary: PowerPC and Intel.
-// Use ARCHS_STANDARD_32_64_BIT for 64 bit as well.
+// Use ARCHS_STANDARD_32_64_BIT, or append x86_64, for 64 bit as well.
+// If using Xcode 4, remove ppc.
 ARCHS = ppc i386
 
 // Compiler choice.  Quesa supports gcc 3.3 and later.
 // Important: If this is 4.2 or later, then
 // the SDK version must be 10.5. or later.
+// When building for PowerPC, using gcc 4.2 or later produces ppc7400 code that
+// will not run on a G3, hence we use gcc 4.0 for PPC.
 GCC_VERSION = 4.2
 GCC_VERSION[arch=ppc] = 4.0
 
