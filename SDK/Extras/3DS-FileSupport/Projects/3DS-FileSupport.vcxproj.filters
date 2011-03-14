@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="lib3ds">
+      <UniqueIdentifier>{29360f28-038d-4f4f-bad8-901936d4af87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{8431dff7-6640-48c4-b53e-988d5e80f9fc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib3ds\lib3ds\atmosphere.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\background.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\camera.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\chunk.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\ease.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\file.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\float.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\io.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\light.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\material.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\matrix.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\mesh.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\node.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\quat.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\shadow.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\tcb.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\tracks.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\vector.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib3ds\lib3ds\viewport.c">
+      <Filter>lib3ds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\C3DSReader.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\C3DSWriter.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\quesa-methods.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib3ds\lib3ds\atmosphere.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\background.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\camera.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\chunk.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\chunktable.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\ease.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\file.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\float.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\io.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\light.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\material.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\matrix.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\mesh.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\node.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\quat.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\shadow.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\tcb.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\tracks.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\types.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\vector.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib3ds\lib3ds\viewport.h">
+      <Filter>lib3ds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\C3DSReader.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\C3DSWriter.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\quesa-methods.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\Libraries\Windows\Stub\Quesa.lib" />
+  </ItemGroup>
+</Project>
