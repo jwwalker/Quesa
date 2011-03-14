@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D06577BD-839E-4F45-971C-F4CE84B65515}</ProjectGuid>
+    <SccLocalPath>Desktop</SccLocalPath>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Intermediate\Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Intermediate\Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.xq3</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.xq3</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/3DS-FileSupport.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\Includes\Quesa;..\lib3ds;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;_USRDLL;QD3D_NO_DIRECTDRAW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/3DS-FileSupport.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\..\..\Includes\Quesa;..\lib3ds;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;_USRDLL;QD3D_NO_DIRECTDRAW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib3ds\lib3ds\atmosphere.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\background.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\camera.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\chunk.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\ease.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\file.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\float.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\io.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\light.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\material.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\matrix.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\mesh.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\node.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\quat.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\shadow.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\tcb.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\tracks.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\vector.c" />
+    <ClCompile Include="..\lib3ds\lib3ds\viewport.c" />
+    <ClCompile Include="..\Source\C3DSReader.cpp" />
+    <ClCompile Include="..\Source\C3DSWriter.cpp" />
+    <ClCompile Include="..\Source\main.cpp" />
+    <ClCompile Include="..\Source\quesa-methods.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib3ds\lib3ds\atmosphere.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\background.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\camera.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\chunk.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\chunktable.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\ease.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\file.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\float.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\io.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\light.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\material.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\matrix.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\mesh.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\node.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\quat.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\shadow.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\tcb.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\tracks.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\types.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\vector.h" />
+    <ClInclude Include="..\lib3ds\lib3ds\viewport.h" />
+    <ClInclude Include="..\Source\C3DSReader.h" />
+    <ClInclude Include="..\Source\C3DSWriter.h" />
+    <ClInclude Include="..\Source\quesa-methods.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\Libraries\Windows\Stub\Quesa.lib" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
