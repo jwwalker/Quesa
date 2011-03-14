@@ -31,7 +31,6 @@
 		B1BDF8410B62DC1000A6A5E4 /* tracks.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF82A0B62DC1000A6A5E4 /* tracks.c */; };
 		B1BDF8420B62DC1000A6A5E4 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF82D0B62DC1000A6A5E4 /* vector.c */; };
 		B1BDF8430B62DC1000A6A5E4 /* viewport.c in Sources */ = {isa = PBXBuildFile; fileRef = B1BDF82F0B62DC1000A6A5E4 /* viewport.c */; };
-		BE70167309F6AA5500940AA2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE70167209F6AA5500940AA2 /* Carbon.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -123,7 +122,6 @@
 		B1BDF82F0B62DC1000A6A5E4 /* viewport.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = viewport.c; path = ../lib3ds/lib3ds/viewport.c; sourceTree = SOURCE_ROOT; };
 		B1BDF8300B62DC1000A6A5E4 /* viewport.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = viewport.h; path = ../lib3ds/lib3ds/viewport.h; sourceTree = SOURCE_ROOT; };
 		BE61011E08EFA04E0020A13D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../Resources/version.h; sourceTree = SOURCE_ROOT; };
-		BE70167209F6AA5500940AA2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		BEC95CBA08A86BD2001E16B9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -133,7 +131,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B11570EF0CCB36C6003BB66E /* Quesa.framework in Frameworks */,
-				BE70167309F6AA5500940AA2 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,18 +145,9 @@
 				B1BDF8050B62CFA100A6A5E4 /* lib3ds */,
 				08FB77ADFE841716C02AAC07 /* Source */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
 			);
 			name = "VRML-Reader";
-			sourceTree = "<group>";
-		};
-		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				BE70167209F6AA5500940AA2 /* Carbon.framework */,
-			);
-			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
 		};
 		089C167CFE841241C02AAC07 /* Resources */ = {
