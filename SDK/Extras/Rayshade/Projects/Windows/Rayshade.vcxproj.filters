@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{3cbe74d8-e730-45a5-a40a-e39d4c076cb2}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Rayshade">
+      <UniqueIdentifier>{e7c40762-02d5-4abf-9b9e-fde14c02c82b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rayshade\LibCommon">
+      <UniqueIdentifier>{b8215676-3448-4997-9ec4-cf65b4b85f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rayshade\LibLight">
+      <UniqueIdentifier>{a9e902e1-b420-4ce3-93e4-634a12853dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rayshade\LibText">
+      <UniqueIdentifier>{d2ea4aba-ec32-4576-b527-c4e33ba666af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rayshade\LibSurf">
+      <UniqueIdentifier>{1ef4bb07-71c4-4507-ac73-2c97b26733e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rayshade\LibObj">
+      <UniqueIdentifier>{a661b847-75d1-4b06-909f-50eb6a07b228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rayshade\LibShade">
+      <UniqueIdentifier>{89e9d15e-a0db-4f68-99e3-e79655681bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rayshade\LibImage">
+      <UniqueIdentifier>{6a00e12c-f40e-4306-a096-b81baf784c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RT Interface">
+      <UniqueIdentifier>{96388e3e-5147-498a-9d13-130c45d2be8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QD3D Plugin">
+      <UniqueIdentifier>{756895ab-698b-4f9e-83c9-c2bd31498839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{34d2aea7-b4e0-4a7a-97eb-684f24065018}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{efb5851e-d8e2-4a8c-97c0-49a170109575}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{4a8e9508-e35d-44e4-8b73-c7cefbc15975}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Sources\Rayshade\config.h">
+      <Filter>Source Files\Rayshade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\color.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\common.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\error.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\expr.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\ray.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\rotate.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\sampling.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\scale.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\transform.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\translate.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\vector.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibCommon\xform.h">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibLight\extended.h">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibLight\infinite.h">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibLight\jittered.h">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibLight\light.h">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibLight\point.h">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibLight\spot.h">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\blotch.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\bump.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\checker.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\CImageTexture.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\CTexture.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\fbm.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\fbmbump.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\gloss.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\mapping.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\marble.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\mount.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\sky.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\stripe.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\textureutils.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\windy.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibText\wood.h">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibSurf\atmosphere.h">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibSurf\fog.h">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibSurf\fogdeck.h">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibSurf\mist.h">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibSurf\surface.h">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\blob.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\bounds.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\box.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\cone.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\csg.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\cylinder.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\disc.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\geom.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\grid.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\hf.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\instance.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\list.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\plane.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\poly.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\sphere.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\torus.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Rayshade\LibObj\triangle.h">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\RTInterface\RT.h">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\RTInterface\RT_DrawContext.h">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\RTInterface\RT_Geometry.h">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\RTInterface\RT_Light.h">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\RTInterface\RT_Surface.h">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\RTInterface\RT_Texture.h">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\RTInterface\RT_Tracer.h">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\QD3DPlugin\CurrentVersion.h">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\QD3DPlugin\RS_Attributes.h">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\QD3DPlugin\RS_Rasterize.h">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\QD3DPlugin\RS_ScanLine_Rasterize.h">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\QD3DPlugin\RS_Texture.h">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\QD3DPlugin\RSPlugin.h">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\QD3DPlugin\RSPrefix.h">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Sources\Rayshade\LibCommon\expr.cpp">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibCommon\memory.cpp">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibCommon\rotate.cpp">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibCommon\sampling.cpp">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibCommon\scale.cpp">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibCommon\transform.cpp">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibCommon\translate.cpp">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibCommon\vecmath.cpp">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibCommon\xform.cpp">
+      <Filter>Source Files\Rayshade\LibCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibLight\extended.cpp">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibLight\infinite.cpp">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibLight\jittered.cpp">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibLight\light.cpp">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibLight\point.cpp">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibLight\shadow.cpp">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibLight\spot.cpp">
+      <Filter>Source Files\Rayshade\LibLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\blotch.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\bump.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\checker.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\CImageTexture.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\CTexture.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\fbm.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\fbmbump.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\gloss.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\mapping.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\marble.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\mount.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\noise.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\sky.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\stripe.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\textaux.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\windy.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibText\wood.cpp">
+      <Filter>Source Files\Rayshade\LibText</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibSurf\atmosphere.cpp">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibSurf\fog.cpp">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibSurf\fogdeck.cpp">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibSurf\mist.cpp">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibSurf\surface.cpp">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibSurf\surfshade.cpp">
+      <Filter>Source Files\Rayshade\LibSurf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\blob.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\bounds.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\box.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\cone.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\csg.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\cylinder.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\disc.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\geom.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\grid.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\hf.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\instance.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\intersect.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\list.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\plane.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\poly.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\roots.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\sphere.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\torus.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibObj\triangle.cpp">
+      <Filter>Source Files\Rayshade\LibObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibShade\builtin.cpp">
+      <Filter>Source Files\Rayshade\LibShade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibShade\lightdef.cpp">
+      <Filter>Source Files\Rayshade\LibShade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibShade\misc.cpp">
+      <Filter>Source Files\Rayshade\LibShade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibShade\objdef.cpp">
+      <Filter>Source Files\Rayshade\LibShade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibShade\shade.cpp">
+      <Filter>Source Files\Rayshade\LibShade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibShade\stats.cpp">
+      <Filter>Source Files\Rayshade\LibShade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibShade\surfdef.cpp">
+      <Filter>Source Files\Rayshade\LibShade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibShade\viewing.cpp">
+      <Filter>Source Files\Rayshade\LibShade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Rayshade\LibImage\image.cpp">
+      <Filter>Source Files\Rayshade\LibImage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\RTInterface\RT.cpp">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\RTInterface\RT_Geometry.cpp">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\RTInterface\RT_Light.cpp">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\RTInterface\RT_Raytrace.cpp">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\RTInterface\RT_Surface.cpp">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\RTInterface\RT_Texture.cpp">
+      <Filter>Source Files\RT Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\QD3DPlugin\RS_Attributes.cpp">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\QD3DPlugin\RS_Geometry.cpp">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\QD3DPlugin\RS_Rasterize.cpp">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\QD3DPlugin\RS_Texture.cpp">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\QD3DPlugin\RS_Update.cpp">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\QD3DPlugin\RSPlugin.cpp">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\QD3DPlugin\RSRegister.cpp">
+      <Filter>Source Files\QD3D Plugin</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\Libraries\Windows\Stub\Quesa.lib">
+      <Filter>Libraries</Filter>
+    </Library>
+  </ItemGroup>
+</Project>
