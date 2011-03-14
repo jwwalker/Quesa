@@ -205,7 +205,6 @@ lib3ds_file_save(Lib3dsFile *file, const char *filename)
   return(result);
 }
 
-
 /*!
  * \ingroup file
  */
@@ -1405,7 +1404,7 @@ lib3ds_file_dump_lights(Lib3dsFile *file)
 /*!
  * \ingroup file
  */
-void
+static void
 lib3ds_file_bounding_box(Lib3dsFile *file, Lib3dsVector min, Lib3dsVector max)
 {
   Lib3dsBool init=LIB3DS_FALSE;

@@ -69,7 +69,7 @@ struct _Lib3dsFile {
 
 extern LIB3DSAPI Lib3dsFile* lib3ds_file_load(const char *filename);
 extern LIB3DSAPI Lib3dsBool lib3ds_file_save(Lib3dsFile *file, const char *filename);
-extern LIB3DSAPI Lib3dsFile* lib3ds_file_new();
+extern LIB3DSAPI Lib3dsFile* lib3ds_file_new( void );
 extern LIB3DSAPI void lib3ds_file_free(Lib3dsFile *file);
 extern LIB3DSAPI void lib3ds_file_eval(Lib3dsFile *file, Lib3dsFloat t);
 extern LIB3DSAPI Lib3dsBool lib3ds_file_read(Lib3dsFile *file, Lib3dsIo *io);
