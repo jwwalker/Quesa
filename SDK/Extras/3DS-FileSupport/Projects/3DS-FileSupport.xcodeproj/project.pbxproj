@@ -3,12 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		B11570EF0CCB36C6003BB66E /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B11570D50CCB3523003BB66E /* Quesa.framework */; };
-		B12AB6F20BE165CE0074502A /* 3DS-FileSupport.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */; };
 		B14DEE3C0BC959E000FB3636 /* C3DSReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B14DEE3B0BC959E000FB3636 /* C3DSReader.cpp */; };
 		B15582030B5D9D2C004E2AE6 /* C3DSWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B15581FE0B5D9D2C004E2AE6 /* C3DSWriter.cpp */; };
 		B15582040B5D9D2C004E2AE6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B15582000B5D9D2C004E2AE6 /* main.cpp */; };
@@ -59,29 +58,15 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = B11570CD0CCB3523003BB66E /* Quesa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0 /* Quesa.framework */;
+			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
 			remoteInfo = "Fmwk Univ";
-		};
-		B11570D60CCB3523003BB66E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B11570CD0CCB3523003BB66E /* Quesa.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEDC072708A6812D00FB3A82 /* Quesa.framework */;
-			remoteInfo = "Fmwk (GCC 3.3)";
 		};
 		B11570D80CCB3523003BB66E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B11570CD0CCB3523003BB66E /* Quesa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B1756AFF080A71C30056134C /* libQuesaD.a */;
+			remoteGlobalIDString = B1756AFF080A71C30056134C;
 			remoteInfo = "Static Lib (Univ)";
-		};
-		B11570DA0CCB3523003BB66E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B11570CD0CCB3523003BB66E /* Quesa.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEDC08D008A6B24A00FB3A82 /* libQuesaD.a */;
-			remoteInfo = "Static Lib (GCC 3.3)";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -139,7 +124,7 @@
 		B1BDF8300B62DC1000A6A5E4 /* viewport.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = viewport.h; path = ../lib3ds/lib3ds/viewport.h; sourceTree = SOURCE_ROOT; };
 		BE61011E08EFA04E0020A13D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../Resources/version.h; sourceTree = SOURCE_ROOT; };
 		BE70167209F6AA5500940AA2 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		BEC95CBA08A86BD2001E16B9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ../Resources/Info.plist; sourceTree = SOURCE_ROOT; };
+		BEC95CBA08A86BD2001E16B9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,13 +143,13 @@
 		089C166AFE841209C02AAC07 /* VRML-Reader */ = {
 			isa = PBXGroup;
 			children = (
+				B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */,
 				B11570CD0CCB3523003BB66E /* Quesa.xcodeproj */,
 				B1BDF8050B62CFA100A6A5E4 /* lib3ds */,
 				08FB77ADFE841716C02AAC07 /* Source */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
 				19C28FB4FE9D528D11CA2CBB /* Products */,
-				B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */,
 			);
 			name = "VRML-Reader";
 			sourceTree = "<group>";
@@ -214,9 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				B11570D50CCB3523003BB66E /* Quesa.framework */,
-				B11570D70CCB3523003BB66E /* Quesa.framework */,
-				B11570D90CCB3523003BB66E /* libQuesaD.a */,
-				B11570DB0CCB3523003BB66E /* libQuesaD.a */,
+				B11570D90CCB3523003BB66E /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,7 +261,6 @@
 				8D01CCC90486CAD60068D4B7 /* Resources */,
 				8D01CCCB0486CAD60068D4B7 /* Sources */,
 				8D01CCCD0486CAD60068D4B7 /* Frameworks */,
-				BE90C9EC0AFBD99500976226 /* ShellScript */,
 			);
 			buildRules = (
 				BEC95E7008A87E6F001E16B9 /* PBXBuildRule */,
@@ -298,7 +280,15 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = BEC95CB308A86B3C001E16B9 /* Build configuration list for PBXProject "3DS-FileSupport" */;
+			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* VRML-Reader */;
 			projectDirPath = "";
 			projectReferences = (
@@ -307,6 +297,7 @@
 					ProjectRef = B11570CD0CCB3523003BB66E /* Quesa.xcodeproj */;
 				},
 			);
+			projectRoot = "";
 			targets = (
 				8D01CCC60486CAD60068D4B7 /* 3DS-Support */,
 			);
@@ -321,25 +312,11 @@
 			remoteRef = B11570D40CCB3523003BB66E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B11570D70CCB3523003BB66E /* Quesa.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Quesa.framework;
-			remoteRef = B11570D60CCB3523003BB66E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B11570D90CCB3523003BB66E /* libQuesaD.a */ = {
+		B11570D90CCB3523003BB66E /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libQuesaD.a;
+			path = libQuesa.a;
 			remoteRef = B11570D80CCB3523003BB66E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B11570DB0CCB3523003BB66E /* libQuesaD.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libQuesaD.a;
-			remoteRef = B11570DA0CCB3523003BB66E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -349,27 +326,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B12AB6F20BE165CE0074502A /* 3DS-FileSupport.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		BE90C9EC0AFBD99500976226 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "echo \"setting package flag on $CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n/Developer/Tools/SetFile -a B \"$CONFIGURATION_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D01CCCB0486CAD60068D4B7 /* Sources */ = {
@@ -430,7 +390,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B155821E0B5E3EA5004E2AE6 /* 3DS-FileSupport.xcconfig */;
 			buildSettings = {
-				SYMROOT = "../../../Examples/Geom Test/build/";
 			};
 			name = Debug;
 		};

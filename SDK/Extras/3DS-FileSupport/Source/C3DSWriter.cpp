@@ -425,7 +425,7 @@ const char*		X3DSWriterImp::GetMaterial()
 	if (foundMaterial == NULL){
 		foundMaterial =lib3ds_material_new();
 		
-		sprintf(foundMaterial->name,"Ma%X",(long)foundMaterial);
+		sprintf(foundMaterial->name,"Ma%lX",(long)foundMaterial);
 		foundMaterial->name[10] = 0; // max len 10
 		
 //		foundMaterial->ambient[0] = foundMaterial->ambient[1] = foundMaterial->ambient[2] = 0.0f;
@@ -459,7 +459,7 @@ Lib3dsMesh*		X3DSWriterImp::CreateLib3dsMesh(TQ3TriMeshData *meshData)
 	char s[1024];
 	static long key = 0;
 
-	sprintf(s,"Me%X",(long)key++);
+	sprintf(s,"Me%lX",(long)key++);
 	
 	s[10] = 0; // max len 10
 
@@ -503,7 +503,7 @@ Lib3dsMesh*		X3DSWriterImp::CreateLib3dsTriangle(TQ3TriangleData *triData)
 
 	static long key = 0;
 
-	sprintf(s,"Tr%X",(long)key++);
+	sprintf(s,"Tr%lX",(long)key++);
 	
 	s[10] = 0; // max len 10
 	

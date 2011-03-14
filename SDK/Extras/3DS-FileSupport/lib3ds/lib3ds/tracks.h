@@ -148,7 +148,7 @@ struct _Lib3dsMorphTrack {
     Lib3dsMorphKey *keyL;
 };
 
-extern LIB3DSAPI Lib3dsBoolKey* lib3ds_bool_key_new();
+extern LIB3DSAPI Lib3dsBoolKey* lib3ds_bool_key_new(void);
 extern LIB3DSAPI void lib3ds_bool_key_free(Lib3dsBoolKey* key);
 extern LIB3DSAPI void lib3ds_bool_track_free_keys(Lib3dsBoolTrack *track);
 extern LIB3DSAPI void lib3ds_bool_track_insert(Lib3dsBoolTrack *track, Lib3dsBoolKey* key);
@@ -157,7 +157,7 @@ extern LIB3DSAPI void lib3ds_bool_track_eval(Lib3dsBoolTrack *track, Lib3dsBool 
 extern LIB3DSAPI Lib3dsBool lib3ds_bool_track_read(Lib3dsBoolTrack *track, Lib3dsIo *io);
 extern LIB3DSAPI Lib3dsBool lib3ds_bool_track_write(Lib3dsBoolTrack *track, Lib3dsIo *io);
 
-extern LIB3DSAPI Lib3dsLin1Key* lib3ds_lin1_key_new();
+extern LIB3DSAPI Lib3dsLin1Key* lib3ds_lin1_key_new(void);
 extern LIB3DSAPI void lib3ds_lin1_key_free(Lib3dsLin1Key* key);
 extern LIB3DSAPI void lib3ds_lin1_track_free_keys(Lib3dsLin1Track *track);
 extern LIB3DSAPI void lib3ds_lin1_key_setup(Lib3dsLin1Key *p, Lib3dsLin1Key *cp, Lib3dsLin1Key *c,
@@ -169,7 +169,7 @@ extern LIB3DSAPI void lib3ds_lin1_track_eval(Lib3dsLin1Track *track, Lib3dsFloat
 extern LIB3DSAPI Lib3dsBool lib3ds_lin1_track_read(Lib3dsLin1Track *track, Lib3dsIo *io);
 extern LIB3DSAPI Lib3dsBool lib3ds_lin1_track_write(Lib3dsLin1Track *track, Lib3dsIo *io);
 
-extern LIB3DSAPI Lib3dsLin3Key* lib3ds_lin3_key_new();
+extern LIB3DSAPI Lib3dsLin3Key* lib3ds_lin3_key_new(void);
 extern LIB3DSAPI void lib3ds_lin3_key_free(Lib3dsLin3Key* key);
 extern LIB3DSAPI void lib3ds_lin3_track_free_keys(Lib3dsLin3Track *track);
 extern LIB3DSAPI void lib3ds_lin3_key_setup(Lib3dsLin3Key *p, Lib3dsLin3Key *cp, Lib3dsLin3Key *c,
@@ -181,7 +181,7 @@ extern LIB3DSAPI void lib3ds_lin3_track_eval(Lib3dsLin3Track *track, Lib3dsVecto
 extern LIB3DSAPI Lib3dsBool lib3ds_lin3_track_read(Lib3dsLin3Track *track, Lib3dsIo *io);
 extern LIB3DSAPI Lib3dsBool lib3ds_lin3_track_write(Lib3dsLin3Track *track, Lib3dsIo *io);
 
-extern LIB3DSAPI Lib3dsQuatKey* lib3ds_quat_key_new();
+extern LIB3DSAPI Lib3dsQuatKey* lib3ds_quat_key_new(void);
 extern LIB3DSAPI void lib3ds_quat_key_free(Lib3dsQuatKey* key);
 extern LIB3DSAPI void lib3ds_quat_track_free_keys(Lib3dsQuatTrack *track);
 extern LIB3DSAPI void lib3ds_quat_key_setup(Lib3dsQuatKey *p, Lib3dsQuatKey *cp, Lib3dsQuatKey *c,
@@ -193,7 +193,7 @@ extern LIB3DSAPI void lib3ds_quat_track_eval(Lib3dsQuatTrack *track, Lib3dsQuat 
 extern LIB3DSAPI Lib3dsBool lib3ds_quat_track_read(Lib3dsQuatTrack *track, Lib3dsIo *io);
 extern LIB3DSAPI Lib3dsBool lib3ds_quat_track_write(Lib3dsQuatTrack *track, Lib3dsIo *io);
 
-extern LIB3DSAPI Lib3dsMorphKey* lib3ds_morph_key_new();
+extern LIB3DSAPI Lib3dsMorphKey* lib3ds_morph_key_new(void);
 extern LIB3DSAPI void lib3ds_morph_key_free(Lib3dsMorphKey* key);
 extern LIB3DSAPI void lib3ds_morph_track_free_keys(Lib3dsMorphTrack *track);
 extern LIB3DSAPI void lib3ds_morph_track_insert(Lib3dsMorphTrack *track, Lib3dsMorphKey *key);

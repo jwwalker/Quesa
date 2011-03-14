@@ -147,12 +147,12 @@ struct _Lib3dsNode {
     Lib3dsNodeData data;
 };
 
-extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_ambient();
-extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_object();
-extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_camera();
-extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_target();
-extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_light();
-extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_spot();
+extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_ambient(void);
+extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_object(void);
+extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_camera(void);
+extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_target(void);
+extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_light(void);
+extern LIB3DSAPI Lib3dsNode* lib3ds_node_new_spot(void);
 extern LIB3DSAPI void lib3ds_node_free(Lib3dsNode *node);
 extern LIB3DSAPI void lib3ds_node_eval(Lib3dsNode *node, Lib3dsFloat t);
 extern LIB3DSAPI Lib3dsNode* lib3ds_node_by_name(Lib3dsNode *node, const char* name,

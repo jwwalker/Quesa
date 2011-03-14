@@ -420,6 +420,8 @@ TQ3Object		X3DSReaderImp::CreateQuesaMesh(Lib3dsMesh *meshData)
 	Lib3dsToQuesaPoint(normalL,normalQuesa,numNormals);
 	free(normalL);
 	
+	TQ3TriMeshTriangleData * facesQuesa = NULL;
+	
 	// Convert the coordinate system from lib3DS to Quesa
 	TQ3Point3D *pointsQuesa = (TQ3Point3D*) malloc(sizeof(TQ3Point3D) * meshData->points);
 	if(! pointsQuesa)
@@ -428,7 +430,7 @@ TQ3Object		X3DSReaderImp::CreateQuesaMesh(Lib3dsMesh *meshData)
 	Lib3dsToQuesaPoint((Lib3dsVector*)meshData->pointL,pointsQuesa,meshData->points);
 
 	// Build the Faces 
-	TQ3TriMeshTriangleData * facesQuesa = (TQ3TriMeshTriangleData*) malloc(sizeof(TQ3Point3D) * meshData->faces);
+	facesQuesa = (TQ3TriMeshTriangleData*) malloc(sizeof(TQ3Point3D) * meshData->faces);
 	if(! facesQuesa)
 		goto freePointsQuesa;
 	Lib3dsToQuesaFaces(meshData,facesQuesa);
