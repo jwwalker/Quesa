@@ -9,7 +9,8 @@ GCC_VERSION = 4.2
 GCC_VERSION[arch=ppc] = 4.0
 
 // Build Locations
-SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk
+SDKROOT =
+SDKROOT[arch=ppc] = macosx10.4
 
 // Search Paths
 HEADER_SEARCH_PATHS = ../Qut/Mac ../Qut

@@ -19,10 +19,13 @@ QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) 
 
 // Mac OS SDK to use, Quesa requires the 10.3 SDK or later.
 // If you want to be able to build using Xcode 2.5, use the 10.4u SDK.
-// If you will build only with Xcode 3 or later, you may as well use the 10.5 or
-// 10.6 SDK, and you may be required to use it for certain features such as
-// compiler stack protection.  Xcode 4.0 only comes with the 10.6 SDK.
-SDKROOT = $(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk
+// It is also necessary to use the 10.4u SDK if you need to build PowerPC code
+// that will run on a G3.  If you will build only Intel code with Xcode 3 or
+// later, you may as well use the 10.5 or 10.6 SDK, and you may be required to
+// do so for certain features such as compiler stack protection.
+// Xcode 4.0 only comes with the 10.6 SDK.
+SDKROOT =
+SDKROOT[arch=ppc] = macosx10.4
 
 // Prebinding is useless as of Mac OS X 10.3.something.
 PREBINDING = NO
