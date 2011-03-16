@@ -26,6 +26,7 @@ QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) 
 // Xcode 4.0 only comes with the 10.6 SDK.
 SDKROOT =
 SDKROOT[arch=ppc] = macosx10.4
+SDKROOT[arch=ppc64] = macosx10.5
 
 // Prebinding is useless as of Mac OS X 10.3.something.
 PREBINDING = NO
@@ -73,7 +74,7 @@ GCC_WARN_UNUSED_VALUE = YES
 // C++-only warnings.
 GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES
 GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES
-QUESA_WARNINGS_ONLY_CXX = -Wabi -Wstrict-null-sentinel -Wsign-promo
+QUESA_WARNINGS_ONLY_CXX = -Wabi -Wsign-promo
 
 // Objective C-only.
 QUESA_WARNINGS_ONLY_OBJC = -Wstrict-selector-match -Wundeclared-selector
