@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -869,7 +869,7 @@ Q3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData)
 //      Q3MacDrawContext_SetWindow : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window)
+Q3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, WindowRef window)
 {
 
 
@@ -906,7 +906,7 @@ Q3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window)
 //      Q3MacDrawContext_GetWindow : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
-Q3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, CWindowPtr *window)
+Q3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, WindowRef *window)
 {
 
 

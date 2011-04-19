@@ -997,7 +997,7 @@ gldrawcontext_mac_getport( TQ3DrawContextObject theDrawContext )
 	// A NULL WindowRef with a valid port was not accepted by QD3D, however we allow
 	// this to support rendering to a Mac OS X QD port which was obtained from a
 	// non-WindowRef context (e.g., from an NSWindow or a CoreGraphics context).
-	qd3dStatus = Q3MacDrawContext_GetWindow( theDrawContext, (CWindowPtr *) &theWindow );
+	qd3dStatus = Q3MacDrawContext_GetWindow( theDrawContext, &theWindow );
 	if (qd3dStatus == kQ3Success && theWindow != NULL)
 		thePort = GetWindowPort(theWindow);
 	else

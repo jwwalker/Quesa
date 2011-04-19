@@ -7,7 +7,7 @@
         Only WindowPtr based Mac draw contexts are supported at present.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -267,7 +267,7 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 		&instanceData->theState, &instanceData->data.macData.displayNotificationHandler );
 #endif
 
-	E3DrawContext_InitaliseData(&instanceData->data.macData.theData.drawContextData);
+	E3DrawContext_InitialiseData(&instanceData->data.macData.theData.drawContextData);
 
 
 
@@ -276,13 +276,13 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 	theLibrary = instanceData->data.macData.theData.library;
 	if (theLibrary == kQ3Mac2DLibraryQuickDraw            &&
 		instanceData->data.macData.theData.window != NULL &&
-		instanceData->data.macData.theData.window == (CWindowPtr)instanceData->data.macData.theData.grafPort)
+		instanceData->data.macData.theData.window == (WindowRef)instanceData->data.macData.theData.grafPort)
 		theLibrary = kQ3Mac2DLibraryNone;
 
 	if (theLibrary == kQ3Mac2DLibraryNone)
 		{
 		// Get the window
-		theWindow = (WindowRef) instanceData->data.macData.theData.window;
+		theWindow = instanceData->data.macData.theData.window;
 
 
 		// Grab its bounds and visible region
@@ -615,7 +615,7 @@ E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextT
 	drawContextData.pane.max.y        = 0.0f;
 
 	macDrawContextData.drawContextData = drawContextData;
-	macDrawContextData.window          = (CWindowPtr) drawContextTarget;
+	macDrawContextData.window          = (WindowRef) drawContextTarget;
 	macDrawContextData.library         = kQ3Mac2DLibraryNone;
 	macDrawContextData.viewPort        = NULL;
 	macDrawContextData.grafPort        = NULL;
@@ -636,7 +636,7 @@ E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextT
 //      E3MacDrawContext_SetWindow : Set the window.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window)
+E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, WindowRef window)
 {	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
@@ -660,7 +660,7 @@ E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window)
 //      E3MacDrawContext_GetWindow : Return the window.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, CWindowPtr *window)
+E3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, WindowRef *window)
 {	TQ3DrawContextUnionData *instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 

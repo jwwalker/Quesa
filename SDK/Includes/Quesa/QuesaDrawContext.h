@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -400,7 +400,7 @@ typedef Q3_CALLBACK_API_C( void, TQ3GLContextDestructionCallback )(
  */
 typedef struct TQ3MacDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    CWindowPtr                                  window;
+    WindowRef                                   window;
     TQ3MacDrawContext2DLibrary                  library;
     gxViewPort                                  viewPort;
     CGrafPtr                                    grafPort;
@@ -1004,7 +1004,7 @@ Q3MacDrawContext_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetWindow (
     TQ3DrawContextObject          drawContext,
-    CWindowPtr                    window
+    WindowRef                     window
 );
 
 
@@ -1022,7 +1022,7 @@ Q3MacDrawContext_SetWindow (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetWindow (
     TQ3DrawContextObject          drawContext,
-    CWindowPtr                    *window
+    WindowRef                     *window
 );
 
 
