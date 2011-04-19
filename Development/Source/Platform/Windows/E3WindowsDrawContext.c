@@ -5,7 +5,7 @@
         Windows specific Draw Context calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -145,7 +145,7 @@ e3drawcontext_win32dc_new(TQ3Object theObject, void *privateData, const void *pa
 	e3drawcontext_win32dc_get_dimensions_from_DC( instanceData->data.win32Data.theData.hdc,
 		&instanceData->data.win32Data.windowRect );
 
-	E3DrawContext_InitaliseData(&instanceData->data.win32Data.theData.drawContextData);
+	E3DrawContext_InitialiseData(&instanceData->data.win32Data.theData.drawContextData);
 
 	return(kQ3Success);
 }

@@ -5,7 +5,7 @@
         Header file for E3DrawContext.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -209,7 +209,7 @@ public :
 // Cross platform
 TQ3Status				E3DrawContext_RegisterClass(void);
 TQ3Status				E3DrawContext_UnregisterClass(void);
-void					E3DrawContext_InitaliseData(TQ3DrawContextData *drawContextData);
+void					E3DrawContext_InitialiseData(TQ3DrawContextData *drawContextData);
 TQ3DrawContextObject	E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget);
 //TQ3Status				E3DrawContext_Update(TQ3DrawContextObject drawContext);
 void					E3DrawContext_ResetState(TQ3DrawContextObject drawContext);
@@ -245,8 +245,8 @@ TQ3Status				E3MacDrawContext_UnregisterClass(void);
 
 TQ3DrawContextObject	E3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData);
 TQ3DrawContextObject	E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
-TQ3Status				E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, CWindowPtr window);
-TQ3Status				E3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, CWindowPtr *window);
+TQ3Status				E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, WindowRef window);
+TQ3Status				E3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, WindowRef *window);
 TQ3Status				E3MacDrawContext_SetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort viewPort);
 TQ3Status				E3MacDrawContext_GetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort *viewPort);
 TQ3Status				E3MacDrawContext_SetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr grafPort);

@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -123,7 +123,7 @@ e3drawcontext_pixmap_new(TQ3Object theObject, void *privateData, const void *par
 	// Initialise our instance data
 	instanceData->data.pixmapData = *pixmapData;
 
-	E3DrawContext_InitaliseData(&instanceData->data.pixmapData.drawContextData);
+	E3DrawContext_InitialiseData(&instanceData->data.pixmapData.drawContextData);
 
 	return(kQ3Success);
 }
@@ -355,10 +355,10 @@ E3DrawContext_UnregisterClass(void)
 
 
 //=============================================================================
-//      E3DrawContext_InitaliseData : Initialise the data for a draw context.
+//      E3DrawContext_InitialiseData : Initialise the data for a draw context.
 //-----------------------------------------------------------------------------
 void
-E3DrawContext_InitaliseData(TQ3DrawContextData *drawContextData)
+E3DrawContext_InitialiseData(TQ3DrawContextData *drawContextData)
 {
 
 

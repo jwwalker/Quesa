@@ -5,7 +5,7 @@
         Cocoa specific draw context implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -156,7 +156,7 @@ e3drawcontext_cocoa_new(TQ3Object theObject, void *privateData, const void *para
 	// Initialise our instance data
 	instanceData->data.cocoaData.theData = *cocoaData;
 
-	E3DrawContext_InitaliseData(&instanceData->data.cocoaData.theData.drawContextData);
+	E3DrawContext_InitialiseData(&instanceData->data.cocoaData.theData.drawContextData);
 
 
 

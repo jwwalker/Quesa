@@ -5,7 +5,7 @@
         Quesa viewer library implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1491,7 +1491,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		contextData.drawContextData.doubleBufferState = kQ3True;	// should be false on OS X?!?
 
 		// Mac-specific draw context stuff
-		contextData.window = (CWindowPtr)GetWindowFromPort((CGrafPtr)instanceData->mWindow);
+		contextData.window = GetWindowFromPort((CGrafPtr)instanceData->mWindow);
 		drawContext = Q3MacDrawContext_New(&contextData);
 
 		// renderer
