@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -294,6 +294,7 @@ Q3View_SetRenderer (
  *
  *  @param view             The view to query.
  *  @param renderer         Receives the renderer associated with the view.
+ *                          Dispose the reference when you are done with it.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -502,6 +503,7 @@ Q3View_EndPicking (
  *
  *  @param view             The view to query.
  *  @param camera           Receives the camera associated with the view.
+ *                          Dispose the reference when you are done with it.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -562,6 +564,7 @@ Q3View_SetLightGroup (
  *
  *  @param view             The view to query.
  *  @param lightGroup       Receives the light group associated with the view.
+ *                          Dispose the reference when you are done with it.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -924,6 +927,7 @@ Q3View_SetDrawContext (
  *
  *  @param view             The view to query.
  *  @param drawContext      Receives the draw context associated with the view.
+ *                          Dispose the reference when you are done with it.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1261,6 +1265,7 @@ Q3View_GetFogStyleState (
  *
  *  @param view             The view to query.
  *  @param attributeSet     Receives the default attribute set.
+ *                          Dispose the reference when you are done with it.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1299,6 +1304,7 @@ Q3View_SetDefaultAttributeSet (
  *
  *  @param view             The view to query.
  *  @param attributeSet     Receives the current attribute state set.
+ *                          Dispose the reference when you are done with it.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
