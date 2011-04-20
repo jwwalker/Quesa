@@ -194,8 +194,6 @@ typedef void (QO_PROCPTR_TYPE glGetShaderInfoLogProc )(GLuint shader,
 struct GLSLFuncs
 {
 								GLSLFuncs();
-								
-	void						SetNULL();
 	
 	/*!
 		@function	Initialize
@@ -221,6 +219,9 @@ struct GLSLFuncs
 	glDeleteProgramProc			glDeleteProgram;
 	glGetProgramInfoLogProc		glGetProgramInfoLog;
 	glGetShaderInfoLogProc		glGetShaderInfoLog;
+
+private:
+	void						SetNULL();
 };
 
 /*!
@@ -232,7 +233,7 @@ class PerPixelLighting
 {
 public:
 								PerPixelLighting(
-										GLSLFuncs& inFuncs,
+										const GLSLFuncs& inFuncs,
 										TQ3RendererObject inRendererObject,
 										const TQ3GLExtensions& inExtensions );
 	
@@ -335,7 +336,7 @@ private:
 	void						GetLightTypes();
 	void						SetUniformValues( ProgramRec& ioProgram );
 	
-	GLSLFuncs&					mFuncs;
+	const GLSLFuncs&			mFuncs;
 	const TQ3GLExtensions&		mGLExtensions;
 	TQ3RendererObject			mRendererObject;
 	bool						mIsShading;
