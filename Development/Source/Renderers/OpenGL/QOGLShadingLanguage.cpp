@@ -559,7 +559,7 @@ namespace
 	
 	struct DeleteProgram
 	{
-								DeleteProgram( QORenderer::GLSLFuncs& inFuncs )
+								DeleteProgram( const QORenderer::GLSLFuncs& inFuncs )
 									: mFuncs( inFuncs ) {}
 								
 								DeleteProgram( const DeleteProgram& inOther )
@@ -574,12 +574,12 @@ namespace
 									}
 								}	
 							
-		QORenderer::GLSLFuncs&	mFuncs;
+		const QORenderer::GLSLFuncs&	mFuncs;
 	};
 	
 	struct DeleteShader
 	{
-								DeleteShader( QORenderer::GLSLFuncs& inFuncs )
+								DeleteShader( const QORenderer::GLSLFuncs& inFuncs )
 									: mFuncs( inFuncs ) {}
 								
 								DeleteShader( const DeleteProgram& inOther )
@@ -593,7 +593,7 @@ namespace
 									}
 								}	
 							
-		QORenderer::GLSLFuncs&	mFuncs;
+		const QORenderer::GLSLFuncs&	mFuncs;
 	};
 	
 	GLenum	sGLError = 0;
@@ -757,7 +757,7 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 #pragma mark -
 
 QORenderer::PerPixelLighting::PerPixelLighting(
-										GLSLFuncs& inFuncs,
+										const GLSLFuncs& inFuncs,
 										TQ3RendererObject inRendererObject,
 										const TQ3GLExtensions& inExtensions )
 	: mFuncs( inFuncs )
@@ -840,7 +840,7 @@ static void AddSpotFalloffFuncSource(	GLint inLightIndex,
 }
 
 #if Q3_DEBUG
-static void LogShaderCompileError( GLint inShaderID, QORenderer::GLSLFuncs& inFuncs )
+static void LogShaderCompileError( GLint inShaderID, const QORenderer::GLSLFuncs& inFuncs )
 {
 	GLint	logSize = 0;
 	inFuncs.glGetShaderiv( inShaderID, GL_INFO_LOG_LENGTH, &logSize );
