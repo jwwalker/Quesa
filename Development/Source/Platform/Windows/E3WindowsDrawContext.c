@@ -245,7 +245,7 @@ e3drawcontext_ddsurface_new(TQ3Object theObject, void *privateData, const void *
 	// Initialise our instance data
 	instanceData->data.winDDData.theData = *winDDData;
 
-	E3DrawContext_InitaliseData(&instanceData->data.winDDData.theData.drawContextData);
+	E3DrawContext_InitialiseData(&instanceData->data.winDDData.theData.drawContextData);
 
 	return(kQ3Success);
 }
