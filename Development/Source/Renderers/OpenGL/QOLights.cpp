@@ -529,7 +529,7 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 	// This helps prevent z-fighting artifacts.
 	// It is unclear what are the best values to pass.
 	glEnable( GL_POLYGON_OFFSET_FILL );
-	glPolygonOffset( 1.0f, 1.0f );
+	glPolygonOffset( 0.0f, 1.0f );
 	
 	// do not write to color buffer
 	glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
