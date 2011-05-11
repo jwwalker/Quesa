@@ -5,7 +5,7 @@
         Quesa OpenGL utility functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -375,7 +375,8 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 			featureFlags->packedPixels = kQ3True;
 		}
 
-		if (isOpenGLExtensionPresent( openGLExtensions, "GL_NV_depth_clamp" ))
+		if (isOpenGLExtensionPresent( openGLExtensions, "GL_NV_depth_clamp" ) ||
+			isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_depth_clamp" ))
 		{
 			featureFlags->depthClamp = kQ3True;
 		}
