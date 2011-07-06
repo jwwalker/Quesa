@@ -5,7 +5,7 @@
         Header file for E3FFR_3DMF_Geometry.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -106,6 +106,7 @@ TQ3Object		E3Read_3DMF_Style_Hilight(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_Orientation(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_AntiAlias(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_Fog(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Style_LineWidth(TQ3FileObject theFile);
 
 TQ3Object		E3Read_3DMF_Texture_Pixmap(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Texture_Mipmap(TQ3FileObject theFile);

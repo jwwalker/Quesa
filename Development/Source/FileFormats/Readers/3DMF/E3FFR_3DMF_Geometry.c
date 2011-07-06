@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1198,6 +1198,27 @@ E3Read_3DMF_Style_ReceiveShadows(TQ3FileObject theFile)
 	theStyle =  Q3ReceiveShadowsStyle_New (styleData);
 		
 			
+	return(theStyle);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Style_LineWidth : Line Width style read method.
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Style_LineWidth(TQ3FileObject theFile)
+{
+	TQ3StyleObject theStyle = NULL;
+	TQ3Float32 theWidth = 1.0f;
+	
+	if (Q3Float32_Read( &theWidth, theFile ) == kQ3Success)
+	{
+		theStyle = Q3LineWidthStyle_New( theWidth );
+	}
+	
 	return(theStyle);
 }
 
