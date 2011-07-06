@@ -5,7 +5,7 @@
         Quesa 3DMFBin writer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -3637,6 +3637,8 @@ E3FFW_3DMF_RegisterGeom(void)
 	E3ClassTree::AddMethod(kQ3StyleTypeAntiAlias,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_antialias_write);
 	E3ClassTree::AddMethod(kQ3StyleTypeFog,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_fog_traverse);
 	E3ClassTree::AddMethod(kQ3StyleTypeFog,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_fog_write);
+	E3ClassTree::AddMethod(kQ3StyleTypeLineWidth,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_traverse);
+	E3ClassTree::AddMethod(kQ3StyleTypeLineWidth,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_write);
 
 
 	// Geometries

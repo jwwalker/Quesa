@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2820,6 +2820,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree::AddMethod(kQ3StyleTypeOrientation,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Orientation);
 	E3ClassTree::AddMethod(kQ3StyleTypeAntiAlias,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_AntiAlias);
 	E3ClassTree::AddMethod(kQ3StyleTypeFog,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Fog);
+	E3ClassTree::AddMethod(kQ3StyleTypeLineWidth,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_LineWidth);
 
 
 	// the Transform read Methods
