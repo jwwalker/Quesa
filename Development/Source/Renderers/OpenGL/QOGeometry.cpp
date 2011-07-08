@@ -60,6 +60,71 @@
 
 
 
+#if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS
+	// This code allows one to see the values passed to certain functions in a
+	// trace produced by Apple's OpenGL Profiler.
+	#include <OpenGL/CGLProfiler.h>
+	
+	#define TRACE_MSG(...)	do {	\
+								char msg_[1024];	\
+								std::snprintf( msg_, sizeof(msg_)-1, __VA_ARGS__ );	\
+								CGLSetOption( kCGLGOComment, (long) msg_ );	\
+							} while (0)
+	
+	#define		kMaxArrayTrace	10
+	
+	static void TraceGLVertexArray( const TQ3Point3D* inPts, int inCount )
+	{
+		if (inCount <= kMaxArrayTrace)
+		{
+			for (int i = 0; i < inCount; ++i)
+			{
+				TRACE_MSG( "%8.4f %8.4f %8.4f", inPts[i].x, inPts[i].y, inPts[i].z );
+			}
+		}
+	}
+	
+	static void TraceGLNormalArray( const TQ3Vector3D* inPts, int inCount )
+	{
+		if (inCount <= kMaxArrayTrace)
+		{
+			for (int i = 0; i < inCount; ++i)
+			{
+				TRACE_MSG( "%8.4f %8.4f %8.4f", inPts[i].x, inPts[i].y, inPts[i].z );
+			}
+		}
+	}
+	
+	static void TraceGLTexCoordArray( const TQ3Param2D* inPts, int inCount )
+	{
+		if (inCount <= kMaxArrayTrace)
+		{
+			for (int i = 0; i < inCount; ++i)
+			{
+				TRACE_MSG( "%8.4f %8.4f", inPts[i].u, inPts[i].v );
+			}
+		}
+	}
+	
+	static void TraceGLDrawElements( TQ3Uns32 inNumIndices,
+									const TQ3Uns32* inIndices )
+	{
+		if (inNumIndices <= 3 * kMaxArrayTrace)
+		{
+			for (TQ3Uns32 i = 0; i < inNumIndices; ++i)
+			{
+				TRACE_MSG( "%u", inIndices[i] );
+			}
+		}
+	}
+#else
+	#define		TraceGLVertexArray(x,y)
+	#define		TraceGLNormalArray(x,y)
+	#define		TraceGLTexCoordArray(x,y)
+	#define		TraceGLDrawElements(x,y)
+#endif
+
+
 //=============================================================================
 //      Local constants
 //-----------------------------------------------------------------------------
@@ -653,12 +718,15 @@ static void ImmediateRenderTriangles(
 								const TQ3ColorRGB* inVertColors )
 {
 	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
+	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
 	
 	glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
+	TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
 	
 	if (inVertUVs != NULL)
 	{
 		glTexCoordPointer( 2, GL_FLOAT, sizeof(TQ3Param2D), inVertUVs );
+		TraceGLTexCoordArray( inVertUVs, inGeomData.numPoints );
 	}
 	
 	if (inVertColors != NULL)
@@ -668,6 +736,7 @@ static void ImmediateRenderTriangles(
 	
 	glDrawElements( GL_TRIANGLES, 3 * inGeomData.numTriangles,
 		GL_UNSIGNED_INT, inGeomData.triangles );
+	TraceGLDrawElements( 3 * inGeomData.numTriangles, &inGeomData.triangles[0].pointIndices[0] );
 }
 
 static void ImmediateRenderTriangleStrip(
@@ -678,12 +747,15 @@ static void ImmediateRenderTriangleStrip(
 								const std::vector<TQ3Uns32>& inStrip )
 {
 	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
+	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
 	
 	glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
+	TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
 	
 	if (inVertUVs != NULL)
 	{
 		glTexCoordPointer( 2, GL_FLOAT, sizeof(TQ3Param2D), inVertUVs );
+		TraceGLTexCoordArray( inVertUVs, inGeomData.numPoints );
 	}
 	
 	if (inVertColors != NULL)
@@ -693,6 +765,7 @@ static void ImmediateRenderTriangleStrip(
 	
 	glDrawElements( GL_TRIANGLE_STRIP, inStrip.size(),
 		GL_UNSIGNED_INT, &inStrip[0] );
+	TraceGLDrawElements( inStrip.size(), &inStrip[0] );
 }
 
 /*!
@@ -1109,9 +1182,11 @@ void	QORenderer::Renderer::RenderExplicitEdges(
 	
 	// Set array pointers.
 	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
+	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
 	if (inVertNormals != NULL)
 	{
 		glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
+		TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
 	}
 	if (inVertColors != NULL)
 	{
@@ -1267,6 +1342,12 @@ void	QORenderer::Renderer::RenderFaceEdges(
 								const TQ3Vector3D* inVertNormals,
 								const TQ3ColorRGB* inVertColors )
 {
+	// We are currently in edge-fill style, but we will be drawing lines, not
+	// triangles, so edge-fill style should be irrelevant.  Furthermore, I saw
+	// a driver bug in a prerelease of Mac OS X 10.7 when drawing lines in
+	// edge style.  So let's go back to polygon-fill style for now.
+	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
 	// Turn off texturing.
 	mTextures.SetCurrentTexture( NULL, NULL );
 
@@ -1277,9 +1358,11 @@ void	QORenderer::Renderer::RenderFaceEdges(
 	
 	// Set array pointers.
 	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
+	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
 	if (inVertNormals != NULL)
 	{
 		glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
+		TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
 	}
 	if (inVertColors != NULL)
 	{
@@ -1328,7 +1411,11 @@ void	QORenderer::Renderer::RenderFaceEdges(
 		}
 		
 		glDrawElements( GL_LINES, mEdges.size() * 2, GL_UNSIGNED_INT, &mEdges[0] );
+		TraceGLDrawElements( mEdges.size() * 2, &mEdges[0].pointIndices[0] );
 	}
+	
+	// Resume previous edge fill style.
+	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 }
 
 
@@ -1375,6 +1462,7 @@ void	QORenderer::Renderer::SimulateSeparateSpecularColor(
 	// And draw again.
 	glDrawElements( GL_TRIANGLES, inNumIndices,
 		GL_UNSIGNED_INT, inIndices );
+	TraceGLDrawElements( inNumIndices, inIndices );
 	
 	glPopAttrib();
 }
@@ -1561,12 +1649,15 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		{
 			didHandle = true;
 		}
-		else if (mStyleState.mBackfacing != kQ3BackfacingStyleRemove)
+		else if ( (mStyleState.mBackfacing == kQ3BackfacingStyleBoth) ||
+			(mStyleState.mBackfacing == kQ3BackfacingStyleFlip) )
 		{
 			RenderFaceEdges( inView, inTriMesh, *inGeomData,
 				dataArrays.vertNormal, dataArrays.vertColor );
 			didHandle = true;
 		}
+		// Note: the case we have not handled is where there are no explicit
+		// edges and we want to cull faces.
 	}
 
 	if ( (whyNotFastPath == kSlowPathMask_FastPath) && (! didHandle) )
@@ -1581,8 +1672,10 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 			// Although we just rendered the geometry, we may have done so using a
 			// display list or something, so the vertex array may not be set.
 			glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData->points );
+			TraceGLVertexArray( inGeomData->points, inGeomData->numPoints );
 			mGLClientStates.EnableNormalArray( true );
 			glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), dataArrays.vertNormal );
+			TraceGLNormalArray( dataArrays.vertNormal, inGeomData->numPoints );
 
 			SimulateSeparateSpecularColor( 3 * inGeomData->numTriangles,
 				inGeomData->triangles[0].pointIndices );

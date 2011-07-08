@@ -55,6 +55,27 @@
 #include <limits>
 using namespace std;
 
+#if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS
+	// This code allows one to see the values passed to certain functions in a
+	// trace produced by Apple's OpenGL Profiler.
+	#include <OpenGL/CGLProfiler.h>
+	
+	#define TRACE_MSG(...)	do {	\
+								char msg_[1024];	\
+								std::snprintf( msg_, sizeof(msg_), __VA_ARGS__ );	\
+								CGLSetOption( kCGLGOComment, (long) msg_ );	\
+							} while (0)
+	
+	static void TraceGLMatrix( const GLfloat* inMatrix )
+	{
+		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[0], inMatrix[1], inMatrix[2], inMatrix[3] );
+		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[4], inMatrix[5], inMatrix[6], inMatrix[7] );
+		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[8], inMatrix[9], inMatrix[10], inMatrix[11] );
+		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[12], inMatrix[13], inMatrix[14], inMatrix[15] );
+	}
+#else
+	#define		TraceGLMatrix(x)
+#endif
 
 
 //=============================================================================
@@ -832,6 +853,7 @@ void	QORenderer::Lights::StartPass(
 	
 	glMatrixMode( GL_MODELVIEW );
 	glLoadMatrixf( savedModelViewMatrix );
+	TraceGLMatrix( savedModelViewMatrix );
 	
 	UpdateFogColor();
 	
