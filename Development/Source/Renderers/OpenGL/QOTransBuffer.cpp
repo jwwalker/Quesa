@@ -664,9 +664,10 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 		
 		SortIndices();
 
-		// Save some OpenGL state
-		glPushAttrib( GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT |
-			GL_COLOR_BUFFER_BIT );
+		// Previously I was calling glPushAttrib here and calling glPopAttrib at
+		// the end of the scope, to restore some state changed by InitGLState.
+		// However, I do not think it is necessary, and it is preferable to
+		// avoid glPushAttrib/glPopAttrib due to buggy drivers.
 		
 		InitGLState( inView );
 		
@@ -689,9 +690,6 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 			
 			Render( thePrim );
 		}
-
-		// Reset the OpenGL state
-		glPopAttrib();
 	}
 }
 
@@ -764,8 +762,6 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 
 	if (alphaThreshold < 1.0f)
 	{
-		glPushAttrib( GL_ENABLE_BIT | GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-		
 		InitGLStateForDepth( inView, alphaThreshold );
 
 		SortIndices();
@@ -786,6 +782,8 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 			Render( thePrim );
 		}
 		
-		glPopAttrib();
+		// Restore GL state
+		glDisable( GL_ALPHA_TEST );
+		glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
 	}
 }
