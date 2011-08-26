@@ -44,7 +44,6 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-
 #include "QORenderer.h"
 #include "GLUtils.h"
 #include "E3Math.h"
@@ -156,6 +155,67 @@ static float CalcPrimDepth( int inNumVerts, const TQ3Point3D* inCamPt )
 	return theDepth;
 }
 
+static bool IsSameColor( const TQ3ColorRGB& inA, const TQ3ColorRGB& inB )
+{
+	float absDiff = fabsf( inA.r - inB.r ) + fabsf( inA.g - inB.g ) +
+		fabsf( inA.b - inB.b );
+	return absDiff < kQ3RealZero * 3.0f;
+}
+
+/*!
+	@function	IsSameState
+	@abstract	Test whether two primitives are of the same type, in the sense
+				that they could be grouped together for rendering.
+*/
+static bool IsSameState( const TransparentPrim& inA, const TransparentPrim& inB )
+{
+	bool isSame = (inA.mNumVerts == inB.mNumVerts) &&
+		(inA.mTextureName == inB.mTextureName) &&
+		(inA.mIlluminationType == inB.mIlluminationType) &&
+		(inA.mCameraToFrustumIndex == inB.mCameraToFrustumIndex) &&
+		(inA.mFillStyle == inB.mFillStyle) &&
+		(inA.mBackfacingStyle == inB.mBackfacingStyle) &&
+		(inA.mOrientationStyle == inB.mOrientationStyle) &&
+		(inA.mInterpolationStyle == inB.mInterpolationStyle) &&
+		(inA.mFogStyleIndex == inB.mFogStyleIndex) &&
+		(fabsf( inA.mSpecularControl - inB.mSpecularControl ) < kQ3RealZero) &&
+		IsSameColor( inA.mSpecularColor, inB.mSpecularColor ) &&
+		(fabsf( inA.mLineWidthStyle - inB.mLineWidthStyle ) < kQ3RealZero);
+	
+	// UV transform and U, V boundary only matter if there is a texture.
+	if ( isSame && (inA.mTextureName != 0) )
+	{
+		isSame = (inA.mShaderUBoundary == inB.mShaderUBoundary) &&
+			(inA.mShaderVBoundary == inB.mShaderVBoundary) &&
+			(inA.mUVTransformIndex == inB.mUVTransformIndex);
+	}
+	
+	// Primitives can only be consolidated into an array if all the vertices
+	// have the same flags.
+	if (isSame)
+	{
+		isSame = (inA.mVerts[0].flags == inB.mVerts[0].flags);
+		
+		if (isSame)
+		{
+			for (unsigned int i = 1; i < inA.mNumVerts; ++i)
+			{
+				if (inA.mVerts[i].flags != inA.mVerts[0].flags)
+				{
+					isSame = false;
+					break;
+				}
+				if (inB.mVerts[i].flags != inA.mVerts[0].flags)
+				{
+					isSame = false;
+					break;
+				}
+			}
+		}
+	}
+	
+	return isSame;
+}
 
 //=============================================================================
 //      Method implementations
@@ -553,10 +613,8 @@ void	TransBuffer::SetDiffuseColor( const GLfloat* inColor4 )
 }
 
 
-void	TransBuffer::Render( const TransparentPrim& inPrim )
+void	TransBuffer::UpdateEmission( const TransparentPrim& inPrim )
 {
-	UpdateSpecular( inPrim );
-	
 	// Previously, we were setting emissive color inside the loop, but there
 	// were problems with emissive color leaking from some transparent triangles
 	// to other transparent triangles that should not have had emission, when
@@ -571,7 +629,11 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 	{
 		SetEmissiveColor( kBlackColor );
 	}
-	
+}
+
+
+void	TransBuffer::Render( const TransparentPrim& inPrim )
+{
 	switch (inPrim.mNumVerts)
 	{
 		case 3:
@@ -652,6 +714,111 @@ void	TransBuffer::UpdateSpecular( const TransparentPrim& inPrim )
 	}
 }
 
+void	TransBuffer::RenderPrimGroup(
+											int numPrims,
+											const TransparentPrim* inPrims,
+											TQ3ViewObject inView )
+{
+	const TransparentPrim& leader( inPrims[0] );
+	
+	UpdateCameraToFrustum( leader, inView );
+	UpdateLightingEnable( leader );
+	UpdateTexture( leader );
+	UpdateFog( leader );
+	UpdateFill( leader );
+	UpdateOrientation( leader );
+	UpdateBackfacing( leader );
+	UpdateLineWidth( leader );
+	UpdateInterpolation( leader );
+	mPerPixelLighting.UpdateIllumination( leader.mIlluminationType );
+	UpdateSpecular( leader );
+	UpdateEmission( leader );
+
+	if (numPrims == 1)
+	{
+		Render( leader );
+	}
+	else
+	{
+		VertexFlags flags = leader.mVerts[0].flags;
+		TQ3Uns32 vertsPerPrim = leader.mNumVerts;
+		E3FastArray<TQ3Point3D>	points( vertsPerPrim * numPrims );
+		E3FastArray<TQ3Vector3D> normals;
+		E3FastArray<TQ3Param2D>	uvs;
+		E3FastArray<TQ3ColorRGBA> colors;
+		points.clear();
+		
+		mRenderer.mLights.SetOnlyAmbient( vertsPerPrim < 3 );
+
+		bool haveNormal = ((flags & kVertexHaveNormal) != 0);
+		bool haveUV = (leader.mTextureName != 0) && ((flags & kVertexHaveUV) != 0);
+		bool haveColor = ((flags & kVertexHaveDiffuse) != 0);
+		
+		// Enable or disable client arrays.  (The vertex array is always enabled.)
+		mRenderer.mGLClientStates.EnableNormalArray( haveNormal );
+		mRenderer.mGLClientStates.EnableTextureArray( haveUV );
+		mRenderer.mGLClientStates.EnableColorArray( haveColor );
+		
+		// Gather data from primitives into arrays.
+		int i, j;
+		for (i = 0; i < numPrims; ++i)
+		{
+			const TransparentPrim& aPrim( inPrims[i] );
+			
+			for (j = 0; j < (int)vertsPerPrim; ++j)
+			{
+				const Vertex& aVertex( aPrim.mVerts[j] );
+				points.push_back( aVertex.point );
+				if (haveNormal)
+				{
+					normals.push_back( aVertex.normal );
+				}
+				if ( haveUV )
+				{
+					uvs.push_back( aVertex.uv );
+				}
+				if ( haveColor )
+				{
+					TQ3ColorRGBA theColor =
+					{
+						aVertex.diffuseColor.r * aVertex.vertAlpha,
+						aVertex.diffuseColor.g * aVertex.vertAlpha,
+						aVertex.diffuseColor.b * aVertex.vertAlpha,
+						aVertex.vertAlpha
+					};
+					colors.push_back( theColor );
+				}
+			}
+		}
+	
+		// Pass array pointers to OpenGL.
+		glVertexPointer( 3, GL_FLOAT, 0, &points[0] );
+		if (haveNormal)
+		{
+			glNormalPointer( GL_FLOAT, 0, &normals[0] );
+		}
+		if ( haveUV )
+		{
+			glTexCoordPointer( 2, GL_FLOAT, 0, &uvs[0] );
+		}
+		if ( haveColor )
+		{
+			glColorPointer( 4, GL_FLOAT, 0, &colors[0] );
+		}
+		
+		// draw an array
+		GLenum arrayMode = GL_TRIANGLES;
+		if (vertsPerPrim == 2)
+		{
+			arrayMode = GL_LINES;
+		}
+		else if (vertsPerPrim == 1)
+		{
+			arrayMode = GL_POINTS;
+		}
+		glDrawArrays( arrayMode, 0, numPrims * vertsPerPrim );
+	}
+}
 
 void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 										GLenum inSrcBlendFactor,
@@ -673,22 +840,30 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 		
 		const TQ3Uns32 kNumPrims = mTransBuffer.size();
 		
-		for (TQ3Uns32 i = 0; i < kNumPrims; ++i)
+		E3FastArray<TransparentPrim>	mRenderGroup;
+		TransparentPrim groupLeader = *mPrimPtrs[0];
+		mRenderGroup.push_back( groupLeader );
+	
+		for (TQ3Uns32 i = 1; i < kNumPrims; ++i)
 		{
 			const TransparentPrim& thePrim( *mPrimPtrs[i] );
 			
-			UpdateCameraToFrustum( thePrim, inView );
-			UpdateLightingEnable( thePrim );
-			UpdateTexture( thePrim );
-			UpdateFog( thePrim );
-			UpdateFill( thePrim );
-			UpdateOrientation( thePrim );
-			UpdateBackfacing( thePrim );
-			UpdateLineWidth( thePrim );
-			UpdateInterpolation( thePrim );
-			mPerPixelLighting.UpdateIllumination( thePrim.mIlluminationType );
-			
-			Render( thePrim );
+			if (IsSameState( thePrim, groupLeader ))
+			{
+				mRenderGroup.push_back( thePrim );
+			}
+			else
+			{
+				RenderPrimGroup( mRenderGroup.size(), &mRenderGroup[0], inView );
+				mRenderGroup.clear();
+				mRenderGroup.push_back( thePrim );
+				groupLeader = thePrim;
+			}
+		}
+		
+		if (mRenderGroup.size() > 0)
+		{
+			RenderPrimGroup( mRenderGroup.size(), &mRenderGroup[0], inView );
 		}
 	}
 }
