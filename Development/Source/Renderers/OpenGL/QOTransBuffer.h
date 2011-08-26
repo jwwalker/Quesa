@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -163,9 +163,15 @@ private:
 											const TransparentPrim& inPrim );
 	void							UpdateInterpolation(
 											const TransparentPrim& inPrim );
+	void							UpdateEmission(
+											const TransparentPrim& inPrim );
 
 	void							Render(
 											const TransparentPrim& inPrim );
+	void							RenderPrimGroup(
+											int numPrims,
+											const TransparentPrim* inPrims,
+											TQ3ViewObject inView );
 	
 	Renderer&						mRenderer;
 	PerPixelLighting&				mPerPixelLighting;
