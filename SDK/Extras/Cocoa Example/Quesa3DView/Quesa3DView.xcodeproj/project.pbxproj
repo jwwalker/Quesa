@@ -11,7 +11,6 @@
 		BE1352930C3C14F400B20B60 /* DemoGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E8954ACFF1927E77F000001 /* DemoGeometry.h */; };
 		BE1352940C3C14F400B20B60 /* Quesa3DView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2179FF0AFF19522C7F000001 /* Quesa3DView.h */; };
 		BE1352950C3C14F400B20B60 /* QuesaCocoaUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6A02D3FF1986E17F000001 /* QuesaCocoaUtil.h */; };
-		BE1352970C3C14F400B20B60 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		BE1352980C3C14F400B20B60 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		BE13529A0C3C14F400B20B60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529B0C3C14F400B20B60 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17327D4BFF18F4807F000001 /* AppDelegate.m */; settings = {ATTRIBUTES = (); }; };
@@ -19,6 +18,7 @@
 		BE13529D0C3C14F400B20B60 /* Quesa3DView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2179FF09FF19522C7F000001 /* Quesa3DView.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529E0C3C14F400B20B60 /* QuesaCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */; settings = {ATTRIBUTES = (); }; };
 		BE1352A00C3C14F400B20B60 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		BEE5742D142270820096EFC0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEE5742B142270820096EFC0 /* MainMenu.xib */; };
 		BEFFD8930C4C8D6C00202EA8 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
 		BEFFD8AF0C4C8D7A00202EA8 /* Quesa.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
 /* End PBXBuildFile section */
@@ -71,12 +71,12 @@
 		2179FF09FF19522C7F000001 /* Quesa3DView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Quesa3DView.m; sourceTree = "<group>"; };
 		2179FF0AFF19522C7F000001 /* Quesa3DView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quesa3DView.h; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2D6A02D3FF1986E17F000001 /* QuesaCocoaUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuesaCocoaUtil.h; sourceTree = "<group>"; };
 		2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuesaCocoaUtil.m; sourceTree = "<group>"; };
 		BE1352A80C3C14F400B20B60 /* QuesaCocoaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuesaCocoaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE13530F0C3C190300B20B60 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 		BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Quesa3DView.plist"; sourceTree = "<group>"; };
+		BEE5742C142270820096EFC0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -146,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */,
-				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				BEE5742B142270820096EFC0 /* MainMenu.xib */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -269,7 +269,7 @@
 					ProjectRef = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
 				},
 			);
-			projectRoot = "";
+			projectRoot = ../../../..;
 			targets = (
 				BE1352900C3C14F400B20B60 /* Quesa3DView */,
 			);
@@ -298,8 +298,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE1352970C3C14F400B20B60 /* MainMenu.nib in Resources */,
 				BE1352980C3C14F400B20B60 /* InfoPlist.strings in Resources */,
+				BEE5742D142270820096EFC0 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,13 +354,13 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+		BEE5742B142270820096EFC0 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				29B97319FDCFA39411CA2CEA /* English */,
+				BEE5742C142270820096EFC0 /* English */,
 			);
-			name = MainMenu.nib;
-			sourceTree = "<group>";
+			name = MainMenu.xib;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXVariantGroup section */
 
