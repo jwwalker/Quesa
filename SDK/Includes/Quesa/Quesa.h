@@ -190,7 +190,7 @@
 			#include <MacTypes.h>
 		#endif
 	#endif
-	#if QUESA_OS_COCOA
+	#if QUESA_OS_COCOA && defined(__OBJC__)
 		#include <Cocoa/Cocoa.h>
 	#endif
 
