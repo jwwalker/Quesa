@@ -1,6 +1,6 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "QuesaCocoaTest";
-CFBundleShortVersionString = "QuesaCocoaTest version 0.0.1d1";
-CFBundleGetInfoString = "QuesaCocoaTest version 0.0.1d1, Copyright © 1999-2007, Quesa Developers.";
-NSHumanReadableCopyright = "Copyright © 1999-2007, Quesa Developers";
+CFBundleShortVersionString = "QuesaCocoaTest version 1.0";
+CFBundleGetInfoString = "QuesaCocoaTest version 1.0, Copyright © 1999-2011, Quesa Developers.";
+NSHumanReadableCopyright = "Copyright © 1999-2011, Quesa Developers";
