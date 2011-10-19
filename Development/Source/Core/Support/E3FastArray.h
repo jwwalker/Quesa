@@ -84,6 +84,7 @@ public:
 	
 	void			resizeNotPreserving( int newSize );
 	void			clear() { Q3_REQUIRE( mIsOwned ); resizeNotPreserving(0); }
+	void			reserve( int newCapacity );
 	
 	void			push_back( const T& value );
 
@@ -187,6 +188,28 @@ void	E3FastArray<T>::resizeNotPreserving( int newSize )
 	}
 }
 
+
+template <typename T>
+void	E3FastArray<T>::reserve( int newCapacity )
+{
+	if (newCapacity > capacity())
+	{
+		Q3_REQUIRE( mIsOwned );
+		mCapacity = newCapacity;
+		if (mSize == 0)
+		{
+			delete [] mArray;
+			mArray = new T[ mCapacity ];
+		}
+		else
+		{
+			T* biggerArray = new T[mCapacity];
+			E3Memory_Copy( mArray, biggerArray, size() * sizeof(T) );
+			delete [] mArray;
+			mArray = biggerArray;
+		}
+	}
+}
 
 template <typename T>
 void	E3FastArray<T>::push_back( const T& value )
