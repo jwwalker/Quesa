@@ -742,17 +742,31 @@ void	TransBuffer::RenderPrimGroup(
 	{
 		VertexFlags flags = leader.mVerts[0].flags;
 		TQ3Uns32 vertsPerPrim = leader.mNumVerts;
-		E3FastArray<TQ3Point3D>	points( vertsPerPrim * numPrims );
+		TQ3Uns32 pointsExpected = vertsPerPrim * numPrims;
+		E3FastArray<TQ3Point3D>	points;
 		E3FastArray<TQ3Vector3D> normals;
 		E3FastArray<TQ3Param2D>	uvs;
 		E3FastArray<TQ3ColorRGBA> colors;
-		points.clear();
+		points.reserve( pointsExpected );
 		
 		mRenderer.mLights.SetOnlyAmbient( vertsPerPrim < 3 );
 
 		bool haveNormal = ((flags & kVertexHaveNormal) != 0);
 		bool haveUV = (leader.mTextureName != 0) && ((flags & kVertexHaveUV) != 0);
 		bool haveColor = ((flags & kVertexHaveDiffuse) != 0);
+		
+		if (haveNormal)
+		{
+			normals.reserve( pointsExpected );
+		}
+		if (haveUV)
+		{
+			uvs.reserve( pointsExpected );
+		}
+		if (haveColor)
+		{
+			colors.reserve( pointsExpected );
+		}
 		
 		// Enable or disable client arrays.  (The vertex array is always enabled.)
 		mRenderer.mGLClientStates.EnableNormalArray( haveNormal );
