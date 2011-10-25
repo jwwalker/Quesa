@@ -5,7 +5,7 @@
         Quesa OpenGL camera support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,6 +49,26 @@
 #include "E3Debug.h"
 #include "QuesaMath.h"
 
+#if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS
+	#include <OpenGL/CGLProfiler.h>
+	#include <cstdio>
+	
+	#define TRACE_MSG(...)	do {	\
+								char msg_[1024];	\
+								std::snprintf( msg_, sizeof(msg_), __VA_ARGS__ );	\
+								CGLSetOption( kCGLGOComment, (long) msg_ );	\
+							} while (0)
+	
+	static void TraceGLMatrix( const GLfloat* inMatrix )
+	{
+		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[0], inMatrix[1], inMatrix[2], inMatrix[3] );
+		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[4], inMatrix[5], inMatrix[6], inMatrix[7] );
+		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[8], inMatrix[9], inMatrix[10], inMatrix[11] );
+		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[12], inMatrix[13], inMatrix[14], inMatrix[15] );
+	}
+#else
+	#define		TraceGLMatrix(x)
+#endif
 
 
 //=============================================================================
@@ -113,6 +133,7 @@ GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum)
 	// Load the new matrix
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(glMatrix);
+	TraceGLMatrix(glMatrix);
 }
 
 
@@ -143,5 +164,6 @@ GLCamera_SetModelView(const TQ3Matrix4x4 *localToCamera)
 	// Load the new matrix
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(glMatrix);
+	TraceGLMatrix(glMatrix);
 }
 
