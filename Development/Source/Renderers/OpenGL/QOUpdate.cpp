@@ -430,9 +430,7 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 	glDisable( GL_POINT_SMOOTH );
 	glDisable( GL_LINE_SMOOTH );
 	glDisable( GL_POLYGON_SMOOTH );
-	GLint	sampleBuffers = 0;
-	glGetIntegerv( GL_SAMPLE_BUFFERS_ARB, &sampleBuffers );
-	if (sampleBuffers > 0)
+	if (mGLExtensions.multiSample)
 	{
 		glDisable( GL_MULTISAMPLE_ARB );
 	}
@@ -443,7 +441,7 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 	{
 		if ( (inStyleData->mode & kQ3AntiAliasModeMaskFullScreen) != 0 )
 		{
-			if (sampleBuffers > 0)
+			if (mGLExtensions.multiSample)
 			{
 				glEnable( GL_MULTISAMPLE_ARB );
 			}

@@ -79,6 +79,10 @@
 	#define GL_CLAMP_TO_EDGE	0x812F
 #endif
 
+#ifndef	GL_SAMPLE_BUFFERS_ARB
+	#define	GL_SAMPLE_BUFFERS_ARB			0x80A8
+	#define	GL_MULTISAMPLE_ARB				0x809D
+#endif
 
 //=============================================================================
 //      Private functions
@@ -407,6 +411,17 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		{
 			featureFlags->vertexProgramTwoSide = kQ3True;
 		}
+		
+		GLint	sampleBuffers = 0;
+		glGetIntegerv( GL_SAMPLE_BUFFERS_ARB, &sampleBuffers );
+		featureFlags->multiSample = (sampleBuffers > 0)? kQ3True : kQ3False;
+
+		// How many OpenGL non-ambient lights can we have?
+		glGetIntegerv( GL_MAX_LIGHTS, &featureFlags->maxLights );
+
+		// Depth of stencil buffer of current context
+		featureFlags->stencilBits = 0;
+		glGetIntegerv( GL_STENCIL_BITS, &featureFlags->stencilBits );
 	}
 }
 

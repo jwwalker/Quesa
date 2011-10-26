@@ -599,7 +599,11 @@ namespace
 	GLenum	sGLError = 0;
 } // end of unnamed namespace
 
-#if Q3_DEBUG
+#if Q3_DEBUG && !defined(Q3_DEBUG_GL_ERRORS)
+	#define		Q3_DEBUG_GL_ERRORS		0
+#endif
+
+#if Q3_DEBUG_GL_ERRORS
 	#define		CHECK_GL_ERROR	do {	\
 									sGLError = glGetError();	\
 									if (sGLError != GL_NO_ERROR)	\
