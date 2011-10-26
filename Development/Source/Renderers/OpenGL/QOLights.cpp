@@ -51,6 +51,7 @@
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
 #include "CQ3ObjectRef_Gets.h"
+#include "GLCamera.h"
 #include <cmath>
 #include <limits>
 using namespace std;
@@ -762,7 +763,7 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 	mSavedYon = std::numeric_limits<float>::infinity();
 
 	// How many OpenGL non-ambient lights can we have?
-	glGetIntegerv( GL_MAX_LIGHTS, &mMaxGLLights );
+	mMaxGLLights = mGLExtensions.maxLights;
 	
 	ClassifyLights( inView );
 	
@@ -805,8 +806,7 @@ void	QORenderer::Lights::StartPass(
 	// transform to the identity. Since lights are translated before geometry,
 	// we need to transform their direction/positions ourselves in order to
 	// put them into the OpenGL camera's coordinate system.
-	GLfloat				savedModelViewMatrix[16];
-	glGetFloatv( GL_MODELVIEW_MATRIX, savedModelViewMatrix );
+	TQ3Matrix4x4	savedModelViewMatrix = mMatrixState.GetLocalToCamera();
 	TQ3Matrix4x4	worldToView;
 	Q3Camera_GetWorldToView( inCamera, &worldToView );
 	glMatrixMode( GL_MODELVIEW );
@@ -851,9 +851,7 @@ void	QORenderer::Lights::StartPass(
 		SetUpNonShadowLightingPass( worldToView );
 	}
 	
-	glMatrixMode( GL_MODELVIEW );
-	glLoadMatrixf( savedModelViewMatrix );
-	TraceGLMatrix( savedModelViewMatrix );
+	GLCamera_SetModelView( &savedModelViewMatrix );
 	
 	UpdateFogColor();
 	

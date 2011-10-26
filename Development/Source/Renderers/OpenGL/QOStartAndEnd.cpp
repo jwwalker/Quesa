@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -268,14 +268,10 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	// and whether we have some form of 2-sided stencil.
 	bool	isShadowing = false;
 	if ( isShadowingRequested &&
-		(mGLExtensions.stencilTwoSide || mGLExtensions.separateStencil) )
+		(mGLExtensions.stencilTwoSide || mGLExtensions.separateStencil) &&
+		(mGLExtensions.stencilBits >= 8) )
 	{
-		GLint	stencilBits = 0;
-		glGetIntegerv( GL_STENCIL_BITS, &stencilBits );
-		if (stencilBits >= 8)
-		{
-			isShadowing = true;
-		}
+		isShadowing = true;
 	}
 	glDisable( GL_STENCIL_TEST );
 	
