@@ -287,13 +287,20 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 	}
 	TQ3Int32*	edgeCounter = &mShadowEdgeCounters[0];
 	std::fill( edgeCounter, edgeCounter + kNumEdges, 0 );
-
-	// Render front cap.
+	
+	// Make the array of shadow vertices big enough.
+	// The number of faces in the front cap is at most the number of faces in
+	// the given mesh, while the number of side faces is at most 3 times that
+	// many, so the total number of shadow geometry faces is at most 4 times
+	// the number of faces of the TriMesh.  Each triangular face needs 3 indices,
+	// so the number of indices needed is 12 times the number of TriMesh faces.
 	const int	kNumFaces = inTMData.numTriangles;
-	if (mShadowVertIndices.size() < kNumFaces * 3)
+	if (mShadowVertIndices.size() < kNumFaces * 12)
 	{
-		mShadowVertIndices.resizeNotPreserving( kNumFaces * 3 );
+		mShadowVertIndices.resizeNotPreserving( kNumFaces * 12 );
 	}
+
+	// Build front cap.
 	TQ3Uns32	numVertIndices = 0;
 	GLuint*		vertIndices = &mShadowVertIndices[0];
 	const TQ3Uns8* litFaceFlags = &mLitFaceFlags[0];
@@ -327,18 +334,9 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 				}
 			}
 		}
-	}
-	glDrawElements( GL_TRIANGLES, numVertIndices, GL_UNSIGNED_INT,
-		vertIndices );
+	}	
 	
-	
-	// Draw side triangles.
-	if (mShadowVertIndices.size() < 3 * kNumFaces * 3)
-	{
-		mShadowVertIndices.resizeNotPreserving( 3 * kNumFaces * 3 );
-	}
-	vertIndices = &mShadowVertIndices[0];
-	numVertIndices = 0;
+	// Build side triangles.
 	for (i = 0; i < kNumEdges; ++i)
 	{
 		const TQ3EdgeEnds&	theEdge( theEdges[ i ] );
@@ -360,6 +358,8 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 			edgeCounter[i] += 1;
 		}
 	}
+	
+	// Render shadow geometry.
 	glDrawElements( GL_TRIANGLES, numVertIndices, GL_UNSIGNED_INT,
 		vertIndices );
 }
