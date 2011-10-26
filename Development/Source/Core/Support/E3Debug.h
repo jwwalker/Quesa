@@ -5,7 +5,7 @@
         Debugging routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -105,6 +105,13 @@ void		E3CloseLog();
 				)
 	
 	#define	Q3_MESSAGE( _msg )	E3LogMessage( _msg )
+	
+	#define	Q3_MESSAGE_FMT(...)		do {	\
+										char msg_[1024];	\
+										std::snprintf( msg_, sizeof(msg_), __VA_ARGS__ );	\
+										std::strncat( msg_, "\n", 1 );	\
+										E3LogMessage( msg_ );	\
+									} while (0)
 
 	// Generates an assertion error for a bad pointer
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
@@ -118,6 +125,8 @@ void		E3CloseLog();
 	#define	Q3_ASSERT_MESSAGE(_condition, _message)		((void) 0)
 	
 	#define	Q3_MESSAGE( _msg )
+	
+	#define	Q3_MESSAGE_FMT(...)
 
 	// Do nothing
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
