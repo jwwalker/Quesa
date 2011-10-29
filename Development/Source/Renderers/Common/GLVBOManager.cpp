@@ -187,15 +187,6 @@ namespace
 										inCachedVBO->mModeCount;
 								}
 	};
-	
-	// Predicate for use with std::partition and CachedVBOVec.
-	struct IsNotStale
-	{
-		bool			operator()( const CachedVBO* inCachedVBO ) const
-								{
-									return ! inCachedVBO->IsStale();
-								}
-	};
 }
 
 
