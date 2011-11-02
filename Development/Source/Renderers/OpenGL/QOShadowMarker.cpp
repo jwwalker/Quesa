@@ -58,6 +58,7 @@
 //-----------------------------------------------------------------------------
 #include "QOShadowMarker.h"
 #include "QORenderer.h"
+#include "GLShadowVolumeManager.h"
 
 
 #include <cmath>
@@ -241,14 +242,17 @@ static bool IsFaceVisible( TQ3BackfacingStyle inBackfacing, bool inFrontFace )
 
 
 /*!
-	@function	MarkShadowOfTriMeshDirectional
-	@abstract	Mark the shadow of a TriMesh by a directional light.
+	@function	BuildShadowOfTriMeshDirectional
+	@abstract	Compute the shadow geometry for a TriMesh, using a directional
+				light.  Store the vertices in mShadowPoints and the triangle
+				indices in mShadowVertIndices.
 */
-void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
-							const TQ3TriMeshData& inTMData,
-							const TQ3TriMeshTriangleData* inFaces,
-							const TQ3TriangleEdges* inFacesToEdges,
-							const TQ3RationalPoint4D& inLocalLightPos )
+void	QORenderer::ShadowMarker::BuildShadowOfTriMeshDirectional(
+								const TQ3TriMeshData& inTMData,
+								const TQ3TriMeshTriangleData* inFaces,
+								const TQ3TriangleEdges* inFacesToEdges,
+								const TQ3RationalPoint4D& inLocalLightPos,
+								TQ3Uns32& outNumTriIndices )
 {
 	int i;
 
@@ -275,9 +279,6 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 	};
 	verts[ kNumPoints ] = oppositePt;
 
-	// Pass the positions to OpenGL.
-	glVertexPointer( 4, GL_FLOAT, 0, verts );
-	
 	// Set up edge counters.
 	const int	kNumEdges = mShadowEdges.size();
 	const TQ3EdgeEnds* theEdges = &mShadowEdges[0];
@@ -359,21 +360,23 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshDirectional(
 		}
 	}
 	
-	// Render shadow geometry.
-	glDrawElements( GL_TRIANGLES, numVertIndices, GL_UNSIGNED_INT,
-		vertIndices );
+	outNumTriIndices = numVertIndices;
 }
 
 
 /*!
-	@function	MarkShadowOfTriMeshPositional
-	@abstract	Mark the shadow of a TriMesh by a point or spot light.
+	@function	BuildShadowOfTriMeshPositional
+	@abstract	Compute the shadow geometry for a TriMesh, using a positional
+				light.  Store the vertices in mShadowPoints and the triangle
+				and quad indices in mShadowVertIndices.
 */
-void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
-							const TQ3TriMeshData& inTMData,
-							const TQ3TriMeshTriangleData* inFaces,
-							const TQ3TriangleEdges* inFacesToEdges,
-							const TQ3RationalPoint4D& inLocalLightPos )
+void	QORenderer::ShadowMarker::BuildShadowOfTriMeshPositional(
+								const TQ3TriMeshData& inTMData,
+								const TQ3TriMeshTriangleData* inFaces,
+								const TQ3TriangleEdges* inFacesToEdges,
+								const TQ3RationalPoint4D& inLocalLightPos,
+								TQ3Uns32& outNumTriIndices,
+								TQ3Uns32& outNumQuadIndices )
 {
 	int i;
 	
@@ -404,9 +407,6 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 		};
 		verts[ i + kNumPoints ] = diffPt;
 	}
-
-	// Pass the positions to OpenGL.
-	glVertexPointer( 4, GL_FLOAT, 0, verts );
 	
 	// Set up edge counters.
 	const int	kNumEdges = mShadowEdges.size();
@@ -418,12 +418,18 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 	TQ3Int32*	edgeCounter = &mShadowEdgeCounters[0];
 	std::fill( edgeCounter, edgeCounter + kNumEdges, 0 );
 	
-	// Render front and back caps.
+	// Allocate space for indices.
+	// The front and back cap may contain up to two triangles for each original
+	// triangle, and the side silhouette may have up to 3 quads for each original
+	// triangle.  So the number of indices needed is at most
+	// 2*3 + 3*4 = 18 times the number of faces.
 	const int	kNumFaces = inTMData.numTriangles;
-	if (mShadowVertIndices.size() < kNumFaces * 6)
+	if (mShadowVertIndices.size() < kNumFaces * 18)
 	{
-		mShadowVertIndices.resizeNotPreserving( kNumFaces * 6 );
+		mShadowVertIndices.resizeNotPreserving( kNumFaces * 18 );
 	}
+	
+	// Build front and back caps.
 	TQ3Uns32	numVertIndices = 0;
 	GLuint*		vertIndices = &mShadowVertIndices[0];
 	const TQ3Uns8* litFaceFlags = &mLitFaceFlags[0];
@@ -434,12 +440,12 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 		{
 			const TQ3TriMeshTriangleData& theFace( inFaces[i] );
 			
-			// Render front cap
+			// Add front cap
 			vertIndices[ numVertIndices++ ] = theFace.pointIndices[0];
 			vertIndices[ numVertIndices++ ] = theFace.pointIndices[1];
 			vertIndices[ numVertIndices++ ] = theFace.pointIndices[2];
 
-			// Render back cap.
+			// Add back cap.
 			vertIndices[ numVertIndices++ ] = theFace.pointIndices[2] + kNumPoints;
 			vertIndices[ numVertIndices++ ] = theFace.pointIndices[1] + kNumPoints;
 			vertIndices[ numVertIndices++ ] = theFace.pointIndices[0] + kNumPoints;
@@ -463,16 +469,11 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 			}
 		}
 	}
-	glDrawElements( GL_TRIANGLES, numVertIndices, GL_UNSIGNED_INT,
-		vertIndices );
+	outNumTriIndices = numVertIndices;
 
-	// Render side silhouette quads.
-	if (mShadowVertIndices.size() < 3 * kNumFaces * 4)
-	{
-		mShadowVertIndices.resizeNotPreserving( 3 * kNumFaces * 4 );
-	}
+	// Build side silhouette quads.
+	vertIndices = &mShadowVertIndices[numVertIndices];
 	numVertIndices = 0;
-	vertIndices = &mShadowVertIndices[0];
 	for (i = 0; i < kNumEdges; ++i)
 	{
 		const TQ3EdgeEnds&	theEdge( theEdges[ i ] );
@@ -496,8 +497,115 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 			edgeCounter[i] += 1;
 		}
 	}
-	glDrawElements( GL_QUADS, numVertIndices, GL_UNSIGNED_INT,
-		vertIndices );
+	outNumQuadIndices = numVertIndices;
+}
+
+
+/*!
+	@function	BuildShadowOfTriMesh
+	@abstract	Compute the shadow geometry for a TriMesh, using a positional
+				light.  Store the vertices in mShadowPoints and the triangle
+				and quad indices in mShadowVertIndices.
+*/
+void	QORenderer::ShadowMarker::BuildShadowOfTriMesh(
+								TQ3GeometryObject inTMObject,
+								const TQ3TriMeshData& inTMData,
+								const TQ3Vector3D* inFaceNormals,
+								const TQ3RationalPoint4D& inLocalLightPos,
+								TQ3Uns32& outNumTriIndices,
+								TQ3Uns32& outNumQuadIndices )
+{
+	const TQ3TriMeshTriangleData*	faces;
+	const TQ3TriangleEdges* facesToEdges;
+
+	CalcFacesAndEdgesForShadows( inTMObject, inTMData, inFaceNormals,
+			inLocalLightPos, faces, facesToEdges );
+
+	if (inLocalLightPos.w == 0.0f)
+	{
+		BuildShadowOfTriMeshDirectional( inTMData, faces, facesToEdges,
+			inLocalLightPos, outNumTriIndices );
+		outNumQuadIndices = 0;
+	}
+	else
+	{
+		BuildShadowOfTriMeshPositional( inTMData, faces, facesToEdges,
+			inLocalLightPos, outNumTriIndices, outNumQuadIndices );
+	}
+}
+
+
+void	QORenderer::ShadowMarker::MarkShadowOfTriMeshImmediate(
+								TQ3GeometryObject inTMObject,
+								const TQ3TriMeshData& inTMData,
+								const TQ3Vector3D* inFaceNormals,
+								const TQ3RationalPoint4D& inLocalLightPos )
+{
+	TQ3Uns32 numTriIndices, numQuadIndices;
+	
+	BuildShadowOfTriMesh( inTMObject, inTMData, inFaceNormals, inLocalLightPos,
+		numTriIndices, numQuadIndices );
+
+	// Pass the positions to OpenGL.
+	glVertexPointer( 4, GL_FLOAT, 0, &mShadowPoints[0] );
+
+	// Render triangles.
+	glDrawElements( GL_TRIANGLES, numTriIndices, GL_UNSIGNED_INT,
+		&mShadowVertIndices[0] );
+	
+	// Render quads, if any.
+	if (numQuadIndices > 0)
+	{
+		glDrawElements( GL_QUADS, numQuadIndices, GL_UNSIGNED_INT,
+			&mShadowVertIndices[numTriIndices] );
+	}
+}
+
+
+/*!
+	@function	CalcFacesAndEdgesForShadows
+	@abstract	Compute information about faces and edges of a TriMesh, which
+				will be needed for shadow marking unless we are able to use a
+				previously cached shadow volume from a VBO.
+	@discussion	Besides returning two array pointers, this function has side
+				effects on several member variables:
+				mShadowEdges
+				mShadowFacesToEdges
+				mLitFaceFlags
+				mFlippedFaces
+				mFlippedFacesToEdges
+*/
+void	QORenderer::ShadowMarker::CalcFacesAndEdgesForShadows(
+								TQ3GeometryObject inTMObject,
+								const TQ3TriMeshData& inTMData,
+								const TQ3Vector3D* inFaceNormals,
+								const TQ3RationalPoint4D& inLocalLightPos,
+								const TQ3TriMeshTriangleData*& outFaces,
+								const TQ3TriangleEdges*& outFacesToEdges )
+{
+	GetTriMeshEdges( inTMObject, inTMData );
+	
+	const TQ3Uns32	kNumFaces = inTMData.numTriangles;
+	mLitFaceFlags.resizeNotPreserving( kNumFaces );
+	FindLitFaces( inLocalLightPos, inTMData, inFaceNormals, &mLitFaceFlags[0] );
+	
+	outFaces = inTMData.triangles;
+	outFacesToEdges = &mShadowFacesToEdges[0];
+
+	// If we are not removing backfaces, flip all faces toward the light.
+	if (mStyleState.mBackfacing != kQ3BackfacingStyleRemove)
+	{
+		mFlippedFaces.resizeNotPreserving( kNumFaces );
+		std::copy( outFaces, outFaces + kNumFaces, &mFlippedFaces[0] );
+		
+		mFlippedFacesToEdges = mShadowFacesToEdges;		// make a mutable copy
+		
+		FlipTowardLight( kNumFaces, &mLitFaceFlags[0], &mFlippedFaces[0],
+			mFlippedFacesToEdges );
+		
+		outFaces = &mFlippedFaces[0];
+		outFacesToEdges = &mFlippedFacesToEdges[0];
+	}
 }
 
 /*!
@@ -507,7 +615,8 @@ void QORenderer::ShadowMarker::MarkShadowOfTriMeshPositional(
 void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 								TQ3GeometryObject inTMObject,
 								const TQ3TriMeshData& inTMData,
-								const TQ3Vector3D* inFaceNormals )
+								const TQ3Vector3D* inFaceNormals,
+								TQ3LightObject inLight )
 {
 	if (! mStyleState.mIsCastingShadows)
 	{
@@ -515,38 +624,30 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 	}
 	TQ3RationalPoint4D	localLightPos( CalcLocalLightPosition() );
 	
-	GetTriMeshEdges( inTMObject, inTMData );
-	
-	const TQ3Uns32	kNumFaces = inTMData.numTriangles;
-	mLitFaceFlags.resizeNotPreserving( kNumFaces );
-	FindLitFaces( localLightPos, inTMData, inFaceNormals, &mLitFaceFlags[0] );
-	
-	// If we are not removing backfaces, flip all faces toward the light.
-	const TQ3TriMeshTriangleData*	faces = inTMData.triangles;
-	const TQ3TriangleEdges* facesToEdges = &mShadowFacesToEdges[0];
-
-	if (mStyleState.mBackfacing != kQ3BackfacingStyleRemove)
+	if ( (inTMObject == NULL) ||
+		(mGLExtensions.vertexBufferObjects == kQ3False) ||
+		(! mIsCachingShadows) )
 	{
-		mFlippedFaces.resizeNotPreserving( kNumFaces );
-		std::copy( faces, faces + kNumFaces, &mFlippedFaces[0] );
-		
-		mFlippedFacesToEdges = mShadowFacesToEdges;		// make a mutable copy
-		
-		FlipTowardLight( kNumFaces, &mLitFaceFlags[0], &mFlippedFaces[0],
-			mFlippedFacesToEdges );
-		
-		faces = &mFlippedFaces[0];
-		facesToEdges = &mFlippedFacesToEdges[0];
-	}
-	
-	
-	if (localLightPos.w == 0.0f)
-	{
-		MarkShadowOfTriMeshDirectional( inTMData, faces, facesToEdges, localLightPos );
+		MarkShadowOfTriMeshImmediate( inTMObject, inTMData, inFaceNormals,
+			localLightPos );
 	}
 	else
 	{
-		MarkShadowOfTriMeshPositional( inTMData, faces, facesToEdges, localLightPos );
+		if (kQ3False == ShadowVolMgr::RenderShadowVolume( mGLContext, inTMObject,
+			inLight, localLightPos ))
+		{
+			TQ3Uns32 numTriIndices, numQuadIndices;
+			
+			BuildShadowOfTriMesh( inTMObject, inTMData, inFaceNormals,
+				localLightPos, numTriIndices, numQuadIndices );
+			
+			ShadowVolMgr::AddShadowVolume( mGLContext, inTMObject, inLight,
+				localLightPos, mShadowPoints.size(), &mShadowPoints[0],
+				numTriIndices, numQuadIndices, &mShadowVertIndices[0] );
+			
+			ShadowVolMgr::RenderShadowVolume( mGLContext, inTMObject, inLight,
+				localLightPos );
+		}
 	}
 }
 

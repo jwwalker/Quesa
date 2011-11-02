@@ -110,7 +110,7 @@ namespace
 #pragma mark struct CachedVBO
 	struct CachedVBO
 	{
-						CachedVBO() {}
+						CachedVBO();
 						CachedVBO( TQ3GeometryObject inGeom, GLenum inMode );
 						~CachedVBO() {}
 		
@@ -127,6 +127,9 @@ namespace
 		TQ3Uns32		mColorBufferOffset;
 		TQ3Uns32		mTextureUVBufferOffset;
 		TQ3Uns32		mModeCount;
+		TQ3Uns32		mBufferBytes;
+		CachedVBO*		mPrev;
+		CachedVBO*		mNext;
 	
 	private:
 		// Unimplemented; declared just to make sure that they don't get used
@@ -150,6 +153,10 @@ namespace
 		void			UpdateModeCount( TQ3GeometryObject inGeom );
 		void			FlushUnreferenced();
 		void			DeleteVBO( CachedVBO* inCachedVBO );
+		TQ3Uns32		CountVBOs( TQ3GeometryObject inGeom );
+		void			PurgeDownToSize( long long inTargetSize );
+		void			SetMaxBufferSize( long long inBufferSize );
+		void			MakeRoom( TQ3Uns32 inBytesNeeded );
 
 		GenBuffersARBProcPtr		glGenBuffersARBProc;
 		BindBufferARBProcPtr		glBindBufferARBProc;
@@ -162,6 +169,11 @@ namespace
 		// The vector of VBO records will be maintained in order
 		// of geometry reference, so that search can be faster.
 		CachedVBOVec	mCachedVBOs;
+		
+		CachedVBO					mListOldEnd;
+		CachedVBO					mListNewEnd;
+		long long					mTotalBytes;
+		long long					mMaxBufferBytes;
 	};
 
 	// Comparator for ordering cached VBOs by their mode and geometries
@@ -225,8 +237,19 @@ CachedVBO::CachedVBO( TQ3GeometryObject inGeom, GLenum inMode )
 	, mEditIndex( Q3Shared_GetEditIndex( inGeom ) )
 	, mGLMode( inMode )
 	, mModeCount( 1 )
+	, mBufferBytes( 0 )
+	, mPrev( NULL )
+	, mNext( NULL )
 {
 	// Leave other fields uninitialized for now
+}
+
+CachedVBO::CachedVBO()
+	: mGeomObject()
+	, mBufferBytes( 0 )
+	, mPrev( NULL )
+	, mNext( NULL )
+{
 }
 
 bool	CachedVBO::IsStale() const
@@ -243,8 +266,13 @@ VBOCache::VBOCache()
 	, glIsBufferARBProc( NULL )
 	, glBufferDataARBProc( NULL )
 	, glBufferSubDataARBProc( NULL )
+	, mTotalBytes( 0 )
+	, mMaxBufferBytes( 0 )
 {
 	InitProcPtrs();
+
+	mListOldEnd.mNext = &mListNewEnd;
+	mListNewEnd.mPrev = &mListOldEnd;
 }
 
 VBOCache::~VBOCache()
@@ -290,18 +318,40 @@ CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode )
 		((*foundIt)->mGLMode == inMode) )
 	{
 		theCachedVBO = *foundIt;
-	}
-	
-	if ( (theCachedVBO != NULL) && theCachedVBO->IsStale() )
-	{
-		mCachedVBOs.erase( foundIt );
 		
-		DeleteVBO( theCachedVBO );
-		
-		theCachedVBO = NULL;
+		if ( (theCachedVBO != NULL) && theCachedVBO->IsStale() )
+		{
+			mCachedVBOs.erase( foundIt );
+			
+			DeleteVBO( theCachedVBO );
+			
+			theCachedVBO = NULL;
+		}
 	}
 	
 	return theCachedVBO;
+}
+
+TQ3Uns32		VBOCache::CountVBOs( TQ3GeometryObject inGeom )
+{
+	TQ3Uns32		refCount = 0;
+	
+	CachedVBO*	aVBO = FindVBO( inGeom, GL_TRIANGLE_STRIP );
+	if (aVBO == NULL)
+	{
+		aVBO = FindVBO( inGeom, GL_TRIANGLES );
+	}
+	if (aVBO == NULL)
+	{
+		aVBO = FindVBO( inGeom, GL_LINES );
+	}
+	
+	if (aVBO != NULL)
+	{
+		refCount = aVBO->mModeCount;
+	}
+	
+	return refCount;
 }
 
 void	VBOCache::AddVBO( CachedVBO* inVBO )
@@ -312,6 +362,16 @@ void	VBOCache::AddVBO( CachedVBO* inVBO )
 	mCachedVBOs.insert( placeIt, inVBO );
 	
 	UpdateModeCount( inVBO->mGeomObject.get() );
+
+	// Insert the new record at the new end of a doubly-linked list.
+	inVBO->mNext = &mListNewEnd;
+	inVBO->mPrev = mListNewEnd.mPrev;
+	inVBO->mPrev->mNext = inVBO;
+	mListNewEnd.mPrev = inVBO;
+
+	mTotalBytes += inVBO->mBufferBytes;
+	
+	Q3_MESSAGE_FMT("VBO cache size: %lld", mTotalBytes );
 }
 
 /*
@@ -385,6 +445,12 @@ void	VBOCache::DeleteVBO( CachedVBO* inCachedVBO )
 	(*glDeleteBuffersARBProc)( 2, inCachedVBO->mGLBufferNames );
 	
 	UpdateModeCount( inCachedVBO->mGeomObject.get() );
+
+	// Remove the record from the doubly-linked list.
+	inCachedVBO->mPrev->mNext = inCachedVBO->mNext;
+	inCachedVBO->mNext->mPrev = inCachedVBO->mPrev;
+	
+	mTotalBytes -= inCachedVBO->mBufferBytes;
 	
 	delete inCachedVBO;
 }
@@ -408,11 +474,72 @@ void	VBOCache::FlushUnreferenced()
 	}
 }
 
+void	VBOCache::PurgeDownToSize( long long inTargetSize )
+{
+	while (mTotalBytes > inTargetSize)
+	{
+		// Find the least recently used VBO from the doubly-linked list
+		CachedVBO* oldestVBO = mListOldEnd.mNext;
+		
+		// Remove it from the sorted vector
+		CachedVBOVec::iterator	foundIt = std::lower_bound( mCachedVBOs.begin(),
+			mCachedVBOs.end(), oldestVBO, VBOLess() );
+		if ( (foundIt != mCachedVBOs.end()) &&
+			((*foundIt)->mGeomObject.get() == oldestVBO->mGeomObject.get()) )
+		{
+			mCachedVBOs.erase( foundIt );
+		}
+		
+		// Remove the VBO, remove the record from the doubly-linked list, and
+		// dispose the record.
+		DeleteVBO( oldestVBO );
+	}
+}
+
+void	VBOCache::SetMaxBufferSize( long long inBufferSize )
+{
+	if (inBufferSize < mMaxBufferBytes)
+	{
+		PurgeDownToSize( inBufferSize );
+	}
+	
+	mMaxBufferBytes = inBufferSize;
+}
+
+void	VBOCache::MakeRoom( TQ3Uns32 inBytesNeeded )
+{
+	if ( (inBytesNeeded < mMaxBufferBytes) &&
+		(mTotalBytes + inBytesNeeded > mMaxBufferBytes) )
+	{
+		long long targetSize = mMaxBufferBytes - inBytesNeeded;
+		
+		PurgeDownToSize( targetSize );
+	}
+}
+
 
 #pragma mark -
 //=============================================================================
 //		Public functions
 //-----------------------------------------------------------------------------
+
+/*!
+	@function		UpdateVBOCacheLimit
+	@abstract		Update the limit on memory that can be used in this cache.
+	@param			glContext		An OpenGL context.
+	@param			inMaxMemK		New memory limit in K-bytes.
+*/
+void				UpdateVBOCacheLimit(
+									TQ3GLContext glContext,
+									TQ3Uns32 inMaxMemK )
+{
+	VBOCache*	theCache = GetVBOCache( glContext );
+	
+	if (theCache != NULL)
+	{
+		theCache->SetMaxBufferSize( inMaxMemK * 1024LL );
+	}
+}
 
 
 /*!
@@ -498,6 +625,9 @@ void				AddVBOToCache(
 		TQ3Uns32	totalDataSize = vertexDataSize + normalDataSize +
 			colorDataSize + uvDataSize;
 		
+		newVBO->mBufferBytes = inNumIndices * sizeof(TQ3Uns32) + totalDataSize;
+		theCache->MakeRoom( newVBO->mBufferBytes );
+			
 		newVBO->mVertexBufferOffset = 0;
 		newVBO->mNormalBufferOffset = (inNormals == NULL)? kAbsentBuffer :
 			vertexDataSize;
@@ -566,4 +696,30 @@ void				FlushVBOCache(
 	{
 		theCache->FlushUnreferenced();
 	}
+}
+
+
+/*!
+	@function		CountVBOs
+	@abstract		Count how many references the VBO manager holds for a given
+					geometry, counting all GL contexts and all modes.
+	@param			inGeom			A geometry object.
+	@result			Number of VBOs referencing the geometry.
+*/
+TQ3Uns32			CountVBOs( TQ3GeometryObject inGeom )
+{
+	TQ3Uns32 refCount = 0;
+	TQ3GLContext sharingBase = NULL;
+	
+	while ( (sharingBase = GLGPUSharing_GetNextSharingBase( sharingBase )) != NULL )
+	{
+		VBOCache*	theCache = GetVBOCache( sharingBase );
+		
+		if (theCache != NULL)
+		{
+			refCount += theCache->CountVBOs( inGeom );
+		}
+	}
+	
+	return refCount;
 }

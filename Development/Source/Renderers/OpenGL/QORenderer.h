@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -379,6 +379,7 @@ protected:
 	TQ3Int32				mPassIndex;
 	TQ3Int32				mNumPasses;
 	bool					mAllowLineSmooth;
+	bool					mIsCachingShadows;
 	
 	// Buffers used temporarily in QOGeometry.cpp, only members to reduce
 	// memory allocation

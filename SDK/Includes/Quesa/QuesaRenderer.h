@@ -10,7 +10,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -161,6 +161,14 @@ enum
 					be used to disable VBO usage for buggy graphics drivers.
 					Data type: TQ3Boolean.  Default value: kQ3True.
 	
+	@constant	kQ3RendererPropertyVBOLimit
+					Maximum amount of video memory, in K, that may be used to
+					cache rendering data in VBOs.
+					When the cache becomes full, least recently used VBOs will
+					be purged.
+					
+					Data type: TQ3Uns32.	Default value: 51200 (50 megabytes).
+	
 	@constant	kQ3RendererPropertyAllowLineSmooth
 					Allow an OpenGL-based renderer to enable GL_LINE_SMOOTH.
 					This may be used to disable line smoothing for buggy
@@ -205,6 +213,19 @@ enum
 					at the expense of a little extra rendering time.
 					
 					Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
+
+	@constant	kQ3RendererPropertyShadowVBOLimit
+					If you are rendering shadows, and VBOs are available, you
+					may choose to cache shadow volumes in VBOs.  This is not
+					advisable in cases where all geometries (or all lights)
+					change on every frame, as in some of the demo apps.  The
+					value of the property is the maximum number of K-bytes of
+					video memory that may be used for shadow volumes.  (For
+					example, a 10 megabyte limit would be the value 10240.)
+					When the cache becomes full, least recently used VBOs will
+					be purged.
+					
+					Data type: TQ3Uns32.  Range: [0, 4294967295].  Default: 0.
 */
 enum
 {
@@ -216,11 +237,13 @@ enum
 	kQ3RendererPropertyLineWidth				= Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
 	kQ3RendererPropertyUseColor					= Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
 	kQ3RendererPropertyAllowVBOs				= Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
+	kQ3RendererPropertyVBOLimit					= Q3_OBJECT_TYPE('v', 'b', 'o', 'l'),
 	kQ3RendererPropertyAllowLineSmooth			= Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
 	kQ3RendererPropertyQuantizePerPixelLight	= Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
 	kQ3RendererPropertyCartoonLightNearEdge		= Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
 	kQ3RendererPropertyPassType					= Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
-	kQ3RendererPropertyDepthAlphaThreshold		= Q3_OBJECT_TYPE('d', 'p', 'a', 't')
+	kQ3RendererPropertyDepthAlphaThreshold		= Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
+	kQ3RendererPropertyShadowVBOLimit			= Q3_OBJECT_TYPE('s', 'h', 'v', 'l')
 };
 
 
