@@ -1,8 +1,8 @@
 /*  NAME:
-        GLVBOManager.h
+        GLShadowVolumeManager.h
 
     DESCRIPTION:
-        Header file for GLVBOManager.cpp.
+        Header file for GLShadowVolumeManager.cpp.
        
     REMARKS:
     	Do not call these functions without having verified that the current
@@ -10,7 +10,7 @@
     	GLUtils_CheckExtensions.
 
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,112 +45,86 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
-#ifndef GLVBOMANAGER_HDR
-#define GLVBOMANAGER_HDR
+#ifndef GLSHADOWVOLMANAGER_HDR
+#define GLSHADOWVOLMANAGER_HDR
 
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
-#include "QuesaStyle.h"
-
-
-
-//=============================================================================
-//		C++ preamble
-//-----------------------------------------------------------------------------
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 
 
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
+namespace ShadowVolMgr
+{
 
 /*!
-	@function		UpdateVBOCacheLimit
-	@abstract		Update the limit on memory that can be used in this cache.
+	@function	StartFrame
+	@abstract	Update the limit on memory that can be used in this cache.
 	@param			glContext		An OpenGL context.
-	@param			inMaxMemK		New memory limit in K-bytes.
+	@param			memLimitK		New memory limit in K-bytes.
 */
-void				UpdateVBOCacheLimit(
-									TQ3GLContext glContext,
-									TQ3Uns32 inMaxMemK );
+void			StartFrame(			TQ3GLContext glContext,
+									TQ3Uns32 memLimitK );
 
 /*!
-	@function		RenderCachedVBO
-	@abstract		Look for a cached VBO for the given geometry and OpenGL
-					context.  If we find one, render it.
+	@function	RenderShadowVolume
+	@abstract	Look for a cached shadow volume for a given geometry, OpenGL
+				context, and shadow-casting light.  If we find one, render it.
 	@discussion		If we find the object in the cache, but the cached object
 					is stale, we delete it from the cache and return false.
-					
-					The caller should have activated the GL context and called
-					glEnableClientState to enable or disable arrays as
-					appropriate.
 	@param			glContext		An OpenGL context.
 	@param			inGeom			A geometry object.
-	@param			inMode			OpenGL mode, e.g., GL_TRIANGLES.
+	@param			inLight			A light object.
+	@param			inLocalLightPos	The position of the light in local coordinates.
 	@result			True if the object was found and rendered.
 */
-TQ3Boolean			RenderCachedVBO(
+TQ3Boolean		RenderShadowVolume(
 									TQ3GLContext glContext,
 									TQ3GeometryObject inGeom,
-									GLenum inMode );
+									TQ3LightObject inLight,
+									const TQ3RationalPoint4D& inLocalLightPos );
 
 /*!
-	@function		AddVBOToCache
-	@abstract		Add VBO data to the cache.  Do not call this unless
-					RenderCachedVBO has just returned false.
-	@param			glContext		An OpenGL context.
-	@param			inGeom			A geometry object.
-	@param			inNumPoints		Number of points (vertices).
-	@param			inPoints		Array of point locations.
-	@param			inNormals		Array of normal vectors (or NULL).
-	@param			inColors		Array of vertex colors (or NULL).
-	@param			inUVs			Array of vertex UV coordinates (or NULL).
-	@param			inMode			OpenGL mode, e.g., GL_TRIANGLES.
-	@param			inNumIndices	Number of vertex indices to follow.
-	@param			inIndices		Array of vertex indices.
+	@function	AddShadowVolume
+	@abstract	Add a shadow volume mesh to the cache.  Do not call this unless
+				RenderCachedShadowVolume has just returned false.
+	@param			glContext			An OpenGL context.
+	@param			inGeom				A geometry object.
+	@param			inLight				A light object.
+	@param			inLocalLightPos		The position of the light in local coordinates.
+	@param			inNumPoints			Number of points (vertices).
+	@param			inPoints			Array of point locations.
+	@param			inNumTriIndices		Number of triangle vertex indices to follow.
+	@param			inNumQuadIndices	Number of quad vertex indices to follow.
+	@param			inVertIndices		Array of vertex indices (triangle, then quad).
 */
-void				AddVBOToCache(
+void			AddShadowVolume(
 									TQ3GLContext glContext,
 									TQ3GeometryObject inGeom,
+									TQ3LightObject inLight,
+									const TQ3RationalPoint4D& inLocalLightPos,
 									TQ3Uns32 inNumPoints,
-									const TQ3Point3D* inPoints,
-									const TQ3Vector3D* inNormals,
-									const TQ3ColorRGB* inColors,
-									const TQ3Param2D* inUVs,
-									GLenum inMode,
-									TQ3Uns32 inNumIndices,
-									const TQ3Uns32* inIndices );
+									const TQ3RationalPoint4D* inPoints,
+									TQ3Uns32 inNumTriIndices,
+									TQ3Uns32 inNumQuadIndices,
+									const GLuint* inVertIndices );
+
 
 /*!
-	@function		FlushVBOCache
+	@function		Flush
 	@abstract		Delete any cached VBOs for geometries that are no longer
+					referenced elsewhere, or lights that are no longer
 					referenced elsewhere.
 	@param			glContext		An OpenGL context.
+	@param			inRenderer		A Quesa renderer.
 */
-void				FlushVBOCache(
-									TQ3GLContext glContext );
+void				Flush(
+									TQ3GLContext glContext,
+									TQ3RendererObject inRenderer );
 
-
-/*!
-	@function		CountVBOs
-	@abstract		Count how many references the VBO manager holds for a given
-					geometry, counting all GL contexts and all modes.
-	@param			inGeom			A geometry object.
-	@result			Number of VBOs referencing the geometry.
-*/
-TQ3Uns32			CountVBOs( TQ3GeometryObject inGeom );
-
-//=============================================================================
-//		C++ postamble
-//-----------------------------------------------------------------------------
-#ifdef __cplusplus
 }
-#endif
-
 
 #endif

@@ -50,6 +50,7 @@
 #include "GLVBOManager.h"
 #include "GLDisplayListManager.h"
 #include "CQ3ObjectRef_Gets.h"
+#include "GLShadowVolumeManager.h"
 
 #ifndef STENCIL_TEST_TWO_SIDE_EXT
 	#define	STENCIL_TEST_TWO_SIDE_EXT	0x8910
@@ -276,6 +277,28 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	glDisable( GL_STENCIL_TEST );
 	
 	
+	// Update the main VBO cache memory limit
+	{
+		TQ3Uns32 vboCacheK = 51200;	// 50 megabytes
+		Q3Object_GetProperty( mRendererObject,
+				kQ3RendererPropertyVBOLimit, sizeof(vboCacheK), NULL,
+				&vboCacheK );
+		UpdateVBOCacheLimit( mGLContext, vboCacheK );
+	}
+	
+	
+	// Update the shadow VBO cache memory limit
+	TQ3Uns32	shadowCacheMemK = 0;
+	if ( isShadowing && (mGLExtensions.vertexBufferObjects == kQ3True) )
+	{
+		Q3Object_GetProperty( mRendererObject,
+				kQ3RendererPropertyShadowVBOLimit, sizeof(shadowCacheMemK), NULL,
+				&shadowCacheMemK );
+		ShadowVolMgr::StartFrame( mGLContext, shadowCacheMemK );
+	}
+	mIsCachingShadows = (shadowCacheMemK > 0);
+	
+	
 	// Multi-pass lighting may have turned off depth writing, which would
 	// prevent clearing the depth buffer if we do not reset it.
 	GLDrawContext_SetDepthState( inDrawContext );
@@ -497,6 +520,7 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	if (mGLExtensions.vertexBufferObjects == kQ3True)
 	{
 		FlushVBOCache( mGLContext );
+		ShadowVolMgr::Flush( mGLContext, mRendererObject );
 	}
 	FlushDisplayListCache( mGLContext );
 

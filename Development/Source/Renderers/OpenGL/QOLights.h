@@ -88,16 +88,20 @@ public:
 									const GLStencilFuncs& inStencilFuncs,
 									const MatrixState& inMatrixState,
 									const StyleState& inStyleState,
-									PerPixelLighting& ioPerPixelLighting )
+									PerPixelLighting& ioPerPixelLighting,
+									TQ3GLContext& inGLContext,
+									bool& inCachingShadows )
 								: mGLExtensions( inExtensions )
 								, mGLStencilFuncs( inStencilFuncs )
 								, mMatrixState( inMatrixState )
 								, mStyleState( inStyleState )
 								, mPerPixelLighting( ioPerPixelLighting )
+								, mGLContext( inGLContext )
 								, mLightCount( 0 )
 								, mSavedYon( std::numeric_limits<float>::infinity() )
 								, mShadowMarker( mMatrixState, mStyleState,
-									mGLLightPosition )
+									mGLLightPosition, inGLContext, inExtensions,
+									inCachingShadows )
 								, mIsOnlyAmbient( false ) {}
 
 	void					StartFrame(
@@ -160,6 +164,7 @@ private:
 	const MatrixState&		mMatrixState;
 	const StyleState&		mStyleState;
 	PerPixelLighting&		mPerPixelLighting;
+	TQ3GLContext&			mGLContext;
 	TQ3Uns32				mLightCount;		// number of GL lights in this pass
 	bool					mIsShadowFrame;
 	bool					mIsFirstPass;

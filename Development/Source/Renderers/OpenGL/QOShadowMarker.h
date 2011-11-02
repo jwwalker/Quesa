@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -77,15 +77,22 @@ public:
 							ShadowMarker(
 									const MatrixState& inMatrixState,
 									const StyleState& inStyleState,
-									const GLfloat* inGLLightPosition )
+									const GLfloat* inGLLightPosition,
+									TQ3GLContext& inGLContext,
+									const TQ3GLExtensions& inGLExtensions,
+									bool& inCachingShadows )
 								: mMatrixState( inMatrixState )
 								, mStyleState( inStyleState )
-								, mGLLightPosition( inGLLightPosition ) {}
+								, mGLLightPosition( inGLLightPosition )
+								, mGLContext( inGLContext )
+								, mGLExtensions( inGLExtensions )
+								, mIsCachingShadows( inCachingShadows ) {}
 	
 	void					MarkShadowOfTriMesh(
 									TQ3GeometryObject inTMObject,
 									const TQ3TriMeshData& inTMData,
-									const TQ3Vector3D* inFaceNormals );
+									const TQ3Vector3D* inFaceNormals,
+									TQ3LightObject inLight );
 	
 	void					MarkShadowOfTriangle(
 									const Vertex* inVertices );
@@ -94,21 +101,46 @@ private:
 	TQ3RationalPoint4D		CalcLocalLightPosition();
 	void					GetTriMeshEdges( TQ3GeometryObject inTMObject,
 									const TQ3TriMeshData& inTMData );
-	void					MarkShadowOfTriMeshDirectional(
+	void					BuildShadowOfTriMeshDirectional(
 									const TQ3TriMeshData& inTMData,
 									const TQ3TriMeshTriangleData* inFaces,
 									const TQ3TriangleEdges* inFacesToEdges,
-									const TQ3RationalPoint4D& inLocalLightPos );
-	void					MarkShadowOfTriMeshPositional(
+									const TQ3RationalPoint4D& inLocalLightPos,
+									TQ3Uns32& outNumTriIndices );
+	void					BuildShadowOfTriMeshPositional(
 									const TQ3TriMeshData& inTMData,
 									const TQ3TriMeshTriangleData* inFaces,
 									const TQ3TriangleEdges* inFacesToEdges,
+									const TQ3RationalPoint4D& inLocalLightPos,
+									TQ3Uns32& outNumTriIndices,
+									TQ3Uns32& outNumQuadIndices );
+	void					BuildShadowOfTriMesh(
+									TQ3GeometryObject inTMObject,
+									const TQ3TriMeshData& inTMData,
+									const TQ3Vector3D* inFaceNormals,
+									const TQ3RationalPoint4D& inLocalLightPos,
+									TQ3Uns32& outNumTriIndices,
+									TQ3Uns32& outNumQuadIndices );
+	void					MarkShadowOfTriMeshImmediate(
+									TQ3GeometryObject inTMObject,
+									const TQ3TriMeshData& inTMData,
+									const TQ3Vector3D* inFaceNormals,
 									const TQ3RationalPoint4D& inLocalLightPos );
+	void					CalcFacesAndEdgesForShadows(
+									TQ3GeometryObject inTMObject,
+									const TQ3TriMeshData& inTMData,
+									const TQ3Vector3D* inFaceNormals,
+									const TQ3RationalPoint4D& inLocalLightPos,
+									const TQ3TriMeshTriangleData*& outFaces,
+									const TQ3TriangleEdges*& outFacesToEdges );
 
 
 	const MatrixState&		mMatrixState;
 	const StyleState&		mStyleState;
 	const GLfloat*			mGLLightPosition;
+	TQ3GLContext&			mGLContext;
+	const TQ3GLExtensions&	mGLExtensions;
+	bool&					mIsCachingShadows;
 
 	E3FastArray<char>		mScratchBuffer;
 	TQ3EdgeVec				mShadowEdges;
