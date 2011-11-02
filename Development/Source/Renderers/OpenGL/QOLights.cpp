@@ -976,7 +976,8 @@ void	QORenderer::Lights::MarkShadowOfTriMesh(
 								const TQ3TriMeshData& inTMData,
 								const TQ3Vector3D* inFaceNormals )
 {
-	mShadowMarker.MarkShadowOfTriMesh( inTMObject, inTMData, inFaceNormals );
+	mShadowMarker.MarkShadowOfTriMesh( inTMObject, inTMData, inFaceNormals,
+		mShadowingLights[ mStartingLightIndexForPass ].get() );
 }
 
 void	QORenderer::Lights::MarkShadowOfTriangle(
