@@ -49,7 +49,7 @@
 #include "E3Debug.h"
 #include "QuesaMath.h"
 
-#if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS
+#if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS && QUESA_TRACE_GL
 	#include <OpenGL/CGLProfiler.h>
 	#include <cstdio>
 	

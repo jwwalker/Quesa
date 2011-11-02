@@ -56,7 +56,7 @@
 #include <limits>
 using namespace std;
 
-#if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS
+#if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS && QUESA_TRACE_GL
 	// This code allows one to see the values passed to certain functions in a
 	// trace produced by Apple's OpenGL Profiler.
 	#include <OpenGL/CGLProfiler.h>
