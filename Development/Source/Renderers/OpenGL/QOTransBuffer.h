@@ -168,6 +168,8 @@ private:
 
 	void							Render(
 											const TransparentPrim& inPrim );
+	void							RenderForDepth(
+											const TransparentPrim& inPrim );
 	void							RenderPrimGroup(
 											int numPrims,
 											const TransparentPrim* inPrims,

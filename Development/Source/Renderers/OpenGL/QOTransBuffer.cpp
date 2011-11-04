@@ -678,6 +678,43 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 }
 
 
+void	TransBuffer::RenderForDepth( const TransparentPrim& inPrim )
+{
+	switch (inPrim.mNumVerts)
+	{
+		case 3:
+			mRenderer.mLights.SetOnlyAmbient( false );
+			glBegin( GL_TRIANGLES );
+			break;
+
+		case 2:
+			mRenderer.mLights.SetOnlyAmbient( true );
+			glBegin( GL_LINES );
+			break;
+
+		case 1:
+			mRenderer.mLights.SetOnlyAmbient( true );
+			glBegin( GL_POINTS );
+			break;
+	}
+	
+	for (TQ3Uns32 i = 0; i < inPrim.mNumVerts; ++i)
+	{
+		const Vertex&	theVert( inPrim.mVerts[i] );
+		
+		if ( (mCurTexture != 0) && ((theVert.flags & kVertexHaveUV) != 0) )
+		{
+			glTexCoord2fv( (const GLfloat *) &theVert.uv );
+		}
+		
+		glVertex3fv( (const GLfloat *) &theVert.point );
+	}
+	
+	glEnd();
+}
+
+
+
 void	TransBuffer::UpdateSpecularColor( const TQ3ColorRGB& inColor )
 {
 	if ( (inColor.r != mCurSpecularColor[0]) ||
@@ -968,7 +1005,7 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 			UpdateBackfacing( thePrim );
 			UpdateLineWidth( thePrim );
 			
-			Render( thePrim );
+			RenderForDepth( thePrim );
 		}
 		
 		// Restore GL state
