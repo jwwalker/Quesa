@@ -268,12 +268,19 @@ bool	ShadowVBO::IsStale( const TQ3RationalPoint4D& inLocalLightPos ) const
 		mGeomEditIndex;
 	if (! stale)
 	{
-		float dist = Q3FastRationalPoint4D_DistanceSquared( &inLocalLightPos,
-			&mLocalLightPosition );
-		stale = (dist > 7.0e-6f);
+		TQ3RationalPoint4D posDelta =
+		{
+			inLocalLightPos.x - mLocalLightPosition.x,
+			inLocalLightPos.y - mLocalLightPosition.y,
+			inLocalLightPos.z - mLocalLightPosition.z,
+			inLocalLightPos.w - mLocalLightPosition.w
+		};
+		float distSq = posDelta.x * posDelta.x + posDelta.y * posDelta.y +
+			posDelta.z * posDelta.z + posDelta.w * posDelta.w;
+		stale = (distSq > 7.0e-6f);
 		if (stale)
 		{
-			Q3_MESSAGE_FMT( "Stale shadow due to light position error %f", dist );
+			Q3_MESSAGE_FMT( "Stale shadow due to light position error %f", distSq );
 		}
 	}
 	else
