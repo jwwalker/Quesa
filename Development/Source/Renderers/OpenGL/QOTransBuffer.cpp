@@ -707,6 +707,11 @@ void	TransBuffer::RenderForDepth( const TransparentPrim& inPrim )
 			glTexCoord2fv( (const GLfloat *) &theVert.uv );
 		}
 		
+		if ((theVert.flags & kVertexHaveDiffuse) != 0)
+		{
+			SetDiffuseColor( theVert );
+		}
+		
 		glVertex3fv( (const GLfloat *) &theVert.point );
 	}
 	
