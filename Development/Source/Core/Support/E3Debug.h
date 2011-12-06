@@ -108,7 +108,7 @@ void		E3CloseLog();
 	
 	#define	Q3_MESSAGE_FMT(...)		do {	\
 										char msg_[1024];	\
-										std::snprintf( msg_, sizeof(msg_), __VA_ARGS__ );	\
+										snprintf( msg_, sizeof(msg_), __VA_ARGS__ );	\
 										std::strncat( msg_, "\n", 1 );	\
 										E3LogMessage( msg_ );	\
 									} while (0)
