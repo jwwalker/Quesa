@@ -117,6 +117,12 @@ void		E3CloseLog();
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
 				Q3_ASSERT(Q3_VALID_PTR(_thePtr))
 
+	#if Q3_VALIDATE_DRAW_ELEMENTS
+		#define	Q3_CHECK_DRAW_ELEMENTS( _numPts, _numIndices, _indexArray )	\
+			GLUtils_ValidateElements( (_numPts), (_numIndices), (_indexArray) )
+	#else
+		#define	Q3_CHECK_DRAW_ELEMENTS( _numPts, _numIndices, _indexArray )
+	#endif
 #else
 	// Do nothing
 	#define Q3_ASSERT(_theTest)													\
@@ -131,6 +137,8 @@ void		E3CloseLog();
 	// Do nothing
 	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
 				((void) 0)
+	
+	#define	Q3_CHECK_DRAW_ELEMENTS( _numPts, _numIndices, _indexArray )
 #endif
 
 

@@ -510,6 +510,22 @@ GLfloat		GLUtils_SpecularControlToGLShininess( float inSpecControl )
 
 
 
+//=============================================================================
+//		GLUtils_ValidateElements
+//-----------------------------------------------------------------------------
+// For debugging glDrawElements calls, verify that each index in an array is
+// less than the number of points.
+void		GLUtils_ValidateElements( TQ3Uns32 inNumPoints, TQ3Uns32 inNumIndices,
+									const TQ3Uns32* inIndices )
+{
+	for (TQ3Uns32 i = 0; i < inNumIndices; ++i)
+	{
+		Q3_ASSERT( inIndices[i] < inNumPoints );
+	}
+}
+
+
+
 
 //=============================================================================
 //      GLGetProcAddress : Get a function pointer associated with an OpenGL extension

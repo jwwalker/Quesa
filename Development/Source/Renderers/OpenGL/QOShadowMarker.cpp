@@ -59,6 +59,7 @@
 #include "QOShadowMarker.h"
 #include "QORenderer.h"
 #include "GLShadowVolumeManager.h"
+#include "GLUtils.h"
 
 
 #include <cmath>
@@ -550,12 +551,16 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMeshImmediate(
 	glVertexPointer( 4, GL_FLOAT, 0, &mShadowPoints[0] );
 
 	// Render triangles.
+	Q3_CHECK_DRAW_ELEMENTS( inTMData.numPoints, numTriIndices,
+		(const TQ3Uns32*)&mShadowVertIndices[0] );
 	glDrawElements( GL_TRIANGLES, numTriIndices, GL_UNSIGNED_INT,
 		&mShadowVertIndices[0] );
 	
 	// Render quads, if any.
 	if (numQuadIndices > 0)
 	{
+		Q3_CHECK_DRAW_ELEMENTS( inTMData.numPoints, numQuadIndices,
+			(const TQ3Uns32*)&mShadowVertIndices[numTriIndices] );
 		glDrawElements( GL_QUADS, numQuadIndices, GL_UNSIGNED_INT,
 			&mShadowVertIndices[numTriIndices] );
 	}
@@ -641,6 +646,8 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 			BuildShadowOfTriMesh( inTMObject, inTMData, inFaceNormals,
 				localLightPos, numTriIndices, numQuadIndices );
 			
+			Q3_CHECK_DRAW_ELEMENTS( mShadowPoints.size(),
+				numTriIndices + numQuadIndices, (const TQ3Uns32*)&mShadowVertIndices[0] );
 			ShadowVolMgr::AddShadowVolume( mGLContext, inTMObject, inLight,
 				localLightPos, mShadowPoints.size(), &mShadowPoints[0],
 				numTriIndices, numQuadIndices, &mShadowVertIndices[0] );

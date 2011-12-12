@@ -734,6 +734,8 @@ static void ImmediateRenderTriangles(
 		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
 	}
 	
+	Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, 3 * inGeomData.numTriangles,
+		(const TQ3Uns32*)inGeomData.triangles );
 	glDrawElements( GL_TRIANGLES, 3 * inGeomData.numTriangles,
 		GL_UNSIGNED_INT, inGeomData.triangles );
 	TraceGLDrawElements( 3 * inGeomData.numTriangles, &inGeomData.triangles[0].pointIndices[0] );
@@ -763,6 +765,7 @@ static void ImmediateRenderTriangleStrip(
 		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
 	}
 	
+	Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, inStrip.size(), &inStrip[0] );
 	glDrawElements( GL_TRIANGLE_STRIP, inStrip.size(),
 		GL_UNSIGNED_INT, &inStrip[0] );
 	TraceGLDrawElements( inStrip.size(), &inStrip[0] );
@@ -1096,6 +1099,9 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 				
 				if (triangleStrip.empty())
 				{
+					Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints,
+						3 * inGeomData.numTriangles,
+						inGeomData.triangles[0].pointIndices );
 					AddVBOToCache( mGLContext, inTriMesh, inGeomData.numPoints,
 						inGeomData.points, inVertNormals, inVertColors, inVertUVs,
 						GL_TRIANGLES, 3 * inGeomData.numTriangles,
@@ -1103,6 +1109,9 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 				}
 				else
 				{
+					Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints,
+						triangleStrip.size(),
+						&triangleStrip[0] );
 					AddVBOToCache( mGLContext, inTriMesh, inGeomData.numPoints,
 						inGeomData.points, inVertNormals, inVertColors, inVertUVs,
 						GL_TRIANGLE_STRIP, triangleStrip.size(),
@@ -1410,6 +1419,8 @@ void	QORenderer::Renderer::RenderFaceEdges(
 				mFacesToEdges );
 		}
 		
+		Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, mEdges.size() * 2,
+			&mEdges[0].pointIndices[0] );
 		glDrawElements( GL_LINES, mEdges.size() * 2, GL_UNSIGNED_INT, &mEdges[0] );
 		TraceGLDrawElements( mEdges.size() * 2, &mEdges[0].pointIndices[0] );
 	}
