@@ -371,7 +371,7 @@ void	VBOCache::AddVBO( CachedVBO* inVBO )
 
 	mTotalBytes += inVBO->mBufferBytes;
 	
-	Q3_MESSAGE_FMT("VBO cache size: %lld", mTotalBytes );
+	//Q3_MESSAGE_FMT("VBO cache size: %lld", mTotalBytes );
 }
 
 /*

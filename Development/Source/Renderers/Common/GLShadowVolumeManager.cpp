@@ -421,7 +421,7 @@ void	ShadowVolCache::AddVBO( ShadowVBO* inVBO )
 	
 	mTotalBytes += inVBO->mBufferBytes;
 	
-	Q3_MESSAGE_FMT("Shadow cache %lld bytes", mTotalBytes );
+	//Q3_MESSAGE_FMT("Shadow cache %lld bytes", mTotalBytes );
 }
 
 
