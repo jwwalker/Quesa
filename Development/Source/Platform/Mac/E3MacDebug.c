@@ -5,7 +5,7 @@
         Mac debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -116,5 +116,5 @@ E3IsValidPtr(void *thePtr)
 //-----------------------------------------------------------------------------
 void		E3LogMessage( const char* inMessage )
 {
-	printf( "%s", inMessage  );
+	fprintf( stderr, "%s", inMessage  );
 }
