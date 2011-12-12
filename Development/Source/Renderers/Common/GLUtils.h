@@ -5,7 +5,7 @@
         Header file for GLUtils.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -100,6 +100,12 @@ void		GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix );
 
 // Map Quesa specular control to OpenGL shininess
 GLfloat		GLUtils_SpecularControlToGLShininess( float inSpecControl );
+
+
+// For debugging glDrawElements calls, verify that each index in an array is
+// less than the number of points.
+void		GLUtils_ValidateElements( TQ3Uns32 inNumPoints, TQ3Uns32 inNumIndices,
+									const TQ3Uns32* inIndices );
 
 
 //=============================================================================
