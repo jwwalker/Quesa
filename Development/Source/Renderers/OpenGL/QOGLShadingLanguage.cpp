@@ -1204,10 +1204,13 @@ void	QORenderer::PerPixelLighting::SetUniformValues( ProgramRec& ioProgram )
 	}
 	
 	// Set hot angle, cutoff angle uniform arrays.
-	mFuncs.glUniform1fv( ioProgram.mSpotHotAngleUniformLoc, kNumLights,
-		&hotAngles[0] );
-	mFuncs.glUniform1fv( ioProgram.mSpotCutoffAngleUniformLoc, kNumLights,
-		&cutoffAngles[0] );
+	if (kNumLights > 0)
+	{
+		mFuncs.glUniform1fv( ioProgram.mSpotHotAngleUniformLoc, kNumLights,
+			&hotAngles[0] );
+		mFuncs.glUniform1fv( ioProgram.mSpotCutoffAngleUniformLoc, kNumLights,
+			&cutoffAngles[0] );
+	}
 }
 
 /*!
