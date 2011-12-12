@@ -87,6 +87,7 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 
 	//MessageBox(NULL, theString, srcFile, MB_OK | MB_ICONERROR);
 	OutputDebugString(theString);
+	E3LogMessage( theString );
 	
 	// DebugBreak caused a problem when not running under a debugger, or when
 	// running under Delphi's debugger.
