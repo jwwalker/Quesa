@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -4415,22 +4415,22 @@ Q3Math_InvSquareRoot (
 		}																	\
 	while (0)
 
+// Normalization performance trick:  usually, adding kQ3MinFloat to the length
+// makes no difference, but it prevents division by zero without a branch.
 #define __Q3FastVector2D_Normalize(_v1, _v2)								\
 	do																		\
-		{																	\
-		float theLength = __Q3FastVector2D_Length(_v1);						\
-		if (theLength != 0.0f)												\
-			__Q3FastVector2D_Scale(_v1, 1.0f / theLength, _v2);				\
-		}																	\
+	{																		\
+		float theLength = __Q3FastVector2D_Length(_v1) + kQ3MinFloat;		\
+		__Q3FastVector2D_Scale(_v1, 1.0f / theLength, _v2);					\
+	}																		\
 	while (0)
 
 #define __Q3FastVector3D_Normalize(_v1, _v2)								\
 	do																		\
-		{																	\
-		float theLength = __Q3FastVector3D_Length(_v1);						\
-		if (theLength != 0.0f)												\
-			__Q3FastVector3D_Scale(_v1, 1.0f / theLength, _v2);				\
-		}																	\
+	{																		\
+		float theLength = __Q3FastVector3D_Length(_v1) + kQ3MinFloat;		\
+		__Q3FastVector3D_Scale(_v1, 1.0f / theLength, _v2);					\
+	}																		\
 	while (0)
 
 
