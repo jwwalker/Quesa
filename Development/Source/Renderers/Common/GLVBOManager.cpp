@@ -5,7 +5,7 @@
         Quesa OpenGL vertex buffer object caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -157,6 +157,10 @@ namespace
 		void			PurgeDownToSize( long long inTargetSize );
 		void			SetMaxBufferSize( long long inBufferSize );
 		void			MakeRoom( TQ3Uns32 inBytesNeeded );
+		
+		void			AddToUsageList( CachedVBO* ioVBO );
+		void			DeleteFromUsageList( CachedVBO* ioVBO );
+		void			RenewInUsageList( CachedVBO* ioVBO );
 
 		GenBuffersARBProcPtr		glGenBuffersARBProc;
 		BindBufferARBProcPtr		glBindBufferARBProc;
@@ -354,6 +358,23 @@ TQ3Uns32		VBOCache::CountVBOs( TQ3GeometryObject inGeom )
 	return refCount;
 }
 
+void	VBOCache::AddToUsageList( CachedVBO* ioVBO )
+{
+	// Insert the new record at the "new" end of a doubly-linked list.
+	ioVBO->mNext = &mListNewEnd;
+	ioVBO->mPrev = mListNewEnd.mPrev;
+	ioVBO->mPrev->mNext = ioVBO;
+	mListNewEnd.mPrev = ioVBO;
+}
+
+void	VBOCache::RenewInUsageList( CachedVBO* ioVBO )
+{
+	// Move the item to the "new" end of the list, so that it will not be
+	// purged soon.
+	DeleteFromUsageList( ioVBO );
+	AddToUsageList( ioVBO );
+}
+
 void	VBOCache::AddVBO( CachedVBO* inVBO )
 {
 	CachedVBOVec::iterator	placeIt = std::lower_bound( mCachedVBOs.begin(),
@@ -363,11 +384,7 @@ void	VBOCache::AddVBO( CachedVBO* inVBO )
 	
 	UpdateModeCount( inVBO->mGeomObject.get() );
 
-	// Insert the new record at the new end of a doubly-linked list.
-	inVBO->mNext = &mListNewEnd;
-	inVBO->mPrev = mListNewEnd.mPrev;
-	inVBO->mPrev->mNext = inVBO;
-	mListNewEnd.mPrev = inVBO;
+	AddToUsageList( inVBO );
 
 	mTotalBytes += inVBO->mBufferBytes;
 	
@@ -440,15 +457,20 @@ void VBOCache::RenderVBO( const CachedVBO* inCachedVBO )
 	(*glBindBufferARBProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
 }
 
+void	VBOCache::DeleteFromUsageList( CachedVBO* ioVBO )
+{
+	ioVBO->mPrev->mNext = ioVBO->mNext;
+	ioVBO->mNext->mPrev = ioVBO->mPrev;
+}
+
+
 void	VBOCache::DeleteVBO( CachedVBO* inCachedVBO )
 {
 	(*glDeleteBuffersARBProc)( 2, inCachedVBO->mGLBufferNames );
 	
 	UpdateModeCount( inCachedVBO->mGeomObject.get() );
 
-	// Remove the record from the doubly-linked list.
-	inCachedVBO->mPrev->mNext = inCachedVBO->mNext;
-	inCachedVBO->mNext->mPrev = inCachedVBO->mPrev;
+	DeleteFromUsageList( inCachedVBO );
 	
 	mTotalBytes -= inCachedVBO->mBufferBytes;
 	
@@ -573,6 +595,7 @@ TQ3Boolean			RenderCachedVBO(
 		if (theVBO != NULL)
 		{
 			theCache->RenderVBO( theVBO );
+			theCache->RenewInUsageList( theVBO );
 			didRender = kQ3True;
 		}
 	}
