@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1601,6 +1601,30 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3GetReleaseVersion (
     TQ3Uns32                      *releaseRevision
 );
+
+
+
+/*!
+	@function
+		Q3LogMessage
+	@discussion
+		Writes a message string to Quesa's log file for debugging.
+		
+		The name and location of the log file is platform-dependent.  On the Mac,
+		logging goes to the stderr stream, which normally appears in the console
+		log.  On Windows, log messages go to a file named "Quesa.log" in the
+		user's documents folder.
+		
+		An appliction could, of course, do its own debug logging independent of
+		Quesa.  With this function, you can make application and Quesa log
+		messages interleave in the same log file.
+		
+		You must explicitly add linefeed characters to break lines.
+		
+	@param	inMessage		A message to write to the log.
+*/
+Q3_EXTERN_API_C( void )
+Q3LogMessage( const char* inMessage );
 
 
 
