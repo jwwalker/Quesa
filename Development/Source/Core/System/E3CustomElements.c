@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -123,6 +123,19 @@ public :
 
 	TQ3Uns32								instanceData ;
 	} ;
+
+
+
+class E3TextureAlphaTestElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3ElementTypeTextureShaderAlphaTest, E3TextureAlphaTestElement, E3Element )
+public :
+
+	TQ3Float32								instanceData ;
+	} ;
 	
 
 
@@ -139,6 +152,7 @@ public :
 #define kQ3ClassNameCustomElementAfterRender	"Quesa:AfterRenderCallback"
 #define kQ3ClassNameCustomElementBeforePick		"Quesa:BeforePickCallback"
 #define kQ3ClassNameCustomElementAfterPick		"Quesa:AfterPickCallback"
+#define kQ3ClassNameCustomElementAlphaTest		"Quesa:AlphaTestElement"
 
 
 
@@ -882,6 +896,67 @@ strip_element_metahandler(TQ3XMethodType methodType)
 }
 
 
+#pragma mark -
+
+
+static TQ3Status
+alphatest_element_traverse( TQ3Object object, TQ3Float32 *data,
+						TQ3ViewObject view )
+{
+#pragma unused(object)
+	TQ3Status	status = Q3XView_SubmitWriteData( view,
+		sizeof(TQ3Float32), data, NULL );
+	return status;
+}
+
+
+static TQ3Status
+alphatest_element_write( TQ3Float32 *inData, TQ3FileObject file )
+{
+	TQ3Status	theStatus = Q3Float32_Write( *inData, file );
+	return theStatus;
+}
+
+
+static TQ3Status alphatest_element_readdata(
+	TQ3Object			ioSet,
+	TQ3FileObject			file)
+{
+	TQ3Float32 threshold;
+	
+	TQ3Status	theStatus = Q3Float32_Read( &threshold, file );
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Object_AddElement( ioSet, kQ3ElementTypeTextureShaderAlphaTest,
+			&threshold );
+	}
+	return theStatus;
+}
+
+
+static TQ3XFunctionPointer
+e3alphatestelement_metahandler(TQ3XMethodType methodType)
+{
+	TQ3XFunctionPointer		theMethod = NULL;
+
+	switch (methodType)
+	{
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) alphatest_element_traverse;
+			break;
+
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) alphatest_element_write;
+			break;
+
+		case kQ3XMethodTypeObjectReadData:
+			theMethod = (TQ3XFunctionPointer) alphatest_element_readdata;
+			break;
+	}
+	
+	return theMethod;
+}
+
 
 //=============================================================================
 //      Public functions
@@ -935,6 +1010,12 @@ E3CustomElements_RegisterClass(void)
 					NULL,
 					E3BitDepthElement ) ;
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS (	
+					kQ3ClassNameCustomElementAlphaTest,
+					e3alphatestelement_metahandler,
+					E3TextureAlphaTestElement );
+
 
 	return(qd3dStatus);
 }
@@ -960,6 +1041,7 @@ E3CustomElements_UnregisterClass(void)
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementName, kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementUrl,  kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ElementTypeTextureShaderAlphaTest,  kQ3True);
 
 	return(qd3dStatus);
 }

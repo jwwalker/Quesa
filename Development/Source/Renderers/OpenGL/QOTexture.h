@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -76,6 +76,8 @@ public:
 		bool				mIsTextureActive;
 		bool				mIsTextureTransparent;
 		bool				mIsTextureMipmapped;
+		bool				mIsTextureAlphaTest;
+		TQ3Float32			mAlphaTestThreshold;
 		GLuint				mGLTextureObject;
 		TQ3ShaderUVBoundary	mShaderUBoundary;
 		TQ3ShaderUVBoundary	mShaderVBoundary;
@@ -157,7 +159,9 @@ private:
 									TQ3ShaderObject inShader,
 									TQ3ShaderUVBoundary& outShaderUBoundary,
 									TQ3ShaderUVBoundary& outShaderVBoundary,
-									TQ3Matrix3x3& outShaderUVTransform );
+									TQ3Matrix3x3& outShaderUVTransform,
+									bool& outUseAlphaTest,
+									TQ3Float32& outAlphaTestThreshold );
 	void					FlushCache();
 
 	TQ3RendererObject		mRenderer;

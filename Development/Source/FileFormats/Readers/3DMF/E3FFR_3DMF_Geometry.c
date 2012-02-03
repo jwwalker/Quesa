@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -186,13 +186,14 @@ e3read_3dmf_merge_element_set( TQ3SetObject* ioElements, TQ3SetObject ioNewChild
 //      e3read_3dmf_apply_element_set : Apply custom elements to a shape.
 //-----------------------------------------------------------------------------
 static void
-e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject ioElements )
+e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject& ioElements )
 {
 	if (ioElements != NULL)
 	{
 		if (ioShape != NULL)
 			Q3Object_SetSet( ioShape, ioElements );
 		Q3Object_Dispose( ioElements );
+		ioElements = NULL;
 	}
 }
 
@@ -907,6 +908,7 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 
 
 	TQ3Object			childObject = NULL;
+	TQ3SetObject		elementSet = NULL;
 	TQ3Object			theObject = NULL;
 	TQ3TextureObject	theTexture = NULL;
 	
@@ -942,6 +944,8 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 				Q3Matrix3x3_Copy((TQ3Matrix3x3*) childObject->FindLeafInstanceData () , &uvTransform);
 				Q3Object_Dispose(childObject);
 				}
+			else if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
 #if 0
 			else if(Q3Object_IsType (childObject, 0x73647866/*'sdxf' Shader Transform (??????) */)){
 				Q3Matrix4x4_Read (&shTransform, theFile);
@@ -962,9 +966,15 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 			Q3Shader_SetVBoundary (theObject, vBoundary);
 			Q3Shader_SetUVTransform (theObject, &uvTransform);
 			// What I've to do with the shTransform????????
+			e3read_3dmf_apply_element_set( theObject, elementSet );
 			}
 		Q3Object_Dispose(theTexture);
 		}
+	
+	if (elementSet != NULL)
+	{
+		Q3Object_Dispose( elementSet );
+	}
 	
 	return(theObject);
 }

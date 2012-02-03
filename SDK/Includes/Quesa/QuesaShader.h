@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -91,6 +91,26 @@ typedef enum TQ3ShaderUVBoundary {
 } TQ3ShaderUVBoundary;
 
 
+/*!
+	@enum	Texture&nbsp;shader&nbsp;element&nbsp;types
+	
+	@abstract
+			Custom elements that may be set on texture shader objects.
+	
+	@constant	kQ3ElementTypeTextureShaderAlphaTest
+					Normally, geometry using a texture with an alpha
+					channel must be broken into triangles to be sorted by depth
+					and rendered back to front.  With this element, you can
+					instead treat each texel as either completely opaque or
+					completely transparent, avoiding depth sorting.  The
+					element value is a depth threshold, i.e., alpha less than
+					the threshold is considered completely transparent.
+					Data type: TQ3Float32.
+*/
+enum
+{
+	kQ3ElementTypeTextureShaderAlphaTest	= Q3_OBJECT_TYPE(0xF0, 's', 'a', 't')
+};
 
 
 
