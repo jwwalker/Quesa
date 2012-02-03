@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -241,11 +241,17 @@ void	Texture::GetShaderParams(
 								TQ3ShaderObject inShader,
 								TQ3ShaderUVBoundary& outShaderUBoundary,
 								TQ3ShaderUVBoundary& outShaderVBoundary,
-								TQ3Matrix3x3& outShaderUVTransform )
+								TQ3Matrix3x3& outShaderUVTransform,
+								bool& outUseAlphaTest,
+								TQ3Float32& outAlphaTestThreshold )
 {
 	Q3Shader_GetUBoundary( inShader,   &outShaderUBoundary );
 	Q3Shader_GetVBoundary( inShader,   &outShaderVBoundary );
 	Q3Shader_GetUVTransform( inShader, &outShaderUVTransform );
+	
+	TQ3Status hasElement = Q3Object_GetElement( inShader,
+		kQ3ElementTypeTextureShaderAlphaTest, &outAlphaTestThreshold );
+	outUseAlphaTest = (hasElement == kQ3Success);
 }
 
 void	Texture::SetOpenGLTexturingParameters()
@@ -266,6 +272,18 @@ void	Texture::SetOpenGLTexturingParameters()
 	
 	// UV transform
 	GLUtils_LoadShaderUVTransform( &curState.mUVTransform );
+	
+	
+	// Alpha test
+	if (curState.mIsTextureAlphaTest)
+	{
+		glEnable( GL_ALPHA_TEST );
+		glAlphaFunc( GL_GREATER, curState.mAlphaTestThreshold );
+	}
+	else
+	{
+		glDisable( GL_ALPHA_TEST );
+	}
 }
 
 void Texture::TextureState::Reset()
@@ -273,6 +291,8 @@ void Texture::TextureState::Reset()
 	mIsTextureActive = false;
 	mIsTextureTransparent = false;
 	mIsTextureMipmapped = false;
+	mIsTextureAlphaTest = false;
+	mAlphaTestThreshold = 0.5f;
 	mGLTextureObject = 0;
 }
 
@@ -323,6 +343,7 @@ void	Texture::PopState()
 		else
 		{
 			glDisable( GL_TEXTURE_2D );
+			glDisable( GL_ALPHA_TEST );
 			glMatrixMode( GL_TEXTURE );
 			glLoadIdentity();
 		}
@@ -393,6 +414,7 @@ void	Texture::SetCurrentTexture(
 	if (inTexture == NULL)	// disable texturing
 	{
 		glDisable( GL_TEXTURE_2D );
+		glDisable( GL_ALPHA_TEST );
 		glBindTexture( GL_TEXTURE_2D, 0 );
 		glMatrixMode( GL_TEXTURE );
 		glLoadIdentity();
@@ -413,20 +435,22 @@ void	Texture::SetCurrentTexture(
 		{
 			TextureState&	curState( mStates.back() );
 			curState.mIsTextureActive = mIsTopActive = true;
+			
+			GetShaderParams( inShader, curState.mShaderUBoundary,
+				curState.mShaderVBoundary, curState.mUVTransform,
+				curState.mIsTextureAlphaTest, curState.mAlphaTestThreshold );
+			
 			curState.mGLTextureObject = GLTextureMgr_GetOpenGLTexture(
 				cachedTexture );
 			TQ3PixelType	pixelType = GetTexturePixelType( inTexture );
-			curState.mIsTextureTransparent =
-				(pixelType == kQ3PixelTypeARGB32) ||
-				(pixelType == kQ3PixelTypeARGB16);
+			curState.mIsTextureTransparent = (! curState.mIsTextureAlphaTest) &&
+				((pixelType == kQ3PixelTypeARGB32) ||
+				(pixelType == kQ3PixelTypeARGB16));
 			mIsTopTransparent = curState.mIsTextureTransparent;
 			curState.mIsTextureMipmapped = IsTextureMipmapped( inTexture );
 			
 			glEnable( GL_TEXTURE_2D );
 			glBindTexture( GL_TEXTURE_2D, curState.mGLTextureObject );
-			
-			GetShaderParams( inShader, curState.mShaderUBoundary,
-				curState.mShaderVBoundary, curState.mUVTransform );
 			
 			SetOpenGLTexturingParameters();
 		}
