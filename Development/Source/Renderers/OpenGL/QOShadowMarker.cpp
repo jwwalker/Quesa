@@ -551,7 +551,7 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMeshImmediate(
 	glVertexPointer( 4, GL_FLOAT, 0, &mShadowPoints[0] );
 
 	// Render triangles.
-	Q3_CHECK_DRAW_ELEMENTS( inTMData.numPoints, numTriIndices,
+	Q3_CHECK_DRAW_ELEMENTS( mShadowPoints.size(), numTriIndices,
 		(const TQ3Uns32*)&mShadowVertIndices[0] );
 	glDrawElements( GL_TRIANGLES, numTriIndices, GL_UNSIGNED_INT,
 		&mShadowVertIndices[0] );
@@ -559,7 +559,7 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMeshImmediate(
 	// Render quads, if any.
 	if (numQuadIndices > 0)
 	{
-		Q3_CHECK_DRAW_ELEMENTS( inTMData.numPoints, numQuadIndices,
+		Q3_CHECK_DRAW_ELEMENTS( mShadowPoints.size(), numQuadIndices,
 			(const TQ3Uns32*)&mShadowVertIndices[numTriIndices] );
 		glDrawElements( GL_QUADS, numQuadIndices, GL_UNSIGNED_INT,
 			&mShadowVertIndices[numTriIndices] );
