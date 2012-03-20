@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -465,9 +465,6 @@ Q3Group_GetPositionObject (
  *
  *		The group increments the object's reference count, so you can safely
  *		dispose of your own reference if you no longer need it.
- *
- *		If for some reason the object cannot be appended, this function
- *		returns NULL.
  *
  *  @param group            Group to replace an object in.
  *  @param position         Position of object to replace.
