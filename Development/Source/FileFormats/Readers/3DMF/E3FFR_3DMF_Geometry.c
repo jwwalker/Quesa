@@ -48,6 +48,7 @@
 #include "E3IO.h"
 #include "E3IOData.h"
 #include "E3FFR_3DMF_Geometry.h"
+#include "E3FFR_3DMF_Text.h"
 
 
 
@@ -1527,10 +1528,44 @@ TQ3Object
 E3Read_3DMF_Transform_Rotate(TQ3FileObject theFile)
 {
 	TQ3RotateTransformData data;
-	TQ3Int32 tempAxis;
 	
-	Q3Int32_Read(&tempAxis, theFile);
-	data.axis = (TQ3Axis)tempAxis;
+	TQ3FileFormatObject format = ( (E3File*) theFile )->GetFileFormat () ;
+	
+	if (Q3Object_IsType( format, kQ3FFormatReaderType3DMFText ))
+	{
+		char constantName[2];
+		TQ3Uns32 dataLen = 2;
+		
+		E3FFormat_3DMF_Text_ReadEnumeratedConstant( format, constantName, &dataLen );
+		
+		switch (constantName[0])
+		{
+			default:
+			case 'X':
+			case 'x':
+				data.axis = kQ3AxisX;
+				break;
+			
+			case 'Y':
+			case 'y':
+				data.axis = kQ3AxisY;
+				break;
+			
+			case 'Z':
+			case 'z':
+				data.axis = kQ3AxisZ;
+				break;
+		}
+	}
+	else
+	{
+		TQ3Int32 tempAxis;
+		
+		Q3Int32_Read(&tempAxis, theFile);
+		data.axis = (TQ3Axis)tempAxis;
+	}
+	
+	
 	Q3Float32_Read(&data.radians, theFile);
 	
 	

@@ -5,7 +5,7 @@
         Implementation of Quesa Abstract FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -565,18 +565,31 @@ E3FileFormat_GenericReadText_SkipBlanks(TQ3FileFormatObject format)
 
 
 
-//=============================================================================
-//      E3FileFormat_GenericReadText_ReadUntilChars : reads a string until:
-//						-one of the numChars first chars in *chars is reached.
-//							in this case the found char index is returned in the foundChar parameter
-//						-maxLen of chars has been read without founding any of the chars in *chars
-//							in this case foundChar parameter returns -1
-//					charsRead returns the number of chars read not counting the flag char if found
-//					currentStoragePosition is set one past the flag char
-//					if the blanks flag is set, all chars< 0x20 are considered as stop chars
-//-----------------------------------------------------------------------------
+/*!
+	@function	E3FileFormat_GenericReadText_ReadUntilChars
+	
+	@abstract	Read text from the file until we find one of a list of
+				designated "stop" characters, or until we reach the end file.
+				The current storage position is set one past the stop character.
+	
+	@param		format		File format object.
+	@param		buffer		Buffer to receive text.  The stop character, if
+							found, will be replaced by a NUL character.
+	@param		chars		Characters to stop at.
+	@param		numChars	Number of stop characters.
+	@param		blanks		If true, stop on all control characters (<= 0x20).
+	@param		foundChar	Receives stop character that we found, or -1 if we
+							filled the buffer or reached the end of file.  You
+							may pass NULL if you do not need this information.
+	@param		maxLen		Maximum number of characters to read.
+	@param		charsRead	Receives number of characters read, not including
+							the stop character if any.  You may pass NULL if you
+							do not need this information.
+
+	@result		kQ3Success unless we failed to read from the file.
+*/
 TQ3Status
-E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format,char* buffer,
+E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format, char* buffer,
 											const char* chars, TQ3Uns32 numChars, TQ3Boolean blanks,
 											TQ3Int32* foundChar,TQ3Uns32 maxLen,
 											TQ3Uns32* charsRead)

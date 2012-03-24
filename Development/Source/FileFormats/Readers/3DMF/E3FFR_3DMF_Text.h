@@ -5,7 +5,7 @@
         Header file for E3FFR_3DMF_Text.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -68,6 +68,9 @@ extern "C" {
 //-----------------------------------------------------------------------------
 TQ3Status				E3FFormat_3DMF_Text_Reader_RegisterClass(void);
 TQ3Status				E3FFormat_3DMF_Text_Reader_UnregisterClass(void);
+
+TQ3Status	E3FFormat_3DMF_Text_ReadEnumeratedConstant( TQ3FileFormatObject format,
+						char* data, TQ3Uns32 *ioLength );
 
 
 

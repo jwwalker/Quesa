@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -149,7 +149,7 @@ static const char 	ReferenceLabel[] = "Reference";
 static TQ3Status
 e3fformat_3dmf_text_skipcomments ( E3Text3DMFReader* format )
 	{
-	char							buffer[256], separators[] = {0x0D};
+	char							buffer[256], separators[] = {0x0D, 0x0A};
 	TQ3Status						result   = kQ3Success;
 	TQ3Boolean						found    = kQ3True;
 	TQ3Uns32						sizeRead = 0;
@@ -169,14 +169,18 @@ e3fformat_3dmf_text_skipcomments ( E3Text3DMFReader* format )
 			format->instanceData.MFData.baseData.currentStoragePosition < format->instanceData.MFData.baseData.logicalEOF)
 		{
 		found  = kQ3False;
-		result = dataRead( format->instanceData.MFData.baseData.storage, format->instanceData.MFData.baseData.currentStoragePosition, 1, (TQ3Uns8*)buffer, &sizeRead);
+		result = dataRead( format->instanceData.MFData.baseData.storage,
+			format->instanceData.MFData.baseData.currentStoragePosition, 1,
+			(TQ3Uns8*)buffer, &sizeRead);
+		
 		if (result == kQ3Success)
 			{
 			// If find a comment, skip until newline
 			if (buffer[0] == '#')
 				{
 				found  = kQ3True;
-				result = E3FileFormat_GenericReadText_ReadUntilChars(format, buffer, separators, 1, kQ3False, NULL, 256, &sizeRead);
+				result = E3FileFormat_GenericReadText_ReadUntilChars(format,
+					buffer, separators, 2, kQ3False, NULL, 256, &sizeRead);
 				if(result == kQ3Success)
 					result = E3FileFormat_GenericReadText_SkipBlanks (format);
 				}
@@ -200,55 +204,77 @@ e3fformat_3dmf_text_skipcomments ( E3Text3DMFReader* format )
 
 
 //=============================================================================
-//      e3fformat_3dmf_text_readobjecttype : reads the next nonblank chunk if chars
+//      e3fformat_3dmf_text_readobjecttype : reads the next nonblank chunk of chars
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_readobjecttype ( E3Text3DMFReader* format, char* theItem, TQ3Uns32 maxLen,TQ3Uns32* charsRead )
+e3fformat_3dmf_text_readobjecttype( E3Text3DMFReader* format, char* theItem, TQ3Uns32 maxLen, TQ3Uns32* charsRead )
 {
 	TQ3Int32 lastSeparator;
-	char separators[] = "(:";
-	char buffer[32];
+	char separators[] = "(\x0D\x0A";
+	char buffer[256];
 
 	TQ3Status result;
 
-	result = E3FileFormat_GenericReadText_SkipBlanks (format);
-	if(result == kQ3Success)
-		result = e3fformat_3dmf_text_skipcomments (format);
-	if(result == kQ3Success)
-		result = E3FileFormat_GenericReadText_ReadUntilChars (format, theItem, separators, 2, kQ3True, &lastSeparator, maxLen, charsRead);
-	if(lastSeparator == ':'){// its a label, skip it (by now)
-		result = e3fformat_3dmf_text_readobjecttype (format, theItem, maxLen, charsRead);
-		}
-	else{
-		if(lastSeparator == '(')
-			format->instanceData.nestingLevel++;
-		if(result == kQ3Success)
-			result = e3fformat_3dmf_text_skipcomments (format);
-	
-		while((result == kQ3Success) && (lastSeparator != '('))
-			{ // skip spaces before '('
-			result = E3FileFormat_GenericReadText_ReadUntilChars (format, buffer, separators, 1, kQ3False, &lastSeparator, 32, NULL);
-			if(lastSeparator == '(')
-				format->instanceData.nestingLevel++;
-			}
+	// Advance to something that's not blank and not a comment.
+	result = E3FileFormat_GenericReadText_SkipBlanks(format);
+	if (result == kQ3Success)
+		result = e3fformat_3dmf_text_skipcomments(format);
 
+
+	// Read until we see a left parenthesis or end of line.
+	if (result == kQ3Success)
+		result = E3FileFormat_GenericReadText_ReadUntilChars( format, theItem,
+			separators, 3, kQ3False, &lastSeparator, maxLen, charsRead );
+
+	if ( (*charsRead > 0) &&
+		((lastSeparator == '\x0D') || (lastSeparator == '\x0A')) &&
+		(theItem[ *charsRead - 1 ] == ':') )
+	{
+		// The docs are a bit unclear, but it seems that a label always has an
+		// end of line right after the colon.  Whereas, an actual object type
+		// may contain a colon, but has a letter after it.
+		result = e3fformat_3dmf_text_readobjecttype( format, theItem, maxLen, charsRead);
+	}
+	else
+	{
+		if (lastSeparator == '(')
+			format->instanceData.nestingLevel++;
+		if (result == kQ3Success)
+			result = e3fformat_3dmf_text_skipcomments(format);
+	
+		while ((result == kQ3Success) && (lastSeparator != '('))
+		{ // skip spaces before '('
+			result = E3FileFormat_GenericReadText_ReadUntilChars( format, buffer,
+				separators, 1, kQ3False, &lastSeparator, sizeof(buffer), NULL);
+			if (lastSeparator == '(')
+				format->instanceData.nestingLevel++;
+		}
+
+		// Remove any trailing blanks from theItem.
+		while ( (*charsRead > 0) && (theItem[ *charsRead - 1 ] == ' ') )
+		{
+			theItem[ *charsRead - 1 ] = '\0';
+			*charsRead -= 1;
+		}
 		
 		// Skip trailing blanks and comments. Note that if we've read some real data
 		// as well, a failure at this point (e.g., due to eof) should not be returned
 		// back to our caller - we read _something_, so we return OK.
-		if(result == kQ3Success)
-			{
+		if (result == kQ3Success)
+		{
 			result = E3FileFormat_GenericReadText_SkipBlanks(format);
-			if(result == kQ3Success)
+			if (result == kQ3Success)
 				result = e3fformat_3dmf_text_skipcomments(format);
 
-			if (charsRead != 0)
+			if (*charsRead != 0)
 				result = kQ3Success;
-			}
 		}
-	if(charsRead == 0)
+	}
+	
+	if (*charsRead == 0)
 		result = kQ3Failure;
- 	return (result);
+ 	
+	return (result);
 }
 
 
@@ -858,7 +884,7 @@ e3fformat_3dmf_text_readlabels( TQ3FileFormatObject format, TE3FFormat3DMF_Text_
 		
 		if (firstNonBlank == '#')
 		{
-			result = E3FileFormat_GenericReadText_ReadUntilChars( format, buffer, "\x0D", 1, kQ3False, NULL,
+			result = E3FileFormat_GenericReadText_ReadUntilChars( format, buffer, "\x0D\x0A", 2, kQ3False, NULL,
 				sizeof(buffer), &charsRead );
 			if (result != kQ3Success)
 				break;
@@ -1120,7 +1146,7 @@ e3fformat_3dmf_textreader_resolve_reference( TE3FFormat3DMF_Text_Data* instanceD
 	
 	for (TOCVec::iterator tocIt = instanceData->mTOC->begin(); tocIt != instanceData->mTOC->end(); ++tocIt)
 	{
-		if ( (tocIt->refID == refNum) && tocIt->object.isvalid() )
+		if ( (tocIt->refID == (TQ3Uns32)refNum) && tocIt->object.isvalid() )
 		{
 			theObject = Q3Shared_GetReference( tocIt->object.get() );
 			break;
@@ -1147,6 +1173,7 @@ e3fformat_3dmf_text_readobject ( E3File* theFile )
 	TQ3Uns32 				oldContainer;
 	TQ3XObjectReadMethod 			readMethod = NULL;
 	TQ3XObjectReadDefaultMethod		readDefaultMethod = NULL;
+	TQ3XObjectReadDataMethod		readDataMethod = NULL;
 	E3ClassInfoPtr			theClass = NULL;
 	char 					objectType[64];
 	TQ3Uns32 				charsRead;
@@ -1219,45 +1246,65 @@ e3fformat_3dmf_text_readobject ( E3File* theFile )
 			}
 		}
 		else
-			{
+		{
 			E3FFormat_3DMF_Text_Check_ContainerEnd( & format->instanceData );
 			theClass = E3ClassTree::GetClass ( objectType ) ;
-			if(theClass == NULL){
+			if (theClass == NULL)
+			{
 				//result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
 				e3fformat_3dmf_text_skip_to_level (theFile, level);
-				}
-			else{
+			}
+			else
+			{
 				// In the case of a default geometry, we may have skipped all the way past
 				// the closing parenthesis.
 				if (format->instanceData.nestingLevel == level)
-					{
+				{
 					readDefaultMethod = (TQ3XObjectReadDefaultMethod) theClass->GetMethod ( 
 								kQ3XMethodTypeObjectReadDefault ) ;
 					
 					if (readDefaultMethod != NULL)
-						{
+					{
 						result = readDefaultMethod( theFile );
-						}
 					}
+				}
 					
 				if (readDefaultMethod == NULL)
-					{
+				{
 					// find the read Object method for the class and call it
 					readMethod = (TQ3XObjectReadMethod) theClass->GetMethod ( kQ3XMethodTypeObjectRead ) ;
 					if (readMethod != NULL)
-						{
+					{
 						result = readMethod(theFile);
+					}
+				}
+				
+				if ( (readMethod == NULL) && (readDefaultMethod == NULL) &&
+					theClass->IsType( kQ3ObjectTypeElement ) )
+				{
+					readDataMethod = (TQ3XObjectReadDataMethod) theClass->GetMethod(
+						kQ3XMethodTypeObjectReadData );
+					
+					if (readDataMethod != NULL)
+					{
+						result = Q3Set_New();
+						
+						if (result != NULL)
+						{
+							readDataMethod( result, theFile );
 						}
 					}
+				}
 				
-				if ( (readMethod == NULL) && (readDefaultMethod == NULL) )
-					{
+				if ( (readMethod == NULL) && (readDefaultMethod == NULL) &&
+					(readDataMethod == NULL) )
+				{
 					//result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
 					e3fformat_3dmf_text_skip_to_level (theFile, level);
-					}
 				}
 			}
 		}
+	}
 	
 	if (result != NULL)
 		e3fformat_3dmf_textreader_update_toc( result, objLocation, & format->instanceData );
@@ -1460,6 +1507,122 @@ e3fformat_3dmf_text_close(TQ3FileFormatObject format, TQ3Boolean abort)
 
 
 //=============================================================================
+//      e3fformat_3dmf_text_read_string : Reads a string.
+//
+//	data is NULL or a pointer to storage for the string we read.
+//	ioLength on input is the length of the buffer, on output is the number of
+//		bytes we store, not including a final NUL.
+//
+// A string in ASCII 3DMF is enclosed in double quotes, possibly containing
+// certain escape sequences: \n \r \t \v \\ \' \"
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3fformat_3dmf_text_read_string(TQ3FileFormatObject format, char* data, TQ3Uns32 *ioLength)
+{
+	E3Text3DMFReader* textFormat = (E3Text3DMFReader*) format;
+	TE3FFormat3DMF_Text_Data& instanceData( textFormat->instanceData );
+	TQ3Status	status = kQ3Failure;
+	TQ3Uns32 bufferLength = *ioLength;
+	bool	haveBackslash = false;
+	*ioLength = 0;
+	
+	e3fformat_3dmf_text_skipcomments( textFormat );
+	
+	// Get the storage read method
+	TQ3XStorageReadDataMethod dataRead = (TQ3XStorageReadDataMethod)
+		instanceData.MFData.baseData.storage->GetMethod ( kQ3XMethodTypeStorageReadData ) ;
+	if (dataRead == NULL)
+	{
+		return status;
+	}
+	
+	// Save the storage position, in case we need to reset it
+	TQ3Uns32 startOffset = instanceData.MFData.baseData.currentStoragePosition;
+	
+	// Read bytes one at a time.  The first one we read had better be \".
+	TQ3Uns32 sizeRead;
+	char oneChar;
+	status = dataRead( instanceData.MFData.baseData.storage, startOffset, 1,
+		(TQ3Uns8*)&oneChar, &sizeRead );
+	if ( (status == kQ3Success) && (oneChar != '\"') )
+	{
+		status = kQ3Failure;
+		return status;
+	}
+	instanceData.MFData.baseData.currentStoragePosition += 1;
+	while (true)
+	{
+		status = dataRead( instanceData.MFData.baseData.storage,
+			instanceData.MFData.baseData.currentStoragePosition, 1,
+			(TQ3Uns8*)&oneChar, &sizeRead );
+		if (status != kQ3Success)
+		{
+			break;	// end of file
+		}
+		instanceData.MFData.baseData.currentStoragePosition += 1;
+		if ( (!haveBackslash) && (oneChar == '\"') )
+		{
+			break;	// normal end of string
+		}
+		if ( (!haveBackslash) && (oneChar == '\\') )
+		{
+			// A backslash puts us in a special mode for the next character,
+			// but otherwise we do nothing.
+			haveBackslash = true;
+			continue;
+		}
+		if (haveBackslash)
+		{
+			switch (oneChar)
+			{
+				case 'n':
+					oneChar = 0x0A;
+					break;
+				
+				case 'r':
+					oneChar = 0x0D;
+					break;
+				
+				case 't':
+					oneChar = 0x09;
+					break;
+			}
+			haveBackslash = false;
+		}
+		if ( (data != NULL) && (*ioLength < bufferLength) )
+		{
+			data[ *ioLength ] = oneChar;
+		}
+		*ioLength += 1;
+	}
+	
+	if ( (data != NULL) && (*ioLength < bufferLength) )
+	{
+		data[ *ioLength ] = '\0';	// NUL termination
+	}
+	
+	if (data == NULL)
+	{
+		instanceData.MFData.baseData.currentStoragePosition = startOffset;
+	}
+	else if (status == kQ3Success)
+	{
+		status = E3FileFormat_GenericReadText_SkipBlanks( textFormat );
+		
+		if (status == kQ3Success)
+		{
+			status = e3fformat_3dmf_text_skipcomments( textFormat );
+		}
+	}
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_text_metahandler : Metahandler for 3DMF Text.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -1532,9 +1695,9 @@ e3fformat_3dmf_text_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_text_read_int64;
 			break;
 
-		/*case kQ3XMethodTypeFFormatStringRead:
+		case kQ3XMethodTypeFFormatStringRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_text_read_string;
-			break;*/
+			break;
 
 		case kQ3XMethodTypeFFormatRawRead:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_text_read_raw;
@@ -1600,3 +1763,30 @@ E3FFormat_3DMF_Text_Reader_UnregisterClass(void)
 
 
 
+
+
+//=============================================================================
+//      E3FFormat_3DMF_Text_ReadEnumeratedConstant
+//-----------------------------------------------------------------------------
+TQ3Status	E3FFormat_3DMF_Text_ReadEnumeratedConstant( TQ3FileFormatObject format,
+						char* data, TQ3Uns32 *ioLength )
+{
+	E3Text3DMFReader* textFormat = (E3Text3DMFReader*) format;
+	
+	e3fformat_3dmf_text_skipcomments( textFormat );
+	
+	TQ3Status	status = E3FileFormat_GenericReadText_ReadUntilChars( format,
+		data, "", 0, kQ3True, NULL, *ioLength, ioLength );
+	
+	if (status == kQ3Success)
+	{
+		status = E3FileFormat_GenericReadText_SkipBlanks( textFormat );
+		
+		if (status == kQ3Success)
+		{
+			status = e3fformat_3dmf_text_skipcomments( textFormat );
+		}
+	}
+	
+	return status;
+}
