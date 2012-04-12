@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -322,8 +322,11 @@ public:
 	
 	/*!
 		@function	PreGeomSubmit
-		@abstract	This is called just before a geometry will be rendered, in
-					order to check for kQ3GeometryPropertyNonCartoon.
+		@abstract	This is called just before a geometry will be rendered, to
+					update the fragment shader program if necessary.  The
+					geometry is passed, if available, so that cartoon parameters
+					may be updated.
+		@param		inGeom		Geometry being rendered.  May be NULL.
 	*/
 	void						PreGeomSubmit( TQ3GeometryObject inGeom );
 
@@ -340,6 +343,7 @@ private:
 	const TQ3GLExtensions&		mGLExtensions;
 	TQ3RendererObject			mRendererObject;
 	bool						mIsShading;
+	bool						mMayNeedProgramChange;
 	TQ3ObjectType				mIlluminationType;
 	TQ3InterpolationStyle		mInterpolationStyle;
 	TQ3Switch					mFogState;
