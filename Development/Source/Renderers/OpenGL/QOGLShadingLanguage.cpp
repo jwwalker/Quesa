@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -768,6 +768,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mGLExtensions( inExtensions )
 	, mRendererObject( inRendererObject )
 	, mIsShading( false )
+	, mMayNeedProgramChange( true )
 	, mIlluminationType( 0 )
 	, mInterpolationStyle( kQ3InterpolationStyleVertex )
 	, mFogState( kQ3Off )
@@ -1124,6 +1125,7 @@ void	QORenderer::PerPixelLighting::StartPass()
 		mIlluminationType = kQ3IlluminationTypeNULL;
 		mIsTextured = false;
 		mProgramIndex = -1;
+		mMayNeedProgramChange = true;
 		mIsCartoonish = (mQuantization > 0.0f);
 		
 		InitVertexShader();
@@ -1131,7 +1133,6 @@ void	QORenderer::PerPixelLighting::StartPass()
 		if (mVertexShaderID != 0)
 		{
 			GetLightTypes();
-			ChooseProgram();
 		}
 	}
 }
@@ -1146,31 +1147,40 @@ void	QORenderer::PerPixelLighting::StartPass()
 */
 void	QORenderer::PerPixelLighting::ChooseProgram()
 {
-	// Look for a program that meets current needs.
-	MatchProgram	matcher( mLightPattern, mIlluminationType,
-		mInterpolationStyle, mIsTextured, mIsCartoonish, mFogState, mFogMode );
-	ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
-		mPrograms.end(), matcher );
-	
-	// If there is none, create it.
-	if (foundProg == mPrograms.end())
+	if (mIsShading && mMayNeedProgramChange)
 	{
-		InitProgram();
-		
-		foundProg = std::find_if( mPrograms.begin(),
+		mMayNeedProgramChange = false;
+
+		// Look for a program that meets current needs.
+		MatchProgram	matcher( mLightPattern, mIlluminationType,
+			mInterpolationStyle, mIsTextured, mIsCartoonish, mFogState, mFogMode );
+		ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
 			mPrograms.end(), matcher );
-	}
-	
-	// Activate it.
-	if (foundProg != mPrograms.end())
-	{
-		mProgramIndex = foundProg - mPrograms.begin();
 		
-		mFuncs.glUseProgram( foundProg->mProgram );
-		CHECK_GL_ERROR;
-		foundProg->mAgeCounter = 0;
+		// If there is none, create it.
+		if (foundProg == mPrograms.end())
+		{
+			InitProgram();
+			
+			foundProg = std::find_if( mPrograms.begin(),
+				mPrograms.end(), matcher );
+		}
 		
-		SetUniformValues( *foundProg );
+		// Activate it.
+		if (foundProg != mPrograms.end())
+		{
+			int newProgramIndex = foundProg - mPrograms.begin();
+			
+			if (newProgramIndex != mProgramIndex)
+			{
+				mProgramIndex = newProgramIndex;
+				mFuncs.glUseProgram( foundProg->mProgram );
+				CHECK_GL_ERROR;
+			
+				SetUniformValues( *foundProg );
+			}
+			foundProg->mAgeCounter = 0;
+		}
 	}
 }
 
@@ -1222,6 +1232,7 @@ void	QORenderer::PerPixelLighting::EndPass()
 	if ( mIsShading )
 	{
 		mFuncs.glUseProgram( 0 );
+		mProgramIndex = -1;
 	}
 	mIsShading = false;
 }
@@ -1496,7 +1507,7 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 			// and get Quesa to notice the change by changing illumination.
 			UpdateTexture( glIsEnabled( GL_TEXTURE_2D ) != 0 );
 			
-			ChooseProgram();
+			mMayNeedProgramChange = true;
 		}
 	}
 }
@@ -1515,7 +1526,7 @@ void	QORenderer::PerPixelLighting::UpdateInterpolationStyle(
 		{
 			mInterpolationStyle = inInterpolation;
 			
-			ChooseProgram();
+			mMayNeedProgramChange = true;
 		}
 	}
 }
@@ -1538,7 +1549,7 @@ void	QORenderer::PerPixelLighting::UpdateFogStyle( const TQ3FogStyleData& inFog 
 			mFogState = inFog.state;
 			mFogMode = inFog.mode;
 			
-			ChooseProgram();
+			mMayNeedProgramChange = true;
 		}
 	}
 }
@@ -1554,7 +1565,7 @@ void	QORenderer::PerPixelLighting::UpdateLighting()
 	if (mIsShading)
 	{
 		GetLightTypes();
-		ChooseProgram();
+		mMayNeedProgramChange = true;
 	}
 }
 
@@ -1572,35 +1583,48 @@ void	QORenderer::PerPixelLighting::UpdateTexture( bool inTexturing  )
 		{
 			mIsTextured = inTexturing;
 			
-			ChooseProgram();
+			mMayNeedProgramChange = true;
 		}
 	}
 }
 
 /*!
 	@function	PreGeomSubmit
-	@abstract	This is called just before a geometry will be rendered, in
-				order to check for kQ3GeometryPropertyNonCartoon.
+	@abstract	This is called just before a geometry will be rendered, to
+				update the fragment shader program if necessary.  The
+				geometry is passed, if available, so that cartoon parameters
+				may be updated.
+	@param		inGeom		Geometry being rendered.  May be NULL.
 */
 void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 {
-	if ( mIsShading && (inGeom != NULL) && (mQuantization > 0.0f) )
+	if ( mIsShading )
 	{
-		TQ3Boolean	isNonCartoon = kQ3False;
+		bool cartoonUpdate = false;
 		
-		Q3Object_GetProperty( inGeom, kQ3GeometryPropertyNonCartoon,
-			sizeof(TQ3Boolean), NULL, &isNonCartoon );
-		
-		bool	isCartoonish = (isNonCartoon == kQ3False);
-		
-		if (isCartoonish != mIsCartoonish)
+		if ( (inGeom != NULL) && (mQuantization > 0.0f) )
 		{
-			mIsCartoonish = isCartoonish;
+			TQ3Boolean	isNonCartoon = kQ3False;
 			
-			ChooseProgram();
-					
+			Q3Object_GetProperty( inGeom, kQ3GeometryPropertyNonCartoon,
+				sizeof(TQ3Boolean), NULL, &isNonCartoon );
+			
+			bool	isCartoonish = (isNonCartoon == kQ3False);
+			
+			if (isCartoonish != mIsCartoonish)
+			{
+				mIsCartoonish = isCartoonish;
+				mMayNeedProgramChange = true;
+				cartoonUpdate = true;
+			}
+		}
+		
+		ChooseProgram();
+		
+		if (cartoonUpdate)
+		{
 			mFuncs.glUniform1f( mPrograms[ mProgramIndex ].mQuantizationUniformLoc,
-				isCartoonish? mQuantization : 0.0f );
+				mIsCartoonish? mQuantization : 0.0f );
 		}
 	}
 }

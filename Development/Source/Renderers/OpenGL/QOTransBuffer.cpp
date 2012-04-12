@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -634,20 +634,23 @@ void	TransBuffer::UpdateEmission( const TransparentPrim& inPrim )
 
 void	TransBuffer::Render( const TransparentPrim& inPrim )
 {
+	// Render geometries of dimension 0 or 1 with only ambient light.
+	mRenderer.mLights.SetOnlyAmbient( inPrim.mNumVerts < 3 );
+	
+	// Maybe update fragment program.
+	mPerPixelLighting.PreGeomSubmit( NULL );
+
 	switch (inPrim.mNumVerts)
 	{
 		case 3:
-			mRenderer.mLights.SetOnlyAmbient( false );
 			glBegin( GL_TRIANGLES );
 			break;
 
 		case 2:
-			mRenderer.mLights.SetOnlyAmbient( true );
 			glBegin( GL_LINES );
 			break;
 
 		case 1:
-			mRenderer.mLights.SetOnlyAmbient( true );
 			glBegin( GL_POINTS );
 			break;
 	}
@@ -792,6 +795,9 @@ void	TransBuffer::RenderPrimGroup(
 		points.reserve( pointsExpected );
 		
 		mRenderer.mLights.SetOnlyAmbient( vertsPerPrim < 3 );
+
+		// Maybe update fragment program.
+		mPerPixelLighting.PreGeomSubmit( NULL );
 
 		bool haveNormal = ((flags & kVertexHaveNormal) != 0);
 		bool haveUV = (leader.mTextureName != 0) && ((flags & kVertexHaveUV) != 0);

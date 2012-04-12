@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1730,15 +1730,15 @@ void	QORenderer::Renderer::SubmitTriangle(
 	// Allow usual lighting
 	mLights.SetOnlyAmbient( false );
 	
+	// update color and texture from geometry attribute set
+	HandleGeometryAttributes( inGeomData->triangleAttributeSet, inView,
+		true );
+	
 	// Notify per-pixel lighting
 	if (! mLights.IsShadowMarkingPass())
 	{
 		mPPLighting.PreGeomSubmit( inTriangle );
 	}
-	
-	// update color and texture from geometry attribute set
-	HandleGeometryAttributes( inGeomData->triangleAttributeSet, inView,
-		true );
 	
 	// Get the vertices
 	Vertex		theVertices[3];
@@ -1836,6 +1836,9 @@ void	QORenderer::Renderer::SubmitPoint(
 	HandleGeometryAttributes( inGeomData->pointAttributeSet, NULL,
 		false );
 	
+	// Notify per-pixel lighting
+	mPPLighting.PreGeomSubmit( NULL );
+
 	// Turn the point into a vertex
 	TQ3Vertex3D	srcVertex;
 	srcVertex.point = inGeomData->point;
@@ -1907,6 +1910,9 @@ void	QORenderer::Renderer::SubmitLine(
 	HandleGeometryAttributes( inGeomData->lineAttributeSet, NULL,
 		false );
 	
+	// Notify per-pixel lighting
+	mPPLighting.PreGeomSubmit( NULL );
+
 	// Get the vertices
 	Vertex	theVertices[2];
 	VertexFlags	vertexFlags = kVertexFlagNone;
@@ -2037,12 +2043,12 @@ void	QORenderer::Renderer::SubmitPolyLine(
 	// Activate our context
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
-	// Notify per-pixel lighting
-	mPPLighting.PreGeomSubmit( inPolyLine );
-	
 	// update color from geometry attribute set
 	HandleGeometryAttributes( inGeomData->polyLineAttributeSet, NULL,
 		false );
+	
+	// Notify per-pixel lighting
+	mPPLighting.PreGeomSubmit( inPolyLine );
 	
 	// Get the vertices
 	std::vector< Vertex >	theVertices( inGeomData->numVertices );
