@@ -5,7 +5,7 @@
         Header file for E3Storage.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -161,6 +161,24 @@ public :
 	friend TQ3Status			e3storage_path_write ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten ) ;
 	} ;
 
+
+
+class E3FileStreamStorage : public E3Storage
+{
+Q3_CLASS_ENUMS ( kQ3StorageTypeFileStream, E3FileStreamStorage, E3Storage )
+	
+	FILE*		mStream;
+
+public:
+	void						Set( FILE* stream );
+	FILE*						Get();
+
+	friend TQ3Status			e3storage_stream_getsize ( E3FileStreamStorage* storage, TQ3Uns32 *size ) ;
+	friend TQ3Status			e3storage_stream_read ( E3FileStreamStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
+	friend TQ3Status			e3storage_stream_write ( E3FileStreamStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten ) ;
+};
+
+
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
@@ -172,6 +190,7 @@ TQ3ObjectType		E3MemoryStorage_GetType(TQ3StorageObject storage);
 TQ3StorageObject	E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize);
 TQ3StorageObject	E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize);
 TQ3StorageObject	E3PathStorage_New(const char *pathName);
+TQ3StorageObject	E3FileStreamStorage_New(FILE *stream);
 
 
 // Mac specific

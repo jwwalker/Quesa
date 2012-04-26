@@ -5,7 +5,7 @@
         Header file for E3Globals.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -248,6 +248,7 @@ extern "C" {
 #define kQ3ClassNameInteriorCapAttributeSet			"InteriorCapAttributeSet"
 #define kQ3ClassNameShaderUVTransform				"ShaderUVTransform"
 #define kQ3ClassNameStoragePath						"Quesa:Storage:Path"
+#define kQ3ClassNameStorageStream					"Quesa:Storage:Stream"
 #define kQ3ClassNameStorageBe						"Quesa:Storage:Be"
 #define kQ3ClassNameDrawContextBe					"Quesa:DrawContext:Be"
 #define kQ3ClassName3DMF							"Metafile"

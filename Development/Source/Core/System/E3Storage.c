@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -678,6 +678,174 @@ e3storage_path_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3storage_stream_new : Stream storage new method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3storage_stream_new(TQ3Object theObject, void *privateData, const void *paramData)
+{
+	FILE** instanceData = (FILE**) privateData;
+	FILE				*theStream      = (FILE *) paramData;
+
+	// Initialise our instance data
+	*instanceData = theStream;
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3storage_stream_getsize : Get the size of the storage object.
+//-----------------------------------------------------------------------------
+TQ3Status
+e3storage_stream_getsize ( E3FileStreamStorage* storage, TQ3Uns32 *size )
+{
+	fpos_t					oldPos;
+
+
+
+	// Make sure the file is open
+	if ( storage->mStream == NULL )
+	{
+		E3ErrorManager_PostError( kQ3ErrorFileNotOpen, kQ3False );
+		return kQ3Failure;
+	}
+
+
+
+	// Get the current position in the file
+	if ( fgetpos( storage->mStream, &oldPos ) )
+		return kQ3Failure;
+
+
+
+	// Seek to the end and get the position there. Note that using ftell rather
+	// than fgetpos limits us to 2147483647 byte files, but casting an fpos_t
+	// to a 32-bit integer is not valid on some Unix systems.
+	if ( fseek( storage->mStream, 0, SEEK_END ) )
+		return kQ3Failure;
+
+	*size = (TQ3Uns32) ftell( storage->mStream ) ;
+
+	if ( fseek( storage->mStream, 0, SEEK_SET ) )
+		return kQ3Failure ;
+
+
+
+	// Restore the previous position in the file
+	if ( fsetpos( storage->mStream, &oldPos ) )
+		return kQ3Failure ;
+
+	return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
+//      e3storage_stream_read : Read data from the storage object.
+//-----------------------------------------------------------------------------
+//		Note : Currently unbuffered - may cause performance problems.
+//-----------------------------------------------------------------------------
+TQ3Status
+e3storage_stream_read( E3FileStreamStorage* storage, TQ3Uns32 offset,
+						TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
+{
+	// Make sure the file is open
+	if ( storage->mStream == NULL )
+	{
+		E3ErrorManager_PostError( kQ3ErrorFileNotOpen, kQ3False );
+		return kQ3Failure;
+	}
+
+
+
+	// Seek to the offset, and read the data
+	// (The ftell is needed because in the Windows version of
+	// CodeWarrior's standard library, fseek always flushes the buffer.)
+	if ( (TQ3Int32) offset != ftell( storage->mStream ) )
+	{
+		if ( fseek( storage->mStream, (long) offset, SEEK_SET ) )
+			return kQ3Failure;
+	}
+
+	*sizeRead = fread( data, 1, dataSize, storage->mStream );
+
+	return kQ3Success;
+}
+
+
+
+
+
+//=============================================================================
+//      e3storage_stream_write : Write data to the storage object.
+//-----------------------------------------------------------------------------
+//		Note : Currently unbuffered - may cause performance problems.
+//-----------------------------------------------------------------------------
+TQ3Status
+e3storage_stream_write( E3FileStreamStorage* storage, TQ3Uns32 offset,
+						TQ3Uns32 dataSize, const unsigned char *data,
+						TQ3Uns32 *sizeWritten )
+{
+	// Make sure the file is open
+	if ( storage->mStream == NULL )
+	{
+		E3ErrorManager_PostError( kQ3ErrorFileNotOpen, kQ3False );
+		return kQ3Failure;
+	}
+
+
+
+	// Seek to the offset, and write the data
+	if ( fseek( storage->mStream, (long)offset, SEEK_SET ) )
+		return kQ3Failure;
+
+	*sizeWritten = fwrite( data, 1, dataSize, storage->mStream );
+
+	return kQ3Success ;
+}
+
+
+
+
+
+//=============================================================================
+//      e3storage_stream_metahandler : Stream storage metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3storage_stream_metahandler(TQ3XMethodType methodType)
+{
+	TQ3XFunctionPointer		theMethod = NULL;
+	
+	switch (methodType)
+	{
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) e3storage_stream_new;
+			break;
+
+		case kQ3XMethodTypeStorageGetSize:
+			theMethod = (TQ3XFunctionPointer) e3storage_stream_getsize;
+			break;
+
+		case kQ3XMethodTypeStorageReadData:
+			theMethod = (TQ3XFunctionPointer) e3storage_stream_read;
+			break;
+
+		case kQ3XMethodTypeStorageWriteData:
+			theMethod = (TQ3XFunctionPointer) e3storage_stream_write;
+			break;
+	}
+	
+	return theMethod;
+}
+
+
+
+//=============================================================================
 //      e3storage_metahandler : base metahandler for storage classes.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -729,6 +897,12 @@ E3Storage_RegisterClass(void)
 											E3PathStorage,
 											sizeof(TQ3PathStorageData) ) ;
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameStorageStream,
+											e3storage_stream_metahandler,
+											E3FileStreamStorage,
+											sizeof(FILE*) ) ;
+
 
 
 	// Register the platform specific classes
@@ -761,6 +935,7 @@ E3Storage_UnregisterClass(void)
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeStorage, kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypeMemory, kQ3True);
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypePath,   kQ3True);
+	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypeFileStream,   kQ3True);
 
 
 #if QUESA_OS_MACINTOSH
@@ -1118,3 +1293,33 @@ E3PathStorage::Get ( char *pathName )
 	return kQ3Success ;
 	}
 
+
+
+//=============================================================================
+//      E3FileStreamStorage_New : Create a stream storage object.
+//-----------------------------------------------------------------------------
+TQ3StorageObject
+E3FileStreamStorage_New(FILE *stream)
+{
+	return E3ClassTree::CreateInstance ( kQ3StorageTypeFileStream, kQ3False, stream ) ;
+}
+
+
+//=============================================================================
+//      E3FileStreamStorage::Set : Set the stream for a stream storage object.
+//-----------------------------------------------------------------------------
+void
+E3FileStreamStorage::Set( FILE* stream )
+{
+	mStream = stream;
+}
+
+
+//=============================================================================
+//      E3PathStorage_Get : Get the path for a path storage object.
+//-----------------------------------------------------------------------------
+FILE*
+E3FileStreamStorage::Get()
+{
+	return mStream;
+}

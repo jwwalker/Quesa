@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,6 +49,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
+#include <stdio.h>
 
 // Disable QD3D header
 #ifdef __QD3DSTORAGE__
@@ -362,7 +363,7 @@ Q3MemoryStorage_GetBuffer (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param pathName         A NULL-terminated pathname, as might be passed to fopen.
- *  @result                 Success or failure of the operation.
+ *  @result                 The new storage object.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -423,6 +424,69 @@ Q3PathStorage_Get (
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+/*!
+	@functiongroup Multiplatform File Stream Storage
+*/
+
+
+/*!
+	@function	Q3FileStreamStorage_New
+	@abstract	Create a storage object from a Unix-style file stream (FILE*).
+	
+	@discussion	The specified stream must remain open as long as you use the
+				storage object, and it is your responsibility to close it later.
+				Calling Q3File_OpenRead, Q3File_OpenWrite, or Q3File_Close on an
+				associated TQ3FileObject do not actually open or close the
+				stream, though they are still necessary steps when doing I/O
+				with a file stream storage object.
+				
+				<em>This function is not available in QD3D.</em>
+	
+	@param		theStream An open stream.
+	@result		The new storage object.
+*/
+Q3_EXTERN_API_C ( TQ3StorageObject  )
+Q3FileStreamStorage_New (
+    FILE* theStream
+);
+
+
+
+/*!
+	@function	Q3FileStreamStorage_Get
+	@discussion	Get the stream associated with the storage.
+	
+				<em>This function is not available in QD3D.</em>
+	
+	@param		theStorage		A file stream storage object.
+	@param		theStream		Receives a FILE pointer.
+	@result		Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3FileStreamStorage_Get (
+    TQ3StorageObject              theStorage,
+    FILE**                        theStream
+);
+
+
+
+/*!
+	@function	Q3FileStreamStorage_Set
+	@discussion	Set the stream associated with the storage.
+	
+				<em>This function is not available in QD3D.</em>
+	
+	@param		theStorage		A file stream storage object.
+	@param		theStream		A stream to use with the storage.
+	@result		Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3FileStreamStorage_Set (
+    TQ3StorageObject              theStorage,
+    FILE*                         theStream
+);
 
 
 

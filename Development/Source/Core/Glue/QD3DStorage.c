@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -611,6 +611,89 @@ Q3PathStorage_Get(TQ3StorageObject theStorage, char *pathName)
 
 	// Call our implementation
 	return ( (E3PathStorage*) theStorage )->Get ( pathName ) ;
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      Q3FileStreamStorage_New : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3StorageObject
+Q3FileStreamStorage_New( FILE* theStream )
+{
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FileStreamStorage_New(theStream));
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      Q3FileStreamStorage_Set : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Status
+Q3FileStreamStorage_Set( TQ3StorageObject theStorage, FILE* theStream )
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Storage::IsOfMyClass ( theStorage ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(theStorage) == kQ3StorageTypeFileStream, kQ3Failure);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	( (E3FileStreamStorage*) theStorage )->Set( theStream );
+	
+	return kQ3Success;
+}
+#endif
+
+
+
+
+
+//=============================================================================
+//      Q3FileStreamStorage_Get : Quesa API entry point.
+//-----------------------------------------------------------------------------
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3Status
+Q3FileStreamStorage_Get(TQ3StorageObject theStorage, FILE** theStream )
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Storage::IsOfMyClass ( theStorage ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(theStorage) == kQ3StorageTypeFileStream, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theStream), kQ3Failure);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	*theStream = ( (E3FileStreamStorage*) theStorage )->Get();
+	return kQ3Success;
 }
 #endif
 
