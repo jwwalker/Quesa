@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -258,6 +258,29 @@ e3drawcontext_metahandler ( TQ3XMethodType methodType )
 
 
 //=============================================================================
+//      e3drawcontext_pixmap_newwithpixmap : Create default pixmap draw context.
+//-----------------------------------------------------------------------------
+static TQ3DrawContextObject
+e3drawcontext_pixmap_newwithpixmap( const TQ3Pixmap* inPixmap )
+{
+	TQ3DrawContextObject theDC = NULL;
+	TQ3PixmapDrawContextData dcData;
+	dcData.pixmap = *inPixmap;
+	dcData.drawContextData.clearImageMethod = kQ3ClearMethodNone;
+	dcData.drawContextData.paneState = kQ3False;
+	dcData.drawContextData.maskState = kQ3False;
+	dcData.drawContextData.doubleBufferState = kQ3False;
+	
+	theDC = Q3PixmapDrawContext_New( &dcData );
+	
+	return theDC;
+}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3DrawContext_RegisterClass : Register the class.
@@ -396,6 +419,11 @@ E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
 	// Create the draw context object
 	switch (drawContextType)
 	{
+		case kQ3DrawContextTypePixmap:
+			drawContext = e3drawcontext_pixmap_newwithpixmap( (const TQ3Pixmap*)
+				drawContextTarget );
+			break;
+	
 	#if QUESA_OS_MACINTOSH
 	#if QUESA_SUPPORT_HITOOLBOX
 		case kQ3DrawContextTypeMacintosh:
