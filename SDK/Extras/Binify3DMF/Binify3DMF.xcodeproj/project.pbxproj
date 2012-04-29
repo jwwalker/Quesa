@@ -1,0 +1,258 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
+		BED966911544746100FCB407 /* libQuesa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BED966901544746100FCB407 /* libQuesa.a */; };
+		BED96701154520F400FCB407 /* Read3DMF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED96700154520F400FCB407 /* Read3DMF.cpp */; };
+		BED96716154524F100FCB407 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BED96715154524F100FCB407 /* Cocoa.framework */; };
+		BED9671A154524FC00FCB407 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BED96719154524FC00FCB407 /* OpenGL.framework */; };
+		BED967201545250A00FCB407 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BED9671F1545250A00FCB407 /* Carbon.framework */; };
+		BED967271545251600FCB407 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BED967261545251600FCB407 /* AGL.framework */; };
+		BED9672D1545253C00FCB407 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BED9672C1545253C00FCB407 /* QuickTime.framework */; };
+		BED967D61547D30400FCB407 /* Write3DMF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED967D51547D30400FCB407 /* Write3DMF.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		08FB7796FE84155DC02AAC07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = Source/main.cpp; sourceTree = "<group>"; };
+		8DD76F6C0486A84900D96B5E /* Binify3DMF */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Binify3DMF; sourceTree = BUILT_PRODUCTS_DIR; };
+		BED966901544746100FCB407 /* libQuesa.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BED966A4154474C500FCB407 /* Binify-proj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Binify-proj.xcconfig"; sourceTree = "<group>"; };
+		BED966F61544799800FCB407 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
+		BED966FF154520F400FCB407 /* Read3DMF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Read3DMF.h; path = Source/Read3DMF.h; sourceTree = "<group>"; };
+		BED96700154520F400FCB407 /* Read3DMF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Read3DMF.cpp; path = Source/Read3DMF.cpp; sourceTree = "<group>"; };
+		BED96715154524F100FCB407 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BED96719154524FC00FCB407 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		BED9671F1545250A00FCB407 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		BED967261545251600FCB407 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = System/Library/Frameworks/AGL.framework; sourceTree = SDKROOT; };
+		BED9672C1545253C00FCB407 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
+		BED967D41547D30400FCB407 /* Write3DMF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Write3DMF.h; path = Source/Write3DMF.h; sourceTree = "<group>"; };
+		BED967D51547D30400FCB407 /* Write3DMF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Write3DMF.cpp; path = Source/Write3DMF.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76F660486A84900D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BED966911544746100FCB407 /* libQuesa.a in Frameworks */,
+				BED96716154524F100FCB407 /* Cocoa.framework in Frameworks */,
+				BED9671A154524FC00FCB407 /* OpenGL.framework in Frameworks */,
+				BED967201545250A00FCB407 /* Carbon.framework in Frameworks */,
+				BED967271545251600FCB407 /* AGL.framework in Frameworks */,
+				BED9672D1545253C00FCB407 /* QuickTime.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* Binify3DMF */ = {
+			isa = PBXGroup;
+			children = (
+				BED966F61544799800FCB407 /* Readme.txt */,
+				BED966A4154474C500FCB407 /* Binify-proj.xcconfig */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+				BED96714154524DF00FCB407 /* Frameworks */,
+				BED9665C1544726100FCB407 /* Libraries */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = Binify3DMF;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7796FE84155DC02AAC07 /* main.cpp */,
+				BED966FF154520F400FCB407 /* Read3DMF.h */,
+				BED96700154520F400FCB407 /* Read3DMF.cpp */,
+				BED967D41547D30400FCB407 /* Write3DMF.h */,
+				BED967D51547D30400FCB407 /* Write3DMF.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76F6C0486A84900D96B5E /* Binify3DMF */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BED9665C1544726100FCB407 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				BED966901544746100FCB407 /* libQuesa.a */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		BED96714154524DF00FCB407 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BED96715154524F100FCB407 /* Cocoa.framework */,
+				BED96719154524FC00FCB407 /* OpenGL.framework */,
+				BED9671F1545250A00FCB407 /* Carbon.framework */,
+				BED967261545251600FCB407 /* AGL.framework */,
+				BED9672C1545253C00FCB407 /* QuickTime.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76F620486A84900D96B5E /* Binify3DMF */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "Binify3DMF" */;
+			buildPhases = (
+				BED966881544732800FCB407 /* Make Symlink */,
+				8DD76F640486A84900D96B5E /* Sources */,
+				8DD76F660486A84900D96B5E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Binify3DMF;
+			productInstallPath = "$(HOME)/bin";
+			productName = Binify3DMF;
+			productReference = 8DD76F6C0486A84900D96B5E /* Binify3DMF */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "Binify3DMF" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 08FB7794FE84155DC02AAC07 /* Binify3DMF */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76F620486A84900D96B5E /* Binify3DMF */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BED966881544732800FCB407 /* Make Symlink */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Make Symlink";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Go into the configuration directory\ncd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make symbolic link to Quesa static library\nln -h -f -s \"../../../../Libraries/Mac/Static_Universal/$CONFIGURATION/libQuesa.a\" libQuesa.a\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76F640486A84900D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DD76F650486A84900D96B5E /* main.cpp in Sources */,
+				BED96701154520F400FCB407 /* Read3DMF.cpp in Sources */,
+				BED967D61547D30400FCB407 /* Write3DMF.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB923208733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BED966A4154474C500FCB407 /* Binify-proj.xcconfig */;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+			};
+			name = Debug;
+		};
+		1DEB923308733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = Binify3DMF;
+			};
+			name = Release;
+		};
+		1DEB923608733DC60010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		1DEB923708733DC60010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "Binify3DMF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923208733DC60010E9CD /* Debug */,
+				1DEB923308733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "Binify3DMF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB923608733DC60010E9CD /* Debug */,
+				1DEB923708733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

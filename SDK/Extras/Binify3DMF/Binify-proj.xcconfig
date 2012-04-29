@@ -1,0 +1,41 @@
+//
+//  Binify-proj.xcconfig
+//  Binify3DMF
+//
+//  Created by James Walker on 4/22/12.
+//  Copyright 2012 James W. Walker. All rights reserved.
+//
+
+// Architectures
+ARCHS = i386 ppc
+SDKROOT = macosx10.6
+
+
+// Build Options
+PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO
+
+
+// Linking
+PREBINDING = NO
+
+
+// GCC Code Generation
+GCC_ENABLE_FIX_AND_CONTINUE = NO
+
+
+// GCC Warnings
+GCC_WARN_ABOUT_RETURN_TYPE = YES
+GCC_WARN_UNUSED_VARIABLE = YES
+
+
+// Packaging
+PRODUCT_NAME = Binify3DMF
+
+
+// Search Paths
+ALWAYS_SEARCH_USER_PATHS = NO
+HEADER_SEARCH_PATHS = "../../Includes/Quesa"
+
+
+// Preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = QUESA_OS_MACINTOSH=1 QUESA_SUPPORT_HITOOLBOX=0
