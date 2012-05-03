@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -56,6 +56,10 @@
 	#include <unistd.h>
 #endif
 
+#if QUESA_OS_WIN32
+	#include <ShlObj.h>
+	#include <direct.h>
+#endif
 
 
 
@@ -281,6 +285,20 @@ static void SetDirectoryForDump( const char* inFileName )
 				
 				CFRelease( dirURL );
 			}
+		}
+	}
+#endif
+#if QUESA_OS_WIN32
+	if ( (strchr( inFileName, '\\' ) == NULL) && (strchr( inFileName, '/' ) == NULL) )
+	{
+		char thePath[MAX_PATH];
+		
+		HRESULT	res = SHGetFolderPathA( NULL, CSIDL_PERSONAL, NULL,
+			0, thePath );
+		
+		if (res == S_OK)
+		{
+			_chdir( thePath );
 		}
 	}
 #endif
