@@ -1055,16 +1055,16 @@ E3Read_3DMF_Style_Subdivision(TQ3FileObject theFile)
 	TQ3StyleObject theStyle = NULL;
 	TQ3SubdivisionStyleData styleData;
 	TQ3Int32 temp;
+	TQ3Uns32 flag;
 
 	// Initialise the style data
 	Q3Memory_Clear(&styleData, sizeof(styleData));
 
 	// read the style data
+	if (kQ3Failure == E3FFormat_3DMF_ReadFlag (&flag, theFile, kQ3StyleTypeSubdivision))
+		return NULL;
 	
-	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return (NULL);
-	
-	styleData.method = (TQ3SubdivisionMethod)temp;
+	styleData.method = (TQ3SubdivisionMethod)flag;
 	
 	if (styleData.method == kQ3SubdivisionMethodConstant)
 	{
@@ -1245,18 +1245,16 @@ E3Read_3DMF_Style_Fill(TQ3FileObject theFile)
 {
 	TQ3StyleObject theStyle = NULL;
 	TQ3FillStyle styleData;
-	TQ3Int32 temp;
+	TQ3Uns32 temp;
 
 	// Initialise the style data
 	styleData = kQ3FillStyleFilled;
 
 	// read the style data
-	
-	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
+	if (kQ3Failure == E3FFormat_3DMF_ReadFlag (&temp, theFile, kQ3StyleTypeFill))
+		return NULL;
 
 	styleData = (TQ3FillStyle)temp;
-	
 	
 	
 	// Create the style
@@ -1285,8 +1283,8 @@ E3Read_3DMF_Style_Backfacing(TQ3FileObject theFile)
 	styleData = kQ3BackfacingStyleBoth;
 
 	// read the style data
-	
-	E3FFormat_3DMF_ReadFlag (&temp, theFile, kQ3StyleTypeBackfacing);
+	if (kQ3Failure == E3FFormat_3DMF_ReadFlag (&temp, theFile, kQ3StyleTypeBackfacing))
+		return NULL;
 
 	styleData = (TQ3BackfacingStyle)temp;
 	
@@ -1310,16 +1308,14 @@ E3Read_3DMF_Style_Interpolation(TQ3FileObject theFile)
 {
 	TQ3StyleObject theStyle = NULL;
 	TQ3InterpolationStyle styleData;
-	TQ3Int32 temp;
+	TQ3Uns32 temp;
 
 	// Initialise the style data
 	styleData = kQ3InterpolationStyleVertex;
 
 	// read the style data
+	E3FFormat_3DMF_ReadFlag (&temp, theFile, kQ3StyleTypeInterpolation);
 	
-	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
-		
 	styleData = (TQ3InterpolationStyle)temp;
 		
 	// Create the style
@@ -1380,15 +1376,14 @@ E3Read_3DMF_Style_Orientation(TQ3FileObject theFile)
 {
 	TQ3StyleObject theStyle = NULL;
 	TQ3OrientationStyle styleData;
-	TQ3Int32 temp;
+	TQ3Uns32 temp;
 
 	// Initialise the style data
 	styleData = kQ3OrientationStyleCounterClockwise;
 
 	// read the style data
-	
-	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
+	if (kQ3Failure == E3FFormat_3DMF_ReadFlag (&temp, theFile, kQ3StyleTypeOrientation))
+		return NULL;
 
 	styleData = (TQ3OrientationStyle)temp;
 	

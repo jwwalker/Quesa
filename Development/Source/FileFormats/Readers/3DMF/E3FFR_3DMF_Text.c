@@ -353,6 +353,22 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag, E3File* theFile, TQ3ObjectType hint)
 										{kQ3StyleTypeBackfacing,"BOTH",0},
 										{kQ3StyleTypeBackfacing,"CULLED",1},
 										{kQ3StyleTypeBackfacing,"FLIPPED",2},
+										{kQ3StyleTypeBackfacing,"CULLFRONT",3},
+
+										{kQ3StyleTypeInterpolation,"NONE",0},
+										{kQ3StyleTypeInterpolation,"VERTEX",1},
+										{kQ3StyleTypeInterpolation,"PIXEL",2},
+
+										{kQ3StyleTypeFill,"FILLED",0},
+										{kQ3StyleTypeFill,"EDGES",1},
+										{kQ3StyleTypeFill,"POINTS",2},
+
+										{kQ3StyleTypeSubdivision,"CONSTANT",0},
+										{kQ3StyleTypeSubdivision,"WORLDSPACE",1},
+										{kQ3StyleTypeSubdivision,"SCREENSPACE",2},
+
+										{kQ3StyleTypeOrientation,"COUNTERCLOCKWISE",0},
+										{kQ3StyleTypeOrientation,"CLOCKWISE",1},
 										
 										{kQ3ObjectTypeDisplayGroupState,"NONE",0},
 										{kQ3ObjectTypeDisplayGroupState,"ISINLINE",1},
