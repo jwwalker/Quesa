@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -703,7 +703,7 @@ E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 //				which the triangle lies.
 //
 //				Details at:
-//				<http://www.acm.org/jgt/papers/MollerTrumbore97/>.
+//				<http://www.graphics.cornell.edu/pubs/1997/MT97.pdf>
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
