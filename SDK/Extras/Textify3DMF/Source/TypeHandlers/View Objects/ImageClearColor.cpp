@@ -36,13 +36,14 @@ ImageClearColor::ImageClearColor()
 void	ImageClearColor::Process( uint32_t inStartOffset,
 									uint32_t inEndOffset )
 {
-	if (inEndOffset != inStartOffset + 12)
+	if (inEndOffset != inStartOffset + 16)
 	{
-		throw DataLengthException( Name(), inStartOffset, inEndOffset, 12 );
+		throw DataLengthException( Name(), inStartOffset, inEndOffset, 16 );
 	}
 
 	Out() << Indent() << Name() << " ( " <<
 		FetchFloat32( inStartOffset ) << " " <<
 		FetchFloat32( inStartOffset+4 ) << " " <<
-		FetchFloat32( inStartOffset+8 ) << " )\n";
+		FetchFloat32( inStartOffset+8 ) << " " <<
+		FetchFloat32( inStartOffset+12 ) << " )\n";
 }
