@@ -79,6 +79,8 @@
 #include "FaceCapAttributeSet.h"
 
 #include "ViewHints.h"
+#include "ImageClearColor.h"
+
 #include "ViewAngleAspectCamera.h"
 #include "CameraPlacement.h"
 #include "CameraRange.h"
@@ -252,6 +254,7 @@ void	RegisterHandlers( Controller* inController )
 
 	Register( GenericRenderer );
 	Register( ViewHints );
+	Register( ImageClearColor );
 	Register( CString );
 	Register( NameElement );
 	Register( TableOfContents );
