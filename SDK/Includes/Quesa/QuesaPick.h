@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -127,9 +127,9 @@ typedef enum TQ3PickDetailMasks {
     kQ3PickDetailMaskShapePart                  = (1 << 7),
     kQ3PickDetailMaskPickPart                   = (1 << 8),
     kQ3PickDetailMaskUV                         = (1 << 9),
-	kQ3PickDetailMaskTriMeshFace				= (1 << 10),
- 	kQ3PickDetailMaskBarycentric				= (1 << 11),
-   kQ3PickDetailSize32                         = 0x7FFFFFFF
+    kQ3PickDetailMaskTriMeshFace                = (1 << 10),
+    kQ3PickDetailMaskBarycentric                = (1 << 11),
+    kQ3PickDetailSize32                         = 0x7FFFFFFF
 } TQ3PickDetailMasks;
 
 
@@ -147,7 +147,7 @@ typedef enum TQ3PickSort {
     kQ3PickSortNone                             = 0,
     kQ3PickSortNearToFar                        = 1,
     kQ3PickSortFarToNear                        = 2,
-    kQ3PickSortSize32                           = 0xFFFFFFFF
+    kQ3PickSortSize32                           = 0x7FFFFFFF
 } TQ3PickSort;
 
 
@@ -239,7 +239,8 @@ typedef struct TQ3WindowRectPickData {
  *      Describes the state for a world-ray pick object.
  *
  *  @field data             The common state for the pick.
- *  @field ray              The pick ray in world coordinates.
+ *  @field ray              The pick ray in world coordinates.  The direction
+ *							must be normalized.
  *  @field vertexTolerance  The vertex tolerance.  Only relevant to picking Point objects.
  *  @field edgeTolerance    The edge tolerance.  Only relevant to picking one-dimensional
  *							objects such as Lines and PolyLines.
@@ -766,7 +767,8 @@ Q3WorldRayPick_GetRay (
  *      Set the pick ray of a world-ray pick object.
  *
  *  @param pick             The pick object to update.
- *  @param ray              The new ray for the pick object.
+ *  @param ray              The new ray for the pick object.  The direction must
+ *							be normalized.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
