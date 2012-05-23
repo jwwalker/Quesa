@@ -1,8 +1,8 @@
 /*
- *  LightData.cpp
+ *  ImageClearColor.h
  *  Textify3DMF
  *
- *  Created by James Walker on 3/31/12.
+ *  Created by James Walker on 5/22/12.
  *  Copyright (c) 2012 James W. Walker.
  *
  *  This software is provided 'as-is', without any express or implied warranty.
@@ -25,33 +25,13 @@
  *
  */
 
-#include "LightData.h"
+#include "TypeHandler.h"
 
-LightData::LightData()
-	: TypeHandler( 'lida', "LightData" )
+class ImageClearColor : public TypeHandler
 {
-}
-
-void	LightData::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
-{
-	if (inEndOffset != inStartOffset + 20)
-	{
-		throw DataLengthException( Name(), inStartOffset, inEndOffset, 20 );
-	}
+public:
+							ImageClearColor();
 	
-	const char* flag = (FetchUInt32( inStartOffset ) == 0)? "False" : "True";
-
-	Out() << Indent() << Name() << " (\n" <<
-	
-		Indent(1) << flag << "\t# is on\n" <<
-		
-		Indent(1) << FetchFloat32( inStartOffset+4 ) <<
-		"\t# intensity\n" <<
-		
-		Indent(1) << FetchFloat32( inStartOffset+8 ) << " " <<
-			FetchFloat32( inStartOffset+12 ) << " " <<
-			FetchFloat32( inStartOffset+16 ) << "\t# color\n" <<
-		
-		Indent() << ")\n";
-}
+	virtual void			Process( uint32_t inStartOffset,
+									uint32_t inEndOffset );
+};
