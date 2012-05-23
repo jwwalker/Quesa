@@ -103,6 +103,7 @@
 		BE36E3F515241A4D00286B2B /* TypeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E3F415241A4D00286B2B /* TypeHandler.cpp */; };
 		BE36E3FA15241C5A00286B2B /* InterpolationStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E3F915241C5A00286B2B /* InterpolationStyle.cpp */; };
 		BE36E3FD15241D5600286B2B /* RegisterHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E3FC15241D5600286B2B /* RegisterHandlers.cpp */; };
+		BED0623C156CAF380067EAD9 /* ImageClearColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED0623B156CAF380067EAD9 /* ImageClearColor.cpp */; };
 		BED964561541365E00FCB407 /* NURBCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED964551541365E00FCB407 /* NURBCurve.cpp */; };
 		BED96513154267A700FCB407 /* NURBPatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED96512154267A700FCB407 /* NURBPatch.cpp */; };
 		BED9655F15439BB600FCB407 /* Normal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED9655E15439BB600FCB407 /* Normal.cpp */; };
@@ -321,6 +322,8 @@
 		BE36E3F915241C5A00286B2B /* InterpolationStyle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterpolationStyle.cpp; path = Source/TypeHandlers/Styles/InterpolationStyle.cpp; sourceTree = "<group>"; };
 		BE36E3FB15241D5600286B2B /* RegisterHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterHandlers.h; path = Source/RegisterHandlers.h; sourceTree = "<group>"; };
 		BE36E3FC15241D5600286B2B /* RegisterHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RegisterHandlers.cpp; path = Source/RegisterHandlers.cpp; sourceTree = "<group>"; };
+		BED0623A156CAF380067EAD9 /* ImageClearColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageClearColor.h; path = "Source/TypeHandlers/View Objects/ImageClearColor.h"; sourceTree = "<group>"; };
+		BED0623B156CAF380067EAD9 /* ImageClearColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageClearColor.cpp; path = "Source/TypeHandlers/View Objects/ImageClearColor.cpp"; sourceTree = "<group>"; };
 		BED964541541365E00FCB407 /* NURBCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NURBCurve.h; path = Source/TypeHandlers/Geometries/NURBCurve.h; sourceTree = "<group>"; };
 		BED964551541365E00FCB407 /* NURBCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NURBCurve.cpp; path = Source/TypeHandlers/Geometries/NURBCurve.cpp; sourceTree = "<group>"; };
 		BED96511154267A700FCB407 /* NURBPatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NURBPatch.h; path = Source/TypeHandlers/Geometries/NURBPatch.h; sourceTree = "<group>"; };
@@ -617,6 +620,8 @@
 			children = (
 				BE03BC861527E3E3008EF142 /* ViewHints.h */,
 				BE03BC871527E3E3008EF142 /* ViewHints.cpp */,
+				BED0623A156CAF380067EAD9 /* ImageClearColor.h */,
+				BED0623B156CAF380067EAD9 /* ImageClearColor.cpp */,
 			);
 			name = "View Objects";
 			sourceTree = "<group>";
@@ -860,6 +865,7 @@
 				BED965B21543D3AE00FCB407 /* SpotLight.cpp in Sources */,
 				BED965DE1543D8CA00FCB407 /* OrthographicCamera.cpp in Sources */,
 				BED966011543DA3B00FCB407 /* ViewPlaneCamera.cpp in Sources */,
+				BED0623C156CAF380067EAD9 /* ImageClearColor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
