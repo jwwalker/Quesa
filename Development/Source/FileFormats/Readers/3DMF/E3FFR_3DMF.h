@@ -5,7 +5,7 @@
         Header file for E3FFR_3DMF.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,7 +46,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3IOFileFormat.h"
-
+#include <map>
 
 
 
@@ -101,9 +101,12 @@ typedef struct TQ33DMFWStackItem {
 	TQ3XDataDeleteMethod 			deleteData;
 } TQ33DMFWStackItem;
 
+typedef std::map< TQ3Object, TQ3Uns32 > TE3FFormatW3DMF_Map;
+
 typedef struct TE3FFormatW3DMF_Data {
 	TQ3FFormatBaseData				baseData;
 	TE3FFormat3DMF_TOC				*toc;
+	TE3FFormatW3DMF_Map				*index;
 	TQ3FileMode						fileMode;
 	TQ3ObjectType					lastObjectType;
 	TQ3Object						lastObject;

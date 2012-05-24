@@ -5,7 +5,7 @@
         Quesa 3DMF Binary Writer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -67,7 +67,7 @@ e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 static TQ3Status
 e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object theObject , TQ3Object *theReference)
 {
-	const TQ3Uns32 TOC_GROW_SIZE = 64;
+	const TQ3Uns32 TOC_GROW_SIZE = 1024;
 
 	TE3FFormat3DMF_TOC	*toc = fileFormatPrivate->toc;
 	TQ3Uns32			tocSize, i;
@@ -110,44 +110,46 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 		toc->typeSeed = -1;
 		
 		}
-		
+	
+	if (fileFormatPrivate->index == NULL)
+	{
+		fileFormatPrivate->index = new TE3FFormatW3DMF_Map;
+	}
 		
 	
 	// search the object in toc
 	
-	for(i = 0; i < toc->nEntries; i++)
+	TE3FFormatW3DMF_Map::iterator indexIt = fileFormatPrivate->index->find( theObject );
+	
+	if (indexIt != fileFormatPrivate->index->end())
+	{
+		// found it
+		i = indexIt->second;
+		
+		if (createReference == kQ3True)
 		{
-		if(toc->tocEntries[i].object == theObject)
-			{ // found
-			if(createReference == kQ3True)
-				{
-				
-				if(toc->tocEntries[i].refID == 0)
-					{
-					toc->tocEntries[i].refID = toc->refSeed;
-					toc->refSeed++;
-					}
-					
-				*theReference = E3ClassTree::CreateInstance(kQ3ShapeTypeReference, kQ3False, &toc->tocEntries[i].refID);
-				return (kQ3Success);
-				
-				}
-			else
-				{
-				
-				*theReference = Q3Shared_GetReference(theObject);
-				return (kQ3Success);
-				
-				}
+			if (toc->tocEntries[i].refID == 0)
+			{
+				toc->tocEntries[i].refID = toc->refSeed;
+				toc->refSeed++;
 			}
+				
+			*theReference = E3ClassTree::CreateInstance(kQ3ShapeTypeReference, kQ3False, &toc->tocEntries[i].refID);
 		}
+		else
+		{
+			*theReference = Q3Shared_GetReference(theObject);
+		}
+		
+		return (kQ3Success);
+	}
 		
 	// still here ? so not found, lets add it
 	
 	// make room for the new TOC entry
 
-	if((toc->nEntries != 0) && (toc->nEntries % TOC_GROW_SIZE == 0))
-		{
+	if ((toc->nEntries != 0) && (toc->nEntries % TOC_GROW_SIZE == 0))
+	{
 		tocSize = sizeof(TE3FFormat3DMF_TOC) + 
 		
 				(sizeof(TE3FFormat3DMF_TOCEntry) * (toc->nEntries + TOC_GROW_SIZE - 1));
@@ -155,13 +157,13 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 			return (kQ3Failure);
 			
 		toc = fileFormatPrivate->toc;
-		}
+	}
 		
-	if(forceTOC == kQ3True)
-		{
+	if (forceTOC == kQ3True)
+	{
 		toc->tocEntries[toc->nEntries].refID = toc->refSeed;
 		toc->refSeed++;
-		}
+	}
 	else
 		toc->tocEntries[toc->nEntries].refID = 0;
 		
@@ -171,9 +173,10 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 	toc->tocEntries[toc->nEntries].objLocation.lo = 0; // will be filled in e3ffw_3DMF_write_objects
 	
 	fileFormatPrivate->lastTocIndex = toc->nEntries;
+	
+	(*fileFormatPrivate->index)[ theObject ] = toc->nEntries;
 
 	toc->nEntries++;
-	
 	
 	
 	*theReference = Q3Shared_GetReference(theObject);
@@ -442,7 +445,11 @@ E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort )
 			}
 		Q3Memory_Free(&instanceData->toc);
 		}
-			
+	
+	if (instanceData->index != NULL)
+	{
+		delete instanceData->index;
+	}
 		
 			
 	return status;
