@@ -115,16 +115,54 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 	{
 		fileFormatPrivate->index = new TE3FFormatW3DMF_Map;
 	}
+	
+	
+	// If the object is already in the table of contents, we want to find it,
+	// and if it is not, we will add it.  We need only search the index once.
+	
+	TE3FFormatW3DMF_Map::value_type newRec( theObject, toc->nEntries );
+	
+	std::pair< TE3FFormatW3DMF_Map::iterator, bool > insertResult =
+		fileFormatPrivate->index->insert( newRec );
 		
-	
-	// search the object in toc
-	
-	TE3FFormatW3DMF_Map::iterator indexIt = fileFormatPrivate->index->find( theObject );
-	
-	if (indexIt != fileFormatPrivate->index->end())
+	if (insertResult.second) // inserted a new entry, so it was not there before
 	{
-		// found it
-		i = indexIt->second;
+		// make room for the new TOC entry
+
+		if ((toc->nEntries != 0) && (toc->nEntries % TOC_GROW_SIZE == 0))
+		{
+			tocSize = sizeof(TE3FFormat3DMF_TOC) + 
+			
+					(sizeof(TE3FFormat3DMF_TOCEntry) * (toc->nEntries + TOC_GROW_SIZE - 1));
+			if(Q3Memory_Reallocate(&fileFormatPrivate->toc,tocSize) != kQ3Success)
+				return (kQ3Failure);
+				
+			toc = fileFormatPrivate->toc;
+		}
+			
+		if (forceTOC == kQ3True)
+		{
+			toc->tocEntries[toc->nEntries].refID = toc->refSeed;
+			toc->refSeed++;
+		}
+		else
+			toc->tocEntries[toc->nEntries].refID = 0;
+			
+		toc->tocEntries[toc->nEntries].object = Q3Shared_GetReference(theObject);
+		toc->tocEntries[toc->nEntries].objType = fileFormatPrivate->lastObjectType;
+		toc->tocEntries[toc->nEntries].objLocation.hi = 0;
+		toc->tocEntries[toc->nEntries].objLocation.lo = 0; // will be filled in e3ffw_3DMF_write_objects
+		
+		fileFormatPrivate->lastTocIndex = toc->nEntries;
+		
+		toc->nEntries++;
+		
+		
+		*theReference = Q3Shared_GetReference(theObject);
+	}
+	else	// the object was already there
+	{
+		i = insertResult.first->second;
 		
 		if (createReference == kQ3True)
 		{
@@ -140,46 +178,7 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 		{
 			*theReference = Q3Shared_GetReference(theObject);
 		}
-		
-		return (kQ3Success);
 	}
-		
-	// still here ? so not found, lets add it
-	
-	// make room for the new TOC entry
-
-	if ((toc->nEntries != 0) && (toc->nEntries % TOC_GROW_SIZE == 0))
-	{
-		tocSize = sizeof(TE3FFormat3DMF_TOC) + 
-		
-				(sizeof(TE3FFormat3DMF_TOCEntry) * (toc->nEntries + TOC_GROW_SIZE - 1));
-		if(Q3Memory_Reallocate(&fileFormatPrivate->toc,tocSize) != kQ3Success)
-			return (kQ3Failure);
-			
-		toc = fileFormatPrivate->toc;
-	}
-		
-	if (forceTOC == kQ3True)
-	{
-		toc->tocEntries[toc->nEntries].refID = toc->refSeed;
-		toc->refSeed++;
-	}
-	else
-		toc->tocEntries[toc->nEntries].refID = 0;
-		
-	toc->tocEntries[toc->nEntries].object = Q3Shared_GetReference(theObject);
-	toc->tocEntries[toc->nEntries].objType = fileFormatPrivate->lastObjectType;
-	toc->tocEntries[toc->nEntries].objLocation.hi = 0;
-	toc->tocEntries[toc->nEntries].objLocation.lo = 0; // will be filled in e3ffw_3DMF_write_objects
-	
-	fileFormatPrivate->lastTocIndex = toc->nEntries;
-	
-	(*fileFormatPrivate->index)[ theObject ] = toc->nEntries;
-
-	toc->nEntries++;
-	
-	
-	*theReference = Q3Shared_GetReference(theObject);
 		
 	return (kQ3Success);
 }
