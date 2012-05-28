@@ -73,6 +73,8 @@ TQ3Status			E3GeneralPolygon_Submit(const TQ3GeneralPolygonData *generalPolygonD
 TQ3Status			E3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolygonData *generalPolygonData);
 TQ3Status			E3GeneralPolygon_GetData(TQ3GeometryObject generalPolygon, TQ3GeneralPolygonData *generalPolygonData);
 TQ3Status			E3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData);
+TQ3Uns32			E3GeneralPolygon_GetNumContours(TQ3GeometryObject theGeneralPolygon);
+TQ3Uns32			E3GeneralPolygon_GetNumVertices(TQ3GeometryObject theGeneralPolygon, TQ3Uns32 contourIndex);
 TQ3Status			E3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3Point3D *position);
 TQ3Status			E3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, const TQ3Point3D *position);
 TQ3Status			E3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet *attributeSet);
