@@ -5,7 +5,7 @@
         Quesa Utility Toolkit - Mac.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1502,86 +1502,78 @@ Qut_SelectMetafileToOpen(void)
 //		QutMac_SelectMetafileToSaveTo : Select a metafile to save to.
 //-----------------------------------------------------------------------------
 Boolean
-QutMac_SelectMetafileToSaveTo(FSSpec* theFSSpec,TQ3FileMode* fileMode)
-{	Str255				thePrompt = "\pSave a model:";
+QutMac_SelectMetafileToSaveTo( FSRef* outFileRef )
+{
+	Boolean			didSelect = false;
+	CFStringRef		resultName = NULL;
+	NavDialogCreationOptions	dialogOptions;
+	NavEventUPP         navEventFilterUPP;
+	NavDialogRef		dialogRef = NULL;
 	OSType			fileType =  '3DMF';
 	OSType			creator =  'ttxt';// what will be the creator for the viewer?
-	const TQ3Int16		numTypes  = 1;
-		/*
-		Jose'
-		note we have to found a global mechanism to choose the supported file formats
-	*/
-	NavEventUPP         navEventFilterUPP;
- 	NavDialogOptions    dialogOptions;
-    AEKeyword           theAEKeyword;
-    AEDesc              theAEDesc;
-	NavReplyRecord      navReply;
-#if !TARGET_API_MAC_CARBON
-	StandardFileReply	sfReply;
-#endif
-	OSErr				theErr;
-
-
-
-	// If we have Navigation services, use it
-	if ((TQ3Uns32) NavLibraryVersion != (TQ3Uns32) kUnresolvedCFragSymbolAddress && NavServicesCanRun())
-		{
-		// Initialise
-		NavLoad();
-		NavGetDefaultDialogOptions(&dialogOptions);
+	NavReplyRecord	navReply;
+    AEDesc			theAEDesc;
+	FSRef			dirRef;
+	
+	navEventFilterUPP = NewNavEventUPP(qut_handle_nav_event);
+	
+	dialogOptions.version = kNavDialogCreationOptionsVersion;
+	NavGetDefaultDialogCreationOptions( &dialogOptions );
+	dialogOptions.optionFlags |= kNavPreserveSaveFileExtension;
+	dialogOptions.saveFileName = CFSTR("untitled.3dmf");
+	
+	NavCreatePutFileDialog( &dialogOptions, fileType, creator, navEventFilterUPP,
+		NULL, &dialogRef );
+	
+	NavDialogRun( dialogRef );
+	
+	navReply.version = kNavReplyRecordVersion;
+	NavDialogGetReply( dialogRef, &navReply );
+	
+	if (navReply.validRecord)
+	{
+		// Get the destination directory
+		OSStatus err = AEGetNthDesc( &navReply.selection, 1, typeFSRef, NULL, &theAEDesc );
+		err = AEGetDescData( &theAEDesc, &dirRef, sizeof(FSRef) );
 		
-		dialogOptions.dialogOptionFlags -= kNavAllowMultipleFiles;
-		dialogOptions.dialogOptionFlags += kNavNoTypePopup;
-		memcpy(&dialogOptions.message, thePrompt, thePrompt[0]+1);
-		navEventFilterUPP = NewNavEventUPP(qut_handle_nav_event);
-
- 
-
-
-		// Prompt for the file
-		theErr = NavPutFile(NULL, &navReply, &dialogOptions, navEventFilterUPP,
-							fileType, creator, NULL);
-
-
-		// is there really need to call NavCompleteSave?
-
-		// Clean up
-		NavUnload();
-		DisposeNavEventUPP(navEventFilterUPP);
-
-		if (!navReply.validRecord)
-			return(FALSE);
-
-
-
-		// Extract the file
-		AEGetNthDesc(&navReply.selection, 1, typeFSS, &theAEKeyword, &theAEDesc);
-		AEGetDescData(&theAEDesc, theFSSpec, sizeof(FSSpec));
-		}
-
-
-
-	// Otherwise, use Standard File (but not on Carbon!)
-	else
+		// Convert name to HFS form
+		HFSUniStr255	name255;
+		name255.length = CFStringGetLength( navReply.saveFileName );
+		if (name255.length > 255)
 		{
-#if TARGET_API_MAC_CARBON
-		return(FALSE);
-#else
-		StandardPutFile(thePrompt, NULL, &sfReply);
-
-		if (!sfReply.sfGood)
-			return(FALSE);
-		
-		*theFSSpec = sfReply.sfFile;
-#endif
+			name255.length = 255;
 		}
+		CFRange nameRange = CFRangeMake( 0, name255.length );
+		CFStringGetCharacters( navReply.saveFileName, nameRange, name255.unicode );
+		
+		// If replacing, nuke the old file.
+		if (navReply.replacing)
+		{
+			FSRef oldFile;
+			if (noErr == FSMakeFSRefUnicode( &dirRef, name255.length, name255.unicode,
+				kTextEncodingUnknown, &oldFile ))
+			{
+				FSDeleteObject( &oldFile );
+			}
+		}
+		
+		// Create a new empty file
+		FSCatalogInfo catInfo;
+		memset( &catInfo, 0, sizeof(catInfo) );
+		FileInfo* fileInfo = (FileInfo*) catInfo.finderInfo;
+		fileInfo->fileType = fileType;
+		fileInfo->fileCreator = creator;
+		
+		
+		didSelect = (noErr == FSCreateFileUnicode( &dirRef, name255.length,
+		name255.unicode, kFSCatInfoFinderInfo, &catInfo, outFileRef, NULL ) );
+	}
+	
+	DisposeNavEventUPP(navEventFilterUPP);
+	NavDialogDispose( dialogRef );
+	NavDisposeReply( &navReply );
 
-		// Blind delete
-	FSpDelete(theFSSpec);
-
-	theErr = FSpCreate(theFSSpec,creator, fileType, smSystemScript);
-
-	return(theErr == noErr);
+	return didSelect;
 }
 
 
@@ -1591,16 +1583,17 @@ QutMac_SelectMetafileToSaveTo(FSSpec* theFSSpec,TQ3FileMode* fileMode)
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 Qut_SelectMetafileToSaveTo(TQ3FileMode* fileMode)
-{	FSSpec				theFSSpec;
+{
+	FSRef				theFSRef;
 	TQ3StorageObject	theStorage = NULL;
 
 
 
 	// If we have Navigation services, use it
-	if (QutMac_SelectMetafileToSaveTo(&theFSSpec, fileMode))
+	if (QutMac_SelectMetafileToSaveTo( &theFSRef ))
 		{
 		// Create a storage object for the file
-		theStorage = Q3FSSpecStorage_New(&theFSSpec);
+		theStorage = Q3FSRefStorage_New(&theFSRef);
 		}
 	return(theStorage);
 }
