@@ -3468,6 +3468,40 @@ Q3GeneralPolygon_EmptyData (
 
 /*!
  *  @function
+ *      Q3GeneralPolygon_GetNumContours
+ *  @discussion
+ *      Get the number of contours in a general polygon.
+ *
+ *  @param generalPolygon   A general polygon object.
+ *  @result                 Number of contours in the general polygon. Zero if invalid parameter.
+ */
+Q3_EXTERN_API_C ( TQ3Uns32  )
+Q3GeneralPolygon_GetNumContours (
+    TQ3GeometryObject             generalPolygon
+);
+
+
+
+/*!
+ *  @function
+ *      Q3GeneralPolygon_GetNumVertices
+ *  @discussion
+ *      Get the number of vertices in a specific contour in a general polygon.
+ *
+ *  @param generalPolygon   A general polygon object.
+ *  @param contourIndex		A 0-based index into the array of contours.
+ *  @result                 Number of vertices in the specified contour in the general polygon. Zero if invalid parameters.
+ */
+Q3_EXTERN_API_C ( TQ3Uns32  )
+Q3GeneralPolygon_GetNumVertices (
+    TQ3GeometryObject             generalPolygon,
+    TQ3Uns32                      contourIndex
+);
+
+
+
+/*!
+ *  @function
  *      Q3GeneralPolygon_GetVertexPosition
  *  @discussion
  *      Get the 3D position of a vertex in a general polygon.

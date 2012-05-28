@@ -4004,6 +4004,57 @@ Q3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData)
 
 
 //=============================================================================
+//      Q3GeneralPolygon_GetNumContours : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+Q3GeneralPolygon_GetNumContours(TQ3GeometryObject generalPolygon)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( generalPolygon ), 0);
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3GeneralPolygon_GetNumContours(generalPolygon));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3GeneralPolygon_GetNumVertices : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+Q3GeneralPolygon_GetNumVertices(TQ3GeometryObject generalPolygon, TQ3Uns32 contourIndex)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( generalPolygon ), 0);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3GeneralPolygon_GetNumVertices(generalPolygon, contourIndex));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3GeneralPolygon_GetVertexPosition : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status

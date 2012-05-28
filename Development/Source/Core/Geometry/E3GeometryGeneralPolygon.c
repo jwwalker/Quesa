@@ -510,12 +510,49 @@ E3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData)
 
 
 //=============================================================================
+//      E3GeneralPolygon_GetNumContours : Get the number of contours.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+E3GeneralPolygon_GetNumContours(TQ3GeometryObject theGeneralPolygon)
+	{
+	E3GeneralPolygon* generalPolygon = (E3GeneralPolygon*) theGeneralPolygon ;
+	
+	return generalPolygon->instanceData.numContours ;
+	}
+
+
+
+
+
+//=============================================================================
+//      E3GeneralPolygon_GetNumVertices : Get the number of vertices in specified contour.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+E3GeneralPolygon_GetNumVertices(TQ3GeometryObject theGeneralPolygon, TQ3Uns32 contourIndex)
+	{
+	E3GeneralPolygon* generalPolygon = (E3GeneralPolygon*) theGeneralPolygon ;
+	
+	if ( contourIndex >= generalPolygon->instanceData.numContours )
+		return 0 ;
+		
+	return generalPolygon->instanceData.contours [ contourIndex ].numVertices ;
+	}
+
+
+
+
+
+//=============================================================================
 //      E3GeneralPolygon_GetVertexPosition : Get the position of a vertex.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3GeneralPolygon_GetVertexPosition(TQ3GeometryObject theGeneralPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3Point3D *position)
 	{
 	E3GeneralPolygon* generalPolygon = (E3GeneralPolygon*) theGeneralPolygon ;
+	
+	if ( contourIndex >= generalPolygon->instanceData.numContours
+	|| pointIndex >= generalPolygon->instanceData.contours [ contourIndex ].numVertices )
+		return kQ3Failure ;
 
 	// Get the vertex position
 	*position = generalPolygon->instanceData.contours[contourIndex].vertices [ pointIndex ].point ;
@@ -535,6 +572,9 @@ E3GeneralPolygon_SetVertexPosition(TQ3GeometryObject theGeneralPolygon, TQ3Uns32
 	{
 	E3GeneralPolygon* generalPolygon = (E3GeneralPolygon*) theGeneralPolygon ;
 
+	if ( contourIndex >= generalPolygon->instanceData.numContours
+	|| pointIndex >= generalPolygon->instanceData.contours [ contourIndex ].numVertices )
+		return kQ3Failure ;
 
 	// Set the vertex position
 	generalPolygon->instanceData.contours[contourIndex].vertices [ pointIndex ].point = *position ;
@@ -556,6 +596,10 @@ E3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject theGeneralPolygon, TQ3U
 	{
 	E3GeneralPolygon* generalPolygon = (E3GeneralPolygon*) theGeneralPolygon ;
 
+	if ( contourIndex >= generalPolygon->instanceData.numContours
+	|| pointIndex >= generalPolygon->instanceData.contours [ contourIndex ].numVertices )
+		return kQ3Failure ;
+
 	// Get the vertex attribute set
 	E3Shared_Acquire ( attributeSet, generalPolygon->instanceData.contours [ contourIndex ].vertices [ pointIndex ].attributeSet ) ;
 
@@ -573,6 +617,10 @@ TQ3Status
 E3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject theGeneralPolygon, TQ3Uns32 contourIndex, TQ3Uns32 pointIndex, TQ3AttributeSet attributeSet)
 	{
 	E3GeneralPolygon* generalPolygon = (E3GeneralPolygon*) theGeneralPolygon ;
+
+	if ( contourIndex >= generalPolygon->instanceData.numContours
+	|| pointIndex >= generalPolygon->instanceData.contours [ contourIndex ].numVertices )
+		return kQ3Failure ;
 
 	// Set the vertex attribute set
 	E3Shared_Replace ( & generalPolygon->instanceData.contours [ contourIndex ].vertices [ pointIndex ].attributeSet, attributeSet ) ;
