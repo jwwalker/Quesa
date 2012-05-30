@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -195,8 +195,9 @@ public :
 
 
 // root object data
-struct OpaqueTQ3Object
-	{
+class OpaqueTQ3Object
+{
+public:
 	enum
 		{
 		eClassDepth = 0 ,
@@ -285,7 +286,7 @@ public :
 	friend TQ3Status			e3root_new ( TQ3Object theObject, void *privateData, void *paramData ) ;
 	friend TQ3Status			e3root_duplicate ( TQ3Object fromObject, const void *fromPrivateData, TQ3Object toObject, void *toPrivateData) ;
 	friend void					e3root_delete ( TQ3Object theObject, void *privateData ) ;
-	} ;
+};
 
 
 
