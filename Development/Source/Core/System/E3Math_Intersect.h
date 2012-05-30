@@ -5,7 +5,7 @@
         Header file for E3Math_Intersect.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,28 @@ TQ3Boolean		E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay,
 										const TQ3BoundingBox *theBounds,
 										TQ3Point3D *hitPoint);
 
+
+/*!
+	@function	E3Ray3D_IntersectTriangle
+	@abstract	Find the intersection between a ray and a triangle.
+	@discussion	If the ray is in the plane of the triangle, we report no hit
+				even though there may mathematically be infinitely many points
+				of intersection.
+				
+				If we do detect a hit, then hitPoint->u and hitPoint->v are two
+				barycentric coordinates of the intersection point, and
+				hitPoint->w is the distance along the ray.  To be precise,
+				theRay->origin + hitPoint->w * theRay->direction ==
+				(1.0 - hitPoint->u - hitPoint->v) * point1 +
+				hitPoint->u * point2 + hitPoint->v * point3.
+	@param		theRay			A ray.
+	@param		point1			A point (a vertex of a triangle).
+	@param		point2			A point (a vertex of a triangle).
+	@param		point3			A point (a vertex of a triangle).
+	@param		cullBackfacing	Whether to omit a hit on the back face.
+	@param		hitPoint		Receives intersection data as described above.
+	@result		True if we detected a hit.
+*/
 TQ3Boolean		E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 													const TQ3Point3D	*point1,
 													const TQ3Point3D	*point2,
