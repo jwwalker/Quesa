@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF Binary FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -195,7 +195,7 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 			// try reading it as object
 
 			fformatData->MFData.baseData.currentStoragePosition = elemLocation;
-			result = Q3File_ReadObject (theFile);
+			result = theFile->ReadObject();
 			if (result != NULL)
 				{
 				elemType = Q3Object_GetLeafType(result);
@@ -241,7 +241,7 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 					{
 					// try reading it as object
 					fformatData->MFData.baseData.currentStoragePosition = elemLocation;
-					result = Q3File_ReadObject (theFile);
+					result = theFile->ReadObject();
 					if (result != NULL)
 						{
 						if (elemType == 0x7266726E)	// 'rfrn' - Reference
@@ -687,7 +687,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 							// still not read, read it
 							previousContainer = instanceData->MFData.baseData.currentStoragePosition;
 							instanceData->MFData.baseData.currentStoragePosition = instanceData->MFData.toc->tocEntries[i].objLocation.lo;
-							result = Q3File_ReadObject (theFile);
+							result = theFile->ReadObject();
 							instanceData->MFData.baseData.currentStoragePosition = previousContainer;
 							}
 						// return a shared object;
@@ -725,7 +725,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 			// align position (just in case)
 			instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
 			// read the next object
-			result = Q3File_ReadObject (theFile);
+			result = theFile->ReadObject();
 			break;
 			}
 
@@ -737,7 +737,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 			instanceData->MFData.inContainer = kQ3True;
 			
 			// read the root object, is its responsibility read its childs
-			result = Q3File_ReadObject (theFile);
+			result = theFile->ReadObject();
 			
 			if(result != NULL && tocEntryIndex >= 0){
 				// save in TOC
@@ -757,7 +757,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 				
 				while(Q3File_IsEndOfFile(theFile) == kQ3False)
 					{
-					childObject = Q3File_ReadObject(theFile);
+					childObject = theFile->ReadObject();
 					if(childObject != NULL) {
 						if(Q3Object_IsType(childObject, kQ3SharedTypeEndGroup) == kQ3True)
 							{

@@ -76,7 +76,7 @@ e3read_3dmf_addfloats(TQ3Object attributeSet, TQ3AttributeType theType,
 
 	// Read the floats
 	for (n = 0; n < numFloats;  n++)
-		qd3dStatus = Q3Float32_Read(&theFloats[n], theFile);
+		qd3dStatus = E3Float32_Read(&theFloats[n], (E3File*)theFile);
 
 
 
