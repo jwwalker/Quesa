@@ -153,7 +153,7 @@ public :
 											E3ClassInfo*	newParent
 			 								) ; // constructor	
 			 								
-	friend struct OpaqueTQ3Object ;
+	friend class OpaqueTQ3Object ;
 	} ;
 
 

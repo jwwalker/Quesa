@@ -5,7 +5,7 @@
         Header file for E3Set.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -82,7 +82,7 @@ public :
 													E3ClassInfo*	newParent
 					 								) ; // constructor	
 	friend class E3Set ;
-	friend struct OpaqueTQ3Object ;
+	friend class OpaqueTQ3Object ;
 	} ;
 
 

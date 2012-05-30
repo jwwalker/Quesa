@@ -5,7 +5,7 @@
         Header file for E3ClassTree.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -79,7 +79,7 @@ enum
 //-----------------------------------------------------------------------------
 
 class E3ClassInfo ;
-struct OpaqueTQ3Object ;
+class OpaqueTQ3Object ;
 
 // Nodes in the class tree have all their fields private
 typedef class E3ClassInfo *E3ClassInfoPtr ;
@@ -159,7 +159,7 @@ public :
 	void				SetAbstract ( void ) { abstract = kQ3True ; }
 	
 	friend class E3ClassTree ;
-	friend struct OpaqueTQ3Object ;
+	friend class OpaqueTQ3Object ;
 	} ;
 
 
