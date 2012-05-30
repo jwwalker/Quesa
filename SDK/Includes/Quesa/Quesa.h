@@ -860,7 +860,7 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XMetaHandler)(
 	@typedef		TQ3Object
 	@abstract		Quesa object opaque pointer.
 */
-typedef struct OpaqueTQ3Object                  *TQ3Object;
+typedef class OpaqueTQ3Object                  *TQ3Object;
 
 typedef TQ3Object                               TQ3ElementObject;
 typedef TQ3Object                               TQ3SharedObject;

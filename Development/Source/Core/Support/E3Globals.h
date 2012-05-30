@@ -406,7 +406,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageCloseMethod)(TQ3StorageObject st
 // Definition of TQ3Object
 #if !QUESA_OBJECTS_ARE_OPAQUE
 
-typedef struct OpaqueTQ3Object {
+typedef class OpaqueTQ3Object {
 	TQ3ObjectType		quesaTag;
 	E3ClassInfoPtr		theClass;
 	void				*instanceData;
