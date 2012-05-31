@@ -424,104 +424,49 @@ IRGeometry_Generate_Triangle_Flags(TQ3InteractiveData	*instanceData,
 									const TQ3Point3D	*thePoints,
 									const TQ3Vector3D	*theNormals,
 									TQ3TriFlags			*theFlags)
-{	TQ3Uns32		sizeTriToEye, sizeDotProducts, sizeDotLessThanZero;
-	TQ3Uns32		offTriToEye, offDotProducts, offDotLessThanZero;
-	TQ3Boolean		*dotLessThanZero;
-	TQ3Vector3D		orthoTriToEye;
-	float			*dotProducts;
-	TQ3Status		qd3dStatus;
-	TQ3Uns32		n, theSize;
-	TQ3Vector3D		*triToEye;
-
-
+	{
+	TQ3Uns32		n ;
 
 	// If we're to render everything, mark everything as visible
-	if (instanceData->stateBackfacing == kQ3BackfacingStyleBoth)
+	if ( instanceData->stateBackfacing != kQ3BackfacingStyleRemove )
 		{
-		for (n = 0; n < numTriangles; n++)
-			theFlags[n] = kQ3TriFlagVisible;
+		for ( n = 0 ; n < numTriangles ; ++n )
+			theFlags [ n ] = kQ3TriFlagVisible ;
 			
-		return(kQ3Success);
+		return kQ3Success ;
 		}
-
-
-
-	// Grow the geometry scratch space
-	//
-	// The element size in our slab is a single byte, as we just want a
-	// growable buffer to store our temporary items into.
-	sizeTriToEye        = (numTriangles * sizeof(TQ3Vector3D));
-	sizeDotProducts     = (numTriangles * sizeof(float));
-	sizeDotLessThanZero = (numTriangles * sizeof(TQ3Boolean));
-
-	theSize    = (sizeTriToEye + sizeDotProducts + sizeDotLessThanZero);
-	qd3dStatus = Q3SlabMemory_SetCount(instanceData->geomScratchSlab, theSize);
-	if (qd3dStatus != kQ3Success)
-		return(qd3dStatus);
-
-
-
-	// Set up the pointers
-	offTriToEye        = 0;
-	offDotProducts     = offTriToEye    + sizeTriToEye;
-	offDotLessThanZero = offDotProducts + sizeDotProducts;
-
-	triToEye        = (TQ3Vector3D *) Q3SlabMemory_GetData(instanceData->geomScratchSlab, offTriToEye);
-	dotProducts     = (float       *) Q3SlabMemory_GetData(instanceData->geomScratchSlab, offDotProducts);
-	dotLessThanZero = (TQ3Boolean  *) Q3SlabMemory_GetData(instanceData->geomScratchSlab, offDotLessThanZero);
-
-
-
-	// Verify our pointers are aligned
-	//
-	// Not strictly an error, but for performance we want to make sure that our pointers
-	// are at least 4-byte aligned (or we'll take a large performance hit on PowerPC). All
-	// our items are multiples of 4 bytes at present, but this will catch us if we allocate
-	// any single byte entries in the future.
-	Q3_ASSERT(((intptr_t) triToEye)        % 4 == 0);
-	Q3_ASSERT(((intptr_t) dotProducts)     % 4 == 0);
-	Q3_ASSERT(((intptr_t) dotLessThanZero) % 4 == 0);
-
 
 
 	// Determine the eye->triangle vectors to use
 	//
 	// For orthographic cameras we can use the camera's view direction (in local coordinates),
 	// but for perspective cameras we need a vector from the eye position to one of the vertices.
-	if (instanceData->cameraIsOrtho)
+	
+	if ( instanceData->cameraIsOrtho )
 		{
-		Q3Vector3D_Negate( &instanceData->stateLocalCameraViewVector, &orthoTriToEye );
+		TQ3Vector3D orthoTriToEye ;
+		Q3Vector3D_Negate ( &instanceData->stateLocalCameraViewVector , &orthoTriToEye ) ;
 
-		for (n = 0; n < numTriangles; n++)
-			triToEye[n] = orthoTriToEye;
+		// Set up the triangle flags
+		
+		for ( n = 0 ; n < numTriangles ; ++n )
+			theFlags [ n ] = ( Q3FastVector3D_Dot ( &theNormals [ n ] , &orthoTriToEye ) < 0.0f ) ? kQ3TriFlagCulled : kQ3TriFlagVisible ;
 		}
 	else
 		{
-		for (n = 0; n < numTriangles; n++)
-			Q3FastPoint3D_Subtract(&instanceData->stateLocalCameraPosition, &thePoints[theIndices[n * 3]], &triToEye[n]);
-		}
-
-
-
-	// Calculate the dot products
-	qd3dStatus = Q3Vector3D_DotArray(theNormals, triToEye, dotProducts, dotLessThanZero, numTriangles, sizeof(TQ3Vector3D), sizeof(float), sizeof(TQ3Boolean));
-
-
-
-	// Set up the triangle flags
-	if (qd3dStatus == kQ3Success)
-		{
-		for (n = 0; n < numTriangles; n++)
+		// Set up the triangle flags
+		
+		for ( n = 0 ; n < numTriangles ; ++n )
 			{
-			if (instanceData->stateBackfacing == kQ3BackfacingStyleRemove && dotLessThanZero[n])
-				theFlags[n] = kQ3TriFlagCulled;
-			else
-				theFlags[n] = kQ3TriFlagVisible;
+			TQ3Vector3D triToEye ;
+			Q3FastPoint3D_Subtract ( &instanceData->stateLocalCameraPosition , &thePoints [ theIndices [ n * 3 ] ] , &triToEye ) ;
+			// Calculate the dot product
+			theFlags [ n ] = ( Q3FastVector3D_Dot ( &theNormals [ n ] , &triToEye ) < 0.0f ) ? kQ3TriFlagCulled : kQ3TriFlagVisible ;
 			}
 		}
 	
-	return(qd3dStatus);
-}
+	return kQ3Success ;
+	}
 
 
 
