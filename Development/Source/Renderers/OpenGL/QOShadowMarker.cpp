@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,7 +49,8 @@
     	2004). 15-18th June, Singapore, 2004, ACM Press, New York, New York,
     	pp. 250-253.
     	Available on web:
-    	<http://www.hitlabnz.org/publications/2004-Graphite-ShadowVols-Aldridge.pdf>
+    	<http://www.hitlabnz.org/administrator/components/com_jresearch/files/
+		publications/2004-Graphite-ShadowVols-Aldridge.pdf>
     ___________________________________________________________________________
 */
 
