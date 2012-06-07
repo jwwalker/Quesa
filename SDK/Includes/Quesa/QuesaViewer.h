@@ -10,7 +10,7 @@
         easily display 3D models for the user's inspection and manipulation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -214,8 +214,8 @@ enum {
     kQ3ViewerDraggingOutOff                     = (1 << 16),
     kQ3ViewerButtonOptions                      = (1 << 17),
     kQ3ViewerPaneGrowBox                        = (1 << 18),
-    kQ3ViewerDefault                            = (1 << 31),
-    kQ3ViewerSize32                             = 0xFFFFFFFF
+    kQ3ViewerDefault                            = (1UL << 31),
+    kQ3ViewerSize32                             = 0x7FFFFFFF
 };
 
 #endif // QUESA_OS_MACINTOSH

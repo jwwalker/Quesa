@@ -186,7 +186,7 @@ static TQ3Uns32 e3viewer_newFlagsToOld(TQ3Uns32 newFlags)
 	TQ3Uns32 oldFlags = 0L;
 
 	if (kQ3ViewerFlagDefault & newFlags)
-		oldFlags = (TQ3Uns32)kQ3ViewerDefault;
+		oldFlags = kQ3ViewerDefault;
 
 	if (newFlags & kQ3ViewerFlagShowBadge)			oldFlags |= kQ3ViewerShowBadge;
 	if (newFlags & kQ3ViewerFlagActive)				oldFlags |= kQ3ViewerActive;

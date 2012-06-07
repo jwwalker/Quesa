@@ -5,7 +5,7 @@
 		Header file for E3ArrayOrList.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -100,7 +100,7 @@ extern "C" {
 //-----------------------------------------------------------------------------
 typedef enum TE3Form {
 	kE3FormArray_private			= 0,
-	kE3FormList_private				= 1 << 31
+	kE3FormList_private				= 1UL << 31
 } TE3Form;
 
 
@@ -111,7 +111,7 @@ typedef enum TE3Form {
 //		TE3KernalMask : Masks for accessing values in kernal.
 //-----------------------------------------------------------------------------
 typedef enum TE3KernalMask {
-	kE3KernalMaskType_private		= 1 << 31,
+	kE3KernalMaskType_private		= 1UL << 31,
 	kE3KernalMaskLength_private		= ~kE3KernalMaskType_private
 } TE3KernalMask;
 
