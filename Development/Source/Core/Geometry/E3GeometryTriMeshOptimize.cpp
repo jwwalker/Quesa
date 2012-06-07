@@ -5,7 +5,7 @@
         Functions to optimize a TriMesh for use by the interactive renderer.
 
     COPYRIGHT:
-        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -962,7 +962,7 @@ void	TriMeshOptimizer::EnsureFaceNormals()
 			}
 			else
 			{
-				float	len = sqrt( lenSq );
+				float	len = sqrtf( lenSq );
 				Q3FastVector3D_Scale( &theNormal, 1.0f/len, &theNormal );
 			}
 			mComputedFaceNormals[i] = theNormal;

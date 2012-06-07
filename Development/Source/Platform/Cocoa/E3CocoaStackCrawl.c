@@ -424,7 +424,7 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 				(mh32.cpusubtype == mh->cpusubtype))
 			{
 				offset = 0;
-				*size = finfo.st_size;
+				*size = (size_t)finfo.st_size;
 			}
 		}
 		

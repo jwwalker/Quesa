@@ -5,7 +5,7 @@
         Implementation of Quesa NURB Curve geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -524,7 +524,7 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 				
 				
 				if( b == a ) {
-					step /= 2.0 ;
+					step /= 2.0f ;
 					
 					increasing = kQ3True ;
 					b = a + step ;
@@ -534,7 +534,7 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 					// If last iteration we overstepped,
 					// half the step and go the other direction
 					if( increasing )
-						step /= 2.0 ;
+						step /= 2.0f ;
 					
 					increasing = kQ3False ;				
 					b -= step ;
@@ -692,7 +692,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 				
 				
 				if( b == a ) {
-					step /= 2.0 ;
+					step /= 2.0f ;
 					
 					increasing = kQ3True ;
 					b = a + step ;
@@ -702,7 +702,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 					// If last iteration we overstepped,
 					// half the step and go the other direction
 					if( increasing )
-						step /= 2.0 ;
+						step /= 2.0f ;
 					
 					increasing = kQ3False ;				
 					b -= step ;

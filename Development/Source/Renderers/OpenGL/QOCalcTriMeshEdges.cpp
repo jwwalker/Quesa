@@ -5,7 +5,7 @@
         Source code to compute edges of a TriMesh.
 
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -135,9 +135,9 @@ static void CreateRedundantEdges(
 	
 	for ( TQ3Uns32 i = 0; i < inData.numTriangles; ++i )
 	{
-		TQ3TriangleEdges	theEdges = {
+		TQ3TriangleEdges	theEdges = {{
 			edgeNum, edgeNum + 1, edgeNum + 2
-		};
+		}};
 		outFacesToEdges[ faceNum++ ] = theEdges;
 		
 		const TQ3TriMeshTriangleData& theFace( inData.triangles[i] );
