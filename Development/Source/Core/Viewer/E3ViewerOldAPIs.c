@@ -8,7 +8,7 @@
         through to the newer, unified Quesa APIs.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -186,7 +186,7 @@ static TQ3Uns32 e3viewer_newFlagsToOld(TQ3Uns32 newFlags)
 	TQ3Uns32 oldFlags = 0L;
 
 	if (kQ3ViewerFlagDefault & newFlags)
-		oldFlags = kQ3ViewerDefault;
+		oldFlags = (TQ3Uns32)kQ3ViewerDefault;
 
 	if (newFlags & kQ3ViewerFlagShowBadge)			oldFlags |= kQ3ViewerShowBadge;
 	if (newFlags & kQ3ViewerFlagActive)				oldFlags |= kQ3ViewerActive;

@@ -12,7 +12,7 @@
 		which this is derived.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -155,8 +155,8 @@ static char *MachOCopySymbolMapped(const MachOHeader *mh,uintptr_t pc,uintptr_t 
 static const MachOLoadCommand *MachOGetLoadCommand(const MachOHeader *mh,uint32_t cmd,const MachOLoadCommand *after);
 static const MachOSegmentCommand *MachOGetSegmentCommand(const MachOHeader *mh,const char *segname);
 static const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *size);
-static uint32_t MachOReadInt32(const void *addr);
-static uint32_t MachOReadSwappedInt32(const void *addr);
+static int32_t MachOReadInt32(const void *addr);
+static int32_t MachOReadSwappedInt32(const void *addr);
 
 // ---------------------------------------------------------------------------
 // MachOCopySymbol													  [static]
@@ -361,7 +361,7 @@ const MachOSegmentCommand *MachOGetSegmentCommand(const MachOHeader *mh,const ch
 //
 const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *size)
 {
-	uint32_t				(*read32)(const void*) = NULL;
+	integer_t				(*read32)(const void*) = NULL;
 	MachOFatArch			*farchs = NULL;
 	const MachOHeader		*arch = NULL;
 	int						fd = -1;
@@ -369,7 +369,7 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 	struct stat				finfo;
 	MachOFatHeader			fh;
 	uint32_t				index,narchs,offset = 0;
-	size_t					amount;
+	ssize_t					amount;
 	MachOHeader32			mh32;
 	
 	*size = 0;
@@ -379,7 +379,7 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 		((fd = open(path,O_RDONLY,0)) >= 0) &&
 		(fstat(fd,&finfo) == 0) &&
 		((finfo.st_mode & S_IFREG) != 0) &&
-		(!(finfo.st_size > 0xFFFFFFFFULL)) &&
+		(!(finfo.st_size > 0xFFFFFFFFLL)) &&
 		(finfo.st_size >= sizeof(MachOFatHeader)) &&
 		(pread(fd,&fh,sizeof(MachOFatHeader),0) == sizeof(MachOFatHeader)))
 	{
@@ -461,9 +461,9 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 // MachOReadInt32													  [static]
 // ---------------------------------------------------------------------------
 //
-uint32_t MachOReadInt32(const void *addr)
+int32_t MachOReadInt32(const void *addr)
 {
-	return *(uint32_t*)addr;
+	return *(int32_t*)addr;
 }
 
 
@@ -472,7 +472,7 @@ uint32_t MachOReadInt32(const void *addr)
 // MachOReadSwappedInt32											  [static]
 // ---------------------------------------------------------------------------
 //
-uint32_t MachOReadSwappedInt32(const void *addr)
+int32_t MachOReadSwappedInt32(const void *addr)
 {
 	return OSSwapInt32(*(uint32_t*)addr);
 }
@@ -554,7 +554,7 @@ E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex )
 {
 	const char*	theName = NULL;
 	
-	if ( (inCrawl != NULL) && (inIndex < inCrawl->numFrames) )
+	if ( (inCrawl != NULL) && (static_cast<TQ3Int32>(inIndex) < inCrawl->numFrames) )
 	{
 		uintptr_t	offset;
 		char*	symname;
@@ -581,7 +581,7 @@ E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex )
 			free( (void*) symname );
 			theName = textBuffer;
 		}
-		else if (inIndex + 1 < inCrawl->numFrames)
+		else if (static_cast<TQ3Int32>(inIndex) + 1 < inCrawl->numFrames)
 		{
 			snprintf( textBuffer, kMaxTextLength, FORMAT_UINTPTR,
 				inCrawl->frames[inIndex].pc );
