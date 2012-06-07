@@ -5,7 +5,7 @@
         Header file for E3Group.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -112,7 +112,7 @@ typedef enum
 */
 enum
 {
-	kQ3DisplayGroupStateMaskHasBoundingBox      = (1 << 31),
+	kQ3DisplayGroupStateMaskHasBoundingBox      = (1UL << 31),
 	kQ3DisplayGroupStateMaskPrivateBits			= kQ3DisplayGroupStateMaskHasBoundingBox
 };
 
