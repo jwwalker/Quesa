@@ -962,7 +962,7 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 		float	discriminant = b * b - 4.0f * a * c;
 		if (discriminant >= 0.0f)
 		{
-			float	rootDisc = sqrt( discriminant );
+			float	rootDisc = sqrtf( discriminant );
 			float	oneOver2a = 0.5f / a;
 			float	root1, root2;	// we will have root1 <= root2
 			if (a > 0.0f)

@@ -1296,7 +1296,7 @@ E3PointLight_SetData(TQ3LightObject theLight, const TQ3PointLightData *pointLigh
 	instanceData->instanceData.castsShadows = pointLightData->castsShadows;
 	instanceData->instanceData.attenuation = pointLightData->attenuation;
 	instanceData->instanceData.location = pointLightData->location;
-	instanceData->instanceData.radius = 0.0;
+	instanceData->instanceData.radius = 0.0f;
 	
 	Q3Shared_Edited ( theLight ) ;
 

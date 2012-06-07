@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -4700,8 +4700,8 @@ Q3Math_InvSquareRoot (
 	#define 	Q3Int64_ToLongLong( _n )	((((long long)_n.hi) << 32) | _n.lo)
 	#define		Q3LongLong_ToInt64( _longlong, _n )							\
 	do {																	\
-		_n.hi = _longlong >> 32;											\
-		_n.lo = _longlong & 0xFFFFFFFFULL;									\
+		_n.hi = (TQ3Int32)(_longlong >> 32);								\
+		_n.lo = (TQ3Uns32)(_longlong & 0xFFFFFFFFULL);						\
 	} while (0)
 #endif
 

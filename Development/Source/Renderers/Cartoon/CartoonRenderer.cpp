@@ -5,7 +5,7 @@
         Cartoon-style renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -543,7 +543,7 @@ TQ3Param2D* CCartoonRendererQuesa::GenShadeTVerts( int nVerts,
 		}
 		else
 		{
-			fDotProd = (1.0f - fabs(eyeNormal.z) / eyeNormalLen) * 0.5f;
+			fDotProd = (1.0f - fabsf(eyeNormal.z) / eyeNormalLen) * 0.5f;
 		}
 
 		if (fDotProd <= 0.0f)
@@ -752,7 +752,7 @@ float	CCartoonRendererQuesa::CalcContourWidth( TQ3ViewObject theView, TQ3TriMesh
 			}
 		}
 	}
-	float	maxDist = sqrt( maxDistSq );
+	float	maxDist = sqrtf( maxDistSq );
 	
 	// Compute the line width.
 	float	lineWidth = kMaxContourWidth;

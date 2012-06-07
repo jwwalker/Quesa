@@ -5,7 +5,7 @@
         Implementation of Quesa Ellipsoid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -263,8 +263,8 @@ e3geom_ellipsoid_create_disk_cap(
 	
 	for (u = 0, uAngle = uMin * kQ32Pi; u <= uSegments; ++u, uAngle += uDeltaAngle)
 	{
-		float	cosUAngle = cos(uAngle);
-		float	sinUAngle = sin(uAngle);
+		float	cosUAngle = cosf(uAngle);
+		float	sinUAngle = sinf(uAngle);
 		Q3FastVector3D_Scale( &major, cosUAngle, &vec );
 		Q3FastPoint3D_Vector3D_Add( &origin, &vec, &thePoint );
 		Q3FastVector3D_Scale( &minor, sinUAngle, &vec );
@@ -374,25 +374,25 @@ e3geom_ellipsoid_create_interior_cap(
 	TQ3Uns32	northExtra, southExtra;
 	if (isNorthCut)
 	{
-		Q3FastVector3D_Scale( &orientation, -cos( kQ3Pi * vMax ), &vec );
+		Q3FastVector3D_Scale( &orientation, -cosf( kQ3Pi * vMax ), &vec );
 		Q3FastPoint3D_Vector3D_Add( &origin, &vec, &thePoint );
 		northExtra = pNum;
 		points[ pNum ] = thePoint;
 		vertNormals[ pNum ] = theNormal;
 		uvs[ pNum ].u = 0.5f;
-		uvs[ pNum ].v = 0.5f * (1.0f - cos( kQ3Pi * vMax ));
+		uvs[ pNum ].v = 0.5f * (1.0f - cosf( kQ3Pi * vMax ));
 		++pNum;
 	}
 	
 	if (isSouthCut)
 	{
-		Q3FastVector3D_Scale( &orientation, -cos( kQ3Pi * vMin ), &vec );
+		Q3FastVector3D_Scale( &orientation, -cosf( kQ3Pi * vMin ), &vec );
 		Q3FastPoint3D_Vector3D_Add( &origin, &vec, &thePoint );
 		southExtra = pNum;
 		points[ pNum ] = thePoint;
 		vertNormals[ pNum ] = theNormal;
 		uvs[ pNum ].u = 0.5f;
-		uvs[ pNum ].v = 0.5f * (1.0f - cos( kQ3Pi * vMin ));
+		uvs[ pNum ].v = 0.5f * (1.0f - cosf( kQ3Pi * vMin ));
 		++pNum;
 	}
 	
@@ -407,8 +407,8 @@ e3geom_ellipsoid_create_interior_cap(
 
 	for (v = 0, vAngle = vMin * kQ3Pi; v <= vSegments; ++v, vAngle += vDeltaAngle)
 	{
-		float	cosVAngle = cos(vAngle);
-		float	sinVAngle = sin(vAngle);
+		float	cosVAngle = cosf(vAngle);
+		float	sinVAngle = sinf(vAngle);
 		Q3FastVector3D_Scale( &orientation, -cosVAngle, &vec );
 		Q3FastPoint3D_Vector3D_Add( &origin, &vec, &thePoint );
 		Q3FastVector3D_Scale( &radius, sinVAngle, &vec );
@@ -519,10 +519,10 @@ e3geom_ellipsoid_create_caps(
 	
 	if (isTopCapNeeded)
 	{
-		Q3FastVector3D_Scale( &geomData.orientation, -cos(kQ3Pi * vMax), &vec );
+		Q3FastVector3D_Scale( &geomData.orientation, -cosf(kQ3Pi * vMax), &vec );
 		Q3FastPoint3D_Vector3D_Add( &geomData.origin, &vec, &origin );
 		
-		float	sinVMax = sin( kQ3Pi * vMax );
+		float	sinVMax = sinf( kQ3Pi * vMax );
 		Q3FastVector3D_Scale( &geomData.majorRadius, sinVMax, &major );
 		Q3FastVector3D_Scale( &geomData.minorRadius, sinVMax, &minor );
 		
@@ -533,10 +533,10 @@ e3geom_ellipsoid_create_caps(
 	
 	if (isBottomCapNeeded)
 	{
-		Q3FastVector3D_Scale( &geomData.orientation, -cos(kQ3Pi * vMin), &vec );
+		Q3FastVector3D_Scale( &geomData.orientation, -cosf(kQ3Pi * vMin), &vec );
 		Q3FastPoint3D_Vector3D_Add( &geomData.origin, &vec, &origin );
 		
-		float	sinVMin = sin( kQ3Pi * vMin );
+		float	sinVMin = sinf( kQ3Pi * vMin );
 		Q3FastVector3D_Scale( &geomData.majorRadius, sinVMin, &major );
 		Q3FastVector3D_Scale( &geomData.minorRadius, sinVMin, &minor );
 		
@@ -548,8 +548,8 @@ e3geom_ellipsoid_create_caps(
 	if (isInteriorCapNeeded)
 	{
 		// uMin interior part
-		Q3FastVector3D_Scale( &geomData.majorRadius, cos( kQ32Pi * uMin ), &radius );
-		Q3FastVector3D_Scale( &geomData.minorRadius, sin( kQ32Pi * uMin ), &vec );
+		Q3FastVector3D_Scale( &geomData.majorRadius, cosf( kQ32Pi * uMin ), &radius );
+		Q3FastVector3D_Scale( &geomData.minorRadius, sinf( kQ32Pi * uMin ), &vec );
 		Q3FastVector3D_Add( &radius, &vec, &radius );
 		
 		e3geom_ellipsoid_create_interior_cap( geomData.origin, geomData.orientation, radius,
@@ -557,8 +557,8 @@ e3geom_ellipsoid_create_caps(
 			points, vertNormals, uvs, triangles, faceNormals );
 
 		// uMax interior part
-		Q3FastVector3D_Scale( &geomData.majorRadius, cos( kQ32Pi * uMax ), &radius );
-		Q3FastVector3D_Scale( &geomData.minorRadius, sin( kQ32Pi * uMax ), &vec );
+		Q3FastVector3D_Scale( &geomData.majorRadius, cosf( kQ32Pi * uMax ), &radius );
+		Q3FastVector3D_Scale( &geomData.minorRadius, sinf( kQ32Pi * uMax ), &vec );
 		Q3FastVector3D_Add( &radius, &vec, &radius );
 		
 		e3geom_ellipsoid_create_interior_cap( geomData.origin, geomData.orientation, radius,

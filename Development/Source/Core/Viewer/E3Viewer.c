@@ -5,7 +5,7 @@
         Quesa viewer library implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -247,13 +247,13 @@ static TQ3Boolean e3Rect_ContainsPoint(const TQ3Area *theRect, TQ3Int32 hPos, TQ
 //-----------------------------------------------------------------------------
 static float e3viewer_angle(float dx, float dy)
 {
-	float dist = sqrt(dx*dx + dy*dy);
+	float dist = sqrtf(dx*dx + dy*dy);
 	// OFI: compute dist via trig instead of sqrt!
 	float ang;
 	if (dx*dx > dy*dy) {
-		ang = dy > 0 ? acos(dx/dist) : kQ32Pi -acos(dx/dist);
+		ang = dy > 0 ? acosf(dx/dist) : kQ32Pi -acosf(dx/dist);
 	} else {
-		ang = dx > 0 ? asin(dy/dist) : kQ3Pi - asin(dy/dist);
+		ang = dx > 0 ? asinf(dy/dist) : kQ3Pi - asinf(dy/dist);
 	}
 	return (ang > 0 ? ang : ang+kQ32Pi);
 }
@@ -393,7 +393,7 @@ static void e3viewer_contentArea(TQ3ViewerData *data, TQ3Area *outArea)
 //			circle" shown while the user is rolling the model.
 //-----------------------------------------------------------------------------
 static TQ3GeometryObject e3viewer_createGuideCircle(void)
-{	TQ3Vertex3D			theVertices[kGuideCircleSides] = {0.0f};
+{	TQ3Vertex3D			theVertices[kGuideCircleSides] = {{{0.0f}}};
 	TQ3PolyLineData		polyLineData;
 	TQ3GeometryObject	thePolyLine;
 	TQ3Uns32			n;
@@ -411,8 +411,8 @@ static TQ3GeometryObject e3viewer_createGuideCircle(void)
 
 	for (n = 0; n < kGuideCircleSides; n++)
 		{
-		theVertices[n].point.x = cos(kQ32Pi * (float)n / (float)(kGuideCircleSides-1));
-		theVertices[n].point.y = sin(kQ32Pi * (float)n / (float)(kGuideCircleSides-1));
+		theVertices[n].point.x = cosf(kQ32Pi * (float)n / (float)(kGuideCircleSides-1));
+		theVertices[n].point.y = sinf(kQ32Pi * (float)n / (float)(kGuideCircleSides-1));
 		}
 
 	// Create the geometry
@@ -1307,8 +1307,8 @@ static void e3viewer_applyTruck(TQ3ViewerObject theViewer,
 		cameraData.placement.cameraLocation.z = 0.001f;
 		
 	cameraData.range.hither = cameraData.placement.cameraLocation.z - .6f;
-	if (cameraData.range.hither < 0.0005)
-		cameraData.range.hither = 0.0005;
+	if (cameraData.range.hither < 0.0005f)
+		cameraData.range.hither = 0.0005f;
 	cameraData.range.yon = cameraData.placement.cameraLocation.z + .6f;
 	
 	Q3Camera_SetData(camera, &cameraData);	
@@ -1356,7 +1356,7 @@ static void e3viewer_applyOrbit(TQ3ViewerObject theViewer, TQ3Int32 oldX,
 	TQ3Ray3D		ray;
 	TQ3Vector3D		oldPos = {0.0f}, newPos = {0.0f};
 	TQ3Boolean		good;
-	TQ3Sphere		ball = {0.0f};
+	TQ3Sphere		ball = {{0.0f}};
 	float			length;
 	TQ3Quaternion	q;
 	
@@ -1467,10 +1467,10 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 	// This code should be mostly portable, except for the contextData.
 	// But currently implemented only for Mac.
 	#if QUESA_SUPPORT_HITOOLBOX
-		TQ3MacDrawContextData			contextData = {(TQ3DrawContextClearImageMethod)0};
+		TQ3MacDrawContextData			contextData = {{(TQ3DrawContextClearImageMethod)0}};
 		TQ3DrawContextObject			drawContext;
 		TQ3RendererObject				renderer;
-		TQ3ViewAngleAspectCameraData	camData = {0};
+		TQ3ViewAngleAspectCameraData	camData = {{{{0}}}};
 		TQ3CameraObject					camera;
 		TQ3GroupObject					lights;
 		TQ3LightObject					light;
@@ -1520,7 +1520,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 
 		// Ambient light:
 		ambientData.isOn = kQ3True;
-		ambientData.brightness = 0.4;
+		ambientData.brightness = 0.4f;
 		ambientData.color.r = ambientData.color.g = ambientData.color.b = 1.0f;
 		light = Q3AmbientLight_New(&ambientData);
 		Q3Group_AddObject( lights, light );
@@ -1596,9 +1596,9 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer)
 
 		instanceData->mRadius = Q3Point3D_Distance(&bbox.max,&bbox.min) / 2;
 				 
-		instanceData->mTranslateToOrigin.x = (bbox.min.x - bbox.max.x) / 2.0;
-		instanceData->mTranslateToOrigin.y = (bbox.min.y - bbox.max.y) / 2.0;
-		instanceData->mTranslateToOrigin.z = (bbox.min.z - bbox.max.z) / 2.0;
+		instanceData->mTranslateToOrigin.x = (bbox.min.x - bbox.max.x) / 2.0f;
+		instanceData->mTranslateToOrigin.y = (bbox.min.y - bbox.max.y) / 2.0f;
+		instanceData->mTranslateToOrigin.z = (bbox.min.z - bbox.max.z) / 2.0f;
 		
 		scaleFactor = .5f / (instanceData->mRadius); // make a 1.0 diameter model
 
