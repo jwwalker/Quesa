@@ -5,7 +5,7 @@
         Quesa OpenGL draw context support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -374,19 +374,19 @@ gldrawcontext_fbo_get_pixmap_alignment( const TQ3Pixmap& inPix )
 	int	pixelsThatFitPerRow = inPix.rowBytes / bytesPerPixel;
 	int	pixelBytesPerRow = bytesPerPixel * pixelsThatFitPerRow;
 	
-	if (inPix.rowBytes == pixelBytesPerRow)
+	if (static_cast<TQ3Int32>(inPix.rowBytes) == pixelBytesPerRow)
 	{
 		alignment = 1;
 	}
-	else if (inPix.rowBytes == 2 * ((pixelBytesPerRow + 1) / 2))
+	else if (static_cast<TQ3Int32>(inPix.rowBytes) == 2 * ((pixelBytesPerRow + 1) / 2))
 	{
 		alignment = 2;
 	}
-	else if (inPix.rowBytes == 4 * ((pixelBytesPerRow + 3) / 4))
+	else if (static_cast<TQ3Int32>(inPix.rowBytes) == 4 * ((pixelBytesPerRow + 3) / 4))
 	{
 		alignment = 4;
 	}
-	else if (inPix.rowBytes == 8 * ((pixelBytesPerRow + 7) / 8))
+	else if (static_cast<TQ3Int32>(inPix.rowBytes) == 8 * ((pixelBytesPerRow + 7) / 8))
 	{
 		alignment = 8;
 	}

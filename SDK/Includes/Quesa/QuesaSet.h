@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -122,7 +122,7 @@ typedef enum TQ3AttributeTypes {
     kQ3AttributeTypeSurfaceShader               = 11,           // TQ3SurfaceShaderObject
     kQ3AttributeTypeEmissiveColor               = 12,           // TQ3ColorRGB
     kQ3AttributeTypeNumTypes                    = 13,           // N/A
-    kQ3AttributeTypeSize32                      = 0xFFFFFFFF
+    kQ3AttributeTypeSize32                      = 0x7FFFFFFF
 } TQ3AttributeTypes;
 
 
@@ -176,7 +176,7 @@ enum {
                                                   kQ3XAttributeMaskTransparencyColor  |
                                                   kQ3XAttributeMaskEmissiveColor      |
                                                   kQ3XAttributeMaskSurfaceTangent,
-    kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
+    kQ3XAttributeMaskSize32                     = 0x7FFFFFFF
 };
 
 typedef TQ3Uns32	TQ3XAttributeMask;

@@ -944,7 +944,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 	time_t			theTime;
 	const char*		timeStr;
 	char			timeStrCopy[100];
-	long			timeStrLen;
+	size_t			timeStrLen;
 	
 	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR( fileName ), kQ3Failure );
 	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
