@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1010,7 +1010,7 @@ e3group_startiterate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3group_enditerate(TQ3GroupObject group, TQ3GroupPosition *iterator, TQ3Object *object, TQ3ViewObject view)
-{	TQ3Status				err;
+{	TQ3Status				err = kQ3Failure;
 #pragma unused (view)
 
 	if (object != NULL)

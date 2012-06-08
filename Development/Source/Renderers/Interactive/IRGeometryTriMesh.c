@@ -5,7 +5,7 @@
         Quesa interactive renderer TriMesh implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -275,7 +275,6 @@ ir_geom_trimesh_calc_vertex_colour(TQ3VertexArray			*vertexArray,
 {	TQ3Switch		*parentHilightData, *vertexHilightData;
 	TQ3Uns8			*parentHilightFlag, *vertexHilightFlag;
 	TQ3Boolean		parentHilighted, vertexHilighted;
-	TQ3ColorRGB		parentColour;
 
 
 
@@ -364,6 +363,8 @@ ir_geom_trimesh_calc_vertex_colour(TQ3VertexArray			*vertexArray,
 		// Or calculate the real colour for the vertex
 		else
 			{
+			TQ3ColorRGB		parentColour = { 0.0f, 0.0f, 0.0f };
+
 			// Use the vertex colour if present and used
 			if (vertexArray->currentVertexColourData != NULL &&
 			   (vertexArray->currentVertexColourFlag == NULL || vertexArray->currentVertexColourFlag[vertIndex]))

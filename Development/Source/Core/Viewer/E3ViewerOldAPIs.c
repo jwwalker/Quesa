@@ -287,7 +287,7 @@ E3ViewerWriteData(TQ3ViewerObject theViewer, Handle data)
 {
 	void *tempData;
 	TQ3Uns32 dataSize;
-	OSErr memErr;
+	OSErr memErr = noErr;
 	TQ3Status status = Q3Viewer_WriteData(theViewer, &tempData, &dataSize);
 	if (kQ3Success == status)
 		{

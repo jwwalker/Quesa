@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -327,7 +327,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	TQ3HitPath				*currentPath;
 	TQ3Status				qd3dStatus;
 	TQ3CameraObject			theCamera;
-	TQ3Vector3D				eyeVector;
+	TQ3Vector3D				eyeVector = { 0.0f, 0.0f, 0.0f };
 	TQ3PickData				pickData;
 	TQ3ObjectType			theType;
 	TQ3Ray3D				pickRay;

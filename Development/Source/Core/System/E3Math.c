@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -161,7 +161,7 @@ e3matrix3x3_determinant(TQ3Matrix3x3* a)
 {
     #define A(x,y) a->value[x][y]
     
-    TQ3Int32 iSign, iPivot, jPivot;
+    TQ3Int32 iSign, iPivot = 0, jPivot = 0;
     TQ3Int32 i, j, k;
     float determinant, big, element;
     
@@ -266,7 +266,7 @@ e3matrix3x3_invert(TQ3Matrix3x3* a)
 {
     #define A(x,y) a->value[x][y]
     
-    TQ3Int32 irow, icol;
+    TQ3Int32 irow = 0, icol = 0;
     TQ3Int32 i, j, k;       // *** WARNING: 'k' must be a SIGNED integer ***
     float big, element;
     TQ3Int32 ipiv[3], indxr[3], indxc[3];
@@ -384,7 +384,7 @@ e3matrix4x4_determinant(TQ3Matrix4x4* a)
 {
     #define A(x,y) a->value[x][y]
     
-    TQ3Int32 iSign, iPivot, jPivot;
+    TQ3Int32 iSign, iPivot = 0, jPivot = 0;
     TQ3Int32 i, j, k;
     float determinant, big, element;
     
@@ -489,7 +489,7 @@ e3matrix4x4_invert(TQ3Matrix4x4* a)
 {
     #define A(x,y) a->value[x][y]
     
-    TQ3Int32 irow, icol;
+    TQ3Int32 irow = 0, icol = 0;
     TQ3Int32 i, j, k;       // *** WARNING: 'k' must be a SIGNED integer ***
     float big, element;
     TQ3Int32 ipiv[4], indxr[4], indxc[4];
