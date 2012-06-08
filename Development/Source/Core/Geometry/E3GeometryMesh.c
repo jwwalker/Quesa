@@ -5,7 +5,7 @@
 		Implementation of Quesa Mesh geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2772,7 +2772,7 @@ e3meshFace_GetExtData(
 	TQ3MeshFaceData* faceExtDataPtr,
 	const TE3MeshVertexDataArray* meshVertexArrayPtr)
 {
-	TQ3Uns32 					iSave;
+	TQ3Uns32 					iSave = 0;
 	TE3MeshContourData*	contours;
 
 	// Validate our parameters
@@ -3568,7 +3568,7 @@ e3mesh_GetExtData(
 	TQ3MeshData* meshExtDataPtr)
 {
 	const TE3MeshVertexData* vertices;
-	TQ3Uns32 iSave;
+	TQ3Uns32 iSave = 0;
 
 	const TE3MeshFaceData* faces;
 	TQ3Uns32 jSave;
@@ -4742,7 +4742,7 @@ E3Mesh_ContourToFace(
 	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshContourData* contourPtr;
 	TE3MeshFaceData* containerFacePtr;
-	TE3MeshFaceData* facePtr;
+	TE3MeshFaceData* facePtr = NULL;
 
 	// Check contour
 	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == NULL)

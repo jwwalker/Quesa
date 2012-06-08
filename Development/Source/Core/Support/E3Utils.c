@@ -5,7 +5,7 @@
         Quesa utility functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -373,7 +373,7 @@ TQ3Boolean	E3CString_IsEqual(const char *str_a, const char *str_b)
 TQ3Boolean E3Rect_ClipLine(const TQ3Area *theRect, TQ3Point2D *lineStart, TQ3Point2D *lineEnd)
 {	TQ3Uns8			code0, code1, codeOutside;
 	TQ3Boolean		areDone, doesIntersect;
-	float			x, y;
+	float			x = 0.0f, y = 0.0f;
 
 
 

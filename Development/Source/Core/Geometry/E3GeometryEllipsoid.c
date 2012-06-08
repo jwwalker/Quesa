@@ -371,7 +371,7 @@ e3geom_ellipsoid_create_interior_cap(
 	// pole and the origin.
 	TQ3Point3D	thePoint;
 	TQ3Vector3D	vec;
-	TQ3Uns32	northExtra, southExtra;
+	TQ3Uns32	northExtra = 0, southExtra = 0;
 	if (isNorthCut)
 	{
 		Q3FastVector3D_Scale( &orientation, -cosf( kQ3Pi * vMax ), &vec );
