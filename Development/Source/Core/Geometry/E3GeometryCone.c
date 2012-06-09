@@ -5,7 +5,7 @@
         Implementation of Quesa Cone geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,7 +48,7 @@
 #include "E3Geometry.h"
 #include "E3GeometryTriMesh.h"
 #include "E3GeometryCone.h"
-
+#include "QuesaMathOperators.hpp"
 
 
 
@@ -274,9 +274,9 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	// this will be an outward normal.  We can omit the nonnegative scalar 1-v.
 
 	// Best to compute those 3 cross products outside of any loops.
-	Q3Vector3D_Cross( &inData->majorRadius, &inData->minorRadius, &majXMinor );
-	Q3Vector3D_Cross( &inData->majorRadius, &inData->orientation, &majXOrient );
-	Q3Vector3D_Cross( &inData->minorRadius, &inData->orientation, &minXOrient );
+	majXMinor = Q3Cross3D( inData->majorRadius, inData->minorRadius );
+	majXOrient = Q3Cross3D( inData->majorRadius, inData->orientation );
+	minXOrient = Q3Cross3D( inData->minorRadius, inData->orientation );
 
 
 
@@ -338,25 +338,23 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 		// We will let bottomPt stand for origin + radialVec, and let
 		// sideVec stand for orientation - radialVec, so the points at this
 		// value of u will be given by bottomPt + v * sideVec.
-		Q3Vector3D_Scale( &inData->majorRadius, cosAngle, &workVec );
-		Q3Vector3D_Scale( &inData->minorRadius, sinAngle, &radialVec );
-		Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
-		Q3Vector3D_Subtract( &inData->orientation, &radialVec, &sideVec );
-		Q3Point3D_Vector3D_Add( &inData->origin, &radialVec, &bottomPt );
+		radialVec = cosAngle * inData->majorRadius + sinAngle * inData->minorRadius;
+		sideVec = inData->orientation - radialVec;
+		bottomPt = inData->origin + radialVec;
 		
 
 		// The vertex normal is the same for all points at this angle.
-		Q3Vector3D_Scale( &majXOrient, - sinAngle, &workVec );
-		Q3Vector3D_Scale( &minXOrient, cosAngle, &otherVec );
-		Q3Vector3D_Add( &workVec, &otherVec, &workVec );
-		Q3Vector3D_Add( &workVec, &majXMinor, &vertNormVec );
+		// One way to derive the direction is to take the cross product of the
+		// two partial derivatives of f(u,v) and simplify, bearing in mind that
+		// the cross of a vector with itself is zero.
+		vertNormVec = Q3Normalize3D( - sinAngle * majXOrient +
+			cosAngle * minXOrient + majXMinor );
 
 		
 		for (j = 0, v = inData->vMin; j <= inNumBands; ++j, v += vStep)
 		{
 			// Compute a point
-			Q3Vector3D_Scale( &sideVec, v, &workVec );
-			Q3Point3D_Vector3D_Add( &bottomPt, &workVec, &points[(inNumSides+1)*j + i] );
+			points[(inNumSides+1)*j + i] = bottomPt + v * sideVec;
 			
 			// Vertex normal
 			normals[(inNumSides+1)*j + i] = vertNormVec;
@@ -465,10 +463,9 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 		TQ3GeometryObject	topGeom;
 		TQ3Vector3D			workVec;
 		
-		Q3Vector3D_Scale( &inData->orientation, inData->vMax, &workVec );
-		Q3Point3D_Vector3D_Add( &inData->origin, &workVec, &topDisk.origin );
-		Q3Vector3D_Scale( &inData->majorRadius, 1.0f - inData->vMax, &topDisk.majorRadius );
-		Q3Vector3D_Scale( &inData->minorRadius, 1.0f - inData->vMax, &topDisk.minorRadius );
+		topDisk.origin = inData->origin + inData->vMax * inData->orientation;
+		topDisk.majorRadius = (1.0f - inData->vMax) * inData->majorRadius;
+		topDisk.minorRadius = (1.0f - inData->vMax) * inData->minorRadius;
 		topDisk.uMin = inData->uMin;
 		topDisk.uMax = inData->uMax;
 		if (topDisk.uMax > 1.0f)
@@ -528,10 +525,8 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 		intTriMeshData.vertexAttributeTypes = intPtAtts;
 
 		// Find the bottom and top centers.
-		Q3Vector3D_Scale( &inData->orientation, inData->vMin, &workVec );
-		Q3Point3D_Vector3D_Add( &inData->origin, &workVec, &bottomCenter );
-		Q3Vector3D_Scale( &inData->orientation, inData->vMax - inData->vMin, &workVec );
-		Q3Point3D_Vector3D_Add( &bottomCenter, &workVec, &topCenter );
+		bottomCenter = inData->origin + inData->vMin * inData->orientation;
+		topCenter = bottomCenter + (inData->vMax - inData->vMin) * inData->orientation;
 
 		startAngle = inData->uMin * kQ32Pi;
 		endAngle = inData->uMax * kQ32Pi;
@@ -544,13 +539,12 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			// Left triangle
 			cosAngle = (float) cos(endAngle);
 			sinAngle = (float) sin(endAngle);
-			Q3Vector3D_Scale( &inData->majorRadius, (1.0f - inData->vMin) * cosAngle, &workVec );
-			Q3Vector3D_Scale( &inData->minorRadius, (1.0f - inData->vMin) * sinAngle, &radialVec );
-			Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
-			Q3Point3D_Vector3D_Add( &bottomCenter, &radialVec, &interiorPts[0] );	// bottom left
+			radialVec = (1.0f - inData->vMin) *
+				(cosAngle * inData->majorRadius + sinAngle * inData->minorRadius);
+			interiorPts[0] = bottomCenter + radialVec;	// bottom left
 			interiorPts[1] = bottomCenter;
 			interiorPts[2] = topCenter;
-			Q3Vector3D_Cross( &inData->orientation, &radialVec, &workVec );
+			workVec = Q3Cross3D( inData->orientation, radialVec );
 			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = workVec;
 			interiorFaceNorms[0] = workVec;
 			interiorUVs[0].u = 0.0f;
@@ -571,13 +565,12 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			// Right triangle
 			cosAngle = (float) cos(startAngle);
 			sinAngle = (float) sin(startAngle);
-			Q3Vector3D_Scale( &inData->majorRadius, (1.0f - inData->vMin) * cosAngle, &workVec );
-			Q3Vector3D_Scale( &inData->minorRadius, (1.0f - inData->vMin) * sinAngle, &radialVec );
-			Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
-			Q3Point3D_Vector3D_Add( &bottomCenter, &radialVec, &interiorPts[1] );	// bottom right
+			radialVec = (1.0f - inData->vMin) *
+				(cosAngle * inData->majorRadius + sinAngle * inData->minorRadius);
+			interiorPts[1] = bottomCenter + radialVec;	// bottom right
 			interiorPts[0] = bottomCenter;
 			interiorPts[2] = topCenter;
-			Q3Vector3D_Cross( &radialVec, &inData->orientation, &workVec );
+			workVec = Q3Cross3D( radialVec, inData->orientation );
 			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = workVec;
 			interiorFaceNorms[0] = workVec;
 			interiorUVs[0].u = 0.5f;
@@ -599,17 +592,13 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			// Left side
 			cosAngle = (float) cos(endAngle);
 			sinAngle = (float) sin(endAngle);
-			Q3Vector3D_Scale( &inData->majorRadius, cosAngle, &workVec );
-			Q3Vector3D_Scale( &inData->minorRadius, sinAngle, &radialVec );
-			Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
-			Q3Vector3D_Scale( &radialVec, 1.0f - inData->vMin, &workVec );
-			Q3Point3D_Vector3D_Add( &bottomCenter, &workVec, &interiorPts[0] );
+			radialVec = cosAngle * inData->majorRadius + sinAngle * inData->minorRadius;
+			interiorPts[0] = bottomCenter + (1.0f - inData->vMin) * radialVec;
 			interiorPts[1] = bottomCenter;
 			interiorPts[3] = topCenter;
-			Q3Vector3D_Scale( &radialVec, 1.0f - inData->vMax, &workVec );
-			Q3Point3D_Vector3D_Add( &topCenter, &workVec, &interiorPts[2] );
+			interiorPts[2] = topCenter + (1.0f - inData->vMax) * radialVec;
 			
-			Q3Vector3D_Cross( &inData->orientation, &radialVec, &workVec );
+			workVec = Q3Cross3D( inData->orientation, radialVec );
 			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = interiorPtNorms[3] =
 				workVec;
 			interiorFaceNorms[0] = interiorFaceNorms[1] = workVec;
@@ -634,17 +623,13 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			// Right side
 			cosAngle = (float) cos(startAngle);
 			sinAngle = (float) sin(startAngle);
-			Q3Vector3D_Scale( &inData->majorRadius, cosAngle, &workVec );
-			Q3Vector3D_Scale( &inData->minorRadius, sinAngle, &radialVec );
-			Q3Vector3D_Add( &workVec, &radialVec, &radialVec );
-			Q3Vector3D_Scale( &radialVec, 1.0f - inData->vMin, &workVec );
-			Q3Point3D_Vector3D_Add( &bottomCenter, &workVec, &interiorPts[1] );
+			radialVec = cosAngle * inData->majorRadius + sinAngle * inData->minorRadius;
+			interiorPts[1] = bottomCenter + (1.0f - inData->vMin) * radialVec;
 			interiorPts[0] = bottomCenter;
 			interiorPts[2] = topCenter;
-			Q3Vector3D_Scale( &radialVec, 1.0f - inData->vMax, &workVec );
-			Q3Point3D_Vector3D_Add( &topCenter, &workVec, &interiorPts[3] );
+			interiorPts[3] = topCenter + (1.0f - inData->vMax) * radialVec;
 
-			Q3Vector3D_Cross( &radialVec, &inData->orientation, &workVec );
+			workVec = Q3Cross3D( radialVec, inData->orientation );
 			interiorPtNorms[0] = interiorPtNorms[1] = interiorPtNorms[2] = interiorPtNorms[3] =
 				workVec;
 			interiorFaceNorms[0] = interiorFaceNorms[1] = workVec;
@@ -831,11 +816,10 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 		TQ3DiskData			botDisk;
 		TQ3GeometryObject	botGeom;
 		
-		Q3Vector3D_Scale( &geomData->orientation, vMin, &workVec );
-		Q3Point3D_Vector3D_Add( &geomData->origin, &workVec, &botDisk.origin );
+		botDisk.origin = geomData->origin + vMin * geomData->orientation;
 		// In order to make the bottom be the front face, we flip the orientation.
-		Q3Vector3D_Scale( &geomData->majorRadius, 1.0f - vMin, &botDisk.majorRadius );
-		Q3Vector3D_Scale( &geomData->minorRadius, vMin - 1.0f, &botDisk.minorRadius );
+		botDisk.majorRadius = (1.0f - vMin) * geomData->majorRadius;
+		botDisk.minorRadius = (vMin - 1.0f) * geomData->minorRadius;
 		botDisk.uMin = 1.0f - geomData->uMax;
 		botDisk.uMax = 1.0f - geomData->uMin;
 		botDisk.vMin = 0.0f;
