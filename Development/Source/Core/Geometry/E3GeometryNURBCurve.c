@@ -746,7 +746,7 @@ static TQ3Object
 e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3NURBCurveData *geomData)
 {	TQ3SubdivisionStyleData			subdivisionData;
 	float							subdivU = 10.0f;
-	TQ3Vertex3D						*theVertices;
+	TQ3Vertex3D						*theVertices = NULL;
 	TQ3PolyLineData					polyLineData;
 	TQ3GeometryObject				thePolyLine;
 	TQ3Status						theStatus;

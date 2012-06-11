@@ -5,7 +5,7 @@
         Implementation of Quesa Point geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -103,13 +103,12 @@ e3geom_point_new( TQ3Object theObject, void * privateData, const void * paramDat
 static void
 e3geom_point_delete(TQ3Object theObject, void *privateData)
 {	TQ3PointData		*instanceData = (TQ3PointData *) privateData;
-	TQ3Status			qd3dStatus;
 #pragma unused(theObject)
 
 
 
 	// Dispose of our instance data
-	qd3dStatus = Q3Point_EmptyData(instanceData);
+	Q3Point_EmptyData(instanceData);
 }
 
 

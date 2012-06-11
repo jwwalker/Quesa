@@ -5,7 +5,7 @@
         Quesa tessellator functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -293,7 +293,7 @@ e3tessellate_attribute_get(const TQ3Vertex3D *theVertex, E3CombinedAttribute *th
 //-----------------------------------------------------------------------------
 static void
 e3tessellate_attribute_set(const TQ3Vertex3D *theVertex, const E3CombinedAttribute *theState, TQ3AttributeTypes theType)
-{	TQ3Status		qd3dStatus;
+{
 	TQ3Uns32		typeMask;
 	const void		*theData;
 
@@ -348,7 +348,7 @@ e3tessellate_attribute_set(const TQ3Vertex3D *theVertex, const E3CombinedAttribu
 	// Add the attribute data if it's present
 	typeMask = 1 << (theType - 1);
 	if (theState->attributeMask & typeMask)
-		qd3dStatus = Q3AttributeSet_Add(theVertex->attributeSet, theType, theData);
+		Q3AttributeSet_Add(theVertex->attributeSet, theType, theData);
 }
 
 

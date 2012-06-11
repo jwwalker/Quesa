@@ -5,7 +5,7 @@
         Quesa interactive renderer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -779,7 +779,7 @@ IRGeometry_Submit_Triangle(TQ3ViewObject			theView,
 	// Update the texture mapping state
 	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, E3Bit_IsSet(vertexFlags, kQ3FVertexHaveUV));
 	
-	return(kQ3Success);
+	return(qd3dStatus);
 }
 
 
@@ -796,7 +796,6 @@ IRGeometry_Submit_Line(TQ3ViewObject			theView,
 						TQ3LineData				*geomData)
 {	TQ3FVertex3D		theVertices[3];
 	TQ3FVertexFlags		vertexFlags;
-	TQ3Status			qd3dStatus;
 	TQ3Uns32			n;
 #pragma unused(theGeom)
 
@@ -825,7 +824,7 @@ IRGeometry_Submit_Line(TQ3ViewObject			theView,
 
 	// Submit the line
 	if (E3Bit_IsSet(vertexFlags, kQ3FVertexHaveTransparency))
-		qd3dStatus = IRTransBuffer_AddLine(theView, instanceData, theVertices);
+		IRTransBuffer_AddLine(theView, instanceData, theVertices);
 	else
 		{
 		glBegin(GL_LINES);
@@ -859,7 +858,7 @@ IRGeometry_Submit_Point(TQ3ViewObject				theView,
 							TQ3InteractiveData		*instanceData,
 							TQ3GeometryObject		theGeom,
 							TQ3PointData			*geomData)
-{	TQ3Status			qd3dStatus;
+{
 	TQ3Vertex3D			srcVertex;
 	TQ3FVertex3D		theVertex;
 #pragma unused(theGeom)
@@ -887,7 +886,7 @@ IRGeometry_Submit_Point(TQ3ViewObject				theView,
 
 	// Submit the point
 	if (E3Bit_IsSet(theVertex.theFlags, kQ3FVertexHaveTransparency))
-		qd3dStatus = IRTransBuffer_AddPoint(theView, instanceData, &theVertex);
+		IRTransBuffer_AddPoint(theView, instanceData, &theVertex);
 	else
 		{
 		glBegin(GL_POINTS);
@@ -920,7 +919,6 @@ IRGeometry_Submit_PolyLine(TQ3ViewObject			theView,
 							TQ3PolyLineData			*geomData)
 {	TQ3FVertex3D		theVertices[3];
 	TQ3FVertexFlags		vertexFlags;
-	TQ3Status			qd3dStatus;
 	TQ3Uns32			n, m;
 
 
@@ -965,7 +963,7 @@ IRGeometry_Submit_PolyLine(TQ3ViewObject			theView,
 
 		// Submit the line
 		if (E3Bit_IsSet(vertexFlags, kQ3FVertexHaveTransparency))
-			qd3dStatus = IRTransBuffer_AddLine(theView, instanceData, theVertices);
+			IRTransBuffer_AddLine(theView, instanceData, theVertices);
 		else
 			{
 			for (m = 0; m < 2; m++)

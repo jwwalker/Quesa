@@ -5,7 +5,7 @@
         Implementation of Quesa Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -152,13 +152,12 @@ static void
 e3geom_marker_delete(TQ3Object theObject, void *privateData)
 {	
 	TQ3MarkerData		*instanceData = (TQ3MarkerData *) privateData;
-	TQ3Status			qd3dStatus;
 #pragma unused(theObject)
 
 
 
 	// Dispose of our instance data
-	qd3dStatus = Q3Marker_EmptyData(instanceData);
+	Q3Marker_EmptyData(instanceData);
 }
 
 

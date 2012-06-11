@@ -5,7 +5,7 @@
         Implementation of Quesa Line geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -209,13 +209,12 @@ e3geom_line_new(TQ3Object theObject, void *privateData, const void *paramData)
 static void
 e3geom_line_delete(TQ3Object theObject, void *privateData)
 {	TQ3LineData			*instanceData = (TQ3LineData *) privateData;
-	TQ3Status			qd3dStatus;
 #pragma unused(theObject)
 
 
 
 	// Dispose of our instance data
-	qd3dStatus = Q3Line_EmptyData(instanceData);
+	Q3Line_EmptyData(instanceData);
 }
 
 

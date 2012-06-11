@@ -1117,25 +1117,26 @@ E3Pick_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
+	bool succeeded = true;
 
 
 
 	// Unregister the class in reverse order
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3MeshPartTypeMeshVertexPart,kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3MeshPartTypeMeshEdgePart,	kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3MeshPartTypeMeshFacePart,	kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapePartTypeMeshPart,		kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeShapePart,		kQ3True);
+	succeeded = (kQ3Success == E3ClassTree::UnregisterClass(kQ3MeshPartTypeMeshVertexPart,kQ3True)) && succeeded;
+	succeeded = (kQ3Success == E3ClassTree::UnregisterClass(kQ3MeshPartTypeMeshEdgePart,	kQ3True)) && succeeded;
+	succeeded = (kQ3Success == E3ClassTree::UnregisterClass(kQ3MeshPartTypeMeshFacePart,	kQ3True)) && succeeded;
+	succeeded = (kQ3Success == E3ClassTree::UnregisterClass(kQ3ShapePartTypeMeshPart,		kQ3True)) && succeeded;
+	succeeded = (kQ3Success == E3ClassTree::UnregisterClass(kQ3SharedTypeShapePart,		kQ3True)) && succeeded;
 
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3PickTypeWorldRay,			kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3PickTypeWindowRect,		kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3PickTypeWindowPoint,		kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypePick,			kQ3True);
+	succeeded = (kQ3Success == E3ClassTree::UnregisterClass(kQ3PickTypeWorldRay,			kQ3True)) && succeeded;
+	succeeded = (kQ3Success == E3ClassTree::UnregisterClass(kQ3PickTypeWindowRect,		kQ3True)) && succeeded;
+	succeeded = (kQ3Success == E3ClassTree::UnregisterClass(kQ3PickTypeWindowPoint,		kQ3True)) && succeeded;
+	succeeded = (kQ3Success == E3ClassTree::UnregisterClass
+		(kQ3ObjectTypePick, kQ3True)) && succeeded;
 
-	return(qd3dStatus);
+	return (succeeded? kQ3Success : kQ3Failure);
 }
-
 
 
 

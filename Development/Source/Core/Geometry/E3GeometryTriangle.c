@@ -5,7 +5,7 @@
         Implementation of Quesa Triangle geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -102,13 +102,12 @@ e3geom_triangle_new(TQ3Object theObject, void *privateData, const void *paramDat
 static void
 e3geom_triangle_delete(TQ3Object theObject, void *privateData)
 {	TQ3TriangleData			*instanceData = (TQ3TriangleData *) privateData;
-	TQ3Status				qd3dStatus;
 #pragma unused(theObject)
 
 
 
 	// Dispose of our instance data
-	qd3dStatus = Q3Triangle_EmptyData(instanceData);
+	Q3Triangle_EmptyData(instanceData);
 }
 
 

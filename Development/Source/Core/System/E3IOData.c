@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -296,12 +296,15 @@ e3unknown_text_duplicateData(const TQ3UnknownTextData *fromData, TQ3UnknownTextD
 		toData->objectName = (char *) Q3Memory_Allocate(strlen(fromData->objectName) + 1);
 	if (toData->objectName == NULL)
 		return(kQ3Failure);
-	strcpy(toData->objectName, fromData->objectName);	
+	if (fromData->objectName != NULL)
+		strcpy(toData->objectName, fromData->objectName);
+	else
+		toData->objectName = NULL;	// not sure if this is appropriate
 	
 	// Copy the contents
 	if (fromData->contents != 0)
 		toData->contents = (char *) Q3Memory_Allocate(strlen(fromData->contents) + 1);
-	if (toData->contents == NULL)
+	if ( (fromData->contents != 0) && (toData->contents != NULL) )
 		strcpy(toData->contents, fromData->contents);	
 	else
 		qd3dStatus = kQ3Failure;
@@ -1742,14 +1745,16 @@ E3Unknown_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Unknown_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
-
+{	TQ3Status		qd3dStatus, status1, status2, status3;
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3UnknownTypeBinary, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3UnknownTypeText, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeUnknown, kQ3True);
+	status1 = E3ClassTree::UnregisterClass(kQ3UnknownTypeBinary, kQ3True);
+	status2 = E3ClassTree::UnregisterClass(kQ3UnknownTypeText, kQ3True);
+	status3 = E3ClassTree::UnregisterClass(kQ3ShapeTypeUnknown, kQ3True);
+	
+	qd3dStatus = ((status1 == kQ3Success) && (status2 == kQ3Success) &&
+				  (status2 == kQ3Success))? kQ3Success : kQ3Failure;
 
 	return(qd3dStatus);
 }

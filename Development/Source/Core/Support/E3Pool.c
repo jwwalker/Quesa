@@ -29,7 +29,7 @@
 		"The C++ Programming Language", 3rd ed.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -194,7 +194,14 @@ E3Pool_AllocateTagged(
 
 	// Allocate next free item
 	itemPtr = poolPtr->headFreeItemPtr_private;
-	poolPtr->headFreeItemPtr_private = itemPtr->nextFreeItemPtr_private;
+	if (itemPtr == NULL)
+	{
+		poolPtr->headFreeItemPtr_private = NULL; // can this happen?
+	}
+	else
+	{
+		poolPtr->headFreeItemPtr_private = itemPtr->nextFreeItemPtr_private;
+	}
 
 	return(itemPtr);
 	
