@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -197,13 +197,12 @@ e3geom_polyhedron_new(TQ3Object theObject, void *privateData, const void *paramD
 static void
 e3geom_polyhedron_delete(TQ3Object theObject, void *privateData)
 {	TQ3PolyhedronData		*instanceData = (TQ3PolyhedronData *) privateData;
-	TQ3Status				qd3dStatus;
 #pragma unused(theObject)
 
 
 
 	// Dispose of our instance data
-	qd3dStatus = Q3Polyhedron_EmptyData(instanceData);
+	Q3Polyhedron_EmptyData(instanceData);
 }
 
 
@@ -887,7 +886,7 @@ E3Polyhedron_SetData(TQ3GeometryObject thePolyhedron, const TQ3PolyhedronData *p
 
 	Q3Shared_Edited ( polyhedron ) ;
 
-	return kQ3Success ;
+	return q3status ;
 	}
 
 

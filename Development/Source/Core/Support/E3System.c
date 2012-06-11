@@ -5,7 +5,7 @@
         Quesa platform specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -121,7 +121,6 @@ E3System_Terminate(void)
 void
 E3System_LoadPlugins(void)
 {	E3GlobalsPtr	theGlobals = E3Globals_Get();
-	TQ3Status		qd3dStatus;
 	TQ3Uns32		n;
 
 
@@ -144,21 +143,21 @@ E3System_LoadPlugins(void)
 	for (n = 0; n < theGlobals->sharedLibraryCount; n++)
 		{
 		if (theGlobals->sharedLibraryInfo[n].registerFunction != NULL)
-			qd3dStatus = theGlobals->sharedLibraryInfo[n].registerFunction();
+			theGlobals->sharedLibraryInfo[n].registerFunction();
 		}
 
 
 
 	// Register the built-in plug-ins
 #if QUESA_REGISTER_BUILTIN_PLUGINS
-	qd3dStatus = GNRenderer_Register();
-	qd3dStatus = WireFrameRenderer_Register();
-	qd3dStatus = IRRenderer_Register();
-	qd3dStatus = QORenderer_Register();
+	GNRenderer_Register();
+	WireFrameRenderer_Register();
+	IRRenderer_Register();
+	QORenderer_Register();
 
 #if !(QUESA_OS_MACINTOSH && TARGET_API_MAC_OS8)
-	qd3dStatus = CartoonRenderer_Register();
-	qd3dStatus = HiddenLine_Register();
+	CartoonRenderer_Register();
+	HiddenLine_Register();
 #endif
 #endif
 }

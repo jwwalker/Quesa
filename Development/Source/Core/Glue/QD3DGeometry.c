@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -8298,7 +8298,7 @@ Q3NURBCurve_SetControlPoint(TQ3GeometryObject curve, TQ3Uns32 pointIndex, const 
 	TQ3Uns32 numPoints ;
 	E3NURBCurve_GetNumPoints ( curve , &numPoints ) ;
 	// Further checks on pointIndex
-	if ( pointIndex < 0 || pointIndex >= numPoints )
+	if ( pointIndex >= numPoints )
 		return kQ3Failure ;
 
 	if (0) // Further checks on point4D
@@ -8342,7 +8342,7 @@ Q3NURBCurve_GetControlPoint(TQ3GeometryObject curve, TQ3Uns32 pointIndex, TQ3Rat
 	TQ3Uns32 numPoints ;
 	E3NURBCurve_GetNumPoints ( curve , &numPoints ) ;
 	// Further checks on pointIndex
-	if ( pointIndex < 0 || pointIndex >= numPoints )
+	if ( pointIndex >= numPoints )
 		return kQ3Failure ;
 
 	if (0) // Further checks on point4D
@@ -8383,9 +8383,7 @@ Q3NURBCurve_SetKnot(TQ3GeometryObject curve, TQ3Uns32 knotIndex, float knotValue
 		return(kQ3Failure);
 
 	// Further checks on knotIndex
-	if (knotIndex < 0
-		||
-		knotIndex > instanceData->numPoints + 
+	if (knotIndex > instanceData->numPoints +
 					instanceData->order - 1)
 		return(kQ3Failure);
 
@@ -8436,9 +8434,7 @@ Q3NURBCurve_GetKnot(TQ3GeometryObject curve, TQ3Uns32 knotIndex, float *knotValu
 		return(kQ3Failure);
 
 	// Further checks on knotIndex
-	if (knotIndex < 0
-		||
-		knotIndex > instanceData->numPoints + instanceData->order - 1)
+	if (knotIndex > instanceData->numPoints + instanceData->order - 1)
 		return(kQ3Failure);
 
 	if (0) // Further checks on knotValue
@@ -8631,11 +8627,11 @@ Q3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 		return(kQ3Failure);
 
 	// Further checks on rowIndex
-	if (rowIndex < 0 || rowIndex >= instanceData->numRows)
+	if (rowIndex >= instanceData->numRows)
 		return(kQ3Failure);
 
 	// Further checks on columnIndex
-	if (columnIndex < 0 || columnIndex >= instanceData->numColumns) 
+	if (columnIndex >= instanceData->numColumns)
 		return(kQ3Failure);
 
 	if (0) // Further checks on point4D
@@ -8677,11 +8673,11 @@ Q3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 		return(kQ3Failure);
 
 	// Further checks on rowIndex
-	if (rowIndex < 0 || rowIndex >= instanceData->numRows)
+	if (rowIndex >= instanceData->numRows)
 		return(kQ3Failure);
 
 	// Further checks on columnIndex
-	if (columnIndex < 0 || columnIndex >= instanceData->numColumns) 
+	if (columnIndex >= instanceData->numColumns)
 		return(kQ3Failure);
 
 	if (0) // Further checks on point4D
@@ -8722,9 +8718,7 @@ Q3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 		return(kQ3Failure);
 
 	// Further checks on knotIndex
-	if (knotIndex < 0
-		||
-		knotIndex > instanceData->numColumns + instanceData->uOrder - 1)
+	if (knotIndex > instanceData->numColumns + instanceData->uOrder - 1)
 		return(kQ3Failure);
 
 	// Further checks on knotValue
@@ -8773,8 +8767,7 @@ Q3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 		return(kQ3Failure);
 
 	// Further checks on knotIndex
-	if (knotIndex < 0 ||
-		knotIndex > instanceData->numRows + instanceData->vOrder - 1)
+	if (knotIndex > instanceData->numRows + instanceData->vOrder - 1)
 		return(kQ3Failure);
 
 	// Further checks on knotValue
@@ -8822,7 +8815,7 @@ Q3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *kno
 		return(kQ3Failure);
 
 	// Further checks on knotIndex
-	if (knotIndex < 0 || knotIndex > instanceData->numColumns + instanceData->uOrder - 1)
+	if (knotIndex > instanceData->numColumns + instanceData->uOrder - 1)
 		return(kQ3Failure);
 
 	if (0) // Further checks on knotValue
@@ -8864,7 +8857,7 @@ Q3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *kno
 		return(kQ3Failure);
 
 	// Further checks on knotIndex
-	if (knotIndex < 0 || knotIndex > instanceData->numRows + instanceData->vOrder - 1)
+	if (knotIndex > instanceData->numRows + instanceData->vOrder - 1)
 		return(kQ3Failure);
 
 	if (0) // Further checks on knotValue

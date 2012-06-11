@@ -816,7 +816,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 						result = e3fformat_3dmf_bin_newunknown (format, objectType, objectSize);
 						instanceData->MFData.baseData.currentStoragePosition = objLocation + objectSize + 8;
 						}
-					else if ( /*(kQ3SharedTypeViewHints == objectType /*Temporary patch) ||*/
+					else if ( /*(kQ3SharedTypeViewHints == objectType (Temporary patch) ||*/
 						(Q3_OBJECT_TYPE('d', 'g', 'b', 'b') == objectType /*Temporary patch*/) ||
 						(Q3_OBJECT_TYPE('e', 'd', 'i', 't') == objectType /*Temporary patch*/) )
 						{

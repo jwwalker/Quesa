@@ -5,7 +5,7 @@
         Implementation of Quesa NURB Patch geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -959,8 +959,10 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 	Q3Memory_Free( &interestingU ) ;
 	Q3Memory_Free( &interestingV ) ;
 	
-	*thePoints = NULL ;
-	return ;
+	if (thePoints != NULL)
+	{
+		*thePoints = NULL ;
+	}
 }
 
 
@@ -1165,7 +1167,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3SubdivisionStyleData	subdivisionData;
 	TQ3TriMeshAttributeData	vertexAttributes[2];
 	float					subdivU = 10.0f, subdivV = 10.0f;
-	TQ3Uns32				numpoints, numtriangles;
+	TQ3Uns32				numpoints = 0, numtriangles;
 	float					*uBasisValues, *vBasisValues, *uBasisDerivValues, *vBasisDerivValues ;
 	
 	theGroup = NULL;

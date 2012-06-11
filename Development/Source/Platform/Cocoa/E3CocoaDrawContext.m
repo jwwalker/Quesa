@@ -187,7 +187,6 @@ e3drawcontext_cocoa_new(TQ3Object theObject, void *privateData, const void *para
 static void
 e3drawcontext_cocoa_delete(TQ3Object theObject, void *privateData)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) privateData;
-	TQ3Status					qd3dStatus;
 
 
 
@@ -200,7 +199,7 @@ e3drawcontext_cocoa_delete(TQ3Object theObject, void *privateData)
 
 	// Dispose of the common instance data
 	if (instanceData->data.common.maskState)
-		qd3dStatus = Q3Bitmap_Empty(&instanceData->data.common.mask);
+		Q3Bitmap_Empty(&instanceData->data.common.mask);
 }
 
 
@@ -212,7 +211,7 @@ e3drawcontext_cocoa_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
+{	//TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
 
 	// We use a notification to update the view size, so there is no need to
 	// check it here.  If we wanted to check for other changes, such as a

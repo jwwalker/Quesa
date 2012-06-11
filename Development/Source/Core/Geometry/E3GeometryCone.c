@@ -323,7 +323,6 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	// and between bands j and j+1, there are two triangles, numbered 2*(inNumSides*j+i) and
 	// 2*(inNumSides*j+i)+1.  The exception is that if the tip is present, then the last
 	// band (j = inNumBands - 1) has only one triangle per side, number 2*(inNumSides*j)+i.
-	ang = 0.0f;
 	for (i=0, ang = startAngle; i <= inNumSides; ++i, ang += dang)
 	{
 		cosAngle = (float) cos(ang);

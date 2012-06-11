@@ -20,7 +20,7 @@
         to record their relationship to the rest of the tree.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -733,13 +733,13 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 											const void		*paramData )
 	{	
 	TQ3Status qd3dStatus = kQ3Success ;
-	TQ3Uns32 parentInstanceSize = 0 ;	
+	//TQ3Uns32 parentInstanceSize = 0 ;
 	E3ClassInfoPtr parentClass = inClass->theParent ;
 	
 	// If this class has a parent, initialise the parent object
 	if ( parentClass != NULL )
 		{
-		parentInstanceSize = parentClass->instanceSize ;
+		//parentInstanceSize = parentClass->instanceSize ;
 		if (sharedParams)
 			qd3dStatus = InitialiseInstanceData ( parentClass, sharedParams, paramData ) ;
 		else
@@ -887,7 +887,6 @@ OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr inClass )
 	// Call the object's delete method
 	if ( elementDeleteMethod != NULL )
 		{
-		OpaqueTQ3Object* thisPtr = this ; // So can be set to null in delete method
 		elementDeleteMethod ( leafInstanceData ) ;
 		}	
 	else

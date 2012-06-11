@@ -5,7 +5,7 @@
         Header file for E3View.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,17 +46,6 @@
 //      Include files
 //-----------------------------------------------------------------------------
 // Include files go here
-
-
-
-
-//=============================================================================
-//		C++ preamble
-//-----------------------------------------------------------------------------
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 
 
 
@@ -241,15 +230,6 @@ TQ3StateOperatorObject	E3Pop_New(void);
 TQ3Status				E3StateOperator_Submit(TQ3StateOperatorObject stateOperator, TQ3ViewObject theView);
 
 
-
-
-
-//=============================================================================
-//		C++ postamble
-//-----------------------------------------------------------------------------
-#ifdef __cplusplus
-}
-#endif
 
 #endif
 

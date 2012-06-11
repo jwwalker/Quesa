@@ -2765,17 +2765,29 @@ E3Group_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Group_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
-
+{	TQ3Status		qd3dStatus = kQ3Success;
+	TQ3Status		oneStatus;
 
 
 	// Unregister the class in reverse order
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GroupTypeInfo,				kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GroupTypeLight,				kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DisplayGroupTypeIOProxy,	kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DisplayGroupTypeOrdered,	kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GroupTypeDisplay,			kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeGroup,				kQ3True);
+	oneStatus = E3ClassTree::UnregisterClass(kQ3GroupTypeInfo,				kQ3True);
+	if (oneStatus == kQ3Failure)
+		qd3dStatus = kQ3Failure;
+	oneStatus = E3ClassTree::UnregisterClass(kQ3GroupTypeLight,				kQ3True);
+	if (oneStatus == kQ3Failure)
+		qd3dStatus = kQ3Failure;
+	oneStatus = E3ClassTree::UnregisterClass(kQ3DisplayGroupTypeIOProxy,	kQ3True);
+	if (oneStatus == kQ3Failure)
+		qd3dStatus = kQ3Failure;
+	oneStatus = E3ClassTree::UnregisterClass(kQ3DisplayGroupTypeOrdered,	kQ3True);
+	if (oneStatus == kQ3Failure)
+		qd3dStatus = kQ3Failure;
+	oneStatus = E3ClassTree::UnregisterClass(kQ3GroupTypeDisplay,			kQ3True);
+	if (oneStatus == kQ3Failure)
+		qd3dStatus = kQ3Failure;
+	oneStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeGroup,				kQ3True);
+	if (oneStatus == kQ3Failure)
+		qd3dStatus = kQ3Failure;
 
 	return(qd3dStatus);
 }
