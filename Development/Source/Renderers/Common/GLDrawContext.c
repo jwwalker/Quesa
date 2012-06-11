@@ -1007,7 +1007,34 @@ gldrawcontext_mac_getport( TQ3DrawContextObject theDrawContext )
 }
 
 
-
+//-----------------------------------------------------------------------------
+//		gldrawcontext_mac_getbounds : Get the bounding rectangle of a Mac draw context.
+//-----------------------------------------------------------------------------
+static Rect
+gldrawcontext_mac_getbounds( TQ3DrawContextObject theDrawContext )
+{
+	TQ3Status				qd3dStatus;
+	WindowRef				theWindow = NULL;
+	Rect					bounds = { 0, 0, 0, 0 };
+	
+	qd3dStatus = Q3MacDrawContext_GetWindow( theDrawContext, &theWindow );
+	if ( (qd3dStatus == kQ3Success) && (theWindow != NULL) )
+	{
+		GetWindowBounds( theWindow, kWindowContentRgn, &bounds );
+	}
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1070
+	else
+	{
+		CGrafPtr				thePort = NULL;
+		Q3MacDrawContext_GetGrafPort(theDrawContext, &thePort);
+		if (thePort != NULL)
+		{
+			GetPortBounds( thePort, &bounds );
+		}
+	}
+#endif
+	return bounds;
+}
 
 
 //-----------------------------------------------------------------------------
@@ -1019,17 +1046,24 @@ gldrawcontext_mac_getport( TQ3DrawContextObject theDrawContext )
 //	lower left corner of the window's port, but for "metal" windows in Mac OS X
 //	there is an offset.
 static Point
-gldrawcontext_mac_calc_window_origin( CGrafPtr inPort )
+gldrawcontext_mac_calc_window_origin( TQ3DrawContextObject theDrawContext )
 {
 	Point	thePoint;
-	WindowRef	theWindow = GetWindowFromPort( inPort );
+	WindowRef	theWindow = NULL;
+	
+	Q3MacDrawContext_GetWindow( theDrawContext, &theWindow );
 	if (theWindow == NULL)
 	{
+		// In the 10.7 SDK and later, GetPortBounds is gone.
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1070
 		// no window, fall back on what we used to do
+		CGrafPtr thePort = NULL;
+		Q3MacDrawContext_GetGrafPort(theDrawContext, &thePort);
 		Rect	portBounds;
-		GetPortBounds( inPort, &portBounds );
+		GetPortBounds( thePort, &portBounds );
 		thePoint.h = portBounds.left;
 		thePoint.v = portBounds.bottom;
+	#endif
 	}
 	else
 	{
@@ -1041,6 +1075,7 @@ gldrawcontext_mac_calc_window_origin( CGrafPtr inPort )
 	}
 	return thePoint;
 }
+
 
 /*
 	@function	gldrawcontext_mac_choose_pixel_format
@@ -1142,7 +1177,7 @@ MacGLContext::MacGLContext(
 
 
 			// Grab its dimensions
-			GetPortBounds(thePort, &theRect);
+			theRect = gldrawcontext_mac_getbounds( theDrawContext );
 			break;
 
 
@@ -1358,7 +1393,7 @@ MacGLContext::MacGLContext(
 		{
 		if (drawContextData.paneState)
 			{
-			Point	windowOrigin = gldrawcontext_mac_calc_window_origin( thePort );
+			Point	windowOrigin = gldrawcontext_mac_calc_window_origin( theDrawContext );
 			
 			glRect[0] = (GLint) (drawContextData.pane.min.x - windowOrigin.h);
 			glRect[1] = (GLint)(windowOrigin.v - drawContextData.pane.max.y);
@@ -1470,16 +1505,14 @@ bool	MacGLContext::UpdateWindowSize()
 	
 	if (drawContextType == kQ3DrawContextTypeMacintosh)
 	{
-		CGrafPtr	thePort = gldrawcontext_mac_getport( quesaDrawContext );
 		TQ3DrawContextData		drawContextData;
 		
-		if ( (kQ3Success == Q3DrawContext_GetData(quesaDrawContext, &drawContextData)) &&
-			(thePort != NULL) )
+		if ( (kQ3Success == Q3DrawContext_GetData(quesaDrawContext, &drawContextData)) )
 		{
 			Rect					portBounds;
 			GLint					paneWidth, paneHeight;
 			
-			GetPortBounds(thePort, &portBounds);
+			portBounds = gldrawcontext_mac_getbounds( quesaDrawContext );
 			
 			if (drawContextData.paneState)
 			{
@@ -1487,7 +1520,7 @@ bool	MacGLContext::UpdateWindowSize()
 				
 				paneWidth = (GLint)(drawContextData.pane.max.x - drawContextData.pane.min.x);
 				paneHeight = (GLint)(drawContextData.pane.max.y - drawContextData.pane.min.y);
-				Point	windowOrigin = gldrawcontext_mac_calc_window_origin( thePort );
+				Point	windowOrigin = gldrawcontext_mac_calc_window_origin( quesaDrawContext );
 				
 				glRect[0] = (GLint) (drawContextData.pane.min.x - windowOrigin.h);
 				glRect[1] = (GLint)(windowOrigin.v - drawContextData.pane.max.y);
