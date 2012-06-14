@@ -1131,10 +1131,84 @@ gldrawcontext_mac_choose_pixel_format(
 	glAttributes[ numAttributes ] = AGL_NONE;
 	
 	Q3_ASSERT(numAttributes < kMaxGLAttributes);
-	
+
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	pixelFormat = aglChoosePixelFormat( NULL, 0, glAttributes );
-	
+#elif MAC_OS_X_VERSION_MIN_REQUIRED >= 1050
+	pixelFormat = aglCreatePixelFormat( glAttributes );
+#else
+	if (aglCreatePixelFormat != NULL)
+	{
+		pixelFormat = aglCreatePixelFormat( glAttributes );
+	}
+	else
+	{
+		pixelFormat = aglChoosePixelFormat( NULL, 0, glAttributes );
+	}
+#endif
+
 	return pixelFormat;
+}
+
+
+/*!
+	@function	gldrawcontext_mac_set_drawable
+	@abstract	Set or forget the drawing destination for an AGL context.
+	@param		inAGLContext		An AGL context.
+	@param		theDrawContext		A Quesa Mac draw context, or NULL to clear.
+*/
+static void
+gldrawcontext_mac_set_drawable( AGLContext inAGLContext,
+								TQ3DrawContextObject theDrawContext )
+{
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
+	if (theDrawContext == NULL)
+	{
+		aglSetDrawable( inAGLContext, (AGLDrawable) NULL );
+	}
+	else
+	{
+		CGrafPtr qdPort = gldrawcontext_mac_getport( theDrawContext );
+		aglSetDrawable( inAGLContext, (AGLDrawable) qdPort );
+	}
+#elif MAC_OS_X_VERSION_MIN_REQUIRED >= 1050
+	if (theDrawContext == NULL)
+	{
+		aglSetWindowRef( inAGLContext, NULL );
+	}
+	else
+	{
+		WindowRef theWindow = NULL;
+		Q3MacDrawContext_GetWindow( theDrawContext, &theWindow );
+		aglSetWindowRef( inAGLContext, theWindow );
+	}
+#else	// decide based on weak linking
+	if (aglSetWindowRef != NULL)
+	{
+		if (theDrawContext == NULL)
+		{
+			aglSetWindowRef( inAGLContext, NULL );
+		}
+		else
+		{
+			WindowRef theWindow = NULL;
+			Q3MacDrawContext_GetWindow( theDrawContext, &theWindow );
+			aglSetWindowRef( inAGLContext, theWindow );
+		}
+	}
+	else
+	{
+		if (theDrawContext == NULL)
+		{
+			aglSetDrawable( inAGLContext, (AGLDrawable) NULL );
+		}
+		else
+		{
+			CGrafPtr qdPort = gldrawcontext_mac_getport( theDrawContext );
+			aglSetDrawable( inAGLContext, (AGLDrawable) qdPort );
+		}
+	}
+#endif
 }
 
 MacGLContext::MacGLContext(
@@ -1152,7 +1226,6 @@ MacGLContext::MacGLContext(
 	TQ3Status				qd3dStatus;
 	GLint					glRect[4];
 	TQ3Pixmap				thePixmap;
-	CGrafPtr				thePort = NULL;
 	Rect					theRect;
 	GLint					paneWidth, paneHeight;
 	char*					paneImage;
@@ -1168,14 +1241,6 @@ MacGLContext::MacGLContext(
     switch (drawContextType) {
     	// Mac Window
     	case kQ3DrawContextTypeMacintosh:
-    		// Get the port
-    		thePort = gldrawcontext_mac_getport( theDrawContext );
-    		if (thePort == NULL)
-			{
-				throw std::exception();
-			}
-
-
 			// Grab its dimensions
 			theRect = gldrawcontext_mac_getbounds( theDrawContext );
 			break;
@@ -1328,7 +1393,7 @@ MacGLContext::MacGLContext(
 		
 		if (drawContextType == kQ3DrawContextTypeMacintosh)
 			{
-			aglSetDrawable(macContext, (AGLDrawable) thePort);
+			gldrawcontext_mac_set_drawable( macContext, theDrawContext );
 			
 			TQ3Boolean	putBehind;
 			if ( (kQ3Success == Q3Object_GetProperty( theDrawContext,
@@ -1445,7 +1510,7 @@ MacGLContext::~MacGLContext()
 {
 	// Close down the context
 	aglSetCurrentContext( NULL );
-	aglSetDrawable( macContext, NULL );
+	gldrawcontext_mac_set_drawable( macContext, NULL );
 
 
 
