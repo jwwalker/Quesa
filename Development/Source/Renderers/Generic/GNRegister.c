@@ -5,7 +5,7 @@
         Quesa generic renderer registration.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -303,7 +303,7 @@ GNRenderer_Register(void)
 //-----------------------------------------------------------------------------
 void
 GNRenderer_Unregister(void)
-{	TQ3Status			qd3dStatus;
+{
 	TQ3XObjectClass		theClass;
 
 
@@ -316,6 +316,6 @@ GNRenderer_Unregister(void)
 
 
 	// Unregister the class
-	qd3dStatus = Q3XObjectHierarchy_UnregisterClass(theClass);
+	Q3XObjectHierarchy_UnregisterClass(theClass);
 }
 

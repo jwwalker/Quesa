@@ -425,6 +425,9 @@ gldrawcontext_fbo_is_compatible_pixmap_format( TQ3DrawContextObject theDrawConte
 					case kQ3PixelTypeARGB32:
 						isCompatible = true;
 						break;
+					
+					default:
+						break;
 				}
 				break;
 		}

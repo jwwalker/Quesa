@@ -926,7 +926,6 @@ ir_geom_trimesh_build_transparent(TQ3VertexArray *vertexArray)
 		if (vertexArray->geomVertexTransparencyData != NULL)
 			{
 			isTransparent  = kQ3True;
-			allTransparent = (TQ3Boolean) (vertexArray->geomVertexTransparencyFlag == NULL);
 			
 			for (n = 0; n < vertexArray->geomData->numPoints; n++)
 				{

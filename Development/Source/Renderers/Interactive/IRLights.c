@@ -5,7 +5,7 @@
         Quesa interactive renderer lighting.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -395,10 +395,10 @@ IRRenderer_Lights_StartPass(TQ3InteractiveData		*instanceData,
 							 TQ3GroupObject			theLights)
 {	TQ3Uns32				numLightsQD3D, numLightsGL;
 	TQ3Matrix4x4			worldToView;
-	TQ3Status               qd3dStatus;
 	TQ3GroupPosition        lightPos;
     TQ3LightObject          theLight;
 	TQ3Boolean				isOn;
+	TQ3Status				qd3dStatus;
 
 
 
@@ -431,8 +431,8 @@ IRRenderer_Lights_StartPass(TQ3InteractiveData		*instanceData,
     while (qd3dStatus == kQ3Success && lightPos != NULL)
         {
         // Get the light
-        qd3dStatus = Q3Group_GetPositionObject(theLights, lightPos, &theLight);
-        qd3dStatus = Q3Light_GetState(theLight, &isOn);
+        Q3Group_GetPositionObject(theLights, lightPos, &theLight);
+        Q3Light_GetState(theLight, &isOn);
 
 
 
@@ -465,7 +465,7 @@ IRRenderer_Lights_StartPass(TQ3InteractiveData		*instanceData,
 
 		// Get the next light
         Q3Object_Dispose(theLight);
-        qd3dStatus = Q3Group_GetNextPosition(theLights, &lightPos);
+        Q3Group_GetNextPosition(theLights, &lightPos);
         }
 }
 

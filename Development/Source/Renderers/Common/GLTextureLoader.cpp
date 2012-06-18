@@ -5,7 +5,7 @@
         Source code to load a texture into OpenGL texture memory.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -575,6 +575,7 @@ static PixelConverter ChoosePixelConverter(
 	{
 		switch (inSrcPixelType)
 		{
+			default:
 			case kQ3PixelTypeRGB32:
 				theConverter = ConvertPixel_xRGB32_Big;
 				break;
@@ -608,6 +609,7 @@ static PixelConverter ChoosePixelConverter(
 	{
 		switch (inSrcPixelType)
 		{
+			default:
 			case kQ3PixelTypeRGB32:
 				theConverter = ConvertPixel_xRGB32_Little;
 				break;

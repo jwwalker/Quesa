@@ -5,7 +5,7 @@
         Wire Frame Renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -163,7 +163,7 @@ void CWireFrameRendererQuesa::StartPassWireFrame(
 	
 	CQ3ObjectRef	theDrawContext( CQ3View_GetDrawContext( inView ) );
 			
-	if ( theDrawContext.isvalid() && (Q3Camera_GetViewPort(inCamera, &viewPort)))
+	/*if ( theDrawContext.isvalid() && (Q3Camera_GetViewPort(inCamera, &viewPort)))
     	{
 		TQ3Area		thePane;
 		Q3DrawContext_GetPane( theDrawContext.get(), &thePane );
@@ -173,7 +173,7 @@ void CWireFrameRendererQuesa::StartPassWireFrame(
 		
 		factor = diagonal/720.0f*(4.0f/(viewPort.width + viewPort.height)); // scale (rather arbirarly) the line to the canvas size
 		
-		}
+		}*/
 
 	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 	mLineWidth = lineW;
@@ -482,7 +482,6 @@ TQ3Status WireFrameRenderer_Register()
 
 void WireFrameRenderer_Unregister()
 {
-	TQ3Status			qd3dStatus;
 	TQ3XObjectClass		theClass;
 
 	// Find the renderer class
@@ -491,6 +490,6 @@ void WireFrameRenderer_Unregister()
 		return;
 
 	// Unregister the class
-	qd3dStatus = Q3XObjectHierarchy_UnregisterClass(theClass);
+	Q3XObjectHierarchy_UnregisterClass(theClass);
 }
 
