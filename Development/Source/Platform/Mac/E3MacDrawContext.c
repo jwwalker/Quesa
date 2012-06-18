@@ -7,7 +7,7 @@
         Only WindowPtr based Mac draw contexts are supported at present.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -109,7 +109,6 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 {
 	TQ3DrawContextUnionData			*instanceData =
 		(TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	E3GlobalsPtr					theGlobals    = E3Globals_Get();
 	TQ3XDrawContextValidation		stateChanges;
 	TQ3MacDrawContext2DLibrary		theLibrary;
 	Rect							windowRect;
@@ -119,6 +118,7 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 
 
 #if TARGET_API_MAC_OS8
+	E3GlobalsPtr					theGlobals    = E3Globals_Get();
 	// If a Display Manager notification has occurred, reset everything
 	if (theGlobals->dmNotifiedChanges)
 		{
@@ -304,7 +304,6 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 static void
 e3drawcontext_mac_delete(TQ3Object theObject, void *privateData)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) privateData;
-	TQ3Status					qd3dStatus = kQ3Success;
 #pragma unused(theObject)
 
 
@@ -317,7 +316,7 @@ e3drawcontext_mac_delete(TQ3Object theObject, void *privateData)
 
 	// Dispose of the common instance data
 	if (instanceData->data.common.maskState)
-		qd3dStatus = Q3Bitmap_Empty(&instanceData->data.common.mask);
+		Q3Bitmap_Empty(&instanceData->data.common.mask);
 }
 
 

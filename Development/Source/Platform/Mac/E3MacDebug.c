@@ -5,7 +5,7 @@
         Mac debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -74,7 +74,7 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 	// Report the assertion failure
 	snprintf((char *) &theStr[1], sizeof(theStr)-1,
 				"Quesa Assertion: '%s' failed on line %lu of %s",
-				theAssertion, lineNum, srcFile);
+				theAssertion, (unsigned long)lineNum, srcFile);
 
 	n = 1;
 	while (theStr[n] != 0x00 && n < sizeof(theStr))
