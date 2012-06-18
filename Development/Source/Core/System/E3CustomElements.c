@@ -1029,21 +1029,21 @@ E3CustomElements_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CustomElements_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the classes
 #if QUESA_SUPPORT_QUICKTIME
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementWire, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementWire, kQ3True);
 #endif
 
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementName, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementUrl,  kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ElementTypeTextureShaderAlphaTest,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementName, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementUrl,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ElementTypeTextureShaderAlphaTest,  kQ3True);
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 

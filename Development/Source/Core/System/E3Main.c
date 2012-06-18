@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -841,7 +841,6 @@ E3Initialize(void)
 TQ3Status
 E3Exit(void)
 {	E3GlobalsPtr	theGlobals = E3Globals_Get();
-	TQ3Status		qd3dStatus;
 
 
 
@@ -892,27 +891,27 @@ E3Exit(void)
 		// Terminate Quesa
 		#if QUESA_OS_MACINTOSH & QUESA_SUPPORT_VIEWER
 		// Viewer  supported only on Carbon/Classic
-		qd3dStatus = E3Viewer_UnregisterClass();
+		E3Viewer_UnregisterClass();
 		#endif
-		qd3dStatus = E3CustomElements_UnregisterClass();
-		qd3dStatus = E3Pick_UnregisterClass();
-		qd3dStatus = E3File_UnregisterClass();
-		qd3dStatus = E3Storage_UnregisterClass();
-		qd3dStatus = E3Renderer_UnregisterClass();
-		qd3dStatus = E3Texture_UnregisterClass();
-		qd3dStatus = E3Shader_UnregisterClass();
-		qd3dStatus = E3Geometry_UnregisterClass();
-		qd3dStatus = E3Camera::UnregisterClass();
-		qd3dStatus = E3DrawContext_UnregisterClass();
-		qd3dStatus = E3View_UnregisterClass();
-		qd3dStatus = E3Style_UnregisterClass();
-		qd3dStatus = E3Light_UnregisterClass();
-		qd3dStatus = E3Set_UnregisterClass();
-		qd3dStatus = E3Group_UnregisterClass();
-		qd3dStatus = E3Transform_UnregisterClass();
-		qd3dStatus = E3String_UnregisterClass();
-		qd3dStatus = E3Memory_UnregisterClass();
-		qd3dStatus = e3main_unregistercoreclasses();
+		E3CustomElements_UnregisterClass();
+		E3Pick_UnregisterClass();
+		E3File_UnregisterClass();
+		E3Storage_UnregisterClass();
+		E3Renderer_UnregisterClass();
+		E3Texture_UnregisterClass();
+		E3Shader_UnregisterClass();
+		E3Geometry_UnregisterClass();
+		E3Camera::UnregisterClass();
+		E3DrawContext_UnregisterClass();
+		E3View_UnregisterClass();
+		E3Style_UnregisterClass();
+		E3Light_UnregisterClass();
+		E3Set_UnregisterClass();
+		E3Group_UnregisterClass();
+		E3Transform_UnregisterClass();
+		E3String_UnregisterClass();
+		E3Memory_UnregisterClass();
+		e3main_unregistercoreclasses();
 		E3ClassTree::Destroy () ;
 
 

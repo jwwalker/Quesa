@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -669,17 +669,16 @@ E3Texture_RegisterClass(void)
 TQ3Status
 E3Texture_UnregisterClass(void)
 {
-	TQ3Status		qd3dStatus ;
 
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TextureTypeCompressedPixmap, kQ3True) ;
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TextureTypeMipmap, kQ3True) ;
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TextureTypePixmap, kQ3True) ;
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeTexture, kQ3True ) ;
+	E3ClassTree::UnregisterClass(kQ3TextureTypeCompressedPixmap, kQ3True) ;
+	E3ClassTree::UnregisterClass(kQ3TextureTypeMipmap, kQ3True) ;
+	E3ClassTree::UnregisterClass(kQ3TextureTypePixmap, kQ3True) ;
+	E3ClassTree::UnregisterClass(kQ3SharedTypeTexture, kQ3True ) ;
 
-	return(qd3dStatus) ;
+	return(kQ3Success) ;
 }
 
 

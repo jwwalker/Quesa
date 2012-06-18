@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -978,8 +978,6 @@ e3view_submit_retained_error ( E3View* view, TQ3Object theObject )
 		default:
 			theError = kQ3ErrorViewNotStarted ;
 			Q3_ASSERT(!"Unrecognised view mode");
-			E3ErrorManager_PostError ( kQ3ErrorUnsupportedFunctionality, kQ3False ) ;
-			return kQ3Failure ;
 			break;
 		}
 
@@ -1638,7 +1636,7 @@ e3view_default_lights(TQ3ViewObject theView)
 	ambientLight.color      = lightColour;
 	ambientLight.brightness = 0.1f;
 
-	qd3dStatus = Q3View_AddLight(theView, kQ3LightTypeAmbient, &ambientLight);
+	Q3View_AddLight(theView, kQ3LightTypeAmbient, &ambientLight);
 
 
 
@@ -1664,7 +1662,6 @@ e3view_default_lights(TQ3ViewObject theView)
 static TQ3CameraObject
 e3view_default_camera(TQ3DrawContextObject theDrawContext)
 {	float							theWidth, theHeight;
-	TQ3Status						qd3dStatus;
 	TQ3ViewAngleAspectCameraData	cameraData;
 	TQ3CameraObject					theCamera;
 	TQ3Area							theArea;
@@ -1672,7 +1669,7 @@ e3view_default_camera(TQ3DrawContextObject theDrawContext)
 
 
 	// Get the size of the image we're rendering
-	qd3dStatus = Q3DrawContext_GetPane(theDrawContext, &theArea);
+	Q3DrawContext_GetPane(theDrawContext, &theArea);
 	theWidth  = theArea.max.x - theArea.min.x;
 	theHeight = theArea.max.y - theArea.min.y;
 
@@ -1997,16 +1994,16 @@ E3View_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3View_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StateOperatorTypePop,   kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StateOperatorTypePush,  kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeStateOperator, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeView,         kQ3True);
-	return qd3dStatus ;
+	E3ClassTree::UnregisterClass(kQ3StateOperatorTypePop,   kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StateOperatorTypePush,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ShapeTypeStateOperator, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeView,         kQ3True);
+	return kQ3Success ;
 }
 
 
@@ -2505,7 +2502,7 @@ E3View_PickStack_GetPickedObject(TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 void
 E3View_PickStack_SavePosition(TQ3ViewObject theView, TQ3GroupPosition thePosition)
-	{
+{
 	TQ3HitPath* pickedPath   = & ( (E3View*) theView )->instanceData.pickedPath ;
 
 
@@ -2521,16 +2518,22 @@ E3View_PickStack_SavePosition(TQ3ViewObject theView, TQ3GroupPosition thePositio
 
 
 
-	// Make sure that there's at least one slot defined
-	Q3_ASSERT ( pickedPath->depth     != 0 ) ;
-	Q3_ASSERT ( pickedPath->positions != NULL ) ;
+	if (pickedPath != NULL)
+	{
+		// Make sure that there's at least one slot defined
+		Q3_ASSERT ( pickedPath->depth     != 0 ) ;
+		Q3_ASSERT ( pickedPath->positions != NULL ) ;
 
 
 
-	// Save the position in the last slot in the positions array. We can
-	// override any previous value, since group positions are not objects.
-	pickedPath->positions [ pickedPath->depth - 1 ] = thePosition ;
+		// Save the position in the last slot in the positions array. We can
+		// override any previous value, since group positions are not objects.
+		if (pickedPath->positions != NULL)
+		{
+			pickedPath->positions [ pickedPath->depth - 1 ] = thePosition ;
+		}
 	}
+}
 
 
 
@@ -3595,7 +3598,6 @@ TQ3ViewObject
 E3View_NewWithDefaults(TQ3ObjectType drawContextType, void *drawContextTarget)
 {	TQ3DrawContextObject	theDrawContext;
 	TQ3RendererObject		theRenderer;
-	TQ3Status				qd3dStatus;
 	TQ3CameraObject			theCamera;
 	TQ3ViewObject			theView;
 
@@ -3625,10 +3627,10 @@ E3View_NewWithDefaults(TQ3ObjectType drawContextType, void *drawContextTarget)
 
 
 	// Configure the view
-	qd3dStatus = e3view_default_lights(theView);
-	qd3dStatus = Q3View_SetDrawContext(theView, theDrawContext);
-	qd3dStatus = Q3View_SetRenderer(theView,    theRenderer);
-	qd3dStatus = Q3View_SetCamera(theView,      theCamera);
+	e3view_default_lights(theView);
+	Q3View_SetDrawContext(theView, theDrawContext);
+	Q3View_SetRenderer(theView,    theRenderer);
+	Q3View_SetCamera(theView,      theCamera);
 
 	Q3Object_Dispose(theDrawContext);
 	Q3Object_Dispose(theRenderer);

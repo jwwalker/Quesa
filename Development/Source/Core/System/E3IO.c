@@ -5,7 +5,7 @@
         Implementation of Quesa Q3File related methods.
         
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -235,18 +235,18 @@ E3File_RegisterClass()
 //-----------------------------------------------------------------------------
 TQ3Status
 E3File_UnregisterClass()
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeFile, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3SharedTypeFile, kQ3True);
 
-	qd3dStatus = E3FileFormat_UnregisterClass ();
+	E3FileFormat_UnregisterClass ();
 	
-	qd3dStatus = E3Unknown_UnregisterClass ();
+	E3Unknown_UnregisterClass ();
 	
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 

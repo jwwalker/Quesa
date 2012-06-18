@@ -12,7 +12,7 @@
         light type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -733,18 +733,18 @@ E3Light_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Light_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the class in reverse order
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3LightTypeAmbient,		kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3LightTypeDirectional,	kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3LightTypePoint,		kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3LightTypeSpot,			kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeLight,		kQ3True);
+	E3ClassTree::UnregisterClass(kQ3LightTypeAmbient,		kQ3True);
+	E3ClassTree::UnregisterClass(kQ3LightTypeDirectional,	kQ3True);
+	E3ClassTree::UnregisterClass(kQ3LightTypePoint,		kQ3True);
+	E3ClassTree::UnregisterClass(kQ3LightTypeSpot,			kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ShapeTypeLight,		kQ3True);
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 
