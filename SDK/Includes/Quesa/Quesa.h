@@ -138,6 +138,8 @@
 //-----------------------------------------------------------------------------
 // Mac specific
 #if (QUESA_OS_MACINTOSH)
+	#include <AvailabilityMacros.h>
+
     // Build constants
     #ifdef __LITTLE_ENDIAN__
     	#define		QUESA_HOST_IS_BIG_ENDIAN			0
@@ -169,7 +171,11 @@
 	// The viewer is only supported on Carbon/Classic, and even those using
 	// Carbon may want to omit the viewer code.
 	#ifndef QUESA_SUPPORT_VIEWER
-		#define	QUESA_SUPPORT_VIEWER		QUESA_SUPPORT_HITOOLBOX
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1070
+			#define	QUESA_SUPPORT_VIEWER		QUESA_SUPPORT_HITOOLBOX
+		#else
+			#define	QUESA_SUPPORT_VIEWER	0
+		#endif
 	#endif
     
     #if defined(__GNUC__) && (defined(__APPLE_CPP__) || defined(__APPLE_CC__) || defined(__NEXT_CPP__))

@@ -57,6 +57,9 @@
 
 #define __QD3DSHADER__
 
+#if QUESA_SUPPORT_QUICKTIME
+	#include <QuickTime/QuickTime.h>
+#endif
 
 
 
