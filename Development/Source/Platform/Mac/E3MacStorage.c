@@ -5,7 +5,7 @@
         Macintosh specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -332,7 +332,7 @@ e3storage_mac_read ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 data
 
 	if ( ( offset + ioByteCount) > storage->macStorageData.fileEOF )
 		{
-		err = eofErr ;
+		//err = eofErr ;
 		ioByteCount = (SInt32) storage->macStorageData.fileEOF - (SInt32) offset ;
 		}
 
@@ -972,16 +972,16 @@ E3MacStorage_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MacStorage_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3MemoryStorageTypeHandle,    kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3MacintoshStorageTypeFSSpec, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypeMacintosh,       kQ3True);
+	E3ClassTree::UnregisterClass(kQ3MemoryStorageTypeHandle,    kQ3True);
+	E3ClassTree::UnregisterClass(kQ3MacintoshStorageTypeFSSpec, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StorageTypeMacintosh,       kQ3True);
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 
