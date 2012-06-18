@@ -138,14 +138,13 @@ e3drawcontext_pixmap_new(TQ3Object theObject, void *privateData, const void *par
 static void
 e3drawcontext_pixmap_delete(TQ3Object theObject, void *privateData)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) privateData;
-	TQ3Status					qd3dStatus = kQ3Success;
 #pragma unused(privateData)
 
 
 
 	// Dispose of the common instance data
 	if (instanceData->data.common.maskState)
-		qd3dStatus = Q3Bitmap_Empty(&instanceData->data.common.mask);
+		Q3Bitmap_Empty(&instanceData->data.common.mask);
 }
 
 
@@ -341,36 +340,44 @@ E3DrawContext_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3DrawContext_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
+	bool success = true;
 
 
 
 	// Unregister the draw context classes
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3DrawContextTypePixmap, kQ3True);
+	success = (kQ3Success == E3ClassTree::UnregisterClass(kQ3DrawContextTypePixmap, kQ3True))
+		&& success;
 
 #if QUESA_OS_MACINTOSH
 	#if QUESA_SUPPORT_HITOOLBOX
-		qd3dStatus = E3MacDrawContext_UnregisterClass();
+		success = (kQ3Success == E3MacDrawContext_UnregisterClass())
+			&& success;
 	#endif
 
 	#if QUESA_OS_COCOA
-		qd3dStatus = E3CocoaDrawContext_UnregisterClass();
+		success = (kQ3Success == E3CocoaDrawContext_UnregisterClass())
+			&& success;
 	#endif
 
 #elif QUESA_OS_UNIX
-	qd3dStatus = E3XDrawContext_UnregisterClass();
+	qsuccess = (kQ3Success == E3XDrawContext_UnregisterClass())
+			&& success;
 
 #elif QUESA_OS_WIN32
-	qd3dStatus = E3Win32DCDrawContext_UnregisterClass();
+	success = (kQ3Success == E3Win32DCDrawContext_UnregisterClass())
+			&& success;
 #if !defined(QD3D_NO_DIRECTDRAW)
-	qd3dStatus = E3DDSurfaceDrawContext_UnregisterClass();
+	success = (kQ3Success == E3DDSurfaceDrawContext_UnregisterClass())
+			&& success;
 #endif // QD3D_NO_DIRECTDRAW
 
 #endif
 
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeDrawContext, kQ3True);
+	success = (kQ3Success == E3ClassTree::UnregisterClass(kQ3SharedTypeDrawContext, kQ3True))
+			&& success;
 
-	return(qd3dStatus);
+	return (success? kQ3Success : kQ3Failure);
 }
 
 

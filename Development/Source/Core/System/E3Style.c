@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1036,27 +1036,27 @@ E3Style_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Style_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeFog,         			 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeAntiAlias,         	 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeOrientation,         	 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeHighlight,             kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeInterpolation,		 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeBackfacing,      		 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeFill,    				 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeCastShadows,	  		 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeReceiveShadows,  		 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypePickParts, 			 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypePickID,    			 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeSubdivision,			 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StyleTypeLineWidth,     		 kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeStyle,     			 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeFog,         			 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeAntiAlias,         	 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeOrientation,         	 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeHighlight,             kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeInterpolation,		 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeBackfacing,      		 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeFill,    				 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeCastShadows,	  		 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeReceiveShadows,  		 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypePickParts, 			 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypePickID,    			 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeSubdivision,			 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeLineWidth,     		 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ShapeTypeStyle,     			 kQ3True);
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 

@@ -22,7 +22,7 @@
         routines on an attribute set - so this implementation would be OK.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1858,27 +1858,27 @@ E3Set_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Set_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the class
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSurfaceShader,      kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeHighlightState,     kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSurfaceTangent,     kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeTransparencyColor,  kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSpecularControl,    kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSpecularColor,      kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeEmissiveColor,      kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeDiffuseColor,       kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeAmbientCoefficient, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeNormal,             kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeShadingUV,          kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSurfaceUV,          kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeElement,                     kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeSet,                         kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSurfaceShader,      kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeHighlightState,     kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSurfaceTangent,     kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeTransparencyColor,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSpecularControl,    kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSpecularColor,      kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeEmissiveColor,      kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeDiffuseColor,       kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeAmbientCoefficient, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeNormal,             kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeShadingUV,          kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSurfaceUV,          kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeElement,                     kQ3True);
+	E3ClassTree::UnregisterClass(kQ3SharedTypeSet,                         kQ3True);
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 
@@ -2232,8 +2232,6 @@ E3Set::Contains ( TQ3ElementType theType )
 	if ( ( theType > kQ3AttributeTypeNone ) && ( theType < kQ3AttributeTypeNumTypes ) )
 		{
 		// Test the mask
-		TQ3XAttributeMask mask = ( e3attribute_type_to_mask(theType) ) ;
-		mask = ( ( setData.theMask & e3attribute_type_to_mask(theType) ) != 0 ) ;
 		return (TQ3Boolean) ( ( setData.theMask & e3attribute_type_to_mask(theType) ) != 0 ) ;
 		}
 	

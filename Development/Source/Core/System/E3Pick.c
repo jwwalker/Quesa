@@ -556,6 +556,9 @@ e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
 				std::sort( pickInstanceData->pickHits->begin(),
 					pickInstanceData->pickHits->end(), CompPickFarToNear() );
 				break;
+			
+			default:
+				break;
 		}
 		pickInstanceData->isSorted = true;
 	}

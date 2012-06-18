@@ -582,9 +582,15 @@ TQ3Boolean
 E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBounds, TQ3Point3D *hitPoint)
 {	float			candidatePlane[3], maxT[3], coord[3];
 	float			minB[3], maxB[3], origin[3], dir[3];
-	TQ3Uns32		i, whichPlane, right, left, middle;
-	TQ3Int8			quadrant[3];
+	TQ3Uns32		i, whichPlane;
 	TQ3Boolean		isInside;
+	enum EQuadrant
+	{
+		kRight,
+		kLeft,
+		kMiddle
+	};
+	EQuadrant			quadrant[3];
 
 
 
@@ -606,87 +612,97 @@ E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 	dir[2]    = theRay->direction.z;
 
 	isInside  = kQ3True;
-	right     = 0;
-	left      = 1;
-	middle    = 2;
 
 
 
 	// Find candidate planes
 	for (i = 0; i < 3; i++)
-		{
+	{
 		if (origin[i] < minB[i])
-			{
-			quadrant[i]       = (TQ3Int8) left;
+		{
+			quadrant[i]       = kLeft;
 			candidatePlane[i] = minB[i];
 			isInside          = kQ3False;
-			}
+		}
 		else if (origin[i] > maxB[i])
-			{
-			quadrant[i]       = (TQ3Int8) right;
+		{
+			quadrant[i]       = kRight;
 			candidatePlane[i] = maxB[i];
 			isInside          = kQ3False;
-			}
-		else
-			quadrant[i] = (TQ3Int8) middle;
 		}
+		else
+		{
+			quadrant[i] = kMiddle;
+			// The next line is not mathematically needed,
+			// but serves to remove a bogus warning about
+			// an uninitialized value.
+			candidatePlane[i] = 0.0f;
+		}
+	}
 
 
 
 	// Check for the ray origin being inside the bounding box
 	if (isInside)
+	{
+		if (hitPoint)
+			*hitPoint = theRay->origin;
+	}
+	else
+	{
+		// Calculate T distances to candidate planes
+		for (i = 0; i < 3; i++)
 		{
-		if (hitPoint) *hitPoint = theRay->origin;
-		return(kQ3True);
+			if ((quadrant[i] != kMiddle) && (dir[i] != 0.0f))
+				maxT[i] = (candidatePlane[i] - origin[i]) / dir[i];
+			else
+				maxT[i] = -1.0f;
 		}
 
 
 
-	// Calculate T distances to candidate planes
-	for (i = 0; i < 3; i++)
+		// Get largest of the maxT's for final choice of intersection
+		whichPlane = 0;
+		for (i = 1; i < 3; i++)
 		{
-		if (quadrant[i] != (TQ3Int8) middle && dir[i] != 0.0f)
-			maxT[i] = (candidatePlane[i] - origin[i]) / dir[i];
-		else
-			maxT[i] = -1.0f;
+			if (maxT[whichPlane] < maxT[i])
+				whichPlane = i;
 		}
 
 
 
-	// Get largest of the maxT's for final choice of intersection
-	whichPlane = 0;
-	for (i = 1; i < 3; i++)
+		// Check final candidate actually inside box
+		if (maxT[whichPlane] >= 0.0f)
 		{
-		if (maxT[whichPlane] < maxT[i])
-			whichPlane = i;
-		}
-
-
-
-	// Check final candidate actually inside box
-	if (maxT[whichPlane] < 0.0f)
-		return(kQ3False);
-	
-	for (i = 0; i < 3; i++)
-		{
-		if (whichPlane != i)
+			isInside = kQ3True;
+			
+			for (i = 0; i < 3; i++)
 			{
-			coord[i] = origin[i] + maxT[whichPlane] * dir[i];
-			if (coord[i] < minB[i] || coord[i] > maxB[i])
-				return(kQ3False);
+				if (whichPlane != i)
+				{
+					coord[i] = origin[i] + maxT[whichPlane] * dir[i];
+					if (coord[i] < minB[i] || coord[i] > maxB[i])
+					{
+						isInside = kQ3False;
+						break;
+					}
+				}
+				else
+					coord[whichPlane] = candidatePlane[whichPlane];
 			}
-		else
-			coord[i] = candidatePlane[i];
+			
+			if ( isInside && (hitPoint != NULL) )
+			{
+				hitPoint->x = coord[0];
+				hitPoint->y = coord[1];
+				hitPoint->z = coord[2];
+			}
 		}
+	}
+
+
 	
-	if (hitPoint)
-		{
-		hitPoint->x = coord[0];
-		hitPoint->y = coord[1];
-		hitPoint->z = coord[2];
-		}
-	
-	return(kQ3True);
+	return isInside;
 }
 
 

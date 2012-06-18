@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1005,7 +1005,7 @@ e3transform_camera_rasterize_submit(TQ3ViewObject theView, TQ3ObjectType objectT
 
 
 	// Update the view
-	qd3dStatus = E3View_State_SetMatrix(theView, kQ3MatrixStateLocalToWorld  |
+	E3View_State_SetMatrix(theView, kQ3MatrixStateLocalToWorld  |
 												 kQ3MatrixStateWorldToCamera |
 												 kQ3MatrixStateCameraToFrustum,
 												 &localToWorld,
@@ -1153,24 +1153,24 @@ E3Transform_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Transform_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the camera classes
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeReset,            kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeQuaternion,       kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeTranslate,        kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeScale,            kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeRotateAboutAxis,  kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeRotateAboutPoint, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeRotate,           kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeMatrix,           kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeCamera,           kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3TransformTypeCameraRasterize,  kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeTransform,            kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeReset,            kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeQuaternion,       kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeTranslate,        kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeScale,            kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeRotateAboutAxis,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeRotateAboutPoint, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeRotate,           kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeMatrix,           kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeCamera,           kQ3True);
+	E3ClassTree::UnregisterClass(kQ3TransformTypeCameraRasterize,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ShapeTypeTransform,            kQ3True);
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 

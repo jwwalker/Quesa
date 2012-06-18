@@ -993,13 +993,13 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 			
 			if (Q3Object_IsType( anObject, kQ3StringTypeCString))
 			{
-				fprintf( dumpFile, "   %ld  '%s'\n",
-					Q3Shared_GetReferenceCount(anObject),
+				fprintf( dumpFile, "   %lu  '%s'\n",
+					(unsigned long)Q3Shared_GetReferenceCount(anObject),
 					E3CString_PeekString( anObject ) );
 			}
 			else if (Q3Object_IsType( anObject, kQ3ObjectTypeShared ))
 			{
-				fprintf( dumpFile, "   %ld\n", Q3Shared_GetReferenceCount(anObject) );
+				fprintf( dumpFile, "   %lu\n", (unsigned long)Q3Shared_GetReferenceCount(anObject) );
 			}
 			else
 			{

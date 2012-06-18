@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -235,14 +235,14 @@ E3String_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3String_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StringTypeCString, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeString,  kQ3True);
-	return(qd3dStatus);
+	E3ClassTree::UnregisterClass(kQ3StringTypeCString, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3SharedTypeString,  kQ3True);
+	return(kQ3Success);
 }
 
 

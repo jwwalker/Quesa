@@ -929,24 +929,24 @@ E3Storage_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Storage_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeStorage, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypeMemory, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypePath,   kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3StorageTypeFileStream,   kQ3True);
+	E3ClassTree::UnregisterClass(kQ3SharedTypeStorage, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StorageTypeMemory, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StorageTypePath,   kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StorageTypeFileStream,   kQ3True);
 
 
 #if QUESA_OS_MACINTOSH
-	qd3dStatus = E3MacStorage_UnregisterClass();
+	E3MacStorage_UnregisterClass();
 #elif QUESA_OS_UNIX
-	qd3dStatus = E3UnixStorage_UnregisterClass();
+	E3UnixStorage_UnregisterClass();
 #elif QUESA_OS_WIN32
-	qd3dStatus = E3Win32Storage_UnregisterClass();
+	E3Win32Storage_UnregisterClass();
 #endif
 	
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 

@@ -1754,7 +1754,7 @@ E3Unknown_UnregisterClass(void)
 	status3 = E3ClassTree::UnregisterClass(kQ3ShapeTypeUnknown, kQ3True);
 	
 	qd3dStatus = ((status1 == kQ3Success) && (status2 == kQ3Success) &&
-				  (status2 == kQ3Success))? kQ3Success : kQ3Failure;
+				  (status3 == kQ3Success))? kQ3Success : kQ3Failure;
 
 	return(qd3dStatus);
 }

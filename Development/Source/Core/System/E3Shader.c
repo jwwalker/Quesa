@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -749,20 +749,20 @@ E3Shader_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Shader_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the classes	
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SurfaceShaderTypeTexture, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShaderTypeSurface,        kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3IlluminationTypePhong,    kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3IlluminationTypeLambert,  kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3IlluminationTypeNULL,     kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShaderTypeIllumination,   kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeShader,          kQ3True);
+	E3ClassTree::UnregisterClass(kQ3SurfaceShaderTypeTexture, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ShaderTypeSurface,        kQ3True);
+	E3ClassTree::UnregisterClass(kQ3IlluminationTypePhong,    kQ3True);
+	E3ClassTree::UnregisterClass(kQ3IlluminationTypeLambert,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3IlluminationTypeNULL,     kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ShaderTypeIllumination,   kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ShapeTypeShader,          kQ3True);
 		
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 
