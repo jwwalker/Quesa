@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1025,6 +1025,9 @@ bool	QORenderer::Lights::IsLit( const TQ3BoundingBox& inBounds ) const
 					
 				case kQ3AttenuationTypeInverseDistanceSquared:
 					attenuatedLight /= theDistanceSq;
+					break;
+				
+				default:
 					break;
 			}
 			

@@ -868,7 +868,7 @@ void CCartoonRendererQuesa::DrawArrays(
 		SetUpLight( lightLevel );
 
 		// Check for a triangle strip.
-		TQ3Uns32	stripSize;
+		TQ3Uns32	stripSize = 0;
 		const TQ3Uns32*	stripArray = NULL;
 		if (inTriMesh != NULL)
 		{
@@ -901,7 +901,7 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(
 		SetRealTexture( texCoords );
 		
 		// Check for a triangle strip.
-		TQ3Uns32	stripSize;
+		TQ3Uns32	stripSize = 0;
 		const TQ3Uns32*	stripArray = NULL;
 		if (inTriMesh != NULL)
 		{
@@ -1067,7 +1067,14 @@ CCartoonRendererQuesa::Cartoon_Geometry_Submit_TriMesh(
 		TQ3XRendererSubmitGeometryMethod	GLMethod =
 			(TQ3XRendererSubmitGeometryMethod)
 			GetParentRendererMethod( kQ3GeometryTypeTriMesh );
-		theStatus = GLMethod( theView, privateData, theGeom, geomData );
+		if (GLMethod != NULL)
+		{
+			theStatus = GLMethod( theView, privateData, theGeom, geomData );
+		}
+		else
+		{
+			theStatus = kQ3Failure;
+		}
 	}
 	else
 	{

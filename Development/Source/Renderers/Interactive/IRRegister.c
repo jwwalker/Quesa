@@ -5,7 +5,7 @@
         Quesa interactive renderer registration.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -512,7 +512,7 @@ IRRenderer_Register(void)
 //-----------------------------------------------------------------------------
 void
 IRRenderer_Unregister(void)
-{	TQ3Status			qd3dStatus;
+{
 	TQ3XObjectClass		theClass;
 
 
@@ -525,6 +525,6 @@ IRRenderer_Unregister(void)
 
 
 	// Unregister the class
-	qd3dStatus = Q3XObjectHierarchy_UnregisterClass(theClass);
+	Q3XObjectHierarchy_UnregisterClass(theClass);
 }
 

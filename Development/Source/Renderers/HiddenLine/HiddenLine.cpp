@@ -5,7 +5,7 @@
         Cartoon-style renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -529,7 +529,6 @@ TQ3Status HiddenLine_Register()
 
 void HiddenLine_Unregister()
 {
-	TQ3Status			qd3dStatus;
 	TQ3XObjectClass		theClass;
 
 	// Find the renderer class
@@ -538,7 +537,7 @@ void HiddenLine_Unregister()
 		return;
 
 	// Unregister the class
-	qd3dStatus = Q3XObjectHierarchy_UnregisterClass(theClass);
+	Q3XObjectHierarchy_UnregisterClass(theClass);
 	
 	s_ParentRendererClass = NULL;
 }
