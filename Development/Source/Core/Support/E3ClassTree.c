@@ -365,7 +365,7 @@ E3ClassInfo::Dump_Class ( FILE *theFile, TQ3Uns32 indent )
 					numInstances == 0 ? "" : " *** MEMORY LEAK ***");
 
 	if ( ( classType < 0) && ( classType >= theGlobals->classNextType) )
-		fprintf(theFile, "%s-> classType    = 0x%lx\n", thePad, classType);
+		fprintf(theFile, "%s-> classType    = 0x%lx\n", thePad, (unsigned long)classType);
 	else
 		fprintf(theFile, "%s-> classType    = %c%c%c%c\n", thePad,
 						((char *) &classType)[0],
@@ -373,29 +373,29 @@ E3ClassInfo::Dump_Class ( FILE *theFile, TQ3Uns32 indent )
 						((char *) &classType)[2],
 						((char *) &classType)[3]);
 	
-	fprintf(theFile, "%s-> numInstances = %lu\n", thePad, numInstances);
+	fprintf(theFile, "%s-> numInstances = %lu\n", thePad, (unsigned long)numInstances);
 
-	fprintf(theFile, "%s-> instanceSize = %lu\n", thePad, instanceSize);
+	fprintf(theFile, "%s-> instanceSize = %lu\n", thePad, (unsigned long)instanceSize);
 
-	fprintf(theFile, "%s-> deltaInstanceSize = %lu\n", thePad, deltaInstanceSize);
+	fprintf(theFile, "%s-> deltaInstanceSize = %lu\n", thePad, (unsigned long)deltaInstanceSize);
 
-	fprintf(theFile, "%s-> numChildren  = %lu\n", thePad, numChildren);
+	fprintf(theFile, "%s-> numChildren  = %lu\n", thePad, (unsigned long)numChildren);
 	
 	if (E3HashTable_GetNumItems( methodTable) == 0)
 		fprintf(theFile, "%s-> method cache is empty\n", thePad);
 	else
 		{
 		fprintf(theFile, "%s-> method cache, collision max = %lu\n", thePad,
-							E3HashTable_GetCollisionMax( methodTable));
+							(unsigned long)E3HashTable_GetCollisionMax( methodTable));
 
 		fprintf(theFile, "%s-> method cache, collision avg = %.2f\n", thePad,
 							E3HashTable_GetCollisionAverage( methodTable));
 
 		fprintf(theFile, "%s-> method cache, num items     = %lu\n", thePad,
-							E3HashTable_GetNumItems( methodTable));
+							(unsigned long)E3HashTable_GetNumItems( methodTable));
 
 		fprintf(theFile, "%s-> method cache, table size    = %lu\n", thePad,
-							E3HashTable_GetTableSize( methodTable));
+							(unsigned long)E3HashTable_GetTableSize( methodTable));
 		}
 
 
@@ -1556,19 +1556,19 @@ E3ClassTree::Dump ( void )
 
 	// Print some stats on the class tree
 	fprintf(theFile, "class tree, collision max = %lu\n",
-						E3HashTable_GetCollisionMax(theGlobals->classTree));
+						(unsigned long)E3HashTable_GetCollisionMax(theGlobals->classTree));
 
 	fprintf(theFile, "class tree, collision avg = %.2f\n",
 						E3HashTable_GetCollisionAverage(theGlobals->classTree));
 
 	fprintf(theFile, "class tree, num items     = %lu\n",
-						E3HashTable_GetNumItems(theGlobals->classTree));
+						(unsigned long)E3HashTable_GetNumItems(theGlobals->classTree));
 
 	fprintf(theFile, "class tree, table size    = %lu\n",
-						E3HashTable_GetTableSize(theGlobals->classTree));
+						(unsigned long)E3HashTable_GetTableSize(theGlobals->classTree));
 
 	fprintf(theFile, "class tree, table size    = %lu\n",
-						E3HashTable_GetTableSize(theGlobals->classTree));
+						(unsigned long)E3HashTable_GetTableSize(theGlobals->classTree));
 
 
 

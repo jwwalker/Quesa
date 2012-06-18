@@ -15,7 +15,7 @@
         for every sub-class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -802,35 +802,35 @@ E3Geometry_RegisterClass ( void )
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Geometry_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the geometry classes
-	qd3dStatus = E3GeometryBox_UnregisterClass();
-	qd3dStatus = E3GeometryCone_UnregisterClass();
-	qd3dStatus = E3GeometryCylinder_UnregisterClass();
-	qd3dStatus = E3GeometryDisk_UnregisterClass();
-	qd3dStatus = E3GeometryEllipse_UnregisterClass();
-	qd3dStatus = E3GeometryEllipsoid_UnregisterClass();
-	qd3dStatus = E3GeometryGeneralPolygon_UnregisterClass();
-	qd3dStatus = E3GeometryLine_UnregisterClass();
-	qd3dStatus = E3GeometryMarker_UnregisterClass();
-	qd3dStatus = E3GeometryMesh_UnregisterClass();
-	qd3dStatus = E3GeometryNURBCurve_UnregisterClass();
-	qd3dStatus = E3GeometryNURBPatch_UnregisterClass();
-	qd3dStatus = E3GeometryPixmapMarker_UnregisterClass();
-	qd3dStatus = E3GeometryPoint_UnregisterClass();
-	qd3dStatus = E3GeometryPolyhedron_UnregisterClass();
-	qd3dStatus = E3GeometryPolyLine_UnregisterClass();
-	qd3dStatus = E3GeometryPolygon_UnregisterClass();
-	qd3dStatus = E3GeometryTorus_UnregisterClass();
-	qd3dStatus = E3GeometryTriangle_UnregisterClass();
-	qd3dStatus = E3GeometryTriGrid_UnregisterClass();
-	qd3dStatus = E3GeometryTriMesh_UnregisterClass();
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ShapeTypeGeometry, kQ3True);
+	E3GeometryBox_UnregisterClass();
+	E3GeometryCone_UnregisterClass();
+	E3GeometryCylinder_UnregisterClass();
+	E3GeometryDisk_UnregisterClass();
+	E3GeometryEllipse_UnregisterClass();
+	E3GeometryEllipsoid_UnregisterClass();
+	E3GeometryGeneralPolygon_UnregisterClass();
+	E3GeometryLine_UnregisterClass();
+	E3GeometryMarker_UnregisterClass();
+	E3GeometryMesh_UnregisterClass();
+	E3GeometryNURBCurve_UnregisterClass();
+	E3GeometryNURBPatch_UnregisterClass();
+	E3GeometryPixmapMarker_UnregisterClass();
+	E3GeometryPoint_UnregisterClass();
+	E3GeometryPolyhedron_UnregisterClass();
+	E3GeometryPolyLine_UnregisterClass();
+	E3GeometryPolygon_UnregisterClass();
+	E3GeometryTorus_UnregisterClass();
+	E3GeometryTriangle_UnregisterClass();
+	E3GeometryTriGrid_UnregisterClass();
+	E3GeometryTriMesh_UnregisterClass();
+	E3ClassTree::UnregisterClass(kQ3ShapeTypeGeometry, kQ3True);
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 

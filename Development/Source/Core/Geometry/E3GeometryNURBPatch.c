@@ -1167,7 +1167,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3SubdivisionStyleData	subdivisionData;
 	TQ3TriMeshAttributeData	vertexAttributes[2];
 	float					subdivU = 10.0f, subdivV = 10.0f;
-	TQ3Uns32				numpoints = 0, numtriangles;
+	TQ3Uns32				numpoints = 0, numtriangles = 0;
 	float					*uBasisValues, *vBasisValues, *uBasisDerivValues, *vBasisDerivValues ;
 	
 	theGroup = NULL;

@@ -4239,7 +4239,7 @@ cleanup_1:
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_mesh_cache_new(TQ3ViewObject view, TQ3GeometryObject meshObject,const TE3MeshData *meshPtr)
-{	TQ3Boolean					needToUsePolys;
+{	TQ3Boolean					needToUsePolys = kQ3False;
 	TQ3AttributeSet 			faceAttributes;
 	const TE3MeshFaceData		*meshFace;
 	TQ3Object					theGroup;
@@ -4261,7 +4261,6 @@ e3geom_mesh_cache_new(TQ3ViewObject view, TQ3GeometryObject meshObject,const TE3
 		{
 		meshFace       = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
 		faceAttributes = meshFace->attributeSet;
-		needToUsePolys = kQ3False;
 
 		do
 			{
@@ -4521,7 +4520,7 @@ TQ3Status
 E3Mesh_DelayUpdates(
 	TQ3GeometryObject meshObject)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 
@@ -4542,7 +4541,7 @@ TQ3Status
 E3Mesh_ResumeUpdates(
 	TQ3GeometryObject meshObject)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 
@@ -4946,7 +4945,7 @@ E3Mesh_GetOrientable(
 	TQ3GeometryObject meshObject,
 	TQ3Boolean* orientablePtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -4968,7 +4967,7 @@ E3Mesh_GetNumComponents(
 	TQ3GeometryObject meshObject,
 	TQ3Uns32* numComponentsPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 
@@ -5127,7 +5126,7 @@ E3Mesh_GetNumEdges(
 	TQ3GeometryObject meshObject,
 	TQ3Uns32* numEdgesPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5148,7 +5147,7 @@ E3Mesh_FirstMeshEdge(
 	TQ3GeometryObject meshObject,
 	TQ3MeshIterator* iteratorPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5308,7 +5307,7 @@ E3Mesh_GetComponentOrientable(
 	TE3MeshComponentExtRef componentExtRef,
 	TQ3Boolean* orientablePtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5330,7 +5329,7 @@ E3Mesh_GetComponentBoundingBox(
 	TE3MeshComponentExtRef componentExtRef,
 	TQ3BoundingBox* boundingBoxPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5353,7 +5352,7 @@ E3Mesh_GetComponentNumEdges(
 	TE3MeshComponentExtRef componentExtRef,
 	TQ3Uns32* numEdgesPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5414,7 +5413,7 @@ E3Mesh_GetComponentNumVertices(
 	TE3MeshComponentExtRef componentExtRef,
 	TQ3Uns32* numVerticesPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5516,7 +5515,7 @@ E3Mesh_GetFacePlaneEquation(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3PlaneEquation* planeEquationPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5538,7 +5537,7 @@ E3Mesh_GetFaceAttributeSet(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3AttributeSet* attributeSetPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face
@@ -5570,7 +5569,7 @@ E3Mesh_SetFaceAttributeSet(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3AttributeSet attributeSet)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face
@@ -5605,7 +5604,7 @@ E3Mesh_GetFaceComponent(
 	TE3MeshFaceExtRef faceExtRef,
 	TE3MeshComponentExtRef* componentExtRefPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -5666,7 +5665,7 @@ E3Mesh_GetFaceNumContours(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3Uns32* numContoursPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face
@@ -5838,7 +5837,7 @@ E3Mesh_GetFaceNumVertices(
 	TE3MeshFaceExtRef faceExtRef,
 	TQ3Uns32* numVerticesPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshFaceData* facePtr;
 
 	// Check face
@@ -6144,7 +6143,7 @@ E3Mesh_GetContourNumVertices(
 	TE3MeshContourExtRef contourExtRef,
 	TQ3Uns32* numVerticesPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshContourData* contourPtr;
 
 	// Check contour
@@ -6280,7 +6279,7 @@ E3Mesh_GetEdgeOnBoundary(
 	TE3MeshEdgeExtRef edgeExtRef,
 	TQ3Boolean* onBoundaryPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6302,7 +6301,7 @@ E3Mesh_GetEdgeAttributeSet(
 	TE3MeshEdgeExtRef edgeExtRef,
 	TQ3AttributeSet* attributeSetPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6324,7 +6323,7 @@ E3Mesh_SetEdgeAttributeSet(
 	TE3MeshEdgeExtRef edgeExtRef,
 	TQ3AttributeSet attributeSet)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6349,7 +6348,7 @@ E3Mesh_GetEdgeComponent(
 	TE3MeshEdgeExtRef edgeExtRef,
 	TE3MeshComponentExtRef* componentExtRefPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6372,7 +6371,7 @@ E3Mesh_GetEdgeFaces(
 	TE3MeshFaceExtRef* faceExtRefPtr1,
 	TE3MeshFaceExtRef* faceExtRefPtr2)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6395,7 +6394,7 @@ E3Mesh_GetEdgeVertices(
 	TE3MeshVertexExtRef* vertexExtRefPtr1,
 	TE3MeshVertexExtRef* vertexExtRefPtr2)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6458,7 +6457,7 @@ E3Mesh_GetVertexOnBoundary(
 	TE3MeshVertexExtRef vertexExtRef,
 	TQ3Boolean* onBoundaryPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
@@ -6480,7 +6479,7 @@ E3Mesh_GetVertexCoordinates(
 	TE3MeshVertexExtRef vertexExtRef,
 	TQ3Point3D* coordinatesPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
@@ -6512,7 +6511,7 @@ E3Mesh_SetVertexCoordinates(
 	TE3MeshVertexExtRef vertexExtRef,
 	const TQ3Point3D* coordinates)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
@@ -6546,7 +6545,7 @@ E3Mesh_GetVertexAttributeSet(
 	TE3MeshVertexExtRef vertexExtRef,
 	TQ3AttributeSet* attributeSetPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
@@ -6578,7 +6577,7 @@ E3Mesh_SetVertexAttributeSet(
 	TE3MeshVertexExtRef vertexExtRef,
 	TQ3AttributeSet attributeSet)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
@@ -6613,7 +6612,7 @@ E3Mesh_GetVertexComponent(
 	TE3MeshVertexExtRef vertexExtRef,
 	TE3MeshComponentExtRef* componentExtRefPtr)
 {
-	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
+	//TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 
 
 	// To be implemented...
