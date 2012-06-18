@@ -188,7 +188,7 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 	
 	TQ3Status status = int32Read ( format, &elemType ) ;
 	if(status == kQ3Success){
-		status = int32Read(format, (TQ3Int32*)&elemSize);
+		(void) int32Read(format, (TQ3Int32*)&elemSize);
 		
 		// find the proper class
 		if(elemType == 0x636E7472 /* cntr - Container */){
@@ -235,7 +235,7 @@ e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
 				readDataMethod = (TQ3XObjectReadDataMethod) theClass->GetMethod ( kQ3XMethodTypeObjectReadData ) ;
 				if (readDataMethod != NULL)
 					{
-					status = readDataMethod(parent,theFile);
+					(void) readDataMethod(parent,theFile);
 					}
 				else
 					{
@@ -332,14 +332,14 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 {
 	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
 	TQ3Int32					tocType;
-	TQ3Int32					tocSize;
+	TQ3Int32					tocSize = 0;
 	TQ3Int32					tocSizeInFile;
 	TQ3Int64					nextToc;
 	TQ3Int32					refSeed;
 	TQ3Int32					typeSeed;
 	TQ3Int32					tocEntryType;
 	TQ3Int32					tocEntrySize;
-	TQ3Int32					nEntries;
+	TQ3Int32					nEntries = 0;
 	TQ3Int32					i;
 		
 	TQ3XFFormatInt32ReadMethod int32Read = (TQ3XFFormatInt32ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt32Read ) ;
@@ -486,7 +486,7 @@ e3fformat_3dmf_bin_read_header ( E3File* theFile )
 		return kQ3False;
 	
 	instanceData->MFData.baseData.currentStoragePosition = 0;
-	result = (TQ3Boolean)(Q3Int32_Read((TQ3Int32*)&head, theFile) != kQ3Failure);
+	Q3Int32_Read((TQ3Int32*)&head, theFile);
 #if QUESA_HOST_IS_BIG_ENDIAN
 	if(head == kQ3ObjectType3DMF)
 		instanceData->MFData.baseData.byteOrder = kQ3EndianBig;
@@ -605,8 +605,6 @@ e3fformat_3dmf_bin_skipobject ( E3File* theFile )
 	{
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Bin_Data* instanceData = e3read_3dmf_bin_getinstancedata ( format ) ;
-
-	TQ3XFFormatInt32ReadMethod int32Read = (TQ3XFFormatInt32ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt32Read ) ;
 
 	TQ3Int32 objectType ;
 	TQ3Int32 objectSize ;
