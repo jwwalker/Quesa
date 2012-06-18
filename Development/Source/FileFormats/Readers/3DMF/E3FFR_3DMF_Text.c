@@ -222,6 +222,7 @@ e3fformat_3dmf_text_readobjecttype( E3Text3DMFReader* format, char* theItem, TQ3
 
 
 	// Read until we see a left parenthesis or end of line.
+	*charsRead = 0;
 	if (result == kQ3Success)
 		result = E3FileFormat_GenericReadText_ReadUntilChars( format, theItem,
 			separators, 3, kQ3False, &lastSeparator, maxLen, charsRead );
@@ -287,7 +288,7 @@ e3fformat_3dmf_text_readobjecttype( E3Text3DMFReader* format, char* theItem, TQ3
 static TQ3Status
 e3fformat_3dmf_text_readitem ( E3Text3DMFReader* format, char* theItem, TQ3Uns32 maxLen,TQ3Uns32* charsRead )
 {
-	TQ3Int32 lastSeparator;
+	TQ3Int32 lastSeparator = 0;
 	
 	TQ3Status result = E3FileFormat_GenericReadText_SkipBlanks (format);
 	if(result == kQ3Success)
@@ -400,7 +401,6 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag, E3File* theFile, TQ3ObjectType hint)
 	formatInstanceData = (TQ3FFormatBaseData *) format->FindLeafInstanceData () ;
 
 	dictValues = sizeof(dictionary)/sizeof(dictEntry);
-	areDone    = kQ3False;
 	*flag      = 0;
 
 
@@ -1018,7 +1018,7 @@ static TQ3Boolean
 e3fformat_3dmf_text_read_header ( E3File* theFile )
 {
 	E3Text3DMFReader* format = (E3Text3DMFReader*) theFile->GetFileFormat () ;
-	TQ3Boolean						result;
+	bool						result;
 	TQ3Uns32 						oldPosition;
 	char							header[64];
 	TQ3Uns32 						charsRead;
@@ -1041,19 +1041,20 @@ e3fformat_3dmf_text_read_header ( E3File* theFile )
 	
 	e3fformat_3dmf_text_readobjecttype (format, header, 64, &charsRead);
 
-	result = (TQ3Boolean)(e3fformat_3dmf_text_read_int16 (format, &major) != kQ3Failure);
-	result = (TQ3Boolean)(e3fformat_3dmf_text_read_int16 (format, &minor) != kQ3Failure);
+	result = (e3fformat_3dmf_text_read_int16 (format, &major) != kQ3Failure);
+	result = (e3fformat_3dmf_text_read_int16 (format, &minor) != kQ3Failure) &&
+		result;
 	
 	format->instanceData.MFData.baseData.fileVersion = (TQ3FileVersion)((major << 16) + minor);
-	if(result == kQ3True)
-		result = (TQ3Boolean)(e3read_3dmf_text_readflag (&format->instanceData.MFData.fileMode, theFile, kQ3ObjectType3DMF) != kQ3Failure);
+	if(result == true)
+		result = (e3read_3dmf_text_readflag (&format->instanceData.MFData.fileMode, theFile, kQ3ObjectType3DMF) != kQ3Failure);
 	
-	if(result == kQ3True){
+	if(result == true){
 		format->instanceData.MFData.fileMode += kQ3FileModeText;
 		result = (TQ3Boolean)(e3fformat_3dmf_text_readitem (format, header, 64, &charsRead)!= kQ3Failure);
 		}
 
-	if(result == kQ3True){
+	if(result == true){
 		oldPosition	= format->instanceData.MFData.baseData.currentStoragePosition;
 		
 		if ((format->instanceData.MFData.fileMode & kQ3FileModeStream) == 0)	// i.e., if normal or database
@@ -1076,7 +1077,7 @@ e3fformat_3dmf_text_read_header ( E3File* theFile )
 		}
 	E3FFormat_3DMF_Text_Check_MoreObjects( & format->instanceData );
 	
-	return result;
+	return result ? kQ3True : kQ3False;
 }
 
 

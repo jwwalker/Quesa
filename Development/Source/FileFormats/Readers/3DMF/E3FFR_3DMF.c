@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1319,8 +1319,8 @@ e3fformat_3dmf_shader_read(TQ3FileObject theFile)
 {
 	TQ3Object						theObject;
 	TQ3Status						result = kQ3Success;
-	TQ3ShaderUVBoundary			uBoundary;
-	TQ3ShaderUVBoundary			vBoundary;
+	TQ3ShaderUVBoundary			uBoundary = kQ3ShaderUVBoundaryWrap;
+	TQ3ShaderUVBoundary			vBoundary = kQ3ShaderUVBoundaryWrap;
 
 	// Create the object
 	theObject = E3ClassTree::CreateInstance ( kQ3ShapeTypeShader, kQ3False, NULL);
@@ -1964,11 +1964,16 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 			theAttribute = &geomData->vertexAttributeTypes[positionInArray];
 			Q3_ASSERT(theAttribute->attributeType ==  0L);
 			break;
+		
+		default:
+			Q3_MESSAGE("Invalid positionOfArray");
+			return NULL;
+			break;
 		}
 	
 	// ============ Read in eventually the attributeUseArray
 	
-	if(attributeUseArrayFlag != 0L){
+	if (attributeUseArrayFlag != 0L) {
 		theAttribute->attributeUseArray = (char *) Q3Memory_Allocate(numElems);
 		if(theAttribute->attributeUseArray == NULL)
 			return NULL;
@@ -2076,7 +2081,7 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 			i = 0;
 			while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False && i < numElems)
 				{
-				childObject = Q3File_ReadObject(theFile);
+				*elemObject = Q3File_ReadObject(theFile);
 				elemObject++;
 				i++;
 				}
@@ -2745,7 +2750,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 
 
 	// Register the end group class
-	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameEndGroup,
+	Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameEndGroup,
 											e3fformat_3dmf_endgroup_metahandler,
 											E3EndGroup ) ;
 
@@ -2962,24 +2967,24 @@ E3FFW_3DMF_Register(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FFormat_3DMF_Reader_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the classes
-	qd3dStatus = E3FFormat_3DMF_Bin_Reader_UnregisterClass();
-	qd3dStatus = E3FFormat_3DMF_Text_Reader_UnregisterClass();
+	E3FFormat_3DMF_Bin_Reader_UnregisterClass();
+	E3FFormat_3DMF_Text_Reader_UnregisterClass();
 
 
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3SharedTypeEndGroup,					kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeArray,			kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetListVertex,	kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetListFace,		kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetListGeometry,	kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetList,		    kQ3True);
+	E3ClassTree::UnregisterClass(kQ3SharedTypeEndGroup,					kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeArray,			kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetListVertex,	kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetListFace,		kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetListGeometry,	kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSetList,		    kQ3True);
 	
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeMeshCorners,		   		kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeMeshEdges,		    	kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeMeshCorners,		   		kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeMeshEdges,		    	kQ3True);
 
 
 	// Unregistering methods removed for now - Jose
@@ -3045,7 +3050,7 @@ E3FFormat_3DMF_Reader_UnregisterClass(void)
 	E3ClassTree_RemoveMethodByType(kQ3GeometryTypeTriMesh,      kQ3XMethodTypeObjectRead);
 */
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 
