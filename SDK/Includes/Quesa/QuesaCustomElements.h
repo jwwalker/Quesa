@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -57,7 +57,9 @@
 
 #define __QD3DCUSTOMELEMENTS__
 
-
+#if QUESA_SUPPORT_QUICKTIME
+	#include <QuickTime/QuickTime.h>
+#endif
 
 
 
