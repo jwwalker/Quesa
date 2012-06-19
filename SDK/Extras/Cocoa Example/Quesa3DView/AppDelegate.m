@@ -55,6 +55,7 @@
 #include <Quesa/QuesaStyle.h> 
 #include <Quesa/QuesaGroup.h> 
 #include <Quesa/QuesaGeometry.h> 
+#include <Quesa/QuesaStorage.h> 
 #include <Quesa/QuesaTransform.h> 
 #include <Quesa/QuesaRenderer.h> 
 
@@ -87,6 +88,68 @@ enum
 	kMenuItemGeometryTriMesh
 };
 
+static TQ3ShaderObject createTextureFromFile(NSString * fileName)
+{    // doesn't work in 64 bit
+	// create the texture return shader object or null if error
+
+	TQ3ShaderObject	shader = NULL;
+	NSBitmapImageRep	*theImage;	
+
+	NSLog(@"createTextureFromFile:fileName:[%@]", fileName);
+
+	theImage = [NSBitmapImageRep imageRepWithContentsOfFile: fileName];
+
+	if (theImage)
+	{
+		int	bitsPPixel, theWidth, theHeight, rowBytes;
+		bitsPPixel	= [theImage bitsPerPixel];
+		rowBytes	= [theImage bytesPerRow];
+		theWidth	= [theImage pixelsWide];
+		theHeight	= [theImage pixelsHigh];
+
+
+		NSLog(@"createTextureFromFile: imageRepWithContentsOfFile OK: width = %d, height = %d,  %d bpp, %d rowBytes\n",
+		theWidth, theHeight, bitsPPixel, rowBytes);
+
+
+		TQ3TextureObject	qd3dTextureObject;	
+		TQ3StoragePixmap	qd3dPixMap;
+		TQ3StorageObject	qd3dMemoryStorage;
+		TQ3PixelType	pixelType = kQ3PixelTypeRGB24;
+
+
+		switch (bitsPPixel)
+		{
+			case 16: pixelType = kQ3PixelTypeRGB16; break;
+			case 24: pixelType = kQ3PixelTypeRGB24; break;
+			case 32: pixelType = kQ3PixelTypeARGB32; break;
+		}
+
+
+		qd3dMemoryStorage	= Q3MemoryStorage_New([theImage bitmapData], theHeight * rowBytes);
+		if (qd3dMemoryStorage)
+		{
+			qd3dPixMap.image        = qd3dMemoryStorage;
+			qd3dPixMap.width	= theWidth;
+			qd3dPixMap.height	= theHeight;
+			qd3dPixMap.rowBytes	= rowBytes;
+			qd3dPixMap.pixelSize	= bitsPPixel;
+			qd3dPixMap.pixelType	= pixelType;
+			qd3dPixMap.bitOrder	= kQ3EndianLittle;
+			qd3dPixMap.byteOrder	= kQ3EndianLittle;
+			qd3dTextureObject	= Q3PixmapTexture_New(&qd3dPixMap);
+			if (qd3dTextureObject)
+			{	// create shader from textured object
+				shader = Q3TextureShader_New(qd3dTextureObject);
+				Q3Object_Dispose(qd3dTextureObject);
+			}
+			Q3Object_Dispose(qd3dMemoryStorage);
+		}
+
+	}
+	return shader;
+}
+
 @implementation AppDelegate
 
 //==================================================================================
@@ -110,6 +173,10 @@ enum
 		
 		mPixelFormat  = [[NSOpenGLPixelFormat alloc]
 			initWithAttributes: (NSOpenGLPixelFormatAttribute*) glAttributes];
+
+		mIlluminationShaderType = 2;
+		Q3Initialize();
+		mIlluminationShader = Q3PhongIllumination_New();
 	}
 	return self;
 }
@@ -199,7 +266,6 @@ enum
 	Q3Matrix4x4_SetIdentity(&mCurrentMatrix);
   	Q3Matrix4x4_SetRotate_XYZ(&mRotationFactor, 0.03f, 0.05f, 0.005f);
     mSceneGeometry = createGeomQuesa();
-    mIlluminationShader = Q3PhongIllumination_New();
 }
 
 //==================================================================================
@@ -247,6 +313,62 @@ enum
 {
 	Q3Matrix4x4_Multiply( &mCurrentMatrix, &mRotationFactor, &mCurrentMatrix );
 	[quesa3dView setNeedsDisplay: YES];
+}
+
+- (void) textureSheetEnd: (NSOpenPanel *)panel
+		ret: (int) returnCode
+		ctx: (void*) context
+{
+	[panel orderOut: self];
+	
+	if (returnCode == NSOKButton)
+	{
+		TQ3ShaderObject txShader = createTextureFromFile( [[panel filenames] objectAtIndex: 0] );
+	
+		if (txShader != NULL)
+		{
+			if (mSceneGeometry != NULL)
+			{
+				TQ3AttributeSet atts = NULL;
+				
+				if (Q3Object_IsType( mSceneGeometry, kQ3ShapeTypeGroup ))
+				{
+					Q3Group_EmptyObjectsOfType( mSceneGeometry, kQ3ShaderTypeSurface );
+
+					atts = Q3AttributeSet_New();
+					Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceShader, &txShader );
+
+					if (Q3Object_IsType( mSceneGeometry, kQ3DisplayGroupTypeOrdered ))
+					{
+						Q3Group_AddObject( mSceneGeometry, atts );
+					}
+					else
+					{
+						TQ3GroupPosition pos = NULL;
+						Q3Group_GetFirstPosition( mSceneGeometry, &pos );
+						if (pos != NULL)
+						{
+							Q3Group_AddObjectBefore( mSceneGeometry, pos, atts );
+						}
+					}
+					Q3Object_Dispose( atts );
+				}
+				else if (Q3Object_IsType( mSceneGeometry, kQ3ShapeTypeGeometry ))
+				{
+					Q3Geometry_GetAttributeSet( mSceneGeometry, &atts );
+					if (atts == NULL)
+					{
+						atts = Q3AttributeSet_New();
+						Q3Geometry_SetAttributeSet( mSceneGeometry, atts );
+						Q3Object_Dispose( atts );
+					}
+					Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceShader, &txShader );
+				}
+			}
+			
+			Q3Object_Dispose( txShader );
+		}
+	}
 }
 
 #pragma mark accessors (KVC and KVO compliant)
@@ -470,7 +592,59 @@ enum
 	[self updateManualRotation];
 }
 
+//==================================================================================
+//	illuminationType
+//==================================================================================
+- (int) illuminationType
+{
+	return mIlluminationShaderType;
+}
+
+//==================================================================================
+//	setIlluminationType:
+//==================================================================================
+- (void) setIlluminationType: (int) illumCode
+{
+	if (illumCode != mIlluminationShaderType)
+	{
+		mIlluminationShaderType = illumCode;
+		Q3Object_Dispose( mIlluminationShader );
+		switch (mIlluminationShaderType)
+		{
+			case 0:
+				mIlluminationShader = Q3NULLIllumination_New();
+				break;
+			
+			case 1:
+				mIlluminationShader = Q3LambertIllumination_New();
+				break;
+			
+			default:
+			case 2:
+				mIlluminationShader = Q3PhongIllumination_New();
+				break;
+		}
+	}
+}
+
+
 #pragma mark action methods
+
+- (IBAction)loadTexture:(id)sender
+{
+	NSOpenPanel* panel = [NSOpenPanel openPanel];
+	[panel setCanChooseFiles: YES];
+	[panel setCanChooseDirectories: NO];
+	[panel setAllowsMultipleSelection: NO];
+	[panel setResolvesAliases: YES];
+	
+	[panel beginSheetForDirectory: nil
+		file: nil
+		modalForWindow: [quesa3dView window]
+		modalDelegate: self
+		didEndSelector: @selector(textureSheetEnd:ret:ctx:)
+		contextInfo: NULL];
+}
 
 //==================================================================================
 //	setGeometryFromTag
