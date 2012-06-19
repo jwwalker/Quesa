@@ -187,7 +187,7 @@ E3ClassInfo::Attach ( E3ClassInfoPtr theChild, E3ClassInfoPtr theParent )
 
 	// Grow the list of child pointers
 	TQ3Status qd3dStatus = Q3Memory_Reallocate(&theParent->theChildren,
-									 sizeof(E3ClassInfoPtr) * (theParent->numChildren+1));
+									 (TQ3Uns32)sizeof(E3ClassInfoPtr) * (theParent->numChildren+1));
 	if ( qd3dStatus == kQ3Failure )
 		return kQ3Failure ;
 
@@ -227,7 +227,7 @@ E3ClassInfo::Detach ( void )
 			if (n != (theParent->numChildren-1))
 				Q3Memory_Copy(&theParent->theChildren[n+1],
 					   		  &theParent->theChildren[n],
-					   		  sizeof(E3ClassInfoPtr) * (theParent->numChildren-n-1));
+					   		  (TQ3Uns32)sizeof(E3ClassInfoPtr) * (theParent->numChildren-n-1));
 
 
 			// We're done
@@ -240,7 +240,7 @@ E3ClassInfo::Detach ( void )
 	// Shrink the parent's list of children
 	--theParent->numChildren ;
 	TQ3Status qd3dStatus = Q3Memory_Reallocate(&theParent->theChildren,
-									 sizeof(E3ClassInfoPtr) * theParent->numChildren);
+									 (TQ3Uns32)sizeof(E3ClassInfoPtr) * theParent->numChildren);
 	Q3_ASSERT(qd3dStatus == kQ3Success);
 
 
@@ -542,7 +542,7 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	if ( newClass == NULL )
 		return kQ3Failure ;
 
-	newClass->className   = (char *) Q3Memory_Allocate ( strlen ( className ) + 1 ) ;
+	newClass->className   = (char *) Q3Memory_Allocate ( (TQ3Uns32)strlen ( className ) + 1 ) ;
 	newClass->methodTable = E3HashTable_Create ( kMethodHashTableSize)  ;
 
 	if ( newClass->className == NULL || newClass->methodTable == NULL )
@@ -750,7 +750,7 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 	if ( inClass->deltaInstanceSize != 0 )
 		{
 		void* leafInstanceData = (void*)
-			( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->deltaInstanceSize );
+			( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->GetPaddedInstanceSize() );
 		
 		// If the object has a new method, call it to initialise the object
 		if ( ( (E3Root*) inClass )->newMethod != NULL )
@@ -836,7 +836,7 @@ E3ClassInfo::CreateInstance (	TQ3Boolean		sharedParams,
 		return NULL ; // Cannot create an object of an abstract class, the required methods are missing (pure virtual)
 		
 	// Allocate and initialise the object
-	TQ3Object theObject = (TQ3Object) Q3Memory_AllocateClear ( instanceSize + sizeof ( TQ3ObjectType ) ) ;
+	TQ3Object theObject = (TQ3Object) Q3Memory_AllocateClear ( instanceSize + (TQ3Uns32)sizeof( TQ3ObjectType ) ) ;
 	if ( theObject == NULL )
 		return NULL ;
 
@@ -878,7 +878,7 @@ void
 OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr inClass )
 	{
 	void* leafInstanceData = (void*)
-		( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->deltaInstanceSize );
+		( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->GetPaddedInstanceSize() );
 
 	TQ3XElementDeleteMethod elementDeleteMethod = NULL ;
 	if ( Q3_CLASS_INFO_IS_CLASS ( inClass , E3Element ) )
@@ -959,9 +959,9 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 	if ( inClass->deltaInstanceSize != 0 )
 		{
 		void* oldLeafInstanceData = (void*)
-			( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->deltaInstanceSize );
+			( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->GetPaddedInstanceSize() );
 		void* newLeafInstanceData = (void*)
-			( ((TQ3Uns8*) newObject) + inClass->instanceSize - inClass->deltaInstanceSize );
+			( ((TQ3Uns8*) newObject) + inClass->instanceSize - inClass->GetPaddedInstanceSize() );
 
 		// Call the object's duplicate method to initialise it. If the object
 		// does not have duplicate method, we do a bitwise copy.
@@ -1020,7 +1020,7 @@ OpaqueTQ3Object::DuplicateInstance ( void )
 
 
 	// Allocate and initialise the object
-	TQ3Object newObject = (TQ3Object) Q3Memory_AllocateClear ( theClass->instanceSize + sizeof ( TQ3ObjectType ) ) ;
+	TQ3Object newObject = (TQ3Object) Q3Memory_AllocateClear ( theClass->instanceSize + (TQ3Uns32)sizeof( TQ3ObjectType ) ) ;
 	if ( newObject == NULL )
 		return NULL ;
 
@@ -1070,7 +1070,7 @@ OpaqueTQ3Object::FindLeafInstanceData ( void ) // Same as the old FindInstanceDa
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
 	Q3_CLASS_VERIFY(this);
 
-	return (void*) ( (TQ3Uns8*) this + theClass->instanceSize - theClass->deltaInstanceSize ) ;
+	return (void*) ( (TQ3Uns8*) this + theClass->instanceSize - theClass->GetPaddedInstanceSize() ) ;
 	}
 
 
@@ -1371,7 +1371,7 @@ E3ClassInfo::GetMetaHandler ( void )
 //-----------------------------------------------------------------------------
 TQ3Uns32
 E3ClassInfo::GetInstanceSize ( void )
-	{
+{
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), 0);
 
@@ -1380,7 +1380,30 @@ E3ClassInfo::GetInstanceSize ( void )
 	// Return the size of the instance data for the class
 		
 	return deltaInstanceSize;
+}
+
+
+
+
+
+//=============================================================================
+//      E3ClassTree_GetInstanceSize : Get the size of a class's instance data,
+//										plus padding at the end.
+//-----------------------------------------------------------------------------
+TQ3Uns32
+E3ClassInfo::GetPaddedInstanceSize( void )
+{
+	// The base class contains pointers, so any class derived from it will be
+	// padded to (at least) a multiple of the size of a pointer.  This has not
+	// been a problem for us in 32-bit code, but care is needed in 64-bit code.
+	TQ3Uns32 theSize = GetInstanceSize();
+	TQ3Uns32 remainder = (theSize % (TQ3Uns32)sizeof(char*));
+	if ( remainder != 0 )
+	{
+		theSize += (TQ3Uns32)sizeof(char*) - remainder;
 	}
+	return theSize;
+}
 
 
 
