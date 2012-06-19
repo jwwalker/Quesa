@@ -152,6 +152,7 @@ public :
 	const char*			GetName ( void ) ;
 	TQ3XMetaHandler		GetMetaHandler ( void ) ;
 	TQ3Uns32			GetInstanceSize ( void ) ;
+	TQ3Uns32			GetPaddedInstanceSize( void );
 	TQ3Uns32			GetNumInstances ( void ) ;
 	TQ3XFunctionPointer GetMethod ( TQ3XMethodType methodType ) ;
 	void				AddMethod ( TQ3XMethodType methodType, TQ3XFunctionPointer theMethod ) ;
