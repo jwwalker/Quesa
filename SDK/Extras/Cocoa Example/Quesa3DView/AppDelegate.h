@@ -77,6 +77,7 @@
 	float				mXRotation;
 	float				mYRotation;
 	float				mZRotation;
+	int					mIlluminationShaderType;
 }
 
 - (BOOL) drawsShadows;
@@ -103,5 +104,10 @@
 - (float) zRotation;
 - (void) setXRotation: (float) angleDegrees;
 
+- (int) illuminationType;
+- (void) setIlluminationType: (int) illumCode;
+
 - (IBAction)setGeometryFromTag:(id)sender;
+
+- (IBAction)loadTexture:(id)sender;
 @end
