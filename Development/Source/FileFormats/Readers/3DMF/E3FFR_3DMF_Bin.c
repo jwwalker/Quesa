@@ -1253,17 +1253,17 @@ E3FFormat_3DMF_Bin_Reader_RegisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FFormat_3DMF_Bin_Reader_UnregisterClass(void)
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the classes
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBin,        kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBinSwapped, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBin,        kQ3True);
+	E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBinSwapped, kQ3True);
 
 
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 

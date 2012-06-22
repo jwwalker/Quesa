@@ -133,8 +133,6 @@ e3file_format_read_find(TQ3FileObject theFile, TQ3StorageObject storage,TQ3Objec
 	if ( theClass == NULL )
 		return kQ3Failure ;
 
-	TQ3Uns32 numChildren = theClass->GetNumChildren () ;
-
 
 	// test the child classes	
 	e3file_format_read_test ( theClass, storage, theFileFormatFound ) ;

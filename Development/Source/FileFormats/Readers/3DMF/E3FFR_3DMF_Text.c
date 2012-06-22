@@ -209,7 +209,7 @@ e3fformat_3dmf_text_skipcomments ( E3Text3DMFReader* format )
 static TQ3Status
 e3fformat_3dmf_text_readobjecttype( E3Text3DMFReader* format, char* theItem, TQ3Uns32 maxLen, TQ3Uns32* charsRead )
 {
-	TQ3Int32 lastSeparator;
+	TQ3Int32 lastSeparator = 0;
 	char separators[] = "(\x0D\x0A";
 	char buffer[256];
 
@@ -1022,8 +1022,8 @@ e3fformat_3dmf_text_read_header ( E3File* theFile )
 	TQ3Uns32 						oldPosition;
 	char							header[64];
 	TQ3Uns32 						charsRead;
-	TQ3Int16 						major;
-	TQ3Int16 						minor;
+	TQ3Int16 						major = 0;
+	TQ3Int16 						minor = 0;
 
 	//initialize instanceData
 	format->instanceData.MFData.toc = NULL;
@@ -1425,7 +1425,7 @@ e3read_3dmf_text_readnextelement ( TQ3AttributeSet parent, E3File* theFile )
 				readDataMethod = (TQ3XObjectReadDataMethod) theClass->GetMethod ( kQ3XMethodTypeObjectReadData ) ;
 				if (readDataMethod != NULL)
 					{
-					status = readDataMethod(parent,theFile);
+					(void) readDataMethod(parent,theFile);
 					}
 				else
 					{
