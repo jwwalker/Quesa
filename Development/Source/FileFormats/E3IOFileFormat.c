@@ -105,23 +105,23 @@ E3FileFormat_RegisterClass()
 //-----------------------------------------------------------------------------
 TQ3Status
 E3FileFormat_UnregisterClass()
-{	TQ3Status		qd3dStatus;
+{
 
 
 
 	// Unregister the classes
-	qd3dStatus = E3FFormat_3DMF_Reader_UnregisterClass();
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBin, kQ3True);
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBinSwapped, kQ3True);
+	E3FFormat_3DMF_Reader_UnregisterClass();
+	E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBin, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3FFormatReaderType3DMFBinSwapped, kQ3True);
 	
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3FileFormatTypeReader, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3FileFormatTypeReader, kQ3True);
 
-	qd3dStatus = E3FFW_3DMF_Unregister();
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3FileFormatTypeWriter, kQ3True);
+	E3FFW_3DMF_Unregister();
+	E3ClassTree::UnregisterClass(kQ3FileFormatTypeWriter, kQ3True);
 
-	qd3dStatus = E3ClassTree::UnregisterClass(kQ3ObjectTypeFileFormat, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeFileFormat, kQ3True);
 
-	return(qd3dStatus);
+	return(kQ3Success);
 }
 
 
@@ -629,7 +629,6 @@ E3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject format, char* bu
 				if (foundChar)
 					*foundChar = ((TQ3Uns8)buffer[index]);
 				buffer[index] = 0;
-				found = kQ3True;
 				break;
 				}
 			

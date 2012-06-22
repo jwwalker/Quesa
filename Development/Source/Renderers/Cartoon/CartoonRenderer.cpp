@@ -1228,7 +1228,6 @@ TQ3Status CartoonRenderer_Register()
 
 void CartoonRenderer_Unregister()
 {
-	TQ3Status			qd3dStatus;
 	TQ3XObjectClass		theClass;
 
 	// Find the renderer class
@@ -1237,7 +1236,7 @@ void CartoonRenderer_Unregister()
 		return;
 
 	// Unregister the class
-	qd3dStatus = Q3XObjectHierarchy_UnregisterClass(theClass);
+	Q3XObjectHierarchy_UnregisterClass(theClass);
 	
 	s_ParentRendererClass = NULL;
 }

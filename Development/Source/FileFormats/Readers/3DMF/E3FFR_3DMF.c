@@ -3220,7 +3220,7 @@ void
 E3FFormat_3DMF_MeshEdges_Assign(TQ3Object theMeshEdges, TQ3GeometryObject theMesh,
 									TQ3Uns32 nVertices, TQ3MeshVertex* vertices)
 {
-	TE3FFormat3DMF_MeshEdges_Data* instanceData = & ( (E3MeshEdges*) theMeshEdges )->instanceData ;
+	//TE3FFormat3DMF_MeshEdges_Data* instanceData = & ( (E3MeshEdges*) theMeshEdges )->instanceData ;
 	// To be implemented...
 }
 
