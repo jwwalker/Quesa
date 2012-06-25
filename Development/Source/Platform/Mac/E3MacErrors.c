@@ -5,7 +5,7 @@
         Mac specific Error calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -58,12 +58,15 @@
 //-----------------------------------------------------------------------------
 OSErr
 E3MacintoshError_Get(OSErr *firstErr)
-{	OSErr		theErr;
-
+{
+	OSStatus		theErr;
+	TQ3Uns32		firstErrRaw;
 
 
 	// Get the error
-	theErr = Q3Error_PlatformGet((TQ3Uns32 *) firstErr);
+	theErr = Q3Error_PlatformGet( &firstErrRaw );
+	
+	*firstErr = (OSErr) firstErrRaw;
 	
 	return(theErr);
 }

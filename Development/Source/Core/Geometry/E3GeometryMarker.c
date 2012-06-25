@@ -217,7 +217,7 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 	TQ3PixmapMarkerData			pixmapMarkerData;
 	TQ3GeometryObject			pixmapMarker;
 	TQ3StorageObject			theStorage;
-	TQ3Uns8						*theBuffer;
+	TQ3Uns16					*theBuffer;
 	TQ3ColorRGB					theColour;
 
 
@@ -251,7 +251,7 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 	rowBytes  = geomData->bitmap.width * sizeof(TQ3Uns16);
 	theSize   = rowBytes * geomData->bitmap.height;
 
-	theBuffer = (TQ3Uns8*) Q3Memory_AllocateClear(theSize);
+	theBuffer = (TQ3Uns16*) Q3Memory_AllocateClear(theSize);
 	if (theBuffer == NULL)
 		return(NULL);
 
@@ -261,7 +261,7 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 			{
 			if (Q3Bitmap_GetBit(&geomData->bitmap, x, y))
 				{
-				pixelPtr  = (TQ3Uns16 *) &theBuffer[(y * rowBytes) + (x * sizeof(TQ3Uns16))];
+				pixelPtr  = &theBuffer[y * geomData->bitmap.width + x];
 				*pixelPtr = thePixel;
 				}
 			}
