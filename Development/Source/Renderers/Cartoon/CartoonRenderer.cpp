@@ -1053,7 +1053,7 @@ CCartoonRendererQuesa::Cartoon_Geometry_Submit_TriMesh(
 	
 	// Extract vertex normals and UVs, if any, from trimesh data.
 	const TQ3Param2D*	texCoords;
-	const TQ3Vector3D*	normals;
+	const TQ3Vector3D*	normals = NULL;
 	GetVertexDataFromTriMesh( *geomData, texCoords, normals );
 
 	// Translucent objects, objects without vertex normals, or objects marked

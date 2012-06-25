@@ -839,6 +839,9 @@ static void AddSpotFalloffFuncSource(	GLint inLightIndex,
 		case QORenderer::kLightTypeSpotCubic:
 			theSource.assign( kSpotFalloffSmoothCubicSource );
 			break;
+		
+		default:	// just to quiet a warning, should not happen
+			break;
 	}
 	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
 	ioSource.push_back( theSource );
@@ -935,6 +938,9 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 				case QORenderer::kLightTypeSpotCubic:
 					AddSpotLightShaderSource( i, outSource );
 					break;
+				
+				default:
+					break;
 			}
 		}
 	}
@@ -976,6 +982,9 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 			
 			case kQ3FogModeExponentialSquared:
 				outSource.push_back( kAddFogExp2 );
+				break;
+			
+			default:
 				break;
 		}
 	}
