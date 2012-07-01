@@ -690,7 +690,7 @@ E3ListItem_Node(															\
 	Q3_ASSERT_VALID_PTR(itemPtr),											\
 	Q3_ASSERT_VALID_PTR(listInfoPtr),										\
 																			\
-	(TE3ListNode*)															\
+	(TE3ListNode*)(void*)													\
 		(((char*) (itemPtr)) - E3ListInfo_ItemOffset(listInfoPtr))			\
 )
 

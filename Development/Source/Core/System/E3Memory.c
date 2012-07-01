@@ -559,7 +559,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 		newPtr = Q3Memory_Allocate( newSize );
 		if ( (newPtr != NULL) && (realPtr != NULL) )	// resize
 			{
-			TQ3Uns32 oldSize = ((TQ3Uns32*) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER))[1];
+			TQ3Uns32 oldSize = ((TQ3Uns32*)(void*) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER))[1];
 			TQ3Uns32 copySize = E3Num_Min( oldSize, newSize );
 			Q3Memory_Copy( realPtr, newPtr, copySize );
 			Q3Memory_Free( thePtr );
@@ -603,7 +603,7 @@ TQ3Boolean	E3Memory_IsValidBlock( void *thePtr )
 	TQ3Uns32*		headerPtr;
 
 	// Back up the pointer and fetch the size
-	headerPtr = (TQ3Uns32*) (((TQ3Uns8 *) thePtr) - Q3_MEMORY_HEADER);
+	headerPtr = (TQ3Uns32*)(void*) (((TQ3Uns8 *) thePtr) - Q3_MEMORY_HEADER);
 	theSize = headerPtr[1];
 	
 	

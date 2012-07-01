@@ -4305,7 +4305,7 @@ E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox,
 		in += structSize;
 		
 		for (i = 1; i < numPoints; ++i, in += structSize)
-			e3bounding_box_accumulate_point3D(bBox, (const TQ3Point3D*) in);
+			e3bounding_box_accumulate_point3D(bBox, (const TQ3Point3D*)(const void*) in);
 	}
 
 	return(bBox);
@@ -4337,7 +4337,7 @@ E3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox,
 		
 		for (i = 1; i < numPoints; ++i, in += structSize)
 		{
-			Q3RationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
+			Q3RationalPoint4D_To3D((const TQ3RationalPoint4D*)(const void*) in, &point3D);
 			e3bounding_box_accumulate_point3D(bBox, &point3D);
 		}
 	}
@@ -4632,7 +4632,7 @@ E3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3Ra
 		
 		for (i = 1; i < numPoints; ++i, in += structSize)
 		{
-			Q3RationalPoint4D_To3D((const TQ3RationalPoint4D*) in, &point3D);
+			Q3RationalPoint4D_To3D((const TQ3RationalPoint4D*)(const void*) in, &point3D);
 			Q3BoundingSphere_UnionPoint3D(bSphere, &point3D, bSphere);
 		}
 	}

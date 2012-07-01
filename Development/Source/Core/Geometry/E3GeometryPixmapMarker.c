@@ -251,14 +251,14 @@ e3geom_pixmapmarker_pixel_is_set(const TQ3PixmapMarkerData *instanceData, TQ3Int
 	// Test the pixel within the row
 	if (instanceData->pixmap.pixelType == kQ3PixelTypeARGB32)
 		{
-		thePixel = (TQ3Uns32) *((TQ3Uns32 *) (thePtr + (x * 4)));
+		thePixel = (TQ3Uns32) *((TQ3Uns32 *)(void*) (thePtr + (x * 4)));
 		thePixel = (thePixel & 0xFF000000) >> 24;
 		}
 	
 	else
 		{
 		Q3_ASSERT(instanceData->pixmap.pixelType == kQ3PixelTypeARGB16);
-		thePixel = (TQ3Uns32) *((TQ3Uns16 *) (thePtr + (x * 2)));
+		thePixel = (TQ3Uns32) *((TQ3Uns16 *)(void*) (thePtr + (x * 2)));
 		thePixel = (thePixel & 0x00008000) >> 15;
 		}
 
