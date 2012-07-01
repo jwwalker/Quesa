@@ -5,7 +5,7 @@
         Implementation of Quesa TriGrid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -453,7 +453,7 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	if (triangles == NULL) return NULL;
 	points = (TQ3Point3D *) Q3Memory_Allocate( numpoints*sizeof(TQ3Point3D) );
 	if (points == NULL) {
-		Q3Memory_Free(triangles);
+		Q3Memory_Free(&triangles);
 		return NULL;
 	}
 	
