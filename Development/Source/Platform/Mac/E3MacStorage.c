@@ -259,7 +259,7 @@ e3storage_mac_flushbuffer ( E3MacintoshStorage* storage )
 		return kQ3Failure ;
 		}
 	// Grow storage 
-	if ( ( storage->macStorageData.bufferStart + ioByteCount ) > theLength )
+	if ( ( storage->macStorageData.bufferStart + ioByteCount ) > (TQ3Uns32)theLength )
 		{
 		err = ::FSSetForkSize ( storage->macStorageData.fsRefNum, fsFromStart,
 			((SInt32) storage->macStorageData.bufferStart + ioByteCount ) ) ;
