@@ -345,7 +345,7 @@ const MachOSegmentCommand *MachOGetSegmentCommand(const MachOHeader *mh,const ch
 	
 	while((cmd = MachOGetLoadCommand(mh,MACHO_LC_SEGMENT,cmd)) != NULL)
 	{
-		seg = (const MachOSegmentCommand*)cmd;
+		seg = (const MachOSegmentCommand*)(const void*)cmd;
 		if (!strncmp(segname,seg->segname,sizeof(seg->segname)))
 			return seg;
 	}
@@ -380,7 +380,7 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 		(fstat(fd,&finfo) == 0) &&
 		((finfo.st_mode & S_IFREG) != 0) &&
 		(!(finfo.st_size > 0xFFFFFFFFLL)) &&
-		(finfo.st_size >= sizeof(MachOFatHeader)) &&
+		(finfo.st_size >= (off_t)sizeof(MachOFatHeader)) &&
 		(pread(fd,&fh,sizeof(MachOFatHeader),0) == sizeof(MachOFatHeader)))
 	{
 		switch(fh.magic)
@@ -399,7 +399,7 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 			narchs = read32(&fh.nfat_arch);
 			amount = narchs * sizeof(MachOFatArch);
 			
-			if ((finfo.st_size >= (sizeof(MachOFatHeader) + amount)) &&
+			if ((finfo.st_size >= ((off_t)sizeof(MachOFatHeader) + amount)) &&
 				((farchs = (MachOFatArch*)malloc(amount)) != NULL) &&
 				(pread(fd,farchs,amount,sizeof(MachOFatHeader)) == amount))
 			{
@@ -417,7 +417,7 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 		}
 		else
 		{
-			if ((finfo.st_size >= sizeof(MachOHeader32)) &&
+			if ((finfo.st_size >= (off_t)sizeof(MachOHeader32)) &&
 				(pread(fd,&mh32,sizeof(MachOHeader32),0) == sizeof(MachOHeader32)) &&
 				(mh32.magic == MACHO_MH_MAGIC) &&
 				(mh32.cputype == mh->cputype) &&
@@ -428,7 +428,7 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 			}
 		}
 		
-		if ((*size > 0) && ((*size + offset) <= finfo.st_size))
+		if ((*size > 0) && ((off_t)(*size + offset) <= finfo.st_size))
 		{
 			arch = (const MachOHeader*)mmap(NULL,*size,PROT_READ,(MAP_FILE | MAP_PRIVATE),fd,offset);
 			if (arch == (const MachOHeader*)-1ULL)

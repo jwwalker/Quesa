@@ -5,7 +5,7 @@
         Mac specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -534,7 +534,7 @@ E3MacSystem_LoadPlugins(void)
 	FSRef					fileRef;
 	int						dirCount = 0;
 	Boolean					wasChanged, isOnOSX;
-	OSStatus				theErr;
+	OSStatus				theErr = noErr;
 	SInt32					sysVersion;
 	int						i, j;
 
