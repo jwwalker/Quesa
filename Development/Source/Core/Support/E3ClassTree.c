@@ -128,7 +128,7 @@ OpaqueTQ3Object::Verify ()
 	Q3_ASSERT ( quesaTag == kQ3ObjectTypeQuesa ) ;
 	Q3_ASSERT_VALID_PTR ( theClass ) ;
 
-	TQ3ObjectType* instanceTrailer = (TQ3ObjectType*) ( ( (TQ3Uns8 *) this ) + theClass->instanceSize ) ;
+	TQ3ObjectType* instanceTrailer = (TQ3ObjectType*)(void*) ( ( (TQ3Uns8 *) this ) + theClass->instanceSize ) ;
 		
 	Q3_ASSERT ( *instanceTrailer == kQ3ObjectTypeQuesa ) ;
 	}
@@ -844,7 +844,7 @@ E3ClassInfo::CreateInstance (	TQ3Boolean		sharedParams,
 	theObject->theClass = this ;
 	
 	// Initialise the trailer
-	TQ3ObjectType* instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) theObject) + instanceSize ) ;
+	TQ3ObjectType* instanceTrailer = (TQ3ObjectType *)(void*) (((TQ3Uns8 *) theObject) + instanceSize ) ;
 	*instanceTrailer = kQ3ObjectTypeQuesa ;
 		
 	TQ3Status qd3dStatus = theObject->InitialiseInstanceData ( this, sharedParams, paramData ) ;
@@ -1028,7 +1028,7 @@ OpaqueTQ3Object::DuplicateInstance ( void )
 	newObject->theClass = theClass;
 
 	// Initialise the trailer
-	TQ3ObjectType* instanceTrailer = (TQ3ObjectType *) (((TQ3Uns8 *) newObject) + theClass->instanceSize ) ;
+	TQ3ObjectType* instanceTrailer = (TQ3ObjectType *)(void*) (((TQ3Uns8 *) newObject) + theClass->instanceSize ) ;
 	*instanceTrailer = kQ3ObjectTypeQuesa ;
 
 

@@ -770,7 +770,7 @@ e3view_bounds_box_exact ( E3View* view, TQ3Uns32 numPoints, TQ3Uns32 pointStride
 		{
 		// Transform the point
 		TQ3Point3D worldPoint ;
-		Q3Point3D_Transform ( (const TQ3Point3D *) rawPoint, localToWorld, &worldPoint ) ;
+		Q3Point3D_Transform ( (const TQ3Point3D *)(const void*) rawPoint, localToWorld, &worldPoint ) ;
 		
 		// Union it into the bounding box
 		Q3BoundingBox_UnionPoint3D ( & view->instanceData.boundingBox, &worldPoint, & view->instanceData.boundingBox ) ;

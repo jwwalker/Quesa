@@ -1257,14 +1257,14 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 	offVertNormals      = offVertTransparency + sizeVertTransparency;
 	offVertParents      = offVertNormals      + sizeVertNormals;
 
-	vertexArray->theIndices         = (TQ3Uns32    *) &instanceData->triMeshData[offIndices];
-	vertexArray->triFlags           = (TQ3TriFlags *) &instanceData->triMeshData[offTriFlags];
-	vertexArray->triNormals         = (TQ3Vector3D *) &instanceData->triMeshData[offTriNormals];
+	vertexArray->theIndices         = (TQ3Uns32    *)(void*) &instanceData->triMeshData[offIndices];
+	vertexArray->triFlags           = (TQ3TriFlags *)(void*) &instanceData->triMeshData[offTriFlags];
+	vertexArray->triNormals         = (TQ3Vector3D *)(void*) &instanceData->triMeshData[offTriNormals];
 	vertexArray->vertexPoints       = geomData->points;
-	vertexArray->vertexDiffuse      = (TQ3ColorRGB *) &instanceData->triMeshData[offVertDiffuse];
-	vertexArray->vertexTransparency = (TQ3ColorRGB *) &instanceData->triMeshData[offVertTransparency];
-	vertexArray->vertexNormals      = (TQ3Vector3D *) &instanceData->triMeshData[offVertNormals];
-	vertexArray->vertexParents      = (TQ3Uns32    *) &instanceData->triMeshData[offVertParents];
+	vertexArray->vertexDiffuse      = (TQ3ColorRGB *)(void*) &instanceData->triMeshData[offVertDiffuse];
+	vertexArray->vertexTransparency = (TQ3ColorRGB *)(void*) &instanceData->triMeshData[offVertTransparency];
+	vertexArray->vertexNormals      = (TQ3Vector3D *)(void*) &instanceData->triMeshData[offVertNormals];
+	vertexArray->vertexParents      = (TQ3Uns32    *)(void*) &instanceData->triMeshData[offVertParents];
 
 	memset(vertexArray->vertexParents, kVAUnknownParentByte, sizeVertParents);
 
