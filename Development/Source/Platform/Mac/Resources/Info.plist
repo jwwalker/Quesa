@@ -18,5 +18,7 @@
 	<string>English</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleExecutable</key>
+	<string>Quesa</string>
 </dict>
 </plist>
