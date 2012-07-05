@@ -786,6 +786,10 @@ Q3Group_EmptyObjectsOfType (
  *		You could then use <code>Q3Group_GetNextObjectPosition</code> to 
  *		iterate over all other references to the same object.
  *
+ *		Note: unless you pass invalid parameters, the function result will be
+ *		kQ3Success.  You must test whether the returned position is NULL to know
+ *		whether you found a valid object position.
+ *
  *  @param group            Group to inspect.
  *  @param object           Desired object.
  *  @param position         Receives first position of <code>object</code> in <code>group</code>.
@@ -810,6 +814,10 @@ Q3Group_GetFirstObjectPosition (
  *		to find the last position of the first reference to the given object.
  *		You could then use <code>Q3Group_GetPreviousObjectPosition</code> to 
  *		iterate backwards over all other references to the same object.
+ *
+ *		Note: unless you pass invalid parameters, the function result will be
+ *		kQ3Success.  You must test whether the returned position is NULL to know
+ *		whether you found a valid object position.
  *
  *  @param group            Group to inspect.
  *  @param object           Desired object.
