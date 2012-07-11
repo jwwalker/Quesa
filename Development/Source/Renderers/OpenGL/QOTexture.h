@@ -146,8 +146,6 @@ public:
 	*/
 	void					EndPass();
 
-	void					PushState();
-	void					PopState();
 	
 	
 private:
@@ -168,7 +166,7 @@ private:
 	const TQ3GLContext&		mGLContext;
 	const TQ3GLExtensions&	mGLExtensions;
 	TQ3TextureCachePtr		mTextureCache;
-	std::vector<TextureState>	mStates;
+	TextureState			mState;
 	std::vector<TQ3Uns8>	mSrcImageData;
 	std::vector<GLubyte>	mGLFormatWork;
 	bool					mIsTopActive;
