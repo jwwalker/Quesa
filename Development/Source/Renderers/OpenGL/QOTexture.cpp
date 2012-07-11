@@ -176,9 +176,7 @@ Texture::Texture(
 	, mIsTopActive( false )
 	, mIsTopTransparent( false )
 {
-	TextureState	startState;
-	startState.Reset();
-	mStates.push_back( startState );
+	mState.Reset();
 }
 
 Texture::~Texture()
@@ -256,7 +254,7 @@ void	Texture::GetShaderParams(
 
 void	Texture::SetOpenGLTexturingParameters()
 {
-	TextureState&	curState( mStates.back() );
+	TextureState&	curState( mState );
 	
 	SetOpenGLTextureFiltering( curState.mIsTextureMipmapped );
 	
@@ -314,40 +312,7 @@ void	Texture::UpdateTextureCache()
 */
 const Texture::TextureState&		Texture::GetTextureState() const
 {
-	return mStates.back();
-}
-
-void	Texture::PushState()
-{
-	TextureState	topCopy( mStates.back() );
-	mStates.push_back( topCopy );
-}
-
-void	Texture::PopState()
-{
-	if (mStates.size() > 1)
-	{
-		mStates.pop_back();
-		mIsTopActive = mStates.back().mIsTextureActive;
-		mIsTopTransparent = mStates.back().mIsTextureTransparent;
-		
-		TextureState&	curState( mStates.back() );
-		
-		if (curState.mIsTextureActive)
-		{
-			glEnable( GL_TEXTURE_2D);
-			glBindTexture( GL_TEXTURE_2D, curState.mGLTextureObject );
-			
-			SetOpenGLTexturingParameters();
-		}
-		else
-		{
-			glDisable( GL_TEXTURE_2D );
-			glDisable( GL_ALPHA_TEST );
-			glMatrixMode( GL_TEXTURE );
-			glLoadIdentity();
-		}
-	}
+	return mState;
 }
 
 
@@ -358,10 +323,7 @@ void	Texture::PopState()
 */
 void	Texture::StartPass()
 {
-	TextureState	startState;
-	startState.Reset();
-	mStates.clear();
-	mStates.push_back( startState );
+	mState.Reset();
 	mIsTopActive = mIsTopTransparent = false;
 }
 
@@ -419,7 +381,7 @@ void	Texture::SetCurrentTexture(
 		glMatrixMode( GL_TEXTURE );
 		glLoadIdentity();
 		
-		mStates.back().mIsTextureActive = mIsTopActive = false;
+		mState.mIsTextureActive = mIsTopActive = false;
 	}
 	else	// enable texturing
 	{
@@ -433,7 +395,7 @@ void	Texture::SetCurrentTexture(
 		
 		if (cachedTexture != NULL)
 		{
-			TextureState&	curState( mStates.back() );
+			TextureState&	curState( mState );
 			curState.mIsTextureActive = mIsTopActive = true;
 			
 			GetShaderParams( inShader, curState.mShaderUBoundary,
