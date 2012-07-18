@@ -2091,7 +2091,8 @@ E3Set::Get ( TQ3ElementType theType, void *data )
 			* ( (TQ3Switch*) data ) = setData.attributes.highlightState ;
 			break;
 		case kQ3AttributeTypeSurfaceShader:
-			* ( (TQ3SurfaceShaderObject*) data ) = Q3Shared_GetReference( setData.attributes.surfaceShader) ;
+			* ( (TQ3SurfaceShaderObject*) data ) =
+				((E3Shared*)setData.attributes.surfaceShader)->GetReference();
 			break;
 		default:
 
@@ -2189,7 +2190,8 @@ E3Set::CopyElement ( TQ3ElementType theType, TQ3SetObject destSet )
 		case kQ3AttributeTypeSurfaceShader:
 			if ( dstSet->setData.attributes.surfaceShader != NULL )
 				Q3Object_Dispose ( dstSet->setData.attributes.surfaceShader ) ;
-			dstSet->setData.attributes.surfaceShader = Q3Shared_GetReference ( srcSet->setData.attributes.surfaceShader ) ;
+			dstSet->setData.attributes.surfaceShader =
+				((E3Shared*)srcSet->setData.attributes.surfaceShader)->GetReference();
 			break;
 		default:
 
