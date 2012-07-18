@@ -113,7 +113,7 @@ public:
 	inline
 	bool					IsTextureActive() const
 							{
-								return mIsTopActive;
+								return mState.mIsTextureActive;
 							}
 
 	/*!
@@ -123,7 +123,7 @@ public:
 	inline
 	bool					IsTextureTransparent() const
 							{
-								return mIsTopTransparent && mIsTopActive;
+								return mState.mIsTextureTransparent && IsTextureActive();
 							}
 	
 	/*!
@@ -169,8 +169,6 @@ private:
 	TextureState			mState;
 	std::vector<TQ3Uns8>	mSrcImageData;
 	std::vector<GLubyte>	mGLFormatWork;
-	bool					mIsTopActive;
-	bool					mIsTopTransparent;
 };
 
 }

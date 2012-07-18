@@ -173,8 +173,6 @@ Texture::Texture(
 	, mGLContext( inGLContext )
 	, mGLExtensions( inExtensions )
 	, mTextureCache( NULL )
-	, mIsTopActive( false )
-	, mIsTopTransparent( false )
 {
 	mState.Reset();
 }
@@ -254,29 +252,27 @@ void	Texture::GetShaderParams(
 
 void	Texture::SetOpenGLTexturingParameters()
 {
-	TextureState&	curState( mState );
-	
-	SetOpenGLTextureFiltering( curState.mIsTextureMipmapped );
+	SetOpenGLTextureFiltering( mState.mIsTextureMipmapped );
 	
 	// boundary behavior
 	GLint		glBoundsU, glBoundsV;
-	GLUtils_ConvertUVBoundary( curState.mShaderUBoundary, &glBoundsU,
+	GLUtils_ConvertUVBoundary( mState.mShaderUBoundary, &glBoundsU,
 		mGLExtensions.clampToEdge );
-	GLUtils_ConvertUVBoundary( curState.mShaderVBoundary, &glBoundsV,
+	GLUtils_ConvertUVBoundary( mState.mShaderVBoundary, &glBoundsV,
 		mGLExtensions.clampToEdge );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, glBoundsU );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, glBoundsV );
 	
 	
 	// UV transform
-	GLUtils_LoadShaderUVTransform( &curState.mUVTransform );
+	GLUtils_LoadShaderUVTransform( &mState.mUVTransform );
 	
 	
 	// Alpha test
-	if (curState.mIsTextureAlphaTest)
+	if (mState.mIsTextureAlphaTest)
 	{
 		glEnable( GL_ALPHA_TEST );
-		glAlphaFunc( GL_GREATER, curState.mAlphaTestThreshold );
+		glAlphaFunc( GL_GREATER, mState.mAlphaTestThreshold );
 	}
 	else
 	{
@@ -324,7 +320,6 @@ const Texture::TextureState&		Texture::GetTextureState() const
 void	Texture::StartPass()
 {
 	mState.Reset();
-	mIsTopActive = mIsTopTransparent = false;
 }
 
 
@@ -381,7 +376,7 @@ void	Texture::SetCurrentTexture(
 		glMatrixMode( GL_TEXTURE );
 		glLoadIdentity();
 		
-		mState.mIsTextureActive = mIsTopActive = false;
+		mState.mIsTextureActive = false;
 	}
 	else	// enable texturing
 	{
@@ -395,24 +390,22 @@ void	Texture::SetCurrentTexture(
 		
 		if (cachedTexture != NULL)
 		{
-			TextureState&	curState( mState );
-			curState.mIsTextureActive = mIsTopActive = true;
+			mState.mIsTextureActive = true;
 			
-			GetShaderParams( inShader, curState.mShaderUBoundary,
-				curState.mShaderVBoundary, curState.mUVTransform,
-				curState.mIsTextureAlphaTest, curState.mAlphaTestThreshold );
+			GetShaderParams( inShader, mState.mShaderUBoundary,
+				mState.mShaderVBoundary, mState.mUVTransform,
+				mState.mIsTextureAlphaTest, mState.mAlphaTestThreshold );
 			
-			curState.mGLTextureObject = GLTextureMgr_GetOpenGLTexture(
+			mState.mGLTextureObject = GLTextureMgr_GetOpenGLTexture(
 				cachedTexture );
 			TQ3PixelType	pixelType = GetTexturePixelType( inTexture );
-			curState.mIsTextureTransparent = (! curState.mIsTextureAlphaTest) &&
+			mState.mIsTextureTransparent = (! mState.mIsTextureAlphaTest) &&
 				((pixelType == kQ3PixelTypeARGB32) ||
 				(pixelType == kQ3PixelTypeARGB16));
-			mIsTopTransparent = curState.mIsTextureTransparent;
-			curState.mIsTextureMipmapped = IsTextureMipmapped( inTexture );
+			mState.mIsTextureMipmapped = IsTextureMipmapped( inTexture );
 			
 			glEnable( GL_TEXTURE_2D );
-			glBindTexture( GL_TEXTURE_2D, curState.mGLTextureObject );
+			glBindTexture( GL_TEXTURE_2D, mState.mGLTextureObject );
 			
 			SetOpenGLTexturingParameters();
 		}
