@@ -3759,7 +3759,7 @@ E3View_GetRenderer(TQ3ViewObject theView, TQ3RendererObject *theRenderer)
 
 
 	// Create a new reference to our renderer
-	*theRenderer = Q3Shared_GetReference ( ( (E3View*) theView )->instanceData.viewRenderer ) ;
+	*theRenderer = ((E3Shared*)( ((E3View*) theView)->instanceData.viewRenderer ))->GetReference();
 
 	return kQ3Success ;
 	}
@@ -4258,7 +4258,7 @@ E3View_GetCamera(TQ3ViewObject theView, TQ3CameraObject *theCamera)
 
 
 	// Create a new reference to our camera
-	*theCamera = Q3Shared_GetReference ( ( (E3View*) theView )->instanceData.theCamera ) ;
+	*theCamera = ((E3Shared*)( ((E3View*) theView)->instanceData.theCamera ))->GetReference();
 
 	return kQ3Success ;
 	}
@@ -4314,7 +4314,7 @@ E3View_GetLightGroup(TQ3ViewObject theView, TQ3GroupObject *lightGroup)
 
 	// If we have a light group, create a new reference to it
 	if ( ( (E3View*) theView )->instanceData.theLights != NULL )
-		*lightGroup = Q3Shared_GetReference ( ( (E3View*) theView )->instanceData.theLights ) ;
+		*lightGroup = ((E3Shared*)( ((E3View*) theView)->instanceData.theLights ))->GetReference();
 
 	return kQ3Success ;
 	}
@@ -4637,7 +4637,7 @@ E3View_GetDrawContext(TQ3ViewObject theView, TQ3DrawContextObject *drawContext)
 
 
 	// Create a new reference to our camera
-	*drawContext = Q3Shared_GetReference ( ( (E3View*) theView )->instanceData.theDrawContext ) ;
+	*drawContext = ((E3Shared*)( ((E3View*) theView)->instanceData.theDrawContext ))->GetReference();
 
 	return kQ3Success ;
 	}
