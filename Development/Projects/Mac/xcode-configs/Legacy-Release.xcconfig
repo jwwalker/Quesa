@@ -1,0 +1,12 @@
+//
+//  Legacy-Release.xcconfig
+//  Quesa
+//
+//  Created by James Walker on 7/18/2012.
+//
+
+#include "Legacy.xcconfig"
+
+#include "Quesa-common.xcconfig"
+
+#include "Quesa-release.xcconfig"

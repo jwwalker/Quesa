@@ -1,0 +1,50 @@
+//
+//  Legacy.xcconfig
+//  Quesa
+//
+//  Created by James Walker on 7/18/2012.
+
+// These settings are to be used when building for ppc and i386 architectures
+// using Xcode 3.2.6.
+
+// Architectures:
+// --------------
+ARCHS = ppc i386
+
+
+// Minimum OS version supported:
+// -----------------------------
+MACOSX_DEPLOYMENT_TARGET = 10.4
+
+
+// Mac OS SDK version:
+// -------------------
+// It is necessary to use the 10.4 SDK in order to build ppc code for a G3.
+SDKROOT =
+SDKROOT[arch=ppc] = macosx10.4
+
+
+// Compiler version:
+// -----------------
+// It is necessary to use GCC 4.0 in order to build ppc code for a G3.
+GCC_VERSION = 4.2
+GCC_VERSION[arch=ppc] = 4.0
+
+
+// Prebinding:
+// -----------
+// Prebinding is useless as of Mac OS X 10.3.something.
+PREBINDING = NO
+
+
+// Preprocessor settings relating to legacy code:
+// ----------------------------------------------
+// QUESA_SUPPORT_HITOOLBOX=1 must be used if you will create Carbon draw contexts,
+//   and must NOT be used if you compile for 64 bits.
+//   If you do not define QUESA_SUPPORT_HITOOLBOX here, then Quesa.h will set it
+//   to 0 in 64-bit mode and 1 in 32-bit mode.
+// QUESA_SUPPORT_QUICKTIME=1 is needed for certain features (compressed textures,
+//   wire elements) and is not allowed when compiling for 64 bits.
+//   If you do not define QUESA_SUPPORT_QUICKTIME here, then Quesa.h will set it
+//   to 0 in 64-bit mode and 1 in 32-bit mode.
+QUESA_PREPROCESSOR_DEFS_LEGACY = QUESA_SUPPORT_HITOOLBOX=1 QUESA_SUPPORT_QUICKTIME=1

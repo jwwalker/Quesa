@@ -1,6 +1,3 @@
-#include "Quesa-common.xcconfig"
-
-
 // Don't build only the active architecture.
 // Switch to YES to only build the active arch (for faster debugging turnaround).
 ONLY_ACTIVE_ARCH = NO

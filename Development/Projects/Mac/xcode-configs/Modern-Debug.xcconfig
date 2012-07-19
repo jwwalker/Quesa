@@ -1,0 +1,12 @@
+//
+//  Modern-Debug.xcconfig
+//  Quesa
+//
+//  Created by James Walker on 7/18/2012.
+//
+
+#include "Modern.xcconfig"
+
+#include "Quesa-common.xcconfig"
+
+#include "Quesa-debug.xcconfig"

@@ -266,6 +266,7 @@
 		BE7033FF132D30B700C0056D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7033FE132D30B700C0056D /* OpenGL.framework */; };
 		BE703429132D326300C0056D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE703428132D326300C0056D /* Carbon.framework */; };
 		BE7034ED132D32BD00C0056D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7034EC132D32BD00C0056D /* Cocoa.framework */; };
+		BE7034EF132D32BD00C0056D /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7034EE132D32BD00C0056D /* QuickTime.framework */; };
 		BE7F26510B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */; };
 		BE7F26540B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264C0B7BB87F00933ED1 /* GLTextureLoader.cpp */; };
 		BE7F26550B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F264D0B7BB87F00933ED1 /* GLDisplayListManager.cpp */; };
@@ -571,8 +572,6 @@
 		BE499C9E0F145E950060DF4E /* Quesa-staticlibrary.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-staticlibrary.xcconfig"; path = "xcode-configs/Quesa-staticlibrary.xcconfig"; sourceTree = SOURCE_ROOT; };
 		BE59B560145B8D5B0027E0DE /* GLShadowVolumeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLShadowVolumeManager.h; sourceTree = "<group>"; };
 		BE59B561145B8D5B0027E0DE /* GLShadowVolumeManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLShadowVolumeManager.cpp; sourceTree = "<group>"; };
-		BE5D0F5F15B79B3C00E3DBE4 /* Modern-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Modern-Debug.xcconfig"; sourceTree = "<group>"; };
-		BE5D0F6015B79B6500E3DBE4 /* Modern-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Modern-Release.xcconfig"; sourceTree = "<group>"; };
 		BE6C6F4F0C134DD300FBD60D /* E3Math_Intersect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Math_Intersect.h; sourceTree = "<group>"; };
 		BE6C6F500C134DD300FBD60D /* E3Math_Intersect.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3Math_Intersect.cpp; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
@@ -581,6 +580,7 @@
 		BE7033FE132D30B700C0056D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		BE703428132D326300C0056D /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		BE7034EC132D32BD00C0056D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BE7034EE132D32BD00C0056D /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLGPUSharing.cpp; sourceTree = "<group>"; };
 		BE7F264A0B7BB87F00933ED1 /* GLDisplayListManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLDisplayListManager.h; sourceTree = "<group>"; };
 		BE7F264B0B7BB87F00933ED1 /* GLTextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureLoader.h; sourceTree = "<group>"; };
@@ -648,6 +648,7 @@
 				BE7033FF132D30B700C0056D /* OpenGL.framework in Frameworks */,
 				BE703429132D326300C0056D /* Carbon.framework in Frameworks */,
 				BE7034ED132D32BD00C0056D /* Cocoa.framework in Frameworks */,
+				BE7034EF132D32BD00C0056D /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -689,6 +690,7 @@
 				BE7033FE132D30B700C0056D /* OpenGL.framework */,
 				BE703428132D326300C0056D /* Carbon.framework */,
 				BE7034EC132D32BD00C0056D /* Cocoa.framework */,
+				BE7034EE132D32BD00C0056D /* QuickTime.framework */,
 			);
 			name = "External Frameworks";
 			sourceTree = "<group>";
@@ -1136,8 +1138,6 @@
 				BE2AF1F115B78BE700400670 /* Modern.xcconfig */,
 				BE2AF20115B791B300400670 /* Legacy-Debug.xcconfig */,
 				BE2AF20215B7920A00400670 /* Legacy-Release.xcconfig */,
-				BE5D0F5F15B79B3C00E3DBE4 /* Modern-Debug.xcconfig */,
-				BE5D0F6015B79B6500E3DBE4 /* Modern-Release.xcconfig */,
 			);
 			path = "xcode-configs";
 			sourceTree = SOURCE_ROOT;
@@ -1296,7 +1296,7 @@
 			attributes = {
 				LastUpgradeCheck = 0440;
 			};
-			buildConfigurationList = BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "Quesa" */;
+			buildConfigurationList = BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "Quesa (Legacy)" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -1720,14 +1720,14 @@
 		};
 		BEDC045008A57B3000FB3A82 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE5D0F5F15B79B3C00E3DBE4 /* Modern-Debug.xcconfig */;
+			baseConfigurationReference = BE2AF20115B791B300400670 /* Legacy-Debug.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		BEDC045108A57B3000FB3A82 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE5D0F6015B79B6500E3DBE4 /* Modern-Release.xcconfig */;
+			baseConfigurationReference = BE2AF20215B7920A00400670 /* Legacy-Release.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1753,7 +1753,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "Quesa" */ = {
+		BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "Quesa (Legacy)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEDC045008A57B3000FB3A82 /* Debug */,
