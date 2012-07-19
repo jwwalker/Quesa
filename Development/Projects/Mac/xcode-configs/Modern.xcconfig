@@ -39,4 +39,4 @@ GCC_VERSION =
 //   wire elements) and is not allowed when compiling for 64 bits.
 //   If you do not define QUESA_SUPPORT_QUICKTIME here, then Quesa.h will set it
 //   to 0 in 64-bit mode and 1 in 32-bit mode.
-QUESA_PREPROCESSOR_DEFS_LEGACY = QUESA_SUPPORT_HITOOLBOX=0 QUESA_SUPPORT_QUICKTIME=0
+QUESA_PREPROCESSOR_DEFS_LEGACY = QUESA_SUPPORT_QUICKTIME=0
