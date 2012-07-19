@@ -3,49 +3,17 @@ QUESA_PREPROCESSOR_DEFINITIONS_BASIC = QUESA_OS_MACINTOSH=1
 
 // Customisable preprocesses settings, set as desired.
 // QUESA_OS_COCOA=1 must be used if you will create Cocoa draw contexts.
-// QUESA_SUPPORT_HITOOLBOX=1 must be used if you will create Carbon draw contexts,
-//   and must NOT be used if you compile for 64 bits.
-// QUESA_SUPPORT_QUICKTIME=1 is needed for certain features (compressed textures,
-//   wire elements) and is not allowed when compiling for 64 bits.
 // QUESA_NORMALIZE_NORMALS=1 means that vertex and face normal vectors are
 //	normalized (forced to unit length) whenever a TriMesh is created or modified.
 //	Setting QUESA_NORMALIZE_NORMALS=0 will save that CPU time, at the expense of
 //	more work on the GPU.  It is possible that some plug-in renderers may not
 //	work correctly when QUESA_NORMALIZE_NORMALS=0.
-QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE = QUESA_NORMALIZE_NORMALS=1 QUESA_OS_COCOA=1 QUESA_SUPPORT_HITOOLBOX=1 QUESA_SUPPORT_QUICKTIME=1
+// Also see the comments about QUESA_PREPROCESSOR_DEFS_LEGACY in Modern.xcconfig
+// or Legacy.xcconfig.
+QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE = QUESA_NORMALIZE_NORMALS=0 QUESA_OS_COCOA=1
 
 // Combine the above for the compiler's use.
-QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) $(QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE)
-
-// Mac OS SDK to use, Quesa requires the 10.3 SDK or later.
-// If you want to be able to build using Xcode 2.5, use the 10.4u SDK.
-// It is also necessary to use the 10.4u SDK if you need to build PowerPC code
-// that will run on a G3.  If you will build only Intel code with Xcode 3 or
-// later, you may as well use the 10.5 or 10.6 SDK, and you may be required to
-// do so for certain features such as compiler stack protection.
-// Xcode 4.0 only comes with the 10.6 SDK.
-SDKROOT =
-SDKROOT[arch=ppc] = macosx10.4
-SDKROOT[arch=ppc64] = macosx10.5
-
-// Prebinding is useless as of Mac OS X 10.3.something.
-PREBINDING = NO
-
-// Minimum OS versions supported.
-MACOSX_DEPLOYMENT_TARGET = 10.4
-
-// Build Universal Binary: PowerPC and Intel.
-// Use ARCHS_STANDARD_32_64_BIT, or append x86_64, for 64 bit as well.
-// If using Xcode 4, remove ppc.
-ARCHS = ppc i386
-
-// Compiler choice.  Quesa supports gcc 3.3 and later.
-// Important: If this is 4.2 or later, then
-// the SDK version must be 10.5. or later.
-// When building for PowerPC, using gcc 4.2 or later produces ppc7400 code that
-// will not run on a G3, hence we use gcc 4.0 for PPC.
-GCC_VERSION = 4.2
-GCC_VERSION[arch=ppc] = 4.0
+QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) $(QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE) $(QUESA_PREPROCESSOR_DEFS_LEGACY)
 
 // Faster Objective-C method dispatch, requires 10.4 or later.
 GCC_FAST_OBJC_DISPATCH = YES
@@ -70,6 +38,9 @@ GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES
 GCC_WARN_UNKNOWN_PRAGMAS = YES
 GCC_WARN_UNUSED_LABEL = YES
 GCC_WARN_UNUSED_VALUE = YES
+GCC_WARN_SIGN_COMPARE = YES
+GCC_WARN_64_TO_32_BIT_CONVERSION = YES
+GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES
 
 // C++-only warnings.
 GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES
@@ -84,15 +55,11 @@ WARNING_CFLAGS = -Wendif-labels -Wlarger-than-30000 -Wpointer-arith -Wcast-align
 
 // These generate many warnings (and so are off), but the warnings are mostly harmless.
 GCC_WARN_UNUSED_VARIABLE = NO
+GCC_WARN_UNUSED_FUNCTION = NO
 GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO
 GCC_WARN_CHECK_SWITCH_STATEMENTS = NO
-GCC_WARN_UNUSED_FUNCTION = NO
-GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = NO
 GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO
 
-// These generate many warnings (and so are off), but should ideally be fixed!
-GCC_WARN_SIGN_COMPARE = NO
-GCC_WARN_64_TO_32_BIT_CONVERSION = NO
 
 // Product name and versions.
 PRODUCT_NAME = Quesa
