@@ -765,8 +765,8 @@ static void ImmediateRenderTriangleStrip(
 		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
 	}
 	
-	Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, inStrip.size(), &inStrip[0] );
-	glDrawElements( GL_TRIANGLE_STRIP, inStrip.size(),
+	Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, static_cast<TQ3Uns32>(inStrip.size()), &inStrip[0] );
+	glDrawElements( GL_TRIANGLE_STRIP, static_cast<TQ3Uns32>(inStrip.size()),
 		GL_UNSIGNED_INT, &inStrip[0] );
 	TraceGLDrawElements( inStrip.size(), &inStrip[0] );
 }
@@ -815,7 +815,7 @@ static void GetCachedTriangleStrip(
 			// more than twice the number of triangles.
 			if (outStrip.size() <= 2 * inGeomData.numTriangles)
 			{
-				CETriangleStripElement_SetData( inTriMesh, outStrip.size(),
+				CETriangleStripElement_SetData( inTriMesh, static_cast<TQ3Uns32>(outStrip.size()),
 					&outStrip[0] );
 			}
 			else // not worthwhile
@@ -1110,11 +1110,11 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 				else
 				{
 					Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints,
-						triangleStrip.size(),
+						static_cast<TQ3Uns32>(triangleStrip.size()),
 						&triangleStrip[0] );
 					AddVBOToCache( mGLContext, inTriMesh, inGeomData.numPoints,
 						inGeomData.points, inVertNormals, inVertColors, inVertUVs,
-						GL_TRIANGLE_STRIP, triangleStrip.size(),
+						GL_TRIANGLE_STRIP, static_cast<TQ3Uns32>(triangleStrip.size()),
 						&triangleStrip[0] );
 				}
 				

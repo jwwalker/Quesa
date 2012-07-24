@@ -5,7 +5,7 @@
         Quesa 3DMFBin Writer registration.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -319,7 +319,7 @@ e3ffw_3dmf_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *
 
 
 	// Return the amount of space we need
-    *actualDataSize = strlen(nickName) + 1;
+    *actualDataSize = static_cast<TQ3Uns32>(strlen(nickName) + 1);
 
 
 

@@ -12702,7 +12702,7 @@ Q3TriMesh_MakeTriangleStrip(
 	{
 		std::vector<TQ3Uns32>	theStrip;
 		MakeStrip( inNumTriangles, inTriangles, theStrip );
-		*outStripLength = theStrip.size();
+		*outStripLength = static_cast<TQ3Uns32>(theStrip.size());
 		*outStrip = reinterpret_cast<TQ3Uns32*>(
 			Q3Memory_Allocate( *outStripLength * sizeof(TQ3Uns32) ) );
 		if (*outStrip == NULL)

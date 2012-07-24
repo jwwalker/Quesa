@@ -203,7 +203,7 @@ E3FFW_3DMF_type_Traverse( TQ3Object object, void *data, TQ3ViewObject view )
 		const char* className = theClass->GetName () ;
 		
 		// Compute the object size.
-		TQ3Uns32 size = Q3Size_Pad ( strlen(className) + 1 ) + sizeof ( TQ3ObjectType ) ;
+		TQ3Uns32 size = Q3Size_Pad( static_cast<TQ3Uns32>(strlen(className) + 1) ) + sizeof ( TQ3ObjectType ) ;
 		
 		// Put data on the stack.
 		return Q3XView_SubmitWriteData ( view, size, data, NULL ) ;
@@ -1177,7 +1177,7 @@ E3FFW_3DMF_CString_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view)
 	theStatus = Q3CString_GetString( object, &theString );
 	if (theStatus == kQ3Success)
 		{
-		size = Q3Size_Pad(strlen(theString) + 1);
+		size = Q3Size_Pad(static_cast<TQ3Uns32>(strlen(theString) + 1));
 		theStatus = Q3XView_SubmitWriteData( view, size, theString,
 			e3ffw_3DMF_CString_DeleteData );
 		}

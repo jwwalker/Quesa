@@ -5,7 +5,7 @@
         Quesa OpenGL shadow volume caching.
        
     COPYRIGHT:
-        Copyright (c) 2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2011-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -508,7 +508,7 @@ void	ShadowVolCache::FlushUnreferencedGeometries()
 	{
 		theGeom = geomIt->first;
 		TQ3Uns32 vboRefs = CountVBOs( theGeom );
-		TQ3Uns32 shadowRefs = geomIt->second.size();
+		TQ3Uns32 shadowRefs = static_cast<TQ3Uns32>(geomIt->second.size());
 		TQ3Uns32 totalRefs = Q3Shared_GetReferenceCount( theGeom );
 		if (vboRefs + shadowRefs == totalRefs)
 		{
@@ -545,7 +545,7 @@ void	ShadowVolCache::FlushUnreferencedLights()
 		lightIt != mLightToGeomToShadow.end(); ++lightIt)
 	{
 		theLight = lightIt->first;
-		TQ3Uns32 shadowRefs = lightIt->second.size();
+		TQ3Uns32 shadowRefs = static_cast<TQ3Uns32>(lightIt->second.size());
 		TQ3Uns32 totalRefs = Q3Shared_GetReferenceCount( theLight );
 		if (shadowRefs == totalRefs)
 		{

@@ -154,7 +154,7 @@ static ByteBuffer	sGLImageData( kInitialBufferSize );
 //-----------------------------------------------------------------------------
 
 ByteBuffer::ByteBuffer( unsigned long inInitialSize )
-	: mBuffer( static_cast<unsigned char*>( Q3Memory_Allocate( inInitialSize ) ) )
+	: mBuffer( static_cast<unsigned char*>( Q3Memory_Allocate( static_cast<TQ3Uns32>(inInitialSize) ) ) )
 	, mSize( inInitialSize )
 {
 	if (mBuffer == NULL)
@@ -187,7 +187,7 @@ void	ByteBuffer::Grow( unsigned long inSize )
 {
 	if (inSize > mSize)
 	{
-		TQ3Status theStatus = Q3Memory_Reallocate( &mBuffer, inSize );
+		TQ3Status theStatus = Q3Memory_Reallocate( &mBuffer, static_cast<TQ3Uns32>(inSize) );
 		if (theStatus == kQ3Failure)
 		{
 			E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );

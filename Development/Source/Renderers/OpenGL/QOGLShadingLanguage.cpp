@@ -873,7 +873,7 @@ static void LogShaderCompileError( GLint inShaderID, const QORenderer::GLSLFuncs
 static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRec,
 										std::vector<std::string>& outSource )
 {
-	const GLint kNumLights = inProgramRec.mPattern.size();
+	const GLint kNumLights = static_cast<GLint>(inProgramRec.mPattern.size());
 	GLint i;
 	
 	outSource.push_back( kFragmentShaderPrefix );
@@ -1004,7 +1004,7 @@ void QORenderer::PerPixelLighting::GetLightTypes()
 	if (mIlluminationType != kQ3IlluminationTypeNULL)
 	{
 		// Query number of lights.
-		const int kNumLights = mLights.size();
+		const int kNumLights = static_cast<int>(mLights.size());
 		mLightPattern.reserve( kNumLights );
 		
 		for (int i = 0; i < kNumLights; ++i)
@@ -1178,7 +1178,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 		// Activate it.
 		if (foundProg != mPrograms.end())
 		{
-			int newProgramIndex = foundProg - mPrograms.begin();
+			int newProgramIndex = static_cast<int>(foundProg - mPrograms.begin());
 			
 			if (newProgramIndex != mProgramIndex)
 			{
@@ -1206,7 +1206,7 @@ void	QORenderer::PerPixelLighting::SetUniformValues( ProgramRec& ioProgram )
 	CHECK_GL_ERROR;
 	
 	// Retrieve hot angles, cutoff angles for any spot lights.
-	const int kNumLights = mLights.size();
+	const int kNumLights = static_cast<int>(mLights.size());
 	std::vector<GLfloat>	hotAngles( kNumLights );
 	std::vector<GLfloat>	cutoffAngles( kNumLights );
 	for (int i = 0; i < kNumLights; ++i)
@@ -1387,7 +1387,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 		if (shaderID != 0)
 		{
 			// Supply source code
-			mFuncs.glShaderSource( shaderID, sourceParts.size(), &sourceParts[0], NULL );
+			mFuncs.glShaderSource( shaderID, static_cast<GLsizei>(sourceParts.size()), &sourceParts[0], NULL );
 			CHECK_GL_ERROR;
 
 			// Compile fragment shader

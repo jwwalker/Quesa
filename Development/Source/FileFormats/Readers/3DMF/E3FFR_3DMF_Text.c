@@ -940,7 +940,7 @@ e3fformat_3dmf_text_read_toc ( E3Text3DMFReader* format, TE3FFormat3DMF_Text_Dat
 		LabelToOffsetMap::const_iterator	labelIter = instanceData->mLabelMap->find( tocLabel );
 		if (labelIter != instanceData->mLabelMap->end())
 		{
-			TQ3Uns32	tocOffset = labelIter->second + tocLabel.size() + 1;
+			TQ3Uns32	tocOffset = static_cast<TQ3Uns32>(labelIter->second + tocLabel.size() + 1);
 			instanceData->MFData.baseData.currentStoragePosition = tocOffset;
 			char	buffer[256];
 			TQ3Uns32	charsRead;
@@ -1135,7 +1135,7 @@ e3fformat_3dmf_textreader_update_toc( TQ3Object object, TQ3Uns32 objectOffset, T
 	if (Q3Object_IsType( object, kQ3ObjectTypeShared ))
 	{
 		// Find the TOC entry with the same offset.
-		const TQ3Uns32	kNumTOCEntries = instanceData->mTOC->size();
+		const TQ3Uns32	kNumTOCEntries = static_cast<TQ3Uns32>(instanceData->mTOC->size());
 		TQ3Uns32	i;
 		for (i = 0; i < kNumTOCEntries; ++i)
 		{

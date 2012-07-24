@@ -233,8 +233,8 @@ e3geom_ellipsoid_create_disk_cap(
 		Q3FastVector3D_Negate( &theNormal, &theNormal );
 	}
 	
-	TQ3Uns32	prevPoints = points.size();
-	TQ3Uns32	prevFaces = triangles.size();
+	TQ3Uns32	prevPoints = static_cast<TQ3Uns32>(points.size());
+	TQ3Uns32	prevFaces = static_cast<TQ3Uns32>(triangles.size());
 	
 	TQ3Uns32	numPoints = uSegments + 2;
 	TQ3Uns32	numFaces = uSegments;
@@ -333,8 +333,8 @@ e3geom_ellipsoid_create_interior_cap(
 		Q3FastVector3D_Negate( &theNormal, &theNormal );
 	}
 	
-	TQ3Uns32	prevPoints = points.size();
-	TQ3Uns32	prevFaces = triangles.size();
+	TQ3Uns32	prevPoints = static_cast<TQ3Uns32>(points.size());
+	TQ3Uns32	prevFaces = static_cast<TQ3Uns32>(triangles.size());
 	
 	bool isSouthCut = (vMin > kQ3RealZero);
 	bool isNorthCut = (vMax < 1.0f - kQ3RealZero);
@@ -578,7 +578,7 @@ e3geom_ellipsoid_create_caps(
 	TQ3TriMeshData	tmData =
 	{
 		geomData.interiorAttributeSet,			// triMeshAttributeSet
-		triangles.size(),						// numTriangles
+		static_cast<TQ3Uns32>(triangles.size()),// numTriangles
 		&triangles[0],							// triangles
 		sizeof(faceAtts)/sizeof(faceAtts[0]),	// numTriangleAttributeTypes
 		faceAtts,								// triangleAttributeTypes
@@ -586,7 +586,7 @@ e3geom_ellipsoid_create_caps(
 		NULL,									// edges
 		0,										// numEdgeAttributeTypes,
 		NULL,									// edgeAttributeTypes
-		points.size(),							// numPoints
+		static_cast<TQ3Uns32>(points.size()),	// numPoints
 		&points[0],								// points
 		sizeof(vertAtts)/sizeof(vertAtts[0]),	// numVertexAttributeTypes
 		vertAtts								// vertexAttributeTypes

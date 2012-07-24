@@ -1364,7 +1364,7 @@ DATA##ArrayInfo =															\
 		kE3KernalMaskType_private,											\
 	},																		\
 	kE3FormArray_private,													\
-	sizeof(TYPE)															\
+	static_cast<TQ3Uns32>(sizeof(TYPE))										\
 };																			\
 																			\
 FUNC_PREFIX																	\
@@ -1413,7 +1413,7 @@ FUNC##Array_ItemIndex(														\
 	Q3_ASSERT_VALID_PTR(arrayPtr);											\
 	Q3_ASSERT_VALID_PTR(itemPtr);											\
 																			\
-	return(																	\
+	return (TQ3Int32)(														\
 		itemPtr -															\
 		E3_DOWN_CAST(const TYPE*,											\
 			E3Array_HeadItem(												\

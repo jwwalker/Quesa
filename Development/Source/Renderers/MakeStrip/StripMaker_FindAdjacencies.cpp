@@ -10,7 +10,7 @@
     	code.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -150,7 +150,7 @@ static void CreateEdges( const FaceVec& inFaces, EdgeVec& outEdges )
 {
 	outEdges.clear();
 	outEdges.reserve( 3 * inFaces.size() );
-	const TQ3Uns32	kNumFaces = inFaces.size();
+	const TQ3Uns32	kNumFaces = static_cast<TQ3Uns32>(inFaces.size());
 	
 	for (TQ3Uns32 i = 0; i < kNumFaces; ++i)
 	{
@@ -184,7 +184,7 @@ void StripMaker::FindAdjacencies( FaceVec& ioFaces )
 	CreateEdges( ioFaces, theEdges );
 	std::sort( theEdges.begin(), theEdges.end() );
 	
-	const TQ3Uns32 kNumEdges = theEdges.size();
+	const TQ3Uns32 kNumEdges = static_cast<TQ3Uns32>(theEdges.size());
 	TQ3Uns32	runStart, nextRunStart;
 	runStart = nextRunStart = 0;
 	

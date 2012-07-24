@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -165,7 +165,7 @@ void	QORenderer::OpaqueTriBuffer::Flush()
 		}
 
 		// Set up indices, one for each vertex
-		const int kNumVertices = mTriBuffer.size();
+		const int kNumVertices = static_cast<int>(mTriBuffer.size());
 		mTriBufferIndices.resize( kNumVertices );
 		int	i;
 		for (i = 0; i < kNumVertices; ++i)

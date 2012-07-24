@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -521,7 +521,7 @@ void	QORenderer::Renderer::UpdateFogStyle(
 		try
 		{
 			mStyleState.mFogStyles.push_back( *inStyleData );
-			mStyleState.mCurFogStyleIndex = mStyleState.mFogStyles.size() - 1;
+			mStyleState.mCurFogStyleIndex = static_cast<TQ3Uns32>(mStyleState.mFogStyles.size() - 1);
 		}
 		catch (...)
 		{
@@ -529,7 +529,7 @@ void	QORenderer::Renderer::UpdateFogStyle(
 	}
 	else
 	{
-		mStyleState.mCurFogStyleIndex = foundFog - mStyleState.mFogStyles.begin();
+		mStyleState.mCurFogStyleIndex = static_cast<TQ3Uns32>(foundFog - mStyleState.mFogStyles.begin());
 	}
 	
 	

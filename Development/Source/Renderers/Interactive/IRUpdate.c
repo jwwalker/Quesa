@@ -5,7 +5,7 @@
         Quesa interactive renderer update methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -802,7 +802,7 @@ IRRenderer_Update_Style_Fog(TQ3ViewObject		theView,
 		try
 		{
 			instanceData->fogStyles.push_back( *styleData );
-			instanceData->curFogStyleIndex = instanceData->fogStyles.size() - 1;
+			instanceData->curFogStyleIndex = static_cast<TQ3Uns32>(instanceData->fogStyles.size() - 1);
 		}
 		catch (...)
 		{
@@ -810,7 +810,7 @@ IRRenderer_Update_Style_Fog(TQ3ViewObject		theView,
 	}
 	else
 	{
-		instanceData->curFogStyleIndex = foundFog - instanceData->fogStyles.begin();
+		instanceData->curFogStyleIndex = static_cast<TQ3Uns32>(foundFog - instanceData->fogStyles.begin());
 	}
 	
 

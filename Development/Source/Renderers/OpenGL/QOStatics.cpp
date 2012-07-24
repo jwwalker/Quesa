@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -70,7 +70,7 @@ static TQ3Status
 QORenderer_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *actualDataSize)
 {
 	// Return the amount of space we need
-    *actualDataSize = strlen( kQORendererNickName ) + 1;
+    *actualDataSize = static_cast<TQ3Uns32>(strlen( kQORendererNickName ) + 1);
 
 
 

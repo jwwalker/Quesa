@@ -424,7 +424,7 @@ e3storage_path_new(TQ3Object theObject, void *privateData, const void *paramData
 
 
 	// Initialise our instance data
-	pathLen = strlen(thePath);
+	pathLen = static_cast<TQ3Uns32>(strlen(thePath));
 	instanceData->thePath = (char *) Q3Memory_Allocate(pathLen + 1);
 	if (instanceData->thePath == NULL)
 		return(kQ3Failure);
@@ -591,7 +591,7 @@ e3storage_path_read ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 			return kQ3Failure ;
 		}
 
-	*sizeRead = fread ( data, 1, dataSize, storage->pathDetails.theFile ) ;
+	*sizeRead = static_cast<TQ3Uns32>(fread ( data, 1, dataSize, storage->pathDetails.theFile ));
 
 	return kQ3Success ;
 	}
@@ -621,7 +621,7 @@ e3storage_path_write ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSiz
 	if ( fseek ( storage->pathDetails.theFile, (long)offset, SEEK_SET ) )
 		return kQ3Failure ;
 
-	*sizeWritten = fwrite ( data, 1, dataSize, storage->pathDetails.theFile ) ;
+	*sizeWritten = static_cast<TQ3Uns32>(fwrite( data, 1, dataSize, storage->pathDetails.theFile ));
 
 	return kQ3Success ;
 	}
@@ -772,7 +772,7 @@ e3storage_stream_read( E3FileStreamStorage* storage, TQ3Uns32 offset,
 			return kQ3Failure;
 	}
 
-	*sizeRead = fread( data, 1, dataSize, storage->mStream );
+	*sizeRead = static_cast<TQ3Uns32>(fread( data, 1, dataSize, storage->mStream ));
 
 	return kQ3Success;
 }
@@ -804,7 +804,7 @@ e3storage_stream_write( E3FileStreamStorage* storage, TQ3Uns32 offset,
 	if ( fseek( storage->mStream, (long)offset, SEEK_SET ) )
 		return kQ3Failure;
 
-	*sizeWritten = fwrite( data, 1, dataSize, storage->mStream );
+	*sizeWritten = static_cast<TQ3Uns32>(fwrite( data, 1, dataSize, storage->mStream ));
 
 	return kQ3Success ;
 }
@@ -1254,7 +1254,7 @@ TQ3Status
 E3PathStorage:: Set( const char *pathName )
 	{
 	// Take a copy of the new path
-	TQ3Uns32 pathLen = strlen ( pathName)  ;
+	TQ3Uns32 pathLen = static_cast<TQ3Uns32>( strlen( pathName) );
 	char* newPath = (char*) Q3Memory_Allocate ( pathLen + 1 ) ;
 	if ( newPath == NULL )
 		return kQ3Failure ;
