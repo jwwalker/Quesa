@@ -149,7 +149,7 @@ void CWireFrameRendererQuesa::StartPassWireFrame(
 {
 	StartPass( inCamera, inLights ); // call parent Method
 
-	TQ3CameraViewPort viewPort;
+	//TQ3CameraViewPort viewPort;
 	
 	TQ3Boolean useColor = kQ3True;
 	

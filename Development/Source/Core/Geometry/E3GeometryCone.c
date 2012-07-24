@@ -229,7 +229,7 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	float				ang, dang, cosAngle, sinAngle;
 	float				startAngle, endAngle;
 	float				v, vStep;
-	TQ3Vector3D			workVec, otherVec, sideVec, radialVec;
+	TQ3Vector3D			sideVec, radialVec;
 	TQ3Vector3D			vertNormVec;
 	TQ3Point3D			bottomPt;
 	TQ3Vector3D			majXMinor, majXOrient, minXOrient;
@@ -460,7 +460,6 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 	{
 		TQ3DiskData			topDisk;
 		TQ3GeometryObject	topGeom;
-		TQ3Vector3D			workVec;
 		
 		topDisk.origin = inData->origin + inData->vMax * inData->orientation;
 		topDisk.majorRadius = (1.0f - inData->vMax) * inData->majorRadius;

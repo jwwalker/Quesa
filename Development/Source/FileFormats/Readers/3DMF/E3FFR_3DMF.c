@@ -1926,8 +1926,6 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 	
 	TQ3Int8*				useArray;
 	
-	TQ3Object				childObject;
-	
 	TQ3Int32				*elemSwitch;
 	TQ3Object				*elemObject;
 
