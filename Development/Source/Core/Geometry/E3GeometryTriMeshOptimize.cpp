@@ -422,7 +422,7 @@ TQ3ColorRGB	TriMeshOptimizer::GetTransColorFromOwner( const Owner& inOwner ) con
 */
 void	TriMeshOptimizer::FindBackLinks()
 {
-	const TQ3Int32 kNumCoordIndices = mInstanceToPoint.size();
+	const TQ3Int32 kNumCoordIndices = static_cast<TQ3Int32>(mInstanceToPoint.size());
 	mPrevPointInstance.resize( kNumCoordIndices, -1 );
 	IntVec	mostRecentPointInstance( mOrigData.numPoints, -1 );
 	
@@ -564,7 +564,7 @@ TQ3Int32	TriMeshOptimizer::FindPrevSimilarInstance( TQ3Int32 inPtInstanceIndex )
 */
 void	TriMeshOptimizer::FindDistinctVertices()
 {
-	const TQ3Int32	kNumInstances = mInstanceToPoint.size();
+	const TQ3Int32	kNumInstances = static_cast<TQ3Int32>(mInstanceToPoint.size());
 	mInstanceToVertex.resize( kNumInstances );
 	TQ3Int32	i;
 
@@ -574,7 +574,7 @@ void	TriMeshOptimizer::FindDistinctVertices()
 		if (prevSimilar < 0)
 		{
 			// New vertex
-			TQ3Int32	nextVertIndex = mVertexToPoint.size();
+			TQ3Int32	nextVertIndex = static_cast<TQ3Int32>(mVertexToPoint.size());
 			mVertexToPoint.push_back( mInstanceToPoint[i] );
 			// hence mVertexToPoint[ nextVertIndex ] == mInstanceToPoint[i]
 			mInstanceToVertex[i] = nextVertIndex;
@@ -766,7 +766,7 @@ void	TriMeshOptimizer::BuildEdgeAttributes()
 
 void	TriMeshOptimizer::BuildPoints()
 {
-	mResultData.numPoints = mVertexToPoint.size();
+	mResultData.numPoints = static_cast<TQ3Uns32>(mVertexToPoint.size());
 	
 	if (mResultData.numPoints == 0)
 	{

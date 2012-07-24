@@ -965,7 +965,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 		timeStrLen = strlen( timeStr );
 		if ( (timeStr[timeStrLen - 1] == '\n') && (timeStrLen < sizeof(timeStrCopy)) )
 		{
-			Q3Memory_Copy( timeStr, timeStrCopy, timeStrLen-1 );
+			Q3Memory_Copy( timeStr, timeStrCopy, static_cast<TQ3Uns32>(timeStrLen-1) );
 			timeStrCopy[ timeStrLen-1 ] = '\0';
 			timeStr = timeStrCopy;
 		}

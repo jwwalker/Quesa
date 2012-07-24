@@ -193,7 +193,7 @@ e3unknown_binary_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	// Copy the string
 	if (fromInstanceData->typeString != NULL)
 		{
-		toInstanceData->typeString = (char *) Q3Memory_Allocate(strlen(fromInstanceData->typeString) + 1);
+		toInstanceData->typeString = (char *) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(fromInstanceData->typeString) + 1));
 		if (toInstanceData->typeString == NULL)
 			return(kQ3Failure);
 		strcpy(toInstanceData->typeString, fromInstanceData->typeString);	
@@ -293,7 +293,7 @@ e3unknown_text_duplicateData(const TQ3UnknownTextData *fromData, TQ3UnknownTextD
 	
 	// Copy the name
 	if (fromData->objectName != NULL)
-		toData->objectName = (char *) Q3Memory_Allocate(strlen(fromData->objectName) + 1);
+		toData->objectName = (char *) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(fromData->objectName) + 1));
 	if (toData->objectName == NULL)
 		return(kQ3Failure);
 	if (fromData->objectName != NULL)
@@ -303,7 +303,7 @@ e3unknown_text_duplicateData(const TQ3UnknownTextData *fromData, TQ3UnknownTextD
 	
 	// Copy the contents
 	if (fromData->contents != 0)
-		toData->contents = (char *) Q3Memory_Allocate(strlen(fromData->contents) + 1);
+		toData->contents = (char *) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(fromData->contents) + 1));
 	if ( (fromData->contents != 0) && (toData->contents != NULL) )
 		strcpy(toData->contents, fromData->contents);	
 	else
@@ -1162,7 +1162,7 @@ E3String_Write(const char *data, E3File* theFile)
 	char			strCopy[ kQ3StringMaximumLength ];
 
 	
-	theLength = strlen( data );
+	theLength = static_cast<TQ3Uns32>(strlen( data ));
 	
 	if (theLength >= kQ3StringMaximumLength)
 	{
@@ -1913,7 +1913,8 @@ E3UnknownBinary_GetTypeString(TQ3UnknownObject unknownObject, char **typeString)
 	
 	if ( unknownBinary->instanceData.typeString != NULL)
 		{
-		*typeString = (char *) Q3Memory_Allocate ( strlen ( unknownBinary->instanceData.typeString ) + 1 ) ;
+		*typeString = (char *) Q3Memory_Allocate(
+			static_cast<TQ3Uns32>(strlen ( unknownBinary->instanceData.typeString ) + 1) ) ;
 		if ( *typeString == NULL )
 			return kQ3Failure ;
 		strcpy ( * typeString, unknownBinary->instanceData.typeString ) ;

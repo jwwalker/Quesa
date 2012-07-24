@@ -10,7 +10,7 @@
     	code.
 		    
     COPYRIGHT:
-        Copyright (c) 2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2010-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -162,7 +162,7 @@ TQ3Uns32	StripMaker::FreeFaceSet::FindNextFree()
 #if Q3_DEBUG
 TQ3Uns32	StripMaker::FreeFaceSet::CountFree() const
 {
-	TQ3Uns32 theCount = mFreeFlags.size() - mFirstAllFree;
+	TQ3Uns32 theCount = static_cast<TQ3Uns32>(mFreeFlags.size()) - mFirstAllFree;
 	
 	for (TQ3Uns32 i = mFirstMaybeFree; i < mFirstAllFree; ++i)
 	{

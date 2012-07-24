@@ -100,7 +100,7 @@ e3string_c_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	*instanceData = (TQ3StringPtr) Q3Memory_Allocate(strlen(theString) + 1);
+	*instanceData = (TQ3StringPtr) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(theString) + 1));
 	if (*instanceData == NULL)
 		return(kQ3Failure);
 	
@@ -156,7 +156,7 @@ e3string_c_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	*toInstanceData = NULL;
 	if (*fromInstanceData != NULL)
 		{
-		*toInstanceData = (TQ3StringPtr) Q3Memory_Allocate(strlen(*fromInstanceData) + 1);
+		*toInstanceData = (TQ3StringPtr) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(*fromInstanceData) + 1));
 		if (*toInstanceData == NULL)
 			return(kQ3Failure);
 	
@@ -291,7 +291,7 @@ E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
 	if ( ( (E3CString*) stringObj )->instanceData == NULL )
 		*length = 0 ;
 	else
-		*length = strlen ( ( (E3CString*) stringObj )->instanceData ) ;
+		*length = static_cast<TQ3Uns32>(strlen ( ( (E3CString*) stringObj )->instanceData ));
 	
 	return kQ3Success ;
 	}
@@ -309,7 +309,7 @@ E3CString_SetString(TQ3StringObject stringObj, const char *str)
 	TQ3StringPtr* instanceData = & ( (E3CString*) stringObj )->instanceData ;
 
 	// Resize the string data
-	TQ3Status qd3dStatus = Q3Memory_Reallocate( instanceData, strlen ( str ) + 1 ) ;
+	TQ3Status qd3dStatus = Q3Memory_Reallocate( instanceData, static_cast<TQ3Uns32>(strlen ( str ) + 1) ) ;
 	if ( qd3dStatus == kQ3Failure )
 		return qd3dStatus ;
 
@@ -346,7 +346,7 @@ E3CString_GetString(TQ3StringObject stringObj, char **str)
 
 
 	// Allocate the data for the string
-	*str = (char *) Q3Memory_Allocate ( strlen ( *instanceData ) + 1 ) ;
+	*str = (char *) Q3Memory_Allocate( static_cast<TQ3Uns32>(strlen ( *instanceData ) + 1) ) ;
 	if ( *str == NULL )
 		return kQ3Failure ;
 	

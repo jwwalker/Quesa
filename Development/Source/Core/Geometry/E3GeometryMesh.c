@@ -1134,7 +1134,7 @@ e3meshCorner_GetExtData(
 	// Get face indices
 	facePtrs = e3meshFacePtrArray_FirstItemConst(&cornerPtr->facePtrArrayOrList.array);
 	for (i = 0; i < numFaces; ++i)
-		faceIndices[i] = facePtrs[i] - meshFaces;
+		faceIndices[i] = static_cast<TQ3Uns32>(facePtrs[i] - meshFaces);
 
 	// Get attribute set
 	E3Shared_Acquire(&cornerExtDataPtr->cornerAttributeSet, cornerPtr->attributeSet);
@@ -2231,7 +2231,7 @@ e3meshContour_GetExtData(
 	// Get vertex indices
 	vertexPtrs = e3meshVertexPtrArray_FirstItemConst(&contourPtr->vertexPtrArray);
 	for (i = 0; i < numVertices; ++i)
-		vertexIndices[i] = vertexPtrs[i] - meshVertices;
+		vertexIndices[i] = static_cast<TQ3Uns32>(vertexPtrs[i] - meshVertices);
 
 	return(kQ3Success);
 

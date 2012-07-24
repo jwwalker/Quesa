@@ -1341,7 +1341,7 @@ E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
 
 
 	// Get the field, clamping it if a limit was supplied
-	*numHits = instanceData->pickHits->size();
+	*numHits = static_cast<TQ3Uns32>(instanceData->pickHits->size());
 	
 	if (instanceData->data.common.numHitsToReturn != kQ3ReturnAllHits)
 		{

@@ -667,7 +667,7 @@ void	QORenderer::Lights::SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorld
 		glLightModelfv( GL_LIGHT_MODEL_AMBIENT, mGlAmbientLight );
 	}
 	
-	TQ3Uns32 endIndex = E3Num_Min<unsigned>( mNonShadowingLights.size(),
+	TQ3Uns32 endIndex = E3Num_Min<TQ3Uns32>( static_cast<TQ3Uns32>(mNonShadowingLights.size()),
 		mStartingLightIndexForPass + mMaxGLLights );
 	TQ3Uns32	lightIndex;
 	TQ3Uns32	handledNonAmbientLights = 0;

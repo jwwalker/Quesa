@@ -304,7 +304,7 @@ void	TransBuffer::AddPrim(
 		{
 			mUVTransforms.push_back( textureState.mUVTransform );
 		}
-		thePrim.mUVTransformIndex = mUVTransforms.size() - 1;
+		thePrim.mUVTransformIndex = static_cast<TQ3Uns32>(mUVTransforms.size() - 1);
 	}
 	
 	// Record camera to frustum matrix
@@ -313,7 +313,7 @@ void	TransBuffer::AddPrim(
 	{
 		mCameraToFrustumMatrices.push_back( cameraToFrustum );
 	}
-	thePrim.mCameraToFrustumIndex = mCameraToFrustumMatrices.size() - 1;
+	thePrim.mCameraToFrustumIndex = static_cast<TQ3Uns32>(mCameraToFrustumMatrices.size() - 1);
 	
 	// Record some style state.
 	thePrim.mFillStyle = mRenderer.mStyleState.mFill;
@@ -359,7 +359,7 @@ void	TransBuffer::SortIndices()
 {
 	if (mIsSortNeeded)
 	{
-		const TQ3Uns32 kNumPrims = mTransBuffer.size();
+		const TQ3Uns32 kNumPrims = static_cast<TQ3Uns32>(mTransBuffer.size());
 		mPrimPtrs.resize( kNumPrims );
 		TQ3Uns32	i;
 		const TransparentPrim**	ptrArray = &mPrimPtrs[0];
@@ -900,7 +900,7 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 		
 		InitGLState( inView );
 		
-		const TQ3Uns32 kNumPrims = mTransBuffer.size();
+		const TQ3Uns32 kNumPrims = static_cast<TQ3Uns32>(mTransBuffer.size());
 		
 		E3FastArray<TransparentPrim>	mRenderGroup;
 		TransparentPrim groupLeader = *mPrimPtrs[0];
@@ -1003,7 +1003,7 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 
 		SortIndices();
 		
-		const TQ3Uns32 kNumPrims = mTransBuffer.size();
+		const TQ3Uns32 kNumPrims = static_cast<TQ3Uns32>(mTransBuffer.size());
 		
 		for (TQ3Uns32 i = 0; i < kNumPrims; ++i)
 		{

@@ -10,7 +10,7 @@
     	code.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -62,7 +62,7 @@ using namespace StripMaker;
 TQ3Uns32 StripMaker::StripSize( const IndVec& inStrip )
 {
 	TQ3Uns32 theCount = 0;
-	const TQ3Uns32 kIndexCount = inStrip.size();
+	const TQ3Uns32 kIndexCount = static_cast<TQ3Uns32>(inStrip.size());
 	
 	for (TQ3Uns32 i = 0; (i+2) < kIndexCount; ++i)
 	{
@@ -151,8 +151,8 @@ static void MakeWholeStrip( const IndVec& inForward,
 							IndVec& outWhole )
 {
 	outWhole.clear();
-	const TQ3Uns32	kForwardSize = inForward.size();
-	const TQ3Uns32	kReverseSize = inReverse.size();
+	const TQ3Uns32	kForwardSize = static_cast<TQ3Uns32>(inForward.size());
+	const TQ3Uns32	kReverseSize = static_cast<TQ3Uns32>(inReverse.size());
 	
 	if ( (kReverseSize % 2) == 0 )	// even length
 	{

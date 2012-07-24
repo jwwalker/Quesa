@@ -726,7 +726,7 @@ E3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char* d
 	TQ3Size		theLength, paddedLength;
 	
 
-	theLength = strlen( data ) + 1;	// 1 for the trailing NUL byte
+	theLength = static_cast<TQ3Uns32>(strlen( data ) + 1);	// 1 for the trailing NUL byte
 	paddedLength = Q3Size_Pad( theLength );
 	
 	
