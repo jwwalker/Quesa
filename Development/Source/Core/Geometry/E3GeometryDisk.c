@@ -297,10 +297,10 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 	// Allocate the memory we need for the TriMesh data
-	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
-	theNormals   = (TQ3Vector3D *)            Q3Memory_Allocate(numPoints * sizeof(TQ3Vector3D));
-	theUVs       = (TQ3Param2D  *)            Q3Memory_Allocate(numPoints * sizeof(TQ3Param2D));
-	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numTriangles * sizeof(TQ3TriMeshTriangleData));
+	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Point3D)));
+	theNormals   = (TQ3Vector3D *)            Q3Memory_Allocate(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Vector3D)));
+	theUVs       = (TQ3Param2D  *)            Q3Memory_Allocate(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Param2D)));
+	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numTriangles * sizeof(TQ3TriMeshTriangleData)));
 
 	if (thePoints == NULL || theNormals == NULL || theUVs == NULL || theTriangles == NULL)
 		{

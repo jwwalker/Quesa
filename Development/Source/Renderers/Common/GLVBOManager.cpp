@@ -638,17 +638,17 @@ void				AddVBOToCache(
 		newVBO->mNumIndices = inNumIndices;
 		(*theCache->glGenBuffersARBProc)( 2, newVBO->mGLBufferNames );
 		
-		TQ3Uns32	vertexDataSize = inNumPoints * sizeof(TQ3Point3D);
+		TQ3Uns32	vertexDataSize = static_cast<TQ3Uns32>(inNumPoints * sizeof(TQ3Point3D));
 		TQ3Uns32	normalDataSize = (inNormals == NULL)? 0 :
-			inNumPoints * sizeof(TQ3Vector3D);
+			static_cast<TQ3Uns32>(inNumPoints * sizeof(TQ3Vector3D));
 		TQ3Uns32	colorDataSize = (inColors == NULL)? 0 :
-			inNumPoints * sizeof(TQ3ColorRGB);
+			static_cast<TQ3Uns32>(inNumPoints * sizeof(TQ3ColorRGB));
 		TQ3Uns32	uvDataSize = (inUVs == NULL)? 0 :
-			inNumPoints * sizeof(TQ3Param2D);
+			static_cast<TQ3Uns32>(inNumPoints * sizeof(TQ3Param2D));
 		TQ3Uns32	totalDataSize = vertexDataSize + normalDataSize +
 			colorDataSize + uvDataSize;
 		
-		newVBO->mBufferBytes = inNumIndices * sizeof(TQ3Uns32) + totalDataSize;
+		newVBO->mBufferBytes = static_cast<TQ3Uns32>(inNumIndices * sizeof(TQ3Uns32) + totalDataSize);
 		theCache->MakeRoom( newVBO->mBufferBytes );
 			
 		newVBO->mVertexBufferOffset = 0;

@@ -2439,7 +2439,7 @@ E3View_PickStack_PushGroup(TQ3ViewObject theView, TQ3GroupObject theGroup)
 
 
 	// Expand the positions array
-	TQ3Uns32 theSize = sizeof ( TQ3GroupPosition ) * (pickedPath->depth + 1 ) ;
+	TQ3Uns32 theSize = static_cast<TQ3Uns32>(sizeof( TQ3GroupPosition ) * (pickedPath->depth + 1 ));
 	TQ3Status qd3dStatus = Q3Memory_Reallocate(&pickedPath->positions, theSize ) ;
 	if ( qd3dStatus != kQ3Failure )
 		pickedPath->depth++ ;

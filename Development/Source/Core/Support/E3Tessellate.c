@@ -127,7 +127,7 @@ e3tessellate_add_vertex(E3TessellateState *theState, TQ3Vertex3D *theVertex)
 
 
 	// Grow the vertex array - handle failure by punting to the first vertex
-	theSize    = (theState->numTriMeshVertices + 1) * sizeof(TQ3Vertex3D*);
+	theSize    = static_cast<TQ3Uns32>((theState->numTriMeshVertices + 1) * sizeof(TQ3Vertex3D*));
 	qd3dStatus = Q3Memory_Reallocate(&theState->triMeshVertexList, theSize);
 	if (qd3dStatus != kQ3Success)
 		return(0);
@@ -158,7 +158,7 @@ e3tessellate_add_triangle(E3TessellateState *theState, TQ3Uns32 vertexIndices[3]
 
 
 	// Grow the triangle array
-	theSize    = (theState->triMeshData.numTriangles + 1) * sizeof(TQ3TriMeshTriangleData);
+	theSize    = static_cast<TQ3Uns32>((theState->triMeshData.numTriangles + 1) * sizeof(TQ3TriMeshTriangleData));
 	qd3dStatus = Q3Memory_Reallocate(&theState->triMeshData.triangles, theSize);
 	if (qd3dStatus != kQ3Success)
 		return(kQ3False);
@@ -194,7 +194,7 @@ e3tessellate_add_edge(E3TessellateState *theState, TQ3Uns32 vertexIndex0, TQ3Uns
 
 
 	// Grow the edge array
-	theSize    = (theState->triMeshData.numEdges + 1) * sizeof(TQ3TriMeshEdgeData);
+	theSize    = static_cast<TQ3Uns32>((theState->triMeshData.numEdges + 1) * sizeof(TQ3TriMeshEdgeData));
 	qd3dStatus = Q3Memory_Reallocate(&theState->triMeshData.edges, theSize);
 	if (qd3dStatus != kQ3Success)
 		return(kQ3False);
@@ -671,7 +671,7 @@ e3tessellate_callback_combine(const GLdouble		pointIn[3],
 
 
 	// Grow the temporary vertex array, and save the new vertex
-	theSize    = (theState->numTempVertices + 1) * sizeof(TQ3Vertex3D*);
+	theSize    = static_cast<TQ3Uns32>((theState->numTempVertices + 1) * sizeof(TQ3Vertex3D*));
 	qd3dStatus = Q3Memory_Reallocate(&theState->tempVertexList, theSize);
 	if (qd3dStatus != kQ3Success)
 		{
@@ -721,7 +721,7 @@ e3tessellate_create_trimesh(E3TessellateState *theState, TQ3AttributeSet triMesh
 
 
 	// Allocate the vertex points and attributes arrays
-	thePoints     = (TQ3Point3D              *) Q3Memory_Allocate(theState->numTriMeshVertices * sizeof(TQ3Point3D));
+	thePoints     = (TQ3Point3D              *) Q3Memory_Allocate(static_cast<TQ3Uns32>(theState->numTriMeshVertices * sizeof(TQ3Point3D)));
 	
 	if (thePoints == NULL)
 		return NULL;

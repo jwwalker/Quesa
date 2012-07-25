@@ -383,8 +383,8 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 		// allocate (or reallocate) the toc in memory
 		if(instanceData->MFData.toc == NULL){
 			// compute size
-			tocSize = sizeof(TE3FFormat3DMF_TOC) + 
-					(sizeof(TE3FFormat3DMF_TOCEntry) * (nEntries - 1));
+			tocSize = static_cast<TQ3Uns32>(sizeof(TE3FFormat3DMF_TOC) + 
+					(sizeof(TE3FFormat3DMF_TOCEntry) * (nEntries - 1)));
 			
 			instanceData->MFData.toc = (TE3FFormat3DMF_TOC*)Q3Memory_Allocate(tocSize);
 			
@@ -399,8 +399,8 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 			}
 		else{// we have to grow an existing TOC
 			// compute new size
-			tocSize = sizeof(TE3FFormat3DMF_TOC) + 
-					(sizeof(TE3FFormat3DMF_TOCEntry) * (instanceData->MFData.toc->nEntries + nEntries - 1));
+			tocSize = static_cast<TQ3Uns32>(sizeof(TE3FFormat3DMF_TOC) + 
+					(sizeof(TE3FFormat3DMF_TOCEntry) * (instanceData->MFData.toc->nEntries + nEntries - 1)));
 
 			if(Q3Memory_Reallocate(&instanceData->MFData.toc,tocSize) != kQ3Success)
 				return (kQ3Failure);
@@ -712,7 +712,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 		case 0x74797065: /* type - Type */
 			{
 			if(Q3Memory_Reallocate (&instanceData->types, 
-						(instanceData->typesNum + 1)*sizeof(TE3FFormat3DMF_TypeEntry)) == kQ3Success)
+						static_cast<TQ3Uns32>((instanceData->typesNum + 1)*sizeof(TE3FFormat3DMF_TypeEntry))) == kQ3Success)
 				{
 				instanceData->typesNum++;
 				

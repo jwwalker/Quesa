@@ -91,11 +91,11 @@ e3geom_curve_copydata(const TQ3NURBCurveData *src, TQ3NURBCurveData *dst, TQ3Boo
 
 
 	// copy controlPoints,knots
-	theSize = sizeof(TQ3RationalPoint4D) * src->numPoints;
+	theSize = static_cast<TQ3Uns32>(sizeof(TQ3RationalPoint4D) * src->numPoints);
 	dst->controlPoints = (TQ3RationalPoint4D *) Q3Memory_Allocate( theSize );
 	Q3Memory_Copy( src->controlPoints, dst->controlPoints, theSize );
 	
-	theSize = sizeof(float) * (src->numPoints+src->order);
+	theSize = static_cast<TQ3Uns32>(sizeof(float) * (src->numPoints+src->order));
 	dst->knots = (float *) Q3Memory_Allocate( theSize );
 	Q3Memory_Copy( src->knots, dst->knots, theSize );
 
@@ -369,7 +369,7 @@ e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints
 	ooSubdivU = 1.0f / subdivU ;
 	
 	// Find the interesting knots (ie skip the repeated knots)
-	interestingU = (float *) Q3Memory_Allocate((geomData->numPoints - geomData->order + 2) * sizeof(float));
+	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numPoints - geomData->order + 2) * sizeof(float)));
 	if (interestingU == NULL) {
 		*theVertices = NULL ;
 		return ;
@@ -388,7 +388,7 @@ e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints
 	
 	
 	// Allocate the memory we need (zeroed since we don't need the attribute set field, and want it cleared)
-	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(*numPoints * sizeof(TQ3Vertex3D));
+	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(static_cast<TQ3Uns32>(*numPoints * sizeof(TQ3Vertex3D)));
 	if (*theVertices == NULL)
 		return ;
 	
@@ -449,7 +449,7 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 	Q3View_GetLocalToWorldMatrixState(theView, &localToWorld);
 	
 	// Find the interesting knots (ie skip the repeated knots)
-	interestingU = (float *) Q3Memory_Allocate((geomData->numPoints - geomData->order + 2) * sizeof(float));
+	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numPoints - geomData->order + 2) * sizeof(float)));
 	if (interestingU == NULL) {
 		*theVertices = NULL ;
 		return ;
@@ -464,7 +464,7 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 	// will allocate a projected number of vertices and reallocate in chunks as we need more.
 	maxVerts = (TQ3Uns32)( numInt + ( last - a ) / subdivU )  + REALLOC_VERTS;
 	if( maxVerts > 1000 ) maxVerts = 1000 ;
-	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear( maxVerts * sizeof(TQ3Vertex3D));
+	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear( static_cast<TQ3Uns32>(maxVerts * sizeof(TQ3Vertex3D)) );
 	if (*theVertices == NULL) {
 		return ;
 	}
@@ -491,12 +491,12 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 	#endif
 			if( numVerts > maxVerts -2 ) {
 				maxVerts += REALLOC_VERTS ;
-				if( kQ3Failure == Q3Memory_Reallocate( theVertices, maxVerts * sizeof(TQ3Vertex3D) ) ) {
+				if( kQ3Failure == Q3Memory_Reallocate( theVertices, static_cast<TQ3Uns32>(maxVerts * sizeof(TQ3Vertex3D)) ) ) {
 					*theVertices = NULL ;
 					Q3Memory_Free(&interestingU);
 					return ;
 				}
-				Q3Memory_Clear( (*theVertices) + numVerts, (maxVerts - numVerts) * sizeof(TQ3Vertex3D) ) ;
+				Q3Memory_Clear( (*theVertices) + numVerts, static_cast<TQ3Uns32>((maxVerts - numVerts) * sizeof(TQ3Vertex3D)) ) ;
 			}
 			
 			(*theVertices)[ numVerts++ ].point = Ua = Ub ;
@@ -612,7 +612,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 	
 	
 	// Find the interesting knots (ie skip the repeated knots)
-	interestingU = (float *) Q3Memory_Allocate((geomData->numPoints - geomData->order + 2) * sizeof(float));
+	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numPoints - geomData->order + 2) * sizeof(float)));
 	if (interestingU == NULL) {
 		*theVertices = NULL ;
 		return ;
@@ -627,7 +627,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 	// will allocate a projected number of vertices and reallocate in chunks as we need more.
 	maxVerts = (TQ3Uns32)( numInt + ( last - a ) / subdivU )  + REALLOC_VERTS ;
 	if( maxVerts > 1000 ) maxVerts = 1000 ;
-	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear( maxVerts * sizeof(TQ3Vertex3D));
+	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear( static_cast<TQ3Uns32>(maxVerts * sizeof(TQ3Vertex3D)) );
 	if (*theVertices == NULL) {
 		return ;
 	}
@@ -657,12 +657,12 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 	#endif
 			if( numVerts > maxVerts -2 ) {
 				maxVerts += REALLOC_VERTS ;
-				if( kQ3Failure == Q3Memory_Reallocate( theVertices, maxVerts * sizeof(TQ3Vertex3D) ) ) {
+				if( kQ3Failure == Q3Memory_Reallocate( theVertices, static_cast<TQ3Uns32>(maxVerts * sizeof(TQ3Vertex3D)) ) ) {
 					*theVertices = NULL ;
 					Q3Memory_Free(&interestingU);
 					return ;
 				}
-				Q3Memory_Clear( (*theVertices) + numVerts, (maxVerts - numVerts) * sizeof(TQ3Vertex3D) ) ;
+				Q3Memory_Clear( (*theVertices) + numVerts, static_cast<TQ3Uns32>((maxVerts - numVerts) * sizeof(TQ3Vertex3D)) ) ;
 			}
 			
 			(*theVertices)[ numVerts++ ].point = Ua = Ub ;

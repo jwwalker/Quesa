@@ -248,7 +248,7 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 
 
 	// Convert the bitmap to an image
-	rowBytes  = geomData->bitmap.width * sizeof(TQ3Uns16);
+	rowBytes  = static_cast<TQ3Uns32>(geomData->bitmap.width * sizeof(TQ3Uns16));
 	theSize   = rowBytes * geomData->bitmap.height;
 
 	theBuffer = (TQ3Uns16*) Q3Memory_AllocateClear(theSize);

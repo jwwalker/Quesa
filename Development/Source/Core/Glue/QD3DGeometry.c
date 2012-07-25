@@ -12704,7 +12704,7 @@ Q3TriMesh_MakeTriangleStrip(
 		MakeStrip( inNumTriangles, inTriangles, theStrip );
 		*outStripLength = static_cast<TQ3Uns32>(theStrip.size());
 		*outStrip = reinterpret_cast<TQ3Uns32*>(
-			Q3Memory_Allocate( *outStripLength * sizeof(TQ3Uns32) ) );
+			Q3Memory_Allocate( static_cast<TQ3Uns32>(*outStripLength * sizeof(TQ3Uns32) )) );
 		if (*outStrip == NULL)
 		{
 			theStatus = kQ3Failure;
@@ -12712,7 +12712,7 @@ Q3TriMesh_MakeTriangleStrip(
 		else
 		{
 			Q3Memory_Copy( &theStrip[0], *outStrip,
-				*outStripLength * sizeof(TQ3Uns32) );
+				static_cast<TQ3Uns32>(*outStripLength * sizeof(TQ3Uns32)) );
 		}
 	}
 	catch (...)

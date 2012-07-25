@@ -202,9 +202,9 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 	// Allocate the memory we need for the TriMesh data
-	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(geomData->numVertices * sizeof(TQ3Point3D));
-	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numTriangles * sizeof(TQ3TriMeshTriangleData));
-	theEdges     = (TQ3TriMeshEdgeData *)     Q3Memory_Allocate(numEdges     * sizeof(TQ3TriMeshEdgeData));
+	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(static_cast<TQ3Uns32>(geomData->numVertices * sizeof(TQ3Point3D)));
+	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numTriangles * sizeof(TQ3TriMeshTriangleData)));
+	theEdges     = (TQ3TriMeshEdgeData *)     Q3Memory_Allocate(static_cast<TQ3Uns32>(numEdges     * sizeof(TQ3TriMeshEdgeData)));
 
 	if (thePoints == NULL || theTriangles == NULL || theEdges == NULL)
 		{
@@ -518,7 +518,7 @@ E3Polygon_SetData ( TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonD
 	E3Polygon* poly = (E3Polygon*) thePolygon ;
 
 	// Allocate some space for the new vertices
-	TQ3Vertex3D* newVertices = (TQ3Vertex3D *) Q3Memory_Allocate(polygonData->numVertices * sizeof(TQ3Vertex3D));
+	TQ3Vertex3D* newVertices = (TQ3Vertex3D *) Q3Memory_Allocate(static_cast<TQ3Uns32>(polygonData->numVertices * sizeof(TQ3Vertex3D)));
 	if (newVertices == NULL)
 		return(kQ3Failure);
 
@@ -564,7 +564,7 @@ E3Polygon_GetData ( TQ3GeometryObject thePolygon, TQ3PolygonData *polygonData )
 
 
 	// Allocate some space for the new vertices
-	TQ3Vertex3D* newVertices = (TQ3Vertex3D *) Q3Memory_Allocate ( poly->instanceData.numVertices * sizeof ( TQ3Vertex3D ) ) ;
+	TQ3Vertex3D* newVertices = (TQ3Vertex3D *) Q3Memory_Allocate ( static_cast<TQ3Uns32>(poly->instanceData.numVertices * sizeof ( TQ3Vertex3D )) ) ;
 	if (newVertices == NULL)
 		return(kQ3Failure);
 

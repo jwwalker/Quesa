@@ -5,7 +5,7 @@
         Template class to replace std::vector in some cases.
 
     COPYRIGHT:
-        Copyright (c) 2010-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2010-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -124,7 +124,7 @@ E3FastArray<T>::E3FastArray( const E3FastArray& inOther )
 {
 	if (mSize > 0)
 	{
-		E3Memory_Copy( inOther.mArray, mArray, mSize * sizeof(T) );
+		E3Memory_Copy( inOther.mArray, mArray, static_cast<TQ3Uns32>(mSize * sizeof(T)) );
 	}
 }
 
@@ -204,7 +204,7 @@ void	E3FastArray<T>::reserve( int newCapacity )
 		else
 		{
 			T* biggerArray = new T[mCapacity];
-			E3Memory_Copy( mArray, biggerArray, size() * sizeof(T) );
+			E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(size() * sizeof(T)) );
 			delete [] mArray;
 			mArray = biggerArray;
 		}
@@ -228,7 +228,7 @@ void	E3FastArray<T>::push_back( const T& value )
 		mCapacity += 1;
 		mCapacity *= 2;
 		T* biggerArray = new T[mCapacity];
-		E3Memory_Copy( mArray, biggerArray, size() * sizeof(T) );
+		E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(size() * sizeof(T)) );
 		delete [] mArray;
 		mArray = biggerArray;
 		mArray[ size() ] = valueCopy;

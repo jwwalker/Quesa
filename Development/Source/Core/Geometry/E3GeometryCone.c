@@ -300,10 +300,10 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 
 
 	// Allocate some memory for the TriMesh
-	points    = (TQ3Point3D *)             Q3Memory_Allocate( numpoints*sizeof(TQ3Point3D) );
-	normals   = (TQ3Vector3D *)            Q3Memory_Allocate( numpoints*sizeof(TQ3Vector3D) );
-	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate( numpoints * sizeof(TQ3Param2D) );
-	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( numFaces*sizeof(TQ3TriMeshTriangleData) );
+	points    = (TQ3Point3D *)             Q3Memory_Allocate( static_cast<TQ3Uns32>(numpoints*sizeof(TQ3Point3D)) );
+	normals   = (TQ3Vector3D *)            Q3Memory_Allocate( static_cast<TQ3Uns32>(numpoints*sizeof(TQ3Vector3D)) );
+	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate( static_cast<TQ3Uns32>(numpoints * sizeof(TQ3Param2D)) );
+	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( static_cast<TQ3Uns32>(numFaces*sizeof(TQ3TriMeshTriangleData)) );
 	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL)
 	{
 		Q3Memory_Free(&points);

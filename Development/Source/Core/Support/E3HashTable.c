@@ -12,7 +12,7 @@
 		the methods for each node.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -149,7 +149,7 @@ e3hash_add_key(E3HashTableNodePtr theNode, TQ3ObjectType theKey, void *theItem)
 
 	// Grow the node item array
 	qd3dStatus = Q3Memory_Reallocate(&theNode->theItems,
-										sizeof(E3HashTableItem) * (theNode->numItems + 1));
+										static_cast<TQ3Uns32>(sizeof(E3HashTableItem) * (theNode->numItems + 1)));
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 
@@ -236,8 +236,8 @@ E3HashTable_Create(TQ3Uns32 tableSize)
 		theTable->collisionAverage = 0.0f;
 		theTable->tableSize        = tableSize;
 		theTable->numItems         = 0;
-		theTable->theTable = (E3HashTableNodePtr *) Q3Memory_AllocateClear(sizeof(E3HashTableNodePtr)
-																			* theTable->tableSize);
+		theTable->theTable = (E3HashTableNodePtr *) Q3Memory_AllocateClear(static_cast<TQ3Uns32>(sizeof(E3HashTableNodePtr)
+																			* theTable->tableSize));
 
 
 

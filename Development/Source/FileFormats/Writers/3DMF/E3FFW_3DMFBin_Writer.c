@@ -131,9 +131,9 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 
 		if ((toc->nEntries != 0) && (toc->nEntries % TOC_GROW_SIZE == 0))
 		{
-			tocSize = sizeof(TE3FFormat3DMF_TOC) + 
+			tocSize = static_cast<TQ3Uns32>(sizeof(TE3FFormat3DMF_TOC) + 
 			
-					(sizeof(TE3FFormat3DMF_TOCEntry) * (toc->nEntries + TOC_GROW_SIZE - 1));
+					(sizeof(TE3FFormat3DMF_TOCEntry) * (toc->nEntries + TOC_GROW_SIZE - 1)));
 			if(Q3Memory_Reallocate(&fileFormatPrivate->toc,tocSize) != kQ3Success)
 				return (kQ3Failure);
 				
@@ -203,7 +203,7 @@ E3FFW_3DMF_type_Traverse( TQ3Object object, void *data, TQ3ViewObject view )
 		const char* className = theClass->GetName () ;
 		
 		// Compute the object size.
-		TQ3Uns32 size = Q3Size_Pad( static_cast<TQ3Uns32>(strlen(className) + 1) ) + sizeof ( TQ3ObjectType ) ;
+		TQ3Uns32 size = static_cast<TQ3Uns32>(Q3Size_Pad( static_cast<TQ3Uns32>(strlen(className) + 1) ) + sizeof ( TQ3ObjectType ));
 		
 		// Put data on the stack.
 		return Q3XView_SubmitWriteData ( view, size, data, NULL ) ;
@@ -743,7 +743,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 
 	// Grow the view stack to the hold the new item
 	qd3dStatus = Q3Memory_Reallocate(&instanceData->stack,
-									  sizeof(TQ33DMFWStackItem) * (instanceData->stackCount+1));
+									  static_cast<TQ3Uns32>(sizeof(TQ33DMFWStackItem) * (instanceData->stackCount+1)));
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 	

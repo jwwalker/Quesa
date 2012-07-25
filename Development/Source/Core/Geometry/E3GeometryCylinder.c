@@ -5,7 +5,7 @@
         Implementation of Quesa Cylinder geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -369,10 +369,10 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 	// Allocate some memory for the TriMesh
-	points    = (TQ3Point3D *)             Q3Memory_Allocate(numpoints*sizeof(TQ3Point3D) );
-	normals   = (TQ3Vector3D *)            Q3Memory_Allocate(numpoints*sizeof(TQ3Vector3D) );
-	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate(numpoints*sizeof(TQ3Param2D));
-	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( 2*sides*sizeof(TQ3TriMeshTriangleData) );
+	points    = (TQ3Point3D *)             Q3Memory_Allocate(static_cast<TQ3Uns32>(numpoints*sizeof(TQ3Point3D)) );
+	normals   = (TQ3Vector3D *)            Q3Memory_Allocate(static_cast<TQ3Uns32>(numpoints*sizeof(TQ3Vector3D)) );
+	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate(static_cast<TQ3Uns32>(numpoints*sizeof(TQ3Param2D)));
+	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( static_cast<TQ3Uns32>(2*sides*sizeof(TQ3TriMeshTriangleData)) );
 
 	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL)
 		{

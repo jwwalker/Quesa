@@ -5,7 +5,7 @@
         Quesa interactive renderer transparency support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -389,7 +389,7 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 	// Points are transformed to frustum space, so that we can sort
 	// in a fixed coordinate system.  However we use camera coordinates for rendering.
 	thePrim->numVerts = numVerts;
-	Q3Memory_Copy(theVertices, thePrim->theVertices, numVerts * sizeof(TQ3FVertex3D));
+	Q3Memory_Copy(theVertices, thePrim->theVertices, static_cast<TQ3Uns32>(numVerts * sizeof(TQ3FVertex3D)));
 	
 	
 	

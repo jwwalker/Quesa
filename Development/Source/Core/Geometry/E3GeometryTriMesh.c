@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -207,7 +207,7 @@ e3geom_trimesh_copyattributes(  TQ3Uns32					numAttributeTypes,
 	
 	TQ3Status qd3dStatus = e3geom_trimesh_clone(srcAttributeTypes,
 									  (void **) destAttributeTypes,
-									  numAttributeTypes * sizeof(TQ3TriMeshAttributeData));
+									  static_cast<TQ3Uns32>(numAttributeTypes * sizeof(TQ3TriMeshAttributeData)));
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 
@@ -219,7 +219,7 @@ e3geom_trimesh_copyattributes(  TQ3Uns32					numAttributeTypes,
 		
 		if (attrType == kQ3AttributeTypeSurfaceShader)
 			{
-			(*destAttributeTypes)[i].data = Q3Memory_Allocate( numElements * sizeof(TQ3Object) );
+			(*destAttributeTypes)[i].data = Q3Memory_Allocate( static_cast<TQ3Uns32>(numElements * sizeof(TQ3Object)) );
 			TQ3Object*	dstObArray = (TQ3Object*) (*destAttributeTypes)[i].data;
 			if (dstObArray != NULL)
 				{
@@ -249,7 +249,7 @@ e3geom_trimesh_copyattributes(  TQ3Uns32					numAttributeTypes,
 
 
 				// Copy the custom attribute useage flags
-				bytes = numElements * sizeof(char);
+				bytes = static_cast<TQ3Uns32>(numElements * sizeof(char));
 				if (bytes != 0 && srcAttributeTypes[i].attributeUseArray != NULL)
 					qd3dStatus = e3geom_trimesh_clone(srcAttributeTypes[i].attributeUseArray,
 													  (void **) &(*destAttributeTypes)[i].attributeUseArray,
@@ -338,7 +338,7 @@ e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boole
 		if (n)
 			{
 			qd3dStatus = e3geom_trimesh_clone( src->triangles, (void **) &dst->triangles,
-										       n * sizeof(TQ3TriMeshTriangleData) );
+										       static_cast<TQ3Uns32>(n * sizeof(TQ3TriMeshTriangleData)) );
 			if (qd3dStatus == kQ3Success)
 				dst->numTriangles = n;
 			}
@@ -365,7 +365,7 @@ e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boole
 		if (n)
 			{
 			qd3dStatus = e3geom_trimesh_clone( src->edges, (void **) &dst->edges,
-										       n * sizeof(TQ3TriMeshEdgeData) );
+										       static_cast<TQ3Uns32>(n * sizeof(TQ3TriMeshEdgeData)) );
 			if (qd3dStatus == kQ3Success)
 				dst->numEdges = n;
 			}
@@ -391,7 +391,8 @@ e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boole
 		n = src->numPoints;
 		if (n)
 			{
-			qd3dStatus = e3geom_trimesh_clone( src->points, (void **) &dst->points, n * sizeof(TQ3Point3D) );
+			qd3dStatus = e3geom_trimesh_clone( src->points, (void **) &dst->points,
+				static_cast<TQ3Uns32>(n * sizeof(TQ3Point3D)) );
 			if (qd3dStatus == kQ3Success)
 				dst->numPoints = n;
 			}
@@ -967,7 +968,7 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
 
 	// Transform our points
 	numPoints   = geomData->numPoints;
-	worldPoints = (TQ3Point3D *) Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
+	worldPoints = (TQ3Point3D *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Point3D)));
 	if (worldPoints == NULL)
 		return(kQ3Failure);
 
@@ -1139,7 +1140,7 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 
 	// Transform our points from local coordinates to window coordinates
 	numPoints    = geomData->numPoints;
-	windowPoints = (TQ3Point3D *) Q3Memory_Allocate(numPoints * sizeof(TQ3Point3D));
+	windowPoints = (TQ3Point3D *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Point3D)));
 	if (windowPoints == NULL)
 		return(kQ3Failure);
 
@@ -1838,7 +1839,7 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle t
 
 
 	// Allocate the normals
-	TQ3Uns32 theSize    = triMesh->instanceData.geomData.numTriangles * sizeof ( TQ3Vector3D ) ;
+	TQ3Uns32 theSize    = static_cast<TQ3Uns32>(triMesh->instanceData.geomData.numTriangles * sizeof ( TQ3Vector3D ));
 	TQ3Vector3D* theNormals = (TQ3Vector3D *) Q3Memory_Allocate ( theSize ) ;
 	TQ3Status qd3dStatus = ( theNormals != NULL ? kQ3Success : kQ3Failure ) ;
 
@@ -1847,7 +1848,7 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle t
 	// Append another triangle attribute
 	if ( qd3dStatus != kQ3Failure )
 		{
-		theSize    = ( triMesh->instanceData.geomData.numTriangleAttributeTypes + 1 ) * sizeof ( TQ3TriMeshAttributeData ) ;
+		theSize    = static_cast<TQ3Uns32>(( triMesh->instanceData.geomData.numTriangleAttributeTypes + 1 ) * sizeof ( TQ3TriMeshAttributeData ));
 		qd3dStatus = Q3Memory_Reallocate( & triMesh->instanceData.geomData.triangleAttributeTypes, theSize ) ;
 		if ( qd3dStatus != kQ3Failure )
 			{
