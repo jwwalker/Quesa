@@ -220,7 +220,7 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 
 	// Allocate the memory we need for the PolyLine
-	theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(numPoints * sizeof(TQ3Vertex3D));
+	theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Vertex3D)));
 	if (theVertices == NULL)
 		return(NULL);
 

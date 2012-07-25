@@ -77,7 +77,7 @@
 #endif
 
 #if Q3_MEMORY_DEBUG
-	#define Q3_MEMORY_HEADER							sizeof(TQ3Uns32) * 3
+	#define Q3_MEMORY_HEADER							static_cast<TQ3Uns32>(sizeof(TQ3Uns32) * 3)
 	#define Q3_MEMORY_TRAILER							1
 #else
 	#define Q3_MEMORY_HEADER							0

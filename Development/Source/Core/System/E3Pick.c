@@ -290,7 +290,7 @@ e3pick_hit_duplicate_path(TQ3HitPath *pickedPath, TQ3HitPath *newPath)
 	// Duplicate the position array. Note that we assume group positions
 	// are simple objects and are not reference counted - this will cause
 	// a memory leak if this is ever changed.
-	theSize            = pickedPath->depth * sizeof(TQ3GroupPosition);
+	theSize            = static_cast<TQ3Uns32>(pickedPath->depth * sizeof(TQ3GroupPosition));
 	newPath->positions = (TQ3GroupPosition *) Q3Memory_Allocate(theSize);
 	if (newPath->positions == NULL)
 		return(kQ3Failure);

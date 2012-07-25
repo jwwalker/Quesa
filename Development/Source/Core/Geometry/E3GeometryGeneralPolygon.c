@@ -133,7 +133,7 @@ e3geom_generalpolygon_copydata( const TQ3GeneralPolygonData* src,
 
 	// Allocate some space for the new contours
 	dst->contours = (TQ3GeneralPolygonContourData *)
-		Q3Memory_Allocate(src->numContours * sizeof(TQ3GeneralPolygonContourData));
+		Q3Memory_Allocate(static_cast<TQ3Uns32>(src->numContours * sizeof(TQ3GeneralPolygonContourData)));
 	if (dst->contours == NULL)
 		return (kQ3Failure);
 
@@ -162,7 +162,7 @@ e3geom_generalpolygon_copydata( const TQ3GeneralPolygonData* src,
 	{
 		dst->contours[ contourIndex ].numVertices = src->contours[ contourIndex ].numVertices;
 		dst->contours[ contourIndex ].vertices = (TQ3Vertex3D *) Q3Memory_Allocate(
-			src->contours[ contourIndex ].numVertices * sizeof(TQ3Vertex3D));
+			static_cast<TQ3Uns32>(src->contours[ contourIndex ].numVertices * sizeof(TQ3Vertex3D)) );
 		if (dst->contours[ contourIndex ].vertices == NULL)
 		{
 			qd3dStatus = kQ3Failure;

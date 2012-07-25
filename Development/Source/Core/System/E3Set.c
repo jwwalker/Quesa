@@ -610,7 +610,7 @@ e3set_iterator_scan_types(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3El
 
 
 	// Append the type to the scan results table
-	qd3dStatus = Q3Memory_Reallocate(&instanceData->scanResults, (instanceData->scanCount + 1) * sizeof (TQ3ObjectType));
+	qd3dStatus = Q3Memory_Reallocate(&instanceData->scanResults, static_cast<TQ3Uns32>((instanceData->scanCount + 1) * sizeof (TQ3ObjectType)));
 	if (qd3dStatus == kQ3Success)
 		{
 		instanceData->scanResults[instanceData->scanCount] = theType;
@@ -2863,7 +2863,7 @@ E3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32
 											*elementType ,
 											name ,
 											metaHandler ,
-											sizeOfElement + sizeof ( E3Element ),
+											static_cast<TQ3Uns32>(sizeOfElement + sizeof ( E3Element )),
 											sizeOfElement ); 
 	if ( qd3dStatus == kQ3Failure )
 		return NULL ;
@@ -2935,7 +2935,7 @@ E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 											*attributeType ,
 											creatorName ,
 											metaHandler ,
-											sizeOfElement + sizeof ( E3Attribute ),
+											static_cast<TQ3Uns32>(sizeOfElement + sizeof ( E3Attribute )),
 											sizeOfElement ) ;
 	if ( qd3dStatus == kQ3Failure )
 		return NULL ;

@@ -2009,11 +2009,11 @@ e3ffw_3DMF_NURBpatch_traverse ( TQ3Object object ,
 
 	TQ3Status	status ;
 	
-	status = Q3XView_SubmitWriteData ( view ,
-		sizeof ( TQ3Uns32 ) * 4 +
+	status = Q3XView_SubmitWriteData( view ,
+		static_cast<TQ3Uns32>(sizeof ( TQ3Uns32 ) * 4 +
 		sizeof ( TQ3RationalPoint4D ) * data->numRows * data->numColumns +
 		sizeof ( float ) * ( data->numRows + data->uOrder ) +
-		sizeof ( float ) * ( data->numColumns + data->vOrder ) , (void*) data , NULL ) ;
+		sizeof ( float ) * ( data->numColumns + data->vOrder )), (void*) data , NULL );
 	
 	// Overall attribute set (don't write it unless it's nonempty)
 	if ( status == kQ3Success )
@@ -2088,7 +2088,7 @@ e3ffw_3DMF_polygon_traverse(TQ3Object object,
 	TQ3Object attributeList = NULL;
 	TQ3Uns32 i;
 	
-	qd3dstatus = Q3XView_SubmitWriteData( view, sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D), (void*)data, NULL );
+	qd3dstatus = Q3XView_SubmitWriteData( view, static_cast<TQ3Uns32>(sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D)), (void*)data, NULL );
 
 
 
@@ -2170,7 +2170,7 @@ e3ffw_3DMF_polyline_traverse(TQ3Object object,
 	TQ3Object attributeList = NULL;
 	TQ3Uns32 i;
 	
-	qd3dstatus = Q3XView_SubmitWriteData( view, sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D), (void*)data, NULL );
+	qd3dstatus = Q3XView_SubmitWriteData( view, static_cast<TQ3Uns32>(sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D)), (void*)data, NULL );
 	
 	
 	// attribute set list for segments
@@ -3071,7 +3071,7 @@ e3ffw_3DMF_trimesh_traverse(TQ3Object object,
 	triIndexBytes = e3ffw_3DMF_num_index_bytes( data->numTriangles );
 	size += data->numEdges * 2 * (pointIndexBytes + triIndexBytes);
 		// array of points
-	size += data->numPoints * sizeof(TQ3Point3D);
+	size += static_cast<TQ3Uns32>(data->numPoints * sizeof(TQ3Point3D));
 		// bounding box
 	size += Q3Size_Pad( sizeof(TQ3BoundingBox) );
 	

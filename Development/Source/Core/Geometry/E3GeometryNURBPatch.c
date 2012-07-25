@@ -102,15 +102,15 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 	dst->numTrimLoops = src->numTrimLoops;
 
 	// copy controlPoints, uKnots, vKnots
-	theSize = sizeof(TQ3RationalPoint4D) * src->numColumns * src->numRows;
+	theSize = static_cast<TQ3Uns32>(sizeof(TQ3RationalPoint4D) * src->numColumns * src->numRows);
 	dst->controlPoints = (TQ3RationalPoint4D *) Q3Memory_Allocate( theSize );
 	Q3Memory_Copy( src->controlPoints, dst->controlPoints, theSize );
 	
-	theSize = sizeof(float) * (src->uOrder+src->numColumns);
+	theSize = static_cast<TQ3Uns32>(sizeof(float) * (src->uOrder+src->numColumns));
 	dst->uKnots = (float *) Q3Memory_Allocate( theSize );
 	Q3Memory_Copy( src->uKnots, dst->uKnots, theSize );
         
-	theSize = sizeof(float) * (src->vOrder+src->numRows);
+	theSize = static_cast<TQ3Uns32>(sizeof(float) * (src->vOrder+src->numRows));
 	dst->vKnots = (float *) Q3Memory_Allocate( theSize );
 	Q3Memory_Copy( src->vKnots, dst->vKnots, theSize );
     
@@ -120,7 +120,7 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 	if (src->numTrimLoops)
 	{
 		// Copy TrimLoops, basic data.
-		theSize = sizeof(TQ3NURBPatchTrimLoopData) * src->numTrimLoops;
+		theSize = static_cast<TQ3Uns32>(sizeof(TQ3NURBPatchTrimLoopData) * src->numTrimLoops);
 		dst->trimLoops = (TQ3NURBPatchTrimLoopData *) Q3Memory_Allocate( theSize );
 		Q3Memory_Copy( src->trimLoops, dst->trimLoops, theSize );
 
@@ -128,14 +128,14 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 		for (i=0; i < src->numTrimLoops; i++) {
 
 			// For a particular trimLoop i, copy its array of curve data.
-			theSize = sizeof(TQ3NURBPatchTrimCurveData) * src->trimLoops[i].numTrimCurves;
+			theSize = static_cast<TQ3Uns32>(sizeof(TQ3NURBPatchTrimCurveData) * src->trimLoops[i].numTrimCurves);
 			if (theSize) {
 				dst->trimLoops[i].trimCurves = (TQ3NURBPatchTrimCurveData *) Q3Memory_Allocate( theSize );
 				Q3Memory_Copy( src->trimLoops[i].trimCurves, dst->trimLoops[i].trimCurves, theSize );
 				
 				// Now, for a particular curve, copy its control points and knots.
 				for (j=0; j < src->trimLoops[i].numTrimCurves; j++) {
-					theSize = sizeof(TQ3RationalPoint3D) * src->trimLoops[i].trimCurves[j].numPoints;
+					theSize = static_cast<TQ3Uns32>(sizeof(TQ3RationalPoint3D) * src->trimLoops[i].trimCurves[j].numPoints);
 					if (theSize) {
 						dst->trimLoops[i].trimCurves[j].controlPoints = (TQ3RationalPoint3D *) Q3Memory_Allocate(theSize);
 						Q3Memory_Copy(	src->trimLoops[i].trimCurves[j].controlPoints,
@@ -144,7 +144,7 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 					}
 					numKnots = src->trimLoops[i].trimCurves[j].numPoints
 								  + src->trimLoops[i].trimCurves[j].order;
-					theSize = sizeof(float) * numKnots;
+					theSize = static_cast<TQ3Uns32>(sizeof(float) * numKnots);
 					if (theSize) {
 						dst->trimLoops[i].trimCurves[j].knots = (float *) Q3Memory_Allocate(theSize);
 						Q3Memory_Copy(	src->trimLoops[i].trimCurves[j].knots,
@@ -841,13 +841,13 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 	subdiv = E3Num_Max(subdiv, 0.001f) ;
 	
 	// Find the interesting knots (ie skip the repeated knots)
-	interestingU = (float *) Q3Memory_Allocate((geomData->numColumns - geomData->uOrder + 2) * sizeof(float));
+	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numColumns - geomData->uOrder + 2) * sizeof(float)));
 	if (interestingU == NULL) {
 		goto nurbpatch_world_subdiv_error_handler ;
 	}
 	numIntU = e3geom_nurbpatch_interesting_knots( geomData->uKnots, geomData->numColumns, geomData->uOrder, interestingU );
 	
-	interestingV = (float *) Q3Memory_Allocate((geomData->numRows - geomData->vOrder + 2) * sizeof(float));
+	interestingV = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numRows - geomData->vOrder + 2) * sizeof(float)));
 	if (interestingV == NULL) {
 		goto nurbpatch_world_subdiv_error_handler ;
 	}
@@ -998,7 +998,7 @@ e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
 	subdivV = (float) ((TQ3Uns32) E3Num_Clamp(subdivV, 1.0f, 256.0f));
 	
 	// Find the interesting knots (ie skip the repeated knots)
-	interestingU = (float *) Q3Memory_Allocate((geomData->numColumns - geomData->uOrder + 2) * sizeof(float));
+	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numColumns - geomData->uOrder + 2) * sizeof(float)));
 	if (interestingU == NULL) {
 		*thePoints = NULL ;
 		return ;
@@ -1006,7 +1006,7 @@ e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
 	numIntU = e3geom_nurbpatch_interesting_knots( geomData->uKnots, geomData->numColumns, geomData->uOrder, interestingU );
 	numcolumns = (numIntU-1)*((TQ3Uns32)subdivU) + 1;
 	
-	interestingV = (float *) Q3Memory_Allocate((geomData->numRows - geomData->vOrder + 2) * sizeof(float));
+	interestingV = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numRows - geomData->vOrder + 2) * sizeof(float)));
 	if (interestingV == NULL) {
 		Q3Memory_Free( &interestingU ) ;
 		
@@ -1021,10 +1021,10 @@ e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
 	numtris = (numrows - 1)*(numcolumns - 1)*2;
 	
 	// Allocate some memory for the TriMesh
-	*thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(numpts    * sizeof(TQ3Point3D));
-	*theNormals   = (TQ3Vector3D *)            Q3Memory_Allocate(numpts    * sizeof(TQ3Vector3D));
-	*theUVs       = (TQ3Param2D  *)            Q3Memory_Allocate(numpts    * sizeof(TQ3Param2D));
-	*theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(numtris * sizeof(TQ3TriMeshTriangleData));
+	*thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(static_cast<TQ3Uns32>(numpts    * sizeof(TQ3Point3D)));
+	*theNormals   = (TQ3Vector3D *)            Q3Memory_Allocate(static_cast<TQ3Uns32>(numpts    * sizeof(TQ3Vector3D)));
+	*theUVs       = (TQ3Param2D  *)            Q3Memory_Allocate(static_cast<TQ3Uns32>(numpts    * sizeof(TQ3Param2D)));
+	*theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numtris * sizeof(TQ3TriMeshTriangleData)));
 
 	if (*thePoints == NULL || *theNormals == NULL || *theUVs == NULL || *theTriangles == NULL) {
 		Q3Memory_Free( &interestingU ) ;
@@ -1181,17 +1181,17 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	Q3Memory_Clear(&triMeshData, sizeof(triMeshData));
 	theTriMesh = NULL;
 	
-	uBasisValues = (float*) Q3Memory_Allocate( geomData->numColumns * sizeof(float) ) ;
+	uBasisValues = (float*) Q3Memory_Allocate( static_cast<TQ3Uns32>(geomData->numColumns * sizeof(float)) ) ;
 	if( uBasisValues == NULL )
 		goto surface_cache_new_error_cleanup ;
-	vBasisValues = (float*) Q3Memory_Allocate( geomData->numRows * sizeof(float) ) ;
+	vBasisValues = (float*) Q3Memory_Allocate( static_cast<TQ3Uns32>(geomData->numRows * sizeof(float)) ) ;
 	if( vBasisValues == NULL )
 		goto surface_cache_new_error_cleanup ;
 	
-	uBasisDerivValues = (float*) Q3Memory_Allocate( geomData->numColumns * sizeof(float) ) ;
+	uBasisDerivValues = (float*) Q3Memory_Allocate( static_cast<TQ3Uns32>(geomData->numColumns * sizeof(float)) ) ;
 	if( uBasisDerivValues == NULL )
 		goto surface_cache_new_error_cleanup ;
-	vBasisDerivValues = (float*) Q3Memory_Allocate( geomData->numRows * sizeof(float) ) ;
+	vBasisDerivValues = (float*) Q3Memory_Allocate( static_cast<TQ3Uns32>(geomData->numRows * sizeof(float)) ) ;
 	if( vBasisDerivValues == NULL )
 		goto surface_cache_new_error_cleanup ;
 	

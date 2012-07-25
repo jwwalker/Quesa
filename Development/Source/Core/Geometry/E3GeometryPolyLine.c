@@ -131,7 +131,7 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 	
 	// allocate memory for vertices
 	dst->vertices =
-		(TQ3Vertex3D *) Q3Memory_Allocate( src->numVertices * sizeof( TQ3Vertex3D ) ) ;
+		(TQ3Vertex3D *) Q3Memory_Allocate( static_cast<TQ3Uns32>(src->numVertices * sizeof( TQ3Vertex3D )) ) ;
 		
 	// handle vertex allocation failure
 	if ( dst->vertices == NULL )
@@ -141,8 +141,8 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 	if (src->segmentAttributeSet != NULL)
 	{
 		dst->segmentAttributeSet = 
-			(TQ3AttributeSet *) Q3Memory_Allocate( (dst->numVertices - 1) 
-													* sizeof(TQ3AttributeSet) ) ;
+			(TQ3AttributeSet *) Q3Memory_Allocate( static_cast<TQ3Uns32>((dst->numVertices - 1) 
+													* sizeof(TQ3AttributeSet)) ) ;
 			
 		//handle segment allocation failure
 		if( dst->segmentAttributeSet == NULL )

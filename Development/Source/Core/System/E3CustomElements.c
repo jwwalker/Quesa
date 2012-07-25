@@ -346,7 +346,7 @@ e3urlelement_traverse (TQ3Object object, TCEUrlDataPrivate *urlData, TQ3ViewObje
 		return kQ3Success;
 
 	size = Q3Size_Pad(static_cast<TQ3Size>(strlen(urlData->url) + 1));
-	size += sizeof(TQ3Uns32);
+	size += static_cast<TQ3Uns32>(sizeof(TQ3Uns32));
 
 	if (Q3XView_SubmitWriteData (view, size, urlData, NULL) == kQ3Failure)
 		return kQ3Failure;
@@ -727,12 +727,12 @@ strip_element_copyadd( const TCETriangleStripPrivate* fromAPIElement,
 	else
 	{
 		toInternalElement->indexArray = static_cast<TQ3Uns32*>( Q3Memory_Allocate(
-			toInternalElement->indexCount * sizeof(TQ3Uns32) ) );
+			static_cast<TQ3Uns32>(toInternalElement->indexCount * sizeof(TQ3Uns32)) ) );
 		if (toInternalElement->indexArray != NULL)
 		{
 			Q3Memory_Copy( fromAPIElement->indexArray,
 				const_cast<TQ3Uns32*>( toInternalElement->indexArray ),
-				toInternalElement->indexCount * sizeof(TQ3Uns32) );
+				static_cast<TQ3Uns32>(toInternalElement->indexCount * sizeof(TQ3Uns32)) );
 			status = kQ3Success;
 		}
 	}
@@ -784,7 +784,7 @@ strip_element_traverse( TQ3Object object, TCETriangleStripPrivate *data,
 {
 #pragma unused(object)
 	TQ3Status	status = Q3XView_SubmitWriteData( view,
-		(data->indexCount + 1) * sizeof(TQ3Uns32), data, NULL );
+		static_cast<TQ3Uns32>((data->indexCount + 1) * sizeof(TQ3Uns32)), data, NULL );
 	return status;
 }
 

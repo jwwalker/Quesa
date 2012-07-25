@@ -225,13 +225,13 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 	
 	
 	// Allocate memory
-	dst->vertices = (TQ3Vertex3D *) Q3Memory_Allocate( src->numVertices * sizeof(TQ3Vertex3D) );
-	dst->triangles = (TQ3PolyhedronTriangleData *) Q3Memory_Allocate( src->numTriangles *
-		sizeof(TQ3PolyhedronTriangleData) );
+	dst->vertices = (TQ3Vertex3D *) Q3Memory_Allocate( static_cast<TQ3Uns32>(src->numVertices * sizeof(TQ3Vertex3D)) );
+	dst->triangles = (TQ3PolyhedronTriangleData *) Q3Memory_Allocate( static_cast<TQ3Uns32>(src->numTriangles *
+		sizeof(TQ3PolyhedronTriangleData)) );
 	if (src->numEdges > 0)
 	{
-		dst->edges = (TQ3PolyhedronEdgeData *) Q3Memory_Allocate( src->numEdges *
-			sizeof(TQ3PolyhedronEdgeData) );
+		dst->edges = (TQ3PolyhedronEdgeData *) Q3Memory_Allocate( static_cast<TQ3Uns32>(src->numEdges *
+			sizeof(TQ3PolyhedronEdgeData)) );
 	}
 	else
 	{
@@ -438,12 +438,12 @@ e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, co
 
 
 	// Allocate the memory we need for the TriMesh data
-	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(geomData->numVertices  * sizeof(TQ3Point3D));
-	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(geomData->numTriangles * sizeof(TQ3TriMeshTriangleData));
+	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(static_cast<TQ3Uns32>(geomData->numVertices  * sizeof(TQ3Point3D)));
+	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(geomData->numTriangles * sizeof(TQ3TriMeshTriangleData)));
 	theEdges     = NULL;
 	
 	if (numEdges != 0)
-		theEdges = (TQ3TriMeshEdgeData *) Q3Memory_Allocate(numEdges * sizeof(TQ3TriMeshEdgeData));
+		theEdges = (TQ3TriMeshEdgeData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numEdges * sizeof(TQ3TriMeshEdgeData)));
 
 	if (thePoints == NULL || theTriangles == NULL || (theEdges == NULL && numEdges != 0))
 		{

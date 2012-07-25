@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -318,8 +318,8 @@ E3XSharedLibrary_Register(TQ3XSharedLibraryInfo *sharedLibraryInfo)
 
 	// Try and allocate some space to save the library info
 	qd3dStatus = Q3Memory_Reallocate(&theGlobals->sharedLibraryInfo,
-									 sizeof(TQ3XSharedLibraryInfo) *
-									 	(theGlobals->sharedLibraryCount+1));
+									 static_cast<TQ3Uns32>(sizeof(TQ3XSharedLibraryInfo) *
+									 	(theGlobals->sharedLibraryCount+1)));
 	if (qd3dStatus != kQ3Success)
 		return(qd3dStatus);
 

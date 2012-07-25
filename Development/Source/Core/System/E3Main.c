@@ -407,14 +407,14 @@ propertyTable_duplicateOne( E3HashTablePtr srcTable,
 	E3HashTablePtr dstTable = (E3HashTablePtr) userData;
 	TQ3Uns32 dataSize;
 	Q3Memory_Copy( theItem, &dataSize, sizeof(dataSize) );
-	void* newItem = Q3Memory_Allocate( dataSize + sizeof(dataSize) );
+	void* newItem = Q3Memory_Allocate( static_cast<TQ3Uns32>(dataSize + sizeof(dataSize)) );
 	if (newItem == NULL)
 	{
 		status = kQ3Failure;
 	}
 	else
 	{
-		Q3Memory_Copy( theItem, newItem, dataSize + sizeof(dataSize) );
+		Q3Memory_Copy( theItem, newItem, static_cast<TQ3Uns32>(dataSize + sizeof(dataSize)) );
 		E3HashTable_Add( dstTable, theKey, newItem );
 	}
 	return status;
@@ -1123,7 +1123,7 @@ E3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3SubClassData
 	TQ3Uns32 numChildren = theClass->GetNumChildren () ;
 	if (numChildren != 0)
 		{
-		subClassData->classTypes = (TQ3ObjectType *) Q3Memory_Allocate(sizeof(TQ3ObjectType) * numChildren);
+		subClassData->classTypes = (TQ3ObjectType *) Q3Memory_Allocate(static_cast<TQ3Uns32>(sizeof(TQ3ObjectType) * numChildren));
 		if (subClassData->classTypes == NULL)
 			return(kQ3Failure);
 
@@ -1606,7 +1606,7 @@ OpaqueTQ3Object::SetProperty( TQ3ObjectType inPropType,
 	{
 		(void) RemoveProperty( inPropType );
 		
-		char* itemBuf = (char*) Q3Memory_Allocate( inDataSize + sizeof(TQ3Uns32) );
+		char* itemBuf = (char*) Q3Memory_Allocate( static_cast<TQ3Uns32>(inDataSize + sizeof(TQ3Uns32)) );
 		if (itemBuf != NULL)
 		{
 			Q3Memory_Copy( &inDataSize, itemBuf, sizeof(TQ3Uns32) );

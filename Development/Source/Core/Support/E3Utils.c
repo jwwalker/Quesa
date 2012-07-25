@@ -745,7 +745,7 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 
 	if (numPresent != numSets)
 		{
-		theAttribute->attributeUseArray = (char *) Q3Memory_AllocateClear(numSets * sizeof(char));
+		theAttribute->attributeUseArray = (char *) Q3Memory_AllocateClear(static_cast<TQ3Uns32>(numSets * sizeof(char)));
 		if (theAttribute->attributeUseArray == NULL)
 			{
 			Q3Memory_Free(&theAttribute->data);
