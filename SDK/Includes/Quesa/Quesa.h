@@ -1626,7 +1626,7 @@ Q3GetReleaseVersion (
 		log.  On Windows, log messages go to a file named "Quesa.log" in the
 		user's documents folder.
 		
-		An appliction could, of course, do its own debug logging independent of
+		An application could, of course, do its own debug logging independent of
 		Quesa.  With this function, you can make application and Quesa log
 		messages interleave in the same log file.
 		
