@@ -153,7 +153,7 @@ namespace
 		somewhat smaller slowdown when using display lists.  Hence we impose
 		an arbitrary lower bound on the size of meshes to cache.
 	*/
-	const TQ3Uns32	kMinTrianglesToCache	= 400;
+	const TQ3Uns32	kMinTrianglesToCache	= 50;
 }
 
 
