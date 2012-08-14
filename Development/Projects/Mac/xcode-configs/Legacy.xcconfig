@@ -20,7 +20,7 @@ MACOSX_DEPLOYMENT_TARGET = 10.4
 // Mac OS SDK version:
 // -------------------
 // It is necessary to use the 10.4 SDK in order to build ppc code for a G3.
-SDKROOT =
+SDKROOT = macosx
 SDKROOT[arch=ppc] = macosx10.4
 
 
