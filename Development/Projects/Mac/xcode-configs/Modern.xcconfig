@@ -20,7 +20,7 @@ MACOSX_DEPLOYMENT_TARGET = 10.5
 // Mac OS SDK version:
 // -------------------
 // Latest should be OK.
-SDKROOT =
+SDKROOT = macosx
 
 
 // Compiler version:
