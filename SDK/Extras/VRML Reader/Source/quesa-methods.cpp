@@ -5,7 +5,7 @@
         File format reader class registration.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005, 2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -207,6 +207,14 @@ static TQ3Object	ReadObject(
 	try
 	{
 		theObject = reader->ReadObject();
+	}
+	catch (const std::runtime_error& excep)
+	{
+		if (reader->GetDebugStream() != NULL)
+		{
+			*(reader->GetDebugStream()) << "Exception '" << excep.what() <<
+				"' caught in ReadObject." << std::endl;
+		}
 	}
 	catch (...)
 	{
