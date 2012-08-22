@@ -6,7 +6,7 @@
         Template functions to help get arrays of numbers.
 
     COPYRIGHT:
-        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -122,6 +122,13 @@ template <typename T>
 void FloatVecToStructureVec( const PolyValue::FloatVec& inFloats,
 							std::vector<T>& outArray )
 {
+	const int kFloatCount = inFloats.size();
+	const int kFloatsInStruct = sizeof(T) / sizeof(float);
+	if ( (kFloatCount % kFloatsInStruct) != 0 )
+	{
+		throw std::runtime_error("array of floats has invalid length");
+	}
+
 	GetNumbersFromIterator::GetNums<T,
 		PolyValue::FloatVec::const_iterator>	getter;
 	
