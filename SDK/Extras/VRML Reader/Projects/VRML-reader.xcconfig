@@ -9,7 +9,7 @@ GCC_VERSION = 4.2
 GCC_VERSION[arch=ppc] = 4.0
 
 // Build Locations
-SDKROOT =
+SDKROOT = macosx
 SDKROOT[arch=ppc] = macosx10.4
 SYMROOT = Output-Xcode
 
