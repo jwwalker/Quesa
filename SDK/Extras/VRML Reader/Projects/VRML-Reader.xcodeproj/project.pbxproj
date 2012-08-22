@@ -88,32 +88,24 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
-		BE0404A40B7FDC8200CC26D5 /* PBXContainerItemProxy */ = {
+		BED44D5A15E56E8D0065A362 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
+			containerPortal = BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
-			remoteInfo = "Fmwk Univ";
+			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0 /* Quesa.framework */;
+			remoteInfo = Framework;
 		};
-		BE0404A80B7FDC8200CC26D5 /* PBXContainerItemProxy */ = {
+		BED44D5C15E56E8D0065A362 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
+			containerPortal = BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B1756AFF080A71C30056134C;
-			remoteInfo = "Static Lib (Univ)";
-		};
-		BE0404AC0B7FDC9C00CC26D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D07F2BC0486CC7A007CD1D0;
-			remoteInfo = "Fmwk Univ";
+			remoteGlobalIDString = B1756AFF080A71C30056134C /* libQuesa.a */;
+			remoteInfo = "Static Library";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		8D01CCD20486CAD60068D4B7 /* VRML-Reader.quesaplug */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VRML-Reader.quesaplug"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BE61011E08EFA04E0020A13D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../Resources/version.h; sourceTree = SOURCE_ROOT; };
 		BE775A3109F809A5006C1ED3 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE7C47E608AEC56600559F64 /* SetGroupName.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SetGroupName.h; sourceTree = "<group>"; };
@@ -238,6 +230,7 @@
 		BEC95D3708A86FBC001E16B9 /* SphereV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SphereV2ToObject.h; sourceTree = "<group>"; };
 		BEC95D3908A86FBC001E16B9 /* TransformV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TransformV2ToObject.h; sourceTree = "<group>"; };
 		BEC95D6D08A86FDD001E16B9 /* VRML-Reader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "VRML-Reader_Prefix.pch"; path = "../Source/Precompiled Headers/VRML-Reader_Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Quesa (Legacy).xcodeproj"; path = "../../../../Development/Projects/Mac/Quesa (Legacy).xcodeproj"; sourceTree = SOURCE_ROOT; };
 		BEFCF9910CA62F4300B84F9B /* SwitchV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchV2ToObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -312,18 +305,9 @@
 		BE04049C0B7FDC6300CC26D5 /* Projects */ = {
 			isa = PBXGroup;
 			children = (
-				BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */,
+				BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */,
 			);
 			name = Projects;
-			sourceTree = "<group>";
-		};
-		BE04049E0B7FDC8200CC26D5 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				BE0404A50B7FDC8200CC26D5 /* Quesa.framework */,
-				BE0404A90B7FDC8200CC26D5 /* libQuesa.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		BEC95CCC08A86FBC001E16B9 /* Utilities */ = {
@@ -479,6 +463,15 @@
 			path = "VRML2 node handlers";
 			sourceTree = "<group>";
 		};
+		BED44D5615E56E8D0065A362 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BED44D5B15E56E8D0065A362 /* Quesa.framework */,
+				BED44D5D15E56E8D0065A362 /* libQuesa.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -496,7 +489,6 @@
 				BEC95E6F08A87E66001E16B9 /* PBXBuildRule */,
 			);
 			dependencies = (
-				BE0404AD0B7FDC9C00CC26D5 /* PBXTargetDependency */,
 			);
 			name = "VRML-Reader";
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -523,8 +515,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = BE04049E0B7FDC8200CC26D5 /* Products */;
-					ProjectRef = BE04049D0B7FDC8200CC26D5 /* Quesa.xcodeproj */;
+					ProductGroup = BED44D5615E56E8D0065A362 /* Products */;
+					ProjectRef = BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */;
 				},
 			);
 			projectRoot = ..;
@@ -535,18 +527,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		BE0404A50B7FDC8200CC26D5 /* Quesa.framework */ = {
+		BED44D5B15E56E8D0065A362 /* Quesa.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Quesa.framework;
-			remoteRef = BE0404A40B7FDC8200CC26D5 /* PBXContainerItemProxy */;
+			remoteRef = BED44D5A15E56E8D0065A362 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BE0404A90B7FDC8200CC26D5 /* libQuesa.a */ = {
+		BED44D5D15E56E8D0065A362 /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libQuesa.a;
-			remoteRef = BE0404A80B7FDC8200CC26D5 /* PBXContainerItemProxy */;
+			remoteRef = BED44D5C15E56E8D0065A362 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -645,14 +637,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		BE0404AD0B7FDC9C00CC26D5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Fmwk Univ";
-			targetProxy = BE0404AC0B7FDC9C00CC26D5 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		BE7C488208AF202E00559F64 /* Release */ = {
