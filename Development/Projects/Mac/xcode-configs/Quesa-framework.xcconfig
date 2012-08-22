@@ -1,5 +1,5 @@
 // The base path where build products will be placed during a build for a given configuration.
-CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_Universal/$(CONFIGURATION)
+CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_$(PROJECT_NICKNAME)/$(CONFIGURATION)
 
 // Build as Framework.
 LIBRARY_STYLE = DYNAMIC

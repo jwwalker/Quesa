@@ -48,3 +48,8 @@ PREBINDING = NO
 //   If you do not define QUESA_SUPPORT_QUICKTIME here, then Quesa.h will set it
 //   to 0 in 64-bit mode and 1 in 32-bit mode.
 QUESA_PREPROCESSOR_DEFS_LEGACY = QUESA_SUPPORT_HITOOLBOX=1 QUESA_SUPPORT_QUICKTIME=1
+
+
+// Custom build settings:
+// ----------------------
+PROJECT_NICKNAME = Universal
