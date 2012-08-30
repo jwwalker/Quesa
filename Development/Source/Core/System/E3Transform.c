@@ -190,7 +190,7 @@ E3TransformInfo::E3TransformInfo	(
 	{
 	if ( matrixMethod == NULL )
 		SetAbstract () ;
-	} ;
+	}
 
 
 //=============================================================================

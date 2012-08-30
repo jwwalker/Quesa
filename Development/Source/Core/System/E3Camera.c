@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -74,7 +74,7 @@ E3CameraInfo::E3CameraInfo	(
 	{
 	if ( frustumMatrixMethod == NULL )
 		SetAbstract () ;
-	} ;
+	}
 
 
 //=============================================================================

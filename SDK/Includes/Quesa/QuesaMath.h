@@ -2111,7 +2111,7 @@ Q3Point2D_Transform (
  *  @discussion
  *      Transform a 2D parametric point by a 3x3 matrix.
  *
- *  @param point2D          Address of a point to transform.
+ *  @param param2D          Address of a point to transform.
  *  @param matrix3x3        Address of a 3x3 transformation matrix.
  *  @param result           Address of point to set (may be the same as point2D).
  *  @result                 Convenience copy of result parameter.

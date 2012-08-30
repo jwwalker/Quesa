@@ -163,7 +163,7 @@ E3GroupInfo::E3GroupInfo	(
 	|| startIterateMethod == NULL
 	|| endIterateMethod == NULL )
 		SetAbstract () ;
-	} ;
+	}
 
 
 //=============================================================================

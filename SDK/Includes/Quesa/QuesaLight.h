@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -774,7 +774,7 @@ Q3PointLight_SetAttenuation (
  *		The unit is related with the scale of the scene.
  *
  *  @param light            The light to update.
- *  @param attenuation      The new radius for the light.
+ *  @param radius           The new radius for the light.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )

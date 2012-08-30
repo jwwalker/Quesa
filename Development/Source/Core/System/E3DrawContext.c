@@ -90,7 +90,7 @@ E3DrawContextInfo::E3DrawContextInfo	(
 	if ( updateMethod == NULL 
 	|| getDimensionsMethod == NULL )
 		SetAbstract () ;
-	} ;
+	}
 
 
 //=============================================================================

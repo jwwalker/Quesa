@@ -10,7 +10,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1433,7 +1433,7 @@ Q3Renderer_HasModalConfigure (
  *      should be retrieved with Q3Renderer_GetConfigurationData and stored by
  *      the application for later recall.
 
- *  @param theRenderer      The renderer whose configure dialog is to be displayed.
+ *  @param renderer         The renderer whose configure dialog is to be displayed.
  *  @param dialogAnchor     Platform-specific dialog data.
  *  @param cancelled        Receives the OK/Cancel state of the dialog.
  *  @result                 Success or failure of the operation.

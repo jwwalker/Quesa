@@ -122,7 +122,7 @@ E3TextureInfo::E3TextureInfo	(
 	{
 	if ( textureDimensions == NULL )
 		SetAbstract () ;
-	} ; 
+	}
 
 
 //=============================================================================
