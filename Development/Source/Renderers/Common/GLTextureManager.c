@@ -13,7 +13,7 @@
     	performance optimization.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -154,7 +154,6 @@ static TQ3Object GetPixmapTextureStorage( TQ3TextureObject inTexture )
 	@function	GetMipmapTextureStorage
 	@abstract	Get the data from a mipmap texture object.
 	@param		inTexture		A mipmap texture object.
-	@param		outData			Receives mipmap data.
 	@result		Holds a reference to image storage, or NULL on failure.
 */
 static TQ3Object GetMipmapTextureStorage( TQ3TextureObject inTexture )
@@ -218,7 +217,7 @@ static TQ3Uns32 GetStorageEditIndex( TQ3TextureObject inTexture )
 	@function		RemoveCachedTexture
 	@abstract		Remove a texture record from a texture cache.
 	@param			txCache			A texture cache.
-	@param			textureRec		Texture cache record to remove.
+	@param			toRemove		Texture cache record to remove.
 */
 static void			RemoveCachedTexture( TQ3TextureCachePtr txCache,
 								CachedTextureList::iterator toRemove )

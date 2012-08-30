@@ -1703,7 +1703,7 @@ Q3ObjectHierarchy_IsTypeRegistered (
  *  @discussion
  *      Check to see if a class is registered with Quesa.
  *
- *  @param majorRevision    The class name of the class to check.
+ *  @param objectClassName  The class name of the class to check.
  *  @result                 True or false as the class is registered or not.
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )

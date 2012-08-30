@@ -112,7 +112,7 @@ E3GeometryInfo::E3GeometryInfo	(
 	if ( cacheIsValid == NULL
 	|| cacheUpdate == NULL )
 		SetAbstract () ;
-	} ;
+	}
 
 
 //=============================================================================

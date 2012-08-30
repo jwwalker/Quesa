@@ -115,7 +115,7 @@ E3ShapeInfo::E3ShapeInfo	(
 	// Fill in the method data of the class
 	
 	// There are (currently) no new methods in shape class
-	} ;
+	}
 
 
 //=============================================================================
@@ -174,7 +174,7 @@ E3SharedInfo::E3SharedInfo	(
 //	newMethod = (TQ3XObjectNewMethod) Find_Method ( kQ3XMethodTypeObjectNew , kQ3False ) ; // N.B. False, not inherited
 //	deleteMethod = (TQ3XObjectDeleteMethod) Find_Method ( kQ3XMethodTypeObjectDelete , kQ3False ) ; // N.B. False, not inherited
 //	duplicateMethod = (TQ3XObjectDuplicateMethod) Find_Method ( kQ3XMethodTypeObjectDuplicate , kQ3False ) ; // N.B. False, not inherited
-	} ;
+	}
 
 
 //=============================================================================
@@ -349,7 +349,7 @@ E3Root::E3Root	(
 	{
 	if ( disposeMethod == NULL )
 		SetAbstract () ;
-	} ;
+	}
 
 
 //=============================================================================

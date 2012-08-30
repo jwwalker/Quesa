@@ -15,7 +15,7 @@
 		output parameter.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -96,8 +96,7 @@ inline CQ3ObjectRef	CQ3Object_GetSet( TQ3Object inObject )
  *		after adding elements or attributes to an object, this function may still
  *		return the NULL set.
  *
- *  @param shape            The object to query.
- *  @param theSet           Receives the set of the object, or NULL.
+ *  @param inObject         The object to query.
  *  @result                 Success or failure of the operation.
  */
 inline CQ3ObjectRef	CQ3Shape_GetSet( TQ3ShapeObject inObject )
@@ -191,7 +190,7 @@ inline CQ3ObjectRef CQ3Cone_GetFaceAttributeSet(
  *  @discussion
  *      Get the attribute set for the interior of a cone object.
  *
- *  @param cylinder         A cone object.
+ *  @param cone             A cone object.
  *  @result                 The attribute set for the interior, or NULL.
  */
 inline CQ3ObjectRef CQ3Cone_GetInteriorAttributeSet(
@@ -340,7 +339,7 @@ inline CQ3ObjectRef CQ3Mesh_GetFaceAttributeSet(
  *  @discussion		Get the attribute set of a mesh edge.
  *
  *  @param mesh             The mesh to query.
- *  @param face             The face to query.
+ *  @param edge             The face to query.
  *  @result                 The attribute set of the mesh face.
  */
 inline CQ3ObjectRef CQ3Mesh_GetEdgeAttributeSet(

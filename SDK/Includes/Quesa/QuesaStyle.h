@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -501,7 +501,7 @@ Q3PickIDStyle_Submit (
  *  @discussion
  *      Get the data from a pick ID style.
  *
- *  @param styleObject      The style to query.
+ *  @param pickIDObject     The style to query.
  *  @param id               Receives the data from the style.
  *  @result                 Success or failure of the operation.
  */
@@ -821,7 +821,7 @@ Q3FillStyle_Submit (
  *      Get the data from a fill style.
  *
  *  @param styleObject      The style to query.
- *  @param filLStyle        Receives the data from the style.
+ *  @param fillStyle        Receives the data from the style.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )

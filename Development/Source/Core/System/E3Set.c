@@ -343,7 +343,7 @@ E3ElementInfo::E3ElementInfo	(
 		elementDeleteMethod			( (TQ3XElementDeleteMethod)			Find_Method ( kQ3XMethodTypeElementDelete , kQ3False ) ) // Not inherited 
 	{
 
-	} ;
+	}
 
 
 

@@ -168,7 +168,7 @@ E3ClassInfo::E3ClassInfo	(
 	
 	// Also before this:
 	registerMethod = (TQ3XObjectRegisterMethod) Find_Method ( kQ3XMethodTypeNewObjectClass , kQ3True ) ;
-	} ;
+	}
 
 
 //=============================================================================

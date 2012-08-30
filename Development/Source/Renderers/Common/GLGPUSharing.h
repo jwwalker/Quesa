@@ -5,7 +5,7 @@
         Header file for GLGPUSharing.cpp.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -118,7 +118,7 @@ void				GLGPUSharing_RemoveContext( TQ3GLContext deadGLContext );
 	@function		GLGPUSharing_IsContextKnown
 	@abstract		Test whether the sharing manager knows about an OpenGL context.
 	@param			inGLContext			A GL context.
-	@param			True if we find a sharing group for the context.
+	@result			True if we find a sharing group for the context.
 */
 bool				GLGPUSharing_IsContextKnown( TQ3GLContext inGLContext );
 

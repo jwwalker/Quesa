@@ -82,7 +82,7 @@ E3StorageInfo::E3StorageInfo	(
 	|| setData_Method == NULL
 	|| getEOF_Method == NULL )
 		SetAbstract () ;
-	} ; 
+	}
 
 
 //=============================================================================
