@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -180,11 +180,11 @@ bool	QORenderer::Renderer::IsBoundingBoxVisible(
 								const TQ3BoundingBox& inBounds )
 {
 	// An object that is not visible may cast a shadow that is visible.
-	// Therefore, when in a shadowing phase, we do not do a bounding box
+	// Therefore, when in a shadowing marking pass, we do not do a bounding box
 	// visibility test.
 	bool	isVisible =
 		(
-			mLights.IsShadowPhase() ||
+			mLights.IsShadowMarkingPass() ||
 			(Q3View_IsBoundingBoxVisible( inView, &inBounds ) == kQ3True)
 		) &&
 		mLights.IsLit( inBounds );
