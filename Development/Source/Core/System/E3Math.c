@@ -50,7 +50,7 @@
 #include "E3Math.h"
 #include "E3Utils.h"
 #include <limits>
-
+#include <cstring>
 
 
 
@@ -2240,6 +2240,33 @@ E3Point3D_Transform(const TQ3Point3D *point3D, const TQ3Matrix4x4 *matrix4x4,
 
 
 //=============================================================================
+//      E3Point3D_TransformAffine : Transform 3D point by 4x4 affine matrix.
+//-----------------------------------------------------------------------------
+//		Note : 'result' may be the same as 'point3D'.
+//-----------------------------------------------------------------------------
+static TQ3Point3D *
+E3Point3D_TransformAffine(const TQ3Point3D *point3D, const TQ3Matrix4x4 *matrix4x4,
+	TQ3Point3D *result)
+{
+	// Save input to avoid problems when result is same as input
+	float x = point3D->x;
+	float y = point3D->y;
+	float z = point3D->z;
+	
+	#define M(x,y) matrix4x4->value[x][y]
+	result->x = x*M(0,0) + y*M(1,0) + z*M(2,0) + M(3,0);
+	result->y = x*M(0,1) + y*M(1,1) + z*M(2,1) + M(3,1);
+	result->z = x*M(0,2) + y*M(1,2) + z*M(2,2) + M(3,2);
+	#undef M
+	
+	return(result);
+}
+
+
+
+
+
+//=============================================================================
 //      E3RationalPoint4D_Transform : Transform 4D rational point by 4x4 matrix.
 //-----------------------------------------------------------------------------
 //		Note : 'result' may be the same as 'point4D'.
@@ -2436,14 +2463,32 @@ E3Point3D_To3DTransformArray(const TQ3Point3D		*inPoints3D,
 							 TQ3Uns32				outStructSize)
 {
 	TQ3Uns32 i;
-
-	// Transform the points - will be in-lined in release builds
-	for (i = 0; i < numPoints; ++i)
+	
+	// In the common case of the last column of the matrix being (0, 0, 0, 1),
+	// we can avoid some divisions and conditionals inside the loop.
+	if ( (matrix4x4->value[3][3] == 1.0f) &&
+		(matrix4x4->value[0][3] == 0.0f) &&
+		(matrix4x4->value[1][3] == 0.0f) &&
+		(matrix4x4->value[2][3] == 0.0f) )
 	{
-		E3Point3D_Transform(inPoints3D, matrix4x4, outPoints3D);
+		for (i = 0; i < numPoints; ++i)
+		{
+			E3Point3D_TransformAffine( inPoints3D, matrix4x4, outPoints3D );
 
-		AdvanceConstPointer( inPoints3D, inStructSize );
-		AdvancePointer( outPoints3D, outStructSize );
+			AdvanceConstPointer( inPoints3D, inStructSize );
+			AdvancePointer( outPoints3D, outStructSize );
+		}
+	}
+	else
+	{
+		// Transform the points - will be in-lined in release builds
+		for (i = 0; i < numPoints; ++i)
+		{
+			E3Point3D_Transform(inPoints3D, matrix4x4, outPoints3D);
+
+			AdvanceConstPointer( inPoints3D, inStructSize );
+			AdvancePointer( outPoints3D, outStructSize );
+		}
 	}
 
 	return(kQ3Success);
