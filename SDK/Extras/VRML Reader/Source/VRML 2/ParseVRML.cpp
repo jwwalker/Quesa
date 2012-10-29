@@ -5,7 +5,7 @@
         Parse VRML 2 grammar.
 
     COPYRIGHT:
-        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2012, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -660,7 +660,7 @@ bool	ParseVRML( const std::string& inVRMLText, PolyValue::PolyVec& outNodes,
 {
 	VRML_reader::Skipper	mySkipper;
 	SParseState	theState( outNodes, ioDebugStream );
-	const char*	textStart = &inVRMLText[0];
+	const char*	textStart = inVRMLText.c_str();
 	const char* textEnd = textStart + inVRMLText.size();
 	
 	parse_info<>	parseResult = parse(
