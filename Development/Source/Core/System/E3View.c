@@ -52,6 +52,8 @@
 #include "E3Pick.h"
 #include "E3View.h"
 #include "E3Math_Intersect.h"
+#include "E3FastArray.h"
+#include "E3Math.h"
 
 
 
@@ -184,6 +186,7 @@ typedef struct TQ3ViewData {
 	TQ3BoundingBox				boundingBox;
 	TQ3SlabObject				boundingPointsSlab;
 	TQ3BoundingSphere			boundingSphere;
+	E3FastArray<TQ3Point3D>*	boundingPointsArray;
 	
 	
 	// Derived cached matrices
@@ -751,7 +754,7 @@ e3view_init_matrix_state( TQ3ViewObject theView )
 //-----------------------------------------------------------------------------
 static void
 e3view_bounds_box_exact ( E3View* view, TQ3Uns32 numPoints, TQ3Uns32 pointStride, const TQ3Point3D *thePoints )
-	{
+{
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(view) ;
 	Q3_ASSERT(numPoints != 0) ;
@@ -763,19 +766,25 @@ e3view_bounds_box_exact ( E3View* view, TQ3Uns32 numPoints, TQ3Uns32 pointStride
 	Q3_ASSERT_VALID_PTR(localToWorld);
 
 
-
-	// Transform the points, and accumulate them into the bounding box
-	const TQ3Uns8* rawPoint = (const TQ3Uns8 *) thePoints ;
-	for ( TQ3Uns32 i = 0 ; i < numPoints ; ++i, rawPoint += pointStride )
-		{
-		// Transform the point
-		TQ3Point3D worldPoint ;
-		Q3Point3D_Transform ( (const TQ3Point3D *)(const void*) rawPoint, localToWorld, &worldPoint ) ;
-		
-		// Union it into the bounding box
-		Q3BoundingBox_UnionPoint3D ( & view->instanceData.boundingBox, &worldPoint, & view->instanceData.boundingBox ) ;
-		}
+	// Make a buffer to hold transformed points.
+	if (view->instanceData.boundingPointsArray == NULL)
+	{
+		view->instanceData.boundingPointsArray = new E3FastArray<TQ3Point3D>;
 	}
+	E3FastArray<TQ3Point3D>& workArray( *(view->instanceData.boundingPointsArray) );
+	workArray.resizeNotPreserving( numPoints );
+	
+	
+	// Transform the points to world space.
+	E3Point3D_To3DTransformArray( thePoints, localToWorld, &workArray[0],
+		numPoints, pointStride, sizeof(TQ3Point3D) );
+	
+	
+	// Find the bounds of the points in the buffer, and union with the accumulating bounds.
+	TQ3BoundingBox thisBox;
+	E3BoundingBox_SetFromPoints3D( &thisBox, &workArray[0], numPoints, sizeof(TQ3Point3D) );
+	E3BoundingBox_Union( &thisBox, &view->instanceData.boundingBox, &view->instanceData.boundingBox );
+}
 
 
 
@@ -1776,6 +1785,7 @@ e3view_delete ( E3View* view, void *privateData )
 	Q3Object_CleanDispose(&instanceData->theDrawContext);
 	Q3Object_CleanDispose(&instanceData->defaultAttributeSet);
 	Q3Object_CleanDispose(&instanceData->boundingPointsSlab);
+	delete instanceData->boundingPointsArray;
 
 	e3view_stack_pop_clean ( view ) ;
 	
