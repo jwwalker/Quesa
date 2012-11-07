@@ -1370,18 +1370,19 @@ OpaqueTQ3Object::AddElement ( TQ3ElementType theType, const void *theData )
 
 	// If we've actually been passed a set, use it directly
 	if ( Q3_OBJECT_IS_CLASS ( this, E3Set ) )
-		return Q3Set_Add ( (TQ3SetObject) this, theType, theData ) ;
+		return ( (E3Set*) this )->Add ( theType, theData ) ;
+
 		
 	// otherwise use the set within the instance data
 	if ( theSet == NULL )
 		{
-		theSet = Q3Set_New () ;
+		theSet = E3Set_New () ;
 		
 		if ( theSet == NULL )
 			return kQ3Failure ;
 		}
 	
-	TQ3Status qd3dStatus = Q3Set_Add ( theSet, theType, theData ) ;
+	TQ3Status qd3dStatus = ( (E3Set*) theSet )->Add ( theType, theData ) ;
 	
 	
 	if ( ( qd3dStatus != kQ3Failure ) && Q3_OBJECT_IS_CLASS ( this, E3Shared ) )
