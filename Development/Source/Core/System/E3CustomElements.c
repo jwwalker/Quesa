@@ -1066,15 +1066,16 @@ E3NameElement_SetData(TQ3Object object, const char *name)
 	TQ3StringObject	string = NULL;
 
 	if (name == NULL)
-		return Q3Object_ClearElement(object, kQ3ObjectTypeCustomElementName);
+		return object->ClearElement( kQ3ObjectTypeCustomElementName );
 
 
-	string = Q3CString_New(name);
+	string = E3CString_New(name);
 	if (string == NULL)
 		return kQ3Failure;
 				
-	status = Q3Object_AddElement(object, kQ3ObjectTypeCustomElementName, &string);
-	Q3Object_Dispose(string);
+	status = object->AddElement( kQ3ObjectTypeCustomElementName, &string );
+
+	string->Dispose();
 	
 	return status;
 }
@@ -1137,16 +1138,15 @@ TQ3Status	E3NameElement_PeekData(TQ3Object object, const char **name)
 	*name = NULL;
 
 
-	status = Q3Object_GetElement( object, kQ3ObjectTypeCustomElementName,
-		&string );
+	status = object->GetElement( kQ3ObjectTypeCustomElementName, &string );
 	
 	if (status == kQ3Success)
 	{
 		*name = E3CString_PeekString( string );
 		
-		Q3Object_Dispose(string);
+		string->Dispose();
 	}
-					
+
 	return status;
 }
 
