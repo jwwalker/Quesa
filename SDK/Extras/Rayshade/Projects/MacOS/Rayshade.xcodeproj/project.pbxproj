@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8D01CCCE0486CAD60068D4B7 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
-		B1CAE87B0CE63CC200D35B61 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1CAE8740CE63CA900D35B61 /* Quesa.framework */; };
 		FD8598050AADE089004F397F /* expr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD8596BC0AADE089004F397F /* expr.cpp */; };
 		FD8598060AADE089004F397F /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD8596BD0AADE089004F397F /* memory.cpp */; };
 		FD8598070AADE089004F397F /* rotate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD8596C00AADE089004F397F /* rotate.cpp */; };
@@ -286,7 +285,6 @@
 			files = (
 				8D01CCCE0486CAD60068D4B7 /* Carbon.framework in Frameworks */,
 				FD8598B70AADE0DB004F397F /* QuickTime.framework in Frameworks */,
-				B1CAE87B0CE63CC200D35B61 /* Quesa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
