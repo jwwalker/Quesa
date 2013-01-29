@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -151,6 +151,7 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	, mNumPasses( 1 )
 	, mAllowLineSmooth( true )
 	, mIsCachingShadows( false )
+	, mNumPrimitivesRenderedInFrame( 0 )
 	, mLineWidth( 1.0f )
 	, mAttributesMask( kQ3XAttributeMaskAll )
 	, mUpdateShader( true )
