@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -524,6 +524,9 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	}
 	FlushDisplayListCache( mGLContext );
 
+	// Copy the primitive render count to a property where the user can get it
+	Q3Object_SetProperty( mRendererObject, kQ3RendererPropertyPrimitivesRenderedCount,
+		sizeof(TQ3Uns64), &mNumPrimitivesRenderedInFrame );
 	
 	return allDone;
 }

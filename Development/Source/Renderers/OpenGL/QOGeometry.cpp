@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1699,6 +1699,11 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		didHandle = true;
 	}
 	
+	if (didHandle)
+	{
+		mNumPrimitivesRenderedInFrame += inGeomData->numTriangles;
+	}
+	
 	ImmediateModePop( inView, inTriMesh, inGeomData->triMeshAttributeSet );
 	
 	return didHandle;
@@ -1807,6 +1812,8 @@ void	QORenderer::Renderer::SubmitTriangle(
 	}
 
 	ImmediateModePop( inView, inTriangle, inGeomData->triangleAttributeSet );
+	
+	mNumPrimitivesRenderedInFrame += 1;
 }
 
 
@@ -1881,6 +1888,8 @@ void	QORenderer::Renderer::SubmitPoint(
 		
 		glEnd();
 	}
+	
+	mNumPrimitivesRenderedInFrame += 1;
 }
 
 
@@ -1966,6 +1975,8 @@ void	QORenderer::Renderer::SubmitLine(
 		
 		glEnd();
 	}
+	
+	mNumPrimitivesRenderedInFrame += 1;
 }
 
 static bool HasSegmentAtts( const TQ3PolyLineData* inGeomData )
@@ -2108,4 +2119,6 @@ void	QORenderer::Renderer::SubmitPolyLine(
 	}
 	
 	glEnd();
+	
+	mNumPrimitivesRenderedInFrame += inGeomData->numVertices - 1;
 }

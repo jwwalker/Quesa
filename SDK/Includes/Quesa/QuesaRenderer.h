@@ -10,7 +10,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -226,24 +226,33 @@ enum
 					be purged.
 					
 					Data type: TQ3Uns32.  Range: [0, 4294967295].  Default: 0.
+	
+	@constant	kQ3RendererPropertyPrimitivesRenderedCount
+					The renderer uses this property to report the cumulative number
+					of primitives (triangles, lines, or points) rendered since
+					the renderer was created.  Currently only supported by the OpenGL
+					renderer.
+					
+					Data type: TQ3Uns64.
 */
 enum
 {
-	kQ3RendererPropertyAutomaticTriangleStrips	= Q3_OBJECT_TYPE('a', 't', 'r', 's'),
-	kQ3RendererPropertyPerPixelLighting			= Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
+	kQ3RendererPropertyAutomaticTriangleStrips      = Q3_OBJECT_TYPE('a', 't', 'r', 's'),
+	kQ3RendererPropertyPerPixelLighting             = Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
 	kQ3RendererPropertyConvertToPremultipliedAlpha	= Q3_OBJECT_TYPE('c', 'p', 'm', 'a'),
-	kQ3RendererPropertyShadows					= Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
-	kQ3RendererPropertyAttenuationThreshold		= Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
-	kQ3RendererPropertyLineWidth				= Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
-	kQ3RendererPropertyUseColor					= Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
-	kQ3RendererPropertyAllowVBOs				= Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
-	kQ3RendererPropertyVBOLimit					= Q3_OBJECT_TYPE('v', 'b', 'o', 'l'),
-	kQ3RendererPropertyAllowLineSmooth			= Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
-	kQ3RendererPropertyQuantizePerPixelLight	= Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
-	kQ3RendererPropertyCartoonLightNearEdge		= Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
-	kQ3RendererPropertyPassType					= Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
-	kQ3RendererPropertyDepthAlphaThreshold		= Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
-	kQ3RendererPropertyShadowVBOLimit			= Q3_OBJECT_TYPE('s', 'h', 'v', 'l')
+	kQ3RendererPropertyShadows                      = Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
+	kQ3RendererPropertyAttenuationThreshold         = Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
+	kQ3RendererPropertyLineWidth                    = Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
+	kQ3RendererPropertyUseColor                     = Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
+	kQ3RendererPropertyAllowVBOs                    = Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
+	kQ3RendererPropertyVBOLimit                     = Q3_OBJECT_TYPE('v', 'b', 'o', 'l'),
+	kQ3RendererPropertyAllowLineSmooth              = Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
+	kQ3RendererPropertyQuantizePerPixelLight        = Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
+	kQ3RendererPropertyCartoonLightNearEdge         = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
+	kQ3RendererPropertyPassType                     = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
+	kQ3RendererPropertyDepthAlphaThreshold          = Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
+	kQ3RendererPropertyShadowVBOLimit               = Q3_OBJECT_TYPE('s', 'h', 'v', 'l'),
+	kQ3RendererPropertyPrimitivesRenderedCount      = Q3_OBJECT_TYPE('p', 'r', 'n', 'c'),
 };
 
 
