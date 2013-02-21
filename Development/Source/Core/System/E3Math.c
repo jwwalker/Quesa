@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1112,7 +1112,7 @@ E3Vector3D_DotArray(
 	{
 		for (i = 0; i < numVectors; ++i)
 		{
-			dotProduct           = Q3Vector3D_Dot(inFirstVectors3D, inSecondVectors3D);
+			dotProduct           = Q3FastVector3D_Dot(inFirstVectors3D, inSecondVectors3D);
 			*outDotProducts      = dotProduct;	
 
 			AdvanceConstPointer( inFirstVectors3D, inStructSize );
@@ -1125,7 +1125,7 @@ E3Vector3D_DotArray(
 	{
 		for (i = 0; i < numVectors; ++i)
 		{
-			dotProduct           = Q3Vector3D_Dot(inFirstVectors3D, inSecondVectors3D);
+			dotProduct           = Q3FastVector3D_Dot(inFirstVectors3D, inSecondVectors3D);
 			*outDotLessThanZeros = (TQ3Boolean) (dotProduct < 0.0f);
 
 			AdvanceConstPointer( inFirstVectors3D, inStructSize );
@@ -3094,7 +3094,7 @@ E3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4,
 	TQ3Matrix3x3 a, b;
 
 	// Construct vector w (axis of rotation) perpendicular to v1 and v2	
-	Q3Vector3D_Cross(v1, v2, &w);
+	Q3FastVector3D_Cross(v1, v2, &w);
 	
 	// Check if vector w is roughly zero
 	if (e3vector3d_below_tolerance(&w, 10.0f*FLT_EPSILON))
@@ -3126,15 +3126,15 @@ E3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4,
 			((float*) (&v2Proxy))[i] = (i == iSmall ? 1.0f : 0.0f);
 		
 		// Construct vector w (axis of rotation) perpendicular to v1 and v2Proxy
-		Q3Vector3D_Cross(v1, &v2Proxy, &w);
+		Q3FastVector3D_Cross(v1, &v2Proxy, &w);
 	}
 	
-	Q3Vector3D_Normalize(&w, &w);
+	Q3FastVector3D_Normalize(&w, &w);
 	
 	u = *v1;
 	uPrime = *v2;
-	Q3Vector3D_Cross(&w, &u, &v);
-	Q3Vector3D_Cross(&w, &uPrime, &vPrime);
+	Q3FastVector3D_Cross(&w, &u, &v);
+	Q3FastVector3D_Cross(&w, &uPrime, &vPrime);
 
 	#define A(x,y)	a.value[x][y]
 	#define B(x,y)	b.value[x][y]
@@ -3769,8 +3769,8 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 	float cosAngle;
 	TQ3Vector3D axis;
 	
-	cosAngle = Q3Vector3D_Dot(v1, v2);
-	Q3Vector3D_Cross(v1, v2, &axis);
+	cosAngle = Q3FastVector3D_Dot(v1, v2);
+	Q3FastVector3D_Cross(v1, v2, &axis);
 	
 	// Note: sin(angle) = |axis|
 		
@@ -3828,11 +3828,11 @@ E3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion,
 				((float*) &v2Prime)[i] = (i == iSmall ? 1.0f : 0.0f);
 			
 			// Axis is vector perpendicular to v1 and v2Prime
-			Q3Vector3D_Cross(v1, &v2Prime, &axis);
+			Q3FastVector3D_Cross(v1, &v2Prime, &axis);
 			
 			// Note: 1 = sin(angle/2) = |axis| * factor
 			
-			factor = 1.0f / Q3Vector3D_Length(&axis);
+			factor = 1.0f / Q3FastVector3D_Length(&axis);
 			
 			quaternion->w = 0.0f;
 			quaternion->x = axis.x * factor;
