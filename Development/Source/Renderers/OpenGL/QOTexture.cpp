@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,6 +49,7 @@
 #include "GLDrawContext.h"
 #include "GLTextureLoader.h"
 #include "GLUtils.h"
+#include "E3Shader.h"
 
 #include <algorithm>
 
@@ -241,9 +242,10 @@ void	Texture::GetShaderParams(
 								bool& outUseAlphaTest,
 								TQ3Float32& outAlphaTestThreshold )
 {
-	Q3Shader_GetUBoundary( inShader,   &outShaderUBoundary );
-	Q3Shader_GetVBoundary( inShader,   &outShaderVBoundary );
-	Q3Shader_GetUVTransform( inShader, &outShaderUVTransform );
+	E3Shader* theShader = (E3Shader*) inShader;
+	theShader->GetUBoundary( &outShaderUBoundary );
+	theShader->GetVBoundary( &outShaderVBoundary );
+	theShader->GetUVTransform( &outShaderUVTransform );
 	
 	TQ3Status hasElement = Q3Object_GetElement( inShader,
 		kQ3ElementTypeTextureShaderAlphaTest, &outAlphaTestThreshold );

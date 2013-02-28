@@ -280,7 +280,7 @@ bool	ShadowVBO::IsStale( const TQ3RationalPoint4D& inLocalLightPos ) const
 		stale = (distSq > 7.0e-6f);
 		if (stale)
 		{
-			Q3_MESSAGE_FMT( "Stale shadow due to light position error %f", distSq );
+			//Q3_MESSAGE_FMT( "Stale shadow due to light position error %f", distSq );
 		}
 	}
 	else
