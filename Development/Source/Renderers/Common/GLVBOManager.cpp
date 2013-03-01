@@ -5,7 +5,7 @@
         Quesa OpenGL vertex buffer object caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -170,9 +170,17 @@ namespace
 		BufferSubDataARBProcPtr		glBufferSubDataARBProc;
 		
 	private:
-		// The vector of VBO records will be maintained in order
-		// of geometry reference, so that search can be faster.
-		CachedVBOVec	mCachedVBOs;
+		CachedVBOVec*	GetVBOVecForMode( GLenum inMode );
+		CachedVBO*		FindVBO( TQ3GeometryObject inGeom, CachedVBOVec& inVBOs );
+		void			FlushUnreferencedInVec( CachedVBOVec& ioVBOs );
+
+		// VBO records will be stored in 3 vectors, one for each of
+		// the modes GL_TRIANGLE_STRIP, GL_TRIANGLES, GL_LINES.
+		// Each vector will be maintained in order of the
+		// geometry reference, so we can use binary search.
+		CachedVBOVec				mCachedVBOs_strips;
+		CachedVBOVec				mCachedVBOs_triangles;
+		CachedVBOVec				mCachedVBOs_lines;
 		
 		CachedVBO					mListOldEnd;
 		CachedVBO					mListNewEnd;
@@ -180,16 +188,12 @@ namespace
 		long long					mMaxBufferBytes;
 	};
 
-	// Comparator for ordering cached VBOs by their mode and geometries
+	// Comparator for ordering cached VBOs by geometries
 	struct VBOLess
 	{
 		bool	operator()( const CachedVBO* inOne, const CachedVBO* inTwo ) const
 				{
-					return (inOne->mGLMode < inTwo->mGLMode) ||
-						(
-							(inOne->mGLMode == inTwo->mGLMode) &&
-							(inOne->mGeomObject.get() < inTwo->mGeomObject.get())
-						);
+					return (inOne->mGeomObject.get() < inTwo->mGeomObject.get());
 				}
 	};
 	
@@ -232,6 +236,60 @@ static VBOCache* GetVBOCache( TQ3GLContext glContext )
 	}
 	
 	return theCache;
+}
+
+static void DeleteCachedVBOs( CachedVBOVec& inVBOs )
+{
+	CachedVBOVec::iterator endIt = inVBOs.end();
+	for (CachedVBOVec::iterator i = inVBOs.begin(); i != endIt; ++i)
+	{
+		delete *i;
+	}
+}
+
+
+/*!
+	@function	FindVBOByGeom
+	@abstract	Look for a VBO record in a sorted vector, matching a geometry.
+	@discussion	One can do this using std::lower_bound, but I wanted to avoid
+				creating and destroying a temporary CachedVBO and some other
+				STL overhead.
+	@param		inVBOs		A vector of CachedVBO*, sorted by geometry.
+	@param		inGeom		A geometry to look for.
+	@result		Iterator pointing to the matching record, or inVBOs.end() if
+				there is no matching record.
+*/
+static CachedVBOVec::iterator FindVBOByGeom( CachedVBOVec& inVBOs, TQ3GeometryObject inGeom )
+{
+	CachedVBOVec::iterator foundIt = inVBOs.end();
+	
+	const CachedVBOVec::size_type kRecordCount = inVBOs.size();
+	if (kRecordCount > 0)
+	{
+		CachedVBO** vboArray = &inVBOs[0];
+		CachedVBOVec::size_type lowIndex = 0;
+		CachedVBOVec::size_type highIndex = lowIndex + kRecordCount - 1;
+		while (lowIndex < highIndex)
+		{
+			CachedVBOVec::size_type mid = (lowIndex + highIndex) / 2;
+			
+			if (vboArray[ mid ]->mGeomObject.get() < inGeom)
+			{
+				lowIndex = mid + 1;
+			}
+			else
+			{
+				highIndex = mid;
+			}
+		}
+		
+		if ( (lowIndex == highIndex) && (vboArray[ lowIndex ]->mGeomObject.get() == inGeom) )
+		{
+			foundIt = inVBOs.begin() + lowIndex;
+		}
+	}
+	
+	return foundIt;
 }
 
 #pragma mark -
@@ -281,10 +339,9 @@ VBOCache::VBOCache()
 
 VBOCache::~VBOCache()
 {
-	for (CachedVBOVec::iterator i = mCachedVBOs.begin(); i != mCachedVBOs.end(); ++i)
-	{
-		delete *i;
-	}
+	DeleteCachedVBOs( mCachedVBOs_strips );
+	DeleteCachedVBOs( mCachedVBOs_triangles );
+	DeleteCachedVBOs( mCachedVBOs_lines );
 }
 
 void		VBOCache::InitProcPtrs()
@@ -308,24 +365,19 @@ void		VBOCache::InitProcPtrs()
 }
 
 
-CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode )
+CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, CachedVBOVec& inVBOs )
 {
 	CachedVBO*	theCachedVBO = NULL;
 	
-	CachedVBO	searchDummy( inGeom, inMode );
+	CachedVBOVec::iterator foundIt = FindVBOByGeom( inVBOs, inGeom );
 	
-	CachedVBOVec::iterator	foundIt = std::lower_bound( mCachedVBOs.begin(),
-		mCachedVBOs.end(), &searchDummy, VBOLess() );
-	
-	if ( (foundIt != mCachedVBOs.end()) &&
-		((*foundIt)->mGeomObject.get() == inGeom) &&
-		((*foundIt)->mGLMode == inMode) )
+	if ( foundIt != inVBOs.end() )
 	{
 		theCachedVBO = *foundIt;
 		
 		if ( (theCachedVBO != NULL) && theCachedVBO->IsStale() )
 		{
-			mCachedVBOs.erase( foundIt );
+			inVBOs.erase( foundIt );
 			
 			DeleteVBO( theCachedVBO );
 			
@@ -336,18 +388,54 @@ CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode )
 	return theCachedVBO;
 }
 
+CachedVBOVec*	VBOCache::GetVBOVecForMode( GLenum inMode )
+{
+	CachedVBOVec* whichVec = NULL;
+	
+	switch (inMode)
+	{
+		case GL_TRIANGLE_STRIP:
+			whichVec = &mCachedVBOs_strips;
+			break;
+			
+		case GL_TRIANGLES:
+			whichVec = &mCachedVBOs_triangles;
+			break;
+			
+		case GL_LINES:
+			whichVec = &mCachedVBOs_lines;
+			break;
+	}
+	
+	return whichVec;
+}
+
+CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode )
+{
+	CachedVBO*	theCachedVBO = NULL;
+	
+	CachedVBOVec* whichVec = GetVBOVecForMode( inMode );
+
+	if (whichVec != NULL)
+	{
+		theCachedVBO = FindVBO( inGeom, *whichVec );
+	}
+	
+	return theCachedVBO;
+}
+
 TQ3Uns32		VBOCache::CountVBOs( TQ3GeometryObject inGeom )
 {
 	TQ3Uns32		refCount = 0;
 	
-	CachedVBO*	aVBO = FindVBO( inGeom, GL_TRIANGLE_STRIP );
+	CachedVBO*	aVBO = FindVBO( inGeom, mCachedVBOs_strips );
 	if (aVBO == NULL)
 	{
-		aVBO = FindVBO( inGeom, GL_TRIANGLES );
+		aVBO = FindVBO( inGeom, mCachedVBOs_triangles );
 	}
 	if (aVBO == NULL)
 	{
-		aVBO = FindVBO( inGeom, GL_LINES );
+		aVBO = FindVBO( inGeom, mCachedVBOs_lines );
 	}
 	
 	if (aVBO != NULL)
@@ -377,18 +465,23 @@ void	VBOCache::RenewInUsageList( CachedVBO* ioVBO )
 
 void	VBOCache::AddVBO( CachedVBO* inVBO )
 {
-	CachedVBOVec::iterator	placeIt = std::lower_bound( mCachedVBOs.begin(),
-		mCachedVBOs.end(), inVBO, VBOLess() );
-
-	mCachedVBOs.insert( placeIt, inVBO );
+	CachedVBOVec* whichVec = GetVBOVecForMode( inVBO->mGLMode );
 	
-	UpdateModeCount( inVBO->mGeomObject.get() );
+	if (whichVec != NULL)
+	{
+		CachedVBOVec::iterator	placeIt = std::lower_bound( whichVec->begin(),
+			whichVec->end(), inVBO, VBOLess() );
 
-	AddToUsageList( inVBO );
+		whichVec->insert( placeIt, inVBO );
+		
+		UpdateModeCount( inVBO->mGeomObject.get() );
 
-	mTotalBytes += inVBO->mBufferBytes;
-	
-	//Q3_MESSAGE_FMT("VBO cache size: %lld", mTotalBytes );
+		AddToUsageList( inVBO );
+
+		mTotalBytes += inVBO->mBufferBytes;
+		
+		//Q3_MESSAGE_FMT("VBO cache size: %lld", mTotalBytes );
+	}
 }
 
 /*
@@ -401,9 +494,9 @@ void	VBOCache::AddVBO( CachedVBO* inVBO )
 */
 void	VBOCache::UpdateModeCount( TQ3GeometryObject inGeom )
 {
-	CachedVBO*	stripVBO = FindVBO( inGeom, GL_TRIANGLE_STRIP );
-	CachedVBO*	triVBO = FindVBO( inGeom, GL_TRIANGLES );
-	CachedVBO*	lineVBO = FindVBO( inGeom, GL_LINES );
+	CachedVBO*	stripVBO = FindVBO( inGeom, mCachedVBOs_strips );
+	CachedVBO*	triVBO = FindVBO( inGeom, mCachedVBOs_triangles );
+	CachedVBO*	lineVBO = FindVBO( inGeom, mCachedVBOs_lines );
 	
 	TQ3Uns32	modeCount = (stripVBO? 1 : 0) + (triVBO? 1 : 0) + (lineVBO? 1 : 0);
 	
@@ -477,23 +570,33 @@ void	VBOCache::DeleteVBO( CachedVBO* inCachedVBO )
 	delete inCachedVBO;
 }
 
-void	VBOCache::FlushUnreferenced()
+void	VBOCache::FlushUnreferencedInVec( CachedVBOVec& ioVBOs )
 {
 	// Move unreferenced VBOs to end of list
 	CachedVBOVec::iterator startUnused = std::stable_partition(
-		mCachedVBOs.begin(), mCachedVBOs.end(), IsReferenced() );
+		ioVBOs.begin(), ioVBOs.end(), IsReferenced() );
 	
-	// Make a copy of the records that will go away
-	CachedVBOVec	doomedVBOs( startUnused, mCachedVBOs.end() );
-	
-	// Remove them from the normal array
-	mCachedVBOs.erase( startUnused, mCachedVBOs.end() );
-
-	// Delete the buffers for the VBO records that are going away
-	for (CachedVBOVec::iterator i = doomedVBOs.begin(); i != doomedVBOs.end(); ++i)
+	if (startUnused != ioVBOs.end())
 	{
-		DeleteVBO( *i );
+		// Make a copy of the records that will go away
+		CachedVBOVec	doomedVBOs( startUnused, ioVBOs.end() );
+		
+		// Remove them from the normal array
+		ioVBOs.erase( startUnused, ioVBOs.end() );
+
+		// Delete the buffers for the VBO records that are going away
+		for (CachedVBOVec::iterator i = doomedVBOs.begin(); i != doomedVBOs.end(); ++i)
+		{
+			DeleteVBO( *i );
+		}
 	}
+}
+
+void	VBOCache::FlushUnreferenced()
+{
+	FlushUnreferencedInVec( mCachedVBOs_strips );
+	FlushUnreferencedInVec( mCachedVBOs_triangles );
+	FlushUnreferencedInVec( mCachedVBOs_lines );
 }
 
 void	VBOCache::PurgeDownToSize( long long inTargetSize )
@@ -504,12 +607,14 @@ void	VBOCache::PurgeDownToSize( long long inTargetSize )
 		CachedVBO* oldestVBO = mListOldEnd.mNext;
 		
 		// Remove it from the sorted vector
-		CachedVBOVec::iterator	foundIt = std::lower_bound( mCachedVBOs.begin(),
-			mCachedVBOs.end(), oldestVBO, VBOLess() );
-		if ( (foundIt != mCachedVBOs.end()) &&
+		CachedVBOVec* whichVec = GetVBOVecForMode( oldestVBO->mGLMode );
+		
+		CachedVBOVec::iterator	foundIt = std::lower_bound( whichVec->begin(),
+			whichVec->end(), oldestVBO, VBOLess() );
+		if ( (foundIt != whichVec->end()) &&
 			((*foundIt)->mGeomObject.get() == oldestVBO->mGeomObject.get()) )
 		{
-			mCachedVBOs.erase( foundIt );
+			whichVec->erase( foundIt );
 		}
 		
 		// Remove the VBO, remove the record from the doubly-linked list, and
