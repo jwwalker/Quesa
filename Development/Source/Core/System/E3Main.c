@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1205,7 +1205,7 @@ E3Object_CleanDispose(TQ3Object *theObject)
 	// If we have an object, dispose of it and clear the pointer
 	if (theObject != NULL && *theObject != NULL)
 		{
-		qd3dStatus = Q3Object_Dispose(*theObject);
+		qd3dStatus = (*theObject)->Dispose();
 		*theObject = NULL;
 		}
 	else

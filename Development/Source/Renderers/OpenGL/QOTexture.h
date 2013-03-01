@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -105,6 +105,13 @@ public:
 	void					SetCurrentTexture(
 									TQ3TextureObject inTexture,
 									TQ3ShaderObject inShader );
+
+	/*!
+		@function			HandlePendingTextureRemoval
+		@abstract			If there should be no active texture, tell OpenGL
+							about it, just in time for rendering.
+	*/
+	void					HandlePendingTextureRemoval();
 	
 	/*!
 		@function			IsTextureActive
@@ -169,6 +176,7 @@ private:
 	TextureState			mState;
 	std::vector<TQ3Uns8>	mSrcImageData;
 	std::vector<GLubyte>	mGLFormatWork;
+	bool					mPendingTextureRemoval;
 };
 
 }

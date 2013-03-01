@@ -443,6 +443,10 @@ void	QORenderer::Renderer::HandleGeometryAttributes(
 		}
 	}
 	
+	// When texturing is turned off, we handle it just in time
+	mTextures.HandlePendingTextureRemoval();
+	mPPLighting.UpdateTexture( mTextures.IsTextureActive() );
+	
 	// update specular and emissive materials in OpenGL
 	UpdateSpecularMaterial();
 	UpdateEmissiveMaterial();
