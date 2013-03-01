@@ -520,7 +520,11 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	if (mGLExtensions.vertexBufferObjects == kQ3True)
 	{
 		FlushVBOCache( mGLContext );
-		ShadowVolMgr::Flush( mGLContext, mRendererObject );
+		
+		if ( mLights.IsShadowFrame() && mLights.IsLastLightingPass() )
+		{
+			ShadowVolMgr::Flush( mGLContext, mRendererObject );
+		}
 	}
 	FlushDisplayListCache( mGLContext );
 
