@@ -174,6 +174,7 @@ Texture::Texture(
 	, mGLContext( inGLContext )
 	, mGLExtensions( inExtensions )
 	, mTextureCache( NULL )
+	, mPendingTextureRemoval( true )
 {
 	mState.Reset();
 }
@@ -322,6 +323,7 @@ const Texture::TextureState&		Texture::GetTextureState() const
 void	Texture::StartPass()
 {
 	mState.Reset();
+	mPendingTextureRemoval = true;
 }
 
 
@@ -357,6 +359,26 @@ TQ3CachedTexturePtr		Texture::CacheTexture( TQ3TextureObject inTexture )
 	return cacheRec;
 }
 
+/*!
+	@function			HandlePendingTextureRemoval
+	@abstract			If there should be no active texture, tell OpenGL
+						about it, just in time for rendering.
+*/
+void	Texture::HandlePendingTextureRemoval()
+{
+	if (mPendingTextureRemoval)
+	{
+		GLDrawContext_SetCurrent( mGLContext, kQ3False );
+		
+		glDisable( GL_TEXTURE_2D );
+		glDisable( GL_ALPHA_TEST );
+		glBindTexture( GL_TEXTURE_2D, 0 );
+		glMatrixMode( GL_TEXTURE );
+		glLoadIdentity();
+		
+		mPendingTextureRemoval = false;
+	}
+}
 
 /*!
 	@function			SetCurrentTexture
@@ -366,22 +388,17 @@ void	Texture::SetCurrentTexture(
 								TQ3TextureObject inTexture,
 								TQ3ShaderObject inShader )
 {
-	// Activate our context
-	GLDrawContext_SetCurrent( mGLContext, kQ3False );
-	
-	
 	if (inTexture == NULL)	// disable texturing
 	{
-		glDisable( GL_TEXTURE_2D );
-		glDisable( GL_ALPHA_TEST );
-		glBindTexture( GL_TEXTURE_2D, 0 );
-		glMatrixMode( GL_TEXTURE );
-		glLoadIdentity();
-		
 		mState.mIsTextureActive = false;
+		mPendingTextureRemoval = true;
 	}
 	else	// enable texturing
 	{
+		// Activate our context
+		GLDrawContext_SetCurrent( mGLContext, kQ3False );
+	
+	
 		// Put it in the cache if need be
 		TQ3CachedTexturePtr	cachedTexture = GLTextureMgr_FindCachedTexture(
 			mTextureCache, inTexture );
@@ -410,6 +427,7 @@ void	Texture::SetCurrentTexture(
 			glBindTexture( GL_TEXTURE_2D, mState.mGLTextureObject );
 			
 			SetOpenGLTexturingParameters();
+			mPendingTextureRemoval = false;
 		}
 	}
 }
