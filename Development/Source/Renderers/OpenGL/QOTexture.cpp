@@ -64,6 +64,7 @@ using namespace QORenderer;
 #endif
 
 
+
 //=============================================================================
 //      Local functions
 //-----------------------------------------------------------------------------
@@ -388,9 +389,9 @@ void	Texture::HandlePendingTextureRemoval()
 		glMatrixMode( GL_TEXTURE );
 		glLoadIdentity();
 		
-		(*mGLActiveTexture)( GL_TEXTURE1 );
+		(*mGLActiveTexture)( GL_TEXTURE1_ARB );
 		glBindTexture( GL_TEXTURE_2D, 0 );
-		(*mGLActiveTexture)( GL_TEXTURE0 );
+		(*mGLActiveTexture)( GL_TEXTURE0_ARB );
 		
 		mPendingTextureRemoval = false;
 	}
@@ -468,20 +469,20 @@ void	Texture::SetSpecularMap( TQ3ShaderObject inShader )
 				mTextureCache, shininessTexture.get() );
 			if (cachedTexture == NULL)
 			{
-				(*mGLActiveTexture)( GL_TEXTURE1 );
+				(*mGLActiveTexture)( GL_TEXTURE1_ARB );
 				cachedTexture = CacheTexture( shininessTexture.get() );
 			}
 			if (cachedTexture != NULL)
 			{
 				GLuint textureName = GLTextureMgr_GetOpenGLTexture( cachedTexture );
-				(*mGLActiveTexture)( GL_TEXTURE1 );
+				(*mGLActiveTexture)( GL_TEXTURE1_ARB );
 				// Note: a fragment shader can ignore the enabled state of a
 				// texture unit.  We disable this one in case per-pixel lighting
 				// is not running, so as not to disrupt the fixed-function pipeline.
 				glDisable( GL_TEXTURE_2D );
 				glBindTexture( GL_TEXTURE_2D, textureName );
 				SetOpenGLTexturingParameters();
-				(*mGLActiveTexture)( GL_TEXTURE0 );
+				(*mGLActiveTexture)( GL_TEXTURE0_ARB );
 				hasSpecularMap = true;
 			}
 		}
