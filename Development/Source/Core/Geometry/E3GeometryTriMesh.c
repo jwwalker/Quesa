@@ -644,9 +644,11 @@ e3geom_trimesh_new(TQ3Object theObject, void *privateData, const void *paramData
 	}
 	
 	if (qd3dStatus == kQ3Success)
+	{
 		e3geom_trimesh_optimize(&instanceData->geomData);
+	}
 
-	return(qd3dStatus);
+	return qd3dStatus;
 }
 
 
@@ -1683,11 +1685,13 @@ E3TriMesh_SetData(TQ3GeometryObject theTriMesh, const TQ3TriMeshData *triMeshDat
 	}
 	
 	if ( qd3dStatus != kQ3Failure )
-		e3geom_trimesh_optimize ( & triMesh->instanceData.geomData ) ;
+	{
+		e3geom_trimesh_optimize( & triMesh->instanceData.geomData );
+	}
 
-	Q3Shared_Edited ( triMesh ) ;
+	Q3Shared_Edited ( triMesh );
 
-	return qd3dStatus ;
+	return qd3dStatus;
 	}
 
 
