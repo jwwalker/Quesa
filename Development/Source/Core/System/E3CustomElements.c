@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -136,8 +136,19 @@ public :
 
 	TQ3Float32								instanceData ;
 	} ;
-	
 
+
+
+class E3SpecularElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementSpecularMap, E3SpecularElement, E3Element )
+public :
+
+	TQ3TextureObject							instanceData ;
+	} ;
 
 
 
@@ -957,6 +968,134 @@ e3alphatestelement_metahandler(TQ3XMethodType methodType)
 	return theMethod;
 }
 
+#pragma mark -
+
+static TQ3Status
+SpecularElement_delete( TQ3TextureObject *textureOb )
+{
+	if (*textureOb != NULL)
+	{
+		Q3_ASSERT( (*textureOb != NULL) && (*textureOb)->IsObjectValid() );
+		Q3Object_Dispose(*textureOb);
+		*textureOb = NULL;
+	}
+
+	return kQ3Success;
+}
+
+static TQ3Status
+SpecularElement_CopyAdd( const TQ3TextureObject* inFromAPIElement,
+						TQ3TextureObject* ioToInternal )
+{
+	*ioToInternal = Q3Shared_GetReference( *inFromAPIElement );
+	
+	return (*ioToInternal != NULL) ? kQ3Success : kQ3Failure;
+}
+
+static TQ3Status
+SpecularElement_CopyReplace( const TQ3TextureObject* inFromAPIElement,
+							TQ3TextureObject* ioToInternal )
+{
+	if (*ioToInternal != NULL)
+	{
+		Q3_ASSERT( (*ioToInternal)->IsObjectValid() );
+		Q3Object_Dispose( *ioToInternal );
+	}
+	*ioToInternal = Q3Shared_GetReference( *inFromAPIElement );
+	
+	return (*ioToInternal != NULL) ? kQ3Success : kQ3Failure;
+}
+
+static TQ3Status
+SpecularElement_CopyGet( const TQ3TextureObject* inFromInternal,
+	TQ3TextureObject* ioToExternal )
+{
+	*ioToExternal = Q3Shared_GetReference( *inFromInternal );
+	return kQ3Success;
+}
+
+static TQ3Status
+SpecularElement_CopyDuplicate( TQ3TextureObject *source, TQ3TextureObject *dest )
+{
+	*dest = Q3Object_Duplicate(*source);
+
+	return (*dest != NULL) ? kQ3Success : kQ3Failure;
+}
+
+static TQ3Status
+SpecularElement_traverse( TQ3Object object, TQ3TextureObject *texture, TQ3ViewObject view )
+{
+#pragma unused(object)
+
+	if (texture == NULL || *texture == NULL)
+		return kQ3Success;
+
+	// No immediate data
+	if (Q3XView_SubmitWriteData(view, 0, NULL, NULL) == kQ3Failure)
+		return kQ3Failure;
+
+	// submit child object
+	return Q3Object_Submit(*texture, view);
+}
+
+static TQ3Status
+SpecularElement_readdata( TQ3Object parentObject, TQ3FileObject file )
+{
+	TQ3TextureObject	texture;
+
+	texture = Q3File_ReadObject(file);
+	if (texture == NULL) 
+		return kQ3Failure;
+
+	E3SpecularMapElement_Set( parentObject, texture );
+	Q3Object_Dispose(texture);
+	
+	return kQ3Success;
+}
+
+static TQ3XFunctionPointer SpecularMetaHandler( TQ3XMethodType methodType )
+{
+	TQ3XFunctionPointer		theMethod = NULL;
+	
+	switch (methodType)
+	{
+		case kQ3XMethodTypeElementCopyAdd:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyAdd;
+			break;
+
+		case kQ3XMethodTypeElementCopyReplace:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyReplace;
+			break;
+
+		case kQ3XMethodTypeElementCopyGet:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyGet;
+			break;
+
+		case kQ3XMethodTypeElementCopyDuplicate:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyDuplicate;
+			break;
+
+		case kQ3XMethodTypeElementDelete:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_delete;
+			break;
+
+		case kQ3XMethodTypeObjectClassVersion:
+			theMethod = (TQ3XFunctionPointer)0x01008000;
+			break;
+
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_traverse;
+			break;
+
+		case kQ3XMethodTypeObjectReadData:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_readdata;
+			break;
+
+	}
+	
+	return theMethod;
+}
+
 
 //=============================================================================
 //      Public functions
@@ -1016,6 +1155,13 @@ E3CustomElements_RegisterClass(void)
 					e3alphatestelement_metahandler,
 					E3TextureAlphaTestElement );
 
+	if (qd3dStatus == kQ3Success)
+	{
+		qd3dStatus = Q3_REGISTER_CLASS(
+					kQ3ClassNameCustomElementSpecularMap,
+					SpecularMetaHandler,
+					E3SpecularElement );
+	}
 
 	return(qd3dStatus);
 }
@@ -1042,6 +1188,7 @@ E3CustomElements_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementUrl,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ElementTypeTextureShaderAlphaTest,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementSpecularMap,  kQ3True);
 
 	return(kQ3Success);
 }
@@ -1058,7 +1205,6 @@ E3CustomElements_UnregisterClass(void)
 //		Note :	Passing NULL for the name parameter removes the Name Element
 //				from the object, if one is present.
 //-----------------------------------------------------------------------------
-#pragma mark -
 TQ3Status
 E3NameElement_SetData(TQ3Object object, const char *name)
 {
@@ -1103,7 +1249,7 @@ E3NameElement_GetData(TQ3Object object, char **name)
 	
 	if (Q3Object_ContainsElement(object, kQ3ObjectTypeCustomElementName)) {
 	
-		status = Q3Object_GetElement(object, kQ3ObjectTypeCustomElementName, (TQ3StringObject)&string);
+		status = Q3Object_GetElement(object, kQ3ObjectTypeCustomElementName, &string);
 		if (status == kQ3Failure)
 			return status;
 			
@@ -1463,3 +1609,43 @@ void		E3TriangleStripElement_Remove( TQ3Object ioObject )
 {
 	Q3Object_ClearElement( ioObject, sTriangleStripElementType );
 }
+
+
+#pragma mark -
+
+
+/*!
+	@function	E3SpecularMapElement_Copy
+	@abstract	Retrieve a specular map texture from an object.
+	@param		shader		An object, normally a surface shader.
+	@result		A new reference to a texture, or NULL.
+*/
+TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader )
+{
+	TQ3TextureObject theTexture;
+	TQ3Status status = Q3Object_GetElement( shader, kQ3ObjectTypeCustomElementSpecularMap, &theTexture );
+	if (status == kQ3Failure)
+	{
+		theTexture = NULL;
+	}
+	return theTexture;
+}
+
+/*!
+	@function	E3SpecularMapElement_Set
+	@abstract	Set or remove a specular map.
+	@param		shader		A surface shader.
+	@param		texture		A texture object, or NULL to remove.
+*/
+void	E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture )
+{
+	if (texture == NULL)
+	{
+		Q3Object_ClearElement( shader, kQ3ObjectTypeCustomElementSpecularMap );
+	}
+	else
+	{
+		Q3Object_AddElement( shader, kQ3ObjectTypeCustomElementSpecularMap, &texture );
+	}
+}
+

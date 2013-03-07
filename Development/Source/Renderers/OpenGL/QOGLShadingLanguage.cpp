@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,6 +48,7 @@
 #include "GLUtils.h"
 #include "E3Prefix.h"
 #include "QuesaRenderer.h"
+#include "QOTexture.h"
 
 #include <cstring>
 #include <string>
@@ -92,7 +93,7 @@ namespace
 				"	gl_Position = ftransform();\n"
 				
 				// Use secondary color to let the fragment shader tell back from
-				// front.  See comments under kMainFragmentShaderStartSource.
+				// front.  See comments under kMainFragmentShaderStartSmooth.
 				"	gl_FrontSecondaryColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
 				"	gl_BackSecondaryColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
 				"}\n";
@@ -114,9 +115,13 @@ namespace
 				// Hot angles, cutoff angles for spot lights (in radians)
 				"uniform float hotAngle[gl_MaxLights];\n"
 				"uniform float cutoffAngle[gl_MaxLights];\n"
+				
+				// Specular map flag
+				"uniform bool isUsingSpecularMap;\n"
 
-				// Sampler for texture unit 0
-				"uniform sampler2D tex0;\n\n"
+				// Samplers for texture units
+				"uniform sampler2D tex0;\n"
+				"uniform sampler2D tex1;\n\n"
 				;
 	
 	#pragma mark kFragmentShaderQuantizeFuncs_Normal
@@ -172,7 +177,7 @@ namespace
 				
 				"	float nDotHV = max( 0.0, \n"
 				"		dot( normal, gl_LightSource[LIGHT_INDEX].halfVector.xyz ) );\n"
-				"	float pf = (nDotVP > 0.0)? pow( nDotHV, gl_FrontMaterial.shininess ) : 0.0;\n"
+				"	float pf = (nDotVP > 0.0)? pow( nDotHV, specularExp ) : 0.0;\n"
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf);\n"
 				"}\n\n";
 
@@ -262,7 +267,7 @@ namespace
 				"	if (nDotGeomToLight == 0.0)\n"
 				"		pf = 0.0;\n"
 				"	else\n"
-				"		pf = pow( nDotHalf, gl_FrontMaterial.shininess );\n\n"
+				"		pf = pow( nDotHalf, specularExp );\n\n"
 
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
 				"}\n\n";
@@ -331,13 +336,13 @@ namespace
 				"	if (nDotGeomToLight == 0.0)\n"
 				"		pf = 0.0;\n"
 				"	else\n"
-				"		pf = pow( nDotHalf, gl_FrontMaterial.shininess );\n\n"
+				"		pf = pow( nDotHalf, specularExp );\n\n"
 
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
 				"}\n\n";
 
-	#pragma mark kMainFragmentShaderStartSmooth
-	const char* kMainFragmentShaderStartSmooth =
+	#pragma mark kMainFragmentShaderStart
+	const char* kMainFragmentShaderStart =
 				"void main()\n"
 				"{\n"
 					// Color components of light, lights will add to these.
@@ -347,7 +352,14 @@ namespace
 					// Color of fragment, to be determined later.
 				"	vec3	color;\n"
 				"	float	alpha;\n"
+				
+					// Specular exponent
+				"	float specularExp = isUsingSpecularMap?\n"
+				"		texture2D( tex1, gl_TexCoord[0].st ).a * 128.0 :\n"
+				"		gl_FrontMaterial.shininess;\n\n";
 
+	#pragma mark kMainFragmentShaderStartSmooth
+	const char* kMainFragmentShaderStartSmooth =
 					// Eye coordinate normal vector.  Even if the vertex normals were normalized
 					// and the modelview matrix has no scaling, we would still have to normalize
 					// here due to interpolation.
@@ -377,16 +389,6 @@ namespace
 	
 	#pragma mark kMainFragmentShaderStartFlat
 	const char* kMainFragmentShaderStartFlat =
-				"void main()\n"
-				"{\n"
-					// Color components of light, lights will add to these.
-				"	vec3		diff = vec3(0.0);\n"
-				"	vec3		spec = vec3(0.0);\n"
-				
-					// Color of fragment, to be determined later.
-				"	vec3	color;\n"
-				"	float	alpha;\n"
-
 					// Face normal vector for flat shading.
 					// If we could assume GLSL 1.30 or EXT_gpu_shader4, this
 					// could be done in a less tricky way, using the "flat"
@@ -402,11 +404,13 @@ namespace
 		
 		// Between part 1 and part 2, we will insert some light shader calls.
 
+	#pragma mark kColorCompForNULLIllumination
 	const char* kColorCompForNULLIllumination =
 				"	color = gl_Color.rgb + gl_FrontMaterial.emission.rgb;\n"
 				"	alpha = gl_Color.a;\n"
 				;
 
+	#pragma mark kColorCompForLambertAndPhong
 	const char* kColorCompForLambertAndPhong =
 					// Start with emissive and global ambient color.
 					// I will assume that the only ambient light is global.
@@ -419,6 +423,7 @@ namespace
 				"	alpha = gl_Color.a;\n"
 				;
 
+	#pragma mark kColorCompForLambertAndPhong_Cartoonish
 	const char* kColorCompForLambertAndPhong_Cartoonish =
 					// Start with emissive and global ambient color.
 					// I will assume that the only ambient light is global.
@@ -441,6 +446,7 @@ namespace
 				"	alpha = gl_Color.a;\n"
 				;
 
+	#pragma mark kTexturedColorComp
 	const char* kTexturedColorComp =
 					// Texturing, GL_MODULATE mode
 				"	{\n"
@@ -449,11 +455,15 @@ namespace
 				"		alpha *= texColor.a;\n"
 				"	}\n"
 				;
-
+	
+	#pragma mark kAddSpecularColor
 	const char* kAddSpecularColor =
 					// Add specular color.  This is done after texturing, as with
 					// separate specular color.
-				"	color += spec * gl_FrontMaterial.specular.rgb;\n"
+				"	vec3 specMat = isUsingSpecularMap?\n"
+				"		texture2D( tex1, gl_TexCoord[0].st ).rgb :\n"
+				"		gl_FrontMaterial.specular.rgb;\n"
+				"	color += spec * specMat;\n"
 				;
 
 	const char* kAddFogLinear =
@@ -485,7 +495,9 @@ namespace
 				"}\n";
 	
 					
-	const char*	kTextureUnitUniformName			= "tex0";
+	const char*	kTextureUnit0UniformName		= "tex0";
+	const char*	kTextureUnit1UniformName		= "tex1";
+	const char* kSpecularMapFlagUniformName	= "isUsingSpecularMap";
 	const char*	kQuantizationUniformName		= "quantization";
 	const char*	kLightNearEdgeUniformName		= "lightNearEdge";
 	const char* kSpotHotAngleUniformName		= "hotAngle";
@@ -633,11 +645,13 @@ QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 	, mIsCartoonish( inOther.mIsCartoonish )
 	, mFogState( inOther.mFogState )
 	, mFogMode( inOther.mFogMode )
-	, mTextureUnitUniformLoc( inOther.mTextureUnitUniformLoc )
+	, mTextureUnit0UniformLoc( inOther.mTextureUnit0UniformLoc )
+	, mTextureUnit1UniformLoc( inOther.mTextureUnit1UniformLoc )
 	, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
 	, mLightNearEdgeUniformLoc( inOther.mLightNearEdgeUniformLoc )
 	, mSpotHotAngleUniformLoc( inOther.mSpotHotAngleUniformLoc )
 	, mSpotCutoffAngleUniformLoc( inOther.mSpotCutoffAngleUniformLoc )
+	, mIsSpecularMappingUniformLoc( inOther.mIsSpecularMappingUniformLoc )
 {}
 
 void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
@@ -651,11 +665,13 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	std::swap( mIsCartoonish, ioOther.mIsCartoonish );
 	std::swap( mFogState, ioOther.mFogState );
 	std::swap( mFogMode, ioOther.mFogMode );
-	std::swap( mTextureUnitUniformLoc, ioOther.mTextureUnitUniformLoc );
+	std::swap( mTextureUnit0UniformLoc, ioOther.mTextureUnit0UniformLoc );
+	std::swap( mTextureUnit1UniformLoc, ioOther.mTextureUnit1UniformLoc );
 	std::swap( mQuantizationUniformLoc, ioOther.mQuantizationUniformLoc );
 	std::swap( mLightNearEdgeUniformLoc, ioOther.mLightNearEdgeUniformLoc );
 	std::swap( mSpotHotAngleUniformLoc, ioOther.mSpotHotAngleUniformLoc );
 	std::swap( mSpotCutoffAngleUniformLoc, ioOther.mSpotCutoffAngleUniformLoc );
+	std::swap( mIsSpecularMappingUniformLoc, ioOther.mIsSpecularMappingUniformLoc );
 }
 
 QORenderer::ProgramRec&
@@ -701,6 +717,7 @@ void	QORenderer::GLSLFuncs::SetNULL()
 	glGetProgramiv = NULL;
 	glUseProgram = NULL;
 	glGetUniformLocation = NULL;
+	glUniform1i = NULL;
 	glUniform1f = NULL;
 	glUniform1fv = NULL;
 	glDeleteShader = NULL;
@@ -724,6 +741,7 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glGetProgramiv, "glGetProgramiv", "glGetObjectParameterivARB" );
 		GLGetProcAddress( glUseProgram, "glUseProgram", "glUseProgramObjectARB" );
 		GLGetProcAddress( glGetUniformLocation, "glGetUniformLocation", "glGetUniformLocationARB" );
+		GLGetProcAddress( glUniform1i, "glUniform1i", "glUniform1iARB" );
 		GLGetProcAddress( glUniform1f, "glUniform1f", "glUniform1fARB" );
 		GLGetProcAddress( glUniform1fv, "glUniform1fv", "glUniform1fvARB" );
 		GLGetProcAddress( glDeleteShader, "glDeleteShader", "glDeleteObjectARB" );
@@ -741,6 +759,7 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 			(glGetProgramiv == NULL) ||
 			(glUseProgram == NULL) ||
 			(glGetUniformLocation == NULL) ||
+			(glUniform1i == NULL) ||
 			(glUniform1f == NULL) ||
 			(glUniform1fv == NULL) ||
 			(glDeleteShader == NULL) ||
@@ -774,6 +793,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mFogState( kQ3Off )
 	, mFogMode( kQ3FogModeAlpha )
 	, mIsTextured( false )
+	, mIsSpecularMapped( false )
 	, mVertexShaderID( 0 )
 	, mQuantization( 0.0f )
 	, mLightNearEdge( 1.0f )
@@ -907,6 +927,8 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 			}
 		}
 	}
+	
+	outSource.push_back( kMainFragmentShaderStart );
 	
 	if (inProgramRec.mInterpolationStyle == kQ3InterpolationStyleNone)
 	{
@@ -1156,7 +1178,7 @@ void	QORenderer::PerPixelLighting::StartPass()
 */
 void	QORenderer::PerPixelLighting::ChooseProgram()
 {
-	if (mIsShading && mMayNeedProgramChange)
+	if (mMayNeedProgramChange)
 	{
 		mMayNeedProgramChange = false;
 
@@ -1189,6 +1211,10 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 				SetUniformValues( *foundProg );
 			}
 			foundProg->mAgeCounter = 0;
+			
+			// Even if we didn't change the program, we need to update the
+			// specular mapping uniform.
+			mFuncs.glUniform1i( foundProg->mIsSpecularMappingUniformLoc, mIsSpecularMapped );
 		}
 	}
 }
@@ -1199,6 +1225,10 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 */
 void	QORenderer::PerPixelLighting::SetUniformValues( ProgramRec& ioProgram )
 {
+	// Set texture units.
+	mFuncs.glUniform1i( ioProgram.mTextureUnit0UniformLoc, 0 );
+	mFuncs.glUniform1i( ioProgram.mTextureUnit1UniformLoc, 1 );
+
 	// Set the quantization uniform variables.
 	mFuncs.glUniform1f( ioProgram.mQuantizationUniformLoc, mQuantization );
 	CHECK_GL_ERROR;
@@ -1249,8 +1279,14 @@ void	QORenderer::PerPixelLighting::EndPass()
 
 void	QORenderer::PerPixelLighting::InitUniformLocations( ProgramRec& ioProgram )
 {
-	ioProgram.mTextureUnitUniformLoc = mFuncs.glGetUniformLocation(
-		ioProgram.mProgram, kTextureUnitUniformName );
+	ioProgram.mTextureUnit0UniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kTextureUnit0UniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mTextureUnit1UniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kTextureUnit1UniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mIsSpecularMappingUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kSpecularMapFlagUniformName );
 	CHECK_GL_ERROR;
 	ioProgram.mQuantizationUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kQuantizationUniformName );
@@ -1596,6 +1632,24 @@ void	QORenderer::PerPixelLighting::UpdateTexture( bool inTexturing  )
 		}
 	}
 }
+
+/*!
+	@function	UpdateSpecularMapping
+	@abstract	Notification that there has been a change in whether we are using
+				a shininess (specular) map.
+*/
+void	QORenderer::PerPixelLighting::UpdateSpecularMapping( bool inSpecularMapped )
+{
+	if (mIsShading)
+	{
+		if (inSpecularMapped != mIsSpecularMapped)
+		{
+			mIsSpecularMapped = inSpecularMapped;
+			mMayNeedProgramChange = true;
+		}
+	}
+}
+
 
 /*!
 	@function	PreGeomSubmit

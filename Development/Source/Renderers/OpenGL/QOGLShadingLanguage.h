@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -142,11 +142,13 @@ struct ProgramRec
 	TQ3Switch		mFogState;
 	TQ3FogMode		mFogMode;
 	
-	GLint			mTextureUnitUniformLoc;
+	GLint			mTextureUnit0UniformLoc;
+	GLint			mTextureUnit1UniformLoc;
 	GLint			mQuantizationUniformLoc;
 	GLint			mLightNearEdgeUniformLoc;
 	GLint			mSpotHotAngleUniformLoc;
 	GLint			mSpotCutoffAngleUniformLoc;
+	GLint			mIsSpecularMappingUniformLoc;
 };
 
 typedef	std::vector<ProgramRec>		ProgramVec;
@@ -213,6 +215,7 @@ struct GLSLFuncs
 	glGetProgramivProc			glGetProgramiv;
 	glUseProgramProc			glUseProgram;
 	glGetUniformLocationProc	glGetUniformLocation;
+	glUniform1iProc				glUniform1i;
 	glUniform1fProc				glUniform1f;
 	glUniform1fvProc			glUniform1fv;
 	glDeleteShaderProc			glDeleteShader;
@@ -314,6 +317,13 @@ public:
 	void						UpdateTexture( bool inTexturing );
 	
 	/*!
+		@function	UpdateSpecularMapping
+		@abstract	Notification that there has been a change in whether we are using
+					a shininess (specular) map.
+	*/
+	void						UpdateSpecularMapping( bool inSpecularMapped );
+	
+	/*!
 		@function	UpdateLighting
 		@abstract	Notification that there has been a change in which OpenGL
 					lights are on.
@@ -349,6 +359,7 @@ private:
 	TQ3Switch					mFogState;
 	TQ3FogMode					mFogMode;
 	bool						mIsTextured;
+	bool						mIsSpecularMapped;
 	GLuint						mVertexShaderID;
 	TQ3Float32					mQuantization;
 	TQ3Float32					mLightNearEdge;

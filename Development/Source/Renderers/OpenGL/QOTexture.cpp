@@ -50,10 +50,18 @@
 #include "GLTextureLoader.h"
 #include "GLUtils.h"
 #include "E3Shader.h"
+#include "QuesaCustomElements.h"
+#include "QOGLShadingLanguage.h"
 
 #include <algorithm>
 
 using namespace QORenderer;
+
+// In lieu of glext.h
+#ifndef GL_ARB_multitexture
+	#define GL_TEXTURE0_ARB                   0x84C0
+	#define GL_TEXTURE1_ARB                   0x84C1
+#endif
 
 
 //=============================================================================
@@ -169,12 +177,15 @@ static bool IsTextureMipmapped( TQ3TextureObject inTexture )
 Texture::Texture(
 									TQ3RendererObject inRenderer,
 									const TQ3GLContext& inGLContext,
-									const TQ3GLExtensions& inExtensions )
+									const TQ3GLExtensions& inExtensions,
+									PerPixelLighting& ioPPLighting )
 	: mRenderer( inRenderer )
 	, mGLContext( inGLContext )
 	, mGLExtensions( inExtensions )
+	, mPPLighting( ioPPLighting )
 	, mTextureCache( NULL )
 	, mPendingTextureRemoval( true )
+	, mGLActiveTexture( NULL )
 {
 	mState.Reset();
 }
@@ -324,6 +335,7 @@ void	Texture::StartPass()
 {
 	mState.Reset();
 	mPendingTextureRemoval = true;
+	GLGetProcAddress( mGLActiveTexture, "glActiveTexture", "glActiveTextureARB" );
 }
 
 
@@ -375,6 +387,10 @@ void	Texture::HandlePendingTextureRemoval()
 		glBindTexture( GL_TEXTURE_2D, 0 );
 		glMatrixMode( GL_TEXTURE );
 		glLoadIdentity();
+		
+		(*mGLActiveTexture)( GL_TEXTURE1 );
+		glBindTexture( GL_TEXTURE_2D, 0 );
+		(*mGLActiveTexture)( GL_TEXTURE0 );
 		
 		mPendingTextureRemoval = false;
 	}
@@ -428,6 +444,49 @@ void	Texture::SetCurrentTexture(
 			
 			SetOpenGLTexturingParameters();
 			mPendingTextureRemoval = false;
+			SetSpecularMap( inShader );
 		}
 	}
 }
+
+
+
+/*!
+	@function	SetSpecularMap
+	@abstract	If the shader has a Specular map attached to it, set it up
+				as a texture on the second texture unit.
+*/
+void	Texture::SetSpecularMap( TQ3ShaderObject inShader )
+{
+	bool hasSpecularMap = false;
+	if (inShader != NULL)
+	{
+		CQ3ObjectRef shininessTexture( CESpecularMapElement_Copy( inShader ) );
+		if (shininessTexture.isvalid())
+		{
+			TQ3CachedTexturePtr	cachedTexture = GLTextureMgr_FindCachedTexture(
+				mTextureCache, shininessTexture.get() );
+			if (cachedTexture == NULL)
+			{
+				(*mGLActiveTexture)( GL_TEXTURE1 );
+				cachedTexture = CacheTexture( shininessTexture.get() );
+			}
+			if (cachedTexture != NULL)
+			{
+				GLuint textureName = GLTextureMgr_GetOpenGLTexture( cachedTexture );
+				(*mGLActiveTexture)( GL_TEXTURE1 );
+				// Note: a fragment shader can ignore the enabled state of a
+				// texture unit.  We disable this one in case per-pixel lighting
+				// is not running, so as not to disrupt the fixed-function pipeline.
+				glDisable( GL_TEXTURE_2D );
+				glBindTexture( GL_TEXTURE_2D, textureName );
+				SetOpenGLTexturingParameters();
+				(*mGLActiveTexture)( GL_TEXTURE0 );
+				hasSpecularMap = true;
+			}
+		}
+	}
+	
+	mPPLighting.UpdateSpecularMapping( hasSpecularMap );
+}
+

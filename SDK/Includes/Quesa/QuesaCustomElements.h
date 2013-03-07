@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -119,6 +119,15 @@ extern "C" {
 				CETriangleStripElement_SetData, CETriangleStripElement_GetData.
 */
 #define	kQ3ClassNameCustomElementTriangleStrip	"Quesa:TriangleStripElement"
+
+/*!
+	@constant	kQ3ClassNameCustomElementSpecularMap
+	@abstract	Class name of the specular map custom element.
+	@discussion	Ordinarily you will not need to use the class name, because you
+				can get, set, and clear specular maps using the functions
+				CESpecularMapElement_CopyData, CESpecularMapElement_SetData.
+*/
+#define	kQ3ClassNameCustomElementSpecularMap	"Quesa:ShininessElement"
 
 /*!
  *  @enum
@@ -451,6 +460,41 @@ Q3_EXTERN_API_C (void)
 CETriangleStripElement_Remove(
 	TQ3Object ioObject
 );
+
+/*!
+	@functiongroup	Specular Map element
+*/
+
+/*!
+	@function	CESpecularMapElement_Copy
+	@abstract	Retrieve a shininess map texture from an object.
+	@param		inShader	A surface shader.
+	@result		A new reference to a texture, or NULL.
+*/
+Q3_EXTERN_API_C( TQ3TextureObject )
+CESpecularMapElement_Copy( TQ3ShaderObject inShader );
+
+/*!
+	@function	CESpecularMapElement_Set
+	@abstract	Set or remove a shininess map.
+	@discussion	The specular map texture must be an RGBA texture.
+				The RGB part is the specular color, while the alpha
+				channel serves as specular control.  The alpha is not
+				the same as Quesa's usual specular control, since
+				specular control is an unbounded floating-point number,
+				while the alpha value is bounded. To be exact,
+				an alpha value in the range [0.0, 1.0] is multiplied
+				by 128.0 and used as the OpenGL specular exponent.
+				
+				A specular map may only be used with the OpenGL
+				renderer, and requires that per-pixel lighting be
+				enabled.
+	@param		ioShader	A surface shader.
+	@param		inTexture	A texture object, or NULL to remove.
+*/
+Q3_EXTERN_API_C( void )
+CESpecularMapElement_Set( TQ3ShaderObject ioShader, TQ3TextureObject inTexture );
+
 
 // Work around a HeaderDoc bug
 /*!
