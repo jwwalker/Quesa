@@ -5,7 +5,7 @@
         Header file for E3Globals.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -283,6 +283,7 @@ extern "C" {
 #define kQ3ObjectTypeCustomElementName				Q3_OBJECT_TYPE(0xF0, 'e', 'n', 'a')
 #define kQ3ObjectTypeCustomElementUrl				Q3_OBJECT_TYPE(0xF0, 'e', 'u', 'r')
 #define kQ3ObjectTypeCustomElementWire				Q3_OBJECT_TYPE(0xF0, 'e', 'w', 'i')
+#define kQ3ObjectTypeCustomElementSpecularMap		Q3_OBJECT_TYPE(0xF0, 'e', 's', 'm')
 #define kQ3ObjectTypeSetElement						Q3_OBJECT_TYPE('s', 'e', 't', 'e')
 #define kQ3ObjectType3DMF							Q3_OBJECT_TYPE('3', 'D', 'M', 'F')
 

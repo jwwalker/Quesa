@@ -5,7 +5,7 @@
         Header file for E3CustomElements.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -87,6 +87,22 @@ TQ3Status	E3TriangleStripElement_GetData(
 	const TQ3Uns32** outIndices
 );
 void		E3TriangleStripElement_Remove( TQ3Object ioObject );
+
+/*!
+	@function	E3SpecularMapElement_Copy
+	@abstract	Retrieve a specular map texture from an object.
+	@param		shader		An object, normally a surface shader.
+	@result		A new reference to a texture, or NULL.
+*/
+TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader );
+
+/*!
+	@function	E3SpecularMapElement_Set
+	@abstract	Set or remove a specular map.
+	@param		shader		A surface shader.
+	@param		texture		A texture object, or NULL to remove.
+*/
+void				E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture );
 
 
 #if QUESA_SUPPORT_QUICKTIME

@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -561,3 +561,58 @@ CETriangleStripElement_Remove(
 	// Call our implementation
 	E3TriangleStripElement_Remove( ioObject );
 }
+
+#pragma mark -
+
+/*!
+	@function	CESpecularMapElement_Copy
+	@abstract	Retrieve a specular map texture from an object.
+	@param		inShader		An object, normally a surface shader.
+	@result		A new reference to a texture, or NULL.
+*/
+TQ3TextureObject
+CESpecularMapElement_Copy( TQ3ShaderObject inShader )
+{
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(inShader), NULL );
+	Q3_REQUIRE_OR_RESULT( inShader->IsObjectValid(), NULL );
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	TQ3TextureObject theTexture = E3SpecularMapElement_Copy( inShader );
+	return theTexture;
+}
+
+
+
+/*!
+	@function	CESpecularMapElement_Set
+	@abstract	Set or remove a specular map.
+	@discussion	The specular map texture must be an RGBA texture.
+				The RGB part is the specular color, while the alpha
+				channel serves as specular control.  The alpha is not
+				the same as Quesa's usual specular control, since
+				specular control is an unbounded floating-point number,
+				while the alpha value is bounded. To be exact,
+				an alpha value in the range [0.0, 1.0] is multiplied
+				by 128.0 and used as the OpenGL specular exponent.
+				
+				A specular map may only be used with the OpenGL
+				renderer, and requires that per-pixel lighting be
+				enabled.
+	@param		ioShader	A surface shader.
+	@param		inTexture	A texture object, or NULL to remove.
+*/
+void
+CESpecularMapElement_Set( TQ3ShaderObject ioShader, TQ3TextureObject inTexture )
+{
+	Q3_REQUIRE(Q3_VALID_PTR(ioShader));
+	Q3_REQUIRE( ioShader->IsObjectValid () );
+	Q3_REQUIRE( (inTexture == NULL) || inTexture->IsObjectValid () );
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	E3SpecularMapElement_Set( ioShader, inTexture );
+}
+

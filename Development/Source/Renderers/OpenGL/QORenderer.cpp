@@ -159,7 +159,7 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 		mPPLighting, mGLContext, mIsCachingShadows )
 	, mTriBuffer( *this )
 	, mTransBuffer( *this, mPPLighting )
-	, mTextures( mRendererObject, mGLContext, mGLExtensions )
+	, mTextures( mRendererObject, mGLContext, mGLExtensions, mPPLighting )
 {
 	Q3Object_AddElement( mRendererObject, kQ3ElementTypeDepthBits,
 		&kDefaultDepthBits );
