@@ -5,7 +5,7 @@
         Quesa Utility Toolkit - texture utilities.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -553,7 +553,7 @@ QutTexture_CreateTextureFromPixmap(	PixMapHandle	thePixMap,
 
 
 
-
+#if QUESA_SUPPORT_QUICKTIME
 //=============================================================================
 //		QutTexture_CreateCompressedTextureFromPixmap : Create a QD3D compressed
 //													   texture from a Pixmap.
@@ -577,7 +577,7 @@ QutTexture_CreateCompressedTextureFromPixmap(	PixMapHandle	thePixMap,
 	
 	return(theShader) ;
 }
-
+#endif
 
 
 
@@ -640,6 +640,7 @@ QutTexture_CreateTextureFromFile(const FSSpec		*theFSSpec,
 
 
 
+#if QUESA_SUPPORT_QUICKTIME
 //=============================================================================
 //		QutTexture_CreateCompressedTextureFromFile : Create a QD3D compressed
 //													 texture from a file.
@@ -663,6 +664,7 @@ QutTexture_CreateCompressedTextureFromFile(	const FSSpec *	theFSSpec,
 	
 	return(theShader);
 }
+#endif
 
 
 
@@ -821,7 +823,7 @@ QutTexture_CreateTextureObjectFromGWorld(GWorldPtr		theGWorld,
 
 
 
-
+#if QUESA_SUPPORT_QUICKTIME
 //=============================================================================
 //		QutTexture_CreateCompressedTextureObjectFromPixmap : Create a QD3D
 //															 texture.
@@ -864,7 +866,7 @@ QutTexture_CreateCompressedTextureObjectFromPixmap( PixMapHandle sourcePixmap,
 	
 	return(compressedTexture);
 }
-
+#endif
 
 
 
@@ -896,7 +898,7 @@ QutTexture_CreateTextureObjectFromFile(const FSSpec		*theFSSpec,
 
 
 
-
+#if QUESA_SUPPORT_QUICKTIME
 //=============================================================================
 //		QutTexture_CreateCompressedTextureObjectFromFile :	Create a QD3D 
 //															compressed texture.
@@ -928,6 +930,7 @@ QutTexture_CreateCompressedTextureObjectFromFile(
 	
 	return(theTexture);
 }
+#endif
 
 #endif
 
