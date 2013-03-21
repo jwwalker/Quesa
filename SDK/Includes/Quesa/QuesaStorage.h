@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -233,6 +233,33 @@ Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3MemoryStorage_New (
     const unsigned char           *buffer,
     TQ3Uns32                      validSize
+);
+
+
+
+/*!
+	@function	Q3MemoryStorage_NewNoCopy
+	
+	@abstract	Create a memory storage object, taking over ownership of
+				previously allocated memory.
+	
+	@discussion	The buffer you pass in must have been allocated using
+				Q3Memory_Allocate or Q3Memory_AllocateClear.  The storage
+				object will take over responsibility for releasing the
+				buffer when the storage object is disposed or grown,
+				as appropriate.
+
+	@param		buffer		Pointer to a buffer in memory, previously allocated
+							using Q3Memory_Allocate or Q3Memory_AllocateClear.
+	@param		validSize	Number of bytes of data in the buffer.
+	@param		bufferSize	Allocated size of the buffer.
+	@result		The new storage object.
+*/
+Q3_EXTERN_API_C ( TQ3StorageObject  )
+Q3MemoryStorage_NewNoCopy(
+    unsigned char                 *buffer,
+    TQ3Uns32                      validSize,
+    TQ3Uns32                      bufferSize
 );
 
 

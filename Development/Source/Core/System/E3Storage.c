@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -238,22 +238,29 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 	
 	*instanceData = *((const TE3_MemoryStorageData *)paramData);
 
-	if (instanceData->ownBuffer == kQ3True){
+	if (instanceData->ownBuffer == kQ3True)
+	{
 		// called from _New
-		if ( instanceData->buffer != NULL ){
-			// copy the buffer
+		if ( instanceData->buffer != NULL )
+		{
 			Q3_ASSERT(instanceData->bufferSize != 0);
-			passedBuffer = instanceData->buffer;
-			instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate( instanceData->bufferSize ) ;
+			if (instanceData->noCopy == kQ3False)
+			{
+				// copy the buffer
+				passedBuffer = instanceData->buffer;
+				instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate( instanceData->bufferSize ) ;
 
-			if (instanceData->buffer == NULL){
-				return(kQ3Failure);						
+				if (instanceData->buffer == NULL)
+				{
+					return(kQ3Failure);						
 				}
-			Q3Memory_Copy( passedBuffer, instanceData->buffer, instanceData->bufferSize );
-			instanceData->validSize = instanceData->bufferSize;
-			instanceData->growSize = kE3MemoryStorageDefaultGrowSize;
+				Q3Memory_Copy( passedBuffer, instanceData->buffer, instanceData->bufferSize );
+				instanceData->validSize = instanceData->bufferSize;
+				instanceData->growSize = kE3MemoryStorageDefaultGrowSize;
 			}
-		else{
+		}
+		else
+		{
 			// called with buffer == NULL, allocate our own
 			// check validSize parameter
 			if(instanceData->validSize < kE3MemoryStorageMinimumGrowSize){
@@ -272,9 +279,10 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 				return(kQ3Failure);						
 				}
 			instanceData->bufferSize = instanceData->growSize;
-			}
 		}
-	else{
+	}
+	else
+	{
 		// called from _NewBuffer
 		if ( instanceData->buffer == NULL ){
 			// allocate our own
@@ -298,7 +306,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 			instanceData->bufferSize = instanceData->growSize;
 			instanceData->validSize = instanceData->growSize;
 			}
-		}	
+	}	
 
 	return(kQ3Success);
 }
@@ -1061,6 +1069,7 @@ E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize)
 	
 	objectData.buffer = (TQ3Uns8 *)buffer ;
 	objectData.ownBuffer = kQ3True ;
+	objectData.noCopy = kQ3False;
 	objectData.bufferSize = validSize ;
 	objectData.validSize = validSize ;
 	objectData.growSize = kE3MemoryStorageDefaultGrowSize ;
@@ -1071,6 +1080,27 @@ E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize)
 	}
 
 
+
+
+//=============================================================================
+//      E3MemoryStorage_NewNoCopy : Creates a new storage taking ownership of the buffer.
+//-----------------------------------------------------------------------------
+TQ3StorageObject
+E3MemoryStorage_NewNoCopy(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize)
+{
+	TE3_MemoryStorageData	objectData ;
+	
+	objectData.buffer = (TQ3Uns8 *)buffer;
+	objectData.ownBuffer = kQ3True;
+	objectData.noCopy = kQ3True;
+	objectData.bufferSize = bufferSize;
+	objectData.validSize = validSize;
+	objectData.growSize = kE3MemoryStorageDefaultGrowSize;
+
+
+	// Create the object
+	return E3ClassTree::CreateInstance ( kQ3StorageTypeMemory, kQ3False, &objectData );
+}
 
 
 
@@ -1134,6 +1164,7 @@ E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bu
 	
 	objectData.buffer = (TQ3Uns8*) buffer ;
 	objectData.ownBuffer = kQ3False ;
+	objectData.noCopy = kQ3False;
 	objectData.bufferSize = bufferSize ;
 	objectData.validSize = validSize ;
 	objectData.growSize = validSize ;

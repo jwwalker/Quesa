@@ -5,7 +5,7 @@
         Header file for E3Storage.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,6 +69,7 @@ extern "C" {
 typedef struct TE3_MemoryStorageData {
 	TQ3Uns8			*buffer;
 	TQ3Boolean		ownBuffer;
+	TQ3Boolean		noCopy;
 	TQ3Uns32		bufferSize;
 	TQ3Uns32		validSize;
 	TQ3Uns32		growSize;
@@ -188,6 +189,7 @@ TQ3Status			E3Storage_UnregisterClass(void);
 
 TQ3ObjectType		E3MemoryStorage_GetType(TQ3StorageObject storage);
 TQ3StorageObject	E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize);
+TQ3StorageObject	E3MemoryStorage_NewNoCopy(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize);
 TQ3StorageObject	E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize);
 TQ3StorageObject	E3PathStorage_New(const char *pathName);
 TQ3StorageObject	E3FileStreamStorage_New(FILE *stream);
