@@ -27,4 +27,5 @@
 
 
 void	Textify3DMF( const uint8_t* inData,
-					uint32_t inDataLength );
+					uint32_t inDataLength,
+					bool inSkipUnknowns );
