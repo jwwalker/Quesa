@@ -128,9 +128,11 @@
 #include "LightGroup.h"
 #include "InfoGroup.h"
 #include "IOProxyDisplayGroup.h"
+#include "DisplayGroupBBox.h"
 
 #include "CString.h"
 #include "NameElement.h"
+#include "SpecularMapElement.h"
 #include "TableOfContents.h"
 #include "Reference.h"
 
@@ -247,6 +249,7 @@ void	RegisterHandlers( Controller* inController )
 	Register( BeginGroup );
 	Register( EndGroup );
 	Register( DisplayGroupState );
+	Register( DisplayGroupBBox );
 	Register( OrderedDisplayGroup );
 	Register( LightGroup );
 	Register( InfoGroup );
@@ -257,6 +260,7 @@ void	RegisterHandlers( Controller* inController )
 	Register( ImageClearColor );
 	Register( CString );
 	Register( NameElement );
+	Register( SpecularMapElement );
 	Register( TableOfContents );
 	Register( Reference );
 }

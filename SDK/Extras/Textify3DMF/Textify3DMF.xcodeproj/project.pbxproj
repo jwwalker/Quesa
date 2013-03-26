@@ -95,6 +95,8 @@
 		BE03C961153D383F008EF142 /* AmbientCoefficient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE03C960153D383F008EF142 /* AmbientCoefficient.cpp */; };
 		BE03C9BB153E7D4C008EF142 /* Polyhedron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE03C9BA153E7D4C008EF142 /* Polyhedron.cpp */; };
 		BE03CA0D153FCEF0008EF142 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE03CA0C153FCEF0008EF142 /* Mesh.cpp */; };
+		BE1122B41702634F009B685B /* SpecularMapElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1122B31702634F009B685B /* SpecularMapElement.cpp */; };
+		BE1123231702699F009B685B /* DisplayGroupBBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1123221702699F009B685B /* DisplayGroupBBox.cpp */; };
 		BE36E32915217B6400286B2B /* Textify3DMF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E32815217B6400286B2B /* Textify3DMF.cpp */; };
 		BE36E33D15217CAC00286B2B /* Fetch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E33715217CAC00286B2B /* Fetch.cpp */; };
 		BE36E33E15217CAC00286B2B /* FetchBE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E33915217CAC00286B2B /* FetchBE.cpp */; };
@@ -304,6 +306,10 @@
 		BE03C9BA153E7D4C008EF142 /* Polyhedron.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Polyhedron.cpp; path = Source/TypeHandlers/Geometries/Polyhedron.cpp; sourceTree = "<group>"; };
 		BE03CA0B153FCEF0008EF142 /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mesh.h; path = Source/TypeHandlers/Geometries/Mesh.h; sourceTree = "<group>"; };
 		BE03CA0C153FCEF0008EF142 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mesh.cpp; path = Source/TypeHandlers/Geometries/Mesh.cpp; sourceTree = "<group>"; };
+		BE1122B21702634F009B685B /* SpecularMapElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpecularMapElement.h; path = Source/TypeHandlers/Miscellaneous/SpecularMapElement.h; sourceTree = "<group>"; };
+		BE1122B31702634F009B685B /* SpecularMapElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpecularMapElement.cpp; path = Source/TypeHandlers/Miscellaneous/SpecularMapElement.cpp; sourceTree = "<group>"; };
+		BE1123211702699F009B685B /* DisplayGroupBBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayGroupBBox.h; path = Source/TypeHandlers/Groups/DisplayGroupBBox.h; sourceTree = "<group>"; };
+		BE1123221702699F009B685B /* DisplayGroupBBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisplayGroupBBox.cpp; path = Source/TypeHandlers/Groups/DisplayGroupBBox.cpp; sourceTree = "<group>"; };
 		BE36E3191520CC4100286B2B /* Textify-proj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Textify-proj.xcconfig"; sourceTree = "<group>"; };
 		BE36E32715217B6400286B2B /* Textify3DMF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Textify3DMF.h; path = Source/Textify3DMF.h; sourceTree = "<group>"; };
 		BE36E32815217B6400286B2B /* Textify3DMF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Textify3DMF.cpp; path = Source/Textify3DMF.cpp; sourceTree = "<group>"; };
@@ -611,6 +617,8 @@
 				BE03C924153D35F2008EF142 /* LightGroup.h */,
 				BE03C91C153D358D008EF142 /* OrderedDisplayGroup.cpp */,
 				BE03C91B153D358D008EF142 /* OrderedDisplayGroup.h */,
+				BE1123211702699F009B685B /* DisplayGroupBBox.h */,
+				BE1123221702699F009B685B /* DisplayGroupBBox.cpp */,
 			);
 			name = Groups;
 			sourceTree = "<group>";
@@ -675,6 +683,8 @@
 				BE03C1AA15310C54008EF142 /* TableOfContents.cpp */,
 				BE03C25D15323F15008EF142 /* Reference.h */,
 				BE03C25E15323F15008EF142 /* Reference.cpp */,
+				BE1122B21702634F009B685B /* SpecularMapElement.h */,
+				BE1122B31702634F009B685B /* SpecularMapElement.cpp */,
 			);
 			name = Miscellaneous;
 			sourceTree = "<group>";
@@ -866,6 +876,8 @@
 				BED965DE1543D8CA00FCB407 /* OrthographicCamera.cpp in Sources */,
 				BED966011543DA3B00FCB407 /* ViewPlaneCamera.cpp in Sources */,
 				BED0623C156CAF380067EAD9 /* ImageClearColor.cpp in Sources */,
+				BE1122B41702634F009B685B /* SpecularMapElement.cpp in Sources */,
+				BE1123231702699F009B685B /* DisplayGroupBBox.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
