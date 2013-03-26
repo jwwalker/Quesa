@@ -32,6 +32,7 @@
 #include <cstring>
 #include <stdint.h>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -40,20 +41,37 @@ int main (int argc, char * const argv[])
 	if ( argc < 2 )
 	{
 		cerr << "Too few arguments.\n" <<
-					"Textify3DMF path.3dmf\n";
+					"Textify3DMF [--skipUnknowns] path.3dmf\n";
 		return 1;
 	}
-	if ( argc > 2 )
+	if ( argc > 3 )
 	{
 		cerr << "Too many arguments.\n" <<
-					"Textify3DMF path.3dmf\n";
+					"Textify3DMF [--skipUnknowns] path.3dmf\n";
 		return 1;
 	}
+	
+	bool skipUnknowns = false;
+	const char* filePath = argv[1];
+	if (argc == 3)
+	{
+		if (std::string(argv[1]) == "--skipUnknowns")
+		{
+			skipUnknowns = true;
+			filePath = argv[2];
+		}
+		else
+		{
+			cerr << "Bad arguments.\n" <<
+					"Textify3DMF [--skipUnknowns] path.3dmf\n";
+			return 1;
+		}
+	}
 
-	FILE* inFile = fopen( argv[1], "rb" );
+	FILE* inFile = fopen( filePath, "rb" );
 	if (inFile == NULL)
 	{
-		cerr << "Cannot open input file '" << argv[1] << "'\n";
+		cerr << "Cannot open input file '" << filePath << "'\n";
 		return 2;
 	}
 
@@ -76,7 +94,7 @@ int main (int argc, char * const argv[])
 	{
 		try
 		{
-			Textify3DMF( bufStart, fileLen );
+			Textify3DMF( bufStart, fileLen, skipUnknowns );
 		}
 		catch (...)
 		{

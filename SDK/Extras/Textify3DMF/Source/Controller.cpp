@@ -77,6 +77,8 @@ public:
 	std::ostream&	ErrorStream();
 	
 	bool	IsBigendian() const { return mIsBigendian; }
+	
+	void			SetSkipUnknowns( bool inSkip ) { mSkipUnknowns = inSkip; }
 
 	std::string		Indent( uint32_t inExtra = 0 );
 	
@@ -124,6 +126,7 @@ private:
 	bool				mIsBigendian;
 	TOCVec				mTOC;
 	std::vector<uint64_t>	mTOCOffsets;
+	bool				mSkipUnknowns;
 };
 
 static std::string MakeLabel( const std::string& inClass, int inIndex )
@@ -155,6 +158,7 @@ XControllerImp::XControllerImp()
 	, mGroupLevel( 0 )
 	, mContainerLevel( 0 )
 	, mIsBigendian( true )
+	, mSkipUnknowns( false )
 {
 	mOutStream.precision( 7 );
 }
@@ -450,11 +454,19 @@ void	XControllerImp::ProcessObject( uint32_t inType,
 				className = nameIt->second.c_str();
 			}
 			
-			ProcessUnknownType( inType, inStartOffset, inEndOffset, className );
+			if (not mSkipUnknowns)
+			{
+				ProcessUnknownType( inType, inStartOffset, inEndOffset, className );
+			}
 			
 			mErrStream << "Unknown object type '" <<
 				(char)(inType >> 24) << (char)(inType >> 16) <<
-				(char)(inType >> 8) << (char)(inType) << "' at offset " <<
+				(char)(inType >> 8) << (char)(inType) << "'";
+			if (className != NULL)
+			{
+				mErrStream << " '" << className << "'";
+			}
+			mErrStream << " at offset " <<
 				(inStartOffset - 8) << ".\n";
 		}
 	}
@@ -625,6 +637,11 @@ std::ostream&	Controller::ErrorStream()
 bool	Controller::IsBigendian() const
 {
 	return mImp->IsBigendian();
+}
+
+void	Controller::SetSkipUnknowns( bool inSkip )
+{
+	mImp->SetSkipUnknowns( inSkip );
 }
 
 std::string		Controller::Indent( uint32_t inExtra )

@@ -50,6 +50,8 @@ public:
 	
 	bool			IsBigendian() const;
 	
+	void			SetSkipUnknowns( bool inSkip );
+	
 	std::string		Indent( uint32_t inExtra = 0 );
 	
 	uint8_t			FetchUInt8( uint32_t inOffset );
