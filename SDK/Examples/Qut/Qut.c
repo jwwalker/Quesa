@@ -5,7 +5,7 @@
         Quesa Utility Toolkit.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -55,7 +55,7 @@
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-#define kFPSUpdateTime                          (2 * CLOCKS_PER_SEC)
+#define kFPSUpdateTime                          2.0
 #define kFPSUpdateCount                         400
 
 
@@ -82,7 +82,7 @@ qutFuncAppIdle	         	    gFuncAppIdle       = NULL;
 qutFuncAppRedraw	            gFuncAppRedraw     = NULL;
 
 static TQ3Uns32                 gFrameCount = 0;
-static clock_t					gStartTime  = 0;
+static double					gElapsedTime = 0.0;
 
 static TQ3ShaderObject			gShaderIllumination = NULL;
 static TQ3FillStyle             gStyleFill;
@@ -101,6 +101,35 @@ static TQ3SubdivisionStyleData  gStyleDataSubdivision;
 
 //=============================================================================
 //      Internal functions.
+//-----------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------
+//      qut_CPU_time : Get CPU time, for use in finding render time.
+//-----------------------------------------------------------------------------
+static double
+qut_CPU_time()
+{
+#if WIN32
+	// I hear that on Windows, clock() is broken in the sense that it reports
+	// wall clock time, not CPU time.
+	FILETIME	ft[4];
+	ULARGE_INTEGER	uu, uk;
+	double theTime;
+	GetProcessTimes( GetCurrentProcess(), &ft[0], &ft[1], &ft[2], &ft[3] );
+	uu.LowPart = ft[3].dwLowDateTime;
+	uu.HighPart = ft[3].dwHighDateTime;
+	uk.LowPart = ft[2].dwLowDateTime;
+	uk.HighPart = ft[2].dwHighDateTime;
+	theTime = (uu.QuadPart + uk.QuadPart) / 10000000.0;
+	return theTime;
+#else
+	clock_t		theClocks = clock();
+	return theClocks / ((double) CLOCKS_PER_SEC);
+#endif
+}
+
+
 //-----------------------------------------------------------------------------
 //      qut_create_camera : Create the camera for our view.
 //-----------------------------------------------------------------------------
@@ -725,7 +754,7 @@ Qut_Terminate(void)
 //-----------------------------------------------------------------------------
 void
 Qut_RenderFrame(void)
-{   clock_t		elapsedTime;
+{   double		startRenderTime, endRenderTime;
     TQ3Status   qd3dStatus;
 
 
@@ -737,8 +766,11 @@ Qut_RenderFrame(void)
 
 
     // Save the start time if this is the first update
+	startRenderTime = qut_CPU_time();
     if (gFrameCount == 0)
-        gStartTime = clock();
+	{
+		gElapsedTime = 0.0;
+	}
 
 
 
@@ -775,12 +807,13 @@ Qut_RenderFrame(void)
     // time it took to render them and from that the FPS. Since we can only
     // rely on CLOCKS_PER_SEC timing with ANSI C, we need to accumulate the
     // time over a number of frames to get an accurate rate
-    elapsedTime = clock() - gStartTime;
+	endRenderTime = qut_CPU_time();
+	gElapsedTime += endRenderTime - startRenderTime;
     gFrameCount++;
 
-    if (gFrameCount > kFPSUpdateCount || elapsedTime > kFPSUpdateTime)
+    if (gFrameCount > kFPSUpdateCount || gElapsedTime > kFPSUpdateTime)
         {
-        gFPS        = (((float) CLOCKS_PER_SEC) / ((float) elapsedTime)) * (float) gFrameCount;
+        gFPS        = (float)( gFrameCount / gElapsedTime );
         gFrameCount = 0;
         }
 }
