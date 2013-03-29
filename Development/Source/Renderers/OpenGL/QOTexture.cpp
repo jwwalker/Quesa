@@ -392,6 +392,7 @@ void	Texture::HandlePendingTextureRemoval()
 		(*mGLActiveTexture)( GL_TEXTURE1_ARB );
 		glBindTexture( GL_TEXTURE_2D, 0 );
 		(*mGLActiveTexture)( GL_TEXTURE0_ARB );
+		mPPLighting.UpdateSpecularMapping( false );
 		
 		mPendingTextureRemoval = false;
 	}
@@ -459,7 +460,6 @@ void	Texture::SetCurrentTexture(
 */
 void	Texture::SetSpecularMap( TQ3ShaderObject inShader )
 {
-	bool hasSpecularMap = false;
 	if (inShader != NULL)
 	{
 		CQ3ObjectRef shininessTexture( CESpecularMapElement_Copy( inShader ) );
@@ -483,11 +483,9 @@ void	Texture::SetSpecularMap( TQ3ShaderObject inShader )
 				glBindTexture( GL_TEXTURE_2D, textureName );
 				SetOpenGLTexturingParameters();
 				(*mGLActiveTexture)( GL_TEXTURE0_ARB );
-				hasSpecularMap = true;
+				mPPLighting.UpdateSpecularMapping( true );
 			}
 		}
 	}
-	
-	mPPLighting.UpdateSpecularMapping( hasSpecularMap );
 }
 
