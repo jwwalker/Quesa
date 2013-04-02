@@ -5,7 +5,7 @@
         Source code to load a texture into OpenGL texture memory.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -413,9 +413,9 @@ static void ConvertPixel_ARGB32_Big_Premultiply( const TQ3Uns8* inSrcPixel,
 static void ConvertPixel_ARGB32_Little_Premultiply( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
-	ioDstPixel[0] = (inSrcPixel[2] * inSrcPixel[0]) / 255;	// R
-	ioDstPixel[1] = (inSrcPixel[1] * inSrcPixel[0]) / 255;	// G
-	ioDstPixel[2] = (inSrcPixel[0] * inSrcPixel[0]) / 255;	// B
+	ioDstPixel[0] = (inSrcPixel[2] * inSrcPixel[3]) / 255;	// R
+	ioDstPixel[1] = (inSrcPixel[1] * inSrcPixel[3]) / 255;	// G
+	ioDstPixel[2] = (inSrcPixel[0] * inSrcPixel[3]) / 255;	// B
 	ioDstPixel[3] = inSrcPixel[3];	// A
 }
 
