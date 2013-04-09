@@ -5,7 +5,7 @@
         Quesa 3DMF Binary Writer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -622,6 +622,8 @@ e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 	E3ClassInfoPtr theClass = NULL;
 	TQ3XObjectTraverseMethod traverse;
 	TQ3FileObject theFile = E3View_AccessFile (theView);
+	
+	*wroteReference = kQ3False;	// until further notice
 	
 	old_lastTocIndex = fileFormatPrivate->lastTocIndex;
 	old_lastObject = fileFormatPrivate->lastObject;

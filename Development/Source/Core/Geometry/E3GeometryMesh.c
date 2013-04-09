@@ -5,7 +5,7 @@
 		Implementation of Quesa Mesh geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -494,7 +494,8 @@ e3meshPart_HandleInMesh(
 	Q3_ASSERT_VALID_PTR(meshPtr);
 
 	// Acquire handle to part
-	if (e3meshPart_AcquireHandleInMesh(partPtr, meshPtr) == kQ3Failure)
+	if ( (partPtr == NULL) ||
+		(e3meshPart_AcquireHandleInMesh(partPtr, meshPtr) == kQ3Failure) )
 		goto failure;
 
 	return(partPtr->partPtrOrHdl.partHdl);

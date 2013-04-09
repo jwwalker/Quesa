@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -357,16 +357,22 @@ E3Memory_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 void *
 E3Memory_Allocate(TQ3Uns32 theSize)
-{	void	*thePtr;
+{	void	*thePtr = NULL;
 
 
 	Q3_ASSERT( theSize > 0 );
-
-
-	// Allocate the memory and a header to hold the size
-	thePtr = malloc(theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER);
-	if (thePtr == NULL)
-		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
+	
+	if (theSize == 0)
+	{
+		E3ErrorManager_PostError(kQ3ErrorInvalidParameter, kQ3False);
+	}
+	else
+	{
+		// Allocate the memory and a header to hold the size
+		thePtr = malloc(theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER);
+		if (thePtr == NULL)
+			E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
+	}
 
 
 

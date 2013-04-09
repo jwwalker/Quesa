@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -221,6 +221,14 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 {
 	TQ3Status	q3status = kQ3Success;
 	TQ3Uns32	n;
+	
+	
+	
+	// Sanity check
+	if ( (src->edges == NULL) && (src->numEdges > 0) )
+	{
+		return kQ3Failure;
+	}
 	
 	
 	
