@@ -5,7 +5,7 @@
         Wire Frame Renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -309,7 +309,8 @@ wireframe_new_object( TQ3Object theObject, void *privateData, void *paramData )
 	// is instantiated.
 	E3ClassInfoPtr	qoClass = E3ClassTree::GetClass( kQ3RendererTypeOpenGL );
 	Q3_ASSERT( qoClass != NULL );
-	if ( qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == NULL )
+	if ( (qoClass != NULL) &&
+		(qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == NULL) )
 	{
 		TQ3Object	dummyRenderer = Q3Renderer_NewFromType( kQ3RendererTypeOpenGL );
 		Q3Object_CleanDispose( &dummyRenderer );
