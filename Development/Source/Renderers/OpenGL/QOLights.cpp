@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1053,3 +1053,64 @@ bool	QORenderer::Lights::IsLit( const TQ3BoundingBox& inBounds ) const
 	
 	return isLit;
 }
+
+
+
+/*!
+	@function			GetShadowingLightPosition
+	@abstract			During a shadow marking or lighting pass (in which
+						exactly one light is active), get the position of 
+						the light.
+	@discussion			If the light is a point or spot light, we return the
+						position as a finite point, with w component 1.  If
+						the light is directional, we return an infinite point,
+						with w = 0 and x, y, z being the direction vector.
+*/
+TQ3RationalPoint4D	QORenderer::Lights::GetShadowingLightPosition() const
+{
+	TQ3RationalPoint4D resultPlace = { 0.0f, 0.0f, 0.0f, 0.0f };
+	
+	if (mIsShadowPhase)
+	{
+		CQ3ObjectRef theLight( mShadowingLights[ mStartingLightIndexForPass ] );
+		
+		switch (mLightType)
+		{
+			case kQ3LightTypeDirectional:
+				{
+					TQ3Vector3D dir;
+					Q3DirectionalLight_GetDirection( theLight.get(), &dir );
+					resultPlace.x = dir.x;
+					resultPlace.y = dir.y;
+					resultPlace.z = dir.z;
+					resultPlace.w = 0.0f;
+				}
+				break;
+			
+			case kQ3LightTypeSpot:
+				{
+					TQ3Point3D spotLoc;
+					Q3SpotLight_GetLocation( theLight.get(), &spotLoc );
+					resultPlace.x = spotLoc.x;
+					resultPlace.y = spotLoc.y;
+					resultPlace.z = spotLoc.z;
+					resultPlace.w = 1.0f;
+				}
+				break;
+			
+			case kQ3LightTypePoint:
+				{
+					TQ3Point3D pointLoc;
+					Q3PointLight_GetLocation( theLight.get(), &pointLoc );
+					resultPlace.x = pointLoc.x;
+					resultPlace.y = pointLoc.y;
+					resultPlace.z = pointLoc.z;
+					resultPlace.w = 1.0f;
+				}
+				break;
+		}
+	}
+	
+	return resultPlace;
+}
+

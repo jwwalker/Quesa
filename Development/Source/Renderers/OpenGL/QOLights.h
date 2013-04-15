@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -128,6 +128,18 @@ public:
 	bool					IsShadowMarkingPass() const;
 	bool					IsLit( const TQ3BoundingBox& inBounds ) const;
 	bool					IsShadowPhase() const;
+	
+	/*!
+		@function			GetShadowingLightPosition
+		@abstract			During a shadow marking or lighting pass (in which
+							exactly one light is active), get the position of 
+							the light.
+		@discussion			If the light is a point or spot light, we return the
+							position as a finite point, with w component 1.  If
+							the light is directional, we return an infinite point,
+							with w = 0 and x, y, z being the direction vector.
+	*/
+	TQ3RationalPoint4D		GetShadowingLightPosition() const;
 	
 	void					MarkShadowOfTriMesh(
 									TQ3GeometryObject inTMObject,
