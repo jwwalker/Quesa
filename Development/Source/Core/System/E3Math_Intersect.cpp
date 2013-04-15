@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,8 +50,15 @@
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
 #include "E3View.h"
-#include <limits>
+#include "QuesaMathOperators.hpp"
 
+// Remove any macro definitions of min, max, so that the C++ library versions will work.
+#undef min
+#undef max
+
+#include <limits>
+#include <algorithm>
+#include <cmath>
 
 
 
@@ -59,20 +66,521 @@
 //=============================================================================
 //      Local Constants
 //-----------------------------------------------------------------------------
-enum HalfPlaneResult
+enum HalfPlaneResult // result of testing whether something is inside a half-plane
 {
 	kHalfPlaneResult_AllInside = 0,
 	kHalfPlaneResult_PartInside,
 	kHalfPlaneResult_AllOutside
 };
 
+const float kQ3Infinity = std::numeric_limits<float>::infinity();
 
+
+//=============================================================================
+//      Local Types
+//-----------------------------------------------------------------------------
+namespace
+{
+	struct Interval
+	{
+		float	minimum;	// may be - kQ3Infinity
+		float	maximum;	// may be kQ3Infinity
+	
+		bool	IsEmpty() const { return minimum > maximum; }
+	};
+	
+	/*!
+		@struct		Frustum
+		@abstract	A view frustum represented as the intersection of 6 half-planes.
+		@discussion	A plane is represented as a rational point, where the "inside"
+					of the half-plane is the points [x, y, z, 1] such that
+					P dot [x, y, z, 1] <= 0.
+	*/
+	struct Frustum
+	{
+		TQ3RationalPoint4D planes[6];
+	};
+	
+	struct TQ3Ray4D	// like TQ3Ray3D, but origin may be an infinite point
+	{
+		TQ3RationalPoint4D	origin;
+		TQ3Vector3D			direction;
+	};
+	
+	struct FrustumEdge
+	{
+		TQ3RationalPoint4D	start;
+		TQ3RationalPoint4D	end;
+	};
+	
+	struct FrustumEdges
+	{
+		FrustumEdge			edge[12];
+	};
+	
+	
+	/*!
+		@struct		ShadowCylinder
+		@abstract	The shadow of a bounding sphere, cast by a directional
+					light, is contained in a shadow cylinder.  This is a
+					half-infinite cylinder.
+	*/
+	struct ShadowCylinder
+	{
+		TQ3Ray3D	axis;	// axis.direction is assumed normalized
+		float		radius;
+	};
+	
+	/*!
+		@struct		ShadowCone
+		@abstract	The shadow of a bounding sphere, cast by a positional
+					light, is contained in a frustum of a cone.
+		@discussion	We describe the slope of the cone by the sine of the
+					angle between the axis of symmetry and any line
+					from the apex along the surface.
+	*/
+	struct ShadowCone
+	{
+		TQ3Ray3D	axis;				// axis.direction is assumed normalized
+		float		apexToBasePlane;	// always positive
+		float		angleSine;			// in interval (0, 1)
+	};
+	
+	
+	/*!
+		@struct		EdgeRay
+		@abstract	A ray representing an edge of the view frustum.
+		@discussion	The edge may be a finite segment with a parameter
+					range [0, 1], or may be a ray of infinite points
+					with parameter range [0, 1], or may be an infinitely
+					long ray with parameter range [0, infinity].
+	*/
+	struct EdgeRay
+	{
+		TQ3Ray3D	ray;
+		Interval	paramRange;
+		bool		isRayAtInfinity;	// Interpret ray.origin as an infinite point?
+	};
+}
 
 
 
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+
+static TQ3Vector3D InfinitePointToVector( const TQ3RationalPoint4D& inInfinitePt )
+{
+	TQ3Vector3D vec = {
+		inInfinitePt.x, inInfinitePt.y, inInfinitePt.z
+	};
+	return vec;
+}
+
+static TQ3Point3D FinitePointToPoint( const TQ3RationalPoint4D& inInfinitePt )
+{
+	TQ3Point3D pt;
+	Q3FastRationalPoint4D_To3D( &inInfinitePt, &pt );
+	return pt;
+}
+
+static TQ3Point3D VectorToPoint( const TQ3Vector3D& inVec )
+{
+	TQ3Point3D asPt = { inVec.x, inVec.y, inVec.z };
+	return asPt;
+}
+
+static void MakeEdgeRayFromEdge( const FrustumEdge& inEdge, EdgeRay& outEdgeRay )
+{
+	outEdgeRay.paramRange.minimum = 0.0f;
+	if (inEdge.start.w == 0.0f) // hence both are infinite points
+	{
+		outEdgeRay.ray.origin = VectorToPoint( InfinitePointToVector( inEdge.start ) );
+		outEdgeRay.ray.direction = InfinitePointToVector( inEdge.end ) - InfinitePointToVector( inEdge.start );
+		outEdgeRay.paramRange.maximum = 1.0f;
+		outEdgeRay.isRayAtInfinity = true;
+	}
+	else if (inEdge.end.w == 0.0f) // only end point is infinite
+	{
+		outEdgeRay.ray.origin = FinitePointToPoint( inEdge.start );
+		outEdgeRay.ray.direction = InfinitePointToVector( inEdge.end );
+		outEdgeRay.paramRange.maximum = kQ3Infinity;
+		outEdgeRay.isRayAtInfinity = false;
+	}
+	else	// both are finite points
+	{
+		outEdgeRay.ray.origin = FinitePointToPoint( inEdge.start );
+		outEdgeRay.ray.direction = FinitePointToPoint( inEdge.end ) - FinitePointToPoint( inEdge.start );
+		outEdgeRay.paramRange.maximum = 1.0f;
+		outEdgeRay.isRayAtInfinity = false;
+	}
+}
+
+
+static bool IsPointInSphere( const TQ3Point3D& inPt, const TQ3BoundingSphere& inSphere )
+{
+	float dist = Q3FastPoint3D_DistanceSquared( &inPt, &inSphere.origin );
+	return dist < (inSphere.radius * inSphere.radius + kQ3RealZero);
+}
+
+
+
+/*!
+	@function	Intersect
+	@abstract	Compute the intersection of two intervals.
+*/
+static Interval Intersect( const Interval& inOne, const Interval& inTwo )
+{
+	Interval result;
+	result.minimum = std::max( inOne.minimum, inTwo.minimum );
+	result.maximum = std::min( inOne.maximum, inTwo.maximum );
+	return result;
+}
+
+
+/*!
+	@function	Ray3D_IntersectHalfPlane
+	@abstract	Find the interval of nonnegative ray parameters that produce a point
+				on the "inside" of a plane.
+	@discussion	The "inside" is the points such that [x,y,z,1] dot inPlane <= 0.
+	
+				Be aware that the resulting interval could be empty.
+*/
+static Interval Ray3D_IntersectHalfPlane( const TQ3Ray3D& inRay, const TQ3RationalPoint4D& inPlane )
+{
+	float originDotP = inRay.origin.x * inPlane.x + inRay.origin.y * inPlane.y +
+		inRay.origin.z * inPlane.z + inPlane.w;
+	float dirDotP = inRay.direction.x * inPlane.x + inRay.direction.y * inPlane.y +
+		inRay.direction.z * inPlane.z;
+	// We now have to solve originDotP + t * dirDotP <= 0.
+	Interval solutions;
+	if (fabsf( dirDotP ) < kQ3RealZero)
+	{
+		if (originDotP <= 0.0f)	// whole ray
+		{
+			solutions.minimum = 0.0f;
+			solutions.maximum = kQ3Infinity;
+		}
+		else // no solution
+		{
+			solutions.minimum = 0.0f;
+			solutions.maximum = -1.0f;
+		}
+	}
+	else if (dirDotP > 0.0f)
+	{
+		solutions.minimum = 0.0f;
+		solutions.maximum = - originDotP / dirDotP;
+	}
+	else // dirDotP < 0.0f
+	{
+		solutions.minimum = std::max( 0.0f, - originDotP / dirDotP );
+		solutions.maximum = kQ3Infinity;
+	}
+	
+	return solutions;
+}
+
+
+
+/*!
+	@function	Ray3D_IntersectFrustum
+	@abstract	Find the interval of nonnegative ray parameters that produce a point
+				inside a given frustum.
+*/
+static Interval Ray3D_IntersectFrustum( const TQ3Ray3D& inRay, const Frustum& inFrustum )
+{
+	Interval solution;
+	solution.minimum = 0.0f;
+	solution.maximum = kQ3Infinity;
+	
+	for (int i = 0; i < 6; ++i)
+	{
+		Interval oneSol = Ray3D_IntersectHalfPlane( inRay, inFrustum.planes[i] );
+		solution = Intersect( solution, oneSol );
+		if (solution.IsEmpty())
+		{
+			break;
+		}
+	}
+	
+	return solution;
+}
+
+
+
+/*!
+	@function	Ray3D_IntersectShadowCylinder
+	@abstract	Find nonnegative parameter values of a ray that meet a half-infinite cylinder.
+	@discussion	We assume that the axis direction of the cylinder is a unit vector, but we only
+				assume that the direction of the ray is nonzero. 
+*/
+static Interval Ray3D_IntersectShadowCylinder( const TQ3Ray3D& inRay, const ShadowCylinder& inCyl )
+{
+	Interval solution;
+	solution.minimum = 0.0f;
+	solution.maximum = kQ3Infinity;
+	
+	// In order for a ray point, rayOrigin + t * rayDir, to be on the right side of the
+	// cylinder's base plane, we need
+	// (rayOrigin + t * rayDir - cylOrigin) dot cylDir >= 0, or
+	// (rayOrigin - cylOrigin) dot cylDir + t * rayDir dot cylDir >= 0 .
+	float constantTerm = Q3Dot3D( inRay.origin - inCyl.axis.origin, inCyl.axis.direction );
+	float linearCoeff = Q3Dot3D( inRay.direction, inCyl.axis.direction );
+	if (fabsf( linearCoeff ) < kQ3RealZero)
+	{
+		if (constantTerm >= 0.0f)
+		{
+			// no constraint on solution
+		}
+		else
+		{
+			// no solution!
+			solution.maximum = -1.0f;
+		}
+	}
+	else
+	{
+		float tBoundary = - constantTerm / linearCoeff;
+		if (linearCoeff > 0.0f)
+		{
+			solution.minimum = std::max( tBoundary, 0.0f );
+		}
+		else // linearCoeff < 0.0f, since we know it's not zero
+		{
+			solution.maximum = tBoundary;
+		}
+	}
+	
+	if (! solution.IsEmpty())
+	{
+		// For convenience of discussion, let Q = inCyl.axis.origin, w = inCyl.axis.direction,
+		// and r = inCyl.radius.
+		// For any point X, the point of the cylinder axis nearest to X is
+		// Q + ((X - Q) dot w) * w.
+		// The point X belongs to the cylinder (no longer worrying about the base plane) iff
+		// dist( X, Q + ((X - Q) dot w) * w ) <= r.
+		// Square both sides, and express the left hand side as a dot product.
+		// (X - Q - ((X - Q) dot w) * w) dot (X - Q - ((X - Q) dot w) * w) <= r*r.
+		// For convenience let y = X - Q (a vector), and then we have
+		// (y - (y dot w) w) dot (y - (y dot w) w) <= r^2 .
+		// If we expand the dot product and simplify, we are left with
+		// y dot y  -  (y dot w)^2 <= r^2.
+		
+		// Now let's bring the ray into the discussion.  Let P = inRay.origin and v = inRay.direction,
+		// so points on the ray have the form P + t v for t >= 0.
+		// Let X = P + t v, so y = X - Q = P + t v - Q.
+		// Furthermore, define u = P - Q, so y = u + t v.  Now we have
+		// (u + t v) dot (u + t v) - ((u + t v) dot w)^2 <= r^2.  Expand it out:
+		// u dot u + 2 t u dot v + t^2 v dot v - (u dot w + t v dot w)^2 <= r^2
+		// u dot u + 2 t u dot v + t^2 v dot v - (u dot w)^2 - 2 t (u dot w)(v dot w) - t^2(v dot w)^2 <= r^2
+		// And collect powers of t.
+		// t^2(v dot w - (v dot w)^2) + 2t(u dot v - (u dot w)(v dot w)) + u dot u - (u dot w)^2 <= r^2
+		// If we let z = v - (v dot w) w, and recall that w is a unit vector, we can verify that
+		// z dot z = v dot w - (v dot w)^2 and
+		// u dot z = u dot v - (u dot w)(v dot w), so the inequality becomes
+		// t^2(z dot z) + 2 t (u dot z) + u dot u - (u dot w)^2 <= r^2
+		// Since the leading coefficient z dot z cannot be negative, we can never have a
+		// solution set with two branches.
+		TQ3Vector3D u = inRay.origin - inCyl.axis.origin;
+		TQ3Vector3D z = inRay.direction -
+			Q3Dot3D( inRay.direction, inCyl.axis.direction ) * inCyl.axis.direction;
+		float A = Q3Dot3D( z, z );
+		float B = 2.0f * Q3Dot3D( u, z );
+		float uDotW = Q3Dot3D( u, inCyl.axis.direction );
+		float C = Q3Dot3D( u, u ) - uDotW * uDotW - inCyl.radius * inCyl.radius;
+		// Now it's A t^2 + B t + C <= 0 .
+		if (fabsf( A ) < kQ3RealZero) // degenerates to a linear inequality?
+		{
+			if (fabsf( B ) < kQ3RealZero)
+			{
+				if (C > 0.0f)
+				{
+					// no solutions
+					solution.maximum = -1.0f;
+				}
+			}
+			else
+			{
+				float tBound = - C / B;
+				if (B > 0.0f)
+				{
+					solution.maximum = std::min( solution.maximum, tBound );
+				}
+				else
+				{
+					solution.minimum = std::max( solution.minimum, tBound );
+				}
+			}
+		}
+		else // common case, A > 0
+		{
+			float discrim = B*B - 4.0f * A * C;
+			if (discrim < 0.0f)
+			{
+				// no solutions
+				solution.maximum = -1.0f;
+			}
+			else
+			{
+				float rootDiscrim = std::sqrt( discrim );
+				float denom = 1.0f / (2.0f * A);
+				Interval quadSol;
+				quadSol.minimum = (-B - rootDiscrim) * denom;
+				quadSol.maximum = (-B + rootDiscrim) * denom;
+				solution = Intersect( solution, quadSol );
+			}
+		}
+	}
+	
+	return solution;
+}
+
+
+/*!
+	@function	Ray3D_IntersectShadowCone
+	@abstract	Find nonnegative parameter values of a ray that meet a shadow cone.
+	@discussion	We assume that the axis direction of the cone is a unit vector, but we only
+				assume that the direction of the ray is nonzero. 
+*/
+static Interval Ray3D_IntersectShadowCone( const TQ3Ray3D& inRay, const ShadowCone& inCone )
+{
+	Interval solution;
+	solution.minimum = 0.0f;
+	solution.maximum = kQ3Infinity;
+	
+	// In order for a ray point, rayOrigin + t * rayDir, to be on the right side of the
+	// cone's base plane, we need
+	// (rayOrigin + t * rayDir - coneOrigin) dot coneDir >= apexToBasePlane, or
+	// (rayOrigin - coneOrigin) dot coneDir - apexToBasePlane + t * rayDir dot coneDir >= 0 .
+	float constantTerm = Q3Dot3D( inRay.origin - inCone.axis.origin, inCone.axis.direction ) -
+		inCone.apexToBasePlane;
+	float linearCoeff = Q3Dot3D( inRay.direction, inCone.axis.direction );
+	if (fabsf( linearCoeff ) < kQ3RealZero)
+	{
+		if (constantTerm >= 0.0f)
+		{
+			// no constraint on solution
+		}
+		else
+		{
+			// no solution!
+			solution.maximum = -1.0f;
+		}
+	}
+	else
+	{
+		float tBoundary = - constantTerm / linearCoeff;
+		if (linearCoeff > 0.0f)
+		{
+			solution.minimum = std::max( tBoundary, 0.0f );
+		}
+		else // linearCoeff < 0.0f, since we know it's not zero
+		{
+			solution.maximum = tBoundary;
+		}
+	}
+	
+	if (! solution.IsEmpty())
+	{
+		// For convenience, let A = inCone.axis.origin and w = inCone.axis.direction.
+		// Let m be the cosine of the angle between the axis and surface of the cone.
+		// Now ignoring the base plane, a point X belongs to the cone just in case
+		// angle( X-A, w ) <= angle( w, surface ), or
+		// cos( angle( X-A, w ) ) >= m.
+		// Let u = X - A.  Then our condition is
+		// cos( angle( u, w ) ) >= m, or
+		// (u dot w) / sqrt(u dot u) >= m, or
+		// u dot w >= m sqrt( u dot u ) .
+		// Squaring both sides (possibly producing extra solutions),
+		// (u dot w)^2 >= m^2 (u dot u) , or
+		// m^2 (u dot u) - (u dot w)^2 <= 0 .
+		// What we're actually given is s = inCone.angleSine, and a trigonometric
+		// identity says that m^2 = 1 - s^2.
+		// We want to investigate when the ray is in the cone.
+		// Let P = inRay.origin and v = inRay.direction, so that a point on the ray
+		// is of the form P + t v for t >= 0.
+		// Let X = P + t v, so u = P + t v - A.
+		// Let h = P - A, so u = h + t v.  Now our inequality becomes
+		// m^2 (h + t v) dot (h + t v) - ((h + t v) dot w)^2 <= 0 .
+		// Expanding and collecting,
+		// t2(m^2 (v dot v) - (v dot w)^2) + 2t(m^2 v dot h - (h dot w)(v dot w)) +
+		//   m^2 h dot h - (h dot w)^2 <= 0 .
+		const TQ3Vector3D& v( inRay.direction );
+		const TQ3Vector3D& w( inCone.axis.direction );
+		TQ3Vector3D h = inRay.origin - inCone.axis.origin;
+		float msq = 1.0f - inCone.angleSine * inCone.angleSine;
+		float vDotW = Q3Dot3D( v, w );
+		float hDotW = Q3Dot3D( h, w );
+		float A = msq * Q3Dot3D( v, v ) - vDotW * vDotW;
+		float B = 2.0f * (msq * Q3Dot3D( v, h ) - hDotW * vDotW);
+		float C = msq * Q3Dot3D( h, h ) - hDotW * hDotW;
+		// Now it's A t^2 + B t + C <= 0 .
+		float discrim = B*B - 4.0f * A * C;
+		if (fabsf( A ) < kQ3RealZero) // degenerates to a linear inequality?
+		{
+			if (fabsf( B ) < kQ3RealZero)
+			{
+				if (C > 0.0f)
+				{
+					// no solutions
+					solution.maximum = -1.0f;
+				}
+			}
+			else
+			{
+				float tBound = - C / B;
+				if (B > 0.0f)
+				{
+					solution.maximum = std::min( solution.maximum, tBound );
+				}
+				else
+				{
+					solution.minimum = std::max( solution.minimum, tBound );
+				}
+			}
+		}
+		else if (discrim < 0.0f)
+		{
+			// no solutions!
+			solution.maximum = -1.0f;
+		}
+		else
+		{
+			float rootDiscrim = std::sqrt( discrim );
+			float denom = 1.0f / (2.0f * A);
+			Interval quadSol;
+			if (A > 0.0f)
+			{
+				// Single solution set, between the roots of the equation.
+				quadSol.minimum = (-B - rootDiscrim) * denom;
+				quadSol.maximum = (-B + rootDiscrim) * denom;
+			}
+			else // A < 0
+			{
+				// The solution set has the form (-inf, root1] union [root2, inf),
+				// Which part we really want depends on the sign of v dot w.
+				if (vDotW > 0.0f)
+				{
+					// Note that here denom < 0, so we get the higher root
+					// by choosing the minus sign before rootDiscrim.
+					quadSol.minimum = (-B - rootDiscrim) * denom;
+					quadSol.maximum = kQ3Infinity;
+				}
+				else
+				{
+					quadSol.minimum = 0.0f;
+					quadSol.maximum = (-B + rootDiscrim) * denom;
+				}
+			}
+			
+			solution = Intersect( solution, quadSol );
+		}
+	}
+
+	return solution;
+}
+
 
 /*!
 	@function	TestBoundingBoxAgainstHalfPlane
@@ -241,19 +749,21 @@ IsPointInsidePlane( const TQ3RationalPoint4D& inPt, const TQ3RationalPoint4D& in
 				product as [0, -1, 0, -1] dot [x, y, z, 1] <= 0.  We represent
 				this with the rational point [0, -1, 0, -1].
 */
-static const TQ3RationalPoint4D*
+static const Frustum&
 GetFrustumPlanesInFrustumSpace()
 {
-	static const TQ3RationalPoint4D	thePlanes[6] =
+	static const Frustum	theFrustum =
 	{
-		{ 0.0f, 0.0f, 1.0f, 0.0f },		// front
-		{ 0.0f, 0.0f, -1.0f, -1.0f },	// rear
-		{ 0.0f, -1.0f, 0.0f, -1.0f },	// bottom
-		{ 0.0f, 1.0f, 0.0f, -1.0f },	// top
-		{ -1.0f, 0.0f, 0.0f, -1.0f },	// left
-		{ 1.0f, 0.0f, 0.0f, -1.0f }		// right
+		{
+			{ 0.0f, 0.0f, 1.0f, 0.0f },		// front (near)
+			{ 0.0f, 0.0f, -1.0f, -1.0f },	// rear (far)
+			{ 0.0f, -1.0f, 0.0f, -1.0f },	// bottom
+			{ 0.0f, 1.0f, 0.0f, -1.0f },	// top
+			{ -1.0f, 0.0f, 0.0f, -1.0f },	// left
+			{ 1.0f, 0.0f, 0.0f, -1.0f }		// right
+		}
 	};
-	return thePlanes;
+	return theFrustum;
 }
 
 
@@ -267,12 +777,11 @@ GetFrustumPlanesInFrustumSpace()
 static void
 GetFrustumPlanesInWorldSpace(
 			TQ3CameraObject inCamera,
-			TQ3RationalPoint4D* out6Planes )
+			Frustum& outFrustum )
 {
-	const TQ3RationalPoint4D*	planesInFrustumSpace =
-		GetFrustumPlanesInFrustumSpace();
+	const Frustum&	frustumInFrustumSpace( GetFrustumPlanesInFrustumSpace() );
 	
-	// If we were transforming points, we would use the frustum to local
+	// If we were transforming points, we would use the frustum to world
 	// matrix.  But a plane is more like a normal vector, so we the inverse
 	// transpose.
 	TQ3Matrix4x4	worldToFrustum, worldToFrustumTranspose;
@@ -281,11 +790,42 @@ GetFrustumPlanesInWorldSpace(
 	
 	for (int i = 0; i < 6; ++i)
 	{
-		E3RationalPoint4D_Transform( &planesInFrustumSpace[i],
+		E3RationalPoint4D_Transform( &frustumInFrustumSpace.planes[i],
 			&worldToFrustumTranspose,
-			&out6Planes[i] );
+			&outFrustum.planes[i] );
 	}
 }
+
+
+
+/*!
+	@function	GetFrustumInLocalSpace
+	@abstract	Get the boundary planes of the view frustum in local coordinates.
+	@discussion	See the discussion of GetFrustumPlanesInFrustumSpace to see how
+				planes are represented as rational points.
+*/
+static void
+GetFrustumInLocalSpace(
+			TQ3ViewObject inView,
+			Frustum& outFrustum )
+{
+	const Frustum&	frustumInFrustumSpace( GetFrustumPlanesInFrustumSpace() );
+
+	// If we were transforming points, we would use the frustum to local
+	// matrix.  But a plane is more like a normal vector, so we the inverse
+	// transpose.
+	const TQ3Matrix4x4& localTofrustum( E3View_State_GetMatrixLocalToFrustum( inView ) );
+	TQ3Matrix4x4 localToFrustumTranspose;
+	E3Matrix4x4_Transpose( &localTofrustum, &localToFrustumTranspose );
+
+	for (int i = 0; i < 6; ++i)
+	{
+		E3RationalPoint4D_Transform( &frustumInFrustumSpace.planes[i],
+			&localToFrustumTranspose,
+			&outFrustum.planes[i] );
+	}
+}
+
 
 
 /*!
@@ -296,7 +836,7 @@ GetFrustumPlanesInWorldSpace(
 static void
 GetFrustumCornersInLocalSpace(	TQ3ViewObject inView, TQ3RationalPoint4D* out8Points )
 {
-	TQ3RationalPoint4D	frustumCornersInFrustumSpace[8] =
+	const TQ3RationalPoint4D	frustumCornersInFrustumSpace[8] =
 	{
 		{ -1.0f, -1.0f, 0.0f, 1.0f },	// front bottom left
 		{ -1.0f, 1.0f, 0.0f, 1.0f },	// front top left
@@ -395,9 +935,7 @@ static void MakeOneEdge(	const TQ3RationalPoint4D& inStart,
 {
 	if (inEnd.w == 0.0f)	// infinite point
 	{
-		outEdge.x = inEnd.x;
-		outEdge.y = inEnd.y;
-		outEdge.z = inEnd.z;
+		outEdge = InfinitePointToVector( inEnd );
 	}
 	else
 	{
@@ -431,6 +969,40 @@ static void GetFrustumEdges( const TQ3RationalPoint4D* in8Corners,
 	MakeOneEdge( in8Corners[0], in8Corners[1], out6Edges[5] );	// vertical front
 }
 
+static void MakeOneEdge(	const TQ3RationalPoint4D& inStart,
+							const TQ3RationalPoint4D& inEnd,
+							FrustumEdge& outEdge )
+{
+	outEdge.start = inStart;
+	outEdge.end = inEnd;
+}
+
+/*!
+	@function	GetLocalFrustumEdgeRays
+	@abstract	Get the edges of the view frustum in local coordinates.
+*/
+static void GetLocalFrustumEdges( TQ3ViewObject inView,
+									FrustumEdges& outEdges )
+{
+	TQ3RationalPoint4D corners[8];
+	GetFrustumCornersInLocalSpace( inView, corners );
+
+	MakeOneEdge( corners[0], corners[4], outEdges.edge[0] );	// bottom left
+	MakeOneEdge( corners[1], corners[5], outEdges.edge[1] );	// top left
+	MakeOneEdge( corners[2], corners[6], outEdges.edge[2] );	// bottom right
+	MakeOneEdge( corners[3], corners[7], outEdges.edge[3] );	// top right
+
+	MakeOneEdge( corners[0], corners[2], outEdges.edge[4] );	// front bottom
+	MakeOneEdge( corners[1], corners[3], outEdges.edge[5] );	// front top
+	MakeOneEdge( corners[0], corners[1], outEdges.edge[6] );	// front left
+	MakeOneEdge( corners[2], corners[3], outEdges.edge[7] );	// front right
+
+	MakeOneEdge( corners[4], corners[6], outEdges.edge[8] );	// rear bottom
+	MakeOneEdge( corners[5], corners[7], outEdges.edge[9] );	// rear top
+	MakeOneEdge( corners[4], corners[5], outEdges.edge[10] );	// rear left
+	MakeOneEdge( corners[6], corners[7], outEdges.edge[11] );	// rear right
+}
+
 static float VecDotPoint(	const TQ3Vector3D& inDirection,
 							const TQ3Point3D& inPoint )
 {
@@ -450,11 +1022,11 @@ static float VecDotPoint(	const TQ3Vector3D& inDirection,
 	{
 		if (theDot > 0.0f)
 		{
-			theDot = std::numeric_limits<float>::infinity();
+			theDot = kQ3Infinity;
 		}
 		else if (theDot < 0.0f)
 		{
-			theDot = - std::numeric_limits<float>::infinity();
+			theDot = - kQ3Infinity;
 		}
 	}
 	else
@@ -921,13 +1493,13 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 					if (isRayOriginInCone)
 					{
 						outMinParam = 0.0f;
-						outMaxParam = std::numeric_limits<float>::infinity();
+						outMaxParam = kQ3Infinity;
 						didIntersect = true;
 					}
 					else
 					{
 						outMinParam = diffLen;
-						outMaxParam = std::numeric_limits<float>::infinity();
+						outMaxParam = kQ3Infinity;
 						didIntersect = true;
 					}
 				}
@@ -958,7 +1530,7 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 				if (isRayEndInCone)
 				{
 					outMinParam = t;
-					outMaxParam = std::numeric_limits<float>::infinity();
+					outMaxParam = kQ3Infinity;
 					didIntersect = true;
 				}
 			}
@@ -967,7 +1539,7 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 				if (isRayEndInCone)
 				{
 					outMinParam = 0.0f;
-					outMaxParam = std::numeric_limits<float>::infinity();
+					outMaxParam = kQ3Infinity;
 					didIntersect = true;
 				}
 			}
@@ -1024,13 +1596,13 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 				if (root2 >= 0.0f)
 				{
 					outMinParam = root2;
-					outMaxParam = std::numeric_limits<float>::infinity();
+					outMaxParam = kQ3Infinity;
 					didIntersect = true;
 				}
 				else
 				{
 					outMinParam = 0.0f;
-					outMaxParam = std::numeric_limits<float>::infinity();
+					outMaxParam = kQ3Infinity;
 					didIntersect = true;
 				}
 				Q3_ASSERT( isRayEndInCone );
@@ -1284,8 +1856,8 @@ bool	E3BoundingBox_IntersectCameraFrustum(
 	// return true.  If the whole box is outside of some plane, we can
 	// return false.  This phase should usually suffice in the common case
 	// where the bounding box is small relative to the view frustum.
-	TQ3RationalPoint4D	worldFrustumPlanes[6];
-	GetFrustumPlanesInWorldSpace( inCamera, worldFrustumPlanes );
+	Frustum	worldFrustum;
+	GetFrustumPlanesInWorldSpace( inCamera, worldFrustum );
 	int	planeIndex;
 	bool	isAllInside = true;
 	HalfPlaneResult halfPlaneTest;
@@ -1293,7 +1865,7 @@ bool	E3BoundingBox_IntersectCameraFrustum(
 	for (planeIndex = 0; planeIndex < 6; ++planeIndex)
 	{
 		halfPlaneTest = TestBoundingBoxAgainstHalfPlane( inWorldBox,
-			worldFrustumPlanes[ planeIndex ] );
+			worldFrustum.planes[ planeIndex ] );
 		
 		if (halfPlaneTest == kHalfPlaneResult_AllOutside)
 		{
@@ -1406,7 +1978,7 @@ void	E3Math_CalcLocalFrustumPlanes(
 									const TQ3Matrix4x4& inLocalToFrustum,
 									TQ3RationalPoint4D* out6Planes )
 {
-	const TQ3RationalPoint4D*	planesInFrustumSpace =
+	const Frustum&	planesInFrustumSpace =
 		GetFrustumPlanesInFrustumSpace();
 	
 	// If we were transforming points, we would use the frustum to local
@@ -1418,8 +1990,188 @@ void	E3Math_CalcLocalFrustumPlanes(
 	
 	for (int i = 0; i < 6; ++i)
 	{
-		E3RationalPoint4D_Transform( &planesInFrustumSpace[i],
+		E3RationalPoint4D_Transform( &planesInFrustumSpace.planes[i],
 			&localToFrustumTranspose,
 			&out6Planes[i] );
 	}
+}
+
+
+/*!
+	@function	E3BoundingSphere_DirectionalShadowIntersectsViewFrustum
+	@abstract	Test whether a shadow of a sphere cast by directional
+				light might be partly visible.
+*/
+static bool E3BoundingSphere_DirectionalShadowIntersectsViewFrustum(
+									TQ3ViewObject inView,
+									const TQ3BoundingSphere& inLocalSphere,
+									const TQ3Vector3D& inLocalLightDir )
+{
+	bool mayIntersect = false;
+	
+	// Set up the shadow cylinder.
+	ShadowCylinder cyl;
+	cyl.radius = inLocalSphere.radius;
+	Q3FastVector3D_Normalize( &inLocalLightDir, &cyl.axis.direction );
+	cyl.axis.origin = inLocalSphere.origin - inLocalSphere.radius * cyl.axis.direction;
+	
+	// Get the frustum planes.
+	Frustum localFrustum;
+	GetFrustumInLocalSpace( inView, localFrustum );
+	
+	// Test whether the axis ray intersects the frustum.
+	if ( Ray3D_IntersectFrustum( cyl.axis, localFrustum ).IsEmpty() )
+	{
+		// If the axis does not intersect the frustum, then either there is no
+		// intersection, or else the shadow cylinder intersects an edge.
+		FrustumEdges localEdges;
+		GetLocalFrustumEdges( inView, localEdges );
+		
+		// Of the 12 edges, the last 4 edges are at infinity.
+		// The cylinder could only hit a line at infinity if the cylinder's
+		// axis hits that line, and we have already verified that the axis
+		// does not hit the frustum, so we can skip those 4 edges.
+		for (int i = 0; i < 8; ++i)
+		{
+			EdgeRay edgeRay;
+			MakeEdgeRayFromEdge( localEdges.edge[i], edgeRay );
+			
+			Interval solRange = Ray3D_IntersectShadowCylinder( edgeRay.ray, cyl );
+			Interval hitRange = Intersect( solRange, edgeRay.paramRange );
+			if (! hitRange.IsEmpty())
+			{
+				mayIntersect = true;
+				break;
+			}
+		}
+	}
+	else // intersection is not empty
+	{
+		mayIntersect = true;
+	}
+	
+	return mayIntersect;
+}
+
+/*!
+	@function	E3BoundingSphere_PositionalShadowIntersectsViewFrustum
+	@abstract	Test whether a shadow of a sphere cast by positional
+				light might be partly visible.
+*/
+static bool E3BoundingSphere_PositionalShadowIntersectsViewFrustum(
+									TQ3ViewObject inView,
+									const TQ3BoundingSphere& inLocalSphere,
+									const TQ3Point3D& inLocalLightPos )
+{
+	bool mayIntersect = false;
+
+	// Get the frustum planes.
+	Frustum localFrustum;
+	GetFrustumInLocalSpace( inView, localFrustum );
+	
+	// Set up the shadow cone.
+	ShadowCone	cone;
+	cone.axis.direction = Q3Normalize3D( inLocalSphere.origin - inLocalLightPos );
+	cone.axis.origin = inLocalLightPos;
+	float lightToSphereCenter = Q3Length3D( inLocalSphere.origin - inLocalLightPos );
+	cone.apexToBasePlane = lightToSphereCenter - inLocalSphere.radius;
+	cone.angleSine = inLocalSphere.radius / lightToSphereCenter;
+	
+	// Test whether the axis ray (not including the part on the wrong side of the
+	// base plane) intersects the view frustum.
+	Interval hitParams = Ray3D_IntersectFrustum( cone.axis, localFrustum );
+	hitParams.minimum = std::max( hitParams.minimum, cone.apexToBasePlane );
+	if (hitParams.IsEmpty())
+	{
+		// If the axis does not intersect the frustum, then either there is no
+		// intersection, or else the shadow cone intersects an edge.
+		FrustumEdges localEdges;
+		GetLocalFrustumEdges( inView, localEdges );
+		
+		static const TQ3Point3D kZeroPt = { 0.0f, 0.0f, 0.0f };
+		
+		for (int i = 0; i < 12; ++i)
+		{
+			EdgeRay edgeRay;
+			MakeEdgeRayFromEdge( localEdges.edge[i], edgeRay );
+			Interval solution;
+			if (edgeRay.isRayAtInfinity)
+			{
+				ShadowCone coneForInf;
+				coneForInf.axis.origin = kZeroPt;
+				solution = Ray3D_IntersectShadowCone( edgeRay.ray, coneForInf );
+			}
+			else // ordinary ray
+			{
+				solution = Ray3D_IntersectShadowCone( edgeRay.ray, cone );
+			}
+			hitParams = Intersect( solution, edgeRay.paramRange );
+			if (! hitParams.IsEmpty())
+			{
+				mayIntersect = true;
+				break;
+			}
+		}
+	}
+	else // intersection is not empty
+	{
+		mayIntersect = true;
+	}
+	
+	return mayIntersect;
+}
+
+/*!
+	@function	E3BoundingBox_ShadowIntersectsViewFrustum
+	@abstract	Test whether a bounding box may cast a shadow into the view
+				frustum.
+	@param		inView			The view object.
+	@param		inLocalBox		A bounding box in local coordinates.
+	@param		inWorldLightPos	Position of the shadow-casting light in world
+								coordinates.  The w component is 0.0 for a
+								directional light, 1.0 for a positional light.
+	@result		True means the shadow may be visible, false means definitely not.
+*/
+bool	E3BoundingBox_ShadowIntersectsViewFrustum(
+									TQ3ViewObject inView,
+									const TQ3BoundingBox& inLocalBox,
+									const TQ3RationalPoint4D& inWorldLightPos )
+{
+	bool couldShadowBeVisible = true;
+
+	// Convert the light position to local coordinates.
+	const TQ3Matrix4x4& localToWorld( *E3View_State_GetMatrixLocalToWorld( inView ) );
+	TQ3Matrix4x4 worldToLocal;
+	E3Matrix4x4_Invert( &localToWorld, &worldToLocal );
+	TQ3RationalPoint4D localLightPos;
+	E3RationalPoint4D_Transform( &inWorldLightPos, &worldToLocal, &localLightPos );
+	
+	// Make a bounding sphere that encloses the bounding box.
+	TQ3BoundingSphere	boundingSphere;
+	Q3FastPoint3D_RRatio( &inLocalBox.min, &inLocalBox.max, 1.0f, 1.0f, &boundingSphere.origin );
+	boundingSphere.radius = Q3FastPoint3D_Distance( &inLocalBox.min, &boundingSphere.origin );
+	boundingSphere.isEmpty = kQ3False;
+	
+	// If the light is a finite light inside the bounding sphere, then the
+	// shadow could be anywhere.
+	if ( (localLightPos.w != 0.0f) &&
+		IsPointInSphere( FinitePointToPoint( localLightPos ), boundingSphere ) )
+	{
+		couldShadowBeVisible = true;
+	}
+	else // light coming from outside the sphere
+	{
+		if (localLightPos.w == 0.0f)	// directional light
+		{
+			couldShadowBeVisible = E3BoundingSphere_DirectionalShadowIntersectsViewFrustum( inView,
+				boundingSphere, InfinitePointToVector( localLightPos ) );
+		}
+		else // positional light
+		{
+			couldShadowBeVisible = E3BoundingSphere_PositionalShadowIntersectsViewFrustum( inView,
+				boundingSphere, FinitePointToPoint( localLightPos ) );
+		}
+	}
+	
+	return couldShadowBeVisible;
 }

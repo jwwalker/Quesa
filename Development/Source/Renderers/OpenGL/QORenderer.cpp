@@ -47,6 +47,7 @@
 
 #include "GLDrawContext.h"
 #include "GLUtils.h"
+#include "E3Math_Intersect.h"
 
 
 
@@ -63,6 +64,7 @@ namespace
 	
 	const TQ3Uns32		kDefaultDepthBits	= 24;
 }
+
 
 //=============================================================================
 //     Subsidiary Class Implementations
@@ -180,15 +182,22 @@ bool	QORenderer::Renderer::IsBoundingBoxVisible(
 								TQ3ViewObject inView,
 								const TQ3BoundingBox& inBounds )
 {
-	// An object that is not visible may cast a shadow that is visible.
-	// Therefore, when in a shadowing marking pass, we do not do a bounding box
-	// visibility test.
-	bool	isVisible =
-		(
-			mLights.IsShadowMarkingPass() ||
-			(Q3View_IsBoundingBoxVisible( inView, &inBounds ) == kQ3True)
-		) &&
-		mLights.IsLit( inBounds );
+	bool	isVisible = false;
+	
+	if ( (kQ3False == inBounds.isEmpty) && mLights.IsLit( inBounds ) )
+	{
+		if (mLights.IsShadowMarkingPass())
+		{
+			// Find the position of the light (world space).
+			TQ3RationalPoint4D lightPos( mLights.GetShadowingLightPosition() );
+			
+			isVisible = E3BoundingBox_ShadowIntersectsViewFrustum( inView, inBounds, lightPos );
+		}
+		else // lighting pass
+		{
+			isVisible = E3BoundingBox_IntersectViewFrustum( inView, inBounds );
+		}
+	}
 	
 	return isVisible;
 }

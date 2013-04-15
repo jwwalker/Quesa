@@ -5,7 +5,7 @@
         Header file for E3Math_Intersect.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -165,5 +165,22 @@ bool	E3BoundingBox_IntersectCameraFrustum(
 void	E3Math_CalcLocalFrustumPlanes(
 									const TQ3Matrix4x4& inLocalToFrustum,
 									TQ3RationalPoint4D* out6Planes );
+
+
+/*!
+	@function	E3BoundingBox_ShadowIntersectsViewFrustum
+	@abstract	Test whether a bounding box may cast a shadow into the view
+				frustum.
+	@param		inView			The view object.
+	@param		inLocalBox		A bounding box in local coordinates.
+	@param		inWorldLightPos	Position of the shadow-casting light in world
+								coordinates.  The w component is 0.0 for a
+								directional light, 1.0 for a positional light.
+	@result		True means the shadow may be visible, false means definitely not.
+*/
+bool	E3BoundingBox_ShadowIntersectsViewFrustum(
+									TQ3ViewObject inView,
+									const TQ3BoundingBox& inLocalBox,
+									const TQ3RationalPoint4D& inWorldLightPos );
 
 #endif
