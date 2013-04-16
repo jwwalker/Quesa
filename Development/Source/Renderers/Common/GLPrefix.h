@@ -5,7 +5,7 @@
         Global prefix file for OpenGL.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -114,6 +114,7 @@ struct TQ3GLExtensions
 	TQ3Boolean				packedDepthStencil;		// GL_EXT_packed_depth_stencil
 	TQ3Boolean				vertexProgramTwoSide;	// GL 2.0 or GL_ARB_VERTEX_PROGRAM
 	TQ3Boolean				multiSample;			// GL_SAMPLE_BUFFERS_ARB > 0
+	TQ3Boolean				multisampleFBO;			// GL 3.0 or GL_EXT_framebuffer_multisample
 	
 	GLint					maxLights;				// GL_MAX_LIGHTS
 	GLint					stencilBits;			// GL_STENCIL_BITS
@@ -136,6 +137,7 @@ public:
 						CQ3GLContext( TQ3DrawContextObject inDC )
 							: quesaDrawContext( inDC )
 							, currentFrameBufferID( 0 )
+							, currentFrameBufferTarget( 0 )
 							, bindFrameBufferFunc( NULL ) {}
 				
 	virtual				~CQ3GLContext() {}
@@ -150,7 +152,7 @@ public:
 	
 						// Set the active framebuffer (FBO), or use 0 to select
 						// no FBO.  Returns true if the framebuffer ID changed.
-	bool				BindFrameBuffer( GLuint inFrameBufferID );
+	virtual bool		BindFrameBuffer( GLenum inTarget, GLuint inFrameBufferID );
 	
 	GLuint				GetCurrentFrameBuffer() const { return currentFrameBufferID; }
 	
@@ -167,6 +169,7 @@ public:
 protected:
 	TQ3Object			quesaDrawContext;
 	GLuint				currentFrameBufferID;
+	GLenum				currentFrameBufferTarget;
 	void*				bindFrameBufferFunc;
 };
 

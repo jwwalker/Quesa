@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -163,6 +163,12 @@ extern "C" {
  *															a pixmap draw context, requests that the
  *															context use hardware acceleration if possible.
  *															Data type: TQ3AcceleratedOffscreenPropertyData.
+ *	@constant	kQ3DrawContextPropertyAccelOffscreenSamples
+ *					Request that a hardware-accelerated pixmap draw context
+ *					(see kQ3DrawContextPropertyAcceleratedOffscreen) render multisampled with a
+ *					specified number of samples, hardware and driver permitting.
+ *					Set this to 0 for  ordinary non-multisampled rendering.
+ *					Data type: TQ3Uns32.  Default: 0.
  *	@constant	kQ3DrawContextPropertyGLPixelFormat			Request a specific OpenGL pixel format.
  *															The data type is platform-specific.
  *															Mac Carbon: AGLPixelFormat.  Windows: int.
@@ -183,6 +189,7 @@ enum {
 	kQ3DrawContextPropertySurfaceBehindWindow		= Q3_METHOD_TYPE('s', 'u', 'b', 'w'),
 	kQ3DrawContextPropertyGLContextBuildCount		= Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
 	kQ3DrawContextPropertyAcceleratedOffscreen		= Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
+	kQ3DrawContextPropertyAccelOffscreenSamples		= Q3_OBJECT_TYPE('g', 'l', 'o', 's'),
 	kQ3DrawContextPropertyGLPixelFormat				= Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
 	kQ3DrawContextPropertyGLDestroyCallback			= Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
 	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF

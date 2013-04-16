@@ -9,7 +9,7 @@
         access the Cocoa OpenGL API then this is handled as a special case.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -266,7 +266,7 @@ void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
 	SetCurrentBase( inForceSet );
 	
 	// Make sure that no FBO is active
-	if (BindFrameBuffer( 0 ))
+	if (BindFrameBuffer( GL_FRAMEBUFFER_EXT, 0 ))
 	{
 		glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
 	}
