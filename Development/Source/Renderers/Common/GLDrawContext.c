@@ -5,7 +5,7 @@
         Quesa OpenGL draw context support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -96,6 +96,20 @@ enum
 	#define GL_STENCIL_INDEX16_EXT             0x8D49
 #endif
 
+#ifndef GL_EXT_framebuffer_blit
+	#define GL_READ_FRAMEBUFFER_EXT                              0x8CA8
+	#define GL_DRAW_FRAMEBUFFER_EXT                              0x8CA9
+	#define GL_DRAW_FRAMEBUFFER_BINDING_EXT                      0x8CA6
+	#define GL_READ_FRAMEBUFFER_BINDING_EXT                      0x8CAA
+#endif
+
+#ifndef GL_EXT_framebuffer_multisample
+	#define GL_RENDERBUFFER_SAMPLES_EXT                          0x8CAB
+	#define GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE_EXT            0x8D56
+	#define GL_MAX_SAMPLES_EXT                                   0x8D57
+#endif
+
+
 #ifndef GL_DEPTH24_STENCIL8_EXT
 	#define	GL_DEPTH24_STENCIL8_EXT				0x88F0
 #endif
@@ -122,6 +136,28 @@ enum
 	#define GL_UNSIGNED_INT_8_8_8_8_REV       0x8367
 #endif
 
+#if Q3_DEBUG
+	#undef		Q3_DEBUG_GL_ERRORS
+	#define		Q3_DEBUG_GL_ERRORS		0
+#endif
+
+static GLenum sGLError = 0;
+
+#if Q3_DEBUG_GL_ERRORS
+	#define		CHECK_GL_ERROR	do {	\
+									sGLError = glGetError();	\
+									if (sGLError != GL_NO_ERROR)	\
+									{	\
+										char	xmsg[200];	\
+										snprintf( xmsg, sizeof(xmsg),	\
+											"glGetError() is 0x%04X", \
+											(unsigned int)sGLError );	\
+										E3Assert(__FILE__, __LINE__, xmsg);	\
+									} \
+								} while (false)
+#else
+	#define		CHECK_GL_ERROR
+#endif
 
 
 //=============================================================================
@@ -148,6 +184,13 @@ typedef void (APIENTRY* glRenderbufferStorageEXTProcPtr) (GLenum target, GLenum 
 typedef void (APIENTRY* glFramebufferRenderbufferEXTProcPtr) (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
 typedef GLenum (APIENTRY* glCheckFramebufferStatusEXTProcPtr) (GLenum target);
 typedef void (APIENTRY* glFramebufferTexture2DEXTProcPtr) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+typedef void (APIENTRY* glRenderbufferStorageMultisampleProcPtr)(
+            GLenum target, GLsizei samples, GLenum internalformat,
+            GLsizei width, GLsizei height);
+typedef void (APIENTRY* glBlitFramebufferProcPtr)(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
+                            GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1,
+                            GLbitfield mask, GLenum filter);
+
 
 class FBORec : public CQ3GLContext
 {
@@ -161,7 +204,8 @@ public:
 								TQ3Uns32 stencilBits,
 								TQ3GLContext inMasterGLContext,
 								bool inCopyOnFrameStart,
-								bool inCopyOnSwapBuffer );
+								bool inCopyOnSwapBuffer,
+								TQ3Uns32 inSamples );
 
 	virtual				~FBORec();
 	
@@ -175,20 +219,54 @@ public:
 	
 	virtual void		StartFrame();
 
+	virtual bool		BindFrameBuffer( GLenum inTarget, GLuint inFrameBufferID );
+
 private:
 	void				Cleanup();
+	void				InitColor(
+								TQ3Uns32 inPaneWidth,
+								TQ3Uns32 inPaneHeight,
+								TQ3Uns32 inSamples,
+								GLenum inTarget,
+								GLuint& outColorRenderBufferID );
+	void				InitDepthAndStencil(
+								TQ3Uns32 inPaneWidth,
+								TQ3Uns32 inPaneHeight,
+								TQ3Uns32 inSamples,
+								GLenum inTarget,
+								const TQ3GLExtensions& inExtensionInfo,
+								TQ3Uns32 depthBits,
+								TQ3Uns32 stencilBits,
+								GLuint& outDepthRenderBufferID,
+								GLuint& outStencilRenderBufferID
+							);
+	void				DeleteRenderBuffer( GLuint inRenderBufferID );
+	void				DeleteFrameBuffer( GLuint inFrameBufferID );
+	void				ResolveSamples();
+	void				RenderBufferStorage(
+								GLsizei samples,
+								GLenum internalformat,
+								GLsizei width,
+								GLsizei height );
 
 	TQ3GLContext			masterContext;
 	GLint					fboViewPort[4];
 	GLint					masterViewPort[4];
 	bool					copyFromPixmapAtFrameStart;
 	bool					copyToPixMapOnSwapBuffer;
-	GLenum					colorBufferAttachment;
 	
+	// Multisampled buffer when multisampling, or single buffer when not
 	GLuint					frameBufferID;
 	GLuint					colorRenderBufferID;
 	GLuint					depthRenderBufferID;
 	GLuint					stencilRenderBufferID;
+	
+	// Single-sample buffer when multisampling, unused when not
+	GLuint					frameBufferID_single;
+	GLuint					colorRenderBufferID_single;
+	GLuint					depthRenderBufferID_single;
+	GLuint					stencilRenderBufferID_single;
+	
 	
 	glGenFramebuffersEXTProcPtr				glGenFramebuffersEXT;
 	glDeleteFramebuffersEXTProcPtr			glDeleteFramebuffersEXT;
@@ -199,6 +277,8 @@ private:
 	glFramebufferRenderbufferEXTProcPtr		glFramebufferRenderbufferEXT;
 	glCheckFramebufferStatusEXTProcPtr		glCheckFramebufferStatusEXT;
 	glFramebufferTexture2DEXTProcPtr		glFramebufferTexture2DEXT;
+	glRenderbufferStorageMultisampleProcPtr	glRenderbufferStorageMultisample;
+	glBlitFramebufferProcPtr				glBlitFramebuffer;
 };
 
 // Platform specific types
@@ -300,15 +380,19 @@ private:
 //		Internal functions
 //-----------------------------------------------------------------------------
 
-bool	CQ3GLContext::BindFrameBuffer( GLuint inFrameBufferID )
+bool	CQ3GLContext::BindFrameBuffer( GLenum inTarget, GLuint inFrameBufferID )
 {
 	bool	didChange = false;
 	if ( (bindFrameBufferFunc != NULL) &&
-		(inFrameBufferID != currentFrameBufferID) )
+		((inFrameBufferID != currentFrameBufferID) || (inTarget != currentFrameBufferTarget)) )
 	{
-		((glBindFramebufferEXTProcPtr) bindFrameBufferFunc)( GL_FRAMEBUFFER_EXT,
+		CHECK_GL_ERROR;
+		((glBindFramebufferEXTProcPtr) bindFrameBufferFunc)( inTarget,
 			inFrameBufferID );
+		CHECK_GL_ERROR;
+		
 		currentFrameBufferID = inFrameBufferID;
+		currentFrameBufferTarget = inTarget;
 		didChange = true;
 	}
 	return didChange;
@@ -539,7 +623,8 @@ FBORec::FBORec(
 		TQ3Uns32 stencilBits,
 		TQ3GLContext inMasterGLContext,
 		bool inCopyOnFrameStart,
-		bool inCopyOnSwapBuffer )
+		bool inCopyOnSwapBuffer,
+		TQ3Uns32 inSamples )
 	: CQ3GLContext( theDrawContext )
 	, masterContext( inMasterGLContext )
 	, copyFromPixmapAtFrameStart( inCopyOnFrameStart )
@@ -548,98 +633,231 @@ FBORec::FBORec(
 	, colorRenderBufferID( 0 )
 	, depthRenderBufferID( 0 )
 	, stencilRenderBufferID( 0 )
-	, colorBufferAttachment( GL_COLOR_ATTACHMENT0_EXT )
+	, frameBufferID_single( 0 )
+	, colorRenderBufferID_single( 0 )
+	, depthRenderBufferID_single( 0 )
+	, stencilRenderBufferID_single( 0 )
 {
 	glGetIntegerv( GL_VIEWPORT, masterViewPort );
 
 	// Get FBO function pointers
-	GLGetProcAddress( glGenFramebuffersEXT, "glGenFramebuffersEXT" );
-	GLGetProcAddress( glDeleteFramebuffersEXT, "glDeleteFramebuffersEXT" );
-	bindFrameBufferFunc = GLGetProcAddress( "glBindFramebufferEXT" );
-	GLGetProcAddress( glGenRenderbuffersEXT, "glGenRenderbuffersEXT" );
-	GLGetProcAddress( glDeleteRenderbuffersEXT, "glDeleteRenderbuffersEXT" );
-	GLGetProcAddress( glBindRenderbufferEXT, "glBindRenderbufferEXT" );
-	GLGetProcAddress( glRenderbufferStorageEXT, "glRenderbufferStorageEXT" );
-	GLGetProcAddress( glFramebufferRenderbufferEXT, "glFramebufferRenderbufferEXT" );
-	GLGetProcAddress( glCheckFramebufferStatusEXT, "glCheckFramebufferStatusEXT" );
-	GLGetProcAddress( glFramebufferTexture2DEXT, "glFramebufferTexture2DEXT" );
+	GLGetProcAddress( glGenFramebuffersEXT, "glGenFramebuffers", "glGenFramebuffersEXT" );
+	GLGetProcAddress( glDeleteFramebuffersEXT, "glDeleteFramebuffers", "glDeleteFramebuffersEXT" );
+	bindFrameBufferFunc = NULL;
+	GLGetProcAddress( glGenRenderbuffersEXT, "glGenRenderbuffers", "glGenRenderbuffersEXT" );
+	GLGetProcAddress( glDeleteRenderbuffersEXT, "glDeleteRenderbuffers", "glDeleteRenderbuffersEXT" );
+	GLGetProcAddress( glBindRenderbufferEXT, "glBindRenderbuffer", "glBindRenderbufferEXT" );
+	GLGetProcAddress( glRenderbufferStorageEXT, "glRenderbufferStorage", "glRenderbufferStorageEXT" );
+	GLGetProcAddress( glFramebufferRenderbufferEXT, "glFramebufferRenderbuffer", "glFramebufferRenderbufferEXT" );
+	GLGetProcAddress( glCheckFramebufferStatusEXT, "glCheckFramebufferStatus", "glCheckFramebufferStatusEXT" );
+	GLGetProcAddress( glFramebufferTexture2DEXT, "glFramebufferTexture2D", "glFramebufferTexture2DEXT" );
+	if (inExtensionInfo.multisampleFBO == kQ3True)
+	{
+		GLGetProcAddress( glRenderbufferStorageMultisample,
+			"glRenderbufferStorageMultisample", "glRenderbufferStorageMultisampleEXT" );
+		GLGetProcAddress( glBlitFramebuffer,
+			"glBlitFramebuffer", "glBlitFramebufferEXT" );
+		GLint maxSamples;
+		glGetIntegerv( GL_MAX_SAMPLES_EXT, &maxSamples );
+		if (inSamples > (TQ3Uns32)maxSamples)
+		{
+			inSamples = maxSamples;
+		}
+	}
+	else
+	{
+		glRenderbufferStorageMultisample = NULL;
+		glBlitFramebuffer = NULL;
+		inSamples = 0;
+	}
 
-	// Create and bind a framebuffer object
+	// Create and bind a (draw) framebuffer object
 	glGenFramebuffersEXT( 1, &frameBufferID );
-	static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer( frameBufferID );
-	
-	// Find how many color attachments are available.
-	GLint	 maxColorAttach = 0;
-	glGetIntegerv( GL_MAX_COLOR_ATTACHMENTS_EXT, &maxColorAttach );
+	CHECK_GL_ERROR;
+	GLenum drawFBOTarget = (inSamples == 0)? GL_FRAMEBUFFER_EXT : GL_DRAW_FRAMEBUFFER_EXT;
+	BindFrameBuffer( drawFBOTarget, frameBufferID );
+
+	// If multisampling, make another FBO which will be single-sampled.
+	if (inSamples > 0)
+	{
+		glGenFramebuffersEXT( 1, &frameBufferID_single );
+		CHECK_GL_ERROR;
+		BindFrameBuffer( GL_READ_FRAMEBUFFER_EXT, frameBufferID_single );
+	}
 	
 	// When an FBO is first created and bound, its read and draw buffers are
 	// initialized to GL_COLOR_ATTACHMENT0_EXT.  In case we are not using
 	// that attachment point, we must set the read and draw buffers, otherwise
 	// the FBO will not pass the completeness test.
-	glReadBuffer( colorBufferAttachment );
-	glDrawBuffer( colorBufferAttachment );
+	glReadBuffer( GL_COLOR_ATTACHMENT0_EXT );
+	CHECK_GL_ERROR;
+	glDrawBuffer( GL_COLOR_ATTACHMENT0_EXT );
+	CHECK_GL_ERROR;
+	
+	InitColor( inPaneWidth, inPaneHeight, inSamples, drawFBOTarget, colorRenderBufferID );
+	
+	InitDepthAndStencil( inPaneWidth, inPaneHeight, inSamples, drawFBOTarget, inExtensionInfo,
+		depthBits, stencilBits, depthRenderBufferID, stencilRenderBufferID );
+
+	// If we are doing multisampling, then we need another, non-multisampled FBO.
+	// Then when we want to grab pixels from the context, we first blit from the
+	// multisampled FBO to the non-multisampled FBO, and read pixels from the
+	// non-multisampled FBO.
+	if (inSamples > 0)
+	{
+		InitColor( inPaneWidth, inPaneHeight, 0, GL_READ_FRAMEBUFFER_EXT, colorRenderBufferID_single );
+		InitDepthAndStencil( inPaneWidth, inPaneHeight, 0, GL_READ_FRAMEBUFFER_EXT, inExtensionInfo,
+			depthBits, stencilBits, depthRenderBufferID_single, stencilRenderBufferID_single );
+	}
+
+	// no more need for bound renderbuffer
+	glBindRenderbufferEXT( GL_RENDERBUFFER_EXT, 0 );
+	CHECK_GL_ERROR;
 	
 	
+	// Check whether FBO is OK
+	GLenum	result = glCheckFramebufferStatusEXT( drawFBOTarget );
+	if (result != GL_FRAMEBUFFER_COMPLETE_EXT)
+	{
+		Q3_ASSERT(!"FBO failed status check");
+		Q3_MESSAGE_FMT( "FBO status check returned error %X\n", (int)result );
+		Cleanup();
+		throw std::exception();
+	}
+	
+	// Finish initializing the context
+	GLGPUSharing_AddContext( this, masterContext );
+
+	// Set the viewport
+	fboViewPort[0] = fboViewPort[1] = 0;
+	fboViewPort[2] = inPaneWidth;
+	fboViewPort[3] = inPaneHeight;
+	
+	// make SetCurrent set the viewport
+	BindFrameBuffer( GL_FRAMEBUFFER_EXT, 0 );
+	SetCurrent( kQ3False );
+	
+	// If stencil bits were requested, check whether we got them.
+	if (stencilBits > 0)
+	{
+		GLint	stencilDepth = 0;
+		glGetIntegerv( GL_STENCIL_BITS, &stencilDepth );
+		if (static_cast<TQ3Uns32>(stencilDepth) < stencilBits)
+		{
+			Q3_MESSAGE( "FBO did not get requested stencil bits.\n" );
+			E3ErrorManager_PostWarning( kQ3WarningNoOffscreenHardwareStencil );
+		}
+	}
+}
+
+void	FBORec::RenderBufferStorage(
+							GLsizei samples,
+							GLenum internalformat,
+							GLsizei width,
+							GLsizei height )
+{
+	if (samples == 0)
+	{
+		glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, internalformat,
+			width, height );
+	}
+	else
+	{
+		glRenderbufferStorageMultisample( GL_RENDERBUFFER_EXT, samples, internalformat,
+			width, height );
+	}
+	CHECK_GL_ERROR;
+}
+
+void	FBORec::InitColor(
+							TQ3Uns32 inPaneWidth,
+							TQ3Uns32 inPaneHeight,
+							TQ3Uns32 inSamples,
+							GLenum inTarget,
+							GLuint& outColorRenderBufferID )
+{
 	// Create color renderbuffer
-	glGenRenderbuffersEXT( 1, &colorRenderBufferID );
+	glGenRenderbuffersEXT( 1, &outColorRenderBufferID );
+	CHECK_GL_ERROR;
 	glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
-		colorRenderBufferID );
-	glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_RGB,
-		inPaneWidth, inPaneHeight );
-	glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
-		colorBufferAttachment, GL_RENDERBUFFER_EXT,
-		colorRenderBufferID );
-	
-	
+		outColorRenderBufferID );
+	CHECK_GL_ERROR;
+	RenderBufferStorage( inSamples, GL_RGB,
+			inPaneWidth, inPaneHeight );
+	glFramebufferRenderbufferEXT( inTarget,
+		GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT,
+		outColorRenderBufferID );
+	CHECK_GL_ERROR;
+}
+
+void	FBORec::InitDepthAndStencil(
+							TQ3Uns32 inPaneWidth,
+							TQ3Uns32 inPaneHeight,
+							TQ3Uns32 inSamples,
+							GLenum inTarget,
+							const TQ3GLExtensions& inExtensionInfo,
+							TQ3Uns32 depthBits,
+							TQ3Uns32 stencilBits,
+							GLuint& outDepthRenderBufferID,
+							GLuint& outStencilRenderBufferID )
+{
 	// Create a depth buffer...
-	glGenRenderbuffersEXT( 1, &depthRenderBufferID );
+	glGenRenderbuffersEXT( 1, &outDepthRenderBufferID );
+	CHECK_GL_ERROR;
 	glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
-		depthRenderBufferID );
+		outDepthRenderBufferID );
+	CHECK_GL_ERROR;
 	
 
 	// if we need a stencil buffer, it is probably necessary to get a packed
 	// depth-stencil buffer.
 	if ( (stencilBits > 0) && inExtensionInfo.packedDepthStencil )
 	{
-		glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+		RenderBufferStorage( inSamples,
 			GL_DEPTH24_STENCIL8_EXT, inPaneWidth, inPaneHeight );
-		glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+		glFramebufferRenderbufferEXT( inTarget,
 			GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-			depthRenderBufferID );
-		glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+			outDepthRenderBufferID );
+		CHECK_GL_ERROR;
+		glFramebufferRenderbufferEXT( inTarget,
 			GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-			depthRenderBufferID );
+			outDepthRenderBufferID );
+		CHECK_GL_ERROR;
 		
 		// If the FBO setup failed, try with depth only.  In theory this should
 		// not happen, but there could be a driver bug.
-		if ( glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT ) !=
+		if ( glCheckFramebufferStatusEXT( inTarget ) !=
 			GL_FRAMEBUFFER_COMPLETE_EXT )
 		{
 			// No stencil attachment
-			glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+			glFramebufferRenderbufferEXT( inTarget,
 				GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, 0 );
+			CHECK_GL_ERROR;
 			// Detach depth for a moment (maybe not needed)
-			glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+			glFramebufferRenderbufferEXT( inTarget,
 				GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, 0 );
+			CHECK_GL_ERROR;
 			// Change renderbuffer format to depth only
-			glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+			RenderBufferStorage( inSamples,
 				gldrawcontext_fbo_depth_internal_format( depthBits ),
 				inPaneWidth, inPaneHeight );
 			// Reattach to depth attachment point
-			glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+			glFramebufferRenderbufferEXT( inTarget,
 				GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-				depthRenderBufferID );
+				outDepthRenderBufferID );
+			CHECK_GL_ERROR;
 		}
 	}
 	else
 	{
 		// Create depth renderbuffer
-		glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+		RenderBufferStorage( inSamples,
 			gldrawcontext_fbo_depth_internal_format( depthBits ),
 			inPaneWidth, inPaneHeight );
-		glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+		glFramebufferRenderbufferEXT( inTarget,
 			GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-			depthRenderBufferID );
+			outDepthRenderBufferID );
+		CHECK_GL_ERROR;
 		
 		// Maybe a stencil renderbuffer...
 		// The GL_EXT_framebuffer_object specification implies that this should
@@ -648,18 +866,18 @@ FBORec::FBORec(
 		// is not supported.
 		if (stencilBits > 0)
 		{
-			glGenRenderbuffersEXT( 1, &stencilRenderBufferID );
+			glGenRenderbuffersEXT( 1, &outStencilRenderBufferID );
 			glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
-				stencilRenderBufferID );
-			glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT,
+				outStencilRenderBufferID );
+			RenderBufferStorage( inSamples,
 				gldrawcontext_fbo_stencil_internal_format( stencilBits),
 				inPaneWidth, inPaneHeight );
 			GLenum	theGLErr = glGetError();
 			if (theGLErr == GL_NO_ERROR)
 			{
-				glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+				glFramebufferRenderbufferEXT( inTarget,
 					GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
-					stencilRenderBufferID );
+					outStencilRenderBufferID );
 				theGLErr = glGetError();
 			}
 			if (theGLErr != GL_NO_ERROR)
@@ -668,88 +886,49 @@ FBORec::FBORec(
 			}
 			// If the framebuffer is not complete, fall back to having no
 			// stencil buffer.
-			GLenum	stencilComplete = glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT );
+			GLenum	stencilComplete = glCheckFramebufferStatusEXT( inTarget );
 			if ( (stencilComplete == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT) ||
 				(stencilComplete == GL_FRAMEBUFFER_UNSUPPORTED_EXT) )
 			{
-				glFramebufferRenderbufferEXT( GL_FRAMEBUFFER_EXT,
+				glFramebufferRenderbufferEXT( inTarget,
 					GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, 0 );
-				glDeleteRenderbuffersEXT( 1, &stencilRenderBufferID );
-				stencilRenderBufferID = 0;
+				glDeleteRenderbuffersEXT( 1, &outStencilRenderBufferID );
+				outStencilRenderBufferID = 0;
 			}
 		}
-	}
-
-
-	// no more need for bound renderbuffer
-	glBindRenderbufferEXT( GL_RENDERBUFFER_EXT, 0 );
-	
-	
-	// Check whether FBO is OK
-	GLenum	result = glCheckFramebufferStatusEXT( GL_FRAMEBUFFER_EXT );
-	if (result == GL_FRAMEBUFFER_COMPLETE_EXT)
-	{
-		GLGPUSharing_AddContext( this, masterContext );
-
-		// Set the viewport
-		fboViewPort[0] = fboViewPort[1] = 0;
-		fboViewPort[2] = inPaneWidth;
-		fboViewPort[3] = inPaneHeight;
-		glViewport( fboViewPort[0], fboViewPort[1], fboViewPort[2], fboViewPort[3] );
-		
-		glDisable( GL_SCISSOR_TEST );
-		
-		// If stencil bits were requested, check whether we got them.
-		if (stencilBits > 0)
-		{
-			GLint	stencilDepth = 0;
-			glGetIntegerv( GL_STENCIL_BITS, &stencilDepth );
-			if (static_cast<TQ3Uns32>(stencilDepth) < stencilBits)
-			{
-				Q3_MESSAGE( "FBO did not get requested stencil bits.\n" );
-				E3ErrorManager_PostWarning( kQ3WarningNoOffscreenHardwareStencil );
-			}
-		}
-	}
-	else
-	{
-		Q3_ASSERT(!"FBO failed status check");
-	#if Q3_DEBUG
-		{
-			char		theString[kQ3StringMaximumLength];
-			snprintf( theString, sizeof(theString),
-				"FBO status check returned error %X\n", (int)result );
-			Q3_MESSAGE( theString );
-		}
-	#endif
-		Cleanup();
-		throw std::exception();
 	}
 }
 
+void	FBORec::DeleteRenderBuffer( GLuint inRenderBufferID )
+{
+	if (inRenderBufferID != 0)
+	{
+		glDeleteRenderbuffersEXT( 1, &inRenderBufferID );
+	}
+}
+
+void	FBORec::DeleteFrameBuffer( GLuint inFrameBufferID )
+{
+	if (inFrameBufferID != 0)
+	{
+		glDeleteFramebuffersEXT( 1, &inFrameBufferID );
+	}
+}
+
+
 void	FBORec::Cleanup()
 {
-	static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer( frameBufferID );
-	
 	// Delete renderbuffers
-	if (colorRenderBufferID != 0)
-	{
-		glDeleteRenderbuffersEXT( 1, &colorRenderBufferID );
-	}
-	if (depthRenderBufferID != 0)
-	{
-		glDeleteRenderbuffersEXT( 1, &depthRenderBufferID );
-	}
-	if (stencilRenderBufferID != 0)
-	{
-		glDeleteRenderbuffersEXT( 1, &stencilRenderBufferID );
-	}
+	DeleteRenderBuffer( colorRenderBufferID );
+	DeleteRenderBuffer( depthRenderBufferID );
+	DeleteRenderBuffer( stencilRenderBufferID );
+	DeleteRenderBuffer( colorRenderBufferID_single );
+	DeleteRenderBuffer( depthRenderBufferID_single );
+	DeleteRenderBuffer( stencilRenderBufferID_single );
 	
 	// Delete framebuffer
-	if (frameBufferID != 0)
-	{
-		glDeleteFramebuffersEXT( 1, &frameBufferID );
-	}
+	DeleteFrameBuffer( frameBufferID );
+	DeleteFrameBuffer( frameBufferID_single );
 	
 	// Restore the viewport of the master context.  It does not seem that
 	// this should be necessary, but it is necessary at least on one G5
@@ -769,14 +948,29 @@ void	FBORec::SetCurrent( TQ3Boolean inForceSet )
 {
 	SetCurrentBase( inForceSet );
 	
-	bool changedID = static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer(
-		frameBufferID );
+	bool changedID = false;
+	
+	if (frameBufferID_single == 0)
+	{
+		changedID = BindFrameBuffer( GL_FRAMEBUFFER_EXT, frameBufferID );
+	}
+	else
+	{
+		changedID = BindFrameBuffer( GL_DRAW_FRAMEBUFFER_EXT, frameBufferID );
+
+		if (changedID)
+		{
+			BindFrameBuffer( GL_READ_FRAMEBUFFER_EXT, frameBufferID_single );
+		}
+	}
 	
 	if (changedID)
 	{
 		glDisable( GL_SCISSOR_TEST );
+		CHECK_GL_ERROR;
 
 		glViewport( fboViewPort[0], fboViewPort[1], fboViewPort[2], fboViewPort[3] );
+		CHECK_GL_ERROR;
 	}
 }
 
@@ -785,12 +979,65 @@ void	FBORec::SetCurrentBase( TQ3Boolean inForceSet )
 	static_cast<CQ3GLContext*>(masterContext)->SetCurrentBase( inForceSet );
 }
 
+bool	FBORec::BindFrameBuffer( GLenum inTarget, GLuint inFrameBufferID )
+{
+	return static_cast<CQ3GLContext*>(masterContext)->BindFrameBuffer(
+			inTarget, inFrameBufferID );
+}
+
+void	FBORec::ResolveSamples()
+{
+	// To resolve samples, we must copy all the pixels from the multisampled
+	// framebuffer to the non-multisampled framebuffer.
+	// Ordinarily, frameBufferID is the draw framebuffer and frameBufferID_single
+	// is the read framebuffer, but we must swap the bindings temporarily in order
+	// to do the pixel copy.
+	BindFrameBuffer( GL_READ_FRAMEBUFFER_EXT, frameBufferID );
+	BindFrameBuffer( GL_DRAW_FRAMEBUFFER_EXT, frameBufferID_single );
+	glReadBuffer( GL_COLOR_ATTACHMENT0_EXT );
+	CHECK_GL_ERROR;
+	glDrawBuffer( GL_COLOR_ATTACHMENT0_EXT );
+	CHECK_GL_ERROR;
+
+	GLenum	result = glCheckFramebufferStatusEXT( GL_READ_FRAMEBUFFER_EXT );
+	if (result != GL_FRAMEBUFFER_COMPLETE_EXT)
+	{
+		Q3_MESSAGE_FMT("Multisample as read buffer fails status check");
+	}
+	result = glCheckFramebufferStatusEXT( GL_DRAW_FRAMEBUFFER_EXT );
+	if (result != GL_FRAMEBUFFER_COMPLETE_EXT)
+	{
+		Q3_MESSAGE_FMT("Single-sample as draw buffer fails status check");
+	}
+	
+	CHECK_GL_ERROR;
+	glBlitFramebuffer( 0, 0, fboViewPort[2], fboViewPort[3],
+		0, 0, fboViewPort[2], fboViewPort[3],
+		GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST );
+	CHECK_GL_ERROR;
+
+	BindFrameBuffer( GL_DRAW_FRAMEBUFFER_EXT, frameBufferID );
+	BindFrameBuffer( GL_READ_FRAMEBUFFER_EXT, frameBufferID_single );
+	glReadBuffer( GL_COLOR_ATTACHMENT0_EXT );
+	CHECK_GL_ERROR;
+	glDrawBuffer( GL_COLOR_ATTACHMENT0_EXT );
+	CHECK_GL_ERROR;
+}
+
 void	FBORec::SwapBuffers()
 {
 	if (copyToPixMapOnSwapBuffer)
 	{
 		SetCurrent( kQ3False );
 		
+		glFinish();	// on some machines, glFlush does not suffice
+		CHECK_GL_ERROR;
+		
+		if (frameBufferID_single != 0) // multisampling?
+		{
+			ResolveSamples();
+		}
+
 		TQ3Pixmap	thePixMap;
 		Q3PixmapDrawContext_GetPixmap( quesaDrawContext, &thePixMap );
 		TQ3Area		thePane;
@@ -815,11 +1062,12 @@ void	FBORec::SwapBuffers()
 		GLenum	pixelType, pixelFormat;
 		gldrawcontext_fbo_convert_pixel_format( bytesPerPixel, thePixMap.byteOrder,
 			pixelFormat, pixelType );
-	
-		glFinish();	// on some machines, glFlush does not suffice
-		glReadBuffer( colorBufferAttachment );
+
+		glReadBuffer( GL_COLOR_ATTACHMENT0_EXT );
+		CHECK_GL_ERROR;
 		glReadPixels( 0, 0, theLogicalWidth, theLogicalHeight, pixelFormat,
 			pixelType, panePixels );
+		CHECK_GL_ERROR;
 		
 		gldrawcontext_common_flip_pixel_rows( panePixels, theLogicalWidth,
 			theLogicalHeight, bytesPerPixel, thePixMap.rowBytes );
@@ -887,7 +1135,7 @@ void	FBORec::StartFrame()
 		glDisable( GL_DITHER );
 		glDepthMask( GL_FALSE );
 
-		glDrawBuffer( colorBufferAttachment );
+		glDrawBuffer( GL_COLOR_ATTACHMENT0_EXT );
 		glDrawPixels( theWidth, theHeight, pixelFormat,
 			pixelType, panePixels );
 
@@ -926,6 +1174,12 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 			kQ3DrawContextPropertyGLContext, sizeof(TQ3GLContext),
 			NULL, &masterGLContext )) )
 	{
+		// Check for multisampling request.
+		TQ3Uns32 samples = 0;
+		Q3Object_GetProperty( theDrawContext,
+			kQ3DrawContextPropertyAccelOffscreenSamples,
+			sizeof(samples), NULL, &samples );
+	
 		// Activate the master context so we can check extensions and get
 		// function pointers.
 		GLDrawContext_SetCurrent( masterGLContext, kQ3False );
@@ -950,7 +1204,8 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 						depthBits, stencilBits,
 						masterGLContext,
 						propData.copyFromPixmapAtFrameStart == kQ3True,
-						propData.copyToPixmapAtFrameEnd == kQ3True );
+						propData.copyToPixmapAtFrameEnd == kQ3True,
+						samples );
 				}
 				catch (...)
 				{
@@ -1452,7 +1707,7 @@ MacGLContext::MacGLContext(
 	{
 		// The extension check is necessary; the function pointer may be
 		// available even if the extension is not.
-		bindFrameBufferFunc = GLGetProcAddress( "glBindFramebufferEXT" );
+		GLGetProcAddress( bindFrameBufferFunc, "glBindFramebuffer", "glBindFramebufferEXT" );
  	}
 
 
@@ -1553,7 +1808,7 @@ void	MacGLContext::SetCurrent( TQ3Boolean inForceSet )
 	SetCurrentBase( inForceSet );
 	
 	// Make sure that no FBO is active
-	if (BindFrameBuffer( 0 ))
+	if (BindFrameBuffer( GL_FRAMEBUFFER_EXT, 0 ))
 	{
 		// Restore viewport, which may have been changed by an FBO
 		glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
@@ -1744,7 +1999,7 @@ void	X11GLContext::SetCurrent( TQ3Boolean inForceSet )
 	// Make sure that no FBO is active
 	if (GetCurrentFrameBuffer() != 0)
 	{
-		BindFrameBuffer( 0 );
+		BindFrameBuffer( GL_FRAMEBUFFER_EXT, 0 );
 		
 		// FBOs turn off scissor test
 		glEnable( GL_SCISSOR_TEST );
@@ -1996,7 +2251,7 @@ WinGLContext::WinGLContext(
 	
 	
 	// Get the glBindFramebufferEXT function pointer
-	bindFrameBufferFunc = GLGetProcAddress( "glBindFramebufferEXT" );
+	GLGetProcAddress( bindFrameBufferFunc, "glBindFramebuffer", "glBindFramebufferEXT" );
 	
 
 
@@ -2165,7 +2420,7 @@ void	WinGLContext::SetCurrent( TQ3Boolean inForceSet )
 	// Make sure that no FBO is active
 	if (GetCurrentFrameBuffer() != 0)
 	{
-		if (BindFrameBuffer( 0 ))
+		if (BindFrameBuffer( GL_FRAMEBUFFER_EXT, 0 ))
 		{
 			// FBOs turn off scissor test
 			if (needsScissor)

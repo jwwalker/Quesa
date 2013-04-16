@@ -5,7 +5,7 @@
         Quesa OpenGL utility functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -358,6 +358,12 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_framebuffer_object" ))
 		{
 			featureFlags->frameBufferObjects = kQ3True;
+		}
+
+		if ( (glVersion >= 0x0300) ||
+				isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_framebuffer_multisample" ) )
+		{
+			featureFlags->multisampleFBO = kQ3True;
 		}
 		
 		if ( (glVersion >= 0x0200) ||
