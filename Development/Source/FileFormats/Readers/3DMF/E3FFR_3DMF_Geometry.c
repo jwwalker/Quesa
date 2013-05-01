@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2717,13 +2717,13 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	TQ3Uns32 			numFaces;
 	TQ3Uns32 			numContours;
 	TQ3Int32 			numFaceVertexIndices; // the sign is a flag
-	TQ3Int32 			absFaceVertexIndices; // absolute of above
+	TQ3Uns32 			absFaceVertexIndices; // absolute of above
 	
 	TQ3Vertex3D			vertex;
 	
 	TQ3MeshVertex*		vertices = NULL;
 	TQ3MeshVertex*		faceVertices = NULL;
-	TQ3Int32			allocatedFaceIndices = 0L;
+	TQ3Uns32			allocatedFaceIndices = 0L;
 	
 	TQ3MeshFace			lastFace = NULL;
 	TQ3MeshFace*		faces = NULL;
@@ -2799,7 +2799,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 			goto cleanUp;
 			}
 		//how many vertices?
-		absFaceVertexIndices = E3Integer_Abs(numFaceVertexIndices);
+		absFaceVertexIndices = static_cast<TQ3Uns32>(E3Integer_Abs( numFaceVertexIndices));
 		
 		if(allocatedFaceIndices < absFaceVertexIndices){
 			if(Q3Memory_Reallocate (&faceVertices, (absFaceVertexIndices*sizeof(TQ3MeshVertex))) != kQ3Success)
@@ -2808,7 +2808,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 			}
 			
 		//read the Indices
-		for(j = 0; j< (TQ3Uns32) (absFaceVertexIndices); j++){
+		for(j = 0; j < absFaceVertexIndices; j++){
 			if(Q3Uns32_Read(&index, theFile)!= kQ3Success)
 				{
 				readFailed = kQ3True;
@@ -2819,16 +2819,27 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 		// create the face
 		if(numFaceVertexIndices > 0) // it's a face
 			{
-			lastFace = Q3Mesh_FaceNew (mesh, (TQ3Uns32) absFaceVertexIndices, faceVertices, NULL);
+			if (numFaces == 0) // invalid data, numFaces is lying to us
+				{
+				readFailed = kQ3True;
+				goto cleanUp;
+				}
+			
+			lastFace = Q3Mesh_FaceNew (mesh, absFaceVertexIndices, faceVertices, NULL);
 			faces[faceCount] = lastFace;
 			faceCount ++;
 			}
 		else 						// it's a contour
 			{
-			Q3_ASSERT(lastFace != NULL);
+			// It is illegal for a contour to occur before any face
+			if (lastFace == NULL)
+				{
+				readFailed = kQ3True;
+				goto cleanUp;
+				}
 				
 			Q3Mesh_FaceToContour (mesh, lastFace, 
-								 Q3Mesh_FaceNew (mesh, (TQ3Uns32) absFaceVertexIndices, faceVertices, NULL));
+								 Q3Mesh_FaceNew (mesh, absFaceVertexIndices, faceVertices, NULL));
 			}
 		}
 
