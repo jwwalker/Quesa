@@ -5,7 +5,7 @@
         NSView subclass to display a quesa draw context.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -79,7 +79,7 @@
 {
 	if ( self == [Quesa3DView class] )
 	{
-		TQ3Status qd3dStatus;
+		TQ3Status qd3dStatus = kQ3Success;
 		if (!Q3IsInitialized())    
 			qd3dStatus = Q3Initialize();
 			

@@ -5,7 +5,7 @@
         
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,6 +49,7 @@
 #include <Quesa/QuesaCamera.h>
 #include <Quesa/QuesaShader.h>
 #include <Quesa/QuesaMath.h>
+#include <Quesa/QuesaIO.h>
 #include <Quesa/QuesaView.h>
 #include <Quesa/QuesaMath.h>
 #include <Quesa/QuesaLight.h>
@@ -150,6 +151,61 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 	return shader;
 }
 
+static TQ3ShapeObject createObjectFromFile( NSString* inFilePath )
+{
+	TQ3ShapeObject theObject = NULL;
+	TQ3Uns32 memberCount = 0;
+	
+	// Create a storage object
+	const char* filePath = [inFilePath UTF8String];
+	TQ3StorageObject theStorage = Q3PathStorage_New( filePath );
+	if (theStorage != NULL)
+	{
+		TQ3ShapeObject theModel = Q3DisplayGroup_New();
+		if (theModel != NULL)
+		{
+			TQ3FileObject theFile = Q3File_New();
+			if (theFile != NULL)
+			{
+				TQ3FileMode   fileMode;
+				Q3File_SetStorage( theFile, theStorage );
+				if (Q3File_OpenRead( theFile, &fileMode ) == kQ3Success)
+				{
+					while (Q3File_IsEndOfFile(theFile) == kQ3False)
+					{
+						TQ3Object tempObj = Q3File_ReadObject( theFile );
+						if (tempObj != NULL)
+						{
+							if ( Q3Object_IsDrawable(tempObj) )
+							{
+								Q3Group_AddObject( theModel, tempObj );
+								memberCount += 1;
+							}
+							Q3Object_Dispose(tempObj);
+						}
+					}
+					Q3File_Close( theFile );
+				}
+				
+				Q3Object_Dispose( theFile );
+			}
+			
+			if (memberCount > 0)
+			{
+				theObject = theModel;
+			}
+			else
+			{
+				Q3Object_Dispose( theModel );
+			}
+		}
+		
+		Q3Object_Dispose( theStorage );
+	}
+	
+	return theObject;
+}
+
 @implementation AppDelegate
 
 //==================================================================================
@@ -177,6 +233,10 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 		mIlluminationShaderType = 2;
 		Q3Initialize();
 		mIlluminationShader = Q3PhongIllumination_New();
+		
+		mFullScreenAntialias = YES;
+		mDrawsShadows = YES;
+		mPerPixelLighting = YES;
 	}
 	return self;
 }
@@ -283,13 +343,70 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 		shadowFlag = [self drawsShadows]? kQ3True : kQ3False;
 		Q3Object_SetProperty( theRenderer, kQ3RendererPropertyShadows,
 				sizeof(shadowFlag), &shadowFlag );
-		
+			
 		Q3Object_Dispose( theRenderer );
 	}
 	
 	[quesa3dView setNeedsDisplay:YES];
 }
 
+
+//==================================================================================
+//	updateRendererPerPixelLighting
+//==================================================================================
+- (void) updateRendererPerPixelLighting
+{
+	TQ3RendererObject	theRenderer = NULL;
+	TQ3Boolean			pplFlag;
+
+	Q3View_GetRenderer( [quesa3dView qd3dView], &theRenderer );
+	if (theRenderer != NULL)
+	{
+		pplFlag = [self perPixelLighting]? kQ3True : kQ3False;
+		Q3Object_SetProperty( theRenderer, kQ3RendererPropertyPerPixelLighting,
+				sizeof(pplFlag), &pplFlag );
+			
+		Q3Object_Dispose( theRenderer );
+	}
+	
+	[quesa3dView setNeedsDisplay:YES];
+}
+
+
+//==================================================================================
+//	updateRendererFullScreenAntialias
+//==================================================================================
+- (void) updateRendererFullScreenAntialias
+{
+	TQ3DrawContextObject	dc = [quesa3dView drawContext];
+	
+	if ([self fullScreenAntialias])
+	{
+		Q3Object_SetProperty( dc, kQ3DrawContextPropertyGLPixelFormat,
+			sizeof(mPixelFormat), &mPixelFormat );
+	}
+	else
+	{
+		Q3Object_RemoveProperty( dc, kQ3DrawContextPropertyGLPixelFormat );
+	}
+	
+	// In some cases, the driver disregards disabling of GL_MULTISAMPLE,
+	// so the only way to be sure we can turn antialiasing on and off is
+	// to recreate the renderer.
+	TQ3RendererObject	theRenderer = NULL;
+	Q3View_GetRenderer( [quesa3dView qd3dView], &theRenderer );
+	if (theRenderer != NULL)
+	{
+		TQ3ObjectType theType = Q3Renderer_GetType( theRenderer );
+		Q3View_SetRendererByType( [quesa3dView qd3dView], theType );
+		Q3Object_Dispose( theRenderer );
+		
+		[self updateRendererShadowFlag];
+		[self updateRendererPerPixelLighting];
+	}
+	
+	[quesa3dView setNeedsDisplay:YES];
+}
 
 //==================================================================================
 //	updateManualRotation
@@ -313,6 +430,26 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 {
 	Q3Matrix4x4_Multiply( &mCurrentMatrix, &mRotationFactor, &mCurrentMatrix );
 	[quesa3dView setNeedsDisplay: YES];
+}
+
+- (void) objectSheetEnd: (NSOpenPanel *)panel
+		ret: (int) returnCode
+		ctx: (void*) context
+{
+	[panel orderOut: self];
+	
+	if (returnCode == NSOKButton)
+	{
+		NSString* filePath = [[panel filenames] objectAtIndex: 0];
+		TQ3Object theObject = createObjectFromFile( filePath );
+		if (theObject != NULL)
+		{
+			if (mSceneGeometry != NULL)
+				Q3Object_Dispose(mSceneGeometry);
+
+			mSceneGeometry = theObject;
+		}
+	}
 }
 
 - (void) textureSheetEnd: (NSOpenPanel *)panel
@@ -432,6 +569,28 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 	}
 }
 
+
+//==================================================================================
+//	perPixelLighting
+//==================================================================================
+- (BOOL) perPixelLighting
+{
+	return mPerPixelLighting;
+}
+
+//==================================================================================
+//	setPerPixelLighting:
+//==================================================================================
+- (void) setPerPixelLighting: (BOOL) ppl
+{
+	if (ppl != mPerPixelLighting)
+	{
+		mPerPixelLighting = ppl;
+		[self updateRendererPerPixelLighting];
+	}
+}
+
+
 //==================================================================================
 //	drawsBounds
 //==================================================================================
@@ -480,33 +639,6 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 	{
 		mFullScreenAntialias = antialias;
 		
-		TQ3DrawContextObject	dc = [quesa3dView drawContext];
-		
-		if (antialias)
-		{
-			Q3Object_SetProperty( dc, kQ3DrawContextPropertyGLPixelFormat,
-				sizeof(mPixelFormat), &mPixelFormat );
-		}
-		else
-		{
-			Q3Object_RemoveProperty( dc, kQ3DrawContextPropertyGLPixelFormat );
-		}
-		
-		// In some cases, the driver disregards disabling of GL_MULTISAMPLE,
-		// so the only way to be sure we can turn antialiasing on and off is
-		// to recreate the renderer.
-		TQ3RendererObject	theRenderer = NULL;
-		Q3View_GetRenderer( [quesa3dView qd3dView], &theRenderer );
-		if (theRenderer != NULL)
-		{
-			TQ3ObjectType theType = Q3Renderer_GetType( theRenderer );
-			Q3View_SetRendererByType( [quesa3dView qd3dView], theType );
-			Q3Object_Dispose( theRenderer );
-			
-			[self updateRendererShadowFlag];
-		}
-		
-		[quesa3dView setNeedsDisplay:YES];
 	}
 }
 
@@ -530,6 +662,8 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 		mRendererType = rendererType;
 		
 		Q3View_SetRendererByType([quesa3dView qd3dView], mRendererType);
+		[self updateRendererFullScreenAntialias];
+		[self updateRendererPerPixelLighting];
 		[self updateRendererShadowFlag];
 		[quesa3dView setNeedsDisplay:YES];
 	}
@@ -643,6 +777,22 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 		modalForWindow: [quesa3dView window]
 		modalDelegate: self
 		didEndSelector: @selector(textureSheetEnd:ret:ctx:)
+		contextInfo: NULL];
+}
+
+- (IBAction)loadObject:(id)sender
+{
+	NSOpenPanel* panel = [NSOpenPanel openPanel];
+	[panel setCanChooseFiles: YES];
+	[panel setCanChooseDirectories: NO];
+	[panel setAllowsMultipleSelection: NO];
+	[panel setResolvesAliases: YES];
+	
+	[panel beginSheetForDirectory: nil
+		file: nil
+		modalForWindow: [quesa3dView window]
+		modalDelegate: self
+		didEndSelector: @selector(objectSheetEnd:ret:ctx:)
 		contextInfo: NULL];
 }
 
