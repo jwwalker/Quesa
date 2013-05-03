@@ -5,7 +5,7 @@
         Source code to compute edges of a TriMesh.
 
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -255,7 +255,6 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 {
 	bool	haveCachedData = false;
 	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( inGeom );
-	int			propSize;
 	const char*	propData = reinterpret_cast<const char*>(
 		inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 	
@@ -287,7 +286,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 		
 		Q3TriMesh_UnlockData( inGeom );
 		
-		propSize = sizeof(EdgeCacheRec) +
+		TQ3Uns32 propSize = sizeof(EdgeCacheRec) +
 			outEdges.size() * sizeof(TQ3EdgeEnds) +
 			outFacesToEdges.size() * sizeof(TQ3TriangleEdges);
 		if (ioScratchBuffer.size() < propSize)
@@ -332,7 +331,6 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 {
 	bool	haveCachedData = false;
 	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( inGeom );
-	int			propSize;
 	const char*	propData = reinterpret_cast<const char*>(
 		inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 	
@@ -365,7 +363,7 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 		
 		Q3TriMesh_UnlockData( inGeom );
 
-		propSize = sizeof(EdgeCacheRec) +
+		TQ3Uns32 propSize = sizeof(EdgeCacheRec) +
 			computedEdges.size() * sizeof(TQ3EdgeEnds) +
 			computedFacesToEdges.size() * sizeof(TQ3TriangleEdges);
 		if (ioScratchBuffer.size() < propSize)
@@ -376,12 +374,18 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 		cacheData->editIndex = geomEdits;
 		cacheData->edgeCount = computedEdges.size();
 		cacheData->faceCount = computedFacesToEdges.size();
-		E3Memory_Copy( &computedEdges[0], &ioScratchBuffer[0] + sizeof(EdgeCacheRec),
-				cacheData->edgeCount * sizeof(TQ3EdgeEnds) );
-		E3Memory_Copy( &computedFacesToEdges[0],
-			&ioScratchBuffer[0] + sizeof(EdgeCacheRec) +
-			cacheData->edgeCount * sizeof(TQ3EdgeEnds),
-			cacheData->faceCount * sizeof(TQ3TriangleEdges) );
+		if (cacheData->edgeCount > 0)
+		{
+			E3Memory_Copy( &computedEdges[0], &ioScratchBuffer[0] + sizeof(EdgeCacheRec),
+					cacheData->edgeCount * sizeof(TQ3EdgeEnds) );
+		}
+		if (computedFacesToEdges.size() > 0)
+		{
+			E3Memory_Copy( &computedFacesToEdges[0],
+				&ioScratchBuffer[0] + sizeof(EdgeCacheRec) +
+				cacheData->edgeCount * sizeof(TQ3EdgeEnds),
+				cacheData->faceCount * sizeof(TQ3TriangleEdges) );
+		}
 		Q3Object_SetProperty( inGeom, kPropertyTypeEdgeCache, propSize, cacheData );
 		Q3Shared_SetEditIndex( inGeom, geomEdits );
 		

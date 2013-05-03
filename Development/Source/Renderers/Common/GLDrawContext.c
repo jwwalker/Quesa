@@ -1321,6 +1321,8 @@ gldrawcontext_mac_calc_window_origin( TQ3DrawContextObject theDrawContext )
 		GetPortBounds( thePort, &portBounds );
 		thePoint.h = portBounds.left;
 		thePoint.v = portBounds.bottom;
+	#else
+		thePoint.h = thePoint.v = 0;
 	#endif
 	}
 	else
@@ -2668,12 +2670,12 @@ GLDrawContext_Destroy( TQ3GLContext* glContext )
 	{
 		(*theCallback)( q3dc );
 	}
-
-
-	delete theContext;
 	
 
 	GLGPUSharing_RemoveContext( *glContext );
+
+
+	delete theContext;
 
 
 	// Reset the pointer

@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF Binary FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -378,6 +378,11 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 		Q3_REQUIRE_OR_RESULT(tocSize == 28 + (tocEntrySize * nEntries), kQ3Failure);
 		
 		}
+	
+	if (status != kQ3Success)
+	{
+		return status;
+	}
 	
 	if(nEntries > 0){
 		// allocate (or reallocate) the toc in memory

@@ -5,7 +5,7 @@
         Template class to replace std::vector in some cases.
 
     COPYRIGHT:
-        Copyright (c) 2010-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2010-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -65,11 +65,11 @@ class E3FastArray
 {
 public:
 					E3FastArray();
-					E3FastArray( int initialSize );
+					E3FastArray( TQ3Uns32 initialSize );
 					E3FastArray( const E3FastArray& inOther );
 					~E3FastArray();
 
-	void			SetUnownedData( int inSize, const T* inData );
+	void			SetUnownedData( TQ3Uns32 inSize, const T* inData );
 
 	void			swap( E3FastArray& ioOther );
 	
@@ -79,20 +79,20 @@ public:
 	const T&		operator[]( int index ) const
 						{ Q3_ASSERT(mIsOwned); return mArray[ index ]; }
 	
-	int				size() const { return mSize; }
-	int				capacity() const { return mCapacity; }
+	TQ3Uns32		size() const { return mSize; }
+	TQ3Uns32		capacity() const { return mCapacity; }
 	
-	void			resizeNotPreserving( int newSize );
+	void			resizeNotPreserving( TQ3Uns32 newSize );
 	void			clear() { Q3_REQUIRE( mIsOwned ); resizeNotPreserving(0); }
-	void			reserve( int newCapacity );
+	void			reserve( TQ3Uns32 newCapacity );
 	
 	void			push_back( const T& value );
 
 private:
-	T*		mArray;
-	int		mSize;
-	int		mCapacity;
-	bool	mIsOwned;	// if false, we don't own the data, and may not alter or resize it
+	T*			mArray;
+	TQ3Uns32	mSize;
+	TQ3Uns32	mCapacity;
+	bool		mIsOwned;	// if false, we don't own the data, and may not alter or resize it
 };
 
 template <typename T>
@@ -106,7 +106,7 @@ E3FastArray<T>::E3FastArray()
 
 
 template <typename T>
-E3FastArray<T>::E3FastArray( int initialSize )
+E3FastArray<T>::E3FastArray( TQ3Uns32 initialSize )
 	: mArray( new T[initialSize] )
 	, mSize( initialSize )
 	, mCapacity( initialSize )
@@ -139,7 +139,7 @@ E3FastArray<T>::~E3FastArray()
 }
 
 template <typename T>
-void	E3FastArray<T>::SetUnownedData( int inSize, const T* inData )
+void	E3FastArray<T>::SetUnownedData( TQ3Uns32 inSize, const T* inData )
 {
 	if (mIsOwned)
 	{
@@ -172,10 +172,10 @@ E3FastArray<T>::operator=( const E3FastArray<T>& inOther )
 
 
 template <typename T>
-void	E3FastArray<T>::resizeNotPreserving( int newSize )
+void	E3FastArray<T>::resizeNotPreserving( TQ3Uns32 newSize )
 {
 	Q3_REQUIRE( mIsOwned );
-	if (newSize <= capacity())
+	if (newSize <= mCapacity)
 	{
 		mSize = newSize;
 	}
@@ -190,9 +190,9 @@ void	E3FastArray<T>::resizeNotPreserving( int newSize )
 
 
 template <typename T>
-void	E3FastArray<T>::reserve( int newCapacity )
+void	E3FastArray<T>::reserve( TQ3Uns32 newCapacity )
 {
-	if (newCapacity > capacity())
+	if (newCapacity > mCapacity)
 	{
 		Q3_REQUIRE( mIsOwned );
 		mCapacity = newCapacity;
@@ -204,7 +204,7 @@ void	E3FastArray<T>::reserve( int newCapacity )
 		else
 		{
 			T* biggerArray = new T[mCapacity];
-			E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(size() * sizeof(T)) );
+			E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(mSize * sizeof(T)) );
 			delete [] mArray;
 			mArray = biggerArray;
 		}
@@ -215,9 +215,9 @@ template <typename T>
 void	E3FastArray<T>::push_back( const T& value )
 {
 	Q3_REQUIRE( mIsOwned );
-	if (size() < capacity())
+	if (mSize < mCapacity)
 	{
-		mArray[ size() ] = value;
+		mArray[ mSize ] = value;
 		mSize += 1;
 	}
 	else
@@ -228,10 +228,10 @@ void	E3FastArray<T>::push_back( const T& value )
 		mCapacity += 1;
 		mCapacity *= 2;
 		T* biggerArray = new T[mCapacity];
-		E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(size() * sizeof(T)) );
+		E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(mSize * sizeof(T)) );
 		delete [] mArray;
 		mArray = biggerArray;
-		mArray[ size() ] = valueCopy;
+		mArray[ mSize ] = valueCopy;
 		mSize += 1;
 	}
 }
