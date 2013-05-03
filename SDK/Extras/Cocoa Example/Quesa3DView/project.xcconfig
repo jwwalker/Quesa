@@ -1,17 +1,16 @@
 // Architectures
-ARCHS = i386 ppc
+ARCHS = i386 x86_64
 ONLY_ACTIVE_ARCH = NO
-SDKROOT = $(DEVELOPER_DIR)/SDKs/MacOSX10.6.sdk
+SDKROOT = macosx
 
 // Deployment
-MACOSX_DEPLOYMENT_TARGET = 10.4
+MACOSX_DEPLOYMENT_TARGET = 10.6
 
 // Compiler version
-GCC_VERSION = 4.2
-GCC_VERSION[arch=ppc] = 4.0
+GCC_VERSION =
 
 // Search Paths
-FSP_QUESA = "$(SRCROOT)/../../../Libraries/Mac/Framework_Universal/Debug"
+FSP_QUESA = "$(SRCROOT)/../../../Libraries/Mac/Framework_Modern/Debug"
 FRAMEWORK_SEARCH_PATHS = $(FSP_QUESA) $(SDKROOT)/Library/Frameworks
 
 // Build Options

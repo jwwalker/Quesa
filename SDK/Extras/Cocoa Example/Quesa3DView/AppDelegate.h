@@ -5,7 +5,7 @@
         Header file for AppDelegate.m.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -66,6 +66,7 @@
 	NSTimer*			mAnimationTimer;
 	BOOL				mAnimates;
 	BOOL				mDrawsShadows;
+	BOOL				mPerPixelLighting;
 	TQ3Object			mSceneBounds;
 	BOOL				mFullScreenAntialias;
 	NSOpenGLPixelFormat*	mPixelFormat;
@@ -82,6 +83,9 @@
 
 - (BOOL) drawsShadows;
 - (void) setDrawsShadows: (BOOL) shadows;
+
+- (BOOL) perPixelLighting;
+- (void) setPerPixelLighting: (BOOL) ppl;
 
 - (BOOL) animates;
 - (void) setAnimates: (BOOL) animate;
@@ -110,4 +114,6 @@
 - (IBAction)setGeometryFromTag:(id)sender;
 
 - (IBAction)loadTexture:(id)sender;
+
+- (IBAction)loadObject:(id)sender;
 @end

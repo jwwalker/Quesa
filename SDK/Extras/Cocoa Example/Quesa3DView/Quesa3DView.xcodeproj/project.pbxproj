@@ -17,7 +17,7 @@
 		BE13529C0C3C14F400B20B60 /* DemoGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E8954AAFF19270E7F000001 /* DemoGeometry.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529D0C3C14F400B20B60 /* Quesa3DView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2179FF09FF19522C7F000001 /* Quesa3DView.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529E0C3C14F400B20B60 /* QuesaCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */; settings = {ATTRIBUTES = (); }; };
-		BE1352A00C3C14F400B20B60 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		BE67F2591734626500A49604 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE67F2581734626500A49604 /* Cocoa.framework */; };
 		BEE5742D142270820096EFC0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEE5742B142270820096EFC0 /* MainMenu.xib */; };
 		BEFFD8930C4C8D6C00202EA8 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
 		BEFFD8AF0C4C8D7A00202EA8 /* Quesa.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
@@ -63,7 +63,6 @@
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		17327D4BFF18F4807F000001 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		17327D4CFF18F4807F000001 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1E8954AAFF19270E7F000001 /* DemoGeometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoGeometry.m; sourceTree = "<group>"; };
@@ -76,6 +75,7 @@
 		BE1352A80C3C14F400B20B60 /* QuesaCocoaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuesaCocoaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE13530F0C3C190300B20B60 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 		BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Quesa3DView.plist"; sourceTree = "<group>"; };
+		BE67F2581734626500A49604 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BEE5742C142270820096EFC0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE1352A00C3C14F400B20B60 /* Cocoa.framework in Frameworks */,
+				BE67F2591734626500A49604 /* Cocoa.framework in Frameworks */,
 				BEFFD8930C4C8D6C00202EA8 /* Quesa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,8 +107,8 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BE67F2581734626500A49604 /* Cocoa.framework */,
 				BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */,
-				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -318,7 +318,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make a symbolic link in the configuration build directory, pointing to the right version of Quesa.\necho \"ln -h -f -s \" \"../../../../../Libraries/Mac/Framework_Universal/$CONFIGURATION/Quesa.framework\" Quesa.framework\nln -h -f -s \"../../../../../Libraries/Mac/Framework_Universal/$CONFIGURATION/Quesa.framework/\" Quesa.framework\n";
+			shellScript = "cd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make a symbolic link in the configuration build directory, pointing to the right version of Quesa.\necho \"ln -h -f -s \" \"../../../../../Libraries/Mac/Framework_Modern/$CONFIGURATION/Quesa.framework\" Quesa.framework\nln -h -f -s \"../../../../../Libraries/Mac/Framework_Modern/$CONFIGURATION/Quesa.framework/\" Quesa.framework\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
