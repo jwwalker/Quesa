@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -256,10 +256,10 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshDirectional(
 								const TQ3RationalPoint4D& inLocalLightPos,
 								TQ3Uns32& outNumTriIndices )
 {
-	int i;
+	TQ3Uns32 i;
 
 	// Set up original vertices and vertices extruded to infinity.
-	const int	kNumPoints = inTMData.numPoints;
+	const TQ3Uns32	kNumPoints = inTMData.numPoints;
 	mShadowPoints.resizeNotPreserving( kNumPoints + 1 );
 	TQ3RationalPoint4D*	verts = &mShadowPoints[0];
 	for (i = 0; i < kNumPoints; ++i)
@@ -282,7 +282,7 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshDirectional(
 	verts[ kNumPoints ] = oppositePt;
 
 	// Set up edge counters.
-	const int	kNumEdges = mShadowEdges.size();
+	const TQ3Uns32	kNumEdges = mShadowEdges.size();
 	const TQ3EdgeEnds* theEdges = &mShadowEdges[0];
 	if (mShadowEdgeCounters.size() < kNumEdges)
 	{
@@ -297,7 +297,7 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshDirectional(
 	// many, so the total number of shadow geometry faces is at most 4 times
 	// the number of faces of the TriMesh.  Each triangular face needs 3 indices,
 	// so the number of indices needed is 12 times the number of TriMesh faces.
-	const int	kNumFaces = inTMData.numTriangles;
+	const TQ3Uns32	kNumFaces = inTMData.numTriangles;
 	if (mShadowVertIndices.size() < kNumFaces * 12)
 	{
 		mShadowVertIndices.resizeNotPreserving( kNumFaces * 12 );
@@ -380,10 +380,10 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshPositional(
 								TQ3Uns32& outNumTriIndices,
 								TQ3Uns32& outNumQuadIndices )
 {
-	int i;
+	TQ3Uns32 i;
 	
 	// Set up original vertices and vertices extruded to infinity.
-	const int	kNumPoints = inTMData.numPoints;
+	const TQ3Uns32	kNumPoints = inTMData.numPoints;
 	mShadowPoints.resizeNotPreserving( 2 * kNumPoints );
 	TQ3RationalPoint4D*	verts = &mShadowPoints[0];
 
@@ -411,7 +411,7 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshPositional(
 	}
 	
 	// Set up edge counters.
-	const int	kNumEdges = mShadowEdges.size();
+	const TQ3Uns32	kNumEdges = mShadowEdges.size();
 	const TQ3EdgeEnds* theEdges = &mShadowEdges[0];
 	if (mShadowEdgeCounters.size() < kNumEdges)
 	{
@@ -425,7 +425,7 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshPositional(
 	// triangle, and the side silhouette may have up to 3 quads for each original
 	// triangle.  So the number of indices needed is at most
 	// 2*3 + 3*4 = 18 times the number of faces.
-	const int	kNumFaces = inTMData.numTriangles;
+	const TQ3Uns32	kNumFaces = inTMData.numTriangles;
 	if (mShadowVertIndices.size() < kNumFaces * 18)
 	{
 		mShadowVertIndices.resizeNotPreserving( kNumFaces * 18 );
