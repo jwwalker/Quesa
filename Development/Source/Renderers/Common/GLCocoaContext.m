@@ -217,14 +217,19 @@ CocoaGLContext::CocoaGLContext(
 
 	// Sync to monitor refresh rate?
 	TQ3Boolean	doSync;
-	if ( (kQ3Success == Q3Object_GetProperty( theDrawContext,
+	if (kQ3Success == Q3Object_GetProperty( theDrawContext,
 		kQ3DrawContextPropertySyncToRefresh, sizeof(doSync), NULL, &doSync ))
-		&&
-		doSync
-	)
 	{
-		[glContext	setValues:&enable
-									forParameter:NSOpenGLCPSwapInterval];
+		if (doSync)
+		{
+			enable = 1;
+		}
+		else
+		{
+			enable = 0;
+		}
+		
+		[glContext	setValues:&enable forParameter:NSOpenGLCPSwapInterval];
 	}
 }
 
