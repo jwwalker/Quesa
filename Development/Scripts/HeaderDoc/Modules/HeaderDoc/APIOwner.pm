@@ -798,6 +798,7 @@ sub createTOCFile {
 	print OUTFILE "a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}";
 	print OUTFILE "a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}";
 	print OUTFILE "a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}";
+	print OUTFILE "a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}";
 	print OUTFILE "h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}"; # bold
 	print OUTFILE "-->";
 	print OUTFILE "</style>";
@@ -2212,6 +2213,7 @@ sub _createHTMLOutputFile {
         print OUTFILE "a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}";
         print OUTFILE "a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}";
         print OUTFILE "a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}";
+        print OUTFILE "a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}";
         print OUTFILE "h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}"; # bold 
         print OUTFILE "-->";
         print OUTFILE "</style>";
