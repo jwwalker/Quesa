@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -223,8 +223,8 @@ e3geom_pixmapmarker_pixel_is_set(const TQ3PixmapMarkerData *instanceData, TQ3Int
 
 
 	// Check to see if the pixel is in range
-	if (x < 0 || x >= (TQ3Int32) instanceData->pixmap.width ||
-		y < 0 || y >= (TQ3Int32) instanceData->pixmap.height)
+	if (x < 0 || E3Num_SafeGreaterEq( x, instanceData->pixmap.width ) ||
+		y < 0 || E3Num_SafeGreaterEq( y, instanceData->pixmap.height ) )
 		return(kQ3False);
 
 

@@ -5,7 +5,7 @@
         Functions to optimize a TriMesh for use by the interactive renderer.
 
     COPYRIGHT:
-        Copyright (c) 2005-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -297,12 +297,13 @@ Owner	TriMeshOptimizer::GetOwnerOfInstance( TQ3Int32 inInstance ) const
 {
 	Owner	theOwner;
 	
-	if (inInstance < static_cast<TQ3Int32>(mOrigData.numTriangles * 3))
+	if ( E3Num_SafeLess( inInstance, mOrigData.numTriangles * 3 ) )
 	{
 		theOwner.mType = kOwnerTypeFace;
 		theOwner.mIndex = inInstance / 3;
 	}
-	else if (inInstance < static_cast<TQ3Int32>(mOrigData.numTriangles * 3 + mOrigData.numEdges * 2))
+	else if ( E3Num_SafeLess( inInstance,
+		mOrigData.numTriangles * 3 + mOrigData.numEdges * 2 ) )
 	{
 		theOwner.mType = kOwnerTypeEdge;
 		theOwner.mIndex = (inInstance - mOrigData.numTriangles * 3) / 2;
@@ -520,7 +521,7 @@ TQ3Int32	TriMeshOptimizer::FindPrevSimilarInstance( TQ3Int32 inPtInstanceIndex )
 		prevIndex >= 0;
 		prevIndex = mPrevPointInstance[ prevIndex ])
 	{
-		if (prevIndex >= (TQ3Int32)mInstanceToPoint.size())
+		if ( E3Num_SafeGreaterEq( prevIndex, mInstanceToPoint.size() ) )
 		{
 			break;
 		}

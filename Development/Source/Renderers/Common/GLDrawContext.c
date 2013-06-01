@@ -454,23 +454,23 @@ static int
 gldrawcontext_fbo_get_pixmap_alignment( const TQ3Pixmap& inPix )
 {
 	int	alignment = 0;
-	int	bytesPerPixel = inPix.pixelSize / 8;
-	int	pixelsThatFitPerRow = inPix.rowBytes / bytesPerPixel;
-	int	pixelBytesPerRow = bytesPerPixel * pixelsThatFitPerRow;
+	TQ3Uns32	bytesPerPixel = inPix.pixelSize / 8;
+	TQ3Uns32	pixelsThatFitPerRow = inPix.rowBytes / bytesPerPixel;
+	TQ3Uns32	pixelBytesPerRow = bytesPerPixel * pixelsThatFitPerRow;
 	
-	if (static_cast<TQ3Int32>(inPix.rowBytes) == pixelBytesPerRow)
+	if (inPix.rowBytes == pixelBytesPerRow)
 	{
 		alignment = 1;
 	}
-	else if (static_cast<TQ3Int32>(inPix.rowBytes) == 2 * ((pixelBytesPerRow + 1) / 2))
+	else if (inPix.rowBytes == 2 * ((pixelBytesPerRow + 1) / 2))
 	{
 		alignment = 2;
 	}
-	else if (static_cast<TQ3Int32>(inPix.rowBytes) == 4 * ((pixelBytesPerRow + 3) / 4))
+	else if (inPix.rowBytes == 4 * ((pixelBytesPerRow + 3) / 4))
 	{
 		alignment = 4;
 	}
-	else if (static_cast<TQ3Int32>(inPix.rowBytes) == 8 * ((pixelBytesPerRow + 7) / 8))
+	else if (inPix.rowBytes == 8 * ((pixelBytesPerRow + 7) / 8))
 	{
 		alignment = 8;
 	}
@@ -659,7 +659,7 @@ FBORec::FBORec(
 			"glBlitFramebuffer", "glBlitFramebufferEXT" );
 		GLint maxSamples;
 		glGetIntegerv( GL_MAX_SAMPLES_EXT, &maxSamples );
-		if (inSamples > (TQ3Uns32)maxSamples)
+		if ( E3Num_SafeGreater( inSamples, maxSamples ) )
 		{
 			inSamples = maxSamples;
 		}
@@ -742,7 +742,7 @@ FBORec::FBORec(
 	{
 		GLint	stencilDepth = 0;
 		glGetIntegerv( GL_STENCIL_BITS, &stencilDepth );
-		if (static_cast<TQ3Uns32>(stencilDepth) < stencilBits)
+		if ( E3Num_SafeLess( stencilDepth, stencilBits ) )
 		{
 			Q3_MESSAGE( "FBO did not get requested stencil bits.\n" );
 			E3ErrorManager_PostWarning( kQ3WarningNoOffscreenHardwareStencil );

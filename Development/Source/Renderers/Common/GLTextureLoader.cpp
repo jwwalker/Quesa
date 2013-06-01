@@ -253,12 +253,12 @@ static void ConstrainTextureSize(
 		outDstHeight = NextPowerOf2( outDstHeight );
 	}
 	
-	while (outDstWidth > (TQ3Uns32)maxGLSize)
+	while ( E3Num_SafeGreater( outDstWidth, maxGLSize ) )
 	{
 		outDstWidth /= 2;
 	}
 	
-	while (outDstHeight > (TQ3Uns32)maxGLSize)
+	while ( E3Num_SafeGreater( outDstHeight, maxGLSize ) )
 	{
 		outDstHeight /= 2;
 	}
@@ -382,6 +382,8 @@ static int	CountImagesInMipmap( const TQ3Mipmap& inMipmapData )
 	
 	return numImages;
 }
+
+#pragma mark -
 
 static void ConvertPixel_ARGB32_Big( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
