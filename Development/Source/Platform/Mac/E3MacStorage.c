@@ -5,7 +5,7 @@
         Macintosh specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -259,7 +259,8 @@ e3storage_mac_flushbuffer ( E3MacintoshStorage* storage )
 		return kQ3Failure ;
 		}
 	// Grow storage 
-	if ( ( storage->macStorageData.bufferStart + ioByteCount ) > (TQ3Uns32)theLength )
+	if ( E3Num_SafeGreater( storage->macStorageData.bufferStart + ioByteCount,
+							theLength ) )
 		{
 		err = ::FSSetForkSize ( storage->macStorageData.fsRefNum, fsFromStart,
 			((SInt32) storage->macStorageData.bufferStart + ioByteCount ) ) ;

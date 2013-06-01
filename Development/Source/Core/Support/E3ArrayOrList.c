@@ -22,7 +22,7 @@
 		and/or list of pointers.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1771,7 +1771,7 @@ e3listSequence_Create(
 	tailNodePtr->nextNodePtr_private = tailNodePtr;
 
 	itemSize = E3ListInfo_ItemSize(listInfoPtr);
-	for (i = 0; i < (TQ3Uns32) length; ++i)
+	for (i = 0; E3Num_SafeLess( i, length ); ++i)
 	{
 		TE3GenericItem* itemPtr;
 

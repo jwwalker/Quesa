@@ -12,7 +12,7 @@
 		which this is derived.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -554,7 +554,8 @@ E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex )
 {
 	const char*	theName = NULL;
 	
-	if ( (inCrawl != NULL) && (static_cast<TQ3Int32>(inIndex) < inCrawl->numFrames) )
+	if ( (inCrawl != NULL) &&
+		E3Num_SafeLess( inIndex, inCrawl->numFrames ) )
 	{
 		uintptr_t	offset;
 		char*	symname;
@@ -581,7 +582,7 @@ E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex )
 			free( (void*) symname );
 			theName = textBuffer;
 		}
-		else if (static_cast<TQ3Int32>(inIndex) + 1 < inCrawl->numFrames)
+		else if ( E3Num_SafeLess( inIndex + 1, inCrawl->numFrames ) )
 		{
 			snprintf( textBuffer, kMaxTextLength, FORMAT_UINTPTR,
 				inCrawl->frames[inIndex].pc );

@@ -5,7 +5,7 @@
         Header file for E3Utils.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -88,6 +88,8 @@ T E3Num_Clamp( const T& _n, const Tmin& _min, const Tmax& _max )
 {
 	return E3Num_Max( E3Num_Min( _n, static_cast<T>(_max) ), static_cast<T>(_min) );
 }
+
+#include "E3SafeCompare.hpp"
 
 #else // pure C
 
