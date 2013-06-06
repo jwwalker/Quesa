@@ -250,7 +250,7 @@
 		B19A74350C3E7A7F0099C820 /* WFRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B19A74320C3E7A7F0099C820 /* WFRenderer.cpp */; };
 		B1BD22040BEBD81B00937A68 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */; };
 		B1BD22080BEBD81B00937A68 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */; };
-		BE097F3B156DCE85009AACEF /* QuesaMathOperators.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BE097F3A156DCE85009AACEF /* QuesaMathOperators.hpp */; };
+		BE097F3B156DCE85009AACEF /* QuesaMathOperators.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BE097F3A156DCE85009AACEF /* QuesaMathOperators.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE0D64FE0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE0D64FA0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp */; };
 		BE0D65000C0D0FFC00D3D79C /* QOShadowMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE0D64FC0C0D0FFC00D3D79C /* QOShadowMarker.cpp */; };
 		BE0D65050C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE0D64FA0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp */; };
@@ -1722,6 +1722,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE5D0F5F15B79B3C00E3DBE4 /* Modern-Debug.xcconfig */;
 			buildSettings = {
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
