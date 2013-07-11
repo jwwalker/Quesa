@@ -1,0 +1,49 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+#   NAME:
+#      Polygon.3dmf
+#
+#   DESCRIPTION:
+#       Simple polygon with vertex UVs.
+#		    
+#   COPYRIGHT:
+#       Copyright (c) 2013, Quesa Developers. All rights reserved.
+
+Container (
+	Polygon (
+		5
+		0 0 0
+		1 0 0
+		2 1 0
+		1 2 0
+		0 1 0
+	)
+	Container (
+		VertexAttributeSetList( 5 exclude 0 )
+		Container (
+			AttributeSet ( )
+			SurfaceUV ( 0 0 )
+		)
+		Container (
+			AttributeSet ( )
+			SurfaceUV ( 0.5 0 )
+		)
+		Container (
+			AttributeSet ( )
+			SurfaceUV ( 1 0.5 )
+		)
+		Container (
+			AttributeSet ( )
+			SurfaceUV ( 0.5 1 )
+		)
+		Container (
+			AttributeSet ( )
+			SurfaceUV ( 0 0.5 )
+		)
+	)
+	Container (
+		AttributeSet ( )
+		SpecularColor ( 0 0 0 )
+		DiffuseColor ( 1 1 1 )
+	)
+)
