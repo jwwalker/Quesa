@@ -206,6 +206,75 @@ static TQ3ShapeObject createObjectFromFile( NSString* inFilePath )
 	return theObject;
 }
 
+static void SaveObjectToFile( TQ3ShapeObject inGeometry, NSURL* inDestination,
+								TQ3ViewObject inView )
+{
+	TQ3StorageObject theStorage = Q3PathStorage_New( [[inDestination path] UTF8String] );
+	if (theStorage != NULL)
+	{
+		TQ3FileObject theFile = Q3File_New();
+		Q3File_SetStorage( theFile, theStorage );
+		
+		if (Q3File_OpenWrite( theFile, kQ3FileModeNormal ) == kQ3Success)
+		{
+			TQ3ViewStatus viewStatus;
+			do
+			{
+				Q3View_StartWriting( inView, theFile );
+				
+				Q3Object_Submit( inGeometry, inView );
+				
+				viewStatus = Q3View_EndWriting( inView );
+			} while (viewStatus == kQ3ViewStatusRetraverse);
+			
+			
+			Q3File_Close( theFile );
+		}
+		
+		Q3Object_Dispose( theFile );
+		Q3Object_Dispose( theStorage );
+	}
+}
+
+static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject ioShape )
+{
+	TQ3AttributeSet atts = NULL;
+	
+	if (Q3Object_IsType( ioShape, kQ3ShapeTypeGroup ))
+	{
+		Q3Group_EmptyObjectsOfType( ioShape, kQ3ShaderTypeSurface );
+
+		atts = Q3AttributeSet_New();
+		Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceShader, &inTextureShader );
+
+		if (Q3Object_IsType( ioShape, kQ3DisplayGroupTypeOrdered ))
+		{
+			Q3Group_AddObject( ioShape, atts );
+		}
+		else
+		{
+			TQ3GroupPosition pos = NULL;
+			Q3Group_GetFirstPosition( ioShape, &pos );
+			if (pos != NULL)
+			{
+				Q3Group_AddObjectBefore( ioShape, pos, atts );
+			}
+		}
+		Q3Object_Dispose( atts );
+	}
+	else if (Q3Object_IsType( ioShape, kQ3ShapeTypeGeometry ))
+	{
+		Q3Geometry_GetAttributeSet( ioShape, &atts );
+		if (atts == NULL)
+		{
+			atts = Q3AttributeSet_New();
+			Q3Geometry_SetAttributeSet( ioShape, atts );
+			Q3Object_Dispose( atts );
+		}
+		Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceShader, &inTextureShader );
+	}
+}
+
 @implementation AppDelegate
 
 //==================================================================================
@@ -430,82 +499,6 @@ static TQ3ShapeObject createObjectFromFile( NSString* inFilePath )
 {
 	Q3Matrix4x4_Multiply( &mCurrentMatrix, &mRotationFactor, &mCurrentMatrix );
 	[quesa3dView setNeedsDisplay: YES];
-}
-
-- (void) objectSheetEnd: (NSOpenPanel *)panel
-		ret: (int) returnCode
-		ctx: (void*) context
-{
-	[panel orderOut: self];
-	
-	if (returnCode == NSOKButton)
-	{
-		NSString* filePath = [[panel filenames] objectAtIndex: 0];
-		TQ3Object theObject = createObjectFromFile( filePath );
-		if (theObject != NULL)
-		{
-			if (mSceneGeometry != NULL)
-				Q3Object_Dispose(mSceneGeometry);
-
-			mSceneGeometry = theObject;
-		}
-	}
-}
-
-- (void) textureSheetEnd: (NSOpenPanel *)panel
-		ret: (int) returnCode
-		ctx: (void*) context
-{
-	[panel orderOut: self];
-	
-	if (returnCode == NSOKButton)
-	{
-		TQ3ShaderObject txShader = createTextureFromFile( [[panel filenames] objectAtIndex: 0] );
-	
-		if (txShader != NULL)
-		{
-			if (mSceneGeometry != NULL)
-			{
-				TQ3AttributeSet atts = NULL;
-				
-				if (Q3Object_IsType( mSceneGeometry, kQ3ShapeTypeGroup ))
-				{
-					Q3Group_EmptyObjectsOfType( mSceneGeometry, kQ3ShaderTypeSurface );
-
-					atts = Q3AttributeSet_New();
-					Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceShader, &txShader );
-
-					if (Q3Object_IsType( mSceneGeometry, kQ3DisplayGroupTypeOrdered ))
-					{
-						Q3Group_AddObject( mSceneGeometry, atts );
-					}
-					else
-					{
-						TQ3GroupPosition pos = NULL;
-						Q3Group_GetFirstPosition( mSceneGeometry, &pos );
-						if (pos != NULL)
-						{
-							Q3Group_AddObjectBefore( mSceneGeometry, pos, atts );
-						}
-					}
-					Q3Object_Dispose( atts );
-				}
-				else if (Q3Object_IsType( mSceneGeometry, kQ3ShapeTypeGeometry ))
-				{
-					Q3Geometry_GetAttributeSet( mSceneGeometry, &atts );
-					if (atts == NULL)
-					{
-						atts = Q3AttributeSet_New();
-						Q3Geometry_SetAttributeSet( mSceneGeometry, atts );
-						Q3Object_Dispose( atts );
-					}
-					Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceShader, &txShader );
-				}
-			}
-			
-			Q3Object_Dispose( txShader );
-		}
-	}
 }
 
 #pragma mark accessors (KVC and KVO compliant)
@@ -771,13 +764,27 @@ static TQ3ShapeObject createObjectFromFile( NSString* inFilePath )
 	[panel setCanChooseDirectories: NO];
 	[panel setAllowsMultipleSelection: NO];
 	[panel setResolvesAliases: YES];
+	[panel setAllowedFileTypes:
+		[NSArray arrayWithObjects: @"public.image", @"com.adobe.pdf", nil] ];
 	
-	[panel beginSheetForDirectory: nil
-		file: nil
-		modalForWindow: [quesa3dView window]
-		modalDelegate: self
-		didEndSelector: @selector(textureSheetEnd:ret:ctx:)
-		contextInfo: NULL];
+	[panel beginSheetModalForWindow: [quesa3dView window]
+		completionHandler:
+		^(NSInteger result)
+		{
+			if ( (result == NSFileHandlingPanelOKButton) &&
+				(mSceneGeometry != NULL) )
+			{
+				NSURL* theURL = [[panel URLs] objectAtIndex: 0];
+				TQ3ShaderObject txShader = createTextureFromFile( [theURL path] );
+			
+				if (txShader != NULL)
+				{
+					ApplyTextureToShape( txShader, mSceneGeometry );
+					
+					Q3Object_Dispose( txShader );
+				}
+			}
+		}];
 }
 
 - (IBAction)loadObject:(id)sender
@@ -787,13 +794,41 @@ static TQ3ShapeObject createObjectFromFile( NSString* inFilePath )
 	[panel setCanChooseDirectories: NO];
 	[panel setAllowsMultipleSelection: NO];
 	[panel setResolvesAliases: YES];
+	[panel setAllowedFileTypes: [NSArray arrayWithObject: @"org.Quesa.3dmf"]];
 	
-	[panel beginSheetForDirectory: nil
-		file: nil
-		modalForWindow: [quesa3dView window]
-		modalDelegate: self
-		didEndSelector: @selector(objectSheetEnd:ret:ctx:)
-		contextInfo: NULL];
+	[panel beginSheetModalForWindow: [quesa3dView window]
+		completionHandler:
+		^(NSInteger result)
+		{
+			if (result == NSFileHandlingPanelOKButton)
+			{
+				NSURL* theURL = [[panel URLs] objectAtIndex: 0];
+				TQ3Object theObject = createObjectFromFile( [theURL path] );
+				if (theObject != NULL)
+				{
+					if (mSceneGeometry != NULL)
+					{
+						Q3Object_Dispose(mSceneGeometry);
+					}
+					mSceneGeometry = theObject;
+				}
+			}
+		}];
+}
+
+- (IBAction)saveObject:(id)sender
+{
+	NSSavePanel* panel = [NSSavePanel savePanel];
+	[panel setExtensionHidden: NO];
+	[panel beginSheetModalForWindow: [quesa3dView window]
+		completionHandler:^(NSInteger result)
+		{
+			if (result == NSFileHandlingPanelOKButton)
+			{
+				NSURL* theURL = [panel URL];
+				SaveObjectToFile( mSceneGeometry, theURL, [quesa3dView qd3dView] );
+			}
+		}];
 }
 
 //==================================================================================

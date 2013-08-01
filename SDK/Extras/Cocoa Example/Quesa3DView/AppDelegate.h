@@ -116,4 +116,6 @@
 - (IBAction)loadTexture:(id)sender;
 
 - (IBAction)loadObject:(id)sender;
+
+- (IBAction)saveObject:(id)sender;
 @end
