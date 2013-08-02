@@ -192,8 +192,7 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 TQ3Status
 E3FFW_3DMF_type_Traverse( TQ3Object object, void *data, TQ3ViewObject view )
 	{
-	// I have sneakily passed the custom type as the data "pointer".
-	TQ3ObjectType customType = (TQ3ObjectType) (long) data ;
+	TQ3ObjectType customType = *(TQ3ObjectType*) data ;
 	
 	
 	// Find the class and class name.
@@ -223,8 +222,7 @@ E3FFW_3DMF_type_Write( const void *data, TQ3FileObject file )
 	TQ3Status	status = kQ3Failure ;
 	
 	
-	// I have sneakily passed the custom type as the data "pointer".
-	TQ3ObjectType customType = (TQ3ObjectType) (long) data ;
+	TQ3ObjectType customType = *(TQ3ObjectType*) data ;
 	
 	
 	// Find the class and class name.
@@ -265,7 +263,7 @@ e3ffw_3DMF_write_custom_types( TQ3ViewObject				theView,
 	
 	if ( ( theType < 0 ) && ( theClass->GetNumInstances () > 0 ) )
 		status = E3FFW_3DMF_TraverseObject ( theView, fileFormatPrivate, NULL,
-			kQ3ObjectTypeType, (void*)theType ) ;
+			kQ3ObjectTypeType, (const void*)&theType ) ;
 	
 	
 	// Recurse the class hierarchy
