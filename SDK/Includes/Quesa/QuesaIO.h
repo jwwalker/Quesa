@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -285,7 +285,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectWriteMethod)       
  *  @discussion
  *      Delete method.
  *
- *  @param delete           The data to delete.
+ *  @param data             The data to delete.
  */
 typedef Q3_CALLBACK_API_C(void,                    TQ3XDataDeleteMethod)           (void *data);
 

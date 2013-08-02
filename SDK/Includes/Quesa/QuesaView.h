@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -159,7 +159,6 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewIdleProgressMethod)(
  *
  *  @param theView          The view being submitted to.
  *  @param endFrameData     The application-specific data passed to Q3View_SetEndFrameMethod.
- *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(void,                TQ3ViewEndFrameMethod)(
                             TQ3ViewObject       theView,
