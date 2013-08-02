@@ -102,6 +102,9 @@ typedef struct TE3FileData {
 } TE3FileData;
 
 
+// This prototype must precede the friend declaration in E3File in order
+// to make some compilers happy.
+TQ3Status			E3File_RegisterClass(void);
 
 
 class E3File : public E3Shared

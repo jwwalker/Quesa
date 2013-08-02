@@ -296,6 +296,10 @@ struct E3SharedData
 	TQ3Int32		editIndex;	// normally positive, negative means "locked"
 };
 
+    
+// This needs to be before the friend declaration in E3Shared to make some compilers happy.
+    void				E3Shared_Dispose( class E3Shared* sharedObject );
+
 
 
 // Shared object data
