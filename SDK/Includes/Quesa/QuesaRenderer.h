@@ -976,7 +976,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitCameraMethod)(
  *
  *      This method is optional.
  *
- *  @param cameraType       The camera type whose submit method is requested.
+ *  @param lightType        The camera type whose submit method is requested.
  *  @result                 The submit method for cameras of type cameraType.
  */
 typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitLightMetaHandlerMethod)(
@@ -1109,7 +1109,7 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateShaderMetaHandl
  *
  *  @param theView          The view being rendered to.
  *  @param rendererPrivate  Renderer-specific instance data.
- *  @param publicData       The public data for the shader being submitted.
+ *  @param theShader        The public data for the shader being submitted.
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateShaderMethod)(
@@ -1146,7 +1146,7 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateMatrixMetaHandl
  *
  *  @param theView          The view being rendered to.
  *  @param rendererPrivate  Renderer-specific instance data.
- *  @param publicData       The public data for the matrix being submitted.
+ *  @param theMatrix        The public data for the matrix being submitted.
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(

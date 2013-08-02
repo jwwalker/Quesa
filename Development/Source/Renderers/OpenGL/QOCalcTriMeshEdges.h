@@ -6,7 +6,7 @@
         Header file for QOCalcTriMeshEdges.cpp.
 
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -82,13 +82,13 @@ struct TQ3EdgeEnds
 };
 
 /*!
-	@struct		TQ3EdgeVec
+	@typedef	TQ3EdgeVec
 	@abstract	Array of edges.
 */
 typedef E3FastArray< TQ3EdgeEnds >		TQ3EdgeVec;
 
 /*!
-	@struct		TQ3TriangleToEdgeVec
+	@typedef	TQ3TriangleToEdgeVec
 	@abstract	Array of triangle edge structures.
 */
 typedef E3FastArray< TQ3TriangleEdges >		TQ3TriangleToEdgeVec;
