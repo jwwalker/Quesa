@@ -283,6 +283,13 @@ public :
 	} ;
 
 
+
+// This prototype must precede the friend declaration in E3OrderedDisplayGroup in order
+// to make some compilers happy.
+TQ3Status			E3Group_RegisterClass(void);
+
+
+
 class E3OrderedDisplayGroup : public E3DisplayGroup
 	{
 Q3_CLASS_ENUMS ( kQ3DisplayGroupTypeOrdered, E3OrderedDisplayGroup, E3DisplayGroup )

@@ -141,6 +141,15 @@ typedef struct TQ3SetData {
 
 
 
+// These prototypes need to precede the friend declarations in E3Set to make some
+// compilers happy.
+TQ3Status			E3AttributeSet_GetNextAttributeType(TQ3AttributeSet theSet, TQ3AttributeType *theType);
+TQ3Status			E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet result);
+void				*E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType);
+TQ3XAttributeMask	E3XAttributeSet_GetMask(TQ3AttributeSet attributeSet);
+
+
+
 class E3Set : public E3Shared
 	{
 Q3_CLASS_ENUMS ( kQ3SharedTypeSet, E3Set, E3Shared )

@@ -89,6 +89,11 @@ struct E3ViewHintsData
 
 
 
+// This prototype must precede the friend declaration in E3ViewHints in order
+// to make some compilers happy.
+TQ3Status			E3ViewHints_RegisterClass ( void ) ;
+
+
 
 class E3ViewHints : public E3Shared
 	{

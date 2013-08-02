@@ -100,6 +100,13 @@ struct E3GeometryData
 };
 
 
+
+// This prototype needs to precede the friend declaration in E3Geometry to make some
+// compilers happy.
+TQ3Status			E3Geometry_RegisterClass(void);
+
+
+
 class E3Geometry : public E3Shape
 	{
 Q3_CLASS_ENUMS ( kQ3ShapeTypeGeometry, E3Geometry, E3Shape )
