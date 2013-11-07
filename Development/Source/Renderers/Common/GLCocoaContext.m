@@ -90,12 +90,13 @@ CocoaGLContext::CocoaGLContext(
 	};
 	TQ3ObjectType					drawContextType;
 	TQ3DrawContextData				drawContextData;
-    NSOpenGLPixelFormat				*pixelFormat = NULL;
+    NSOpenGLPixelFormat				*pixelFormat = nil;
  	TQ3Status						qd3dStatus;
     NSRect							viewFrame;
     GLint							enable;
 	TQ3GLExtensions					extFlags;
 	TQ3GLContext					sharingContext = NULL;
+	NSView*							theView = nil;
 
 
 	// Get the type specific draw context data
@@ -105,7 +106,13 @@ CocoaGLContext::CocoaGLContext(
 		case kQ3DrawContextTypeCocoa:
 			// Get the NSView
 			Q3CocoaDrawContext_GetNSView(theDrawContext, &nsView);
-
+			theView = (NSView*) nsView;
+			if ( (theView == nil) || ([theView window] == nil) ||
+				([[theView window] windowNumber] <= 0) )
+			{
+				Q3_MESSAGE("Cocoa view lacks a window, unusable as a drawable!\n");
+				throw std::exception();
+			}
 
 			// Check whether a pixel format was provided by the client
 			Q3Object_GetProperty( theDrawContext, kQ3DrawContextPropertyGLPixelFormat,
@@ -128,6 +135,10 @@ CocoaGLContext::CocoaGLContext(
 				{
 					GLDrawContext_SetCurrent( sharingContext, kQ3False );
 					NSOpenGLContext* prevGLContext = [NSOpenGLContext currentContext];
+					if (prevGLContext == nil)
+					{
+						continue; // maybe it was a non-Cocoa context
+					}
 					glContext = [[NSOpenGLContext alloc] initWithFormat: pixelFormat
 														shareContext: prevGLContext];
 					if (glContext != nil)
@@ -147,13 +158,13 @@ CocoaGLContext::CocoaGLContext(
 
 
 			// Set the NSView as the NSOpenGLContext's drawable
-			[glContext setView:(id)nsView];
+			[glContext setView: theView];
 			[glContext makeCurrentContext];
 
 
 			// Get the view bounds from the NSView for the initial gl viewport
 			// and the default draw context pane if it's needed.
-			viewFrame = [[glContext view]bounds];
+			viewFrame = [theView bounds];
           break;
 
 		
