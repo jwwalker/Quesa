@@ -1609,17 +1609,22 @@ MacGLContext::MacGLContext(
 		// (Before 10.2, texture sharing didn't work unless you created all your
 		// contexts before loading any textures.)
 		if ((shareTextures == kQ3True) && (sysVersion >= 0x00001020))
-			{
+		{
 			while ((sharingContext = GLGPUSharing_GetNextSharingBase( sharingContext )) != NULL)
-				{
+			{
 				// sharingContext might be a MacGLContext* or an FBORec*
 				GLDrawContext_SetCurrent( sharingContext, kQ3False );
 				AGLContext	sharingAGLContext = aglGetCurrentContext();
-				macContext = aglCreateContext(pixelFormat, sharingAGLContext );
-				if (macContext != NULL)
-					break;
+				// If sharingContext was a Cocoa context, sharingAGLContext
+				// could be NULL.
+				if (sharingAGLContext != NULL)
+				{
+					macContext = aglCreateContext(pixelFormat, sharingAGLContext );
+					if (macContext != NULL)
+						break;
 				}
 			}
+		}
 		
 		// If that fails, just create an unshared context.
 		if (macContext == NULL)
