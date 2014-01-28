@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2382,6 +2382,66 @@ Q3Shared_GetReferenceCount (
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+
+/*!
+	@function
+		Q3Shared_StartLoggingRefs
+	
+	@abstract
+		Write to the debug log whenever this object's reference count changes.
+	
+	@availability
+		This is only functional when Quesa is built with Q3_DEBUG == 1.
+	
+	@param	sharedObject	The object to watch.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C( void )
+Q3Shared_StartLoggingRefs( TQ3SharedObject sharedObject );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+/*!
+	@function
+		Q3Shared_StopLoggingRefs
+	
+	@abstract
+		Stop writing to the debug log whenever this object's reference count changes.
+	
+	@availability
+		This is only functional when Quesa is built with Q3_DEBUG == 1.
+	
+	@param	sharedObject	The object to stop watching.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C( void )
+Q3Shared_StopLoggingRefs( TQ3SharedObject sharedObject );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+/*!
+	@function
+		Q3Shared_IsLoggingRefs
+		
+	@abstract
+		Test whether we are logging reference count changes for an object.
+	
+	@availability
+		This is only functional when Quesa is built with Q3_DEBUG == 1.
+	
+	@param	sharedObject	The object to check.
+	@result	kQ3True if we are logging reference changes.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C( TQ3Boolean )
+Q3Shared_IsLoggingRefs( TQ3SharedObject sharedObject );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 /*!
