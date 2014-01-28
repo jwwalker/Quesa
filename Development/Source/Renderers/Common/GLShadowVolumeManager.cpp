@@ -5,7 +5,7 @@
         Quesa OpenGL shadow volume caching.
        
     COPYRIGHT:
-        Copyright (c) 2011-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2011-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -184,6 +184,7 @@ namespace
 		void				MakeRoom( TQ3Uns32 inBytesNeeded );
 		void				PurgeDownToSize( long long inTargetSize );
 		void				SetMaxBufferSize( long long inBufferSize );
+		TQ3Uns32			CountVBOs( TQ3GeometryObject inGeom ) const;
 	
 		GenBuffersARBProcPtr		glGenBuffersARBProc;
 		BindBufferARBProcPtr		glBindBufferARBProc;
@@ -285,7 +286,7 @@ bool	ShadowVBO::IsStale( const TQ3RationalPoint4D& inLocalLightPos ) const
 	}
 	else
 	{
-		Q3_MESSAGE_FMT( "Stale shadow due to geom edit index" );
+		//Q3_MESSAGE_FMT( "Stale shadow due to geom edit index" );
 	}
 	return stale;
 }
@@ -507,8 +508,8 @@ void	ShadowVolCache::FlushUnreferencedGeometries()
 		geomIt != mGeomToLightToShadow.end(); ++geomIt)
 	{
 		theGeom = geomIt->first;
-		TQ3Uns32 vboRefs = CountVBOs( theGeom );
-		TQ3Uns32 shadowRefs = static_cast<TQ3Uns32>(geomIt->second.size());
+		TQ3Uns32 vboRefs = ::CountVBOs( theGeom );
+		TQ3Uns32 shadowRefs = ShadowVolMgr::CountVBOs( theGeom );
 		TQ3Uns32 totalRefs = Q3Shared_GetReferenceCount( theGeom );
 		if (vboRefs + shadowRefs == totalRefs)
 		{
@@ -614,6 +615,17 @@ void	ShadowVolCache::SetMaxBufferSize( long long inBufferSize )
 	}
 	
 	mMaxBufferBytes = inBufferSize;
+}
+
+TQ3Uns32	ShadowVolCache::CountVBOs( TQ3GeometryObject inGeom ) const
+{
+	TQ3Uns32 shadowRefs = 0;
+	GeomToLightToShadow::const_iterator geomIt = mGeomToLightToShadow.find( inGeom );
+	if (geomIt != mGeomToLightToShadow.end())
+	{
+		shadowRefs = (TQ3Uns32) geomIt->second.size();
+	}
+	return shadowRefs;
 }
 
 #pragma mark -
@@ -755,3 +767,30 @@ void	ShadowVolMgr::Flush(
 		theCache->FlushUnreferencedLights();
 	}
 }
+
+
+/*!
+	@function		CountVBOs
+	@abstract		Count how many references the shadow VBO manager holds for a given
+					geometry, counting all GL contexts and all lights.
+	@param			inGeom			A geometry object.
+	@result			Number of VBOs referencing the geometry.
+*/
+TQ3Uns32	ShadowVolMgr::CountVBOs( TQ3GeometryObject inGeom )
+{
+	TQ3Uns32 refCount = 0;
+	TQ3GLContext sharingBase = NULL;
+	
+	while ( (sharingBase = GLGPUSharing_GetNextSharingBase( sharingBase )) != NULL )
+	{
+		ShadowVolCache*	theCache = GetShadowCache( sharingBase );
+		
+		if (theCache != NULL)
+		{
+			refCount += theCache->CountVBOs( inGeom );
+		}
+	}
+	
+	return refCount;
+}
+
