@@ -5,7 +5,7 @@
         Quesa OpenGL vertex buffer object caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,6 +45,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "GLVBOManager.h"
+#include "GLShadowVolumeManager.h"
 #include "GLGPUSharing.h"
 #include "CQ3ObjectRef.h"
 #include "GLUtils.h"
@@ -153,6 +154,7 @@ namespace
 		void			UpdateModeCount( TQ3GeometryObject inGeom );
 		void			FlushUnreferenced();
 		void			DeleteVBO( CachedVBO* inCachedVBO );
+		void			DeleteCachedVBOs( CachedVBOVec& inVBOs );
 		TQ3Uns32		CountVBOs( TQ3GeometryObject inGeom );
 		void			PurgeDownToSize( long long inTargetSize );
 		void			SetMaxBufferSize( long long inBufferSize );
@@ -202,9 +204,12 @@ namespace
 	{
 		bool			operator()( const CachedVBO* inCachedVBO ) const
 								{
-									return Q3Shared_GetReferenceCount(
-										inCachedVBO->mGeomObject.get() ) >
-										inCachedVBO->mModeCount;
+									TQ3GeometryObject geom =
+										inCachedVBO->mGeomObject.get();
+									TQ3Uns32 allRefs = Q3Shared_GetReferenceCount( geom );
+									TQ3Uns32 vboRefs = CountVBOs( geom );
+									TQ3Uns32 shadowRefs = ShadowVolMgr::CountVBOs( geom );
+									return allRefs > vboRefs + shadowRefs;
 								}
 	};
 }
@@ -236,15 +241,6 @@ static VBOCache* GetVBOCache( TQ3GLContext glContext )
 	}
 	
 	return theCache;
-}
-
-static void DeleteCachedVBOs( CachedVBOVec& inVBOs )
-{
-	CachedVBOVec::iterator endIt = inVBOs.end();
-	for (CachedVBOVec::iterator i = inVBOs.begin(); i != endIt; ++i)
-	{
-		delete *i;
-	}
 }
 
 
@@ -375,14 +371,9 @@ CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, CachedVBOVec& inVBOs )
 	{
 		theCachedVBO = *foundIt;
 		
-		if ( (theCachedVBO != NULL) && theCachedVBO->IsStale() )
-		{
-			inVBOs.erase( foundIt );
-			
-			DeleteVBO( theCachedVBO );
-			
-			theCachedVBO = NULL;
-		}
+		// Note: We cannot delete stale VBOs here, because this function may
+		// be called by CountVBOs at a time when the OpenGL context that is
+		// in effect does not go with this cache.
 	}
 	
 	return theCachedVBO;
@@ -419,6 +410,16 @@ CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode )
 	if (whichVec != NULL)
 	{
 		theCachedVBO = FindVBO( inGeom, *whichVec );
+		
+		if ( (theCachedVBO != NULL) && theCachedVBO->IsStale() )
+		{
+			CachedVBOVec::iterator foundIt = FindVBOByGeom( *whichVec, inGeom );
+			whichVec->erase( foundIt );
+			
+			DeleteVBO( theCachedVBO );
+			
+			theCachedVBO = NULL;
+		}
 	}
 	
 	return theCachedVBO;
@@ -568,6 +569,15 @@ void	VBOCache::DeleteVBO( CachedVBO* inCachedVBO )
 	mTotalBytes -= inCachedVBO->mBufferBytes;
 	
 	delete inCachedVBO;
+}
+
+void	VBOCache::DeleteCachedVBOs( CachedVBOVec& inVBOs )
+{
+	CachedVBOVec::iterator endIt = inVBOs.end();
+	for (CachedVBOVec::iterator i = inVBOs.begin(); i != endIt; ++i)
+	{
+		DeleteVBO( *i );
+	}
 }
 
 void	VBOCache::FlushUnreferencedInVec( CachedVBOVec& ioVBOs )
