@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -74,7 +74,7 @@
 #include "E3Viewer.h"
 #endif
 
-
+#include <cstring>
 
 
 
@@ -207,6 +207,10 @@ e3shared_new ( E3Shared* theObject, void *privateData, void *paramData )
 	// Initialise our instance data
 	theObject->sharedData.refCount  = 1 ;
 	theObject->sharedData.editIndex = 1 ;
+
+#if Q3_DEBUG
+	theObject->sharedData.logRefs = kQ3False;
+#endif
 	
 	return kQ3Success ;
 	}
@@ -231,6 +235,13 @@ E3Shared_Dispose ( E3Shared* theObject )
 	Q3_ASSERT(theObject->sharedData.refCount >= 1);
 	theObject->sharedData.refCount--;
 
+#if Q3_DEBUG
+	if (theObject->IsLoggingRefs())
+	{
+		Q3_MESSAGE_FMT("Ref count of %p reduced to %d", theObject,
+			(int) theObject->sharedData.refCount );
+	}
+#endif
 
 
 	// If the reference count falls to 0, dispose of the object
@@ -266,6 +277,10 @@ e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 	// Initialise the instance data of the new object
 	instanceData->sharedData.refCount  = 1;
 	instanceData->sharedData.editIndex = E3Integer_Abs( fromInstanceData->sharedData.editIndex );
+
+#if Q3_DEBUG
+	instanceData->sharedData.logRefs = kQ3False;
+#endif
 
 	return(kQ3Success);
 }
@@ -1819,6 +1834,13 @@ E3Shared::GetReference ( void )
 	// to return a different object.
 	sharedData.refCount++;
 	Q3_ASSERT(sharedData.refCount >= 2);
+#if Q3_DEBUG
+	if (IsLoggingRefs())
+	{
+		Q3_MESSAGE_FMT("Ref count of %p increased to %d", this,
+			(int) sharedData.refCount );
+	}
+#endif
 
 	return this ;
 	}
@@ -1882,7 +1904,17 @@ E3Shared::SetEditIndex( TQ3Uns32 inIndex )
 }
 
 
+#if Q3_DEBUG
+TQ3Boolean	E3Shared::IsLoggingRefs() const
+{
+	return sharedData.logRefs;
+}
 
+void		E3Shared::SetLoggingRefs( TQ3Boolean inLog )
+{
+	sharedData.logRefs = inLog;
+}
+#endif
 
 
 //=============================================================================

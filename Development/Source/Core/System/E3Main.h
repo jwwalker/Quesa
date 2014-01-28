@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -294,6 +294,9 @@ struct E3SharedData
 {
 	TQ3Uns32		refCount;
 	TQ3Int32		editIndex;	// normally positive, negative means "locked"
+#if Q3_DEBUG
+	TQ3Boolean		logRefs;
+#endif
 };
 
     
@@ -327,6 +330,11 @@ public :
 	TQ3Status			Edited ( void ) ;
 	void				SetEditIndexLocked( TQ3Boolean inIsLocked );
 	TQ3Boolean			IsEditIndexLocked() const;
+
+#if Q3_DEBUG
+	TQ3Boolean			IsLoggingRefs() const;
+	void				SetLoggingRefs( TQ3Boolean inLog );
+#endif
 	} ;
 
 

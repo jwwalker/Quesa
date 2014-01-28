@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1470,6 +1470,97 @@ Q3Shared_IsEditIndexLocked( TQ3SharedObject inObject )
 	return ( (E3Shared*) inObject )->IsEditIndexLocked();
 }
 
+/*!
+	@function
+		Q3Shared_StartLoggingRefs
+	
+	@abstract
+		Write to the debug log whenever this object's reference count changes.
+	
+	@param	sharedObject	The object to watch.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+void
+Q3Shared_StartLoggingRefs( TQ3SharedObject sharedObject )
+{
+#if Q3_DEBUG
+	// Release build checks
+	Q3_REQUIRE( E3Shared_IsOfMyClass ( sharedObject ) );
+	
+	
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	( (E3Shared*) sharedObject )->SetLoggingRefs( kQ3True );
+#endif
+}
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+/*!
+	@function
+		Q3Shared_StopLoggingRefs
+	
+	@abstract
+		Stop writing to the debug log whenever this object's reference count changes.
+	
+	@param	sharedObject	The object to stop watching.
+*/
+#if  QUESA_ALLOW_QD3D_EXTENSIONS
+
+void
+Q3Shared_StopLoggingRefs( TQ3SharedObject sharedObject )
+{
+#if Q3_DEBUG
+	// Release build checks
+	Q3_REQUIRE( E3Shared_IsOfMyClass ( sharedObject ) );
+	
+	
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	( (E3Shared*) sharedObject )->SetLoggingRefs( kQ3False );
+#endif
+}
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+/*!
+	@function
+		Q3Shared_IsLoggingRefs
+		
+	@abstract
+		Test whether we are logging reference count changes for an object.
+	
+	@param	sharedObject	The object to check.
+	@result	kQ3True if we are logging reference changes.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+TQ3Boolean
+Q3Shared_IsLoggingRefs( TQ3SharedObject sharedObject )
+{
+	TQ3Boolean isLogging = kQ3False;
+#if Q3_DEBUG
+	if (E3Shared_IsOfMyClass ( sharedObject ))
+	{
+		isLogging = ( (E3Shared*) sharedObject )->IsLoggingRefs();
+	}
+#endif
+	return isLogging;
+}
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 //=============================================================================
