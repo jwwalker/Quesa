@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -488,6 +488,10 @@ void	Texture::SetSpecularMap( TQ3ShaderObject inShader )
 				(*mGLActiveTexture)( GL_TEXTURE0_ARB );
 				mPPLighting.UpdateSpecularMapping( true );
 			}
+		}
+		else
+		{
+			mPPLighting.UpdateSpecularMapping( false );
 		}
 	}
 }
