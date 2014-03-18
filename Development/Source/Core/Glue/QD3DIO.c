@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -126,22 +126,6 @@ Q3XView_SubmitSubObjectData(TQ3ViewObject view, TQ3XObjectClass objectClass, TQ3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on objectClass
-		return(kQ3Failure);
-
-	if (0) // Further checks on size
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on deleteData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -194,13 +178,6 @@ Q3File_GetStorage(TQ3FileObject theFile, TQ3StorageObject *storage)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-#endif
 
 
 
@@ -231,13 +208,6 @@ Q3File_SetStorage(TQ3FileObject theFile, TQ3StorageObject storage)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-#endif
 
 
 
@@ -268,13 +238,6 @@ Q3File_OpenRead(TQ3FileObject theFile, TQ3FileMode *mode)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on mode
-		return(kQ3Failure);
-#endif
 
 
 
@@ -305,13 +268,6 @@ Q3File_OpenWrite(TQ3FileObject theFile, TQ3FileMode mode)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on mode
-		return(kQ3Failure);
-#endif
 
 
 
@@ -343,13 +299,6 @@ Q3File_IsOpen(TQ3FileObject theFile, TQ3Boolean *isOpen)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on isOpen
-		return(kQ3Failure);
-#endif
 
 
 
@@ -381,13 +330,6 @@ Q3File_GetMode(TQ3FileObject theFile, TQ3FileMode *mode)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on mode
-		return(kQ3Failure);
-#endif
 
 
 
@@ -419,13 +361,6 @@ Q3File_GetVersion(TQ3FileObject theFile, TQ3FileVersion *version)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on version
-		return(kQ3Failure);
-#endif
 
 
 
@@ -456,10 +391,6 @@ Q3File_Close(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -490,10 +421,6 @@ Q3File_Cancel(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -525,13 +452,6 @@ Q3View_StartWriting(TQ3ViewObject view, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -562,10 +482,6 @@ Q3View_EndWriting(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3ViewStatusError);
-#endif
 
 
 
@@ -596,10 +512,6 @@ Q3File_GetNextObjectType(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -630,13 +542,6 @@ Q3File_IsNextObjectOfType(TQ3FileObject theFile, TQ3ObjectType ofType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3False);
-
-	if (0) // Further checks on ofType
-		return(kQ3False);
-#endif
 
 
 
@@ -667,10 +572,6 @@ Q3File_ReadObject(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(NULL);
-#endif
 
 
 
@@ -701,10 +602,6 @@ Q3File_SkipObject(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -735,10 +632,6 @@ Q3File_IsEndOfData(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3False);
-#endif
 
 
 
@@ -769,13 +662,6 @@ Q3File_IsEndOfContainer(TQ3FileObject theFile, TQ3Object rootObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3False);
-
-	if (0) // Further checks on rootObject
-		return(kQ3False);
-#endif
 
 
 
@@ -806,10 +692,6 @@ Q3File_IsEndOfFile(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3False);
-#endif
 
 
 
@@ -841,13 +723,6 @@ Q3File_MarkAsExternalReference(TQ3FileObject theFile, TQ3SharedObject sharedObje
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on sharedObject
-		return(kQ3Failure);
-#endif
 
 
 
@@ -878,10 +753,6 @@ Q3File_GetExternalReferences(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(NULL);
-#endif
 
 
 
@@ -912,10 +783,6 @@ Q3Shared_ClearEditTracking(TQ3SharedObject sharedObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedObject
-		return(kQ3Failure);
-#endif
 
 
 
@@ -946,10 +813,6 @@ Q3Shared_GetEditTrackingState(TQ3SharedObject sharedObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedObject
-		return(kQ3False);
-#endif
 
 
 
@@ -980,13 +843,6 @@ Q3File_SetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState readGroupStat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on readGroupState
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1018,13 +874,6 @@ Q3File_GetReadInGroup(TQ3FileObject theFile, TQ3FileReadGroupState *readGroupSta
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on readGroupState
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1055,16 +904,6 @@ Q3File_SetIdleMethod(TQ3FileObject theFile, TQ3FileIdleMethod idle, const void *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-
-	if (0) // Further checks on idle
-		return(kQ3Failure);
-
-	if (0) // Further checks on idleData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1095,10 +934,6 @@ Q3NewLine_Write(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1130,13 +965,6 @@ Q3Uns8_Read(TQ3Uns8 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1196,13 +1024,6 @@ Q3Uns8_Write(TQ3Uns8 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1234,13 +1055,6 @@ Q3Uns16_Read(TQ3Uns16 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1300,13 +1114,6 @@ Q3Uns16_Write(TQ3Uns16 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1338,13 +1145,6 @@ Q3Uns32_Read(TQ3Uns32 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1404,13 +1204,6 @@ Q3Uns32_Write(TQ3Uns32 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1442,13 +1235,6 @@ Q3Int8_Read(TQ3Int8 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1479,13 +1265,6 @@ Q3Int8_Write(TQ3Int8 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1517,13 +1296,6 @@ Q3Int16_Read(TQ3Int16 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1554,13 +1326,6 @@ Q3Int16_Write(TQ3Int16 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1592,13 +1357,6 @@ Q3Int32_Read(TQ3Int32 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1629,13 +1387,6 @@ Q3Int32_Write(TQ3Int32 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1667,13 +1418,6 @@ Q3Uns64_Read(TQ3Uns64 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1704,13 +1448,6 @@ Q3Uns64_Write(TQ3Uns64 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1742,13 +1479,6 @@ Q3Int64_Read(TQ3Int64 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1779,13 +1509,6 @@ Q3Int64_Write(TQ3Int64 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1817,13 +1540,6 @@ Q3Float32_Read(TQ3Float32 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1883,13 +1599,6 @@ Q3Float32_Write(TQ3Float32 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1921,13 +1630,6 @@ Q3Float64_Read(TQ3Float64 *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1958,13 +1660,6 @@ Q3Float64_Write(TQ3Float64 data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1994,10 +1689,6 @@ Q3Size_Pad(TQ3Size size)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on size
-		return(size);
-#endif
 
 
 
@@ -2029,16 +1720,6 @@ Q3String_Read(char *data, TQ3Uns32 *length, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on length
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2071,16 +1752,6 @@ Q3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on length
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2113,13 +1784,6 @@ Q3String_Write(const char *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2151,13 +1815,6 @@ Q3String_WriteUnlimited(const char *data, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2189,16 +1846,6 @@ Q3RawData_Read(unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on size
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2230,16 +1877,6 @@ Q3RawData_Write(const unsigned char *data, TQ3Uns32 size, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on size
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2271,13 +1908,6 @@ Q3Point2D_Read(TQ3Point2D *point2D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2309,13 +1939,6 @@ Q3Point2D_Write(const TQ3Point2D *point2D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2347,13 +1970,6 @@ Q3Point3D_Read(TQ3Point3D *point3D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2385,13 +2001,6 @@ Q3Point3D_Write(const TQ3Point3D *point3D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2423,13 +2032,6 @@ Q3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2461,13 +2063,6 @@ Q3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, TQ3FileObject theFile
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2499,13 +2094,6 @@ Q3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point4D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2537,13 +2125,6 @@ Q3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, TQ3FileObject theFile
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point4D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2575,13 +2156,6 @@ Q3Vector2D_Read(TQ3Vector2D *vector2D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2613,13 +2187,6 @@ Q3Vector2D_Write(const TQ3Vector2D *vector2D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2651,13 +2218,6 @@ Q3Vector3D_Read(TQ3Vector3D *vector3D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2689,13 +2249,6 @@ Q3Vector3D_Write(const TQ3Vector3D *vector3D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2727,13 +2280,6 @@ Q3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2765,13 +2311,6 @@ Q3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2803,13 +2342,6 @@ Q3Tangent2D_Read(TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on tangent2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2841,13 +2373,6 @@ Q3Tangent2D_Write(const TQ3Tangent2D *tangent2D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on tangent2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2879,13 +2404,6 @@ Q3Tangent3D_Read(TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on tangent3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2917,13 +2435,6 @@ Q3Tangent3D_Write(const TQ3Tangent3D *tangent3D, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on tangent3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2955,13 +2466,6 @@ Q3Comment_Write(char *comment, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on comment
-		return(kQ3Failure);
-
-	if (0) // Further checks on theFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2992,10 +2496,6 @@ Q3Unknown_GetType(TQ3UnknownObject unknownObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on unknownObject
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -3027,13 +2527,6 @@ Q3Unknown_GetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean *isDirty)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on unknownObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on isDirty
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3064,13 +2557,6 @@ Q3Unknown_SetDirtyState(TQ3UnknownObject unknownObject, TQ3Boolean isDirty)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on unknownObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on isDirty
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3102,13 +2588,6 @@ Q3UnknownText_GetData(TQ3UnknownObject unknownObject, TQ3UnknownTextData *unknow
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on unknownObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on unknownTextData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3139,10 +2618,6 @@ Q3UnknownText_EmptyData(TQ3UnknownTextData *unknownTextData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on unknownTextData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3174,13 +2649,6 @@ Q3UnknownBinary_GetData(TQ3UnknownObject unknownObject, TQ3UnknownBinaryData *un
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on unknownObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on unknownBinaryData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3211,10 +2679,6 @@ Q3UnknownBinary_EmptyData(TQ3UnknownBinaryData *unknownBinaryData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on unknownBinaryData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3246,13 +2710,6 @@ Q3UnknownBinary_GetTypeString(TQ3UnknownObject unknownObject, char **typeString)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on unknownObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on typeString
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3283,10 +2740,6 @@ Q3UnknownBinary_EmptyTypeString(char **typeString)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on typeString
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3317,10 +2770,6 @@ Q3ViewHints_New(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(NULL);
-#endif
 
 
 
@@ -3352,13 +2801,6 @@ Q3ViewHints_SetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject renderer
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3390,13 +2832,6 @@ Q3ViewHints_GetRenderer(TQ3ViewHintsObject viewHints, TQ3RendererObject *rendere
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3428,13 +2863,6 @@ Q3ViewHints_SetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject camera)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3466,13 +2894,6 @@ Q3ViewHints_GetCamera(TQ3ViewHintsObject viewHints, TQ3CameraObject *camera)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3504,13 +2925,6 @@ Q3ViewHints_SetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject lightGrou
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightGroup
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3542,13 +2956,6 @@ Q3ViewHints_GetLightGroup(TQ3ViewHintsObject viewHints, TQ3GroupObject *lightGro
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightGroup
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3579,13 +2986,6 @@ Q3ViewHints_SetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet attrib
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3617,13 +3017,6 @@ Q3ViewHints_GetAttributeSet(TQ3ViewHintsObject viewHints, TQ3AttributeSet *attri
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3654,13 +3047,6 @@ Q3ViewHints_SetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on isValid
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3692,13 +3078,6 @@ Q3ViewHints_GetDimensionsState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on isValid
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3729,16 +3108,6 @@ Q3ViewHints_SetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 width, TQ3Uns32
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on width
-		return(kQ3Failure);
-
-	if (0) // Further checks on height
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3771,16 +3140,6 @@ Q3ViewHints_GetDimensions(TQ3ViewHintsObject viewHints, TQ3Uns32 *width, TQ3Uns3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on width
-		return(kQ3Failure);
-
-	if (0) // Further checks on height
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3811,13 +3170,6 @@ Q3ViewHints_SetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean isValid)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on isValid
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3849,13 +3201,6 @@ Q3ViewHints_GetMaskState(TQ3ViewHintsObject viewHints, TQ3Boolean *isValid)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on isValid
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3887,13 +3232,6 @@ Q3ViewHints_SetMask(TQ3ViewHintsObject viewHints, const TQ3Bitmap *mask)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on mask
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3925,13 +3263,6 @@ Q3ViewHints_GetMask(TQ3ViewHintsObject viewHints, TQ3Bitmap *mask)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on mask
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3962,13 +3293,6 @@ Q3ViewHints_SetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClea
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on clearMethod
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4000,13 +3324,6 @@ Q3ViewHints_GetClearImageMethod(TQ3ViewHintsObject viewHints, TQ3DrawContextClea
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on clearMethod
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4038,13 +3355,6 @@ Q3ViewHints_SetClearImageColor(TQ3ViewHintsObject viewHints, const TQ3ColorARGB 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on color
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4076,13 +3386,6 @@ Q3ViewHints_GetClearImageColor(TQ3ViewHintsObject viewHints, TQ3ColorARGB *color
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on viewHints
-		return(kQ3Failure);
-
-	if (0) // Further checks on color
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4114,10 +3417,6 @@ Q3File_GetFileFormat(TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theFile
-		return(NULL);
-#endif
 
 
 
@@ -4149,10 +3448,6 @@ Q3FileFormat_NewFromType(TQ3ObjectType fformatObjectType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on fformatObjectType
-		return(NULL);
-#endif
 
 
 
@@ -4180,10 +3475,6 @@ Q3FileFormat_GetType(TQ3FileFormatObject format)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -4214,10 +3505,6 @@ Q3FileFormat_HasModalConfigure(TQ3FileFormatObject format)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3False);
-#endif
 
 
 
@@ -4249,16 +3536,6 @@ Q3FileFormat_ModalConfigure(TQ3FileFormatObject format, TQ3DialogAnchor dialogAn
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on dialogAnchor
-		return(kQ3Failure);
-
-	if (0) // Further checks on canceled
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4288,13 +3565,6 @@ Q3FileFormatClass_GetFormatNameString(TQ3ObjectType formatClassType, TQ3ObjectCl
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rendererClassType
-		return(kQ3Failure);
-
-	if (0) // Further checks on rendererClassString
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4327,19 +3597,6 @@ Q3FileFormat_GetConfigurationData(TQ3FileFormatObject format, unsigned char *dat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on dataBuffer
-		return(kQ3Failure);
-
-	if (0) // Further checks on bufferSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on actualDataSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4371,16 +3628,6 @@ Q3FileFormat_SetConfigurationData(TQ3RendererObject format, unsigned char *dataB
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on dataBuffer
-		return(kQ3Failure);
-
-	if (0) // Further checks on bufferSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4412,13 +3659,6 @@ Q3FileFormat_GenericReadBinary_8(TQ3FileFormatObject format, TQ3Int8 *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4450,13 +3690,6 @@ Q3FileFormat_GenericReadBinary_16(TQ3FileFormatObject format, TQ3Int16 *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4488,13 +3721,6 @@ Q3FileFormat_GenericReadBinary_32(TQ3FileFormatObject format, TQ3Int32 *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4526,13 +3752,6 @@ Q3FileFormat_GenericReadBinary_64(TQ3FileFormatObject format, TQ3Int64 *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4565,16 +3784,6 @@ Q3FileFormat_GenericReadBinary_String(TQ3FileFormatObject format, char *data, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on length
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4607,16 +3816,6 @@ Q3FileFormat_GenericReadBinary_Raw(TQ3FileFormatObject format, unsigned char *da
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on length
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4648,13 +3847,6 @@ Q3FileFormat_GenericReadBinSwap_16(TQ3FileFormatObject format, TQ3Int16 *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4686,13 +3878,6 @@ Q3FileFormat_GenericReadBinSwap_32(TQ3FileFormatObject format, TQ3Int32 *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4724,13 +3909,6 @@ Q3FileFormat_GenericReadBinSwap_64(TQ3FileFormatObject format, TQ3Int64 *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4761,10 +3939,6 @@ Q3FileFormat_GenericReadText_SkipBlanks(TQ3FileFormatObject format)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4806,31 +3980,6 @@ Q3FileFormat_GenericReadText_ReadUntilChars(TQ3FileFormatObject		format,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on buffer
-		return(kQ3Failure);
-
-	if (0) // Further checks on chars
-		return(kQ3Failure);
-
-	if (0) // Further checks on numChars
-		return(kQ3Failure);
-
-	if (0) // Further checks on blanks
-		return(kQ3Failure);
-
-	if (0) // Further checks on foundChar
-		return(kQ3Failure);
-
-	if (0) // Further checks on maxLen
-		return(kQ3Failure);
-
-	if (0) // Further checks on charsRead
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4859,13 +4008,6 @@ Q3FileFormat_GenericWriteBinary_8(TQ3FileFormatObject format, const TQ3Int8* dat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4896,13 +4038,6 @@ Q3FileFormat_GenericWriteBinary_16(TQ3FileFormatObject format, const TQ3Int16* d
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4933,13 +4068,6 @@ Q3FileFormat_GenericWriteBinary_32(TQ3FileFormatObject format, const TQ3Int32* d
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4970,13 +4098,6 @@ Q3FileFormat_GenericWriteBinary_64(TQ3FileFormatObject format, const TQ3Int64* d
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5009,16 +4130,6 @@ Q3FileFormat_GenericWriteBinary_String(TQ3FileFormatObject format, const char *d
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on length
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5051,16 +4162,6 @@ Q3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format, const unsigned c
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on length
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5091,13 +4192,6 @@ Q3FileFormat_GenericWriteBinSwap_16(TQ3FileFormatObject format, const TQ3Int16* 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5128,13 +4222,6 @@ Q3FileFormat_GenericWriteBinSwap_32(TQ3FileFormatObject format, const TQ3Int32* 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5165,13 +4252,6 @@ Q3FileFormat_GenericWriteBinSwap_64(TQ3FileFormatObject format, const TQ3Int64* 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on format
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 

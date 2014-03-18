@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -94,10 +94,6 @@ Q3Memory_Allocate(TQ3Uns32 theSize)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSize
-		return(NULL);
-#endif
 
 
 
@@ -128,10 +124,6 @@ Q3Memory_AllocateClear(TQ3Uns32 theSize)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSize
-		return(NULL);
-#endif
 
 
 
@@ -162,10 +154,6 @@ Q3Memory_Free_(void **thePtr)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on thePtr
-		return;
-#endif
 
 
 
@@ -196,13 +184,6 @@ Q3Memory_Reallocate_(void **thePtr, TQ3Uns32 newSize)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on thePtr
-		return(kQ3Failure);
-
-	if (0) // Further checks on newSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -234,16 +215,6 @@ Q3Memory_Initialize(void *thePtr, TQ3Uns32 theSize, TQ3Uns8 theValue)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on thePtr
-		return;
-
-	if (0) // Further checks on theSize
-		return;
-
-	if (0) // Further checks on theValue
-		return;
-#endif
 
 
 
@@ -280,13 +251,6 @@ Q3Memory_Clear(void *thePtr, TQ3Uns32 theSize)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on thePtr
-		return;
-
-	if (0) // Further checks on theSize
-		return;
-#endif
 
 
 
@@ -321,16 +285,6 @@ Q3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on srcPtr
-		return;
-
-	if (0) // Further checks on dstPtr
-		return;
-
-	if (0) // Further checks on theSize
-		return;
-#endif
 
 
 
@@ -558,16 +512,6 @@ Q3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on itemSize
-		return(NULL);
-
-	if (0) // Further checks on numItems
-		return(NULL);
-
-	if (0) // Further checks on itemData
-		return(NULL);
-#endif
 
 
 
@@ -599,13 +543,6 @@ Q3SlabMemory_GetData(TQ3SlabObject theSlab, TQ3Uns32 itemIndex)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSlab
-		return(NULL);
-
-	if (0) // Further checks on itemIndex
-		return(NULL);
-#endif
 
 
 
@@ -636,16 +573,6 @@ Q3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *it
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSlab
-		return(NULL);
-
-	if (0) // Further checks on numItems
-		return(NULL);
-
-	if (0) // Further checks on itemData
-		return(NULL);
-#endif
 
 
 
@@ -676,10 +603,6 @@ Q3SlabMemory_GetCount(TQ3SlabObject theSlab)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSlab
-		return(0);
-#endif
 
 
 
@@ -710,13 +633,6 @@ Q3SlabMemory_SetCount(TQ3SlabObject theSlab, TQ3Uns32 numItems)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSlab
-		return(kQ3Failure);
-
-	if (0) // Further checks on numItems
-		return(kQ3Failure);
-#endif
 
 
 

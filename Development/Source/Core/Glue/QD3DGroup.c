@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -117,10 +117,6 @@ Q3Group_GetType(TQ3GroupObject group)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -152,13 +148,6 @@ Q3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(NULL);
-
-	if (0) // Further checks on object
-		return(NULL);
-#endif
 
 
 
@@ -192,13 +181,6 @@ Q3Group_AddObjectAndDispose(TQ3GroupObject group, TQ3Object *theObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theGroup
-		return(NULL);
-
-	if (0) // Further checks on theObject
-		return(NULL);
-#endif
 
 
 
@@ -230,16 +212,6 @@ Q3Group_AddObjectBefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Obje
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(NULL);
-
-	if (0) // Further checks on position
-		return(NULL);
-
-	if (0) // Further checks on object
-		return(NULL);
-#endif
 
 
 
@@ -271,16 +243,6 @@ Q3Group_AddObjectAfter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Objec
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(NULL);
-
-	if (0) // Further checks on position
-		return(NULL);
-
-	if (0) // Further checks on object
-		return(NULL);
-#endif
 
 
 
@@ -312,16 +274,6 @@ Q3Group_GetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-
-	if (0) // Further checks on object
-		return(kQ3Failure);
-#endif
 
 
 
@@ -353,16 +305,6 @@ Q3Group_SetPositionObject(TQ3GroupObject group, TQ3GroupPosition position, TQ3Ob
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-
-	if (0) // Further checks on object
-		return(kQ3Failure);
-#endif
 
 
 
@@ -393,13 +335,6 @@ Q3Group_RemovePosition(TQ3GroupObject group, TQ3GroupPosition position)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(NULL);
-
-	if (0) // Further checks on position
-		return(NULL);
-#endif
 
 
 
@@ -431,13 +366,6 @@ Q3Group_GetFirstPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -469,13 +397,6 @@ Q3Group_GetLastPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -507,13 +428,6 @@ Q3Group_GetNextPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -545,13 +459,6 @@ Q3Group_GetPreviousPosition(TQ3GroupObject group, TQ3GroupPosition *position)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -583,13 +490,6 @@ Q3Group_CountObjects(TQ3GroupObject group, TQ3Uns32 *nObjects)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on nObjects
-		return(kQ3Failure);
-#endif
 
 
 
@@ -620,10 +520,6 @@ Q3Group_EmptyObjects(TQ3GroupObject group)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-#endif
 
 
 
@@ -655,16 +551,6 @@ Q3Group_GetFirstPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gr
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on isType
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -696,16 +582,6 @@ Q3Group_GetLastPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on isType
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -737,16 +613,6 @@ Q3Group_GetNextPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Gro
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on isType
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -778,16 +644,6 @@ Q3Group_GetPreviousPositionOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on isType
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -819,16 +675,6 @@ Q3Group_CountObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType, TQ3Uns32 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on isType
-		return(kQ3Failure);
-
-	if (0) // Further checks on nObjects
-		return(kQ3Failure);
-#endif
 
 
 
@@ -859,13 +705,6 @@ Q3Group_EmptyObjectsOfType(TQ3GroupObject group, TQ3ObjectType isType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on isType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -898,16 +737,6 @@ Q3Group_GetFirstObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupP
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on object
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -940,16 +769,6 @@ Q3Group_GetLastObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on object
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -982,16 +801,6 @@ Q3Group_GetNextObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3GroupPo
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on object
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1024,16 +833,6 @@ Q3Group_GetPreviousObjectPosition(TQ3GroupObject group, TQ3Object object, TQ3Gro
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on object
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1127,10 +926,6 @@ Q3DisplayGroup_GetType(TQ3GroupObject group)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -1162,13 +957,6 @@ Q3DisplayGroup_GetState(TQ3GroupObject group, TQ3DisplayGroupState *state)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on state
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1199,13 +987,6 @@ Q3DisplayGroup_SetState(TQ3GroupObject group, TQ3DisplayGroupState state)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on state
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1237,13 +1018,6 @@ Q3DisplayGroup_Submit(TQ3GroupObject group, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1275,13 +1049,6 @@ Q3DisplayGroup_SetAndUseBoundingBox(TQ3GroupObject group, const TQ3BoundingBox *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on bBox
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1313,13 +1080,6 @@ Q3DisplayGroup_GetBoundingBox(TQ3GroupObject group, TQ3BoundingBox *bBox)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on bBox
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1350,10 +1110,6 @@ Q3DisplayGroup_RemoveBoundingBox(TQ3GroupObject group)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1385,16 +1141,6 @@ Q3DisplayGroup_CalcAndUseBoundingBox(TQ3GroupObject group, TQ3ComputeBounds comp
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(kQ3Failure);
-
-	if (0) // Further checks on computeBounds
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1467,13 +1213,6 @@ Q3XGroup_GetPositionPrivate(TQ3GroupObject group, TQ3GroupPosition position)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on group
-		return(NULL);
-
-	if (0) // Further checks on position
-		return(NULL);
-#endif
 
 
 

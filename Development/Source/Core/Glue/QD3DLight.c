@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,10 +95,6 @@ Q3Light_GetType(TQ3LightObject light)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -130,13 +126,6 @@ Q3Light_GetState(TQ3LightObject light, TQ3Boolean *isOn)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on isOn
-		return(kQ3Failure);
-#endif
 
 
 
@@ -168,13 +157,6 @@ Q3Light_GetBrightness(TQ3LightObject light, float *brightness)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on brightness
-		return(kQ3Failure);
-#endif
 
 
 
@@ -206,13 +188,6 @@ Q3Light_GetColor(TQ3LightObject light, TQ3ColorRGB *color)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on color
-		return(kQ3Failure);
-#endif
 
 
 
@@ -243,13 +218,6 @@ Q3Light_SetState(TQ3LightObject light, TQ3Boolean isOn)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on isOn
-		return(kQ3Failure);
-#endif
 
 
 
@@ -280,13 +248,6 @@ Q3Light_SetBrightness(TQ3LightObject light, float brightness)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on brightness
-		return(kQ3Failure);
-#endif
 
 
 
@@ -318,13 +279,6 @@ Q3Light_SetColor(TQ3LightObject light, const TQ3ColorRGB *color)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on color
-		return(kQ3Failure);
-#endif
 
 
 
@@ -356,13 +310,6 @@ Q3Light_GetData(TQ3LightObject light, TQ3LightData *lightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -394,13 +341,6 @@ Q3Light_SetData(TQ3LightObject light, const TQ3LightData *lightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -466,13 +406,6 @@ Q3AmbientLight_GetData(TQ3LightObject light, TQ3LightData *lightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -504,14 +437,6 @@ Q3AmbientLight_SetData(TQ3LightObject light, const TQ3LightData *lightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightData
-		return(kQ3Failure);
-#endif
-
 
 
 	// Call the bottleneck
@@ -576,13 +501,6 @@ Q3DirectionalLight_GetCastShadowsState(TQ3LightObject light, TQ3Boolean *castsSh
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on castsShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -614,13 +532,6 @@ Q3DirectionalLight_GetDirection(TQ3LightObject light, TQ3Vector3D *direction)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on direction
-		return(kQ3Failure);
-#endif
 
 
 
@@ -651,13 +562,6 @@ Q3DirectionalLight_SetCastShadowsState(TQ3LightObject light, TQ3Boolean castsSha
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on castsShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -689,13 +593,6 @@ Q3DirectionalLight_SetDirection(TQ3LightObject light, const TQ3Vector3D *directi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on direction
-		return(kQ3Failure);
-#endif
 
 
 
@@ -727,13 +624,6 @@ Q3DirectionalLight_GetData(TQ3LightObject light, TQ3DirectionalLightData *direct
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on directionalLightData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -765,13 +655,6 @@ Q3DirectionalLight_SetData(TQ3LightObject light, const TQ3DirectionalLightData *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on directionalLightData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -837,13 +720,6 @@ Q3PointLight_GetCastShadowsState(TQ3LightObject light, TQ3Boolean *castsShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on castsShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -875,13 +751,6 @@ Q3PointLight_GetAttenuation(TQ3LightObject light, TQ3AttenuationType *attenuatio
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on attenuation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -913,13 +782,6 @@ Q3PointLight_GetRadius(TQ3LightObject light, TQ3Float32 *radius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on radius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -951,13 +813,6 @@ Q3PointLight_GetLocation(TQ3LightObject light, TQ3Point3D *location)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on location
-		return(kQ3Failure);
-#endif
 
 
 
@@ -989,13 +844,6 @@ Q3PointLight_GetData(TQ3LightObject light, TQ3PointLightData *pointLightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on pointLightData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1026,13 +874,6 @@ Q3PointLight_SetCastShadowsState(TQ3LightObject light, TQ3Boolean castsShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on castsShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1063,13 +904,6 @@ Q3PointLight_SetAttenuation(TQ3LightObject light, TQ3AttenuationType attenuation
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on attenuation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1100,13 +934,6 @@ Q3PointLight_SetRadius(TQ3LightObject light, TQ3Float32 radius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on radius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1138,13 +965,6 @@ Q3PointLight_SetLocation(TQ3LightObject light, const TQ3Point3D *location)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on location
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1176,13 +996,6 @@ Q3PointLight_SetData(TQ3LightObject light, const TQ3PointLightData *pointLightDa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on pointLightData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1248,13 +1061,6 @@ Q3SpotLight_GetCastShadowsState(TQ3LightObject light, TQ3Boolean *castsShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on castsShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1286,13 +1092,6 @@ Q3SpotLight_GetAttenuation(TQ3LightObject light, TQ3AttenuationType *attenuation
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on attenuation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1324,13 +1123,6 @@ Q3SpotLight_GetLocation(TQ3LightObject light, TQ3Point3D *location)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on location
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1362,13 +1154,6 @@ Q3SpotLight_GetDirection(TQ3LightObject light, TQ3Vector3D *direction)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on direction
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1400,13 +1185,6 @@ Q3SpotLight_GetHotAngle(TQ3LightObject light, float *hotAngle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on hotAngle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1438,13 +1216,6 @@ Q3SpotLight_GetOuterAngle(TQ3LightObject light, float *outerAngle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on outerAngle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1476,13 +1247,6 @@ Q3SpotLight_GetFallOff(TQ3LightObject light, TQ3FallOffType *fallOff)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on fallOff
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1514,13 +1278,6 @@ Q3SpotLight_GetData(TQ3LightObject light, TQ3SpotLightData *spotLightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on spotLightData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1551,13 +1308,6 @@ Q3SpotLight_SetCastShadowsState(TQ3LightObject light, TQ3Boolean castsShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on castsShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1588,13 +1338,6 @@ Q3SpotLight_SetAttenuation(TQ3LightObject light, TQ3AttenuationType attenuation)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on attenuation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1626,13 +1369,6 @@ Q3SpotLight_SetLocation(TQ3LightObject light, const TQ3Point3D *location)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on location
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1664,13 +1400,6 @@ Q3SpotLight_SetDirection(TQ3LightObject light, const TQ3Vector3D *direction)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on direction
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1701,13 +1430,6 @@ Q3SpotLight_SetHotAngle(TQ3LightObject light, float hotAngle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on hotAngle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1738,13 +1460,6 @@ Q3SpotLight_SetOuterAngle(TQ3LightObject light, float outerAngle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on outerAngle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1775,13 +1490,6 @@ Q3SpotLight_SetFallOff(TQ3LightObject light, TQ3FallOffType fallOff)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on fallOff
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1813,13 +1521,6 @@ Q3SpotLight_SetData(TQ3LightObject light, const TQ3SpotLightData *spotLightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on light
-		return(kQ3Failure);
-
-	if (0) // Further checks on spotLightData
-		return(kQ3Failure);
-#endif
 
 
 

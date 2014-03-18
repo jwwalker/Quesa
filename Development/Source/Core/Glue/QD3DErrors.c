@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -93,13 +93,6 @@ Q3Error_Register(TQ3ErrorMethod errorPost, TQ3Int32 reference)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on errorPost
-		return(kQ3Failure);
-
-	if (0) // Further checks on reference
-		return(kQ3Failure);
-#endif
 
 
 
@@ -129,13 +122,6 @@ Q3Warning_Register(TQ3WarningMethod warningPost, TQ3Int32 reference)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on warningPost
-		return(kQ3Failure);
-
-	if (0) // Further checks on reference
-		return(kQ3Failure);
-#endif
 
 
 
@@ -165,13 +151,6 @@ Q3Notice_Register(TQ3NoticeMethod noticePost, TQ3Int32 reference)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on noticePost
-		return(kQ3Failure);
-
-	if (0) // Further checks on reference
-		return(kQ3Failure);
-#endif
 
 
 
@@ -208,10 +187,6 @@ Q3Error_Get(TQ3Error *firstError)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on firstError
-		return(kQ3ErrorNone);
-#endif
 
 
 
@@ -274,10 +249,6 @@ Q3Warning_Get(TQ3Warning *firstWarning)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on firstWarning
-		return(kQ3WarningNone);
-#endif
 
 
 
@@ -320,10 +291,6 @@ Q3Notice_Get(TQ3Notice *firstNotice)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on firstNotice
-		return(kQ3NoticeNone);
-#endif
 
 
 
@@ -367,10 +334,6 @@ Q3Error_PlatformGet(TQ3Uns32 *firstErr)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on firstErr
-		return(kQ3ErrorNone);
-#endif
 
 
 
@@ -503,10 +466,6 @@ Q3MacintoshError_Get(OSErr *firstMacErr)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on firstErr
-		return(kQ3ErrorNone);
-#endif
 
 
 

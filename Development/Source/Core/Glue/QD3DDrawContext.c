@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,10 +95,6 @@ Q3DrawContext_GetType(TQ3DrawContextObject drawContext)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -130,13 +126,6 @@ Q3DrawContext_SetData(TQ3DrawContextObject context, const TQ3DrawContextData *co
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on contextData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -168,13 +157,6 @@ Q3DrawContext_GetData(TQ3DrawContextObject context, TQ3DrawContextData *contextD
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on contextData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -206,13 +188,6 @@ Q3DrawContext_SetClearImageColor(TQ3DrawContextObject context, const TQ3ColorARG
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on color
-		return(kQ3Failure);
-#endif
 
 
 
@@ -244,13 +219,6 @@ Q3DrawContext_GetClearImageColor(TQ3DrawContextObject context, TQ3ColorARGB *col
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on color
-		return(kQ3Failure);
-#endif
 
 
 
@@ -282,13 +250,6 @@ Q3DrawContext_SetPane(TQ3DrawContextObject context, const TQ3Area *pane)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on pane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -320,13 +281,6 @@ Q3DrawContext_GetPane(TQ3DrawContextObject context, TQ3Area *pane)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on pane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -357,13 +311,6 @@ Q3DrawContext_SetPaneState(TQ3DrawContextObject context, TQ3Boolean state)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on state
-		return(kQ3Failure);
-#endif
 
 
 
@@ -395,13 +342,6 @@ Q3DrawContext_GetPaneState(TQ3DrawContextObject context, TQ3Boolean *state)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on state
-		return(kQ3Failure);
-#endif
 
 
 
@@ -432,13 +372,6 @@ Q3DrawContext_SetClearImageMethod(TQ3DrawContextObject context, TQ3DrawContextCl
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on method
-		return(kQ3Failure);
-#endif
 
 
 
@@ -470,13 +403,6 @@ Q3DrawContext_GetClearImageMethod(TQ3DrawContextObject context, TQ3DrawContextCl
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on method
-		return(kQ3Failure);
-#endif
 
 
 
@@ -508,13 +434,6 @@ Q3DrawContext_SetMask(TQ3DrawContextObject context, const TQ3Bitmap *mask)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on mask
-		return(kQ3Failure);
-#endif
 
 
 
@@ -546,13 +465,6 @@ Q3DrawContext_GetMask(TQ3DrawContextObject context, TQ3Bitmap *mask)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on mask
-		return(kQ3Failure);
-#endif
 
 
 
@@ -583,13 +495,6 @@ Q3DrawContext_SetMaskState(TQ3DrawContextObject context, TQ3Boolean state)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on state
-		return(kQ3Failure);
-#endif
 
 
 
@@ -621,13 +526,6 @@ Q3DrawContext_GetMaskState(TQ3DrawContextObject context, TQ3Boolean *state)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on state
-		return(kQ3Failure);
-#endif
 
 
 
@@ -658,13 +556,6 @@ Q3DrawContext_SetDoubleBufferState(TQ3DrawContextObject context, TQ3Boolean stat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on state
-		return(kQ3Failure);
-#endif
 
 
 
@@ -696,13 +587,6 @@ Q3DrawContext_GetDoubleBufferState(TQ3DrawContextObject context, TQ3Boolean *sta
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on context
-		return(kQ3Failure);
-
-	if (0) // Further checks on state
-		return(kQ3Failure);
-#endif
 
 
 
@@ -733,10 +617,6 @@ Q3PixmapDrawContext_New(const TQ3PixmapDrawContextData *contextData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on contextData
-		return(NULL);
-#endif
 
 
 
@@ -768,13 +648,6 @@ Q3PixmapDrawContext_SetPixmap(TQ3DrawContextObject drawContext, const TQ3Pixmap 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on pixmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -806,13 +679,6 @@ Q3PixmapDrawContext_GetPixmap(TQ3DrawContextObject drawContext, TQ3Pixmap *pixma
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on pixmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -845,10 +711,6 @@ Q3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContextData
-		return(NULL);
-#endif
 
 
 
@@ -879,13 +741,6 @@ Q3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, WindowRef window)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on window
-		return(kQ3Failure);
-#endif
 
 
 
@@ -917,13 +772,6 @@ Q3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, WindowRef *window)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on window
-		return(kQ3Failure);
-#endif
 
 
 
@@ -954,13 +802,6 @@ Q3MacDrawContext_SetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort view
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on viewPort
-		return(kQ3Failure);
-#endif
 
 
 
@@ -992,13 +833,6 @@ Q3MacDrawContext_GetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort *vie
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on viewPort
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1029,13 +863,6 @@ Q3MacDrawContext_SetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr grafPort
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on grafPort
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1067,13 +894,6 @@ Q3MacDrawContext_GetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr *grafPor
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on grafPort
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1104,13 +924,6 @@ Q3MacDrawContext_Set2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on library
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1142,13 +955,6 @@ Q3MacDrawContext_Get2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContex
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on library
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1182,16 +988,6 @@ Q3XBuffers_New(Display *dpy, TQ3Uns32 numBuffers, Window window)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on dpy
-		return(NULL);
-
-	if (0) // Further checks on numBuffers
-		return(NULL);
-
-	if (0) // Further checks on window
-		return(NULL);
-#endif
 
 
 
@@ -1222,13 +1018,6 @@ Q3XBuffers_Swap(Display *dpy, TQ3XBufferObject buffers)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on dpy
-		return;
-
-	if (0) // Further checks on buffers
-		return;
-#endif
 
 
 
@@ -1260,13 +1049,6 @@ Q3X_GetVisualInfo(Display *dpy, Screen *screen)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on dpy
-		return(NULL);
-
-	if (0) // Further checks on screen
-		return(NULL);
-#endif
 
 
 
@@ -1297,13 +1079,6 @@ Q3XDrawContext_New(const TQ3XDrawContextData *drawContextData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContextData
-		return(NULL);
-
-	if (0) // Further checks on display
-		return(NULL);
-#endif
 
 
 
@@ -1335,13 +1110,6 @@ Q3XDrawContext_SetDisplay(TQ3DrawContextObject drawContext, const Display *displ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on display
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1373,13 +1141,6 @@ Q3XDrawContext_GetDisplay(TQ3DrawContextObject drawContext, Display **display)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on display
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1410,13 +1171,6 @@ Q3XDrawContext_SetDrawable(TQ3DrawContextObject drawContext, Drawable drawable)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on drawable
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1448,13 +1202,6 @@ Q3XDrawContext_GetDrawable(TQ3DrawContextObject drawContext, Drawable *drawable)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on drawable
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1486,13 +1233,6 @@ Q3XDrawContext_SetVisual(TQ3DrawContextObject drawContext, const Visual *visual)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on visual
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1524,13 +1264,6 @@ Q3XDrawContext_GetVisual(TQ3DrawContextObject drawContext, Visual **visual)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on visual
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1561,13 +1294,6 @@ Q3XDrawContext_SetColormap(TQ3DrawContextObject drawContext, Colormap colormap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on colormap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1599,13 +1325,6 @@ Q3XDrawContext_GetColormap(TQ3DrawContextObject drawContext, Colormap *colormap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on colormap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1637,13 +1356,6 @@ Q3XDrawContext_SetColormapData(TQ3DrawContextObject drawContext, const TQ3XColor
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on colormapData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1675,13 +1387,6 @@ Q3XDrawContext_GetColormapData(TQ3DrawContextObject drawContext, TQ3XColormapDat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on colormapData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1715,10 +1420,6 @@ Q3Win32DCDrawContext_New(const TQ3Win32DCDrawContextData *drawContextData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContextData
-		return(NULL);
-#endif
 
 
 
@@ -1749,13 +1450,6 @@ Q3Win32DCDrawContext_SetDC(TQ3DrawContextObject drawContext, HDC newHDC)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on newHDC
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1787,13 +1481,6 @@ Q3Win32DCDrawContext_GetDC(TQ3DrawContextObject drawContext, HDC *curHDC)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on curHDC
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1825,10 +1512,6 @@ Q3DDSurfaceDrawContext_New(const TQ3DDSurfaceDrawContextData *drawContextData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContextData
-		return(NULL);
-#endif
 
 
 
@@ -1860,13 +1543,6 @@ Q3DDSurfaceDrawContext_SetDirectDrawSurface(TQ3DrawContextObject drawContext, co
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on ddSurfaceDescriptor
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1898,13 +1574,6 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface(TQ3DrawContextObject drawContext, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on ddSurfaceDescriptor
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1939,10 +1608,6 @@ Q3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContextData
-		return(NULL);
-#endif
 
 
 
@@ -1973,13 +1638,6 @@ Q3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on nsView
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2011,13 +1669,6 @@ Q3CocoaDrawContext_GetNSView(TQ3DrawContextObject drawContext, void **nsView)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on nsView
-		return(kQ3Failure);
-#endif
 
 
 

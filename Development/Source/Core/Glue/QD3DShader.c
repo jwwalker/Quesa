@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -92,22 +92,6 @@ Q3ColorARGB_Set(TQ3ColorARGB *color, float a, float r, float g, float b)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on color
-		return(NULL);
-
-	if (0) // Further checks on a
-		return(NULL);
-
-	if (0) // Further checks on r
-		return(NULL);
-
-	if (0) // Further checks on g
-		return(NULL);
-
-	if (0) // Further checks on b
-		return(NULL);
-#endif
 
 
 
@@ -140,16 +124,6 @@ Q3ColorARGB_Add(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *re
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on c1
-		return(NULL);
-
-	if (0) // Further checks on c2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -182,16 +156,6 @@ Q3ColorARGB_Subtract(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARG
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on c1
-		return(NULL);
-
-	if (0) // Further checks on c2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -223,16 +187,6 @@ Q3ColorARGB_Scale(const TQ3ColorARGB *color, float scale, TQ3ColorARGB *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on color
-		return(NULL);
-
-	if (0) // Further checks on scale
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -264,13 +218,6 @@ Q3ColorARGB_Clamp(const TQ3ColorARGB *color, TQ3ColorARGB *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on color
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -303,19 +250,6 @@ Q3ColorARGB_Lerp(const TQ3ColorARGB *first, const TQ3ColorARGB *last, float alph
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on first
-		return(NULL);
-
-	if (0) // Further checks on last
-		return(NULL);
-
-	if (0) // Further checks on alpha
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -347,13 +281,6 @@ Q3ColorARGB_Accumulate(const TQ3ColorARGB *src, TQ3ColorARGB *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on src
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -384,19 +311,6 @@ Q3ColorRGB_Set(TQ3ColorRGB *color, float r, float g, float b)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on color
-		return(NULL);
-
-	if (0) // Further checks on r
-		return(NULL);
-
-	if (0) // Further checks on g
-		return(NULL);
-
-	if (0) // Further checks on b
-		return(NULL);
-#endif
 
 
 
@@ -429,16 +343,6 @@ Q3ColorRGB_Add(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on c1
-		return(NULL);
-
-	if (0) // Further checks on c2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -471,16 +375,6 @@ Q3ColorRGB_Subtract(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *r
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on c1
-		return(NULL);
-
-	if (0) // Further checks on c2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -512,16 +406,6 @@ Q3ColorRGB_Scale(const TQ3ColorRGB *color, float scale, TQ3ColorRGB *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on color
-		return(NULL);
-
-	if (0) // Further checks on scale
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -553,13 +437,6 @@ Q3ColorRGB_Clamp(const TQ3ColorRGB *color, TQ3ColorRGB *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on color
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -592,19 +469,6 @@ Q3ColorRGB_Lerp(const TQ3ColorRGB *first, const TQ3ColorRGB *last, float alpha, 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on first
-		return(NULL);
-
-	if (0) // Further checks on last
-		return(NULL);
-
-	if (0) // Further checks on alpha
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -636,13 +500,6 @@ Q3ColorRGB_Accumulate(const TQ3ColorRGB *src, TQ3ColorRGB *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on src
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -674,13 +531,6 @@ Q3ColorRGB_Luminance(const TQ3ColorRGB *color, float *luminance)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on color
-		return(NULL);
-
-	if (0) // Further checks on luminance
-		return(NULL);
-#endif
 
 
 
@@ -711,10 +561,6 @@ Q3Shader_GetType(TQ3ShaderObject shader)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -746,13 +592,6 @@ Q3Shader_Submit(TQ3ShaderObject shader, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -784,13 +623,6 @@ Q3Shader_SetUVTransform(TQ3ShaderObject shader, const TQ3Matrix3x3 *uvTransform)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3Failure);
-
-	if (0) // Further checks on uvTransform
-		return(kQ3Failure);
-#endif
 
 
 
@@ -822,13 +654,6 @@ Q3Shader_GetUVTransform(TQ3ShaderObject shader, TQ3Matrix3x3 *uvTransform)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3Failure);
-
-	if (0) // Further checks on uvTransform
-		return(kQ3Failure);
-#endif
 
 
 
@@ -859,13 +684,6 @@ Q3Shader_SetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary uBoundary)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3Failure);
-
-	if (0) // Further checks on uBoundary
-		return(kQ3Failure);
-#endif
 
 
 
@@ -896,13 +714,6 @@ Q3Shader_SetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary vBoundary)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3Failure);
-
-	if (0) // Further checks on vBoundary
-		return(kQ3Failure);
-#endif
 
 
 
@@ -936,13 +747,6 @@ Q3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3Failure);
-
-	if (0) // Further checks on uBoundary
-		return(kQ3Failure);
-#endif
 
 
 
@@ -976,13 +780,6 @@ Q3Shader_GetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *vBoundary)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3Failure);
-
-	if (0) // Further checks on vBoundary
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1013,10 +810,6 @@ Q3IlluminationShader_GetType(TQ3ShaderObject shader)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -1110,10 +903,6 @@ Q3SurfaceShader_GetType(TQ3SurfaceShaderObject shader)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -1144,10 +933,6 @@ Q3TextureShader_New(TQ3TextureObject texture)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(NULL);
-#endif
 
 
 
@@ -1181,13 +966,6 @@ Q3TextureShader_GetTexture(TQ3ShaderObject shader, TQ3TextureObject *texture)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3Failure);
-
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1219,13 +997,6 @@ Q3TextureShader_SetTexture(TQ3ShaderObject shader, TQ3TextureObject texture)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shader
-		return(kQ3Failure);
-
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1256,10 +1027,6 @@ Q3Texture_GetType(TQ3TextureObject texture)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -1291,13 +1058,6 @@ Q3Texture_GetWidth(TQ3TextureObject texture, TQ3Uns32 *width)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-
-	if (0) // Further checks on width
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1329,13 +1089,6 @@ Q3Texture_GetHeight(TQ3TextureObject texture, TQ3Uns32 *height)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-
-	if (0) // Further checks on height
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1366,10 +1119,6 @@ Q3PixmapTexture_New(const TQ3StoragePixmap *pixmap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmap
-		return(NULL);
-#endif
 
 
 
@@ -1401,13 +1150,6 @@ Q3PixmapTexture_GetPixmap(TQ3TextureObject texture, TQ3StoragePixmap *pixmap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-
-	if (0) // Further checks on pixmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1439,13 +1181,6 @@ Q3PixmapTexture_SetPixmap(TQ3TextureObject texture, const TQ3StoragePixmap *pixm
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-
-	if (0) // Further checks on pixmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1476,10 +1211,6 @@ Q3MipmapTexture_New(const TQ3Mipmap *mipmap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mipmap
-		return(NULL);
-#endif
 
 
 
@@ -1511,13 +1242,6 @@ Q3MipmapTexture_GetMipmap(TQ3TextureObject texture, TQ3Mipmap *mipmap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-
-	if (0) // Further checks on mipmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1549,13 +1273,6 @@ Q3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap *mipmap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-
-	if (0) // Further checks on mipmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1588,10 +1305,6 @@ Q3CompressedPixmapTexture_New(const TQ3CompressedPixmap *compressedPixmap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on compressedPixmap
-		return(NULL);
-#endif
 
 
 
@@ -1623,13 +1336,6 @@ Q3CompressedPixmapTexture_GetCompressedPixmap(TQ3TextureObject texture, TQ3Compr
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-
-	if (0) // Further checks on compressedPixmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1661,13 +1367,6 @@ Q3CompressedPixmapTexture_SetCompressedPixmap(TQ3TextureObject texture, const TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on texture
-		return(kQ3Failure);
-
-	if (0) // Further checks on compressedPixmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1698,25 +1397,6 @@ Q3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *compressedPixmap, P
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on compressedPixmap
-		return(kQ3Failure);
-
-	if (0) // Further checks on sourcePixMap
-		return(kQ3Failure);
-
-	if (0) // Further checks on codecType
-		return(kQ3Failure);
-
-	if (0) // Further checks on codecComponent
-		return(kQ3Failure);
-
-	if (0) // Further checks on codedDepth
-		return(kQ3Failure);
-
-	if (0) // Further checks on codecQuality
-		return(kQ3Failure);
-#endif
 
 
 

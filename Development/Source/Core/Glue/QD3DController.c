@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -96,13 +96,6 @@ Q3Controller_GetListChanged(TQ3Boolean *listChanged, TQ3Uns32 *serialNumber)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on listChanged
-		return(kQ3Failure);
-
-	if (0) // Further checks on serialNumber
-		return(kQ3Failure);
-#endif
 
 
 
@@ -133,13 +126,6 @@ Q3Controller_Next(TQ3ControllerRef controllerRef, TQ3ControllerRef *nextControll
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on nextControllerRef
-		return(kQ3Failure);
-#endif
 
 
 
@@ -170,10 +156,6 @@ Q3Controller_New(const TQ3ControllerData *controllerData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerData
-		return(NULL);
-#endif
 
 
 
@@ -203,10 +185,6 @@ Q3Controller_Decommission(TQ3ControllerRef controllerRef)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-#endif
 
 
 
@@ -236,13 +214,6 @@ Q3Controller_SetActivation(TQ3ControllerRef controllerRef, TQ3Boolean active)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on active
-		return(kQ3Failure);
-#endif
 
 
 
@@ -273,13 +244,6 @@ Q3Controller_GetActivation(TQ3ControllerRef controllerRef, TQ3Boolean *active)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on active
-		return(kQ3Failure);
-#endif
 
 
 
@@ -310,16 +274,6 @@ Q3Controller_GetSignature(TQ3ControllerRef controllerRef, char *signature, TQ3Un
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on signature
-		return(kQ3Failure);
-
-	if (0) // Further checks on numChars
-		return(kQ3Failure);
-#endif
 
 
 
@@ -350,19 +304,6 @@ Q3Controller_SetChannel(TQ3ControllerRef controllerRef, TQ3Uns32 channel, const 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on channel
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on dataSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -394,19 +335,6 @@ Q3Controller_GetChannel(TQ3ControllerRef controllerRef, TQ3Uns32 channel, void *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on channel
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on dataSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -437,13 +365,6 @@ Q3Controller_GetValueCount(TQ3ControllerRef controllerRef, TQ3Uns32 *valueCount)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on valueCount
-		return(kQ3Failure);
-#endif
 
 
 
@@ -474,13 +395,6 @@ Q3Controller_SetTracker(TQ3ControllerRef controllerRef, TQ3TrackerObject tracker
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on tracker
-		return(kQ3Failure);
-#endif
 
 
 
@@ -511,13 +425,6 @@ Q3Controller_HasTracker(TQ3ControllerRef controllerRef, TQ3Boolean *hasTracker)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on hasTracker
-		return(kQ3Failure);
-#endif
 
 
 
@@ -548,13 +455,6 @@ Q3Controller_Track2DCursor(TQ3ControllerRef controllerRef, TQ3Boolean *track2DCu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on track2DCursor
-		return(kQ3Failure);
-#endif
 
 
 
@@ -585,13 +485,6 @@ Q3Controller_Track3DCursor(TQ3ControllerRef controllerRef, TQ3Boolean *track3DCu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on track3DCursor
-		return(kQ3Failure);
-#endif
 
 
 
@@ -622,13 +515,6 @@ Q3Controller_GetButtons(TQ3ControllerRef controllerRef, TQ3Uns32 *buttons)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on buttons
-		return(kQ3Failure);
-#endif
 
 
 
@@ -658,13 +544,6 @@ Q3Controller_SetButtons(TQ3ControllerRef controllerRef, TQ3Uns32 buttons)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on buttons
-		return(kQ3Failure);
-#endif
 
 
 
@@ -695,13 +574,6 @@ Q3Controller_GetTrackerPosition(TQ3ControllerRef controllerRef, TQ3Point3D *posi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -732,13 +604,6 @@ Q3Controller_SetTrackerPosition(TQ3ControllerRef controllerRef, const TQ3Point3D
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -769,13 +634,6 @@ Q3Controller_MoveTrackerPosition(TQ3ControllerRef controllerRef, const TQ3Vector
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on delta
-		return(kQ3Failure);
-#endif
 
 
 
@@ -806,13 +664,6 @@ Q3Controller_GetTrackerOrientation(TQ3ControllerRef controllerRef, TQ3Quaternion
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -843,13 +694,6 @@ Q3Controller_SetTrackerOrientation(TQ3ControllerRef controllerRef, const TQ3Quat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -880,13 +724,6 @@ Q3Controller_MoveTrackerOrientation(TQ3ControllerRef controllerRef, const TQ3Qua
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on delta
-		return(kQ3Failure);
-#endif
 
 
 
@@ -919,22 +756,6 @@ Q3Controller_GetValues(TQ3ControllerRef controllerRef, TQ3Uns32 valueCount, floa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on valueCount
-		return(kQ3Failure);
-
-	if (0) // Further checks on values
-		return(kQ3Failure);
-
-	if (0) // Further checks on changed
-		return(kQ3Failure);
-
-	if (0) // Further checks on serialNumber
-		return(kQ3Failure);
-#endif
 
 
 
@@ -965,16 +786,6 @@ Q3Controller_SetValues(TQ3ControllerRef controllerRef, const float *values, TQ3U
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on values
-		return(kQ3Failure);
-
-	if (0) // Further checks on valueCount
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1004,10 +815,6 @@ Q3ControllerState_New(TQ3ControllerRef controllerRef)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerRef
-		return(NULL);
-#endif
 
 
 
@@ -1038,10 +845,6 @@ Q3ControllerState_SaveAndReset(TQ3ControllerStateObject controllerStateObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerStateObject
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1072,10 +875,6 @@ Q3ControllerState_Restore(TQ3ControllerStateObject controllerStateObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on controllerStateObject
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1105,10 +904,6 @@ Q3Tracker_New(TQ3TrackerNotifyFunc notifyFunc)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on notifyFunc
-		return(NULL);
-#endif
 
 
 
@@ -1139,16 +934,6 @@ Q3Tracker_SetNotifyThresholds(TQ3TrackerObject trackerObject, float positionThre
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on positionThresh
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientationThresh
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1181,16 +966,6 @@ Q3Tracker_GetNotifyThresholds(TQ3TrackerObject trackerObject, float *positionThr
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on positionThresh
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientationThresh
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1221,13 +996,6 @@ Q3Tracker_SetActivation(TQ3TrackerObject trackerObject, TQ3Boolean active)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on active
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1259,13 +1027,6 @@ Q3Tracker_GetActivation(TQ3TrackerObject trackerObject, TQ3Boolean *active)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on active
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1297,13 +1058,6 @@ Q3Tracker_GetButtons(TQ3TrackerObject trackerObject, TQ3Uns32 *buttons)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on buttons
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1334,19 +1088,6 @@ Q3Tracker_ChangeButtons(TQ3TrackerObject trackerObject, TQ3ControllerRef control
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on buttons
-		return(kQ3Failure);
-
-	if (0) // Further checks on buttonMask
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1381,22 +1122,6 @@ Q3Tracker_GetPosition(TQ3TrackerObject trackerObject, TQ3Point3D *position, TQ3V
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-
-	if (0) // Further checks on delta
-		return(kQ3Failure);
-
-	if (0) // Further checks on changed
-		return(kQ3Failure);
-
-	if (0) // Further checks on serialNumber
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1428,16 +1153,6 @@ Q3Tracker_SetPosition(TQ3TrackerObject trackerObject, TQ3ControllerRef controlle
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1469,16 +1184,6 @@ Q3Tracker_MovePosition(TQ3TrackerObject trackerObject, TQ3ControllerRef controll
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on delta
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1513,22 +1218,6 @@ Q3Tracker_GetOrientation(TQ3TrackerObject trackerObject, TQ3Quaternion *orientat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-
-	if (0) // Further checks on delta
-		return(kQ3Failure);
-
-	if (0) // Further checks on changed
-		return(kQ3Failure);
-
-	if (0) // Further checks on serialNumber
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1560,16 +1249,6 @@ Q3Tracker_SetOrientation(TQ3TrackerObject trackerObject, TQ3ControllerRef contro
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1601,16 +1280,6 @@ Q3Tracker_MoveOrientation(TQ3TrackerObject trackerObject, TQ3ControllerRef contr
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on controllerRef
-		return(kQ3Failure);
-
-	if (0) // Further checks on delta
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1643,22 +1312,6 @@ Q3Tracker_SetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on timeStamp
-		return(kQ3Failure);
-
-	if (0) // Further checks on buttons
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1692,22 +1345,6 @@ Q3Tracker_GetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackerObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on timeStamp
-		return(kQ3Failure);
-
-	if (0) // Further checks on buttons
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1758,10 +1395,6 @@ Q3CursorTracker_SetTrackDeltas(TQ3Boolean trackDeltas)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on trackDeltas
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1796,22 +1429,6 @@ Q3CursorTracker_GetAndClearDeltas(float *depth, TQ3Quaternion *orientation, TQ3B
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on depth
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-
-	if (0) // Further checks on hasOrientation
-		return(kQ3Failure);
-
-	if (0) // Further checks on changed
-		return(kQ3Failure);
-
-	if (0) // Further checks on serialNumber
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1841,10 +1458,6 @@ Q3CursorTracker_SetNotifyFunc(TQ3CursorTrackerNotifyFunc notifyFunc)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on notifyFunc
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1875,10 +1488,6 @@ Q3CursorTracker_GetNotifyFunc(TQ3CursorTrackerNotifyFunc *notifyFunc)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on notifyFunc
-		return(kQ3Failure);
-#endif
 
 
 

@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,10 +95,6 @@ Q3Style_GetType(TQ3StyleObject style)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on style
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -130,13 +126,6 @@ Q3Style_Submit(TQ3StyleObject style, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on style
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -167,10 +156,6 @@ Q3SubdivisionStyle_New(const TQ3SubdivisionStyleData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -202,13 +187,6 @@ Q3SubdivisionStyle_Submit(const TQ3SubdivisionStyleData *data, TQ3ViewObject vie
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -240,13 +218,6 @@ Q3SubdivisionStyle_SetData(TQ3StyleObject subdiv, const TQ3SubdivisionStyleData 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on subdiv
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -278,13 +249,6 @@ Q3SubdivisionStyle_GetData(TQ3StyleObject subdiv, TQ3SubdivisionStyleData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on subdiv
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -314,10 +278,6 @@ Q3PickIDStyle_New(TQ3Uns32 id)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on id
-		return(NULL);
-#endif
 
 
 
@@ -348,13 +308,6 @@ Q3PickIDStyle_Submit(TQ3Uns32 id, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on id
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -386,13 +339,6 @@ Q3PickIDStyle_Get(TQ3StyleObject pickIDObject, TQ3Uns32 *id)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pickIDObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on id
-		return(kQ3Failure);
-#endif
 
 
 
@@ -423,13 +369,6 @@ Q3PickIDStyle_Set(TQ3StyleObject pickIDObject, TQ3Uns32 id)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pickIDObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on id
-		return(kQ3Failure);
-#endif
 
 
 
@@ -459,10 +398,6 @@ Q3PickPartsStyle_New(TQ3PickParts parts)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on parts
-		return(NULL);
-#endif
 
 
 
@@ -493,13 +428,6 @@ Q3PickPartsStyle_Submit(TQ3PickParts parts, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on parts
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -531,13 +459,6 @@ Q3PickPartsStyle_Get(TQ3StyleObject pickPartsObject, TQ3PickParts *parts)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pickPartsObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on parts
-		return(kQ3Failure);
-#endif
 
 
 
@@ -568,13 +489,6 @@ Q3PickPartsStyle_Set(TQ3StyleObject pickPartsObject, TQ3PickParts parts)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pickPartsObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on parts
-		return(kQ3Failure);
-#endif
 
 
 
@@ -604,10 +518,6 @@ Q3CastShadowsStyle_New(TQ3Boolean castShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on castShadows
-		return(NULL);
-#endif
 
 
 
@@ -638,13 +548,6 @@ Q3CastShadowsStyle_Submit(TQ3Boolean castShadows, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on castShadows
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -676,13 +579,6 @@ Q3CastShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *castShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on castShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -713,13 +609,6 @@ Q3CastShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean castShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on castShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -749,10 +638,6 @@ Q3ReceiveShadowsStyle_New(TQ3Boolean receiveShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on receiveShadows
-		return(NULL);
-#endif
 
 
 
@@ -783,13 +668,6 @@ Q3ReceiveShadowsStyle_Submit(TQ3Boolean receiveShadows, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on receiveShadows
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -821,13 +699,6 @@ Q3ReceiveShadowsStyle_Get(TQ3StyleObject styleObject, TQ3Boolean *receiveShadows
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on receiveShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -858,13 +729,6 @@ Q3ReceiveShadowsStyle_Set(TQ3StyleObject styleObject, TQ3Boolean receiveShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on receiveShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -894,10 +758,6 @@ Q3FillStyle_New(TQ3FillStyle fillStyle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on fillStyle
-		return(NULL);
-#endif
 
 
 
@@ -928,13 +788,6 @@ Q3FillStyle_Submit(TQ3FillStyle fillStyle, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on fillStyle
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -966,13 +819,6 @@ Q3FillStyle_Get(TQ3StyleObject styleObject, TQ3FillStyle *fillStyle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on fillStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1003,13 +849,6 @@ Q3FillStyle_Set(TQ3StyleObject styleObject, TQ3FillStyle fillStyle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on fillStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1039,10 +878,6 @@ Q3BackfacingStyle_New(TQ3BackfacingStyle backfacingStyle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on backfacingStyle
-		return(NULL);
-#endif
 
 
 
@@ -1073,13 +908,6 @@ Q3BackfacingStyle_Submit(TQ3BackfacingStyle backfacingStyle, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on backfacingStyle
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1111,13 +939,6 @@ Q3BackfacingStyle_Get(TQ3StyleObject backfacingObject, TQ3BackfacingStyle *backf
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on backfacingObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on backfacingStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1148,13 +969,6 @@ Q3BackfacingStyle_Set(TQ3StyleObject backfacingObject, TQ3BackfacingStyle backfa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on backfacingObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on backfacingStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1184,10 +998,6 @@ Q3InterpolationStyle_New(TQ3InterpolationStyle interpolationStyle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on interpolationStyle
-		return(NULL);
-#endif
 
 
 
@@ -1218,13 +1028,6 @@ Q3InterpolationStyle_Submit(TQ3InterpolationStyle interpolationStyle, TQ3ViewObj
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on interpolationStyle
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1256,13 +1059,6 @@ Q3InterpolationStyle_Get(TQ3StyleObject interpolationObject, TQ3InterpolationSty
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on interpolationObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on interpolationStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1293,13 +1089,6 @@ Q3InterpolationStyle_Set(TQ3StyleObject interpolationObject, TQ3InterpolationSty
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on interpolationObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on interpolationStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1329,10 +1118,6 @@ Q3HighlightStyle_New(TQ3AttributeSet highlightAttribute)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on highlightAttribute
-		return(NULL);
-#endif
 
 
 
@@ -1363,13 +1148,6 @@ Q3HighlightStyle_Submit(TQ3AttributeSet highlightAttribute, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on highlightAttribute
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1401,13 +1179,6 @@ Q3HighlightStyle_Get(TQ3StyleObject highlight, TQ3AttributeSet *highlightAttribu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on highlight
-		return(kQ3Failure);
-
-	if (0) // Further checks on highlightAttribute
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1438,13 +1209,6 @@ Q3HighlightStyle_Set(TQ3StyleObject highlight, TQ3AttributeSet highlightAttribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on highlight
-		return(kQ3Failure);
-
-	if (0) // Further checks on highlightAttribute
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1474,10 +1238,6 @@ Q3OrientationStyle_New(TQ3OrientationStyle frontFacingDirection)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on frontFacingDirection
-		return(NULL);
-#endif
 
 
 
@@ -1508,13 +1268,6 @@ Q3OrientationStyle_Submit(TQ3OrientationStyle frontFacingDirection, TQ3ViewObjec
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on frontFacingDirection
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1546,13 +1299,6 @@ Q3OrientationStyle_Get(TQ3StyleObject frontFacingDirectionObject, TQ3Orientation
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on frontFacingDirectionObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on frontFacingDirection
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1583,13 +1329,6 @@ Q3OrientationStyle_Set(TQ3StyleObject frontFacingDirectionObject, TQ3Orientation
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on frontFacingDirectionObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on frontFacingDirection
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1620,10 +1359,6 @@ Q3AntiAliasStyle_New(const TQ3AntiAliasStyleData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -1655,13 +1390,6 @@ Q3AntiAliasStyle_Submit(const TQ3AntiAliasStyleData *data, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1693,13 +1421,6 @@ Q3AntiAliasStyle_GetData(TQ3StyleObject styleObject, TQ3AntiAliasStyleData *data
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1731,13 +1452,6 @@ Q3AntiAliasStyle_SetData(TQ3StyleObject styleObject, const TQ3AntiAliasStyleData
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1768,10 +1482,6 @@ Q3FogStyle_New(const TQ3FogStyleData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -1803,13 +1513,6 @@ Q3FogStyle_Submit(const TQ3FogStyleData *data, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1841,13 +1544,6 @@ Q3FogStyle_GetData(TQ3StyleObject styleObject, TQ3FogStyleData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1879,13 +1575,6 @@ Q3FogStyle_SetData(TQ3StyleObject styleObject, const TQ3FogStyleData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1909,10 +1598,6 @@ TQ3StyleObject
 Q3LineWidthStyle_New( float inWidth )
 {
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -1944,13 +1629,6 @@ Q3LineWidthStyle_Submit (
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1983,13 +1661,6 @@ Q3LineWidthStyle_GetData (
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2021,13 +1692,6 @@ Q3LineWidthStyle_SetData (
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on styleObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 

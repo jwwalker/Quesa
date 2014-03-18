@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,10 +95,6 @@ Q3String_GetType(TQ3StringObject stringObj)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on stringObj
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -129,10 +125,6 @@ Q3CString_New(const char *str)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on str
-		return(NULL);
-#endif
 
 
 
@@ -164,13 +156,6 @@ Q3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on stringObj
-		return(kQ3Failure);
-
-	if (0) // Further checks on length
-		return(kQ3Failure);
-#endif
 
 
 
@@ -202,13 +187,6 @@ Q3CString_SetString(TQ3StringObject stringObj, const char *str)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on stringObj
-		return(kQ3Failure);
-
-	if (0) // Further checks on str
-		return(kQ3Failure);
-#endif
 
 
 
@@ -240,13 +218,6 @@ Q3CString_GetString(TQ3StringObject stringObj, char **str)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on stringObj
-		return(kQ3Failure);
-
-	if (0) // Further checks on str
-		return(kQ3Failure);
-#endif
 
 
 
@@ -277,10 +248,6 @@ Q3CString_EmptyData(char **str)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on str
-		return(kQ3Failure);
-#endif
 
 
 

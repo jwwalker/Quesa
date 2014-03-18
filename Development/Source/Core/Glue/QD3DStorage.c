@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -94,10 +94,6 @@ Q3Storage_GetType(TQ3StorageObject storage)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -129,13 +125,6 @@ Q3Storage_GetSize(TQ3StorageObject storage, TQ3Uns32 *size)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on size
-		return(kQ3Failure);
-#endif
 
 
 
@@ -168,22 +157,6 @@ Q3Storage_GetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on offset
-		return(kQ3Failure);
-
-	if (0) // Further checks on dataSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on sizeRead
-		return(kQ3Failure);
-#endif
 
 
 
@@ -216,22 +189,6 @@ Q3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on offset
-		return(kQ3Failure);
-
-	if (0) // Further checks on dataSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on sizeWritten
-		return(kQ3Failure);
-#endif
 
 
 
@@ -262,10 +219,6 @@ Q3MemoryStorage_GetType(TQ3StorageObject storage)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -294,13 +247,6 @@ Q3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on buffer
-		return(NULL);
-
-	if (0) // Further checks on validSize
-		return(NULL);
-#endif
 
 
 
@@ -367,16 +313,6 @@ Q3MemoryStorage_Set(TQ3StorageObject storage, const unsigned char *buffer, TQ3Un
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on buffer
-		return(kQ3Failure);
-
-	if (0) // Further checks on validSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -408,16 +344,6 @@ Q3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on buffer
-		return(NULL);
-
-	if (0) // Further checks on validSize
-		return(NULL);
-
-	if (0) // Further checks on bufferSize
-		return(NULL);
-#endif
 
 
 
@@ -450,19 +376,6 @@ Q3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Un
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on buffer
-		return(kQ3Failure);
-
-	if (0) // Further checks on validSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on bufferSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -505,19 +418,6 @@ Q3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3U
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on buffer
-		return(kQ3Failure);
-
-	if (0) // Further checks on validSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on bufferSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -549,10 +449,6 @@ Q3PathStorage_New(const char *pathName)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pathName
-		return(NULL);
-#endif
 
 
 
@@ -587,13 +483,6 @@ Q3PathStorage_Set(TQ3StorageObject theStorage, const char *pathName)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theStorage
-		return(kQ3Failure);
-
-	if (0) // Further checks on pathName
-		return(kQ3Failure);
-#endif
 
 
 
@@ -628,13 +517,6 @@ Q3PathStorage_Get(TQ3StorageObject theStorage, char *pathName)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theStorage
-		return(kQ3Failure);
-
-	if (0) // Further checks on pathName
-		return(kQ3Failure);
-#endif
 
 
 
@@ -750,13 +632,6 @@ Q3HandleStorage_New(Handle handle, TQ3Uns32 validSize)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on handle
-		return(NULL);
-
-	if (0) // Further checks on validSize
-		return(NULL);
-#endif
 
 
 
@@ -788,16 +663,6 @@ Q3HandleStorage_Set(TQ3StorageObject storage, Handle handle, TQ3Uns32 validSize)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on handle
-		return(kQ3Failure);
-
-	if (0) // Further checks on validSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -831,16 +696,6 @@ Q3HandleStorage_Get(TQ3StorageObject storage, Handle *handle, TQ3Uns32 *validSiz
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on handle
-		return(kQ3Failure);
-
-	if (0) // Further checks on validSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -870,10 +725,6 @@ Q3MacintoshStorage_New(TQ3Int16 fsRefNum)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on fsRefNum
-		return(NULL);
-#endif
 
 
 
@@ -905,13 +756,6 @@ Q3MacintoshStorage_Set(TQ3StorageObject storage, TQ3Int16 fsRefNum)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on fsRefNum
-		return(kQ3Failure);
-#endif
 
 
 
@@ -944,13 +788,6 @@ Q3MacintoshStorage_Get(TQ3StorageObject storage, TQ3Int16 *fsRefNum)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on fsRefNum
-		return(kQ3Failure);
-#endif
 
 
 
@@ -981,10 +818,6 @@ Q3MacintoshStorage_GetType(TQ3StorageObject storage)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -1017,10 +850,6 @@ Q3FSSpecStorage_New(const FSSpec *fs)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on fs
-		return(NULL);
-#endif
 
 
 
@@ -1052,13 +881,6 @@ Q3FSSpecStorage_Set(TQ3StorageObject storage, const FSSpec *fs)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on fs
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1090,13 +912,6 @@ Q3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on fs
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1202,10 +1017,6 @@ Q3Win32Storage_New(HANDLE hFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on hFile
-		return(NULL);
-#endif
 
 
 
@@ -1236,13 +1047,6 @@ Q3Win32Storage_Set(TQ3StorageObject storage, HANDLE hFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on hFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1274,13 +1078,6 @@ Q3Win32Storage_Get(TQ3StorageObject storage, HANDLE *hFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on hFile
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1314,10 +1111,6 @@ Q3UnixPathStorage_New(const char *pathName)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pathName
-		return(NULL);
-#endif
 
 
 
@@ -1349,13 +1142,6 @@ Q3UnixPathStorage_Set(TQ3StorageObject storage, const char *pathName)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on pathName
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1387,13 +1173,6 @@ Q3UnixPathStorage_Get(TQ3StorageObject storage, char *pathName)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on storage
-		return(kQ3Failure);
-
-	if (0) // Further checks on pathName
-		return(kQ3Failure);
-#endif
 
 
 

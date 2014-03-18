@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,10 +95,6 @@ Q3Pick_GetType(TQ3PickObject pick)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -130,13 +126,6 @@ Q3Pick_GetData(TQ3PickObject pick, TQ3PickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -168,13 +157,6 @@ Q3Pick_SetData(TQ3PickObject pick, const TQ3PickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -206,13 +188,6 @@ Q3Pick_GetVertexTolerance(TQ3PickObject pick, float *vertexTolerance)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertexTolerance
-		return(kQ3Failure);
-#endif
 
 
 
@@ -244,13 +219,6 @@ Q3Pick_GetEdgeTolerance(TQ3PickObject pick, float *edgeTolerance)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on edgeTolerance
-		return(kQ3Failure);
-#endif
 
 
 
@@ -281,13 +249,6 @@ Q3Pick_SetVertexTolerance(TQ3PickObject pick, float vertexTolerance)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertexTolerance
-		return(kQ3Failure);
-#endif
 
 
 
@@ -318,13 +279,6 @@ Q3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on edgeTolerance
-		return(kQ3Failure);
-#endif
 
 
 
@@ -356,13 +310,6 @@ Q3Pick_GetNumHits(TQ3PickObject pick, TQ3Uns32 *numHits)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on numHits
-		return(kQ3Failure);
-#endif
 
 
 
@@ -393,10 +340,6 @@ Q3Pick_EmptyHitList(TQ3PickObject pick)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-#endif
 
 
 
@@ -428,16 +371,6 @@ Q3Pick_GetPickDetailValidMask(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on pickDetailValidMask
-		return(kQ3Failure);
-#endif
 
 
 
@@ -469,19 +402,6 @@ Q3Pick_GetPickDetailData(TQ3PickObject pick, TQ3Uns32 index, TQ3PickDetail pickD
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on pickDetailValue
-		return(kQ3Failure);
-
-	if (0) // Further checks on detailData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -512,10 +432,6 @@ Q3HitPath_EmptyData(TQ3HitPath *hitPath)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on hitPath
-		return(kQ3Failure);
-#endif
 
 
 
@@ -546,10 +462,6 @@ Q3WindowPointPick_New(const TQ3WindowPointPickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -581,13 +493,6 @@ Q3WindowPointPick_GetPoint(TQ3PickObject pick, TQ3Point2D *point)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on point
-		return(kQ3Failure);
-#endif
 
 
 
@@ -619,13 +524,6 @@ Q3WindowPointPick_SetPoint(TQ3PickObject pick, const TQ3Point2D *point)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on point
-		return(kQ3Failure);
-#endif
 
 
 
@@ -657,13 +555,6 @@ Q3WindowPointPick_GetData(TQ3PickObject pick, TQ3WindowPointPickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -695,13 +586,6 @@ Q3WindowPointPick_SetData(TQ3PickObject pick, const TQ3WindowPointPickData *data
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -732,10 +616,6 @@ Q3WindowRectPick_New(const TQ3WindowRectPickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -767,13 +647,6 @@ Q3WindowRectPick_GetRect(TQ3PickObject pick, TQ3Area *rect)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on rect
-		return(kQ3Failure);
-#endif
 
 
 
@@ -805,13 +678,6 @@ Q3WindowRectPick_SetRect(TQ3PickObject pick, const TQ3Area *rect)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on rect
-		return(kQ3Failure);
-#endif
 
 
 
@@ -843,13 +709,6 @@ Q3WindowRectPick_GetData(TQ3PickObject pick, TQ3WindowRectPickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -881,13 +740,6 @@ Q3WindowRectPick_SetData(TQ3PickObject pick, const TQ3WindowRectPickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -918,10 +770,6 @@ Q3WorldRayPick_New(const TQ3WorldRayPickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -953,13 +801,6 @@ Q3WorldRayPick_GetRay(TQ3PickObject pick, TQ3Ray3D *ray)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on ray
-		return(kQ3Failure);
-#endif
 
 
 
@@ -991,13 +832,6 @@ Q3WorldRayPick_SetRay(TQ3PickObject pick, const TQ3Ray3D *ray)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on ray
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1029,13 +863,6 @@ Q3WorldRayPick_GetData(TQ3PickObject pick, TQ3WorldRayPickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1067,13 +894,6 @@ Q3WorldRayPick_SetData(TQ3PickObject pick, const TQ3WorldRayPickData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1104,10 +924,6 @@ Q3ShapePart_GetType(TQ3ShapePartObject shapePartObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shapePartObject
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -1138,10 +954,6 @@ Q3MeshPart_GetType(TQ3MeshPartObject meshPartObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on meshPartObject
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -1173,13 +985,6 @@ Q3ShapePart_GetShape(TQ3ShapePartObject shapePartObject, TQ3ShapeObject *shapeOb
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shapePartObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on shapeObject
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1211,13 +1016,6 @@ Q3MeshPart_GetComponent(TQ3MeshPartObject meshPartObject, TQ3MeshComponent *comp
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on meshPartObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on component
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1249,13 +1047,6 @@ Q3MeshFacePart_GetFace(TQ3MeshFacePartObject meshFacePartObject, TQ3MeshFace *fa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on meshFacePartObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1287,13 +1078,6 @@ Q3MeshEdgePart_GetEdge(TQ3MeshEdgePartObject meshEdgePartObject, TQ3MeshEdge *ed
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on meshEdgePartObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on edge
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1325,13 +1109,6 @@ Q3MeshVertexPart_GetVertex(TQ3MeshVertexPartObject meshVertexPartObject, TQ3Mesh
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on meshVertexPartObject
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-#endif
 
 
 

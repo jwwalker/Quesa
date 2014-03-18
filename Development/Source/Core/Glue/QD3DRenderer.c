@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -94,10 +94,6 @@ Q3Renderer_NewFromType(TQ3ObjectType rendererObjectType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rendererObjectType
-		return(NULL);
-#endif
 
 
 
@@ -128,10 +124,6 @@ Q3Renderer_GetType(TQ3RendererObject renderer)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -162,10 +154,6 @@ Q3Renderer_IsInteractive(TQ3RendererObject renderer)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3False);
-#endif
 
 
 
@@ -196,10 +184,6 @@ Q3Renderer_HasModalConfigure(TQ3RendererObject renderer)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3False);
-#endif
 
 
 
@@ -231,16 +215,6 @@ Q3Renderer_ModalConfigure(TQ3RendererObject renderer, TQ3DialogAnchor dialogAnch
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on dialogAnchor
-		return(kQ3Failure);
-
-	if (0) // Further checks on canceled
-		return(kQ3Failure);
-#endif
 
 
 
@@ -270,13 +244,6 @@ Q3RendererClass_GetNickNameString(TQ3ObjectType rendererClassType, TQ3ObjectClas
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rendererClassType
-		return(kQ3Failure);
-
-	if (0) // Further checks on rendererClassString
-		return(kQ3Failure);
-#endif
 
 
 
@@ -309,19 +276,6 @@ Q3Renderer_GetConfigurationData(TQ3RendererObject renderer, unsigned char *dataB
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on dataBuffer
-		return(kQ3Failure);
-
-	if (0) // Further checks on bufferSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on actualDataSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -353,16 +307,6 @@ Q3Renderer_SetConfigurationData(TQ3RendererObject renderer, unsigned char *dataB
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on dataBuffer
-		return(kQ3Failure);
-
-	if (0) // Further checks on bufferSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -393,13 +337,6 @@ Q3InteractiveRenderer_SetCSGEquation(TQ3RendererObject renderer, TQ3CSGEquation 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on equation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -431,13 +368,6 @@ Q3InteractiveRenderer_GetCSGEquation(TQ3RendererObject renderer, TQ3CSGEquation 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on equation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -468,16 +398,6 @@ Q3InteractiveRenderer_SetPreferences(TQ3RendererObject renderer, TQ3RaveVendorID
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on vendorID
-		return(kQ3Failure);
-
-	if (0) // Further checks on engineID
-		return(kQ3Failure);
-#endif
 
 
 
@@ -510,16 +430,6 @@ Q3InteractiveRenderer_GetPreferences(TQ3RendererObject renderer, TQ3RaveVendorID
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on vendorID
-		return(kQ3Failure);
-
-	if (0) // Further checks on engineID
-		return(kQ3Failure);
-#endif
 
 
 
@@ -550,13 +460,6 @@ Q3InteractiveRenderer_SetDoubleBufferBypass(TQ3RendererObject renderer, TQ3Boole
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on bypass
-		return(kQ3Failure);
-#endif
 
 
 
@@ -588,13 +491,6 @@ Q3InteractiveRenderer_GetDoubleBufferBypass(TQ3RendererObject renderer, TQ3Boole
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on bypass
-		return(kQ3Failure);
-#endif
 
 
 
@@ -625,13 +521,6 @@ Q3InteractiveRenderer_SetRAVEContextHints(TQ3RendererObject renderer, TQ3Uns32 R
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on RAVEContextHints
-		return(kQ3Failure);
-#endif
 
 
 
@@ -663,13 +552,6 @@ Q3InteractiveRenderer_GetRAVEContextHints(TQ3RendererObject renderer, TQ3Uns32 *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on RAVEContextHints
-		return(kQ3Failure);
-#endif
 
 
 
@@ -700,13 +582,6 @@ Q3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject renderer, TQ3Textur
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on raveTextureFilterValue
-		return(kQ3Failure);
-#endif
 
 
 
@@ -738,13 +613,6 @@ Q3InteractiveRenderer_GetRAVETextureFilter(TQ3RendererObject renderer, TQ3Textur
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on RAVEtextureFilterValue
-		return(kQ3Failure);
-#endif
 
 
 
@@ -776,13 +644,6 @@ Q3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject renderer, TQ3Uns32
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on numRAVEContexts
-		return(kQ3Failure);
-#endif
 
 
 
@@ -816,22 +677,6 @@ Q3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject renderer, TQADrawCon
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-
-	if (0) // Further checks on raveDrawContextList
-		return(kQ3Failure);
-
-	if (0) // Further checks on raveDrawingEnginesList
-		return(kQ3Failure);
-
-	if (0) // Further checks on numRAVEContexts
-		return(kQ3Failure);
-
-	if (0) // Further checks on raveDestroyCallback
-		return(kQ3Failure);
-#endif
 
 
 
@@ -862,16 +707,6 @@ Q3XView_IdleProgress(TQ3ViewObject view, TQ3Uns32 current, TQ3Uns32 completed)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on current
-		return(kQ3Failure);
-
-	if (0) // Further checks on completed
-		return(kQ3Failure);
-#endif
 
 
 
@@ -902,10 +737,6 @@ Q3XView_EndFrame(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -936,10 +767,6 @@ Q3XDrawContext_ClearValidationFlags(TQ3DrawContextObject drawContext)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-#endif
 
 
 
@@ -971,13 +798,6 @@ Q3XDrawContext_GetValidationFlags(TQ3DrawContextObject drawContext, TQ3XDrawCont
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-
-	if (0) // Further checks on validationFlags
-		return(kQ3Failure);
-#endif
 
 
 
