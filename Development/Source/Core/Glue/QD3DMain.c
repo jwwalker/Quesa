@@ -162,13 +162,6 @@ Q3GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on majorRevision
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRevision
-		return(kQ3Failure);
-#endif
 
 
 
@@ -199,10 +192,6 @@ Q3GetReleaseVersion(TQ3Uns32 *releaseRevision)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on releaseRevision
-		return(kQ3Failure);
-#endif
 
 
 
@@ -246,13 +235,6 @@ Q3ObjectHierarchy_GetTypeFromString(const TQ3ObjectClassNameString objectClassSt
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClassString
-		return(kQ3Failure);
-
-	if (0) // Further checks on objectClassType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -282,13 +264,6 @@ Q3ObjectHierarchy_GetStringFromType(TQ3ObjectType objectClassType, TQ3ObjectClas
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClassType
-		return(kQ3Failure);
-
-	if (0) // Further checks on objectClassString
-		return(kQ3Failure);
-#endif
 
 
 
@@ -318,10 +293,6 @@ Q3ObjectHierarchy_IsTypeRegistered(TQ3ObjectType objectClassType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClassType
-		return(kQ3False);
-#endif
 
 
 
@@ -352,10 +323,6 @@ Q3ObjectHierarchy_IsNameRegistered(const char *objectClassName)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClassName
-		return(kQ3False);
-#endif
 
 
 
@@ -386,13 +353,6 @@ Q3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3SubClassData
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClassType
-		return(kQ3Failure);
-
-	if (0) // Further checks on subClassData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -423,10 +383,6 @@ Q3ObjectHierarchy_EmptySubClassData(TQ3SubClassData *subClassData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on subClassData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -459,10 +415,6 @@ Q3Object_Dispose(TQ3Object object)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3Failure);
-#endif
 
 
 
@@ -494,10 +446,6 @@ Q3Object_CleanDispose(TQ3Object *object)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3Failure);
-#endif
 
 
 
@@ -529,10 +477,6 @@ Q3Object_Duplicate(TQ3Object object)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(NULL);
-#endif
 
 
 
@@ -564,13 +508,6 @@ Q3Object_Submit(TQ3Object object, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -601,10 +538,6 @@ Q3Object_IsDrawable(TQ3Object object)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3False);
-#endif
 
 
 
@@ -636,13 +569,6 @@ Q3Object_IsWritable(TQ3Object object, TQ3FileObject theFile)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3False);
-
-	if (0) // Further checks on theFile
-		return(kQ3False);
-#endif
 
 
 
@@ -673,10 +599,6 @@ Q3Object_GetType(TQ3Object object)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -707,10 +629,6 @@ Q3Object_GetLeafType(TQ3Object object)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -742,13 +660,6 @@ Q3Object_IsType(TQ3Object object, TQ3ObjectType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3False);
-
-	if (0) // Further checks on theType
-		return(kQ3False);
-#endif
 
 
 
@@ -779,16 +690,6 @@ Q3Object_AddElement(TQ3Object object, TQ3ElementType theType, const void *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -820,16 +721,6 @@ Q3Object_GetElement(TQ3Object object, TQ3ElementType theType, void *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -860,13 +751,6 @@ Q3Object_ContainsElement(TQ3Object object, TQ3ElementType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3False);
-
-	if (0) // Further checks on theType
-		return(kQ3False);
-#endif
 
 
 
@@ -898,13 +782,6 @@ Q3Object_GetNextElementType(TQ3Object object, TQ3ElementType *theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -935,10 +812,6 @@ Q3Object_EmptyElements(TQ3Object object)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-#endif
 
 
 
@@ -969,13 +842,6 @@ Q3Object_ClearElement(TQ3Object object, TQ3ElementType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1125,13 +991,6 @@ Q3Object_GetSet ( TQ3Object object, TQ3SetObject* set )
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1163,13 +1022,6 @@ Q3Object_SetSet ( TQ3Object object, TQ3SetObject set )
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1201,10 +1053,6 @@ Q3Shared_GetType(TQ3SharedObject sharedObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedObject
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -1235,10 +1083,6 @@ Q3Shared_GetReference(TQ3SharedObject sharedObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedObject
-		return(NULL);
-#endif
 
 
 
@@ -1269,10 +1113,6 @@ Q3Shared_IsReferenced(TQ3SharedObject sharedObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedObject
-		return(kQ3False);
-#endif
 
 
 
@@ -1303,10 +1143,6 @@ Q3Shared_GetReferenceCount( TQ3SharedObject               sharedObject )
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedObject
-		return(kQ3False);
-#endif
 
 
 
@@ -1338,10 +1174,6 @@ Q3Shared_GetEditIndex(TQ3SharedObject sharedObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedObject
-		return(0);
-#endif
 
 
 
@@ -1411,10 +1243,6 @@ Q3Shared_Edited(TQ3SharedObject sharedObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedObject
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1578,10 +1406,6 @@ Q3Shape_GetType(TQ3ShapeObject shape)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -1613,13 +1437,6 @@ Q3Shape_GetSet(TQ3ShapeObject shape, TQ3SetObject *theSet)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1651,13 +1468,6 @@ Q3Shape_SetSet(TQ3ShapeObject shape, TQ3SetObject theSet)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1691,16 +1501,6 @@ Q3Shape_AddElement(TQ3ShapeObject shape, TQ3ElementType theType, const void *dat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1734,16 +1534,6 @@ Q3Shape_GetElement(TQ3ShapeObject shape, TQ3ElementType theType, void *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1776,13 +1566,6 @@ Q3Shape_ContainsElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3False);
-
-	if (0) // Further checks on theType
-		return(kQ3False);
-#endif
 
 
 
@@ -1816,13 +1599,6 @@ Q3Shape_GetNextElementType(TQ3ShapeObject shape, TQ3ElementType *theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1855,10 +1631,6 @@ Q3Shape_EmptyElements(TQ3ShapeObject shape)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1891,13 +1663,6 @@ Q3Shape_ClearElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on shape
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1929,10 +1694,6 @@ Q3Bitmap_Empty(TQ3Bitmap *bitmap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bitmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1962,13 +1723,6 @@ Q3Bitmap_GetImageSize(TQ3Uns32 width, TQ3Uns32 height)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on width
-		return(0);
-
-	if (0) // Further checks on height
-		return(0);
-#endif
 
 
 
@@ -2001,16 +1755,6 @@ Q3Bitmap_GetBit(const TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theBitmap
-		return(kQ3False);
-
-	if (0) // Further checks on x
-		return(kQ3False);
-
-	if (0) // Further checks on y
-		return(kQ3False);
-#endif
 
 
 
@@ -2043,19 +1787,6 @@ Q3Bitmap_SetBit(TQ3Bitmap *theBitmap, TQ3Uns32 x, TQ3Uns32 y, TQ3Boolean theStat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theBitmap
-		return(kQ3Failure);
-
-	if (0) // Further checks on x
-		return(kQ3Failure);
-
-	if (0) // Further checks on y
-		return(kQ3Failure);
-
-	if (0) // Further checks on theState
-		return(kQ3Failure);
-#endif
 
 
 

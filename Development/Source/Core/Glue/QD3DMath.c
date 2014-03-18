@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -178,16 +178,6 @@ Q3Vector2D_Set(TQ3Vector2D *vector2D, float x, float y)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on x
-		return(NULL);
-
-	if (0) // Further checks on y
-		return(NULL);
-#endif
 
 
 
@@ -218,19 +208,6 @@ Q3Vector3D_Set(TQ3Vector3D *vector3D, float x, float y, float z)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(NULL);
-
-	if (0) // Further checks on x
-		return(NULL);
-
-	if (0) // Further checks on y
-		return(NULL);
-
-	if (0) // Further checks on z
-		return(NULL);
-#endif
 
 
 
@@ -261,16 +238,6 @@ Q3Point2D_Set(TQ3Point2D *point2D, float x, float y)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point2D
-		return(NULL);
-
-	if (0) // Further checks on x
-		return(NULL);
-
-	if (0) // Further checks on y
-		return(NULL);
-#endif
 
 
 
@@ -301,16 +268,6 @@ Q3Param2D_Set(TQ3Param2D *param2D, float u, float v)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on param2D
-		return(NULL);
-
-	if (0) // Further checks on u
-		return(NULL);
-
-	if (0) // Further checks on v
-		return(NULL);
-#endif
 
 
 
@@ -341,19 +298,6 @@ Q3RationalPoint3D_Set(TQ3RationalPoint3D *rationalPoint3D, float x, float y, flo
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rationalPoint3D
-		return(NULL);
-
-	if (0) // Further checks on x
-		return(NULL);
-
-	if (0) // Further checks on y
-		return(NULL);
-
-	if (0) // Further checks on w
-		return(NULL);
-#endif
 
 
 
@@ -384,19 +328,6 @@ Q3Point3D_Set(TQ3Point3D *point3D, float x, float y, float z)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(NULL);
-
-	if (0) // Further checks on x
-		return(NULL);
-
-	if (0) // Further checks on y
-		return(NULL);
-
-	if (0) // Further checks on z
-		return(NULL);
-#endif
 
 
 
@@ -427,22 +358,6 @@ Q3RationalPoint4D_Set(TQ3RationalPoint4D *rationalPoint4D, float x, float y, flo
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rationalPoint4D
-		return(NULL);
-
-	if (0) // Further checks on x
-		return(NULL);
-
-	if (0) // Further checks on y
-		return(NULL);
-
-	if (0) // Further checks on z
-		return(NULL);
-
-	if (0) // Further checks on w
-		return(NULL);
-#endif
 
 
 
@@ -473,16 +388,6 @@ Q3PolarPoint_Set(TQ3PolarPoint *polarPoint, float r, float theta)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polarPoint
-		return(NULL);
-
-	if (0) // Further checks on r
-		return(NULL);
-
-	if (0) // Further checks on theta
-		return(NULL);
-#endif
 
 
 
@@ -513,19 +418,6 @@ Q3SphericalPoint_Set(TQ3SphericalPoint *sphericalPoint, float rho, float theta, 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sphericalPoint
-		return(NULL);
-
-	if (0) // Further checks on rho
-		return(NULL);
-
-	if (0) // Further checks on theta
-		return(NULL);
-
-	if (0) // Further checks on phi
-		return(NULL);
-#endif
 
 
 
@@ -558,13 +450,6 @@ Q3Vector2D_To3D(const TQ3Vector2D *vector2D, TQ3Vector3D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -596,13 +481,6 @@ Q3Vector2D_ToRationalPoint3D(const TQ3Vector2D *vector2D, TQ3RationalPoint3D *re
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -634,13 +512,6 @@ Q3Vector3D_To2D(const TQ3Vector3D *vector3D, TQ3Vector2D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -672,13 +543,6 @@ Q3RationalPoint3D_ToVector2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Vecto
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rationalPoint3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -710,13 +574,6 @@ Q3Vector3D_ToRationalPoint4D(const TQ3Vector3D *vector3D, TQ3RationalPoint4D *re
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -748,13 +605,6 @@ Q3RationalPoint4D_ToVector3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Vecto
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rationalPoint4D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -786,13 +636,6 @@ Q3Point2D_To3D(const TQ3Point2D *point2D, TQ3RationalPoint3D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -830,9 +673,6 @@ Q3RationalPoint3D_To2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Point2D *re
 		E3ErrorManager_PostError( kQ3ErrorInfiniteRationalPoint, kQ3False );
 		return(NULL);
 		}
-
-	if (0) // Further checks on result
-		return(NULL);
 #endif
 
 
@@ -865,13 +705,6 @@ Q3Point3D_To4D(const TQ3Point3D *point3D, TQ3RationalPoint4D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -909,9 +742,6 @@ Q3RationalPoint4D_To3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Point3D *re
 		E3ErrorManager_PostError( kQ3ErrorInfiniteRationalPoint, kQ3False );
 		return(NULL);
 		}
-
-	if (0) // Further checks on result
-		return(NULL);
 #endif
 
 
@@ -945,13 +775,6 @@ Q3Point2D_ToPolar(const TQ3Point2D *point2D, TQ3PolarPoint *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -983,13 +806,6 @@ Q3PolarPoint_ToPoint2D(const TQ3PolarPoint *polarPoint, TQ3Point2D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polarPoint
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -1021,13 +837,6 @@ Q3Point3D_ToSpherical(const TQ3Point3D *point3D, TQ3SphericalPoint *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -1059,13 +868,6 @@ Q3SphericalPoint_ToPoint3D(const TQ3SphericalPoint *sphericalPoint, TQ3Point3D *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sphericalPoint
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -1098,13 +900,6 @@ Q3Vector2D_Dot(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on v1
-		return(0.0f);
-
-	if (0) // Further checks on v2
-		return(0.0f);
-#endif
 
 
 
@@ -1136,13 +931,6 @@ Q3Vector3D_Dot(const TQ3Vector3D *v1, const TQ3Vector3D *v2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on v1
-		return(0.0f);
-
-	if (0) // Further checks on v2
-		return(0.0f);
-#endif
 
 
 
@@ -1188,31 +976,6 @@ Q3Vector3D_DotArray(
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on inFirstVectors3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on inSecondVectors3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on outDotProducts
-		return(kQ3Failure);
-
-	if (0) // Further checks on outDotLessThanZeros
-		return(kQ3Failure);
-
-	if (0) // Further checks on numVectors
-		return(kQ3Failure);
-
-	if (0) // Further checks on inStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outDotProductStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outDotLessThanZeroStructSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1245,13 +1008,6 @@ Q3Vector2D_Cross(const TQ3Vector2D *v1, const TQ3Vector2D *v2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on v1
-		return(0.0f);
-
-	if (0) // Further checks on v2
-		return(0.0f);
-#endif
 
 
 
@@ -1284,16 +1040,6 @@ Q3Point2D_CrossProductTri(const TQ3Point2D *p1, const TQ3Point2D *p2, const TQ3P
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-
-	if (0) // Further checks on p3
-		return(0.0f);
-#endif
 
 
 
@@ -1326,16 +1072,6 @@ Q3Vector3D_Cross(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *resu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on v1
-		return(NULL);
-
-	if (0) // Further checks on v2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -1369,19 +1105,6 @@ Q3Point3D_CrossProductTri(const TQ3Point3D *p1, const TQ3Point3D *p2, const TQ3P
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(NULL);
-
-	if (0) // Further checks on p2
-		return(NULL);
-
-	if (0) // Further checks on p3
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -1419,22 +1142,6 @@ Q3Triangle_CrossProductArray(TQ3Uns32				numTriangles,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on numTriangles
-		return(kQ3Failure);
-
-	if (0) // Further checks on usageFlags
-		return(kQ3Failure);
-
-	if (0) // Further checks on theIndices
-		return(kQ3Failure);
-
-	if (0) // Further checks on thePoints
-		return(kQ3Failure);
-
-	if (0) // Further checks on theNormals
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1466,10 +1173,6 @@ Q3Vector2D_Length(const TQ3Vector2D *vector2D)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(0.0f);
-#endif
 
 
 
@@ -1500,10 +1203,6 @@ Q3Vector2D_LengthSquared(const TQ3Vector2D *vector2D)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(0.0f);
-#endif
 
 
 
@@ -1534,10 +1233,6 @@ Q3Vector3D_Length(const TQ3Vector3D *vector3D)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(0.0f);
-#endif
 
 
 
@@ -1568,10 +1263,6 @@ Q3Vector3D_LengthSquared(const TQ3Vector3D *vector3D)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(0.0f);
-#endif
 
 
 
@@ -1604,13 +1295,6 @@ Q3Point2D_Distance(const TQ3Point2D *p1, const TQ3Point2D *p2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1642,13 +1326,6 @@ Q3Point2D_DistanceSquared(const TQ3Point2D *p1, const TQ3Point2D *p2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1680,13 +1357,6 @@ Q3Param2D_Distance(const TQ3Param2D *p1, const TQ3Param2D *p2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1718,13 +1388,6 @@ Q3Param2D_DistanceSquared(const TQ3Param2D *p1, const TQ3Param2D *p2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1756,13 +1419,6 @@ Q3RationalPoint3D_Distance(const TQ3RationalPoint3D *p1, const TQ3RationalPoint3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1794,13 +1450,6 @@ Q3RationalPoint3D_DistanceSquared(const TQ3RationalPoint3D *p1, const TQ3Rationa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1832,13 +1481,6 @@ Q3Point3D_Distance(const TQ3Point3D *p1, const TQ3Point3D *p2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1870,13 +1512,6 @@ Q3Point3D_DistanceSquared(const TQ3Point3D *p1, const TQ3Point3D *p2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1908,13 +1543,6 @@ Q3RationalPoint4D_Distance(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1946,13 +1574,6 @@ Q3RationalPoint4D_DistanceSquared(const TQ3RationalPoint4D *p1, const TQ3Rationa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(0.0f);
-
-	if (0) // Further checks on p2
-		return(0.0f);
-#endif
 
 
 
@@ -1985,13 +1606,6 @@ Q3Vector2D_Negate(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2023,13 +1637,6 @@ Q3Vector3D_Negate(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2062,16 +1669,6 @@ Q3Vector2D_Scale(const TQ3Vector2D *vector2D, float scalar, TQ3Vector2D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on scalar
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2103,16 +1700,6 @@ Q3Vector3D_Scale(const TQ3Vector3D *vector3D, float scalar, TQ3Vector3D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(NULL);
-
-	if (0) // Further checks on scalar
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2145,13 +1732,6 @@ Q3Vector2D_Normalize(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2183,13 +1763,6 @@ Q3Vector3D_Normalize(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2223,16 +1796,6 @@ Q3Vector2D_Add(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on v1
-		return(NULL);
-
-	if (0) // Further checks on v2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2265,16 +1828,6 @@ Q3Vector3D_Add(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on v1
-		return(NULL);
-
-	if (0) // Further checks on v2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2307,16 +1860,6 @@ Q3Vector2D_Subtract(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *r
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on v1
-		return(NULL);
-
-	if (0) // Further checks on v2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2349,16 +1892,6 @@ Q3Vector3D_Subtract(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *r
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on v1
-		return(NULL);
-
-	if (0) // Further checks on v2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2392,16 +1925,6 @@ Q3Point2D_Vector2D_Add(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D, T
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point2D
-		return(NULL);
-
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2434,16 +1957,6 @@ Q3Param2D_Vector2D_Add(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D, T
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on param2D
-		return(NULL);
-
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2476,16 +1989,6 @@ Q3Point3D_Vector3D_Add(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D, T
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(NULL);
-
-	if (0) // Further checks on vector3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2518,16 +2021,6 @@ Q3Point2D_Vector2D_Subtract(const TQ3Point2D *point2D, const TQ3Vector2D *vector
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point2D
-		return(NULL);
-
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2560,16 +2053,6 @@ Q3Param2D_Vector2D_Subtract(const TQ3Param2D *param2D, const TQ3Vector2D *vector
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on param2D
-		return(NULL);
-
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2602,16 +2085,6 @@ Q3Point3D_Vector3D_Subtract(const TQ3Point3D *point3D, const TQ3Vector3D *vector
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(NULL);
-
-	if (0) // Further checks on vector3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2645,16 +2118,6 @@ Q3Point2D_Subtract(const TQ3Point2D *p1, const TQ3Point2D *p2, TQ3Vector2D *resu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(NULL);
-
-	if (0) // Further checks on p2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2687,16 +2150,6 @@ Q3Param2D_Subtract(const TQ3Param2D *p1, const TQ3Param2D *p2, TQ3Vector2D *resu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(NULL);
-
-	if (0) // Further checks on p2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2729,16 +2182,6 @@ Q3Point3D_Subtract(const TQ3Point3D *p1, const TQ3Point3D *p2, TQ3Vector3D *resu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(NULL);
-
-	if (0) // Further checks on p2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2773,16 +2216,7 @@ Q3Point2D_RRatio(const TQ3Point2D *p1, const TQ3Point2D *p2, float r1, float r2,
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(NULL);
-
-	if (0) // Further checks on p2
-		return(NULL);
-
 	if ((r1 + r2) == 0.0f)
-		return(NULL);
-
-	if (0) // Further checks on result
 		return(NULL);
 #endif
 
@@ -2817,22 +2251,6 @@ Q3Param2D_RRatio(const TQ3Param2D *p1, const TQ3Param2D *p2, float r1, float r2,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(NULL);
-
-	if (0) // Further checks on p2
-		return(NULL);
-
-	if (0) // Further checks on r1
-		return(NULL);
-
-	if (0) // Further checks on r2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -2866,16 +2284,7 @@ Q3Point3D_RRatio(const TQ3Point3D *p1, const TQ3Point3D *p2, float r1, float r2,
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(NULL);
-
-	if (0) // Further checks on p2
-		return(NULL);
-
 	if ((r1 + r2) == 0.0f)
-		return(NULL);
-
-	if (0) // Further checks on result
 		return(NULL);
 #endif
 
@@ -2911,16 +2320,7 @@ Q3RationalPoint4D_RRatio(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D 
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on p1
-		return(NULL);
-
-	if (0) // Further checks on p2
-		return(NULL);
-
 	if ((r1 + r2) == 0.0f)
-		return(NULL);
-
-	if (0) // Further checks on result
 		return(NULL);
 #endif
 
@@ -2956,19 +2356,6 @@ Q3Point2D_AffineComb(const TQ3Point2D *points2D, const float *weights, TQ3Uns32 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on points2D
-		return(NULL);
-
-	if (0) // Further checks on weights
-		return(NULL);
-
-	if (0) // Further checks on numPoints
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3001,19 +2388,6 @@ Q3Param2D_AffineComb(const TQ3Param2D *params2D, const float *weights, TQ3Uns32 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on params2D
-		return(NULL);
-
-	if (0) // Further checks on weights
-		return(NULL);
-
-	if (0) // Further checks on numPoints
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3046,19 +2420,6 @@ Q3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *rationalPoints3D, const f
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rationalPoints3D
-		return(NULL);
-
-	if (0) // Further checks on weights
-		return(NULL);
-
-	if (0) // Further checks on numPoints
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3091,19 +2452,6 @@ Q3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, TQ3Uns32 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on points3D
-		return(NULL);
-
-	if (0) // Further checks on weights
-		return(NULL);
-
-	if (0) // Further checks on numPoints
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3136,19 +2484,6 @@ Q3RationalPoint4D_AffineComb(const TQ3RationalPoint4D *rationalPoints4D, const f
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rationalPoints4D
-		return(NULL);
-
-	if (0) // Further checks on weights
-		return(NULL);
-
-	if (0) // Further checks on numPoints
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3182,16 +2517,6 @@ Q3Vector2D_Transform(const TQ3Vector2D *vector2D, const TQ3Matrix3x3 *matrix3x3,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector2D
-		return(NULL);
-
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3224,16 +2549,6 @@ Q3Vector3D_Transform(const TQ3Vector3D *vector3D, const TQ3Matrix4x4 *matrix4x4,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(NULL);
-
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3266,16 +2581,6 @@ Q3Point2D_Transform(const TQ3Point2D *point2D, const TQ3Matrix3x3 *matrix3x3, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point2D
-		return(NULL);
-
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3308,16 +2613,6 @@ Q3Param2D_Transform(const TQ3Param2D *param2D, const TQ3Matrix3x3 *matrix3x3, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on param2D
-		return(NULL);
-
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3350,16 +2645,6 @@ Q3RationalPoint3D_Transform(const TQ3RationalPoint3D *rationalPoint3D, const TQ3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rationalPoint3D
-		return(NULL);
-
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3392,16 +2677,6 @@ Q3Point3D_Transform(const TQ3Point3D *point3D, const TQ3Matrix4x4 *matrix4x4, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(NULL);
-
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3434,16 +2709,6 @@ Q3RationalPoint4D_Transform(const TQ3RationalPoint4D *rationalPoint4D, const TQ3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on rationalPoint4D
-		return(NULL);
-
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -3478,25 +2743,6 @@ Q3Vector2D_To2DTransformArray(const TQ3Vector2D *inVectors2D, const TQ3Matrix3x3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on inVectors2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix3x3
-		return(kQ3Failure);
-
-	if (0) // Further checks on outVectors2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on numVectors
-		return(kQ3Failure);
-
-	if (0) // Further checks on inStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outStructSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3531,25 +2777,6 @@ Q3Vector3D_To3DTransformArray(const TQ3Vector3D *inVectors3D, const TQ3Matrix4x4
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on inVectors3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix4x4
-		return(kQ3Failure);
-
-	if (0) // Further checks on outVectors3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on numVectors
-		return(kQ3Failure);
-
-	if (0) // Further checks on inStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outStructSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3584,25 +2811,6 @@ Q3Point2D_To2DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *m
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on inPoints2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix3x3
-		return(kQ3Failure);
-
-	if (0) // Further checks on outPoints2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on numPoints
-		return(kQ3Failure);
-
-	if (0) // Further checks on inStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outStructSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3637,25 +2845,6 @@ Q3Point2D_To3DTransformArray(const TQ3Point2D *inPoints2D, const TQ3Matrix3x3 *m
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on inPoints2D
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix3x3
-		return(kQ3Failure);
-
-	if (0) // Further checks on outRationalPoints3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on numPoints
-		return(kQ3Failure);
-
-	if (0) // Further checks on inStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outStructSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3690,25 +2879,6 @@ Q3RationalPoint3D_To3DTransformArray(const TQ3RationalPoint3D *inRationalPoints3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on inRationalPoints3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix3x3
-		return(kQ3Failure);
-
-	if (0) // Further checks on outRationalPoints3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on numPoints
-		return(kQ3Failure);
-
-	if (0) // Further checks on inStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outStructSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3743,25 +2913,6 @@ Q3Point3D_To3DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *m
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on inPoints3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix4x4
-		return(kQ3Failure);
-
-	if (0) // Further checks on outPoints3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on numPoints
-		return(kQ3Failure);
-
-	if (0) // Further checks on inStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outStructSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3796,25 +2947,6 @@ Q3Point3D_To4DTransformArray(const TQ3Point3D *inPoints3D, const TQ3Matrix4x4 *m
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on inPoints3D
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix4x4
-		return(kQ3Failure);
-
-	if (0) // Further checks on outRationalPoints4D
-		return(kQ3Failure);
-
-	if (0) // Further checks on numPoints
-		return(kQ3Failure);
-
-	if (0) // Further checks on inStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outStructSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3849,25 +2981,6 @@ Q3RationalPoint4D_To4DTransformArray(const TQ3RationalPoint4D *inRationalPoints4
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on inRationalPoints4D
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix4x4
-		return(kQ3Failure);
-
-	if (0) // Further checks on outRationalPoints4D
-		return(kQ3Failure);
-
-	if (0) // Further checks on numPoints
-		return(kQ3Failure);
-
-	if (0) // Further checks on inStructSize
-		return(kQ3Failure);
-
-	if (0) // Further checks on outStructSize
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3899,10 +3012,6 @@ Q3Matrix3x3_SetIdentity(TQ3Matrix3x3 *matrix3x3)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-#endif
 
 
 
@@ -3933,10 +3042,6 @@ Q3Matrix4x4_SetIdentity(TQ3Matrix4x4 *matrix4x4)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-#endif
 
 
 
@@ -3967,16 +3072,6 @@ Q3Matrix3x3_SetTranslate(TQ3Matrix3x3 *matrix3x3, float xTrans, float yTrans)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on xTrans
-		return(NULL);
-
-	if (0) // Further checks on yTrans
-		return(NULL);
-#endif
 
 
 
@@ -4007,19 +3102,6 @@ Q3Matrix4x4_SetTranslate(TQ3Matrix4x4 *matrix4x4, float xTrans, float yTrans, fl
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on xTrans
-		return(NULL);
-
-	if (0) // Further checks on yTrans
-		return(NULL);
-
-	if (0) // Further checks on zTrans
-		return(NULL);
-#endif
 
 
 
@@ -4050,16 +3132,6 @@ Q3Matrix3x3_SetScale(TQ3Matrix3x3 *matrix3x3, float xScale, float yScale)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on xScale
-		return(NULL);
-
-	if (0) // Further checks on yScale
-		return(NULL);
-#endif
 
 
 
@@ -4090,19 +3162,6 @@ Q3Matrix4x4_SetScale(TQ3Matrix4x4 *matrix4x4, float xScale, float yScale, float 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on xScale
-		return(NULL);
-
-	if (0) // Further checks on yScale
-		return(NULL);
-
-	if (0) // Further checks on zScale
-		return(NULL);
-#endif
 
 
 
@@ -4133,13 +3192,6 @@ Q3Matrix3x3_SetRotate(TQ3Matrix3x3 *matrix3x3, float angle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on angle
-		return(NULL);
-#endif
 
 
 
@@ -4170,13 +3222,6 @@ Q3Matrix4x4_SetRotate_X(TQ3Matrix4x4 *matrix4x4, float angle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on angle
-		return(NULL);
-#endif
 
 
 
@@ -4207,13 +3252,6 @@ Q3Matrix4x4_SetRotate_Y(TQ3Matrix4x4 *matrix4x4, float angle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on angle
-		return(NULL);
-#endif
 
 
 
@@ -4244,13 +3282,6 @@ Q3Matrix4x4_SetRotate_Z(TQ3Matrix4x4 *matrix4x4, float angle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on angle
-		return(NULL);
-#endif
 
 
 
@@ -4281,19 +3312,6 @@ Q3Matrix4x4_SetRotate_XYZ(TQ3Matrix4x4 *matrix4x4, float xAngle, float yAngle, f
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on xAngle
-		return(NULL);
-
-	if (0) // Further checks on yAngle
-		return(NULL);
-
-	if (0) // Further checks on zAngle
-		return(NULL);
-#endif
 
 
 
@@ -4325,16 +3343,6 @@ Q3Matrix3x3_SetRotateAboutPoint(TQ3Matrix3x3 *matrix3x3, const TQ3Point2D *origi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on origin
-		return(NULL);
-
-	if (0) // Further checks on angle
-		return(NULL);
-#endif
 
 
 
@@ -4366,22 +3374,6 @@ Q3Matrix4x4_SetRotateAboutPoint(TQ3Matrix4x4 *matrix4x4, const TQ3Point3D *origi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on origin
-		return(NULL);
-
-	if (0) // Further checks on xAngle
-		return(NULL);
-
-	if (0) // Further checks on yAngle
-		return(NULL);
-
-	if (0) // Further checks on zAngle
-		return(NULL);
-#endif
 
 
 
@@ -4415,17 +3407,11 @@ Q3Matrix4x4_SetRotateAboutAxis(TQ3Matrix4x4 *matrix4x4, const TQ3Point3D *origin
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on origin
-		return(NULL);
-
 	// Further checks on axis
 	if (fabs( Q3FastVector3D_LengthSquared( axis ) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
-
-	if (0) // Further checks on angle
-		return(NULL);
 #endif
 
 
@@ -4460,9 +3446,6 @@ Q3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4, const TQ3Vector3D *
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
 	// Further checks on v1
 	if (fabs( Q3FastVector3D_LengthSquared( v1 ) - 1.0f ) > 3*kQ3RealZero)
 	{
@@ -4506,13 +3489,6 @@ Q3Matrix4x4_SetQuaternion(TQ3Matrix4x4 *matrix4x4, const TQ3Quaternion *quaterni
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on quaternion
-		return(NULL);
-#endif
 
 
 
@@ -4544,13 +3520,6 @@ Q3Matrix3x3_Copy(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -4582,13 +3551,6 @@ Q3Matrix4x4_Copy(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -4620,13 +3582,6 @@ Q3Matrix3x3_Transpose(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -4658,13 +3613,6 @@ Q3Matrix4x4_Transpose(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -4695,10 +3643,6 @@ Q3Matrix3x3_Determinant(const TQ3Matrix3x3 *matrix3x3)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(0.0f);
-#endif
 
 
 
@@ -4729,10 +3673,6 @@ Q3Matrix4x4_Determinant(const TQ3Matrix4x4 *matrix4x4)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(0.0f);
-#endif
 
 
 
@@ -4764,13 +3704,6 @@ Q3Matrix3x3_Adjoint(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -4802,13 +3735,6 @@ Q3Matrix3x3_Invert(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix3x3
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -4840,13 +3766,6 @@ Q3Matrix4x4_Invert(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -4879,16 +3798,6 @@ Q3Matrix3x3_Multiply(const TQ3Matrix3x3 *m1, const TQ3Matrix3x3 *m2, TQ3Matrix3x
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on m1
-		return(NULL);
-
-	if (0) // Further checks on m2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -4921,16 +3830,6 @@ Q3Matrix4x4_Multiply(const TQ3Matrix4x4 *m1, const TQ3Matrix4x4 *m2, TQ3Matrix4x
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on m1
-		return(NULL);
-
-	if (0) // Further checks on m2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -4962,22 +3861,6 @@ Q3Quaternion_Set(TQ3Quaternion *quaternion, float w, float x, float y, float z)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
-	if (0) // Further checks on w
-		return(NULL);
-
-	if (0) // Further checks on x
-		return(NULL);
-
-	if (0) // Further checks on y
-		return(NULL);
-
-	if (0) // Further checks on z
-		return(NULL);
-#endif
 
 
 
@@ -5008,10 +3891,6 @@ Q3Quaternion_SetIdentity(TQ3Quaternion *quaternion)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-#endif
 
 
 
@@ -5042,13 +3921,6 @@ Q3Quaternion_SetRotate_X(TQ3Quaternion *quaternion, float angle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
-	if (0) // Further checks on angle
-		return(NULL);
-#endif
 
 
 
@@ -5079,13 +3951,6 @@ Q3Quaternion_SetRotate_Y(TQ3Quaternion *quaternion, float angle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
-	if (0) // Further checks on angle
-		return(NULL);
-#endif
 
 
 
@@ -5116,13 +3981,6 @@ Q3Quaternion_SetRotate_Z(TQ3Quaternion *quaternion, float angle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
-	if (0) // Further checks on angle
-		return(NULL);
-#endif
 
 
 
@@ -5153,19 +4011,6 @@ Q3Quaternion_SetRotate_XYZ(TQ3Quaternion *quaternion, float xAngle, float yAngle
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
-	if (0) // Further checks on xAngle
-		return(NULL);
-
-	if (0) // Further checks on yAngle
-		return(NULL);
-
-	if (0) // Further checks on zAngle
-		return(NULL);
-#endif
 
 
 
@@ -5198,17 +4043,11 @@ Q3Quaternion_SetRotateAboutAxis(TQ3Quaternion *quaternion, const TQ3Vector3D *ax
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
 	// Further checks on axis
 	if (fabs( Q3FastVector3D_LengthSquared( axis ) - 1.0f ) > 3*kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
-
-	if (0) // Further checks on angle
-		return(NULL);
 #endif
 
 
@@ -5243,9 +4082,6 @@ Q3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion, const TQ3Vector3
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
 	// Further checks on v1
 	if (fabs( Q3FastVector3D_LengthSquared( v1 ) - 1.0f ) > 3*kQ3RealZero)
 	{
@@ -5289,13 +4125,6 @@ Q3Quaternion_SetMatrix(TQ3Quaternion *quaternion, const TQ3Matrix4x4 *matrix4x4)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
-	if (0) // Further checks on matrix4x4
-		return(NULL);
-#endif
 
 
 
@@ -5327,13 +4156,6 @@ Q3Quaternion_Copy(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -5402,13 +4224,6 @@ Q3Quaternion_Dot(const TQ3Quaternion *q1, const TQ3Quaternion *q2)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on q1
-		return(0.0f);
-
-	if (0) // Further checks on q2
-		return(0.0f);
-#endif
 
 
 
@@ -5440,13 +4255,6 @@ Q3Quaternion_Normalize(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -5484,9 +4292,6 @@ Q3Quaternion_Invert(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
 	}
-
-	if (0) // Further checks on result
-		return(NULL);
 #endif
 
 
@@ -5520,16 +4325,6 @@ Q3Quaternion_Multiply(const TQ3Quaternion *q1, const TQ3Quaternion *q2, TQ3Quate
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on q1
-		return(NULL);
-
-	if (0) // Further checks on q2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -5562,16 +4357,6 @@ Q3Quaternion_MatchReflection(const TQ3Quaternion *q1, const TQ3Quaternion *q2, T
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on q1
-		return(NULL);
-
-	if (0) // Further checks on q2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -5604,19 +4389,6 @@ Q3Quaternion_InterpolateFast(const TQ3Quaternion *q1, const TQ3Quaternion *q2, f
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on q1
-		return(NULL);
-
-	if (0) // Further checks on q2
-		return(NULL);
-
-	if (0) // Further checks on t
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -5649,19 +4421,6 @@ Q3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on q1
-		return(NULL);
-
-	if (0) // Further checks on q2
-		return(NULL);
-
-	if (0) // Further checks on t
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -5695,13 +4454,6 @@ Q3Quaternion_GetAxisAndAngle(const TQ3Quaternion *quaternion, TQ3Vector3D *outAx
 	{
 		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
 	}
-
-	if (0) // Further checks on outAngle
-		return(NULL);
-
-	if (0) // Further checks on outAxis
-		return(NULL);
-
 #endif
 
 
@@ -5733,17 +4485,11 @@ Q3Vector3D_TransformQuaternion(const TQ3Vector3D *vector3D, const TQ3Quaternion 
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on vector3D
-		return(NULL);
-
 	// Further checks on quaternion
 	if (fabs( Q3FastQuaternion_Dot( quaternion, quaternion ) - 1.0f ) > 10.0f * kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
 	}
-
-	if (0) // Further checks on result
-		return(NULL);
 #endif
 
 
@@ -5778,17 +4524,11 @@ Q3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *qu
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on point3D
-		return(NULL);
-
 	// Further checks on quaternion
 	if (fabs( Q3FastQuaternion_Dot( quaternion, quaternion ) - 1.0f ) > 10.0f * kQ3RealZero)
 	{
 		E3ErrorManager_PostWarning( kQ3WarningQuaternionNotNormalized );
 	}
-
-	if (0) // Further checks on result
-		return(NULL);
 #endif
 
 
@@ -5821,10 +4561,6 @@ Q3BoundingBox_Reset(TQ3BoundingBox *bBox)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bBox
-		return(NULL);
-#endif
 
 
 
@@ -5858,16 +4594,10 @@ Q3BoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D 
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on bBox
-		return(NULL);
-
 	// Further checks on min and max
 	if (min->x > max->x ||
 		min->y > max->y ||
 		min->z > max->z)
-		return(NULL);
-
-	if (0) // Further checks on isEmpty
 		return(NULL);
 #endif
 
@@ -5901,19 +4631,6 @@ Q3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D, 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bBox
-		return(NULL);
-
-	if (0) // Further checks on points3D
-		return(NULL);
-
-	if (0) // Further checks on numPoints
-		return(NULL);
-
-	if (0) // Further checks on structSize
-		return(NULL);
-#endif
 
 
 
@@ -5945,19 +4662,6 @@ Q3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bBox
-		return(NULL);
-
-	if (0) // Further checks on rationalPoints4D
-		return(NULL);
-
-	if (0) // Further checks on numPoints
-		return(NULL);
-
-	if (0) // Further checks on structSize
-		return(NULL);
-#endif
 
 
 
@@ -5989,13 +4693,6 @@ Q3BoundingBox_Copy(const TQ3BoundingBox *bBox, TQ3BoundingBox *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bBox
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -6028,16 +4725,6 @@ Q3BoundingBox_Union(const TQ3BoundingBox *b1, const TQ3BoundingBox *b2, TQ3Bound
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on b1
-		return(NULL);
-
-	if (0) // Further checks on b2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -6070,16 +4757,6 @@ Q3BoundingBox_UnionPoint3D(const TQ3BoundingBox *bBox, const TQ3Point3D *point3D
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bBox
-		return(NULL);
-
-	if (0) // Further checks on point3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -6112,16 +4789,6 @@ Q3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox, const TQ3Rational
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bBox
-		return(NULL);
-
-	if (0) // Further checks on rationalPoint4D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -6153,10 +4820,6 @@ Q3BoundingSphere_Reset(TQ3BoundingSphere *bSphere)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bSphere
-		return(NULL);
-#endif
 
 
 
@@ -6188,19 +4851,6 @@ Q3BoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bSphere
-		return(NULL);
-
-	if (0) // Further checks on origin
-		return(NULL);
-
-	if (0) // Further checks on radius
-		return(NULL);
-
-	if (0) // Further checks on isEmpty
-		return(NULL);
-#endif
 
 
 
@@ -6232,19 +4882,6 @@ Q3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *p
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bSphere
-		return(NULL);
-
-	if (0) // Further checks on points3D
-		return(NULL);
-
-	if (0) // Further checks on numPoints
-		return(NULL);
-
-	if (0) // Further checks on structSize
-		return(NULL);
-#endif
 
 
 
@@ -6276,19 +4913,6 @@ Q3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3Ra
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bSphere
-		return(NULL);
-
-	if (0) // Further checks on rationalPoints4D
-		return(NULL);
-
-	if (0) // Further checks on numPoints
-		return(NULL);
-
-	if (0) // Further checks on structSize
-		return(NULL);
-#endif
 
 
 
@@ -6320,13 +4944,6 @@ Q3BoundingSphere_Copy(const TQ3BoundingSphere *bSphere, TQ3BoundingSphere *resul
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bSphere
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -6359,16 +4976,6 @@ Q3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on s1
-		return(NULL);
-
-	if (0) // Further checks on s2
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -6401,16 +5008,6 @@ Q3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bSphere
-		return(NULL);
-
-	if (0) // Further checks on point3D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -6443,16 +5040,6 @@ Q3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere, const TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on bSphere
-		return(NULL);
-
-	if (0) // Further checks on rationalPoint4D
-		return(NULL);
-
-	if (0) // Further checks on result
-		return(NULL);
-#endif
 
 
 
@@ -6491,12 +5078,6 @@ Q3Ray3D_IntersectSphere(const TQ3Ray3D *theRay, const TQ3Sphere *theSphere, TQ3P
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
-
-	if (0) // Further checks on theSphere
-		return(kQ3False);
-
-	if (0) // Further checks on hitPoint
-		return(kQ3False);
 #endif
 
 
@@ -6536,12 +5117,6 @@ Q3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 	{
 		E3ErrorManager_PostWarning( kQ3WarningVector3DNotUnitLength );
 	}
-
-	if (0) // Further checks on theBounds
-		return(kQ3False);
-
-	if (0) // Further checks on hitPoint
-		return(kQ3False);
 #endif
 
 
@@ -6577,22 +5152,6 @@ Q3Ray3D_IntersectTriangle(const TQ3Ray3D *theRay, const TQ3Point3D *point1, cons
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theRay
-		return(kQ3False);
-
-	if (0) // Further checks on point1
-		return(kQ3False);
-
-	if (0) // Further checks on point2
-		return(kQ3False);
-
-	if (0) // Further checks on point3
-		return(kQ3False);
-
-	if (0) // Further checks on hitPoint
-		return(kQ3False);
-#endif
 
 
 
@@ -6623,10 +5182,6 @@ Q3Math_SquareRoot(float x)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on x
-		return(kQ3False);
-#endif
 
 
 
@@ -6657,10 +5212,6 @@ Q3Math_InvSquareRoot(float x)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on x
-		return(kQ3False);
-#endif
 
 
 

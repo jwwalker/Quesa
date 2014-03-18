@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,10 +95,6 @@ Q3Transform_GetType(TQ3TransformObject transform)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -130,13 +126,6 @@ Q3Transform_GetMatrix(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(NULL);
-
-	if (0) // Further checks on matrix
-		return(NULL);
-#endif
 
 
 
@@ -168,13 +157,6 @@ Q3Transform_Submit(TQ3TransformObject transform, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -205,10 +187,6 @@ Q3MatrixTransform_New(const TQ3Matrix4x4 *matrix)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix
-		return(NULL);
-#endif
 
 
 
@@ -240,14 +218,7 @@ Q3MatrixTransform_Submit(const TQ3Matrix4x4 *matrix, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on matrix
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
-
+ 
 
 
 	// Call the bottleneck
@@ -278,13 +249,6 @@ Q3MatrixTransform_Set(TQ3TransformObject transform, const TQ3Matrix4x4 *matrix)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix
-		return(kQ3Failure);
-#endif
 
 
 
@@ -316,13 +280,6 @@ Q3MatrixTransform_Get(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix
-		return(kQ3Failure);
-#endif
 
 
 
@@ -353,10 +310,6 @@ Q3RotateTransform_New(const TQ3RotateTransformData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -388,13 +341,6 @@ Q3RotateTransform_Submit(const TQ3RotateTransformData *data, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -426,13 +372,6 @@ Q3RotateTransform_SetData(TQ3TransformObject transform, const TQ3RotateTransform
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -464,13 +403,6 @@ Q3RotateTransform_GetData(TQ3TransformObject transform, TQ3RotateTransformData *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -501,13 +433,6 @@ Q3RotateTransform_SetAxis(TQ3TransformObject transform, TQ3Axis axis)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on axis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -538,13 +463,6 @@ Q3RotateTransform_SetAngle(TQ3TransformObject transform, float radians)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on radians
-		return(kQ3Failure);
-#endif
 
 
 
@@ -576,13 +494,6 @@ Q3RotateTransform_GetAxis(TQ3TransformObject renderable, TQ3Axis *axis)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on renderable
-		return(kQ3Failure);
-
-	if (0) // Further checks on axis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -614,13 +525,6 @@ Q3RotateTransform_GetAngle(TQ3TransformObject transform, float *radians)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on radians
-		return(kQ3Failure);
-#endif
 
 
 
@@ -651,10 +555,6 @@ Q3RotateAboutPointTransform_New(const TQ3RotateAboutPointTransformData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -686,13 +586,6 @@ Q3RotateAboutPointTransform_Submit(const TQ3RotateAboutPointTransformData *data,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -724,13 +617,6 @@ Q3RotateAboutPointTransform_SetData(TQ3TransformObject transform, const TQ3Rotat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -762,13 +648,6 @@ Q3RotateAboutPointTransform_GetData(TQ3TransformObject transform, TQ3RotateAbout
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -799,13 +678,6 @@ Q3RotateAboutPointTransform_SetAxis(TQ3TransformObject transform, TQ3Axis axis)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on axis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -837,13 +709,6 @@ Q3RotateAboutPointTransform_GetAxis(TQ3TransformObject transform, TQ3Axis *axis)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on axis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -874,13 +739,6 @@ Q3RotateAboutPointTransform_SetAngle(TQ3TransformObject transform, float radians
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on radians
-		return(kQ3Failure);
-#endif
 
 
 
@@ -912,13 +770,6 @@ Q3RotateAboutPointTransform_GetAngle(TQ3TransformObject transform, float *radian
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on radians
-		return(kQ3Failure);
-#endif
 
 
 
@@ -950,13 +801,6 @@ Q3RotateAboutPointTransform_SetAboutPoint(TQ3TransformObject transform, const TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on about
-		return(kQ3Failure);
-#endif
 
 
 
@@ -988,13 +832,6 @@ Q3RotateAboutPointTransform_GetAboutPoint(TQ3TransformObject transform, TQ3Point
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on about
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1025,10 +862,6 @@ Q3RotateAboutAxisTransform_New(const TQ3RotateAboutAxisTransformData *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(NULL);
-#endif
 
 
 
@@ -1060,13 +893,6 @@ Q3RotateAboutAxisTransform_Submit(const TQ3RotateAboutAxisTransformData *data, T
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1098,13 +924,6 @@ Q3RotateAboutAxisTransform_SetData(TQ3TransformObject transform, const TQ3Rotate
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1136,13 +955,6 @@ Q3RotateAboutAxisTransform_GetData(TQ3TransformObject transform, TQ3RotateAboutA
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1174,13 +986,6 @@ Q3RotateAboutAxisTransform_SetOrientation(TQ3TransformObject transform, const TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on axis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1212,13 +1017,6 @@ Q3RotateAboutAxisTransform_GetOrientation(TQ3TransformObject transform, TQ3Vecto
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on axis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1249,13 +1047,6 @@ Q3RotateAboutAxisTransform_SetAngle(TQ3TransformObject transform, float radians)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on radians
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1287,13 +1078,6 @@ Q3RotateAboutAxisTransform_GetAngle(TQ3TransformObject transform, float *radians
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on radians
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1325,13 +1109,6 @@ Q3RotateAboutAxisTransform_SetOrigin(TQ3TransformObject transform, const TQ3Poin
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1363,13 +1140,6 @@ Q3RotateAboutAxisTransform_GetOrigin(TQ3TransformObject transform, TQ3Point3D *o
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1400,10 +1170,6 @@ Q3ScaleTransform_New(const TQ3Vector3D *scale)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on scale
-		return(NULL);
-#endif
 
 
 
@@ -1435,13 +1201,6 @@ Q3ScaleTransform_Submit(const TQ3Vector3D *scale, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on scale
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1473,13 +1232,6 @@ Q3ScaleTransform_Set(TQ3TransformObject transform, const TQ3Vector3D *scale)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on scale
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1511,13 +1263,6 @@ Q3ScaleTransform_Get(TQ3TransformObject transform, TQ3Vector3D *scale)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on scale
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1548,10 +1293,6 @@ Q3TranslateTransform_New(const TQ3Vector3D *translate)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on translate
-		return(NULL);
-#endif
 
 
 
@@ -1583,13 +1324,6 @@ Q3TranslateTransform_Submit(const TQ3Vector3D *translate, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on translate
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1621,13 +1355,6 @@ Q3TranslateTransform_Set(TQ3TransformObject transform, const TQ3Vector3D *transl
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on translate
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1659,13 +1386,6 @@ Q3TranslateTransform_Get(TQ3TransformObject transform, TQ3Vector3D *translate)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on translate
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1696,10 +1416,6 @@ Q3QuaternionTransform_New(const TQ3Quaternion *quaternion)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(NULL);
-#endif
 
 
 
@@ -1731,13 +1447,6 @@ Q3QuaternionTransform_Submit(const TQ3Quaternion *quaternion, TQ3ViewObject view
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on quaternion
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1769,13 +1478,6 @@ Q3QuaternionTransform_Set(TQ3TransformObject transform, const TQ3Quaternion *qua
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on quaternion
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1807,13 +1509,6 @@ Q3QuaternionTransform_Get(TQ3TransformObject transform, TQ3Quaternion *quaternio
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on transform
-		return(kQ3Failure);
-
-	if (0) // Further checks on quaternion
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1865,10 +1560,6 @@ Q3ResetTransform_Submit(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1899,10 +1590,6 @@ Q3CameraTransform_New(const TQ3CameraTransformData *theData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theData
-		return(NULL);
-#endif
 
 
 
@@ -1934,13 +1621,6 @@ Q3CameraTransform_Submit(const TQ3CameraTransformData *theData, TQ3ViewObject th
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theData
-		return(kQ3Failure);
-
-	if (0) // Further checks on theView
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1972,13 +1652,6 @@ Q3CameraTransform_Set(TQ3TransformObject theTransform, const TQ3CameraTransformD
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theTransform
-		return(kQ3Failure);
-
-	if (0) // Further checks on theData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2010,13 +1683,6 @@ Q3CameraTransform_Get(TQ3TransformObject theTransform, TQ3CameraTransformData *t
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theTransform
-		return(kQ3Failure);
-
-	if (0) // Further checks on theData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2068,10 +1734,6 @@ Q3RasterizeCameraTransform_Submit(TQ3ViewObject theView)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theView
-		return(kQ3Failure);
-#endif
 
 
 

@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -94,10 +94,6 @@ Q3Camera_GetType(TQ3CameraObject camera)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -130,9 +126,6 @@ Q3Camera_SetData(TQ3CameraObject camera, const TQ3CameraData *cameraData)
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
 	// Further checks on cameraData
 	if (fabs( Q3FastVector3D_Length( &cameraData->placement.upVector ) - 1.0f ) > kQ3RealZero)
 	{
@@ -177,13 +170,6 @@ Q3Camera_GetData(TQ3CameraObject camera, TQ3CameraData *cameraData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on cameraData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -216,9 +202,6 @@ Q3Camera_SetPlacement(TQ3CameraObject camera, const TQ3CameraPlacement *placemen
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
 	// Further checks on placement
 	if (fabs( Q3FastVector3D_Length( &placement->upVector ) - 1.0f ) > kQ3RealZero)
 	{
@@ -262,13 +245,6 @@ Q3Camera_GetPlacement(TQ3CameraObject camera, TQ3CameraPlacement *placement)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on placement
-		return(kQ3Failure);
-#endif
 
 
 
@@ -300,13 +276,6 @@ Q3Camera_SetRange(TQ3CameraObject camera, const TQ3CameraRange *range)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on range
-		return(kQ3Failure);
-#endif
 
 
 
@@ -338,13 +307,6 @@ Q3Camera_GetRange(TQ3CameraObject camera, TQ3CameraRange *range)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on range
-		return(kQ3Failure);
-#endif
 
 
 
@@ -376,13 +338,6 @@ Q3Camera_SetViewPort(TQ3CameraObject camera, const TQ3CameraViewPort *viewPort)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on viewPort
-		return(kQ3Failure);
-#endif
 
 
 
@@ -414,13 +369,6 @@ Q3Camera_GetViewPort(TQ3CameraObject camera, TQ3CameraViewPort *viewPort)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on viewPort
-		return(kQ3Failure);
-#endif
 
 
 
@@ -452,13 +400,6 @@ Q3Camera_GetWorldToView(TQ3CameraObject camera, TQ3Matrix4x4 *worldToView)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on worldToView
-		return(kQ3Failure);
-#endif
 
 
 
@@ -490,13 +431,6 @@ Q3Camera_GetWorldToFrustum(TQ3CameraObject camera, TQ3Matrix4x4 *worldToFrustum)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on worldToFrustum
-		return(kQ3Failure);
-#endif
 
 
 
@@ -528,13 +462,6 @@ Q3Camera_GetViewToFrustum(TQ3CameraObject camera, TQ3Matrix4x4 *viewToFrustum)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on viewToFrustum
-		return(kQ3Failure);
-#endif
 
 
 
@@ -631,13 +558,6 @@ Q3OrthographicCamera_GetData(TQ3CameraObject camera, TQ3OrthographicCameraData *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on cameraData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -670,9 +590,6 @@ Q3OrthographicCamera_SetData(TQ3CameraObject camera, const TQ3OrthographicCamera
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
 	// Further checks on cameraData
 	if (fabs( Q3FastVector3D_Length( &cameraData->cameraData.placement.upVector ) -
 		1.0f ) > kQ3RealZero)
@@ -710,13 +627,6 @@ Q3OrthographicCamera_SetLeft(TQ3CameraObject camera, float left)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on left
-		return(kQ3Failure);
-#endif
 
 
 
@@ -748,13 +658,6 @@ Q3OrthographicCamera_GetLeft(TQ3CameraObject camera, float *left)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on left
-		return(kQ3Failure);
-#endif
 
 
 
@@ -785,13 +688,6 @@ Q3OrthographicCamera_SetTop(TQ3CameraObject camera, float top)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on top
-		return(kQ3Failure);
-#endif
 
 
 
@@ -823,13 +719,6 @@ Q3OrthographicCamera_GetTop(TQ3CameraObject camera, float *top)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on top
-		return(kQ3Failure);
-#endif
 
 
 
@@ -860,13 +749,6 @@ Q3OrthographicCamera_SetRight(TQ3CameraObject camera, float right)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on right
-		return(kQ3Failure);
-#endif
 
 
 
@@ -898,13 +780,6 @@ Q3OrthographicCamera_GetRight(TQ3CameraObject camera, float *right)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on right
-		return(kQ3Failure);
-#endif
 
 
 
@@ -935,13 +810,6 @@ Q3OrthographicCamera_SetBottom(TQ3CameraObject camera, float bottom)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on bottom
-		return(kQ3Failure);
-#endif
 
 
 
@@ -973,13 +841,6 @@ Q3OrthographicCamera_GetBottom(TQ3CameraObject camera, float *bottom)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on bottom
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1049,13 +910,6 @@ Q3ViewPlaneCamera_GetData(TQ3CameraObject camera, TQ3ViewPlaneCameraData *camera
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on cameraData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1088,9 +942,6 @@ Q3ViewPlaneCamera_SetData(TQ3CameraObject camera, const TQ3ViewPlaneCameraData *
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
 	// Further checks on cameraData
 	if (fabs( Q3FastVector3D_Length( &cameraData->cameraData.placement.upVector ) -
 		1.0f ) > kQ3RealZero)
@@ -1128,13 +979,6 @@ Q3ViewPlaneCamera_SetViewPlane(TQ3CameraObject camera, float viewPlane)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on viewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1166,13 +1010,6 @@ Q3ViewPlaneCamera_GetViewPlane(TQ3CameraObject camera, float *viewPlane)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on viewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1203,13 +1040,6 @@ Q3ViewPlaneCamera_SetHalfWidth(TQ3CameraObject camera, float halfWidthAtViewPlan
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on halfWidthAtViewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1241,13 +1071,6 @@ Q3ViewPlaneCamera_GetHalfWidth(TQ3CameraObject camera, float *halfWidthAtViewPla
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on halfWidthAtViewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1278,13 +1101,6 @@ Q3ViewPlaneCamera_SetHalfHeight(TQ3CameraObject camera, float halfHeightAtViewPl
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on halfHeightAtViewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1316,13 +1132,6 @@ Q3ViewPlaneCamera_GetHalfHeight(TQ3CameraObject camera, float *halfHeightAtViewP
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on halfHeightAtViewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1353,13 +1162,6 @@ Q3ViewPlaneCamera_SetCenterX(TQ3CameraObject camera, float centerXOnViewPlane)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on centerXOnViewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1391,13 +1193,6 @@ Q3ViewPlaneCamera_GetCenterX(TQ3CameraObject camera, float *centerXOnViewPlane)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on centerXOnViewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1428,13 +1223,6 @@ Q3ViewPlaneCamera_SetCenterY(TQ3CameraObject camera, float centerYOnViewPlane)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on centerYOnViewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1466,13 +1254,6 @@ Q3ViewPlaneCamera_GetCenterY(TQ3CameraObject camera, float *centerYOnViewPlane)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on centerYOnViewPlane
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1543,9 +1324,6 @@ Q3ViewAngleAspectCamera_SetData(TQ3CameraObject camera, const TQ3ViewAngleAspect
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
 	// Further checks on cameraData
 	if (fabs( Q3FastVector3D_Length( &cameraData->cameraData.placement.upVector ) -
 		1.0f ) > kQ3RealZero)
@@ -1584,13 +1362,6 @@ Q3ViewAngleAspectCamera_GetData(TQ3CameraObject camera, TQ3ViewAngleAspectCamera
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on cameraData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1621,13 +1392,6 @@ Q3ViewAngleAspectCamera_SetFOV(TQ3CameraObject camera, float fov)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on fov
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1659,13 +1423,6 @@ Q3ViewAngleAspectCamera_GetFOV(TQ3CameraObject camera, float *fov)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on fov
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1696,13 +1453,6 @@ Q3ViewAngleAspectCamera_SetAspectRatio(TQ3CameraObject camera, float aspectRatio
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on aspectRatioXToY
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1734,13 +1484,6 @@ Q3ViewAngleAspectCamera_GetAspectRatio(TQ3CameraObject camera, float *aspectRati
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-
-	if (0) // Further checks on aspectRatioXToY
-		return(kQ3Failure);
-#endif
 
 
 

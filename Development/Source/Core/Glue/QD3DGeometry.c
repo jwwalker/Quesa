@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -118,10 +118,6 @@ Q3Geometry_GetType(TQ3GeometryObject geometry)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on geometry
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -153,13 +149,6 @@ Q3Geometry_GetAttributeSet(TQ3GeometryObject geometry, TQ3AttributeSet *attribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on geometry
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -190,13 +179,6 @@ Q3Geometry_SetAttributeSet(TQ3GeometryObject geometry, TQ3AttributeSet attribute
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on geometry
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -230,13 +212,6 @@ Q3Geometry_Submit(TQ3GeometryObject geometry, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on geometry
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -278,13 +253,6 @@ Q3Geometry_GetDecomposed(TQ3GeometryObject geometry, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on geometry
-		return(NULL);
-
-	if (0) // Further checks on view
-		return(NULL);
-#endif
 
 
 
@@ -315,10 +283,6 @@ Q3Box_New(const TQ3BoxData *boxData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on boxData
-		return(NULL);
-#endif
 
 
 
@@ -350,13 +314,6 @@ Q3Box_Submit(const TQ3BoxData *boxData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on boxData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -388,13 +345,6 @@ Q3Box_SetData(TQ3GeometryObject box, const TQ3BoxData *boxData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on boxData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -426,13 +376,6 @@ Q3Box_GetData(TQ3GeometryObject box, TQ3BoxData *boxData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on boxData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -463,10 +406,6 @@ Q3Box_EmptyData(TQ3BoxData *boxData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on boxData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -498,13 +437,6 @@ Q3Box_SetOrigin(TQ3GeometryObject box, const TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -536,13 +468,6 @@ Q3Box_SetOrientation(TQ3GeometryObject box, const TQ3Vector3D *orientation)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -574,13 +499,6 @@ Q3Box_SetMajorAxis(TQ3GeometryObject box, const TQ3Vector3D *majorAxis)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorAxis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -612,13 +530,6 @@ Q3Box_SetMinorAxis(TQ3GeometryObject box, const TQ3Vector3D *minorAxis)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorAxis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -650,13 +561,6 @@ Q3Box_GetOrigin(TQ3GeometryObject box, TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -688,13 +592,6 @@ Q3Box_GetOrientation(TQ3GeometryObject box, TQ3Vector3D *orientation)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -726,13 +623,6 @@ Q3Box_GetMajorAxis(TQ3GeometryObject box, TQ3Vector3D *majorAxis)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorAxis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -764,13 +654,6 @@ Q3Box_GetMinorAxis(TQ3GeometryObject box, TQ3Vector3D *minorAxis)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorAxis
-		return(kQ3Failure);
-#endif
 
 
 
@@ -802,16 +685,6 @@ Q3Box_GetFaceAttributeSet(TQ3GeometryObject box, TQ3Uns32 faceIndex, TQ3Attribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -842,16 +715,6 @@ Q3Box_SetFaceAttributeSet(TQ3GeometryObject box, TQ3Uns32 faceIndex, TQ3Attribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on box
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -882,10 +745,6 @@ Q3Cone_New(const TQ3ConeData *coneData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on coneData
-		return(NULL);
-#endif
 
 
 
@@ -917,13 +776,6 @@ Q3Cone_Submit(const TQ3ConeData *coneData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on coneData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -955,13 +807,6 @@ Q3Cone_SetData(TQ3GeometryObject cone, const TQ3ConeData *coneData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on coneData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -993,13 +838,6 @@ Q3Cone_GetData(TQ3GeometryObject cone, TQ3ConeData *coneData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on coneData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1031,13 +869,6 @@ Q3Cone_SetOrigin(TQ3GeometryObject cone, const TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1069,13 +900,6 @@ Q3Cone_SetOrientation(TQ3GeometryObject cone, const TQ3Vector3D *orientation)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1107,13 +931,6 @@ Q3Cone_SetMajorRadius(TQ3GeometryObject cone, const TQ3Vector3D *majorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1145,13 +962,6 @@ Q3Cone_SetMinorRadius(TQ3GeometryObject cone, const TQ3Vector3D *minorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1183,13 +993,6 @@ Q3Cone_GetOrigin(TQ3GeometryObject cone, TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1221,13 +1024,6 @@ Q3Cone_GetOrientation(TQ3GeometryObject cone, TQ3Vector3D *orientation)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1259,13 +1055,6 @@ Q3Cone_GetMajorRadius(TQ3GeometryObject cone, TQ3Vector3D *majorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1297,13 +1086,6 @@ Q3Cone_GetMinorRadius(TQ3GeometryObject cone, TQ3Vector3D *minorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1334,13 +1116,6 @@ Q3Cone_SetCaps(TQ3GeometryObject cone, TQ3EndCap caps)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on caps
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1372,13 +1147,6 @@ Q3Cone_GetCaps(TQ3GeometryObject cone, TQ3EndCap *caps)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on caps
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1409,13 +1177,6 @@ Q3Cone_SetBottomAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet bottomAttri
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on bottomAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1447,13 +1208,6 @@ Q3Cone_GetBottomAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet *bottomAttr
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on bottomAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1484,13 +1238,6 @@ Q3Cone_SetFaceAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet faceAttribute
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1522,13 +1269,6 @@ Q3Cone_GetFaceAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet *faceAttribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cone
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1559,13 +1299,6 @@ Q3Cone_SetInteriorAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet intAttrib
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1597,13 +1330,6 @@ Q3Cone_GetInteriorAttributeSet(TQ3GeometryObject cone, TQ3AttributeSet *intAttri
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1634,10 +1360,6 @@ Q3Cone_EmptyData(TQ3ConeData *coneData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on coneData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1668,10 +1390,6 @@ Q3Cylinder_New(const TQ3CylinderData *cylinderData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinderData
-		return(NULL);
-#endif
 
 
 
@@ -1703,13 +1421,6 @@ Q3Cylinder_Submit(const TQ3CylinderData *cylinderData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinderData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1741,13 +1452,6 @@ Q3Cylinder_SetData(TQ3GeometryObject cylinder, const TQ3CylinderData *cylinderDa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on cylinderData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1779,13 +1483,6 @@ Q3Cylinder_GetData(TQ3GeometryObject cylinder, TQ3CylinderData *cylinderData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on cylinderData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1817,13 +1514,6 @@ Q3Cylinder_SetOrigin(TQ3GeometryObject cylinder, const TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1855,13 +1545,6 @@ Q3Cylinder_SetOrientation(TQ3GeometryObject cylinder, const TQ3Vector3D *orienta
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1893,13 +1576,6 @@ Q3Cylinder_SetMajorRadius(TQ3GeometryObject cylinder, const TQ3Vector3D *majorRa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1931,13 +1607,6 @@ Q3Cylinder_SetMinorRadius(TQ3GeometryObject cylinder, const TQ3Vector3D *minorRa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1969,13 +1638,6 @@ Q3Cylinder_GetOrigin(TQ3GeometryObject cylinder, TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2007,13 +1669,6 @@ Q3Cylinder_GetOrientation(TQ3GeometryObject cylinder, TQ3Vector3D *orientation)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2045,13 +1700,6 @@ Q3Cylinder_GetMajorRadius(TQ3GeometryObject cylinder, TQ3Vector3D *majorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2083,13 +1731,6 @@ Q3Cylinder_GetMinorRadius(TQ3GeometryObject cylinder, TQ3Vector3D *minorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2120,13 +1761,6 @@ Q3Cylinder_SetCaps(TQ3GeometryObject cylinder, TQ3EndCap caps)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on caps
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2158,13 +1792,6 @@ Q3Cylinder_GetCaps(TQ3GeometryObject cylinder, TQ3EndCap *caps)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on caps
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2195,13 +1822,6 @@ Q3Cylinder_SetTopAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet topAtt
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on topAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2233,13 +1853,6 @@ Q3Cylinder_GetTopAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *topAt
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on topAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2270,13 +1883,6 @@ Q3Cylinder_SetBottomAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet bot
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on bottomAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2308,13 +1914,6 @@ Q3Cylinder_GetBottomAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *bo
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on bottomAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2345,13 +1944,6 @@ Q3Cylinder_SetFaceAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet faceA
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2383,13 +1975,6 @@ Q3Cylinder_GetFaceAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *face
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2420,13 +2005,6 @@ Q3Cylinder_SetInteriorAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet i
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2458,13 +2036,6 @@ Q3Cylinder_GetInteriorAttributeSet(TQ3GeometryObject cylinder, TQ3AttributeSet *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinder
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2495,10 +2066,6 @@ Q3Cylinder_EmptyData(TQ3CylinderData *cylinderData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on cylinderData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2529,10 +2096,6 @@ Q3Disk_New(const TQ3DiskData *diskData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on diskData
-		return(NULL);
-#endif
 
 
 
@@ -2564,13 +2127,6 @@ Q3Disk_Submit(const TQ3DiskData *diskData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on diskData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2602,13 +2158,6 @@ Q3Disk_SetData(TQ3GeometryObject disk, const TQ3DiskData *diskData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on disk
-		return(kQ3Failure);
-
-	if (0) // Further checks on diskData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2640,13 +2189,6 @@ Q3Disk_GetData(TQ3GeometryObject disk, TQ3DiskData *diskData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on disk
-		return(kQ3Failure);
-
-	if (0) // Further checks on diskData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2678,13 +2220,6 @@ Q3Disk_SetOrigin(TQ3GeometryObject disk, const TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on disk
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2716,13 +2251,6 @@ Q3Disk_SetMajorRadius(TQ3GeometryObject disk, const TQ3Vector3D *majorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on disk
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2754,13 +2282,6 @@ Q3Disk_SetMinorRadius(TQ3GeometryObject disk, const TQ3Vector3D *minorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on disk
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2792,13 +2313,6 @@ Q3Disk_GetOrigin(TQ3GeometryObject disk, TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on disk
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2830,13 +2344,6 @@ Q3Disk_GetMajorRadius(TQ3GeometryObject disk, TQ3Vector3D *majorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on disk
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2868,13 +2375,6 @@ Q3Disk_GetMinorRadius(TQ3GeometryObject disk, TQ3Vector3D *minorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on disk
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2905,10 +2405,6 @@ Q3Disk_EmptyData(TQ3DiskData *diskData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on diskData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2939,10 +2435,6 @@ Q3Ellipse_New(const TQ3EllipseData *ellipseData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipseData
-		return(NULL);
-#endif
 
 
 
@@ -2974,13 +2466,6 @@ Q3Ellipse_Submit(const TQ3EllipseData *ellipseData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipseData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3012,13 +2497,6 @@ Q3Ellipse_SetData(TQ3GeometryObject ellipse, const TQ3EllipseData *ellipseData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipse
-		return(kQ3Failure);
-
-	if (0) // Further checks on ellipseData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3050,13 +2528,6 @@ Q3Ellipse_GetData(TQ3GeometryObject ellipse, TQ3EllipseData *ellipseData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipse
-		return(kQ3Failure);
-
-	if (0) // Further checks on ellipseData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3088,13 +2559,6 @@ Q3Ellipse_SetOrigin(TQ3GeometryObject ellipse, const TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipse
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3126,13 +2590,6 @@ Q3Ellipse_SetMajorRadius(TQ3GeometryObject ellipse, const TQ3Vector3D *majorRadi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipse
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3164,13 +2621,6 @@ Q3Ellipse_SetMinorRadius(TQ3GeometryObject ellipse, const TQ3Vector3D *minorRadi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipse
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3202,13 +2652,6 @@ Q3Ellipse_GetOrigin(TQ3GeometryObject ellipse, TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipse
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3240,13 +2683,6 @@ Q3Ellipse_GetMajorRadius(TQ3GeometryObject ellipse, TQ3Vector3D *majorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipse
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3278,13 +2714,6 @@ Q3Ellipse_GetMinorRadius(TQ3GeometryObject ellipse, TQ3Vector3D *minorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipse
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3315,10 +2744,6 @@ Q3Ellipse_EmptyData(TQ3EllipseData *ellipseData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipseData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3349,10 +2774,6 @@ Q3Ellipsoid_New(const TQ3EllipsoidData *ellipsoidData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoidData
-		return(NULL);
-#endif
 
 
 
@@ -3384,13 +2805,6 @@ Q3Ellipsoid_Submit(const TQ3EllipsoidData *ellipsoidData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoidData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3422,13 +2836,6 @@ Q3Ellipsoid_SetData(TQ3GeometryObject ellipsoid, const TQ3EllipsoidData *ellipso
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on ellipsoidData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3460,13 +2867,6 @@ Q3Ellipsoid_GetData(TQ3GeometryObject ellipsoid, TQ3EllipsoidData *ellipsoidData
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on ellipsoidData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3498,13 +2898,6 @@ Q3Ellipsoid_SetOrigin(TQ3GeometryObject ellipsoid, const TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3536,13 +2929,6 @@ Q3Ellipsoid_SetOrientation(TQ3GeometryObject ellipsoid, const TQ3Vector3D *orien
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3574,13 +2960,6 @@ Q3Ellipsoid_SetMajorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *major
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3612,13 +2991,6 @@ Q3Ellipsoid_SetMinorRadius(TQ3GeometryObject ellipsoid, const TQ3Vector3D *minor
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3650,13 +3022,6 @@ Q3Ellipsoid_GetOrigin(TQ3GeometryObject ellipsoid, TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3688,13 +3053,6 @@ Q3Ellipsoid_GetOrientation(TQ3GeometryObject ellipsoid, TQ3Vector3D *orientation
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3726,13 +3084,6 @@ Q3Ellipsoid_GetMajorRadius(TQ3GeometryObject ellipsoid, TQ3Vector3D *majorRadius
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3764,13 +3115,6 @@ Q3Ellipsoid_GetMinorRadius(TQ3GeometryObject ellipsoid, TQ3Vector3D *minorRadius
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoid
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3801,10 +3145,6 @@ Q3Ellipsoid_EmptyData(TQ3EllipsoidData *ellipsoidData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on ellipsoidData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3835,10 +3175,6 @@ Q3GeneralPolygon_New(const TQ3GeneralPolygonData *generalPolygonData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygonData
-		return(NULL);
-#endif
 
 
 
@@ -3870,13 +3206,6 @@ Q3GeneralPolygon_Submit(const TQ3GeneralPolygonData *generalPolygonData, TQ3View
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygonData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3908,13 +3237,6 @@ Q3GeneralPolygon_SetData(TQ3GeometryObject generalPolygon, const TQ3GeneralPolyg
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on generalPolygonData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3946,13 +3268,6 @@ Q3GeneralPolygon_GetData(TQ3GeometryObject polygon, TQ3GeneralPolygonData *gener
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on generalPolygonData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -3983,10 +3298,6 @@ Q3GeneralPolygon_EmptyData(TQ3GeneralPolygonData *generalPolygonData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygonData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4069,19 +3380,6 @@ Q3GeneralPolygon_GetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 co
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on contourIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on pointIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4113,19 +3411,6 @@ Q3GeneralPolygon_SetVertexPosition(TQ3GeometryObject generalPolygon, TQ3Uns32 co
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on contourIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on pointIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4157,19 +3442,6 @@ Q3GeneralPolygon_GetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on contourIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on pointIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4200,19 +3472,6 @@ Q3GeneralPolygon_SetVertexAttributeSet(TQ3GeometryObject generalPolygon, TQ3Uns3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on contourIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on pointIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4243,13 +3502,6 @@ Q3GeneralPolygon_SetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygo
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on shapeHint
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4281,13 +3533,6 @@ Q3GeneralPolygon_GetShapeHint(TQ3GeometryObject generalPolygon, TQ3GeneralPolygo
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on generalPolygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on shapeHint
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4318,10 +3563,6 @@ Q3Line_New(const TQ3LineData *lineData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on lineData
-		return(NULL);
-#endif
 
 
 
@@ -4353,13 +3594,6 @@ Q3Line_Submit(const TQ3LineData *lineData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on lineData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4391,13 +3625,6 @@ Q3Line_GetData(TQ3GeometryObject line, TQ3LineData *lineData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on line
-		return(kQ3Failure);
-
-	if (0) // Further checks on lineData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4429,13 +3656,6 @@ Q3Line_SetData(TQ3GeometryObject line, const TQ3LineData *lineData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on line
-		return(kQ3Failure);
-
-	if (0) // Further checks on lineData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4467,16 +3687,6 @@ Q3Line_GetVertexPosition(TQ3GeometryObject line, TQ3Uns32 index, TQ3Point3D *pos
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on line
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4508,16 +3718,6 @@ Q3Line_SetVertexPosition(TQ3GeometryObject line, TQ3Uns32 index, const TQ3Point3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on line
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4549,16 +3749,6 @@ Q3Line_GetVertexAttributeSet(TQ3GeometryObject line, TQ3Uns32 index, TQ3Attribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on line
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4589,16 +3779,6 @@ Q3Line_SetVertexAttributeSet(TQ3GeometryObject line, TQ3Uns32 index, TQ3Attribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on line
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4629,10 +3809,6 @@ Q3Line_EmptyData(TQ3LineData *lineData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on lineData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4663,10 +3839,6 @@ Q3Marker_New(const TQ3MarkerData *markerData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on markerData
-		return(NULL);
-#endif
 
 
 
@@ -4698,13 +3870,6 @@ Q3Marker_Submit(const TQ3MarkerData *markerData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on markerData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4736,13 +3901,6 @@ Q3Marker_SetData(TQ3GeometryObject geometry, const TQ3MarkerData *markerData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on geometry
-		return(kQ3Failure);
-
-	if (0) // Further checks on markerData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4774,13 +3932,6 @@ Q3Marker_GetData(TQ3GeometryObject geometry, TQ3MarkerData *markerData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on geometry
-		return(kQ3Failure);
-
-	if (0) // Further checks on markerData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4811,10 +3962,6 @@ Q3Marker_EmptyData(TQ3MarkerData *markerData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on markerData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4846,13 +3993,6 @@ Q3Marker_GetPosition(TQ3GeometryObject marker, TQ3Point3D *location)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on marker
-		return(kQ3Failure);
-
-	if (0) // Further checks on location
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4884,13 +4024,6 @@ Q3Marker_SetPosition(TQ3GeometryObject marker, const TQ3Point3D *location)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on marker
-		return(kQ3Failure);
-
-	if (0) // Further checks on location
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4922,13 +4055,6 @@ Q3Marker_GetXOffset(TQ3GeometryObject marker, TQ3Int32 *xOffset)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on marker
-		return(kQ3Failure);
-
-	if (0) // Further checks on xOffset
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4959,13 +4085,6 @@ Q3Marker_SetXOffset(TQ3GeometryObject marker, TQ3Int32 xOffset)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on marker
-		return(kQ3Failure);
-
-	if (0) // Further checks on xOffset
-		return(kQ3Failure);
-#endif
 
 
 
@@ -4997,13 +4116,6 @@ Q3Marker_GetYOffset(TQ3GeometryObject marker, TQ3Int32 *yOffset)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on marker
-		return(kQ3Failure);
-
-	if (0) // Further checks on yOffset
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5034,13 +4146,6 @@ Q3Marker_SetYOffset(TQ3GeometryObject marker, TQ3Int32 yOffset)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on marker
-		return(kQ3Failure);
-
-	if (0) // Further checks on yOffset
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5072,13 +4177,6 @@ Q3Marker_GetBitmap(TQ3GeometryObject marker, TQ3Bitmap *bitmap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on marker
-		return(kQ3Failure);
-
-	if (0) // Further checks on bitmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5110,13 +4208,6 @@ Q3Marker_SetBitmap(TQ3GeometryObject marker, const TQ3Bitmap *bitmap)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on marker
-		return(kQ3Failure);
-
-	if (0) // Further checks on bitmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5169,13 +4260,6 @@ Q3Mesh_SetData(TQ3GeometryObject mesh, const TQ3MeshData *meshData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on meshData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5207,13 +4291,6 @@ Q3Mesh_GetData(TQ3GeometryObject mesh, TQ3MeshData *meshData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on meshData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5244,10 +4321,6 @@ Q3Mesh_EmptyData(TQ3MeshData *meshData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on meshData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5279,13 +4352,6 @@ Q3Mesh_VertexNew(TQ3GeometryObject mesh, const TQ3Vertex3D *vertex)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(NULL);
-
-	if (0) // Further checks on vertex
-		return(NULL);
-#endif
 
 
 
@@ -5317,19 +4383,6 @@ Q3Mesh_FaceNew(TQ3GeometryObject mesh, TQ3Uns32 numVertices, const TQ3MeshVertex
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(NULL);
-
-	if (0) // Further checks on numVertices
-		return(NULL);
-
-	if (0) // Further checks on vertices
-		return(NULL);
-
-	if (0) // Further checks on attributeSet
-		return(NULL);
-#endif
 
 
 
@@ -5360,13 +4413,6 @@ Q3Mesh_VertexDelete(TQ3GeometryObject mesh, TQ3MeshVertex vertex)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5397,13 +4443,6 @@ Q3Mesh_FaceDelete(TQ3GeometryObject mesh, TQ3MeshFace face)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5434,10 +4473,6 @@ Q3Mesh_DelayUpdates(TQ3GeometryObject mesh)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5468,10 +4503,6 @@ Q3Mesh_ResumeUpdates(TQ3GeometryObject mesh)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5502,16 +4533,6 @@ Q3Mesh_FaceToContour(TQ3GeometryObject mesh, TQ3MeshFace containerFace, TQ3MeshF
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(NULL);
-
-	if (0) // Further checks on containerFace
-		return(NULL);
-
-	if (0) // Further checks on face
-		return(NULL);
-#endif
 
 
 
@@ -5542,13 +4563,6 @@ Q3Mesh_ContourToFace(TQ3GeometryObject mesh, TQ3MeshContour contour)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(NULL);
-
-	if (0) // Further checks on contour
-		return(NULL);
-#endif
 
 
 
@@ -5580,13 +4594,6 @@ Q3Mesh_GetNumComponents(TQ3GeometryObject mesh, TQ3Uns32 *numComponents)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on numComponents
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5618,13 +4625,6 @@ Q3Mesh_GetNumEdges(TQ3GeometryObject mesh, TQ3Uns32 *numEdges)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on numEdges
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5656,13 +4656,6 @@ Q3Mesh_GetNumVertices(TQ3GeometryObject mesh, TQ3Uns32 *numVertices)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on numVertices
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5694,13 +4687,6 @@ Q3Mesh_GetNumFaces(TQ3GeometryObject mesh, TQ3Uns32 *numFaces)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on numFaces
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5732,13 +4718,6 @@ Q3Mesh_GetNumCorners(TQ3GeometryObject mesh, TQ3Uns32 *numCorners)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on numCorners
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5770,13 +4749,6 @@ Q3Mesh_GetOrientable(TQ3GeometryObject mesh, TQ3Boolean *orientable)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientable
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5808,16 +4780,6 @@ Q3Mesh_GetComponentNumVertices(TQ3GeometryObject mesh, TQ3MeshComponent componen
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on component
-		return(kQ3Failure);
-
-	if (0) // Further checks on numVertices
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5849,16 +4811,6 @@ Q3Mesh_GetComponentNumEdges(TQ3GeometryObject mesh, TQ3MeshComponent component, 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on component
-		return(kQ3Failure);
-
-	if (0) // Further checks on numEdges
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5890,16 +4842,6 @@ Q3Mesh_GetComponentBoundingBox(TQ3GeometryObject mesh, TQ3MeshComponent componen
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on component
-		return(kQ3Failure);
-
-	if (0) // Further checks on boundingBox
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5931,16 +4873,6 @@ Q3Mesh_GetComponentOrientable(TQ3GeometryObject mesh, TQ3MeshComponent component
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on component
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientable
-		return(kQ3Failure);
-#endif
 
 
 
@@ -5972,16 +4904,6 @@ Q3Mesh_GetVertexCoordinates(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Poi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-
-	if (0) // Further checks on coordinates
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6013,16 +4935,6 @@ Q3Mesh_GetVertexIndex(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Uns32 *in
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6054,16 +4966,6 @@ Q3Mesh_GetVertexOnBoundary(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Bool
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-
-	if (0) // Further checks on onBoundary
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6095,16 +4997,6 @@ Q3Mesh_GetVertexComponent(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3MeshC
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-
-	if (0) // Further checks on component
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6136,16 +5028,6 @@ Q3Mesh_GetVertexAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3At
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6177,16 +5059,6 @@ Q3Mesh_SetVertexCoordinates(TQ3GeometryObject mesh, TQ3MeshVertex vertex, const 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-
-	if (0) // Further checks on coordinates
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6217,16 +5089,6 @@ Q3Mesh_SetVertexAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3At
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6258,16 +5120,6 @@ Q3Mesh_GetFaceNumVertices(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Uns32 *nu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-
-	if (0) // Further checks on numVertices
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6299,16 +5151,6 @@ Q3Mesh_GetFacePlaneEquation(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3PlaneEq
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-
-	if (0) // Further checks on planeEquation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6340,16 +5182,6 @@ Q3Mesh_GetFaceNumContours(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Uns32 *nu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-
-	if (0) // Further checks on numContours
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6381,16 +5213,6 @@ Q3Mesh_GetFaceIndex(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Uns32 *index)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6422,16 +5244,6 @@ Q3Mesh_GetFaceComponent(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3MeshCompone
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-
-	if (0) // Further checks on component
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6463,16 +5275,6 @@ Q3Mesh_GetFaceAttributeSet(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Attribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6503,16 +5305,6 @@ Q3Mesh_SetFaceAttributeSet(TQ3GeometryObject mesh, TQ3MeshFace face, TQ3Attribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6545,19 +5337,6 @@ Q3Mesh_GetEdgeVertices(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3MeshVertex *
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on edge
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex1
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex2
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6590,19 +5369,6 @@ Q3Mesh_GetEdgeFaces(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3MeshFace *face1
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on edge
-		return(kQ3Failure);
-
-	if (0) // Further checks on face1
-		return(kQ3Failure);
-
-	if (0) // Further checks on face2
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6634,16 +5400,6 @@ Q3Mesh_GetEdgeOnBoundary(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3Boolean *o
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on edge
-		return(kQ3Failure);
-
-	if (0) // Further checks on onBoundary
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6675,16 +5431,6 @@ Q3Mesh_GetEdgeComponent(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3MeshCompone
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on edge
-		return(kQ3Failure);
-
-	if (0) // Further checks on component
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6716,16 +5462,6 @@ Q3Mesh_GetEdgeAttributeSet(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3Attribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on edge
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6756,16 +5492,6 @@ Q3Mesh_SetEdgeAttributeSet(TQ3GeometryObject mesh, TQ3MeshEdge edge, TQ3Attribut
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on edge
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6797,16 +5523,6 @@ Q3Mesh_GetContourFace(TQ3GeometryObject mesh, TQ3MeshContour contour, TQ3MeshFac
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on contour
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6838,16 +5554,6 @@ Q3Mesh_GetContourNumVertices(TQ3GeometryObject mesh, TQ3MeshContour contour, TQ3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on contour
-		return(kQ3Failure);
-
-	if (0) // Further checks on numVertices
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6879,19 +5585,6 @@ Q3Mesh_GetCornerAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Me
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6922,19 +5615,6 @@ Q3Mesh_SetCornerAttributeSet(TQ3GeometryObject mesh, TQ3MeshVertex vertex, TQ3Me
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on vertex
-		return(kQ3Failure);
-
-	if (0) // Further checks on face
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -6966,13 +5646,6 @@ Q3Mesh_FirstMeshComponent(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7003,10 +5676,6 @@ Q3Mesh_NextMeshComponent(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7037,13 +5706,6 @@ Q3Mesh_FirstComponentVertex(TQ3MeshComponent component, TQ3MeshIterator *iterato
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on component
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7074,10 +5736,6 @@ Q3Mesh_NextComponentVertex(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7108,13 +5766,6 @@ Q3Mesh_FirstComponentEdge(TQ3MeshComponent component, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on component
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7145,10 +5796,6 @@ Q3Mesh_NextComponentEdge(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7180,13 +5827,6 @@ Q3Mesh_FirstMeshVertex(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7217,10 +5857,6 @@ Q3Mesh_NextMeshVertex(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7252,13 +5888,6 @@ Q3Mesh_FirstMeshFace(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7289,10 +5918,6 @@ Q3Mesh_NextMeshFace(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7324,13 +5949,6 @@ Q3Mesh_FirstMeshEdge(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on mesh
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7361,10 +5979,6 @@ Q3Mesh_NextMeshEdge(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7395,13 +6009,6 @@ Q3Mesh_FirstVertexEdge(TQ3MeshVertex vertex, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vertex
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7432,10 +6039,6 @@ Q3Mesh_NextVertexEdge(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7466,13 +6069,6 @@ Q3Mesh_FirstVertexVertex(TQ3MeshVertex vertex, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vertex
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7503,10 +6099,6 @@ Q3Mesh_NextVertexVertex(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7537,13 +6129,6 @@ Q3Mesh_FirstVertexFace(TQ3MeshVertex vertex, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on vertex
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7574,10 +6159,6 @@ Q3Mesh_NextVertexFace(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7608,13 +6189,6 @@ Q3Mesh_FirstFaceEdge(TQ3MeshFace face, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on face
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7645,10 +6219,6 @@ Q3Mesh_NextFaceEdge(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7679,13 +6249,6 @@ Q3Mesh_FirstFaceVertex(TQ3MeshFace face, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on face
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7716,10 +6279,6 @@ Q3Mesh_NextFaceVertex(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7750,13 +6309,6 @@ Q3Mesh_FirstFaceFace(TQ3MeshFace face, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on face
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7787,10 +6339,6 @@ Q3Mesh_NextFaceFace(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7821,13 +6369,6 @@ Q3Mesh_FirstFaceContour(TQ3MeshFace face, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on face
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7858,10 +6399,6 @@ Q3Mesh_NextFaceContour(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7892,13 +6429,6 @@ Q3Mesh_FirstContourEdge(TQ3MeshContour contour, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on contour
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7929,10 +6459,6 @@ Q3Mesh_NextContourEdge(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -7963,13 +6489,6 @@ Q3Mesh_FirstContourVertex(TQ3MeshContour contour, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on contour
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -8000,10 +6519,6 @@ Q3Mesh_NextContourVertex(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -8034,13 +6549,6 @@ Q3Mesh_FirstContourFace(TQ3MeshContour contour, TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on contour
-		return(NULL);
-
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -8071,10 +6579,6 @@ Q3Mesh_NextContourFace(TQ3MeshIterator *iterator)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on iterator
-		return(NULL);
-#endif
 
 
 
@@ -8145,9 +6649,6 @@ Q3NURBCurve_Submit(const TQ3NURBCurveData *curveData, TQ3ViewObject view)
 	// Further checks on curveData
 	if (curveData->order > kQ3NURBCurveMaxOrder)
 		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
 #endif
 
 
@@ -8181,9 +6682,6 @@ Q3NURBCurve_SetData(TQ3GeometryObject curve, const TQ3NURBCurveData *nurbCurveDa
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on curve
-		return(kQ3Failure);
-
 	// Further checks on nurbCurveData
 	if (nurbCurveData->order > kQ3NURBCurveMaxOrder)
 		return(kQ3Failure);
@@ -8219,13 +6717,6 @@ Q3NURBCurve_GetData(TQ3GeometryObject curve, TQ3NURBCurveData *nurbCurveData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on curve
-		return(kQ3Failure);
-
-	if (0) // Further checks on nurbCurveData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -8256,10 +6747,6 @@ Q3NURBCurve_EmptyData(TQ3NURBCurveData *nurbCurveData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on nurbCurveData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -8292,17 +6779,11 @@ Q3NURBCurve_SetControlPoint(TQ3GeometryObject curve, TQ3Uns32 pointIndex, const 
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on curve
-		return(kQ3Failure);
-
 	TQ3Uns32 numPoints ;
 	E3NURBCurve_GetNumPoints ( curve , &numPoints ) ;
 	// Further checks on pointIndex
 	if ( pointIndex >= numPoints )
 		return kQ3Failure ;
-
-	if (0) // Further checks on point4D
-		return(kQ3Failure);
 #endif
 
 
@@ -8336,17 +6817,11 @@ Q3NURBCurve_GetControlPoint(TQ3GeometryObject curve, TQ3Uns32 pointIndex, TQ3Rat
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on curve
-		return(kQ3Failure);
-
 	TQ3Uns32 numPoints ;
 	E3NURBCurve_GetNumPoints ( curve , &numPoints ) ;
 	// Further checks on pointIndex
 	if ( pointIndex >= numPoints )
 		return kQ3Failure ;
-
-	if (0) // Further checks on point4D
-		return(kQ3Failure);
 #endif
 
 
@@ -8378,9 +6853,6 @@ Q3NURBCurve_SetKnot(TQ3GeometryObject curve, TQ3Uns32 knotIndex, float knotValue
 	// Debug build checks
 #if Q3_DEBUG
 	TQ3NURBCurveData* instanceData = (TQ3NURBCurveData*) curve->FindLeafInstanceData () ;
-
-	if (0) // Further checks on curve
-		return(kQ3Failure);
 
 	// Further checks on knotIndex
 	if (knotIndex > instanceData->numPoints +
@@ -8430,14 +6902,8 @@ Q3NURBCurve_GetKnot(TQ3GeometryObject curve, TQ3Uns32 knotIndex, float *knotValu
 #if Q3_DEBUG
 	TQ3NURBCurveData* instanceData = (TQ3NURBCurveData *) curve->FindLeafInstanceData () ;
 
-	if (0) // Further checks on curve
-		return(kQ3Failure);
-
 	// Further checks on knotIndex
 	if (knotIndex > instanceData->numPoints + instanceData->order - 1)
-		return(kQ3Failure);
-
-	if (0) // Further checks on knotValue
 		return(kQ3Failure);
 #endif
 
@@ -8510,9 +6976,6 @@ Q3NURBPatch_Submit(const TQ3NURBPatchData *nurbPatchData, TQ3ViewObject view)
 	// Further checks on nurbPatchData
 	if (nurbPatchData->uOrder > kQ3NURBPatchMaxOrder || nurbPatchData->vOrder > kQ3NURBPatchMaxOrder)
 		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
 #endif
 
 
@@ -8546,9 +7009,6 @@ Q3NURBPatch_SetData(TQ3GeometryObject nurbPatch, const TQ3NURBPatchData *nurbPat
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on nurbPatch
-		return(kQ3Failure);
-
 	// Further checks on nurbPatchData
 	if (nurbPatchData->uOrder > kQ3NURBPatchMaxOrder || nurbPatchData->vOrder > kQ3NURBPatchMaxOrder)
 		return(kQ3Failure);
@@ -8584,13 +7044,6 @@ Q3NURBPatch_GetData(TQ3GeometryObject nurbPatch, TQ3NURBPatchData *nurbPatchData
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on nurbPatch
-		return(kQ3Failure);
-
-	if (0) // Further checks on nurbPatchData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -8623,18 +7076,12 @@ Q3NURBPatch_SetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 #if Q3_DEBUG
 	TQ3NURBPatchData* instanceData = (TQ3NURBPatchData *) nurbPatch->FindLeafInstanceData () ;
 
-	if (0) // Further checks on nurbPatch
-		return(kQ3Failure);
-
 	// Further checks on rowIndex
 	if (rowIndex >= instanceData->numRows)
 		return(kQ3Failure);
 
 	// Further checks on columnIndex
 	if (columnIndex >= instanceData->numColumns)
-		return(kQ3Failure);
-
-	if (0) // Further checks on point4D
 		return(kQ3Failure);
 #endif
 
@@ -8669,18 +7116,12 @@ Q3NURBPatch_GetControlPoint(TQ3GeometryObject nurbPatch, TQ3Uns32 rowIndex, TQ3U
 #if Q3_DEBUG
 	TQ3NURBPatchData* instanceData = (TQ3NURBPatchData *) nurbPatch->FindLeafInstanceData () ;
 
-	if (0) // Further checks on nurbPatch
-		return(kQ3Failure);
-
 	// Further checks on rowIndex
 	if (rowIndex >= instanceData->numRows)
 		return(kQ3Failure);
 
 	// Further checks on columnIndex
 	if (columnIndex >= instanceData->numColumns)
-		return(kQ3Failure);
-
-	if (0) // Further checks on point4D
 		return(kQ3Failure);
 #endif
 
@@ -8713,9 +7154,6 @@ Q3NURBPatch_SetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 	// Debug build checks
 #if Q3_DEBUG
 	TQ3NURBPatchData* instanceData = (TQ3NURBPatchData *) nurbPatch->FindLeafInstanceData () ;
-
-	if (0) // Further checks on nurbPatch
-		return(kQ3Failure);
 
 	// Further checks on knotIndex
 	if (knotIndex > instanceData->numColumns + instanceData->uOrder - 1)
@@ -8763,9 +7201,6 @@ Q3NURBPatch_SetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float knot
 #if Q3_DEBUG
 	TQ3NURBPatchData* instanceData = (TQ3NURBPatchData *) nurbPatch->FindLeafInstanceData () ;
 
-	if (0) // Further checks on nurbPatch
-		return(kQ3Failure);
-
 	// Further checks on knotIndex
 	if (knotIndex > instanceData->numRows + instanceData->vOrder - 1)
 		return(kQ3Failure);
@@ -8811,14 +7246,8 @@ Q3NURBPatch_GetUKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *kno
 #if Q3_DEBUG
 	TQ3NURBPatchData* instanceData = (TQ3NURBPatchData *) nurbPatch->FindLeafInstanceData () ;
 
-	if (0) // Further checks on nurbPatch
-		return(kQ3Failure);
-
 	// Further checks on knotIndex
 	if (knotIndex > instanceData->numColumns + instanceData->uOrder - 1)
-		return(kQ3Failure);
-
-	if (0) // Further checks on knotValue
 		return(kQ3Failure);
 #endif
 
@@ -8853,14 +7282,8 @@ Q3NURBPatch_GetVKnot(TQ3GeometryObject nurbPatch, TQ3Uns32 knotIndex, float *kno
 #if Q3_DEBUG
 	TQ3NURBPatchData* instanceData = (TQ3NURBPatchData*) nurbPatch->FindLeafInstanceData () ;
 
-	if (0) // Further checks on nurbPatch
-		return(kQ3Failure);
-
 	// Further checks on knotIndex
 	if (knotIndex > instanceData->numRows + instanceData->vOrder - 1)
-		return(kQ3Failure);
-
-	if (0) // Further checks on knotValue
 		return(kQ3Failure);
 #endif
 
@@ -8893,10 +7316,6 @@ Q3NURBPatch_EmptyData(TQ3NURBPatchData *nurbPatchData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on nurbPatchData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -8927,10 +7346,6 @@ Q3PixmapMarker_New(const TQ3PixmapMarkerData *pixmapMarkerData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarkerData
-		return(NULL);
-#endif
 
 
 
@@ -8962,13 +7377,6 @@ Q3PixmapMarker_Submit(const TQ3PixmapMarkerData *pixmapMarkerData, TQ3ViewObject
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarkerData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9000,13 +7408,6 @@ Q3PixmapMarker_SetData(TQ3GeometryObject geometry, const TQ3PixmapMarkerData *pi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on geometry
-		return(kQ3Failure);
-
-	if (0) // Further checks on pixmapMarkerData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9038,13 +7439,6 @@ Q3PixmapMarker_GetData(TQ3GeometryObject geometry, TQ3PixmapMarkerData *pixmapMa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on geometry
-		return(kQ3Failure);
-
-	if (0) // Further checks on pixmapMarkerData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9075,10 +7469,6 @@ Q3PixmapMarker_EmptyData(TQ3PixmapMarkerData *pixmapMarkerData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarkerData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9110,13 +7500,6 @@ Q3PixmapMarker_GetPosition(TQ3GeometryObject pixmapMarker, TQ3Point3D *position)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarker
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9148,13 +7531,6 @@ Q3PixmapMarker_SetPosition(TQ3GeometryObject pixmapMarker, const TQ3Point3D *pos
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarker
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9186,13 +7562,6 @@ Q3PixmapMarker_GetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *xOffset)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarker
-		return(kQ3Failure);
-
-	if (0) // Further checks on xOffset
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9223,13 +7592,6 @@ Q3PixmapMarker_SetXOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 xOffset)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarker
-		return(kQ3Failure);
-
-	if (0) // Further checks on xOffset
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9261,13 +7623,6 @@ Q3PixmapMarker_GetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 *yOffset)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarker
-		return(kQ3Failure);
-
-	if (0) // Further checks on yOffset
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9298,13 +7653,6 @@ Q3PixmapMarker_SetYOffset(TQ3GeometryObject pixmapMarker, TQ3Int32 yOffset)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarker
-		return(kQ3Failure);
-
-	if (0) // Further checks on yOffset
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9336,13 +7684,6 @@ Q3PixmapMarker_GetPixmap(TQ3GeometryObject pixmapMarker, TQ3StoragePixmap *pixma
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarker
-		return(kQ3Failure);
-
-	if (0) // Further checks on pixmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9374,13 +7715,6 @@ Q3PixmapMarker_SetPixmap(TQ3GeometryObject pixmapMarker, const TQ3StoragePixmap 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pixmapMarker
-		return(kQ3Failure);
-
-	if (0) // Further checks on pixmap
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9411,10 +7745,6 @@ Q3Point_New(const TQ3PointData *pointData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pointData
-		return(NULL);
-#endif
 
 
 
@@ -9446,13 +7776,6 @@ Q3Point_Submit(const TQ3PointData *pointData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pointData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9484,13 +7807,6 @@ Q3Point_GetData(TQ3GeometryObject point, TQ3PointData *pointData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point
-		return(kQ3Failure);
-
-	if (0) // Further checks on pointData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9522,13 +7838,6 @@ Q3Point_SetData(TQ3GeometryObject point, const TQ3PointData *pointData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point
-		return(kQ3Failure);
-
-	if (0) // Further checks on pointData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9559,10 +7868,6 @@ Q3Point_EmptyData(TQ3PointData *pointData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on pointData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9594,13 +7899,6 @@ Q3Point_SetPosition(TQ3GeometryObject point, const TQ3Point3D *position)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9632,13 +7930,6 @@ Q3Point_GetPosition(TQ3GeometryObject point, TQ3Point3D *position)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on point
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9705,13 +7996,6 @@ Q3Polygon_Submit(const TQ3PolygonData *polygonData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polygonData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9743,13 +8027,6 @@ Q3Polygon_SetData(TQ3GeometryObject polygon, const TQ3PolygonData *polygonData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on polygonData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9781,13 +8058,6 @@ Q3Polygon_GetData(TQ3GeometryObject polygon, TQ3PolygonData *polygonData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on polygonData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9818,10 +8088,6 @@ Q3Polygon_EmptyData(TQ3PolygonData *polygonData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polygonData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9853,16 +8119,6 @@ Q3Polygon_GetVertexPosition(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3Point3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on point
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9894,16 +8150,6 @@ Q3Polygon_SetVertexPosition(TQ3GeometryObject polygon, TQ3Uns32 index, const TQ3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on point
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9935,16 +8181,6 @@ Q3Polygon_GetVertexAttributeSet(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3At
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -9975,16 +8211,6 @@ Q3Polygon_SetVertexAttributeSet(TQ3GeometryObject polygon, TQ3Uns32 index, TQ3At
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polygon
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10015,10 +8241,6 @@ Q3Polyhedron_New(const TQ3PolyhedronData *polyhedronData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedronData
-		return(NULL);
-#endif
 
 
 
@@ -10050,13 +8272,6 @@ Q3Polyhedron_Submit(const TQ3PolyhedronData *polyhedronData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedronData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10088,13 +8303,6 @@ Q3Polyhedron_SetData(TQ3GeometryObject polyhedron, const TQ3PolyhedronData *poly
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on polyhedronData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10126,13 +8334,6 @@ Q3Polyhedron_GetData(TQ3GeometryObject polyhedron, TQ3PolyhedronData *polyhedron
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on polyhedronData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10163,10 +8364,6 @@ Q3Polyhedron_EmptyData(TQ3PolyhedronData *polyhedronData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedronData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10198,16 +8395,6 @@ Q3Polyhedron_SetVertexPosition(TQ3GeometryObject polyhedron, TQ3Uns32 index, con
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on point
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10239,16 +8426,6 @@ Q3Polyhedron_GetVertexPosition(TQ3GeometryObject polyhedron, TQ3Uns32 index, TQ3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on point
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10279,16 +8456,6 @@ Q3Polyhedron_SetVertexAttributeSet(TQ3GeometryObject polyhedron, TQ3Uns32 index,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10320,16 +8487,6 @@ Q3Polyhedron_GetVertexAttributeSet(TQ3GeometryObject polyhedron, TQ3Uns32 index,
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10361,16 +8518,6 @@ Q3Polyhedron_GetTriangleData(TQ3GeometryObject polyhedron, TQ3Uns32 triangleInde
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on triangleIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on triangleData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10402,16 +8549,6 @@ Q3Polyhedron_SetTriangleData(TQ3GeometryObject polyhedron, TQ3Uns32 triangleInde
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on triangleIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on triangleData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10443,16 +8580,6 @@ Q3Polyhedron_GetEdgeData(TQ3GeometryObject polyhedron, TQ3Uns32 edgeIndex, TQ3Po
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on edgeIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on edgeData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10484,16 +8611,6 @@ Q3Polyhedron_SetEdgeData(TQ3GeometryObject polyhedron, TQ3Uns32 edgeIndex, const
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyhedron
-		return(kQ3Failure);
-
-	if (0) // Further checks on edgeIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on edgeData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10563,13 +8680,6 @@ Q3PolyLine_Submit(const TQ3PolyLineData *polyLineData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyLineData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10602,9 +8712,6 @@ Q3PolyLine_SetData(TQ3GeometryObject polyLine, const TQ3PolyLineData *polyLineDa
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on polyLine
-		return(kQ3Failure);
-
 	// Further checks on polylineData
 	if (polyLineData->numVertices < 2)
 		{
@@ -10643,13 +8750,6 @@ Q3PolyLine_GetData(TQ3GeometryObject polyLine, TQ3PolyLineData *polyLineData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyLine
-		return(kQ3Failure);
-
-	if (0) // Further checks on polyLineData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10680,10 +8780,6 @@ Q3PolyLine_EmptyData(TQ3PolyLineData *polyLineData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyLineData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10715,16 +8811,6 @@ Q3PolyLine_GetVertexPosition(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3Poin
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyLine
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10756,16 +8842,6 @@ Q3PolyLine_SetVertexPosition(TQ3GeometryObject polyLine, TQ3Uns32 index, const T
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyLine
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10797,16 +8873,6 @@ Q3PolyLine_GetVertexAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyLine
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10837,16 +8903,6 @@ Q3PolyLine_SetVertexAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ3
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyLine
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10878,16 +8934,6 @@ Q3PolyLine_GetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyLine
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10918,16 +8964,6 @@ Q3PolyLine_SetSegmentAttributeSet(TQ3GeometryObject polyLine, TQ3Uns32 index, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on polyLine
-		return(kQ3Failure);
-
-	if (0) // Further checks on index
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -10958,10 +8994,6 @@ Q3Torus_New(const TQ3TorusData *torusData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torusData
-		return(NULL);
-#endif
 
 
 
@@ -10993,13 +9025,6 @@ Q3Torus_Submit(const TQ3TorusData *torusData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torusData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11031,13 +9056,6 @@ Q3Torus_SetData(TQ3GeometryObject torus, const TQ3TorusData *torusData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on torusData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11069,13 +9087,6 @@ Q3Torus_GetData(TQ3GeometryObject torus, TQ3TorusData *torusData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on torusData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11107,13 +9118,6 @@ Q3Torus_SetOrigin(TQ3GeometryObject torus, const TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11145,13 +9149,6 @@ Q3Torus_SetOrientation(TQ3GeometryObject torus, const TQ3Vector3D *orientation)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11183,13 +9180,6 @@ Q3Torus_SetMajorRadius(TQ3GeometryObject torus, const TQ3Vector3D *majorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11221,13 +9211,6 @@ Q3Torus_SetMinorRadius(TQ3GeometryObject torus, const TQ3Vector3D *minorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11258,13 +9241,6 @@ Q3Torus_SetRatio(TQ3GeometryObject torus, float ratio)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on ratio
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11296,13 +9272,6 @@ Q3Torus_GetOrigin(TQ3GeometryObject torus, TQ3Point3D *origin)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on origin
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11334,13 +9303,6 @@ Q3Torus_GetOrientation(TQ3GeometryObject torus, TQ3Vector3D *orientation)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on orientation
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11372,13 +9334,6 @@ Q3Torus_GetMajorRadius(TQ3GeometryObject torus, TQ3Vector3D *majorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on majorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11410,13 +9365,6 @@ Q3Torus_GetMinorRadius(TQ3GeometryObject torus, TQ3Vector3D *minorRadius)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on minorRadius
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11448,13 +9396,6 @@ Q3Torus_GetRatio(TQ3GeometryObject torus, float *ratio)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torus
-		return(kQ3Failure);
-
-	if (0) // Further checks on ratio
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11485,10 +9426,6 @@ Q3Torus_EmptyData(TQ3TorusData *torusData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on torusData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11519,10 +9456,6 @@ Q3Triangle_New(const TQ3TriangleData *triangleData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triangleData
-		return(NULL);
-#endif
 
 
 
@@ -11554,13 +9487,6 @@ Q3Triangle_Submit(const TQ3TriangleData *triangleData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triangleData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11592,13 +9518,6 @@ Q3Triangle_SetData(TQ3GeometryObject triangle, const TQ3TriangleData *triangleDa
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triangle
-		return(kQ3Failure);
-
-	if (0) // Further checks on triangleData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11630,13 +9549,6 @@ Q3Triangle_GetData(TQ3GeometryObject triangle, TQ3TriangleData *triangleData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triangle
-		return(kQ3Failure);
-
-	if (0) // Further checks on triangleData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11667,10 +9579,6 @@ Q3Triangle_EmptyData(TQ3TriangleData *triangleData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triangleData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11703,18 +9611,12 @@ Q3Triangle_GetVertexPosition(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3Poin
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on triangle
-		return(kQ3Failure);
-
 	// Further checks on index
 	if (index >= 3)
 		{
 		E3ErrorManager_PostError(kQ3ErrorParameterOutOfRange, kQ3False);
 		return(kQ3Failure);
 		}
-
-	if (0) // Further checks on point
-		return(kQ3Failure);
 #endif
 
 
@@ -11748,18 +9650,12 @@ Q3Triangle_SetVertexPosition(TQ3GeometryObject triangle, TQ3Uns32 index, const T
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on triangle
-		return(kQ3Failure);
-
 	// Further checks on index
 	if (index >= 3)
 		{
 		E3ErrorManager_PostError(kQ3ErrorParameterOutOfRange, kQ3False);
 		return(kQ3Failure);
 		}
-
-	if (0) // Further checks on point
-		return(kQ3Failure);
 #endif
 
 
@@ -11793,18 +9689,12 @@ Q3Triangle_GetVertexAttributeSet(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on triangle
-		return(kQ3Failure);
-
 	// Further checks on index
 	if (index >= 3)
 		{
 		E3ErrorManager_PostError(kQ3ErrorParameterOutOfRange, kQ3False);
 		return(kQ3Failure);
 		}
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
 #endif
 
 
@@ -11837,18 +9727,12 @@ Q3Triangle_SetVertexAttributeSet(TQ3GeometryObject triangle, TQ3Uns32 index, TQ3
 
 	// Debug build checks
 #if Q3_DEBUG
-	if (0) // Further checks on triangle
-		return(kQ3Failure);
-
 	// Further checks on index
 	if (index >= 3)
 		{
 		E3ErrorManager_PostError(kQ3ErrorParameterOutOfRange, kQ3False);
 		return(kQ3Failure);
 		}
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
 #endif
 
 
@@ -11880,10 +9764,6 @@ Q3TriGrid_New(const TQ3TriGridData *triGridData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGridData
-		return(NULL);
-#endif
 
 
 
@@ -11915,13 +9795,6 @@ Q3TriGrid_Submit(const TQ3TriGridData *triGridData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGridData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11953,13 +9826,6 @@ Q3TriGrid_SetData(TQ3GeometryObject triGrid, const TQ3TriGridData *triGridData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGrid
-		return(kQ3Failure);
-
-	if (0) // Further checks on triGridData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -11991,13 +9857,6 @@ Q3TriGrid_GetData(TQ3GeometryObject triGrid, TQ3TriGridData *triGridData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGrid
-		return(kQ3Failure);
-
-	if (0) // Further checks on triGridData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12028,10 +9887,6 @@ Q3TriGrid_EmptyData(TQ3TriGridData *triGridData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGridData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12063,19 +9918,6 @@ Q3TriGrid_GetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGrid
-		return(kQ3Failure);
-
-	if (0) // Further checks on rowIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on columnIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12107,19 +9949,6 @@ Q3TriGrid_SetVertexPosition(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ3Uns
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGrid
-		return(kQ3Failure);
-
-	if (0) // Further checks on rowIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on columnIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on position
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12151,19 +9980,6 @@ Q3TriGrid_GetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGrid
-		return(kQ3Failure);
-
-	if (0) // Further checks on rowIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on columnIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12194,19 +10010,6 @@ Q3TriGrid_SetVertexAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 rowIndex, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGrid
-		return(kQ3Failure);
-
-	if (0) // Further checks on rowIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on columnIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12238,16 +10041,6 @@ Q3TriGrid_GetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGrid
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on facetAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12278,16 +10071,6 @@ Q3TriGrid_SetFacetAttributeSet(TQ3GeometryObject triGrid, TQ3Uns32 faceIndex, TQ
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triGrid
-		return(kQ3Failure);
-
-	if (0) // Further checks on faceIndex
-		return(kQ3Failure);
-
-	if (0) // Further checks on facetAttributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12318,10 +10101,6 @@ Q3TriMesh_New(const TQ3TriMeshData *triMeshData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triMeshData
-		return(NULL);
-#endif
 
 
 
@@ -12352,10 +10131,6 @@ Q3TriMesh_New_NoCopy(const TQ3TriMeshData *triMeshData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triMeshData
-		return(NULL);
-#endif
 
 
 
@@ -12387,13 +10162,6 @@ Q3TriMesh_Submit(const TQ3TriMeshData *triMeshData, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triMeshData
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12425,13 +10193,6 @@ Q3TriMesh_SetData(TQ3GeometryObject triMesh, const TQ3TriMeshData *triMeshData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triMesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on triMeshData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12463,13 +10224,6 @@ Q3TriMesh_GetData(TQ3GeometryObject triMesh, TQ3TriMeshData *triMeshData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triMesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on triMeshData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12500,10 +10254,6 @@ Q3TriMesh_EmptyData(TQ3TriMeshData *triMeshData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triMeshData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12535,16 +10285,6 @@ Q3TriMesh_LockData(TQ3GeometryObject triMesh, TQ3Boolean readOnly, TQ3TriMeshDat
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triMesh
-		return(kQ3Failure);
-
-	if (0) // Further checks on readOnly
-		return(kQ3Failure);
-
-	if (0) // Further checks on triMeshData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -12575,10 +10315,6 @@ Q3TriMesh_UnlockData(TQ3GeometryObject triMesh)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on triMesh
-		return(kQ3Failure);
-#endif
 
 
 

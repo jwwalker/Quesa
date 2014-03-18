@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -125,13 +125,6 @@ Q3View_NewWithDefaults(TQ3ObjectType drawContextType, void *drawContextTarget)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on drawContextType
-		return(NULL);
-
-	if (0) // Further checks on drawContextTarget
-		return(NULL);
-#endif
 
 
 
@@ -162,10 +155,6 @@ Q3View_Cancel(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -196,13 +185,6 @@ Q3View_SetRendererByType(TQ3ViewObject view, TQ3ObjectType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -234,13 +216,6 @@ Q3View_SetRenderer(TQ3ViewObject view, TQ3RendererObject renderer)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-#endif
 
 
 
@@ -272,13 +247,6 @@ Q3View_GetRenderer(TQ3ViewObject view, TQ3RendererObject *renderer)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on renderer
-		return(kQ3Failure);
-#endif
 
 
 
@@ -309,10 +277,6 @@ Q3View_StartRendering(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -343,10 +307,6 @@ Q3View_EndRendering(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3ViewStatusError);
-#endif
 
 
 
@@ -377,10 +337,6 @@ Q3View_Flush(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -411,10 +367,6 @@ Q3View_Sync(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -445,13 +397,6 @@ Q3View_StartBoundingBox(TQ3ViewObject view, TQ3ComputeBounds computeBounds)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on computeBounds
-		return(kQ3Failure);
-#endif
 
 
 
@@ -483,13 +428,6 @@ Q3View_EndBoundingBox(TQ3ViewObject view, TQ3BoundingBox *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3ViewStatusError);
-
-	if (0) // Further checks on result
-		return(kQ3ViewStatusError);
-#endif
 
 
 
@@ -520,13 +458,6 @@ Q3View_StartBoundingSphere(TQ3ViewObject view, TQ3ComputeBounds computeBounds)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on computeBounds
-		return(kQ3Failure);
-#endif
 
 
 
@@ -558,13 +489,6 @@ Q3View_EndBoundingSphere(TQ3ViewObject view, TQ3BoundingSphere *result)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3ViewStatusError);
-
-	if (0) // Further checks on result
-		return(kQ3ViewStatusError);
-#endif
 
 
 
@@ -596,13 +520,6 @@ Q3View_StartPicking(TQ3ViewObject view, TQ3PickObject pick)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on pick
-		return(kQ3Failure);
-#endif
 
 
 
@@ -633,10 +550,6 @@ Q3View_EndPicking(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3ViewStatusError);
-#endif
 
 
 
@@ -668,13 +581,6 @@ Q3View_GetCamera(TQ3ViewObject view, TQ3CameraObject *camera)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-#endif
 
 
 
@@ -706,13 +612,6 @@ Q3View_SetCamera(TQ3ViewObject view, TQ3CameraObject camera)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on camera
-		return(kQ3Failure);
-#endif
 
 
 
@@ -746,13 +645,6 @@ Q3View_SetLightGroup(TQ3ViewObject view, TQ3GroupObject lightGroup)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightGroup (may be NULL)
-		return(kQ3Failure);
-#endif
 
 
 
@@ -784,13 +676,6 @@ Q3View_GetLightGroup(TQ3ViewObject view, TQ3GroupObject *lightGroup)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightGroup
-		return(kQ3Failure);
-#endif
 
 
 
@@ -827,16 +712,6 @@ Q3View_AddLight(TQ3ViewObject theView, TQ3ObjectType lightType, void *lightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theView
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightType
-		return(kQ3Failure);
-
-	if (0) // Further checks on lightData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -867,13 +742,6 @@ Q3View_SetIdleMethod(TQ3ViewObject view, TQ3ViewIdleMethod idleMethod, const voi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on idleMethod
-		return(kQ3Failure);
-#endif
 
 
 
@@ -904,13 +772,6 @@ Q3View_SetIdleProgressMethod(TQ3ViewObject view, TQ3ViewIdleProgressMethod idleM
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on idleMethod
-		return(kQ3Failure);
-#endif
 
 
 
@@ -941,13 +802,6 @@ Q3View_SetEndFrameMethod(TQ3ViewObject view, TQ3ViewEndFrameMethod endFrame, voi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on endFrame
-		return(kQ3Failure);
-#endif
 
 
 
@@ -978,10 +832,6 @@ Q3Push_Submit(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1012,10 +862,6 @@ Q3Pop_Submit(TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1089,13 +935,6 @@ Q3StateOperator_Submit(TQ3StateOperatorObject stateOperator, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on stateOperator
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1127,13 +966,6 @@ Q3View_IsBoundingBoxVisible(TQ3ViewObject view, const TQ3BoundingBox *bbox)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3False);
-
-	if (0) // Further checks on bbox
-		return(kQ3False);
-#endif
 
 
 
@@ -1164,13 +996,6 @@ Q3View_AllowAllGroupCulling(TQ3ViewObject view, TQ3Boolean allowCulling)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on allowCulling
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1203,16 +1028,6 @@ Q3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theView
-		return(kQ3Failure);
-
-	if (0) // Further checks on localPoint
-		return(kQ3Failure);
-
-	if (0) // Further checks on worldPoint
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1245,16 +1060,6 @@ Q3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoin
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theView
-		return(kQ3Failure);
-
-	if (0) // Further checks on localPoint
-		return(kQ3Failure);
-
-	if (0) // Further checks on windowPoint
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1287,16 +1092,6 @@ Q3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoin
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theView
-		return(kQ3Failure);
-
-	if (0) // Further checks on worldPoint
-		return(kQ3Failure);
-
-	if (0) // Further checks on windowPoint
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1328,13 +1123,6 @@ Q3View_SetDrawContext(TQ3ViewObject view, TQ3DrawContextObject drawContext)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1366,13 +1154,6 @@ Q3View_GetDrawContext(TQ3ViewObject view, TQ3DrawContextObject *drawContext)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on drawContext
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1404,13 +1185,6 @@ Q3View_GetLocalToWorldMatrixState(TQ3ViewObject view, TQ3Matrix4x4 *matrix)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1442,13 +1216,6 @@ Q3View_GetWorldToFrustumMatrixState(TQ3ViewObject view, TQ3Matrix4x4 *matrix)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1480,13 +1247,6 @@ Q3View_GetFrustumToWindowMatrixState(TQ3ViewObject view, TQ3Matrix4x4 *matrix)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on matrix
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1518,13 +1278,6 @@ Q3View_GetBackfacingStyleState(TQ3ViewObject view, TQ3BackfacingStyle *backfacin
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on backfacingStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1556,13 +1309,6 @@ Q3View_GetInterpolationStyleState(TQ3ViewObject view, TQ3InterpolationStyle *int
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on interpolationType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1594,13 +1340,6 @@ Q3View_GetFillStyleState(TQ3ViewObject view, TQ3FillStyle *fillStyle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on fillStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1632,13 +1371,6 @@ Q3View_GetHighlightStyleState(TQ3ViewObject view, TQ3AttributeSet *highlightStyl
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on highlightStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1670,13 +1402,6 @@ Q3View_GetSubdivisionStyleState(TQ3ViewObject view, TQ3SubdivisionStyleData *sub
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on subdivisionStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1708,13 +1433,6 @@ Q3View_GetOrientationStyleState(TQ3ViewObject view, TQ3OrientationStyle *fontFac
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on fontFacingDirectionStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1746,13 +1464,6 @@ Q3View_GetCastShadowsStyleState(TQ3ViewObject view, TQ3Boolean *castShadows)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on castShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1784,13 +1495,6 @@ Q3View_GetReceiveShadowsStyleState(TQ3ViewObject view, TQ3Boolean *receiveShadow
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on receiveShadows
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1822,13 +1526,6 @@ Q3View_GetPickIDStyleState(TQ3ViewObject view, TQ3Uns32 *pickIDStyle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on pickIDStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1860,13 +1557,6 @@ Q3View_GetPickPartsStyleState(TQ3ViewObject view, TQ3PickParts *pickPartsStyle)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on pickPartsStyle
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1898,13 +1588,6 @@ Q3View_GetAntiAliasStyleState(TQ3ViewObject view, TQ3AntiAliasStyleData *antiAli
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on antiAliasData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1936,13 +1619,6 @@ Q3View_GetFogStyleState(TQ3ViewObject view, TQ3FogStyleData *fogData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on fogData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -1974,13 +1650,6 @@ Q3View_GetDefaultAttributeSet(TQ3ViewObject view, TQ3AttributeSet *attributeSet)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2011,13 +1680,6 @@ Q3View_SetDefaultAttributeSet(TQ3ViewObject view, TQ3AttributeSet attributeSet)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2049,13 +1711,6 @@ Q3View_GetAttributeSetState(TQ3ViewObject view, TQ3AttributeSet *attributeSet)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-#endif
 
 
 
@@ -2087,16 +1742,6 @@ Q3View_GetAttributeState(TQ3ViewObject view, TQ3AttributeType attributeType, voi
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on view
-		return(kQ3Failure);
-
-	if (0) // Further checks on attributeType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 

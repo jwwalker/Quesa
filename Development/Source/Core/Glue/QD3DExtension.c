@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -97,28 +97,6 @@ Q3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *object
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on parentType
-		return(NULL);
-
-	if (0) // Further checks on objectType
-		return(NULL);
-
-	if (0) // Further checks on objectName
-		return(NULL);
-
-	if (0) // Further checks on metaHandler
-		return(NULL);
-
-	if (0) // Further checks on virtualMetaHandler
-		return(NULL);
-
-	if (0) // Further checks on methodsSize
-		return(NULL);
-
-	if (0) // Further checks on instanceSize
-		return(NULL);
-#endif
 
 
 
@@ -150,10 +128,6 @@ Q3XObjectHierarchy_UnregisterClass(TQ3XObjectClass objectClass)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClass
-		return(kQ3Failure);
-#endif
 
 
 
@@ -183,13 +157,6 @@ Q3XObjectClass_GetMethod(TQ3XObjectClass objectClass, TQ3XMethodType methodType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClass
-		return(NULL);
-
-	if (0) // Further checks on methodType
-		return(NULL);
-#endif
 
 
 
@@ -219,13 +186,6 @@ Q3XObjectHierarchy_NewObject(TQ3XObjectClass objectClass, void *parameters)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClass
-		return(NULL);
-
-	if (0) // Further checks on parameters
-		return(NULL);
-#endif
 
 
 
@@ -255,10 +215,6 @@ Q3XObjectClass_GetLeafType(TQ3XObjectClass objectClass)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClass
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -289,13 +245,6 @@ Q3XObjectHierarchy_GetClassVersion(TQ3ObjectType objectClassType, TQ3XObjectClas
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClassType
-		return(kQ3Failure);
-
-	if (0) // Further checks on version
-		return(kQ3Failure);
-#endif
 
 
 
@@ -326,13 +275,6 @@ Q3XObjectClass_GetType(TQ3XObjectClass objectClass, TQ3ObjectType *theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClass
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -362,10 +304,6 @@ Q3XObjectHierarchy_FindClassByType(TQ3ObjectType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theType
-		return(NULL);
-#endif
 
 
 
@@ -396,13 +334,6 @@ Q3XObjectClass_GetPrivate(TQ3XObjectClass objectClass, TQ3Object targetObject)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on objectClass
-		return(NULL);
-
-	if (0) // Further checks on targetObject
-		return(NULL);
-#endif
 
 
 
@@ -433,10 +364,6 @@ Q3XObject_GetClass(TQ3Object object)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(NULL);
-#endif
 
 
 
@@ -467,10 +394,6 @@ Q3XSharedLibrary_Register(TQ3XSharedLibraryInfo *sharedLibraryInfo)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedLibraryInfo
-		return(kQ3Failure);
-#endif
 
 
 
@@ -500,10 +423,6 @@ Q3XSharedLibrary_Unregister(TQ3Uns32 sharedLibrary)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on sharedLibrary
-		return(kQ3Failure);
-#endif
 
 
 
@@ -533,10 +452,6 @@ Q3XError_Post(TQ3Error error)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on error
-		return;
-#endif
 
 
 
@@ -566,10 +481,6 @@ Q3XWarning_Post(TQ3Warning warning)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on warning
-		return;
-#endif
 
 
 
@@ -599,10 +510,6 @@ Q3XNotice_Post(TQ3Notice notice)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on notice
-		return;
-#endif
 
 
 

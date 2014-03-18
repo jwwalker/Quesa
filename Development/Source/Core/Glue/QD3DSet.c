@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -117,10 +117,6 @@ Q3Set_GetType(TQ3SetObject theSet)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSet
-		return(kQ3ObjectTypeInvalid);
-#endif
 
 
 
@@ -154,16 +150,6 @@ Q3Set_Add(TQ3SetObject theSet, TQ3ElementType theType, const void *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSet
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -195,16 +181,6 @@ Q3Set_Get(TQ3SetObject theSet, TQ3ElementType theType, void *data)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSet
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -235,13 +211,6 @@ Q3Set_Contains(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSet
-		return(kQ3False);
-
-	if (0) // Further checks on theType
-		return(kQ3False);
-#endif
 
 
 
@@ -272,13 +241,6 @@ Q3Set_Clear(TQ3SetObject theSet, TQ3ElementType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSet
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -309,10 +271,6 @@ Q3Set_Empty(TQ3SetObject target)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on target
-		return(kQ3Failure);
-#endif
 
 
 
@@ -344,13 +302,6 @@ Q3Set_GetNextElementType(TQ3SetObject theSet, TQ3ElementType *theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on theSet
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -412,16 +363,6 @@ Q3Attribute_Submit(TQ3AttributeType attributeType, const void *data, TQ3ViewObje
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -474,16 +415,6 @@ Q3AttributeSet_Add(TQ3AttributeSet attributeSet, TQ3AttributeType theType, const
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -514,13 +445,6 @@ Q3AttributeSet_Contains(TQ3AttributeSet attributeSet, TQ3AttributeType attribute
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeSet
-		return(kQ3False);
-
-	if (0) // Further checks on attributeType
-		return(kQ3False);
-#endif
 
 
 
@@ -552,16 +476,6 @@ Q3AttributeSet_Get(TQ3AttributeSet attributeSet, TQ3AttributeType theType, void 
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-
-	if (0) // Further checks on data
-		return(kQ3Failure);
-#endif
 
 
 
@@ -592,13 +506,6 @@ Q3AttributeSet_Clear(TQ3AttributeSet attributeSet, TQ3AttributeType theType)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -629,10 +536,6 @@ Q3AttributeSet_Empty(TQ3AttributeSet target)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on target
-		return(kQ3Failure);
-#endif
 
 
 
@@ -664,13 +567,6 @@ Q3AttributeSet_GetNextAttributeType(TQ3AttributeSet source, TQ3AttributeType *th
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on source
-		return(kQ3Failure);
-
-	if (0) // Further checks on theType
-		return(kQ3Failure);
-#endif
 
 
 
@@ -702,13 +598,6 @@ Q3AttributeSet_Submit(TQ3AttributeSet attributeSet, TQ3ViewObject view)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeSet
-		return(kQ3Failure);
-
-	if (0) // Further checks on view
-		return(kQ3Failure);
-#endif
 
 
 
@@ -741,16 +630,6 @@ Q3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on parent
-		return(kQ3Failure);
-
-	if (0) // Further checks on child
-		return(kQ3Failure);
-
-	if (0) // Further checks on result
-		return(kQ3Failure);
-#endif
 
 
 
@@ -782,19 +661,6 @@ Q3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on elementType
-		return(NULL);
-
-	if (0) // Further checks on name
-		return(NULL);
-
-	if (0) // Further checks on sizeOfElement
-		return(NULL);
-
-	if (0) // Further checks on metaHandler
-		return(NULL);
-#endif
 
 
 
@@ -825,13 +691,6 @@ Q3XElementType_GetElementSize(TQ3ElementType elementType, TQ3Uns32 *sizeOfElemen
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on elementType
-		return(kQ3Failure);
-
-	if (0) // Further checks on sizeOfElement
-		return(kQ3Failure);
-#endif
 
 
 
@@ -864,19 +723,6 @@ Q3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeType
-		return(NULL);
-
-	if (0) // Further checks on creatorName
-		return(NULL);
-
-	if (0) // Further checks on sizeOfElement
-		return(NULL);
-
-	if (0) // Further checks on metaHandler
-		return(NULL);
-#endif
 
 
 
@@ -906,13 +752,6 @@ Q3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attrib
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeSet
-		return(NULL);
-
-	if (0) // Further checks on attributeType
-		return(NULL);
-#endif
 
 
 
@@ -944,10 +783,6 @@ Q3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on attributeSet
-		return(kQ3XAttributeMaskNone);
-#endif
 
 
 

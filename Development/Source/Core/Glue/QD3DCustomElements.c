@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -96,13 +96,6 @@ CENameElement_SetData(TQ3Object object, const char *name)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3Failure);
-
-	if (0) // Further checks on name
-		return(kQ3Failure);
-#endif
 
 
 
@@ -135,13 +128,6 @@ CENameElement_GetData(TQ3Object object, char **name)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3Failure);
-
-	if (0) // Further checks on name
-		return(kQ3Failure);
-#endif
 
 
 
@@ -197,10 +183,6 @@ CENameElement_EmptyData(char **name)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on name
-		return(kQ3Failure);
-#endif
 
 
 
@@ -232,13 +214,6 @@ CEUrlElement_SetData(TQ3Object object, TCEUrlData *urlData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3Failure);
-
-	if (0) // Further checks on urlData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -271,13 +246,6 @@ CEUrlElement_GetData(TQ3Object object, TCEUrlData **urlData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on object
-		return(kQ3Failure);
-
-	if (0) // Further checks on urlData
-		return(kQ3Failure);
-#endif
 
 
 
@@ -308,10 +276,6 @@ CEUrlElement_EmptyData(TCEUrlData **urlData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
-	if (0) // Further checks on urlData
-		return(kQ3Failure);
-#endif
 
 
 
