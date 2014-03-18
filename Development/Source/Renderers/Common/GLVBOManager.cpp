@@ -127,7 +127,6 @@ namespace
 		TQ3Uns32		mNormalBufferOffset;
 		TQ3Uns32		mColorBufferOffset;
 		TQ3Uns32		mTextureUVBufferOffset;
-		TQ3Uns32		mModeCount;
 		TQ3Uns32		mBufferBytes;
 		CachedVBO*		mPrev;
 		CachedVBO*		mNext;
@@ -150,7 +149,6 @@ namespace
 		CachedVBO*		FindVBO( TQ3GeometryObject inGeom, GLenum inMode, const GLBufferFuncs& inFuncs );
 		void			RenderVBO( const GLBufferFuncs& inFuncs, const CachedVBO* inCachedVBO );
 		void			AddVBO( CachedVBO* inVBO );
-		void			UpdateModeCount( TQ3GeometryObject inGeom );
 		void			FlushUnreferenced( const GLBufferFuncs& inFuncs );
 		void			DeleteVBO( CachedVBO* inCachedVBO, const GLBufferFuncs& inFuncs );
 		void			DeleteCachedVBOs( CachedVBOVec& inVBOs, const GLBufferFuncs& inFuncs );
@@ -332,7 +330,6 @@ CachedVBO::CachedVBO( TQ3GeometryObject inGeom, GLenum inMode )
 	: mGeomObject( Q3Shared_GetReference( inGeom ) )
 	, mEditIndex( Q3Shared_GetEditIndex( inGeom ) )
 	, mGLMode( inMode )
-	, mModeCount( 1 )
 	, mBufferBytes( 0 )
 	, mPrev( NULL )
 	, mNext( NULL )
@@ -442,20 +439,11 @@ TQ3Uns32		VBOCache::CountVBOs( TQ3GeometryObject inGeom )
 {
 	TQ3Uns32		refCount = 0;
 	
-	CachedVBO*	aVBO = FindVBOInVec( inGeom, mCachedVBOs_strips );
-	if (aVBO == NULL)
-	{
-		aVBO = FindVBOInVec( inGeom, mCachedVBOs_triangles );
-	}
-	if (aVBO == NULL)
-	{
-		aVBO = FindVBOInVec( inGeom, mCachedVBOs_lines );
-	}
+	CachedVBO*	stripVBO = FindVBOInVec( inGeom, mCachedVBOs_strips );
+	CachedVBO*	triVBO = FindVBOInVec( inGeom, mCachedVBOs_triangles );
+	CachedVBO*	lineVBO = FindVBOInVec( inGeom, mCachedVBOs_lines );
 	
-	if (aVBO != NULL)
-	{
-		refCount = aVBO->mModeCount;
-	}
+	refCount = (stripVBO? 1 : 0) + (triVBO? 1 : 0) + (lineVBO? 1 : 0);
 	
 	return refCount;
 }
@@ -488,8 +476,6 @@ void	VBOCache::AddVBO( CachedVBO* inVBO )
 
 		whichVec->insert( placeIt, inVBO );
 		
-		UpdateModeCount( inVBO->mGeomObject.get() );
-
 		AddToUsageList( inVBO );
 
 		mTotalBytes += inVBO->mBufferBytes;
@@ -498,38 +484,6 @@ void	VBOCache::AddVBO( CachedVBO* inVBO )
 	}
 }
 
-/*
-	UpdateModeCount
-	
-	A particular geometry may be referenced more than once by the VBO cache.
-	We need to keep track of the number of such references, so that we will be
-	able to quickly tell whether the geometry is still referenced by something
-	other than the VBO cache.
-*/
-void	VBOCache::UpdateModeCount( TQ3GeometryObject inGeom )
-{
-	CachedVBO*	stripVBO = FindVBOInVec( inGeom, mCachedVBOs_strips );
-	CachedVBO*	triVBO = FindVBOInVec( inGeom, mCachedVBOs_triangles );
-	CachedVBO*	lineVBO = FindVBOInVec( inGeom, mCachedVBOs_lines );
-	
-	TQ3Uns32	modeCount = (stripVBO? 1 : 0) + (triVBO? 1 : 0) + (lineVBO? 1 : 0);
-	
-	if (modeCount > 0)
-	{
-		if (stripVBO)
-		{
-			stripVBO->mModeCount = modeCount;
-		}
-		if (triVBO)
-		{
-			triVBO->mModeCount = modeCount;
-		}
-		if (lineVBO)
-		{
-			lineVBO->mModeCount = modeCount;
-		}
-	}
-}
 
 void VBOCache::RenderVBO( const GLBufferFuncs& inFuncs, const CachedVBO* inCachedVBO )
 {
@@ -575,8 +529,6 @@ void	VBOCache::DeleteVBO( CachedVBO* inCachedVBO, const GLBufferFuncs& inFuncs )
 {
 	(*inFuncs.glDeleteBuffersProc)( 2, inCachedVBO->mGLBufferNames );
 	
-	UpdateModeCount( inCachedVBO->mGeomObject.get() );
-
 	DeleteFromUsageList( inCachedVBO );
 	
 	mTotalBytes -= inCachedVBO->mBufferBytes;
