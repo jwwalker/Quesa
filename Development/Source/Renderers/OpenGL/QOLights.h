@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -96,7 +96,6 @@ public:
 								, mMatrixState( inMatrixState )
 								, mStyleState( inStyleState )
 								, mPerPixelLighting( ioPerPixelLighting )
-								, mGLContext( inGLContext )
 								, mLightCount( 0 )
 								, mSavedYon( std::numeric_limits<float>::infinity() )
 								, mShadowMarker( mMatrixState, mStyleState,
@@ -176,7 +175,6 @@ private:
 	const MatrixState&		mMatrixState;
 	const StyleState&		mStyleState;
 	PerPixelLighting&		mPerPixelLighting;
-	TQ3GLContext&			mGLContext;
 	TQ3Uns32				mLightCount;		// number of GL lights in this pass
 	bool					mIsShadowFrame;
 	bool					mIsFirstPass;
