@@ -1113,8 +1113,8 @@ void	QORenderer::PerPixelLighting::SetUniformValues( const ProgramRec& ioProgram
 	
 	// Retrieve hot angles, cutoff angles for any spot lights.
 	const int kNumLights = static_cast<int>(mLights.size());
-	std::vector<GLfloat>	hotAngles( kNumLights );
-	std::vector<GLfloat>	cutoffAngles( kNumLights );
+	mHotAngles.resize( kNumLights );
+	mCutoffAngles.resize( kNumLights );
 	for (int i = 0; i < kNumLights; ++i)
 	{
 		float theHotAngle = 0.0f;
@@ -1124,17 +1124,17 @@ void	QORenderer::PerPixelLighting::SetUniformValues( const ProgramRec& ioProgram
 			Q3SpotLight_GetHotAngle( mLights[i].get(), &theHotAngle );
 			Q3SpotLight_GetOuterAngle( mLights[i].get(), &theCutoffAngle );
 		}
-		hotAngles[ i ] = theHotAngle;
-		cutoffAngles[ i ] = theCutoffAngle;
+		mHotAngles[ i ] = theHotAngle;
+		mCutoffAngles[ i ] = theCutoffAngle;
 	}
 	
 	// Set hot angle, cutoff angle uniform arrays.
 	if (kNumLights > 0)
 	{
 		mFuncs.glUniform1fv( ioProgram.mSpotHotAngleUniformLoc, kNumLights,
-			&hotAngles[0] );
+			&mHotAngles[0] );
 		mFuncs.glUniform1fv( ioProgram.mSpotCutoffAngleUniformLoc, kNumLights,
-			&cutoffAngles[0] );
+			&mCutoffAngles[0] );
 	}
 }
 
