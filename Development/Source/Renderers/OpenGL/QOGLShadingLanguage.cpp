@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -53,6 +53,7 @@
 #include <cstring>
 #include <string>
 #include <algorithm>
+#include <cstdlib>
 
 #ifndef GL_VERTEX_PROGRAM_TWO_SIDE
 	#define GL_VERTEX_PROGRAM_TWO_SIDE        0x8643
@@ -66,9 +67,10 @@
 namespace
 {
 	const char* kVertexShaderSource =
+				"#version 120\n"
+
 				// Normal vector in eye coordinates
 				"varying vec3 ECNormal;\n"
-				""
 				// Position in eye coordinates
 				"varying vec3 ECPos3;\n"
 
@@ -100,6 +102,8 @@ namespace
 	
 	#pragma mark kFragmentShaderPrefix
 	const char*	kFragmentShaderPrefix =
+				"#version 120\n"
+
 				// Normal vector in eye coordinates
 				"varying vec3 ECNormal;\n"
 
@@ -497,7 +501,7 @@ namespace
 					
 	const char*	kTextureUnit0UniformName		= "tex0";
 	const char*	kTextureUnit1UniformName		= "tex1";
-	const char* kSpecularMapFlagUniformName	= "isUsingSpecularMap";
+	const char* kSpecularMapFlagUniformName		= "isUsingSpecularMap";
 	const char*	kQuantizationUniformName		= "quantization";
 	const char*	kLightNearEdgeUniformName		= "lightNearEdge";
 	const char* kSpotHotAngleUniformName		= "hotAngle";
@@ -583,25 +587,6 @@ namespace
 									{
 										mFuncs.glDeleteProgram( ioProgram.mProgram );
 										ioProgram.mProgram = 0;
-									}
-								}	
-							
-		const QORenderer::GLSLFuncs&	mFuncs;
-	};
-	
-	struct DeleteShader
-	{
-								DeleteShader( const QORenderer::GLSLFuncs& inFuncs )
-									: mFuncs( inFuncs ) {}
-								
-								DeleteShader( const DeleteProgram& inOther )
-									: mFuncs( inOther.mFuncs ) {}
-								
-		void					operator()( GLuint inShader ) const
-								{
-									if (inShader != 0)
-									{
-										mFuncs.glDeleteShader( inShader );
 									}
 								}	
 							
@@ -809,32 +794,32 @@ QORenderer::PerPixelLighting::~PerPixelLighting()
 
 
 static void AddDirectionalShaderSource(	GLint inLightIndex,
-										std::vector<std::string>& ioSource )
+										std::string& ioSource )
 {
 	std::string		theSource( kDirectionalLightFragmentShaderSource );
 	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
-	ioSource.push_back( theSource );
+	ioSource += theSource;
 }
 
 static void AddPointLightShaderSource(	GLint inLightIndex,
-										std::vector<std::string>& ioSource )
+										std::string& ioSource )
 {
 	std::string		theSource( kPointLightFragmentShaderSource );
 	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
-	ioSource.push_back( theSource );
+	ioSource += theSource;
 }
 
 static void AddSpotLightShaderSource(	GLint inLightIndex,
-										std::vector<std::string>& ioSource )
+										std::string& ioSource )
 {
 	std::string		theSource( kSpotLightFragmentShaderSource );
 	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
-	ioSource.push_back( theSource );
+	ioSource +=  theSource;
 }
 
 static void AddSpotFalloffFuncSource(	GLint inLightIndex,
 										QORenderer::ELightType inLightType,
-										std::vector<std::string>& ioSource )
+										std::string& ioSource )
 {
 	std::string		theSource;
 	
@@ -864,7 +849,7 @@ static void AddSpotFalloffFuncSource(	GLint inLightIndex,
 			break;
 	}
 	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
-	ioSource.push_back( theSource );
+	ioSource += theSource;
 }
 
 #if Q3_DEBUG
@@ -882,6 +867,11 @@ static void LogShaderCompileError( GLint inShaderID, const QORenderer::GLSLFuncs
 			Q3_MESSAGE( "\n" );
 			Q3Memory_Free( &theLog );
 		}
+		else
+		{
+			Q3_MESSAGE_FMT("Failed to allocate %d bytes for compile error log.",
+				(int) logSize );
+		}
 	}
 }
 #else
@@ -891,22 +881,22 @@ static void LogShaderCompileError( GLint inShaderID, const QORenderer::GLSLFuncs
 
 
 static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRec,
-										std::vector<std::string>& outSource )
+										std::string& outSource )
 {
 	const GLint kNumLights = static_cast<GLint>(inProgramRec.mPattern.size());
 	GLint i;
 	
-	outSource.push_back( kFragmentShaderPrefix );
+	outSource += kFragmentShaderPrefix;
 	
 	if (inProgramRec.mIlluminationType != kQ3IlluminationTypeNULL)
 	{
 		if (inProgramRec.mIsCartoonish)
 		{
-			outSource.push_back( kFragmentShaderQuantizeFuncs_Cartoonish );
+			outSource += kFragmentShaderQuantizeFuncs_Cartoonish;
 		}
 		else
 		{
-			outSource.push_back( kFragmentShaderQuantizeFuncs_Normal );
+			outSource += kFragmentShaderQuantizeFuncs_Normal;
 		}
 		
 		for (i = 0; i < kNumLights; ++i)
@@ -928,15 +918,15 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 		}
 	}
 	
-	outSource.push_back( kMainFragmentShaderStart );
+	outSource += kMainFragmentShaderStart;
 	
 	if (inProgramRec.mInterpolationStyle == kQ3InterpolationStyleNone)
 	{
-		outSource.push_back( kMainFragmentShaderStartFlat );
+		outSource += kMainFragmentShaderStartFlat;
 	}
 	else
 	{
-		outSource.push_back( kMainFragmentShaderStartSmooth );
+		outSource += kMainFragmentShaderStartSmooth;
 	}
 
 	if (inProgramRec.mIlluminationType != kQ3IlluminationTypeNULL)
@@ -969,25 +959,25 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 	
 	if (inProgramRec.mIlluminationType == kQ3IlluminationTypeNULL)
 	{
-		outSource.push_back( kColorCompForNULLIllumination );
+		outSource += kColorCompForNULLIllumination;
 	}
 	else if (inProgramRec.mIsCartoonish)
 	{
-		outSource.push_back( kColorCompForLambertAndPhong_Cartoonish );
+		outSource += kColorCompForLambertAndPhong_Cartoonish;
 	}
 	else
 	{
-		outSource.push_back( kColorCompForLambertAndPhong );
+		outSource +=  kColorCompForLambertAndPhong;
 	}
 	
 	if (inProgramRec.mIsTextured)
 	{
-		outSource.push_back( kTexturedColorComp );
+		outSource += kTexturedColorComp;
 	}
 	
 	if (inProgramRec.mIlluminationType == kQ3IlluminationTypePhong)
 	{
-		outSource.push_back( kAddSpecularColor );
+		outSource += kAddSpecularColor;
 	}
 	
 	if (inProgramRec.mFogState == kQ3On)
@@ -995,15 +985,15 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 		switch (inProgramRec.mFogMode)
 		{
 			case kQ3FogModeLinear:
-				outSource.push_back( kAddFogLinear );
+				outSource += kAddFogLinear;
 				break;
 			
 			case kQ3FogModeExponential:
-				outSource.push_back( kAddFogExp );
+				outSource += kAddFogExp;
 				break;
 			
 			case kQ3FogModeExponentialSquared:
-				outSource.push_back( kAddFogExp2 );
+				outSource += kAddFogExp2;
 				break;
 			
 			default:
@@ -1011,7 +1001,7 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 		}
 	}
 		
-	outSource.push_back( kMainFragmentShaderEndSource );
+	outSource += kMainFragmentShaderEndSource;
 }
 
 
@@ -1178,7 +1168,7 @@ void	QORenderer::PerPixelLighting::StartPass()
 */
 void	QORenderer::PerPixelLighting::ChooseProgram()
 {
-	if (mMayNeedProgramChange)
+	if ( mMayNeedProgramChange && (mVertexShaderID != 0) )
 	{
 		mMayNeedProgramChange = false;
 
@@ -1333,6 +1323,92 @@ void	QORenderer::PerPixelLighting::CheckIfShading()
 
 
 /*!
+	@function	CreateAndCompileShader
+	@abstract	Create a shader, load source code into it, and compile.
+	@param		inShaderType		Kind of shader (GL_VERTEX_SHADER,
+									GL_FRAGMENT_SHADER)
+	@param		inSource			NUL-terminated string.
+	@param		inFuncs				OpenGL function pointers.
+	@result		A shader ID, or 0 on failure.
+*/
+static GLuint CreateAndCompileShader( GLenum inShaderType,
+									const char* inSource,
+									const QORenderer::GLSLFuncs& inFuncs )
+{
+	GLuint shaderID = inFuncs.glCreateShader( inShaderType );
+	if (shaderID != 0)
+	{
+		// Supply source code
+		GLint sourceLen = (GLint) std::strlen( inSource );
+		inFuncs.glShaderSource( shaderID, 1, &inSource, &sourceLen );
+		
+		// Compile the shader
+		inFuncs.glCompileShader( shaderID );
+		
+		// Check for compile success
+		GLint	status;
+		inFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
+		
+		if (status == GL_FALSE)
+		{
+			Q3_MESSAGE( "Failed to compile GLSL shader.\n" );
+			LogShaderCompileError( shaderID, inFuncs );
+			
+			// Try again.
+			(void) glGetError();
+			inFuncs.glDeleteShader( shaderID );
+			shaderID = inFuncs.glCreateShader( inShaderType );
+			
+			if (shaderID != 0)
+			{
+				inFuncs.glShaderSource( shaderID, 1, &inSource, &sourceLen );
+				GLenum err = glGetError();
+				if (err != GL_NO_ERROR)
+				{
+					Q3_MESSAGE_FMT("glShaderSource returned error %d", (int)err);
+				}
+				
+				inFuncs.glCompileShader( shaderID );
+				err = glGetError();
+				if (err != GL_NO_ERROR)
+				{
+					Q3_MESSAGE_FMT("glCompileShader returned error %d", (int)err);
+				}
+				
+				inFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
+				if (status == GL_FALSE)
+				{
+					Q3_MESSAGE( "Second try failed again.\n" );
+					inFuncs.glDeleteShader( shaderID );
+					shaderID = 0;
+					
+					if (inShaderType == GL_VERTEX_SHADER)
+					{
+						E3ErrorManager_PostWarning( kQ3WarningVertexShaderCompileFailed );
+#if Q3_DEBUG
+						std::abort();
+#endif
+					}
+					else
+					{
+						E3ErrorManager_PostWarning( kQ3WarningFragmentShaderCompileFailed );
+					}
+				}
+				else
+				{
+					Q3_MESSAGE( "Second try succeeded!!\n" );
+				}
+			}
+		}
+	}
+	else
+	{
+		Q3_MESSAGE( "Failed to create a shader.\n" );
+	}
+	return shaderID;
+}
+
+/*!
 	@function	InitVertexShader
 	@abstract	Set up the vertex shader, if it has not already
 				been done.
@@ -1341,50 +1417,17 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 {
 	if (mVertexShaderID == 0)
 	{
-		mVertexShaderID = mFuncs.glCreateShader( GL_VERTEX_SHADER );
-		CHECK_GL_ERROR;
+		mVertexShaderID = CreateAndCompileShader( GL_VERTEX_SHADER,
+			kVertexShaderSource, mFuncs );
 		
-		if (mVertexShaderID != 0)
-		{
-			// Supply source code
-			mFuncs.glShaderSource( mVertexShaderID, 1, &kVertexShaderSource, NULL );
-			CHECK_GL_ERROR;
-			
-			// Compile vertex shader
-			mFuncs.glCompileShader( mVertexShaderID );
-			CHECK_GL_ERROR;
-			
-			// Check for compile success
-			GLint	status;
-			mFuncs.glGetShaderiv( mVertexShaderID, GL_COMPILE_STATUS, &status );
-			Q3_ASSERT( status == GL_TRUE );
-			CHECK_GL_ERROR;
-			
-			if (status == GL_FALSE)
-			{
-				Q3_MESSAGE( "Failed to compile a vertex shader.\n" );
-				LogShaderCompileError( mVertexShaderID, mFuncs );
-				mFuncs.glDeleteShader( mVertexShaderID );
-				mVertexShaderID = 0;
-				E3ErrorManager_PostWarning( kQ3WarningVertexShaderCompileFailed );
-			}
-		}
-		else
+		if (mVertexShaderID == 0)
 		{
 			Q3_MESSAGE( "Failed to create a vertex shader.\n" );
 		}
 	}
 }
 
-static void GetSourcePointers(	const std::vector<std::string>& inSrcStrings,
-								std::vector<const char*>& outSrcPtrs )
-{
-	for (std::vector<std::string>::const_iterator i = inSrcStrings.begin();
-		i != inSrcStrings.end(); ++i)
-	{
-		outSrcPtrs.push_back( i->c_str() );
-	}
-}
+
 
 /*!
 	@function	InitProgram
@@ -1401,114 +1444,88 @@ void	QORenderer::PerPixelLighting::InitProgram()
 	newProgram.mFogState = mFogState;
 	newProgram.mFogMode = mFogMode;
 	
-	// Create a program.
-	newProgram.mProgram = mFuncs.glCreateProgram();
-	CHECK_GL_ERROR;
-	
-	if (newProgram.mProgram != 0)
-	{
-		// Attach the vertex shader to the program.
-		mFuncs.glAttachShader( newProgram.mProgram, mVertexShaderID );
-		CHECK_GL_ERROR;
+	// Build the source of the fragment shader
+	std::string	fragSource;
+	BuildFragmentShaderSource( newProgram, fragSource );
 		
-		// Build the source of the fragment shader
-		std::vector<std::string>	fragSource;
-		BuildFragmentShaderSource( newProgram, fragSource );
-		std::vector<const char*>	sourceParts;
-		GetSourcePointers( fragSource, sourceParts );
-		
-		// Create the fragment shader
-		GLint shaderID = mFuncs.glCreateShader( GL_FRAGMENT_SHADER );
-		CHECK_GL_ERROR;
-		if (shaderID != 0)
-		{
-			// Supply source code
-			mFuncs.glShaderSource( shaderID, static_cast<GLsizei>(sourceParts.size()), &sourceParts[0], NULL );
-			CHECK_GL_ERROR;
+	// Create the fragment shader
+	GLint shaderID = CreateAndCompileShader( GL_FRAGMENT_SHADER,
+		fragSource.c_str(), mFuncs );
 
-			// Compile fragment shader
-			mFuncs.glCompileShader( shaderID );
-			CHECK_GL_ERROR;
-			
-			// Check for compile success
-			GLint	status;
-			mFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
-			CHECK_GL_ERROR;
-			Q3_ASSERT( status == GL_TRUE );
-			
-			if (status == GL_FALSE)
-			{
-				Q3_MESSAGE( "Failed to compile fragment shader.\n" );
-				LogShaderCompileError( shaderID, mFuncs );
-				mFuncs.glDeleteShader( shaderID );
-				shaderID = 0;
-				E3ErrorManager_PostWarning( kQ3WarningFragmentShaderCompileFailed );
-			}
-		}
-		else
+	if (shaderID != 0)
+	{
+		// Create a program.
+		newProgram.mProgram = mFuncs.glCreateProgram();
+		CHECK_GL_ERROR;
+	
+		if (newProgram.mProgram != 0)
 		{
-			Q3_MESSAGE( "Failed to create fragment shader.\n" );
-		}
+			// Attach the vertex shader to the program.
+			mFuncs.glAttachShader( newProgram.mProgram, mVertexShaderID );
+			CHECK_GL_ERROR;
 		
-		if (shaderID != 0)
-		{
-			// Attach
+			// Attach the fragment shader to the program
 			mFuncs.glAttachShader( newProgram.mProgram, shaderID );
 			CHECK_GL_ERROR;
 			
-			// Delete, so it will go away when detached
+			// Link program
+			mFuncs.glLinkProgram( newProgram.mProgram );
+			CHECK_GL_ERROR;
+		
+			// Detach shaders from program (whether or not link worked)
+			mFuncs.glDetachShader( newProgram.mProgram, shaderID );
+			mFuncs.glDetachShader( newProgram.mProgram, mVertexShaderID );
+		
+			// Delete the fragment shader
 			mFuncs.glDeleteShader( shaderID );
 			CHECK_GL_ERROR;
-		}
 		
-		// Link program
-		mFuncs.glLinkProgram( newProgram.mProgram );
-		CHECK_GL_ERROR;
+			// Check for link success
+			GLint	linkStatus;
+			mFuncs.glGetProgramiv( newProgram.mProgram, GL_LINK_STATUS, &linkStatus );
+			Q3_ASSERT( linkStatus == GL_TRUE );
+			CHECK_GL_ERROR;
 		
-		// Check for link success
-		GLint	linkStatus;
-		mFuncs.glGetProgramiv( newProgram.mProgram, GL_LINK_STATUS, &linkStatus );
-		Q3_ASSERT( linkStatus == GL_TRUE );
-		CHECK_GL_ERROR;
-		
-		// Use program
-		if (linkStatus == GL_TRUE)
-		{
-			InitUniformLocations( newProgram );
+			// Use program
+			if (linkStatus == GL_TRUE)
+			{
+				InitUniformLocations( newProgram );
 			
-			mPrograms.push_back( newProgram );
+				mPrograms.push_back( newProgram );
+			}
+			else
+			{
+				E3ErrorManager_PostWarning( kQ3WarningShaderProgramLinkFailed );
+			
+			#if Q3_DEBUG
+				GLint	logSize = 0;
+				mFuncs.glGetProgramiv( newProgram.mProgram, GL_INFO_LOG_LENGTH, &logSize );
+				CHECK_GL_ERROR;
+				if (logSize > 0)
+				{
+					GLbyte*	theLog = (GLbyte*) Q3Memory_Allocate( logSize );
+					if (theLog != NULL)
+					{
+						mFuncs.glGetProgramInfoLog( newProgram.mProgram,
+							logSize, NULL, theLog );
+						Q3_MESSAGE( "Failed to link program.  Error log:\n" );
+						Q3_MESSAGE( (char*)theLog );
+						Q3_MESSAGE( "\n" );
+						Q3Memory_Free( &theLog );
+					}
+				}
+			#endif
+
+				mFuncs.glDeleteProgram( newProgram.mProgram );
+			}
 		}
 		else
 		{
-			E3ErrorManager_PostWarning( kQ3WarningShaderProgramLinkFailed );
-			
-		#if Q3_DEBUG
-			GLint	logSize = 0;
-			mFuncs.glGetProgramiv( newProgram.mProgram, GL_INFO_LOG_LENGTH, &logSize );
-			CHECK_GL_ERROR;
-			if (logSize > 0)
-			{
-				GLbyte*	theLog = (GLbyte*) Q3Memory_Allocate( logSize );
-				if (theLog != NULL)
-				{
-					mFuncs.glGetProgramInfoLog( newProgram.mProgram,
-						logSize, NULL, theLog );
-					Q3_MESSAGE( "Failed to link program.  Error log:\n" );
-					Q3_MESSAGE( (char*)theLog );
-					Q3_MESSAGE( "\n" );
-					Q3Memory_Free( &theLog );
-				}
-			}
-		#endif
-
-			mFuncs.glDeleteProgram( newProgram.mProgram );
+			Q3_MESSAGE( "Failed to create program.\n" );
 		}
 	}
-	else
-	{
-		Q3_MESSAGE( "Failed to create program.\n" );
-	}
 }
+
 
 
 
