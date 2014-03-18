@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -301,6 +301,8 @@ private:
 	bool						mIsSpecularMapped;
 	TQ3Float32					mQuantization;
 	TQ3Float32					mLightNearEdge;
+	std::vector<GLfloat>		mHotAngles;
+	std::vector<GLfloat>		mCutoffAngles;
 
 	ProgramCharacteristic		mProgramCharacteristic;
 

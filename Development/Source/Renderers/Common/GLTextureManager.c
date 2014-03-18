@@ -13,7 +13,7 @@
     	performance optimization.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -54,6 +54,7 @@
 //-----------------------------------------------------------------------------
 #include "GLTextureManager.h"
 #include "GLGPUSharing.h"
+#include "E3Texture.h"
 
 #ifndef __cplusplus
 	#error This file must be compiled as C++.
@@ -143,7 +144,7 @@ static TQ3Object GetPixmapTextureStorage( TQ3TextureObject inTexture )
 {
 	TQ3Object	imageStorage = NULL;
 	TQ3StoragePixmap	dataRec;
-	if (kQ3Success == Q3PixmapTexture_GetPixmap( inTexture, &dataRec ))
+	if (kQ3Success == E3PixmapTexture_GetPixmap( inTexture, &dataRec ))
 	{
 		imageStorage = dataRec.image;
 	}
@@ -161,7 +162,7 @@ static TQ3Object GetMipmapTextureStorage( TQ3TextureObject inTexture )
 	TQ3Object	imageStorage = NULL;
 	TQ3Mipmap		dataRec;
 	
-	if (kQ3Success == Q3MipmapTexture_GetMipmap( inTexture, &dataRec ))
+	if (kQ3Success == E3MipmapTexture_GetMipmap( inTexture, &dataRec ))
 	{
 		imageStorage = dataRec.image;
 	}
