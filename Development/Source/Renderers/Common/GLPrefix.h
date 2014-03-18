@@ -5,7 +5,7 @@
         Global prefix file for OpenGL.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -112,7 +112,6 @@ struct TQ3GLExtensions
 	TQ3Boolean				separateStencil;		// GL 2.0
 	TQ3Boolean				stencilWrap;			// GL_EXT_stencil_wrap
 	TQ3Boolean				packedDepthStencil;		// GL_EXT_packed_depth_stencil
-	TQ3Boolean				vertexProgramTwoSide;	// GL 2.0 or GL_ARB_VERTEX_PROGRAM
 	TQ3Boolean				multiSample;			// GL_SAMPLE_BUFFERS_ARB > 0
 	TQ3Boolean				multisampleFBO;			// GL 3.0 or GL_EXT_framebuffer_multisample
 	

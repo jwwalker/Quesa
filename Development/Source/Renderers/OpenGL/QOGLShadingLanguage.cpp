@@ -94,11 +94,6 @@ namespace
 				"	gl_BackColor = gl_Color;\n"
 
 				"	gl_Position = ftransform();\n"
-				
-				// Use secondary color to let the fragment shader tell back from
-				// front.  See comments under kMainFragmentShaderStartSmooth.
-				"	gl_FrontSecondaryColor = vec4(1.0, 1.0, 1.0, 1.0);\n"
-				"	gl_BackSecondaryColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
 				"}\n";
 	
 	#pragma mark kFragmentShaderPrefix
@@ -361,7 +356,14 @@ namespace
 					// Specular exponent
 				"	float specularExp = isUsingSpecularMap?\n"
 				"		texture2D( tex1, gl_TexCoord[0].st ).a * 128.0 :\n"
-				"		gl_FrontMaterial.shininess;\n\n";
+				"		gl_FrontMaterial.shininess;\n\n"
+				
+					// Geometry position and direction to eye
+				"	vec3		geomPos = ECPos3;\n"
+				"	vec3		geomToEyeDir = - normalize( geomPos );\n"
+				
+					// Front face normal, used for backface flipping, flat shading
+				"	vec3	faceNormal = cross(dFdx(ECPos3), dFdy(ECPos3));\n";
 
 	#pragma mark kMainFragmentShaderStartSmooth
 	const char* kMainFragmentShaderStartSmooth =
@@ -370,26 +372,35 @@ namespace
 					// here due to interpolation.
 				"	vec3		normal = normalize(ECNormal);\n"
 
-				"	vec3		geomPos = ECPos3;\n"
-				"	vec3		geomToEyeDir = - normalize( geomPos );\n"
-
 					// Flip the normal for the back face.  If we are using
 					// backfacing style Remove, then back face triangles will
 					// not get here, in which case no harm is done.
-					// The most obvious way to flip backfacing normals is
-					//   normal = gl_FrontFacing? normal : -normal;
-					// but unfortunately gl_FrontFacing is poorly supported on
-					// some cards/drivers... it may simply fail, or it may cause
-					// a fallback to software rendering.
-					// Previously, we did this using
-					//   normal = faceforward( normal, geomPos, normal );
-					// but that had a problem:  Sometimes, especially in models
-					// created by skeletal animation, the vertex normals may
-					// point a little away from the camera even though the
-					// triangle faces front.
-					// Here we use a trick of using two-sided lighting to
-					// distinguish back from front.
-				"	normal = (gl_SecondaryColor.r > 0.0)? normal : -normal;\n\n"
+					// We have tried several methods, each with disadvantages.
+					// 1. Obvious way:
+					//		normal = gl_FrontFacing? normal : -normal;
+					//	  Problem:  gl_FrontFacing is poorly supported on
+					//	  some cards/drivers... it may simply fail, or it may cause
+					//    a fallback to software rendering.
+					// 2. Vertex normal way:
+					//		normal = faceforward( normal, geomPos, normal );
+					//    Sometimes, especially in models created by skeletal
+					//    animation, the vertex normals may
+					//    point a little away from the camera even though the
+					//    triangle faces front.
+					// 3. 2-sided lighting way:
+					//		glEnable( GL_VERTEX_PROGRAM_TWO_SIDE );
+					//    and in the vertex shader set gl_FrontSecondaryColor
+					//    and gl_BackSecondaryColor differently, and in the
+					//    fragment shader say
+					//      normal = (gl_SecondaryColor.r > 0.0)? normal : -normal;
+					//    Problem: on some ATI cards you may get a failure to
+					//    compile shaders, intermittently.
+					// 4. Calculus way:  Determine the front face normal as we
+					//    had previously done for flat shading, and then say
+					//      normal = faceforward( normal, normal, -faceNormal );
+					//    That is, we flip the normal if its dot with faceNormal
+					//    is negative.
+				"	normal = faceforward( normal, normal, -faceNormal );\n\n"
 				;
 	
 	#pragma mark kMainFragmentShaderStartFlat
@@ -398,13 +409,10 @@ namespace
 					// If we could assume GLSL 1.30 or EXT_gpu_shader4, this
 					// could be done in a less tricky way, using the "flat"
 					// modifier for a varying variable.
-				"	vec3	normal = normalize(cross(dFdx(ECPos3), dFdy(ECPos3)));\n"
+				"	vec3	normal = normalize(faceNormal);\n"
 
-				"	vec3		geomPos = ECPos3;\n"
-				"	vec3		geomToEyeDir = - normalize( geomPos );\n"
-
-					// Flip the normal for the back face.
-				"	normal = (gl_SecondaryColor.r > 0.0)? normal : -normal;\n\n"
+					// In this case there is no need to flip for the backface,
+					// because faceNormal always is toward the eye.
 				;
 		
 		// Between part 1 and part 2, we will insert some light shader calls.
@@ -984,11 +992,6 @@ void	QORenderer::PerPixelLighting::StartFrame()
 	if (mIsShading)
 	{
 		InitVertexShader();
-		
-		if (mGLExtensions.vertexProgramTwoSide)
-		{
-			glEnable( GL_VERTEX_PROGRAM_TWO_SIDE );
-		}
 	}
 }
 
