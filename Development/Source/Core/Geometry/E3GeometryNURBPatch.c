@@ -5,7 +5,7 @@
         Implementation of Quesa NURB Patch geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -252,8 +252,6 @@ e3geom_nurbpatch_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	const TQ3NURBPatchData	*fromInstanceData = (const TQ3NURBPatchData *) fromPrivateData;
 	TQ3NURBPatchData			*toInstanceData   = (TQ3NURBPatchData *)       toPrivateData;
 	TQ3Status				qd3dStatus;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 
@@ -1237,7 +1235,6 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				
 				break;
 			
-			case kQ3SubdivisionMethodSize32:
 			default:
 				Q3_ASSERT(!"Unknown subdivision method");
 				break;

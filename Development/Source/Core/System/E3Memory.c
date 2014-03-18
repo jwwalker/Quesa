@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -159,7 +159,6 @@ e3slab_new(TQ3Object theObject, void *privateData, const void *paramData)
 	TQ3SlabParams		*params       = (TQ3SlabParams *) paramData;
 	TQ3Status			qd3dStatus    = kQ3Success;
 	void				*theData;
-#pragma unused(theObject)
 
 
 

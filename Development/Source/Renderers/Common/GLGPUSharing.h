@@ -5,7 +5,7 @@
         Header file for GLGPUSharing.cpp.
 
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -66,7 +66,7 @@
 class CQ3GPSharedCache
 {
 public:
-	virtual		~CQ3GPSharedCache() {}
+	virtual		~CQ3GPSharedCache();
 };
 
 

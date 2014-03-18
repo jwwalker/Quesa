@@ -5,7 +5,7 @@
         Implementation of Quesa NURB Curve geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -183,8 +183,6 @@ e3geom_nurbcurve_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	const TQ3NURBCurveData	*fromInstanceData = (const TQ3NURBCurveData *) fromPrivateData;
 	TQ3NURBCurveData		*toInstanceData   = (TQ3NURBCurveData *)       toPrivateData;
 	TQ3Status				qd3dStatus;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 
@@ -751,7 +749,6 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3GeometryObject				thePolyLine;
 	TQ3Status						theStatus;
 	TQ3Uns32						numPoints = 0;
-#pragma unused(theView)
 
 
 
@@ -779,7 +776,6 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 					return(NULL);
 				break ;
 			
-			case kQ3SubdivisionMethodSize32:
 			default:
 				Q3_ASSERT(!"Unknown subdivision method");
 				break;

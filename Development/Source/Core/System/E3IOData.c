@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -178,7 +178,6 @@ e3unknown_binary_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	TQ3Status					qd3dStatus			= kQ3Success ;
 
 #pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 
@@ -334,7 +333,6 @@ e3unknown_text_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	TQ3Status					qd3dStatus			= kQ3Success ;
 
 #pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 

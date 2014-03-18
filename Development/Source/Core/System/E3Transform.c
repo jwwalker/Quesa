@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -437,7 +437,6 @@ e3transform_rotateaboutpoint_matrix(const void *transformData, TQ3Matrix4x4 *the
 			break;
 			}
 			
-		case kQ3AxisSize32:
 		default:
 			Q3_ASSERT(!"Unknown axis");
 			break;

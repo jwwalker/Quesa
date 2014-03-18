@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -119,7 +119,6 @@ e3string_c_new(TQ3Object theObject, void *privateData, const void *paramData)
 static void
 e3string_c_delete(TQ3Object theObject, void *privateData)
 {	TQ3StringPtr	*instanceData = (TQ3StringPtr *) privateData;
-#pragma unused(privateData)
 
 
 
@@ -139,8 +138,6 @@ e3string_c_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 					 TQ3Object toObject,   void       *toPrivateData)
 {	const TQ3StringPtr		*fromInstanceData = (const TQ3StringPtr *) fromPrivateData;
 	TQ3StringPtr			*toInstanceData   = (TQ3StringPtr *)       toPrivateData;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 

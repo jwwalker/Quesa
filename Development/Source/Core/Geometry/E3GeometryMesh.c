@@ -5,7 +5,7 @@
 		Implementation of Quesa Mesh geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -3797,8 +3797,6 @@ e3geom_mesh_duplicate(
 {	const TE3MeshData*		fromInstanceData = (const TE3MeshData*) fromPrivateData;
 	TE3MeshData*			toInstanceData   = (TE3MeshData*)       toPrivateData;
 	TQ3Status				qd3dStatus;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 

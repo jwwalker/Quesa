@@ -5,7 +5,7 @@
         Implementation of Quesa Cylinder geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -201,8 +201,6 @@ e3geom_cylinder_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	const TQ3CylinderData	*fromInstanceData = (const TQ3CylinderData *) fromPrivateData;
 	TQ3CylinderData			*toInstanceData   = (TQ3CylinderData *)       toPrivateData;
 	TQ3Status				qd3dStatus;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 
@@ -323,7 +321,6 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 				// Not implemented
 				break;
 			
-			case kQ3SubdivisionMethodSize32:
 			default:
 				Q3_ASSERT(!"Unknown subdivision method");
 				break;

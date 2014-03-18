@@ -5,7 +5,7 @@
         Quesa interactive renderer registration.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -82,7 +82,6 @@ ir_interactive_new(TQ3Object theObject, void *privateData, void *paramData)
 {	TQ3InteractiveData		*instanceData = (TQ3InteractiveData *) privateData;
 	TQ3Status				qd3dStatus;
 	TQ3Uns32				defaultDepthBits = kRendererDefaultDepthBits;
-#pragma unused(privateData)
 #pragma unused(paramData)
 
 

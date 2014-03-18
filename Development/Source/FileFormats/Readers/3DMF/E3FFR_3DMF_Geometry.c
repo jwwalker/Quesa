@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -636,7 +636,6 @@ E3Read_3DMF_Attribute_CSGID(TQ3Object parentObject, TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Group_Display_IOProxy(TQ3FileObject theFile)
 {
-#pragma unused (theFile)
 	TQ3Object		theObject;
 
 
@@ -720,7 +719,6 @@ E3Read_3DMF_Group_Display_Ordered(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Group_info(TQ3FileObject theFile)
 {
-#pragma unused (theFile)
 	TQ3Object		theObject;
 
 
@@ -744,7 +742,6 @@ E3Read_3DMF_Group_info(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Group_Light(TQ3FileObject theFile)
 {
-#pragma unused (theFile)
 	TQ3Object		theObject;
 
 

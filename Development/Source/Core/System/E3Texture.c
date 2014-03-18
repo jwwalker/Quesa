@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -180,8 +180,6 @@ e3texture_pixmap_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 	TQ3StoragePixmap *			toInstanceData		= (TQ3StoragePixmap *)       toPrivateData;
 	TQ3Status					qd3dStatus			= kQ3Success ;
 	
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 
@@ -333,8 +331,6 @@ e3texture_mipmap_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 	const TQ3Mipmap *	fromInstanceData	= (const TQ3Mipmap *) fromPrivateData;
 	TQ3Mipmap *			toInstanceData		= (TQ3Mipmap *)       toPrivateData;
 	
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 
@@ -487,8 +483,6 @@ e3texture_compressed_duplicate(	TQ3Object fromObject, const void *fromPrivateDat
 	const TQ3CompressedPixmap *	fromInstanceData	= (const TQ3CompressedPixmap *) fromPrivateData;
 	TQ3CompressedPixmap *		toInstanceData		= (TQ3CompressedPixmap *)       toPrivateData;
 	
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 

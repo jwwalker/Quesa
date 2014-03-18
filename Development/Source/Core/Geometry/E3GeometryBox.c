@@ -5,7 +5,7 @@
         Implementation of Quesa Box geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -476,7 +476,7 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	TQ3Point3D			workPt;
 	TQ3Status			status;
 	TQ3Vector3D			majCrossMin, majCrossOrient, minCrossOrient;
-#pragma unused(theView, theGeom)
+#pragma unused(theGeom)
 
 
 

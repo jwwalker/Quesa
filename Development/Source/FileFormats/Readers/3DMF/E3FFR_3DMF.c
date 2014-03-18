@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1568,7 +1568,6 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 					 void *data,
 					 TQ3ViewObject view)
 {
-	#pragma unused(object)
 	#pragma unused(data)
 	TE3FFormat3DMF_AttributeSetList_Data		*instanceData = & ( (E3AttributeSetList*) object )->instanceData ;
 	TQ3Size size = 0;
@@ -1966,7 +1965,6 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 		default:
 			Q3_MESSAGE("Invalid positionOfArray");
 			return NULL;
-			break;
 		}
 	
 	// ============ Read in eventually the attributeUseArray

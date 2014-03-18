@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -282,7 +282,7 @@ e3geom_pixmapmarker_pixel_is_set(const TQ3PixmapMarkerData *instanceData, TQ3Int
 static void
 e3geom_pixmapmarker_update_position(TQ3ViewObject theView, const TQ3PixmapMarkerData *geomData, TQ3Object cachedGeom)
 {	TQ3Matrix4x4		theMatrix, worldToFrustum, frustumToWindow;
-	TQ3TransformObject		theTransform;
+	TQ3TransformObject		theTransform = NULL;
 	TQ3Status				qd3dStatus;
 	TQ3GroupPosition		groupPos;
 	TQ3Point3D				thePoint;
