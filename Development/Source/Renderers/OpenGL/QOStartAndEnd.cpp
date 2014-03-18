@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -247,6 +247,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 				mGLExtensions.vertexBufferObjects = kQ3False;
 			}
 			mSLFuncs.Initialize( mGLExtensions );
+			mBufferFuncs.Initialize( mGLExtensions );
 			mStencilFuncs.Initialize( mGLExtensions );
 			
 			
@@ -283,7 +284,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 		Q3Object_GetProperty( mRendererObject,
 				kQ3RendererPropertyVBOLimit, sizeof(vboCacheK), NULL,
 				&vboCacheK );
-		UpdateVBOCacheLimit( mGLContext, vboCacheK );
+		UpdateVBOCacheLimit( mGLContext, mBufferFuncs, vboCacheK );
 	}
 	
 	
@@ -294,7 +295,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 		Q3Object_GetProperty( mRendererObject,
 				kQ3RendererPropertyShadowVBOLimit, sizeof(shadowCacheMemK), NULL,
 				&shadowCacheMemK );
-		ShadowVolMgr::StartFrame( mGLContext, shadowCacheMemK );
+		ShadowVolMgr::StartFrame( mGLContext, mBufferFuncs, shadowCacheMemK );
 	}
 	mIsCachingShadows = (shadowCacheMemK > 0);
 	
@@ -519,11 +520,11 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	
 	if (mGLExtensions.vertexBufferObjects == kQ3True)
 	{
-		FlushVBOCache( mGLContext );
+		FlushVBOCache( mGLContext, mBufferFuncs );
 		
 		if ( mLights.IsShadowFrame() && mLights.IsLastLightingPass() )
 		{
-			ShadowVolMgr::Flush( mGLContext, mRendererObject );
+			ShadowVolMgr::Flush( mGLContext, mBufferFuncs, mRendererObject );
 		}
 	}
 	FlushDisplayListCache( mGLContext );

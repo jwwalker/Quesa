@@ -158,7 +158,7 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	, mAttributesMask( kQ3XAttributeMaskAll )
 	, mUpdateShader( true )
 	, mLights( mGLExtensions, mStencilFuncs, mMatrixState, mStyleState,
-		mPPLighting, mGLContext, mIsCachingShadows )
+		mPPLighting, mGLContext, mBufferFuncs, mIsCachingShadows )
 	, mTriBuffer( *this )
 	, mTransBuffer( *this, mPPLighting )
 	, mTextures( mRendererObject, mGLContext, mGLExtensions, mPPLighting )

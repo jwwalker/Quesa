@@ -52,6 +52,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
+#include "GLVBOManager.h"
 
 
 //=============================================================================
@@ -64,9 +65,11 @@ namespace ShadowVolMgr
 	@function	StartFrame
 	@abstract	Update the limit on memory that can be used in this cache.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			memLimitK		New memory limit in K-bytes.
 */
 void			StartFrame(			TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3Uns32 memLimitK );
 
 /*!
@@ -76,6 +79,7 @@ void			StartFrame(			TQ3GLContext glContext,
 	@discussion		If we find the object in the cache, but the cached object
 					is stale, we delete it from the cache and return false.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			inGeom			A geometry object.
 	@param			inLight			A light object.
 	@param			inLocalLightPos	The position of the light in local coordinates.
@@ -83,6 +87,7 @@ void			StartFrame(			TQ3GLContext glContext,
 */
 TQ3Boolean		RenderShadowVolume(
 									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3GeometryObject inGeom,
 									TQ3LightObject inLight,
 									const TQ3RationalPoint4D& inLocalLightPos );
@@ -92,6 +97,7 @@ TQ3Boolean		RenderShadowVolume(
 	@abstract	Add a shadow volume mesh to the cache.  Do not call this unless
 				RenderCachedShadowVolume has just returned false.
 	@param			glContext			An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			inGeom				A geometry object.
 	@param			inLight				A light object.
 	@param			inLocalLightPos		The position of the light in local coordinates.
@@ -103,6 +109,7 @@ TQ3Boolean		RenderShadowVolume(
 */
 void			AddShadowVolume(
 									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3GeometryObject inGeom,
 									TQ3LightObject inLight,
 									const TQ3RationalPoint4D& inLocalLightPos,
@@ -119,10 +126,12 @@ void			AddShadowVolume(
 					referenced elsewhere, or lights that are no longer
 					referenced elsewhere.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			inRenderer		A Quesa renderer.
 */
 void				Flush(
 									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3RendererObject inRenderer );
 
 /*!

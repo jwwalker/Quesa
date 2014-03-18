@@ -87,26 +87,6 @@ namespace
 	#endif
 #endif
 
-#ifndef GL_ARB_vertex_buffer_object
-    typedef std::ptrdiff_t GLintptrARB;
-    typedef std::ptrdiff_t GLsizeiptrARB;
-#endif
-
-typedef void (APIENTRY * BindBufferARBProcPtr) (GLenum target,
-												GLuint buffer);
-typedef void (APIENTRY * DeleteBuffersARBProcPtr) (GLsizei n,
-												const GLuint *buffers);
-typedef void (APIENTRY * GenBuffersARBProcPtr) (GLsizei n,
-												GLuint *buffers);
-typedef GLboolean (APIENTRY * IsBufferARBProcPtr) (GLuint buffer);
-typedef void (APIENTRY * BufferDataARBProcPtr) (GLenum target,
-												GLsizeiptrARB size,
-												const GLvoid *data,
-												GLenum usage);
-typedef void (APIENTRY * BufferSubDataARBProcPtr) (GLenum target,
-												GLintptrARB offset,
-												GLsizeiptrARB size,
-												const GLvoid *data);
 
 namespace
 {
@@ -169,30 +149,23 @@ namespace
 							ShadowVolCache();
 							~ShadowVolCache();
 
-		void				InitProcPtrs();
-		
-		void				DeleteVBO( ShadowVBO* inCachedVBO );
+		void				DeleteVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inFuncs );
 		void				DeleteFromLightToGeomMap( ShadowVBO* inCachedVBO );
 		void				DeleteFromGeomToLightMap( ShadowVBO* inCachedVBO );
 		ShadowVBO*			FindVBO( TQ3GeometryObject inGeom,
 									TQ3LightObject inLight,
-									const TQ3RationalPoint4D& inLocalLightPos );
-		void				RenderVBO( ShadowVBO* inCachedVBO );
+									const TQ3RationalPoint4D& inLocalLightPos,
+									const GLBufferFuncs& inFuncs );
+		void				RenderVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inFuncs );
 		void				AddVBO( ShadowVBO* inVBO );
-		void				FlushUnreferencedGeometries();
-		void				FlushUnreferencedLights();
-		void				MakeRoom( TQ3Uns32 inBytesNeeded );
-		void				PurgeDownToSize( long long inTargetSize );
-		void				SetMaxBufferSize( long long inBufferSize );
+		void				FlushUnreferencedGeometries( const GLBufferFuncs& inFuncs );
+		void				FlushUnreferencedLights( const GLBufferFuncs& inFuncs );
+		void				MakeRoom( TQ3Uns32 inBytesNeeded, const GLBufferFuncs& inFuncs );
+		void				AddBytes( TQ3Uns32 inBytes );
+		void				PurgeDownToSize( long long inTargetSize, const GLBufferFuncs& inFuncs );
+		void				SetMaxBufferSize( long long inBufferSize, const GLBufferFuncs& inFuncs );
 		TQ3Uns32			CountVBOs( TQ3GeometryObject inGeom ) const;
 	
-		GenBuffersARBProcPtr		glGenBuffersARBProc;
-		BindBufferARBProcPtr		glBindBufferARBProc;
-		DeleteBuffersARBProcPtr		glDeleteBuffersARBProc;
-		IsBufferARBProcPtr			glIsBufferARBProc;
-		BufferDataARBProcPtr		glBufferDataARBProc;
-		BufferSubDataARBProcPtr		glBufferSubDataARBProc;
-
 	private:
 		GeomToLightToShadow			mGeomToLightToShadow;
 		LightToGeomToShadow			mLightToGeomToShadow;
@@ -294,17 +267,9 @@ bool	ShadowVBO::IsStale( const TQ3RationalPoint4D& inLocalLightPos ) const
 #pragma mark -
 
 ShadowVolCache::ShadowVolCache()
-	: glGenBuffersARBProc( NULL )
-	, glBindBufferARBProc( NULL )
-	, glDeleteBuffersARBProc( NULL )
-	, glIsBufferARBProc( NULL )
-	, glBufferDataARBProc( NULL )
-	, glBufferSubDataARBProc( NULL )
-	, mTotalBytes( 0 )
+	: mTotalBytes( 0 )
 	, mMaxBufferBytes( 0 )
 {
-	InitProcPtrs();
-
 	mListOldEnd.mNext = &mListNewEnd;
 	mListNewEnd.mPrev = &mListOldEnd;
 }
@@ -326,33 +291,13 @@ ShadowVolCache::~ShadowVolCache()
 	}
 }
 
-void		ShadowVolCache::InitProcPtrs()
-{
-	if (glGenBuffersARBProc == NULL)
-	{
-		GLGetProcAddress( glGenBuffersARBProc, "glGenBuffers", "glGenBuffersARB" );
-		GLGetProcAddress( glBindBufferARBProc, "glBindBuffer", "glBindBufferARB" );
-		GLGetProcAddress( glDeleteBuffersARBProc, "glDeleteBuffers", "glDeleteBuffersARB" );
-		GLGetProcAddress( glIsBufferARBProc, "glIsBuffer", "glIsBufferARB" );
-		GLGetProcAddress( glBufferDataARBProc, "glBufferData", "glBufferDataARB" );
-		GLGetProcAddress( glBufferSubDataARBProc, "glBufferSubData", "glBufferSubDataARB" );
 
-		Q3_ASSERT( (glGenBuffersARBProc != NULL) &&
-			(glBindBufferARBProc != NULL) &&
-			(glDeleteBuffersARBProc != NULL) &&
-			(glIsBufferARBProc != NULL) &&
-			(glBufferDataARBProc != NULL) &&
-			(glBufferSubDataARBProc != NULL) );
-	}
-}
-
-
-void	ShadowVolCache::DeleteVBO( ShadowVBO* inCachedVBO )
+void	ShadowVolCache::DeleteVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inFuncs )
 {
 	// Remove the buffers from VRAM.
 	if ( inCachedVBO->mNumTriIndices + inCachedVBO->mNumQuadIndices > 0)
 	{
-		(*glDeleteBuffersARBProc)( 2, inCachedVBO->mGLBufferNames );
+		(*inFuncs.glDeleteBuffersProc)( 2, inCachedVBO->mGLBufferNames );
 	}
 	
 	// Remove the record from the doubly-linked list.
@@ -428,7 +373,8 @@ void	ShadowVolCache::AddVBO( ShadowVBO* inVBO )
 
 ShadowVBO*	ShadowVolCache::FindVBO( TQ3GeometryObject inGeom,
 									TQ3LightObject inLight,
-									const TQ3RationalPoint4D& inLocalLightPos )
+									const TQ3RationalPoint4D& inLocalLightPos,
+									const GLBufferFuncs& inFuncs )
 {
 	ShadowVBO* cachedShadow = NULL;
 	
@@ -452,7 +398,7 @@ ShadowVBO*	ShadowVolCache::FindVBO( TQ3GeometryObject inGeom,
 				}
 				
 				DeleteFromLightToGeomMap( cachedShadow );
-				DeleteVBO( cachedShadow );
+				DeleteVBO( cachedShadow, inFuncs );
 				cachedShadow = NULL;
 			}
 		}
@@ -461,14 +407,14 @@ ShadowVBO*	ShadowVolCache::FindVBO( TQ3GeometryObject inGeom,
 	return cachedShadow;
 }
 
-void	ShadowVolCache::RenderVBO( ShadowVBO* inCachedVBO )
+void	ShadowVolCache::RenderVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inFuncs )
 {
 	if ( inCachedVBO->mNumTriIndices + inCachedVBO->mNumQuadIndices > 0)
 	{
-		(*glBindBufferARBProc)( GL_ARRAY_BUFFER, inCachedVBO->mGLBufferNames[0] );
+		(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, inCachedVBO->mGLBufferNames[0] );
 		glVertexPointer( 4, GL_FLOAT, 0, BufferObPtr( 0 ) );
 
-		(*glBindBufferARBProc)( GL_ELEMENT_ARRAY_BUFFER,
+		(*inFuncs.glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER,
 			inCachedVBO->mGLBufferNames[1] );
 		
 		if (inCachedVBO->mNumTriIndices > 0)
@@ -484,8 +430,8 @@ void	ShadowVolCache::RenderVBO( ShadowVBO* inCachedVBO )
 				BufferObPtr( inCachedVBO->mNumTriIndices * sizeof(GLuint) ) );
 		}
 
-		(*glBindBufferARBProc)( GL_ARRAY_BUFFER, 0 );
-		(*glBindBufferARBProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
+		(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, 0 );
+		(*inFuncs.glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
 	}
 	
 	// Remove the record from the doubly-linked list.
@@ -499,7 +445,7 @@ void	ShadowVolCache::RenderVBO( ShadowVBO* inCachedVBO )
 	mListNewEnd.mPrev = inCachedVBO;
 }
 
-void	ShadowVolCache::FlushUnreferencedGeometries()
+void	ShadowVolCache::FlushUnreferencedGeometries( const GLBufferFuncs& inFuncs )
 {
 	ObVec	geomsToFlush;
 	TQ3GeometryObject theGeom;
@@ -530,14 +476,14 @@ void	ShadowVolCache::FlushUnreferencedGeometries()
 			for (LightToShadow::iterator k = lightMap.begin(); k != lightMap.end(); ++k)
 			{
 				DeleteFromLightToGeomMap( k->second );
-				DeleteVBO( k->second );
+				DeleteVBO( k->second, inFuncs );
 			}
 			mGeomToLightToShadow.erase( foundGeom );
 		}
 	}
 }
 
-void	ShadowVolCache::FlushUnreferencedLights()
+void	ShadowVolCache::FlushUnreferencedLights( const GLBufferFuncs& inFuncs )
 {
 	ObVec	lightsToFlush;
 	TQ3LightObject theLight;
@@ -567,7 +513,7 @@ void	ShadowVolCache::FlushUnreferencedLights()
 			for (GeomToShadow::iterator k = geomMap.begin(); k != geomMap.end(); ++k)
 			{
 				DeleteFromGeomToLightMap( k->second );
-				DeleteVBO( k->second );
+				DeleteVBO( k->second, inFuncs );
 			}
 			mLightToGeomToShadow.erase( foundLight );
 		}
@@ -579,18 +525,18 @@ void	ShadowVolCache::FlushUnreferencedLights()
 	}
 }
 
-void	ShadowVolCache::MakeRoom( TQ3Uns32 inBytesNeeded )
+void	ShadowVolCache::MakeRoom( TQ3Uns32 inBytesNeeded, const GLBufferFuncs& inFuncs )
 {
 	if ( (inBytesNeeded < mMaxBufferBytes) &&
 		(mTotalBytes + inBytesNeeded > mMaxBufferBytes) )
 	{
 		long long targetSize = mMaxBufferBytes - inBytesNeeded;
 		
-		PurgeDownToSize( targetSize );
+		PurgeDownToSize( targetSize, inFuncs );
 	}
 }
 
-void	ShadowVolCache::PurgeDownToSize( long long inTargetSize )
+void	ShadowVolCache::PurgeDownToSize( long long inTargetSize, const GLBufferFuncs& inFuncs )
 {
 	while (mTotalBytes > inTargetSize)
 	{
@@ -603,15 +549,15 @@ void	ShadowVolCache::PurgeDownToSize( long long inTargetSize )
 		
 		// Remove it from the doubly linked list, remove the VBOs, update
 		// mTotalBytes, and delete the ShadowVBO record.
-		DeleteVBO( oldestVBO );
+		DeleteVBO( oldestVBO, inFuncs );
 	}
 }
 
-void	ShadowVolCache::SetMaxBufferSize( long long inBufferSize )
+void	ShadowVolCache::SetMaxBufferSize( long long inBufferSize, const GLBufferFuncs& inFuncs )
 {
 	if (inBufferSize < mMaxBufferBytes)
 	{
-		PurgeDownToSize( inBufferSize );
+		PurgeDownToSize( inBufferSize, inFuncs );
 	}
 	
 	mMaxBufferBytes = inBufferSize;
@@ -634,16 +580,18 @@ TQ3Uns32	ShadowVolCache::CountVBOs( TQ3GeometryObject inGeom ) const
 	@function	StartFrame
 	@abstract	Update the limit on memory that can be used in this cache.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			memLimitK		New memory limit in K-bytes.
 */
 void	ShadowVolMgr::StartFrame(	TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3Uns32 memLimitK )
 {
 	ShadowVolCache*	theCache = GetShadowCache( glContext );
 	
 	if (theCache != NULL)
 	{
-		theCache->SetMaxBufferSize( memLimitK * 1024LL );
+		theCache->SetMaxBufferSize( memLimitK * 1024LL, inFuncs );
 	}
 }
 
@@ -654,6 +602,7 @@ void	ShadowVolMgr::StartFrame(	TQ3GLContext glContext,
 	@discussion		If we find the object in the cache, but the cached object
 					is stale, we delete it from the cache and return false.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			inGeom			A geometry object.
 	@param			inLight			A light object.
 	@param			inLocalLightPos	The position of the light in local coordinates.
@@ -661,6 +610,7 @@ void	ShadowVolMgr::StartFrame(	TQ3GLContext glContext,
 */
 TQ3Boolean		ShadowVolMgr::RenderShadowVolume(
 									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3GeometryObject inGeom,
 									TQ3LightObject inLight,
 									const TQ3RationalPoint4D& inLocalLightPos )
@@ -670,11 +620,11 @@ TQ3Boolean		ShadowVolMgr::RenderShadowVolume(
 	
 	if (theCache != NULL)
 	{
-		ShadowVBO* theVBO = theCache->FindVBO( inGeom, inLight, inLocalLightPos );
+		ShadowVBO* theVBO = theCache->FindVBO( inGeom, inLight, inLocalLightPos, inFuncs );
 		
 		if (theVBO != NULL)
 		{
-			theCache->RenderVBO( theVBO );
+			theCache->RenderVBO( theVBO, inFuncs );
 			didRender = kQ3True;
 		}
 	}
@@ -687,6 +637,7 @@ TQ3Boolean		ShadowVolMgr::RenderShadowVolume(
 	@abstract	Add a shadow volume mesh to the cache.  Do not call this unless
 				RenderCachedShadowVolume has just returned false.
 	@param			glContext			An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			inGeom				A geometry object.
 	@param			inLight				A light object.
 	@param			inLocalLightPos		The position of the light in local coordinates.
@@ -698,6 +649,7 @@ TQ3Boolean		ShadowVolMgr::RenderShadowVolume(
 */
 void	ShadowVolMgr::AddShadowVolume(
 									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3GeometryObject inGeom,
 									TQ3LightObject inLight,
 									const TQ3RationalPoint4D& inLocalLightPos,
@@ -720,26 +672,26 @@ void	ShadowVolMgr::AddShadowVolume(
 		{
 			newVBO->mBufferBytes = inNumPoints * sizeof(TQ3RationalPoint4D) +
 				(inNumTriIndices + inNumQuadIndices) * sizeof(GLuint);
-			theCache->MakeRoom( newVBO->mBufferBytes );
+			theCache->MakeRoom( newVBO->mBufferBytes, inFuncs );
 
 			// Get buffer names
-			(*theCache->glGenBuffersARBProc)( 2, newVBO->mGLBufferNames );
+			(*inFuncs.glGenBuffersProc)( 2, newVBO->mGLBufferNames );
 			
 			// Copy point data into array buffer.
-			(*theCache->glBindBufferARBProc)( GL_ARRAY_BUFFER,
+			(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER,
 				newVBO->mGLBufferNames[0] );
-			(*theCache->glBufferDataARBProc)( GL_ARRAY_BUFFER,
+			(*inFuncs.glBufferDataProc)( GL_ARRAY_BUFFER,
 				inNumPoints * sizeof(TQ3RationalPoint4D),
 				inPoints, GL_STATIC_DRAW );
-			(*theCache->glBindBufferARBProc)( GL_ARRAY_BUFFER, 0 );
+			(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, 0 );
 			
 			// Index data into elements buffer.
-			(*theCache->glBindBufferARBProc)( GL_ELEMENT_ARRAY_BUFFER,
+			(*inFuncs.glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER,
 				newVBO->mGLBufferNames[1] );
-			(*theCache->glBufferDataARBProc)( GL_ELEMENT_ARRAY_BUFFER,
+			(*inFuncs.glBufferDataProc)( GL_ELEMENT_ARRAY_BUFFER,
 				(inNumTriIndices + inNumQuadIndices) * sizeof(GLuint),
 				inVertIndices, GL_STATIC_DRAW );
-			(*theCache->glBindBufferARBProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
+			(*inFuncs.glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
 		}
 		
 		theCache->AddVBO( newVBO );
@@ -753,18 +705,20 @@ void	ShadowVolMgr::AddShadowVolume(
 					referenced elsewhere, or lights that are no longer
 					referenced elsewhere.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			inRenderer		A Quesa renderer.
 */
 void	ShadowVolMgr::Flush(
 									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3RendererObject inRenderer )
 {
 	ShadowVolCache*	theCache = GetShadowCache( glContext );
 	
 	if (theCache != NULL)
 	{
-		theCache->FlushUnreferencedGeometries();
-		theCache->FlushUnreferencedLights();
+		theCache->FlushUnreferencedGeometries( inFuncs );
+		theCache->FlushUnreferencedLights( inFuncs );
 	}
 }
 

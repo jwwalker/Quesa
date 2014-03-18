@@ -10,7 +10,7 @@
     	GLUtils_CheckExtensions.
 
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,12 +48,71 @@
 #ifndef GLVBOMANAGER_HDR
 #define GLVBOMANAGER_HDR
 
+#ifndef GL_PROC_TYPE
+	#if QUESA_OS_WIN32
+		#define GL_PROC_TYPE	__stdcall
+	#else
+		#define GL_PROC_TYPE
+	#endif
+#endif
+
+
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
 #include "QuesaStyle.h"
 
+
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+#ifndef GL_ARB_vertex_buffer_object
+    typedef std::ptrdiff_t GLintptrARB;
+    typedef std::ptrdiff_t GLsizeiptrARB;
+#endif
+
+typedef void (GL_PROC_TYPE * BindBufferProcPtr) (GLenum target,
+												GLuint buffer);
+typedef void (GL_PROC_TYPE * DeleteBuffersProcPtr) (GLsizei n,
+												const GLuint *buffers);
+typedef void (GL_PROC_TYPE * GenBuffersProcPtr) (GLsizei n,
+												GLuint *buffers);
+typedef GLboolean (GL_PROC_TYPE * IsBufferProcPtr) (GLuint buffer);
+typedef void (GL_PROC_TYPE * BufferDataProcPtr) (GLenum target,
+												GLsizeiptrARB size,
+												const GLvoid *data,
+												GLenum usage);
+typedef void (GL_PROC_TYPE * BufferSubDataProcPtr) (GLenum target,
+												GLintptrARB offset,
+												GLsizeiptrARB size,
+												const GLvoid *data);
+typedef void (GL_PROC_TYPE * ClientActiveTextureProcPtr)( GLenum unit );
+typedef void (GL_PROC_TYPE * MultiTexCoord1fProcPtr)( GLenum unit, GLfloat s );
+typedef void (GL_PROC_TYPE * GetBufferParameterivProcPtr)(GLenum target, GLenum value, GLint * data);
+
+
+struct GLBufferFuncs
+{
+			GLBufferFuncs();
+
+	void	Initialize( const TQ3GLExtensions& inExts );
+	void	InitializeForDelete();
+	
+	GenBuffersProcPtr			glGenBuffersProc;
+	BindBufferProcPtr			glBindBufferProc;
+	DeleteBuffersProcPtr		glDeleteBuffersProc;
+	IsBufferProcPtr				glIsBufferProc;
+	BufferDataProcPtr			glBufferDataProc;
+	BufferSubDataProcPtr		glBufferSubDataProc;
+	ClientActiveTextureProcPtr	glClientActiveTextureProc;
+	MultiTexCoord1fProcPtr		glMultiTexCoord1fProc;
+	GetBufferParameterivProcPtr	glGetBufferParameterivProc;
+
+private:
+			GLBufferFuncs( const GLBufferFuncs& inOther );
+};
 
 
 //=============================================================================
@@ -73,10 +132,12 @@ extern "C" {
 	@function		UpdateVBOCacheLimit
 	@abstract		Update the limit on memory that can be used in this cache.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			inMaxMemK		New memory limit in K-bytes.
 */
 void				UpdateVBOCacheLimit(
 									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3Uns32 inMaxMemK );
 
 /*!
@@ -90,12 +151,14 @@ void				UpdateVBOCacheLimit(
 					glEnableClientState to enable or disable arrays as
 					appropriate.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			inGeom			A geometry object.
 	@param			inMode			OpenGL mode, e.g., GL_TRIANGLES.
 	@result			True if the object was found and rendered.
 */
 TQ3Boolean			RenderCachedVBO(
 									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3GeometryObject inGeom,
 									GLenum inMode );
 
@@ -104,6 +167,7 @@ TQ3Boolean			RenderCachedVBO(
 	@abstract		Add VBO data to the cache.  Do not call this unless
 					RenderCachedVBO has just returned false.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 	@param			inGeom			A geometry object.
 	@param			inNumPoints		Number of points (vertices).
 	@param			inPoints		Array of point locations.
@@ -116,6 +180,7 @@ TQ3Boolean			RenderCachedVBO(
 */
 void				AddVBOToCache(
 									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs,
 									TQ3GeometryObject inGeom,
 									TQ3Uns32 inNumPoints,
 									const TQ3Point3D* inPoints,
@@ -126,14 +191,17 @@ void				AddVBOToCache(
 									TQ3Uns32 inNumIndices,
 									const TQ3Uns32* inIndices );
 
+
 /*!
 	@function		FlushVBOCache
 	@abstract		Delete any cached VBOs for geometries that are no longer
 					referenced elsewhere.
 	@param			glContext		An OpenGL context.
+	@param			inFuncs			OpenGL buffer function pointers.
 */
 void				FlushVBOCache(
-									TQ3GLContext glContext );
+									TQ3GLContext glContext,
+									const GLBufferFuncs& inFuncs );
 
 
 /*!

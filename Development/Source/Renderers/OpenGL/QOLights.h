@@ -90,6 +90,7 @@ public:
 									const StyleState& inStyleState,
 									PerPixelLighting& ioPerPixelLighting,
 									TQ3GLContext& inGLContext,
+									const GLBufferFuncs& inFuncs,
 									bool& inCachingShadows )
 								: mGLExtensions( inExtensions )
 								, mGLStencilFuncs( inStencilFuncs )
@@ -100,7 +101,7 @@ public:
 								, mSavedYon( std::numeric_limits<float>::infinity() )
 								, mShadowMarker( mMatrixState, mStyleState,
 									mGLLightPosition, inGLContext, inExtensions,
-									inCachingShadows )
+									inFuncs, inCachingShadows )
 								, mIsOnlyAmbient( false ) {}
 
 	void					StartFrame(
