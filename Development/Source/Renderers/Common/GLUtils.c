@@ -5,7 +5,7 @@
         Quesa OpenGL utility functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -410,12 +410,6 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_packed_depth_stencil" ))
 		{
 			featureFlags->packedDepthStencil = kQ3True;
-		}
-		
-		if ( (glVersion >= 0x0200) ||
-			isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_vertex_program" ) )
-		{
-			featureFlags->vertexProgramTwoSide = kQ3True;
 		}
 		
 		GLint	sampleBuffers = 0;
