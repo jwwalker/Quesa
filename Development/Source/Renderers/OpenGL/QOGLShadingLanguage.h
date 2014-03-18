@@ -54,6 +54,7 @@
 //-----------------------------------------------------------------------------
 #include "QOPrefix.h"
 #include "QuesaStyle.h"
+#include "QOShaderProgramCache.h"
 
 #include <vector>
 
@@ -79,32 +80,10 @@
 
 namespace QORenderer
 {
-//=============================================================================
-//      Constants
-//-----------------------------------------------------------------------------
-
-enum ELightType
-{
-	kLightTypeInvalid = -1,
-	kLightTypeNone = 0,
-	kLightTypeDirectional,
-	kLightTypePoint,
-	kLightTypeSpotNone,
-	kLightTypeSpotLinear,
-	kLightTypeSpotExponential,
-	kLightTypeSpotCosine,
-	kLightTypeSpotCubic
-};
 
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-
-/*!
-	@typedef	LightPattern
-	@abstract	Light states that can be used to identify a GLSL program.
-*/
-typedef	std::vector<ELightType>	LightPattern;
 
 
 /*!
@@ -112,44 +91,6 @@ typedef	std::vector<ELightType>	LightPattern;
 	@abstract	A vector of Quesa objects, here used for light objects.
 */
 typedef std::vector< CQ3ObjectRef >	ObVec;
-
-
-/*!
-	@struct		ProgramRec
-	@abstract	Structure holding a program ID, its light pattern, a
-				counter indicating how long since it has been used,
-				and locations of some uniform variables.
-*/
-struct ProgramRec
-{
-					ProgramRec()
-						: mProgram( 0 )
-						, mAgeCounter( 0 )
-						, mFogState( kQ3Off ) {}
-					ProgramRec( const ProgramRec& inOther );
-	
-	void			swap( ProgramRec& ioOther );
-	
-	ProgramRec&		operator=( const ProgramRec& inOther );
-
-	GLuint			mProgram;
-	int				mAgeCounter;
-	LightPattern	mPattern;
-	TQ3ObjectType	mIlluminationType;
-	TQ3InterpolationStyle	mInterpolationStyle;
-	bool			mIsTextured;
-	bool			mIsCartoonish;
-	TQ3Switch		mFogState;
-	TQ3FogMode		mFogMode;
-	
-	GLint			mTextureUnit0UniformLoc;
-	GLint			mTextureUnit1UniformLoc;
-	GLint			mQuantizationUniformLoc;
-	GLint			mLightNearEdgeUniformLoc;
-	GLint			mSpotHotAngleUniformLoc;
-	GLint			mSpotCutoffAngleUniformLoc;
-	GLint			mIsSpecularMappingUniformLoc;
-};
 
 typedef	std::vector<ProgramRec>		ProgramVec;
 
@@ -238,6 +179,7 @@ public:
 								PerPixelLighting(
 										const GLSLFuncs& inFuncs,
 										TQ3RendererObject inRendererObject,
+										TQ3GLContext& inGLContext,
 										const TQ3GLExtensions& inExtensions );
 	
 								~PerPixelLighting();
@@ -347,28 +289,24 @@ private:
 	void						InitUniformLocations( ProgramRec& ioProgram );
 	void						ChooseProgram();
 	void						GetLightTypes();
-	void						SetUniformValues( ProgramRec& ioProgram );
+	void						SetUniformValues( const ProgramRec& ioProgram );
+	ProgramCache*				ProgCache();
 	
 	const GLSLFuncs&			mFuncs;
 	const TQ3GLExtensions&		mGLExtensions;
 	TQ3RendererObject			mRendererObject;
+	TQ3GLContext&				mGLContext;
 	bool						mIsShading;
 	bool						mMayNeedProgramChange;
-	TQ3ObjectType				mIlluminationType;
-	TQ3InterpolationStyle		mInterpolationStyle;
-	TQ3Switch					mFogState;
-	TQ3FogMode					mFogMode;
-	bool						mIsTextured;
 	bool						mIsSpecularMapped;
-	GLuint						mVertexShaderID;
 	TQ3Float32					mQuantization;
 	TQ3Float32					mLightNearEdge;
-	bool						mIsCartoonish;
-	LightPattern				mLightPattern;
+
+	ProgramCharacteristic		mProgramCharacteristic;
+
 	ObVec						mLights;
 	
-	ProgramVec					mPrograms;
-	int							mProgramIndex;
+	const ProgramRec*			mCurrentProgram;
 };
 
 
