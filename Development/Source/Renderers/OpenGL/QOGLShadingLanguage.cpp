@@ -49,6 +49,7 @@
 #include "E3Prefix.h"
 #include "QuesaRenderer.h"
 #include "QOTexture.h"
+#include "QOShaderProgramCache.h"
 
 #include <cstring>
 #include <string>
@@ -507,92 +508,6 @@ namespace
 	const char* kSpotHotAngleUniformName		= "hotAngle";
 	const char* kSpotCutoffAngleUniformName		= "cutoffAngle";
 	
-	const int	kMaxProgramAge					= 100;
-	
-	struct AgeIncrementer
-	{
-		void	operator()( QORenderer::ProgramRec& ioRec ) const
-				{
-					ioRec.mAgeCounter += 1;
-				}
-	};
-	
-	struct IsNotTooOld
-	{
-		bool	operator()( const QORenderer::ProgramRec& ioRec ) const
-				{
-					return ioRec.mAgeCounter <= kMaxProgramAge;
-				}
-	};
-	
-	struct MatchProgram
-	{
-					MatchProgram(
-							const QORenderer::LightPattern& inPattern,
-							TQ3ObjectType inIlluminationType,
-							TQ3InterpolationStyle inInterpolation,
-							bool inIsTextured,
-							bool inIsCartoonish,
-							TQ3Switch inFogOn,
-							TQ3FogMode inFogMode )
-						: mPattern( inPattern )
-						, mIlluminationType( inIlluminationType )
-						, mInterpolationStyle( inInterpolation )
-						, mIsTextured( inIsTextured )
-						, mIsCartoonish( inIsCartoonish )
-						, mFogState( inFogOn )
-						, mFogMode( inFogMode ) {}
-					
-					MatchProgram( const MatchProgram& inOther )
-						: mPattern( inOther.mPattern )
-						, mIlluminationType( inOther.mIlluminationType )
-						, mInterpolationStyle( inOther.mInterpolationStyle )
-						, mIsTextured( inOther.mIsTextured )
-						, mIsCartoonish( inOther.mIsCartoonish )
-						, mFogState( inOther.mFogState )
-						, mFogMode( inOther.mFogMode ) {}
-	
-		bool		operator()( const QORenderer::ProgramRec& inProg ) const
-					{
-						return (mIsTextured == inProg.mIsTextured) &&
-							(mIlluminationType == inProg.mIlluminationType) &&
-							(mInterpolationStyle == inProg.mInterpolationStyle) &&
-							(mIsCartoonish == inProg.mIsCartoonish) &&
-							(mPattern == inProg.mPattern) &&
-							(mFogState == inProg.mFogState ) &&
-							(mFogMode == inProg.mFogMode);
-					}
-		
-	private:
-		const QORenderer::LightPattern&	mPattern;
-		TQ3ObjectType					mIlluminationType;
-		TQ3InterpolationStyle			mInterpolationStyle;
-		bool							mIsTextured;
-		bool							mIsCartoonish;
-		TQ3Switch						mFogState;
-		TQ3FogMode						mFogMode;
-	};
-	
-	struct DeleteProgram
-	{
-								DeleteProgram( const QORenderer::GLSLFuncs& inFuncs )
-									: mFuncs( inFuncs ) {}
-								
-								DeleteProgram( const DeleteProgram& inOther )
-									: mFuncs( inOther.mFuncs ) {}
-								
-		void					operator()( QORenderer::ProgramRec& ioProgram ) const
-								{
-									if (ioProgram.mProgram != 0)
-									{
-										mFuncs.glDeleteProgram( ioProgram.mProgram );
-										ioProgram.mProgram = 0;
-									}
-								}	
-							
-		const QORenderer::GLSLFuncs&	mFuncs;
-	};
-	
 	GLenum	sGLError = 0;
 } // end of unnamed namespace
 
@@ -622,14 +537,7 @@ namespace
 //-----------------------------------------------------------------------------
 QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 	: mProgram( inOther.mProgram )
-	, mAgeCounter( inOther.mAgeCounter )
-	, mPattern( inOther.mPattern )
-	, mIlluminationType( inOther.mIlluminationType )
-	, mInterpolationStyle( inOther.mInterpolationStyle )
-	, mIsTextured( inOther.mIsTextured )
-	, mIsCartoonish( inOther.mIsCartoonish )
-	, mFogState( inOther.mFogState )
-	, mFogMode( inOther.mFogMode )
+	, mCharacteristic( inOther.mCharacteristic )
 	, mTextureUnit0UniformLoc( inOther.mTextureUnit0UniformLoc )
 	, mTextureUnit1UniformLoc( inOther.mTextureUnit1UniformLoc )
 	, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
@@ -642,14 +550,7 @@ QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 {
 	std::swap( mProgram, ioOther.mProgram );
-	std::swap( mAgeCounter, ioOther.mAgeCounter );
-	mPattern.swap( ioOther.mPattern );
-	std::swap( mIlluminationType, ioOther.mIlluminationType );
-	std::swap( mInterpolationStyle, ioOther.mInterpolationStyle );
-	std::swap( mIsTextured, ioOther.mIsTextured );
-	std::swap( mIsCartoonish, ioOther.mIsCartoonish );
-	std::swap( mFogState, ioOther.mFogState );
-	std::swap( mFogMode, ioOther.mFogMode );
+	mCharacteristic.swap( ioOther.mCharacteristic );
 	std::swap( mTextureUnit0UniformLoc, ioOther.mTextureUnit0UniformLoc );
 	std::swap( mTextureUnit1UniformLoc, ioOther.mTextureUnit1UniformLoc );
 	std::swap( mQuantizationUniformLoc, ioOther.mQuantizationUniformLoc );
@@ -767,23 +668,18 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 QORenderer::PerPixelLighting::PerPixelLighting(
 										const GLSLFuncs& inFuncs,
 										TQ3RendererObject inRendererObject,
+										TQ3GLContext& inGLContext,
 										const TQ3GLExtensions& inExtensions )
 	: mFuncs( inFuncs )
 	, mGLExtensions( inExtensions )
 	, mRendererObject( inRendererObject )
+	, mGLContext( inGLContext )
 	, mIsShading( false )
 	, mMayNeedProgramChange( true )
-	, mIlluminationType( 0 )
-	, mInterpolationStyle( kQ3InterpolationStyleVertex )
-	, mFogState( kQ3Off )
-	, mFogMode( kQ3FogModeAlpha )
-	, mIsTextured( false )
 	, mIsSpecularMapped( false )
-	, mVertexShaderID( 0 )
 	, mQuantization( 0.0f )
 	, mLightNearEdge( 1.0f )
-	, mIsCartoonish( false )
-	, mProgramIndex( -1 )
+	, mCurrentProgram( NULL )
 {
 }
 
@@ -880,7 +776,7 @@ static void LogShaderCompileError( GLint inShaderID, const QORenderer::GLSLFuncs
 
 
 
-static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRec,
+static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& inProgramRec,
 										std::string& outSource )
 {
 	const GLint kNumLights = static_cast<GLint>(inProgramRec.mPattern.size());
@@ -1011,13 +907,13 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramRec& inProgramRe
 */
 void QORenderer::PerPixelLighting::GetLightTypes()
 {
-	mLightPattern.clear();
+	mProgramCharacteristic.mPattern.clear();
 	
-	if (mIlluminationType != kQ3IlluminationTypeNULL)
+	if (mProgramCharacteristic.mIlluminationType != kQ3IlluminationTypeNULL)
 	{
 		// Query number of lights.
 		const int kNumLights = static_cast<int>(mLights.size());
-		mLightPattern.reserve( kNumLights );
+		mProgramCharacteristic.mPattern.reserve( kNumLights );
 		
 		for (int i = 0; i < kNumLights; ++i)
 		{
@@ -1071,7 +967,7 @@ void QORenderer::PerPixelLighting::GetLightTypes()
 						break;
 				}
 			}
-			mLightPattern.push_back( theType );
+			mProgramCharacteristic.mPattern.push_back( theType );
 		}
 	}
 }
@@ -1087,17 +983,7 @@ void	QORenderer::PerPixelLighting::StartFrame()
 	
 	if (mIsShading)
 	{
-		// Increment ages
-		std::for_each( mPrograms.begin(), mPrograms.end(), AgeIncrementer() );
-		
-		// Delete programs that have not been used for a while
-		ProgramVec::iterator	newEnd = std::partition( mPrograms.begin(),
-			mPrograms.end(), IsNotTooOld() );
-		if (newEnd != mPrograms.end())
-		{
-			std::for_each( newEnd, mPrograms.end(), DeleteProgram( mFuncs ) );
-			mPrograms.erase( newEnd, mPrograms.end() );
-		}
+		InitVertexShader();
 		
 		if (mGLExtensions.vertexProgramTwoSide)
 		{
@@ -1131,6 +1017,14 @@ void	QORenderer::PerPixelLighting::AddLight( TQ3LightObject inLight )
 }
 
 
+QORenderer::ProgramCache*	QORenderer::PerPixelLighting::ProgCache()
+{
+	QORenderer::ProgramCache* cache =
+		ProgramCache::GetProgramCache( mGLContext );
+	return cache;
+}
+
+
 /*!
 	@function	StartPass
 	@abstract	Begin a rendering pass.
@@ -1143,15 +1037,13 @@ void	QORenderer::PerPixelLighting::StartPass()
 	
 	if (mIsShading)
 	{
-		mIlluminationType = kQ3IlluminationTypeNULL;
-		mIsTextured = false;
-		mProgramIndex = -1;
+		mProgramCharacteristic.mIlluminationType = kQ3IlluminationTypeNULL;
+		mProgramCharacteristic.mIsTextured = false;
+		mCurrentProgram = NULL;
 		mMayNeedProgramChange = true;
-		mIsCartoonish = (mQuantization > 0.0f);
+		mProgramCharacteristic.mIsCartoonish = (mQuantization > 0.0f);
 		
-		InitVertexShader();
-		
-		if (mVertexShaderID != 0)
+		if (ProgCache()->VertexShaderID() != 0)
 		{
 			GetLightTypes();
 		}
@@ -1168,43 +1060,37 @@ void	QORenderer::PerPixelLighting::StartPass()
 */
 void	QORenderer::PerPixelLighting::ChooseProgram()
 {
-	if ( mMayNeedProgramChange && (mVertexShaderID != 0) )
+	if ( mMayNeedProgramChange &&
+		(ProgCache()->VertexShaderID() != 0) )
 	{
 		mMayNeedProgramChange = false;
 
 		// Look for a program that meets current needs.
-		MatchProgram	matcher( mLightPattern, mIlluminationType,
-			mInterpolationStyle, mIsTextured, mIsCartoonish, mFogState, mFogMode );
-		ProgramVec::iterator	foundProg = std::find_if( mPrograms.begin(),
-			mPrograms.end(), matcher );
+		const ProgramRec* theProgram = ProgCache()->FindProgram( mProgramCharacteristic );
 		
 		// If there is none, create it.
-		if (foundProg == mPrograms.end())
+		if (theProgram == NULL)
 		{
 			InitProgram();
 			
-			foundProg = std::find_if( mPrograms.begin(),
-				mPrograms.end(), matcher );
+			theProgram = ProgCache()->FindProgram( mProgramCharacteristic );
 		}
 		
 		// Activate it.
-		if (foundProg != mPrograms.end())
+		if (theProgram != NULL)
 		{
-			int newProgramIndex = static_cast<int>(foundProg - mPrograms.begin());
-			
-			if (newProgramIndex != mProgramIndex)
+			if (theProgram != mCurrentProgram)
 			{
-				mProgramIndex = newProgramIndex;
-				mFuncs.glUseProgram( foundProg->mProgram );
+				mCurrentProgram = theProgram;
+				mFuncs.glUseProgram( theProgram->mProgram );
 				CHECK_GL_ERROR;
 			
-				SetUniformValues( *foundProg );
+				SetUniformValues( *theProgram );
 			}
-			foundProg->mAgeCounter = 0;
 			
 			// Even if we didn't change the program, we need to update the
 			// specular mapping uniform.
-			mFuncs.glUniform1i( foundProg->mIsSpecularMappingUniformLoc, mIsSpecularMapped );
+			mFuncs.glUniform1i( theProgram->mIsSpecularMappingUniformLoc, mIsSpecularMapped );
 		}
 	}
 }
@@ -1213,7 +1099,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 	@function	SetUniformValues
 	@abstract	Set values for the uniform variables needed in the program.
 */
-void	QORenderer::PerPixelLighting::SetUniformValues( ProgramRec& ioProgram )
+void	QORenderer::PerPixelLighting::SetUniformValues( const ProgramRec& ioProgram )
 {
 	// Set texture units.
 	mFuncs.glUniform1i( ioProgram.mTextureUnit0UniformLoc, 0 );
@@ -1261,7 +1147,7 @@ void	QORenderer::PerPixelLighting::EndPass()
 	if ( mIsShading )
 	{
 		mFuncs.glUseProgram( 0 );
-		mProgramIndex = -1;
+		mCurrentProgram = NULL;
 	}
 	mIsShading = false;
 }
@@ -1415,14 +1301,18 @@ static GLuint CreateAndCompileShader( GLenum inShaderType,
 */
 void	QORenderer::PerPixelLighting::InitVertexShader()
 {
-	if (mVertexShaderID == 0)
+	if (ProgCache()->VertexShaderID() == 0)
 	{
-		mVertexShaderID = CreateAndCompileShader( GL_VERTEX_SHADER,
+		GLuint vertexShader = CreateAndCompileShader( GL_VERTEX_SHADER,
 			kVertexShaderSource, mFuncs );
 		
-		if (mVertexShaderID == 0)
+		if (vertexShader == 0)
 		{
 			Q3_MESSAGE( "Failed to create a vertex shader.\n" );
+		}
+		else
+		{
+			ProgCache()->SetVertexShaderID( vertexShader );
 		}
 	}
 }
@@ -1436,17 +1326,12 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 void	QORenderer::PerPixelLighting::InitProgram()
 {
 	ProgramRec	newProgram;
-	newProgram.mPattern = mLightPattern;
-	newProgram.mIlluminationType = mIlluminationType;
-	newProgram.mInterpolationStyle = mInterpolationStyle;
-	newProgram.mIsTextured = mIsTextured;
-	newProgram.mIsCartoonish = mIsCartoonish;
-	newProgram.mFogState = mFogState;
-	newProgram.mFogMode = mFogMode;
+	
+	newProgram.mCharacteristic = mProgramCharacteristic;
 	
 	// Build the source of the fragment shader
 	std::string	fragSource;
-	BuildFragmentShaderSource( newProgram, fragSource );
+	BuildFragmentShaderSource( newProgram.mCharacteristic, fragSource );
 		
 	// Create the fragment shader
 	GLint shaderID = CreateAndCompileShader( GL_FRAGMENT_SHADER,
@@ -1460,8 +1345,10 @@ void	QORenderer::PerPixelLighting::InitProgram()
 	
 		if (newProgram.mProgram != 0)
 		{
+			GLuint vertexShader = ProgCache()->VertexShaderID();
+
 			// Attach the vertex shader to the program.
-			mFuncs.glAttachShader( newProgram.mProgram, mVertexShaderID );
+			mFuncs.glAttachShader( newProgram.mProgram, vertexShader );
 			CHECK_GL_ERROR;
 		
 			// Attach the fragment shader to the program
@@ -1474,7 +1361,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 		
 			// Detach shaders from program (whether or not link worked)
 			mFuncs.glDetachShader( newProgram.mProgram, shaderID );
-			mFuncs.glDetachShader( newProgram.mProgram, mVertexShaderID );
+			mFuncs.glDetachShader( newProgram.mProgram, vertexShader );
 		
 			// Delete the fragment shader
 			mFuncs.glDeleteShader( shaderID );
@@ -1491,7 +1378,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 			{
 				InitUniformLocations( newProgram );
 			
-				mPrograms.push_back( newProgram );
+				ProgCache()->AddProgram( newProgram );
 			}
 			else
 			{
@@ -1538,14 +1425,6 @@ void	QORenderer::PerPixelLighting::InitProgram()
 */
 void	QORenderer::PerPixelLighting::Cleanup()
 {
-	if (mVertexShaderID != 0)
-	{
-		std::for_each( mPrograms.begin(), mPrograms.end(), DeleteProgram( mFuncs ) );
-		mPrograms.clear();
-		
-		mFuncs.glDeleteShader( mVertexShaderID );
-		mVertexShaderID = 0;
-	}
 }
 
 
@@ -1558,9 +1437,9 @@ void	QORenderer::PerPixelLighting::UpdateIllumination( TQ3ObjectType inIlluminat
 {
 	if (mIsShading)
 	{
-		if (mIlluminationType != inIlluminationType)
+		if (mProgramCharacteristic.mIlluminationType != inIlluminationType)
 		{
-			mIlluminationType = inIlluminationType;
+			mProgramCharacteristic.mIlluminationType = inIlluminationType;
 			
 			GetLightTypes();
 			
@@ -1584,9 +1463,9 @@ void	QORenderer::PerPixelLighting::UpdateInterpolationStyle(
 {
 	if (mIsShading)
 	{
-		if (mInterpolationStyle != inInterpolation)
+		if (mProgramCharacteristic.mInterpolationStyle != inInterpolation)
 		{
-			mInterpolationStyle = inInterpolation;
+			mProgramCharacteristic.mInterpolationStyle = inInterpolation;
 			
 			mMayNeedProgramChange = true;
 		}
@@ -1601,15 +1480,15 @@ void	QORenderer::PerPixelLighting::UpdateFogStyle( const TQ3FogStyleData& inFog 
 {
 	if (mIsShading)
 	{
-		if ( (inFog.state != mFogState) ||
+		if ( (inFog.state != mProgramCharacteristic.mFogState) ||
 			(
-				(mFogState == kQ3On) &&
-				(inFog.mode != mFogMode)
+				(mProgramCharacteristic.mFogState == kQ3On) &&
+				(inFog.mode != mProgramCharacteristic.mFogMode)
 			)
 		)
 		{
-			mFogState = inFog.state;
-			mFogMode = inFog.mode;
+			mProgramCharacteristic.mFogState = inFog.state;
+			mProgramCharacteristic.mFogMode = inFog.mode;
 			
 			mMayNeedProgramChange = true;
 		}
@@ -1641,9 +1520,9 @@ void	QORenderer::PerPixelLighting::UpdateTexture( bool inTexturing  )
 {
 	if (mIsShading)
 	{
-		if (inTexturing != mIsTextured)
+		if (inTexturing != mProgramCharacteristic.mIsTextured)
 		{
-			mIsTextured = inTexturing;
+			mProgramCharacteristic.mIsTextured = inTexturing;
 			
 			mMayNeedProgramChange = true;
 		}
@@ -1691,9 +1570,9 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 			
 			bool	isCartoonish = (isNonCartoon == kQ3False);
 			
-			if (isCartoonish != mIsCartoonish)
+			if (isCartoonish != mProgramCharacteristic.mIsCartoonish)
 			{
-				mIsCartoonish = isCartoonish;
+				mProgramCharacteristic.mIsCartoonish = isCartoonish;
 				mMayNeedProgramChange = true;
 				cartoonUpdate = true;
 			}
@@ -1701,10 +1580,10 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 		
 		ChooseProgram();
 		
-		if (cartoonUpdate)
+		if (cartoonUpdate && (mCurrentProgram != NULL))
 		{
-			mFuncs.glUniform1f( mPrograms[ mProgramIndex ].mQuantizationUniformLoc,
-				mIsCartoonish? mQuantization : 0.0f );
+			mFuncs.glUniform1f( mCurrentProgram->mQuantizationUniformLoc,
+				mProgramCharacteristic.mIsCartoonish? mQuantization : 0.0f );
 		}
 	}
 }

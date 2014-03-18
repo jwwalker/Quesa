@@ -172,7 +172,8 @@ GPUSharingGroup::~GPUSharingGroup()
 {
 	for (CacheMap::iterator i = mCacheMap.begin(); i != mCacheMap.end(); ++i)
 	{
-		delete i->second;
+		std::pair<const TQ3Uns32, CQ3GPSharedCache*>& thePair( *i );
+		delete thePair.second;
 	}
 }
 
