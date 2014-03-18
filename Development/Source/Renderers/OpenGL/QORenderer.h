@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -55,6 +55,7 @@
 #include "QOPrefix.h"
 
 #include "GLTextureManager.h"
+#include "GLVBOManager.h"
 #include "QOLights.h"
 #include "QOTexture.h"
 #include "QOClientStates.h"
@@ -368,6 +369,7 @@ protected:
 	TQ3GLContext			mGLContext;
 	GLContextCleanup		mCleanup;
 	GLSLFuncs				mSLFuncs;
+	GLBufferFuncs			mBufferFuncs;
 	GLStencilFuncs			mStencilFuncs;
 	TQ3GLExtensions			mGLExtensions;
 	PerPixelLighting		mPPLighting;

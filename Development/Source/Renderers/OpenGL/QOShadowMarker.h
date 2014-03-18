@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -54,7 +54,7 @@
 //-----------------------------------------------------------------------------
 #include "QOPrefix.h"
 #include "QOCalcTriMeshEdges.h"
-
+#include "GLVBOManager.h"
 
 
 //=============================================================================
@@ -80,12 +80,14 @@ public:
 									const GLfloat* inGLLightPosition,
 									TQ3GLContext& inGLContext,
 									const TQ3GLExtensions& inGLExtensions,
+									const GLBufferFuncs& inFuncs,
 									bool& inCachingShadows )
 								: mMatrixState( inMatrixState )
 								, mStyleState( inStyleState )
 								, mGLLightPosition( inGLLightPosition )
 								, mGLContext( inGLContext )
 								, mGLExtensions( inGLExtensions )
+								, mBufferFuncs( inFuncs )
 								, mIsCachingShadows( inCachingShadows ) {}
 	
 	void					MarkShadowOfTriMesh(
@@ -140,6 +142,7 @@ private:
 	const GLfloat*			mGLLightPosition;
 	TQ3GLContext&			mGLContext;
 	const TQ3GLExtensions&	mGLExtensions;
+	const GLBufferFuncs&	mBufferFuncs;
 	bool&					mIsCachingShadows;
 
 	E3FastArray<char>		mScratchBuffer;

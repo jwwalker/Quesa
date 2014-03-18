@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -639,7 +639,7 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 	}
 	else
 	{
-		if (kQ3False == ShadowVolMgr::RenderShadowVolume( mGLContext, inTMObject,
+		if (kQ3False == ShadowVolMgr::RenderShadowVolume( mGLContext, mBufferFuncs, inTMObject,
 			inLight, localLightPos ))
 		{
 			TQ3Uns32 numTriIndices, numQuadIndices;
@@ -649,11 +649,11 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 			
 			Q3_CHECK_DRAW_ELEMENTS( mShadowPoints.size(),
 				numTriIndices + numQuadIndices, (const TQ3Uns32*)&mShadowVertIndices[0] );
-			ShadowVolMgr::AddShadowVolume( mGLContext, inTMObject, inLight,
+			ShadowVolMgr::AddShadowVolume( mGLContext, mBufferFuncs, inTMObject, inLight,
 				localLightPos, mShadowPoints.size(), &mShadowPoints[0],
 				numTriIndices, numQuadIndices, &mShadowVertIndices[0] );
 			
-			ShadowVolMgr::RenderShadowVolume( mGLContext, inTMObject, inLight,
+			ShadowVolMgr::RenderShadowVolume( mGLContext, mBufferFuncs, inTMObject, inLight,
 				localLightPos );
 		}
 	}
