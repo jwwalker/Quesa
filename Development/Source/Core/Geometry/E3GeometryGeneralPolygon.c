@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -83,7 +83,6 @@ e3geom_generalpolygon_new(TQ3Object theObject, void *privateData, const void *pa
 {	TQ3GeneralPolygonData			*instanceData		= (TQ3GeneralPolygonData *)       privateData;
 	const TQ3GeneralPolygonData		*generalPolygonData = (const TQ3GeneralPolygonData *) paramData;
 	TQ3Status						qd3dStatus;
-#pragma unused(theObject)
 
 
 

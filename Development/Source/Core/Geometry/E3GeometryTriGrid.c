@@ -5,7 +5,7 @@
         Implementation of Quesa TriGrid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -243,8 +243,6 @@ e3geom_trigrid_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	const TQ3TriGridData	*fromInstanceData = (const TQ3TriGridData *) fromPrivateData;
 	TQ3TriGridData			*toInstanceData   = (TQ3TriGridData *)       toPrivateData;
 	TQ3Status				qd3dStatus;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 
@@ -384,7 +382,6 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	TQ3Uns32 i, col, row, tnum=0, vnum=0;
 	TQ3Boolean cacheAsTriangles = kQ3False;		// to always test triangles, set this to true!
 	TQ3DisplayGroupState	gpState;
-#pragma unused(theView)
 
 
 

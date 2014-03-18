@@ -5,7 +5,7 @@
         Implementation of Quesa Ellipsoid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -180,8 +180,6 @@ e3geom_ellipsoid_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	const TQ3EllipsoidData	*fromInstanceData = (const TQ3EllipsoidData *) fromPrivateData;
 	TQ3EllipsoidData			*toInstanceData   = (TQ3EllipsoidData *)       toPrivateData;
 	TQ3Status				qd3dStatus;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 

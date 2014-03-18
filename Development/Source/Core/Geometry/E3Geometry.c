@@ -15,7 +15,7 @@
         for every sub-class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -607,7 +607,6 @@ e3geometry_cache_update(TQ3ViewObject theView,
 						TQ3ObjectType objectType, TQ3GeometryObject theGeom,
 						const void   *geomData,   TQ3Object         *cachedGeom)
 	{
-#pragma unused(theView)
 
 
 

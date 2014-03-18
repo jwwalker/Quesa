@@ -5,7 +5,7 @@
         Quesa interactive renderer update methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -292,7 +292,6 @@ IRRenderer_Update_Matrix_LocalToCamera(TQ3ViewObject			theView,
 {	TQ3Point3D			viewPosition = {0.0f, 0.0f,  0.0f};
 	TQ3Vector3D			viewVector   = {0.0f, 0.0f, -1.0f};
 	TQ3Matrix4x4		cameraToLocal;
-#pragma unused(theView)
 
 
 
@@ -366,7 +365,6 @@ IRRenderer_Update_Matrix_CameraToFrustum(TQ3ViewObject			theView,
 											TQ3InteractiveData	*instanceData,
 											TQ3Matrix4x4		*theMatrix)
 {
-#pragma unused(theView)
 
 
 
@@ -404,7 +402,6 @@ IRRenderer_Update_Style_Interpolation(TQ3ViewObject				theView,
 										TQ3InteractiveData		*instanceData,
 										TQ3InterpolationStyle	*styleData)
 {
-#pragma unused(theView)
 
 
 
@@ -453,7 +450,6 @@ IRRenderer_Update_Style_Backfacing(TQ3ViewObject		theView,
 									TQ3InteractiveData	*instanceData,
 									TQ3BackfacingStyle	*styleData)
 {
-#pragma unused(theView)
 
 
 
@@ -507,7 +503,6 @@ IRRenderer_Update_Style_Fill(TQ3ViewObject		theView,
 							 TQ3InteractiveData	*instanceData,
 							 TQ3FillStyle		*styleData)
 {
-#pragma unused(theView)
 
 
 
@@ -566,7 +561,6 @@ IRRenderer_Update_Style_Orientation(TQ3ViewObject			theView,
 									 TQ3InteractiveData		*instanceData,
 									 TQ3OrientationStyle	*styleData)
 {
-#pragma unused(theView)
 
 
 
@@ -637,7 +631,6 @@ IRRenderer_Update_Style_AntiAlias(TQ3ViewObject					theView,
 									TQ3InteractiveData			*instanceData,
 									TQ3AntiAliasStyleData		*styleData)
 {
-#pragma unused(theView)
 	GLfloat				lineWidth;
 	#if QUESA_OS_MACINTOSH
 	

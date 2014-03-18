@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF Binary FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -697,7 +697,6 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 						E3FFormat_3DMF_Bin_Check_MoreObjects(instanceData);
 						E3FFormat_3DMF_Bin_Check_ContainerEnd(instanceData);
 						return (result);
-						break;
 						}
 				}
 			}

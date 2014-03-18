@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -175,8 +175,6 @@ e3shader_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 {	
 	const TQ3ShaderData *		fromInstanceData = (const TQ3ShaderData *) fromPrivateData;
 	TQ3ShaderData *				toInstanceData   = (TQ3ShaderData *)       toPrivateData;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 	// Validate our parameters
@@ -365,8 +363,6 @@ e3shader_texture_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 {	
 	const TQ3TextureObject *		fromInstanceData = (const TQ3TextureObject *) fromPrivateData;
 	TQ3TextureObject *				toInstanceData   = (TQ3TextureObject *)       toPrivateData;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 

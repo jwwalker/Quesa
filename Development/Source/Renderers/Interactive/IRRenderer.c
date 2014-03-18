@@ -5,7 +5,7 @@
         Quesa interactive renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -254,8 +254,6 @@ IRRenderer_StartPass(TQ3ViewObject			theView,
 						TQ3CameraObject		theCamera,
 						TQ3GroupObject		theLights)
 {
-#pragma unused(theView)
-#pragma unused(theLights)
 
 
 

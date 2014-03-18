@@ -5,7 +5,7 @@
         Implementation of Quesa Torus geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -180,8 +180,6 @@ e3geom_torus_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	const TQ3TorusData	*fromInstanceData = (const TQ3TorusData *) fromPrivateData;
 	TQ3TorusData			*toInstanceData   = (TQ3TorusData *)       toPrivateData;
 	TQ3Status				qd3dStatus;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 

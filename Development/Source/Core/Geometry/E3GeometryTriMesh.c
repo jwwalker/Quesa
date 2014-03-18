@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -307,7 +307,7 @@ e3geom_trimesh_disposedata(TQ3TriMeshData *theTriMesh)
 static TQ3Status
 e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boolean isDuplicate)
 {	TQ3Status		qd3dStatus = kQ3Success;
-	TQ3Uns32		n;
+	TQ3Uns32		n = 0;
 
 
 

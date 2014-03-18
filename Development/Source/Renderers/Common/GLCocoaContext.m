@@ -9,7 +9,7 @@
         access the Cocoa OpenGL API then this is handled as a special case.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014 , Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -171,7 +171,6 @@ CocoaGLContext::CocoaGLContext(
 		// Unsupported
 		default:
 			throw std::exception();
-			break;
 		}
 
 

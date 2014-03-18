@@ -5,7 +5,7 @@
         Quesa interactive renderer lighting.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -223,7 +223,6 @@ ir_light_convert_point(TQ3InteractiveData	*instanceData,
 			attQuadratic = 1.0f;
 			break;
 			
-		case kQ3AttenuationTypeSize32:
 		default:
 			Q3_ASSERT(!"Unknown attenuation");
 			attConstant  = 0.0f;
@@ -313,7 +312,6 @@ ir_light_convert_spot(TQ3InteractiveData	*instanceData,
 			attQuadratic = 1.0f;
 			break;
 			
-		case kQ3AttenuationTypeSize32:
 		default:
 			Q3_ASSERT(!"Unknown attenuation");
 			attConstant  = 0.0f;

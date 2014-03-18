@@ -5,7 +5,7 @@
         Source for GPU shared data cache manager.
 
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -192,6 +192,7 @@ GPUSharingGroup&	GPUSharingGroup::operator=(
 //-----------------------------------------------------------------------------
 
 
+
 /*!
 	@function		GLGPUSharing_GetNextSharingBase
 	@abstract		Get the next GL sharing group base.
@@ -246,6 +247,9 @@ TQ3GLContext		GLGPUSharing_GetNextSharingBase( TQ3GLContext glBase )
 	return nextContext;
 }
 
+CQ3GPSharedCache::~CQ3GPSharedCache()
+{
+}
 
 /*!
 	@function		GLGPUSharing_AddContext

@@ -5,7 +5,7 @@
         Implementation of Quesa Line geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -293,7 +293,6 @@ e3geom_line_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	TQ3LineData			*toInstanceData = (TQ3LineData *) toPrivateData;
 	TQ3LineData			*fromInstanceData = (TQ3LineData *) fromPrivateData;
 	TQ3Status			qd3dStatus;
-#pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
 

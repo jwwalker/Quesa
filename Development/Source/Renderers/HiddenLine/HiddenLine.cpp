@@ -5,7 +5,7 @@
         Cartoon-style renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -262,7 +262,6 @@ static TQ3Status	hiddenline_startpass(
 								TQ3CameraObject inCamera,
 								TQ3GroupObject inLights )
 {
-#pragma unused( inView )
 	TQ3Status status = kQ3Success;
 
 	CHiddenLineRendererQuesa*	me = *(CHiddenLineRendererQuesa**) privateData;

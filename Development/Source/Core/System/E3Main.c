@@ -262,7 +262,6 @@ e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 {
 	E3Shared		*instanceData = (E3Shared *) toObject ;
 	E3Shared		*fromInstanceData = (E3Shared *) fromObject ;
-#pragma unused(fromPrivateData, toPrivateData)
 
 
 
@@ -354,9 +353,9 @@ E3Root::E3Root	(
 	: E3ClassInfo ( newClassMetaHandler , newParent ) ,
 	// Fill in the method data of the class
 	disposeMethod		( (TQ3XObjectDisposeMethod)		Find_Method ( kQ3XMethodTypeObjectDispose , kQ3True ) ) ,
-	newMethod			( (TQ3XObjectNewMethod)			Find_Method ( kQ3XMethodTypeObjectNew , kQ3False ) ) , // N.B. False, not inherited
 	deleteMethod		( (TQ3XObjectDeleteMethod)		Find_Method ( kQ3XMethodTypeObjectDelete , kQ3False ) ) , // N.B. False, not inherited
 	duplicateMethod		( (TQ3XObjectDuplicateMethod)	Find_Method ( kQ3XMethodTypeObjectDuplicate , kQ3False ) ) , // N.B. False, not inherited
+	newMethod			( (TQ3XObjectNewMethod)			Find_Method ( kQ3XMethodTypeObjectNew , kQ3False ) ) , // N.B. False, not inherited
 	submitRenderMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitRender , kQ3True ) ) ,
 	submitPickMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitPick , kQ3True ) ) ,
 	submitBoundsMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitBounds , kQ3True ) ) ,
@@ -553,7 +552,7 @@ TQ3Status
 e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 						 TQ3Object toObject, void *toPrivateData)
 {
-#pragma unused( fromObject, fromPrivateData )
+#pragma unused( fromObject )
 	TQ3Status	q3status;
 	
 	q3status = e3root_new( toObject, toPrivateData, NULL );

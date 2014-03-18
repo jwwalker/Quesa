@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -117,7 +117,6 @@ E3GroupInfo::E3GroupInfo	(
 			 	)
 		: E3ShapeInfo ( newClassMetaHandler, newParent ) ,
 		
-		acceptObjectMethod				( (TQ3XGroupAcceptObjectMethod)				Find_Method ( kQ3XMethodType_GroupAcceptObject ) ) ,		 
 		addObjectMethod					( (TQ3XGroupAddObjectMethod)				Find_Method ( kQ3XMethodType_GroupAddObject ) ) ,		 
 		addObjectBeforeMethod			( (TQ3XGroupAddObjectBeforeMethod)			Find_Method ( kQ3XMethodType_GroupAddObjectBefore ) ) ,		 
 		addObjectAfterMethod			( (TQ3XGroupAddObjectAfterMethod)			Find_Method ( kQ3XMethodType_GroupAddObjectAfter ) ) ,		 
@@ -137,10 +136,11 @@ E3GroupInfo::E3GroupInfo	(
 		getPrevObjectPositionMethod		( (TQ3XGroupGetPrevObjectPositionMethod)	Find_Method ( kQ3XMethodType_GroupGetPrevObjectPosition ) ) ,	
 			 
 		positionNewMethod				( (TQ3XGroupPositionNewMethod)				Find_Method ( kQ3XMethodType_GroupPositionNew ) ) ,		 
-		positionDeleteMethod			( (TQ3XGroupPositionDeleteMethod)			Find_Method ( kQ3XMethodType_GroupPositionDelete ) ) ,		
+		acceptObjectMethod				( (TQ3XGroupAcceptObjectMethod)				Find_Method ( kQ3XMethodType_GroupAcceptObject ) ) ,		 
 		 
 		startIterateMethod				( (TQ3XGroupStartIterateMethod)				Find_Method ( kQ3XMethodType_GroupStartIterate ) ) ,		 
-		endIterateMethod				( (TQ3XGroupEndIterateMethod)				Find_Method ( kQ3XMethodType_GroupEndIterate ) )		 
+		endIterateMethod				( (TQ3XGroupEndIterateMethod)				Find_Method ( kQ3XMethodType_GroupEndIterate ) ), 
+		positionDeleteMethod			( (TQ3XGroupPositionDeleteMethod)			Find_Method ( kQ3XMethodType_GroupPositionDelete ) )
 	{
 	if ( acceptObjectMethod == NULL
 	|| addObjectMethod == NULL
@@ -1337,7 +1337,6 @@ static TQ3Status
 e3group_display_submit_render(TQ3ViewObject theView, TQ3ObjectType objectType,
 								TQ3Object theObject, const void *objectData)
 {
-#pragma unused( objectType, objectData )
 	TQ3Status qd3dStatus = kQ3Success;
 
 
@@ -1397,7 +1396,6 @@ static TQ3Status
 e3group_display_submit_bounds(TQ3ViewObject theView, TQ3ObjectType objectType,
 								TQ3Object theObject, const void *objectData)
 {
-#pragma unused( objectType, objectData )
 
 
 
@@ -1444,7 +1442,6 @@ static TQ3Status
 e3group_display_submit_pick(TQ3ViewObject theView, TQ3ObjectType objectType,
 								TQ3Object theObject, const void *objectData)
 {
-#pragma unused( objectType, objectData )
 
 
 
@@ -1492,7 +1489,6 @@ static TQ3Status
 e3group_display_submit_write(TQ3ViewObject theView, TQ3ObjectType objectType,
 								TQ3Object theObject, const void *objectData)
 {
-#pragma unused( objectType, objectData )
 
 
 

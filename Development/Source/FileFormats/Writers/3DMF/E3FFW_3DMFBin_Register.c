@@ -5,7 +5,7 @@
         Quesa 3DMFBin Writer registration.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -300,7 +300,6 @@ e3ffw_3dmf_geom(TQ3XMethodType methodType)
 static TQ3Status
 e3ffw_3dmfbin_new(TQ3Object theObject, void *privateData, const void *paramData)
 {
-#pragma unused(theObject)
 	((TE3FFormatW3DMF_Data*)privateData)->fileMode = Q3Object_GetLeafType(theObject);
 	
     return(kQ3Success);

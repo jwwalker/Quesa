@@ -5,7 +5,7 @@
         Implementation of Quesa PolyLine geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -243,7 +243,6 @@ e3geom_polyline_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	TQ3PolyLineData		*toInstanceData = (TQ3PolyLineData *) toPrivateData;
 	TQ3PolyLineData		*fromInstanceData = (TQ3PolyLineData *) fromPrivateData;
 	TQ3Status			qd3dStatus;
-#pragma unused(fromPrivateData)
 #pragma unused(toObject)
 
 

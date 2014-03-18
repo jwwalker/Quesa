@@ -5,7 +5,7 @@
         Quesa tessellator functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -272,7 +272,6 @@ e3tessellate_attribute_get(const TQ3Vertex3D *theVertex, E3CombinedAttribute *th
 		default:
 			Q3_ASSERT(!"Can never happen");
 			return;
-			break;
 		}
 
 
@@ -340,7 +339,6 @@ e3tessellate_attribute_set(const TQ3Vertex3D *theVertex, const E3CombinedAttribu
 		default:
 			Q3_ASSERT(!"Can never happen");
 			return;
-			break;
 		}
 
 

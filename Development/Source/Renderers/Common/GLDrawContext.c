@@ -5,7 +5,7 @@
         Quesa OpenGL draw context support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1535,7 +1535,6 @@ MacGLContext::MacGLContext(
 		// Unsupported
 		default:
 			throw std::exception();
-			break;
 		}
 
 

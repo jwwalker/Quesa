@@ -22,7 +22,7 @@
         routines on an attribute set - so this implementation would be OK.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -659,7 +659,6 @@ e3set_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 {	const TQ3SetData	*fromInstanceData = (const TQ3SetData *) fromPrivateData;
 	TQ3SetData			*toInstanceData   = (TQ3SetData *)       toPrivateData;
 	TQ3Status			qd3dStatus;
-#pragma unused(fromObject)
 
 
 
@@ -1401,7 +1400,6 @@ e3attribute_surfaceshader_new(TQ3Object theObject, void *privateData, const void
 static void
 e3attribute_surfaceshader_delete(TQ3Object theObject, void *privateData)
 {	TQ3SurfaceShaderObject	*instanceData = (TQ3SurfaceShaderObject *) privateData;
-#pragma unused(privateData)
 #pragma unused(theObject)
 
 
@@ -1422,8 +1420,6 @@ e3attribute_surfaceshader_duplicate(TQ3Object fromObject, const void *fromPrivat
 								    TQ3Object toObject,   void       *toPrivateData)
 {	const TQ3SurfaceShaderObject	*fromInstanceData = (const TQ3SurfaceShaderObject *) fromPrivateData;
 	TQ3SurfaceShaderObject			*toInstanceData   = (TQ3SurfaceShaderObject *)       toPrivateData;
-#pragma unused(fromObject)
-#pragma unused(toObject)
 
 
 
@@ -2968,65 +2964,66 @@ E3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 //-----------------------------------------------------------------------------
 void *
 E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attributeType)
-	{
+{
 	E3Set* set = (E3Set*) attributeSet ;
+	void* data = NULL;
 	
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeSet),   NULL);
-
+	
 	switch (attributeType)
 		{
 		case kQ3AttributeTypeSurfaceUV:
-			return ( set->setData.theMask & kQ3XAttributeMaskSurfaceUV ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskSurfaceUV ) == 0 ?
 					NULL : &set->setData.attributes.surfaceUV ;
 			break;
 		case kQ3AttributeTypeShadingUV:
-			return ( set->setData.theMask & kQ3XAttributeMaskShadingUV ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskShadingUV ) == 0 ?
 					NULL : &set->setData.attributes.shadingUV ;
 			break;
 		case kQ3AttributeTypeNormal:
-			return ( set->setData.theMask & kQ3XAttributeMaskNormal ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskNormal ) == 0 ?
 					NULL : &set->setData.attributes.normal ;
 			break;
 		case kQ3AttributeTypeAmbientCoefficient:
-			return ( set->setData.theMask & kQ3XAttributeMaskAmbientCoefficient ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskAmbientCoefficient ) == 0 ?
 					NULL : &set->setData.attributes.ambientCoeficient ;
 			break;
 		case kQ3AttributeTypeDiffuseColor:
-			return ( set->setData.theMask & kQ3XAttributeMaskDiffuseColor ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskDiffuseColor ) == 0 ?
 					NULL : &set->setData.attributes.diffuseColor ;
 			break;
 		case kQ3AttributeTypeSpecularColor:
-			return ( set->setData.theMask & kQ3XAttributeMaskSpecularColor ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskSpecularColor ) == 0 ?
 					NULL : &set->setData.attributes.specularColor ;
 			break;
 		case kQ3AttributeTypeSpecularControl:
-			return ( set->setData.theMask & kQ3XAttributeMaskSpecularControl ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskSpecularControl ) == 0 ?
 					NULL : &set->setData.attributes.specularControl ;
 			break;
 		case kQ3AttributeTypeTransparencyColor:
-			return ( set->setData.theMask & kQ3XAttributeMaskTransparencyColor ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskTransparencyColor ) == 0 ?
 					NULL : &set->setData.attributes.transparencyColor ;
 			break;
 		case kQ3AttributeTypeSurfaceTangent:
-			return ( set->setData.theMask & kQ3XAttributeMaskSurfaceTangent ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskSurfaceTangent ) == 0 ?
 					NULL : &set->setData.attributes.surfaceTangent ;
 			break;
 		case kQ3AttributeTypeHighlightState:
-			return ( set->setData.theMask & kQ3XAttributeMaskHighlightState ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskHighlightState ) == 0 ?
 					NULL : &set->setData.attributes.highlightState;
 			break;
 		case kQ3AttributeTypeSurfaceShader:
-			return ( set->setData.theMask & kQ3XAttributeMaskSurfaceShader ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskSurfaceShader ) == 0 ?
 					NULL : &set->setData.attributes.surfaceShader  ;
 			break;
 		case kQ3AttributeTypeEmissiveColor:
-			return ( set->setData.theMask & kQ3XAttributeMaskEmissiveColor ) == 0 ?
+			data = ( set->setData.theMask & kQ3XAttributeMaskEmissiveColor ) == 0 ?
 					NULL : &set->setData.attributes.emissiveColor ;
 			break;
 		}
 		
-	return NULL ;
-	}
+	return data ;
+}
 
 
 

@@ -5,7 +5,7 @@
         Quesa 3DMFBin writer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -90,7 +90,7 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 	TQ3Status			qd3dStatus;
 	TQ3Uns8				*basePtr = NULL;
 	TQ3Boolean			wasCopied = kQ3False;
-	TQ3Uns32			validSize, bufferSize;
+	TQ3Uns32			validSize = 0, bufferSize;
 	TQ3ObjectType		theType;
 #if QUESA_OS_MACINTOSH
 	Handle				theHnd = NULL;
