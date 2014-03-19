@@ -297,6 +297,7 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Renderers\Common\GLShadowVolumeManager.cpp" />
     <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_FreeFaceSet.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\OpenGL\QOShaderProgramCache.cpp" />
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOShadowMarker.cpp" />
     <ClCompile Include="..\..\Source\Core\Glue\QD3DCamera.c">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -1011,6 +1012,7 @@
     <ClInclude Include="..\..\Source\Core\Support\E3FastArray.h" />
     <ClInclude Include="..\..\Source\Core\Support\E3Version.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLShadowVolumeManager.h" />
+    <ClInclude Include="..\..\Source\Renderers\OpenGL\QOShaderProgramCache.h" />
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOShadowMarker.h" />
     <ClInclude Include="..\..\Source\Core\System\E3Math_Intersect.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLCamera.h" />

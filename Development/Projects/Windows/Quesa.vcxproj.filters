@@ -484,6 +484,9 @@
     <ClCompile Include="..\..\Source\Renderers\Common\GLShadowVolumeManager.cpp">
       <Filter>Source\Renderers\Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\OpenGL\QOShaderProgramCache.cpp">
+      <Filter>Source\Renderers\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\System\E3Math_Intersect.h">
@@ -575,6 +578,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Renderers\Common\GLShadowVolumeManager.h">
       <Filter>Source\Renderers\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Renderers\OpenGL\QOShaderProgramCache.h">
+      <Filter>Source\Renderers\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
