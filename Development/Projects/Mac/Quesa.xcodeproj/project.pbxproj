@@ -311,6 +311,9 @@
 		BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE806FCE0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */; };
 		BE806FD10BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */; };
+		BE8528D118D9043400D37D00 /* QOShaderProgramCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8528CF18D9043400D37D00 /* QOShaderProgramCache.cpp */; };
+		BE8528D218D9043400D37D00 /* QOShaderProgramCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8528CF18D9043400D37D00 /* QOShaderProgramCache.cpp */; };
+		BE8528D318D9043400D37D00 /* QOShaderProgramCache.h in Headers */ = {isa = PBXBuildFile; fileRef = BE8528D018D9043400D37D00 /* QOShaderProgramCache.h */; };
 		BE8779570F9F7937007F104E /* Quesa.r in Rez */ = {isa = PBXBuildFile; fileRef = BE8779560F9F7937007F104E /* Quesa.r */; };
 		BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
 		BE8D58CE0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
@@ -621,6 +624,8 @@
 		BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Q3GroupIterator.h; sourceTree = "<group>"; };
 		BE806FCB0BCDCCEA008CD86A /* QOGLShadingLanguage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOGLShadingLanguage.h; sourceTree = "<group>"; };
 		BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOGLShadingLanguage.cpp; sourceTree = "<group>"; };
+		BE8528CF18D9043400D37D00 /* QOShaderProgramCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QOShaderProgramCache.cpp; sourceTree = "<group>"; };
+		BE8528D018D9043400D37D00 /* QOShaderProgramCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QOShaderProgramCache.h; sourceTree = "<group>"; };
 		BE8779560F9F7937007F104E /* Quesa.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = Quesa.r; path = Resources/Quesa.r; sourceTree = "<group>"; };
 		BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OptimizedTriMeshElement.cpp; sourceTree = "<group>"; };
 		BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OptimizedTriMeshElement.h; sourceTree = "<group>"; };
@@ -1178,6 +1183,8 @@
 				BE7F26A80B7BB92C00933ED1 /* QORegister.h */,
 				BE7F26A90B7BB92C00933ED1 /* QORenderer.cpp */,
 				BE7F26AA0B7BB92C00933ED1 /* QORenderer.h */,
+				BE8528CF18D9043400D37D00 /* QOShaderProgramCache.cpp */,
+				BE8528D018D9043400D37D00 /* QOShaderProgramCache.h */,
 				BE0D64FC0C0D0FFC00D3D79C /* QOShadowMarker.cpp */,
 				BE0D64F90C0D0FFC00D3D79C /* QOShadowMarker.h */,
 				BE7F26AB0B7BB92C00933ED1 /* QOStartAndEnd.cpp */,
@@ -1246,6 +1253,7 @@
 				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
 				BE097F3B156DCE85009AACEF /* QuesaMathOperators.hpp in Headers */,
+				BE8528D318D9043400D37D00 /* QOShaderProgramCache.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1524,6 +1532,7 @@
 				BE2283EB0F166C6E00937C67 /* E3Geometry.c in Sources */,
 				BEE6738211B72BFD00943219 /* StripMaker_FreeFaceSet.cpp in Sources */,
 				BE59B564145B8D5B0027E0DE /* GLShadowVolumeManager.cpp in Sources */,
+				BE8528D118D9043400D37D00 /* QOShaderProgramCache.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1675,6 +1684,7 @@
 				BEFFD7E30C4C86E100202EA8 /* GLCocoaContext.m in Sources */,
 				BEE6738311B72BFD00943219 /* StripMaker_FreeFaceSet.cpp in Sources */,
 				BE59B562145B8D5B0027E0DE /* GLShadowVolumeManager.cpp in Sources */,
+				BE8528D218D9043400D37D00 /* QOShaderProgramCache.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1692,7 +1702,7 @@
 					"Q3_VALIDATE_DRAW_ELEMENTS=1",
 				);
 				GCC_WARN_PROTOTYPE_CONVERSION = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -1701,6 +1711,7 @@
 			baseConfigurationReference = BE499C9A0F145E950060DF4E /* Quesa-framework.xcconfig */;
 			buildSettings = {
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Release;
 		};
