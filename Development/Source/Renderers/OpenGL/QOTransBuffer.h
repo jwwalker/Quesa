@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -174,12 +174,16 @@ private:
 											int numPrims,
 											const TransparentPrim* inPrims,
 											TQ3ViewObject inView );
+	void							RenderPrimGroupForDepth(
+											int numPrims,
+											const TransparentPrim* inPrims,
+											TQ3ViewObject inView );
 	
 	Renderer&						mRenderer;
 	PerPixelLighting&				mPerPixelLighting;
 	
 	// Buffers used when accumulating primitives
-	std::vector<TransparentPrim>	mTransBuffer;
+	E3FastArray<TransparentPrim>	mTransBuffer;
 	std::vector<TQ3Matrix4x4>		mCameraToFrustumMatrices;
 	std::vector<TQ3Matrix3x3>		mUVTransforms;
 	
@@ -199,6 +203,8 @@ private:
 	GLfloat							mCurDiffuseColor[4];
 	GLenum							mSrcBlendFactor;
 	GLenum							mDstBlendFactor;
+	
+	E3FastArray<TransparentPrim>	mRenderGroup;
 };
 
 }

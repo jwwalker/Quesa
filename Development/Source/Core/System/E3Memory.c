@@ -678,7 +678,7 @@ E3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
 	dstStart = (TQ3Uns8 *) dstPtr;
 	dstEnd   = (TQ3Uns8 *) dstPtr + theSize;
 			
-	if (!(dstStart > srcEnd || dstEnd < srcStart))
+	if (!((dstStart >= srcEnd) || (dstEnd <= srcStart)))
 		memmove(dstPtr, srcPtr, theSize);
 
 

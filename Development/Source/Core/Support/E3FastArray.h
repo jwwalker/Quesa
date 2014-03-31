@@ -5,7 +5,7 @@
         Template class to replace std::vector in some cases.
 
     COPYRIGHT:
-        Copyright (c) 2010-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2010-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -81,6 +81,7 @@ public:
 	
 	TQ3Uns32		size() const { return mSize; }
 	TQ3Uns32		capacity() const { return mCapacity; }
+	bool			empty() const { return mSize == 0; }
 	
 	void			resizeNotPreserving( TQ3Uns32 newSize );
 	void			clear() { Q3_REQUIRE( mIsOwned ); resizeNotPreserving(0); }
@@ -228,7 +229,10 @@ void	E3FastArray<T>::push_back( const T& value )
 		mCapacity += 1;
 		mCapacity *= 2;
 		T* biggerArray = new T[mCapacity];
-		E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(mSize * sizeof(T)) );
+		if (mSize > 0)
+		{
+			E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(mSize * sizeof(T)) );
+		}
 		delete [] mArray;
 		mArray = biggerArray;
 		mArray[ mSize ] = valueCopy;

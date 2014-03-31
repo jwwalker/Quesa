@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -180,6 +180,57 @@ static bool IsSameState( const TransparentPrim& inA, const TransparentPrim& inB 
 		(inA.mFogStyleIndex == inB.mFogStyleIndex) &&
 		(fabsf( inA.mSpecularControl - inB.mSpecularControl ) < kQ3RealZero) &&
 		IsSameColor( inA.mSpecularColor, inB.mSpecularColor ) &&
+		(fabsf( inA.mLineWidthStyle - inB.mLineWidthStyle ) < kQ3RealZero);
+	
+	// UV transform and U, V boundary only matter if there is a texture.
+	if ( isSame && (inA.mTextureName != 0) )
+	{
+		isSame = (inA.mShaderUBoundary == inB.mShaderUBoundary) &&
+			(inA.mShaderVBoundary == inB.mShaderVBoundary) &&
+			(inA.mUVTransformIndex == inB.mUVTransformIndex);
+	}
+	
+	// Primitives can only be consolidated into an array if all the vertices
+	// have the same flags.
+	if (isSame)
+	{
+		isSame = (inA.mVerts[0].flags == inB.mVerts[0].flags);
+		
+		if (isSame)
+		{
+			for (unsigned int i = 1; i < inA.mNumVerts; ++i)
+			{
+				if (inA.mVerts[i].flags != inA.mVerts[0].flags)
+				{
+					isSame = false;
+					break;
+				}
+				if (inB.mVerts[i].flags != inA.mVerts[0].flags)
+				{
+					isSame = false;
+					break;
+				}
+			}
+		}
+	}
+	
+	return isSame;
+}
+
+/*!
+	@function	IsSameStateForDepth
+	@abstract	Test whether two primitives are of the same type, in the sense
+				that they could be grouped together for rendering depth.
+*/
+static bool IsSameStateForDepth( const TransparentPrim& inA, const TransparentPrim& inB )
+{
+	bool isSame = (inA.mNumVerts == inB.mNumVerts) &&
+		(inA.mTextureName == inB.mTextureName) &&
+		(inA.mCameraToFrustumIndex == inB.mCameraToFrustumIndex) &&
+		(inA.mFillStyle == inB.mFillStyle) &&
+		(inA.mBackfacingStyle == inB.mBackfacingStyle) &&
+		(inA.mOrientationStyle == inB.mOrientationStyle) &&
+		(inA.mInterpolationStyle == inB.mInterpolationStyle) &&
 		(fabsf( inA.mLineWidthStyle - inB.mLineWidthStyle ) < kQ3RealZero);
 	
 	// UV transform and U, V boundary only matter if there is a texture.
@@ -681,6 +732,106 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 }
 
 
+void	TransBuffer::RenderPrimGroupForDepth(
+										int numPrims,
+										const TransparentPrim* inPrims,
+										TQ3ViewObject inView )
+{
+	const TransparentPrim& leader( inPrims[0] );
+	
+	UpdateCameraToFrustum( leader, inView );
+	UpdateTexture( leader );
+	UpdateFill( leader );
+	UpdateOrientation( leader );
+	UpdateBackfacing( leader );
+	UpdateLineWidth( leader );
+
+	if (numPrims == 1)
+	{
+		RenderForDepth( leader );
+	}
+	else
+	{
+		VertexFlags flags = leader.mVerts[0].flags;
+		TQ3Uns32 vertsPerPrim = leader.mNumVerts;
+		TQ3Uns32 pointsExpected = vertsPerPrim * numPrims;
+		E3FastArray<TQ3Point3D>	points;
+		E3FastArray<TQ3Param2D>	uvs;
+		E3FastArray<TQ3ColorRGBA> colors;
+		points.reserve( pointsExpected );
+		
+		mRenderer.mLights.SetOnlyAmbient( vertsPerPrim < 3 );
+		
+		bool haveUV = (leader.mTextureName != 0) && ((flags & kVertexHaveUV) != 0);
+		bool haveColor = ((flags & kVertexHaveDiffuse) != 0);
+		if (haveUV)
+		{
+			uvs.reserve( pointsExpected );
+		}
+		if (haveColor)
+		{
+			colors.reserve( pointsExpected );
+		}
+
+		// Enable or disable client arrays.  (The vertex array is always enabled.)
+		mRenderer.mGLClientStates.EnableNormalArray( false );
+		mRenderer.mGLClientStates.EnableTextureArray( haveUV );
+		mRenderer.mGLClientStates.EnableColorArray( haveColor );
+
+		// Gather data from primitives into arrays.
+		int i, j;
+		for (i = 0; i < numPrims; ++i)
+		{
+			const TransparentPrim& aPrim( inPrims[i] );
+			
+			for (j = 0; j < (int)vertsPerPrim; ++j)
+			{
+				const Vertex& aVertex( aPrim.mVerts[j] );
+				points.push_back( aVertex.point );
+				if ( haveUV )
+				{
+					uvs.push_back( aVertex.uv );
+				}
+				if ( haveColor )
+				{
+					TQ3ColorRGBA theColor =
+					{
+						aVertex.diffuseColor.r * aVertex.vertAlpha,
+						aVertex.diffuseColor.g * aVertex.vertAlpha,
+						aVertex.diffuseColor.b * aVertex.vertAlpha,
+						aVertex.vertAlpha
+					};
+					colors.push_back( theColor );
+				}
+			}
+		}
+
+	
+		// Pass array pointers to OpenGL.
+		glVertexPointer( 3, GL_FLOAT, 0, &points[0] );
+		if ( haveUV )
+		{
+			glTexCoordPointer( 2, GL_FLOAT, 0, &uvs[0] );
+		}
+		if ( haveColor )
+		{
+			glColorPointer( 4, GL_FLOAT, 0, &colors[0] );
+		}
+		
+		// draw an array
+		GLenum arrayMode = GL_TRIANGLES;
+		if (vertsPerPrim == 2)
+		{
+			arrayMode = GL_LINES;
+		}
+		else if (vertsPerPrim == 1)
+		{
+			arrayMode = GL_POINTS;
+		}
+		glDrawArrays( arrayMode, 0, numPrims * vertsPerPrim );
+	}
+}
+
 void	TransBuffer::RenderForDepth( const TransparentPrim& inPrim )
 {
 	switch (inPrim.mNumVerts)
@@ -902,7 +1053,8 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 		
 		const TQ3Uns32 kNumPrims = static_cast<TQ3Uns32>(mTransBuffer.size());
 		
-		E3FastArray<TransparentPrim>	mRenderGroup;
+		mRenderGroup.clear();
+		mRenderGroup.reserve( kNumPrims );
 		TransparentPrim groupLeader = *mPrimPtrs[0];
 		mRenderGroup.push_back( groupLeader );
 	
@@ -1005,18 +1157,31 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 		
 		const TQ3Uns32 kNumPrims = static_cast<TQ3Uns32>(mTransBuffer.size());
 		
-		for (TQ3Uns32 i = 0; i < kNumPrims; ++i)
+		mRenderGroup.clear();
+		mRenderGroup.reserve( kNumPrims );
+		TransparentPrim groupLeader = *mPrimPtrs[0];
+		mRenderGroup.push_back( groupLeader );
+	
+		for (TQ3Uns32 i = 1; i < kNumPrims; ++i)
 		{
 			const TransparentPrim& thePrim( *mPrimPtrs[i] );
 			
-			UpdateCameraToFrustum( thePrim, inView );
-			UpdateTexture( thePrim );
-			UpdateFill( thePrim );
-			UpdateOrientation( thePrim );
-			UpdateBackfacing( thePrim );
-			UpdateLineWidth( thePrim );
-			
-			RenderForDepth( thePrim );
+			if (IsSameStateForDepth( thePrim, groupLeader ))
+			{
+				mRenderGroup.push_back( thePrim );
+			}
+			else
+			{
+				RenderPrimGroupForDepth( mRenderGroup.size(), &mRenderGroup[0], inView );
+				mRenderGroup.clear();
+				mRenderGroup.push_back( thePrim );
+				groupLeader = thePrim;
+			}
+		}
+		
+		if (mRenderGroup.size() > 0)
+		{
+			RenderPrimGroupForDepth( mRenderGroup.size(), &mRenderGroup[0], inView );
 		}
 		
 		// Restore GL state
