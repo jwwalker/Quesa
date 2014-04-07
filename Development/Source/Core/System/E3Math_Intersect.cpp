@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2174,4 +2174,47 @@ bool	E3BoundingBox_ShadowIntersectsViewFrustum(
 	}
 	
 	return couldShadowBeVisible;
+}
+
+
+/*!
+	@function	E3BoundingBox_Intersect
+	@abstract	Intersect two bounding boxes.
+	@param		inBox1		A bounding box.
+	@param		inBox2		A bounding box.
+	@param		outSect		Receives the intersection.  May refer to the same
+							storage as inBox1 or inBox2.
+	@result		True if the intersection is nonempty.
+*/
+bool	E3BoundingBox_Intersect( const TQ3BoundingBox& inBox1,
+								const TQ3BoundingBox& inBox2,
+								TQ3BoundingBox& outSect )
+{
+	// Empty until proven nonempty
+	outSect.isEmpty = kQ3True;
+
+	if ( (inBox1.isEmpty == kQ3False) && (inBox2.isEmpty == kQ3False) )
+	{
+		outSect.min.x = E3Num_Max( inBox1.min.x, inBox2.min.x );
+		outSect.max.x = E3Num_Min( inBox1.max.x, inBox2.max.x );
+		
+		if (outSect.min.x <= outSect.max.x)
+		{
+			outSect.min.y = E3Num_Max( inBox1.min.y, inBox2.min.y );
+			outSect.max.y = E3Num_Min( inBox1.max.y, inBox2.max.y );
+			
+			if (outSect.min.y <= outSect.max.y)
+			{
+				outSect.min.z = E3Num_Max( inBox1.min.z, inBox2.min.z );
+				outSect.max.z = E3Num_Min( inBox1.max.z, inBox2.max.z );
+				
+				if (outSect.min.z <= outSect.max.z)
+				{
+					outSect.isEmpty = kQ3False;
+				}
+			}
+		}
+	}
+	
+	return outSect.isEmpty == kQ3False;
 }

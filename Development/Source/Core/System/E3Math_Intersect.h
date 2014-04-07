@@ -5,7 +5,7 @@
         Header file for E3Math_Intersect.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -182,5 +182,19 @@ bool	E3BoundingBox_ShadowIntersectsViewFrustum(
 									TQ3ViewObject inView,
 									const TQ3BoundingBox& inLocalBox,
 									const TQ3RationalPoint4D& inWorldLightPos );
+
+
+/*!
+	@function	E3BoundingBox_Intersect
+	@abstract	Intersect two bounding boxes.
+	@param		inBox1		A bounding box.
+	@param		inBox2		A bounding box.
+	@param		outSect		Receives the intersection.  May refer to the same
+							storage as inBox1 or inBox2.
+	@result		True if the intersection is nonempty.
+*/
+bool	E3BoundingBox_Intersect( const TQ3BoundingBox& inBox1,
+								const TQ3BoundingBox& inBox2,
+								TQ3BoundingBox& outSect );
 
 #endif
