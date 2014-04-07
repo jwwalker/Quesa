@@ -964,6 +964,35 @@ void QORenderer::Renderer::CalcTriMeshVertState(
 	}
 }
 
+
+/*!
+	@function	IsSimplyTransparent
+	
+	@abstract	Test whether a TriMesh is transparent due to global state,
+				either a global texture shader with an alpha channel or else a
+				global transparency color, and can be handled by a relatively
+				fast path through TransBuffer.
+*/
+static bool IsSimplyTransparent( const QORenderer::MeshArrays& inData,
+								const QORenderer::Texture& inTextureState,
+								const QORenderer::ColorState& inGeomColor )
+{
+	return (
+				inTextureState.IsTextureTransparent() ||
+				(1.0f - inGeomColor.alpha > kAlphaThreshold)
+			)
+			&& (inData.vertTransparency == NULL)
+			&& (inData.faceTransparency == NULL)
+			&& (inData.faceSurfaceShader == NULL)
+			&& (inData.vertColor == NULL)
+			&& (inData.vertEmissive == NULL)
+			&& (inData.faceColor == NULL)
+			&& (inData.faceEmissive == NULL)
+			&& (inData.edgeColor == NULL)
+			&& (inData.vertNormal != NULL);
+}
+
+
 /*!
 	@function	RenderSlowPathTriMesh
 	@abstract	When a TriMesh cannot be rendered on the fast path, break it up
@@ -978,6 +1007,13 @@ void	QORenderer::Renderer::RenderSlowPathTriMesh(
 									const TQ3TriMeshData& inGeomData,
 									const MeshArrays& inData )
 {
+	if ( IsSimplyTransparent( inData, mTextures, mGeomState ) and
+		(inData.vertNormal != NULL) )
+	{
+		mTransBuffer.AddTriMesh( inGeomData, inData );
+		return;
+	}
+
 	Vertex		theVertices[3];
 	TQ3Uns32	faceNum;
 	VertexFlags	flagUnion, flagIntersection;
@@ -1632,6 +1668,10 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		}
 	}
 	
+	// Notify per-pixel lighting
+	mPPLighting.PreGeomSubmit( inTriMesh );
+
+	// Special handling when shadow marking
 	if (mLights.IsShadowMarkingPass())
 	{
 		if ( (mStyleState.mFill == kQ3FillStyleFilled) &&
@@ -1643,12 +1683,6 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		didHandle = true;
 	}
 	
-	// Notify per-pixel lighting
-	if (! mLights.IsShadowMarkingPass())
-	{
-		mPPLighting.PreGeomSubmit( inTriMesh );
-	}
-
 	// If we are in edge-fill mode and explicit edges have been provided,
 	// we may want to handle them here.
 	if ( (! didHandle) &&

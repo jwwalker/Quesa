@@ -84,6 +84,7 @@ public:
 	bool			empty() const { return mSize == 0; }
 	
 	void			resizeNotPreserving( TQ3Uns32 newSize );
+	void			resize( TQ3Uns32 newSize );
 	void			clear() { Q3_REQUIRE( mIsOwned ); resizeNotPreserving(0); }
 	void			reserve( TQ3Uns32 newCapacity );
 	
@@ -189,6 +190,12 @@ void	E3FastArray<T>::resizeNotPreserving( TQ3Uns32 newSize )
 	}
 }
 
+template <typename T>
+void	E3FastArray<T>::resize( TQ3Uns32 newSize )
+{
+	reserve( newSize );
+	mSize = newSize;
+}
 
 template <typename T>
 void	E3FastArray<T>::reserve( TQ3Uns32 newCapacity )

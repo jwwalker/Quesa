@@ -59,6 +59,7 @@ namespace QORenderer
 
 class Renderer;
 class PerPixelLighting;
+struct MeshArrays;
 
 struct TransparentPrim
 {
@@ -82,6 +83,37 @@ struct TransparentPrim
 	TQ3Uns32			mFogStyleIndex;
 	TQ3Uns32			mCameraToFrustumIndex;
 	float				mLineWidthStyle;
+};
+
+/*!
+	@class				TransparentBlock
+	
+	@abstract			Buffer for a group of transparent primitives, whose
+						bounding box in frustum space should be disjoint from
+						each other such block.
+*/
+class TransparentBlock
+{
+public:
+						TransparentBlock();
+						~TransparentBlock() {}
+	
+	bool				Intersects( const TransparentBlock& inOther ) const;
+	void				Union( const TransparentBlock& inOther );
+	
+	bool				Occludes( const TransparentBlock& inOther ) const;
+	
+	void				SortPrimPtrs();
+						
+	E3FastArray<TransparentPrim>			mPrims;
+	TQ3BoundingBox							mFrustumBounds;
+	E3FastArray<const TransparentPrim*>		mPrimPtrs;
+	TQ3Int32								mVisitOrder;
+	bool									mHasUniformVertexFlags;
+
+private:
+						TransparentBlock( const TransparentBlock& inOther );
+	TransparentBlock&	operator=( const TransparentBlock& inOther );
 };
 
 /*!
@@ -110,6 +142,10 @@ public:
 
 	void							AddPoint(
 											const Vertex& inVertex );
+
+	void							AddTriMesh(
+											const TQ3TriMeshData& inGeomData,
+											const MeshArrays& inData );
 	
 	void							DrawTransparency(
 											TQ3ViewObject inView,
@@ -121,14 +157,23 @@ public:
 
 	void							Cleanup();
 	
-	inline bool						HasContent() const { return ! mTransBuffer.empty(); }
+	inline bool						HasContent() const { return ! mBlocks.empty(); }
 
 private:
 	void							AddPrim(
 											int inNumVerts,
 											const Vertex* inVertices );
 
+	void							AddBlock( TransparentBlock* ioBlock );
+
+	void							SortPrimPtrsInEachBlock();
+	void							SortBlocks();
+	void							SearchBlock( TQ3Uns32 inToVisit,
+												TQ3Int32& ioNextID );
 	void							SortIndices();
+	void							MakeVertexPrototype(
+											const MeshArrays& inData,
+											Vertex& outVertex ) const;
 	void							InitGLState(
 											TQ3ViewObject inView );
 	void							InitGLStateForDepth(
@@ -171,24 +216,23 @@ private:
 	void							RenderForDepth(
 											const TransparentPrim& inPrim );
 	void							RenderPrimGroup(
-											int numPrims,
-											const TransparentPrim* inPrims,
 											TQ3ViewObject inView );
 	void							RenderPrimGroupForDepth(
-											int numPrims,
-											const TransparentPrim* inPrims,
 											TQ3ViewObject inView );
 	
 	Renderer&						mRenderer;
 	PerPixelLighting&				mPerPixelLighting;
 	
 	// Buffers used when accumulating primitives
-	E3FastArray<TransparentPrim>	mTransBuffer;
 	std::vector<TQ3Matrix4x4>		mCameraToFrustumMatrices;
 	std::vector<TQ3Matrix3x3>		mUVTransforms;
+	E3FastArray<TQ3Point3D>			mWorkCameraPts;
+	E3FastArray<TQ3Point3D>			mWorkFrustumPts;
+	E3FastArray<TQ3Vector3D>		mWorkCameraNormals;
+	E3FastArray<bool>				mWorkIsInFrontOfCamera;
+	E3FastArray<TransparentBlock*>	mBlocks;
 	
 	// State used when flushing (drawing) primitives
-	std::vector<const TransparentPrim*>		mPrimPtrs;
 	bool							mIsLightingEnabled;
 	bool							mIsSortNeeded;
 	TQ3Uns32						mCurCameraToFrustumIndex;
@@ -204,7 +248,11 @@ private:
 	GLenum							mSrcBlendFactor;
 	GLenum							mDstBlendFactor;
 	
-	E3FastArray<TransparentPrim>	mRenderGroup;
+	E3FastArray<const TransparentPrim*>	mRenderGroup;
+	E3FastArray<TQ3Point3D>			mGroupPts;
+	E3FastArray<TQ3Vector3D>		mGroupNormals;
+	E3FastArray<TQ3Param2D>			mGroupUVs;
+	E3FastArray<TQ3ColorRGBA>		mGroupColors;
 };
 
 }

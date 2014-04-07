@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -4340,13 +4340,13 @@ E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox,
 	const TQ3Point3D *points3D, TQ3Uns32 numPoints, TQ3Uns32 structSize)
 {
 	if (numPoints == 0)
-		Q3BoundingBox_Reset(bBox);
+		Q3FastBoundingBox_Reset(bBox);
 	else
 	{
 		const char* in = (const char*) points3D;
 		TQ3Uns32 i;
 		
-		Q3BoundingBox_Set(bBox, points3D, points3D, kQ3False);
+		Q3FastBoundingBox_Set(bBox, points3D, points3D, kQ3False);
 		in += structSize;
 		
 		for (i = 1; i < numPoints; ++i, in += structSize)
@@ -4423,14 +4423,14 @@ E3BoundingBox_Union(const TQ3BoundingBox *b1, const TQ3BoundingBox *b2,
 	if (b1->isEmpty)
 	{
 		if (b2->isEmpty)
-			Q3BoundingBox_Reset(result);
+			Q3FastBoundingBox_Reset(result);
 		else
-			Q3BoundingBox_Copy(b2, result);
+			Q3FastBoundingBox_Copy(b2, result);
 	}
 	else
 	{
 		if (b2->isEmpty)
-			Q3BoundingBox_Copy(b1, result);
+			Q3FastBoundingBox_Copy(b1, result);
 		else
 		{
 			result->min.x = E3Num_Min(b1->min.x, b2->min.x);
