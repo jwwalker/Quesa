@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2008-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -182,6 +182,7 @@ static void TransformNormalAttribute( TQ3AttributeSet ioAtts,
 			&theNormal ))
 		{
 			Q3Vector3D_Transform( &theNormal, &inMatrix, &theNormal );
+			Q3FastVector3D_Normalize( &theNormal, &theNormal );
 			Q3AttributeSet_Add( ioAtts, kQ3AttributeTypeNormal, &theNormal );
 		}
 	}
@@ -286,6 +287,14 @@ static TQ3Vector3D*	FindNormals( TQ3TriMeshAttributeData* inAtts, int inNumAttTy
 	return theNormals;
 }
 
+static void NormalizeNormals( TQ3Vector3D* ioNormals, TQ3Uns32 inCount )
+{
+	for (TQ3Uns32 i = 0; i < inCount; ++i)
+	{
+		Q3FastVector3D_Normalize( &ioNormals[i], &ioNormals[i] );
+	}
+}
+
 static void TransformTriMesh( const TQ3Matrix4x4* inMatrix,
 								TQ3GeometryObject ioGeom )
 {
@@ -309,6 +318,7 @@ static void TransformTriMesh( const TQ3Matrix4x4* inMatrix,
 	{
 		Q3Vector3D_To3DTransformArray( normals, &normalTrans, normals,
 			tmData->numPoints, sizeof(TQ3Vector3D), sizeof(TQ3Vector3D) );
+		NormalizeNormals( normals, tmData->numPoints );
 	}
 
 	// face normal vectors
@@ -318,6 +328,7 @@ static void TransformTriMesh( const TQ3Matrix4x4* inMatrix,
 	{
 		Q3Vector3D_To3DTransformArray( normals, &normalTrans, normals,
 			tmData->numTriangles, sizeof(TQ3Vector3D), sizeof(TQ3Vector3D) );
+		NormalizeNormals( normals, tmData->numTriangles );
 	}
 	
 	// Recompute the bounding box
