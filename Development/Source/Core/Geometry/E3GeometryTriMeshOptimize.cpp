@@ -5,7 +5,7 @@
         Functions to optimize a TriMesh for use by the interactive renderer.
 
     COPYRIGHT:
-        Copyright (c) 2005-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1159,6 +1159,8 @@ TQ3GeometryObject E3TriMesh_Optimize( TQ3GeometryObject inTriMesh )
 			
 			Q3TriMesh_EmptyData( &optData );
 		}
+		
+		Q3TriMesh_UnlockData( inTriMesh );
 	}
 	
 	return theResult;
