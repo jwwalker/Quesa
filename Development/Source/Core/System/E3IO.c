@@ -5,7 +5,7 @@
         Implementation of Quesa Q3File related methods.
         
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -414,6 +414,22 @@ E3File::OpenWrite ( TQ3FileMode mode )
 	//Convert QD3D modes to Quesa format codes
 	switch ( mode )
 		{
+		case kQ3FileModeNormal | kQ3FileModeSwap:
+			formatType = kQ3FFormatWriterType3DMFNormalBinSwap;
+			break;
+		
+		case kQ3FileModeStream | kQ3FileModeSwap:
+			formatType = kQ3FFormatWriterType3DMFStreamBinSwap ;
+			break;
+
+		case kQ3FileModeDatabase | kQ3FileModeSwap:
+			formatType = kQ3FFormatWriterType3DMFDatabaseBinSwap ;
+			break;
+
+		case (kQ3FileModeStream + kQ3FileModeDatabase + kQ3FileModeSwap):
+			formatType = kQ3FFormatWriterType3DMFDatabaseStreamBinSwap ;
+			break;
+
 		case kQ3FileModeNormal:
 			formatType = kQ3FFormatWriterType3DMFNormalBin ;
 			break;

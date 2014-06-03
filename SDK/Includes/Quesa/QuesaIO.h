@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -965,7 +965,13 @@ Q3File_OpenRead (
  *      The file object must have a storage object associated with it,
  *      and must not already be open.
  *
- *		Currently, Quesa ignores the mode parameter and writes in binary stream mode.
+ *		Currently, Quesa cannot actually write in text, database, or stream
+ *		format.  The only implemented file modes are kQ3FileModeNormal and
+ *		kQ3FileModeNormal + kQ3FileModeSwap.  The non-swapped mode may be
+ *		slightly more efficient.  However, if you are running on little-endian
+ *		hardware and want your 3DMF output to be compatible with programs that
+ *		do not use Quesa, it would be advisable to write big-endian 3DMF by
+ *		using the mode kQ3FileModeNormal + kQ3FileModeSwap.
  *
  *  @param theFile          The file object.
  *  @param mode             A combination of TQ3FileModeMasks values, or the file format class signature.
