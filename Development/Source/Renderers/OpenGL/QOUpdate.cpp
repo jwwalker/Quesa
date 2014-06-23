@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -310,6 +310,8 @@ void	QORenderer::Renderer::UpdateBackfacingStyle(
 			glDisable( GL_CULL_FACE );
 			break;
 	}
+
+	mPPLighting.UpdateBackfacingStyle( mStyleState.mBackfacing );
 }
 
 void	QORenderer::Renderer::UpdateFillStyle(
