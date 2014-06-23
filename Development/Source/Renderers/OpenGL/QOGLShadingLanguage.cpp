@@ -118,6 +118,9 @@ namespace
 				
 				// Specular map flag
 				"uniform bool isUsingSpecularMap;\n"
+				
+				// Flipping normals flag
+				"uniform bool isFlippingNormals;\n"
 
 				// Samplers for texture units
 				"uniform sampler2D tex0;\n"
@@ -399,8 +402,11 @@ namespace
 					//    had previously done for flat shading, and then say
 					//      normal = faceforward( normal, normal, -faceNormal );
 					//    That is, we flip the normal if its dot with faceNormal
-					//    is negative.
-				"	normal = faceforward( normal, normal, -faceNormal );\n\n"
+					//    is negative.  This can occasionally produce incorrect
+					//    results in weird cases where vertex normals are
+					//    somewhat toward the back of the triangle.
+				"	normal = isFlippingNormals? faceforward( normal, normal, -faceNormal )\n"
+				"				: normal;\n\n"
 				;
 	
 	#pragma mark kMainFragmentShaderStartFlat
@@ -515,6 +521,7 @@ namespace
 	const char*	kLightNearEdgeUniformName		= "lightNearEdge";
 	const char* kSpotHotAngleUniformName		= "hotAngle";
 	const char* kSpotCutoffAngleUniformName		= "cutoffAngle";
+	const char* kFlippingNormalsFlagUniformName	= "isFlippingNormals";
 	
 	GLenum	sGLError = 0;
 } // end of unnamed namespace
@@ -553,6 +560,7 @@ QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 	, mSpotHotAngleUniformLoc( inOther.mSpotHotAngleUniformLoc )
 	, mSpotCutoffAngleUniformLoc( inOther.mSpotCutoffAngleUniformLoc )
 	, mIsSpecularMappingUniformLoc( inOther.mIsSpecularMappingUniformLoc )
+	, mIsFlippingNormalsUniformLoc( inOther.mIsFlippingNormalsUniformLoc )
 {}
 
 void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
@@ -566,6 +574,7 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	std::swap( mSpotHotAngleUniformLoc, ioOther.mSpotHotAngleUniformLoc );
 	std::swap( mSpotCutoffAngleUniformLoc, ioOther.mSpotCutoffAngleUniformLoc );
 	std::swap( mIsSpecularMappingUniformLoc, ioOther.mIsSpecularMappingUniformLoc );
+	std::swap( mIsFlippingNormalsUniformLoc, ioOther.mIsFlippingNormalsUniformLoc );
 }
 
 QORenderer::ProgramRec&
@@ -685,6 +694,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mIsShading( false )
 	, mMayNeedProgramChange( true )
 	, mIsSpecularMapped( false )
+	, mIsFlippingNormals( true )
 	, mQuantization( 0.0f )
 	, mLightNearEdge( 1.0f )
 	, mCurrentProgram( NULL )
@@ -1092,8 +1102,9 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 			}
 			
 			// Even if we didn't change the program, we need to update the
-			// specular mapping uniform.
+			// specular mapping and flipping uniforms.
 			mFuncs.glUniform1i( theProgram->mIsSpecularMappingUniformLoc, mIsSpecularMapped );
+			mFuncs.glUniform1i( theProgram->mIsFlippingNormalsUniformLoc, mIsFlippingNormals );
 		}
 	}
 }
@@ -1178,6 +1189,9 @@ void	QORenderer::PerPixelLighting::InitUniformLocations( ProgramRec& ioProgram )
 	CHECK_GL_ERROR;
 	ioProgram.mSpotCutoffAngleUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kSpotCutoffAngleUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mIsFlippingNormalsUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kFlippingNormalsFlagUniformName );
 	CHECK_GL_ERROR;
 }
 
@@ -1476,6 +1490,25 @@ void	QORenderer::PerPixelLighting::UpdateInterpolationStyle(
 }
 
 /*!
+	@function	UpdateBackfacingStyle
+	@abstract	Notification that the type of backfacing style may have
+				changed.
+*/
+void	QORenderer::PerPixelLighting::UpdateBackfacingStyle(
+									TQ3BackfacingStyle inBackfacing )
+{
+	if (mIsShading)
+	{
+		bool shouldFlip = (inBackfacing != kQ3BackfacingStyleRemove);
+		if (shouldFlip != mIsFlippingNormals)
+		{
+			mIsFlippingNormals = shouldFlip;
+			mMayNeedProgramChange = true;
+		}
+	}
+}
+
+/*!
 	@function	UpdateFogStyle
 	@abstract	Notification that fog style has changed.
 */
@@ -1531,6 +1564,7 @@ void	QORenderer::PerPixelLighting::UpdateTexture( bool inTexturing  )
 		}
 	}
 }
+
 
 /*!
 	@function	UpdateSpecularMapping

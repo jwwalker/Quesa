@@ -143,6 +143,7 @@ struct ProgramRec
 	GLint			mSpotCutoffAngleUniformLoc;
 	GLint			mIsSpecularMappingUniformLoc;
 	GLint			mIsLayerShiftingUniformLoc;
+	GLint			mIsFlippingNormalsUniformLoc;
 };
 
 

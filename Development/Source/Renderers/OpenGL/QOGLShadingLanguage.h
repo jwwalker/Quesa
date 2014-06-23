@@ -246,6 +246,14 @@ public:
 										TQ3InterpolationStyle inInterpolation );
 
 	/*!
+		@function	UpdateBackfacingStyle
+		@abstract	Notification that the type of backfacing style may have
+					changed.
+	*/
+	void						UpdateBackfacingStyle(
+										TQ3BackfacingStyle inBackfacing );
+
+	/*!
 		@function	UpdateFogStyle
 		@abstract	Notification that fog style has changed.
 	*/
@@ -299,6 +307,7 @@ private:
 	bool						mIsShading;
 	bool						mMayNeedProgramChange;
 	bool						mIsSpecularMapped;
+	bool						mIsFlippingNormals;
 	TQ3Float32					mQuantization;
 	TQ3Float32					mLightNearEdge;
 	std::vector<GLfloat>		mHotAngles;
