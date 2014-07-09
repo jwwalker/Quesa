@@ -55,14 +55,19 @@
 
 	#include <wingdi.h>
 
-#elif QUESA_OS_MACINTOSH && !QUESA_UH_IN_FRAMEWORKS
-	
-	#include <CFString.h>
-	#include <CFBundle.h>
-	
-	#include "E3MacMemory.h"
+#elif QUESA_OS_MACINTOSH
+	#if QUESA_UH_IN_FRAMEWORKS
+		#include <Carbon/Carbon.h>
+	#else
+		#include <CFString.h>
+		#include <CFBundle.h>
+		#include <Gestalt.h>
+		
+		#include "E3MacMemory.h"
+	#endif
+#endif
 
-#elif QUESA_OS_COCOA || (QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS)
+#if QUESA_OS_COCOA || (QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS)
 
 	#include <mach-o/dyld.h>
 	#include <cstring>
