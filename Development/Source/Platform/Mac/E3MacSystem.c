@@ -5,7 +5,7 @@
         Mac specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -330,6 +330,7 @@ e3mac_load_plugins(const FSRef& dirToScan )
 //	This is designated at the initiailization function in the Xcode build settings
 //	(INIT_ROUTINE).
 //-----------------------------------------------------------------------------
+__attribute__((constructor))
 void E3MacMachoFrameworkInit()
 {
 	CFBundleRef		myBundle = CFBundleGetBundleWithIdentifier( CFSTR("org.Quesa.Quesa") );
@@ -541,8 +542,8 @@ E3MacSystem_LoadPlugins(void)
 
 
 	// Initialise ourselves
-	isOnOSX = (Gestalt(gestaltSystemVersion, &sysVersion) == noErr) &&
-		(sysVersion >= 0x00001000);
+	isOnOSX = (Gestalt(gestaltSystemVersionMajor, &sysVersion) == noErr) &&
+		(sysVersion >= 10);
 
 
 

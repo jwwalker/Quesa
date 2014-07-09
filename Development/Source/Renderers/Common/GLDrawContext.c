@@ -1564,17 +1564,24 @@ MacGLContext::MacGLContext(
 	
 	
 	// Find the OS version
-	Gestalt(gestaltSystemVersion, &sysVersion);
+	SInt32 sysMajor = 0, sysMinor = 0;
+	Gestalt( gestaltSystemVersionMajor, &sysMajor );
+	Gestalt( gestaltSystemVersionMinor, &sysMinor );
 
 
 
 	// If we are on Tiger and rendering offscreen, try for the better
 	// software renderer.  This, for instance, has a larger viewport limit
 	// and shows specular highlights on textured material.
-	if ( (sysVersion >= 0x1040) && (drawContextType == kQ3DrawContextTypePixmap) )
-		{
+	if ( (drawContextType == kQ3DrawContextTypePixmap) &&
+		(
+			(sysMajor > 10) ||
+			((sysMajor == 10) && (sysMinor >= 4))
+		)
+	)
+	{
 		rendererID = 0x20400;
-		}
+	}
 
 	
 	// Check whether a pixel format was provided by the client
