@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -174,13 +174,14 @@ namespace
 				// inout: vec3 diff, vec3 spec
 				"// Directional light, light LIGHT_INDEX\n"
 				"{\n"
-				"	float nDotVP = max( 0.0, dot( normal,"
+				"	float nDotVP = max( 0.0, dot( normal,\n"
 				"		gl_LightSource[LIGHT_INDEX].position.xyz ) );\n"
 				"	diff += QuantizeDiffuse( gl_LightSource[LIGHT_INDEX].diffuse.rgb, nDotVP );\n\n"
 				
 				"	float nDotHV = max( 0.0, \n"
 				"		dot( normal, gl_LightSource[LIGHT_INDEX].halfVector.xyz ) );\n"
-				"	float pf = (nDotVP > 0.0)? pow( nDotHV, specularExp ) : 0.0;\n"
+				"	float pf1 = (specularExp <= 0.0)? 1.0 : pow( nDotHV, specularExp );\n"
+				"	float pf = (nDotVP > 0.0)? pf1 : 0.0;\n"
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf);\n"
 				"}\n\n";
 
@@ -248,9 +249,9 @@ namespace
 				"	geomToLight /= d;\n"
 
 					// Compute attenuation factor
-				"	float attenuation = 1.0 / "
-				"		(gl_LightSource[LIGHT_INDEX].constantAttenuation +"
-				"		gl_LightSource[LIGHT_INDEX].linearAttenuation * d +"
+				"	float attenuation = 1.0 / \n"
+				"		(gl_LightSource[LIGHT_INDEX].constantAttenuation +\n"
+				"		gl_LightSource[LIGHT_INDEX].linearAttenuation * d +\n"
 				"		gl_LightSource[LIGHT_INDEX].quadraticAttenuation * d * d );\n"
 
 					// Compute the direction halfway between the geometry to light vector
@@ -270,7 +271,7 @@ namespace
 				"	if (nDotGeomToLight == 0.0)\n"
 				"		pf = 0.0;\n"
 				"	else\n"
-				"		pf = pow( nDotHalf, specularExp );\n\n"
+				"		pf = (specularExp <= 0.0)? 1.0 : pow( nDotHalf, specularExp );\n\n"
 
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
 				"}\n\n";
@@ -339,7 +340,7 @@ namespace
 				"	if (nDotGeomToLight == 0.0)\n"
 				"		pf = 0.0;\n"
 				"	else\n"
-				"		pf = pow( nDotHalf, specularExp );\n\n"
+				"		pf = (specularExp <= 0.0)? 1.0 : pow( nDotHalf, specularExp );\n\n"
 
 				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
 				"}\n\n";
@@ -433,7 +434,7 @@ namespace
 	const char* kColorCompForLambertAndPhong =
 					// Start with emissive and global ambient color.
 					// I will assume that the only ambient light is global.
-				"	color = gl_LightModel.ambient.rgb * gl_Color.rgb + "
+				"	color = gl_LightModel.ambient.rgb * gl_Color.rgb +\n"
 				"         gl_FrontMaterial.emission.rgb;\n"
 
 					// Add diffuse color.
