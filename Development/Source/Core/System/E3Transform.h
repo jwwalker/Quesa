@@ -5,7 +5,7 @@
         Header file for E3Transform.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -106,9 +106,9 @@ class E3MatrixTransform : public E3Transform
 	{
 Q3_CLASS_ENUMS ( kQ3TransformTypeMatrix, E3MatrixTransform, E3Transform )
 
+public :
 	TQ3Matrix4x4			matrix ;
 	
-public :
 	
 	static TQ3Boolean		IsOfMyClass ( TQ3Object object ) ;
 

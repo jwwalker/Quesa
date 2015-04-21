@@ -12,7 +12,7 @@
         light type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -696,10 +696,10 @@ E3Light_RegisterClass(void)
 
 
 	// Register the Light classes
-	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameLight,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameLight,
 										NULL,
 										E3Light,
-										sizeof(TQ3LightData) ) ;
+										lightData ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameLightAmbient,

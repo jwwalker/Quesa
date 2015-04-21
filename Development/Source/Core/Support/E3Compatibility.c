@@ -13,7 +13,7 @@
         contained here.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -94,8 +94,9 @@ Q3AttributeClass_Register(TQ3AttributeType		attributeType,
 											attributeType ,
 											name ,
 											metaHandler ,
-											static_cast<TQ3Uns32>(sizeOfElement + sizeof ( OpaqueTQ3Object )),
-											sizeOfElement ) ;
+											static_cast<TQ3Uns32>(sizeOfElement + sizeof( OpaqueTQ3Object )),
+											sizeOfElement,
+											sizeof( OpaqueTQ3Object ) ) ;
 	if ( qd3dStatus != kQ3Success )
 		return NULL ;
 
@@ -125,8 +126,9 @@ Q3ElementClass_Register(TQ3ElementType			elementType,
 											elementType ,
 											name ,
 											metaHandler ,
-											static_cast<TQ3Uns32>(sizeOfElement + sizeof ( OpaqueTQ3Object )),
-											sizeOfElement ) ;
+											static_cast<TQ3Uns32>(sizeOfElement + sizeof( OpaqueTQ3Object )),
+											sizeOfElement,
+											sizeof( OpaqueTQ3Object ) ) ;
 	if ( qd3dStatus != kQ3Success )
 		return NULL ;
 

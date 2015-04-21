@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -375,7 +375,14 @@ e3shader_texture_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 
 
 	//duplicate the texture
-	*toInstanceData = Q3Object_Duplicate( *fromInstanceData );
+	if (*fromInstanceData == NULL)
+	{
+		*toInstanceData = NULL;
+	}
+	else
+	{
+		*toInstanceData = Q3Object_Duplicate( *fromInstanceData );
+	}
 		
 	return(kQ3Success) ;
 }
@@ -688,10 +695,10 @@ E3Shader_RegisterClass(void)
 
 
 	// Register the shader base class
-	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameShader,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameShader,
 										e3shader_metahandler,
 										E3Shader,
-										sizeof(TQ3ShaderData) ) ;
+										shaderData ) ;
 
 
 	//register illumination shader bases class
@@ -727,10 +734,10 @@ E3Shader_RegisterClass(void)
 
 	//register surface shaders
 	if(qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameSurfaceTexture,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameSurfaceTexture,
 											e3shader_texture_metahandler,
 											E3TextureShader,
-											sizeof(TQ3TextureObject) ) ;
+											texture ) ;
 
 
 	return(qd3dStatus) ;

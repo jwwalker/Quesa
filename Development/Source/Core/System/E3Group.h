@@ -5,7 +5,7 @@
         Header file for E3Group.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -187,11 +187,11 @@ class E3Group : public E3Shape
 	{
 Q3_CLASS_ENUMS ( kQ3ShapeTypeGroup, E3Group, E3Shape )
 
+public :
 // 16 bytes overhead per group
 // initialised in e3group_new
 	E3GroupData								groupData;
 		
-public :
 
 	static TQ3Boolean						IsOfMyClass ( TQ3Object object ) ;
 	
@@ -261,13 +261,12 @@ class E3DisplayGroup : public E3Group
 	{
 Q3_CLASS_ENUMS ( kQ3GroupTypeDisplay, E3DisplayGroup, E3Group )
 
+public :
+
 // 32 bytes + 16 bytes = 48 bytes overhead per display group
 // initialised in e3group_display_new
 	E3DisplayGroupData		displayGroupData;
 	
-public :
-
-
 
 	TQ3Status				GetState ( TQ3DisplayGroupState* pState ) ;
 	TQ3Status				SetState ( TQ3DisplayGroupState pState ) ;
@@ -289,15 +288,19 @@ public :
 TQ3Status			E3Group_RegisterClass(void);
 
 
+struct E3OrderedDisplayGroupData
+{
+	TQ3XGroupPosition		listHeads[ kQ3XOrderIndex_Count ];
+};
+
 
 class E3OrderedDisplayGroup : public E3DisplayGroup
 	{
 Q3_CLASS_ENUMS ( kQ3DisplayGroupTypeOrdered, E3OrderedDisplayGroup, E3DisplayGroup )
 
-	TQ3XGroupPosition		listHeads [ kQ3XOrderIndex_Count ] ;
-	
 public :
-
+	E3OrderedDisplayGroupData		orderedDisplayGroupData;
+	
 	TQ3GroupPosition		addobject ( TQ3Object object ) ;
 	
 	TQ3Status				findfirsttypeonlist (	TQ3XOrderIndex inIndex,

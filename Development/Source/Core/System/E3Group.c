@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1687,7 +1687,7 @@ e3group_display_ordered_new(TQ3Object theObject, void *privateData, const void *
 	// Initialise our instance data
 	for ( TQ3Int32 i = 0 ; i < kQ3XOrderIndex_Count ; ++i )
 		{
-		TQ3XGroupPosition* aListHead = &instanceData->listHeads [ i ] ;
+		TQ3XGroupPosition* aListHead = &instanceData->orderedDisplayGroupData.listHeads [ i ] ;
 		
 		aListHead->next = aListHead->prev = aListHead;
 		aListHead->object = NULL;	// not used
@@ -1764,7 +1764,7 @@ E3OrderedDisplayGroup::addobject ( TQ3Object object )
 	if (newGroupPosition)
 		{
 		TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-		TQ3XGroupPosition* theListHead = &listHeads [ theIndex ] ;
+		TQ3XGroupPosition* theListHead = &orderedDisplayGroupData.listHeads [ theIndex ] ;
 		newGroupPosition->prev = theListHead->prev ;
 		newGroupPosition->next = theListHead ;
 		theListHead->prev->next = newGroupPosition ;
@@ -1860,7 +1860,7 @@ TQ3Status
 E3OrderedDisplayGroup::findfirsttypeonlist (
 	TQ3XOrderIndex inIndex, TQ3ObjectType inType, TQ3GroupPosition* outPosition )
 	{
-	TQ3XGroupPosition* theListHead = &listHeads [ inIndex ] ;
+	TQ3XGroupPosition* theListHead = &orderedDisplayGroupData.listHeads [ inIndex ] ;
 	
 	for ( TQ3XGroupPosition* pos = theListHead->next ; pos != theListHead ; pos = pos->next )
 		{
@@ -1886,7 +1886,7 @@ TQ3Status
 E3OrderedDisplayGroup::findlasttypeonlist (
 	TQ3XOrderIndex inIndex, TQ3ObjectType inType, TQ3GroupPosition* outPosition )
 	{
-	TQ3XGroupPosition* theListHead = &listHeads [ inIndex ] ;
+	TQ3XGroupPosition* theListHead = &orderedDisplayGroupData.listHeads [ inIndex ] ;
 	
 	for ( TQ3XGroupPosition* pos = theListHead->prev ; pos != theListHead ; pos = pos->prev )
 		if ( E3Object_IsType ( pos->object, inType ) )
@@ -2010,13 +2010,13 @@ E3OrderedDisplayGroup::getnextposition ( TQ3ObjectType isType, TQ3GroupPosition 
 		if ( (startIndex == requestIndex) || (requestIndex == kQ3XOrderIndex_All) )
 		{
 			pos = pos->next;
-			theListHead = &listHeads[ startIndex ];
+			theListHead = &orderedDisplayGroupData.listHeads[ startIndex ];
 		}
 		else if (startIndex < requestIndex)
 		{
 			// start at the beginning of the list for the requested type
 			startIndex = requestIndex;
-			theListHead = &listHeads[ startIndex ];
+			theListHead = &orderedDisplayGroupData.listHeads[ startIndex ];
 			pos = theListHead->next;
 		}
 		else if (startIndex > requestIndex)
@@ -2083,14 +2083,14 @@ E3OrderedDisplayGroup::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition 
 	if ( ( startIndex == requestIndex ) || ( requestIndex == kQ3XOrderIndex_All ) )
 		{
 		pos = pos->prev ;
-		theListHead = &listHeads [ startIndex ] ;
+		theListHead = &orderedDisplayGroupData.listHeads [ startIndex ] ;
 		}
 	else
 	if ( startIndex > requestIndex )
 		{
 		// start at the end of the list for the requested type
 		startIndex = requestIndex ;
-		theListHead = &listHeads [ startIndex ] ;
+		theListHead = &orderedDisplayGroupData.listHeads [ startIndex ] ;
 		pos = theListHead->prev ;
 		}
 	else
@@ -2112,7 +2112,7 @@ E3OrderedDisplayGroup::getprevposition ( TQ3ObjectType isType, TQ3GroupPosition 
 		for ( startIndex -= 1 ; ( startIndex >= 0 ) && ( theStatus == kQ3Failure ) ;
 			--startIndex )
 			{
-			theListHead = &listHeads [ startIndex ] ;
+			theListHead = &orderedDisplayGroupData.listHeads [ startIndex ] ;
 			for ( pos = theListHead->prev ; pos != theListHead ; pos = pos->prev )
 				if ( E3Object_IsType ( pos->object, isType ) )
 					{
@@ -2266,7 +2266,7 @@ E3OrderedDisplayGroup::getfirstobjectposition ( TQ3Object object, TQ3GroupPositi
 	{
 	*position = NULL ;
 	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-	TQ3XGroupPosition* theListHead = &listHeads [ theIndex ] ;
+	TQ3XGroupPosition* theListHead = &orderedDisplayGroupData.listHeads [ theIndex ] ;
 	
 	for ( TQ3XGroupPosition* pos = theListHead->next ; pos != theListHead ; pos = pos->next )
 		if (pos->object == object)
@@ -2300,7 +2300,7 @@ E3OrderedDisplayGroup::getlastobjectposition ( TQ3Object object, TQ3GroupPositio
 	{
 	*position = NULL ;
 	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-	TQ3XGroupPosition* theListHead = &listHeads [ theIndex ] ;
+	TQ3XGroupPosition* theListHead = &orderedDisplayGroupData.listHeads [ theIndex ] ;
 	
 	for ( TQ3XGroupPosition* pos = theListHead->prev ; pos != theListHead ; pos = pos->prev )
 		if ( pos->object == object )
@@ -2339,7 +2339,7 @@ E3OrderedDisplayGroup::getnextobjectposition ( TQ3Object object, TQ3GroupPositio
 	*position = NULL ;
 
 	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-	TQ3XGroupPosition* theListHead = &listHeads [ theIndex ] ;
+	TQ3XGroupPosition* theListHead = &orderedDisplayGroupData.listHeads [ theIndex ] ;
 	TQ3XOrderIndex startIndex = e3group_display_ordered_getlistindex ( pos->object ) ;
 	if ( startIndex < theIndex )
 		pos = theListHead->next ;	// start at the beginning of this list
@@ -2384,7 +2384,7 @@ E3OrderedDisplayGroup::getprevobjectposition ( TQ3Object object, TQ3GroupPositio
 	*position = NULL  ;
 
 	TQ3XOrderIndex theIndex = e3group_display_ordered_getlistindex ( object ) ;
-	TQ3XGroupPosition* theListHead = & listHeads [ theIndex ] ;
+	TQ3XGroupPosition* theListHead = & orderedDisplayGroupData.listHeads [ theIndex ] ;
 	TQ3XOrderIndex startIndex = e3group_display_ordered_getlistindex ( pos->object ) ;
 	
 	if ( startIndex > theIndex )
@@ -2717,22 +2717,22 @@ E3Group_RegisterClass(void)
 
 
 	// Register the group classes
-	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameGroup,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameGroup,
 										e3group_metahandler,
 										E3Group,
-										sizeof(E3GroupData) ) ;
+										groupData ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameGroupDisplay,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameGroupDisplay,
 											e3group_display_metahandler,
 											E3DisplayGroup,
-											sizeof(E3DisplayGroupData) ) ;
+											displayGroupData ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameGroupDisplayOrdered,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameGroupDisplayOrdered,
 											e3group_display_ordered_metahandler,
 											E3OrderedDisplayGroup,
-											sizeof(((E3OrderedDisplayGroup*)0)->listHeads) ) ;
+											orderedDisplayGroupData ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameGroupDisplayIOProxy,

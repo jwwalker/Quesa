@@ -5,7 +5,7 @@
         Cocoa specific draw context implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -83,6 +83,7 @@ class E3CocoaDrawContext : public E3DrawContext  // This is a leaf class so no o
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+	Q3_CLASS_ENUMS ( kQ3DrawContextTypeCocoa, E3CocoaDrawContext, E3DrawContext )
 public :
 
 	TQ3DrawContextUnionData				instanceData ;
@@ -294,12 +295,9 @@ E3CocoaDrawContext_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
-											kQ3DrawContextTypeCocoa,
-											kQ3ClassNameDrawContextCocoa,
-											e3drawcontext_cocoa_metahandler,
-											sizeof(E3CocoaDrawContext),
-											sizeof(TQ3DrawContextUnionData));
+	qd3dStatus = Q3_REGISTER_CLASS( kQ3ClassNameDrawContextCocoa,
+									e3drawcontext_cocoa_metahandler,
+									E3CocoaDrawContext );
 
 	return(qd3dStatus);
 }

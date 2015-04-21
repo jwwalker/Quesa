@@ -5,7 +5,7 @@
         Header file for E3Set.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -154,9 +154,9 @@ class E3Set : public E3Shared
 	{
 Q3_CLASS_ENUMS ( kQ3SharedTypeSet, E3Set, E3Shared )
 
-	TQ3SetData				setData ;
 
 public :
+	TQ3SetData				setData ;
 
 	static TQ3Boolean		IsOfMyClass ( TQ3Object object ) ;
 

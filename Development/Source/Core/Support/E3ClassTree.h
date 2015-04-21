@@ -5,7 +5,7 @@
         Header file for E3ClassTree.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -111,7 +111,10 @@ class E3ClassInfo
 	// deltaInstanceSize is intended to be the size of the instance data that is
 	// in this class and not in the parent, but not including any padding that
 	// might be added between the parent instance data and the child instance
-	// data.
+	// data or after the child instance data.
+	TQ3Uns32			deltaInstanceOffset;
+	// Offset in bytes from the beginning of the object to the child instance
+	// data.  This is not necessarily the same as the parent's instanceSize.
 
 
 	// Parent/children
@@ -152,7 +155,6 @@ public :
 	const char*			GetName ( void ) ;
 	TQ3XMetaHandler		GetMetaHandler ( void ) ;
 	TQ3Uns32			GetInstanceSize ( void ) ;
-	TQ3Uns32			GetPaddedInstanceSize( void );
 	TQ3Uns32			GetNumInstances ( void ) ;
 	TQ3XFunctionPointer GetMethod ( TQ3XMethodType methodType ) ;
 	void				AddMethod ( TQ3XMethodType methodType, TQ3XFunctionPointer theMethod ) ;
@@ -182,7 +184,8 @@ public :
 											const char			*className,
 											TQ3XMetaHandler		classMetaHandler,
 											TQ3Uns32			totalInstanceSize,
-											TQ3Uns32			deltaInstanceSize ) ;
+											TQ3Uns32			deltaInstanceSize,
+											TQ3Uns32			deltaInstanceOffset ) ;
 	static TQ3Status		RegisterExternalClass (	TQ3ObjectType		parentClassType,
 													TQ3ObjectType		classType,
 													const char			*className,

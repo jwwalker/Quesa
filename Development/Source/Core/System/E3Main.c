@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -699,14 +699,15 @@ e3main_registercoreclasses(void)
 											kQ3ClassNameRoot,
 											e3root_metahandler,
 											sizeof ( OpaqueTQ3Object ),
-											sizeof ( OpaqueTQ3Object )
+											sizeof ( OpaqueTQ3Object ),
+											0
 											);
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (		kQ3ClassNameShared,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (		kQ3ClassNameShared,
 												e3shared_metahandler,
 												E3Shared,
-												sizeof(E3SharedData) ) ;
+												sharedData ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (		kQ3ClassNameShape,
@@ -1257,7 +1258,9 @@ E3Object_Duplicate(TQ3Object theObject)
 	// or James Walker to discuss a fix.
 	if ( E3View_IsOfMyClass ( theObject ) // Can't access E3View here as it isn't in a header file (yet) 
 	|| Q3_OBJECT_IS_CLASS ( theObject, E3DrawContext )
-	|| ( Q3_OBJECT_IS_CLASS ( theObject, E3Storage ) && ! Q3_OBJECT_IS_CLASS ( theObject, E3MemoryStorage ) ) )
+	|| ( Q3_OBJECT_IS_CLASS ( theObject, E3Storage ) &&
+		! Q3_OBJECT_IS_CLASS ( theObject, E3MemoryStorage ) &&
+		! Q3_OBJECT_IS_CLASS ( theObject, E3PathStorage ) ) )
 		{
 		E3ErrorManager_PostError(kQ3ErrorInvalidObjectType, kQ3False);
 		return(NULL);

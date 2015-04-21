@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1718,10 +1718,10 @@ E3Unknown_RegisterClass(void)
 
 
 	// Register the classes
-	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameUnknown,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameUnknown,
 										NULL,
 										E3Unknown,
-										sizeof(TQ3Boolean) ) ;
+										dirtyFlag ) ;
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameUnknownBinary,
 											e3unknown_binary_metahandler,
