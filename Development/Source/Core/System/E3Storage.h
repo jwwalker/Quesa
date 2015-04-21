@@ -5,7 +5,7 @@
         Header file for E3Storage.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -128,9 +128,9 @@ class E3MemoryStorage : public E3Storage
 	{
 Q3_CLASS_ENUMS ( kQ3StorageTypeMemory, E3MemoryStorage, E3Storage )
 
+public :
 	TE3_MemoryStorageData		memoryDetails ;
 	
-public :
 	TQ3Status					Set ( const unsigned char *buffer, TQ3Uns32 validSize ) ;
 	TQ3Status					SetBuffer ( unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize ) ;
 	TQ3Status					GetBuffer ( unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize ) ;
@@ -148,9 +148,9 @@ class E3PathStorage : public E3Storage
 	{
 Q3_CLASS_ENUMS ( kQ3StorageTypePath, E3PathStorage, E3Storage )
 
+public :
 	TQ3PathStorageData		pathDetails ;
 	
-public :
 	TQ3Status					Set ( const char* pathName ) ;
 	TQ3Status					Get ( char* pathName)  ;
 
@@ -168,9 +168,9 @@ class E3FileStreamStorage : public E3Storage
 {
 Q3_CLASS_ENUMS ( kQ3StorageTypeFileStream, E3FileStreamStorage, E3Storage )
 	
+public:
 	FILE*		mStream;
 
-public:
 	void						Set( FILE* stream );
 	FILE*						Get();
 

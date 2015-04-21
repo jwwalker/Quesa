@@ -20,7 +20,7 @@
         to record their relationship to the rest of the tree.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -487,7 +487,8 @@ E3ClassTree::RegisterExternalClass (
 										className,
 										classMetaHandler,
 										leafInstanceSize + theParent->instanceSize,
-										leafInstanceSize ) ;
+										leafInstanceSize,
+										theParent->instanceSize ) ;
 	
 	return kQ3Failure ;
 	}
@@ -498,8 +499,9 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 								TQ3ObjectType		classType,
 								const char			*className,
 								TQ3XMetaHandler		classMetaHandler,
-								TQ3Uns32			instanceSize,
-								TQ3Uns32			deltaInstanceSize )
+								TQ3Uns32			totalInstanceSize,
+								TQ3Uns32			deltaInstanceSize,
+								TQ3Uns32			deltaInstanceOffset )
 	{
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
 	TQ3Status qd3dStatus = kQ3Success ;
@@ -521,7 +523,7 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	// Find the parent class
 	if ( theParent != NULL )
 		{
-		Q3_ASSERT ( instanceSize >= theParent->instanceSize ) ;
+		Q3_ASSERT ( totalInstanceSize >= theParent->instanceSize ) ;
 		}
 
 	TQ3XObjectRegisterMethod registerMethod = NULL ;
@@ -561,8 +563,9 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 
 	// Initialise the class
 	newClass->classType        = classType ;
-	newClass->instanceSize     = instanceSize ;
+	newClass->instanceSize     = totalInstanceSize ;
 	newClass->deltaInstanceSize = deltaInstanceSize;
+	newClass->deltaInstanceOffset = deltaInstanceOffset;
 	
 
 	strcpy ( newClass->className, className ) ;
@@ -749,8 +752,7 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 	// If this class has any private data, initialise it
 	if ( inClass->deltaInstanceSize != 0 )
 		{
-		void* leafInstanceData = (void*)
-			( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->GetPaddedInstanceSize() );
+		void* leafInstanceData = FindInstanceDataOfClass( inClass );
 		
 		// If the object has a new method, call it to initialise the object
 		if ( ( (E3Root*) inClass )->newMethod != NULL )
@@ -877,8 +879,7 @@ E3ClassInfo::CreateInstance (	TQ3Boolean		sharedParams,
 void
 OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr inClass )
 	{
-	void* leafInstanceData = (void*)
-		( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->GetPaddedInstanceSize() );
+	void* leafInstanceData = FindInstanceDataOfClass( inClass );
 
 	TQ3XElementDeleteMethod elementDeleteMethod = NULL ;
 	if ( Q3_CLASS_INFO_IS_CLASS ( inClass , E3Element ) )
@@ -958,10 +959,8 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 	// If the object has any private data, allocate and duplicate it
 	if ( inClass->deltaInstanceSize != 0 )
 		{
-		void* oldLeafInstanceData = (void*)
-			( ((TQ3Uns8*) this) + inClass->instanceSize - inClass->GetPaddedInstanceSize() );
-		void* newLeafInstanceData = (void*)
-			( ((TQ3Uns8*) newObject) + inClass->instanceSize - inClass->GetPaddedInstanceSize() );
+		void* oldLeafInstanceData = FindInstanceDataOfClass( inClass );
+		void* newLeafInstanceData = newObject->FindInstanceDataOfClass( inClass );
 
 		// Call the object's duplicate method to initialise it. If the object
 		// does not have duplicate method, we do a bitwise copy.
@@ -1054,24 +1053,66 @@ OpaqueTQ3Object::DuplicateInstance ( void )
 
 
 
+
+
 //=============================================================================
-//      E3ClassTree_FindInstanceData : Find the instance data of an object.
+//  OpaqueTQ3Object::IsDerivedFromClass : Is a given class the class of this
+// 		object, or an ancestor thereof?
 //-----------------------------------------------------------------------------
-//		Note :	Returns the instance data of an object or one of its parents.
+
+TQ3Boolean	OpaqueTQ3Object::IsDerivedFromClass( E3ClassInfoPtr inClass ) const
+{
+	TQ3Boolean isDerived = kQ3False;
+	E3ClassInfoPtr myClass = GetClass();
+	while (myClass != NULL)
+	{
+		if (inClass == myClass)
+		{
+			isDerived = kQ3True;
+			break;
+		}
+		myClass = myClass->GetParent();
+	}
+	return isDerived;
+}
+
+
+
+
+
+//=============================================================================
+//  OpaqueTQ3Object::FindInstanceDataOfClass : Find the instance data of a
+// 		given class from which an object derives.
+//-----------------------------------------------------------------------------
+
+void*	OpaqueTQ3Object::FindInstanceDataOfClass( E3ClassInfoPtr inClass )
+{
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_CLASS_VERIFY(this);
+	Q3_REQUIRE_OR_RESULT( IsDerivedFromClass( inClass ), NULL );
+
+	return (void*) ( (TQ3Uns8*) this + inClass->deltaInstanceOffset ) ;
+}
+
+
+
+
+
+//=============================================================================
+//  OpaqueTQ3Object::FindLeafInstanceData : Find the instance data of an object.
 //
-//				If passed kQ3ObjectTypeLeaf, returns the instance data of the
-//				leaf object.
+// Note: FindLeafInstanceData() == FindInstanceDataOfClass( GetClass() )
 //-----------------------------------------------------------------------------
 
 void *
 OpaqueTQ3Object::FindLeafInstanceData ( void ) // Same as the old FindInstanceData ( kQ3ObjectTypeLeaf ) but simpler
-	{
+{
 	// Validate our parameters
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
 	Q3_CLASS_VERIFY(this);
 
-	return (void*) ( (TQ3Uns8*) this + theClass->instanceSize - theClass->GetPaddedInstanceSize() ) ;
-	}
+	return (void*) ( (TQ3Uns8*) this + theClass->deltaInstanceOffset ) ;
+}
 
 
 
@@ -1380,29 +1421,6 @@ E3ClassInfo::GetInstanceSize ( void )
 	// Return the size of the instance data for the class
 		
 	return deltaInstanceSize;
-}
-
-
-
-
-
-//=============================================================================
-//      E3ClassTree_GetInstanceSize : Get the size of a class's instance data,
-//										plus padding at the end.
-//-----------------------------------------------------------------------------
-TQ3Uns32
-E3ClassInfo::GetPaddedInstanceSize( void )
-{
-	// The base class contains pointers, so any class derived from it will be
-	// padded to (at least) a multiple of the size of a pointer.  This has not
-	// been a problem for us in 32-bit code, but care is needed in 64-bit code.
-	TQ3Uns32 theSize = GetInstanceSize();
-	TQ3Uns32 remainder = (theSize % (TQ3Uns32)sizeof(char*));
-	if ( remainder != 0 )
-	{
-		theSize += (TQ3Uns32)sizeof(char*) - remainder;
-	}
-	return theSize;
 }
 
 

@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -94,27 +94,39 @@ private :
 #define Q3_CLASS_INFO_IS_CLASS(_classInfo, _class) ((_classInfo)->IsClass ( _class::eClassType, _class::eClassDepth ))
 #define Q3_OBJECT_IS_CLASS(_object, _class) ((_object)->IsClass ( _class::eClassType, _class::eClassDepth ))
 
+// Some compilers give warnings about using the offsetof macro in cases that
+// are not "standard layout".  One situation that is not considered "standard
+// layout" is when one structure derives from another and both have members,
+// which is exactly the situation where we need offsets.  So here's our own
+// offset macro.
+#define Q3_CASTP(x)		((char*)(x))
+#define Q3_CAST_INT(x)		((TQ3Uns32)(x))
+#define Q3_OFFSETOF( type, member ) Q3_CAST_INT( Q3_CASTP(&(((type*)1024)->member)) - Q3_CASTP(1024))
 
+// Use this macro to register a Quesa class represented by a C++ class that has
+// a single data member named "instanceData".
 #define Q3_REGISTER_CLASS(_Name, _metaHandler, _instanceClass )								\
 	E3ClassTree::RegisterClass	( _instanceClass::eParentType,								\
 								_instanceClass::eClassType,									\
 								_Name,														\
 								_metaHandler,												\
 								sizeof ( _instanceClass ),									\
-								sizeof ( ((_instanceClass*)0)->instanceData )				\
+								sizeof ( ((_instanceClass*)0)->instanceData ),				\
+								Q3_OFFSETOF( _instanceClass, instanceData )					\
 								)
 
 
-
-#define Q3_REGISTER_CLASS_WITH_DATA( _Name, _metaHandler, _instanceClass, _leafInstanceSize )		\
+// Use this macro to register a Quesa class represented by a C++ class that has
+// a single data member with a name other than "instanceData".
+#define Q3_REGISTER_CLASS_WITH_MEMBER(_Name, _metaHandler, _instanceClass, _memberName )	\
 	E3ClassTree::RegisterClass	( _instanceClass::eParentType,								\
 								_instanceClass::eClassType,									\
 								_Name,														\
 								_metaHandler,												\
 								sizeof ( _instanceClass ),									\
-								_leafInstanceSize											\
+								sizeof ( ((_instanceClass*)0)->_memberName ),				\
+								Q3_OFFSETOF( _instanceClass, _memberName )					\
 								)
-
 
 
 #define Q3_REGISTER_CLASS_NO_DATA( _Name, _metaHandler, _instanceClass )					\
@@ -123,6 +135,7 @@ private :
 								_Name,														\
 								_metaHandler,												\
 								sizeof ( _instanceClass ),									\
+								0,															\
 								0															\
 								)
 
@@ -240,12 +253,14 @@ public :
 	void						DestroyInstance ( void ) ;
 	TQ3Object					DuplicateInstance ( void ) ;
 	void*						FindLeafInstanceData ( void ) ;
+	void*						FindInstanceDataOfClass( E3ClassInfoPtr inClass ) ;
 	TQ3ObjectType				GetObjectType ( TQ3ObjectType baseType ) ;
 	TQ3ObjectType				GetLeafType ( void ) { return GetClass ()->GetType () ; }
 	TQ3Object					GetLeafObject ( void ) ;
 	TQ3Boolean					IsObjectValid ( void ) { return (TQ3Boolean) ( quesaTag == kQ3ObjectTypeQuesa ) ; }
 	TQ3Boolean					IsClass ( TQ3ObjectType queryClass, TQ3Int32 queryDepth )
 												{ return (TQ3Boolean) ( theClass->ownAndParentTypes [ queryDepth ] == queryClass ) ; }
+	TQ3Boolean					IsDerivedFromClass( E3ClassInfoPtr inClass ) const;
 
 	TQ3Status					SetProperty( TQ3ObjectType inPropType,
 											TQ3Uns32 inDataSize,
@@ -317,10 +332,9 @@ Q3_CLASS_ENUMS ( kQ3ObjectTypeShared, E3Shared, OpaqueTQ3Object )
 						 						TQ3Object toObject,
 						 						void *toPrivateData ) ;
 	
+public :
 	E3SharedData		sharedData;
 	
-public :
-
 
 	E3Shared*			GetReference ( void ) ;
 	TQ3Boolean			IsReferenced ( void ) ;

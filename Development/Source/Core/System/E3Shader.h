@@ -5,7 +5,7 @@
         Header file for E3Shader.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -83,10 +83,10 @@ class E3Shader : public E3Shape
 	{
 Q3_CLASS_ENUMS ( kQ3ShapeTypeShader, E3Shader, E3Shape )
 
-	TQ3ShaderData		shaderData ;
 
 
 public :
+	TQ3ShaderData		shaderData ;
 
 	static TQ3Boolean	IsOfMyClass ( TQ3Object object ) ;
 	

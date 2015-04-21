@@ -5,7 +5,7 @@
         Macintosh specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -945,16 +945,16 @@ E3MacStorage_RegisterClass(void)
 	//
 	// N.B. - Handle storage is a sub-class of memory storage, not a
 	// subclass of storage (the indentation in QD3D.h is incorrect).
-	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameStorageMacintosh,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameStorageMacintosh,
 										e3storage_mac_metahandler,
 										E3MacintoshStorage,
-										sizeof(TE3_MacStorageData) ) ;
+										macStorageData ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameStorageFSSpec,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameStorageFSSpec,
 											e3storage_mac_fsspec_metahandler,
 											E3FSSpecStorage,
-											sizeof(FSRef) ) ;
+											theFSRef ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStorageHandle,

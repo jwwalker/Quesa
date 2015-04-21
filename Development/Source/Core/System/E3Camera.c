@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -629,10 +629,10 @@ E3Camera::RegisterClass(void)
 
 
 	// Register the camera classes
-	qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA(	kQ3ClassNameCamera,
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER(	kQ3ClassNameCamera,
 										e3camera_metahandler,
 										E3Camera,
-										sizeof(TQ3CameraData) );
+										cameraData );
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCameraOrthographic,

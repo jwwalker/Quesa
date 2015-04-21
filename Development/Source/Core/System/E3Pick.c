@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -44,10 +44,12 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Camera.h"
 #include "E3View.h"
 #include "E3Group.h"
 #include "E3Pick.h"
 #include "CQ3ObjectRef.h"
+#include "QuesaMathOperators.hpp"
 
 #include <algorithm>
 #include <vector>
@@ -1079,34 +1081,34 @@ E3Pick_RegisterClass(void)
 	//----------------------------------------------------------------------------------
 	
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameShapePart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameShapePart,
 											e3shapepart_metahandler,
 											E3ShapePart,
-											sizeof(TQ3ShapeObject) ) ;
+											shapeObject ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameMeshShapePart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameMeshShapePart,
 											e3meshpart_metahandler,
 											E3MeshPart,
-											sizeof(TQ3MeshComponent) ) ;
+											meshComponent ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameMeshFacePart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameMeshFacePart,
 											e3meshpart_face_metahandler,
 											E3MeshFacePart,
-											sizeof(TQ3MeshFace) ) ;
+											meshFace ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameMeshEdgePart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameMeshEdgePart,
 											e3meshpart_edge_metahandler,
 											E3MeshEdgePart,
-											sizeof(TQ3MeshEdge) ) ;
+											meshEdge ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameMeshVertexPart,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameMeshVertexPart,
 											e3meshpart_vertex_metahandler,
 											E3MeshVertexPart,
-											sizeof(TQ3MeshVertex) ) ;
+											meshVertex ) ;
 
 	return(qd3dStatus);
 }
@@ -1516,6 +1518,25 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 	
 	// picks are not sorted until e3pick_hit_find is called.
 	instanceData->isSorted = false;
+	
+	
+	// If it is a window-point pick and we have an XYZ, then reject it if it is
+	// nearer than the hither plane.
+	if ( (hitXYZ != NULL) and (E3Pick_GetType(thePick) == kQ3PickTypeWindowPoint) )
+	{
+		TQ3CameraObject theCamera = NULL;
+		E3View_GetCamera( theView, &theCamera );
+		CQ3ObjectRef disposeCamera( theCamera );
+		TQ3CameraRange theRange;
+		((E3Camera*) theCamera)->GetRange( &theRange );
+		TQ3Matrix4x4 worldToView;
+		( (E3Camera*) theCamera )->GetWorldToView( &worldToView );
+		TQ3Point3D viewPt = *hitXYZ * worldToView;
+		if (-viewPt.z < theRange.hither)
+		{
+			return theStatus;
+		}
+	}
 	
 	
 	try

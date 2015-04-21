@@ -5,7 +5,7 @@
         Quesa viewer library implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1771,12 +1771,9 @@ E3Viewer_RegisterClass(void)
 
 
 	// Register the viewer class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3ObjectTypeRoot,
-											kQ3ObjectTypeViewer,
-											kQ3ClassNameViewer,
-											e3viewer_metahandler,
-											sizeof(E3Viewer),
-											sizeof(TQ3ViewerData));
+	qd3dStatus = Q3_REGISTER_CLASS( kQ3ClassNameViewer,
+									e3viewer_metahandler,
+									E3Viewer );
 
 	return(qd3dStatus);
 }

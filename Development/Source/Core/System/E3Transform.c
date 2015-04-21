@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1090,10 +1090,10 @@ E3Transform_RegisterClass(void)
 										E3Transform ) ;
 
 	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS_WITH_DATA (	kQ3ClassNameTransformMatrix,
+		qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameTransformMatrix,
 											e3transform_matrix_metahandler,
 											E3MatrixTransform,
-											sizeof(TQ3Matrix4x4) ) ;
+											matrix ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameTransformRotate,
