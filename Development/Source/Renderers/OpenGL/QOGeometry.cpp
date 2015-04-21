@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1378,6 +1378,64 @@ void	QORenderer::Renderer::RenderCulledEdges(
 
 
 /*!
+	@function	RenderFaceEdgesTransparent
+	@abstract	Render the edges of all triangles.
+	@discussion	The obvious way to do this is to rely on
+				glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ), but that has major
+				bugs on some video cards.
+*/
+void	QORenderer::Renderer::RenderFaceEdgesTransparent(
+								TQ3GeometryObject inTriMesh,
+								const TQ3TriMeshData& inGeomData,
+								const TQ3Vector3D* inVertNormals,
+								const TQ3ColorRGB* inVertColors )
+{
+	if (inTriMesh == NULL)
+	{
+		QOCalcTriMeshEdges( inGeomData, mEdges, NULL );
+	}
+	else
+	{
+		QOGetCachedTriMeshEdges( inTriMesh, mScratchBuffer, mEdges,
+			mFacesToEdges );
+	}
+	
+	// Turn off edge-fill style to avoid bugs.
+	TQ3FillStyle saveFillStyle = mStyleState.mFill;
+	mStyleState.mFill = kQ3FillStyleFilled;
+	
+	const TQ3Uns32 kEdgeCount = mEdges.size();
+	Vertex	verts[2];
+	VertexFlags flags = kVertexHaveDiffuse | kVertexHaveTransparency;
+	if (inVertNormals != NULL)
+	{
+		flags |= kVertexHaveNormal;
+	}
+	verts[0].flags = verts[1].flags = flags;
+	verts[0].diffuseColor = verts[1].diffuseColor = *mGeomState.diffuseColor;
+	verts[0].vertAlpha = verts[1].vertAlpha = mGeomState.alpha;
+
+	for (TQ3Uns32 i = 0; i < kEdgeCount; ++i)
+	{
+		if (inVertColors != NULL)
+		{
+			verts[0].diffuseColor = inVertColors[ mEdges[i].pointIndices[0] ];
+			verts[1].diffuseColor = inVertColors[ mEdges[i].pointIndices[1] ];
+		}
+		if (inVertNormals != NULL)
+		{
+			verts[0].normal = inVertNormals[ mEdges[i].pointIndices[0] ];
+			verts[1].normal = inVertNormals[ mEdges[i].pointIndices[1] ];
+		}
+		verts[0].point = inGeomData.points[ mEdges[i].pointIndices[0] ];
+		verts[1].point = inGeomData.points[ mEdges[i].pointIndices[1] ];
+		mTransBuffer.AddLine( verts );
+	}
+	
+	mStyleState.mFill = saveFillStyle;
+}
+
+/*!
 	@function	RenderFaceEdges
 	@abstract	Render the edges of all triangles.
 	@discussion	The obvious way to do this is to rely on
@@ -1385,7 +1443,6 @@ void	QORenderer::Renderer::RenderCulledEdges(
 				performance problems on some video cards.
 */
 void	QORenderer::Renderer::RenderFaceEdges(
-								TQ3ViewObject inView,
 								TQ3GeometryObject inTriMesh,
 								const TQ3TriMeshData& inGeomData,
 								const TQ3Vector3D* inVertNormals,
@@ -1701,8 +1758,16 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		else if ( (mStyleState.mBackfacing == kQ3BackfacingStyleBoth) ||
 			(mStyleState.mBackfacing == kQ3BackfacingStyleFlip) )
 		{
-			RenderFaceEdges( inView, inTriMesh, *inGeomData,
-				dataArrays.vertNormal, dataArrays.vertColor );
+			if ((whyNotFastPath & kSlowPathMask_Transparency) == 0)
+			{
+				RenderFaceEdges( inTriMesh, *inGeomData,
+					dataArrays.vertNormal, dataArrays.vertColor );
+			}
+			else
+			{
+				RenderFaceEdgesTransparent( inTriMesh, *inGeomData,
+					dataArrays.vertNormal, dataArrays.vertColor );
+			}
 			didHandle = true;
 		}
 		// Note: the case we have not handled is where there are no explicit
