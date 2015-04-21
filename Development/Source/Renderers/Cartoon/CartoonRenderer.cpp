@@ -5,7 +5,7 @@
         Cartoon-style renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -210,11 +210,11 @@ namespace
 		void RebuildShading();
 
 		void SetShadeWidth(int nWidth) { m_nShadeWidth = nWidth; }
-		int GetShadeWidth() const { return m_nShadeWidth; }
+		//int GetShadeWidth() const { return m_nShadeWidth; }
 		int m_nShadeWidth;
 
 		void SetShadeLightness(int n) { m_nShadeLightness = n; }
-		int GetShadeLightness() const { return m_nShadeLightness; }
+		//int GetShadeLightness() const { return m_nShadeLightness; }
 		int m_nShadeLightness;
 
 		void* GetLocalTextureMemory();
@@ -450,7 +450,7 @@ void CCartoonRendererQuesa::RebuildShading()
 	int nIx;
 	int nSz = kShadingTextureWidth;
 
-	UByteColor rgbShade = {m_nShadeLightness, m_nShadeLightness, m_nShadeLightness};
+	UByteColor rgbShade = {static_cast<unsigned char>(m_nShadeLightness), static_cast<unsigned char>(m_nShadeLightness), static_cast<unsigned char>(m_nShadeLightness)};
 	UByteColor rgbWhite = {255, 255, 255};
 
 	for(nIx = 0; nIx < nSz; ++nIx, ++pMemRgb)
