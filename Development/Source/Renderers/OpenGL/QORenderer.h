@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -350,7 +350,11 @@ protected:
 									const TQ3ColorRGB* inVertColors,
 									const TQ3ColorRGB* inEdgeColors );
 	void					RenderFaceEdges(
-									TQ3ViewObject inView,
+									TQ3GeometryObject inTriMesh,
+									const TQ3TriMeshData& inGeomData,
+									const TQ3Vector3D* inVertNormals,
+									const TQ3ColorRGB* inVertColors );
+	void					RenderFaceEdgesTransparent(
 									TQ3GeometryObject inTriMesh,
 									const TQ3TriMeshData& inGeomData,
 									const TQ3Vector3D* inVertNormals,
