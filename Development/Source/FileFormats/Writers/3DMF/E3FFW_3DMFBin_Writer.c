@@ -5,7 +5,7 @@
         Quesa 3DMF Binary Writer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -78,17 +78,21 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 	switch (fileFormatPrivate->fileMode)
 		{
 		case kQ3FFormatWriterType3DMFStreamBin:
+		case kQ3FFormatWriterType3DMFStreamBinSwap:
 			// do nothing
 			*theReference = Q3Shared_GetReference(theObject);
 			return (kQ3Success);
 			
 		case kQ3FFormatWriterType3DMFDatabaseStreamBin:
+		case kQ3FFormatWriterType3DMFDatabaseStreamBinSwap:
 			forceTOC = kQ3True;
 			break;
 			
 		case kQ3FFormatWriterType3DMFDatabaseBin:
+		case kQ3FFormatWriterType3DMFDatabaseBinSwap:
 			forceTOC = kQ3True;
 		case kQ3FFormatWriterType3DMFNormalBin:
+		case kQ3FFormatWriterType3DMFNormalBinSwap:
 			createReference = kQ3True;
 			break;
 			
