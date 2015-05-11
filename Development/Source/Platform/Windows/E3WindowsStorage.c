@@ -5,7 +5,7 @@
         Windows specific Storage calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -71,8 +71,9 @@ class E3Win32Storage : public E3Storage  // This is a leaf class so no other cla
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
-public :
+	Q3_CLASS_ENUMS( kQ3StorageTypeWin32, E3Win32Storage, E3Storage );
 
+public :
 	TQ3Win32StorageData						instanceData ;
 	} ;
 	
@@ -252,12 +253,8 @@ E3Win32Storage_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeStorage,
-											kQ3StorageTypeWin32,
-											kQ3ClassNameStorageWin32,
-											e3storage_win32_metahandler,
-											sizeof(E3Win32Storage),
-											sizeof(TQ3Win32StorageData));
+	qd3dStatus = Q3_REGISTER_CLASS( kQ3ClassNameStorageWin32, e3storage_win32_metahandler,
+		E3Win32Storage );
 
 	return(qd3dStatus);
 }
