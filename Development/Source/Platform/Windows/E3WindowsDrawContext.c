@@ -5,7 +5,7 @@
         Windows specific Draw Context calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -61,8 +61,8 @@ class E3Win32DCDrawContext : public E3DrawContext  // This is a leaf class so no
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+	Q3_CLASS_ENUMS( kQ3DrawContextTypeWin32DC, E3Win32DCDrawContext, E3DrawContext );
 public :
-
 	TQ3DrawContextUnionData				instanceData ;
 	} ;
 	
@@ -73,6 +73,7 @@ class E3DDSurfaceDrawContext : public E3DrawContext  // This is a leaf class so 
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
 	{
+	Q3_CLASS_ENUMS( kQ3DrawContextTypeDDSurface, E3DDSurfaceDrawContext, E3DrawContext );
 public :
 
 	TQ3DrawContextUnionData				instanceData ;
@@ -312,12 +313,8 @@ E3Win32DCDrawContext_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
-											kQ3DrawContextTypeWin32DC,
-											kQ3ClassNameDrawContextWin32DC,
-											e3drawcontext_win32dc_metahandler,
-											sizeof(E3Win32DCDrawContext),
-											sizeof(TQ3DrawContextUnionData));
+	qd3dStatus = Q3_REGISTER_CLASS( kQ3ClassNameDrawContextWin32DC,
+		e3drawcontext_win32dc_metahandler, E3Win32DCDrawContext );
 
 	return(qd3dStatus);
 }
@@ -457,12 +454,8 @@ E3DDSurfaceDrawContext_RegisterClass(void)
 
 
 	// Register the class
-	qd3dStatus = E3ClassTree::RegisterClass(kQ3SharedTypeDrawContext,
-											kQ3DrawContextTypeDDSurface,
-											kQ3ClassNameDrawContextDDSurface,
-											e3drawcontext_ddsurface_metahandler,
-											sizeof(E3DDSurfaceDrawContext),
-											sizeof(TQ3DrawContextUnionData));
+	qd3dStatus = Q3_REGISTER_CLASS( kQ3ClassNameDrawContextDDSurface,
+		e3drawcontext_ddsurface_metahandler, E3DDSurfaceDrawContext );
 
 	return(qd3dStatus);
 }

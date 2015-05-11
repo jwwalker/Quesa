@@ -5,7 +5,7 @@
         Windows specific prefix file.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -64,6 +64,8 @@
 	#define QUESA_USES_NORMAL_DIBs							0
 #endif
 
+// Work around conflict between Windows macros and our RegisterClass method
+#undef RegisterClass
 
 #ifdef _MSC_VER
 // VC++ doesn't has the "isfinite" C99 macro, it uses "_finite" instead
