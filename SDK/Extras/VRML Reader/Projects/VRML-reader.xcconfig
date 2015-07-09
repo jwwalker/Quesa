@@ -1,16 +1,17 @@
 // Architectures
-ARCHS = ppc i386
+//ARCHS = ppc i386
+ARCHS = i386 x86_64
 
 // Compiler version
 //		This has implications for other settings.
 //		If you use GCC 4.2 or later, you cannot use the 10.4u SDK, and PowerPC
 //		code will not run on G3s.
-GCC_VERSION = 4.2
-GCC_VERSION[arch=ppc] = 4.0
+GCC_VERSION = 
+//GCC_VERSION[arch=ppc] = 4.0
 
 // Build Locations
 SDKROOT = macosx
-SDKROOT[arch=ppc] = macosx10.4
+//SDKROOT[arch=ppc] = macosx10.4
 SYMROOT = Output-Xcode
 
 // Search Paths
@@ -34,7 +35,7 @@ INFOPLIST_PREPROCESS = YES
 INFOPLIST_PREFIX_HEADER = ../Resources/version.h
 
 // Deployment
-MACOSX_DEPLOYMENT_TARGET = 10.4
+MACOSX_DEPLOYMENT_TARGET = 10.6
 
 // Language
 GCC_PREFIX_HEADER = ../Source/Precompiled Headers/VRML-Reader_Prefix.pch
