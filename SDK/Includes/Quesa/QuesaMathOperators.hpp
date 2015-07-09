@@ -9,7 +9,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -107,6 +107,23 @@ inline TQ3Vector2D& operator*=( TQ3Vector2D& ioA, float inScalar )
 	return ioA;
 }
 
+// point = scalar * point (not usual in math, but useful in 3D computing)
+inline TQ3Point3D operator*( float inScalar, const TQ3Point3D& inVec )
+{
+	TQ3Point3D result;
+	Q3FastVector3D_Scale( (const TQ3Vector3D*)&inVec, inScalar, (TQ3Vector3D*)&result );
+	return result;
+}
+
+// point = scalar * point (not usual in math, but useful in 3D computing)
+inline TQ3Point2D operator*( float inScalar, const TQ3Point2D& inVec )
+{
+	TQ3Point2D result;
+	Q3FastVector2D_Scale( (const TQ3Vector2D*)&inVec, inScalar, (TQ3Vector2D*)&result );
+	return result;
+}
+
+
 //=============================================================================
 //      Additive Operations
 //-----------------------------------------------------------------------------
@@ -178,6 +195,23 @@ inline TQ3Point3D& operator-=( TQ3Point3D& ioA, const TQ3Vector3D& inB )
 	Q3FastPoint3D_Vector3D_Subtract( &ioA, &inB, &ioA );
 	return ioA;
 }
+
+// pt = pt + pt (useful for weighted averages)
+inline TQ3Point3D operator+( const TQ3Point3D& inA, const TQ3Point3D& inB )
+{
+	TQ3Point3D result;
+	Q3FastVector3D_Add( (TQ3Vector3D*)&inA, (TQ3Vector3D*)&inB, (TQ3Vector3D*)&result );
+	return result;
+}
+
+// pt = pt + pt (useful for weighted averages)
+inline TQ3Point2D operator+( const TQ3Point2D& inA, const TQ3Point2D& inB )
+{
+	TQ3Point2D result;
+	Q3FastVector2D_Add( (TQ3Vector2D*)&inA, (TQ3Vector2D*)&inB, (TQ3Vector2D*)&result );
+	return result;
+}
+
 
 //=============================================================================
 //      Matrix Operations
