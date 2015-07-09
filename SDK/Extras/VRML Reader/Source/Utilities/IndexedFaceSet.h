@@ -6,7 +6,7 @@
        Header file for IndexedFaceSet.cpp.
 
     COPYRIGHT:
-        Copyright (c) 2005, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -264,4 +264,14 @@ private:
 										TriangleVec& outTriangles ) const;
 	void						TriangulateNonconvexFace( const SFace& inFace,
 										TriangleVec& outTriangles ) const;
+
+	/*!
+		@function				CalcAngleAtVertex
+		@abstract				Compute the angle that a face makes at a vertex,
+								for use in weighing the face normals to compute
+								a vertex normal.
+		@param					inVertIndex			Index of a vertex.
+		@result					An angle in radians.
+	*/
+	float						CalcAngleAtVertex( VertIndex inVertIndex ) const;
 };
