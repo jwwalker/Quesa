@@ -5,7 +5,7 @@
         Code to handle IndexedFaceSet nodes in both VRML 1 and 2.
 
     COPYRIGHT:
-        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,11 +47,13 @@
 #if __MACH__
 	#include <Quesa/QuesaGroup.h>
 	#include <Quesa/QuesaMath.h>
+	#include <Quesa/QuesaMathOperators.hpp>
 	#include <Quesa/QuesaStyle.h>
 	#include <Quesa/QuesaCustomElements.h>
 #else
 	#include <QuesaGroup.h>
 	#include <QuesaMath.h>
+	#include <QuesaMathOperators.hpp>
 	#include <QuesaStyle.h>
 	#include <QuesaCustomElements.h>
 #endif
@@ -107,13 +109,13 @@ void	CIndexedFaceSet::CalcFaceNormals()
 					&mPositions[ mVertices[ faceVerts[1] ].mPosition ],
 					&mPositions[ mVertices[ faceVerts[2] ].mPosition ],
 					&theNormal );
-				float	lenSq = Q3FastVector3D_LengthSquared( &theNormal );
+				float	lenSq = Q3LengthSquared3D( theNormal );
 				float	len;
 				// If the face is degenerate, leave its normal at kNoIndex.
 				if (lenSq > kDegenerateLengthSquared)
 				{
 					len = sqrt( lenSq );
-					Q3FastVector3D_Scale( &theNormal, 1.0f/len, &theNormal );
+					theNormal *= 1.0f/len;
 					i->mNormal = mFaceNormals.size();
 					mFaceNormals.push_back( theNormal );
 				}
@@ -121,22 +123,19 @@ void	CIndexedFaceSet::CalcFaceNormals()
 				{
 					// Maybe all the data is on a small scale...
 					TQ3Point3D	scaledPts[3];
-					Q3FastVector3D_Scale( (const TQ3Vector3D*)
-						&mPositions[ mVertices[ faceVerts[0] ].mPosition ],
-						kNormalRescale, (TQ3Vector3D*) &scaledPts[0] );
-					Q3FastVector3D_Scale( (const TQ3Vector3D*)
-						&mPositions[ mVertices[ faceVerts[1] ].mPosition ],
-						kNormalRescale, (TQ3Vector3D*) &scaledPts[1] );
-					Q3FastVector3D_Scale( (const TQ3Vector3D*)
-						&mPositions[ mVertices[ faceVerts[2] ].mPosition ],
-						kNormalRescale, (TQ3Vector3D*) &scaledPts[2] );
+					scaledPts[0] = kNormalRescale *
+						mPositions[ mVertices[ faceVerts[0] ].mPosition ];
+					scaledPts[1] = kNormalRescale *
+						mPositions[ mVertices[ faceVerts[1] ].mPosition ];
+					scaledPts[2] = kNormalRescale *
+						mPositions[ mVertices[ faceVerts[2] ].mPosition ];
 					Q3FastPoint3D_CrossProductTri( &scaledPts[0],
 						&scaledPts[1], &scaledPts[2], &theNormal );
-					lenSq = Q3FastVector3D_LengthSquared( &theNormal );
+					lenSq = Q3LengthSquared3D( theNormal );
 					if (lenSq > kDegenerateLengthSquared)
 					{
 						len = sqrt( lenSq );
-						Q3FastVector3D_Scale( &theNormal, 1.0f/len, &theNormal );
+						theNormal *= 1.0f/len;
 						i->mNormal = mFaceNormals.size();
 						mFaceNormals.push_back( theNormal );
 					}
@@ -158,11 +157,10 @@ void	CIndexedFaceSet::CalcFaceNormals()
 				VertIndex	j, k;
 				for (j = 0; j < faceSize; ++j)
 				{
-					Q3FastPoint3D_Subtract(
-						&mPositions[ mVertices[ faceVerts[ (j + 1) % faceSize ] ].mPosition ],
-						&mPositions[ mVertices[ faceVerts[ j ] ].mPosition ],
-						&edgeVec );
-					if (Q3FastVector3D_LengthSquared( &edgeVec ) > kDegenerateLengthSquared)
+					edgeVec =
+						mPositions[ mVertices[ faceVerts[ (j + 1) % faceSize ] ].mPosition ] -
+						mPositions[ mVertices[ faceVerts[ j ] ].mPosition ];
+					if (Q3LengthSquared3D( edgeVec ) > kDegenerateLengthSquared)
 					{
 						edges.push_back( edgeVec );
 					}
@@ -176,8 +174,8 @@ void	CIndexedFaceSet::CalcFaceNormals()
 				{
 					for (k = j + 1; k < kNumEdges; ++k)
 					{
-						Q3FastVector3D_Cross( &edges[j], &edges[k], &oneCross );
-						float	oneLenSq = Q3FastVector3D_LengthSquared( &oneCross );
+						oneCross = Q3Cross3D( edges[j], edges[k] );
+						float	oneLenSq = Q3LengthSquared3D( oneCross );
 						if (oneLenSq > bestCrossLenSq)
 						{
 							bestCrossLenSq = oneLenSq;
@@ -223,7 +221,7 @@ void	CIndexedFaceSet::CalcFaceNormals()
 					{
 						bestLen = -bestLen;
 					}
-					Q3FastVector3D_Scale( &bestCross, 1.0f/bestLen, &theNormal );
+					theNormal = (1.0f/bestLen) * bestCross;
 					
 					i->mNormal = mFaceNormals.size();
 					mFaceNormals.push_back( theNormal );
@@ -340,6 +338,45 @@ void	CIndexedFaceSet::FindVerticesAtPosition()
 }
 
 /*!
+	@function				CalcAngleAtVertex
+	@abstract				Compute the angle that a face makes at a vertex,
+							for use in weighing the face normals to compute
+							a vertex normal.
+	@param					inVertIndex			Index of a vertex.
+	@result					An angle in radians.
+*/
+float	CIndexedFaceSet::CalcAngleAtVertex( VertIndex inVertIndex ) const
+{
+	const SVertex& theVert( mVertices[ inVertIndex ] );
+	PositionIndex cornerPos = theVert.mPosition;
+	const SFace& theFace( mFaces[ theVert.mFace ] );
+	VertIndex legIndex1 = kNoIndex;
+	VertIndex legIndex2 = kNoIndex;
+	for (unsigned int i = 0; i < theFace.mVertices.size(); ++i)
+	{
+		if (theFace.mVertices[i] != inVertIndex)
+		{
+			if (legIndex1 == kNoIndex)
+			{
+				legIndex1 = theFace.mVertices[i];
+			}
+			else if (legIndex2 == kNoIndex)
+			{
+				legIndex2 = theFace.mVertices[i];
+			}
+		}
+	}
+	PositionIndex leg1pos = mVertices[ legIndex1 ].mPosition;
+	PositionIndex leg2pos = mVertices[ legIndex2 ].mPosition;
+	TQ3Vector3D leg1 = mPositions[ leg1pos ] - mPositions[ cornerPos ];
+	TQ3Vector3D leg2 = mPositions[ leg2pos ] - mPositions[ cornerPos ];
+	float angle = atan2f( Q3Length3D( Q3Cross3D( leg1, leg2 ) ),
+		Q3Dot3D( leg1, leg2 ) );
+	return angle;
+}
+
+
+/*!
 	@function				CalcVertexNormals
 	@abstract				If vertex normals were not provided,
 							calculate them, taking into account a given
@@ -374,15 +411,14 @@ void	CIndexedFaceSet::CalcVertexNormals( float inCreaseCosine )
 					if (w_faceNorm == kNoIndex)
 						continue;
 					
-					float	dotProd = Q3FastVector3D_Dot(
-						&mFaceNormals[ v_faceNorm ], &mFaceNormals[ w_faceNorm ] );
+					float	dotProd = Q3Dot3D( mFaceNormals[ v_faceNorm ],
+						mFaceNormals[ w_faceNorm ] );
 					
 					if (dotProd > inCreaseCosine)
 					{
 						mVertices[ v ].mNormal = mVertices[ w ].mNormal;
 						mNextVertSharingNormal[ v ] = w;
 						mFirstVertWithNormal[ mVertices[ v ].mNormal ] = v;
-						break;
 					}
 				}
 				if (mVertices[ v ].mNormal == kNoIndex)
@@ -402,14 +438,14 @@ void	CIndexedFaceSet::CalcVertexNormals( float inCreaseCosine )
 			for (VertIndex j = mFirstVertWithNormal[i]; j != kNoIndex;
 				j = mNextVertSharingNormal[j])
 			{
-				Q3FastVector3D_Add( &normSum, &mFaceNormals[ mVertices[j].mFace ],
-					&normSum );
+				normSum += CalcAngleAtVertex( j ) * mFaceNormals[ mVertices[j].mFace ];
 			}
-			Q3FastVector3D_Normalize( &normSum, &vertNorm );
+			vertNorm = Q3Normalize3D( normSum );
 			mVertexNormals.push_back( vertNorm );
 		}
 	}
 }
+
 
 /*!
 	@function				IdentifyDistinctPoints
@@ -523,7 +559,7 @@ void	CIndexedFaceSet::TriangulateNonconvexFace( const SFace& inFace,
 				&mPositions[ mVertices[ verts[ (i+1) % kNumVerts ] ].mPosition ],
 				&mPositions[ mVertices[ verts[ (i+2) % kNumVerts ] ].mPosition ],
 				&cornerCross );
-			float	crossDot = Q3FastVector3D_Dot( &cornerCross, &faceNormal );
+			float	crossDot = Q3Dot3D( cornerCross, faceNormal );
 			if (crossDot > FLT_EPSILON)
 			{
 				// Oops, not good enough, we must make sure that no other
