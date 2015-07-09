@@ -5,7 +5,7 @@
        Class to hold polymorphic values.
 
     COPYRIGHT:
-        Copyright (c) 2005-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -227,6 +227,9 @@ void	PolyValue::SetType( DataType inType )
 		
 		switch (inType)
 		{
+			default:
+				break;
+		
 			case kDataTypeBool:
 				newImp = new XBoolValueImp( false );
 				break;

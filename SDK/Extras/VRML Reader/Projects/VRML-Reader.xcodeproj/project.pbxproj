@@ -88,18 +88,18 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
-		BED44D5A15E56E8D0065A362 /* PBXContainerItemProxy */ = {
+		BECECD351B4DF51700276CE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */;
+			containerPortal = BECECD301B4DF51700276CE7 /* Quesa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0 /* Quesa.framework */;
+			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
 			remoteInfo = Framework;
 		};
-		BED44D5C15E56E8D0065A362 /* PBXContainerItemProxy */ = {
+		BECECD371B4DF51700276CE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */;
+			containerPortal = BECECD301B4DF51700276CE7 /* Quesa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B1756AFF080A71C30056134C /* libQuesa.a */;
+			remoteGlobalIDString = B1756AFF080A71C30056134C;
 			remoteInfo = "Static Library";
 		};
 /* End PBXContainerItemProxy section */
@@ -230,7 +230,7 @@
 		BEC95D3708A86FBC001E16B9 /* SphereV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SphereV2ToObject.h; sourceTree = "<group>"; };
 		BEC95D3908A86FBC001E16B9 /* TransformV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TransformV2ToObject.h; sourceTree = "<group>"; };
 		BEC95D6D08A86FDD001E16B9 /* VRML-Reader_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "VRML-Reader_Prefix.pch"; path = "../Source/Precompiled Headers/VRML-Reader_Prefix.pch"; sourceTree = SOURCE_ROOT; };
-		BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Quesa (Legacy).xcodeproj"; path = "../../../../Development/Projects/Mac/Quesa (Legacy).xcodeproj"; sourceTree = SOURCE_ROOT; };
+		BECECD301B4DF51700276CE7 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = "<group>"; };
 		BEFCF9910CA62F4300B84F9B /* SwitchV2ToObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchV2ToObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -305,7 +305,7 @@
 		BE04049C0B7FDC6300CC26D5 /* Projects */ = {
 			isa = PBXGroup;
 			children = (
-				BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */,
+				BECECD301B4DF51700276CE7 /* Quesa.xcodeproj */,
 			);
 			name = Projects;
 			sourceTree = "<group>";
@@ -463,11 +463,11 @@
 			path = "VRML2 node handlers";
 			sourceTree = "<group>";
 		};
-		BED44D5615E56E8D0065A362 /* Products */ = {
+		BECECD311B4DF51700276CE7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BED44D5B15E56E8D0065A362 /* Quesa.framework */,
-				BED44D5D15E56E8D0065A362 /* libQuesa.a */,
+				BECECD361B4DF51700276CE7 /* Quesa.framework */,
+				BECECD381B4DF51700276CE7 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -515,8 +515,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = BED44D5615E56E8D0065A362 /* Products */;
-					ProjectRef = BED44D5515E56E8D0065A362 /* Quesa (Legacy).xcodeproj */;
+					ProductGroup = BECECD311B4DF51700276CE7 /* Products */;
+					ProjectRef = BECECD301B4DF51700276CE7 /* Quesa.xcodeproj */;
 				},
 			);
 			projectRoot = ..;
@@ -527,18 +527,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		BED44D5B15E56E8D0065A362 /* Quesa.framework */ = {
+		BECECD361B4DF51700276CE7 /* Quesa.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Quesa.framework;
-			remoteRef = BED44D5A15E56E8D0065A362 /* PBXContainerItemProxy */;
+			remoteRef = BECECD351B4DF51700276CE7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BED44D5D15E56E8D0065A362 /* libQuesa.a */ = {
+		BECECD381B4DF51700276CE7 /* libQuesa.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libQuesa.a;
-			remoteRef = BED44D5C15E56E8D0065A362 /* PBXContainerItemProxy */;
+			remoteRef = BECECD371B4DF51700276CE7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -566,7 +566,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Go into the configuration directory\ncd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make symbolic link to Quesa\nln -h -f -s \"../../../../../Libraries/Mac/Framework_Universal/$CONFIGURATION/Quesa.framework\" Quesa.framework\n";
+			shellScript = "# Go into the configuration directory\ncd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make symbolic link to Quesa\nln -h -f -s \"../../../../../Libraries/Mac/Framework_Modern/Debug/Quesa.framework\" Quesa.framework\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -669,7 +669,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
