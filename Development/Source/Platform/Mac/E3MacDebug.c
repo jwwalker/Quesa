@@ -5,7 +5,7 @@
         Mac debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,7 +47,9 @@
 #include "E3Debug.h"
 
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <string.h>
+#include <dlfcn.h>
 
 
 
@@ -57,7 +59,7 @@
 //-----------------------------------------------------------------------------
 void
 E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
-{   Str255		theStr;
+{   unsigned char		theStr[1500];
 	TQ3Uns32	n;
 
 
@@ -77,12 +79,21 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 				theAssertion, (unsigned long)lineNum, srcFile);
 
 	n = 1;
-	while (theStr[n] != 0x00 && n < sizeof(theStr))
+	while (theStr[n] != 0x00 && n < 256)
 		n++;
 	
 	theStr[0] = (n - 1);
 
 	DebugStr(theStr);
+	
+	// Add the message to crash reports
+	char** reportStr = (char**) dlsym(RTLD_DEFAULT, "__crashreporter_info__");
+	if (reportStr != NULL)
+	{
+		*reportStr = strdup( (char *) &theStr[1] );
+	}
+	
+	abort();
 }
 
 
