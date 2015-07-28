@@ -5,7 +5,7 @@
         Debugging routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,15 +49,23 @@
 extern "C" {
 #endif
 
+#ifndef __has_attribute
+	#define __has_attribute(x) 0  // Compatibility with non-clang compilers.
+#endif
 
-
+#if __has_attribute(noreturn)
+	#define	Q3_NORETURN		__attribute__((noreturn))
+#else
+	#define	Q3_NORETURN
+#endif
 
 
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Report failed assertions
-void		E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion);
+void		E3Assert(const char *srcFile, TQ3Uns32 lineNum,
+					const char *theAssertion) Q3_NORETURN;
 
 
 // Check a pointer for validity
