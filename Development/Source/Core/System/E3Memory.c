@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,14 +51,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <cstring>
 
 #if QUESA_OS_MACINTOSH
 	#include <unistd.h>
+	#include <malloc/malloc.h>
 #endif
 
 #if QUESA_OS_WIN32
 	#include <ShlObj.h>
 	#include <direct.h>
+	#include <malloc.h>
 #endif
 
 
@@ -75,21 +78,6 @@
 		#define Q3_MEMORY_DEBUG								0
 	#endif
 #endif
-
-#if Q3_MEMORY_DEBUG
-	#define Q3_MEMORY_HEADER							static_cast<TQ3Uns32>(sizeof(TQ3Uns32) * 3)
-	#define Q3_MEMORY_TRAILER							1
-#else
-	#define Q3_MEMORY_HEADER							0
-	#define Q3_MEMORY_TRAILER							0
-#endif
-
-
-// Memory values
-#define kMemoryUninitialised							((TQ3Uns8) 0xAB)
-#define kMemoryFreed									((TQ3Uns8) 0xCD)
-#define kMemoryHeaderMark1								((TQ3Uns32) 0xFEEDFACE)
-#define kMemoryHeaderMark2								((TQ3Uns32) 0xFADEBABE)
 
 
 // Slab threshold
@@ -250,6 +238,27 @@ e3Int64_Max( const TQ3Int64& a, const TQ3Int64& b )
 
 
 
+//=============================================================================
+//      e3memGetSize : Get the size of an allocated block.
+//						On some platforms, this may return a value that is
+//						somewhat bigger than the requested allocation.
+//-----------------------------------------------------------------------------
+static TQ3Uns32 e3memGetSize( const void* inMemBlock )
+{
+	TQ3Uns32 theSize = 0;
+#if QUESA_OS_MACINTOSH
+	theSize = (TQ3Uns32) malloc_size( inMemBlock );
+#elif QUESA_OS_WIN32
+	theSize = (TQ3Uns32) _msize( (void*)inMemBlock );
+#endif
+	
+	return theSize;
+}
+
+
+
+
+
 #if Q3_DEBUG
 //=============================================================================
 //      SetDirectoryForDump : If a plain file name was passed to
@@ -368,34 +377,29 @@ E3Memory_Allocate(TQ3Uns32 theSize)
 	else
 	{
 		// Allocate the memory and a header to hold the size
-		thePtr = malloc(theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER);
+		thePtr = malloc( theSize );
 		if (thePtr == NULL)
 			E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
 	}
 
 
-
 	// If memory debugging is active, save the size and scrub the block
 #if Q3_MEMORY_DEBUG
 	if (thePtr != NULL)
-		{
-		// Save the size
-		((TQ3Uns32 *) thePtr)[0] = kMemoryHeaderMark1;
-		((TQ3Uns32 *) thePtr)[1] = theSize;
-		((TQ3Uns32 *) thePtr)[2] = kMemoryHeaderMark2;
-		thePtr                 = (void *) (((TQ3Uns8 *) thePtr) + Q3_MEMORY_HEADER);
-
-
-		// Fill the block with rubbish
-		Q3Memory_Initialize(thePtr, theSize + Q3_MEMORY_TRAILER, kMemoryUninitialised);
-		
-		
+	{
 		// Update statistics
 		sActiveAllocCount += 1;
 		sMaxAllocCount = E3Num_Max( sMaxAllocCount, sActiveAllocCount );
-		Q3Int64_Uns32_Add( sActiveAllocBytes, theSize, sActiveAllocBytes );
+		Q3Int64_Uns32_Add( sActiveAllocBytes, e3memGetSize( thePtr ), sActiveAllocBytes );
 		sMaxAllocBytes = e3Int64_Max( sMaxAllocBytes, sActiveAllocBytes );
-		}
+	}
+#endif
+
+#if Q3_MEMORY_DEBUG
+	if (theSize > 5000000UL)
+	{
+		Q3_MESSAGE_FMT("Allocated ptr %p of size %lu", thePtr, (unsigned long)theSize );
+	}
 #endif
 
 	return(thePtr);
@@ -422,7 +426,7 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 	//
 	// These platforms can allocate pages in an uninitialised state, and only
 	// clear them to 0 if an application attempts to read before writing.
-	thePtr = calloc(1, theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER);
+	thePtr = calloc( 1, theSize );
 	if (thePtr == NULL)
 		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
 
@@ -432,24 +436,19 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 #if Q3_MEMORY_DEBUG
 	if (thePtr != NULL)
 		{
-		// Save the size
-		((TQ3Uns32 *) thePtr)[0] = kMemoryHeaderMark1;
-		((TQ3Uns32 *) thePtr)[1] = theSize;
-		((TQ3Uns32 *) thePtr)[2] = kMemoryHeaderMark2;
-		thePtr                 = (void *) (((TQ3Uns8 *) thePtr) + Q3_MEMORY_HEADER);
-		
-		
-		// Fill the trailer with rubbish
-		Q3Memory_Initialize(((TQ3Uns8 *) thePtr) + theSize, Q3_MEMORY_TRAILER, kMemoryUninitialised);
-
-
-
 		// Update statistics
 		sActiveAllocCount += 1;
 		sMaxAllocCount = E3Num_Max( sMaxAllocCount, sActiveAllocCount );
-		Q3Int64_Uns32_Add( sActiveAllocBytes, theSize, sActiveAllocBytes );
+		Q3Int64_Uns32_Add( sActiveAllocBytes, e3memGetSize( thePtr ), sActiveAllocBytes );
 		sMaxAllocBytes = e3Int64_Max( sMaxAllocBytes, sActiveAllocBytes );
 		}
+#endif
+
+#if Q3_MEMORY_DEBUG
+	if (theSize > 5000000UL)
+	{
+		Q3_MESSAGE_FMT("AllocateCleared ptr %p of size %lu", thePtr, (unsigned long)theSize );
+	}
 #endif
 
 	return(thePtr);
@@ -465,53 +464,36 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 void
 E3Memory_Free(void **thePtr)
 {	void		*realPtr;
-#if Q3_MEMORY_DEBUG
-	TQ3Uns32	theSize;
-#endif
 
 
 
 	// Fetch the pointer, and release it
 	realPtr = *thePtr;
 	if (realPtr != NULL)
-		{
+	{
 		// Check it looks OK
 		Q3_ASSERT_VALID_PTR(realPtr);
 //		Q3_ASSERT ( ( TQ3Uns32 ( realPtr ) & 3 ) == 0 ) ;
 
 
-		// If memory debugging is active, rewind past the header and scrub the block
-#if Q3_MEMORY_DEBUG
-		// Back up the pointer and check that the header is undamaged
-		realPtr = (void *) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER);
-		Q3_ASSERT( ((TQ3Uns32 *) realPtr)[0] == kMemoryHeaderMark1 );
-		Q3_ASSERT( ((TQ3Uns32 *) realPtr)[2] == kMemoryHeaderMark2 );
-		
-		
-		// Fetch the size
-		theSize = ((TQ3Uns32 *) realPtr)[1];
-		
-		
-		// Check that the trailer is undamaged
-		Q3_ASSERT( *(((TQ3Uns8 *) realPtr) + Q3_MEMORY_HEADER + theSize) == kMemoryUninitialised );
-
-
-		// Fill the block with rubbish
-		Q3Memory_Initialize(realPtr, theSize + Q3_MEMORY_HEADER + Q3_MEMORY_TRAILER, kMemoryFreed);
+#if 0//Q3_MEMORY_DEBUG
+		TQ3Uns32	theSize = e3memGetSize( realPtr )
+		if (theSize > 5000000UL)
+		{
+			Q3_MESSAGE_FMT("Freed ptr %p of size %lu", *thePtr, (unsigned long)theSize );
+		}
 #endif
 
+#if Q3_MEMORY_DEBUG
+		// Update statistics
+		sActiveAllocCount -= 1;
+		Q3Int64_Uns32_Subtract( sActiveAllocBytes, e3memGetSize( realPtr ), sActiveAllocBytes );
+#endif
 
 		// Free the pointer
 		free(realPtr);
 		*thePtr = NULL;
-		
-		
-#if Q3_MEMORY_DEBUG
-		// Update statistics
-		sActiveAllocCount -= 1;
-		Q3Int64_Uns32_Subtract( sActiveAllocBytes, theSize, sActiveAllocBytes );
-#endif
-		}
+	}
 }
 
 
@@ -544,7 +526,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 
 	if (newSize == 0)
-		{
+	{
 		if (realPtr != NULL)
 			{
 			// Not every implementation of realloc frees when called as
@@ -552,40 +534,43 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 			Q3Memory_Free( thePtr );
 			}
 		qd3dStatus = kQ3Success;
-		}
+	}
 	
 	else	// newSize != 0
-		{
-		// Reallocate the block, and see if it worked
+	{
 	#if Q3_MEMORY_DEBUG
-		// For debugging, we don't use realloc so that
-		// 1. the block always moves rather than grows
-		// 2. the freed block is scrubbed
-		newPtr = Q3Memory_Allocate( newSize );
-		if ( (newPtr != NULL) && (realPtr != NULL) )	// resize
-			{
-			TQ3Uns32 oldSize = ((TQ3Uns32*)(void*) (((TQ3Uns8 *) realPtr) - Q3_MEMORY_HEADER))[1];
-			TQ3Uns32 copySize = E3Num_Min( oldSize, newSize );
-			Q3Memory_Copy( realPtr, newPtr, copySize );
-			Q3Memory_Free( thePtr );
-			}
-	#else
-
-
-		// Or just reallocate with realloc
-		newPtr = realloc(realPtr, newSize);
+		TQ3Uns32 oldSize = e3memGetSize( realPtr );
 	#endif
+
+		// Reallocate the block, and see if it worked
+		newPtr = realloc( realPtr, newSize );
 
 
 
 		// Handle failure
 		qd3dStatus = (newPtr != NULL) ? kQ3Success : kQ3Failure;
 		if (qd3dStatus == kQ3Success)
+		{
 			*thePtr = newPtr;
 		
+		#if Q3_MEMORY_DEBUG
+			// Update statistics
+			TQ3Uns32 actualNewSize = e3memGetSize( newPtr );
+			if (actualNewSize > oldSize)
+			{
+				Q3Int64_Uns32_Add( sActiveAllocBytes, actualNewSize - oldSize,
+					sActiveAllocBytes );
+			}
+			else
+			{
+				Q3Int64_Uns32_Subtract( sActiveAllocBytes,
+					oldSize - actualNewSize, sActiveAllocBytes );
+			}
+		#endif
+		}
 		else
 			E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
-		}
+	}
 
 	return(qd3dStatus);
 }
@@ -603,25 +588,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 #if Q3_DEBUG
 TQ3Boolean	E3Memory_IsValidBlock( void *thePtr )
 {
-#if Q3_MEMORY_DEBUG
-	TQ3Uns32		theSize;
-	TQ3Uns32*		headerPtr;
-
-	// Back up the pointer and fetch the size
-	headerPtr = (TQ3Uns32*)(void*) (((TQ3Uns8 *) thePtr) - Q3_MEMORY_HEADER);
-	theSize = headerPtr[1];
-	
-	
-	// Check that the header and trailer are undamaged
-	if ( (headerPtr[0] == kMemoryHeaderMark1) &&
-		(headerPtr[2] == kMemoryHeaderMark2) &&
-		(*(((TQ3Uns8 *) thePtr) + theSize) == kMemoryUninitialised) )
-		return kQ3True;
-	else
-		return kQ3False;
-#else
 	return kQ3True;
-#endif	
 }
 #endif
 
