@@ -246,12 +246,14 @@ e3Int64_Max( const TQ3Int64& a, const TQ3Int64& b )
 static TQ3Uns32 e3memGetSize( const void* inMemBlock )
 {
 	TQ3Uns32 theSize = 0;
+	if (inMemBlock != NULL)
+	{
 #if QUESA_OS_MACINTOSH
-	theSize = (TQ3Uns32) malloc_size( inMemBlock );
+		theSize = (TQ3Uns32) malloc_size( inMemBlock );
 #elif QUESA_OS_WIN32
-	theSize = (TQ3Uns32) _msize( (void*)inMemBlock );
+		theSize = (TQ3Uns32) _msize( (void*)inMemBlock );
 #endif
-	
+	}
 	return theSize;
 }
 
