@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -486,18 +486,33 @@ namespace
 				"	color += spec * specMat;\n"
 				;
 
+	#pragma mark kAddFogLinear, kAddFogExp, kAddFogExp2
+	/*
+		Fog works by mixing the fog color with the fragment color.
+		This does not work well with premultiplied color, where
+		resultColor = 1 * premultipliedFragColor + (1 - alpha) * oldColor,
+		because if fog brightens the premultipliedFragColor, then the result
+		color will be bright no matter how small alpha is.  Therefore we must
+		do the fog mixing with unpremultiplied color.
+	*/
 	const char* kAddFogLinear =
 				"	float dist = length( ECPos3 );\n"
 				"	float fog = (gl_Fog.end - dist) * gl_Fog.scale;\n"
 				"	fog = clamp( fog, 0.0, 1.0 );\n"
-				"	color = mix( gl_Fog.color.rgb, color, fog );\n"
+				"	float unAlpha = 1.0 / (alpha + 0.0000001);\n"
+				"	vec3 unPreColor = clamp( unAlpha * color, 0.0, 1.0 );\n"
+				"	unPreColor = mix( gl_Fog.color.rgb, unPreColor, fog );\n"
+				"	color = alpha * unPreColor;\n"
 				;
 
 	const char* kAddFogExp =
 				"	float dist = length( ECPos3 );\n"
 				"	float fog = exp( - gl_Fog.density * dist );\n"
 				"	fog = clamp( fog, 0.0, 1.0 );\n"
-				"	color = mix( gl_Fog.color.rgb, color, fog );\n"
+				"	float unAlpha = 1.0 / (alpha + 0.0000001);\n"
+				"	vec3 unPreColor = clamp( unAlpha * color, 0.0, 1.0 );\n"
+				"	unPreColor = mix( gl_Fog.color.rgb, unPreColor, fog );\n"
+				"	color = alpha * unPreColor;\n"
 				;
 
 	const char* kAddFogExp2 =
@@ -505,7 +520,10 @@ namespace
 				"	float fogProd = gl_Fog.density * dist;\n"
 				"	float fog = exp( - fogProd * fogProd );\n"
 				"	fog = clamp( fog, 0.0, 1.0 );\n"
-				"	color = mix( gl_Fog.color.rgb, color, fog );\n"
+				"	float unAlpha = 1.0 / (alpha + 0.0000001);\n"
+				"	vec3 unPreColor = clamp( unAlpha * color, 0.0, 1.0 );\n"
+				"	unPreColor = mix( gl_Fog.color.rgb, unPreColor, fog );\n"
+				"	color = alpha * unPreColor;\n"
 				;
 
 	#pragma mark kMainFragmentShaderEndSource
