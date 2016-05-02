@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -182,11 +182,40 @@ static float CalcPrimDepth( const TransparentPrim& inPrim )
 	return theDepth;
 }
 
+static TQ3ColorRGB EmissiveColor( const TransparentPrim& inPrim )
+{
+	TQ3ColorRGB theColor;
+	
+	// We are not doing per-vertex emissive color.  See comments in UpdateEmission.
+	if ((inPrim.mVerts[0].flags & kVertexHaveEmissive) != 0)
+	{
+		theColor = inPrim.mVerts[0].emissiveColor;
+	}
+	else
+	{
+		theColor = kBlackColor;
+	}
+	
+	return theColor;
+}
+
 static bool IsSameColor( const TQ3ColorRGB& inA, const TQ3ColorRGB& inB )
 {
 	float absDiff = fabsf( inA.r - inB.r ) + fabsf( inA.g - inB.g ) +
 		fabsf( inA.b - inB.b );
 	return absDiff < kQ3RealZero * 3.0f;
+}
+
+static bool IsSameStyle( const PrimStyleState& inA, const PrimStyleState& inB )
+{
+	return
+		(inA.mFillStyle == inB.mFillStyle) &&
+		(inA.mBackfacingStyle == inB.mBackfacingStyle) &&
+		(inA.mOrientationStyle == inB.mOrientationStyle) &&
+		(inA.mInterpolationStyle == inB.mInterpolationStyle) &&
+		(inA.mIlluminationType == inB.mIlluminationType) &&
+		(inA.mFogStyleIndex == inB.mFogStyleIndex) &&
+		(fabsf( inA.mLineWidthStyle - inB.mLineWidthStyle ) < kQ3RealZero);
 }
 
 /*!
@@ -198,16 +227,11 @@ static bool IsSameState( const TransparentPrim& inA, const TransparentPrim& inB 
 {
 	bool isSame = (inA.mNumVerts == inB.mNumVerts) &&
 		(inA.mTextureName == inB.mTextureName) &&
-		(inA.mIlluminationType == inB.mIlluminationType) &&
+		(inA.mStyleIndex == inB.mStyleIndex) &&
 		(inA.mCameraToFrustumIndex == inB.mCameraToFrustumIndex) &&
-		(inA.mFillStyle == inB.mFillStyle) &&
-		(inA.mBackfacingStyle == inB.mBackfacingStyle) &&
-		(inA.mOrientationStyle == inB.mOrientationStyle) &&
-		(inA.mInterpolationStyle == inB.mInterpolationStyle) &&
-		(inA.mFogStyleIndex == inB.mFogStyleIndex) &&
 		(fabsf( inA.mSpecularControl - inB.mSpecularControl ) < kQ3RealZero) &&
 		IsSameColor( inA.mSpecularColor, inB.mSpecularColor ) &&
-		(fabsf( inA.mLineWidthStyle - inB.mLineWidthStyle ) < kQ3RealZero);
+		IsSameColor( EmissiveColor( inA ), EmissiveColor( inB ) );
 	
 	// UV transform and U, V boundary only matter if there is a texture.
 	if ( isSame && (inA.mTextureName != 0) )
@@ -254,11 +278,7 @@ static bool IsSameStateForDepth( const TransparentPrim& inA, const TransparentPr
 	bool isSame = (inA.mNumVerts == inB.mNumVerts) &&
 		(inA.mTextureName == inB.mTextureName) &&
 		(inA.mCameraToFrustumIndex == inB.mCameraToFrustumIndex) &&
-		(inA.mFillStyle == inB.mFillStyle) &&
-		(inA.mBackfacingStyle == inB.mBackfacingStyle) &&
-		(inA.mOrientationStyle == inB.mOrientationStyle) &&
-		(inA.mInterpolationStyle == inB.mInterpolationStyle) &&
-		(fabsf( inA.mLineWidthStyle - inB.mLineWidthStyle ) < kQ3RealZero);
+		(inA.mStyleIndex == inB.mStyleIndex);
 	
 	// UV transform and U, V boundary only matter if there is a texture.
 	if ( isSame && (inA.mTextureName != 0) )
@@ -466,15 +486,23 @@ void	TransBuffer::AddPrim(
 	thePrim.mCameraToFrustumIndex = static_cast<TQ3Uns32>(mCameraToFrustumMatrices.size() - 1);
 	
 	// Record some style state.
-	thePrim.mFillStyle = mRenderer.mStyleState.mFill;
-	thePrim.mOrientationStyle = mRenderer.mStyleState.mOrientation;
-	thePrim.mBackfacingStyle = mRenderer.mStyleState.mBackfacing;
+	PrimStyleState style;
+	style.mFillStyle = mRenderer.mStyleState.mFill;
+	style.mOrientationStyle = mRenderer.mStyleState.mOrientation;
+	style.mBackfacingStyle = mRenderer.mStyleState.mBackfacing;
+	style.mInterpolationStyle = mRenderer.mStyleState.mInterpolation;
+	style.mIlluminationType = mRenderer.mViewIllumination;
+	style.mFogStyleIndex = mRenderer.mStyleState.mCurFogStyleIndex;
+	style.mLineWidthStyle = mRenderer.mLineWidth;
+	if ( mStyles.empty() ||
+		(! IsSameStyle( style, mStyles[ mStyles.size() - 1 ])) )
+	{
+		mStyles.push_back( style );
+	}
+	thePrim.mStyleIndex = mStyles.size() - 1;
+	
 	thePrim.mSpecularColor = *mRenderer.mGeomState.specularColor;
 	thePrim.mSpecularControl = mRenderer.mCurrentSpecularControl;
-	thePrim.mIlluminationType = mRenderer.mViewIllumination;
-	thePrim.mFogStyleIndex = mRenderer.mStyleState.mCurFogStyleIndex;
-	thePrim.mLineWidthStyle = mRenderer.mLineWidth;
-	thePrim.mInterpolationStyle = mRenderer.mStyleState.mInterpolation;
 	
 	// Make a new block.
 	TransparentBlock* theBlock = new TransparentBlock;
@@ -722,6 +750,21 @@ void	TransBuffer::AddTriMesh(
 	E3BoundingBox_SetFromPoints3D( &theBlock->mFrustumBounds,
 		&mWorkFrustumPts[0], inGeomData.numPoints, sizeof(TQ3Point3D) );
 	
+	PrimStyleState style;
+	style.mFillStyle = mRenderer.mStyleState.mFill;
+	style.mOrientationStyle = mRenderer.mStyleState.mOrientation;
+	style.mBackfacingStyle = mRenderer.mStyleState.mBackfacing;
+	style.mInterpolationStyle = mRenderer.mStyleState.mInterpolation;
+	style.mIlluminationType = mRenderer.mViewIllumination;
+	style.mFogStyleIndex = mRenderer.mStyleState.mCurFogStyleIndex;
+	style.mLineWidthStyle = mRenderer.mLineWidth;
+	if ( mStyles.empty() ||
+		(! IsSameStyle( style, mStyles[ mStyles.size() - 1 ])) )
+	{
+		mStyles.push_back( style );
+	}
+	TQ3Uns32 styleIndex = mStyles.size() - 1;
+	
 	// We need to create a lot of primitives.  First fill in the fields that do
 	// not change.
 	Vertex protoVert;
@@ -732,15 +775,9 @@ void	TransBuffer::AddTriMesh(
 	thePrim.mVerts[1] = protoVert;
 	thePrim.mVerts[2] = protoVert;
 	thePrim.mCameraToFrustumIndex = cameraToFrustumIndex;
-	thePrim.mFillStyle = mRenderer.mStyleState.mFill;
-	thePrim.mOrientationStyle = mRenderer.mStyleState.mOrientation;
-	thePrim.mBackfacingStyle = mRenderer.mStyleState.mBackfacing;
 	thePrim.mSpecularColor = *mRenderer.mGeomState.specularColor;
 	thePrim.mSpecularControl = mRenderer.mCurrentSpecularControl;
-	thePrim.mIlluminationType = mRenderer.mViewIllumination;
-	thePrim.mFogStyleIndex = mRenderer.mStyleState.mCurFogStyleIndex;
-	thePrim.mLineWidthStyle = mRenderer.mLineWidth;
-	thePrim.mInterpolationStyle = mRenderer.mStyleState.mInterpolation;
+	thePrim.mStyleIndex = styleIndex;
 	const Texture::TextureState&	textureState(
 		mRenderer.mTextures.GetTextureState() );
 	if (! textureState.mIsTextureActive)
@@ -879,6 +916,7 @@ void	TransBuffer::Cleanup()
 	mCameraToFrustumMatrices.clear();
 	mUVTransforms.clear();
 	mRenderGroup.clear();
+	mStyles.clear();
 	
 	for (TQ3Uns32 i = 0; i < mBlocks.size(); ++i)
 	{
@@ -958,7 +996,8 @@ void	TransBuffer::UpdateCameraToFrustum(
 void	TransBuffer::UpdateLightingEnable(
 											const TransparentPrim& inPrim )
 {
-	bool	shouldLight = inPrim.mIlluminationType != kQ3IlluminationTypeNULL;
+	bool	shouldLight = mStyles[ inPrim.mStyleIndex ].mIlluminationType !=
+		kQ3IlluminationTypeNULL;
 	
 	if (shouldLight != mIsLightingEnabled)
 	{
@@ -1027,50 +1066,52 @@ void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 
 void	TransBuffer::UpdateFog( const TransparentPrim& inPrim )
 {
-	if (inPrim.mFogStyleIndex != mRenderer.mStyleState.mCurFogStyleIndex)
+	TQ3Uns32 fogIndex = mStyles[ inPrim.mStyleIndex ].mFogStyleIndex;
+
+	if (fogIndex != mRenderer.mStyleState.mCurFogStyleIndex)
 	{
 		mRenderer.UpdateFogStyle(
-			&mRenderer.mStyleState.mFogStyles[ inPrim.mFogStyleIndex ] );
+			&mRenderer.mStyleState.mFogStyles[ fogIndex ] );
 	}
 }
 
 void	TransBuffer::UpdateFill( const TransparentPrim& inPrim )
 {
-	if (inPrim.mFillStyle != mRenderer.mStyleState.mFill)
+	if (mStyles[ inPrim.mStyleIndex ].mFillStyle != mRenderer.mStyleState.mFill)
 	{
-		mRenderer.UpdateFillStyle( &inPrim.mFillStyle );
+		mRenderer.UpdateFillStyle( &mStyles[ inPrim.mStyleIndex ].mFillStyle );
 	}
 }
 
 void	TransBuffer::UpdateOrientation( const TransparentPrim& inPrim )
 {
-	if (inPrim.mOrientationStyle != mRenderer.mStyleState.mOrientation)
+	if (mStyles[ inPrim.mStyleIndex ].mOrientationStyle != mRenderer.mStyleState.mOrientation)
 	{
-		mRenderer.UpdateOrientationStyle( &inPrim.mOrientationStyle );
+		mRenderer.UpdateOrientationStyle( &mStyles[ inPrim.mStyleIndex ].mOrientationStyle );
 	}
 }
 
 void	TransBuffer::UpdateBackfacing( const TransparentPrim& inPrim )
 {
-	if (inPrim.mBackfacingStyle != mRenderer.mStyleState.mBackfacing)
+	if (mStyles[ inPrim.mStyleIndex ].mBackfacingStyle != mRenderer.mStyleState.mBackfacing)
 	{
-		mRenderer.UpdateBackfacingStyle( &inPrim.mBackfacingStyle );
+		mRenderer.UpdateBackfacingStyle( &mStyles[ inPrim.mStyleIndex ].mBackfacingStyle );
 	}
 }
 
 void	TransBuffer::UpdateInterpolation( const TransparentPrim& inPrim )
 {
-	if (inPrim.mInterpolationStyle != mRenderer.mStyleState.mInterpolation)
+	if (mStyles[ inPrim.mStyleIndex ].mInterpolationStyle != mRenderer.mStyleState.mInterpolation)
 	{
-		mRenderer.UpdateInterpolationStyle( &inPrim.mInterpolationStyle );
+		mRenderer.UpdateInterpolationStyle( &mStyles[ inPrim.mStyleIndex ].mInterpolationStyle );
 	}
 }
 
 void	TransBuffer::UpdateLineWidth( const TransparentPrim& inPrim )
 {
-	if (inPrim.mLineWidthStyle != mRenderer.mLineWidth)
+	if (mStyles[ inPrim.mStyleIndex ].mLineWidthStyle != mRenderer.mLineWidth)
 	{
-		mRenderer.UpdateLineWidthStyle( inPrim.mLineWidthStyle );
+		mRenderer.UpdateLineWidthStyle( mStyles[ inPrim.mStyleIndex ].mLineWidthStyle );
 	}
 }
 
@@ -1124,14 +1165,7 @@ void	TransBuffer::UpdateEmission( const TransparentPrim& inPrim )
 	// using per-pixel lighting.
 	// Setting the emissive color before glBegin fixes that problem, and I think
 	// we can live without per-vertex emissive color.
-	if ((inPrim.mVerts[0].flags & kVertexHaveEmissive) != 0)
-	{
-		SetEmissiveColor( inPrim.mVerts[0].emissiveColor );
-	}
-	else
-	{
-		SetEmissiveColor( kBlackColor );
-	}
+	SetEmissiveColor( EmissiveColor( inPrim ) );
 }
 
 
@@ -1341,7 +1375,7 @@ void	TransBuffer::UpdateSpecularColor( const TQ3ColorRGB& inColor )
 
 void	TransBuffer::UpdateSpecular( const TransparentPrim& inPrim )
 {
-	if (inPrim.mIlluminationType == kQ3IlluminationTypePhong)
+	if (mStyles[ inPrim.mStyleIndex ].mIlluminationType == kQ3IlluminationTypePhong)
 	{
 		UpdateSpecularColor( inPrim.mSpecularColor );
 		
@@ -1374,7 +1408,7 @@ void	TransBuffer::RenderPrimGroup(
 	UpdateBackfacing( leader );
 	UpdateLineWidth( leader );
 	UpdateInterpolation( leader );
-	mPerPixelLighting.UpdateIllumination( leader.mIlluminationType );
+	mPerPixelLighting.UpdateIllumination( mStyles[ leader.mStyleIndex ].mIlluminationType );
 	UpdateSpecular( leader );
 	UpdateEmission( leader );
 
@@ -1575,6 +1609,13 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	glEnable( GL_DEPTH_TEST );
 	glDepthFunc( GL_LEQUAL );
 	
+	// Even though we use GL_LEQUAL, and the depths produced by the depth pass
+	// should be the same as the depths produced by the transparency pass,
+	// I was getting the transparent stuff partially masked out in some cases.
+	// So move the depth a tad deeper.
+	glEnable( GL_POLYGON_OFFSET_FILL );
+	glPolygonOffset( 1.0f, 1.0f );
+
 	// Set up alpha test
 	glEnable( GL_ALPHA_TEST );
 	glAlphaFunc( GL_GREATER, inAlphaThreshold );
@@ -1645,6 +1686,7 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 		}
 		
 		// Restore GL state
+		glDisable( GL_POLYGON_OFFSET_FILL );
 		glDisable( GL_ALPHA_TEST );
 		glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
 	}

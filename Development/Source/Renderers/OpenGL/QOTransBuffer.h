@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -61,6 +61,17 @@ class Renderer;
 class PerPixelLighting;
 struct MeshArrays;
 
+struct PrimStyleState
+{
+	TQ3FillStyle		mFillStyle;
+	TQ3OrientationStyle	mOrientationStyle;
+	TQ3BackfacingStyle	mBackfacingStyle;
+	TQ3InterpolationStyle	mInterpolationStyle;
+	TQ3ObjectType		mIlluminationType;
+	TQ3Uns32			mFogStyleIndex;
+	float				mLineWidthStyle;
+};
+
 struct TransparentPrim
 {
 	TQ3Uns32			mNumVerts;
@@ -73,16 +84,10 @@ struct TransparentPrim
 	TQ3ShaderUVBoundary	mShaderVBoundary;
 	TQ3Uns32			mUVTransformIndex;
 	
-	TQ3FillStyle		mFillStyle;
-	TQ3OrientationStyle	mOrientationStyle;
-	TQ3BackfacingStyle	mBackfacingStyle;
-	TQ3InterpolationStyle	mInterpolationStyle;
 	TQ3ColorRGB			mSpecularColor;
 	float				mSpecularControl;
-	TQ3ObjectType		mIlluminationType;
-	TQ3Uns32			mFogStyleIndex;
 	TQ3Uns32			mCameraToFrustumIndex;
-	float				mLineWidthStyle;
+	TQ3Uns32			mStyleIndex;
 };
 
 /*!
@@ -231,6 +236,7 @@ private:
 	E3FastArray<TQ3Vector3D>		mWorkCameraNormals;
 	E3FastArray<bool>				mWorkIsInFrontOfCamera;
 	E3FastArray<TransparentBlock*>	mBlocks;
+	E3FastArray<PrimStyleState>		mStyles;
 	
 	// State used when flushing (drawing) primitives
 	bool							mIsLightingEnabled;
