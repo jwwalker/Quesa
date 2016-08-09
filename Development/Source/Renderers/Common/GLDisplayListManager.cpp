@@ -5,7 +5,7 @@
         OpenGL display list caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,6 +48,7 @@
 #include "GLDisplayListManager.h"
 #include "GLGPUSharing.h"
 #include "CQ3ObjectRef.h"
+#include "CQ3WeakObjectRef.h"
 
 #include <vector>
 #include <algorithm>
@@ -74,7 +75,6 @@ namespace
 #pragma mark struct CachedDisplayList
 	struct CachedDisplayList
 	{
-						CachedDisplayList() {}
 						CachedDisplayList( TQ3GeometryObject inGeom,
 										GLenum inMode );
 						CachedDisplayList( const CachedDisplayList& inOther );
@@ -84,11 +84,11 @@ namespace
 						
 		bool			IsStale() const;
 	
-		CQ3ObjectRef	mGeomObject;
+		CQ3WeakObjectRef	mGeomObject;
+		TQ3GeometryObject	mSortKey;
 		TQ3Uns32		mEditIndex;
 		GLuint			mDisplayList;
 		GLenum			mGLMode;
-		TQ3Uns32		mModeCount;
 	};
 	
 	typedef	std::vector< CachedDisplayList >	DisplayListVec;
@@ -96,11 +96,12 @@ namespace
 	class DisplayListCache : public CQ3GPSharedCache
 	{
 	public:
+							DisplayListCache() {}
+							
 		CachedDisplayList*	FindDisplayList( TQ3GeometryObject inGeom,
 											GLenum inMode );
 		void				RenderList( const CachedDisplayList* inList );
 		void				AddList( const CachedDisplayList& inList );
-		void				UpdateModeCount( TQ3GeometryObject inGeom );
 		void				FlushUnreferenced();
 		void				FlushStale();
 		
@@ -110,7 +111,7 @@ namespace
 		DisplayListVec		mDisplayLists;
 	};
 
-	// Comparator for ordering cached display lists by their geometries
+	// Comparator for ordering cached display lists by their modes and geometries
 	struct GeomLess
 	{
 		bool	operator()( const CachedDisplayList& inOne,
@@ -119,7 +120,7 @@ namespace
 					return (inOne.mGLMode < inTwo.mGLMode) ||
 						(
 							(inOne.mGLMode == inTwo.mGLMode) &&
-							(inOne.mGeomObject.get() < inTwo.mGeomObject.get())
+							(inOne.mSortKey < inTwo.mSortKey)
 						);
 				}
 	};
@@ -129,9 +130,7 @@ namespace
 	{
 		bool		operator()( const CachedDisplayList& inCachedDL ) const
 								{
-									return Q3Shared_GetReferenceCount(
-										inCachedDL.mGeomObject.get() ) >
-										inCachedDL.mModeCount;
+									return inCachedDL.mGeomObject.isvalid();
 								}
 	};
 	
@@ -151,36 +150,38 @@ namespace
 //-----------------------------------------------------------------------------
 
 CachedDisplayList::CachedDisplayList( TQ3GeometryObject inGeom, GLenum inMode )
-	: mGeomObject( Q3Shared_GetReference( inGeom ) )
+	: mGeomObject( inGeom )
+	, mSortKey( inGeom )
 	, mEditIndex( Q3Shared_GetEditIndex( inGeom ) )
+	, mDisplayList( 0 )
 	, mGLMode( inMode )
-	, mModeCount( 1 )
 {
 	// Leave other fields uninitialized for now
 }
 
 CachedDisplayList::CachedDisplayList( const CachedDisplayList& inOther )
 	: mGeomObject( inOther.mGeomObject )
+	, mSortKey( inOther.mSortKey )
 	, mEditIndex( inOther.mEditIndex )
 	, mDisplayList( inOther.mDisplayList )
 	, mGLMode( inOther.mGLMode )
-	, mModeCount( inOther.mModeCount )
 {
 }
 
 CachedDisplayList&	CachedDisplayList::operator=( const CachedDisplayList& inOther )
 {
 	mGeomObject = inOther.mGeomObject;
+	mSortKey = inOther.mSortKey;
 	mEditIndex = inOther.mEditIndex;
 	mDisplayList = inOther.mDisplayList;
 	mGLMode = inOther.mGLMode;
-	mModeCount = inOther.mModeCount;
 	return *this;
 }
 
 bool	CachedDisplayList::IsStale() const
 {
-	return Q3Shared_GetEditIndex( mGeomObject.get() ) != mEditIndex;
+	return mGeomObject.isvalid() &&
+		(Q3Shared_GetEditIndex( mGeomObject.get() ) != mEditIndex);
 }
 
 static DisplayListCache* GetDisplayListCache( TQ3GLContext glContext )
@@ -235,38 +236,12 @@ void	DisplayListCache::AddList( const CachedDisplayList& inList )
 			mDisplayLists.begin(), mDisplayLists.end(), inList, GeomLess() );
 
 		mDisplayLists.insert( placeIt, inList );
-	
-		UpdateModeCount( inList.mGeomObject.get() );
 	}
 	catch (...)
 	{
 	}
 }
 
-void	DisplayListCache::UpdateModeCount( TQ3GeometryObject inGeom )
-{
-	CachedDisplayList*	stripDL = FindDisplayList( inGeom, GL_TRIANGLE_STRIP );
-	CachedDisplayList*	triDL = FindDisplayList( inGeom, GL_TRIANGLES );
-	CachedDisplayList*	lineDL = FindDisplayList( inGeom, GL_LINES );
-	
-	int	modeCount = (stripDL? 1 : 0) + (triDL? 1 : 0) + (lineDL? 1 : 0);
-	
-	if (modeCount > 0)
-	{
-		if (stripDL)
-		{
-			stripDL->mModeCount = modeCount;
-		}
-		if (triDL)
-		{
-			triDL->mModeCount = modeCount;
-		}
-		if (lineDL)
-		{
-			lineDL->mModeCount = modeCount;
-		}
-	}
-}
 
 
 void	DisplayListCache::FlushStale()
@@ -275,19 +250,16 @@ void	DisplayListCache::FlushStale()
 	DisplayListVec::iterator startStale = std::stable_partition(
 		mDisplayLists.begin(), mDisplayLists.end(), IsNotStale() );
 	
-	// Make a copy of the records that will go away
-	DisplayListVec	doomedDLs( startStale, mDisplayLists.end() );
+	// Delete the stale display lists
+	DisplayListVec::iterator endIt = mDisplayLists.end();
+	for (DisplayListVec::iterator i = startStale; i != endIt; ++i)
+	{
+		glDeleteLists( i->mDisplayList, 1 );
+		i->mDisplayList = 0;
+	}
 	
 	// Remove them from the normal array
 	mDisplayLists.erase( startStale, mDisplayLists.end() );
-	
-	// Delete the lists for the records that are going away
-	for (DisplayListVec::iterator i = doomedDLs.begin(); i != doomedDLs.end(); ++i)
-	{
-		glDeleteLists( i->mDisplayList, 1 );
-		
-		UpdateModeCount( i->mGeomObject.get() );
-	}
 }
 
 
@@ -297,19 +269,16 @@ void	DisplayListCache::FlushUnreferenced()
 	DisplayListVec::iterator startUnused = std::stable_partition(
 		mDisplayLists.begin(), mDisplayLists.end(), IsReferenced() );
 	
-	// Make a copy of the records that will go away
-	DisplayListVec	doomedDLs( startUnused, mDisplayLists.end() );
-	
-	// Remove them from the normal array
-	mDisplayLists.erase( startUnused, mDisplayLists.end() );
-
-	// Delete the lists for the records that are going away
-	for (DisplayListVec::iterator i = doomedDLs.begin(); i != doomedDLs.end(); ++i)
+	// Delete the unused display lists
+	DisplayListVec::iterator endIt = mDisplayLists.end();
+	for (DisplayListVec::iterator i = startUnused; i != endIt; ++i)
 	{
 		glDeleteLists( i->mDisplayList, 1 );
-		
-		UpdateModeCount( i->mGeomObject.get() );
+		i->mDisplayList = 0;
 	}
+	
+	// Remove them from the array
+	mDisplayLists.erase( startUnused, endIt );
 }
 
 

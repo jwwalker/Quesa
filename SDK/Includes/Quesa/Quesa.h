@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1812,6 +1812,42 @@ Q3Object_CleanDispose (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+/*!
+ *	@function
+ *		Q3Object_GetWeakReference
+ *	@abstract
+ *		Register a zeroing weak reference to a Quesa object.
+ *	@discussion
+ *					A reference that has been registered using this function
+ *					will become zero after the object has been deleted.
+ *			
+ *					The object being referenced is not required to be a
+ *					reference-counted object.  If it is, getting a zeroing
+ *					weak reference does not change the reference count.
+ *	
+ *					If you are going to deallocate or reuse the given memory
+ *					location before it becomes zero, you MUST first
+ *					use <code>Q3Object_ReleaseWeakReference</code>.
+ *	
+ *	@param			theRefAddress	Address of an object reference.
+*/
+Q3_EXTERN_API_C( void )
+Q3Object_GetWeakReference( TQ3Object* theRefAddress );
+
+
+/*!
+ *	@function		Q3Object_ReleaseWeakReference
+ *	@abstract		Deregister a zeroing weak reference to a Quesa object.
+ *	@discussion		A reference that has been deregistered using this function
+ *					will become no longer become zero after the object has been
+ *					deleted.
+ *
+ *	@param			theRefAddress	Address of an object reference.
+*/
+Q3_EXTERN_API_C( void )
+Q3Object_ReleaseWeakReference( TQ3Object* theRefAddress );
+
+
 
 /*!
  *  @function
@@ -2381,6 +2417,7 @@ Q3Shared_GetReferenceCount (
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
 
 
 /*!

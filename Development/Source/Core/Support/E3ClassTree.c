@@ -20,7 +20,7 @@
         to record their relationship to the rest of the tree.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -913,7 +913,7 @@ OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr inClass )
 //-----------------------------------------------------------------------------
 void
 OpaqueTQ3Object::DestroyInstance ( void )
-	{
+{
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(this));
 	Q3_CLASS_VERIFY(this);
@@ -934,7 +934,12 @@ OpaqueTQ3Object::DestroyInstance ( void )
 	// Dispose of the object
 	TQ3Object theObject = (TQ3Object) this ;		
 	Q3Memory_Free ( & theObject ) ;
-	}
+	
+	
+	
+	// Update weak references.
+	E3Object_ZeroWeakReferences( (TQ3Object) this );
+}
 
 
 

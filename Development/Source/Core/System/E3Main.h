@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -386,6 +386,9 @@ TQ3Boolean			E3Object_IsDrawable(TQ3Object theObject);
 TQ3Boolean			E3Object_IsWritable(TQ3Object theObject, TQ3FileObject theFile);
 TQ3ObjectType		E3Object_GetType(TQ3Object theObject);
 TQ3Boolean			E3Object_IsType(TQ3Object theObject, TQ3ObjectType theType);
+void				E3Object_GetWeakReference( TQ3Object* theRefAddress );
+void				E3Object_ReleaseWeakReference( TQ3Object* theRefAddress );
+void				E3Object_ZeroWeakReferences( TQ3Object deletedObject );
 
 TQ3Boolean			E3Shared_IsOfMyClass ( TQ3Object object ) ;
 TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);

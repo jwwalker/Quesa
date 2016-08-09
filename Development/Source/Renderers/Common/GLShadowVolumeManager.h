@@ -10,7 +10,7 @@
     	GLUtils_CheckExtensions.
 
     COPYRIGHT:
-        Copyright (c) 2011-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2011-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -134,14 +134,6 @@ void				Flush(
 									const GLBufferFuncs& inFuncs,
 									TQ3RendererObject inRenderer );
 
-/*!
-	@function		CountVBOs
-	@abstract		Count how many references the shadow VBO manager holds for a given
-					geometry, counting all GL contexts and all lights.
-	@param			inGeom			A geometry object.
-	@result			Number of VBOs referencing the geometry.
-*/
-TQ3Uns32			CountVBOs( TQ3GeometryObject inGeom );
 
 
 }
