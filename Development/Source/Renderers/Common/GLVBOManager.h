@@ -10,7 +10,7 @@
     	GLUtils_CheckExtensions.
 
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -204,15 +204,6 @@ void				FlushVBOCache(
 									TQ3GLContext glContext,
 									const GLBufferFuncs& inFuncs );
 
-
-/*!
-	@function		CountVBOs
-	@abstract		Count how many references the VBO manager holds for a given
-					geometry, counting all GL contexts and all modes.
-	@param			inGeom			A geometry object.
-	@result			Number of VBOs referencing the geometry.
-*/
-TQ3Uns32			CountVBOs( TQ3GeometryObject inGeom );
 
 //=============================================================================
 //		C++ postamble

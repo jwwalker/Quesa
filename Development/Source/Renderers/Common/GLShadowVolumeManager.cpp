@@ -5,7 +5,7 @@
         Quesa OpenGL shadow volume caching.
        
     COPYRIGHT:
-        Copyright (c) 2011-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2011-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,7 +46,7 @@
 //-----------------------------------------------------------------------------
 #include "GLShadowVolumeManager.h"
 #include "GLGPUSharing.h"
-#include "CQ3ObjectRef.h"
+#include "CQ3WeakObjectRef.h"
 #include "GLUtils.h"
 #include "E3Main.h"
 #include "GLVBOManager.h"
@@ -55,6 +55,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <map>
+#include <utility>
 
 //=============================================================================
 //		Internal constants
@@ -90,15 +91,16 @@ namespace
 
 namespace
 {
-	typedef	std::map< TQ3LightObject, class ShadowVBO* >	LightToShadow;
-	typedef	std::map< TQ3GeometryObject, LightToShadow >	GeomToLightToShadow;
+	typedef std::pair< TQ3GeometryObject, TQ3LightObject >	GeomAndLight;
 
-	typedef	std::map< TQ3GeometryObject, class ShadowVBO* > GeomToShadow;
-	typedef	std::map< TQ3LightObject, GeomToShadow >		LightToGeomToShadow;
+	typedef std::vector< class ShadowVBO* >					ShadowVec;
+	typedef std::vector< GeomAndLight >						GeomLightVec;
 
-	typedef std::vector< CQ3ObjectRef >						ObVec;
+	typedef std::map< GeomAndLight, ShadowVec >				GeomLightToShadows;
 	
 	const TQ3RationalPoint4D	kDummyPoint = { 0.0f, 0.0f, 0.0f, 0.0f };
+	
+	const float					kMaxLightDistSq	= 7.0e-6f;
 
 	/*!
 		@class		ShadowVBO
@@ -107,19 +109,21 @@ namespace
 	class ShadowVBO
 	{
 	public:
-							ShadowVBO();
+							ShadowVBO(); // used for linked list sentinels
 							ShadowVBO( TQ3GeometryObject inGeom,
 										TQ3LightObject inLight,
 										const TQ3RationalPoint4D& inLocalLightPos );
 							~ShadowVBO();
 
-		bool				IsStale( const TQ3RationalPoint4D& inLocalLightPos ) const;
+		bool				IsStale() const;
 							
-		CQ3ObjectRef		mGeomObject;
+		CQ3WeakObjectRef	mGeomObject;
 		TQ3Uns32			mGeomEditIndex;
 
-		CQ3ObjectRef		mLightObject;
+		CQ3WeakObjectRef	mLightObject;
 		TQ3RationalPoint4D	mLocalLightPosition;	// w is 0 or 1
+
+		GeomAndLight		mMapKey;
 
 		TQ3Uns32			mNumTriIndices;
 		TQ3Uns32			mNumQuadIndices;
@@ -150,25 +154,21 @@ namespace
 							~ShadowVolCache();
 
 		void				DeleteVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inFuncs );
-		void				DeleteFromLightToGeomMap( ShadowVBO* inCachedVBO );
-		void				DeleteFromGeomToLightMap( ShadowVBO* inCachedVBO );
 		ShadowVBO*			FindVBO( TQ3GeometryObject inGeom,
 									TQ3LightObject inLight,
 									const TQ3RationalPoint4D& inLocalLightPos,
 									const GLBufferFuncs& inFuncs );
 		void				RenderVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inFuncs );
 		void				AddVBO( ShadowVBO* inVBO );
-		void				FlushUnreferencedGeometries( const GLBufferFuncs& inFuncs );
-		void				FlushUnreferencedLights( const GLBufferFuncs& inFuncs );
+		void				FlushStaleShadows( const GLBufferFuncs& inFuncs );
 		void				MakeRoom( TQ3Uns32 inBytesNeeded, const GLBufferFuncs& inFuncs );
 		void				AddBytes( TQ3Uns32 inBytes );
 		void				PurgeDownToSize( long long inTargetSize, const GLBufferFuncs& inFuncs );
 		void				SetMaxBufferSize( long long inBufferSize, const GLBufferFuncs& inFuncs );
-		TQ3Uns32			CountVBOs( TQ3GeometryObject inGeom ) const;
 	
 	private:
-		GeomToLightToShadow			mGeomToLightToShadow;
-		LightToGeomToShadow			mLightToGeomToShadow;
+		
+		GeomLightToShadows			mGeomLightToShadows;
 		ShadowVBO					mListOldEnd;
 		ShadowVBO					mListNewEnd;
 		long long					mTotalBytes;
@@ -206,6 +206,20 @@ static ShadowVolCache* GetShadowCache( TQ3GLContext glContext )
 	return theCache;
 }
 
+static bool IsSameLightPosition( const TQ3RationalPoint4D& a,
+								const TQ3RationalPoint4D& b )
+{
+	TQ3RationalPoint4D d =
+	{
+		a.x - b.x,
+		a.y - b.y,
+		a.z - b.z,
+		a.w - b.w
+	};
+	float distSq = d.x * d.x + d.y * d.y + d.z * d.z + d.w * d.w;
+	return distSq < kMaxLightDistSq;
+}
+
 
 #pragma mark -
 
@@ -221,10 +235,11 @@ ShadowVBO::ShadowVBO()
 ShadowVBO::ShadowVBO(					TQ3GeometryObject inGeom,
 										TQ3LightObject inLight,
 										const TQ3RationalPoint4D& inLocalLightPos )
-	: mGeomObject( Q3Shared_GetReference( inGeom ) )
+	: mGeomObject( inGeom )
 	, mGeomEditIndex( Q3Shared_GetEditIndex( inGeom ) )
-	, mLightObject( Q3Shared_GetReference( inLight ) )
+	, mLightObject( inLight )
 	, mLocalLightPosition( inLocalLightPos )
+	, mMapKey( inGeom, inLight )
 	, mBufferBytes( 0 )
 	, mPrev( NULL )
 	, mNext( NULL )
@@ -236,31 +251,19 @@ ShadowVBO::~ShadowVBO()
 {
 }
 
-bool	ShadowVBO::IsStale( const TQ3RationalPoint4D& inLocalLightPos ) const
+bool	ShadowVBO::IsStale() const
 {
-	bool stale = static_cast<E3Shared*>( mGeomObject.get() )->GetEditIndex() !=
-		mGeomEditIndex;
-	if (! stale)
+	bool stale = true;
+	
+	if (mGeomObject.isvalid() && mLightObject.isvalid())
 	{
-		TQ3RationalPoint4D posDelta =
+		TQ3Uns32 curEditIndex = static_cast<E3Shared*>( mGeomObject.get() )->GetEditIndex();
+		if (curEditIndex == mGeomEditIndex)
 		{
-			inLocalLightPos.x - mLocalLightPosition.x,
-			inLocalLightPos.y - mLocalLightPosition.y,
-			inLocalLightPos.z - mLocalLightPosition.z,
-			inLocalLightPos.w - mLocalLightPosition.w
-		};
-		float distSq = posDelta.x * posDelta.x + posDelta.y * posDelta.y +
-			posDelta.z * posDelta.z + posDelta.w * posDelta.w;
-		stale = (distSq > 7.0e-6f);
-		if (stale)
-		{
-			//Q3_MESSAGE_FMT( "Stale shadow due to light position error %f", distSq );
+			stale = false;
 		}
 	}
-	else
-	{
-		//Q3_MESSAGE_FMT( "Stale shadow due to geom edit index" );
-	}
+
 	return stale;
 }
 
@@ -280,14 +283,14 @@ ShadowVolCache::~ShadowVolCache()
 	// of its sharing group has gone away.  Hopefully, this will automatically
 	// clear the VBOs from VRAM.  Hence, we do not need or want to call DeleteVBO,
 	// but we do want to delete the ShadowVBO objects.
-	for (GeomToLightToShadow::iterator i = mGeomToLightToShadow.begin();
-		i != mGeomToLightToShadow.end(); ++i)
+	ShadowVBO* listItem = mListOldEnd.mNext;
+	
+	while (listItem != &mListNewEnd)
 	{
-		LightToShadow& lMap( i->second );
-		for (LightToShadow::iterator j = lMap.begin(); j != lMap.end(); ++j)
-		{
-			delete j->second;
-		}
+		listItem->mPrev->mNext = listItem->mNext;
+		listItem->mNext->mPrev = listItem->mPrev;
+		delete listItem;
+		listItem = mListOldEnd.mNext;
 	}
 }
 
@@ -309,55 +312,21 @@ void	ShadowVolCache::DeleteVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inF
 	delete inCachedVBO;
 }
 
-void	ShadowVolCache::DeleteFromLightToGeomMap( ShadowVBO* inCachedVBO )
-{
-	LightToGeomToShadow::iterator foundLight = mLightToGeomToShadow.find(
-		inCachedVBO->mLightObject.get() );
-	if (foundLight != mLightToGeomToShadow.end())
-	{
-		GeomToShadow& geomToShadowMap( foundLight->second );
-		GeomToShadow::iterator foundGeom = geomToShadowMap.find(
-			inCachedVBO->mGeomObject.get() );
-		if (foundGeom != geomToShadowMap.end())
-		{
-			geomToShadowMap.erase( foundGeom );
-			
-			if (geomToShadowMap.empty())
-			{
-				mLightToGeomToShadow.erase( foundLight );
-			}
-		}
-	}
-}
-
-void	ShadowVolCache::DeleteFromGeomToLightMap( ShadowVBO* inCachedVBO )
-{
-	GeomToLightToShadow::iterator foundGeom = mGeomToLightToShadow.find(
-		inCachedVBO->mGeomObject.get() );
-	if (foundGeom != mGeomToLightToShadow.end())
-	{
-		LightToShadow& lightToShadowMap( foundGeom->second );
-		LightToShadow::iterator foundLight = lightToShadowMap.find(
-			inCachedVBO->mLightObject.get() );
-		if (foundLight != lightToShadowMap.end())
-		{
-			lightToShadowMap.erase( foundLight );
-			
-			if (lightToShadowMap.empty())
-			{
-				mGeomToLightToShadow.erase( foundGeom );
-			}
-		}
-	}
-}
 
 void	ShadowVolCache::AddVBO( ShadowVBO* inVBO )
 {
-	mGeomToLightToShadow[ inVBO->mGeomObject.get() ][ inVBO->mLightObject.get() ] =
-		inVBO;
+	// Add the new record to our map
+	GeomAndLight key( inVBO->mGeomObject.get(), inVBO->mLightObject.get() );
 	
-	mLightToGeomToShadow[ inVBO->mLightObject.get() ][ inVBO->mGeomObject.get() ] =
-		inVBO;
+	GeomLightToShadows::iterator found = mGeomLightToShadows.find( key );
+	
+	if (found == mGeomLightToShadows.end())
+	{
+		mGeomLightToShadows[ key ] = ShadowVec();
+		found = mGeomLightToShadows.find( key );
+	}
+	
+	found->second.push_back( inVBO );
 
 	// Insert the new record at the new end of a doubly-linked list.
 	inVBO->mNext = &mListNewEnd;
@@ -366,8 +335,6 @@ void	ShadowVolCache::AddVBO( ShadowVBO* inVBO )
 	mListNewEnd.mPrev = inVBO;
 	
 	mTotalBytes += inVBO->mBufferBytes;
-	
-	//Q3_MESSAGE_FMT("Shadow cache %lld bytes", mTotalBytes );
 }
 
 
@@ -378,28 +345,29 @@ ShadowVBO*	ShadowVolCache::FindVBO( TQ3GeometryObject inGeom,
 {
 	ShadowVBO* cachedShadow = NULL;
 	
-	GeomToLightToShadow::iterator foundGeom = mGeomToLightToShadow.find( inGeom );
+	GeomAndLight key( inGeom, inLight );
 	
-	if (foundGeom != mGeomToLightToShadow.end())
+	GeomLightToShadows::iterator found = mGeomLightToShadows.find( key );
+	
+	if (found != mGeomLightToShadows.end())
 	{
-		LightToShadow& lightToShadowMap( foundGeom->second );
-		LightToShadow::iterator foundLight = lightToShadowMap.find( inLight );
+		ShadowVec& theShadows( found->second );
 		
-		if (foundLight != lightToShadowMap.end())
+		// Linear search for a light position that is close enough.
+		ShadowVec::iterator endIt = theShadows.end();
+		for (ShadowVec::iterator i = theShadows.begin(); i != endIt; ++i)
 		{
-			cachedShadow = foundLight->second;
-			
-			if (cachedShadow->IsStale( inLocalLightPos ))
+			if (IsSameLightPosition( (*i)->mLocalLightPosition, inLocalLightPos ))
 			{
-				lightToShadowMap.erase( foundLight );
-				if (lightToShadowMap.empty())
-				{
-					mGeomToLightToShadow.erase( foundGeom );
-				}
+				cachedShadow = *i;
 				
-				DeleteFromLightToGeomMap( cachedShadow );
-				DeleteVBO( cachedShadow, inFuncs );
-				cachedShadow = NULL;
+				if (cachedShadow->IsStale())
+				{
+					DeleteVBO( cachedShadow, inFuncs );
+					theShadows.erase( i );
+					cachedShadow = NULL;
+					break;
+				}
 			}
 		}
 	}
@@ -445,85 +413,51 @@ void	ShadowVolCache::RenderVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inF
 	mListNewEnd.mPrev = inCachedVBO;
 }
 
-void	ShadowVolCache::FlushUnreferencedGeometries( const GLBufferFuncs& inFuncs )
+void	ShadowVolCache::FlushStaleShadows( const GLBufferFuncs& inFuncs )
 {
-	ObVec	geomsToFlush;
-	TQ3GeometryObject theGeom;
+	GeomLightVec toFlush;
+	ShadowVec staleShadows;
 	
-	for (GeomToLightToShadow::const_iterator geomIt = mGeomToLightToShadow.begin();
-		geomIt != mGeomToLightToShadow.end(); ++geomIt)
+	GeomLightToShadows::iterator endMap = mGeomLightToShadows.end();
+	for (GeomLightToShadows::iterator i = mGeomLightToShadows.begin();
+		i != endMap; ++i)
 	{
-		theGeom = geomIt->first;
-		TQ3Uns32 vboRefs = ::CountVBOs( theGeom );
-		TQ3Uns32 shadowRefs = ShadowVolMgr::CountVBOs( theGeom );
-		TQ3Uns32 totalRefs = Q3Shared_GetReferenceCount( theGeom );
-		if (vboRefs + shadowRefs == totalRefs)
+		ShadowVec& theShadows( i->second );
+		// Find the first stale shadow
+		ShadowVec::iterator endVec = theShadows.end();
+		ShadowVec::iterator first;
+		for (first = theShadows.begin(); first != endVec; ++first)
 		{
-			const LightToShadow& ltos( geomIt->second );
-			const ShadowVBO* aVBO = ltos.begin()->second;
-			geomsToFlush.push_back( aVBO->mGeomObject );
-		}
-	}
-	
-	for (ObVec::const_iterator j = geomsToFlush.begin(); j != geomsToFlush.end(); ++j)
-	{
-		theGeom = j->get();
-		
-		GeomToLightToShadow::iterator foundGeom = mGeomToLightToShadow.find( theGeom );
-		if (foundGeom != mGeomToLightToShadow.end())
-		{
-			LightToShadow& lightMap( foundGeom->second );
-			for (LightToShadow::iterator k = lightMap.begin(); k != lightMap.end(); ++k)
+			if ((*first)->IsStale())
 			{
-				DeleteFromLightToGeomMap( k->second );
-				DeleteVBO( k->second, inFuncs );
+				break;
 			}
-			mGeomToLightToShadow.erase( foundGeom );
+		}
+		if (first != endVec)
+		{
+			// As we go, delete stale ones and move the good ones to the left.
+			// The algorithm is similar to std::remove_if.
+			DeleteVBO( *first, inFuncs );
+			
+			ShadowVec::iterator j;
+			
+			for (j = first, ++j; j != endVec; ++j)
+			{
+				if ((*j)->IsStale())
+				{
+					DeleteVBO( *j, inFuncs );
+				}
+				else
+				{
+					*first = *j;
+					++first;
+				}
+			}
+			theShadows.erase( first, endVec );
 		}
 	}
 }
 
-void	ShadowVolCache::FlushUnreferencedLights( const GLBufferFuncs& inFuncs )
-{
-	ObVec	lightsToFlush;
-	TQ3LightObject theLight;
-	
-	for (LightToGeomToShadow::const_iterator lightIt = mLightToGeomToShadow.begin();
-		lightIt != mLightToGeomToShadow.end(); ++lightIt)
-	{
-		theLight = lightIt->first;
-		TQ3Uns32 shadowRefs = static_cast<TQ3Uns32>(lightIt->second.size());
-		TQ3Uns32 totalRefs = Q3Shared_GetReferenceCount( theLight );
-		if (shadowRefs == totalRefs)
-		{
-			const GeomToShadow& gtos( lightIt->second );
-			const ShadowVBO* aVBO = gtos.begin()->second;
-			lightsToFlush.push_back( aVBO->mLightObject );
-		}
-	}
-	
-	for (ObVec::const_iterator j = lightsToFlush.begin(); j != lightsToFlush.end(); ++j)
-	{
-		theLight = j->get();
-		
-		GeomToLightToShadow::iterator foundLight = mLightToGeomToShadow.find( theLight );
-		if (foundLight != mLightToGeomToShadow.end())
-		{
-			GeomToShadow& geomMap( foundLight->second );
-			for (GeomToShadow::iterator k = geomMap.begin(); k != geomMap.end(); ++k)
-			{
-				DeleteFromGeomToLightMap( k->second );
-				DeleteVBO( k->second, inFuncs );
-			}
-			mLightToGeomToShadow.erase( foundLight );
-		}
-	}
-	
-	if (not lightsToFlush.empty())
-	{
-		Q3_MESSAGE_FMT( "Flushed %d lights", (int)lightsToFlush.size() );
-	}
-}
 
 void	ShadowVolCache::MakeRoom( TQ3Uns32 inBytesNeeded, const GLBufferFuncs& inFuncs )
 {
@@ -538,14 +472,27 @@ void	ShadowVolCache::MakeRoom( TQ3Uns32 inBytesNeeded, const GLBufferFuncs& inFu
 
 void	ShadowVolCache::PurgeDownToSize( long long inTargetSize, const GLBufferFuncs& inFuncs )
 {
-	while (mTotalBytes > inTargetSize)
+	while ( (mTotalBytes > inTargetSize) && (mListOldEnd.mNext != &mListNewEnd) )
 	{
 		// Find the least recently used VBO from the doubly-linked list
 		ShadowVBO* oldestVBO = mListOldEnd.mNext;
 		
-		// Remove it from the map indexes
-		DeleteFromLightToGeomMap( oldestVBO );
-		DeleteFromGeomToLightMap( oldestVBO );
+		// Remove it from the map index
+		GeomLightToShadows::iterator found = mGeomLightToShadows.find( oldestVBO->mMapKey );
+		if (found != mGeomLightToShadows.end())
+		{
+			ShadowVec& theShadows( found->second );
+			ShadowVec::iterator foundShadow = std::find( theShadows.begin(),
+				theShadows.end(), oldestVBO );
+			if (foundShadow != theShadows.end())
+			{
+				theShadows.erase( foundShadow );
+				if (theShadows.empty())
+				{
+					mGeomLightToShadows.erase( found );
+				}
+			}
+		}
 		
 		// Remove it from the doubly linked list, remove the VBOs, update
 		// mTotalBytes, and delete the ShadowVBO record.
@@ -561,17 +508,6 @@ void	ShadowVolCache::SetMaxBufferSize( long long inBufferSize, const GLBufferFun
 	}
 	
 	mMaxBufferBytes = inBufferSize;
-}
-
-TQ3Uns32	ShadowVolCache::CountVBOs( TQ3GeometryObject inGeom ) const
-{
-	TQ3Uns32 shadowRefs = 0;
-	GeomToLightToShadow::const_iterator geomIt = mGeomToLightToShadow.find( inGeom );
-	if (geomIt != mGeomToLightToShadow.end())
-	{
-		shadowRefs = (TQ3Uns32) geomIt->second.size();
-	}
-	return shadowRefs;
 }
 
 #pragma mark -
@@ -717,34 +653,7 @@ void	ShadowVolMgr::Flush(
 	
 	if (theCache != NULL)
 	{
-		theCache->FlushUnreferencedGeometries( inFuncs );
-		theCache->FlushUnreferencedLights( inFuncs );
+		theCache->FlushStaleShadows( inFuncs );
 	}
-}
-
-
-/*!
-	@function		CountVBOs
-	@abstract		Count how many references the shadow VBO manager holds for a given
-					geometry, counting all GL contexts and all lights.
-	@param			inGeom			A geometry object.
-	@result			Number of VBOs referencing the geometry.
-*/
-TQ3Uns32	ShadowVolMgr::CountVBOs( TQ3GeometryObject inGeom )
-{
-	TQ3Uns32 refCount = 0;
-	TQ3GLContext sharingBase = NULL;
-	
-	while ( (sharingBase = GLGPUSharing_GetNextSharingBase( sharingBase )) != NULL )
-	{
-		ShadowVolCache*	theCache = GetShadowCache( sharingBase );
-		
-		if (theCache != NULL)
-		{
-			refCount += theCache->CountVBOs( inGeom );
-		}
-	}
-	
-	return refCount;
 }
 

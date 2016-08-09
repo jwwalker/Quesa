@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -75,7 +75,9 @@
 #endif
 
 #include <cstring>
-
+#include <map>
+#include <set>
+#include <utility>
 
 
 //=============================================================================
@@ -90,6 +92,9 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+namespace
+{
+	
 struct PropIterData
 {
 	TQ3Object			object;
@@ -97,7 +102,19 @@ struct PropIterData
 	void*				userData;
 };
 
+typedef std::set< TQ3Object* > WeakRefSet;
 
+typedef std::map< TQ3Object, WeakRefSet > ObToWeakRefs;
+
+}
+
+
+
+//=============================================================================
+//      Internal variables
+//-----------------------------------------------------------------------------
+
+static ObToWeakRefs* sObToWeakRefs = NULL;
 
 
 //=============================================================================
@@ -1196,13 +1213,13 @@ E3ObjectHierarchy_EmptySubClassData(TQ3SubClassData *subClassData)
 #pragma mark -
 TQ3Status
 OpaqueTQ3Object::Dispose ( void )
-	{
+{
 
 	// Dispose of the object
-	 ( (E3Root*) GetClass () )->disposeMethod ( this ) ;
+	( (E3Root*) GetClass () )->disposeMethod( this );
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1227,6 +1244,73 @@ E3Object_CleanDispose(TQ3Object *theObject)
 		qd3dStatus = kQ3Success;
 
 	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_GetWeakReference : Record an object reference so that it can
+//									be made zero when the object is deleted.
+//-----------------------------------------------------------------------------
+void	E3Object_GetWeakReference( TQ3Object* theRefAddress )
+{
+	if (sObToWeakRefs == NULL)
+	{
+		sObToWeakRefs = new ObToWeakRefs;
+	}
+	
+	//Q3_MESSAGE_FMT("+ weak ref %p -> %p", theRefAddress, *theRefAddress );
+	(*sObToWeakRefs)[ *theRefAddress ].insert( theRefAddress );
+}
+
+
+
+
+
+//=============================================================================
+//      E3Object_ReleaseWeakReference : Forget a zeroing weak reference.
+//-----------------------------------------------------------------------------
+void	E3Object_ReleaseWeakReference( TQ3Object* theRefAddress )
+{
+	if (sObToWeakRefs != NULL)
+	{
+		//Q3_MESSAGE_FMT("- weak ref %p -> %p", theRefAddress, *theRefAddress );
+		(*sObToWeakRefs)[ *theRefAddress ].erase( theRefAddress );
+	}
+}
+
+
+
+
+
+
+//=============================================================================
+//      E3Object_ZeroWeakReferences : Zero weak references to an object that
+//										has been deleted.
+//-----------------------------------------------------------------------------
+void	E3Object_ZeroWeakReferences( TQ3Object deletedObject )
+{
+	if (sObToWeakRefs != NULL)
+	{
+		ObToWeakRefs::iterator found = sObToWeakRefs->find( deletedObject );
+		if (found != sObToWeakRefs->end())
+		{
+			//Q3_MESSAGE_FMT("----");
+			WeakRefSet& weakRefs( found->second );
+			WeakRefSet::iterator endIt = weakRefs.end();
+			for (WeakRefSet::iterator i = weakRefs.begin(); i != endIt; ++i)
+			{
+				TQ3Object* theRefAddr( *i );
+				//Q3_MESSAGE_FMT("zeroing reference %p to dead object %p",
+				//	theRefAddr, deletedObject );
+				*theRefAddr = NULL;
+			}
+			sObToWeakRefs->erase( found );
+			//Q3_MESSAGE_FMT("----");
+		}
+	}
 }
 
 
@@ -1830,7 +1914,7 @@ E3Shared_GetType(TQ3SharedObject sharedObject)
 //-----------------------------------------------------------------------------
 E3Shared*
 E3Shared::GetReference ( void )
-	{
+{
 	// Increment the reference count and return the object. Note that we
 	// return the object passed in: this is OK since we're not declared
 	// to return a different object.
@@ -1845,7 +1929,7 @@ E3Shared::GetReference ( void )
 #endif
 
 	return this ;
-	}
+}
 
 
 
