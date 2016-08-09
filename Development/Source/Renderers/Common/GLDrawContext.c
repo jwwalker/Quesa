@@ -47,6 +47,7 @@
 #include "GLDrawContext.h"
 #include "GLGPUSharing.h"
 #include "GLUtils.h"
+#include "QuesaMath.h"
 
 #if QUESA_OS_COCOA
 #include "GLCocoaContext.h"
@@ -1563,10 +1564,16 @@ MacGLContext::MacGLContext(
 	
 	
 	
-	// Find the OS version
-	SInt32 sysMajor = 0, sysMinor = 0;
-	Gestalt( gestaltSystemVersionMajor, &sysMajor );
-	Gestalt( gestaltSystemVersionMinor, &sysMinor );
+	// Find the OS version.  Apple's gestaltSystemVersion breaks at 10.10, so
+	// we construct something similar that should work through 10.15.
+	SInt32 sysMajor = 0, sysMinor = 0, sysBugfix = 0;
+	::Gestalt( gestaltSystemVersionMajor, &sysMajor );
+	::Gestalt( gestaltSystemVersionMinor, &sysMinor );
+	::Gestalt( gestaltSystemVersionBugFix, &sysBugfix );
+	sysMajor = ((sysMajor / 10) << 4) | (sysMajor % 10); // convert to BCD
+	sysMinor = Q3Math_Min( sysMinor, 15 );			// limit to 15
+	sysBugfix = Q3Math_Min( sysBugfix, 15 );		// limit to 15
+	sysVersion = (sysMajor << 8) | (sysMinor << 4) | sysBugfix;
 
 
 
@@ -1574,11 +1581,7 @@ MacGLContext::MacGLContext(
 	// software renderer.  This, for instance, has a larger viewport limit
 	// and shows specular highlights on textured material.
 	if ( (drawContextType == kQ3DrawContextTypePixmap) &&
-		(
-			(sysMajor > 10) ||
-			((sysMajor == 10) && (sysMinor >= 4))
-		)
-	)
+		(sysVersion >= 0x1040) )
 	{
 		rendererID = 0x20400;
 	}
