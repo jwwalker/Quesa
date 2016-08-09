@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,20 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Memory.h"
+
+
+
+
+
+//=============================================================================
+//      Global Variables
+//-----------------------------------------------------------------------------
+
+#if QUESA_OS_MACINTOSH
+	extern volatile int32_t	gObjectCount;
+#elif QUESA_OS_WIN32
+	extern volatile LONG		gObjectCount;
+#endif
 
 
 
@@ -492,6 +506,23 @@ Q3Memory_GetStatistics(
 #endif
 	
 	return result;
+}
+
+
+
+
+
+/*!
+	@function	Q3Memory_GetObjectCount
+	@abstract	Get a count of Quesa objects currently in existence.
+	@discussion	Unlike <code>Q3Memory_CountRecords</code>, this function works
+				even in non-debug builds.
+	@result		Number of Quesa objects.
+*/
+TQ3Int32
+Q3Memory_GetObjectCount()
+{
+	return gObjectCount;
 }
 
 

@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -522,6 +522,22 @@ Q3_EXTERN_API_C ( TQ3Status )
 Q3Memory_GetStatistics(
 	TQ3MemoryStatistics*	info
 );
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+	@function	Q3Memory_GetObjectCount
+	@abstract	Get a count of Quesa objects currently in existence.
+	@discussion	Unlike <code>Q3Memory_CountRecords</code>, this function works
+				even in non-debug builds.
+	@result		Number of Quesa objects.
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3Int32 )
+Q3Memory_GetObjectCount();
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 

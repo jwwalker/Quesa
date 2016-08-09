@@ -74,6 +74,10 @@
 #include "E3Viewer.h"
 #endif
 
+#if QUESA_OS_MACINTOSH
+	#include <libkern/OSAtomic.h>
+#endif
+
 #include <cstring>
 #include <map>
 #include <set>
@@ -86,6 +90,17 @@
 #define	kPropertyHashTableSize					32
 
 
+
+
+//=============================================================================
+//      Global Variables
+//-----------------------------------------------------------------------------
+
+#if QUESA_OS_MACINTOSH
+	volatile int32_t	gObjectCount = 0;
+#elif QUESA_OS_WIN32
+	volatile LONG		gObjectCount = 0;
+#endif
 
 
 
@@ -555,6 +570,13 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 	theObject->theSet = NULL;
 	theObject->propertyTable = NULL;
 	
+	// Update the global object count.
+#if QUESA_OS_MACINTOSH
+	OSAtomicIncrement32( &gObjectCount );
+#elif QUESA_OS_WIN32
+	InterlockedIncrement( &gObjectCount );
+#endif
+	
 	return kQ3Success;
 }
 
@@ -626,6 +648,15 @@ e3root_delete( TQ3Object theObject, void *privateData )
 		propertyTable_disposeItems( instanceData->propertyTable );
 		E3HashTable_Destroy( &instanceData->propertyTable );
 	}
+
+	
+	// Update the global object count.
+#if QUESA_OS_MACINTOSH
+	OSAtomicDecrement32( &gObjectCount );
+#elif QUESA_OS_WIN32
+	InterlockedDecrement( &gObjectCount );
+#endif
+
 
 #if Q3_DEBUG
 	if ( instanceData->prev != NULL )
