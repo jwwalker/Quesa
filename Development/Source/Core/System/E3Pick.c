@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -62,6 +62,7 @@
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+#pragma mark struct TQ3PickHit
 // Pick hit result
 struct TQ3PickHit
 {
@@ -88,26 +89,31 @@ struct TQ3PickHit
 	TQ3Param3D					hitBarycentric;
 };
 
-
-// Pick object instance data
-struct TQ3PickUnionData
+struct TQ3WindowPointPickSpecificData
 {
-	// Common data
-	std::vector<TQ3PickHit*>*			pickHits;
-	bool								isSorted;
-
-
-	// Pick specific. Note that we assume that a TQ3PickData structure
-	// is the first item within each pick structure, since this lets us
-	// use a union and have the common data overlap.
-	union	{
-		TQ3PickData 					common;
-		TQ3WindowPointPickData			windowPointData;
-		TQ3WindowRectPickData			windowRectData;
-		TQ3WorldRayPickData				worldRayData;
-	} data;
+	TQ3Point2D	point;
 };
 
+struct TQ3WorldRayPickSpecificData
+{
+	TQ3Ray3D	ray;
+};
+
+struct TQ3WindowRectPickSpecificData
+{
+	TQ3Area		rect;
+};
+
+
+struct TQ3PickBaseData
+{
+	TQ3PickData							commonData;
+	std::vector<TQ3PickHit*>*			pickHits;
+	bool								isSorted;
+	float								vertexTolerance;
+	float								edgeTolerance;
+	float								faceTolerance;
+};
 
 
 struct CompPickNearToFar
@@ -127,12 +133,11 @@ class E3Pick : public OpaqueTQ3Object // This is not a leaf class, but only clas
 								// the .c file rather than in the .h file, hence all
 								// the fields can be public as nobody should be
 								// including this file.
-	{
+{
 Q3_CLASS_ENUMS ( kQ3ObjectTypePick, E3Pick, OpaqueTQ3Object )
 public :
-
-	// There is no extra data for this class
-	} ;
+	TQ3PickBaseData		baseInstanceData;
+};
 	
 
 
@@ -140,12 +145,12 @@ class E3WindowPointPick : public E3Pick  // This is a leaf class so no other cla
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
-	{
+{
 Q3_CLASS_ENUMS ( kQ3PickTypeWindowPoint, E3WindowPointPick, E3Pick )
 public :
 
-	TQ3PickUnionData				instanceData ;
-	} ;
+	TQ3WindowPointPickSpecificData		instanceData ;
+} ;
 	
 
 
@@ -153,12 +158,12 @@ class E3WindowRectPick : public E3Pick  // This is a leaf class so no other clas
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
-	{
+{
 Q3_CLASS_ENUMS ( kQ3PickTypeWindowRect, E3WindowRectPick, E3Pick )
 public :
 
-	TQ3PickUnionData				instanceData ;
-	} ;
+	TQ3WindowRectPickSpecificData				instanceData ;
+} ;
 	
 
 
@@ -166,12 +171,12 @@ class E3WorldRayPick : public E3Pick  // This is a leaf class so no other classe
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
-	{
+{
 Q3_CLASS_ENUMS ( kQ3PickTypeWorldRay, E3WorldRayPick, E3Pick )
 public :
 
-	TQ3PickUnionData				instanceData ;
-	} ;
+	TQ3WorldRayPickSpecificData			instanceData ;
+} ;
 	
 
 
@@ -531,15 +536,15 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 //      e3pick_hit_find : Find the nth pick hit in a list.
 //-----------------------------------------------------------------------------
 static TQ3PickHit *
-e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
+e3pick_hit_find(TQ3PickBaseData *pickInstanceData, TQ3Uns32 n)
 {
 	// Check we're not out of range
 	if (n >= pickInstanceData->pickHits->size())
 		return(NULL);
 	
-	if (pickInstanceData->data.common.numHitsToReturn != kQ3ReturnAllHits)
+	if (pickInstanceData->commonData.numHitsToReturn != kQ3ReturnAllHits)
 		{
-		if (n >= pickInstanceData->data.common.numHitsToReturn)
+		if (n >= pickInstanceData->commonData.numHitsToReturn)
 			return(NULL);
 		}
 
@@ -547,7 +552,7 @@ e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
 	// just in time sort
 	if (!pickInstanceData->isSorted)
 	{
-		switch (pickInstanceData->data.common.sort)
+		switch (pickInstanceData->commonData.sort)
 		{
 			case kQ3PickSortNearToFar:
 				std::sort( pickInstanceData->pickHits->begin(),
@@ -584,8 +589,6 @@ e3pick_hit_find(TQ3PickUnionData *pickInstanceData, TQ3Uns32 n)
 static void
 e3pick_set_sort_mask(TQ3PickData *pickData)
 {
-
-
 	// Turn on the distance flag if any kind of sorting is requested
 	if (pickData->sort != kQ3PickSortNone)
 		pickData->mask |= kQ3PickDetailMaskDistance;
@@ -595,21 +598,97 @@ e3pick_set_sort_mask(TQ3PickData *pickData)
 
 
 
+#pragma mark -
 //=============================================================================
-//      e3pick_windowpoint_new : Window point pick new method.
+//      e3pick_new : Base pick new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3pick_windowpoint_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3PickUnionData				*instanceData = (TQ3PickUnionData *) privateData;
-	const TQ3WindowPointPickData	*pickData     = (const TQ3WindowPointPickData *) paramData;
+e3pick_new(TQ3Object theObject, void *privateData, const void *paramData)
+{	TQ3PickBaseData* instanceData = (TQ3PickBaseData *) privateData;
+	const TQ3PickData	*pickData     = (const TQ3PickData *) paramData;
 
 
 
 	// Initialise our instance data
 	instanceData->pickHits = new std::vector<TQ3PickHit*>;
-	instanceData->data.windowPointData = *pickData;
+	instanceData->commonData = *pickData;
+	instanceData->isSorted = false;
+	instanceData->vertexTolerance = 0.0f;
+	instanceData->edgeTolerance = 0.0f;
+	instanceData->faceTolerance = 0.0f;
 
-	e3pick_set_sort_mask(&instanceData->data.windowPointData.data);
+	e3pick_set_sort_mask( &instanceData->commonData );
+	
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3pick_delete : Base pick delete method.
+//-----------------------------------------------------------------------------
+static void
+e3pick_delete(TQ3Object theObject, void *privateData)
+{
+	// Empty the pick list
+	E3Pick_EmptyHitList(theObject);
+	
+	
+	// Free data held by the instance data
+	TQ3PickBaseData* instanceData = (TQ3PickBaseData*) privateData;
+	delete instanceData->pickHits;
+	instanceData->pickHits = NULL;
+}
+
+
+
+
+
+//=============================================================================
+//      e3pick_metahandler : Base pick metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3pick_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = NULL;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) e3pick_new;
+			break;
+
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3pick_delete;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+#pragma mark -
+//=============================================================================
+//      e3pick_windowpoint_new : Window point pick new method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3pick_windowpoint_new(TQ3Object theObject, void *privateData, const void *paramData)
+{
+	TQ3WindowPointPickSpecificData* instanceData = (TQ3WindowPointPickSpecificData *) privateData;
+	const TQ3WindowPointPickData	*pickData     = (const TQ3WindowPointPickData *) paramData;
+	E3Pick* parentOb = (E3Pick*) theObject;
+
+
+	// Initialise our instance data
+	instanceData->point = pickData->point;
+	parentOb->baseInstanceData.vertexTolerance = pickData->vertexTolerance;
+	parentOb->baseInstanceData.edgeTolerance = pickData->edgeTolerance;
 	
 	return(kQ3Success);
 }
@@ -624,14 +703,6 @@ e3pick_windowpoint_new(TQ3Object theObject, void *privateData, const void *param
 static void
 e3pick_windowpoint_delete(TQ3Object theObject, void *privateData)
 {
-	// Empty the pick list
-	E3Pick_EmptyHitList(theObject);
-	
-	
-	// Free data held by the instance data
-	TQ3PickUnionData* instanceData = (TQ3PickUnionData*) privateData;
-	delete instanceData->pickHits;
-	instanceData->pickHits = NULL;
 }
 
 
@@ -665,19 +736,20 @@ e3pick_windowpoint_metahandler(TQ3XMethodType methodType)
 
 
 
+#pragma mark -
 //=============================================================================
 //      e3pick_windowrect_new : Window rect pick new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3pick_windowrect_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3PickUnionData				*instanceData = (TQ3PickUnionData *) privateData;
+{
+	TQ3Area				*instanceData = (TQ3Area *) privateData;
 	const TQ3WindowRectPickData		*pickData     = (const TQ3WindowRectPickData *) paramData;
 
 
 
 	// Initialise our instance data
-	instanceData->pickHits = new std::vector<TQ3PickHit*>;
-	instanceData->data.windowRectData = *pickData;
+	*instanceData = pickData->rect;
 
 	return(kQ3Success);
 }
@@ -692,14 +764,6 @@ e3pick_windowrect_new(TQ3Object theObject, void *privateData, const void *paramD
 static void
 e3pick_windowrect_delete(TQ3Object theObject, void *privateData)
 {
-	// Empty the pick list
-	E3Pick_EmptyHitList(theObject);
-	
-	
-	// Free data held by the instance data
-	TQ3PickUnionData* instanceData = (TQ3PickUnionData*) privateData;
-	delete instanceData->pickHits;
-	instanceData->pickHits = NULL;
 }
 
 
@@ -732,22 +796,23 @@ e3pick_windowrect_metahandler(TQ3XMethodType methodType)
 
 
 
-
+#pragma mark -
 //=============================================================================
 //      e3pick_worldray_new : World ray pick new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3pick_worldray_new(TQ3Object theObject, void *privateData, const void *paramData)
-{	TQ3PickUnionData			*instanceData = (TQ3PickUnionData *) privateData;
+{
+	TQ3WorldRayPickSpecificData* instanceData = (TQ3WorldRayPickSpecificData *) privateData;
 	const TQ3WorldRayPickData	*pickData     = (const TQ3WorldRayPickData *) paramData;
+	E3Pick* parentOb = (E3Pick*) theObject;
 
 
 
 	// Initialise our instance data
-	instanceData->pickHits = new std::vector<TQ3PickHit*>;
-	instanceData->data.worldRayData = *pickData;
-
-	e3pick_set_sort_mask(&instanceData->data.windowPointData.data);
+	instanceData->ray = pickData->ray;
+	parentOb->baseInstanceData.vertexTolerance = pickData->vertexTolerance;
+	parentOb->baseInstanceData.edgeTolerance = pickData->edgeTolerance;
 	
 	return(kQ3Success);
 }
@@ -762,14 +827,6 @@ e3pick_worldray_new(TQ3Object theObject, void *privateData, const void *paramDat
 static void
 e3pick_worldray_delete(TQ3Object theObject, void *privateData)
 {
-	// Empty the pick list
-	E3Pick_EmptyHitList(theObject);
-	
-	
-	// Free data held by the instance data
-	TQ3PickUnionData* instanceData = (TQ3PickUnionData*) privateData;
-	delete instanceData->pickHits;
-	instanceData->pickHits = NULL;
 }
 
 
@@ -1059,9 +1116,10 @@ E3Pick_RegisterClass(void)
 
 
 	// Register the pick classes
-	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNamePick,
-										NULL,
-										E3Pick ) ;
+	qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNamePick,
+										e3pick_metahandler,
+										E3Pick,
+										baseInstanceData ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNamePickWindowPoint,
@@ -1191,12 +1249,12 @@ E3Pick_GetType(TQ3PickObject thePick)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetData(TQ3PickObject thePick, TQ3PickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
-
-
+{
+	E3Pick* pickOb = (E3Pick*) thePick;
+	TQ3PickBaseData* baseData = & pickOb->baseInstanceData;
 
 	// Get the field
-	*data = instanceData->data.common;
+	*data = baseData->commonData;
 	return(kQ3Success);
 }
 
@@ -1209,14 +1267,16 @@ E3Pick_GetData(TQ3PickObject thePick, TQ3PickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_SetData(TQ3PickObject thePick, const TQ3PickData *data)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+{
+	E3Pick* pickOb = (E3Pick*) thePick;
+	TQ3PickBaseData* baseData = & pickOb->baseInstanceData;
 
 
 
 	// Set the field
-	instanceData->data.common = *data;
+	baseData->commonData = *data;
 
-	e3pick_set_sort_mask(&instanceData->data.common);
+	e3pick_set_sort_mask(&baseData->commonData);
 
 	return(kQ3Success);
 }
@@ -1230,23 +1290,13 @@ E3Pick_SetData(TQ3PickObject thePick, const TQ3PickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetVertexTolerance(TQ3PickObject thePick, float *vertexTolerance)
-	{
-	TQ3PickUnionData* instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+{
+	E3Pick* pickOb = (E3Pick*) thePick;
 
-	// Get the field
-	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WindowPointPick ) )
-		*vertexTolerance = instanceData->data.windowPointData.vertexTolerance;
-	else
-	if ( Q3_OBJECT_IS_CLASS (thePick, E3WorldRayPick ) )
-		*vertexTolerance = instanceData->data.worldRayData.vertexTolerance;
-	else
-		{
-		*vertexTolerance = 0.0f;
-		return kQ3Failure ;
-		}
+	*vertexTolerance = pickOb->baseInstanceData.vertexTolerance;
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1257,25 +1307,13 @@ E3Pick_GetVertexTolerance(TQ3PickObject thePick, float *vertexTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_GetEdgeTolerance(TQ3PickObject thePick, float *edgeTolerance)
-	{
-	TQ3PickUnionData* instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+{
+	E3Pick* pickOb = (E3Pick*) thePick;
 
-
-
-	// Get the field
-	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WindowPointPick ) )
-		*edgeTolerance = instanceData->data.windowPointData.edgeTolerance ;
-	else
-	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WorldRayPick ) )
-		*edgeTolerance = instanceData->data.worldRayData.edgeTolerance ;
-	else
-		{
-		*edgeTolerance = 0.0f ;
-		return kQ3Failure ;
-		}
+	*edgeTolerance = pickOb->baseInstanceData.edgeTolerance;
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1286,22 +1324,15 @@ E3Pick_GetEdgeTolerance(TQ3PickObject thePick, float *edgeTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_SetVertexTolerance(TQ3PickObject thePick, float vertexTolerance)
-	{
-	TQ3PickUnionData* instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+{
+	E3Pick* pickOb = (E3Pick*) thePick;
 
 
+	pickOb->baseInstanceData.vertexTolerance = vertexTolerance;
 
-	// Set the field
-	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WindowPointPick ) )
-		instanceData->data.windowPointData.vertexTolerance = vertexTolerance;
-	else
-	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WorldRayPick ) )
-		instanceData->data.worldRayData.vertexTolerance = vertexTolerance;
-	else
-		return kQ3Failure;
 	
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1312,22 +1343,47 @@ E3Pick_SetVertexTolerance(TQ3PickObject thePick, float vertexTolerance)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Pick_SetEdgeTolerance(TQ3PickObject thePick, float edgeTolerance)
-	{
-	TQ3PickUnionData* instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+{
+	E3Pick* pickOb = (E3Pick*) thePick;
+
+	pickOb->baseInstanceData.edgeTolerance = edgeTolerance;
+
+	return kQ3Success ;
+}
 
 
 
-	// Set the field
-	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WindowPointPick ) )
-		instanceData->data.windowPointData.edgeTolerance = edgeTolerance;
-	else
-	if ( Q3_OBJECT_IS_CLASS ( thePick, E3WorldRayPick ) )
-		instanceData->data.worldRayData.edgeTolerance = edgeTolerance;
-	else
-		return kQ3Failure;
+
+
+//=============================================================================
+//      E3Pick_GetEdgeTolerance : Gets the pick object's edge tolerance.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Pick_GetFaceTolerance(TQ3PickObject thePick, float *faceTolerance)
+{
+	E3Pick* pickOb = (E3Pick*) thePick;
+	
+	*faceTolerance = pickOb->baseInstanceData.faceTolerance;
 	
 	return kQ3Success ;
-	}
+}
+
+
+
+
+
+//=============================================================================
+//      E3Pick_SetFaceTolerance : Sets the pick object's face tolerance.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Pick_SetFaceTolerance(TQ3PickObject thePick, float faceTolerance)
+{
+	E3Pick* pickOb = (E3Pick*) thePick;
+
+	pickOb->baseInstanceData.faceTolerance = faceTolerance;
+	
+	return kQ3Success ;
+}
 
 
 
@@ -1337,19 +1393,22 @@ E3Pick_SetEdgeTolerance(TQ3PickObject thePick, float edgeTolerance)
 //      E3Pick_GetNumHits : Gets the pick object's number of hits.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+E3Pick_GetNumHits(TQ3PickObject inPick, TQ3Uns32 *numHits)
+{
+	E3Pick* thePick = (E3Pick*) inPick;
+	
+	TQ3PickBaseData	*instanceData = (TQ3PickBaseData *) &thePick->baseInstanceData;
 
 
 
 	// Get the field, clamping it if a limit was supplied
 	*numHits = static_cast<TQ3Uns32>(instanceData->pickHits->size());
 	
-	if (instanceData->data.common.numHitsToReturn != kQ3ReturnAllHits)
-		{
-		if (*numHits > instanceData->data.common.numHitsToReturn)
-			*numHits = instanceData->data.common.numHitsToReturn;
-		}
+	if (instanceData->commonData.numHitsToReturn != kQ3ReturnAllHits)
+	{
+		if (*numHits > instanceData->commonData.numHitsToReturn)
+			*numHits = instanceData->commonData.numHitsToReturn;
+	}
 	
 	return(kQ3Success);
 }
@@ -1362,15 +1421,18 @@ E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits)
 //      E3Pick_EmptyHitList : Empties the hit list.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_EmptyHitList(TQ3PickObject thePick)
+E3Pick_EmptyHitList(TQ3PickObject inPick)
 {
-	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+	E3Pick* thePick = (E3Pick*) inPick;
 
+	TQ3PickBaseData	*instanceData = (TQ3PickBaseData *) &thePick->baseInstanceData;
 
 
 	// Dispose of the hit list
+	std::vector<TQ3PickHit*>::iterator endIt = instanceData->pickHits->end();
+	
 	for (std::vector<TQ3PickHit*>::iterator i = instanceData->pickHits->begin();
-		i != instanceData->pickHits->end(); ++i)
+		i != endIt; ++i)
 	{
 		delete *i;
 	}
@@ -1388,8 +1450,12 @@ E3Pick_EmptyHitList(TQ3PickObject thePick)
 //      E3Pick_GetPickDetailValidMask : Gets the pick mask for the nth pick.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetPickDetailValidMask(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+E3Pick_GetPickDetailValidMask( TQ3PickObject inPick, TQ3Uns32 index,
+								TQ3PickDetail *pickDetailValidMask)
+{
+	E3Pick* thePick = (E3Pick*) inPick;
+
+	TQ3PickBaseData	*instanceData = (TQ3PickBaseData *) &thePick->baseInstanceData;
 	TQ3PickHit			*theHit;
 
 
@@ -1418,8 +1484,11 @@ E3Pick_GetPickDetailValidMask(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDeta
 //      E3Pick_GetPickDetailData : Gets the data for the nth object's detail.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData)
-{	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+E3Pick_GetPickDetailData(TQ3PickObject inPick, TQ3Uns32 index, TQ3PickDetail pickDetailValue, void *detailData)
+{
+	E3Pick* thePick = (E3Pick*) inPick;
+
+	TQ3PickBaseData	*instanceData = (TQ3PickBaseData *) &thePick->baseInstanceData;
 	TQ3Status			qd3dStatus;
 	TQ3PickHit			*theHit;
 
@@ -1497,7 +1566,7 @@ E3Pick_GetPickDetailData(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail pi
 //				pick in the pick object's results list.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Pick_RecordHit(TQ3PickObject				thePick,
+E3Pick_RecordHit(TQ3PickObject				inPick,
 					TQ3ViewObject			theView,
 					const TQ3Point3D		*hitXYZ,
 					const TQ3Vector3D		*hitNormal,
@@ -1506,7 +1575,9 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 					const TQ3Param3D*		hitBarycentric,
 					TQ3Uns32				hitTriMeshFaceIndex )
 {
-	TQ3PickUnionData	*instanceData = (TQ3PickUnionData *) thePick->FindLeafInstanceData () ;
+	E3Pick* thePick = (E3Pick*) inPick;
+
+	TQ3PickBaseData	*instanceData = (TQ3PickBaseData *) &thePick->baseInstanceData;
 	TQ3Status	theStatus = kQ3Success;
 
 
@@ -1579,10 +1650,10 @@ E3Pick_RecordHit(TQ3PickObject				thePick,
 #pragma mark -
 TQ3PickObject
 E3WindowPointPick_New(const TQ3WindowPointPickData *data)
-	{
+{
 	// Create the object
-	return E3ClassTree::CreateInstance ( kQ3PickTypeWindowPoint, kQ3False, data ) ;
-	}
+	return E3ClassTree::CreateInstance( kQ3PickTypeWindowPoint, kQ3True, data );
+}
 
 
 
@@ -1593,11 +1664,11 @@ E3WindowPointPick_New(const TQ3WindowPointPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_GetPoint(TQ3PickObject thePick, TQ3Point2D *point)
-	{
+{
 	// Get the field
-	*point = ( (E3WindowPointPick*) thePick )->instanceData.data.windowPointData.point ;
+	*point = ( (E3WindowPointPick*) thePick )->instanceData.point;
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1608,11 +1679,11 @@ E3WindowPointPick_GetPoint(TQ3PickObject thePick, TQ3Point2D *point)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_SetPoint(TQ3PickObject thePick, const TQ3Point2D *point)
-	{
+{
 	// Set the field
-	( (E3WindowPointPick*) thePick )->instanceData.data.windowPointData.point = *point ;
+	( (E3WindowPointPick*) thePick )->instanceData.point = *point;
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1623,11 +1694,17 @@ E3WindowPointPick_SetPoint(TQ3PickObject thePick, const TQ3Point2D *point)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_GetData(TQ3PickObject thePick, TQ3WindowPointPickData *data)
-	{
+{
+	E3WindowPointPick* pick = (E3WindowPointPick*) thePick;
+
 	// Get the field
-	*data = ( (E3WindowPointPick*) thePick )->instanceData.data.windowPointData;
+	data->data = pick->baseInstanceData.commonData;
+	data->point = pick->instanceData.point;
+	data->vertexTolerance = pick->baseInstanceData.vertexTolerance;
+	data->edgeTolerance = pick->baseInstanceData.edgeTolerance;
+
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1638,17 +1715,20 @@ E3WindowPointPick_GetData(TQ3PickObject thePick, TQ3WindowPointPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowPointPick_SetData(TQ3PickObject thePick, const TQ3WindowPointPickData *data)
-	{
-	E3WindowPointPick* pick = (E3WindowPointPick*) thePick ;
+{
+	E3WindowPointPick* pick = (E3WindowPointPick*) thePick;
 
 
-	// Set the field
-	pick->instanceData.data.windowPointData = *data ;
+	// Set the fields
+	pick->baseInstanceData.commonData = data->data;
+	pick->instanceData.point = data->point;
+	pick->baseInstanceData.vertexTolerance = data->vertexTolerance;
+	pick->baseInstanceData.edgeTolerance = data->edgeTolerance;
 
-	e3pick_set_sort_mask ( & pick->instanceData.data.windowPointData.data ) ;
+	e3pick_set_sort_mask ( & pick->baseInstanceData.commonData ) ;
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1660,10 +1740,10 @@ E3WindowPointPick_SetData(TQ3PickObject thePick, const TQ3WindowPointPickData *d
 #pragma mark -
 TQ3PickObject
 E3WindowRectPick_New(const TQ3WindowRectPickData *data)
-	{
+{
 	// Create the object
-	return E3ClassTree::CreateInstance ( kQ3PickTypeWindowRect, kQ3False, data ) ;
-	}
+	return E3ClassTree::CreateInstance( kQ3PickTypeWindowRect, kQ3True, data );
+}
 
 
 
@@ -1674,11 +1754,11 @@ E3WindowRectPick_New(const TQ3WindowRectPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_GetRect(TQ3PickObject thePick, TQ3Area *rect)
-	{
+{
 	// Get the field
-	*rect = ( (E3WindowRectPick*) thePick )->instanceData.data.windowRectData.rect ;
-	return kQ3Success ;
-	}
+	*rect = ( (E3WindowRectPick*) thePick )->instanceData.rect;
+	return kQ3Success;
+}
 
 
 
@@ -1689,11 +1769,11 @@ E3WindowRectPick_GetRect(TQ3PickObject thePick, TQ3Area *rect)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_SetRect(TQ3PickObject thePick, const TQ3Area *rect)
-	{
+{
 	// Set the field
-	( (E3WindowRectPick*) thePick )->instanceData.data.windowRectData.rect = *rect ;
-	return kQ3Success ;
-	}
+	( (E3WindowRectPick*) thePick )->instanceData.rect = *rect ;
+	return kQ3Success;
+}
 
 
 
@@ -1704,11 +1784,15 @@ E3WindowRectPick_SetRect(TQ3PickObject thePick, const TQ3Area *rect)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_GetData(TQ3PickObject thePick, TQ3WindowRectPickData *data)
-	{
-	// Get the field
-	*data = ( (E3WindowRectPick*) thePick )->instanceData.data.windowRectData ;
-	return kQ3Success ;
-	}
+{
+	E3WindowRectPick* pick = (E3WindowRectPick*) thePick;
+
+	// Get the fields
+	data->data = pick->baseInstanceData.commonData;
+	data->rect = pick->instanceData.rect;
+	
+	return kQ3Success;
+}
 
 
 
@@ -1719,10 +1803,15 @@ E3WindowRectPick_GetData(TQ3PickObject thePick, TQ3WindowRectPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WindowRectPick_SetData(TQ3PickObject thePick, const TQ3WindowRectPickData *data)
-	{	// Set the field
-	( (E3WindowRectPick*) thePick )->instanceData.data.windowRectData = *data ;
-	return kQ3Success ;
-	}
+{
+	E3WindowRectPick* pick = (E3WindowRectPick*) thePick;
+	
+	// Set the fields
+	pick->baseInstanceData.commonData = data->data;
+	pick->instanceData.rect = data->rect;
+
+	return kQ3Success;
+}
 
 
 
@@ -1734,10 +1823,10 @@ E3WindowRectPick_SetData(TQ3PickObject thePick, const TQ3WindowRectPickData *dat
 #pragma mark -
 TQ3PickObject
 E3WorldRayPick_New(const TQ3WorldRayPickData *data)
-	{
+{
 	// Create the object
-	return E3ClassTree::CreateInstance ( kQ3PickTypeWorldRay, kQ3False, data ) ;
-	}
+	return E3ClassTree::CreateInstance( kQ3PickTypeWorldRay, kQ3True, data );
+}
 
 
 
@@ -1748,11 +1837,11 @@ E3WorldRayPick_New(const TQ3WorldRayPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_GetRay(TQ3PickObject thePick, TQ3Ray3D *ray)
-	{
+{
 	// Get the field
-	*ray = ( (E3WorldRayPick*) thePick )->instanceData.data.worldRayData.ray ;
+	*ray = ( (E3WorldRayPick*) thePick )->instanceData.ray ;
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1763,11 +1852,11 @@ E3WorldRayPick_GetRay(TQ3PickObject thePick, TQ3Ray3D *ray)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_SetRay(TQ3PickObject thePick, const TQ3Ray3D *ray)
-	{
+{
 	// Set the field
-	( (E3WorldRayPick*) thePick )->instanceData.data.worldRayData.ray = *ray ;
+	( (E3WorldRayPick*) thePick )->instanceData.ray = *ray;
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1778,11 +1867,17 @@ E3WorldRayPick_SetRay(TQ3PickObject thePick, const TQ3Ray3D *ray)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_GetData(TQ3PickObject thePick, TQ3WorldRayPickData *data)
-	{
-	// Get the field
-	*data = ( (E3WorldRayPick*) thePick )->instanceData.data.worldRayData ;
+{
+	E3WorldRayPick* pick = (E3WorldRayPick*) thePick;
+
+	// Get the fields
+	data->data = pick->baseInstanceData.commonData;
+	data->ray = pick->instanceData.ray;
+	data->vertexTolerance = pick->baseInstanceData.vertexTolerance;
+	data->edgeTolerance = pick->baseInstanceData.edgeTolerance;
+	
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1793,17 +1888,21 @@ E3WorldRayPick_GetData(TQ3PickObject thePick, TQ3WorldRayPickData *data)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3WorldRayPick_SetData(TQ3PickObject thePick, const TQ3WorldRayPickData *data)
-	{
+{
 	E3WorldRayPick* pick = (E3WorldRayPick*) thePick ;
 
 
-	// Set the field
-	pick->instanceData.data.worldRayData = *data ;
+	// Set the fields
+	pick->baseInstanceData.commonData = data->data;
+	pick->instanceData.ray = data->ray;
+	pick->baseInstanceData.vertexTolerance = data->vertexTolerance;
+	pick->baseInstanceData.edgeTolerance = data->edgeTolerance;
+	
 
-	e3pick_set_sort_mask ( & pick->instanceData.data.worldRayData.data ) ;
+	e3pick_set_sort_mask( & pick->baseInstanceData.commonData );
 
 	return kQ3Success ;
-	}
+}
 
 
 

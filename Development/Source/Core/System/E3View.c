@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -4591,9 +4591,9 @@ E3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoin
 
 
 
-	// Get the matrices we ned
-	Q3View_GetWorldToFrustumMatrixState ( theView,  &worldToFrustum ) ;
-	Q3View_GetFrustumToWindowMatrixState ( theView, &frustumToWindow ) ;
+	// Get the matrices we need
+	E3View_GetWorldToFrustumMatrixState ( theView,  &worldToFrustum ) ;
+	E3View_GetFrustumToWindowMatrixState ( theView, &frustumToWindow ) ;
 	Q3Matrix4x4_Multiply ( &worldToFrustum, &frustumToWindow, &theMatrix ) ;
 
 

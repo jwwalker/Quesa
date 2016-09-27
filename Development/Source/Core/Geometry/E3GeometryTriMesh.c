@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,6 +52,7 @@
 #include "E3Geometry.h"
 #include "E3GeometryTriMesh.h"
 #include "E3ErrorManager.h"
+#include "QuesaMathOperators.hpp"
 
 
 
@@ -951,10 +952,10 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
 //      e3geom_trimesh_pick_with_ray : TriMesh ray picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
+e3geom_trimesh_pick_with_ray( TQ3ViewObject				theView,
 								TQ3PickObject			thePick,
 								const TQ3Ray3D			*theRay,
-								const TQ3TriMeshData	*geomData)
+								const TQ3TriMeshData	*geomData )
 {	TQ3Uns32						n, numPoints, v0, v1, v2;
 	TQ3Boolean						haveUV, cullBackface;
 	TQ3Param2D						hitUV, *resultUV;
@@ -965,10 +966,90 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
 	TQ3Vector3D						hitNormal;
 	TQ3Point3D						hitXYZ;
 	TQ3Param3D						theHit;
+	TQ3BoundingBox					worldBounds;
+	
 
 
 
-	// Transform our points
+	// Check for face tolerance
+	float faceTolerance;
+	E3Pick_GetFaceTolerance( thePick, &faceTolerance );
+	float toleranceSquared = faceTolerance * faceTolerance;
+	bool useTolerance = toleranceSquared > kQ3RealZero;
+	
+	
+	// In case we are using face tolerance, find out whether we are doing a
+	// window point pick.
+	bool isWindowPointPick = (E3Pick_GetType( thePick ) == kQ3PickTypeWindowPoint);
+	
+	
+	// If using tolerance in window space, we will need to transform from
+	// world to window space.
+	TQ3Matrix4x4 worldToWindow;
+	if ( useTolerance && isWindowPointPick )
+	{
+		TQ3Matrix4x4 worldToFrustum, frustumToWindow;
+		E3View_GetWorldToFrustumMatrixState( theView, &worldToFrustum );
+		E3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
+		worldToWindow = worldToFrustum * frustumToWindow;
+	}
+
+
+	// Test whether the ray hits the bounding box, as a first approximation.
+	const TQ3Matrix4x4* localToWorld = E3View_State_GetMatrixLocalToWorld(theView);
+	if (useTolerance)
+	{
+		if (isWindowPointPick)
+		{
+			TQ3Matrix4x4 localToWindow = *localToWorld * worldToWindow;
+			TQ3BoundingBox windowBounds;
+			E3BoundingBox_Transform( &geomData->bBox, &localToWindow, &windowBounds );
+			// Expand window bounds by tolerance in x and y directions.
+			windowBounds.min.x -= faceTolerance;
+			windowBounds.min.y -= faceTolerance;
+			windowBounds.max.x += faceTolerance;
+			windowBounds.max.y += faceTolerance;
+			// Get the original window point from the pick.
+			TQ3Point2D pickPt;
+			E3WindowPointPick_GetPoint( thePick, &pickPt );
+			// If the pick point is outside the window bounds, we know it is a miss.
+			if ( (pickPt.x < windowBounds.min.x) ||
+				(pickPt.x > windowBounds.max.x) ||
+				(pickPt.y < windowBounds.min.y) ||
+				(pickPt.y > windowBounds.max.y) )
+			{
+				return kQ3Success;
+			}
+		}
+		else	// world space test
+		{
+			E3BoundingBox_Transform( &geomData->bBox, localToWorld, &worldBounds );
+			// expand world bounds by tolerance in each direction.
+			worldBounds.min.x -= faceTolerance;
+			worldBounds.min.y -= faceTolerance;
+			worldBounds.min.z -= faceTolerance;
+			worldBounds.max.x += faceTolerance;
+			worldBounds.max.y += faceTolerance;
+			worldBounds.max.z += faceTolerance;
+			if (! E3Ray3D_IntersectBoundingBox( theRay, &worldBounds, NULL ))
+			{
+				// The ray misses the bounds, so it misses the mesh.
+				return kQ3Success;
+			}
+		}
+	}
+	else // no tolerance to worry about, look for exact hit in world space
+	{
+		E3BoundingBox_Transform( &geomData->bBox, localToWorld, &worldBounds );
+		if (! E3Ray3D_IntersectBoundingBox( theRay, &worldBounds, NULL ))
+		{
+			// The ray misses the bounds, so it misses the mesh.
+			return kQ3Success;
+		}
+	}
+
+
+	// Transform our points from local to world coordinates
 	numPoints   = geomData->numPoints;
 	worldPoints = (TQ3Point3D *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Point3D)));
 	if (worldPoints == NULL)
@@ -993,8 +1074,8 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
 	//
 	// Note we do not use any vertex/edge tolerances supplied for the pick, since
 	// QD3D's blue book appears to suggest neither are used for triangles.
-	for (n = 0; n < geomData->numTriangles && qd3dStatus == kQ3Success; n++)
-		{
+	for (n = 0; n < geomData->numTriangles && qd3dStatus == kQ3Success; ++n)
+	{
 		// Grab the vertex indicies
 		v0 = geomData->triangles[n].pointIndices[0];
 		v1 = geomData->triangles[n].pointIndices[1];
@@ -1003,21 +1084,56 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
 		Q3_ASSERT(v1 >= 0 && v1 < geomData->numPoints);
 		Q3_ASSERT(v2 >= 0 && v2 < geomData->numPoints);
 
-
+		// For convenience, name the 3 world-space corners of the triangle
+		const TQ3Point3D& p0( worldPoints[v0] );
+		const TQ3Point3D& p1( worldPoints[v1] );
+		const TQ3Point3D& p2( worldPoints[v2] );
 
 		// Pick the triangle
-		if (E3Ray3D_IntersectTriangle(theRay, &worldPoints[v0], &worldPoints[v1], &worldPoints[v2], cullBackface, &theHit))
+		TQ3Boolean didHit = kQ3False;
+		if (useTolerance)
+		{
+			if (E3Ray3D_NearTriangle( *theRay,
+				p0, p1, p2, cullBackface, theHit ))
 			{
+				TQ3Point3D triNearPt = (1.0f - theHit.u - theHit.v) * p0 +
+					theHit.u * p1 + theHit.v * p2;
+				TQ3Point3D rayNearPt = theRay->origin + theHit.w * theRay->direction;
+				
+				if (isWindowPointPick)
+				{
+					TQ3Point3D triNearWin = triNearPt * worldToWindow;
+					TQ3Point3D rayNearWin = rayNearPt * worldToWindow;
+					triNearWin.z = rayNearWin.z = 0.0f;
+					float winDistSq = Q3LengthSquared3D( triNearWin - rayNearWin );
+					didHit = (winDistSq < toleranceSquared)? kQ3True : kQ3False;
+				}
+				else
+				{
+					float worldDistSq = Q3LengthSquared3D( rayNearPt - triNearPt );
+					didHit = (worldDistSq < toleranceSquared)? kQ3True : kQ3False;
+				}
+			}
+		}
+		else // require exact hits
+		{
+			didHit = E3Ray3D_IntersectTriangle( *theRay,
+				p0, p1, p2, cullBackface, theHit );
+		}
+
+		if (didHit)
+		{
 			// Create the triangle, and update the vertices to the transformed coordinates
 			e3geom_trimesh_triangle_new(theView, geomData, n, &worldTriangle);
-			worldTriangle.vertices[0].point = worldPoints[v0];
-			worldTriangle.vertices[1].point = worldPoints[v1];
-			worldTriangle.vertices[2].point = worldPoints[v2];
+			worldTriangle.vertices[0].point = p0;
+			worldTriangle.vertices[1].point = p1;
+			worldTriangle.vertices[2].point = p2;
 
 
 			// Obtain the XYZ, normal, and UV for the hit point. We always return an
 			// XYZ and normal for the hit, however we need to cope with missing UVs.
-			E3Triangle_InterpolateHit(theView,&worldTriangle, &theHit, &hitXYZ, &hitNormal, &hitUV, &haveUV);
+			E3Triangle_InterpolateHit(theView,&worldTriangle, &theHit,
+				&hitXYZ, &hitNormal, &hitUV, &haveUV);
 			resultUV = (haveUV ? &hitUV : NULL);
 
 
@@ -1028,9 +1144,8 @@ e3geom_trimesh_pick_with_ray(TQ3ViewObject				theView,
 
 			// Clean up
 			e3geom_trimesh_triangle_delete(&worldTriangle);
-			}
 		}
-
+	}
 
 
 	// Clean up
@@ -1246,35 +1361,16 @@ e3geom_trimesh_pick_screen_bounds(TQ3ViewObject theView, const TQ3TriMeshData *g
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_trimesh_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, const TQ3TriMeshData *geomData)
-{	TQ3BoundingBox				worldBounds;
-	TQ3Point3D					corners[8];
+{
 	TQ3Status					qd3dStatus;
-	TQ3WindowPointPickData		pickData;
 	TQ3Ray3D					theRay;
 
 
 
-	// Get the pick data
-	Q3WindowPointPick_GetData(thePick, &pickData);
-
-
-
-	// Calculate the world-coordinate bounding box
-	E3BoundingBox_Transform( &geomData->bBox,
-		E3View_State_GetMatrixLocalToWorld(theView),
-		&worldBounds );
-	E3BoundingBox_GetCorners( &geomData->bBox, corners );
-
-
-
-	// See if the pick ray falls within our bounding box
-	//
-	// If it does, we proceed to the actual triangle-level hit test.
 	E3View_GetRayThroughPickPoint(theView, &theRay);
-	if (E3Ray3D_IntersectBoundingBox(&theRay, &worldBounds, NULL))
-		qd3dStatus = e3geom_trimesh_pick_with_ray(theView, thePick, &theRay, geomData);
-	else
-		qd3dStatus = kQ3Success;
+	
+	qd3dStatus = e3geom_trimesh_pick_with_ray( theView, thePick, &theRay,
+			geomData );
 
 	return(qd3dStatus);
 }
@@ -1343,40 +1439,19 @@ e3geom_trimesh_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, co
 static TQ3Status
 e3geom_trimesh_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, const TQ3TriMeshData *geomData)
 {
-	TQ3BoundingBox				worldBounds;
 	TQ3Status					qd3dStatus;
-	TQ3WorldRayPickData			pickData;
-	TQ3Point3D					hitHYZ;
+	TQ3Ray3D					pickRay;
 	
 
 
 	// Get the pick data
-	Q3WorldRayPick_GetData(thePick, &pickData);
+	E3WorldRayPick_GetRay(thePick, &pickRay);
 
 
 
-	// Calculate the bounding box
-	//
-	// To get an exact bounding box, we'd have to transform all the points and then
-	// use Q3BoundingBox_SetFromPoints3D, but that seems too much work for present
-	// purposes.
-	//
-	// As a cheaper alternative we find the 8 corners of the local bounding box,
-	// transform them, and then find the bounding box of those points.
-	//
-	// Note that simply transforming the min and max corners of the local bounding
-	// box would be incorrect.
-	E3BoundingBox_Transform( &geomData->bBox,
-		E3View_State_GetMatrixLocalToWorld(theView),
-		&worldBounds );
+	qd3dStatus = e3geom_trimesh_pick_with_ray( theView, thePick,
+			&pickRay, geomData );
 
-
-
-	// See if we fall within the pick
-	if (Q3Ray3D_IntersectBoundingBox(&pickData.ray, &worldBounds, &hitHYZ))
-		qd3dStatus = e3geom_trimesh_pick_with_ray(theView, thePick, &pickData.ray, geomData);
-	else
-		qd3dStatus = kQ3Success;
 
 	return(qd3dStatus);
 }
@@ -1435,7 +1510,8 @@ e3geom_trimesh_pick(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 //      e3geom_trimesh_bounds : TriMesh bounds method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType,
+					TQ3Object theObject, const void *objectData)
 {	TQ3Point3D					boundCorners[8];
 	TQ3BoundingMethod			boundingMethod;
 	const TQ3TriMeshData		*geomData;
@@ -1483,10 +1559,10 @@ e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_trimesh_get_attribute ( E3TriMesh* triMesh )
-	{
+{
 	// Return the address of the geometry attribute set
 	return & triMesh->instanceData.geomData.triMeshAttributeSet ;
-	}
+}
 
 
 

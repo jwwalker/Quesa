@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -406,9 +406,32 @@ Q3Pick_GetEdgeTolerance (
 
 /*!
  *  @function
+ *      Q3Pick_GetFaceTolerance
+ *  @discussion
+ *      Get the face tolerance of a pick object.
+ *
+ *  @param pick             The pick object to query.
+ *  @param faceTolerance    Receives the face tolerance of the pick object.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Pick_GetFaceTolerance (
+    TQ3PickObject                 pick,
+    float                         *faceTolerance
+);
+
+
+
+/*!
+ *  @function
  *      Q3Pick_SetVertexTolerance
  *  @discussion
  *      Set the vertex tolerance of a pick object.
+ *
+ *		The distance between a picking ray and a line is measured in world space
+ *		when using a world ray pick, and measured in 2D window space when using
+ *		a window point pick.  Tolerances are ignored when using a window rect
+ *		pick.
  *
  *  @param pick             The pick object to update.
  *  @param vertexTolerance  The new vertex tolerance of the pick object.
@@ -428,6 +451,11 @@ Q3Pick_SetVertexTolerance (
  *  @discussion
  *      Set the edge tolerance of a pick object.
  *
+ *		The distance between a picking ray and a face is measured in world space
+ *		when using a world ray pick, and measured in 2D window space when using
+ *		a window point pick.  Tolerances are ignored when using a window rect
+ *		pick.
+ *
  *  @param pick             The pick object to update.
  *  @param edgeTolerance    The new edge tolerance of the pick object.
  *  @result                 Success or failure of the operation.
@@ -436,6 +464,29 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetEdgeTolerance (
     TQ3PickObject                 pick,
     float                         edgeTolerance
+);
+
+
+
+/*!
+ *  @function
+ *      Q3Pick_SetFaceTolerance
+ *  @discussion
+ *      Set the face tolerance of a pick object.
+ *
+ *		The distance between a picking ray and a face is measured in world space
+ *		when using a world ray pick, and measured in 2D window space when using
+ *		a window point pick.  Tolerances are ignored when using a window rect
+ *		pick.
+ *
+ *  @param pick             The pick object to update.
+ *  @param faceTolerance    The new face tolerance of the pick object.
+ *  @result                 Success or failure of the operation.
+ */
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3Pick_SetFaceTolerance (
+    TQ3PickObject                 pick,
+    float                         faceTolerance
 );
 
 

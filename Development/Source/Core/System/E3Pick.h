@@ -5,7 +5,7 @@
         Header file for E3Pick.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -77,6 +77,8 @@ TQ3Status				E3Pick_GetVertexTolerance(TQ3PickObject thePick, float *vertexToler
 TQ3Status				E3Pick_GetEdgeTolerance(TQ3PickObject thePick, float *edgeTolerance);
 TQ3Status				E3Pick_SetVertexTolerance(TQ3PickObject thePick, float vertexTolerance);
 TQ3Status				E3Pick_SetEdgeTolerance(TQ3PickObject thePick, float edgeTolerance);
+TQ3Status				E3Pick_GetFaceTolerance(TQ3PickObject thePick, float *faceTolerance);
+TQ3Status				E3Pick_SetFaceTolerance(TQ3PickObject thePick, float faceTolerance);
 TQ3Status				E3Pick_GetNumHits(TQ3PickObject thePick, TQ3Uns32 *numHits);
 TQ3Status				E3Pick_EmptyHitList(TQ3PickObject thePick);
 TQ3Status				E3Pick_GetPickDetailValidMask(TQ3PickObject thePick, TQ3Uns32 index, TQ3PickDetail *pickDetailValidMask);

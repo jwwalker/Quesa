@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -236,6 +236,37 @@ Q3Pick_GetEdgeTolerance(TQ3PickObject pick, float *edgeTolerance)
 
 
 //=============================================================================
+//      Q3Pick_GetFaceTolerance : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Pick_GetFaceTolerance(TQ3PickObject pick, float *faceTolerance)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Pick_IsOfMyClass ( pick ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(faceTolerance), kQ3Failure);
+
+
+
+	// Debug build checks
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Pick_GetFaceTolerance(pick, faceTolerance));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3Pick_SetVertexTolerance : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -289,6 +320,36 @@ Q3Pick_SetEdgeTolerance(TQ3PickObject pick, float edgeTolerance)
 
 	// Call our implementation
 	return(E3Pick_SetEdgeTolerance(pick, edgeTolerance));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3Pick_SetFaceTolerance : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3Pick_SetFaceTolerance(TQ3PickObject pick, float faceTolerance)
+{
+
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Pick_IsOfMyClass ( pick ), kQ3Failure);
+
+
+
+	// Debug build checks
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3Pick_SetFaceTolerance(pick, faceTolerance));
 }
 
 

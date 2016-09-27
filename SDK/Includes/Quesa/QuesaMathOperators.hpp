@@ -9,7 +9,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -149,6 +149,14 @@ inline TQ3Vector3D operator-( const TQ3Point3D& inA, const TQ3Point3D& inB )
 {
 	TQ3Vector3D result;
 	Q3FastPoint3D_Subtract( &inA, &inB, &result );
+	return result;
+}
+
+// vector = pt - pt [2D]
+inline TQ3Vector2D operator-( const TQ3Point2D& inA, const TQ3Point2D& inB )
+{
+	TQ3Vector2D result;
+	Q3FastPoint2D_Subtract( &inA, &inB, &result );
 	return result;
 }
 
@@ -293,6 +301,23 @@ inline float Q3Length3D( const TQ3Vector3D& inVec )
 inline float Q3LengthSquared3D( const TQ3Vector3D& inVec )
 {
 	return Q3FastVector3D_LengthSquared( &inVec );
+}
+
+inline float Q3Length2D( const TQ3Vector2D& inVec )
+{
+	return Q3FastVector2D_Length( &inVec );
+}
+
+inline float Q3LengthSquared2D( const TQ3Vector2D& inVec )
+{
+	return Q3FastVector2D_LengthSquared( &inVec );
+}
+
+inline TQ3Matrix4x4 Q3Invert( const TQ3Matrix4x4& inMtx )
+{
+	TQ3Matrix4x4 result;
+	Q3Matrix4x4_Invert( &inMtx, &result );
+	return result;
 }
 
 
