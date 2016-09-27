@@ -5,7 +5,7 @@
         Header file for E3Math_Intersect.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -65,21 +65,95 @@ TQ3Boolean		E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay,
 				theRay->origin + hitPoint->w * theRay->direction ==
 				(1.0 - hitPoint->u - hitPoint->v) * point1 +
 				hitPoint->u * point2 + hitPoint->v * point3.
+				
+				If the result is true, then the computed parameters will satisfy
+				u >= 0, v >= 0, u + v <= 1, and w >= 0.
 	@param		theRay			A ray.
 	@param		point1			A point (a vertex of a triangle).
 	@param		point2			A point (a vertex of a triangle).
 	@param		point3			A point (a vertex of a triangle).
 	@param		cullBackfacing	Whether to omit a hit on the back face.
-	@param		hitPoint		Receives intersection data as described above.
+	@param		outHitPoint		Receives intersection data as described above.
 	@result		True if we detected a hit.
 */
-TQ3Boolean		E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
-													const TQ3Point3D	*point1,
-													const TQ3Point3D	*point2,
-													const TQ3Point3D	*point3,
-													TQ3Boolean			cullBackfacing,
-													TQ3Param3D			*hitPoint);
+TQ3Boolean		E3Ray3D_IntersectTriangle(	const TQ3Ray3D&		theRay,
+											const TQ3Point3D&	point1,
+											const TQ3Point3D&	point2,
+											const TQ3Point3D&	point3,
+											TQ3Boolean			cullBackfacing,
+											TQ3Param3D&			outHitPoint);
 
+
+/*!
+	@function	E3Ray3D_IntersectPlaneOfTriangle
+	@abstract	Find the intersection between a ray and the plane of a triangle.
+	@discussion	If the ray is in the plane of the triangle, we report no hit
+				even though there may mathematically be infinitely many points
+				of intersection.
+				
+				This function is similar to E3Ray3D_IntersectTriangle, but finds
+				any intersection with the plane of the triangle.  Therefore,
+				there are no constraints on the barycentric coordinates u and v,
+				but we do still require that w >= 0.
+				
+				If we do detect a hit, then hitPoint->u and hitPoint->v are two
+				barycentric coordinates of the intersection point, and
+				hitPoint->w is the distance along the ray.  To be precise,
+				theRay->origin + hitPoint->w * theRay->direction ==
+				(1.0 - hitPoint->u - hitPoint->v) * point1 +
+				hitPoint->u * point2 + hitPoint->v * point3.
+	@param		theRay			A ray.
+	@param		point1			A point (a vertex of a triangle).
+	@param		point2			A point (a vertex of a triangle).
+	@param		point3			A point (a vertex of a triangle).
+	@param		cullBackfacing	Whether to omit a hit on the back face.
+	@param		outHitPoint		Receives intersection data as described above.
+	@result		True if we detected a hit.
+*/
+TQ3Boolean		E3Ray3D_IntersectPlaneOfTriangle(
+											const TQ3Ray3D&		theRay,
+											const TQ3Point3D&	point1,
+											const TQ3Point3D&	point2,
+											const TQ3Point3D&	point3,
+											TQ3Boolean			cullBackfacing,
+											TQ3Param3D&			outHitPoint );
+
+
+/*!
+	@function	E3Ray3D_NearTriangle
+	@abstract	Find the nearest points of a ray and a triangle.
+	@discussion	This function can return kQ3False under 2 conditions:
+				(1) The triangle is edge-on to the ray, i.e.,
+					Dot( frontFaceVec, theRay.direction ) = 0.
+				(2) cullBackfacing == kQ3True, and the ray faces the back face
+					of the triangle, i.e.,
+					Dot( frontFaceVec, theRay.direction ) > 0.
+				
+				Otherwise, we find parameters u, v, w such that
+				u >= 0,
+				v >= 0;
+				u + v <= 1;
+				w >= 0;
+				and the distance between the ray point
+				theRay.origin + w * theRay.direction
+				and the triangle point
+				(1 - u - v) * point1 + u * point2 + v * point3
+				is minimized.
+	@param		theRay			A ray.
+	@param		point1			A point (a vertex of a triangle).
+	@param		point2			A point (a vertex of a triangle).
+	@param		point3			A point (a vertex of a triangle).
+	@param		cullBackfacing	Whether to omit a hit on the back face.
+	@param		outHitPoint		Receives intersection data as described above.
+	@result		True if we detected a hit.
+*/
+TQ3Boolean		E3Ray3D_NearTriangle(
+											const TQ3Ray3D&		theRay,
+											const TQ3Point3D&	point1,
+											const TQ3Point3D&	point2,
+											const TQ3Point3D&	point3,
+											TQ3Boolean			cullBackfacing,
+											TQ3Param3D&			outHitPoint );
 
 
 /*!
@@ -110,6 +184,55 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 							float& outMinParam,
 							float& outMaxParam );
 
+
+/*!
+	@function	E3Math_LineNearestPoint
+	
+	@abstract	Find the point on a line that is nearest to a given point.
+	
+	@discussion	If what you really want is the point on a RAY nearest a given
+				point, then just clamp the result to be nonnegative.
+	
+	@param		inRay		A 3D ray.  The direction need not be normalized,
+							but must be nonzero.
+	@param		inPt		A point.
+	@result		A number t such that inRay.origin + t * inRay.direction is as
+				near as possible to inPt.
+*/
+float	E3Math_LineNearestPoint(
+								const TQ3Ray3D& inRay,
+								const TQ3Point3D& inPt );
+
+
+/*!
+	@function	E3Math_RayNearestLineSegment
+	
+	@abstract	Find points on a ray and a line segment that are as near as
+				possible to each other.
+	
+	@discussion	Find outRayParam >= 0 and outSegParam in [0,1] such that the
+				points inRay.origin + outRayParam * inRay.direction and
+				(1.0 - outSegParam) * inPtA + outSegParam * inPtB are as near
+				to each other as possible.
+				
+				If the ray and the segment happen to be parallel, then the
+				solution is not unique, and this function just returns one of
+				the solutions.
+	
+	@param		inRay		A 3D ray.    The direction need not be normalized,
+							but must be nonzero.
+	@param		inPtA		A point.
+	@param		inPtB		A point.
+	@param		outRayParam	Returns a parameter for the ray, always nonnegative.
+	@param		outSegParam	Returns a parameter for the line segment, between
+							0 and 1 inclusive.
+*/
+void	E3Math_RayNearestLineSegment(
+								const TQ3Ray3D& inRay,
+								const TQ3Point3D& inPtA,
+								const TQ3Point3D& inPtB,
+								float& outRayParam,
+								float& outSegParam );
 
 /*!
 	@function	E3Cone_IntersectBoundingBox

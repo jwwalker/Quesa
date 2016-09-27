@@ -5,7 +5,7 @@
         Implementation of Quesa Triangle geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,6 +48,8 @@
 #include "E3Pick.h"
 #include "E3Geometry.h"
 #include "E3GeometryTriangle.h"
+#include "E3Math_Intersect.h"
+#include "QuesaMathOperators.hpp"
 
 
 
@@ -160,11 +162,11 @@ e3geom_triangle_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_triangle_pick_with_ray : Triangle ray picking method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
+e3geom_triangle_pick_with_ray(  TQ3ViewObject		theView,
 								TQ3PickObject		thePick,
 								const TQ3Ray3D		*theRay,
 								TQ3Object			theObject,
-								const void			*objectData)
+								const void			*objectData )
 {	const TQ3TriangleData		*instanceData = (const TQ3TriangleData *) objectData;
 	TQ3Boolean					haveUV, cullBackface;
 	TQ3Param2D					hitUV, *resultUV;
@@ -181,7 +183,8 @@ e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
 
 	// Transform our points
 	for (n = 0; n < 3; n++)
-		Q3View_TransformLocalToWorld(theView, &instanceData->vertices[n].point, &worldPoints[n]);
+		Q3View_TransformLocalToWorld(theView, &instanceData->vertices[n].point,
+			&worldPoints[n]);
 
 
 
@@ -191,12 +194,48 @@ e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
 
 
 
+	// Check for face tolerance
+	float faceTolerance;
+	E3Pick_GetFaceTolerance( thePick, &faceTolerance );
+	float toleranceSquared = faceTolerance * faceTolerance;
+	bool useTolerance = toleranceSquared > kQ3RealZero;
+
+
 	// See if we fall within the pick
-	//
-	// Note we do not use any vertex/edge tolerances supplied for the pick, since
-	// QD3D's blue book appears to suggest neither are used for triangles.
-	if (Q3Ray3D_IntersectTriangle(theRay, &worldPoints[0], &worldPoints[1], &worldPoints[2], cullBackface, &theHit))
+	TQ3Boolean didHit = kQ3False;
+	if (useTolerance)
+	{
+		if (E3Ray3D_NearTriangle( *theRay,
+			worldPoints[0], worldPoints[1], worldPoints[2], cullBackface, theHit ))
 		{
+			TQ3Point3D triNearPt = (1.0f - theHit.u - theHit.v) * worldPoints[0] +
+				theHit.u * worldPoints[1] + theHit.v * worldPoints[2];
+			TQ3Point3D rayNearPt = theRay->origin + theHit.w * theRay->direction;
+			
+			if (E3Pick_GetType( thePick ) == kQ3PickTypeWindowPoint)
+			{
+				TQ3Point2D triNearWin, rayNearWin;
+				E3View_TransformWorldToWindow( theView, &triNearPt, &triNearWin );
+				E3View_TransformWorldToWindow( theView, &rayNearPt, &rayNearWin );
+				
+				float winDistSq = Q3LengthSquared2D( triNearWin - rayNearWin );
+				didHit = (winDistSq < toleranceSquared)? kQ3True : kQ3False;
+			}
+			else
+			{
+				float worldDistSq = Q3LengthSquared3D( rayNearPt - triNearPt );
+				didHit = (worldDistSq < toleranceSquared)? kQ3True : kQ3False;
+			}
+		}
+	}
+	else
+	{
+		didHit = E3Ray3D_IntersectTriangle( *theRay,
+			worldPoints[0], worldPoints[1], worldPoints[2], cullBackface, theHit );
+	}
+	
+	if (didHit)
+	{
 		// Set up a temporary triangle that holds the world points
 		worldTriangle = *instanceData;
 		for (n = 0; n < 3; n++)
@@ -211,7 +250,7 @@ e3geom_triangle_pick_with_ray(TQ3ViewObject			theView,
 
 		// Record the hit
 		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal, resultUV, NULL, &theHit);
-		}
+	}
 
 	return(qd3dStatus);
 }

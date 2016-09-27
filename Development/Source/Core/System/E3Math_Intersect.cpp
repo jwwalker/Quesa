@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -73,7 +73,6 @@ enum HalfPlaneResult // result of testing whether something is inside a half-pla
 	kHalfPlaneResult_AllOutside
 };
 
-const float kQ3Infinity = std::numeric_limits<float>::infinity();
 
 
 //=============================================================================
@@ -169,6 +168,12 @@ namespace
 //      Internal functions
 //-----------------------------------------------------------------------------
 
+static float Infinity()
+{
+	static float sInfinity = std::numeric_limits<float>::infinity();
+	return sInfinity;
+}
+
 static TQ3Vector3D InfinitePointToVector( const TQ3RationalPoint4D& inInfinitePt )
 {
 	TQ3Vector3D vec = {
@@ -204,7 +209,7 @@ static void MakeEdgeRayFromEdge( const FrustumEdge& inEdge, EdgeRay& outEdgeRay 
 	{
 		outEdgeRay.ray.origin = FinitePointToPoint( inEdge.start );
 		outEdgeRay.ray.direction = InfinitePointToVector( inEdge.end );
-		outEdgeRay.paramRange.maximum = kQ3Infinity;
+		outEdgeRay.paramRange.maximum = Infinity();
 		outEdgeRay.isRayAtInfinity = false;
 	}
 	else	// both are finite points
@@ -259,7 +264,7 @@ static Interval Ray3D_IntersectHalfPlane( const TQ3Ray3D& inRay, const TQ3Ration
 		if (originDotP <= 0.0f)	// whole ray
 		{
 			solutions.minimum = 0.0f;
-			solutions.maximum = kQ3Infinity;
+			solutions.maximum = Infinity();
 		}
 		else // no solution
 		{
@@ -275,7 +280,7 @@ static Interval Ray3D_IntersectHalfPlane( const TQ3Ray3D& inRay, const TQ3Ration
 	else // dirDotP < 0.0f
 	{
 		solutions.minimum = std::max( 0.0f, - originDotP / dirDotP );
-		solutions.maximum = kQ3Infinity;
+		solutions.maximum = Infinity();
 	}
 	
 	return solutions;
@@ -292,7 +297,7 @@ static Interval Ray3D_IntersectFrustum( const TQ3Ray3D& inRay, const Frustum& in
 {
 	Interval solution;
 	solution.minimum = 0.0f;
-	solution.maximum = kQ3Infinity;
+	solution.maximum = Infinity();
 	
 	for (int i = 0; i < 6; ++i)
 	{
@@ -319,7 +324,7 @@ static Interval Ray3D_IntersectShadowCylinder( const TQ3Ray3D& inRay, const Shad
 {
 	Interval solution;
 	solution.minimum = 0.0f;
-	solution.maximum = kQ3Infinity;
+	solution.maximum = Infinity();
 	
 	// In order for a ray point, rayOrigin + t * rayDir, to be on the right side of the
 	// cylinder's base plane, we need
@@ -447,7 +452,7 @@ static Interval Ray3D_IntersectShadowCone( const TQ3Ray3D& inRay, const ShadowCo
 {
 	Interval solution;
 	solution.minimum = 0.0f;
-	solution.maximum = kQ3Infinity;
+	solution.maximum = Infinity();
 	
 	// In order for a ray point, rayOrigin + t * rayDir, to be on the right side of the
 	// cone's base plane, we need
@@ -565,7 +570,7 @@ static Interval Ray3D_IntersectShadowCone( const TQ3Ray3D& inRay, const ShadowCo
 					// Note that here denom < 0, so we get the higher root
 					// by choosing the minus sign before rootDiscrim.
 					quadSol.minimum = (-B - rootDiscrim) * denom;
-					quadSol.maximum = kQ3Infinity;
+					quadSol.maximum = Infinity();
 				}
 				else
 				{
@@ -1022,11 +1027,11 @@ static float VecDotPoint(	const TQ3Vector3D& inDirection,
 	{
 		if (theDot > 0.0f)
 		{
-			theDot = kQ3Infinity;
+			theDot = Infinity();
 		}
 		else if (theDot < 0.0f)
 		{
-			theDot = - kQ3Infinity;
+			theDot = - Infinity();
 		}
 	}
 	else
@@ -1293,21 +1298,45 @@ E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 //				Details at:
 //				<http://www.graphics.cornell.edu/pubs/1997/MT97.pdf>
 //-----------------------------------------------------------------------------
+/*!
+	@function	E3Ray3D_IntersectTriangle
+	@abstract	Find the intersection between a ray and a triangle.
+	@discussion	If the ray is in the plane of the triangle, we report no hit
+				even though there may mathematically be infinitely many points
+				of intersection.
+				
+				If we do detect a hit, then hitPoint->u and hitPoint->v are two
+				barycentric coordinates of the intersection point, and
+				hitPoint->w is the distance along the ray.  To be precise,
+				theRay->origin + hitPoint->w * theRay->direction ==
+				(1.0 - hitPoint->u - hitPoint->v) * point1 +
+				hitPoint->u * point2 + hitPoint->v * point3.
+				
+				If the result is true, then the computed parameters will satisfy
+				u >= 0, v >= 0, u + v <= 1, and w >= 0.
+	@param		theRay			A ray.
+	@param		point1			A point (a vertex of a triangle).
+	@param		point2			A point (a vertex of a triangle).
+	@param		point3			A point (a vertex of a triangle).
+	@param		cullBackfacing	Whether to omit a hit on the back face.
+	@param		outHitPoint		Receives intersection data as described above.
+	@result		True if we detected a hit.
+*/
 TQ3Boolean
-E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
-							const TQ3Point3D	*point1,
-							const TQ3Point3D	*point2,
-							const TQ3Point3D	*point3,
+E3Ray3D_IntersectTriangle(	const TQ3Ray3D&		theRay,
+							const TQ3Point3D&	point1,
+							const TQ3Point3D&	point2,
+							const TQ3Point3D&	point3,
 							TQ3Boolean			cullBackfacing,
-							TQ3Param3D			*hitPoint)
+							TQ3Param3D&			outHitPoint)
 {	TQ3Vector3D		edge1, edge2, tvec, pvec, qvec;
 	float			det, invDet;
 
 
 
 	// Calculate the two edges which share vertex 1
-	Q3FastPoint3D_Subtract(point2, point1, &edge1);
-	Q3FastPoint3D_Subtract(point3, point1, &edge2);
+	edge1 = point2 - point1;
+	edge2 = point3 - point1;
 
 
 
@@ -1315,56 +1344,54 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 	// determinant is near zero, the ray lies in the plane of the triangle.
 	// However, some care is needed; we can get a false positive on "near zero"
 	// if the triangle is small.
-	Q3FastVector3D_Cross(&theRay->direction, &edge2, &pvec);
-	det = Q3FastVector3D_Dot(&edge1, &pvec);
+	pvec = Q3Cross3D( theRay.direction, edge2 );
+	det = Q3Dot3D( edge1, pvec );
 	float	testDet = det;
 	if (fabsf( det ) < kQ3RealZero)
 	{
-		TQ3Vector3D	faceNorm;
-		Q3FastVector3D_Cross( &edge2, &edge1, &faceNorm );
-		Q3FastVector3D_Normalize( &faceNorm, &faceNorm );
-		testDet = Q3FastVector3D_Dot( &faceNorm, &theRay->direction );
+		TQ3Vector3D	faceNorm = Q3Normalize3D( Q3Cross3D( edge2, edge1 ) );
+		testDet = Q3Dot3D( faceNorm, theRay.direction );
 	}
 
 
 	// Handle triangles with back-face culling
 	if (cullBackfacing)
-		{
+	{
 		// Test for ray coinciding with triangle plane, or backface hit
 		if (testDet < kQ3RealZero)
 			return(kQ3False);
 
 
 		// Calculate the distance between vertex 1 and the ray origin
-		Q3FastPoint3D_Subtract(&theRay->origin, point1, &tvec);
+		tvec = theRay.origin - point1;
 
 
 		// Calculate u, and test for a miss
-		hitPoint->u = Q3FastVector3D_Dot(&tvec, &pvec);
-		if (hitPoint->u < 0.0f || hitPoint->u > det)
+		outHitPoint.u = Q3Dot3D( tvec, pvec );
+		if (outHitPoint.u < 0.0f || outHitPoint.u > det)
 			return(kQ3False);
 
 
 		// Calculate v, and test for a miss		
-		Q3FastVector3D_Cross(&tvec, &edge1, &qvec);
-		hitPoint->v = Q3FastVector3D_Dot(&theRay->direction, &qvec);
-		if (hitPoint->v < 0.0f || (hitPoint->u + hitPoint->v) > det)
+		qvec = Q3Cross3D( tvec, edge1 );	
+		outHitPoint.v = Q3Dot3D( theRay.direction, qvec );
+		if (outHitPoint.v < 0.0f || (outHitPoint.u + outHitPoint.v) > det)
 			return(kQ3False);
 
 
 		// Calculate w, and scale the parameters
-		hitPoint->w  = Q3FastVector3D_Dot(&edge2, &qvec);
+		outHitPoint.w  = Q3Dot3D( edge2, qvec );
 		invDet = 1.0f / det;
 
-		hitPoint->w *= invDet;
-		hitPoint->u *= invDet;
-		hitPoint->v *= invDet;
-		}
+		outHitPoint.w *= invDet;
+		outHitPoint.u *= invDet;
+		outHitPoint.v *= invDet;
+	}
 
 
 	// Handle triangles with no culling
 	else
-		{
+	{
 		// Test for ray coinciding with triangle plane
 		if (testDet > -kQ3RealZero && testDet < kQ3RealZero)
 			return(kQ3False);
@@ -1373,30 +1400,217 @@ E3Ray3D_IntersectTriangle(const TQ3Ray3D		*theRay,
 
 
 		// Calculate the distance between vertex 1 and the ray origin
-		Q3FastPoint3D_Subtract(&theRay->origin, point1, &tvec);
+		tvec = theRay.origin - point1;
 
 
 		// Calculate u, and test for a miss
-		hitPoint->u = Q3FastVector3D_Dot(&tvec, &pvec) * invDet;
-		if (hitPoint->u < 0.0f || hitPoint->u > 1.0f)
+		outHitPoint.u = Q3Dot3D( tvec, pvec ) * invDet;
+		if (outHitPoint.u < 0.0f || outHitPoint.u > 1.0f)
 			return(kQ3False);
 
 
 		// Calculate v, and test for a miss		
-		Q3FastVector3D_Cross(&tvec, &edge1, &qvec);
-		hitPoint->v = Q3FastVector3D_Dot(&theRay->direction, &qvec) * invDet;
-		if (hitPoint->v < 0.0f || (hitPoint->u + hitPoint->v) > 1.0f)
+		qvec = Q3Cross3D( tvec, edge1 );
+		outHitPoint.v = Q3Dot3D( theRay.direction, qvec ) * invDet;
+		if (outHitPoint.v < 0.0f || (outHitPoint.u + outHitPoint.v) > 1.0f)
 			return(kQ3False);
 		
 		
 		// Calculate w
-		hitPoint->w = Q3FastVector3D_Dot(&edge2, &qvec) * invDet;
-		}
+		outHitPoint.w = Q3Dot3D( edge2, qvec ) * invDet;
+	}
 
 
 
 	// The ray intersects the triangle	
-	return (hitPoint->w >= 0.0f ? kQ3True : kQ3False);
+	return (outHitPoint.w >= 0.0f ? kQ3True : kQ3False);
+}
+
+
+
+
+/*!
+	@function	E3Ray3D_IntersectPlaneOfTriangle
+	@abstract	Find the intersection between a ray and the plane of a triangle.
+	@discussion	If the ray is in the plane of the triangle, we report no hit
+				even though there may mathematically be infinitely many points
+				of intersection.
+				
+				This function is similar to E3Ray3D_IntersectTriangle, but finds
+				any intersection with the plane of the triangle.  Therefore,
+				there are no constraints on the barycentric coordinates u and v,
+				but we do still require that w >= 0.
+				
+				If we do detect a hit, then hitPoint->u and hitPoint->v are two
+				barycentric coordinates of the intersection point, and
+				hitPoint->w is the distance along the ray.  To be precise,
+				theRay->origin + hitPoint->w * theRay->direction ==
+				(1.0 - hitPoint->u - hitPoint->v) * point1 +
+				hitPoint->u * point2 + hitPoint->v * point3.
+	@param		theRay			A ray.
+	@param		point1			A point (a vertex of a triangle).
+	@param		point2			A point (a vertex of a triangle).
+	@param		point3			A point (a vertex of a triangle).
+	@param		cullBackfacing	Whether to omit a hit on the back face.
+	@param		outHitPoint		Receives intersection data as described above.
+	@result		True if we detected a hit.
+*/
+TQ3Boolean		E3Ray3D_IntersectPlaneOfTriangle(
+											const TQ3Ray3D&		theRay,
+											const TQ3Point3D&	point1,
+											const TQ3Point3D&	point2,
+											const TQ3Point3D&	point3,
+											TQ3Boolean			cullBackfacing,
+											TQ3Param3D&			outHitPoint)
+{
+	// Calculate the two edges which share vertex 1
+	TQ3Vector3D edge1 = point2 - point1;
+	TQ3Vector3D edge2 = point3 - point1;
+	
+	// Begin calculating the determinant - also used to calculate u. If the
+	// determinant is near zero, the ray lies in the plane of the triangle.
+	// However, some care is needed; we can get a false positive on "near zero"
+	// if the triangle is small.
+	TQ3Vector3D pvec = Q3Cross3D( theRay.direction, edge2 );
+	float det = Q3Dot3D( edge1, pvec );
+	float	testDet = det;
+	if (fabsf( det ) < kQ3RealZero)
+	{
+		TQ3Vector3D	faceNorm = Q3Normalize3D( Q3Cross3D( edge2, edge1 ) );
+		testDet = Q3Dot3D( faceNorm, theRay.direction );
+	}
+	
+	// Test for misses by back-face culling or ray parallel to plane
+	if (cullBackfacing)
+	{
+		if (testDet < kQ3RealZero)
+		{
+			return kQ3False;
+		}
+	}
+	else
+	{
+		if (fabsf( testDet ) < kQ3RealZero)
+		{
+			return kQ3False;
+		}
+	}
+	
+	float invDet = 1.0f / det;
+	
+	// Calculate the vector between vertex 1 and the ray origin
+	TQ3Vector3D tvec = theRay.origin - point1;
+	
+	// Calculate u
+	outHitPoint.u = Q3Dot3D( tvec, pvec ) * invDet;
+	
+	// Calculate v
+	TQ3Vector3D qvec = Q3Cross3D( tvec, edge1 );
+	outHitPoint.v = Q3Dot3D( theRay.direction, qvec ) * invDet;
+	
+	// Calculate w
+	outHitPoint.w = Q3Dot3D( edge2, qvec ) * invDet;
+	
+	return (outHitPoint.w >= 0.0f ? kQ3True : kQ3False);
+}
+
+
+
+
+
+/*!
+	@function	E3Ray3D_NearTriangle
+	@abstract	Find the nearest points of a ray and a triangle.
+	@discussion	This function can return kQ3False under 2 conditions:
+				(1) The triangle is edge-on to the ray, i.e.,
+					Dot( frontFaceVec, theRay.direction ) = 0.
+				(2) cullBackfacing == kQ3True, and the ray faces the back face
+					of the triangle, i.e.,
+					Dot( frontFaceVec, theRay.direction ) > 0.
+				
+				Otherwise, we find parameters u, v, w such that
+				u >= 0,
+				v >= 0;
+				u + v <= 1;
+				w >= 0;
+				and the distance between the ray point
+				theRay.origin + w * theRay.direction
+				and the triangle point
+				(1 - u - v) * point1 + u * point2 + v * point3
+				is minimized.
+	@param		theRay			A ray.
+	@param		point1			A point (a vertex of a triangle).
+	@param		point2			A point (a vertex of a triangle).
+	@param		point3			A point (a vertex of a triangle).
+	@param		cullBackfacing	Whether to omit a hit on the back face.
+	@param		outHitPoint		Receives intersection data as described above.
+	@result		True if we detected a hit.
+*/
+TQ3Boolean		E3Ray3D_NearTriangle(
+											const TQ3Ray3D&		theRay,
+											const TQ3Point3D&	point1,
+											const TQ3Point3D&	point2,
+											const TQ3Point3D&	point3,
+											TQ3Boolean			cullBackfacing,
+											TQ3Param3D&			outHitPoint )
+{
+	TQ3Param3D planeHit;
+	TQ3Boolean didHit = E3Ray3D_IntersectPlaneOfTriangle( theRay,
+		point1, point2, point3, cullBackfacing, planeHit );
+	
+	if (didHit)
+	{
+		// If the ray hit inside the triangle, then the work is done.
+		if ( (planeHit.u >= 0.0f) && (planeHit.v >= 0.0f) &&
+			(planeHit.u + planeHit.v <= 1.0f) )
+		{
+			outHitPoint = planeHit;
+		}
+		else // missed the triangle, nearest point is along an edge
+		{
+			float rayParam12, segParam12;
+			E3Math_RayNearestLineSegment( theRay, point1, point2,
+				rayParam12, segParam12 );
+			TQ3Point3D rayPt12 = theRay.origin + rayParam12 * theRay.direction;
+			TQ3Point3D triPt12 = (1.0f - segParam12) * point1 + segParam12 * point2;
+			float lenSq12 = Q3LengthSquared3D( rayPt12 - triPt12 );
+			
+			float rayParam13, segParam13;
+			E3Math_RayNearestLineSegment( theRay, point1, point3,
+				rayParam13, segParam13 );
+			TQ3Point3D rayPt13 = theRay.origin + rayParam13 * theRay.direction;
+			TQ3Point3D triPt13 = (1.0f - segParam13) * point1 + segParam13 * point3;
+			float lenSq13 = Q3LengthSquared3D( rayPt13 - triPt13 );
+			
+			float rayParam23, segParam23;
+			E3Math_RayNearestLineSegment( theRay, point2, point3,
+				rayParam23, segParam23 );
+			TQ3Point3D rayPt23 = theRay.origin + rayParam23 * theRay.direction;
+			TQ3Point3D triPt23 = (1.0f - segParam23) * point2 + segParam23 * point3;
+			float lenSq23 = Q3LengthSquared3D( rayPt23 - triPt23 );
+			
+			if ( (lenSq12 <= lenSq13) && (lenSq12 <= lenSq23) )
+			{
+				outHitPoint.w = rayParam12;
+				outHitPoint.u = segParam12;
+				outHitPoint.v = 0.0f;
+			}
+			else if ( (lenSq13 <= lenSq12) && (lenSq13 <= lenSq23) )
+			{
+				outHitPoint.w = rayParam13;
+				outHitPoint.u = 0.0f;
+				outHitPoint.v = segParam13;
+			}
+			else // (lenSq23 <= lenSq12) && (lenSq23 <= lenSq13)
+			{
+				outHitPoint.w = rayParam23;
+				outHitPoint.u = 1.0f - segParam23;
+				outHitPoint.v = segParam23;
+			}
+		}
+	}
+	
+	return didHit;
 }
 
 
@@ -1493,13 +1707,13 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 					if (isRayOriginInCone)
 					{
 						outMinParam = 0.0f;
-						outMaxParam = kQ3Infinity;
+						outMaxParam = Infinity();
 						didIntersect = true;
 					}
 					else
 					{
 						outMinParam = diffLen;
-						outMaxParam = kQ3Infinity;
+						outMaxParam = Infinity();
 						didIntersect = true;
 					}
 				}
@@ -1530,7 +1744,7 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 				if (isRayEndInCone)
 				{
 					outMinParam = t;
-					outMaxParam = kQ3Infinity;
+					outMaxParam = Infinity();
 					didIntersect = true;
 				}
 			}
@@ -1539,7 +1753,7 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 				if (isRayEndInCone)
 				{
 					outMinParam = 0.0f;
-					outMaxParam = kQ3Infinity;
+					outMaxParam = Infinity();
 					didIntersect = true;
 				}
 			}
@@ -1596,13 +1810,13 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 				if (root2 >= 0.0f)
 				{
 					outMinParam = root2;
-					outMaxParam = kQ3Infinity;
+					outMaxParam = Infinity();
 					didIntersect = true;
 				}
 				else
 				{
 					outMinParam = 0.0f;
-					outMaxParam = kQ3Infinity;
+					outMaxParam = Infinity();
 					didIntersect = true;
 				}
 				Q3_ASSERT( isRayEndInCone );
@@ -1611,6 +1825,157 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 	}
 	
 	return didIntersect;
+}
+
+
+
+
+
+/*!
+	@function	E3Math_LineNearestPoint
+	
+	@abstract	Find the point on a line that is nearest to a given point.
+	
+	@discussion	If what you really want is the point on a RAY nearest a given
+				point, then just clamp the result to be nonnegative.
+	
+	@param		inRay		A 3D ray.  The direction need not be normalized,
+							but must be nonzero.
+	@param		inPt		A point.
+	@result		A number t such that inRay.origin + t * inRay.direction is as
+				near as possible to inPt.
+*/
+float	E3Math_LineNearestPoint(
+								const TQ3Ray3D& inRay,
+								const TQ3Point3D& inPt )
+{
+	float t = Q3Dot3D( inPt - inRay.origin, inRay.direction ) /
+		Q3Dot3D( inRay.direction, inRay.direction );
+	return t;
+}
+
+
+
+
+
+/*!
+	@function	E3Math_RayNearestLineSegment
+	
+	@abstract	Find points on a ray and a line segment that are as near as
+				possible to each other.
+	
+	@discussion	Find outRayParam >= 0 and outSegParam in [0,1] such that the
+				points inRay.origin + outRayParam * inRay.direction and
+				(1.0 - outSegParam) * inPtA + outSegParam * inPtB are as near
+				to each other as possible.
+				
+				If the ray and the segment happen to be parallel, then the
+				solution is not unique, and this function just returns one of
+				the solutions.
+	
+	@param		inRay		A 3D ray.    The direction need not be normalized,
+							but must be nonzero.
+	@param		inPtA		A point.
+	@param		inPtB		A point.
+	@param		outRayParam	Returns a parameter for the ray, always nonnegative.
+	@param		outSegParam	Returns a parameter for the line segment, between
+							0 and 1 inclusive.
+*/
+void	E3Math_RayNearestLineSegment(
+								const TQ3Ray3D& inRay,
+								const TQ3Point3D& inPtA,
+								const TQ3Point3D& inPtB,
+								float& outRayParam,
+								float& outSegParam )
+{
+	TQ3Vector3D v = inPtB - inPtA;
+	// We want to find numbers s, t to minimize the distance between
+	// inRay.origin + s * inRay.direction and inPtA + t * v.  In other words,
+	// we want to minimize the length of the vector
+	// inRay.origin + s * inRay.direction - (inPtA + t * v).
+	TQ3Vector3D g = inRay.origin - inPtA;
+	// Now we want to minimize the length of the vector
+	// w = g + s * inRay.direction - t * v.
+	// To keep thing briefer, let's use r to stand for inRay.direction, so that
+	// we want to minimize the length of w = g + s * r - t * v.
+	// This will happen when w is orthogonal to both r and v.
+	// That gives us two linear equations,
+	// 0 = Dot( w, r ) = Dot( g, r ) + s * Dot( r, r ) - t * Dot( v, r ), and
+	// 0 = Dot( w, v ) = Dot( g, v ) + s * Dot( r, v ) - t * Dot( v, v ).
+	// If we let a = Dot( r, r ), b = Dot( r, v ), c = Dot( v, v ),
+	// d = Dot( g, r ), and e = Dot( g, v ), then the equations are
+	// s * a - t * b = -d
+	// s * b - t * c = -e
+	// or in matrix form
+	// a -b | -d
+	// b -c | -e .
+	// This system has the solution
+	// s = (d*c - b*e) / (b*b - a*c), t = (b*d - a*e) / (b*b - a*c) .
+	// Of course, we need to avoid division by zero.  The denominator is
+	// b*b - a*c = Dot( r, v ) * Dot( r, v ) - Dot( r, r ) * Dot( v, v )
+	// = |r|^2 |v|^2 cos^2(angle) - |r|^2 |v|^2
+	// = |r|^2 |v|^2 (cos^2(angle) - 1)
+	// = - sin^2(angle) |r|^2 |v|^2.
+	// This is zero when the sine of the angle is 0 (meaning that r and v have
+	// the same or opposite directions) or if r or v are zero.  However we
+	// assumed that r is not zero.
+	float c = Q3Dot3D( v, v );
+	if (c < kQ3RealZero) // i.e., inPtA and inPtB are essentially the same
+	{
+		outRayParam = std::max( 0.0f, E3Math_LineNearestPoint( inRay, inPtA ) );
+		outSegParam = 0.0f;
+	}
+	else
+	{
+		float a = Q3Dot3D( inRay.direction, inRay.direction );
+		float b = Q3Dot3D( inRay.direction, v );
+		float denom = b*b - a*c;
+		if (fabsf( denom ) < kQ3RealZero) // ray & segment parallel or opposite
+		{
+			// Test segment ends
+			float rayParamA = std::max( 0.0f, E3Math_LineNearestPoint( inRay, inPtA ) );
+			TQ3Point3D rayPtA = inRay.origin + rayParamA * inRay.direction;
+			float rayParamB = std::max( 0.0f, E3Math_LineNearestPoint( inRay, inPtB ) );
+			TQ3Point3D rayPtB = inRay.origin + rayParamB * inRay.direction;
+			if ( Q3LengthSquared3D( inPtA - rayPtA ) <
+				Q3LengthSquared3D( inPtB - rayPtB ) )
+			{
+				outRayParam = rayParamA;
+				outSegParam = 0.0f;
+			}
+			else
+			{
+				outRayParam = rayParamB;
+				outSegParam = 1.0f;
+			}
+		}
+		else // general case
+		{
+			float d = Q3Dot3D( inRay.direction, g );
+			float e = Q3Dot3D( v, g );
+			outRayParam = (d*c - b*e) / denom;
+			outSegParam = (b*d - a*e) / denom;
+			if ( (outSegParam < 0.0f) || (outSegParam > 1.0f) )
+			{
+				TQ3Point3D segNearPt;
+				if (outSegParam < 0.0f)
+				{
+					outSegParam = 0.0f;
+					segNearPt = inPtA;
+				}
+				else
+				{
+					outSegParam = 1.0f;
+					segNearPt = inPtB;
+				}
+				outRayParam = E3Math_LineNearestPoint( inRay, segNearPt );
+			}
+			if (outRayParam < 0.0f)
+			{
+				outRayParam = 0.0f;
+			}
+		}
+	}
 }
 
 

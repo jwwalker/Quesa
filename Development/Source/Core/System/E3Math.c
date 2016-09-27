@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -4344,13 +4344,96 @@ E3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox,
 	else
 	{
 		const char* in = (const char*) points3D;
-		TQ3Uns32 i;
+		TQ3Uns32 i = 0;
 		
 		Q3FastBoundingBox_Set(bBox, points3D, points3D, kQ3False);
-		in += structSize;
 		
-		for (i = 1; i < numPoints; ++i, in += structSize)
-			e3bounding_box_accumulate_point3D(bBox, (const TQ3Point3D*)(const void*) in);
+		// We have already accounted for the first point, so if the number of
+		// points is odd, we can handle the other points in pairs, and need not
+		// look at the first point again.  But if the number of points is even,
+		// we will start at the first point just so we can work in pairs.
+		if ( (numPoints % 2) == 1 )
+		{
+			in += structSize;
+			i = 1;
+		}
+		
+		for (; i < numPoints; i += 2)
+		{
+			TQ3Point3D pt0 = *(const TQ3Point3D*)(const void*) in;
+			in += structSize;
+			TQ3Point3D pt1 = *(const TQ3Point3D*)(const void*) in;
+			in += structSize;
+			
+			if (pt0.x < pt1.x)
+			{
+				if (pt0.x < bBox->min.x)
+				{
+					bBox->min.x = pt0.x;
+				}
+				if (pt1.x > bBox->max.x)
+				{
+					bBox->max.x = pt1.x;
+				}
+			}
+			else // pt1.x <= pt0.x
+			{
+				if (pt1.x < bBox->min.x)
+				{
+					bBox->min.x = pt1.x;
+				}
+				if (pt0.x > bBox->max.x)
+				{
+					bBox->max.x = pt0.x;
+				}
+			}
+			
+			if (pt0.y < pt1.y)
+			{
+				if (pt0.y < bBox->min.y)
+				{
+					bBox->min.y = pt0.y;
+				}
+				if (pt1.y > bBox->max.y)
+				{
+					bBox->max.y = pt1.y;
+				}
+			}
+			else // pt1.y <= pt0.y
+			{
+				if (pt1.y < bBox->min.y)
+				{
+					bBox->min.y = pt1.y;
+				}
+				if (pt0.y > bBox->max.y)
+				{
+					bBox->max.y = pt0.y;
+				}
+			}
+			
+			if (pt0.z < pt1.z)
+			{
+				if (pt0.z < bBox->min.z)
+				{
+					bBox->min.z = pt0.z;
+				}
+				if (pt1.z > bBox->max.z)
+				{
+					bBox->max.z = pt1.z;
+				}
+			}
+			else // pt1.z <= pt0.z
+			{
+				if (pt1.z < bBox->min.z)
+				{
+					bBox->min.z = pt1.z;
+				}
+				if (pt0.z > bBox->max.z)
+				{
+					bBox->max.z = pt0.z;
+				}
+			}
+		}
 	}
 
 	return(bBox);

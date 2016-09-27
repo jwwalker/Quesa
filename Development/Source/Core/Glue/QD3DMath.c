@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -5138,7 +5138,9 @@ Q3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 //      Q3Ray3D_IntersectTriangle : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-Q3Ray3D_IntersectTriangle(const TQ3Ray3D *theRay, const TQ3Point3D *point1, const TQ3Point3D *point2, const TQ3Point3D *point3, TQ3Boolean cullBackfacing, TQ3Param3D *hitPoint)
+Q3Ray3D_IntersectTriangle(const TQ3Ray3D *theRay,
+	const TQ3Point3D *point1, const TQ3Point3D *point2, const TQ3Point3D *point3,
+	TQ3Boolean cullBackfacing, TQ3Param3D *hitPoint)
 {
 
 
@@ -5161,7 +5163,8 @@ Q3Ray3D_IntersectTriangle(const TQ3Ray3D *theRay, const TQ3Point3D *point1, cons
 
 
 	// Call our implementation
-	return(E3Ray3D_IntersectTriangle(theRay, point1, point2, point3, cullBackfacing, hitPoint));
+	return(E3Ray3D_IntersectTriangle( *theRay, *point1, *point2, *point3,
+		cullBackfacing, *hitPoint));
 }
 
 
