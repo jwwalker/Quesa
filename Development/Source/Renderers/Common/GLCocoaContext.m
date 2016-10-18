@@ -9,7 +9,7 @@
         access the Cocoa OpenGL API then this is handled as a special case.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014 , Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -270,9 +270,15 @@ void	CocoaGLContext::SwapBuffers()
 
 void	CocoaGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 {
-	// Activate the context
-	if(inForceSet || ![[NSOpenGLContext currentContext] isEqual:glContext])
-		[glContext makeCurrentContext];
+	// The autorelease pool fixes a strange bug seen on OS 10.10 and later.
+	// When one CocoaGLContext was destroyed and another was created for the
+	// same NSView, the new one disappeared after the first render.
+	@autoreleasepool
+	{
+		// Activate the context
+		if (inForceSet || ![[NSOpenGLContext currentContext] isEqual:glContext])
+			[glContext makeCurrentContext];
+	}
 }
 
 void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
