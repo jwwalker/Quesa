@@ -13,7 +13,7 @@
     	performance optimization.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -55,6 +55,8 @@
 #include "GLTextureManager.h"
 #include "GLGPUSharing.h"
 #include "E3Texture.h"
+#include "E3CustomElements.h"
+#include "CQ3WeakObjectRef.h"
 
 #ifndef __cplusplus
 	#error This file must be compiled as C++.
@@ -73,7 +75,12 @@
 // Cached texture data
 struct TQ3CachedTexture
 {
-	CQ3ObjectRef			cachedTextureObject;
+	TQ3CachedTexture();
+	TQ3CachedTexture( TQ3TextureObject inQuesaTexture, GLuint inGLTexture );
+	~TQ3CachedTexture();
+
+	CQ3WeakObjectRef		cachedTextureObject;
+	TQ3Object				sortKey;
 	TQ3Uns32				editIndexTexture;
 	TQ3Uns32				editIndexStorage;
 	GLuint					glTextureName;
@@ -85,54 +92,18 @@ namespace
 	{
 		bool operator()( TQ3CachedTexturePtr inOne, TQ3CachedTexturePtr inTwo ) const
 		{
-			return inOne->cachedTextureObject.get() < inTwo->cachedTextureObject.get();
+			return inOne->sortKey < inTwo->sortKey;
 		}
 	};
 
 	typedef std::set< TQ3CachedTexturePtr, CompByTexOb >		CachedTextureList;
-	
+
+#if Q3_DEBUG
+	int			sCachedTextureCount = 0;
+	long long	sCachedTextureByteCount = 0;	
+#endif
 }
 
-
-// TQ3TextureCache: object holding cached textures for a number of GL contexts
-// that share texture memory.  This declaration cannot be in an unnamed namespace,
-// because it needs to match the struct TQ3TextureCache* member of the TQ3InteractiveData
-// structure.
-struct TQ3TextureCache : public CQ3GPSharedCache
-{
-	virtual		~TQ3TextureCache();
-
-	CachedTextureList		cachedTextures;
-};
-
-
-//=============================================================================
-//		Internal constants
-//-----------------------------------------------------------------------------
-
-namespace
-{
-	const TQ3Uns32	kTextureCacheKey	= Q3_FOUR_CHARACTER_CONSTANT('t', 'x', 'c', 'k');
-}
-
-//=============================================================================
-//		Static variables
-//-----------------------------------------------------------------------------
-
-
-
-//=============================================================================
-//		Internal functions
-//-----------------------------------------------------------------------------
-
-TQ3TextureCache::~TQ3TextureCache()
-{
-	for (CachedTextureList::iterator i = cachedTextures.begin();
-		i != cachedTextures.end(); ++i)
-	{
-		delete *i;
-	}
-}
 
 /*!
 	@function	GetPixmapTextureStorage
@@ -211,6 +182,73 @@ static TQ3Uns32 GetStorageEditIndex( TQ3TextureObject inTexture )
 }
 
 
+TQ3CachedTexture::TQ3CachedTexture()
+	: editIndexTexture( 0 )
+	, editIndexStorage( 0 )
+	, glTextureName( 0 )
+{
+}
+
+TQ3CachedTexture::TQ3CachedTexture( TQ3TextureObject inQuesaTexture, GLuint inGLTexture )
+	: cachedTextureObject( inQuesaTexture )
+	, sortKey( inQuesaTexture )
+	, editIndexTexture( Q3Shared_GetEditIndex( inQuesaTexture ) )
+	, editIndexStorage( GetStorageEditIndex( inQuesaTexture ) )
+	, glTextureName( inGLTexture )
+{
+}
+
+TQ3CachedTexture::~TQ3CachedTexture()
+{
+}
+
+// TQ3TextureCache: object holding cached textures for a number of GL contexts
+// that share texture memory.  This declaration cannot be in an unnamed namespace,
+// because it needs to match the struct TQ3TextureCache* member of the TQ3InteractiveData
+// structure.
+struct TQ3TextureCache : public CQ3GPSharedCache
+{
+				TQ3TextureCache();
+	virtual		~TQ3TextureCache();
+
+	CachedTextureList		cachedTextures;
+};
+
+
+//=============================================================================
+//		Internal constants
+//-----------------------------------------------------------------------------
+
+namespace
+{
+	const TQ3Uns32	kTextureCacheKey	= Q3_FOUR_CHARACTER_CONSTANT('t', 'x', 'c', 'k');
+}
+
+//=============================================================================
+//		Static variables
+//-----------------------------------------------------------------------------
+
+
+
+//=============================================================================
+//		Internal functions
+//-----------------------------------------------------------------------------
+
+TQ3TextureCache::TQ3TextureCache()
+{
+	Q3_MESSAGE_FMT("+TQ3TextureCache");
+}
+
+TQ3TextureCache::~TQ3TextureCache()
+{
+	Q3_MESSAGE_FMT("-TQ3TextureCache");
+	for (CachedTextureList::iterator i = cachedTextures.begin();
+		i != cachedTextures.end(); ++i)
+	{
+		delete *i;
+	}
+}
+
 
 
 
@@ -233,7 +271,7 @@ static void			RemoveCachedTexture( TQ3TextureCachePtr txCache,
 		Q3_ASSERT( !glIsTexture( textureName ) );
 		
 		txCache->cachedTextures.erase( toRemove );
-		
+
 		delete theRec;
 	}
 	CATCH_ALL
@@ -318,7 +356,7 @@ TQ3CachedTexturePtr	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
 	TRY
 	{
 		TQ3CachedTexture	toFind;
-		toFind.cachedTextureObject = CQ3ObjectRef( Q3Shared_GetReference( texture ) );
+		toFind.sortKey = texture;
 		
 		CachedTextureList::iterator	foundIt = txCache->cachedTextures.find( &toFind );
 		
@@ -365,14 +403,7 @@ TQ3CachedTexturePtr		GLTextureMgr_CacheTexture(
 	
 	TRY
 	{
-		TQ3CachedTexture* newRec = new TQ3CachedTexture;
-		
-		newRec->cachedTextureObject = CQ3ObjectRef( Q3Shared_GetReference(
-			inTexture ) );
-		newRec->editIndexTexture = Q3Shared_GetEditIndex( inTexture );
-		newRec->editIndexStorage = GetStorageEditIndex( inTexture );
-		newRec->glTextureName = inGLTextureName;
-		theResult = newRec;
+		theResult = new TQ3CachedTexture( inTexture, inGLTextureName );
 		
 		txCache->cachedTextures.insert( theResult );
 	}
@@ -415,10 +446,8 @@ void				GLTextureMgr_FlushUnreferencedTextures(
 		
 		TQ3CachedTexturePtr cachedTexture = *iter;
 		
-		// If we hold the last reference to this texture, release it
-		TQ3TextureObject	theTexture = cachedTexture->cachedTextureObject.get();
-		
-		if ( (theTexture != NULL) && ! Q3Shared_IsReferenced( theTexture ) )
+		// If we our reference to this texture has been zeroed, forget it.
+		if ( ! cachedTexture->cachedTextureObject.isvalid() )
 		{
 			RemoveCachedTexture( txCache, iter );
 		}
