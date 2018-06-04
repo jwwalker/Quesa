@@ -9,7 +9,7 @@
         access the Cocoa OpenGL API then this is handled as a special case.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -72,15 +72,23 @@
 	#error This should only be built for Cocoa!
 #endif
 
-
+struct CocoaGLContextData
+{
+	NSOpenGLContext		*glContext;
+	// Strong so that in garbage collected (GC) mode the colector keeps track of these pointers. This is needed since they are not declared as 'id'.
+	__strong void		*nsView;
+	GLint				viewPort[4];
+};
 
 CocoaGLContext::CocoaGLContext(
 					TQ3DrawContextObject theDrawContext,
 					TQ3Boolean shareTextures )
 	: CQ3GLContext( theDrawContext )
-	, glContext( nil )
-	, nsView( NULL )
+	, _data( new CocoaGLContextData )
 {
+	_data->glContext = nil;
+	_data->nsView = nil;
+
    TQ3Int32						glAttributes[] =
 	{
 		NSOpenGLPFADoubleBuffer,
@@ -105,8 +113,8 @@ CocoaGLContext::CocoaGLContext(
 		// NSView
 		case kQ3DrawContextTypeCocoa:
 			// Get the NSView
-			Q3CocoaDrawContext_GetNSView(theDrawContext, &nsView);
-			theView = (NSView*) nsView;
+			Q3CocoaDrawContext_GetNSView(theDrawContext, &_data->nsView);
+			theView = (NSView*) _data->nsView;
 			if ( (theView == nil) || ([theView window] == nil) ||
 				([[theView window] windowNumber] <= 0) )
 			{
@@ -139,18 +147,18 @@ CocoaGLContext::CocoaGLContext(
 					{
 						continue; // maybe it was a non-Cocoa context
 					}
-					glContext = [[NSOpenGLContext alloc] initWithFormat: pixelFormat
+					_data->glContext = [[NSOpenGLContext alloc] initWithFormat: pixelFormat
 														shareContext: prevGLContext];
-					if (glContext != nil)
+					if (_data->glContext != nil)
 					{
 						break;
 					}
 				}
 			}
 			
-			if (glContext == nil)
+			if (_data->glContext == nil)
 			{
-				glContext = [[NSOpenGLContext alloc] initWithFormat: pixelFormat
+				_data->glContext = [[NSOpenGLContext alloc] initWithFormat: pixelFormat
 													shareContext: nil];
 			}
 			
@@ -158,8 +166,8 @@ CocoaGLContext::CocoaGLContext(
 
 
 			// Set the NSView as the NSOpenGLContext's drawable
-			[glContext setView: theView];
-			[glContext makeCurrentContext];
+			[_data->glContext setView: theView];
+			[_data->glContext makeCurrentContext];
 
 
 			// Get the view bounds from the NSView for the initial gl viewport
@@ -191,25 +199,25 @@ CocoaGLContext::CocoaGLContext(
 
 
 	// Activate the context
-    [glContext makeCurrentContext];
+    [_data->glContext makeCurrentContext];
 
 
 
 	// Set the viewport
-	viewPort[0] = (GLint) drawContextData.pane.min.x;
-	viewPort[1] = (GLint) ((viewFrame.origin.y+viewFrame.size.height)            
+	_data->viewPort[0] = (GLint) drawContextData.pane.min.x;
+	_data->viewPort[1] = (GLint) ((viewFrame.origin.y+viewFrame.size.height)
                                       - drawContextData.pane.max.y);
-	viewPort[2] = (GLint) (drawContextData.pane.max.x - drawContextData.pane.min.x);
-	viewPort[3] = (GLint) (drawContextData.pane.max.y - drawContextData.pane.min.y);
+	_data->viewPort[2] = (GLint) (drawContextData.pane.max.x - drawContextData.pane.min.x);
+	_data->viewPort[3] = (GLint) (drawContextData.pane.max.y - drawContextData.pane.min.y);
 
-	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
+	glViewport( _data->viewPort[0], _data->viewPort[1], _data->viewPort[2], _data->viewPort[3] );
 
 
 
 	// Set the swap buffer rect
 	enable = 1;
-	[glContext setValues:&enable forParameter:NSOpenGLCPSwapRectangleEnable];
-	[glContext setValues:viewPort forParameter:NSOpenGLCPSwapRectangle];
+	[_data->glContext setValues:&enable forParameter:NSOpenGLCPSwapRectangleEnable];
+	[_data->glContext setValues:_data->viewPort forParameter:NSOpenGLCPSwapRectangle];
 
 
 
@@ -239,7 +247,7 @@ CocoaGLContext::CocoaGLContext(
 			enable = 0;
 		}
 		
-		[glContext	setValues:&enable forParameter:NSOpenGLCPSwapInterval];
+		[_data->glContext	setValues:&enable forParameter:NSOpenGLCPSwapInterval];
 	}
 }
 
@@ -253,7 +261,9 @@ CocoaGLContext::~CocoaGLContext()
 
 
 	// Destroy the context
-    [glContext release];
+    [_data->glContext release];
+	
+    delete _data;
 }
 	
 void	CocoaGLContext::SwapBuffers()
@@ -265,7 +275,7 @@ void	CocoaGLContext::SwapBuffers()
 
 
 	// Swap the buffers
-	[glContext flushBuffer];
+	[_data->glContext flushBuffer];
 }
 
 void	CocoaGLContext::SetCurrentBase( TQ3Boolean inForceSet )
@@ -276,8 +286,8 @@ void	CocoaGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 	@autoreleasepool
 	{
 		// Activate the context
-		if (inForceSet || ![[NSOpenGLContext currentContext] isEqual:glContext])
-			[glContext makeCurrentContext];
+		if (inForceSet || ![[NSOpenGLContext currentContext] isEqual:_data->glContext])
+			[_data->glContext makeCurrentContext];
 	}
 }
 
@@ -289,28 +299,28 @@ void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
 	// Make sure that no FBO is active
 	if (BindFrameBuffer( GL_FRAMEBUFFER_EXT, 0 ))
 	{
-		glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
+		glViewport( _data->viewPort[0], _data->viewPort[1], _data->viewPort[2], _data->viewPort[3] );
 	}
 }
 
 
 bool	CocoaGLContext::UpdateWindowSize()
 {
-	[glContext update];
+	[_data->glContext update];
 	
-	NSRect	viewFrame = [(NSView*)nsView bounds];
+	NSRect	viewFrame = [(NSView*)_data->nsView bounds];
 	TQ3DrawContextData				drawContextData;
 	Q3DrawContext_GetData( quesaDrawContext, &drawContextData );
 	
-	viewPort[0] = (GLint) drawContextData.pane.min.x;
-	viewPort[1] = (GLint) ((viewFrame.origin.y+viewFrame.size.height)            
+	_data->viewPort[0] = (GLint) drawContextData.pane.min.x;
+	_data->viewPort[1] = (GLint) ((viewFrame.origin.y+viewFrame.size.height)
                                       - drawContextData.pane.max.y);
-	viewPort[2] = (GLint) (drawContextData.pane.max.x - drawContextData.pane.min.x);
-	viewPort[3] = (GLint) (drawContextData.pane.max.y - drawContextData.pane.min.y);
+	_data->viewPort[2] = (GLint) (drawContextData.pane.max.x - drawContextData.pane.min.x);
+	_data->viewPort[3] = (GLint) (drawContextData.pane.max.y - drawContextData.pane.min.y);
 
-	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
+	glViewport( _data->viewPort[0], _data->viewPort[1], _data->viewPort[2], _data->viewPort[3] );
 	
-	[glContext setValues: viewPort
+	[_data->glContext setValues: _data->viewPort
 					forParameter:NSOpenGLCPSwapRectangle];
 	
 	return true;
